@@ -1,0 +1,90 @@
+<div class="content">
+    <form class="multisteps-form__form" method="post">
+        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+            <h4 class="title">Sourcing Details</h4>
+            <div class="row">
+
+                <div class="form-group col-lg-3 col-sm-6 col-md-6 col-xs-3 ">
+                    <label for="lead_number">Lead Number</label>
+                    <input type="text" class="form-control mandatory" id="lead_number" placeholder="Lead Number" name="lead_number" disabled>
+
+                </div>
+                <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="lead_lts_number">LTS Lead Number</label>
+                        <input type="text" class="form-control" id="lead_lts_number" placeholder="LTS Lead Number" name="lead_lts_number">
+
+                    </div> -->
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="child_loan">
+                    <label for="lead_date">Lead Created Date</label>
+                    <input type="date" class="form-control mandatory" id="lead_date" placeholder="Lead Created Date" name="lead_date" disabled>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme_type">
+                    <label for="lead_created_by">Lead Created By</label>
+                    <input type="text" class="form-control mandatory select2" id="lead_created_by" placeholder="Lead Created By" name="lead_created_by" disabled>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="subvention">
+                    <label for="lead_handled">Lead Handled By</label>
+                    <select class="form-control mandatory select2" id="lead_handled">
+                        <option value="1">Person-1</option>
+                        <option value="2">Person-2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_channel">Sourcing Channel</label>
+                    <select class="form-control mandatory " id="sourcing_channel">
+                        <option value="Assets Division">Assets Division</option>
+                        <option value="Liability Division">Liability Division</option>
+                        <option value="Web based">Web based</option>
+                        <option value="Campaign">Campaign</option>
+                        <option value="Corporate Finance">Corporate Finance</option>
+                        <option value="Business Banking">Business Banking</option>
+                        <option value="Business Correspondence">Business Correspondence</option>
+                        <option value="Call Centre">Call Centre</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_type">Sourcing Type</label>
+
+                    <select class="form-control mandatory" id="sourcing_type">
+                        <option value="">-- select one -- </option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_code">Sourcing Code</label>
+                    <select class="form-control mandatory select2 " id="sourcing_code">
+                        <option value="">-- select one -- </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="spoken_code">Spoke Code Location</label>
+                    <select class="form-control " id="spoken_code">
+                        <option value="">-- select one -- </option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="account_branch">Loan Account Branch</label>
+                    <select class="form-control mandatory" id="account_branch" disabled>
+                        <option value="">-- select one -- </option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-sec clear-both row">
+                <div class="col-sm-5">
+
+                </div>
+                <div class="col-sm-7 text-right">
+                    <button class="btn btn-primary mar-right8"  type="button"> Save </button>
+                    <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['../product-details']" > Next </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

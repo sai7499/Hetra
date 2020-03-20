@@ -1,0 +1,322 @@
+<main class="mar-top90">
+    <div class="container">
+        <h3 class="margin_zero">Add Applicant</h3>
+        <div class="content">
+            <div class="row">
+                <!-- <select id="select_main_button_leadco" class="dropdown_individual" name="" (change)="selectApplicantType($event)"> -->
+                <!-- <select id="select_main_button_leadco" class="dropdown_individual" name="" [(ngModel)] = "applicant_type"> -->
+                    <!-- <option value="">-- select one -- </option>
+                    <option value="individual"> Individual </option>
+                    <option value="non-individual"> Non-Individual </option>
+                </select> -->
+                <div id="individual_section_leadco">
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Vechical Type">Entity</label>
+                            <select class="form-control dropdown_individual" id="select_main_button_leadco" (change)="selectApplicantType($event)">
+                                <option value="">-- select one -- </option>
+                            <option value="individual"> Individual </option>
+                            <option value="non-individual"> Non-Individual </option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="row individual_section_leadco" *ngIf="applicantType === 'individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-control" id="first_name">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="middle_name">Middle Name</label>
+                            <input type="text" class="form-control" id="middle_name">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" id="last_name">
+                        </div>
+                    </div>
+
+                    <div class="row non_individual_section_leadco" *ngIf="applicantType ==='non-individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="company_name1">Company Name 1</label>
+                            <input type="text" class="form-control" id="company_name1">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="company_name2">Company Name 2</label>
+                            <input type="text" class="form-control" id="company_name2">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="company_name3">Company Name 3</label>
+                            <input type="text" class="form-control" id="company_name3">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">Mobile</label>
+                            <input type="text" class="form-control" id="passport">
+                        </div>
+                        <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">UCIC No</label>
+                            <input type="text" class="form-control" id="passport">
+                        </div> -->
+                
+                    <div class="row" *ngIf="applicantType === 'individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make" >Date Of Birth</label>
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                </span>
+                                <input type="text" class="form-control" id="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="applicantType ==='non-individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">Date Of Incorporation</label>
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                </span>
+                                <input type="date" class="form-control" id="date">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+
+                            <label for="Identity Type">Identity Type</label>
+                            <select class="form-control">
+                                <option value="Aadhar">Aadhar</option>
+                                <option value="Pan">Pan</option>
+                                <option value="Driving licence">Driving licence</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">Identity Number</label>
+                            <input type="text" class="form-control" id="passport">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="identity_copy">Upload Identity</label>
+                            <input id="identity_copy" type="file" multiple="">
+                            <div id="identity_preview"></div>
+                        </div>
+                    </div>
+                    <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn" >
+
+                        <div id="individual_section_address" class="individual_section_leadco" *ngIf="applicantType === 'individual'">
+                     <!-- <h4 class="title">individual</h4> -->
+                                <h3 class="title">Permanent Address</h3>
+                                <div class="row">
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="pan">Address 1</label>
+                                        <input type="text" class="form-control" id="address1">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Address 2</label>
+                                        <input type="text" class="form-control" id="address2">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Address 3</label>
+                                        <input type="text" class="form-control" id="address3">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="pincode">Permanent Address PIN Code</label>
+                                        <input type="text" class="form-control" id="pincode">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Permanent Address City</label>
+                                        <select class="form-control" id="permanent_address_city">
+													<option>City 1</option>
+													<option>City 2</option>
+													<option>City 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Permanent Address District</label>
+                                        <select class="form-control" id="permanent_address_district">
+													<option>District 1</option>
+													<option>District 2</option>
+													<option>District 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Permanent Address State</label>
+                                        <select class="form-control" id="permanent_address_state">
+													<option>State 1</option>
+													<option>State 2</option>
+													<option>State 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Permanent Address Country</label>
+                                        <select class="form-control" id="permanent_address_country">
+													<option>Country 1</option>
+													<option>Country 2</option>
+													<option>Country 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="landline">Permanent Address Landline</label>
+                                        <input type="text" class="form-control" id="landline">
+                                    </div>
+
+
+                                </div>
+                            <div class="btn-sec clear-both row">
+                                <div class="col-sm-5">
+                                    <h3 class="title">Current Address</h3>
+                                </div>
+                                <div class="col-sm-7 text-right">
+                                    <input type="checkbox" id="address_section_checkbox"> <span id="address_section_checkbox_text">Is it same as your permanent Address? </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="pan">Line 1</label>
+                                    <input type="text" class="form-control" id="line1">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">Line 2</label>
+                                    <input type="text" class="form-control" id="line2">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">Line 3</label>
+                                    <input type="text" class="form-control" id="line3">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="current_pincode">Current Address PIN Code</label>
+                                    <input type="text" class="form-control" id="current_pincode">
+                                </div>
+                                <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">Current Address City</label>
+                                    <select class="form-control" id="current_address_city">
+                                                <option>City 1</option>
+                                                <option>City 2</option>
+                                                <option>City 3</option>
+                                            </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">Current Address District</label>
+                                    <select class="form-control" id="current_address_district">
+                                                <option>District 1</option>
+                                                <option>District 2</option>
+                                                <option>District 3</option>
+                                            </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">Current Address State</label>
+                                    <select class="form-control" id="current_address_state">
+                                                <option>State 1</option>
+                                                <option>State 2</option>
+                                                <option>State 3</option>
+                                            </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">Current Address Country</label>
+                                    <select class="form-control" id="current_address_country">
+                                                <option>Country 1</option>
+                                                <option>Country 2</option>
+                                                <option>Country 3</option>
+                                            </select>
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="current_landline">Landline Number (Residence Phone)</label>
+                                    <input type="text" class="form-control" id="current_landline">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="non_individual_section_address" class="non_individual_section_leadco" *ngIf="applicantType ==='non-individual'">
+                                <!-- <h4 class="title">Non-individual</h4>-->
+                                <h3 class="title">Registered Address</h3>
+                                <div class="row">
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="pan">Line 1</label>
+                                        <input type="text" class="form-control" id="line1">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Line 2</label>
+                                        <input type="text" class="form-control" id="line2">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Line 3</label>
+                                        <input type="text" class="form-control" id="line3">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Registered  Address PIN Code</label>
+                                        <input type="text" class="form-control" id="line3">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Registered  Address City</label>
+                                        <select class="form-control" id="current_address_city">
+													<option>City 1</option>
+													<option>City 2</option>
+													<option>City 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Registered  Address District</label>
+                                        <select class="form-control" id="current_address_district">
+													<option>District 1</option>
+													<option>District 2</option>
+													<option>District 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Registered  Address State</label>
+                                        <select class="form-control" id="current_address_state">
+													<option>State 1</option>
+													<option>State 2</option>
+													<option>State 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">Registered  Address Country</label>
+                                        <select class="form-control" id="current_address_country">
+													<option>Country 1</option>
+													<option>Country 2</option>
+													<option>Country 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="reg_mobile">Registered  Address Landline Number (Residence Phone)</label>
+                                        <input type="number" class="form-control" id="reg_mobile">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                    </div>
+                    
+                    <div class="btn-sec clear-both">
+                        <div class="col-sm-5">
+
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <button class="btn btn-primary mar-right8 " type="button" [routerLink]="['../applicant-details']"> <a class="back_color" >Back</a></button>
+                            <button type="button" class="btn btn-primary " data-toggle="modal" [routerLink]="['../loan-details']" data-target="#myModal"><a class="back_color" >Save</a> </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+</main>
+
+<!-- Footer -->
+<footer class="footer pf">
+    <div class="container">
+        <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    </div>
+</footer>

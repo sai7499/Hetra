@@ -1,0 +1,75 @@
+<body class="bg">
+    <div class="content  ">
+        <form class="multisteps-form__form" >
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <h4 class="title">Product Details</h4>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="business_division">Business Division</label>
+    
+                <select class="form-control mandatory" id="business_division" name="businessDivision" >
+                    <option value="vehicle Finance">Vehicle Finance</option>
+                    <option value="Housing Finance">Housing Finance</option>
+                    <option value="Loan Against Property">Loan Against Property</option>
+                    <option value="Gold Loan">Gold Loan</option>
+                  </select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="product_type">Product</label>
+    
+                <select class="form-control mandatory" id="product_type" name="product_type" >
+                    <option value="">Select Product</option>
+                    <option value="New CV">New CV</option>
+                    <option value="New Cars">New Cars</option>
+                    <option value="Used CV">Used CV</option>
+                    <option value="Used Cars">Used Cars</option>
+                </select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="scheme_type">Scheme/Promotion</label>
+    
+                <select class="form-control" name="scheme_type">
+                    <option value="1">Scheme Type-1</option>
+                    <option value="2">Scheme Type-2</option>                                        
+                </select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="subvention">Subvention Applied</label>
+                <select class="form-control " id="subvention_applied" name="subvention">
+                        <option value="Applied">Applied </option>
+                        <option value="Not-Applied">Not-Applied</option>                            
+                    </select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="subvention">Subvention + Incentive</label>
+    
+                <select class="form-control " name="subventionIncentive" >
+                    <option value="1">subvention 1 </option>
+                    <option value="2">subvention 2 </option>                            
+                </select>
+    
+            </div>
+            <!-- <script type="text/javascript">
+                var storedVal = document.getElementById("product_type");
+                storedVal.value = localStorage.getItem("product_type");
+            </script> -->
+    
+            <div class="btn-sec clear-both">
+                <div class="col-sm-5">
+                  
+                </div>
+                <div class="col-sm-7 text-right">
+                    <button class="btn btn-primary mar-right8 js-btn-prev" type="button" [routerLink]="['/pages/lead-section']" (click)="locationBack()"> Back </button>
+                    <button class="btn btn-primary mar-right8" type="submit"> Save </button>
+                    <button class="btn btn-primary js-btn-next" type="button" [routerLink]="['../vehicle-details']"> Next </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    
+    
