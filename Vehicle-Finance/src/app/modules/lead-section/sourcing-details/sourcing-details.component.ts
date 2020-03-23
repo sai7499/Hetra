@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from '../services/vehicle-detail.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -7,10 +8,14 @@ import { VehicleDetailService } from '../services/vehicle-detail.service';
   styleUrls: ['./sourcing-details.component.css']
 })
 export class SourcingDetailsComponent implements OnInit {
+  values: any = [];
 
-  constructor(private leadSectionService: VehicleDetailService) { }
+  constructor(private leadSectionService: VehicleDetailService, private lovData: LovDataService) { }
 
   ngOnInit() {
+    this.lovData.getLovData().subscribe((res: any) => {
+      this.values = res[0].sourcingDetails[0];
+    });
   }
 
   onNext() {

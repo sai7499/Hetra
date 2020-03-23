@@ -15,11 +15,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   lovLabels = [];
 
   constructor( private lovData: LovDataService) {
-    console.log('inside lead-creation', );
     this.lovData.getLovData().subscribe((res: any) => {
-      console.log(res[0]);
       this.lovLabels = res[0].leadCreation[0];
-      console.log(this.values);
     });
 
   }
