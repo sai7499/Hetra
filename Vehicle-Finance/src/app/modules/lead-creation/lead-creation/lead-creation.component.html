@@ -4,19 +4,21 @@
          <!-- <form [formGroup]="createLeadForm"> -->
         <div class="content">
             <div class="row">               
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" >
                         <label for="business_division">Business Division</label>
-                        <!-- <select class="form-control mandatory " id="business_division">
-                            <option value="Vechicle Finance">Vechicle Finance</option>
-                            <option value="Housing Finance">Housing Finance</option>
+                        <select class="form-control mandatory " id="business_division" >
+                            <option value="">-- select one -- </option>
+                            <option *ngFor = "let item of lovLabels.businessDivision" value="item.key">{{item.value}}</option>
+                             <option value="Housing Finance">Housing Finance</option>
                             <option value="Loan Against Property">Loan Against Property</option>
-                            <option value="Gold Loan">Gold Loan</option>
-                        </select> -->
-                        <vf-custom-select 
+                            <option value="Gold Loan">Gold Loan</option> 
+                        </select>
+                        <!-- <app-vf-custom-select 
                             [values]="values" 
-                            (change)="gotValue($event)" 
+                            (change)="gotValue($event)"
+ 
                             [selectedOption]="test">
-                        </vf-custom-select>
+                        </app-vf-custom-select> -->
                     </div>
 
             </div>
@@ -25,27 +27,31 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="product_type">Product Category</label>
                     <select class="form-control mandatory " id="product_type">
-                        <option value="New CV">New CV</option>
-                        <option value="New Cars">New Cars</option>
+                        <option value="">-- select one -- </option>
+                        <option  *ngFor = "let item of lovLabels.productCategory" value="item.key">{{item.value}}</option>
+                        <!-- <option value="New Cars">New Cars</option>
                         <option value="Used CV">Used CV</option>
-                        <option value="Used Cars">Used Cars</option>
+                        <option value="Used Cars">Used Cars</option> -->
                     </select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="child_loan">Child Loan</label>
                     <select class="form-control " id="child_loan">
-                        <option value="Topup-1">Topup-1</option>
-                        <option value="Topup-2">Topup-2</option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.childLoan" value="{{item.key}}">{{item.value}}</option>
+                        <!-- <option value="Topup-2">Topup-2</option>
                         <option value="Tire Loan">Tire Loan</option>
-                        <option value="Insurance Loan">Insurance Loan</option>
+                        <option value="Insurance Loan">Insurance Loan</option> -->
                     </select>
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="scheme_type">Scheme/Promotion</label>
                     <select class="form-control " id="scheme_type">
-                        <option value="1">Scheme Type-1</option>
-                        <option value="2">Scheme Type-2</option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.schemePromotion" value="item.key">{{item.value}}</option>
+                        <!-- <option value="1">Scheme Type-1</option>
+                        <option value="2">Scheme Type-2</option> -->
                     </select>
 
                 </div>
@@ -54,8 +60,10 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="subvention">Subvention Applied</label>
                     <select class="form-control " id="subvention_applied">
-                        <option value="Applied">Applied </option>
-                        <option value="Not-Applied">Not-Applied</option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.subventionApplied" value="item.key">{{item.value}}</option>
+                        <!-- <option value="Applied">Applied </option>
+                        <option value="Not-Applied">Not-Applied</option> -->
                     </select>
 
                 </div>
@@ -63,8 +71,10 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="subvention">Subvention</label>
                     <select class="form-control " id="subvention">
-                        <option value="1">subvention 1 </option>
-                        <option value="2">subvention 2 </option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.subvention" value="item.key">{{item.value}}</option>
+                        <!-- <option value="1">subvention 1 </option>
+                        <option value="2">subvention 2 </option> -->
                     </select>
 
                 </div>
@@ -73,14 +83,16 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_channel">Sourcing Channel</label>
                     <select class="form-control mandatory " id="sourcing_channel">
-                        <option value="Assets Division">Assets Division</option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.soucringChannel" value="item.key">{{item.value}}</option>
+                        <!-- <option value="Assets Division">Assets Division</option>
                         <option value="Liability Division">Liability Division</option>
                         <option value="Web based">Web based</option>
                         <option value="Campaign">Campaign</option>
                         <option value="Corporate Finance">Corporate Finance</option>
                         <option value="Business Banking">Business Banking</option>
                         <option value="Business Correspondence">Business Correspondence</option>
-                        <option value="Call Centre">Call Centre</option>
+                        <option value="Call Centre">Call Centre</option> -->
                     </select>
 
                 </div>
@@ -118,8 +130,10 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="lead_handled">Lead Handled By</label>
                     <select class="form-control mandatory " id="lead_handled">
-                        <option value="1">Person-1</option>
-                        <option value="2">Person-2</option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.leadHandledBY" value="item.key">{{item.value}}</option>
+                        <!-- <option value="1">Person-1</option>
+                        <option value="2">Person-2</option> -->
                     </select>
 
                 </div>
@@ -128,8 +142,10 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="entity">Entity</label>
                     <select class="form-control mandatory" id="entity">
-                        <option value="individual">Individual </option>
-                        <option value="non-individual">Non-individual </option>
+                        <option value="">-- select one -- </option>
+                        <option *ngFor = "let item of lovLabels.entity" value="item.key">{{item.value}}</option>
+                        <!-- <option value="individual">Individual </option>
+                        <option value="non-individual">Non-individual </option> -->
                     </select>
 
                 </div>
