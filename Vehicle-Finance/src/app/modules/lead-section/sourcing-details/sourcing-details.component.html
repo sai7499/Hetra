@@ -29,7 +29,8 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="subvention">
                     <label for="lead_handled">Lead Handled By</label>
                     <select class="form-control mandatory select2" id="lead_handled">
-                        <option value="1">Person-1</option>
+                        <option disabled> -- select one --</option>
+                        <option *ngFor="let item of values.leadHandled" value="{{item.key}}">{{item.value}}</option>
                         <option value="2">Person-2</option>
                     </select>
                 </div>
@@ -38,14 +39,16 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_channel">Sourcing Channel</label>
                     <select class="form-control mandatory " id="sourcing_channel">
-                        <option value="Assets Division">Assets Division</option>
+                        <option disabled> -- select one --</option>
+                        <option *ngFor="let item of values.sourcingChannel" value="{{item.key}}">{{item.value}}</option>
+                        <!-- <option value="Assets Division">Assets Division</option>
                         <option value="Liability Division">Liability Division</option>
                         <option value="Web based">Web based</option>
                         <option value="Campaign">Campaign</option>
                         <option value="Corporate Finance">Corporate Finance</option>
                         <option value="Business Banking">Business Banking</option>
                         <option value="Business Correspondence">Business Correspondence</option>
-                        <option value="Call Centre">Call Centre</option>
+                        <option value="Call Centre">Call Centre</option> -->
                     </select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
