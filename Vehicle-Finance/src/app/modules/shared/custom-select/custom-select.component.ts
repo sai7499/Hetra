@@ -1,17 +1,20 @@
-import { Component, OnInit, Input, forwardRef, OnChanges } from "@angular/core";
+import { Component, OnInit, Input, forwardRef, OnChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { DataService } from '../../lead-creation/service/data.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
 
 @Component({
-  selector: "vf-custom-select",
-  templateUrl: "./custom-select.component.html",
-  styleUrls: ["./custom-select.component.css"]
+  selector: 'app-vf-custom-select',
+  templateUrl: './custom-select.component.html',
+  styleUrls: ['./custom-select.component.css']
 })
 export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
-  @Input() className = "form-control mandatory";
+  @Input() className = 'form-control mandatory';
   @Input() defaultOption = {
     key: '',
-    value: "-- select one --"
+    value: '-- select one --'
   };
+  // tslint:disable-next-line:no-input-rename
   @Input('selectedOption') val: any ;
   @Input() values: any[];
 
@@ -27,15 +30,19 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
     return this.val;
   }
 
-  constructor() {
+  constructor(private lovDataService: LovDataService) {
   }
 
   ngOnInit() {
+    this.lovDataService.getLovData().subscribe((res: any) => {
+      this.selectedOption = res[0];
+      console.log('this.selectedOption', this.selectedOption);
+    });
     this.selectedOption = this.selectedOption || this.defaultOption.key;
   }
 
   ngOnChanges() {
-    if(this.selectedOption) {
+    if (this.selectedOption) {
        this.onChange(this.val);
     }
   }
