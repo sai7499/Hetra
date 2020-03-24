@@ -117,6 +117,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "vehicle-finance"
+    }
+  },
+  "defaultProject": "vehicle-finance",
+  "cli": {
+    "analytics": "057e9439-30a3-4d1d-9e8a-522593415ead"
+  }
 }
