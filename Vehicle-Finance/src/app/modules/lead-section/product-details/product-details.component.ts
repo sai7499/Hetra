@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
@@ -20,7 +21,9 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
-    private leadStoreService: LeadStoreService , private labelsData: LabelsService) { }
+    private leadStoreService: LeadStoreService ,
+    private labelsData: LabelsService,
+    private router: Router) { }
 
   ngOnInit() {
     this.initForm();
@@ -70,6 +73,7 @@ export class ProductDetailsComponent implements OnInit {
     const formValue = this.productForm.value;
     const productModel = {...formValue};
     this.leadStoreService.setProductDetails(productModel);
+    this.router.navigate(['/pages/lead-section/vehicle-details']);
   }
 
 }
