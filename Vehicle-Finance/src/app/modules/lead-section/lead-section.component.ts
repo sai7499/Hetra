@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { VehicleDetailService } from "./services/vehicle-detail.service";
-
 import { Location } from "@angular/common";
+import { LabelsService } from 'src/app/services/labels.service';
 
 @Component({
   selector: "app-lead-section",
@@ -10,13 +10,22 @@ import { Location } from "@angular/common";
 })
 export class LeadSectionComponent implements OnInit {
   currentPage = 0;
+  public labels :any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
-    private location: Location
+    private location: Location,
+    private labelsData :LabelsService
   ) {}
 
   ngOnInit() {
+
+    this.labelsData.getLabelsData().subscribe(
+      data =>{
+        this.labels = data
+       
+      }
+    )
     this.location.onUrlChange((url, state) => {
       console.log("url", url, "state", state);
       if (url.includes("product-details")) {
@@ -31,6 +40,9 @@ export class LeadSectionComponent implements OnInit {
         this.currentPage = 0;
       }
     });
+
+  
   }
+  
 
 }

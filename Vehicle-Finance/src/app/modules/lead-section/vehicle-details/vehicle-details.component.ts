@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService} from  '../services/vehicle-detail.service';
 
+import { LabelsService } from 'src/app/services/labels.service';
+
+
+
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',
@@ -29,7 +33,7 @@ export class VehicleDetailComponent implements OnInit {
     public fastTag:any = ['Yes', 'No'];
     public permitType: any = ['National', 'State', 'Others'];
   
-    constructor( private vehicleDetailService: VehicleDetailService ) { }
+    constructor( private vehicleDetailService: VehicleDetailService,private labelsData :LabelsService ) { }
   
     ngOnInit() {
       this.getAllFieldLabel = this.vehicleDetailService.getVehicleDetailLabels()
