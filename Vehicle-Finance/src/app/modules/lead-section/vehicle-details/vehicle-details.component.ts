@@ -37,9 +37,9 @@ export class VehicleDetailComponent implements OnInit {
     public fastTag:any = ['Yes', 'No'];
     public permitType: any = ['National', 'State', 'Others'];
   
-    constructor( private vehicleDetailService: VehicleDetailService,private labelsData :LabelsService ) { }
+    constructor( private vehicleDetailService: VehicleDetailService,private labelsData :LabelsService, private lovDataService: LovDataService ) { }
   
-      private lovDataService: LovDataService
+      
     ngOnInit() {
       this.initForm();
       this.getAllFieldLabel = this.vehicleDetailService.getVehicleDetailLabels()
