@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
+import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 })
 export class SourcingDetailsComponent implements OnInit {
   values: any = [];
-
+   public labels: any;
   sourcingDetailsForm: FormGroup;
 
 
@@ -21,7 +22,8 @@ export class SourcingDetailsComponent implements OnInit {
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
-    private router: Router) { }
+    private router: Router,
+    private labelsData: LabelsService) { }
 
   ngOnInit() {
     this.initForm();
@@ -43,6 +45,16 @@ export class SourcingDetailsComponent implements OnInit {
       spokeCodeLocation: new FormControl(''),
       loanAccountBranch: new FormControl({value: '', disabled: true})
     });
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+
+        this.labels = data;
+        // console.log(this.labels)
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   setFormValue() {
