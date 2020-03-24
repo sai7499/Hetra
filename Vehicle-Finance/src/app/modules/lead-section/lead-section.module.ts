@@ -7,9 +7,10 @@ import { VehicleDetailComponent } from "./vehicle-details/vehicle-details.compon
 import { ApplicantDetailsComponent } from "./applicant-details/applicant-details.component";
 import { CoApplicantComponent } from "./co-applicant/co-applicant.component";
 import { ProductDetailsComponent } from './product-details/product-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SourcingDetailsComponent } from './sourcing-details/sourcing-details.component';
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -28,6 +29,12 @@ import { LoanDetailsComponent } from './loan-details/loan-details.component';
    
     
   ],
-  imports: [CommonModule, LeadCreationRouterModule,FormsModule]
+  imports: [
+    CommonModule,
+    LeadCreationRouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule
+  ]
 })
 export class LeadSectionModule {}

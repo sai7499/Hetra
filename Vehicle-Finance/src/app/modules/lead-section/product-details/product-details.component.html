@@ -1,5 +1,6 @@
 <body class="bg">
     <div class="content  ">
+<<<<<<< HEAD
         <form class="multisteps-form__form">
             <div class="multisteps-form__panel js-active" data-animation="scaleIn">
                 <h4 class="title">{{ labels.productDetailsTitle }}</h4>
@@ -80,6 +81,59 @@
                             </button>
                         </div>
                     </div>
+=======
+        <form class="multisteps-form__form" [formGroup]="productForm">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <h4 class="title">Product Details</h4>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="business_division">Business Division</label>
+                  <app-vf-custom-select 
+                    [values]="values?.businessDivision" 
+                    formControlName="businessDivision"></app-vf-custom-select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="product_type">Product</label>
+                <app-vf-custom-select 
+                    [values]="values?.productCategory" 
+                    formControlName="product"></app-vf-custom-select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="scheme_type">Scheme/Promotion</label>
+    
+                <app-vf-custom-select 
+                    [values]="values?.schemePromotion" 
+                    formControlName="schemePromotion"></app-vf-custom-select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="subvention">Subvention Applied</label>
+                
+                    <app-vf-custom-select 
+                    [values]="values?.subventionApplied" 
+                    formControlName="subventionApplied"></app-vf-custom-select>
+    
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="subvention">Subvention + Incentive</label>
+    
+               
+                <app-vf-custom-select 
+                    [values]="values?.subventionIncentive" 
+                    formControlName="subventionIncentive"></app-vf-custom-select>
+    
+            </div>
+            <div class="btn-sec clear-both">
+                <div class="col-sm-5">
+                  
+                </div>
+                <div class="col-sm-7 text-right">
+                    <button class="btn btn-primary mar-right8 js-btn-prev" type="button" [routerLink]="['/pages/lead-section']" (click)="locationBack()"> Back </button>
+                    <button class="btn btn-primary mar-right8" type="submit" (click)="onFormSubmit()"> Save </button>
+                    <button class="btn btn-primary js-btn-next" type="button" [routerLink]="['../vehicle-details']"> Next </button>
+>>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
                 </div>
             </div>
         </form>
