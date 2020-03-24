@@ -36,8 +36,10 @@ export class VehicleDetailComponent implements OnInit {
     public emiProtect:any = ['Yes', 'No'];
     public fastTag:any = ['Yes', 'No'];
     public permitType: any = ['National', 'State', 'Others'];
-  
-    constructor( private vehicleDetailService: VehicleDetailService,private labelsData :LabelsService, private lovDataService: LovDataService ) { }
+    constructor(
+      private vehicleDetailService: VehicleDetailService,
+      private labelsData: LabelsService,
+      private lovDataService: LovDataService ) { }
   
       
     ngOnInit() {
