@@ -3,6 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LovDataService } from 'src/app/services/lov-data.service';
+import { LabelsService } from 'src/app/services/labels.service';
+
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { Lead } from '@model/lead.model';
 
@@ -17,11 +19,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   test: any;
   values = [];
   lovLabels: any = [];
+  labels: any;
 
   constructor(
     private lovData: LovDataService,
     private router: Router,
-    private leadStoreService: LeadStoreService) {
+    private leadStoreService: LeadStoreService,
+    private labelsData: LabelsService) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
     });
@@ -56,6 +60,18 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    // this.values = [
+    //   { key: 1, value: 'Vechicle Finance' },
+    //   { key: 2, value: 'Housing Finance' },
+    //   { key: 3, value: 'Loan Against Property' }
+    // ];
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+        // console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
+        // console.log(this.labels.businessDivision)
+      }    );
     this.initForm();
   }
   gotValue(e) {
