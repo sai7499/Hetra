@@ -44,8 +44,7 @@ export class VehicleDetailComponent implements OnInit {
       private lovDataService: LovDataService,
       private router: Router,
       private leadStoreService: LeadStoreService ) { }
-  
-      
+
     ngOnInit() {
       this.initForm();
       this.getAllFieldLabel = this.vehicleDetailService.getVehicleDetailLabels()
