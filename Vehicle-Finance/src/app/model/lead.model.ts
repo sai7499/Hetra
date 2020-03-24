@@ -56,6 +56,11 @@ export interface VehicleDetails {
     assetBodyType?: number;
     assetVariant?: number;
     assetSubVariant?: number;
+    monthManufacturing?: string;
+    yrManufacturing?: string;
+    ageOfAsset?: string;
+    vechicalUsage?: number;
+    vehicleCategory?: number;
     orpFunding?: boolean;
     oneTimeTax?: string;
     pac?: boolean;
@@ -67,6 +72,12 @@ export interface VehicleDetails {
     finalAssetCost?: string;
     idv?: string;
     insuranceValidity?: string;
+    permitType?: string;
+    expiryDate?: string;
+    permitOthers?: string;
+    frsdRequired?: string;
+    frsdAmount?: string;
+    fitnessDate?: string;
     noOfVehicle?: string;
   }
 
