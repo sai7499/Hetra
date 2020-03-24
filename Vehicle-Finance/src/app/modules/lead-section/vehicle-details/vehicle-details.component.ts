@@ -45,15 +45,15 @@ export class VehicleDetailComponent implements OnInit {
           error => {
             this.errorMsg = error;
           });
-      this.lovDataService.getLovData().subscribe((value) => {
-        console.log('lov value', value);
-        this.vehicleLov = value;
+      this.lovDataService.getLovData().subscribe((value: any) => {
+        this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
+        console.log('vehicleLov', this.vehicleLov);
       });
     }
 
     initForm() {
       this.vehicleForm = new FormGroup({
-      vechicalType: new FormControl(''),
+      vehicleType: new FormControl(''),
       region: new FormControl(''),
       registrationNumber: new FormControl(''),
       assetMake: new FormControl(''),
