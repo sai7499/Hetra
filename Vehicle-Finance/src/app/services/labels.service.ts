@@ -7,18 +7,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LabelsService {
-  private labelsurl = 'assets/labels/labels.json'
+  private labelsurl = 'assets/labels/labels.json';
 
-  constructor(private http:HttpClient) {
+  constructor(private http: HttpClient) {
     // console.log("iam in service label")
    }
 
-  getLabelsData():Observable<any>{
+  getLabelsData(): Observable<any> {
 
     // console.log(this.http.get(this.labelsurl))
 
-    return this.http.get(this.labelsurl)
-    
+    return this.http.get(this.labelsurl);
 
   }
 }

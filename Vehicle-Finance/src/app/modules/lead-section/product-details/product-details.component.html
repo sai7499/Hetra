@@ -1,107 +1,25 @@
 <body class="bg">
     <div class="content  ">
-<<<<<<< HEAD
-        <form class="multisteps-form__form">
-            <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-                <h4 class="title">{{ labels.productDetailsTitle }}</h4>
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="business_division">{{ labels.businessDivision }}</label>
-
-                        <select class="form-control mandatory" id="business_division" name="businessDivision">
-                            <option disabled> -- select one --</option>
-                            <option *ngFor="let item of values.businessDivision" value="{{ item.key }}">{{ item.value }}
-                            </option>
-                            <!-- <option value="Housing Finance">Housing Finance</option>
-                    <option value="Loan Against Property">Loan Against Property</option>
-                    <option value="Gold Loan">Gold Loan</option> -->
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="product_type">{{ labels.product }}</label>
-
-                        <select class="form-control mandatory" id="product_type" name="product_type">
-                            <option value="">Select Product</option>
-                            <option *ngFor="let item of values.productCategory" value="{{ item.key }}">{{ item.value }}
-                            </option>
-                            <!-- 
-                    <option value="New CV">New CV</option>
-                    <option value="New Cars">New Cars</option>
-                    <option value="Used CV">Used CV</option>
-                    <option value="Used Cars">Used Cars</option> -->
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="scheme_type">{{ labels.schemePromotion }}</label>
-
-                        <select class="form-control" name="scheme_type">
-                            <option *ngFor="let item of values.schemePromotion" value="{{ item.key }}">{{ item.value }}
-                            </option>
-                            <!-- <option value="1">Scheme Type-1</option>
-                    <option value="2">Scheme Type-2</option>                                         -->
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="subvention">{{ labels.subventionApplied }}</label>
-                        <select class="form-control " id="subvention_applied" name="subvention">
-                            <option *ngFor="let item of values.subventionApplied" value="{{ item.key }}">
-                                {{ item.value }}</option>
-                            <!-- <option value="Applied">Applied </option>
-                        <option value="Not-Applied">Not-Applied</option>                             -->
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="subvention">{{ subventionIncentive }}</label>
-
-                        <select class="form-control " name="subventionIncentive">
-                            <option *ngFor="let item of values.subventionIncentive" value="{{ item.key }}">
-                                {{ item.value }}</option>
-                            <!-- <option value="1">subvention 1 </option>
-                    <option value="2">subvention 2 </option>                             -->
-                        </select>
-                    </div>
-                    <!-- <script type="text/javascript">
-                var storedVal = document.getElementById("product_type");
-                storedVal.value = localStorage.getItem("product_type");
-            </script> -->
-
-                    <div class="btn-sec clear-both">
-                        <div class="col-sm-5"></div>
-                        <div class="col-sm-7 text-right">
-                            <button class="btn btn-primary mar-right8 js-btn-prev" type="button"
-                                [routerLink]="['/pages/lead-section']" (click)="locationBack()">
-                                Back
-                            </button>
-                            <button class="btn btn-primary mar-right8" type="submit">
-                                Save
-                            </button>
-                            <button class="btn btn-primary js-btn-next" type="button"
-                                [routerLink]="['../vehicle-details']">
-                                Next
-                            </button>
-                        </div>
-                    </div>
-=======
         <form class="multisteps-form__form" [formGroup]="productForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <h4 class="title">Product Details</h4>
+        <h4 class="title">{{ labels.productDetailsTitle }}</h4>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="business_division">Business Division</label>
+                <label for="business_division">{{ labels.businessDivision }}</label>
                   <app-vf-custom-select 
                     [values]="values?.businessDivision" 
                     formControlName="businessDivision"></app-vf-custom-select>
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="product_type">Product</label>
+                <label for="product_type">{{ labels.product }}</label>
                 <app-vf-custom-select 
                     [values]="values?.productCategory" 
                     formControlName="product"></app-vf-custom-select>
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="scheme_type">Scheme/Promotion</label>
+                <label for="scheme_type">{{ labels.schemePromotion }}</label>
     
                 <app-vf-custom-select 
                     [values]="values?.schemePromotion" 
@@ -109,7 +27,7 @@
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="subvention">Subvention Applied</label>
+                <label for="subvention">{{ labels.subventionApplied }}</label>
                 
                     <app-vf-custom-select 
                     [values]="values?.subventionApplied" 
@@ -117,7 +35,7 @@
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="subvention">Subvention + Incentive</label>
+                <label for="subvention">{{ labels.subventionIncentive }}</label>
     
                
                 <app-vf-custom-select 
@@ -133,13 +51,12 @@
                     <button class="btn btn-primary mar-right8 js-btn-prev" type="button" [routerLink]="['/pages/lead-section']" (click)="locationBack()"> Back </button>
                     <button class="btn btn-primary mar-right8" type="submit" (click)="onFormSubmit()"> Save </button>
                     <button class="btn btn-primary js-btn-next" type="button" [routerLink]="['../vehicle-details']"> Next </button>
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
                 </div>
             </div>
+        </div>
+    </div> 
         </form>
     </div>
-
-
     
 </body>
 

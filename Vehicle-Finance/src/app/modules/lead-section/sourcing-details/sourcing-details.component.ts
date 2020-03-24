@@ -4,11 +4,8 @@ import { Router } from '@angular/router';
 
 import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
-<<<<<<< HEAD
 import { LabelsService } from 'src/app/services/labels.service';
-=======
 import { LeadStoreService } from '@services/lead-store.service';
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
 
 @Component({
   selector: 'app-sourcing-details',
@@ -17,16 +14,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 })
 export class SourcingDetailsComponent implements OnInit {
   values: any = [];
-   public labels:any;
-  
-
-<<<<<<< HEAD
-  constructor(private leadSectionService: VehicleDetailService, private lovData: LovDataService,private labelsData : LabelsService) { }
-
-  ngOnInit() {
-
-
-=======
+   public labels: any;
   sourcingDetailsForm: FormGroup;
 
 
@@ -34,11 +22,11 @@ export class SourcingDetailsComponent implements OnInit {
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
-    private router: Router) { }
+    private router: Router,
+    private labelsData: LabelsService) { }
 
   ngOnInit() {
     this.initForm();
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].sourcingDetails[0];
       this.setFormValue();
@@ -59,19 +47,14 @@ export class SourcingDetailsComponent implements OnInit {
     });
 
     this.labelsData.getLabelsData().subscribe(
-      data =>{
+      data => {
 
-        this.labels = data
+        this.labels = data;
         // console.log(this.labels)
       },
-      error =>{
+      error => {
         console.log(error);
-        
-      }
-      
-    )
-
-   
+      });
   }
 
   setFormValue() {
