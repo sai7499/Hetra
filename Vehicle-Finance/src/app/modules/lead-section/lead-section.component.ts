@@ -1,15 +1,13 @@
-<<<<<<< HEAD
-import { Component, OnInit } from "@angular/core";
-import { VehicleDetailService } from "./services/vehicle-detail.service";
-import { Location } from "@angular/common";
-import { LabelsService } from 'src/app/services/labels.service';
-=======
 import { Component, OnInit } from '@angular/core';
+// import { VehicleDetailService } from "./services/vehicle-detail.service";
+// import { Location } from "@angular/common";
+import { LabelsService } from 'src/app/services/labels.service';
+// import { LeadStoreService } from '@services/lead-store.service';
+// import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from './services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
 
 import { Location } from '@angular/common';
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
 
 @Component({
   selector: 'app-lead-section',
@@ -20,34 +18,27 @@ export class LeadSectionComponent implements OnInit {
   applicantName: string;
   applicantMobile: string;
   currentPage = 0;
-  public labels :any;
+  public labels: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
     private location: Location,
-<<<<<<< HEAD
-    private labelsData :LabelsService
-  ) {}
-
-  ngOnInit() {
-
-    this.labelsData.getLabelsData().subscribe(
-      data =>{
-        this.labels = data
-       
-      }
-    )
-=======
+    private labelsData: LabelsService,
     private leadStoreService: LeadStoreService
   ) {}
 
+
   ngOnInit() {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      }
+    );
     const leadValue = this.leadStoreService.getLeadCreation();
     if (leadValue) {
       this.applicantName = `${leadValue.firstName} ${leadValue.lastName}`;
       this.applicantMobile = leadValue.mobile;
     }
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
     this.location.onUrlChange((url, state) => {
       if (url.includes('product-details')) {
         this.currentPage = 1;
@@ -62,8 +53,5 @@ export class LeadSectionComponent implements OnInit {
       }
     });
 
-  
   }
-  
-
 }

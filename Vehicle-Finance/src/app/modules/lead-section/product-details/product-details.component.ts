@@ -3,12 +3,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
-<<<<<<< HEAD
 import { LabelsService } from 'src/app/services/labels.service';
 
-=======
 import { LeadStoreService } from '@services/lead-store.service';
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
 
 @Component({
   selector: 'app-product-details',
@@ -16,23 +13,14 @@ import { LeadStoreService } from '@services/lead-store.service';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-<<<<<<< HEAD
 
   values: any = [];
-  
-  public labels:any;
-
-  constructor(private leadSectionService: VehicleDetailService, private lovData: LovDataService ,private labelsData:LabelsService) {
-
-   }
-=======
+  public labels: any;
   productForm: FormGroup;
-  values: any = [];
   constructor(
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
-    private leadStoreService: LeadStoreService ) { }
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
+    private leadStoreService: LeadStoreService , private labelsData: LabelsService) { }
 
   ngOnInit() {
     this.initForm();
@@ -62,18 +50,14 @@ export class ProductDetailsComponent implements OnInit {
       subventionIncentive: productValue.subventionIncentive || ''
     });
 
-<<<<<<< HEAD
-    this.labelsData.getLabelsData().subscribe( 
+    this.labelsData.getLabelsData().subscribe(
       data => {
-        
-        this.labels = data
-        console.log(this.labels)
+        this.labels = data;
+        console.log(this.labels);
       }
-      
-    ) 
 
-=======
->>>>>>> 30d14c8a9a77fde33ea116b85e14c89b60751a9c
+    );
+
   }
 
   locationBack() {
