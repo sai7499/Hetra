@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
-
-import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -11,53 +8,12 @@ import { LeadStoreService } from '@services/lead-store.service';
 })
 export class LoanDetailsComponent implements OnInit {
 
-  loanForm: FormGroup;
-
-   loanTypes = [
-     {
-       key: 1,
-       value: 'Topup'
-     },
-     {
-      key: 2,
-      value: 'Tyre loan'
-    },
-    {
-      key: 3,
-      value: 'Saathi loan'
-    },
-    {
-      key: 4,
-      value: 'FC loan'
-    }
-   ];
   @ViewChild('LosModal', {static: true}) LosModal: ElementRef;
 
 
-  constructor(
-    private renderer: Renderer2,
-    private router: Router,
-    private leadStoreService: LeadStoreService) { }
+  constructor(private renderer: Renderer2, private router: Router) { }
 
   ngOnInit() {
-    this.initForm();
-  }
-
-  initForm() {
-    this.loanForm = new FormGroup({
-      loanType: new FormControl(''),
-      amount: new FormControl(''),
-      tenor: new FormControl('')
-    });
-  }
-
-  setFormValue() {
-    const loanModel = this.leadStoreService.getLoanDetails() || {};
-    this.loanForm.patchValue({
-      loanType: loanModel.loanType,
-      amount: loanModel.amount,
-      tenor: loanModel.tenor
-    });
   }
 
   openLOSPopup(myModal) {

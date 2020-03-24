@@ -3,6 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
+import { LabelsService } from 'src/app/services/labels.service';
+
 import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
@@ -11,12 +13,14 @@ import { LeadStoreService } from '@services/lead-store.service';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-  productForm: FormGroup;
+
   values: any = [];
+  public labels: any;
+  productForm: FormGroup;
   constructor(
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
-    private leadStoreService: LeadStoreService ) { }
+    private leadStoreService: LeadStoreService , private labelsData: LabelsService) { }
 
   ngOnInit() {
     this.initForm();
@@ -45,6 +49,14 @@ export class ProductDetailsComponent implements OnInit {
       subventionApplied: productValue.subventionApplied || '',
       subventionIncentive: productValue.subventionIncentive || ''
     });
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+        console.log(this.labels);
+      }
+
+    );
 
   }
 

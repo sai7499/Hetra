@@ -4,6 +4,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { VehicleDetailService} from  '../services/vehicle-detail.service';
 import { LovDataService } from '@services/lov-data.service';
 
+import { LabelsService } from 'src/app/services/labels.service';
+
+
+
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',
@@ -32,10 +36,10 @@ export class VehicleDetailComponent implements OnInit {
     public emiProtect:any = ['Yes', 'No'];
     public fastTag:any = ['Yes', 'No'];
     public permitType: any = ['National', 'State', 'Others'];
-    constructor( 
-      private vehicleDetailService: VehicleDetailService,
+  
+    constructor( private vehicleDetailService: VehicleDetailService,private labelsData :LabelsService ) { }
+  
       private lovDataService: LovDataService
-       ) { }
     ngOnInit() {
       this.initForm();
       this.getAllFieldLabel = this.vehicleDetailService.getVehicleDetailLabels()
