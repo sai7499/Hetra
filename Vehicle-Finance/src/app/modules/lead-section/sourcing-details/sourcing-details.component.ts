@@ -16,7 +16,6 @@ export class SourcingDetailsComponent implements OnInit {
 
   sourcingDetailsForm: FormGroup;
 
-  values: any = [];
 
   constructor(
     private leadSectionService: VehicleDetailService,
