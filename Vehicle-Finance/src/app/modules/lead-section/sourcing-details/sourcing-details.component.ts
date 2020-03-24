@@ -12,6 +12,7 @@ import { LeadStoreService } from '@services/lead-store.service';
   styleUrls: ['./sourcing-details.component.css']
 })
 export class SourcingDetailsComponent implements OnInit {
+  values: any = [];
 
   sourcingDetailsForm: FormGroup;
 
