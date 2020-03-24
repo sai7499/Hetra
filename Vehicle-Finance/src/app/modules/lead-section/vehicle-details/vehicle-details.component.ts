@@ -40,5 +40,37 @@ export class VehicleDetailComponent implements OnInit {
             this.errorMsg = error;
           });      
     }
+
+    onVehicleSubmit() {
+      const formValue: any = {};
+
+      const vehicleType = formValue.vehicleType;
+      const region = formValue.region;
+      const registrationNumber = formValue.registrationNumber;
+      const assetMake = formValue.assetMake;
+      const assetModel = formValue.assetModel;
+      const assetBodyType = formValue.assetBodyType;
+      const assetVariant = formValue.assetVariant;
+      const assetSubVariant = formValue.assetSubVariant;
+      const manufacturingMonth = formValue.manufacturingMonth;
+      const manufacturingYear = formValue.manufacturingYear;
+      const assetAge = formValue.assetAge;
+      const vehicleCategory = formValue.vechicleCategory;
+
+      const vehicleModel = {
+        vehicleType,
+        region,
+        registrationNumber,
+        assetMake,
+        assetModel,
+        assetBodyType,
+        assetVariant,
+        assetSubVariant,
+        manufacturingMonth,
+        manufacturingYear,
+        assetAge,
+        vehicleCategory
+      };
+    }
   
   }
