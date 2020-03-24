@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
 import { VehicleDetailService } from '../services/vehicle-detail.service';
-import { LeadStoreService } from 'src/app/services/lead-store.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
+import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
   selector: 'app-product-details',
@@ -8,35 +11,53 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-
-  public model : any = { details :{ }};
-  
-  constructor(private leadSectionService: VehicleDetailService, private leadService: LeadStoreService ) { }
+  productForm: FormGroup;
+  values: any = [];
+  constructor(
+    private leadSectionService: VehicleDetailService,
+    private lovData: LovDataService,
+    private leadStoreService: LeadStoreService ) { }
 
   ngOnInit() {
+    this.initForm();
+    this.lovData.getLovData().subscribe((res: any) => {
+      this.values = res[0].productDetails[0];
+      this.setFormValue();
+    });
+  }
+
+  initForm() {
+    this.productForm = new FormGroup({
+      businessDivision: new FormControl(''),
+      product: new FormControl(''),
+      schemePromotion: new FormControl(''),
+      subventionApplied: new FormControl(''),
+      subventionIncentive: new FormControl(''),
+    });
+  }
+
+  setFormValue() {
+    const productValue = this.leadStoreService.getProductDetails() || {};
+    this.productForm.patchValue({
+      businessDivision: productValue.businessDivision || '',
+      product: productValue.product || '',
+      schemePromotion: productValue.schemePromotion || '',
+      subventionApplied: productValue.subventionApplied || '',
+      subventionIncentive: productValue.subventionIncentive || ''
+    });
+
   }
 
   locationBack() {
-    
+
     this.leadSectionService.setCurrentPage(0);
   }
 
-  onProductSUbmit() {
-    const formValue: any = {};
-
-    const businessDivison = formValue.businessDivison;
-    const product = formValue.product;
-    const schemePromotion = formValue.schemePromotion;
-    const subventionApplied = formValue.subventionApplied;
-    const subventionIncentive = formValue.subventionIncentive;
-    const productModel = {
-      businessDivison,
-      product,
-      schemePromotion,
-      subventionApplied,
-      subventionIncentive
-    };
-    this.leadService.setProductDetails(productModel);
+  onFormSubmit() {
+    console.log('form value', this.productForm.value);
+    const formValue = this.productForm.value;
+    const productModel = {...formValue};
+    this.leadStoreService.setProductDetails(productModel);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } from '../model/lead.model';
+import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } from '@model/lead.model';
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +22,7 @@ export class LeadStoreService {
     }
 
     getSourcingDetails() {
-        return this.leadCreation.sourcingDetails;
+        return this.leadCreation ? this.leadCreation.sourcingDetails : {};
     }
 
     setProductDetails(productDetails: ProductDetails) {
@@ -30,7 +30,7 @@ export class LeadStoreService {
     }
 
     getProductDetails() {
-        return this.leadCreation.productDetails;
+        return this.leadCreation ? this.leadCreation.productDetails : {};
     }
 
     setVehicleDetails(vehicleDetails: VehicleDetails) {

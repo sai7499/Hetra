@@ -1,17 +1,28 @@
-import { Component, OnInit, Input, forwardRef, OnChanges } from "@angular/core";
+import { Component, OnInit, Input, forwardRef, OnChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { DataService } from '../../lead-creation/service/data.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
 
 @Component({
-  selector: "vf-custom-select",
-  templateUrl: "./custom-select.component.html",
-  styleUrls: ["./custom-select.component.css"]
+  selector: 'app-vf-custom-select',
+  templateUrl: './custom-select.component.html',
+  styleUrls: ['./custom-select.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CustomSelectComponent),
+      multi: true
+    }
+  ]
 })
 export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
-  @Input() className = "form-control mandatory";
+  @Input() className = 'form-control mandatory';
   @Input() defaultOption = {
     key: '',
-    value: "-- select one --"
+    value: '-- select one --'
   };
+  isDisabled: boolean;
+  // tslint:disable-next-line:no-input-rename
   @Input('selectedOption') val: any ;
   @Input() values: any[];
 
@@ -27,7 +38,7 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
     return this.val;
   }
 
-  constructor() {
+  constructor(private lovDataService: LovDataService) {
   }
 
   ngOnInit() {
@@ -35,7 +46,7 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
   }
 
   ngOnChanges() {
-    if(this.selectedOption) {
+    if (this.selectedOption) {
        this.onChange(this.val);
     }
   }
@@ -50,5 +61,8 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
 
   registerOnTouched(fn) {
     this.onTouch = fn;
+  }
+  setDisabledState(state: boolean) {
+    this.isDisabled = state;
   }
 }

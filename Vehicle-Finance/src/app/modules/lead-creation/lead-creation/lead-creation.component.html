@@ -1,22 +1,14 @@
 <main class="mar-top90">
     <div class="container">
         <h3 class="margin_zero">Lead Creation</h3>
-         <!-- <form [formGroup]="createLeadForm"> -->
         <div class="content">
+            <form [formGroup]="createLeadForm">
             <div class="row">               
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" >
                         <label for="business_division">Business Division</label>
-                        <!-- <select class="form-control mandatory " id="business_division">
-                            <option value="Vechicle Finance">Vechicle Finance</option>
-                            <option value="Housing Finance">Housing Finance</option>
-                            <option value="Loan Against Property">Loan Against Property</option>
-                            <option value="Gold Loan">Gold Loan</option>
-                        </select> -->
-                        <vf-custom-select 
-                            [values]="values" 
-                            (change)="gotValue($event)" 
-                            [selectedOption]="test">
-                        </vf-custom-select>
+                        <app-vf-custom-select 
+                            [values]="lovLabels?.businessDivision" 
+                            formControlName="businessDivision"></app-vf-custom-select>
                     </div>
 
             </div>
@@ -24,113 +16,94 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="product_type">Product Category</label>
-                    <select class="form-control mandatory " id="product_type">
-                        <option value="New CV">New CV</option>
-                        <option value="New Cars">New Cars</option>
-                        <option value="Used CV">Used CV</option>
-                        <option value="Used Cars">Used Cars</option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.productCategory" 
+                            formControlName="productCategory"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="child_loan">Child Loan</label>
-                    <select class="form-control " id="child_loan">
-                        <option value="Topup-1">Topup-1</option>
-                        <option value="Topup-2">Topup-2</option>
-                        <option value="Tire Loan">Tire Loan</option>
-                        <option value="Insurance Loan">Insurance Loan</option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.childLoan" 
+                            formControlName="childLoan"></app-vf-custom-select>
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="scheme_type">Scheme/Promotion</label>
-                    <select class="form-control " id="scheme_type">
-                        <option value="1">Scheme Type-1</option>
-                        <option value="2">Scheme Type-2</option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.schemePromotion" 
+                            formControlName="schemePromotion"></app-vf-custom-select>
 
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="subvention">Subvention Applied</label>
-                    <select class="form-control " id="subvention_applied">
-                        <option value="Applied">Applied </option>
-                        <option value="Not-Applied">Not-Applied</option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.subventionApplied" 
+                            formControlName="subventionApplied"></app-vf-custom-select>
 
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="subvention">Subvention</label>
-                    <select class="form-control " id="subvention">
-                        <option value="1">subvention 1 </option>
-                        <option value="2">subvention 2 </option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.subvention" 
+                            formControlName="subvention"></app-vf-custom-select>
 
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_channel">Sourcing Channel</label>
-                    <select class="form-control mandatory " id="sourcing_channel">
-                        <option value="Assets Division">Assets Division</option>
-                        <option value="Liability Division">Liability Division</option>
-                        <option value="Web based">Web based</option>
-                        <option value="Campaign">Campaign</option>
-                        <option value="Corporate Finance">Corporate Finance</option>
-                        <option value="Business Banking">Business Banking</option>
-                        <option value="Business Correspondence">Business Correspondence</option>
-                        <option value="Call Centre">Call Centre</option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.sourcingChannel" 
+                            formControlName="sourcingChannel"></app-vf-custom-select>
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_type">Sourcing Type</label>
-                    <select class="form-control mandatory " id="sourcing_type">
-                        <option value="">-- select one -- </option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.sourcingType" 
+                            formControlName="sourcingType"></app-vf-custom-select>
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_code">Sourcing Code</label>
-                    <select class="form-control mandatory select2 " id="sourcing_code">
-                        <option value="">-- select one -- </option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.sourcingCode" 
+                            formControlName="sourcingCode"></app-vf-custom-select>
 
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="spoken_code">Spoke Code Location</label>
-                    <select class="form-control " id="spoken_code">
-                        <option value="">-- select one -- </option>
-                    </select>
-
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.spokeCodeLocation" 
+                            formControlName="spokeCodeLocation"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="account_branch">Loan Account Branch</label>
-                    <select class="form-control mandatory" id="account_branch">
-                        <option value="">-- select one -- </option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.loanAccountBranch" 
+                            formControlName="loanAccountBranch"></app-vf-custom-select>
 
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="lead_handled">Lead Handled By</label>
-                    <select class="form-control mandatory " id="lead_handled">
-                        <option value="1">Person-1</option>
-                        <option value="2">Person-2</option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.leadHandledBy" 
+                            formControlName="leadHandledBy"></app-vf-custom-select>
 
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="entity">Entity</label>
-                    <select class="form-control mandatory" id="entity">
-                        <option value="individual">Individual </option>
-                        <option value="non-individual">Non-individual </option>
-                    </select>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.entity" 
+                            formControlName="entity"></app-vf-custom-select>
 
                 </div>
             </div>
@@ -138,31 +111,31 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="first_name">First Name</label>
                     <input type="text" class="form-control mandatory" id="first_name" placeholder="First Name"
-                        name="first_name">
+                        name="first_name" formControlName="firstName">
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="middle_name">{{'Middle Name' | langugaePipe }}</label>
+                    <label for="middle_name">Middle Name</label>
                     <input type="text" class="form-control mandatory" id="middle_name" placeholder="Middle Name"
-                        name="middle_name">
+                        name="middle_name" formControlName="middleName">
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="last_name">Last Name</label>
                     <input type="text" class="form-control mandatory" id="last_name" placeholder="Last Name"
-                        name="last_name">
+                        name="last_name" formControlName="lastName">
 
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="mobile">Mobile</label>
-                    <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile">
+                    <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile" formControlName="mobile">
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob">
+                    <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob" formControlName="dateOfBirth">
 
                 </div>
 
@@ -173,8 +146,9 @@
                         <button type="button" class="btn btn-primary"> Cancel </button>
                     </div>
                     <div class="col-sm-7 text-right">
+                        <!-- routerLink="../lead-dedupe" -->
 
-                        <button type="button" routerLink="../lead-dedupe" class="btn btn-primary" value="submit" >Create
+                        <button type="button"  class="btn btn-primary" value="submit" (click)="onSubmit()" >Create
                             Lead</button>
 
                     </div>
@@ -183,8 +157,9 @@
            
 
 
+         </form>
+
         </div>
-         <!-- </form> -->
     </div>
 
 </main>
