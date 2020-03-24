@@ -9,12 +9,11 @@ import { LeadSectionService } from 'src/app/services/lead-section.service';
   styleUrls: ['./loan-details.component.css']
 })
 export class LoanDetailsComponent implements OnInit {
-  public labels = [];
+  public label:any = [];
   public errorMsg;
   public lov = [];
 
   @ViewChild('LosModal', {static: true}) LosModal: ElementRef;
-
 
   constructor(private renderer: Renderer2, 
               private router: Router, 
@@ -28,7 +27,7 @@ export class LoanDetailsComponent implements OnInit {
   public getLabel() {
     this.leadSectionService.getLabels().subscribe(
       data => {
-        this.labels = data;
+        this.label = data;
       },
       error => {
         this.errorMsg = error;

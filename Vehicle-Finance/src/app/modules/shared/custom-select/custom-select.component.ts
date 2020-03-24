@@ -6,7 +6,14 @@ import { LovDataService } from 'src/app/services/lov-data.service';
 @Component({
   selector: 'app-vf-custom-select',
   templateUrl: './custom-select.component.html',
-  styleUrls: ['./custom-select.component.css']
+  styleUrls: ['./custom-select.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CustomSelectComponent),
+      multi: true
+    }
+  ]
 })
 export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() className = 'form-control mandatory';
@@ -14,6 +21,7 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
     key: '',
     value: '-- select one --'
   };
+  isDisabled: boolean;
   // tslint:disable-next-line:no-input-rename
   @Input('selectedOption') val: any ;
   @Input() values: any[];
@@ -57,5 +65,8 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
 
   registerOnTouched(fn) {
     this.onTouch = fn;
+  }
+  setDisabledState(state: boolean) {
+    this.isDisabled = state;
   }
 }

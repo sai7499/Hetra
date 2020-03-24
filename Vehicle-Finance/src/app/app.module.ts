@@ -19,8 +19,6 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule,
     FormsModule
-
-    
   ],
   providers: [
     {  provide : LocationStrategy,

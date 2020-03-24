@@ -1,6 +1,6 @@
 <main class="mar-top90">
     <div class="container">
-        <h3 class="margin_zero">Add Applicant</h3>
+        <h3 class="margin_zero">{{labels.addApplicantTitle}}</h3>
         <div class="content">
             <div class="row">
                 <!-- <select id="select_main_button_leadco" class="dropdown_individual" name="" (change)="selectApplicantType($event)"> -->
@@ -12,7 +12,7 @@
                 <div id="individual_section_leadco">
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="Vechical Type">Entity</label>
+                            <label for="Vechical Type">{{labels.entity}}</label>
                             <select class="form-control dropdown_individual" id="select_main_button_leadco" (change)="selectApplicantType($event)">
                                 <option value="">-- select one -- </option>
                             <option value="individual"> Individual </option>
@@ -23,37 +23,37 @@
 
                     <div class="row individual_section_leadco" *ngIf="applicantType === 'individual'">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="first_name">First Name</label>
+                            <label for="first_name">{{labels.firstName}}</label>
                             <input type="text" class="form-control" id="first_name">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="middle_name">Middle Name</label>
+                            <label for="middle_name">{{labels.middleName}}</label>
                             <input type="text" class="form-control" id="middle_name">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="last_name">Last Name</label>
+                            <label for="last_name">{{labels.lastName}}</label>
                             <input type="text" class="form-control" id="last_name">
                         </div>
                     </div>
 
                     <div class="row non_individual_section_leadco" *ngIf="applicantType ==='non-individual'">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="company_name1">Company Name 1</label>
+                            <label for="company_name1">{{labels.companyName1}}</label>
                             <input type="text" class="form-control" id="company_name1">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="company_name2">Company Name 2</label>
+                            <label for="company_name2">{{labels.companyName2}}</label>
                             <input type="text" class="form-control" id="company_name2">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="company_name3">Company Name 3</label>
+                            <label for="company_name3">{{labels.companyName3}}</label>
                             <input type="text" class="form-control" id="company_name3">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="Asset Make">Mobile</label>
+                            <label for="Asset Make">{{labels.mobile}}</label>
                             <input type="text" class="form-control" id="passport">
                         </div>
                         <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -63,7 +63,7 @@
                 
                     <div class="row" *ngIf="applicantType === 'individual'">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="Asset Make" >Date Of Birth</label>
+                            <label for="Asset Make" >{{labels.dateOfBirth}}</label>
                             <div class="input-group input-medium">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="row" *ngIf="applicantType ==='non-individual'">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="Asset Make">Date Of Incorporation</label>
+                            <label for="Asset Make">{{labesl.dateOfIncorporation}}</label>
                             <div class="input-group input-medium">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
@@ -87,7 +87,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
 
-                            <label for="Identity Type">Identity Type</label>
+                            <label for="Identity Type">{{labels.identityType}}</label>
                             <select class="form-control">
                                 <option value="Aadhar">Aadhar</option>
                                 <option value="Pan">Pan</option>
@@ -95,11 +95,11 @@
                             </select>
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="Asset Make">Identity Number</label>
+                            <label for="Asset Make">{{labels.identityNumber}}</label>
                             <input type="text" class="form-control" id="passport">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="identity_copy">Upload Identity</label>
+                            <label for="identity_copy">{{labels.uploadIdentity}}</label>
                             <input id="identity_copy" type="file" multiple="">
                             <div id="identity_preview"></div>
                         </div>
@@ -111,23 +111,23 @@
                                 <h3 class="title">Permanent Address</h3>
                                 <div class="row">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="pan">Address 1</label>
+                                        <label for="pan">{{labels.address1}}</label>
                                         <input type="text" class="form-control" id="address1">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Address 2</label>
+                                        <label for="passport">{{labels.address2}}</label>
                                         <input type="text" class="form-control" id="address2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Address 3</label>
+                                        <label for="passport">{{labels.address3}}</label>
                                         <input type="text" class="form-control" id="address3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="pincode">Permanent Address PIN Code</label>
+                                        <label for="pincode">{{labels.permanentAddressPINCode}}</label>
                                         <input type="text" class="form-control" id="pincode">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Permanent Address City</label>
+                                        <label for="passport">{{labels.permanentAddressCity}}</label>
                                         <select class="form-control" id="permanent_address_city">
 													<option>City 1</option>
 													<option>City 2</option>
@@ -135,7 +135,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Permanent Address District</label>
+                                        <label for="passport">{{labels.permanentAddressDistrict}}</label>
                                         <select class="form-control" id="permanent_address_district">
 													<option>District 1</option>
 													<option>District 2</option>
@@ -143,7 +143,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Permanent Address State</label>
+                                        <label for="passport">{{labels.permanentAddressState}}</label>
                                         <select class="form-control" id="permanent_address_state">
 													<option>State 1</option>
 													<option>State 2</option>
@@ -151,7 +151,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Permanent Address Country</label>
+                                        <label for="passport">{{labels.permanentAddressCountry}}</label>
                                         <select class="form-control" id="permanent_address_country">
 													<option>Country 1</option>
 													<option>Country 2</option>
@@ -159,7 +159,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="landline">Permanent Address Landline</label>
+                                        <label for="landline">{{labels.permanentAddressLandline}}</label>
                                         <input type="text" class="form-control" id="landline">
                                     </div>
 
@@ -175,23 +175,23 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="pan">Line 1</label>
+                                    <label for="pan">{{labels.line1}}</label>
                                     <input type="text" class="form-control" id="line1">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="passport">Line 2</label>
+                                    <label for="passport">{{labels.line2}}</label>
                                     <input type="text" class="form-control" id="line2">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="passport">Line 3</label>
+                                    <label for="passport">{{labels.line3}}</label>
                                     <input type="text" class="form-control" id="line3">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="current_pincode">Current Address PIN Code</label>
+                                    <label for="current_pincode">{{labels.currentAddressPINCode}}</label>
                                     <input type="text" class="form-control" id="current_pincode">
                                 </div>
                                 <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
-                                    <label for="passport">Current Address City</label>
+                                    <label for="passport">{{labels.currentAddressCity}}</label>
                                     <select class="form-control" id="current_address_city">
                                                 <option>City 1</option>
                                                 <option>City 2</option>
@@ -199,7 +199,7 @@
                                             </select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="passport">Current Address District</label>
+                                    <label for="passport">{{labels.currentAddressDistrict}}</label>
                                     <select class="form-control" id="current_address_district">
                                                 <option>District 1</option>
                                                 <option>District 2</option>
@@ -207,7 +207,7 @@
                                             </select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="passport">Current Address State</label>
+                                    <label for="passport">{{labels.currentAddressState}}</label>
                                     <select class="form-control" id="current_address_state">
                                                 <option>State 1</option>
                                                 <option>State 2</option>
@@ -215,7 +215,7 @@
                                             </select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="passport">Current Address Country</label>
+                                    <label for="passport">{{labels.currentAddressCountry}}</label>
                                     <select class="form-control" id="current_address_country">
                                                 <option>Country 1</option>
                                                 <option>Country 2</option>
@@ -224,7 +224,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="current_landline">Landline Number (Residence Phone)</label>
+                                    <label for="current_landline">{{labels.registeredAddressLandlineNumber}}</label>
                                     <input type="text" class="form-control" id="current_landline">
                                 </div>
 
@@ -237,23 +237,23 @@
                                 <h3 class="title">Registered Address</h3>
                                 <div class="row">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="pan">Line 1</label>
+                                        <label for="pan">{{labels.line1}}</label>
                                         <input type="text" class="form-control" id="line1">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Line 2</label>
+                                        <label for="passport">{{labels.line2}}</label>
                                         <input type="text" class="form-control" id="line2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Line 3</label>
+                                        <label for="passport">{{labels.line3}}</label>
                                         <input type="text" class="form-control" id="line3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Registered  Address PIN Code</label>
+                                        <label for="passport">{{labels.registeredAddressPINCode}}</label>
                                         <input type="text" class="form-control" id="line3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Registered  Address City</label>
+                                        <label for="passport">{{labels.registeredAddressCity}}</label>
                                         <select class="form-control" id="current_address_city">
 													<option>City 1</option>
 													<option>City 2</option>
@@ -261,7 +261,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Registered  Address District</label>
+                                        <label for="passport">{{labels.registeredAddressDistrict}}</label>
                                         <select class="form-control" id="current_address_district">
 													<option>District 1</option>
 													<option>District 2</option>
@@ -269,7 +269,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Registered  Address State</label>
+                                        <label for="passport">{{labels.registeredAddressState}}</label>
                                         <select class="form-control" id="current_address_state">
 													<option>State 1</option>
 													<option>State 2</option>
@@ -277,7 +277,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="passport">Registered  Address Country</label>
+                                        <label for="passport">{{labels.registeredAddressCountry}}</label>
                                         <select class="form-control" id="current_address_country">
 													<option>Country 1</option>
 													<option>Country 2</option>
@@ -285,7 +285,7 @@
 												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="reg_mobile">Registered  Address Landline Number (Residence Phone)</label>
+                                        <label for="reg_mobile">{{registeredAddressLandlineNumber}}</label>
                                         <input type="number" class="form-control" id="reg_mobile">
                                     </div>
 
@@ -320,3 +320,5 @@
         <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
     </div>
 </footer>
+
+

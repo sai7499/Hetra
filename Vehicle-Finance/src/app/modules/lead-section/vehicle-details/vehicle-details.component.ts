@@ -13,7 +13,7 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
 })
 export class VehicleDetailComponent implements OnInit, OnChanges {
   public createVehicleDetailForm: FormGroup;
-  public labels = [];
+  public label:any = [];
   public errorMsg;
   public lov = [];
   public show: boolean = false;
@@ -55,7 +55,7 @@ export class VehicleDetailComponent implements OnInit, OnChanges {
   public getLabel() {
     this.leadSectionService.getLabels().subscribe(
       data => {
-        this.labels = data;
+        this.label = data;
       },
       error => {
         this.errorMsg = error;
