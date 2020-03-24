@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { VehicleDetailService } from "./services/vehicle-detail.service";
-// import { Location } from "@angular/common";
-import { LabelsService } from 'src/app/services/labels.service';
-// import { LeadStoreService } from '@services/lead-store.service';
-// import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from './services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
 
@@ -18,22 +13,14 @@ export class LeadSectionComponent implements OnInit {
   applicantName: string;
   applicantMobile: string;
   currentPage = 0;
-  public labels: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
     private location: Location,
-    private labelsData: LabelsService,
     private leadStoreService: LeadStoreService
   ) {}
 
-
   ngOnInit() {
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      }
-    );
     const leadValue = this.leadStoreService.getLeadCreation();
     if (leadValue) {
       this.applicantName = `${leadValue.firstName} ${leadValue.lastName}`;
@@ -52,6 +39,6 @@ export class LeadSectionComponent implements OnInit {
         this.currentPage = 0;
       }
     });
-
   }
+
 }

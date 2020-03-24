@@ -1,101 +1,63 @@
 <main class="mar-top90">
-  <div class="container overflow-hidden">
-    <h3 class="margin_zero">Lead ID : 125468</h3>
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-12 row">
-        <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-          <div class="form-group">
-            <label class="col-form-label" for="customer_name_label">Application Name</label>
-            <label for="customer_name" class="col-form-label-two">{{ applicantName }}</label>
-          </div>
+    <div class="container overflow-hidden">
+        <h3 class="margin_zero">Lead ID : 125468</h3>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 row">
+                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                    <div class="form-group">
+                        <label class="col-form-label" for="customer_name_label">Application Name</label>
+                        <label for="customer_name" class="col-form-label-two">{{applicantName}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                    <div class="form-group">
+                        <label class="col-form-label" for="customer_name_label">Applicant Mobile Number</label>
+                        <label for="customer_name" class="col-form-label-two">{{applicantMobile}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 row">
+                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                    <div class="form-group">
+                        <label class="col-form-label" for="customer_name_label">Loan Amount</label>
+                        <label for="customer_name" class="col-form-label-two">15L</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                    <div class="form-group">
+                        <label class="col-form-label" for="roi">ROI</label>
+                        <label for="roi_value" class="col-form-label-two"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 row pr-0">
+                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                    <div class="form-group">
+                        <label class="col-form-label" for="lead_created_by">Lead Created By</label>
+                        <label for="lead_created_by_name" class="col-form-label-two">Mr. Racheal - Anna
+                            nagar</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 pr-0 p-0">
+                    <div class="form-group">
+                        <label class="col-form-label" for="lead_handled_by">Lead Handled By</label>
+                        <label for="lead_handled_by_name" class="col-form-label-two">Mr. Galle</label>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-          <div class="form-group">
-            <label class="col-form-label" for="customer_name_label">Applicant Mobile Number</label>
-            <label for="customer_name" class="col-form-label-two">{{ applicantMobile }}</label>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-12 row">
-        <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-          <div class="form-group">
-            <label class="col-form-label" for="customer_name_label">Loan Amount</label>
-            <label for="customer_name" class="col-form-label-two">15L</label>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-          <div class="form-group">
-            <label class="col-form-label" for="roi">ROI</label> <label for="roi_value" class="col-form-label-two"></label>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-12 row pr-0">
-        <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-          <div class="form-group">
-            <label class="col-form-label" for="lead_created_by">Lead Created By</label>
-            <label for="lead_created_by_name" class="col-form-label-two">Mr. Racheal - Anna nagar</label>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 pr-0 p-0">
-          <div class="form-group">
-            <label class="col-form-label" for="lead_handled_by">Lead Handled By</label>
-            <label for="lead_handled_by_name" class="col-form-label-two">Mr. Galle</label>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!--progress bar-->
-    <div class="multisteps-form">
-      <div class="multisteps-form__progress">
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['/pages/lead-section']"
-          [ngClass]="{ 'js-active': currentPage >= 0 }"
-          (click)="currentPage = 0"
-        >
-          Sourcing Details
-        </button>
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['./product-details']"
-          [ngClass]="{ 'js-active': currentPage >= 1 }"
-          (click)="currentPage = 1"
-        >
-          Product Details
-        </button>
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['./vehicle-details']"
-          [ngClass]="{ 'js-active': currentPage >= 2 }"
-          (click)="currentPage = 2"
-        >
-          Vechicle Details
-        </button>
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['./applicant-details']"
-          [ngClass]="{ 'js-active': currentPage >= 3 }"
-          (click)="currentPage = 3"
-        >
-          Applicant Details
-        </button>
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['./loan-details']"
-          [ngClass]="{ 'js-active': currentPage >= 4 }"
-          (click)="currentPage = 4"
-        >
-          Loan Details
-        </button>
-        <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
-      </div>
-      <router-outlet></router-outlet>
+        <!--progress bar-->
+        <div class="multisteps-form">
+            <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn"   type="button" [routerLink]="['/pages/lead-section']" [ngClass]="{'js-active': currentPage >= 0}" (click)="currentPage = 0">Sourcing Details</button>
+                <button class="multisteps-form__progress-btn" type="button" [routerLink]="['./product-details']" [ngClass]="{'js-active': currentPage >= 1}" (click)="currentPage = 1">Product Details</button>
+                <button class="multisteps-form__progress-btn" type="button" [routerLink]="['./vehicle-details']" [ngClass]="{'js-active': currentPage >= 2}" (click)="currentPage = 2">Vechicle Details</button>
+                <button class="multisteps-form__progress-btn"  type="button"[routerLink]="['./applicant-details']" [ngClass]="{'js-active': currentPage >= 3}" (click)="currentPage = 3">Applicant Details</button>
+                <button class="multisteps-form__progress-btn" type="button" [routerLink]="['./loan-details']" [ngClass]="{'js-active': currentPage >= 4}" (click)="currentPage = 4">Loan Details</button>
+                <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
+            </div>
+            <router-outlet></router-outlet>
+        </div>
     </div>
-  </div>
 </main>

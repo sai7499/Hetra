@@ -2,24 +2,24 @@
     <div class="content  ">
         <form class="multisteps-form__form" [formGroup]="productForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <h4 class="title">{{ labels.productDetailsTitle }}</h4>
+        <h4 class="title">Product Details</h4>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="business_division">{{ labels.businessDivision }}</label>
+                <label for="business_division">Business Division</label>
                   <app-vf-custom-select 
                     [values]="values?.businessDivision" 
                     formControlName="businessDivision"></app-vf-custom-select>
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="product_type">{{ labels.product }}</label>
+                <label for="product_type">Product</label>
                 <app-vf-custom-select 
                     [values]="values?.productCategory" 
                     formControlName="product"></app-vf-custom-select>
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="scheme_type">{{ labels.schemePromotion }}</label>
+                <label for="scheme_type">Scheme/Promotion</label>
     
                 <app-vf-custom-select 
                     [values]="values?.schemePromotion" 
@@ -27,7 +27,7 @@
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="subvention">{{ labels.subventionApplied }}</label>
+                <label for="subvention">Subvention Applied</label>
                 
                     <app-vf-custom-select 
                     [values]="values?.subventionApplied" 
@@ -35,7 +35,7 @@
     
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="subvention">{{ labels.subventionIncentive }}</label>
+                <label for="subvention">Subvention + Incentive</label>
     
                
                 <app-vf-custom-select 
@@ -54,10 +54,7 @@
                 </div>
             </div>
         </div>
-    </div> 
-        </form>
     </div>
+    </form>
     
-</body>
-
-
+    

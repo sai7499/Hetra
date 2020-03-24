@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LabelsService } from 'src/app/services/labels.service';
 
 @Component({
   selector: 'app-co-applicant',
@@ -7,8 +6,6 @@ import { LabelsService } from 'src/app/services/labels.service';
   styleUrls: ['./co-applicant.component.css']
 })
 export class CoApplicantComponent implements OnInit {
-
-  labels:any;
 
   applicantType : string = 'individual'
 
@@ -21,27 +18,10 @@ export class CoApplicantComponent implements OnInit {
 
   }
 
-  constructor( private labelsData:LabelsService) {
+  constructor() {
    }
 
   ngOnInit() {
-
-    this.labelsData.getLabelsData().subscribe( 
-      data => {
-        
-        this.labels = data
-        // console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
-      },
-      error => {
-
-        console.log(error);
-        
-
-      }
-      
-    ) 
-
-
 
 
   }

@@ -1,175 +1,172 @@
 <main class="mar-top90">
-  <div class="container">
-    <h3 class="margin_zero">{{ labels.leadCreationTitle }}</h3>
-    <!-- <form [formGroup]="createLeadForm"> -->
-    <div class="content">
-      <form [formGroup]="createLeadForm">
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">{{ labels.businessDivision }}</label>
-            <app-vf-custom-select
-              [values]="lovLabels?.businessDivision"
-              formControlName="businessDivision"
-            ></app-vf-custom-select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">{{ labels.productCategory }}</label>
-            <app-vf-custom-select
-              [values]="lovLabels?.productCategory"
-              formControlName="productCategory"
-            ></app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="child_loan">{{ labels.childLoan }}</label>
-            <app-vf-custom-select [values]="lovLabels?.childLoan" formControlName="childLoan"></app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="scheme_type">{{ labels.scheme_Promotion }}</label>
-            <app-vf-custom-select
-              [values]="lovLabels?.schemePromotion"
-              formControlName="schemePromotion"
-            ></app-vf-custom-select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="subvention">{{ labels.subventionApplied }}</label>
-            <app-vf-custom-select
-              [values]="lovLabels?.subventionApplied"
-              formControlName="subventionApplied"
-            ></app-vf-custom-select>
-          </div>
+    <div class="container">
+        <h3 class="margin_zero">Lead Creation</h3>
+        <div class="content">
+            <form [formGroup]="createLeadForm">
+            <div class="row">               
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" >
+                        <label for="business_division">Business Division</label>
+                        <app-vf-custom-select 
+                            [values]="lovLabels?.businessDivision" 
+                            formControlName="businessDivision"></app-vf-custom-select>
+                    </div>
 
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="subvention">{{ labels.subvention }}</label>
-            <app-vf-custom-select [values]="lovLabels?.subvention" formControlName="subvention"></app-vf-custom-select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-            <app-vf-custom-select
-              [values]="lovLabels?.sourcingChannel"
-              formControlName="sourcingChannel"
-            ></app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_type">{{ labels.sourcingType }}</label>
-            <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType"></app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_code">{{ labels.sourcingCode }}</label>
-            <app-vf-custom-select [values]="lovLabels?.sourcingCode" formControlName="sourcingCode"></app-vf-custom-select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="spoken_code">{{ labels.spokeCodeLocation }}</label>
-            <app-vf-custom-select
-              [values]="lovLabels?.spokeCodeLocation"
-              formControlName="spokeCodeLocation"
-            ></app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="account_branch">{{ labels.loanAccountBranch }}</label>
-
-            <app-vf-custom-select
-              [values]="lovLabels?.loanAccountBranch"
-              formControlName="loanAccountBranch"
-            ></app-vf-custom-select>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="lead_handled">{{ labels.leadHandledBy }}</label>
-            <app-vf-custom-select [values]="lovLabels?.leadHandledBy" formControlName="leadHandledBy"></app-vf-custom-select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="entity">{{ labels.entity }}</label>
-            <app-vf-custom-select [values]="lovLabels?.entity" formControlName="entity"></app-vf-custom-select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="first_name">{{ labels.firstName }}</label>
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="first_name"
-              placeholder="First Name"
-              name="first_name"
-              formControlName="firstName"
-            />
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">{{ labels.middleName }}</label>
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="middle_name"
-              placeholder="Middle Name"
-              name="middle_name"
-              formControlName="middleName"
-            />
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name">{{ labels.lastName }}</label>
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="last_name"
-              placeholder="Last Name"
-              name="last_name"
-              formControlName="lastName"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="mobile">{{ labels.mobile }}</label>
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="mobile"
-              placeholder="Mobile"
-              name="mobile"
-              formControlName="mobile"
-            />
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="dob">Date of Birth</label>
-            <input
-              type="date"
-              class="form-control mandatory"
-              id="dob"
-              placeholder="Date of birth"
-              name="dob"
-              formControlName="dateOfBirth"
-            />
-          </div>
-
-          <div class="btn-sec clear-both">
-            <div class="col-sm-5">
-              <button type="button" class="btn btn-primary">{{ labels.cancel }}</button>
             </div>
-            <div class="col-sm-7 text-right">
-              <!-- routerLink="../lead-dedupe" -->
+            <div class="row">
 
-              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary" value="submit" (click)="onSubmit()">
-                {{ labels.createLead }}
-              </button>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="product_type">Product Category</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.productCategory" 
+                            formControlName="productCategory"></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="child_loan">Child Loan</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.childLoan" 
+                            formControlName="childLoan"></app-vf-custom-select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="scheme_type">Scheme/Promotion</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.schemePromotion" 
+                            formControlName="schemePromotion"></app-vf-custom-select>
+
+                </div>
             </div>
-          </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="subvention">Subvention Applied</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.subventionApplied" 
+                            formControlName="subventionApplied"></app-vf-custom-select>
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="subvention">Subvention</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.subvention" 
+                            formControlName="subvention"></app-vf-custom-select>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_channel">Sourcing Channel</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.sourcingChannel" 
+                            formControlName="sourcingChannel"></app-vf-custom-select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_type">Sourcing Type</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.sourcingType" 
+                            formControlName="sourcingType"></app-vf-custom-select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_code">Sourcing Code</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.sourcingCode" 
+                            formControlName="sourcingCode"></app-vf-custom-select>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="spoken_code">Spoke Code Location</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.spokeCodeLocation" 
+                            formControlName="spokeCodeLocation"></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="account_branch">Loan Account Branch</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.loanAccountBranch" 
+                            formControlName="loanAccountBranch"></app-vf-custom-select>
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="lead_handled">Lead Handled By</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.leadHandledBy" 
+                            formControlName="leadHandledBy"></app-vf-custom-select>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="entity">Entity</label>
+                    <app-vf-custom-select 
+                            [values]="lovLabels?.entity" 
+                            formControlName="entity"></app-vf-custom-select>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="first_name">First Name</label>
+                    <input type="text" class="form-control mandatory" id="first_name" placeholder="First Name"
+                        name="first_name" formControlName="firstName">
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="middle_name">Middle Name</label>
+                    <input type="text" class="form-control mandatory" id="middle_name" placeholder="Middle Name"
+                        name="middle_name" formControlName="middleName">
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" class="form-control mandatory" id="last_name" placeholder="Last Name"
+                        name="last_name" formControlName="lastName">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="mobile">Mobile</label>
+                    <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile" formControlName="mobile">
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob" formControlName="dateOfBirth">
+
+                </div>
+
+
+
+                <div class="btn-sec clear-both">
+                    <div class="col-sm-5">
+                        <button type="button" class="btn btn-primary"> Cancel </button>
+                    </div>
+                    <div class="col-sm-7 text-right">
+                        <!-- routerLink="../lead-dedupe" -->
+
+                        <button type="button"  class="btn btn-primary" value="submit" (click)="onSubmit()" >Create
+                            Lead</button>
+
+                    </div>
+                </div>
+            </div>
+           
+
+
+         </form>
+
         </div>
-      </form>
     </div>
-  </div>
+
 </main>
 
 <!-- Footer -->
 <footer class="footer pf">
-  <div class="container"><p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p></div>
+    <div class="container">
+        <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    </div>
 </footer>
