@@ -1,0 +1,4 @@
+<select [class]="className" [(ngModel)]="selectedOption">
+    <option value="{{defaultOption.key}}" disabled>{{defaultOption.value}}</option>
+    <option value="{{option.key}}" *ngFor="let option Of values">{{option.value}}</option>
+</select>

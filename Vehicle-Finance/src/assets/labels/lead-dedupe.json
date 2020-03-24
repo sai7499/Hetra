@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Results For Load Dedupe",
+    "select": "Select",
+    "applicationId": "Application ID",
+    "loanCreatedBy": " Loan Created By",
+    "loanAccountBranch": " Loan Account Branch",
+    "businessDivision": "Business Division",
+    "product": "Product",
+    "loanAmount": "Loan Amount",
+    "stage": "Stage",
+    "status": "Status",
+    "reasonForRejection": "Reason For Rejection",
+    "applicantName": "Applicant Name",
+    "mobile": "Mobile",
+    "proceed": "Proceed",
+    "reject": "Reject",
+    "reasonForProceed": "Select the reason for Proceed",
+    "submit": "Submit",
+    "modelTitle": "LOS - Lead Creation",
+    "message": "Are you sure you want to create a new lead?",
+    "ok": "OK"
+  },
+
+  {
+    "title": "Applicant Details",
+    "addApplicant": "Add Applicant",
+    "id": "UCIC ID",
+    "name": "Name",
+    "mobileNumber": "Mobile Number",
+    "dateOfBirth": "Date Of Birth",
+    "applicantType": "Applicant Type",
+    "action": "Action",
+    "back": "Back",
+    "save": "Save",
+    "next": "Next"
+  },
+
+  {
+    "title": "Loan Details",
+    "requestedAmount": "Requested Amount",
+    "requestedTenor": "Requested Tenor",
+    "back": "Back",
+    "save": "Save"
+  },
+
+  {
+    "title": "Credit Bureau",
+    "productOffered": "Product Offered",
+    "customerSegment": "Customer Segment",
+    "loanTenor": "Loan Tenor",
+    "loanAmountRange": "Loan Amount Range",
+    "ageOfCar": "Age of the car at the end of tenor (months)",
+    "loanToValue ": "Loan to Value ",
+    "insuranceCrossSell": "Insurance Cross sell",
+    "loanToValueInsuranceFunded": "Loan to Value Insurance Funded",
+    "equitasFastTagRequired": "Equitas Fast tag required",
+    "OnRoadPricingFunding": "On road pricing funding",
+    "id": "ID",
+    "applicant": "Applicant",
+    "eligibleLoanAmount": "Eligible Loan Amount",
+    "proceed": "Proceed",
+    "reject": "Reject"
+  },
+
+
+  {
+      "title":"Offer Accetence",
+      ""
+
+  }
+]

@@ -1,0 +1,310 @@
+<div class="content" *ngFor = "let label of labels">
+    <form class="multisteps-form__form">
+
+        <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
+            <div class="container">
+                <div class="btn-sec clear-both row">
+                    <div class="col-sm-5">
+                        <h4 class="title"> {{ label.loanDetailsTitle }} </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="customer_category"> {{ label.customerCategory }} </label>
+                        <select class="form-control mandatory" id="customer_category">
+                            <option value=""> -- Select One --</option>
+                            <option *ngFor ="let cCategory of lov.typesOfLoan" value="{{cCategory.key}}">{{cCategory.value}}</option>
+                            <!-- <option value="Topup">Topup</option>
+                            <option value="Tyre loan">Tyre loan</option>
+                            <option value="Saathi loan">Saathi loan</option>
+                            <option value="FC loan">FC loan</option> -->
+                        </select>
+
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="requested_amount"> {{ label.requestedAmount }} </label>
+                        <input type="text" class="form-control mandatory" id="requested_amount"
+                            placeholder="Requested Amount" name="requested_amount">
+
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="loan_tenor"> {{ label.requestedTenor }} </label>
+                        <select class="form-control mandatory" id="loan_tenor">
+                            <option value=""> -- Select One --</option>
+                            <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
+                            <!-- <option value="12">12</option>
+                            <option value="18">18</option>
+                            <option value="24">24</option>
+                            <option value="30">30</option>
+                            <option value="36">36</option>
+                            <option value="42">42</option>
+                            <option value="48">48</option>
+                            <option value="54">54</option>
+                            <option value="60">60</option> -->
+                        </select>
+
+                    </div>
+
+
+                    <div class="btn-sec clear-both">
+                        <div class="col-sm-5">
+
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <button class="btn btn-primary js-btn-prev cus-m-1" type="button"
+                                [routerLink]="['../applicant-details']"> Back </button>
+                            <button type="button" class="btn btn-primary cus-m-1" data-toggle="modal"
+                                data-target="#myModal" (click)="openLOSPopup(myModal)"> Save </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div #LosModal>
+
+                </div>
+
+                <!-- Modal Page -->
+
+                <!-- <div class="modal fade" id="myModal">
+                    <div class="modal-dialog modal-dialog-centered modal_resize">
+                        <div class="modal-content">
+
+                          
+                            <div class="modal-header">
+
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+   
+                            <div class="modal-body">
+                                <h4 class="modal-title modal_title">LOS - Lead Creation</h4>
+
+                                <h3 class="modal-title modal_title">Credit Bureau </h3>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="table-responsive application">
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="table-head-bg">
+                                                    <th>Product Offered <i class="fa fa-sort"></i> </th>
+                                                    <th>Customer Segment <i class="fa fa-sort"></i> </th>
+                                                    <th>Loan Tenor <i class="fa fa-sort"></i> </th>
+                                                    <th>Loan Amount Range <i class="fa fa-sort"></i> </th>
+                                                    <th>Age of the car at the end of tenor (months) <i
+                                                            class="fa fa-sort"></i> </th>
+                                                    <th>Loan to Value <i class="fa fa-sort"></i> </th>
+                                                    <th>Insurance Cross sell<i class="fa fa-sort"></i> </th>
+                                                    <th>Loan to Value Insurance Funded<i class="fa fa-sort"></i> </th>
+                                                    <th>Equitas Fast tag required <i class="fa fa-sort"></i> </th>
+                                                    <th>On road pricing funding<i class="fa fa-sort"></i> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>New CV</td>
+                                                    <td>Customer</td>
+                                                    <td>12</td>
+                                                    <td>15L</td>
+                                                    <td>5 years</td>
+                                                    <td>10L</td>
+                                                    <td>5</td>
+                                                    <td>12</td>conditions
+                                                    <td>applicable</td>
+                                                    <td>125</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>New CV</td>
+                                                    <td>Customer</td>
+                                                    <td>12</td>
+                                                    <td>15L</td>
+                                                    <td>5 years</td>
+                                                    <td>10L</td>
+                                                    <td>5</td>
+                                                    <td>12</td>
+                                                    <td>applicable</td>
+                                                    <td>125</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive">
+
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr class=" table-head-bg ">
+                                                    <th>ID</th>
+                                                    <th>Applicant</th>
+                                                    <th>Credit Bureau</th>
+
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Los-1112445</th>
+                                                    <th>Mathew Perry</th>
+                                                    <th>780</th>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>Los-1112422</th>
+                                                    <th>Matt Leblanc</th>
+                                                    <th>780</th>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>Los-1112423</th>
+                                                    <th>David Schwimmer</th>
+                                                    <th>744</th>import { TermsConditionComponent } from './terms-condition/terms-condition.component';
+
+
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
+import { TermsConditionComponent } from './terms-condition/terms-condition.component';
+
+                                </div>
+                                <h3 class="modal-title modal_title ">Eligible Loan Amount : 250000</h3>
+                            </div>
+
+                            <div class=" ok_footer ">
+                                <button type="button " class="btn btn-primary ok_button proceed_button "
+                                    id="proceed_button " data-dismiss="modal "
+                                    onclick="terms_info() ">Proceed</button>&nbsp;
+                                <button type="button " class=" btn btn-primary nt_ok_button reject_button "
+                                    id="reject_button " data-dismiss="modal " onclick="dashboard() ">Reject</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="modal fade in" id="myModal" #myModal>
+                    <!--  style="display: block;" -->
+                    <div class="modal-dialog modal-dialog-centered modal_resize modal-lg">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+
+                                <button type="button" class="close" data-dismiss="modal"
+                                    (click)="closeLosPopup(myModal)">×</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <h4 class="modal-title modal_title">LOS - Lead Creation</h4>
+
+                                <h3 class="modal-title modal_title">Credit Bureau </h3>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="table-responsive application">
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="table-head-bg">
+                                                    <th>Product Offered <i class="fa fa-sort"></i> </th>
+                                                    <th>Customer Segment <i class="fa fa-sort"></i> </th>
+                                                    <th>Loan Tenor <i class="fa fa-sort"></i> </th>
+                                                    <th>Loan Amount Range <i class="fa fa-sort"></i> </th>
+                                                    <th>Age of the car at the end of tenor (months) <i
+                                                            class="fa fa-sort"></i> </th>
+                                                    <th>Loan to Value <i class="fa fa-sort"></i> </th>
+                                                    <th>Insurance Cross sell<i class="fa fa-sort"></i> </th>
+                                                    <th>Loan to Value Insurance Funded<i class="fa fa-sort"></i> </th>
+                                                    <th>Equitas Fast tag required <i class="fa fa-sort"></i> </th>
+                                                    <th>On road pricing funding<i class="fa fa-sort"></i> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>New CV</td>
+                                                    <td>Customer</td>
+                                                    <td>12</td>
+                                                    <td>15L</td>
+                                                    <td>5 years</td>
+                                                    <td>10L</td>
+                                                    <td>5</td>
+                                                    <td>12</td>
+                                                    <td>applicable</td>
+                                                    <td>125</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>New CV</td>
+                                                    <td>Customer</td>
+                                                    <td>12</td>
+                                                    <td>15L</td>
+                                                    <td>5 years</td>
+                                                    <td>10L</td>
+                                                    <td>5</td>
+                                                    <td>12</td>
+                                                    <td>applicable</td>
+                                                    <td>125</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive">
+
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr class=" table-head-bg ">
+                                                    <th>ID</th>
+                                                    <th>Applicant</th>
+                                                    <th>Credit Bureau</th>
+
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Los-1112445</th>
+                                                    <th>Mathew Perry</th>
+                                                    <th>780</th>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>Los-1112422</th>
+                                                    <th>Matt Leblanc</th>
+                                                    <th>780</th>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>Los-1112423</th>
+                                                    <th>David Schwimmer</th>
+                                                    <th>744</th>
+
+                                                </tr>
+
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <h3 class="modal-title modal_title ">Eligible Loan Amount : 250000</h3>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class=" ok_footer cus-btn-credentials">
+                                <button type="button " class="btn btn-primary ok_button proceed_button mar-right8"
+                                    id="proceed_button " data-dismiss="modal "
+                                    [routerLink]="['/pages/terms-condition'] ">Proceed</button>
+                                <!--  -->
+                                <button type="button " class=" btn btn-primary nt_ok_button reject_button mar-right8"
+                                    id="reject_button " data-dismiss="modal "
+                                    [routerLink]="['/activity-search'] ">Reject</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

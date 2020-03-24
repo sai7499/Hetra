@@ -1,0 +1,20 @@
+.cus-m-1 {
+    margin-right: 5px;
+}
+
+.fadeIn {
+    display: block !important;
+}
+
+.modal_title {
+    text-align: center;
+}
+
+.cus-btn-credentials {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.4);
+}
