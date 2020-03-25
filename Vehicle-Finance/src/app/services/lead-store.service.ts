@@ -38,7 +38,7 @@ export class LeadStoreService {
     }
 
     getVehicleDetails() {
-        return this.leadCreation.vehicleDetails;
+        return this.leadCreation ? this.leadCreation.vehicleDetails : {};
     }
 
     setLoanDetails(loanDetails: LoanDetails) {

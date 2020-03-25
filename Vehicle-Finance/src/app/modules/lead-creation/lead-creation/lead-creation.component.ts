@@ -19,7 +19,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   test: any;
   values = [];
   lovLabels: any = [];
-  labels: any;
+  labels: any = {};
 
   constructor(
     private lovData: LovDataService,
