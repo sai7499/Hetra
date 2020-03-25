@@ -23,12 +23,12 @@ export class ApplicantDetailsComponent implements OnInit {
 
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data
-        console.log('test', this.labels)
+        this.labels = data;
+        console.log('test', this.labels);
       },
       error => {
         console.log(error);
-      })
+      });
     this.getData();
   }
 
@@ -36,10 +36,11 @@ export class ApplicantDetailsComponent implements OnInit {
     this.applicantDetails = this.leadStoreService.getApplicantList();
     // console.log('applicant array', applicants)
     // this.applicantDetails.push(applicants)
+    console.log('applicant Details', this.applicantDetails);
   }
 
   onChange() {
-    this.route.navigateByUrl('pages/lead-section/co-applicant')
+    this.route.navigateByUrl('pages/lead-section/co-applicant');
   }
 
   editApplicant(index: number) {

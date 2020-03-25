@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="btn-sec clear-both row">
                     <div class="col-sm-5">
-                        <h4 class="title">{{labels?.applicantDetailsTitle}}</h4>
+                        <h4 class="title">{{labels.applicantDetailsTitle}}</h4>
                     </div>
                     <div class="col-sm-7 text-right">
                         <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
@@ -34,6 +34,7 @@
                                     <td>{{i === 0 ? 'Applicant' : 'Co-Applicant'}}</td>
                                     <td (click)="editApplicant(i);"><i class="fa fa-pencil" aria-hidden="true"></i></td>
                                 </tr>
+                               
 
                             </tbody>
                         </table>

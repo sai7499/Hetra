@@ -14,7 +14,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 export class LoanDetailsComponent implements OnInit {
   public label: any = {};
   public errorMsg;
-  public lov: any= [];
+  public lov: any = [];
   loanDetailsForm: FormGroup;
 
   @ViewChild('LosModal', { static: true }) LosModal: ElementRef;
@@ -47,13 +47,13 @@ export class LoanDetailsComponent implements OnInit {
     this.getLabel();
   }
 
-  setFormValue(){
+  setFormValue() {
     const loanDetailsValue = this.leadStoreService.getLoanDetails() || {};
     this.loanDetailsForm.patchValue({
       customerSegment: loanDetailsValue.loanType || '',
       requestedAmount: loanDetailsValue.amount || '',
       requestedTenor: loanDetailsValue.tenor || ''
-    })
+    });
   }
 
   getLabel() {
@@ -73,7 +73,7 @@ export class LoanDetailsComponent implements OnInit {
     const loanDetailsModel = {...formValue};
     this.leadStoreService.setLoanDetails(loanDetailsModel);
     this.router.navigate(['/pages/lead-section/product-details']);
-  alert();
+    alert();
   }
 
   openLOSPopup(myModal) {
@@ -82,13 +82,13 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   closeLosPopup(myModal) {
-    console.log(myModal)
+    console.log(myModal);
     this.renderer.removeClass(myModal, 'fadeIn');
   }
 
   onNavigateTerms() {
     // /pages/terms-conditions
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 
 }

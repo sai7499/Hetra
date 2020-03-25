@@ -18,28 +18,28 @@ export class CoApplicantComponent implements OnInit {
 
   selectedApplicant: number;
 
-  applicantType: string = 'individual'
+  applicantType = 'individual';
 
   selectApplicantType(event: any) {
     this.applicantType = event.target.value;
   }
 
   constructor(
-    private labelsData: LabelsService, 
-    private lovData: LovDataService, 
+    private labelsData: LabelsService,
+    private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
     private activatedRoute: ActivatedRoute
     ) {
-    
+
   }
 
   ngOnInit() {
-    
+
     this.initForm();
     this.lovData.getLovData().subscribe((res: any) => {
-      console.log(res, 'res')
+      console.log(res, 'res');
       this.values = res[0].addApplicant[0];
-      console.log(this.values, 'values')
+      console.log(this.values, 'values');
       // this.setFormValue();
     });
     this.activatedRoute.params.subscribe((value) => {
@@ -51,7 +51,7 @@ export class CoApplicantComponent implements OnInit {
         this.setFormValue(selectedApplicant);
         console.log('selectedApplicant', selectedApplicant);
       }
-    })
+    });
   }
 
   initForm() {
@@ -100,11 +100,11 @@ export class CoApplicantComponent implements OnInit {
 
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data
+        this.labels = data;
       },
       error => {
         console.log(error);
-      })
+      });
   }
 
   setFormValue(applicantValue: Temp) {
@@ -132,7 +132,7 @@ export class CoApplicantComponent implements OnInit {
       permanent_address_district: applicantValue.permanent_address_district || '',
       permanent_address_state: applicantValue.permanent_address_state || '',
       permanent_address_country: applicantValue.permanent_address_country || '',
-      line1: applicantValue.line1|| '',
+      line1: applicantValue.line1 || '',
       line2: applicantValue.line2 || '',
       line3: applicantValue.line3 || '',
       current_address_city: applicantValue.current_address_city || '',
@@ -140,7 +140,7 @@ export class CoApplicantComponent implements OnInit {
       current_address_state: applicantValue.current_address_state || '',
       current_address_country: applicantValue.current_address_country || '',
       registered_line1: applicantValue.registered_line1 || '',
-      registered_line2: applicantValue.registered_line2|| '',
+      registered_line2: applicantValue.registered_line2 || '',
       registered_line3: applicantValue.registered_line3 || '',
       registered_address_city: applicantValue.registered_address_city || '',
       registered_address_district: applicantValue.registered_address_district || '',
@@ -173,7 +173,7 @@ export interface Temp {
   entity?: string;
 first_name?: string;
 middle_name?: string;
-last_name?: string
+last_name?: string;
 company_name1?: string;
 company_name2?: string;
 company_name3?: string;
