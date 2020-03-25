@@ -13,7 +13,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 export class LoanDetailsComponent implements OnInit {
   public label:any = {};
   public errorMsg;
-  public lov = [];
+  public lov: any= [];
   loanDetailsForm: FormGroup;
 
   @ViewChild('LosModal', {static: true}) LosModal: ElementRef;

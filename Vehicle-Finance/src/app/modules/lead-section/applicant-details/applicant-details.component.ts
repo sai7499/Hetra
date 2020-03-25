@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 
@@ -10,7 +11,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 })
 export class ApplicantDetailsComponent implements OnInit {
 
-  labels: any;
+  labels: any = {};
   applicantDetails = [];
 
   constructor(
@@ -32,12 +33,16 @@ export class ApplicantDetailsComponent implements OnInit {
   }
 
   getData() {
-    const applicants = this.leadStoreService.getCoApplicantDetails() || {}
-    console.log('applicant array', applicants)
-    this.applicantDetails.push(applicants)
+    this.applicantDetails = this.leadStoreService.getApplicantList();
+    // console.log('applicant array', applicants)
+    // this.applicantDetails.push(applicants)
   }
 
   onChange() {
     this.route.navigateByUrl('pages/lead-section/co-applicant')
+  }
+
+  editApplicant(index: number) {
+    this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
   }
 }

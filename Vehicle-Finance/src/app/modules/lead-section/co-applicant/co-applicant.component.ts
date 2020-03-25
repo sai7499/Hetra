@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
@@ -14,6 +16,8 @@ export class CoApplicantComponent implements OnInit {
   labels: any = {};
   coApplicantForm: FormGroup;
 
+  selectedApplicant: number;
+
   applicantType: string = 'individual'
 
   selectApplicantType(event: any) {
@@ -23,18 +27,31 @@ export class CoApplicantComponent implements OnInit {
   constructor(
     private labelsData: LabelsService, 
     private lovData: LovDataService, 
-    private leadStoreService: LeadStoreService) {
+    private leadStoreService: LeadStoreService,
+    private activatedRoute: ActivatedRoute
+    ) {
     
   }
 
   ngOnInit() {
+    
     this.initForm();
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res')
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values')
-      this.setFormValue();
+      // this.setFormValue();
     });
+    this.activatedRoute.params.subscribe((value) => {
+      console.log('params value', value);
+      const applicantId = value ? value.id : null;
+      if (applicantId !== null && applicantId !== undefined) {
+        this.selectedApplicant = Number(applicantId);
+        const selectedApplicant: Temp = this.leadStoreService.getSelectedApplicant(Number(applicantId));
+        this.setFormValue(selectedApplicant);
+        console.log('selectedApplicant', selectedApplicant);
+      }
+    })
   }
 
   initForm() {
@@ -90,47 +107,47 @@ export class CoApplicantComponent implements OnInit {
       })
   }
 
-  // setFormValue() {
-  //   const applicantValue = this.leadStoreService.getCoApplicantDetails() || {}
-  //   this.coApplicantForm.patchValue({
-  //     entity: applicantValue.entity || '',
-  //     first_name: applicantValue.firstName || '',
-  //     middle_name: applicantValue.middleName || '',
-  //     last_name: applicantValue.lastName || '',
-  //     company_name1: applicantValue.companyName1 || '',
-  //     company_name2: applicantValue.companyName2 || '',
-  //     company_name3: applicantValue.companyName3 || '',
-  //     mobile: applicantValue.mobile || '',
-  //     date_of_birth: applicantValue.dateOfBirth || '',
-  //     date_of_incorporation: applicantValue.dateOfIncorporation || '',
-  //     identity_type: applicantValue.identityType || '',
-  //     identity_number: applicantValue.identityNumber || '',
-  //     identity_copy: applicantValue.identityCopy || '',
-  //     address1: applicantValue.permanentAddress.address1 || '',
-  //     address2: applicantValue.permanentAddress.address2 || '',
-  //     address3: applicantValue.permanentAddress.address3 || '',
-  //     permanent_address_city: applicantValue.permanentAddress.city || '',
-  //     permanent_address_district: applicantValue.permanentAddress.district || '',
-  //     permanent_address_state: applicantValue.permanentAddress.state || '',
-  //     permanent_address_country: applicantValue.permanentAddress.country || '',
-  //     line1: applicantValue.currentAddress.address1 || '',
-  //     line2: applicantValue.currentAddress.address2 || '',
-  //     line3: applicantValue.currentAddress.address3 || '',
-  //     current_address_city: applicantValue.currentAddress.city || '',
-  //     current_address_district: applicantValue.currentAddress.district || '',
-  //     current_address_state: applicantValue.currentAddress.state || '',
-  //     current_address_country: applicantValue.currentAddress.country || '',
-  //     registered_line1: applicantValue.registeredAddress.address1 || '',
-  //     registered_line2: applicantValue.registeredAddress.address2 || '',
-  //     registered_line3: applicantValue.registeredAddress.address3 || '',
-  //     registered_address_city: applicantValue.registeredAddress.city || '',
-  //     registered_address_district: applicantValue.registeredAddress.district || '',
-  //     registered_address_state: applicantValue.registeredAddress.state || '',
-  //     registered_address_country: applicantValue.registeredAddress.country || '',
-      
-  //   });
-  //   console.log('applicantValue', applicantValue);
-  // }
+  setFormValue(applicantValue: Temp) {
+    if (!applicantValue) {
+      return;
+    }
+    this.coApplicantForm.patchValue({
+      entity: applicantValue.entity || '',
+      first_name: applicantValue.first_name || '',
+      middle_name: applicantValue.middle_name || '',
+      last_name: applicantValue.last_name || '',
+      company_name1: applicantValue.company_name1 || '',
+      company_name2: applicantValue.company_name2 || '',
+      company_name3: applicantValue.company_name3 || '',
+      mobile: applicantValue.mobile || '',
+      date_of_birth: applicantValue.date_of_birth || '',
+      date_of_incorporation: applicantValue.date_of_incorporation || '',
+      identity_type: applicantValue.identity_type || '',
+      identity_number: applicantValue.identity_number || '',
+      identity_copy: applicantValue.identity_copy || '',
+      address1: applicantValue.address1 || '',
+      address2: applicantValue.address2 || '',
+      address3: applicantValue.address3 || '',
+      permanent_address_city: applicantValue.permanent_address_city || '',
+      permanent_address_district: applicantValue.permanent_address_district || '',
+      permanent_address_state: applicantValue.permanent_address_state || '',
+      permanent_address_country: applicantValue.permanent_address_country || '',
+      line1: applicantValue.line1|| '',
+      line2: applicantValue.line2 || '',
+      line3: applicantValue.line3 || '',
+      current_address_city: applicantValue.current_address_city || '',
+      current_address_district: applicantValue.current_address_district || '',
+      current_address_state: applicantValue.current_address_state || '',
+      current_address_country: applicantValue.current_address_country || '',
+      registered_line1: applicantValue.registered_line1 || '',
+      registered_line2: applicantValue.registered_line2|| '',
+      registered_line3: applicantValue.registered_line3 || '',
+      registered_address_city: applicantValue.registered_address_city || '',
+      registered_address_district: applicantValue.registered_address_district || '',
+      registered_address_state: applicantValue.registered_address_state || '',
+      registered_address_country: applicantValue.registered_address_country || '',
+    });
+  }
 
   onNext() {
     // this.leadSectionService.setCurrentPage(1);
@@ -141,8 +158,56 @@ export class CoApplicantComponent implements OnInit {
     const coApplicantModel = {...formValue};
     console.log('CoApplicant form', coApplicantModel);
 
+    if (this.selectedApplicant !== undefined) {
+      this.leadStoreService.updateApplicant(this.selectedApplicant, coApplicantModel);
+      return;
+    }
+
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
     // this.router.navigate(['/pages/lead-section/product-details']);
   }
 
+}
+
+export interface Temp {
+  entity?: string;
+first_name?: string;
+middle_name?: string;
+last_name?: string
+company_name1?: string;
+company_name2?: string;
+company_name3?: string;
+mobile?: string;
+date_of_birth?: string;
+date_of_incorporation?: string;
+identity_type?: string;
+identity_number?: string;
+identity_copy?: string;
+address1?: string;
+address2?: string;
+address3?: string;
+pincode?: string;
+permanent_address_city?: string;
+permanent_address_district?: string;
+permanent_address_state?: string;
+permanent_address_country?: string;
+landline?: string;
+line1?: string;
+line2?: string;
+line3?: string;
+current_pincode?: string;
+current_address_city?: string;
+current_address_district?: string;
+current_address_state?: string;
+current_address_country?: string;
+current_landline?: string;
+registered_line1?: string;
+registered_line2?: string;
+registered_line3?: string;
+registered_pincode?: string;
+registered_address_city?: string;
+registered_address_district?: string;
+registered_address_state?: string;
+registered_address_country?: string;
+reg_mobile?: string;
 }
