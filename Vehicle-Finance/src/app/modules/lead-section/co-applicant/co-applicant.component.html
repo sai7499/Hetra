@@ -1,377 +1,313 @@
 <main class="mar-top90">
     <div class="container">
-        <h3 class="margin_zero">{{labels?.addApplicantTitle}}</h3>
-        <form [formGroup]="coApplicantForm">
-            <div class="content">
-                <div class="row">
+        <h3 class="margin_zero">{{labels.addApplicantTitle}}</h3>
+        <div class="content">
+            <div class="row">
+                <!-- <select id="select_main_button_leadco" class="dropdown_individual" name="" (change)="selectApplicantType($event)"> -->
+                <!-- <select id="select_main_button_leadco" class="dropdown_individual" name="" [(ngModel)] = "applicant_type"> -->
+                    <!-- <option value="">-- select one -- </option>
+                    <option value="individual"> Individual </option>
+                    <option value="non-individual"> Non-Individual </option>
+                </select> -->
+                <div id="individual_section_leadco">
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Vechical Type">{{labels.entity}}</label>
+                            <select class="form-control dropdown_individual" id="select_main_button_leadco" (change)="selectApplicantType($event)">
+                                <option value="">-- select one -- </option>
+                            <option value="individual"> Individual </option>
+                            <option value="non-individual"> Non-Individual </option>
+                        </select>
+                        </div>
+                    </div>
 
-                    <div id="individual_section_leadco">
-                        <div class="row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="Vechical Type">{{labels?.entity}}</label>
-                                <!-- <select class="form-control dropdown_individual" id="select_main_button_leadco"
-                                    (change)="selectApplicantType($event)">
-                                    <option value="">-- select one -- </option>
-                                    <option value="individual"> Individual </option>
-                                    <option value="non-individual"> Non-Individual </option>
-                                </select> -->
-                                <app-vf-custom-select [values]="values?.entity" formControlName="entity">
-                                </app-vf-custom-select>
+                    <div class="row individual_section_leadco" *ngIf="applicantType === 'individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="first_name">{{labels.firstName}}</label>
+                            <input type="text" class="form-control" id="first_name">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="middle_name">{{labels.middleName}}</label>
+                            <input type="text" class="form-control" id="middle_name">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="last_name">{{labels.lastName}}</label>
+                            <input type="text" class="form-control" id="last_name">
+                        </div>
+                    </div>
+
+                    <div class="row non_individual_section_leadco" *ngIf="applicantType ==='non-individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="company_name1">{{labels.companyName1}}</label>
+                            <input type="text" class="form-control" id="company_name1">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="company_name2">{{labels.companyName2}}</label>
+                            <input type="text" class="form-control" id="company_name2">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="company_name3">{{labels.companyName3}}</label>
+                            <input type="text" class="form-control" id="company_name3">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">{{labels.mobile}}</label>
+                            <input type="text" class="form-control" id="passport">
+                        </div>
+                        <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">UCIC No</label>
+                            <input type="text" class="form-control" id="passport">
+                        </div> -->
+                
+                    <div class="row" *ngIf="applicantType === 'individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make" >{{labels.dateOfBirth}}</label>
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                </span>
+                                <input type="text" class="form-control" id="date">
                             </div>
                         </div>
-
-                        <div class="row individual_section_leadco" *ngIf="applicantType === 'individual'">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="first_name">{{labels?.firstName}}</label>
-                                <input type="text" class="form-control" id="first_name" formControlName="first_name">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="middle_name">{{labels?.middleName}}</label>
-                                <input type="text" class="form-control" id="middle_name" formControlName="middle_name">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="last_name">{{labels?.lastName}}</label>
-                                <input type="text" class="form-control" id="last_name" formControlName="last_name">
+                    </div>
+                    <div class="row" *ngIf="applicantType ==='non-individual'">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">{{labesl.dateOfIncorporation}}</label>
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                </span>
+                                <input type="date" class="form-control" id="date">
                             </div>
                         </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
 
-                        <div class="row non_individual_section_leadco" *ngIf="applicantType ==='non-individual'">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="company_name1">{{labels?.companyName1}}</label>
-                                <input type="text" class="form-control" id="company_name1"
-                                    formControlName="company_name1">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="company_name2">{{labels?.companyName2}}</label>
-                                <input type="text" class="form-control" id="company_name2"
-                                    formControlName="company_name2">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="company_name3">{{labels?.companyName3}}</label>
-                                <input type="text" class="form-control" id="company_name3"
-                                    formControlName="company_name3">
-                            </div>
+                            <label for="Identity Type">{{labels.identityType}}</label>
+                            <select class="form-control">
+                                <option value="Aadhar">Aadhar</option>
+                                <option value="Pan">Pan</option>
+                                <option value="Driving licence">Driving licence</option>
+                            </select>
                         </div>
-
-                        <div class="row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.mobile}}</label>
-                                <input type="text" class="form-control" id="mobile" formControlName="mobile">
-                            </div>
-
-                            <div class="row" *ngIf="applicantType === 'individual'">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="date_of_birth">{{labels?.dateOfBirth}}</label>
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                        </span>
-                                        <input type="text" class="form-control" id="date_of_birth"
-                                            formControlName="date_of_birth">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" *ngIf="applicantType ==='non-individual'">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="date_of_incorporation">{{labels?.dateOfIncorporation}}</label>
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                        </span>
-                                        <input type="date" class="form-control" id="date_of_incorporation"
-                                            formControlName="date_of_incorporation">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="Asset Make">{{labels.identityNumber}}</label>
+                            <input type="text" class="form-control" id="passport">
                         </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-
-                                <label for="Identity Type">{{labels?.identityType}}</label>
-                                <!-- <select class="form-control">
-                                    <option value="Aadhar">Aadhar</option>
-                                    <option value="Pan">Pan</option>
-                                    <option value="Driving licence">Driving licence</option>
-                                </select> -->
-                                <app-vf-custom-select [values]="values?.identityType" formControlName="identity_type">
-                                </app-vf-custom-select>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="identity_number">{{labels?.identityNumber}}</label>
-                                <input type="text" class="form-control" id="identity_number"
-                                    formControlName="identity_number">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="identity_copy">{{labels?.uploadIdentity}}</label>
-                                <input id="identity_copy" type="file" multiple="" formControlName="identity_copy">
-                                <div id="identity_preview"></div>
-                            </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="identity_copy">{{labels.uploadIdentity}}</label>
+                            <input id="identity_copy" type="file" multiple="">
+                            <div id="identity_preview"></div>
                         </div>
-                        <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
+                    </div>
+                    <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn" >
 
-                            <div id="individual_section_address" class="individual_section_leadco"
-                                *ngIf="applicantType === 'individual'">
-                                <!-- <h4 class="title">individual</h4> -->
+                        <div id="individual_section_address" class="individual_section_leadco" *ngIf="applicantType === 'individual'">
+                     <!-- <h4 class="title">individual</h4> -->
                                 <h3 class="title">Permanent Address</h3>
                                 <div class="row">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="address1">{{labels?.address1}}</label>
-                                        <input type="text" class="form-control" id="address1"
-                                            formControlName="address1">
+                                        <label for="pan">{{labels.address1}}</label>
+                                        <input type="text" class="form-control" id="address1">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="address2">{{labels?.address2}}</label>
-                                        <input type="text" class="form-control" id="address2"
-                                            formControlName="address2">
+                                        <label for="passport">{{labels.address2}}</label>
+                                        <input type="text" class="form-control" id="address2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="address3">{{labels?.address3}}</label>
-                                        <input type="text" class="form-control" id="address3"
-                                            formControlName="address3">
+                                        <label for="passport">{{labels.address3}}</label>
+                                        <input type="text" class="form-control" id="address3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="pincode">{{labels?.permanentAddressPINCode}}</label>
-                                        <input type="text" class="form-control" id="pincode" formControlName="pincode">
+                                        <label for="pincode">{{labels.permanentAddressPINCode}}</label>
+                                        <input type="text" class="form-control" id="pincode">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="permanent_address_city">{{labels?.permanentAddressCity}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_city" formControlName="permanent_address_city">
-                                            <option>City 1</option>
-                                            <option>City 2</option>
-                                            <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressCity"
-                                            formControlName="permanent_address_city">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.permanentAddressCity}}</label>
+                                        <select class="form-control" id="permanent_address_city">
+													<option>City 1</option>
+													<option>City 2</option>
+													<option>City 3</option>
+												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label
-                                            for="permanent_address_district">{{labels?.permanentAddressDistrict}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_district" formControlName="permanent_address_district">
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressDistrict"
-                                            formControlName="permanent_address_district">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.permanentAddressDistrict}}</label>
+                                        <select class="form-control" id="permanent_address_district">
+													<option>District 1</option>
+													<option>District 2</option>
+													<option>District 3</option>
+												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="permanent_address_state">{{labels?.permanentAddressState}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_state" formControlName="permanent_address_state">
-                                            <option>State 1</option>
-                                            <option>State 2</option>
-                                            <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressState"
-                                            formControlName="permanent_address_state">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.permanentAddressState}}</label>
+                                        <select class="form-control" id="permanent_address_state">
+													<option>State 1</option>
+													<option>State 2</option>
+													<option>State 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="passport">{{labels.permanentAddressCountry}}</label>
+                                        <select class="form-control" id="permanent_address_country">
+													<option>Country 1</option>
+													<option>Country 2</option>
+													<option>Country 3</option>
+												</select>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="landline">{{labels.permanentAddressLandline}}</label>
+                                        <input type="text" class="form-control" id="landline">
+                                    </div>
 
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label
-                                            for="permanent_address_country">{{labels?.permanentAddressCountry}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_country"
-                                            formControlName="permanent_address_country">
-                                            <option>Country 1</option>
-                                            <option>Country 2</option>
-                                            <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressCountry"
-                                            formControlName="permanent_address_country">
-                                        </app-vf-custom-select>
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="landline">{{labels?.permanentAddressLandline}}</label>
-                                        <input type="text" class="form-control" id="landline"
-                                            formControlName="landline">
-                                    </div>
 
                                 </div>
-                                <div class="btn-sec clear-both row">
-                                    <div class="col-sm-5">
-                                        <h3 class="title">Current Address</h3>
-                                    </div>
-                                    <div class="col-sm-7 text-right">
-                                        <input type="checkbox" id="address_section_checkbox"> <span
-                                            id="address_section_checkbox_text">Is it same as your permanent Address?
-                                        </span>
-                                    </div>
+                            <div class="btn-sec clear-both row">
+                                <div class="col-sm-5">
+                                    <h3 class="title">Current Address</h3>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="line1">{{labels?.line1}}</label>
-                                        <input type="text" class="form-control" id="line1" formControlName="line1">
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="line2">{{labels?.line2}}</label>
-                                        <input type="text" class="form-control" id="line2" formControlName="line2">
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="line3">{{labels?.line3}}</label>
-                                        <input type="text" class="form-control" id="line3" formControlName="line3">
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_pincode">{{labels?.currentAddressPINCode}}</label>
-                                        <input type="text" class="form-control" id="current_pincode"
-                                            formControlName="current_pincode">
-                                    </div>
-                                    <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_city">{{labels?.currentAddressCity}}</label>
-                                        <!-- <select class="form-control" id="current_address_city">
-                                            <option>City 1</option>
-                                            <option>City 2</option>
-                                            <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressCity"
-                                            formControlName="current_address_city">
-                                        </app-vf-custom-select>
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_district">{{labels?.currentAddressDistrict}}</label>
-                                        <!-- <select class="form-control" id="current_address_district">
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressDistrict"
-                                            formControlName="current_address_district">
-                                        </app-vf-custom-select>
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_state">{{labels?.currentAddressState}}</label>
-                                        <!-- <select class="form-control" id="current_address_state">
-                                            <option>State 1</option>
-                                            <option>State 2</option>
-                                            <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressState"
-                                            formControlName="current_address_state">
-                                        </app-vf-custom-select>
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_country">{{labels?.currentAddressCountry}}</label>
-                                        <!-- <select class="form-control" id="current_address_country">
-                                            <option>Country 1</option>
-                                            <option>Country 2</option>
-                                            <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressCountry"
-                                            formControlName="current_address_country">
-                                        </app-vf-custom-select>
-                                    </div>
+                                <div class="col-sm-7 text-right">
+                                    <input type="checkbox" id="address_section_checkbox"> <span id="address_section_checkbox_text">Is it same as your permanent Address? </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="pan">{{labels.line1}}</label>
+                                    <input type="text" class="form-control" id="line1">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">{{labels.line2}}</label>
+                                    <input type="text" class="form-control" id="line2">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">{{labels.line3}}</label>
+                                    <input type="text" class="form-control" id="line3">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="current_pincode">{{labels.currentAddressPINCode}}</label>
+                                    <input type="text" class="form-control" id="current_pincode">
+                                </div>
+                                <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">{{labels.currentAddressCity}}</label>
+                                    <select class="form-control" id="current_address_city">
+                                                <option>City 1</option>
+                                                <option>City 2</option>
+                                                <option>City 3</option>
+                                            </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">{{labels.currentAddressDistrict}}</label>
+                                    <select class="form-control" id="current_address_district">
+                                                <option>District 1</option>
+                                                <option>District 2</option>
+                                                <option>District 3</option>
+                                            </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">{{labels.currentAddressState}}</label>
+                                    <select class="form-control" id="current_address_state">
+                                                <option>State 1</option>
+                                                <option>State 2</option>
+                                                <option>State 3</option>
+                                            </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport">{{labels.currentAddressCountry}}</label>
+                                    <select class="form-control" id="current_address_country">
+                                                <option>Country 1</option>
+                                                <option>Country 2</option>
+                                                <option>Country 3</option>
+                                            </select>
+                                </div>
 
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label
-                                            for="current_landline">{{labels?.registeredAddressLandlineNumber}}</label>
-                                        <input type="text" class="form-control" id="current_landline"
-                                            formControlName="current_landline">
-                                    </div>
-
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="current_landline">{{labels.registeredAddressLandlineNumber}}</label>
+                                    <input type="text" class="form-control" id="current_landline">
                                 </div>
 
                             </div>
 
-                            <div id="non_individual_section_address" class="non_individual_section_leadco"
-                                *ngIf="applicantType ==='non-individual'">
+                        </div>
+
+                        <div id="non_individual_section_address" class="non_individual_section_leadco" *ngIf="applicantType ==='non-individual'">
                                 <!-- <h4 class="title">Non-individual</h4>-->
                                 <h3 class="title">Registered Address</h3>
                                 <div class="row">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line1">{{labels?.line1}}</label>
-                                        <input type="text" class="form-control" id="registered_line1"
-                                            formControlName="registered_line1">
+                                        <label for="pan">{{labels.line1}}</label>
+                                        <input type="text" class="form-control" id="line1">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line2">{{labels?.line2}}</label>
-                                        <input type="text" class="form-control" id="registered_line2"
-                                            formControlName="registered_line2">
+                                        <label for="passport">{{labels.line2}}</label>
+                                        <input type="text" class="form-control" id="line2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line3">{{labels?.line3}}</label>
-                                        <input type="text" class="form-control" id="registered_line3"
-                                            formControlName="registered_line3">
+                                        <label for="passport">{{labels.line3}}</label>
+                                        <input type="text" class="form-control" id="line3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_pincode">{{labels?.registeredAddressPINCode}}</label>
-                                        <input type="text" class="form-control" id="registered_pincode"
-                                            formControlName="registered_pincode">
+                                        <label for="passport">{{labels.registeredAddressPINCode}}</label>
+                                        <input type="text" class="form-control" id="line3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_address_city">{{labels?.registeredAddressCity}}</label>
-                                        <!-- <select class="form-control" id="registered_address_city">
-                                            <option>City 1</option>
-                                            <option>City 2</option>
-                                            <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressCity"
-                                            formControlName="registered_address_city">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.registeredAddressCity}}</label>
+                                        <select class="form-control" id="current_address_city">
+													<option>City 1</option>
+													<option>City 2</option>
+													<option>City 3</option>
+												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label
-                                            for="current_address_district">{{labels?.registeredAddressDistrict}}</label>
-                                        <!-- <select class="form-control" id="current_address_district">
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressDistrict"
-                                            formControlName="current_address_district">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.registeredAddressDistrict}}</label>
+                                        <select class="form-control" id="current_address_district">
+													<option>District 1</option>
+													<option>District 2</option>
+													<option>District 3</option>
+												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_state">{{labels?.registeredAddressState}}</label>
-                                        <!-- <select class="form-control" id="current_address_state">
-                                            <option>State 1</option>
-                                            <option>State 2</option>
-                                            <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressState"
-                                            formControlName="current_address_state">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.registeredAddressState}}</label>
+                                        <select class="form-control" id="current_address_state">
+													<option>State 1</option>
+													<option>State 2</option>
+													<option>State 3</option>
+												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label
-                                            for="current_address_country">{{labels?.registeredAddressCountry}}</label>
-                                        <!-- <select class="form-control" id="current_address_country">
-                                            <option>Country 1</option>
-                                            <option>Country 2</option>
-                                            <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressCountry"
-                                            formControlName="current_address_country">
-                                        </app-vf-custom-select>
+                                        <label for="passport">{{labels.registeredAddressCountry}}</label>
+                                        <select class="form-control" id="current_address_country">
+													<option>Country 1</option>
+													<option>Country 2</option>
+													<option>Country 3</option>
+												</select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="reg_mobile">{{labels?.landlineNumber}}</label>
-                                        <input type="number" class="form-control" id="reg_mobile" formControlName="reg_mobile">
+                                        <label for="reg_mobile">{{registeredAddressLandlineNumber}}</label>
+                                        <input type="number" class="form-control" id="reg_mobile">
                                     </div>
 
                                 </div>
                             </div>
 
+                    </div>
+                    
+                    <div class="btn-sec clear-both">
+                        <div class="col-sm-5">
+
                         </div>
+                        <div class="col-sm-7 text-right">
+                            <button class="btn btn-primary mar-right8 " type="button" [routerLink]="['../applicant-details']"> <a class="back_color" >Back</a></button>
+                            <button type="button" class="btn btn-primary " data-toggle="modal" [routerLink]="['../loan-details']" data-target="#myModal"><a class="back_color" >Save</a> </button>
 
-                        <div class="btn-sec clear-both">
-                            <div class="col-sm-5">
-
-                            </div>
-                            <div class="col-sm-7 text-right">
-                                <button class="btn btn-primary mar-right8 " type="button"
-                                    [routerLink]="['../applicant-details']"> <a class="back_color">Back</a></button>
-                                <button type="button" (click)="onFormSubmit()" class="btn btn-primary " data-toggle="modal"
-                                    [routerLink]="['../loan-details']" data-target="#myModal"><a
-                                        class="back_color">Save</a>
-                                </button>
-
-                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </form>
+           
+        </div>
     </div>
 
 
@@ -384,3 +320,5 @@
         <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
     </div>
 </footer>
+
+

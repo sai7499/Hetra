@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="btn-sec clear-both row">
                     <div class="col-sm-5">
-                        <h4 class="title">{{labels?.applicantDetailsTitle}}</h4>
+                        <h4 class="title">{{labels.applicantDetailsTitle}}</h4>
                     </div>
                     <div class="col-sm-7 text-right">
                         <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
@@ -26,12 +26,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let applicant of applicantDetails">
+                                <tr>
                                     <td>55464</td>
-                                    <td><a href="#">{{applicant.first_name}}</a></td>
-                                    <td>{{applicant.mobile}}</td>
-                                    <td>{{applicant.date_of_birth}}</td>
+                                    <td><a href="#">Chandler Bing</a></td>
+                                    <td>7894561230</td>
+                                    <td>09-08-1967</td>
                                     <td>Applicant</td>
+                                    <td onclick="co_applicant();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td><a href="#">Monica Geller</a></td>
+                                    <td>7894561230</td>
+                                    <td>09-08-1967</td>
+                                    <td>Co-Applicant</td>
+                                    <td onclick="co_applicant();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>97912</td>
+                                    <td><a href="#">Joey Tribbiani</a></td>
+                                    <td>7894561230</td>
+                                    <td>09-08-1967</td>
+                                    <td>Co-Applicant</td>
                                     <td onclick="co_applicant();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
                                 </tr>
 
