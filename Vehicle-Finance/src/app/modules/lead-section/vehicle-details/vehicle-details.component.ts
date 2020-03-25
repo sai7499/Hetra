@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { VehicleDetailService} from '../services/vehicle-detail.service';
+import { VehicleDetailService} from  '../services/vehicle-detail.service';
 import { LovDataService } from '@services/lov-data.service';
 
 import { LabelsService } from 'src/app/services/labels.service';
@@ -23,20 +23,20 @@ export class VehicleDetailComponent implements OnInit {
     public labels = [];
     public errorMsg;
     public getAllFieldLabel;
-    public vehicleType: any = [ 'Open', 'Tipper', 'Trailer', 'Goods', 'Bus', 'Passenger Vehicle', 'ODC' ];
+    public vehicleType:any = [ 'Open', 'Tipper', 'Trailer', 'Goods', 'Bus', 'Passenger Vehicle', 'ODC' ];
     public vechicalRegion: any = ['TN', 'AP'];
     public assetMake: any = [ 'Tata Motors', 'Eicher'];
     public assetModel: any = ['Asset-Model-1', 'Asset-Model-2', 'Asset-Model-3'];
     public assetBodyType: any = ['Asset-Model-1', 'Asset-Model-2', 'Asset-Model-3'];
-    public assetVariant: any = ['Asset-variant-1', 'Asset-variant-2', 'Asset-variant-3'];
-    public assetSubVariant: any = ['Sub Variant 1', 'Sub Variant 2', 'Sub Variant 3'];
-    public vechicalUsage: any = ['Yellow Board', 'White Board'];
-    public vechicleCategory: any = ['CAT 1', 'CAT 2', 'CAT 3'];
-    public orpFunding: any = ['Yes', 'No'];
-    public pac: any = ['Yes', 'No'];
-    public vas: any = ['Yes', 'No'];
-    public emiProtect: any = ['Yes', 'No'];
-    public fastTag: any = ['Yes', 'No'];
+    public assetVariant:any = ['Asset-variant-1', 'Asset-variant-2', 'Asset-variant-3'];
+    public assetSubVariant:any = ['Sub Variant 1', 'Sub Variant 2', 'Sub Variant 3'];
+    public vechicalUsage:any = ['Yellow Board', 'White Board'];
+    public vechicleCategory:any = ['CAT 1', 'CAT 2', 'CAT 3'];
+    public orpFunding:any = ['Yes', 'No'];
+    public pac:any = ['Yes', 'No'];
+    public vas:any = ['Yes', 'No'];
+    public emiProtect:any = ['Yes', 'No'];
+    public fastTag:any = ['Yes', 'No'];
     public permitType: any = ['National', 'State', 'Others'];
     constructor(
       private vehicleDetailService: VehicleDetailService,
@@ -44,8 +44,8 @@ export class VehicleDetailComponent implements OnInit {
       private lovDataService: LovDataService,
       private router: Router,
       private leadStoreService: LeadStoreService ) { }
-
-
+  
+      
     ngOnInit() {
       this.initForm();
       this.getAllFieldLabel = this.vehicleDetailService.getVehicleDetailLabels()
