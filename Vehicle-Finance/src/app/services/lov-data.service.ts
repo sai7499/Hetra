@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LovDataService {
-  private dataUrl = 'assets/vehicle-details-data/vehicleDataLov.json';
+  private dataUrl = 'assets/jsonData/lov.json';
 
   constructor( private http: HttpClient) { }
  getLovData(): Observable<any> {

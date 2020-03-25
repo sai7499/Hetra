@@ -5,30 +5,34 @@
             <div class="container">
                 <div class="btn-sec clear-both row">
                     <div class="col-sm-5">
-                        <h4 class="title">Loan Details</h4>
+                        <h4 class="title"> {{ label.loanDetailsTitle }} </h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="customer_category">Types of Loan</label>
+                        <label for="customer_category"> {{ label.customerCategory }} </label>
                         <select class="form-control mandatory" id="customer_category">
-                            <option value="Topup">Topup</option>
+                            <option value=""> -- Select One --</option>
+                            <option *ngFor ="let cCategory of lov.typesOfLoan" value="{{cCategory.key}}">{{cCategory.value}}</option>
+                            <!-- <option value="Topup">Topup</option>
                             <option value="Tyre loan">Tyre loan</option>
                             <option value="Saathi loan">Saathi loan</option>
-                            <option value="FC loan">FC loan</option>
+                            <option value="FC loan">FC loan</option> -->
                         </select>
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="requested_amount">Requested Amount</label>
+                        <label for="requested_amount"> {{ label.requestedAmount }} </label>
                         <input type="text" class="form-control mandatory" id="requested_amount"
                             placeholder="Requested Amount" name="requested_amount">
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="loan_tenor">Requested Tenor</label>
+                        <label for="loan_tenor"> {{ label.requestedTenor }} </label>
                         <select class="form-control mandatory" id="loan_tenor">
-                            <option value="12">12</option>
+                            <option value=""> -- Select One --</option>
+                            <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
+                            <!-- <option value="12">12</option>
                             <option value="18">18</option>
                             <option value="24">24</option>
                             <option value="30">30</option>
@@ -36,7 +40,7 @@
                             <option value="42">42</option>
                             <option value="48">48</option>
                             <option value="54">54</option>
-                            <option value="60">60</option>
+                            <option value="60">60</option> -->
                         </select>
 
                     </div>

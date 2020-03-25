@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
-
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { Lead } from '@model/lead.model';
 

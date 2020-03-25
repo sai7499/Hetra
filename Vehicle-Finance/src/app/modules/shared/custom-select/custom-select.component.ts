@@ -42,7 +42,11 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
   }
 
   ngOnInit() {
-      this.selectedOption = this.selectedOption || this.defaultOption.key;
+    this.lovDataService.getLovData().subscribe((res: any) => {
+      this.selectedOption = res[0];
+      console.log('this.selectedOption', this.selectedOption);
+    });
+    this.selectedOption = this.selectedOption || this.defaultOption.key;
   }
 
   ngOnChanges() {
