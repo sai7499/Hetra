@@ -14,7 +14,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 })
 export class SourcingDetailsComponent implements OnInit {
   values: any = [];
-   public labels: any;
+  public labels: any = {};
   sourcingDetailsForm: FormGroup;
 
 
@@ -29,6 +29,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.initForm();
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].sourcingDetails[0];
+      this.values.loanAccountBranch = res[0].leadCreation[0].loanAccountBranch;
       this.setFormValue();
     });
   }
@@ -66,7 +67,10 @@ export class SourcingDetailsComponent implements OnInit {
       sourcingCode: sourcingValue.sourcingCode || '',
       spokeCodeLocation: sourcingValue.spokeCodeLocation || ''
     });
-    console.log('sourcing value', this.leadStoreService.getSourcingDetails());
+    const leadData = this.leadStoreService.getLeadCreation() || {};
+    this.sourcingDetailsForm.patchValue({
+      loanAccountBranch: leadData.loanAccountBranch || ''
+    });
   }
 
   onNext() {
