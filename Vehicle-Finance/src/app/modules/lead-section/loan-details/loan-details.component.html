@@ -1,5 +1,5 @@
 <div class="content">
-    <form class="multisteps-form__form">
+    <form class="multisteps-form__form" [formGroup]="loanDetailsForm">
 
         <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
             <div class="container">
@@ -10,8 +10,8 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="customer_category"> {{ label.customerCategory }} </label>
-                        <select class="form-control mandatory" id="customer_category">
+                        <label for="customer_category"> {{ label.customerSegment }} </label>
+                        <select formControlName="customerSegment" class="form-control mandatory" id="customer_category">
                             <option value=""> -- Select One --</option>
                             <option *ngFor ="let cCategory of lov.typesOfLoan" value="{{cCategory.key}}">{{cCategory.value}}</option>
                             <!-- <option value="Topup">Topup</option>
@@ -23,13 +23,13 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="requested_amount"> {{ label.requestedAmount }} </label>
-                        <input type="text" class="form-control mandatory" id="requested_amount"
+                        <input type="text" formControlName="requestedAmount" class="form-control mandatory" id="requested_amount"
                             placeholder="Requested Amount" name="requested_amount">
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="loan_tenor"> {{ label.requestedTenor }} </label>
-                        <select class="form-control mandatory" id="loan_tenor">
+                        <select formControlName="requestedTenor" class="form-control mandatory" id="loan_tenor">
                             <option value=""> -- Select One --</option>
                             <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
                             <!-- <option value="12">12</option>
@@ -54,7 +54,7 @@
                             <button class="btn btn-primary js-btn-prev cus-m-1" type="button"
                                 [routerLink]="['../applicant-details']"> Back </button>
                             <button type="button" class="btn btn-primary cus-m-1" data-toggle="modal"
-                                data-target="#myModal" (click)="openLOSPopup(myModal)"> Save </button>
+                                data-target="#myModal" (click)="onFormSubmit()"> Save </button>
 
                         </div>
                     </div>
