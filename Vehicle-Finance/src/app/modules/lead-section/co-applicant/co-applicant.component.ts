@@ -33,7 +33,7 @@ export class CoApplicantComponent implements OnInit {
       console.log(res, 'res')
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values')
-      this.setFormValue();
+      // this.setFormValue();
     });
   }
 
