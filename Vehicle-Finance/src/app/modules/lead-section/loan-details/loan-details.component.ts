@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 import { Router } from '@angular/router';
 
 import { LeadSectionService } from 'src/app/services/lead-section.service';
+import { FormGroup } from '@angular/forms';
+import { LabelsService } from 'src/app/services/labels.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -12,12 +14,14 @@ export class LoanDetailsComponent implements OnInit {
   public label:any = {};
   public errorMsg;
   public lov = [];
+  loanDetailsForm: FormGroup;
 
   @ViewChild('LosModal', {static: true}) LosModal: ElementRef;
 
   constructor(private renderer: Renderer2, 
               private router: Router, 
-              private leadSectionService: LeadSectionService) { }
+              private leadSectionService: LeadSectionService,
+              private labelsData : LabelsService) { }
 
  ngOnInit() {
     this.getLabel();
@@ -45,6 +49,12 @@ export class LoanDetailsComponent implements OnInit {
         this.errorMsg = error;
       }
     );
+  }
+
+  initForm(){
+    this.loanDetailsForm = new FormGroup({
+
+    })
   }
 
   openLOSPopup(myModal) {

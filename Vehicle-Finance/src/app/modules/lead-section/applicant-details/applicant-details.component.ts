@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
+import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -9,26 +10,34 @@ import { LabelsService } from 'src/app/services/labels.service';
 })
 export class ApplicantDetailsComponent implements OnInit {
 
-  labels:any;
+  labels: any;
+  applicantDetails = [];
 
-  constructor(private route: Router , private labelsData:LabelsService) { }
+  constructor(
+    private route: Router,
+    private labelsData: LabelsService,
+    private leadStoreService: LeadStoreService) { }
 
   ngOnInit() {
 
     this.labelsData.getLabelsData().subscribe(
-      data =>{
+      data => {
         this.labels = data
-        // console.log(this.labels)
+        console.log('test', this.labels)
       },
-      error =>{
+      error => {
         console.log(error);
-        
-      }
-      
-    )
+      })
+    this.getData();
   }
 
-  onChange(){
+  getData() {
+    const applicants = this.leadStoreService.getCoApplicantDetails() || {}
+    console.log('applicant array', applicants)
+    this.applicantDetails.push(applicants)
+  }
+
+  onChange() {
     this.route.navigateByUrl('pages/lead-section/co-applicant')
   }
 }

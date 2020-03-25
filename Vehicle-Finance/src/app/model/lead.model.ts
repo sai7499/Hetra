@@ -92,12 +92,18 @@ export interface CoApplicant {
   firstName?: string;
   middleName?: string;
   lastName?: string;
+  companyName1? : string;
+  companyName2? : string;
+  companyName3? : string;
   mobile?: string;
   dateOfBirth?: string;
   identityType?: number;
   identityNumber?: string;
+  dateOfIncorporation?: string;
+  identityCopy?: string;
   permanentAddress?: Address;
   currentAddress?: Address;
+  registeredAddress? : Address;
 }
 
 export interface Address {

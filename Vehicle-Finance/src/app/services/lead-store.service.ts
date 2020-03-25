@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } from '../model/lead.model';
+import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails, CoApplicant } from '../model/lead.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LeadStoreService {
     leadCreation: Lead;
+    coApplicant : CoApplicant;
+    addApplicant = [];
+
+    
     constructor() {}
 
     setLeadCreation(lead: Lead) {
@@ -47,5 +51,14 @@ export class LeadStoreService {
 
     getLoanDetails() {
         return this.leadCreation.loanDetails;
+    }
+
+    setCoApplicantDetails(coApplicant){
+        this.coApplicant = coApplicant;    
+        this.addApplicant.push(this.coApplicant);   
+    }
+
+    getCoApplicantDetails(){
+        return this.addApplicant;
     }
 }
