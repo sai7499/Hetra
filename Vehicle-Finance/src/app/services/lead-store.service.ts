@@ -7,6 +7,10 @@ import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } fr
 })
 export class LeadStoreService {
     leadCreation: Lead;
+    // coApplicant : CoApplicant;
+    applicantList = [];
+
+
     constructor() {}
 
     setLeadCreation(lead: Lead) {
@@ -48,4 +52,26 @@ export class LeadStoreService {
     getLoanDetails() {
         return this.leadCreation.loanDetails;
     }
+
+    setCoApplicantDetails(coApplicant) {
+        // this.coApplicant = coApplicant;
+        this.applicantList.push(coApplicant);
+        console.log('this.addApplicant', this.applicantList);
+    }
+
+    getSelectedApplicant(index: number) {
+       return this.applicantList[index];
+    }
+
+    updateApplicant(index: number, coApplicant) {
+        this.applicantList[index] = coApplicant;
+    }
+
+    getApplicantList() {
+        return this.applicantList;
+    }
+
+    // getCoApplicantDetails(){
+    //     return this.addApplicant;
+    // }
 }
