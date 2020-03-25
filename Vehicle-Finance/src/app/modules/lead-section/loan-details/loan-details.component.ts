@@ -9,7 +9,7 @@ import { LeadSectionService } from 'src/app/services/lead-section.service';
   styleUrls: ['./loan-details.component.css']
 })
 export class LoanDetailsComponent implements OnInit {
-  public label:any = [];
+  public label:any = {};
   public errorMsg;
   public lov = [];
 
