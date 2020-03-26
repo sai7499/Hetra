@@ -16,7 +16,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 export class ProductDetailsComponent implements OnInit {
 
   values: any = [];
-  public labels: any;
+  public labels: any = {};
   productForm: FormGroup;
   constructor(
     private leadSectionService: VehicleDetailService,

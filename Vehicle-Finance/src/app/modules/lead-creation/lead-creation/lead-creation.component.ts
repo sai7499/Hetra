@@ -18,7 +18,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   test: any;
   values = [];
   lovLabels: any = [];
-  labels: any;
+  labels: any = {};
 
   constructor(
     private lovData: LovDataService,
@@ -81,6 +81,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     const formValue = this.createLeadForm.value;
     const leadModel: Lead = {...formValue};
     this.leadStoreService.setLeadCreation(leadModel);
+    const applicantModel = {
+      first_name: leadModel.firstName,
+      middle_name: leadModel.middleName,
+      last_name: leadModel.lastName,
+      mobile: leadModel.mobile
+    };
+    this.leadStoreService.setCoApplicantDetails(applicantModel);
     this.router.navigate(['/pages/lead-creation/lead-dedupe']);
   }
 

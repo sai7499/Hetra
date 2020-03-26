@@ -48,37 +48,40 @@ export interface ProductDetails {
   }
 
 export interface VehicleDetails {
-    vehicleType?: number;
-    region?: number;
-    registrationNumber?: string;
-    assetMake?: number;
-    assetModel?: number;
-    assetBodyType?: number;
-    assetVariant?: number;
-    assetSubVariant?: number;
-    monthManufacturing?: string;
-    yrManufacturing?: string;
-    ageOfAsset?: string;
-    vechicalUsage?: number;
-    vehicleCategory?: number;
-    orpFunding?: boolean;
-    oneTimeTax?: string;
-    pac?: boolean;
-    vas?: boolean;
-    emiProduct?: boolean;
-    fastTag?: boolean;
-    others?: string;
-    discount?: string;
-    finalAssetCost?: string;
-    idv?: string;
-    insuranceValidity?: string;
-    permitType?: string;
-    expiryDate?: string;
-    permitOthers?: string;
-    frsdRequired?: string;
-    frsdAmount?: string;
-    fitnessDate?: string;
-    noOfVehicle?: string;
+  vehicleType?: number;
+  region?: number;
+  registrationNumber?: string;
+  assetMake?: number;
+  assetModel?: number;
+  assetBodyType?: number;
+  assetVariant?: number;
+  assetSubVariant?: number;
+  monthManufacturing?: string;
+  yrManufacturing?: string;
+  ageOfAsset?: string;
+  vechicalUsage?: number;
+  vehicleCategory?: number;
+  orpFunding?: boolean;
+  oneTimeTax?: string;
+  pac?: boolean;
+  vas?: boolean;
+  emiProtect?: boolean;
+  fastTag?: boolean;
+  others?: string;
+  discount?: string;
+  finalAssetCost?: string;
+  idv?: string;
+  insuranceValidity?: string;
+  insuranceCopy?: string,
+  permitType?: string;
+  expiryDate?: string;
+  permitCopy?: string;
+  permitOthers?: string;
+  frsdRequired?: string;
+  frsdAmount?: string;
+  fitnessDate?: string;
+  fitnessCopy?: string;
+  noOfVehicle?: string;
   }
 
 export interface LoanDetails {
