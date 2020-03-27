@@ -1,7 +1,7 @@
-<div class="content" *ngFor = "let label of labels">
+<div class="content">
     <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm">
-        <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
-            <h4 class="title"> {{ label.title }} </h4>
+        <!-- <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn"> -->
+            <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="vechical_type"> {{ label.vechicalType }} </label>
@@ -10,7 +10,7 @@
                     </select> -->
                     <app-vf-custom-select 
                     [values]="vehicleLov?.vehicleType" 
-                    formControlName="vehicleType"></app-vf-custom-select>
+                    formControlName="vehicleType" (change)="onShow($event)"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="vechical_region"> {{ label.vechicalRegion }} </label>
@@ -18,7 +18,7 @@
                         <option *ngFor = "let vRegion of vechicalRegion" value="vRegion">{{vRegion}}</option>
                     </select> -->
                     <app-vf-custom-select 
-                    [values]="vehicleLov?.vechicalRegion" 
+                    [values]="vehicleLov?.region" 
                     formControlName="region"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
@@ -107,7 +107,7 @@
                         <option *ngFor = "let vCategory of vechicleCategory" value="vCategory"> {{vCategory}} </option>
                     </select> -->
                     <app-vf-custom-select 
-                    [values]="vehicleLov?.vehicleCategory" 
+                    [values]="vehicleLov?.vechicleCategory" 
                     formControlName="vehicleCategory"></app-vf-custom-select>
                 </div>
             </div>
@@ -149,8 +149,8 @@
                         <option *ngFor = "let emiPro of emiProtect" value="emiPro"> {{emiPro}} </option>
                     </select> -->
                     <app-vf-custom-select 
-                    [values]="vehicleLov?.emiProduct" 
-                    formControlName="emiProduct"></app-vf-custom-select>
+                    [values]="vehicleLov?.emiProtect" 
+                    formControlName="emiProtect"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                     <label for="fast_tag"> {{ label.fastTag }} </label>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="insurance_copy"> {{ label.insuranceCopy }} </label>
-                    <input id="insurance_copy" type="file" multiple>
+                    <input id="insurance_copy" formControlName="insuranceCopy" type="file" multiple>
                     <div id="insurance_preview"></div>
                 </div>
             </div>
@@ -213,7 +213,7 @@
                     <div id="permit_preview"></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="show"> 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
                     <label for="permit_others"> {{ label.permitOthers }} </label>
                     <input formControlName="permitOthers" type="text" class="form-control " id="permit_others" placeholder="Type of Other Permit" name="permit_others">
@@ -254,7 +254,7 @@
                     <button class="btn btn-primary js-btn-next"  [routerLink]="['../applicant-details']"type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
 
     </form>
 </div>

@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { VehicleDetailService} from  '../services/vehicle-detail.service';
 import { LovDataService } from '@services/lov-data.service';
-
-import { LabelsService } from 'src/app/services/labels.service';
+import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-
-
 
 @Component({
   selector: 'app-vehicle-details',
@@ -19,27 +15,13 @@ export class VehicleDetailComponent implements OnInit {
 
     vehicleForm: FormGroup;
 
-    vehicleLov: any  = {};
-    public labels = [];
+    public vehicleLov: any  = {};
+    public label: any = {};
     public errorMsg;
     public getAllFieldLabel;
-    public vehicleType:any = [ 'Open', 'Tipper', 'Trailer', 'Goods', 'Bus', 'Passenger Vehicle', 'ODC' ];
-    public vechicalRegion: any = ['TN', 'AP'];
-    public assetMake: any = [ 'Tata Motors', 'Eicher'];
-    public assetModel: any = ['Asset-Model-1', 'Asset-Model-2', 'Asset-Model-3'];
-    public assetBodyType: any = ['Asset-Model-1', 'Asset-Model-2', 'Asset-Model-3'];
-    public assetVariant:any = ['Asset-variant-1', 'Asset-variant-2', 'Asset-variant-3'];
-    public assetSubVariant:any = ['Sub Variant 1', 'Sub Variant 2', 'Sub Variant 3'];
-    public vechicalUsage:any = ['Yellow Board', 'White Board'];
-    public vechicleCategory:any = ['CAT 1', 'CAT 2', 'CAT 3'];
-    public orpFunding:any = ['Yes', 'No'];
-    public pac:any = ['Yes', 'No'];
-    public vas:any = ['Yes', 'No'];
-    public emiProtect:any = ['Yes', 'No'];
-    public fastTag:any = ['Yes', 'No'];
-    public permitType: any = ['National', 'State', 'Others'];
+    public show: boolean = false;
+    
     constructor(
-      private vehicleDetailService: VehicleDetailService,
       private labelsData: LabelsService,
       private lovDataService: LovDataService,
       private router: Router,
@@ -48,9 +30,9 @@ export class VehicleDetailComponent implements OnInit {
       
     ngOnInit() {
       this.initForm();
-      this.getAllFieldLabel = this.vehicleDetailService.getVehicleDetailLabels()
+      this.getAllFieldLabel = this.labelsData.getLabelsData()
           .subscribe( data => {
-            this.labels = data;
+            this.label = data;
           },
           error => {
             this.errorMsg = error;
@@ -81,22 +63,22 @@ export class VehicleDetailComponent implements OnInit {
       oneTimeTax: new FormControl(''),
       pac: new FormControl(''),
       vas: new FormControl(''),
-      emiProduct: new FormControl(''),
+      emiProtect: new FormControl(''),
       fastTag: new FormControl(''),
       others: new FormControl(''),
       discount: new FormControl(''),
       finalAssetCost: new FormControl(''),
       idv: new FormControl(''),
       insuranceValidity: new FormControl(''),
-      // insurance_copy: new FormControl(''),
+      insuranceCopy: new FormControl(''),
       permitType: new FormControl(''),
       expiryDate: new FormControl(''),
-      // permit_copy: new FormControl(''),
+      permitCopy: new FormControl(''),
       permitOthers: new FormControl(''),
       frsdRequired: new FormControl(''),
       frsdAmount: new FormControl(''),
       fitnessDate: new FormControl(''),
-      // fitness_copy: new FormControl(''),
+      fitnessCopy: new FormControl(''),
       noOfVehicle: new FormControl(''),
       });
     }
@@ -121,19 +103,22 @@ export class VehicleDetailComponent implements OnInit {
         oneTimeTax: vehicleModel.oneTimeTax || '',
         pac: vehicleModel.pac || '',
         vas: vehicleModel.vas || '',
-        emiProduct: vehicleModel.emiProduct || '',
+        emiProtect: vehicleModel.emiProtect || '',
         fastTag: vehicleModel.fastTag || '',
         others: vehicleModel.others || '',
         discount: vehicleModel.discount || '',
         finalAssetCost: vehicleModel.finalAssetCost || '',
         idv: vehicleModel.idv || '',
         insuranceValidity: vehicleModel.insuranceValidity || '',
+        insuranceCopy: vehicleModel.insuranceCopy || '',
         permitType: vehicleModel.permitType || '',
         expiryDate: vehicleModel.expiryDate || '',
+        permitCopy: vehicleModel.permitCopy || '',
         permitOthers: vehicleModel.permitOthers || '',
         frsdRequired: vehicleModel.frsdRequired || '',
         frsdAmount: vehicleModel.vehicleType || '',
         fitnessDate: vehicleModel.fitnessDate || '',
+        fitnessCopy: vehicleModel.permitCopy || '',
         noOfVehicle: vehicleModel.noOfVehicle || '',
       });
     }
@@ -144,4 +129,17 @@ export class VehicleDetailComponent implements OnInit {
       this.leadStoreService.setVehicleDetails(vehicleModel);
       this.router.navigate(['/pages/lead-section/applicant-details']);
     }
+
+    ngOnChanges() { }
+
+    //To show and hide lov--select "Open" in Vehicle dependency
+    onShow(event) {
+      // console.log("event ", event.target.value);
+      if (event.target.value === "1") {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    }
+
   }
