@@ -8,16 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class LabelsService {
   private labelsurl = 'assets/labels/labels.json';
+  private languageLabelsurl = 'assets/labels/labels-hindi.json';
 
-  constructor(private http: HttpClient) {
-    // console.log("iam in service label")
-   }
+  constructor(private http: HttpClient) {}
 
   getLabelsData(): Observable<any> {
-
-    // console.log(this.http.get(this.labelsurl))
-
     return this.http.get(this.labelsurl);
+  }
 
+  getLanguageLabelData(): Observable<any> {
+    return this.http.get(this.languageLabelsurl)
   }
 }
