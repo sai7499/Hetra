@@ -73,7 +73,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         // console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
         console.log(this.labels.fundingProgram);
       }    );
-    this.onChangeLanguage('English')
+    this.onChangeLanguage('English');
     this.initForm();
   }
 
@@ -82,7 +82,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       this.labelsData.getLanguageLabelData().subscribe(
         data => {
           this.labels = data[0];
-        })
+        });
     } else {
       this.labelsData.getLabelsData().subscribe(
         data => {
