@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
+
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
@@ -40,6 +41,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       businessDivision: new FormControl(''),
       productCategory: new FormControl(''),
       childLoan: new FormControl(''),
+      fundingProgram: new FormControl(''),
       schemePromotion: new FormControl(''),
       subventionApplied: new FormControl(''),
       subvention: new FormControl(''),
@@ -69,7 +71,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       data => {
         this.labels = data;
         // console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
-        // console.log(this.labels.businessDivision)
+        console.log(this.labels.fundingProgram);
       }    );
     this.initForm();
   }

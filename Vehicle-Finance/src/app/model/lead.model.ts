@@ -25,6 +25,7 @@ export interface Lead {
     productDetails?: ProductDetails;
     loanDetails?: LoanDetails;
     vehicleDetails?: VehicleDetails;
+    fundingProgram? : string;
   }
 
 export interface SourcingDetails {
