@@ -14,7 +14,7 @@ import { LabelsService } from '@services/labels.service';
 export class SourcingDdeComponent implements OnInit {
   values: any = [];
   public labels: any = {};
-  sourcingDetailsForm: FormGroup;
+  sourcingDdeForm: FormGroup;
   constructor(
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
@@ -31,7 +31,7 @@ export class SourcingDdeComponent implements OnInit {
     });
   }
   initForm() {
-    this.sourcingDetailsForm = new FormGroup({
+    this.sourcingDdeForm = new FormGroup({
       leadNumber: new FormControl({value: '', disabled: true}),
       leadCreatedDate: new FormControl({value: '', disabled: true}),
       leadCreatedBy: new FormControl({value: '', disabled: true}),
@@ -56,7 +56,7 @@ export class SourcingDdeComponent implements OnInit {
 
   setFormValue() {
     const sourcingValue = this.leadStoreService.getSourcingDetails() || {};
-    this.sourcingDetailsForm.patchValue({
+    this.sourcingDdeForm.patchValue({
       leadHandledBy: sourcingValue.leadHandledBy || '',
       sourcingChannel: sourcingValue.sourcingChannel || '',
       sourcingType: sourcingValue.sourcingType || '',
@@ -64,7 +64,7 @@ export class SourcingDdeComponent implements OnInit {
       spokeCodeLocation: sourcingValue.spokeCodeLocation || ''
     });
     const leadData = this.leadStoreService.getLeadCreation() || {};
-    this.sourcingDetailsForm.patchValue({
+    this.sourcingDdeForm.patchValue({
       loanAccountBranch: leadData.loanAccountBranch || ''
     });
   }
@@ -74,8 +74,8 @@ export class SourcingDdeComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log('sourcing form', this.sourcingDetailsForm.value);
-    const formValue = this.sourcingDetailsForm.value;
+    console.log('sourcing form', this.sourcingDdeForm.value);
+    const formValue = this.sourcingDdeForm.value;
     const sourcingModel = {...formValue};
     // this.leadStoreService.setSourcingDetails(sourcingModel);
     this.router.navigate(['/pages/dde/product-details']);

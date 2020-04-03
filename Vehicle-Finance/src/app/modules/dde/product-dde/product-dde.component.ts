@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class ProductDdeComponent implements OnInit {
   values: any = [];
   public labels: any = {};
-  productForm: FormGroup;
+  productDdeForm: FormGroup;
   constructor(
     private leadSectionService: VehicleDetailService,
     private lovData: LovDataService,
@@ -30,7 +30,7 @@ export class ProductDdeComponent implements OnInit {
     });
   }
   initForm() {
-    this.productForm = new FormGroup({
+    this.productDdeForm = new FormGroup({
       businessDivision: new FormControl(''),
       product: new FormControl(''),
       schemePromotion: new FormControl(''),
@@ -41,7 +41,7 @@ export class ProductDdeComponent implements OnInit {
 
   setFormValue() {
     const productValue = this.leadStoreService.getProductDetails() || {};
-    this.productForm.patchValue({
+    this.productDdeForm.patchValue({
       businessDivision: productValue.businessDivision || '',
       product: productValue.product || '',
       schemePromotion: productValue.schemePromotion || '',
@@ -65,8 +65,8 @@ export class ProductDdeComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log('form value', this.productForm.value);
-    const formValue = this.productForm.value;
+    console.log('form value', this.productDdeForm.value);
+    const formValue = this.productDdeForm.value;
     const productModel = {...formValue};
     // this.leadStoreService.setProductDetails(productModel);
     this.router.navigate(['/pages/dde/loan-details']);
