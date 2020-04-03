@@ -77,8 +77,8 @@ export class SourcingDdeComponent implements OnInit {
     console.log('sourcing form', this.sourcingDetailsForm.value);
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = {...formValue};
-    this.leadStoreService.setSourcingDetails(sourcingModel);
-    this.router.navigate(['/pages/lead-section/product-details']);
+    // this.leadStoreService.setSourcingDetails(sourcingModel);
+    this.router.navigate(['/pages/dde/product-details']);
   }
 
 }
