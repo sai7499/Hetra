@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehicleDetailsComponent implements OnInit {
 
-  constructor() { }
+  basicVehicleDetailForm: FormGroup;
+
+  constructor(private _fb: FormBuilder) { }
 
   ngOnInit() {
+    this.basicVehicleDetailForm = this._fb.group({
+      vehicleType: ['Open'],
+      region:  ['TN'],
+      registrationNumber:  ['']
+    })
   }
 
 }

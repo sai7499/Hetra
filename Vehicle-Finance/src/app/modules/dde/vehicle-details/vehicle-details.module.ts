@@ -4,7 +4,7 @@ import { VehicleDetailsComponent } from './vehicle-details.component';
 // import { VehicleDetailComponent } from '../../lead-section/vehicle-details/vehicle-details.component';
 
 @NgModule({
-  declarations: [VehicleDetailsComponent],
+  declarations: [],
   imports: [
     CommonModule
   ]
