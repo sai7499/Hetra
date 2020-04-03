@@ -73,15 +73,31 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         // console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
         console.log(this.labels.fundingProgram);
       }    );
+    this.onChangeLanguage('English')
     this.initForm();
   }
+
+  onChangeLanguage(labels: string) {
+    if (labels === 'Hindi') {
+      this.labelsData.getLanguageLabelData().subscribe(
+        data => {
+          this.labels = data[0];
+        })
+    } else {
+      this.labelsData.getLabelsData().subscribe(
+        data => {
+          this.labels = data;
+        });
+    }
+  }
+
   gotValue(e) {
     console.log(e.target.value);
   }
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: Lead = {...formValue};
+    const leadModel: Lead = { ...formValue };
     this.leadStoreService.setLeadCreation(leadModel);
     const applicantModel = {
       first_name: leadModel.firstName,
