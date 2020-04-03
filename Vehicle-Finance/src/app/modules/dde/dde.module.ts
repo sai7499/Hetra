@@ -6,9 +6,11 @@ import { DdeRoutingModule } from './dde.routing.module';
 import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { ProductDdeComponent } from './product-dde/product-dde.component';
+import { LoanDdeComponent } from './loan-dde/loan-dde.component';
 
 @NgModule({
-    declarations: [DdeComponent, ApplicantDetailsComponent, SourcingDdeComponent],
+    declarations: [DdeComponent, ApplicantDetailsComponent, SourcingDdeComponent, ProductDdeComponent, LoanDdeComponent],
     imports: [DdeRoutingModule, ReactiveFormsModule, FormsModule, SharedModule]
 })
 export class DdeModule {}
