@@ -141,5 +141,8 @@
     "id": "ID",
     "applicant": "Applicant",
     "creditBureau": "Credit Bureau",
-    "eligibleLoanAmount": "Eligible Loan Amount"
+    "eligibleLoanAmount": "Eligible Loan Amount",
+    "flAndpdTitle": "PSL Data",
+    "pdStatus": "PD Status",
+    "pdReport": "PD Report"
 }
