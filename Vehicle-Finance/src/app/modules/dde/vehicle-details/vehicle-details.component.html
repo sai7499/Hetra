@@ -10,15 +10,15 @@
 
     </div>
 
-    <div class="content">
+    <div class="content" style="margin: 1rem">
         <form class="multisteps-form__form" [formGroup]="basicVehicleDetailForm">
 
             <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
-                <h4 class="title">Vehicle Details</h4>
+                <h4 class="title">{{ label.vehcileDetailsTitle }}</h4>
 
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_type">Vechical Type</label>
+                        <label for="vechical_type">{{ label.vechicalType }}</label>
                         <select class="form-control mandatory" id="vechical_type" formControlName="vehicleType">
                             <option value="Open">Open</option>
                             <option value="Tipper">Tipper</option>
@@ -30,7 +30,7 @@
                         </select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_region">Region</label>
+                        <label for="vechical_region">{{ label.vechicalRegion }}</label>
                         <select class="form-control mandatory" id="vechical_region" formControlName="region">
                             <option value="TN">TN</option>
                         </select>
@@ -38,18 +38,44 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
                         <!-- <label for="vehicle_category">Vechical Category</label>
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg"> -->
-                            <label for="registartion_number">Vechical Registration No</label>
+                        <label for="registartion_number">{{ label.registartionNumber }}</label>
 
-                            <input type="text" class="form-control mandatory" id="registartion_number"
-                                placeholder="Vechical Registration No" name="registartion_number" formControlName="registrationNumber">
+                        <input type="text" class="form-control mandatory" id="registartion_number"
+                            placeholder="Vechical Registration No" name="registartion_number"
+                            formControlName="registrationNumber">
                         <!-- </div> -->
                     </div>
-                    
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="asset_make"> {{ label.assetMake }} </label>
+                        <select class="form-control mandatory" id="asset_make" formControlName="assetMake">
+                            <option value="">Tata Motors</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="asset_model"> {{ label.assetModel }} </label>
+                        <select class="form-control mandatory" id="asset_model" formControlName="assetModel">
+                            <option value="1">Asset-Model-1</option>
+                            Tata Motors <option value="2">Asset-Model-2</option>
+                            <option value="3">Asset-Model-3</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
+                        <label for="asset_body_type"> {{ label.assetBodyType }} </label>
+                        <select class="form-control mandatory" id="asset_model" formControlName="assetBodyType">
+                            <option value="1">Asset Body Type 1</option>
+                            <option value="2">Asset Body Type 2</option>
+                            <option value="3">Asset Body Type 3</option>
+                        </select>
+                    </div>
                 </div>
 
             </div>
 
-            
+
 
         </form>
     </div>
