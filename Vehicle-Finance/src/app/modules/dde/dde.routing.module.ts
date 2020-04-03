@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DdeComponent  } from './dde.component';
+import { DdeComponent } from './dde.component';
 import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
+import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { VehicleDetailComponent } from '../lead-section/vehicle-details/vehicle-details.component';
 
 const routes: Routes = [{
     path: '',
@@ -11,12 +13,17 @@ const routes: Routes = [{
         {
             path: 'applicant-details',
             component: ApplicantDetailsComponent
+        },
+        {
+            path: "vehicle-details",
+            // component: VehicleDetailsComponent,
+            loadChildren: () => import("./vehicle-details/vehicle-details.module").then(m => m.VehicleDetailsModule)
         }
-    ]
+    ],
 }];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class DdeRoutingModule {}
+export class DdeRoutingModule { }
