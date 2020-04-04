@@ -521,6 +521,48 @@
           { "key": 2, "value": "Country 2" },
           { "key": 3, "value": "Country 3" }
         ]
+      }],
+      "vehicleVal": [{
+        "valuatorType": [
+          { "key":1, "value": "VT-1"},
+          { "key":2, "value": "VT-2"}
+        ],
+        "valuatorCode": [
+          { "key":1, "value": "VC-1"},
+          { "key":2, "value": "VC-2"}
+        ],
+        "vhAvailInGrid": [
+          { "key":1, "value": "Grid-1"},
+          { "key":2, "value": "Grid-2"}
+        ],
+        "assetModel": [
+          { "key":1, "value": "Asset Model-1"},
+          { "key":2, "value": "Asset Model-2"}
+        ],
+        "newUsedAsset": [
+          { "key":1, "value": "Asset-1"},
+          { "key":2, "value": "Asset-2"}
+        ],
+        "assetManufacturer": [
+          { "key":1, "value": "Asset Manufacturer-1"},
+          { "key":2, "value": "Asset Manufacturer-2"}
+        ],
+        "interStateVehicle": [
+          { "key":1, "value": "Vehicle-1"},
+          { "key":2, "value": "Vehicle-2"}
+        ],
+        "duplicateRC": [
+          { "key":1, "value": "DRC-1"},
+          { "key":2, "value": "DRC-2"}
+        ],
+        "model": [
+          { "key":1, "value": "Model-1"},
+          { "key":2, "value": "Model-2"}
+        ],
+        "make": [
+          { "key":1, "value": "Make-1"},
+          { "key":2, "value": "Make-2"}
+        ]
       }]
   }
 ]
