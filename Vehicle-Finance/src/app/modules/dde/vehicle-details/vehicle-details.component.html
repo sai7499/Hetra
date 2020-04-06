@@ -1,87 +1,81 @@
-<div class="multisteps-form">
-    <div class="multisteps-form__progress">
-        <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details">Basic Vehicle
-            Details</button> &nbsp;
-        <button class="multisteps-form__progress-btn " type="button" id="vehicle_insurance_details">Insurance
-            Details</button> &nbsp;
+<div class="content">
+    <form class="multisteps-form__form" method="post">
 
-        <button class="multisteps-form__progress-btn" type="button" id="vehicle_rto_details">RTO Declaration
-            Details</button>
 
-    </div>
 
-    <div class="content" style="margin: 1rem">
-        <form class="multisteps-form__form" [formGroup]="basicVehicleDetailForm">
-
-            <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
-                <h4 class="title">{{ label.vehcileDetailsTitle }}</h4>
-
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_type">{{ label.vechicalType }}</label>
-                        <select class="form-control mandatory" id="vechical_type" formControlName="vehicleType">
-                            <option value="Open">Open</option>
-                            <option value="Tipper">Tipper</option>
-                            <option value="Trailer">Trailer</option>
-                            <option value="Goods">Goods</option>
-                            <option value="Bus">Bus</option>
-                            <option value="Passenger Vehicle">Passenger Vehicle</option>
-                            <option value="ODC">ODC</option>
-                        </select>
+        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+            <div class="container">
+                <div class="btn-sec clear-both row">
+                    <div class="col-sm-5">
+                        <h4 class="title">Vehicle Details</h4>
                     </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_region">{{ label.vechicalRegion }}</label>
-                        <select class="form-control mandatory" id="vechical_region" formControlName="region">
-                            <option value="TN">TN</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
-                        <!-- <label for="vehicle_category">Vechical Category</label>
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg"> -->
-                        <label for="registartion_number">{{ label.registartionNumber }}</label>
-
-                        <input type="text" class="form-control mandatory" id="registartion_number"
-                            placeholder="Vechical Registration No" name="registartion_number"
-                            formControlName="registrationNumber">
-                        <!-- </div> -->
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_make"> {{ label.assetMake }} </label>
-                        <select class="form-control mandatory" id="asset_make" formControlName="assetMake">
-                            <option value="">Tata Motors</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_model"> {{ label.assetModel }} </label>
-                        <select class="form-control mandatory" id="asset_model" formControlName="assetModel">
-                            <option value="1">Asset-Model-1</option>
-                            Tata Motors <option value="2">Asset-Model-2</option>
-                            <option value="3">Asset-Model-3</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
-                        <label for="asset_body_type"> {{ label.assetBodyType }} </label>
-                        <select class="form-control mandatory" id="asset_model" formControlName="assetBodyType">
-                            <option value="1">Asset Body Type 1</option>
-                            <option value="2">Asset Body Type 2</option>
-                            <option value="3">Asset Body Type 3</option>
-                        </select>
+                    <div class="col-sm-7 text-right">
+                        <button class="btn btn-secondary mar-right8" type="button" onclick="add_vehicle();"> Add Vehicle </button> 
+                        <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                     </div>
                 </div>
+                <div class="row">
+                    <div class="table-responsive application" id="applicantTable">
+                        <table class="table">
+                            <thead>
+                                <tr class="table-head-bg">
+                                    <th>Registration Num<i class="fa fa-sort"></i> </th>
+                                    <th>Vehicle Model <i class="fa fa-sort"></i> </th>
+                                    <th>Asset Type <i class="fa fa-sort"></i> </th>
+                                    <th>Asset Body <i class="fa fa-sort"></i> </th>
+                                   
+                                    <th>Action <i class="fa fa-sort"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TN-04-SS-0292</td>
+                                    <td><a href="#">SUV</a></td>
+                                    <td>Asset Type-1</td>
+                                    <td>Asset Body-1</td>                                                    
+                                    <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>KL-05-AG-1191</td>
+                                    <td><a href="#">SUV</a></td>
+                                    <td>Asset Type-2</td>
+                                    <td>Asset Body-2</td>                                                   
+                                    <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                </tr>
+                               
 
+                            </tbody>
+                        </table>
+                        <div class="btn-sec clear-both">
+                            <div class="records col-sm-6">
+                                <select class="form-control input-sm">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+                                <nav class="col-sm-12 col-md-12 col-lg-12 page">
+                                    <ul class="pagination">
+                                        <li class="disabled"><a href="#"><span>«</span></a></li>
+                                        <li class="active"><a href="#">1 <span
+                                                    class="sr-only">(current)</span></a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#"><span>»</span></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
             </div>
+        </div>
 
-
-
-        </form>
-    </div>
-</div>
-
-<div class="alert alert-success alert-dismissible" id="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button> Vehicle Details saved Successfully.
+    </form>
 </div>
