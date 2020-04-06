@@ -1,0 +1,305 @@
+<div class="content">
+    <form class="multisteps-form__form" style="height: 400px;">
+        <div class="multisteps-form__panel js-active basic_scroll" data-animation="scaleIn">
+            <div class="btn-sec clear-both row">
+                <div class="col-sm-5">
+                    <select id="select_main_button" class="dropdown_individual" name="">
+                                <option value="individual"> Individual </option>
+                                <option value="non-individual"> Non-Individual </option>
+                            </select>
+                </div>
+                <div class="col-sm-7 text-right">
+
+                </div>
+            </div>
+            <div id="individual_section_start">
+                <!-- <h4 class="title">individual</h4> -->
+                <h4 class="title">Permanent Address</h4>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="pan">Address 1</label>
+                        <input type="text" class="form-control" id="address1">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Address 2</label>
+                        <input type="text" class="form-control" id="address2">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Address 3</label>
+                        <input type="text" class="form-control" id="address3">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="pincode">Permanent Address PIN Code</label>
+                        <input type="text" class="form-control" id="pincode">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Permanent Address City</label>
+                        <select class="form-control" id="permanent_address_city">
+                                    <option>City 1</option>
+                                    <option>City 2</option>
+                                    <option>City 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Permanent Address District</label>
+                        <select class="form-control" id="permanent_address_district">
+                                    <option>District 1</option>
+                                    <option>District 2</option>
+                                    <option>District 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Permanent Address State</label>
+                        <select class="form-control" id="permanent_address_state">
+                                    <option>State 1</option>
+                                    <option>State 2</option>
+                                    <option>State 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Permanent Address Country</label>
+                        <select class="form-control" id="permanent_address_country">
+                                    <option>Country 1</option>
+                                    <option>Country 2</option>
+                                    <option>Country 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="landline">Permanent Address Landline</label>
+                        <input type="text" class="form-control" id="landline">
+                    </div>
+
+                </div>
+                <div class="btn-sec clear-both row">
+                    <div class="col-sm-5">
+                        <h4 class="title">Current Address</h4>
+                    </div>
+                    <div class="col-sm-7 text-right">
+                        <input type="checkbox" id="address_section_checkbox"> <span id="address_section_checkbox_text">Is it same as your permanent Address? </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="pan">Line 1</label>
+                        <input type="text" class="form-control" id="line1">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Line 2</label>
+                        <input type="text" class="form-control" id="line2">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Line 3</label>
+                        <input type="text" class="form-control" id="line3">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="current_pincode">Current Address PIN Code</label>
+                        <input type="text" class="form-control" id="current_pincode">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address City</label>
+                        <select class="form-control" id="current_address_city">
+                                    <option>City 1</option>
+                                    <option>City 2</option>
+                                    <option>City 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address District</label>
+                        <select class="form-control" id="current_address_district">
+                                    <option>District 1</option>
+                                    <option>District 2</option>
+                                    <option>District 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address State</label>
+                        <select class="form-control" id="current_address_state">
+                                    <option>State 1</option>
+                                    <option>State 2</option>
+                                    <option>State 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address Country</label>
+                        <select class="form-control" id="current_address_country">
+                                    <option>Country 1</option>
+                                    <option>Country 2</option>
+                                    <option>Country 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Type of Accommmodation</label>
+                        <select class="form-control">
+                                    <option>Own House</option>
+                                    <option>Rented House</option>
+                                    
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Period of Current Stay (in Years)</label>
+                        <select class="form-control">
+                                    <option>5 years</option>
+                                    <option>2 years</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="current_landline">Landline Number (Residence Phone)</label>
+                        <input type="text" class="form-control" id="current_landline">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="alternate_mobile">Alternate Mobile Number</label>
+                        <input type="text" class="form-control" id="alternate_mobile">
+                    </div>
+                </div>
+                <h4 class="title">Office Address</h4>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="pan">Line 1</label>
+                        <input type="text" class="form-control" id="passport">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Line 2</label>
+                        <input type="text" class="form-control" id="passport">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Line 3</label>
+                        <input type="text" class="form-control" id="passport">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address PIN Code</label>
+                        <input type="text" class="form-control" id="current_pincode">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address City</label>
+                        <select class="form-control">
+                                    <option>City 1</option>
+                                    <option>City 2</option>
+                                    <option>City 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address District</label>
+                        <select class="form-control">
+                                    <option>District 1</option>
+                                    <option>District 2</option>
+                                    <option>District 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address State</label>
+                        <select class="form-control">
+                                    <option>State 1</option>
+                                    <option>State 2</option>
+                                    <option>State 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Current Address Country</label>
+                        <select class="form-control">
+                                    <option>Country 1</option>
+                                    <option>Country 2</option>
+                                    <option>Country 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Type of Accommmodation</label>
+                        <select class="form-control">
+                                    <option>Own House</option>
+                                    <option>Rented House</option>
+                                    
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Period of Current Stay (in Years)</label>
+                        <select class="form-control">
+                                    <option>5 years</option>
+                                    <option>2 years</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="current_landline_num">Landline Number (Residence Phone)</label>
+                        <input type="text" class="form-control" id="current_landline_num">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="alternate_mobile_num">Alternate Mobile Number</label>
+                        <input type="text" class="form-control" id="alternate_mobile_num">
+                    </div>
+                </div>
+            </div>
+            <div id="non_individual_section_start" style="display: none;">
+                <!-- <h4 class="title">Non-individual</h4>-->
+                <h4 class="title">Registered Address</h4>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="pan">Line 1</label>
+                        <input type="text" class="form-control" id="line1">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Line 2</label>
+                        <input type="text" class="form-control" id="line2">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Line 3</label>
+                        <input type="text" class="form-control" id="line3">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Registered  Address PIN Code</label>
+                        <select class="form-control" id="current_address_pin_code">
+                                    <option>pincode 1</option>
+                                    <option>pincode 2</option>
+                                    <option>pincode 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Registered  Address City</label>
+                        <select class="form-control" id="current_address_city">
+                                    <option>City 1</option>
+                                    <option>City 2</option>
+                                    <option>City 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Registered  Address District</label>
+                        <select class="form-control" id="current_address_district">
+                                    <option>District 1</option>
+                                    <option>District 2</option>
+                                    <option>District 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Registered  Address State</label>
+                        <select class="form-control" id="current_address_state">
+                                    <option>State 1</option>
+                                    <option>State 2</option>
+                                    <option>State 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Registered  Address Country</label>
+                        <select class="form-control" id="current_address_country">
+                                    <option>Country 1</option>
+                                    <option>Country 2</option>
+                                    <option>Country 3</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Registered  Address Landline Number (Residence Phone)</label>
+                        <select class="form-control">
+                                    <option>Landline 1</option>
+                                    <option>Landline 2</option>
+                                </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="passport">Alternate Mobile Number</label>
+                        <select class="form-control">
+                                    <option>Mobile Number 1</option>
+                                    <option>Mobile Number 2</option>
+                                    <option>Mobile Number 3</option>
+                                </select>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    
+        </form></div>

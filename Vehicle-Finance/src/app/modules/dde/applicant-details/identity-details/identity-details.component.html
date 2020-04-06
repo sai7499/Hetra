@@ -1,0 +1,104 @@
+<div class="content">
+    <form class="multisteps-form__form" style="height: 400px;">
+      
+
+        <div class="multisteps-form__panel js-active basic_scroll" data-animation="scaleIn">
+            <div class="btn-sec clear-both row">
+                <div class="col-sm-5">
+                    <!-- <h4 class="title">Identity Details</h4> -->
+                    <select id="select_main_button" class="dropdown_individual" name="">
+                                <option value="individual"> Individual </option>
+                                <option value="non-individual"> Non-Individual </option>
+                            </select>
+                </div>
+                <div class="col-sm-7 text-right">
+
+                </div>
+            </div>
+
+            <div id="individual_section_start">
+                <div class="panel-group hidden-xs" id="accordion">
+                    <!-- <div class="panel panel-primary">
+                        <div class="panel-heading" id="headingOne">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                              Identity Details <i class="fa fa-angle-down"></i>
+                            </a>
+                          </h4>
+                        </div>
+                    </div> -->
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="Vechical Type">Select Id Details</label>
+                                <select class="form-control">
+                                        <option value="select_option">Select</option>
+                                        <option value="passport">Passport</option>
+                                        <option value="driving_license">Driving License</option>
+                                        <option value="voter_id">Voter Id</option>
+                                    </select>
+                            </div>
+
+                            <div class="passport common">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport_number">Identity Card Number</label>
+                                    <input type="text" class="form-control" id="passport_number" name="passport_number">
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="passport_expiry_date">Identity Card Expiry Date</label>
+                                    <div class="input-group input-medium">
+                                        <span class="input-group-btn">
+                                                <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                            </span>
+                                        <input type="date" class="form-control" id="passport_expiry_date" name="passport_expiry_date">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="Upload_passport">Upload Documnet</label>
+                                    <input id="file-input-aadhaar" type="file" multiple="" name="Upload_passport">
+                                    <div id="preview_aadhaar"></div>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+                        
+        </div>
+
+        <div id="add_multiple_banks"></div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="">Add Multiple Identity Card Details</label>
+                            <input class="form-control btn-primary" type="button" value="Add Here" id="add_banks"> 
+                        </div>
+            </div>
+            <div id="non_individual_section_start" class="clearfix" style="display: none;">
+                <!-- <h4 class="title">Non-Indivudual</h4> -->
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="email">TIN Number</label>
+                        <input type="text" class="form-control" id="contact">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="adhar">Company PAN Number</label>
+                        <input type="text" class="form-control" id="contact">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="adhar">CIN Number</label>
+                        <input type="text" class="form-control" id="contact">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="adhar">GST Number</label>
+                        <input type="text" class="form-control" id="contact">
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </form></div>
