@@ -9,9 +9,7 @@ import { LabelsService } from '@services/labels.service';
 })
 export class VehicleDetailsComponent implements OnInit {
 
-  public label: any = {};
-
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService, ) { }
+  constructor() { }
 
   ngOnInit() {
   }

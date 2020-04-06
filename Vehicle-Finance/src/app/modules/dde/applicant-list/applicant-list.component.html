@@ -1,15 +1,13 @@
-<form class="multisteps-form__form">
-
-
+<form class="multisteps-form__form" method="post" style="height: 400px;">
 
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <div class="container">
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
-                    <h4 class="title">Vehicle Details</h4>
+                    <h4 class="title">Applicant Details</h4>
                 </div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-secondary mar-right8" type="button"> Add Vehicle </button> 
+                    <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
                     <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                 </div>
             </div>
@@ -18,30 +16,39 @@
                     <table class="table">
                         <thead>
                             <tr class="table-head-bg">
-                                <th>Registration Num<i class="fa fa-sort"></i> </th>
-                                <th>Vehicle Model <i class="fa fa-sort"></i> </th>
-                                <th>Asset Type <i class="fa fa-sort"></i> </th>
-                                <th>Asset Body <i class="fa fa-sort"></i> </th>
-                               
+                                <th>UCIC ID <i class="fa fa-sort"></i> </th>
+                                <th>Name <i class="fa fa-sort"></i> </th>
+                                <th>Mobile Number <i class="fa fa-sort"></i> </th>
+                                <th>Date Of Birth <i class="fa fa-sort"></i> </th>
+                                <th>Applicant Type <i class="fa fa-sort"></i> </th>
                                 <th>Action <i class="fa fa-sort"></i> </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>TN-04-SS-0292</td>
-                                <td><a href="#">SUV</a></td>
-                                <td>Asset Type-1</td>
-                                <td>Asset Body-1</td>                                                    
-                                <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                <td>55464</td>
+                                <td><a href="#">Chandler Bing</a></td>
+                                <td>7894561230</td>
+                                <td>09-08-1967</td>
+                                <td>Applicant</td>
+                                <td routerLink="/pages/applicant-details/basic-data"><i class="fa fa-pencil" aria-hidden="true"></i></td>
                             </tr>
                             <tr>
-                                <td>KL-05-AG-1191</td>
-                                <td><a href="#">SUV</a></td>
-                                <td>Asset Type-2</td>
-                                <td>Asset Body-2</td>                                                   
-                                <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                <td>-</td>
+                                <td><a href="#">Monica Geller</a></td>
+                                <td>7894561230</td>
+                                <td>09-08-1967</td>
+                                <td>Co-Applicant</td>
+                                <td onclick="add_applicant();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
                             </tr>
-                           
+                            <tr>
+                                <td>97912</td>
+                                <td><a href="#">Joey Tribbiani</a></td>
+                                <td>7894561230</td>
+                                <td>09-08-1967</td>
+                                <td>Co-Applicant</td>
+                                <td onclick="add_applicant();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                            </tr>
 
                         </tbody>
                     </table>
@@ -57,8 +64,7 @@
                             <nav class="col-sm-12 col-md-12 col-lg-12 page">
                                 <ul class="pagination">
                                     <li class="disabled"><a href="#"><span>«</span></a></li>
-                                    <li class="active"><a href="#">1 <span
-                                                class="sr-only">(current)</span></a></li>
+                                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
                                     <li><a href="#">2</a></li>
                                     <li><a href="#">3</a></li>
                                     <li><a href="#">4</a></li>

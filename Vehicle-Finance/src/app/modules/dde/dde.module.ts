@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
 import { DdeComponent } from './dde.component';
-import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
+import { ApplicantListComponent } from './applicant-list/applicant-list.component';
 import { DdeRoutingModule } from './dde.routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DdeSharedModule } from './shared/shared.module';
 
 @NgModule({
-    declarations: [DdeComponent, ApplicantDetailsComponent],
-    imports: [DdeRoutingModule, FormsModule, ReactiveFormsModule]
+    declarations: [DdeComponent, ApplicantListComponent],
+    imports: [DdeRoutingModule, DdeSharedModule],
 })
 export class DdeModule {}

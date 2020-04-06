@@ -5,12 +5,15 @@ import { BasicVehicleDetailsComponent } from './basic-vehicle-details/basic-vehi
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 import { VehicleDetailsRoutingModule } from './vehicle-details-routing.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, InsuranceDetailsComponent, RtoDeclarationDetailsComponent],
   imports: [
     CommonModule,
-    VehicleDetailsRoutingModule
+    VehicleDetailsRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class VehicleDetailsModule { }
