@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
 // import { LeadSectionModule } from './modules/lead-section/lead-section.module';
-import { LocationStrategy,HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -21,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule
   ],
   providers: [
-    {  provide : LocationStrategy,
+    {
+      provide: LocationStrategy,
       useClass: HashLocationStrategy
     }
   ],
