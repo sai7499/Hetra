@@ -1,1 +1,67 @@
-<p>loan-dde works!</p>
+
+                <div class="content">
+                    <form class="multisteps-form__form" [formGroup]="loanDdeForm">
+
+
+                        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+                            <h4 class="title">Loan Details</h4>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="requested_amount">Requested Amount</label>
+                                    <input type="text" class="form-control mandatory" id="requested_amount" placeholder="Requested Amount" name="requested_amount" formControlName="requestedAmount">
+
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="margin_money">Margin Money</label>
+                                    <select class="form-control" id="margin_money" name="margin_money" formControlName="marginMoney">
+                                            <option>10 L</option>
+                                            <option>15 C</option>
+                                        </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="emi_affordability">EMI Affordability</label>
+                                    <select class="form-control" id="emi_affordability" name="emi_affordability" formControlName="emiAffordability">
+                                            <option>Select</option>
+                                        </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="loan_tenor">Requested Tenor</label>
+                                    <select class="form-control mandatory" id="loan_tenor" formControlName="requestedTenor">
+                                        <option value="12">12</option>
+                                        <option value="18">18</option>
+                                        <option value="24">24</option>
+                                        <option value="30">30</option>
+                                        <option value="36">36</option>
+                                        <option value="42">42</option>
+                                        <option value="48">48</option>
+                                        <option value="54">54</option>
+                                        <option value="60">60</option>
+                                    </select>
+
+                                </div>
+                                <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="Upload_passport">Upload Documnet</label>
+                                    <input id="file-input-aadhaar" type="file" multiple="" name="Upload_passport">
+                                    <div id="preview_aadhaar"></div>
+                                </div> -->
+                            </div>
+                           
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="btn-sec clear-both">
+                    <div class="col-sm-5">
+
+                    </div>
+                    <div class="col-sm-7 text-right">
+
+                        <!-- <button class="btn btn-primary js-btn-prev" type="button"> Back </button>
+                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal"> Save </button> -->
+                        <button class="btn btn-primary" type="button">Back</button>
+                        <button class="btn btn-primary save"> Save </button>
+                        <button class="btn btn-primary" type="button">Next</button>
+
+                    </div>
+                </div>
