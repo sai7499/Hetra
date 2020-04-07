@@ -1,79 +1,25 @@
-<form class="multisteps-form__form">
+<main class="mar-top90">
+    <div class="container">
+        <h3 class="margin_zero">Lead ID : 125468</h3>
 
+        <app-dde-header></app-dde-header>
 
-
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <div class="container">
-            <div class="btn-sec clear-both row">
-                <div class="col-sm-5">
-                    <h4 class="title">Vehicle Details</h4>
-                </div>
-                <div class="col-sm-7 text-right">
-                    <button class="btn btn-secondary mar-right8" type="button"> Add Vehicle </button> 
-                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-                </div>
+        <div class="multisteps-form">
+            <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details"
+                    [ngClass]="{'js-active': locationIndex >= 0}" [routerLink]="['./basic-vehicle-details']">Basic
+                    Vehicle Details</button>
+                <button class="multisteps-form__progress-btn " type="button" id="vehicle_insurance_details"
+                    [ngClass]="{'js-active': locationIndex >= 1}" [routerLink]="['./insurance-details']">Insurance
+                    Details</button>
+                <button class="multisteps-form__progress-btn" type="button" id="vehicle_rto_details"
+                    [ngClass]="{'js-active': locationIndex >= 2}" [routerLink]="['./rto-details']">RTO Declaration
+                    Details</button>
             </div>
-            <div class="row">
-                <div class="table-responsive application" id="applicantTable">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-head-bg">
-                                <th>Registration Num<i class="fa fa-sort"></i> </th>
-                                <th>Vehicle Model <i class="fa fa-sort"></i> </th>
-                                <th>Asset Type <i class="fa fa-sort"></i> </th>
-                                <th>Asset Body <i class="fa fa-sort"></i> </th>
-                               
-                                <th>Action <i class="fa fa-sort"></i> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>TN-04-SS-0292</td>
-                                <td><a href="#">SUV</a></td>
-                                <td>Asset Type-1</td>
-                                <td>Asset Body-1</td>                                                    
-                                <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>KL-05-AG-1191</td>
-                                <td><a href="#">SUV</a></td>
-                                <td>Asset Type-2</td>
-                                <td>Asset Body-2</td>                                                   
-                                <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
-                            </tr>
-                           
 
-                        </tbody>
-                    </table>
-                    <div class="btn-sec clear-both">
-                        <div class="records col-sm-6">
-                            <select class="form-control input-sm">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
-                            <nav class="col-sm-12 col-md-12 col-lg-12 page">
-                                <ul class="pagination">
-                                    <li class="disabled"><a href="#"><span>«</span></a></li>
-                                    <li class="active"><a href="#">1 <span
-                                                class="sr-only">(current)</span></a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><span>»</span></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
+            <router-outlet></router-outlet>
 
-
-
-            </div>
         </div>
-    </div>
 
-</form>
+    </div>
+</main>

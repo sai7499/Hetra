@@ -6,12 +6,14 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 import { VehicleDetailsRoutingModule } from './vehicle-details-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DdeSharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, InsuranceDetailsComponent, RtoDeclarationDetailsComponent],
   imports: [
     CommonModule,
     VehicleDetailsRoutingModule,
+    DdeSharedModule,
     ReactiveFormsModule,
     FormsModule
   ]

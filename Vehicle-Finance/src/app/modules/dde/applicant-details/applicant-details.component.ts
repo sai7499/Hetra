@@ -18,7 +18,6 @@ export class ApplicantDetailsComponent implements OnInit {
     }
 
     getLocationIndex(url: string) {
-
         if (url.includes('basic-data')) {
             return 0;
         } else if (url.includes('bank-details')) {

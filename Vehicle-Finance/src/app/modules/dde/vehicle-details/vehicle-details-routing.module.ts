@@ -21,7 +21,12 @@ const routes: Routes = [
       {
         path: "rto-details",
         component: RtoDeclarationDetailsComponent,
-      }
+      },
+      {
+        path: '',
+        redirectTo: 'basic-vehicle-details',
+        pathMatch: 'full'
+      },
     ]
   }]
 

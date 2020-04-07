@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { LabelsService } from '@services/labels.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -9,9 +9,24 @@ import { LabelsService } from '@services/labels.service';
 })
 export class VehicleDetailsComponent implements OnInit {
 
-  constructor() { }
+  locationIndex = 0;
+  constructor(private router: Router, private location: Location) { }
 
   ngOnInit() {
+    this.location.onUrlChange((url: string) => {
+      console.log('url', url, 'state');
+      this.locationIndex = this.getLocationIndex(url);
+    });
+  }
+
+  getLocationIndex(url: string) {
+    if (url.includes('basic-vehicle-details')) {
+      return 0;
+    } else if (url.includes('insurance-details')) {
+      return 1;
+    } else if (url.includes('rto-details')) {
+      return 2;
+    }
   }
 
 }

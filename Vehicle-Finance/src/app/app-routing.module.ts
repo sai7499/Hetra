@@ -40,7 +40,11 @@ const routes: Routes = [
       {
         path: 'applicant-details',
         loadChildren: () => import('./modules/dde/applicant-details/applicant-details.module').then(m => m.ApplicantDetailsModule)
-    }
+      },
+      {
+        path: 'vehicle-details',
+        loadChildren: () => import('./modules/dde/vehicle-details/vehicle-details.module').then(m => m.VehicleDetailsModule)
+      }
     ]
   }
 ];
@@ -49,4 +53,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
