@@ -40,11 +40,16 @@ export class SourcingDetailsComponent implements OnInit {
       leadCreatedDate: new FormControl({value: '', disabled: true}),
       leadCreatedBy: new FormControl({value: '', disabled: true}),
       leadHandledBy: new FormControl(''),
+      priority: new FormControl(''),
+      product: new FormControl (''),
+      businessDivision: new FormControl ({value:'', disabled: true }),
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
       spokeCodeLocation: new FormControl(''),
-      loanAccountBranch: new FormControl({value: '', disabled: true})
+      loanAccountBranch: new FormControl({value: '', disabled: true}),
+      requestedAmount : new FormControl(''),
+      requestedTenor : new FormControl('')
     });
 
     this.labelsData.getLabelsData().subscribe(
@@ -78,11 +83,12 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onFormSubmit() {
+    this.router.navigate(['/pages/lead-section/applicant-details']);
     console.log('sourcing form', this.sourcingDetailsForm.value);
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = {...formValue};
     this.leadStoreService.setSourcingDetails(sourcingModel);
-    this.router.navigate(['/pages/lead-section/product-details']);
+    
   }
 
 }

@@ -210,6 +210,63 @@
             "value": "Person-2"
           }
         ],
+        "priority" : [
+          {
+            "key" : 1,
+            "value": "Yes"
+          },
+          {
+            "key" : 2,
+            "value" : "No"
+          }
+        ],
+        "requestedTenor": [
+          { "key": 1, "value": 12 },
+          { "key": 2, "value": 18 },
+          { "key": 3, "value": 24 },
+          { "key": 4, "value": 30 },
+          { "key": 5, "value": 36 },
+          { "key": 6, "value": 42 },
+          { "key": 7, "value": 48 },
+          { "key": 8, "value": 54 },
+          { "key": 9, "value": 60 }
+        ],
+        "productCategory": [
+          {
+            "key": 11,
+            "value": "New CV"
+          },
+          {
+            "key": 12,
+            "value": "UsedCV"
+          },
+          {
+            "key": 13,
+            "value": "New Cars"
+          },
+          {
+            "key": 14,
+            "value": "Used Cars"
+          }
+        ],
+        "businessDivision": [
+          {
+            "key": 1,
+            "value": "Vehicle Finance"
+          },
+          {
+            "key": 2,
+            "value": "Housing Finance"
+          },
+          {
+            "key": 3,
+            "value": "Loan Against Property"
+          },
+          {
+            "key":4,
+            "value": "Gold Loan"
+          }
+        ],
         "sourcingChannel": [
           {
             "key": 1,
@@ -383,7 +440,6 @@
             "key" : 3,
             "value": "Surrogate"
           }
-
         ],
         "schemePromotion": [
           {
@@ -511,10 +567,19 @@
           { "key": 1, "value": "Individual" },
           { "key": 2, "value": "Non-Individual" }
         ],
+        "relationshipwithloanapplicant": [
+          { "key": 1, "value": "Applicant" },
+          { "key": 2, "value": "Co-Applicant" },
+          { "key": 3, "value": "Guarantar" }
+        ],
         "identityType": [
           { "key": 1, "value": "PAN" },
           { "key": 2, "value": "Aadhar" },
           { "key": 3, "value": "Driving license" }
+        ],
+        "panform" : [
+          { "key": 1, "value": "PAN" },
+          { "key": 2, "value": "Form 60" }
         ],
         "state": [
           { "key": 1, "value": "State 1" },

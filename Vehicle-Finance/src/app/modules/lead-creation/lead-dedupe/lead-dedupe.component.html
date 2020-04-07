@@ -10,10 +10,10 @@
               <thead>
                 <tr class="table-head-bg">
                   <th>Select <i class="fa fa-sort"></i></th>
-                  <th>Application ID <i class="fa fa-sort"></i></th>
+                  <th>Created Date <i class="fa fa-sort"></i></th>
+                  <th>Lead ID <i class="fa fa-sort"></i></th>
                   <th>Loan Created By <i class="fa fa-sort"></i></th>
                   <th>Loan Account Branch <i class="fa fa-sort"></i></th>
-                  <th>Business Division <i class="fa fa-sort"></i></th>
                   <th>Product <i class="fa fa-sort"></i></th>
                   <th>Loan Amount <i class="fa fa-sort"></i></th>
                   <th>Stage <i class="fa fa-sort"></i></th>
@@ -26,10 +26,10 @@
               <tbody>
                 <tr *ngFor="let dummy of (dummmyArray | paginate: { itemsPerPage: perPage, currentPage: p })">
                   <td><input (change)="OnChecked($event)" class="checkbox" type="checkbox" /></td>
-                  <td>{{ dummy.applicantId }}</td>
+                  <td>{{ dummy.createdDate }}</td>
+                  <td>{{ dummy.leadId }}</td>
                   <td>{{ dummy.loanCreatedBy }}</td>
                   <td>{{ dummy.branch }}</td>
-                  <td>{{ dummy.businessDivision }}</td>
                   <td>{{ dummy.product }}</td>
                   <td>{{ dummy.loanAmount }}</td>
                   <td>{{ dummy.stage }}</td>
@@ -66,13 +66,15 @@
               </div>
 
               <div class="text-center">
+                <button (click)="OnReject()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button">
+                  Proceed as new Lead
+                </button>
                 <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button">
-                  Proceed
+                  Proceed with selected lead
                 </button>
                 <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button">
-                  Reject
+                  Reject lead
                 </button>
-
                 <div *ngIf="isReason">
                   <div class="col-12 mx-auto" id="proceed_div">
                     <div class="col-6 field"><label for="proceed_reason">Select the reason for Proceed</label></div>

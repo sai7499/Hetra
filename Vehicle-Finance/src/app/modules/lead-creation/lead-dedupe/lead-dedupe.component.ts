@@ -60,6 +60,8 @@ export class LeadDedupeComponent implements OnInit {
       this.dummmyArray.push({
         applicantId: `${i}`,
         loanCreatedBy: " person",
+        createdDate: "05-03-2020",
+        leadId: "11257009",
         branch: "chennai",
         businessDivision: "Vehicle Finance",
         product: "New CV",
