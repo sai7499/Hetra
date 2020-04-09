@@ -563,6 +563,129 @@
           { "key":1, "value": "Make-1"},
           { "key":2, "value": "Make-2"}
         ]
+      }],
+      "pslData": [{
+        "activity": [
+          { "key": 1, "value": "Agriculture"},
+          { "key": 2, "value": "Micro, Small and Medium Enterprises"},
+          { "key": 3, "value": "Housing"},
+          { "key": 4, "value": "Export Credit"},
+          { "key": 5, "value": "Education"},
+          { "key": 6, "value": "Social Infrastructure"},
+          { "key": 7, "value": "Renewable Energy"},
+          { "key": 8, "value": "Others"}  
+        ],
+        "propertyType": [
+          { "key": 1, "value": "Self Construction"},
+          { "key": 2, "value": "Vacant Land"},
+          { "key": 3, "value": "New Flat"},
+          { "key": 4, "value": "Resale Flat"},
+          { "key": 5, "value": "Independent Flat New"},
+          { "key": 6, "value": "Independent Flat Old"},
+          { "key": 7, "value": "Composite"}
+        ],
+        "detailActivity": [
+          { "key": 1, "value": ["Agriculture", "Allied Activities", "Agriculture Infrastructure", "Ancilary activities"]},
+          { "key": 2, "value": ["Manufacturing", "Service"]},
+          { "key": 3, "value": ["Self Construction", "Purchase", "Balance Transfer", "Repair and Renovation"]},
+          { "key": 4, "value": []}
+        ],
+        "purposeLoan": [
+          {"key": 1, "value": ["Growing", "Spraying", "weeding", "harvesting", "sorting", 
+            "Transporting own farm produce","purchase of agricultural implements and machinery",
+            "Purchase of agriculture land","loans for irrigation", 
+            "loans for development activities in farms", "Vermiculture"]},
+          { "key": 2, "value": ["Pollutry", "Sericulture", "Animal Husbandry", "Bee-Keeping", "Dairies",
+            "Fisheries", "Food and Agro processing unit", "Forestry", "Horticulture", "Other allied activities"]},
+          {"key": 3, "value": ["construction of warehouse", "construction of market yards", "construction of godowns",
+              "construction of silos","cold storage units designed to store agri produce",
+              "cold storage chains designed to store agri produce/Products", 
+              "soil conservation and watershed development", "Plant tissue culture",
+              "Agri-biotechnology", "seed production", "production of bio-pesticides", "bio-fertilizer",
+              "vermi compositing"]},
+          {"key": 4, "value": ["Loans for setting of Agriclinics", "Loans for setting up of Agribusiness Centres",
+                "Loans for Food and Agro-processing","Loans to custom service, maintaining fleet of tractors",
+                "Loans to custom service, maintaining service buildozers", 
+                "Loans to custom service, maintaining wellboring", "Loans to custom service, maintaining equipement",
+                "Loans to custom service, maintaining threshers", 
+                "Bank loans to Primary Agricultural Credit Societies (PACS) for an agriculture",
+                "Loans to Farmers Service Societies (FSS) for an agriculture",
+                "Loans to Large-sized Adivasi Multi-Purpose Societies (LAMPS) for an agriculture"]},
+          {"key": 5, "value": ["Working capital needs", "Setting up new manufacturing unit",
+                  "setting up new trading/service unit","Modernization and renovation of existing service units",
+                  "Modernization and renovation of existing manufacturing units", 
+                  "Purchase of land & construction of factory shed",
+                  "Purchase of fixed assets viz., land, building, vehicles & equipments", 
+                  "Erecting plant & Machinery, equipments, etc",
+                  "Personal use"]},
+          { "key": 6, "value": ["Working capital needs", "Setting up new manufacturing unit",
+            "Modernization and renovation of existing manufacturing units", "Purchase of land & construction of factory shed",
+            "Erecting plant & Machinery, equipments, etc"]}
+        ],
+   
+        "typeService": [
+          { "Key": 1, "value": ["Transport services"]}
+        ],
+        "businessActivity": [
+          {"key": 1, "value": "Business Activity"},
+          {"key": 2, "value": "agriculture-Business Activity"}
+        ],
+        "weakerSection": [
+          {"key": 1, "value": "Small and marrginal Farmers"},
+          {"key": 2, "value": " Schedule caste and schedule tribes"},
+          {"key": 3, "value": "Persons with disabilities"},
+          {"key": 4, "value": "Induvival women beneficires upto 1 Lakh borrower"},
+          {"key": 5, "value": "Distressed farmers indebted to agriculture-insitutional lenders"},
+          {"key": 6, "value": " Artisans, village and cottage industries where induival credit limit upto 1 Lakh borrower"},
+          {"key": 7, "value": "Beneficares under govermen schemes (NRLM, NULM, SRMS)"},
+          {"key": 8, "value": "Beneficares of differential rate of interest (DRI)"},
+          {"key": 9, "value": "Self Help groups"},
+          {"key": 10, "value": " Minority communities" }
+        ],
+        "pslCertificateHos": [
+          { "key": 1, "value": "PSLC General"}
+        ],
+        "pslCertificate": [
+          { "key": 1, "value": "PSLC SF"},
+          { "key": 2, "value": "PSLC MF"},
+          { "key": 3, "value": "PSLC Agriculture"}
+        ],
+        "pslSubCategoryAg": [
+          { "key": 1, "value": "Marginal Farmer"},
+          { "key": 2, "value": "Small Farmer"},
+          { "key": 3, "value": "Other Farmer"}
+        ],
+        "pslCategoryHos": [
+          { "key": 1, "value": "Housing-PSL"},
+          { "key": 2, "value": "Non-Housing-PSL"}
+        ],
+        "pslCategoryMsme":[
+          { "key": 1, "value": "Non-PSL"}
+        ],
+        "pslCategoryAg":[
+          { "key": 1, "value": "Agriculture"}
+        ],
+        "propertyLocation":[
+          { "key": 1, "value": "Metro"},
+          { "key": 2, "value": "Non-Metro"}
+        ],
+        "relWithLandowner":[
+          { "key": 1, "value": "Spouse"},
+          { "key": 2, "value": "Father"},
+          { "key": 1, "value": "Mother"},
+          { "key": 2, "value": "Son"},
+          { "key": 1, "value": "Daughter"},
+          { "key": 2, "value": "Sister"},
+          { "key": 1, "value": "Brother"}
+        ],
+        "landOwner":[
+          { "key": 1, "value": "Applicant"},
+          { "key": 2, "value": "Co-Applicant"}
+        ],
+        "landHolding":[
+          { "key": 1, "value": "Yes"},
+          { "key": 2, "value": "No"}
+        ]
       }]
   }
 ]
