@@ -1,0 +1,10 @@
+#scroll_starts_here {
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.dropdown_individual{
+    background-color: #6c757d;
+    padding: 6px;
+    color: white;
+}
