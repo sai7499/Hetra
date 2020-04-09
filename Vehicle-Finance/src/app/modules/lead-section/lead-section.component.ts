@@ -45,9 +45,13 @@ export class LeadSectionComponent implements OnInit {
       } else if (url.includes('vehicle-details')) {
         this.currentPage = 2;
       } else if (url.includes('applicant-details')) {
-        this.currentPage = 3;
+        this.currentPage = 1;
       } else if (url.includes('loan-details')) {
         this.currentPage = 4;
+      } else if (url.includes('add-vehicle')) {
+        this.currentPage = 2;
+      }else if (url.includes('co-applicant')) {
+        this.currentPage = 1;
       } else {
         this.currentPage = 0;
       }

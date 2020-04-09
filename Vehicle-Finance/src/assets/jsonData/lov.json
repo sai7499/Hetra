@@ -55,43 +55,43 @@
         "assetModel": [
           {
             "key": 1,
-            "value": "Asset-Model-1"
+            "value": "Mahindra XUV Aero"
           },
           {
             "key": 2,
-            "value": "Asset-Model-2"
+            "value": "Renault Arkana"
           },
           {
             "key": 3,
-            "value": "Asset-Model-3"
+            "value": "Mahindra eKUV100"
           }
         ],
         "assetBodyType": [
           {
             "key": 1,
-            "value": "Asset Body Type 1"
+            "value": "Chevrolet"
           },
           {
             "key": 2,
-            "value": "Asset Body Type 2"
+            "value": "Swift"
           },
           {
             "key": 3,
-            "value": "Asset Body Type 3"
+            "value": "Ciaz"
           }
         ],
         "assetVariant": [
           {
             "key": 1,
-            "value": "Asset-variant-1"
+            "value": "Petrol"
           },
           {
             "key": 2,
-            "value": "Asset-variant-2"
+            "value": "AMT"
           },
           {
             "key": 3,
-            "value": "Asset-variant-3"
+            "value": "Petrol"
           }
         ],
         "assetSubVariant": [
