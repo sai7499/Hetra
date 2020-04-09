@@ -11,6 +11,8 @@ export class ApplicantDetailsComponent implements OnInit {
     constructor(private router: Router, private location: Location) {}
 
     ngOnInit() {
+        const currentUrl = this.location.path();
+        this.locationIndex = this.getLocationIndex(currentUrl);
         this.location.onUrlChange((url: string) => {
             console.log('url', url, 'state');
             this.locationIndex = this.getLocationIndex(url);
@@ -18,7 +20,6 @@ export class ApplicantDetailsComponent implements OnInit {
     }
 
     getLocationIndex(url: string) {
-
         if (url.includes('basic-data')) {
             return 0;
         } else if (url.includes('bank-details')) {
