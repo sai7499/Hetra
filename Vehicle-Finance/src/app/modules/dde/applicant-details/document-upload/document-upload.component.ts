@@ -14,7 +14,7 @@ export class DocumentUploadComponent implements OnInit {
   isHeight3: boolean;
   isHeight4: boolean;
 
-  labels = {};
+  labels: any = {};
 
   constructor(
     private labelsService: LabelsService
