@@ -35,35 +35,39 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.permanentAddressCity}}</label>
-                        <select class="form-control" id="permanent_address_city">
+                        <input type="text" class="form-control" id="permanent_address_city" readonly>
+                        <!-- <select class="form-control" id="permanent_address_city">
                             <option>City 1</option>
                             <option>City 2</option>
                             <option>City 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.permanentAddressDistrict}}</label>
-                        <select class="form-control" id="permanent_address_district">
+                        <input type="text" class="form-control" id="permanent_address_district" readonly>
+                        <!-- <select class="form-control" id="permanent_address_district">
                             <option>District 1</option>
                             <option>District 2</option>
                             <option>District 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.permanentAddressState}}</label>
-                        <select class="form-control" id="permanent_address_state">
+                        <input type="text" class="form-control" id="permanent_address_state" readonly>
+                        <!-- <select class="form-control" id="permanent_address_state">
                             <option>State 1</option>
                             <option>State 2</option>
                             <option>State 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.permanentAddressCountry}}</label>
-                        <select class="form-control" id="permanent_address_country">
+                        <input type="text" class="form-control" id="permanent_address_country" readonly>
+                        <!-- <select class="form-control" id="permanent_address_country">
                             <option>Country 1</option>
                             <option>Country 2</option>
                             <option>Country 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="landline">{{labels.permanentAddressLandline}}</label>
@@ -99,50 +103,57 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_city">{{labels.currentAddressCity}}</label>
-                        <select class="form-control" id="current_address_city">
+                        <input type="text" class="form-control" id="current_address_city" readonly>
+                        <!-- <select class="form-control" id="current_address_city">
                             <option>City 1</option>
                             <option>City 2</option>
                             <option>City 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressDistrict}}</label>
-                        <select class="form-control" id="current_address_district">
+                        <input type="text" class="form-control" id="current_address_district" readonly>
+                        <!-- <select class="form-control" id="current_address_district">
                             <option>District 1</option>
                             <option>District 2</option>
                             <option>District 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressState}}</label>
-                        <select class="form-control" id="current_address_state">
+                        <input type="text" class="form-control" id="current_address_state" readonly>
+                        <!-- <select class="form-control" id="current_address_state">
                             <option>State 1</option>
                             <option>State 2</option>
                             <option>State 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressCountry}}</label>
-                        <select class="form-control" id="current_address_country">
+                        <input type="text" class="form-control" id="current_address_country" readonly>
+                        <!-- <select class="form-control" id="current_address_country">
                             <option>Country 1</option>
                             <option>Country 2</option>
                             <option>Country 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.typeOfAccommmodation}}</label>
-                        <select class="form-control">
+                        <app-vf-custom-select [values]="values?.typeOfAccomdation">
+                        </app-vf-custom-select>
+                        <!-- <select class="form-control">
                             <option>Own House</option>
                             <option>Rented House</option>
 
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.periodOfCurrentStayInYears}}</label>
-                        <select class="form-control">
+                        <app-vf-custom-select [values]="values?.periodOfCurrentStay"></app-vf-custom-select>
+                        <!-- <select class="form-control">
                             <option>5 years</option>
                             <option>2 years</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_landline">{{labels.landlineNumber}}</label>
@@ -173,50 +184,57 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressCity}}</label>
-                        <select class="form-control">
+                        <input type="text" class="form-control" readonly>
+                        <!-- <select class="form-control">
                             <option>City 1</option>
                             <option>City 2</option>
                             <option>City 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressDistrict}}</label>
-                        <select class="form-control">
+                        <input type="text" class="form-control" readonly>
+                        <!-- <select class="form-control">
                             <option>District 1</option>
                             <option>District 2</option>
                             <option>District 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressState}}</label>
-                        <select class="form-control">
+                        <input type="text" class="form-control" readonly>
+                        <!-- <select class="form-control">
                             <option>State 1</option>
                             <option>State 2</option>
                             <option>State 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.currentAddressCountry}}</label>
-                        <select class="form-control">
+                        <input type="text" class="form-control" readonly>
+                        <!-- <select class="form-control">
                             <option>Country 1</option>
                             <option>Country 2</option>
                             <option>Country 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.typeOfAccommmodation}}</label>
-                        <select class="form-control">
+                        <app-vf-custom-select [values]="values?.typeOfAccomdation">
+                        </app-vf-custom-select>
+                        <!-- <select class="form-control">
                             <option>Own House</option>
                             <option>Rented House</option>
 
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.periodOfCurrentStayInYears}}</label>
-                        <select class="form-control">
+                        <app-vf-custom-select [values]="values?.periodOfCurrentStay"></app-vf-custom-select>
+                        <!-- <select class="form-control">
                             <option>5 years</option>
                             <option>2 years</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_landline_num">{{labels.landlineNumber}}</label>
@@ -246,58 +264,65 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressPinCode}}</label>
-                        <select class="form-control" id="current_address_pin_code">
+                        <input type="text" class="form-control" id="current_address_pin_code">
+                        <!-- <select class="form-control" id="current_address_pin_code">
                             <option>pincode 1</option>
                             <option>pincode 2</option>
                             <option>pincode 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressCity}}</label>
-                        <select class="form-control" id="current_address_city">
+                        <input type="text" class="form-control" id="current_address_city" readonly>
+                        <!-- <select class="form-control" id="current_address_city">
                             <option>City 1</option>
                             <option>City 2</option>
                             <option>City 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressDistrict}}</label>
-                        <select class="form-control" id="current_address_district">
+                        <input type="text" class="form-control" id="current_address_district" readonly>
+                        <!-- <select class="form-control" id="current_address_district">
                             <option>District 1</option>
                             <option>District 2</option>
                             <option>District 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressState}}</label>
-                        <select class="form-control" id="current_address_state">
+                        <input type="text" class="form-control" id="current_address_state" readonly>
+                        <!-- <select class="form-control" id="current_address_state">
                             <option>State 1</option>
                             <option>State 2</option>
                             <option>State 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressCountry}}</label>
-                        <select class="form-control" id="current_address_country">
+                        <input type="text" class="form-control" id="current_address_country" readonly>
+                        <!-- <select class="form-control" id="current_address_country">
                             <option>Country 1</option>
                             <option>Country 2</option>
                             <option>Country 3</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressLandlineNumber}}</label>
-                        <select class="form-control">
+                        <input type="text" class="form-control">
+                        <!-- <select class="form-control">
                             <option>Landline 1</option>
                             <option>Landline 2</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.alternateMobileNumber}}</label>
-                        <select class="form-control">
+                        <input type="text" class="form-control">
+                        <!-- <select class="form-control">
                             <option>Mobile Number 1</option>
                             <option>Mobile Number 2</option>
                             <option>Mobile Number 3</option>
-                        </select>
+                        </select> -->
                     </div>
                 </div>
             </div>

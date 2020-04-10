@@ -1,37 +1,37 @@
 <div class="content">
-    <form class="multisteps-form__form" id="scroll_starts_here">
+    <form class="multisteps-form__form" method="POST">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn" id="scroll_starts_here">
             <h4 class="title">{{labels.documentUpload}}</h4>
             <div class="panel-group hidden-xs" id="accordion">
                 <div class="panel panel-primary active">
                     <div class="panel-heading" id="headingOne">
-                        <h4 class="panel-title" (click)=" showHide('photo')">
-                            <a data-toggle="collapse" data-parent="#accordion" >
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                                 <i class="fa fa-image"></i> &nbsp; {{labels.photo}} <i class="fa fa-angle-down"></i>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseOne" class="panel-collapse collapse" [ngClass]="{'height': isHeight1, 'in': isHeight1}">
+                    <div id="collapseOne" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="photo">
-                                <img src="../../../../../assets/images/user1.jpg" alt="[Image: Photo]" width="100">
+                                <img src="../../../../../assets/images/user.png" alt="[Image: Photo]" width="100">
                             </div>
                             <!-- <div class="form-group col-sm-6 col-md-3">
-                            <label for="file">Upload photo</label>
-                            <input type="file" id="file">
-                        </div> -->
+                                <label for="file">Upload photo</label>
+                                <input type="file" id="file">
+                            </div> -->
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading" id="headingTwo">
-                        <h4 class="panel-title" (click)=" showHide('signature')">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" >
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                                 <i class="fa fa-image"></i>&nbsp; {{labels.signature}} <i class="fa fa-angle-down"></i>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseTwo" class="panel-collapse collapse" [ngClass]="{'height': isHeight2, 'in': isHeight2}">
+                    <div id="collapseTwo" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="form-group col-sm-6 col-md-3">
                                 <label for="file">{{labels.uploadSignature}}</label>
@@ -42,19 +42,21 @@
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading" id="headingThree">
-                        <h4 class="panel-title" (click)=" showHide('ID Proof')">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" >
-                                <i class="fa fa-address-card"></i>&nbsp; {{labels.IDproof}} <i class="fa fa-angle-down"></i>
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                <i class="fa fa-address-card"></i>&nbsp;{{labels.IDproof}} <i
+                                    class="fa fa-angle-down"></i>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseThree" class="panel-collapse collapse" [ngClass]="{'height': isHeight3, 'in': isHeight3}">
+                    <div id="collapseThree" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="form-group col-sm-6 col-md-3">
                                 <label for="document">{{labels.documentName}}</label>
-                                <select class="form-control">
+                                <app-vf-custom-select [values]="values?.documentName"></app-vf-custom-select>
+                                <!-- <select class="form-control">
                                     <option>Select</option>
-                                </select>
+                                </select> -->
                             </div>
                             <div class="form-group col-sm-6 col-md-3">
                                 <label for="documentnumber">{{labels.documentNumber}}</label>
@@ -87,27 +89,28 @@
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading" id="headingTwo1">
-                        <h4 class="panel-title" (click)=" showHide('Additional Document')">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" >
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
                                 <i class="fa fa-plus-circle"></i>&nbsp; {{labels.additionalDocument}} <i
                                     class="fa fa-angle-down"></i>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseTwo1" class="panel-collapse collapse" [ngClass]="{'height': isHeight4, 'in': isHeight4}">
+                    <div id="collapseTwo1" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="form-group col-sm-6 col-md-3">
                                 <label for="document">{{labels.documentName}}</label>
-                                <select class="form-control">
+                                <app-vf-custom-select [values]="values?.documentName"></app-vf-custom-select>
+                                <!-- <select class="form-control">
                                     <option>Select</option>
-                                </select>
+                                </select> -->
                             </div>
                             <div class="form-group col-sm-6 col-md-3">
                                 <label for="documentnumber">{{labels.documentNumber}}</label>
                                 <input type="text" class="form-control" id="amount">
                             </div>
                             <div class="form-group col-sm-6 col-md-3">
-                                <label for="idate">Issues Date</label>
+                                <label for="idate">{{labels.issuesDate}}</label>
                                 <div class="input-group input-medium">
                                     <span class="input-group-btn">
                                         <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>

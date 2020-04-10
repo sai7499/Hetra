@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
 
 
 @Component({
@@ -15,13 +16,18 @@ export class DocumentUploadComponent implements OnInit {
   isHeight4: boolean;
 
   labels: any = {};
+  values: any = [];
 
   constructor(
-    private labelsService: LabelsService
+    private labelsService: LabelsService,
+    private lovDataService: LovDataService
   ) { }
 
   ngOnInit() {
     this.getLabelData();
+    this.lovDataService.getLovData().subscribe((res: any) => {
+      this.values = res[0].documentUpload[0]
+    })
   }
 
   getLabelData() {

@@ -24,11 +24,9 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/bootstrap.min.css",
               "./src/styles.css",
-              "src/assets/css/style-responsive.css",
-              "src/assets/css/style-progress-step.css"
+              "src/assets/css/style-responsive.css"
             ],
             "scripts": []
           },

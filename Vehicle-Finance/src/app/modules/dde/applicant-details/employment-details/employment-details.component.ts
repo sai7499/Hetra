@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
 
 
 @Component({
@@ -10,14 +11,20 @@ import { LabelsService } from 'src/app/services/labels.service';
 export class EmploymentDetailsComponent implements OnInit {
 
   isIndividual: boolean = true;
-  labels = {};
+  labels: any = {};
+  values: any = [];
 
   constructor(
-    private labelsService: LabelsService
+    private labelsService: LabelsService,
+    private lovDataService: LovDataService
   ) { }
 
   ngOnInit() {
     this.getLabelData();
+    this.lovDataService.getLovData().subscribe((res: any) => {
+      this.values = res[0].employmentDetails[0];
+      console.log('employmentvalue', this.values);
+    })
   }
 
   getLabelData() {
