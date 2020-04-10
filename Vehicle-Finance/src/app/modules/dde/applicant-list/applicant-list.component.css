@@ -1,0 +1,6 @@
+.controlWidth{
+    width : 100%;
+}
+.pagination >.active >a{
+    z-index: 0;
+}
