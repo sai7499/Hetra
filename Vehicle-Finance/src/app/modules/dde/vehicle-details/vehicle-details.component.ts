@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -10,16 +10,21 @@ import { Location } from '@angular/common';
 export class VehicleDetailsComponent implements OnInit {
 
   locationIndex = 0;
-  constructor(private router: Router, private location: Location) { }
+  constructor(private router: Router, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    // this.route.fragment.subscribe((urlState: any) => {
+    //   console.log(urlState, 'urlState')
+    // })
+
     this.location.onUrlChange((url: string) => {
-      console.log('url', url, 'state');
       this.locationIndex = this.getLocationIndex(url);
     });
   }
 
   getLocationIndex(url: string) {
+    console.log('url', url);
     if (url.includes('basic-vehicle-details')) {
       return 0;
     } else if (url.includes('insurance-details')) {

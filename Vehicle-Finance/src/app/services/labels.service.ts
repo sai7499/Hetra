@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class LabelsService {
   private labelsurl = 'assets/labels/labels.json';
-  private labelDDEsurl  = 'assets/labels/dde/vehicle-details/label_basic_vehicle_details.json';
+  private labelDDEsurl  = 'assets/labels/label_credit_vehicle_details.json';
   private languageLabelsurl = 'assets/labels/labels-hindi.json';
 
   constructor(private http: HttpClient) {}

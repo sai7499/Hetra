@@ -19,8 +19,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
     this.labelsData.getLabelsOfDDEData()
       .subscribe(data => {
-        this.label = data[0];
-        console.log(this.label, 'Labelaa')
+        this.label = data[0].basicVehicleDetails[0];
       },
         error => {
           console.log(error, 'error')
