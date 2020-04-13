@@ -6,6 +6,8 @@ import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { IdentityDetailsComponent } from './identity-details/identity-details.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
+import { EmploymentDetailsComponent } from './employment-details/employment-details.component';
+import { DocumentUploadComponent } from './document-upload/document-upload.component';
 
 const routes: Routes = [
     {
@@ -18,7 +20,7 @@ const routes: Routes = [
             },
             {
                 path: 'bank-details',
-                component:  BankDetailsComponent
+                component: BankDetailsComponent
             },
             {
                 path: 'identity-details',
@@ -27,6 +29,15 @@ const routes: Routes = [
             {
                 path: 'address-details',
                 component: AddressDetailsComponent
+            },
+            {
+                path: 'employment-details',
+                component: EmploymentDetailsComponent
+
+            },
+            {
+                path: 'document-upload',
+                component: DocumentUploadComponent
             }
         ]
     }
@@ -36,4 +47,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class ApplicantRouterModule {}
+export class ApplicantRouterModule { }

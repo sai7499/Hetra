@@ -14,10 +14,9 @@ export class VehicleDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.route.fragment.subscribe((urlState: any) => {
-    //   console.log(urlState, 'urlState')
-    // })
 
+    const currentUrl = this.location.path();
+    this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
@@ -27,10 +26,8 @@ export class VehicleDetailsComponent implements OnInit {
     console.log('url', url);
     if (url.includes('basic-vehicle-details')) {
       return 0;
-    } else if (url.includes('insurance-details')) {
+    } else if (url.includes('viability-details')) {
       return 1;
-    } else if (url.includes('rto-details')) {
-      return 2;
     }
   }
 

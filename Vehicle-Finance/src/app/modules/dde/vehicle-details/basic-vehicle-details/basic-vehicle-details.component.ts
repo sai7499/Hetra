@@ -12,6 +12,8 @@ export class BasicVehicleDetailsComponent implements OnInit {
   basicVehicleForm: FormGroup;
   public label: any = {};
 
+  public select_main_button_value: string = 'New Car';
+
   constructor(private _fb: FormBuilder, private labelsData: LabelsService) { }
 
   ngOnInit() {
@@ -54,6 +56,11 @@ export class BasicVehicleDetailsComponent implements OnInit {
       fitness_date: ['', Validators.required],
       no_vehicle: ['', Validators.required]
     })
+  }
+
+  select_main_button(event: any) {
+    console.log('value', event.target.value)
+    this.select_main_button_value = event.target.value;
   }
 
 }

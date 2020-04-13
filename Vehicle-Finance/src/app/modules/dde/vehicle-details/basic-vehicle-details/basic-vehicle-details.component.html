@@ -1,209 +1,813 @@
 <div class="content">
     <form class="multisteps-form__form" [formGroup]="basicVehicleForm">
-        <!-- <h3 class="title" style="margin-top: -10px;"> {{ label.title }} </h3> -->
+        <div class="multisteps-form__panel js-active" data-animation="scaleIn" id="scroll_starts_here">
+            <!-- <h4 class="title">Vehicle Details</h4> -->
+            <div class="btn-sec clear-both row">
+                <div class="col-sm-5">
+                    <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
+                        <option value="New CV">New CV</option>
+                        <option value="New Car">New Car</option>
+                        <option value="Used CV">Used CV</option>
+                        <option value="Used Car">Used Car</option>
+                    </select>
+                </div>
+            </div>
+            <div class="" id="new_cv_show">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_make">Asset Make</label>
+                    <select class="form-control mandatory" id="asset_make">
+                        <option value="Tata Motors">Tata Motors</option>
+                    </select>
+                </div>
 
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="asset_variant">{{label.assetVariant}}</label>
-                <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
-                    <option value="1">Asset-variant-1</option>
-                    <option value="2">Asset-variant-2</option>
-                    <option value="3">Asset-variant-3</option>
-                </select>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_model">Asset Model</label>
+                    <select class="form-control mandatory" id="asset_model">
+                        <option value="1">Asset-Model-1</option>
+                        <option value="2">Asset-Model-2</option>
+                        <option value="3">Asset-Model-3</option>
+                    </select>
 
-                <!-- <app-vf-custom-select [values]="vehicleLov?.asset_variant" formControlName="asset_variant">
-                </app-vf-custom-select> -->
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_variant">Asset Variant</label>
+                    <select class="form-control mandatory" id="asset_variant">
+                        <option value="1">Asset-variant-1</option>
+                        <option value="2">Asset-variant-2</option>
+                        <option value="3">Asset-variant-3</option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_sub_variant">Asset Sub-Variant</label>
+                    <select class="form-control mandatory" id="asset_sub_variant">
+                        <option value="1">Sub Variant 1</option>
+                        <option value="2">Sub Variant 2</option>
+                        <option value="3">Sub Variant 3</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_other">Asset Variant - Other</label>
+                    <input type="text" class="form-control mandatory " id="asset_other"
+                        placeholder="Asset - Variant - Other" name="asset_other">
+
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_body_type">Asset Body Type</label>
+                    <select class="form-control mandatory" id="asset_body_type" name="asset_body_type">
+                        <option value="Body Type-1">Body Type-1</option>
+                        <option value="Body Type-2">Body Type-2</option>
+                        <option value="Body Type-3">Body Type-3</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="vehicle_type">Vehicle Type</label>
+                    <select class="form-control mandatory" id="vehicle_type" name="vehicle_type">
+                        <option value="Open">Open</option>
+                        <option value="Tipper">Tipper</option>
+                        <option value="Trailer">Trailer</option>
+                        <option value="Goods">Goods</option>
+                        <option value="Bus">Bus</option>
+                        <option value="Passenger">Passenger</option>
+                        <option value="Vehicle">Vehicle</option>
+                        <option value="ODC">ODC</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="ex_showroom_cost">Ex Showroom Cost</label>
+                    <input type="text" class="form-control mandatory " id="ex_showroom_cost"
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="final_asset_cost">Final Asset Cost</label>
+                    <input type="text" class="form-control mandatory " id="final_asset_cost"
+                        placeholder="Final Asset Cost" name="final_asset_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="dealer_subvention_applicable">Dealer Subvention Applicable</label>
+                    <select class="form-control mandatory" id="dealer_subvention_applicable">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="dealer_subvention_amount">Dealer Subvention Amount</label>
+                    <input type="text" class="form-control" id="dealer_subvention_amount"
+                        placeholder="Dealer Subvention Amount" name="dealer_subvention_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="dealer_subvention_irr">Dealer Subvention Part of Operating IRR</label>
+                    <input type="text" class="form-control" id="dealer_subvention_irr"
+                        placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="dealer_subvention_finance">Dealer Subvention Part of Finance
+                        Charges</label>
+                    <input type="text" class="form-control" id="dealer_subvention_finance"
+                        placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="manufacturer_subvention_applicable">Manufacturer Subvention
+                        Applicable</label>
+                    <select class="form-control mandatory" id="manufacturer_subvention_applicable">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="manufacturer_subvention_amount">Manufacturer Subvention Amount</label>
+                    <input type="text" class="form-control" id="manufacturer_subvention_amount"
+                        placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="manufacturer_subvention_irr">Manufacturer Subvention Part of Operating
+                        IRR</label>
+                    <input type="text" class="form-control" id="manufacturer_subvention_irr"
+                        placeholder="Manufacturer Subvention Part of Operating IRR" name="manufacturer_subvention_irr">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="manufacturer_subvention_finance">Manufacturer Subvention Part of Finance
+                        Charges</label>
+                    <input type="text" class="form-control" id="manufacturer_subvention_finance"
+                        placeholder="Manufacturer Subvention Part of Finance Charges"
+                        name="manufacturer_subvention_finance">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="proforma_invoice_no">Proforma Invoice No</label>
+                    <input type="text" class="form-control" id="proforma_invoice_no" placeholder="Proforma Invoice No"
+                        name="proforma_invoice_no">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="proforma_invoice_date">Proforma Invoice Date</label>
+                    <input type="text" class="form-control" id="proforma_invoice_date"
+                        placeholder="Proforma Invoice Date" name="proforma_invoice_date">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="proforma_invoice_amount">Proforma Invoice Amount</label>
+                    <input type="text" class="form-control" id="proforma_invoice_amount"
+                        placeholder="Proforma Invoice Amount" name="proforma_invoice_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
+                    <label for="orp_funding">ORP Funding</label>
+                    <select class="form-control mandatory" id="orp_funding">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="insurance">Insurance</label>
+                    <input type="text" class="form-control" id="insurance" placeholder="Insurance" name="insurance">
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="one_time_tax">One Time Tax</label>
+                    <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
+                        name="one_time_tax">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="pac">PAC</label>
+                    <select class="form-control" id="pac">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="vas">VAS</label>
+                    <select class="form-control" id="vas">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="emi_protect">EMI Protect</label>
+                    <select class="form-control" id="emi_protect">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                    <label for="fast_tag">Fast Tag</label>
+                    <select class="form-control" id="fast_tag">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                    <label for="others">Others</label>
+                    <input type="text" class="form-control" id="others" placeholder="Others" name="others">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                    <label for="discount">Discount</label>
+                    <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount">
+                </div>
 
             </div>
 
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
-                    <option value="1">Sub Variant 1</option>
-                    <option value="2">Sub Variant 2</option>
-                    <option value="3">Sub Variant 3</option>
-                </select>
+            <div class="" id="new_car_show">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_make">Asset Make</label>
+                    <select class="form-control mandatory" id="asset_make">
+                        <option value="Tata Motors">Tata Motors</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_model">Asset Model</label>
+                    <select class="form-control mandatory" id="asset_model">
+                        <option value="1">Asset-Model-1</option>
+                        <option value="2">Asset-Model-2</option>
+                        <option value="3">Asset-Model-3</option>
+                    </select>
+
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_variant">Asset Variant</label>
+                    <select class="form-control mandatory" id="asset_variant">
+                        <option value="1">Asset-variant-1</option>
+                        <option value="2">Asset-variant-2</option>
+                        <option value="3">Asset-variant-3</option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_sub_variant">Asset Sub-Variant</label>
+                    <select class="form-control mandatory" id="asset_sub_variant">
+                        <option value="1">Sub Variant 1</option>
+                        <option value="2">Sub Variant 2</option>
+                        <option value="3">Sub Variant 3</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_other">Asset Variant - Other</label>
+                    <input type="text" class="form-control mandatory " id="asset_other"
+                        placeholder="Asset - Variant - Other" name="asset_other">
+
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="vehicle_type">Vehicle Type</label>
+                    <select class="form-control mandatory" id="vehicle_type" name="vehicle_type">
+                        <option value="Open">Open</option>
+                        <option value="Tipper">Tipper</option>
+                        <option value="Trailer">Trailer</option>
+                        <option value="Goods">Goods</option>
+                        <option value="Bus">Bus</option>
+                        <option value="Passenger">Passenger</option>
+                        <option value="Vehicle">Vehicle</option>
+                        <option value="ODC">ODC</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="ex_showroom_cost">Ex Showroom Cost</label>
+                    <input type="text" class="form-control mandatory " id="ex_showroom_cost"
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="final_asset_cost">Final Asset Cost</label>
+                    <input type="text" class="form-control mandatory " id="final_asset_cost"
+                        placeholder="Final Asset Cost" name="final_asset_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="dealer_subvention_applicable">Dealer Subvention Applicable</label>
+                    <select class="form-control mandatory" id="dealer_subvention_applicable">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="dealer_subvention_amount">Dealer Subvention Amount</label>
+                    <input type="text" class="form-control" id="dealer_subvention_amount"
+                        placeholder="Dealer Subvention Amount" name="dealer_subvention_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="dealer_subvention_irr">Dealer Subvention Part of Operating IRR</label>
+                    <input type="text" class="form-control" id="dealer_subvention_irr"
+                        placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="dealer_subvention_finance">Dealer Subvention Part of Finance
+                        Charges</label>
+                    <input type="text" class="form-control" id="dealer_subvention_finance"
+                        placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="manufacturer_subvention_applicable">Manufacturer Subvention
+                        Applicable</label>
+                    <select class="form-control mandatory" id="manufacturer_subvention_applicable">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="manufacturer_subvention_amount">Manufacturer Subvention Amount</label>
+                    <input type="text" class="form-control" id="manufacturer_subvention_amount"
+                        placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="manufacturer_subvention_irr">Manufacturer Subvention Part of Operating
+                        IRR</label>
+                    <input type="text" class="form-control" id="manufacturer_subvention_irr"
+                        placeholder="Manufacturer Subvention Part of Operating IRR" name="manufacturer_subvention_irr">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="manufacturer_subvention_finance">Manufacturer Subvention Part of Finance
+                        Charges</label>
+                    <input type="text" class="form-control" id="manufacturer_subvention_finance"
+                        placeholder="Manufacturer Subvention Part of Finance Charges"
+                        name="manufacturer_subvention_finance">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="proforma_invoice_no">Proforma Invoice No</label>
+                    <input type="text" class="form-control" id="proforma_invoice_no" placeholder="Proforma Invoice No"
+                        name="proforma_invoice_no">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="proforma_invoice_date">Proforma Invoice Date</label>
+                    <input type="text" class="form-control" id="proforma_invoice_date"
+                        placeholder="Proforma Invoice Date" name="proforma_invoice_date">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="proforma_invoice_amount">Proforma Invoice Amount</label>
+                    <input type="text" class="form-control" id="proforma_invoice_amount"
+                        placeholder="Proforma Invoice Amount" name="proforma_invoice_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
+                    <label for="orp_funding">ORP Funding</label>
+                    <select class="form-control mandatory" id="orp_funding">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="insurance">Insurance</label>
+                    <input type="text" class="form-control" id="insurance" placeholder="Insurance" name="insurance">
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="one_time_tax">One Time Tax</label>
+                    <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
+                        name="one_time_tax">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="pac">PAC</label>
+                    <select class="form-control" id="pac">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="vas">VAS</label>
+                    <select class="form-control" id="vas">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                    <label for="emi_protect">EMI Protect</label>
+                    <select class="form-control" id="emi_protect">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                    <label for="fast_tag">Fast Tag</label>
+                    <select class="form-control" id="fast_tag">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                    <label for="others">Others</label>
+                    <input type="text" class="form-control" id="others" placeholder="Others" name="others">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                    <label for="discount">Discount</label>
+                    <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount">
+                </div>
 
             </div>
+            <div class="" id="used_cv_show">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="registartion_number">Vechical Registration No</label>
+                    <input type="text" class="form-control mandatory" id="registartion_number"
+                        placeholder="Vechical Registration No" name="registartion_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_make">Asset Make</label>
+                    <select class="form-control mandatory" id="asset_make">
+                        <option value="Tata Motors">Tata Motors</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_model">Asset Model</label>
+                    <select class="form-control mandatory" id="asset_model">
+                        <option value="1">Asset-Model-1</option>
+                        <option value="2">Asset-Model-2</option>
+                        <option value="3">Asset-Model-3</option>
+                    </select>
+
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_variant">Asset Variant</label>
+                    <select class="form-control mandatory" id="asset_variant">
+                        <option value="1">Asset-variant-1</option>
+                        <option value="2">Asset-variant-2</option>
+                        <option value="3">Asset-variant-3</option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_sub_variant">Asset Sub-Variant</label>
+                    <select class="form-control mandatory" id="asset_sub_variant">
+                        <option value="1">Sub Variant 1</option>
+                        <option value="2">Sub Variant 2</option>
+                        <option value="3">Sub Variant 3</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_other">Asset Variant - Other</label>
+                    <input type="text" class="form-control mandatory " id="asset_other"
+                        placeholder="Asset - Variant - Other" name="asset_other">
+
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_body_type">Asset Body Type</label>
+                    <select class="form-control mandatory" id="asset_body_type" name="asset_body_type">
+                        <option value="Body Type-1">Body Type-1</option>
+                        <option value="Body Type-2">Body Type-2</option>
+                        <option value="Body Type-3">Body Type-3</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="vehicle_type">Vehicle Type</label>
+                    <select class="form-control mandatory" id="vehicle_type" name="vehicle_type">
+                        <option value="Open">Open</option>
+                        <option value="Tipper">Tipper</option>
+                        <option value="Trailer">Trailer</option>
+                        <option value="Goods">Goods</option>
+                        <option value="Bus">Bus</option>
+                        <option value="Passenger">Passenger</option>
+                        <option value="Vehicle">Vehicle</option>
+                        <option value="ODC">ODC</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vechical_region">Region</label>
+                    <select class="form-control mandatory" id="vechical_region">
+                        <option value="TN">TN</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Karnataka">Karnataka</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="month_year">Month and Year</label>
+                    <input type="date" class="form-control mandatory " id="month_year" placeholder="Month and Year"
+                        name="month_year">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="age_vehicle">Age of Vehicle</label>
+                    <input type="text" class="form-control mandatory " id="age_vehicle" placeholder="Age of Vehicle"
+                        name="age_vehicle">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="ex_showroom_cost">Ex Showroom Cost</label>
+                    <input type="text" class="form-control mandatory " id="ex_showroom_cost"
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="fitness_date">Fitness Date</label>
+                    <input type="date" class="form-control mandatory date_caps" id="fitness_date"
+                        placeholder="Fitness Date" name="fitness_date">
+
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="permit_type">Type of Permit</label>
+                    <select class="form-control mandatory" id="permit_type">
+                        <option value="National">National</option>
+                        <option value="State">State</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="permit_other">Type of Permit Other</label>
+                    <input type="text" class="form-control" id="permit_other" placeholder="Type of Permit Other"
+                        name="permit_other">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="permit_expire_date">Permit Expire Date</label>
+                    <input type="date" class="form-control mandatory date_caps" id="permit_expire_date"
+                        placeholder="Permit Expire Date" name="permit_expire_date">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="permit_upload"> Upload Permit Document</label>
+                    <input id="permit_upload" type="file" multiple>
+                    <div id="permit_upload_perview"></div>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="chassis_number">Chassis Number</label>
+                    <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                        name="chassis_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="engine_number">Engine Number</label>
+                    <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
+                        name="engine_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_purchased_cost">Vehicle Purchased Cost</label>
+                    <input type="text" class="form-control" id="vehicle_purchased_cost"
+                        placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_ownership">Vehicle Ownership Member</label>
+                    <input type="number" class="form-control" id="vehicle_ownership"
+                        placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="rc_owner_name">RC Owner Name</label>
+                    <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
+                        name="rc_owner_name"> </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_registration_date">Vehicle Registration Date</label>
+                    <input type="date" class="form-control mandatory date_caps" id="vehicle_registration_date"
+                        placeholder="Vehicle Registration Date" name="vehicle_registration_date">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="re_registered_vehicle">Re-Registered Vehicle</label>
+                    <select class="form-control mandatory" id="re_registered_vehicle">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="inter_state_vehicle">Inter State Vehicle</label>
+                    <select class="form-control mandatory" id="inter_state_vehicle">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="duplicate_rc">Duplicate RC</label>
+                    <select class="form-control mandatory" id="duplicate_rc">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="cubic_capacity">Cubic Capacity</label>
+                    <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
+                        name="cubic_capacity">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="seating_capacity">Seating Capacity</label>
+                    <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
+                        name="seating_capacity">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="insurance_validity">Insurance Validity</label>
+                    <input type="date" class="form-control mandatory date_caps" id="insurance_validity"
+                        placeholder="Insurance Validity" name="insurance_validity">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="idv">IDV</label>
+                    <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="insurance_copy">Upload Insurance Document</label>
+                    <input id="insurance_copy" type="file" multiple>
+                    <div id="insurance_preview"></div>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="frsd_required">FRSD Funding Required </label>
+                    <input type="text" class="form-control mandatory" id="frsd_required"
+                        placeholder="FRSD Funding Required" name="frsd_required">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="frsd_amount">FRSD Premium Amount</label>
+
+                    <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                        name="frsd_amount">
+                </div>
+
+            </div>
+            <div class="" id="used_car_show">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="registartion_number">Vechical Registration No</label>
+                    <input type="text" class="form-control mandatory" id="registartion_number"
+                        placeholder="Vechical Registration No" name="registartion_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_make">Asset Make</label>
+                    <select class="form-control mandatory" id="asset_make">
+                        <option value="Tata Motors">Tata Motors</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_model">Asset Model</label>
+                    <select class="form-control mandatory" id="asset_model">
+                        <option value="1">Asset-Model-1</option>
+                        <option value="2">Asset-Model-2</option>
+                        <option value="3">Asset-Model-3</option>
+                    </select>
+
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_variant">Asset Variant</label>
+                    <select class="form-control mandatory" id="asset_variant">
+                        <option value="1">Asset-variant-1</option>
+                        <option value="2">Asset-variant-2</option>
+                        <option value="3">Asset-variant-3</option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_sub_variant">Asset Sub-Variant</label>
+                    <select class="form-control mandatory" id="asset_sub_variant">
+                        <option value="1">Sub Variant 1</option>
+                        <option value="2">Sub Variant 2</option>
+                        <option value="3">Sub Variant 3</option>
+                    </select>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_other">Asset Variant - Other</label>
+                    <input type="text" class="form-control mandatory " id="asset_other"
+                        placeholder="Asset - Variant - Other" name="asset_other">
+
+
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vechical_usage">Vechical Usage</label>
+                    <select class="form-control mandatory" id="vechical_usage">
+                        <option value="Commercial Use">Commercial Use</option>
+                        <option value="Personal Use">Personal Use</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_category">Vechical Category</label>
+                    <select class="form-control mandatory" id="vehicle_category">
+                        <option value="CAT 1">CAT 1</option>
+                        <option value="CAT 2">CAT 2</option>
+                        <option value="CAT 3">CAT 3</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="month_year">Month and Year</label>
+                    <input type="date" class="form-control mandatory " id="month_year" placeholder="Month and Year"
+                        name="month_year">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="age_vehicle">Age of Vehicle</label>
+                    <input type="text" class="form-control mandatory " id="age_vehicle" placeholder="Age of Vehicle"
+                        name="age_vehicle">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="asset_cost_indian">Asset Cost basis Indian bluebook</label>
+                    <input type="text" class="form-control mandatory " id="asset_cost_indian"
+                        placeholder="Asset Cost basis Indian bluebook" name="asset_cost_indian">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="asset_cost_car">Asset Cost basis Car Trade</label>
+                    <input type="text" class="form-control mandatory " id="asset_cost_car"
+                        placeholder="Asset Cost basis Car Trade" name="asset_cost_car">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="asset_cost_least">Asset Cost Least</label>
+                    <input type="text" class="form-control mandatory " id="asset_cost_least"
+                        placeholder="Asset Cost Least" name="asset_cost_least">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="ex_showroom_cost">Ex Showroom Cost</label>
+                    <input type="text" class="form-control mandatory " id="ex_showroom_cost"
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="chassis_number">Chassis Number</label>
+                    <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                        name="chassis_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="engine_number">Engine Number</label>
+                    <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
+                        name="engine_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_purchased_cost">Vehicle Purchased Cost</label>
+                    <input type="text" class="form-control" id="vehicle_purchased_cost"
+                        placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_ownership">Vehicle Ownership Member</label>
+                    <input type="number" class="form-control" id="vehicle_ownership"
+                        placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="rc_owner_name">RC Owner Name</label>
+                    <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
+                        name="rc_owner_name"> </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="vehicle_registration_date">Vehicle Registration Date</label>
+                    <input type="date" class="form-control mandatory date_caps" id="vehicle_registration_date"
+                        placeholder="Vehicle Registration Date" name="vehicle_registration_date">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="gross_vehicle_weight">Gross Vehicle Weight</label>
+                    <input type="text" class="form-control" id="gross_vehicle_weight" placeholder="Gross Vehicle Weight"
+                        name="gross_vehicle_weight">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="re_registered_vehicle">Re-Registered Vehicle</label>
+                    <select class="form-control mandatory" id="re_registered_vehicle">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="inter_state_vehicle">Inter State Vehicle</label>
+                    <select class="form-control mandatory" id="inter_state_vehicle">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="duplicate_rc">Duplicate RC</label>
+                    <select class="form-control mandatory" id="duplicate_rc">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="cubic_capacity">Cubic Capacity</label>
+                    <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
+                        name="cubic_capacity">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                    <label for="seating_capacity">Seating Capacity</label>
+                    <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
+                        name="seating_capacity">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="insurance_validity">Insurance Validity</label>
+                    <input type="date" class="form-control mandatory date_caps" id="insurance_validity"
+                        placeholder="Insurance Validity" name="insurance_validity">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="idv">IDV</label>
+                    <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="insurance_copy">Upload Insurance Document</label>
+                    <input id="insurance_copy" type="file" multiple>
+                    <div id="insurance_preview"></div>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="frsd_required">FRSD Funding Required </label>
+                    <input type="text" class="form-control mandatory" id="frsd_required"
+                        placeholder="FRSD Funding Required" name="frsd_required">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <label for="frsd_amount">FRSD Premium Amount</label>
+
+                    <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                        name="frsd_amount">
+                </div>
+
+            </div>
+
         </div>
-
-        <div class="row">
-
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mon_manufacturing">
-                <label for="month_manufacturing">{{label.monthManufacturing}}</label>
-                <input type="date" class="form-control mandatory" id="month_manufacturing"
-                    placeholder="Month of Manufacturing" name="month_manufacturing"
-                    formControlName="month_manufacturing">
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="yr_manufacturing">
-                <label for="year_manufacturing">{{label.yearManufacturing}}</label>
-                <input type="date" class="form-control mandatory" id="year_manufacturing"
-                    placeholder="Year of Manufacturing" name="year_manufacturing" formControlName="year_manufacturing">
-            </div>
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-            </div> -->
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
-                <label for="vehicle_category">{{label.vehicleCategory}}</label>
-                <input type="text" class="form-control mandatory" id="vechical_group" placeholder="Age of Asset"
-                    name="vechical_group" formControlName="vechical_group">
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
-                <label for="vechical_usage">{{label.vechicalUsage}}</label>
-                <select class="form-control mandatory" id="vechical_usage" formControlName="vechical_usage">
-                    <option value="Yellow Board">Yellow Board</option>
-                    <option value="White Board">White Board</option>
-                </select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
-                <label for="vehicle_category">{{label.vehicleCategory}}</label>
-                <select class="form-control mandatory" id="vehicle_category" formControlName="vehicle_category">
-                    <option value="CAT 1">CAT 1</option>
-                    <option value="CAT 2">CAT 2</option>
-                    <option value="CAT 3">CAT 3</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                <label for="orp_funding">{{label.orpFunding}}</label>
-                <select class="form-control mandatory" id="orp_funding" formControlName="orp_funding">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                <label for="one_time_tax">{{label.oneTimeTax}}</label>
-                <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax" name="one_time_tax"
-                    formControlName="one_time_tax">
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                <label for="pac">{{label.pac}}</label>
-                <select class="form-control" id="pac" formControlName="pac">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                <label for="vas">{{label.vas}}</label>
-                <select class="form-control" id="vas" formControlName="vas">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                <label for="emi_protect">{{label.emiProtect}}</label>
-                <select class="form-control" id="emi_protect" formControlName="emi_protect">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                <label for="fast_tag">{{label.fastTag}}</label>
-                <select class="form-control" id="fast_tag" formControlName="fast_tag">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                <label for="others">{{label.others}}</label>
-                <input type="text" class="form-control" id="others" placeholder="Others" name="others"
-                    formControlName="others">
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                <label for="discount">{{label.discount}}</label>
-                <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
-                    formControlName="discount">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="final_asset_cost">{{label.finalAssetCost}}</label>
-                <input type="text" class="form-control mandatory" id="final_asset_cost" placeholder="Final Asset Cost"
-                    name="final_asset_cost" formControlName="final_asset_cost">
-            </div>
-
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="idv">{{label.idv}}</label>
-                <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                    formControlName="idv">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="insurance_validity">{{label.insuranceValidity}}</label>
-                <input type="date" class="form-control mandatory date_caps" id="insurance_validity"
-                    placeholder="Insurance Validity" name="insurance_validity" formControlName="insurance_validity">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                <label for="permit_type">{{label.permitType}}</label>
-                <select class="form-control mandatory" id="permit_type" formControlName="permit_type">
-                    <option value="National">National</option>
-                    <option value="State">State</option>
-                    <option value="Others">Others</option>
-                </select>
-            </div>
-
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                <label for="expiry_date">{{label.expiryDate}}</label>
-                <input type="date" class="form-control mandatory date_caps" id="expiry_date"
-                    placeholder="Permit Expiry Date" name="expiry_date" formControlName="expiry_date">
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                <label for="permit_others">{{label.permitOthers}}</label>
-                <input type="text" class="form-control " id="permit_others" placeholder="Type of Other Permit"
-                    name="permit_others" formControlName="permit_others">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                <label for="frsd_required">{{label.frsdRequired}}</label>
-                <input type="text" class="form-control mandatory" id="frsd_required" placeholder="FRSD Funding Required"
-                    name="frsd_required" formControlName="frsd_required">
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                <label for="frsd_amount">{{label.frsdAmount}}</label>
-
-                <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                    name="frsd_amount" formControlName="frsd_amount">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                <label for="fitness_date">{{label.fitnessDate}}</label>
-                <input type="date" class="form-control mandatory date_caps" id="fitness_date" placeholder="Fitness Date"
-                    name="fitness_date" formControlName="fitness_date">
-            </div>
-
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
-                <label for="no_vehicle">{{label.noVehicle}}</label>
-                <input type="number" class="form-control mandatory" id="no_vehicle" placeholder="No of vehicle"
-                    name="no_vehicle" formControlName="no_vehicle">
-            </div>
-        </div>
-
     </form>
-</div>
 
-<div class="btn-sec clear-both row text-right">
-    <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button">{{label.back}}</button> &nbsp;
-        <p class="btn btn-primary save cus-btn-sty"> {{label.save}} </p>&nbsp;
-        <button class="btn btn-primary cus-btn-sty" type="button">{{label.next}}</button>&nbsp;
-    </div>
 </div>
