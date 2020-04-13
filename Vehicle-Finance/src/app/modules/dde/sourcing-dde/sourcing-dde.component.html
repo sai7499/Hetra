@@ -1,5 +1,4 @@
 
-<div class="content">
     <form class="multisteps-form__form" [formGroup]="sourcingDdeForm">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <h4 class="title">{{labels?.sourceDetailsTitle}}</h4>
@@ -11,7 +10,7 @@
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="child_loan">
-                    <label for="lead_date">Lead Created Date</label>
+                    <label for="lead_date">{{labels?.leadCreatedDate}}</label>
                     <input formControlName="leadCreatedDate" type="date" class="form-control mandatory" id="lead_date" placeholder="Lead Created Date" name="lead_date">
 
                 </div>
@@ -64,6 +63,31 @@
                     formControlName="loanAccountBranch"></app-vf-custom-select>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="business_division">{{ labels?.businessDivision }}</label>
+                      <app-vf-custom-select 
+                        [values]="values?.businessDivision" 
+                        formControlName="businessDivision"></app-vf-custom-select>
+        
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="product_type">{{ labels?.product }}</label>
+                    <app-vf-custom-select 
+                        [values]="values?.productCategory" 
+                        formControlName="product"></app-vf-custom-select>
+        
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="scheme_type">{{ labels?.schemePromotion }}</label>
+        
+                    <app-vf-custom-select 
+                        [values]="values?.schemePromotion" 
+                        formControlName="schemePromotion"></app-vf-custom-select>
+        
+                </div>
+            </div>
+            
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
 
@@ -75,4 +99,4 @@
             </div>
         </div>
     </form>
-</div>
+
