@@ -1,10 +1,8 @@
 <!-- <div class="content"> -->
-<form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetDetailsForm">
+<form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetForm">
     <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn" >
         <div class="container">
             <div class="row">
-
-
                 <div class="table-responsive application">
                     <table class="table">
                         <thead>
@@ -30,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody formArrayName="Rows">
-                            <tr *ngFor="let itemrow of invoiceForm.controls.Rows.controls; let i=index;let l=last"
+                            <tr *ngFor="let itemrow of fleetForm.controls.Rows.controls; let i=index;let l=last"
                                 [formGroupName]="i">
                                 <td>{{i+1}}</td>
                                 <td><input type="text" class="form-control" formControlName="regd_no"
@@ -80,8 +78,8 @@
 
                         </tbody>
                     </table>
-                    <i type="button" class="fa fa-plus add-row" aria-hidden="true"></i>
-                    <i type="button" class="fa fa-minus delete-row" aria-hidden="true"></i>
+                    <i type="button" class="fa fa-plus add-row" aria-hidden="true" (click)="addNewRow()">+</i>
+                    <i type="button" class="fa fa-minus delete-row" aria-hidden="true"(click)="deleteRow(i)">-</i>
                 </div>
             </div>
         </div>

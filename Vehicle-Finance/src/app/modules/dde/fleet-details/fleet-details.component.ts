@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormArray, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class FleetDetailsComponent implements OnInit {
   constructor(
 
     private labelsData: LabelsService,
-    private _fb: FormBuilder
+    private fb: FormBuilder
 
   ) { }
 
@@ -25,11 +25,11 @@ export class FleetDetailsComponent implements OnInit {
   ngOnInit() {
 
 
-    this.fleetForm = this._fb.group(
+    this.fleetForm = this.fb.group(
       {
-        Rows: this._fb.array([this.initRows()])
+        Rows: this.fb.array([this.initRows()])
       }
-    )
+    );
 
     this.labelsData.getLabelsFleetData().subscribe(
       data => {
@@ -43,12 +43,12 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   get formArr() {
-    return this.fleetForm.get("Rows") as
+    return this.fleetForm.get('Rows') as
       FormArray;
   }
 
   initRows() {
-    return this._fb.group({
+    return this.fb.group({
       regd_no: [''],
       regd_owner: [''],
       make: [''],
