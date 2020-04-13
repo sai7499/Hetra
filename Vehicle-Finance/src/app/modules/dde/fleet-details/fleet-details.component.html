@@ -3,11 +3,10 @@
     <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn" >
         <div class="container">
             <div class="row">
-                <div class="table-responsive application">
+                <!-- <div class="table-responsive application">
                     <table class="table">
                         <thead>
                             <tr class="table-head-bg">
-                                <!-- <th role="columnheader">{{labels.select}}<i class="fa fa-sort"></i> </th> -->
                                 <th role="columnheader">{{labels.sNo}}<i class="fa fa-sort"></i> </th>
                                 <th role="columnheader">{{labels.regdNo}}<i class="fa fa-sort"></i> </th>
                                 <th role="columnheader">{{labels.regdOwner}}<i class="fa fa-sort"></i> </th>
@@ -65,21 +64,64 @@
                                 <td><a [routerLink]="['../track-vehicle']">Track</a></td>
 
                             </tr>
-
-                            <!-- <tr class="font-weight">
-                                         <td colspan="15">Proposed Asset Cost</td>
-                                         <td>720,000.00</td>
-                                        </tr>
-                                        <tr class="font-weight">
-                                            <td colspan="12">if more than above to be attach separte excel</td>
-                                            <td colspan="3">Total Fleet Value</td>
-                                            <td>720,000.00</td>
-                                        </tr> -->
-
                         </tbody>
                     </table>
                     <i type="button" class="fa fa-plus add-row" aria-hidden="true" (click)="addNewRow()">+</i>
                     <i type="button" class="fa fa-minus delete-row" aria-hidden="true"(click)="deleteRow(i)">-</i>
+                </div> -->
+                <div class="table-responsive application">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                               
+                                <td role="columnheader">{{labels.sNo}} </td>
+                                <td role="columnheader">{{labels.regdNo}} </td>
+                                <td role="columnheader">{{labels.regdOwner}}</td>
+                                <td role="columnheader">{{labels.relation}}</td>
+                                <td role="columnheader">{{labels.make}} </td>
+                                <td role="columnheader">{{labels.yom}} </td>
+                                <td role="columnheader">{{labels.financier}} </td>
+                                <td role="columnheader">{{labels.loanNo}} </td>
+                                <td role="columnheader">{{labels.purchaseDate}} </td>
+                                <td role="columnheader">{{labels.tenure}} </td>
+                                <td role="columnheader">{{labels.paid}} </td>
+                                <td role="columnheader">{{labels.seasoning}} </td>
+                                <td role="columnheader">{{labels.ad}} </td>
+                                <td role="columnheader">{{labels.pd}} </td>
+                                <td role="columnheader">{{labels.gridValue}}</td>
+                                <td role="columnheader">Track  </td>
+                                <td role="columnheader">{{labels.action}}  </td>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="Rows">
+                            <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.controls.Rows.controls; let i=index;let l=last" [formGroupName]="i">
+                                
+                                <td>{{i+1}}</td>
+                                <td><input type="text" class="input_value" value="TN01AA1234" formControlName="regd_no"></td>
+                                <td><input type="text" class="input_value" value="KUMAR" formControlName="regd_owner"></td>
+                                <td>
+                                    <select>
+                                        <option>{{labels.applicant}}</option>
+                                        <option>{{labels.coApplicant}}</option>
+                                        <option>{{labels.guarantor}}</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="input_value" value="TA" formControlName="make"></td>
+                                <td><input type="text" class="input_value" value="2015" formControlName="yom"></td>
+                                <td><input type="text" class="input_value" value="BAJAJ" formControlName="financier"></td>
+                                <td><input type="text" class="input_value" value="4587" formControlName="loanNo"></td>
+                                <td><input type="text" class="input_value" value="01-010-16" formControlName="purchaseDate"></td>
+                                <td><input type="text" class="input_value" value="60" formControlName="tenure"></td>
+                                <td><input type="text" class="input_value" value="40" formControlName="paid"></td>
+                                <td><input type="text" class="input_value" value="67%" disabled="" formControlName="seasoning"></td>
+                                <td><input type="text" class="input_value" value="" disabled="" formControlName="ad"></td>
+                                <td><input type="text" class="input_value" value="" disabled="" formControlName="pd"></td>
+                                <td><input type="text" class="input_value" value="" disabled="" formControlName="gridValue"></td>
+                                <td><u><a class="a_tag" [routerLink]="['../track-vehicle']">RTR</a></u></td>
+                                <td><i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"></i></td>
+                            </tr>
+                    </table>
+                    
                 </div>
             </div>
         </div>

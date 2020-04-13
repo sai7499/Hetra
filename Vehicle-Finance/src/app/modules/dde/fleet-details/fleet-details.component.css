@@ -167,3 +167,9 @@ i.fa.fa-minus.delete-row {
     padding: 6px 18px;
 }
 
+
+form .form-control {
+    box-shadow: none;
+    padding: 6px 10px;
+}
+
