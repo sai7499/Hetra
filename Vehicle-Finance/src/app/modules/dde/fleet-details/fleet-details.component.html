@@ -1,0 +1,99 @@
+<!-- <div class="content"> -->
+<form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetDetailsForm">
+    <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn" >
+        <div class="container">
+            <div class="row">
+
+
+                <div class="table-responsive application">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <!-- <th role="columnheader">{{labels.select}}<i class="fa fa-sort"></i> </th> -->
+                                <th role="columnheader">{{labels.sNo}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.regdNo}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.regdOwner}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.relation}}<i class="fa fa-sort"></i></th>
+                                <th role="columnheader">{{labels.make}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.yom}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.financier}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.loanNo}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.purchaseDate}}<i class="fa fa-sort"></i>
+                                </th>
+                                <th role="columnheader">{{labels.tenure}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.paid}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.seasoning}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.ad}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.pd}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.gridValue}}<i class="fa fa-sort"></i> </th>
+                                <th role="columnheader">{{labels.action}} <i class="fa fa-sort"></i> </th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="Rows">
+                            <tr *ngFor="let itemrow of invoiceForm.controls.Rows.controls; let i=index;let l=last"
+                                [formGroupName]="i">
+                                <td>{{i+1}}</td>
+                                <td><input type="text" class="form-control" formControlName="regd_no"
+                                        value="TN01AA1234"></td>
+                                <td><input type="text" class="form-control" formControlName="regd_owner" value="KUMAR">
+                                </td>
+                                <td>
+                                    <select>
+                                        <option>{{labels.applicant}}</option>
+                                        <option>{{labels.coApplicant}}</option>
+                                        <option>{{labels.guarantor}}</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="make" value="TA"></td>
+                                <td><input type="text" class="form-control" formControlName="yom" value="2015"></td>
+                                <td><input type="text" class="form-control" formControlName="financier" value="BAJAJ">
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="loanNo" value="4587">
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="purchaseDate"
+                                        value="01-010-16"></td>
+                                <td><input type="text" class="form-control" formControlName="tenure" value="60">
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="paid" value="40"></td>
+                                <td><input type="text" class="form-control" formControlName="seasoning" value="67%"
+                                        disabled>
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="ad" value="" disabled>
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="pd" value="" disabled>
+                                </td>
+                                <td><input type="text" class="form-control" formControlName="gridValue" value=""
+                                        disabled></td>
+                                <td><a [routerLink]="['../track-vehicle']">Track</a></td>
+
+                            </tr>
+
+                            <!-- <tr class="font-weight">
+                                         <td colspan="15">Proposed Asset Cost</td>
+                                         <td>720,000.00</td>
+                                        </tr>
+                                        <tr class="font-weight">
+                                            <td colspan="12">if more than above to be attach separte excel</td>
+                                            <td colspan="3">Total Fleet Value</td>
+                                            <td>720,000.00</td>
+                                        </tr> -->
+
+                        </tbody>
+                    </table>
+                    <i type="button" class="fa fa-plus add-row" aria-hidden="true"></i>
+                    <i type="button" class="fa fa-minus delete-row" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div class="btn-sec clear-both row text-right">
+    <div class="col-sm-12">
+        <button class="btn btn-primary cus-btn-sty" type="button">Back</button>
+        <p class="btn btn-primary save cus-btn-sty"> Save </p>
+        <button class="btn btn-primary cus-btn-sty" type="button">Next</button>
+    </div>
+</div>

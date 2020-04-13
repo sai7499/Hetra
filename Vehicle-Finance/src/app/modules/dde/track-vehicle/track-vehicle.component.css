@@ -1,0 +1,11 @@
+.fixed-btn {
+    position: fixed;
+    position: fixed;
+    top: 300px;
+    right: -12px;
+    height: 100px;
+    z-index: 999;
+}
+a {
+    color: white!important;
+}

@@ -1,0 +1,189 @@
+<h3 class="dashboard">Track</h3>
+
+<div class="row">
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="name_of_the_client">{{labels.nameOfTheClient}}</label>
+        <input type="text" class="form-control" id="name_of_the_client" value="Client 1">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="name_of_the_financier">{{labels.nameOfTheFinancier}}</label>
+        <input type="text" class="form-control" id="name_of_the_financier" value="Financier 1">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="asset_financed">{{labels.assetFinanced}}</label>
+        <input type="text" class="form-control" id="asset_financed" value="TATA ACE M100">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="repayment_mode">{{labels.repaymentMode}}</label>
+        <select class="form-control">
+            <option>{{labels.ecs}}</option>
+            <option>{{labels.ach}}</option>
+            <option>{{labels.pdc}}</option>
+            <option>{{labels.cash}}</option>
+            <option>{{labels.others}}</option>
+        </select>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="finance_amount">{{labels.financeAmount}}</label>
+        <input type="text" class="form-control" id="finance_amount" value="200000" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="finance_charges">{{labels.financeCharges}}</label>
+        <input type="text" class="form-control" id="finance_charges" value="40000">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="contract_value">{{labels.contractValue}}</label>
+        <input type="text" class="form-control" id="contract_value">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="cont_no">{{labels.contNo}}</label>
+        <input type="text" class="form-control" id="cont_no">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="vehicle_no">{{labels.vehicleNo}}</label>
+        <input type="text" class="form-control" id="vehicle_no" value="TN011234">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="types_of_finance">{{labels.typesOfFinance}}</label>
+        <select class="form-control">
+            <option>{{labels.new}}</option>
+            <option>{{labels.refinance}}</option>
+            <option>{{labels.used}}</option>
+        </select>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="account_status">{{labels.accountStatus}}</label>
+        <input type="text" class="form-control" id="account_status" disbaled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="loan_start_date">{{labels.loanStartDate}}</label>
+        <input type="text" class="form-control" id="loan_start_date">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="loan_maturity_date">{{labels.loanMaturityDate}}</label>
+        <input type="text" class="form-control" id="loan_maturity_date">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="count">{{labels.count}}</label>
+        <input type="text" class="form-control" id="count" value="0" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="total_no_of_emis">{{labels.totalNoOfEmis}}</label>
+        <input type="text" class="form-control" id="total_no_of_emis">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="no_of_emis_paid">{{labels.noOfEmisPaid}}</label>
+        <input type="text" class="form-control" id="no_of_emis_paid">
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="balance_tenor">{{labels.balanceTenor}}</label>
+        <input type="text" class="form-control" id="balance_tenor" value="0" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="total_delay">{{labels.totalDelay}}</label>
+        <input type="text" class="form-control" id="total_delay" value="4.00" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="peak_delay">{{labels.peakDelay}}</label>
+        <input type="text" class="form-control" id="peak_delay" value="4.00" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="avg_delay">{{labels.avgDelay}}</label>
+        <input type="text" class="form-control" id="avg_delay" value="4.00" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="track_status">{{labels.trackStatus}}</label>
+        <input type="text" class="form-control" id="track_status" value="4.00" disabled>
+    </div>
+    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="total_amt_paid">{{labels.totalAmtPaid}}</label>
+        <input type="text" class="form-control" id="total_amt_paid" value="20000" disabled>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="table-responsive application">
+            <table class="table" id="track">
+                <thead>
+                    <tr class="table-head-bg">
+                        <th>{{labels.installmentNo}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.installmentAmt}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.dueDate}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.rcptNo}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.recdDate}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.rcptAmount}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.delayDays}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels.paymentsExcess}}<i class="fa fa-sort"></i> </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td>1000</td>
+                        <td>01-Jan-18</td>
+                        <td>1001</td>
+                        <td>05-Jan-18</td>
+                        <td>12000</td>
+                        <td>4</td>
+                        <td>-2000</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1000</td>
+                        <td>01-Feb-18</td>
+                        <td>1002</td>
+                        <td>01-Feb-18</td>
+                        <td>12000</td>
+                        <td>8000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="btn-sec">
+    <div class="col-sm-12 text-right track">
+        <button class="btn btn-primary js-btn-prev dash_href" type="button"> <a class="back_color"
+                href="credit_fleet_sheets.html">Back</a></button>
+        <button type="button" class="btn btn-primary dash_href"><a class="back_color" href="#">Save</a> </button>
+        <button class="btn btn-primary js-btn-next" type="button"> <a class="back_color"
+                href="credit_fleet_sheets.html">Next</a> </button>
+
+    </div>
+</div>
