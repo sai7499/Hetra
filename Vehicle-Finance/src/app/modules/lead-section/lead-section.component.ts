@@ -6,7 +6,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 // import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from './services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
-
+import {Router} from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -24,7 +24,8 @@ export class LeadSectionComponent implements OnInit {
     private leadSectionService: VehicleDetailService,
     private location: Location,
     private labelsData: LabelsService,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,
+    private router :Router
   ) {}
 
 
@@ -57,5 +58,9 @@ export class LeadSectionComponent implements OnInit {
       }
     });
 
+  }
+
+  hasRoute(route: string) {
+    return this.router.url.includes(route);
   }
 }

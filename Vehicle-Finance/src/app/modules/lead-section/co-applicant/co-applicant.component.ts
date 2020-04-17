@@ -18,9 +18,10 @@ export class CoApplicantComponent implements OnInit {
 
   selectedApplicant: number;
 
-  applicantType = 'individual';
+  applicantType = '1';
 
   selectApplicantType(event: any) {
+    console.log(this.applicantType)
     this.applicantType = event.target.value;
   }
 

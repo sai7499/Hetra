@@ -3,7 +3,7 @@
  
     </div>
 </header>
-<main>
+<!-- <main>
     <div class="container">
         <div class="vertical-middle text-center">
 
@@ -11,7 +11,7 @@
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
-                        <form class="form-signin">
+                         <form class="form-signin">
                             <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control" placeholder="User Name" required autofocus>
                                 <label for="inputEmail">User Name</label>
@@ -24,14 +24,85 @@
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" [routerLink]="['/activity-search']">Sign in</button>
                             <hr class="my-4">
 
-                        </form>
+                        </form> 
+
+                        <form>
+							<div class="form-group">
+								<label for="username" class="sr-only">User Name</label>
+								<div class="input-group input-medium">
+									<span class="input-group-btn">
+										<button class="btn btn-default" disabled><i class="fa fa-user"></i></button>
+									</span>
+									<input type="text" class="form-control" id="username" placeholder="AD Username">
+								</div>		
+							</div>
+							<div class="form-group">
+								<label for="pswd" class="sr-only">Password</label>
+								<div class="input-group input-medium">
+									<span class="input-group-btn">
+										<button class="btn btn-default" disabled><i class="fa fa-lock"></i></button>
+									</span>
+									<input type="password" class="form-control" id="pswd" placeholder="AD Password">
+								</div>
+							</div>
+							<a onclick="activity();" class="btn btn-primary">Sign In</a>
+						</form>	 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main> -->
+<main>
+    <div class="container">
+        <div class="vertical-middle text-center">
+
+            <div class="search">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
+                        <form>
+                        <div class="form-group">
+                            <label for="username" class="sr-only">User Name</label>
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" disabled><i class="fa fa-user"></i></button>
+                                </span>
+                                <input type="text" class="form-control" id="username" placeholder="AD Username">
+                            </div>		
+                        </div>
+                        <div class="form-group">
+                            <label for="pswd" class="sr-only">Password</label>
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" disabled><i class="fa fa-lock"></i></button>
+                                </span>
+                                <input type="password" class="form-control" id="pswd" placeholder="AD Password">
+                            </div>
+                        </div>
+                        <a onclick="activity();" class="btn btn-primary" [routerLink]="['/activity-search']">Sign In</a>
+                    </form>		
+                    
+                      <!----  <form class="form-signin">
+                            <div class="form-label-group">
+                                <input type="text" id="inputEmail" class="form-control" placeholder="User Name" required autofocus>
+                                <label for="inputEmail">User Name</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                <label for="inputPassword">Password</label>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" onclick="activity();">Sign in</button>
+                            <hr class="my-4">
+
+                        </form> ---->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
 
 
 <!-- Footer -->

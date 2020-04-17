@@ -66,41 +66,42 @@
               </div>
 
               <div class="text-center">
-                <button (click)="OnReject()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button">
+                <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"  data-toggle="modal" data-target="#proceedModal_without" [disabled]="isChecked">
                   Proceed as new Lead
                 </button>
-                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button">
+                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button" data-toggle="modal" data-target="#proceedModal_with" [disabled] = "!isChecked">
                   Proceed with selected lead
                 </button>
+
                 <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button">
                   Reject lead
                 </button>
-                <div *ngIf="isReason">
+               <div *ngIf="isReason">
                   <div class="col-12 mx-auto" id="proceed_div">
-                    <div class="col-6 field"><label for="proceed_reason">Select the reason for Proceed</label></div>
+                    <div class="col-6 field"><label for="proceed_reason">Select the reason for Rejection</label></div>
                     <div class="col-6 field">
                       <select class="form-control " id="proceed_reason">
                         <option value="Reason-1">Reason-1</option>
                         <option value="Reason-2">Reason-2</option>
                       </select>
-                    </div>
+                    </div> 
                     <button
                       *ngIf="isSubmit || isChecked"
-                      (click)="OnSubmit()"
+                      
                       class="btn btn-primary mar-right8"
                       id="proceed_with_sumbit"
                       type="button"
                       data-toggle="modal"
-                      data-target="#proceedModal_with"
+                      data-target="#rejectModal"
                     >
                       Submit
                     </button>
-                    <!-- <button *ngIf="isChecked " (click)="OnSubmit()" class="btn btn-primary mar-right8"
+                     <!-- <button *ngIf="isChecked " (click)="OnSubmit()" class="btn btn-primary mar-right8"
                     id="proceed_with_sumbit" type="button" data-toggle="modal" data-target="#proceedModal_with">
                     SubmitR
                   </button> -->
                   </div>
-                  <!-- <div class=" col-12 mx-auto" id="reject_div">
+                <!--   <div class=" col-12 mx-auto" id="reject_div">
                                         <div class="col-6 field">
                                             <label for="reject_reason">Select the reason for Rejection</label>
                                         </div>
@@ -114,8 +115,8 @@
                                         </div>
                                         <button class="btn btn-primary mar-right8" id="reject_sumbit" type="button"
                                             data-toggle="modal" data-target="#rejectModal"> Submit </button>
-                                    </div> -->
-                </div>
+                                    </div>  -->
+                </div> 
               </div>
             </div>
           </div>
@@ -151,6 +152,88 @@
         <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="'/pages/lead-section'">OK</button>
       </div>
     </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="proceedModal_with">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header ">
+              <!-- <h4 class="text-center">Decision on Dedupe Results</h4> -->
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center ">Decision on Dedupe Results</h4>
+
+          </div>
+          <!-- Modal body -->
+
+
+          <div class="modal-body ">
+              <div class="">
+                  <div class="row text-center">
+                      <div class="col-12 p-0">
+
+
+                          <div class="form-group">
+                              <p>Are you sure you want to proceed with lead - 1110980 ?</p>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class=" ok_footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="'/pages/lead-section'">Yes</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Cancel</button>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rejectModal">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header ">
+              <!-- <h4 class="text-center">Decision on Dedupe Results</h4> -->
+
+
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title text-center ">Decision on Dedupe Results</h4>
+          </div>
+
+
+          <!-- Modal body -->
+          <div class="modal-body ">
+
+              <div class="">
+                  <div class="row text-center">
+                      <div class="col-12 p-0">
+
+
+                          <div class="form-group">
+                              <p>Are you sure you want to reject lead - #xxxxxx ?</p>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+
+          </div>
+
+
+          <!-- Modal footer -->
+          <div class=" ok_footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="['/activity-search']">Yes</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Cancel</button>
+          </div>
+
+      </div>
   </div>
 </div>
 

@@ -181,7 +181,15 @@ h3.dedupe_head {
   margin-top: 0px;
 }
 
-
+.row.top_bar {
+  margin: 0px;
+  border: 1px solid #ddd;
+  font-weight: 100;
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  background: white;
+}
 /* footer */
 
 .ok_footer {
