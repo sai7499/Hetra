@@ -9,10 +9,12 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LocationStrategy,HashLocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+  
   ],
   imports: [
     BrowserModule,

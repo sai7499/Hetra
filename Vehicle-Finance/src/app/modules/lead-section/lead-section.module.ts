@@ -12,6 +12,7 @@ import { SourcingDetailsComponent } from './sourcing-details/sourcing-details.co
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
+import { CreditScoreComponent } from './credit-score/credit-score.component';
 
 
 @NgModule({
@@ -28,6 +29,8 @@ import { AddvehicleComponent } from './addvehicle/addvehicle.component';
     LoanDetailsComponent,
   
     AddvehicleComponent,
+  
+    CreditScoreComponent,
   
    
     

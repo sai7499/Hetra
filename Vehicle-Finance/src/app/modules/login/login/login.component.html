@@ -11,7 +11,7 @@
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
-                         <form class="form-signin">
+                        <!-- <form class="form-signin">
                             <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control" placeholder="User Name" required autofocus>
                                 <label for="inputEmail">User Name</label>
@@ -24,8 +24,7 @@
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" [routerLink]="['/activity-search']">Sign in</button>
                             <hr class="my-4">
 
-                        </form> 
-
+                        </form> -->
                         <form>
 							<div class="form-group">
 								<label for="username" class="sr-only">User Name</label>
@@ -45,8 +44,8 @@
 									<input type="password" class="form-control" id="pswd" placeholder="AD Password">
 								</div>
 							</div>
-							<a onclick="activity();" class="btn btn-primary">Sign In</a>
-						</form>	 
+							<a onclick="activity();" routerLink="/activity-search" class="btn btn-primary">Sign In</a>
+						</form>	
                     </div>
                 </div>
             </div>

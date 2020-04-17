@@ -22,9 +22,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   labels: any = {};
 
   applicantType = '51';
+<<<<<<< HEAD
   SourcingChange: any;
   ProfessionList = [];
   text: string;
+=======
+>>>>>>> 126471e38afa6ec4767a97b3e39b8329a7b3fd7f
 
   selectApplicantType(event: any) {
     console.log(this.applicantType)
@@ -41,14 +44,18 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     });
 
   }
-
+  
   ngOnChanges() {
     console.log(this.test);
   }
 
   initForm() {
     this.createLeadForm = new FormGroup({
+<<<<<<< HEAD
       businessDivision: new FormControl({value: "1", disabled: true}),
+=======
+      businessDivision: new FormControl({value: "Vehicle Finance", disabled: true}),
+>>>>>>> 126471e38afa6ec4767a97b3e39b8329a7b3fd7f
       productCategory: new FormControl(''),
       childLoan: new FormControl(''),
       fundingProgram: new FormControl(''),
@@ -87,6 +94,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
+<<<<<<< HEAD
   sourcingChannelChange(event: any){
     
     this.SourcingChange = event.target.value;
@@ -122,6 +130,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   
 
 
+=======
+  sourcingChannelChange(e){
+    console.log(e)
+  }
+
+>>>>>>> 126471e38afa6ec4767a97b3e39b8329a7b3fd7f
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
       this.labelsData.getLanguageLabelData().subscribe(

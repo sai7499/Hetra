@@ -377,3 +377,14 @@ select#select_main_button_match {
   color: white;
   margin-bottom: 1%;
 }
+.row{
+  margin-left: 15px;
+ background-color: white;
+ border-radius: 10px;
+ max-width: 1115px;
+
+
+}
+.form-group{
+  margin-top: 10px;
+}

@@ -100,12 +100,18 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3"> 
                                 <label for="identity_number">{{labels?.panform}}</label>
                                 <app-vf-custom-select [values]="values?.panform"
                                             formControlName="panform">
                                         </app-vf-custom-select>
                             </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.pannumber}}</label>
+                                <input type="text" class="form-control" id="pannumber" formControlName="pannumber">
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="mobile">{{labels?.pannumber}}</label>
                                 <input type="text" class="form-control" id="pannumber" formControlName="pannumber">
@@ -149,51 +155,50 @@
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="permanent_address_city">{{labels?.permanentAddressCity}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_city" formControlName="permanent_address_city">
+                                        <select class="form-control" id="permanent_address_city" >
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressCity"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressCity"
                                             formControlName="permanent_address_city">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
                                             for="permanent_address_district">{{labels?.permanentAddressDistrict}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_district" formControlName="permanent_address_district">
+                                        <select class="form-control" id="permanent_address_district" >
                                             <option>District 1</option>
                                             <option>District 2</option>
                                             <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressDistrict"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressDistrict"
                                             formControlName="permanent_address_district">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="permanent_address_state">{{labels?.permanentAddressState}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_state" formControlName="permanent_address_state">
+                                        <select class="form-control" id="permanent_address_state" >
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressState"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressState"
                                             formControlName="permanent_address_state">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
 
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
                                             for="permanent_address_country">{{labels?.permanentAddressCountry}}</label>
-                                        <!-- <select class="form-control" id="permanent_address_country"
-                                            formControlName="permanent_address_country">
+                                        <select class="form-control" id="permanent_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.permanentAddressCountry"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressCountry"
                                             formControlName="permanent_address_country">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="landline">{{labels?.permanentAddressLandline}}</label>
@@ -232,47 +237,47 @@
                                     </div>
                                     <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
                                         <label for="current_address_city">{{labels?.currentAddressCity}}</label>
-                                        <!-- <select class="form-control" id="current_address_city">
+                                        <select class="form-control" id="current_address_city">
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressCity"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.currentAddressCity"
                                             formControlName="current_address_city">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="current_address_district">{{labels?.currentAddressDistrict}}</label>
-                                        <!-- <select class="form-control" id="current_address_district">
+                                        <select class="form-control" id="current_address_district">
                                             <option>District 1</option>
                                             <option>District 2</option>
                                             <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressDistrict"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.currentAddressDistrict"
                                             formControlName="current_address_district">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="current_address_state">{{labels?.currentAddressState}}</label>
-                                        <!-- <select class="form-control" id="current_address_state">
+                                        <select class="form-control" id="current_address_state">
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressState"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.currentAddressState"
                                             formControlName="current_address_state">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="current_address_country">{{labels?.currentAddressCountry}}</label>
-                                        <!-- <select class="form-control" id="current_address_country">
+                                        <select class="form-control" id="current_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.currentAddressCountry"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.currentAddressCountry"
                                             formControlName="current_address_country">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
 
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -314,49 +319,49 @@
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="registered_address_city">{{labels?.registeredAddressCity}}</label>
-                                        <!-- <select class="form-control" id="registered_address_city">
+                                        <select class="form-control" id="registered_address_city">
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressCity"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressCity"
                                             formControlName="registered_address_city">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
                                             for="current_address_district">{{labels?.registeredAddressDistrict}}</label>
-                                        <!-- <select class="form-control" id="current_address_district">
+                                        <select class="form-control" id="current_address_district">
                                             <option>District 1</option>
                                             <option>District 2</option>
                                             <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressDistrict"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressDistrict"
                                             formControlName="current_address_district">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="current_address_state">{{labels?.registeredAddressState}}</label>
-                                        <!-- <select class="form-control" id="current_address_state">
+                                        <select class="form-control" id="current_address_state">
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressState"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressState"
                                             formControlName="current_address_state">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
                                             for="current_address_country">{{labels?.registeredAddressCountry}}</label>
-                                        <!-- <select class="form-control" id="current_address_country">
+                                        <select class="form-control" id="current_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.registeredAddressCountry"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressCountry"
                                             formControlName="current_address_country">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="reg_mobile">{{labels?.landlineNumber}}</label>

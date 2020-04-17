@@ -9,6 +9,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { SourcingDetailsComponent } from './sourcing-details/sourcing-details.component';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
+import { CreditScoreComponent } from './credit-score/credit-score.component';
 
 const routes: Routes = [
   {
@@ -49,7 +50,12 @@ const routes: Routes = [
       {
         path : "add-vehicle",
         component: AddvehicleComponent
+      },
+      {
+        path : "credit-score",
+        component : CreditScoreComponent
       }
+
      
   
       

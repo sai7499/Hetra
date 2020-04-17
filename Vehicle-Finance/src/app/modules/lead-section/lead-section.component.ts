@@ -21,11 +21,11 @@ export class LeadSectionComponent implements OnInit {
   public labels: any;
 
   constructor(
+    public router : Router,
     private leadSectionService: VehicleDetailService,
     private location: Location,
     private labelsData: LabelsService,
     private leadStoreService: LeadStoreService,
-    private router :Router
   ) {}
 
 

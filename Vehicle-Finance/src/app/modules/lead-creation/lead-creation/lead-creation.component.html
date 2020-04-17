@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-6 text-right">
 
-        <div class="dropdown">
+        <!-- <div class="dropdown">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="true">
             Language
@@ -16,7 +16,7 @@
             <li><a (click)="onChangeLanguage('Hindi')">Hindi</a></li>
             <li><a (click)="onChangeLanguage('English')">English</a></li>
           </ul>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -141,13 +141,13 @@
           </div>
 
           <div class="btn-sec clear-both">
-            <div class="col-sm-5">
+            <!-- <div class="col-sm-5">
               <button type="button" class="btn btn-primary">{{ labels.cancel }}</button>
-            </div>
-            <div class="col-sm-7 text-right">
+            </div> -->
+            <div class="col-sm-12 text-right">
               <!-- routerLink="../lead-dedupe" -->
 
-              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary" value="submit"
+              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary " value="submit"
                 (click)="onSubmit()">
                 {{ labels.createLead }}
               </button>

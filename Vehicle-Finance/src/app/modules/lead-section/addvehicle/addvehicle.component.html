@@ -85,7 +85,11 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
                 <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
-                <input formControlName="yearAndMonthManufacturing" type="date" class="form-control mandatory" id="year_month_manufacturing" placeholder="year_month_manufacturing" name="year_month_manufacturing" data-date-format="mm-yyyy" data-date="02-2012">
+                <input formControlName="yearAndMonthManufacturing" type="date" class="form-control mandatory" id="year_month_manufacturing" 
+                placeholder="Month of Manufacturing" name="year_month_manufacturing" data-date-format="mm-yyyy" data-date="02-2012">
+
+                <!-- <input type="text" readonly="" class="form-control mandatory" data-date="02-2012" data-date-format="mm-yyyy"
+                 id="month_manufacturing" placeholder="Month of Manufacturing" name="month_manufacturing"> -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                 <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
@@ -221,8 +225,8 @@
                                       </div>
                                       <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mon_manufacturing">
                                           <label for="month_manufacturing">{{ label.yearAndMonthManufacturing }}</label>
-                                          <input type="text" readonly class="form-control mandatory"   data-date="02-2012" 
-                                        data-date-format="mm-yyyy" formControlName="yearAndMonthManufacturing" type="date"  id="year_month_manufacturing" placeholder="year_month_manufacturing" name="year_month_manufacturing">
+                                          <input type="text" readonly readonly class="form-control mandatory"   data-date="02-2012" 
+                                        data-date-format="mm-yyyy" formControlName="yearAndMonthManufacturing" type="date"  id="year_month_manufacturing" placeholder="manufacturing" name="year_month_manufacturing">
   
   
                                       </div>
@@ -293,7 +297,7 @@
             <div class="col-sm-7 text-right">
                 <button class="btn btn-primary js-btn-prev"  [routerLink]="['../vehicle-details']" type="button"> {{ label.back }} </button> &nbsp;
                 <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
-                <button class="btn btn-primary js-btn-next"  [routerLink]="['../']"type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
+                <button class="btn btn-primary js-btn-next"  [routerLink]="['/pages/lead-section/credit-score']"type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
             </div>
         </div>
     </form>

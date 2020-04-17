@@ -48,9 +48,10 @@
     </div>
 
     <!--progress bar-->
-    <div class="multisteps-form" >
-      <div class="multisteps-form__progress" *ngIf="!hasRoute('co-applicant')">
-        <button
+    <div class="multisteps-form">
+      <div class="multisteps-form__progress" *ngIf="router.url!='/pages/lead-section/co-applicant'" > 
+        <div class="multisteps-form__progress  "*ngIf ="router.url!='/pages/lead-section/credit-score'">
+          <button
           class="multisteps-form__progress-btn"
           type="button"
           [routerLink]="['/pages/lead-section']"
@@ -98,6 +99,8 @@
         </button> -->
         <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
       </div>
+        </div>
+        
       <router-outlet></router-outlet>
     </div>
   </div>

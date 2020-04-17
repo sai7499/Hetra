@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="child_loan">
                     <label for="lead_date">Lead Created Date</label>
-                    <input formControlName="leadCreatedDate" type="date" class="form-control mandatory" id="lead_date" placeholder="Lead Created Date" name="lead_date">
+                    <input formControlName="leadCreatedDate" type="text" class="form-control mandatory" id="lead_date" placeholder="lead Created date" name="lead_date">
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme_type">
@@ -74,7 +74,13 @@
                     <!-- <app-vf-custom-select 
                     [values]="values?.sourcingCode" 
                     formControlName="sourcingCode"></app-vf-custom-select> -->
+<<<<<<< HEAD
                     <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode" placeholder="Sourcing Code" name="sourcingCode" [(ngModel)]="text">
+=======
+
+                    <input type="text" formControlName="sourcingCode" class="form-control mandatory" id="sourcing_code"
+                            placeholder="Sourcing Code" name="sourcing_code" [(ngModel)] ="text">
+>>>>>>> 126471e38afa6ec4767a97b3e39b8329a7b3fd7f
                 </div>
             </div>
             <div class="row">
