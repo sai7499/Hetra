@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class LabelsService {
   private labelsurl = 'assets/labels/labels.json';
-  private labelDDEsurl  = 'assets/labels/label_credit_vehicle_details.json';
+  private labelDDEsurl = 'assets/labels/dde/vehicle-details/label_basic_vehicle_details.json';
+
+  private labelFleetUrl = 'assets/labels/dde/vehicle-details/labelFleetDetails.json';
   private languageLabelsurl = 'assets/labels/labels-hindi.json';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getLabelsData(): Observable<any> {
     return this.http.get(this.labelsurl);
@@ -20,8 +21,11 @@ export class LabelsService {
   getLabelsOfDDEData(): Observable<any> {
     return this.http.get(this.labelDDEsurl);
   }
+  getLabelsFleetData(): Observable<any> {
+    return this.http.get(this.labelFleetUrl);
+  }
 
   getLanguageLabelData(): Observable<any> {
-    return this.http.get(this.languageLabelsurl)
+    return this.http.get(this.languageLabelsurl);
   }
 }

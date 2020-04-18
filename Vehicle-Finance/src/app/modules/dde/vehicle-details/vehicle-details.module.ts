@@ -6,9 +6,11 @@ import { VehicleDetailsRoutingModule } from './vehicle-details-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DdeSharedModule } from '../shared/shared.module';
 import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
+import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 
 @NgModule({
-  declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, ViabilityDetailsComponent],
+  declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent, InsuranceDetailsComponent, ViabilityDetailsComponent],
   imports: [
     CommonModule,
     VehicleDetailsRoutingModule,
