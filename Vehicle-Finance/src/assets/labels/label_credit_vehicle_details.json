@@ -33,6 +33,78 @@
                 "next": "Next"
             }
         ],
+        "insuranceDetails": [
+            {
+                "title": "Insurance Details",
+                "credit_shield": [
+                    {
+                        "title": "Credit Shield",
+                        "creditShieldApplicable": "Credit Shield Applicable",
+                        "insuranceCompanyName": "Insurance Company Name",
+                        "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
+                        "creditShieldPremium": "Credit Shield Premium",
+                        "creditShieldNominee": "Credit Shield Nominee",
+                        "creditShieldNomineeAge": "Credit Shield Nominee Age",
+                        "creditShieldNomineeRelationship": "Credit Shield Nominee Relationship",
+                        "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount"
+                    }
+                ],
+                "existing_insurance_details": [
+                    {
+                        "title": "Existing Insurance Details",
+                        "insuranceCompanyName": "Insurance Company Name",
+                        "expirydateofcurrentpolicy": "Expiry date of current policy",
+                        "noclaimbonus": "No claim bonus",
+                        "owndamagediscount": "own damage discount",
+                        "comprehensive-thirdparty": "Comprehensive / third party",
+                        "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)"
+                    }
+                ],
+                "back": "Back",
+                "save": "Save",
+                "next": "Next"
+            }
+        ],
+        "rtoDetails": [
+            {
+                "title": "RTO Declaration Details",
+                "rto_declaration": [
+                    {
+                        "title": "RTO Declaration",
+                        "objectionFiled": "Objection filed on the vehicle",
+                        "caseFiled": "Case filed on the vehicle",
+                        "attachmentbyCourt_Revenue": "Attachment by Court / Revenue etc.",
+                        "duplicateRC": "Duplicate RC",
+                        "interstate_vehicle": "Interstate vehicle",
+                        "reRegistered_vehicle": "Re-registered vehicle",
+                        "assigned_number": "Assigned number",
+                        "fine_vehicle": "Fine on the Vehicle",
+                        "taxArrears": "Tax Arrears",
+                        "engineNum_chassisnumbermatch": "Engine No. / Chassis number match",
+                        "issueinpermit_transfer": "Issues in permit transfer",
+                        "anyOtherIssue_discrepancy": "Any other issue / discrepancy",
+                        "taxValid": "Tax Valid upto",
+                        "fitnessValid": "Fitness Valid upto",
+                        "remarks": "Remarks"
+                    }
+                ],
+                "rto_confirmation": [
+                    {
+                        "title": "RTO Confirmation",
+                        "rto_agent_name": "RTO Agent name",
+                        "rto_agent_signature": "RTO Agent Signature",
+                        "date": "Date",
+                        "borrower_name": "Borrower Name",
+                        "borrower_signature": "Borrower Signature",
+                        "remark": "Remark",
+                        "Date": "Date"
+                    }
+                ],
+                "back": "Back",
+                "save": "Save",
+                "next": "Next"
+            }
+        ],
         "viabilityDetails": [
             {
                 "title": "Viability Details",
