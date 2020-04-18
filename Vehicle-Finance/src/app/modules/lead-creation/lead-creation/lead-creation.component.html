@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-6 text-right">
 
-        <div class="dropdown">
+        <!-- <div class="dropdown">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="true">
             Language
@@ -16,7 +16,7 @@
             <li><a (click)="onChangeLanguage('Hindi')">Hindi</a></li>
             <li><a (click)="onChangeLanguage('English')">English</a></li>
           </ul>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -26,7 +26,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }}</label>
-            <app-vf-custom-select [values]="lovLabels?.businessDivision" formControlName="businessDivision">
+            <app-vf-custom-select [values]="lovLabels?.businessDivision" formControlName="businessDivision" >
             </app-vf-custom-select>
           </div>
         </div>
@@ -37,31 +37,19 @@
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="child_loan">{{ labels.childLoan }}</label>
-            <app-vf-custom-select [values]="lovLabels?.childLoan" formControlName="childLoan"></app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="scheme_type">{{ labels.scheme_Promotion }}</label>
             <app-vf-custom-select [values]="lovLabels?.schemePromotion" formControlName="schemePromotion">
             </app-vf-custom-select>
           </div>
-        </div>
-        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="subvention">{{ labels.subventionApplied }}</label>
-            <app-vf-custom-select [values]="lovLabels?.subventionApplied" formControlName="subventionApplied">
-            </app-vf-custom-select>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="subvention">{{ labels.subvention }}</label>
-            <app-vf-custom-select [values]="lovLabels?.subvention" formControlName="subvention"></app-vf-custom-select>
+            <label for="fundingProgram">{{ labels.fundingProgram }}</label>
+            <app-vf-custom-select [values]="lovLabels?.fundingProgram" formControlName="fundingProgram"></app-vf-custom-select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-            <app-vf-custom-select [values]="lovLabels?.sourcingChannel" formControlName="sourcingChannel">
+            <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel" (change)="sourcingChannelChange($event)">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -78,29 +66,29 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="spoken_code">{{ labels.spokeCodeLocation }}</label>
-            <app-vf-custom-select [values]="lovLabels?.spokeCodeLocation" formControlName="spokeCodeLocation">
+            <app-vf-custom-select [values]="lovLabels?.spokenCodeLocation" formControlName="spokeCodeLocation">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="account_branch">{{ labels.loanAccountBranch }}</label>
 
-            <app-vf-custom-select [values]="lovLabels?.loanAccountBranch" formControlName="loanAccountBranch">
+            <app-vf-custom-select [values]="lovLabels?.loanAccountBranch"  formControlName="loanAccountBranch">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="lead_handled">{{ labels.leadHandledBy }}</label>
-            <app-vf-custom-select [values]="lovLabels?.leadHandledBy" formControlName="leadHandledBy">
+            <app-vf-custom-select [values]="lovLabels?.leadHandledBY" formControlName="leadHandledBy">
             </app-vf-custom-select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }}</label>
-            <app-vf-custom-select [values]="lovLabels?.entity" formControlName="entity"></app-vf-custom-select>
+            <app-vf-custom-select [values]="lovLabels?.entity" formControlName="entity" (change)="selectApplicantType($event)"></app-vf-custom-select>
           </div>
         </div>
-        <div class="row">
+        <div class="row individual_section_leadco" *ngIf="applicantType == '51'" >
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="first_name">{{ labels.firstName }}</label>
             <input type="text" class="form-control mandatory" id="first_name" placeholder="First Name" name="first_name"
@@ -117,26 +105,45 @@
               formControlName="lastName" />
           </div>
         </div>
+        <div class="row non_individual_section_leadco" *ngIf="applicantType == '52'">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="company_name1">Company Name 1</label>
+              <input type="text" class="form-control" id="company_name1">
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="company_name2">Company Name 2</label>
+              <input type="text" class="form-control" id="company_name2">
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="company_name3">Company Name 3</label>
+              <input type="text" class="form-control" id="company_name3">
+          </div>
+      </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="mobile">{{ labels.mobile }}</label>
             <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile"
               formControlName="mobile" />
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == '51'">
             <label for="dob">Date of Birth</label>
+            <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
+              formControlName="dateOfBirth" />
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == '52'">
+            <label for="dob">Date of Incorporation</label>
             <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
               formControlName="dateOfBirth" />
           </div>
 
           <div class="btn-sec clear-both">
-            <div class="col-sm-5">
+            <!-- <div class="col-sm-5">
               <button type="button" class="btn btn-primary">{{ labels.cancel }}</button>
-            </div>
-            <div class="col-sm-7 text-right">
+            </div> -->
+            <div class="col-sm-12 text-right">
               <!-- routerLink="../lead-dedupe" -->
 
-              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary" value="submit"
+              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary " value="submit"
                 (click)="onSubmit()">
                 {{ labels.createLead }}
               </button>

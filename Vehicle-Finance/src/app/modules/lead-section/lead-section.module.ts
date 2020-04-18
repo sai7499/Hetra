@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SourcingDetailsComponent } from './sourcing-details/sourcing-details.component';
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { SharedModule } from '../shared/shared.module';
+import { AddvehicleComponent } from './addvehicle/addvehicle.component';
+import { CreditScoreComponent } from './credit-score/credit-score.component';
 
 
 @NgModule({
@@ -25,6 +27,10 @@ import { SharedModule } from '../shared/shared.module';
     SourcingDetailsComponent,
   
     LoanDetailsComponent,
+  
+    AddvehicleComponent,
+  
+    CreditScoreComponent,
   
    
     

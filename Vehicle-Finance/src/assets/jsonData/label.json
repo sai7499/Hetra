@@ -2,6 +2,8 @@
     {
         "leadCreationtitle": "Lead Creation",
         "businessDivision": "Business Division",
+        "fundingProgram" : "Funding Program",
+        "priority" : "Priority",
         "productCategory": "Product Category",
         "childLoan": "Child Loan",
         "scheme_Promotion": "Scheme/Promotion",

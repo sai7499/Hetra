@@ -6,6 +6,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 // import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from './services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { Router} from '@angular/router'
 
 import { Location } from '@angular/common';
 
@@ -21,6 +22,7 @@ export class LeadSectionComponent implements OnInit {
   public labels: any;
 
   constructor(
+    public router : Router,
     private leadSectionService: VehicleDetailService,
     private location: Location,
     private labelsData: LabelsService,
@@ -45,13 +47,20 @@ export class LeadSectionComponent implements OnInit {
       } else if (url.includes('vehicle-details')) {
         this.currentPage = 2;
       } else if (url.includes('applicant-details')) {
-        this.currentPage = 3;
+        this.currentPage = 1;
       } else if (url.includes('loan-details')) {
         this.currentPage = 4;
+      } else if (url.includes('add-vehicle')) {
+        this.currentPage = 2;
+      }else if (url.includes('co-applicant')) {
+        this.currentPage = 1;
       } else {
         this.currentPage = 0;
       }
     });
 
   }
+
+     
+
 }

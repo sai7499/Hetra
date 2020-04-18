@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
+
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
@@ -20,6 +21,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   lovLabels: any = [];
   labels: any = {};
 
+  applicantType = '51';
+
+  selectApplicantType(event: any) {
+    console.log(this.applicantType)
+    this.applicantType = event.target.value;
+  }
+
   constructor(
     private lovData: LovDataService,
     private router: Router,
@@ -30,16 +38,17 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     });
 
   }
-
+  
   ngOnChanges() {
     console.log(this.test);
   }
 
   initForm() {
     this.createLeadForm = new FormGroup({
-      businessDivision: new FormControl(''),
+      businessDivision: new FormControl({value: "Vehicle Finance", disabled: true}),
       productCategory: new FormControl(''),
       childLoan: new FormControl(''),
+      fundingProgram: new FormControl(''),
       schemePromotion: new FormControl(''),
       subventionApplied: new FormControl(''),
       subvention: new FormControl(''),
@@ -59,8 +68,24 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.onChangeLanguage('English')
+    // this.values = [
+    //   { key: 1, value: 'Vechicle Finance' },
+    //   { key: 2, value: 'Housing Finance' },
+    //   { key: 3, value: 'Loan Against Property' }
+    // ];
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+        //console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
+        console.log(this.labels.fundingProgram);
+      }    );
+    this.onChangeLanguage('English');
     this.initForm();
+  }
+
+  sourcingChannelChange(e){
+    console.log(e)
   }
 
   onChangeLanguage(labels: string) {
@@ -68,7 +93,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       this.labelsData.getLanguageLabelData().subscribe(
         data => {
           this.labels = data[0];
-        })
+        });
     } else {
       this.labelsData.getLabelsData().subscribe(
         data => {
