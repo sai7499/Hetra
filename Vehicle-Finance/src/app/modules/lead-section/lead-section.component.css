@@ -181,6 +181,11 @@ h3.dedupe_head {
   margin-top: 0px;
 }
 
+.btn-primary{
+  margin: 8px;
+  padding: 6px 8px;
+}
+
 .row.top_bar {
   margin: 0px;
   border: 1px solid #ddd;

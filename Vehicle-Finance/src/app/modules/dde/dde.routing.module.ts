@@ -9,7 +9,7 @@ const routes: Routes = [{
     component: DdeComponent,
     children: [
         {
-            path: 'applicant-details',
+            path: '',
             component: ApplicantDetailsComponent
         }
     ]

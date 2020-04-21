@@ -30,6 +30,10 @@ const routes: Routes = [
         loadChildren: () => import("./modules/lead-section/lead-section.module").then(m => m.LeadSectionModule)
       },
       {
+        path: "document-viewupload",
+        loadChildren: () => import("./modules/document-viewupload/document-viewupload.module").then(m => m.DocumentViewuploadModule)
+      },
+      {
         path: 'terms-condition',
         loadChildren: () => import('./modules/terms-conditions/terms-conditions.module').then(m => m.TermsConditionsModule)
       },
