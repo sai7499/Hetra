@@ -39,7 +39,7 @@ export class VehicleDetailComponent implements OnInit {
           });
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
-        console.log('vehicleLov', this.vehicleLov);
+        // console.log('vehicleLov', this.vehicleLov);
         this.setFormValue();
       });
     }

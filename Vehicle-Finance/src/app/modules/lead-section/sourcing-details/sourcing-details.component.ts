@@ -16,6 +16,9 @@ export class SourcingDetailsComponent implements OnInit {
   values: any = [];
   public labels: any = {};
   sourcingDetailsForm: FormGroup;
+  SourcingChange: any;
+  ProfessionList = [];
+  text:any;
 
 
   constructor(
@@ -34,17 +37,55 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
+  sourcingChannelChange(event: any){
+    
+    this.SourcingChange = event.target.value;
+    console.log(this.SourcingChange);
+    
+    this.sourcingDetailsForm.controls['sourcingChannel'].valueChanges.subscribe((value) => {
+
+
+      setTimeout(()=>{
+        switch(this.SourcingChange){
+  
+      case '1': this.ProfessionList = [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+                   break;
+      case '2': this.ProfessionList = [{key: 1,value: 'Liability Branch Code'}];
+                   break; 
+      case '3': this.ProfessionList = [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+                   break;
+      default: this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+                   break;                                      
+    }
+      },10);
+    });
+
+    if(this.SourcingChange==4)
+    {
+      this.text = "Campaign Code";
+    }
+    else{
+      this.text = "Employee Code";
+    }
+    
+  }
+
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
       leadNumber: new FormControl({value: '', disabled: true}),
       leadCreatedDate: new FormControl({value: '', disabled: true}),
       leadCreatedBy: new FormControl({value: '', disabled: true}),
       leadHandledBy: new FormControl(''),
+      priority: new FormControl(''),
+      product: new FormControl (''),
+      businessDivision: new FormControl ({value:'1', disabled: true }),
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
       spokeCodeLocation: new FormControl(''),
-      loanAccountBranch: new FormControl({value: '', disabled: true})
+      loanAccountBranch: new FormControl({value: '', disabled: true}),
+      requestedAmount : new FormControl(''),
+      requestedTenor : new FormControl('')
     });
 
     this.labelsData.getLabelsData().subscribe(
@@ -78,11 +119,12 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onFormSubmit() {
+    this.router.navigate(['/pages/lead-section/applicant-details']);
     console.log('sourcing form', this.sourcingDetailsForm.value);
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = {...formValue};
     this.leadStoreService.setSourcingDetails(sourcingModel);
-    this.router.navigate(['/pages/lead-section/product-details']);
+    
   }
 
 }

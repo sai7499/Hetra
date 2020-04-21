@@ -18,9 +18,10 @@ export class CoApplicantComponent implements OnInit {
 
   selectedApplicant: number;
 
-  applicantType = 'individual';
+  applicantType = '1';
 
   selectApplicantType(event: any) {
+    console.log(this.applicantType)
     this.applicantType = event.target.value;
   }
 
@@ -57,6 +58,7 @@ export class CoApplicantComponent implements OnInit {
   initForm() {
     this.coApplicantForm = new FormGroup({
       entity: new FormControl(''),
+      relationshipwithloanapplicant: new FormControl(''),
       first_name: new FormControl(''),
       middle_name: new FormControl(''),
       last_name: new FormControl(''),
@@ -67,6 +69,11 @@ export class CoApplicantComponent implements OnInit {
       date_of_birth: new FormControl(''),
       date_of_incorporation: new FormControl(''),
       identity_type: new FormControl(''),
+      aadharnumber:new FormControl(''),
+      panform: new FormControl(''),
+      pannumber:new FormControl(''),
+      drivinglicense: new FormControl(''),
+      passportnumber:new FormControl(''),
       identity_number: new FormControl(''),
       identity_copy: new FormControl(''),
       address1: new FormControl(''),
@@ -113,6 +120,7 @@ export class CoApplicantComponent implements OnInit {
     }
     this.coApplicantForm.patchValue({
       entity: applicantValue.entity || '',
+      relationshipwithloanapplicant: applicantValue.relationshipwithloanapplicant || '',
       first_name: applicantValue.first_name || '',
       middle_name: applicantValue.middle_name || '',
       last_name: applicantValue.last_name || '',
@@ -123,6 +131,11 @@ export class CoApplicantComponent implements OnInit {
       date_of_birth: applicantValue.date_of_birth || '',
       date_of_incorporation: applicantValue.date_of_incorporation || '',
       identity_type: applicantValue.identity_type || '',
+      aadharnumber:applicantValue.aadharnumber || '',
+      panform:applicantValue.panform ||'',
+      pannumber:applicantValue.pannumber || '',
+      drivinglicense:applicantValue.drivinglicense ||'',
+      passportnumber:applicantValue.passportnumber ||'',
       identity_number: applicantValue.identity_number || '',
       identity_copy: applicantValue.identity_copy || '',
       address1: applicantValue.address1 || '',
@@ -171,6 +184,7 @@ export class CoApplicantComponent implements OnInit {
 
 export interface Temp {
   entity?: string;
+  relationshipwithloanapplicant?:string
 first_name?: string;
 middle_name?: string;
 last_name?: string;
@@ -181,6 +195,11 @@ mobile?: string;
 date_of_birth?: string;
 date_of_incorporation?: string;
 identity_type?: string;
+aadharnumber?:string;
+panform?:string;
+pannumber?:string;
+drivinglicense?:string;
+passportnumber?:string;
 identity_number?: string;
 identity_copy?: string;
 address1?: string;

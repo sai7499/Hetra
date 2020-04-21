@@ -211,6 +211,10 @@ select#select_main_button_match {
 .showModal{
   display: block;
 }
+
+.btn-primary {
+  margin: 8px;
+}
 /* 
 .fadeIn {
   animation: fadeIn linear .35s;

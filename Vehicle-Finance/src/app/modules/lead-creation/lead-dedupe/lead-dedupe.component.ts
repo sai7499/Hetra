@@ -26,13 +26,17 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   OnProceed() {
-    this.isReason = true;
-    this.isSubmit = true;
+    this.isReason = false;
+    this.isSubmit = false;
   }
 
   OnReject() {
     this.isReason = true;
-    this.isSubmit = false;
+    this.isSubmit = true;
+  }
+
+  OnCreateNew(){
+
   }
 
   OnChecked(e) {    
@@ -43,7 +47,8 @@ export class LeadDedupeComponent implements OnInit {
    else{
      this.count--;
    }
-   this.isChecked = this.count !=0 ? true : false;   
+   this.isChecked = this.count !=0 ? true : false;
+   console.log(this.isChecked);   
   }
 
   OnItemPerPage(e) {
@@ -60,6 +65,8 @@ export class LeadDedupeComponent implements OnInit {
       this.dummmyArray.push({
         applicantId: `${i}`,
         loanCreatedBy: " person",
+        createdDate: "05-03-2020",
+        leadId: "11257009",
         branch: "chennai",
         businessDivision: "Vehicle Finance",
         product: "New CV",

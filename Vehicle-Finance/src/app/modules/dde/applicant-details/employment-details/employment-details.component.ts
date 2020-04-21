@@ -21,15 +21,19 @@ export class EmploymentDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getLabelData();
-    this.lovDataService.getLovData().subscribe((res: any) => {
-      this.values = res[0].employmentDetails[0];
-      console.log('employmentvalue', this.values);
-    })
+    this.getLovsData();
   }
 
   getLabelData() {
     this.labelsService.getLabelsData().subscribe(labelsData => {
       this.labels = labelsData;
+    })
+  }
+
+  getLovsData() {
+    this.lovDataService.getLovData().subscribe((res: any) => {
+      this.values = res[0].employmentDetails[0];
+      console.log('employmentvalue', this.values);
     })
   }
 

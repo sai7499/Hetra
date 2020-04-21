@@ -25,6 +25,7 @@ export interface Lead {
     productDetails?: ProductDetails;
     loanDetails?: LoanDetails;
     vehicleDetails?: VehicleDetails;
+    fundingProgram?: string;
   }
 
 export interface SourcingDetails {
@@ -72,7 +73,7 @@ export interface VehicleDetails {
   finalAssetCost?: string;
   idv?: string;
   insuranceValidity?: string;
-  insuranceCopy?: string,
+  insuranceCopy?: string;
   permitType?: string;
   expiryDate?: string;
   permitCopy?: string;

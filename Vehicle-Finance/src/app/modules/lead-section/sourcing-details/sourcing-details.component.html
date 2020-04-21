@@ -1,7 +1,32 @@
 <div class="content">
     <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-            <h4 class="title">{{labels?.sourceDetailsTitle}}</h4>
+            <!-- <h4 class="title">{{labels?.sourceDetailsTitle}}</h4> -->
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="business_division">{{ labels.businessDivision }}</label>
+                      <app-vf-custom-select 
+                        [values]="values?.businessDivision" 
+                        formControlName="businessDivision"></app-vf-custom-select>
+        
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="product_type">{{ labels.product }}</label>
+                    <app-vf-custom-select 
+                        [values]="values?.productCategory" 
+                        formControlName="product"></app-vf-custom-select>
+        
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="scheme_type">{{ labels.priority }}</label>
+        
+                    <app-vf-custom-select 
+                        [values]="values?.priority" 
+                        formControlName="priority"></app-vf-custom-select>
+        
+                </div>
+            </div>
+
             <div class="row">
 
                 <div class="form-group col-lg-3 col-sm-6 col-md-6 col-xs-3 ">
@@ -11,7 +36,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="child_loan">
                     <label for="lead_date">Lead Created Date</label>
-                    <input formControlName="leadCreatedDate" type="date" class="form-control mandatory" id="lead_date" placeholder="Lead Created Date" name="lead_date">
+                    <input formControlName="leadCreatedDate" type="text" class="form-control mandatory" id="lead_date" placeholder="lead Created date" name="lead_date">
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme_type">
@@ -33,20 +58,25 @@
                     <label for="sourcing_channel">{{labels.sourcingChannel}}</label>
                     <app-vf-custom-select 
                     [values]="values?.sourcingChannel" 
-                    formControlName="sourcingChannel"></app-vf-custom-select>
+                    formControlName="sourcingChannel"  (change)="sourcingChannelChange($event)" name ="sourcingChannel"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_type">{{labels.sourcingType}}</label>
-
-                    <app-vf-custom-select 
+                    <!-- <app-vf-custom-select 
                     [values]="values?.sourcingType" 
-                    formControlName="sourcingType"></app-vf-custom-select>
+                    formControlName="sourcingType"></app-vf-custom-select> -->
+                    <select class="form-control" name="profession_id" > 
+                        <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
+                      </select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_code">{{labels.sourcingCode}}</label>
-                    <app-vf-custom-select 
+                    <!-- <app-vf-custom-select 
                     [values]="values?.sourcingCode" 
-                    formControlName="sourcingCode"></app-vf-custom-select>
+                    formControlName="sourcingCode"></app-vf-custom-select> -->
+
+                    <input type="text" formControlName="sourcingCode" class="form-control mandatory" id="sourcing_code"
+                            placeholder="Sourcing Code" name="sourcing_code" [(ngModel)] ="text">
                 </div>
             </div>
             <div class="row">
@@ -63,6 +93,19 @@
                     formControlName="loanAccountBranch"></app-vf-custom-select>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="spoken_code">{{labels.requestedAmount}}</label>
+                    <input type="text" formControlName="requestedAmount" class="form-control mandatory" id="requested_amount"
+                            placeholder="Requested Amount" name="requested_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="account_branch">{{labels.requestedTenor}}</label>
+                    <app-vf-custom-select 
+                    [values]="values?.requestedTenor" 
+                    formControlName="requestedTenor"></app-vf-custom-select>
+                </div>
+            </div>
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
 
@@ -75,5 +118,6 @@
         </div>
     </form>
 </div>
+
 
 
