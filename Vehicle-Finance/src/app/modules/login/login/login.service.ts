@@ -24,7 +24,6 @@ export class LoginService {
         const workflowId = environment.api.getUserDetails.workflowId;
         const projectId = environment.projectId;
 
-        let token = localStorage.getItem('token');
         let email = localStorage.getItem('email');
 
         const requestEntity: RequestEntity = {
@@ -38,14 +37,8 @@ export class LoginService {
 
         const body = new HttpParams().append("processVariables", JSON.stringify(requestEntity));
 
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'authentication-token': token
-        });
-        let options = { headers: headers };
-
         let url = environment.host + 'd/workflows/' + workflowId + '/' + 'execute?projectId=' + projectId;
-        return this.http.put(url, body, options);
+        return this.http.put(url, body);
     }
 
 }
