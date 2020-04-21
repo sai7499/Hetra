@@ -4,8 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { DdeComponent  } from './dde.component';
 import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
 import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
-import { ProductDdeComponent } from './product-dde/product-dde.component';
-import { LoanDdeComponent } from './loan-dde/loan-dde.component';
+import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
+
 
 const routes: Routes = [{
     path: '',
@@ -20,12 +21,12 @@ const routes: Routes = [{
             component: SourcingDdeComponent
         },
         {
-            path: 'product-details',
-            component: ProductDdeComponent
+            path: 'income-details',
+            component: IncomeDetailsComponent
         },
         {
-            path: 'loan-details',
-            component: LoanDdeComponent
+            path: 'exposure',
+            component: ExposureDetailsComponent
         }
     ]
 }];
