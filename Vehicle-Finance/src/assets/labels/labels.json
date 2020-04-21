@@ -127,6 +127,8 @@
     "loanDetailsTitle": "Loan Details",
     "requestedAmount": "Requested Amount",
     "requestedTenor": "Requested Tenor",
+    "marginMoney":"Margin Money",
+    "emiAffordability":"EMI Affordibility",
     "creditBureauTitle": "Credit Bureau",
     "productOffered": "Product Offered",
     "customerSegment": "Customer Segment",

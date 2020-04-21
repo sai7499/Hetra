@@ -16,7 +16,7 @@ const routes: Routes = [{
             component: ApplicantDetailsComponent
         },
         {
-            path: 'sourcing-details',
+            path: 'lead-details',
             component: SourcingDdeComponent
         },
         {
