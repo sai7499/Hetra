@@ -51,7 +51,7 @@
                     <label for="sourcing_type">{{ labels.sourcingType }}</label>
                     <!-- <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType">
                     </app-vf-custom-select> -->
-                     <select class="form-control" name="profession_id" > 
+                     <select class="form-control" name="profession_id" formControlName="sourcingType" > 
                     <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
                   </select>
                   </div>
