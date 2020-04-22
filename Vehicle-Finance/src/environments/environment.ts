@@ -1,5 +1,9 @@
 export const environment = {
   production: false,
+  apiVersion: {
+    login: "v4/",
+    api: "v2/"
+  },
 
   projectId: '74c36bec6da211eabdc2f2fa9bec3d63',
 
@@ -9,6 +13,11 @@ export const environment = {
       'processId': '8000bb2e82ea11eabdc2f2fa9bec3d63'
     }
   },
-  host: 'http://128.199.164.250/appiyo/'
+  host: 'http://128.199.164.250/appiyo/',
+
+  aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
+  encryptionType: true, // Ecryption
+  appiyoDrive: "/d/drive/upload/",
+
 };
 

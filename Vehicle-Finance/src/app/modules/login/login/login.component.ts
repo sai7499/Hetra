@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -42,15 +42,17 @@ export class LoginComponent implements OnInit {
         this.loginService.getUserDetails().subscribe((res: any) => {
           const response = res;
           if (response.Error === '0') {
-            console.log(response.ProcessVariables.roles[0].name)
-            this.router.navigateByUrl('/pages/lead-creation');
+            const role = response.ProcessVariables.roles[0].name;
+            if (role === 'Sales Officer') {
+              this.router.navigateByUrl('/pages/lead-creation');
+            }
           }
         })
       }
     },
-    err =>{
-      alert('Invalid Login')
-      this.loginForm.reset()
-    })
+      err => {
+        alert('Invalid Login')
+        this.loginForm.reset()
+      })
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
@@ -15,7 +15,9 @@ export class LoginService {
     getLogin(data) {
         let body = `email=${data.email}&password=${data.password}`;
         // const body =  JSON.stringify(req);
-        const url = 'http://128.199.164.250/appiyo/account/login'
+        const url = 'http://128.199.164.250/appiyo/account/login';
+        // const url = 'http://128.199.164.250/appiyo/account/' + environment.apiVersion.login + 'login';
+        // const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
         return this.http.post(url, body);
     }
 
@@ -37,8 +39,9 @@ export class LoginService {
 
         const body = new HttpParams().append("processVariables", JSON.stringify(requestEntity));
 
-        let url = environment.host + 'd/workflows/' + workflowId + '/' + 'execute?projectId=' + projectId;
-        return this.http.put(url, body);
+        let url = environment.host + 'd/workflows/' + workflowId + '/execute?projectId=' + projectId;
+        // let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+        return this.http.post(url, body);
     }
 
 }
