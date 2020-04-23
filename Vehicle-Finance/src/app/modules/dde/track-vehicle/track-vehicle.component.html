@@ -1,189 +1,177 @@
-<h3 class="dashboard">Track</h3>
+<form class="multisteps-form">
+    <h3 class="dashboard">Repayment Track Record</h3>
+    <div class="tab_content " [formGroup]="trackVehicleForm">
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.nameOfTheClient}}</label>
+                <input type="text" class="form-control" id="client_name" formControlName="client">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.nameOfTheFinancier}}</label>
+                <input type="text" class="form-control" id="financier_name" formControlName="financier">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.assetFinanced}}</label>
+                <input type="text" class="form-control" id="asset_financed" formControlName="assetFinanced">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.repaymentMode}}</label>
+                <select class="form-control" formControlName="paymentMode">
+                    <option>{{labels.ecs}}</option>
+                    <option>{{labels.ach}}</option>
+                    <option>{{labels.pdc}}</option>
+                    <option>{{labels.cash}}</option>
+                    <option>{{labels.others}}</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.financeAmount}}</label>
+                <input type="text" class="form-control" id="finance_amount" formControlName="financeAmount">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.financeCharges}}</label>
+                <input type="text" class="form-control" id="finance_charges" formControlName="financeCharges">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.contractValue}}</label>
+                <input type="text" class="form-control" id="contract_value" formControlName="contractValue">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.contNo}}</label>
+                <input type="text" class="form-control" id="cont_no" formControlName="contNo">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.vehicleNo}}</label>
+                <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.typesOfFinance}}</label>
+                <select class="form-control" formControlName="typesOfFinance">
+                    <option>{{labels.new}}</option>
+                    <option>{{labels.refinance}}</option>
+                    <option>{{labels.used}}</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.accountStatus}}</label>
+                <select class="form-control" formControlName="accountStatus">
+                    <option>{{labels.matured}}</option>
+                    <option>{{labels.running}}</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.loanStartDate}}</label>
+                <input type="text" class="form-control" id="loan_start_date" formControlName="loanStartDate">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.loanMaturityDate}}</label>
+                <input type="text" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.count}}</label>
+                <div class="row twos">
+                    <input type="text" class="form-control w-50" id="count_30" formControlName="count30">
+                    <input type="text" class="form-control w-50" id="count_90" formControlName="count90">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.totalNoOfEmis}}</label>
+                <input type="text" class="form-control" id="no_of_emis" formControlName="totalNoOfEmis">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.noOfEmisPaid}}</label>
+                <input type="text" class="form-control" id="no_of_emis_paid" formControlName="noOfEmisPaid">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.balanceTenor}}</label>
+                <input type="text" class="form-control" id="balance_tenor" formControlName="balanceTenor">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.totalDelay}}</label>
+                <input type="text" class="form-control" id="total_delay" formControlName="totalDelay">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.peakDelay}}</label>
+                <input type="text" class="form-control" id="peak_delay" formControlName="peakDelay">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.avgDelay}}</label>
+                <input type="text" class="form-control" id="avg_delay" formControlName="avgDelay">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.trackStatus}}</label>
+                <input type="text" class="form-control" id="track_status" formControlName="trackStatus">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
+                <input type="text" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid">
+            </div>
+        </div>
 
-<div class="row">
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="name_of_the_client">{{labels.nameOfTheClient}}</label>
-        <input type="text" class="form-control" id="name_of_the_client" value="Client 1">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="name_of_the_financier">{{labels.nameOfTheFinancier}}</label>
-        <input type="text" class="form-control" id="name_of_the_financier" value="Financier 1">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="asset_financed">{{labels.assetFinanced}}</label>
-        <input type="text" class="form-control" id="asset_financed" value="TATA ACE M100">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="repayment_mode">{{labels.repaymentMode}}</label>
-        <select class="form-control">
-            <option>{{labels.ecs}}</option>
-            <option>{{labels.ach}}</option>
-            <option>{{labels.pdc}}</option>
-            <option>{{labels.cash}}</option>
-            <option>{{labels.others}}</option>
-        </select>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="finance_amount">{{labels.financeAmount}}</label>
-        <input type="text" class="form-control" id="finance_amount" value="200000" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="finance_charges">{{labels.financeCharges}}</label>
-        <input type="text" class="form-control" id="finance_charges" value="40000">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="contract_value">{{labels.contractValue}}</label>
-        <input type="text" class="form-control" id="contract_value">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="cont_no">{{labels.contNo}}</label>
-        <input type="text" class="form-control" id="cont_no">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="vehicle_no">{{labels.vehicleNo}}</label>
-        <input type="text" class="form-control" id="vehicle_no" value="TN011234">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="types_of_finance">{{labels.typesOfFinance}}</label>
-        <select class="form-control">
-            <option>{{labels.new}}</option>
-            <option>{{labels.refinance}}</option>
-            <option>{{labels.used}}</option>
-        </select>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="account_status">{{labels.accountStatus}}</label>
-        <input type="text" class="form-control" id="account_status" disbaled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="loan_start_date">{{labels.loanStartDate}}</label>
-        <input type="text" class="form-control" id="loan_start_date">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="loan_maturity_date">{{labels.loanMaturityDate}}</label>
-        <input type="text" class="form-control" id="loan_maturity_date">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="count">{{labels.count}}</label>
-        <input type="text" class="form-control" id="count" value="0" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="total_no_of_emis">{{labels.totalNoOfEmis}}</label>
-        <input type="text" class="form-control" id="total_no_of_emis">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="no_of_emis_paid">{{labels.noOfEmisPaid}}</label>
-        <input type="text" class="form-control" id="no_of_emis_paid">
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="balance_tenor">{{labels.balanceTenor}}</label>
-        <input type="text" class="form-control" id="balance_tenor" value="0" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="total_delay">{{labels.totalDelay}}</label>
-        <input type="text" class="form-control" id="total_delay" value="4.00" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="peak_delay">{{labels.peakDelay}}</label>
-        <input type="text" class="form-control" id="peak_delay" value="4.00" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="avg_delay">{{labels.avgDelay}}</label>
-        <input type="text" class="form-control" id="avg_delay" value="4.00" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="track_status">{{labels.trackStatus}}</label>
-        <input type="text" class="form-control" id="track_status" value="4.00" disabled>
-    </div>
-    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="total_amt_paid">{{labels.totalAmtPaid}}</label>
-        <input type="text" class="form-control" id="total_amt_paid" value="20000" disabled>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="table-responsive application">
-            <table class="table" id="track">
-                <thead>
-                    <tr class="table-head-bg">
-                        <th>{{labels.installmentNo}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.installmentAmt}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.dueDate}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.rcptNo}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.recdDate}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.rcptAmount}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.delayDays}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels.paymentsExcess}}<i class="fa fa-sort"></i> </th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    <tr>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>01-Jan-18</td>
-                        <td>1001</td>
-                        <td>05-Jan-18</td>
-                        <td>12000</td>
-                        <td>4</td>
-                        <td>-2000</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>1000</td>
-                        <td>01-Feb-18</td>
-                        <td>1002</td>
-                        <td>01-Feb-18</td>
-                        <td>12000</td>
-                        <td>8000</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+        <!-- table starts here -->
 
-                    </tr>
 
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="table-responsive application">
+                <table class="table" id="POITable">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <td>{{labels.installmentNo}}</td>
+                            <td>{{labels.installmentAmt}}</td>
+                            <td>{{labels.dueDate}} </td>
+                            <td>{{labels.rcptNo}} </td>
+                            <td>{{labels.recdDate}} </td>
+                            <td>{{labels.rcptAmount}} </td>
+                            <td>{{labels.delayDays}} </td>
+                            <td>{{labels.paymentsExcess}} </td>
+                            <td>{{labels.action}} </td>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="Rows">
 
+                        <tr id="applicant_1_row" *ngFor="let itemrow of trackVehicleForm.controls.Rows.controls; let i=index;let l=last" [formGroupName]="i">
+                            <td>{{i+1}}</td>
+                            <td><input type="text" class="form-control input_value" value="10000" formControlName="installmentAmt"></td>
+                            <td>
+                                <div class="form-group date">
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                        <input type='text' class="form-control" value="01-01-2018" formControlName="dueDate" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td><input type="text" class="form-control input_value" value="1001" formControlName="rcptNo"></td>
+                            <td>
+                                <div class="form-group date">
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                        <input type='text' class="form-control" value="05-01-2018" formControlName="recdDate" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td><input type="text" class="form-control input_value" value="10000" formControlName="rcptAmount"></td>
+                            <td><input type="text" class="form-control input_value auto_cal" formControlName="delayDays"></td>
+                            <td><input type="text" class="form-control input_value auto_cal" formControlName="paymentsExcess"></td>
+                            <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" (click)="addNewRow()"></i>
+                                <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" (click)="deleteRow(i)"></i></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
-</div>
 
-<div class="btn-sec">
-    <div class="col-sm-12 text-right track">
-        <button class="btn btn-primary js-btn-prev dash_href" type="button"> <a class="back_color"
-                href="credit_fleet_sheets.html">Back</a></button>
-        <button type="button" class="btn btn-primary dash_href"><a class="back_color" href="#">Save</a> </button>
-        <button class="btn btn-primary js-btn-next" type="button"> <a class="back_color"
-                href="credit_fleet_sheets.html">Next</a> </button>
 
-    </div>
-</div>
+
+
+    <!-- </div> -->
+
+
+</form>

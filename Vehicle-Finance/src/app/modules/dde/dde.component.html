@@ -7,14 +7,13 @@
         <!--progress bar-->
         <div class="multisteps-form">
             <div class="multisteps-form__progress">
+                <!-- <div class="multisteps-form__progress" *ngIf="router.url!='/pages/dde/track-vehicle'"> -->
                 <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details">Sourcing
                     Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_product_details">Product
                     Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_application_details"
-                    [routerLink]="['./applicant-list']">Applicant Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_details"
-                    [routerLink]="['./vehicle-list']">Vechical Details</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_application_details" [routerLink]="['./applicant-list']">Applicant Details</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_details" [routerLink]="['./vehicle-list']">Vechical Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_loan_details">Loan
                     Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data">PSL Data</button>
@@ -31,7 +30,7 @@
                 <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document
                     Details</button>
             </div>
-            <div class="content" style="height: 300px;">
+            <div style="height: 300px;">
                 <router-outlet></router-outlet>
             </div>
         </div>

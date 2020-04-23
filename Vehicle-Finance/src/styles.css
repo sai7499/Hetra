@@ -339,11 +339,36 @@ form .form-control {
 .container.overflow-hidden {
     overflow-y: hidden;
 }
-.page-select-width{
+
+.page-select-width {
     padding: 6px !important;
 }
 
 
 /* progress bar */
 
+.tab_content {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 0px;
+}
 
+.tab_content2 {
+    padding-bottom: 0px!important;
+}
+
+.add_button {
+    margin: 10px 0;
+}
+
+.a_tag {
+    color: #272264;
+}
+
+.basic_scroll_2 {
+    overflow-y: auto;
+    max-height: 230px;
+    overflow-x: hidden;
+}

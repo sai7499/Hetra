@@ -7,6 +7,8 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 
+
+
 const routes: Routes = [{
     path: '',
     component: DdeComponent,

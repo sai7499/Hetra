@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 
 
 
+
+
 @NgModule({
     declarations: [DdeComponent, ApplicantListComponent, VehicleListComponent, FleetDetailsComponent, TrackVehicleComponent],
     imports: [DdeRoutingModule, DdeSharedModule, FormsModule, ReactiveFormsModule, CommonModule],

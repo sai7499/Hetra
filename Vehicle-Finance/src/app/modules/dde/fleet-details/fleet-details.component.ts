@@ -49,8 +49,8 @@ export class FleetDetailsComponent implements OnInit {
 
   initRows() {
     return this.fb.group({
-      regd_no: [''],
-      regd_owner: [''],
+      regdNo: [''],
+      regdOwner: [''],
       make: [''],
       yom: [''],
       financier: [''],
@@ -58,10 +58,10 @@ export class FleetDetailsComponent implements OnInit {
       purchaseDate: [''],
       tenure: [''],
       paid: [''],
-      seasoning: [''],
-      ad: [''],
-      pd: [''],
-      gridValue: ['']
+      seasoning: [{value :"67%",disabled :true}],
+      ad: [{value :"",disabled :true}],
+      pd: [{value :"",disabled :true}],
+      gridValue: [{value :"",disabled :true}]
     });
   }
 
