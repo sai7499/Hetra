@@ -14,7 +14,7 @@ export interface LoanLeadDetails {
   fundingProgram?: number;
   sourcingChannel?: number;
   sourcingType?: number;
-  sourcingCode?: number;
+  sourcingCode?: string;
   spokeCodeLocation?: number;
   loanBranch?: number;
   leadHandeledBy?: number;

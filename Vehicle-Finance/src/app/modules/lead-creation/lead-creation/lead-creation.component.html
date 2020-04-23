@@ -85,21 +85,21 @@
         </div>
         <div class="row individual_section_leadco">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="first_name" *ngIf="applicantType == '51'">{{ labels.firstName }}</label>
-            <label for="first_name" *ngIf="applicantType == '52'">{{ labels.companyName1 }}</label>
-            <input type="text" class="form-control mandatory" id="first_name" placeholder="First Name" name="first_name"
+            <label for="first_name" *ngIf="applicantType == 'I'">{{ labels.firstName }}</label>
+            <label for="first_name" *ngIf="applicantType == 'C'">{{ labels.companyName1 }}</label>
+            <input type="text" class="form-control mandatory" id="first_name" name="first_name"
               formControlName="nameOne" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name" *ngIf="applicantType == '51'">{{ labels.middleName }}</label>
-            <label for="middle_name" *ngIf="applicantType == '52'">{{ labels.companyName2 }}</label>
-            <input type="text" class="form-control mandatory" id="middle_name" placeholder="Middle Name"
-              name="middle_name" formControlName="nameTwo" />
+            <label for="middle_name" *ngIf="applicantType == 'I'">{{ labels.middleName }}</label>
+            <label for="middle_name" *ngIf="applicantType == 'C'">{{ labels.companyName2 }}</label>
+            <input type="text" class="form-control mandatory" id="middle_name" name="middle_name"
+              formControlName="nameTwo" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name" *ngIf="applicantType == '51'">{{ labels.lastName }}</label>
-            <label for="last_name" *ngIf="applicantType == '52'">{{ labels.companyName3 }}</label>
-            <input type="text" class="form-control mandatory" id="last_name" placeholder="Last Name" name="last_name"
+            <label for="last_name" *ngIf="applicantType == 'I'">{{ labels.lastName }}</label>
+            <label for="last_name" *ngIf="applicantType == 'C'">{{ labels.companyName3 }}</label>
+            <input type="text" class="form-control mandatory" id="last_name" name="last_name"
               formControlName="nameThree" />
           </div>
         </div>
@@ -124,8 +124,8 @@
               formControlName="mobile" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="dob" *ngIf="applicantType == '51'">Date of Birth</label>
-            <label for="dob" *ngIf="applicantType == '52'">Date of Incorporation</label>
+            <label for="dob" *ngIf="applicantType == 'I'">Date of Birth</label>
+            <label for="dob" *ngIf="applicantType == 'C'">Date of Incorporation</label>
             <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
               formControlName="dateOfBirth" />
           </div>
@@ -142,8 +142,7 @@
             <div class="col-sm-12 text-right">
               <!-- routerLink="../lead-dedupe" -->
 
-              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary " value="submit"
-                (click)="onSubmit()">
+              <button type="button" class="btn btn-primary " value="submit" (click)="onSubmit()">
                 {{ labels.createLead }}
               </button>
             </div>
