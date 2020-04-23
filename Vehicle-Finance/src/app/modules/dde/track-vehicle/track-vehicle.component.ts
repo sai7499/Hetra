@@ -73,9 +73,10 @@ export class TrackVehicleComponent implements OnInit {
 
 
       // })])
+     
 
-    })
-
+    });
+    // this.addNewRow();
     // console.warn(this.trackVehicleForm.value);
   }
 
