@@ -140,9 +140,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.leadStoreService.setLeadCreation(leadModel);
 
     const applicantModel = {
-      nameOne: leadModel.applicantDetails.nameOne,
-      nameTwo: leadModel.applicantDetails.nameTwo,
-      nameThree: leadModel.applicantDetails.nameThree,
+      firstName: leadModel.applicantDetails.nameOne,
+      middleName: leadModel.applicantDetails.nameTwo,
+      lastName: leadModel.applicantDetails.nameThree,
       mobile: leadModel.applicantDetails.mobile
     };
     this.leadStoreService.setCoApplicantDetails(applicantModel);
