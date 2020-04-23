@@ -1,6 +1,9 @@
 export interface Dde {
     vehicleValuation?: VehicleValuation;
     pslData?: PslData;
+    applicantDetails? : ApplicantDetails;
+    customerProfile?: CustomerProfile;
+    loanDetails?: LoanDetails;
 }
 
 export interface VehicleValuation {
@@ -67,7 +70,7 @@ export interface PslData {
     landAreaInAcres?: string;
     landProof?: string;
     landProofUpload?: string;
-    loanAmount? : string,
+    loanAmount? : string;
     proofOfInvest?: string;
     investProofUpload?: string;
     nameOfCa?: string;
@@ -96,10 +99,90 @@ export interface PslData {
     pslCategoryMsme?: string;
     pslCategoryHos?: string;
     pslSubCategoryAg?: string;
-    pslSubCategoryMsme?: string,
+    pslSubCategoryMsme?: string;
     pslCertificateAg?: string;
     pslCertificateMsme?: string;
     pslCertificateHos?: string;
     weakerSectionAg?: string;
     weakerSectionMsme?: string;
+}
+
+export interface ApplicantDetails {
+    applicantName?: string;
+        fatherName?: string;
+        gender?: string;
+        maritalStatus?: string;
+        physicallyChallenged?: string;
+        residenceNo?: string;
+        officeNo?: string;
+        mobile?: string;
+        residenceAddress?: string;
+        bankName?: string;
+        accountNo?: string;
+        landmark?: string;
+        locate?: string;
+        locality?: string;
+        residentialType?: string;
+        standardHouse?: string;
+        sizeOfHouse?: string;
+        stdOfLiving?: string;
+        houseOwnership?: string;
+        ratingBySo?: string;
+}
+
+export interface CustomerProfile {
+    addressRecord?: string;
+    noEmployees?: string;
+    nameBoardSeen?: string;
+    officePremises?: string;
+    sizeOfOffice?: string;
+    ratingBySo?: string;
+    mismatchAddress?: string;
+    selfieWithHouse?: string;
+    ownershipProof?: string;
+    metCustomer?: string;
+}
+
+export interface LoanDetails {
+    costOfVehicle?: string;
+    modelType?: string;
+    loanAmt?: string;
+    marginMoney?: string;
+    loanAmtReq?: string;
+    sourcePurchase?: string;
+    nameOfFinancer?: string;
+    awareMarginMoney?: string;
+    nameOfChannel?: string;
+    sellerVehicle?: string;
+    knowAbtVehicle?: string;
+    moneyInvested?: string;
+    moneyBorrowed?: string;
+    marketValue?: string;
+    purchasedValue?: string;
+    vehicleCondition?: string;
+    usageFunds?: string;
+    vehicleConditions?: string;
+    remarksOthers?: string;
+    earlierDriving?: string;
+    runningAttached?: string;
+    awareDue?: string;
+    vehicleMake?: string;
+    model1?: string;
+    registrationNo?: string;
+    regCopyVerified?: string;
+    hpaNbfc?: string;
+    engineNumber?: string;
+    chassisNumber?: string;
+    permitDate?: string;
+    fitnessDate1?: string;
+    taxDate?: string;
+    insuranceCopy?: string;
+    insuranceDate?: string;
+    vehicleVerified?: string;
+    physicalCondition?: string;
+    vehicleRoute?: string;
+    noTrips?: string;
+    tripAmt?: string;
+    selfDriver?: string;
+    remarks?: string;
 }

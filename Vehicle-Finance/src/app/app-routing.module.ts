@@ -36,7 +36,11 @@ const routes: Routes = [
       {
         path: 'dde',
         loadChildren: () => import('./modules/dde/dde.module').then(m => m.DdeModule)
-      }
+      },
+      {
+        path: 'fl-and-pd-report',
+        loadChildren: () => import('./modules/dde/fl-and-pd-report/fl-and-pd-report.module').then(m => m.FlAndPdReportModule)
+    }
     ]
   }
 ];
