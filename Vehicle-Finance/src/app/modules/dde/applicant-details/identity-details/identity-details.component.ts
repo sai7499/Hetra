@@ -30,9 +30,21 @@ export class IdentityDetailsComponent implements OnInit {
 
     addIndividualFormControls() {
         const controls = new FormGroup({
-           idDetails: new FormControl(''),
-           idNumber: new FormControl(null),
-           expiryDate: new FormControl(null)
+        //    idDetails: new FormControl(''),
+        //    idNumber: new FormControl(null),
+        //    expiryDate: new FormControl(null),
+        aadharNumber: new FormControl(null),
+        panForm: new FormControl(''),
+        panNumber: new FormControl(null),
+        passportNumber: new FormControl(null),
+        passportDate: new FormControl(null),
+        passportExpiry: new FormControl(null),
+        licenseNumber: new FormControl(null),
+        licenseDate: new FormControl(null),
+        licenseExpiry: new FormControl(null),
+        voterId: new FormControl(null),
+        voterDate: new FormControl(null),
+        voterExpiry: new FormControl(null)
         });
         (this.identityForm.get('details') as FormArray).push(controls);
     }

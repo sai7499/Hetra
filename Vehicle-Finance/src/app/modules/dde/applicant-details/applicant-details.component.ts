@@ -22,11 +22,11 @@ export class ApplicantDetailsComponent implements OnInit {
     getLocationIndex(url: string) {
         if (url.includes('basic-data')) {
             return 0;
-        } else if (url.includes('bank-details')) {
-            return 1;
         } else if (url.includes('identity-details')) {
-            return 2;
+            return 1;
         } else if (url.includes('address-details')) {
+            return 2;
+        } else if (url.includes('bank')) {
             return 3;
         } else if (url.includes('employment-details')) {
             return 4;

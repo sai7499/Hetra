@@ -16,27 +16,22 @@ export class BankDetailsComponent implements OnInit {
     constructor(private fb: FormBuilder) {}
 
     ngOnInit() {
-        this.bankForm = this.fb.group({
-            details: this.fb.array([])
-        });
+        this.bankForm = new FormGroup(this.addBankDetailsForm());
         this.addBankDetailsForm();
     }
 
     addBankDetailsForm() {
-        const controls = new FormGroup({
-           bankName: new FormControl(null),
-           bankBranch: new FormControl(null),
-           bankAddress: new FormControl(null),
-           accountType: new FormControl(''),
-           accountNumber: new FormControl(null),
+        const controls = {
            holderName: new FormControl(null),
-           averageBalance: new FormControl(null),
-           micrCode: new FormControl(null),
-           ifscCode: new FormControl(null)
-        });
-
-        (this.bankForm.get('details') as FormArray).push(controls);
-
+           bankName: new FormControl(null),
+           accountNumber: new FormControl(null),
+           accountType: new FormControl(''),
+           fromDate: new FormControl(null),
+           toDate: new FormControl(null),
+           period: new FormControl(null),
+           limit: new FormControl(null),
+        };
+        return controls;
     }
 
     onSave() {

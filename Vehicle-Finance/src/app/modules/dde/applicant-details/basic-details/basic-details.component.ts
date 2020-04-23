@@ -30,10 +30,11 @@ export class BasicDetailsComponent implements OnInit {
     addIndividualFormControls() {
         const formArray = (this.basicForm.get('details') as FormArray);
         const controls = new FormGroup({
-            name: new FormControl(null),
+            firstName: new FormControl(null),
+            middleName: new FormControl(null),
+            lastName: new FormControl(null),
             mobileNumber: new FormControl(null),
             dob: new FormControl(null),
-            applicantType: new FormControl(null),
             seniorCitizen: new FormControl(''),
             guardianName: new FormControl(null),
             ucic: new FormControl(null),
@@ -46,13 +47,13 @@ export class BasicDetailsComponent implements OnInit {
             emailId: new FormControl(''),
             altrEmailId: new FormControl(''),
             language: new FormControl(''),
-            accountNumber: new FormControl(null),
-            accountBank: new FormControl(''),
-            branchAddress: new FormControl(null),
-            spokeAddress: new FormControl(null),
+            // accountNumber: new FormControl(null),
+            // accountBank: new FormControl(''),
+            // branchAddress: new FormControl(null),
+            // spokeAddress: new FormControl(null),
             designation: new FormControl(''),
             officeName: new FormControl(null),
-            years: new FormControl(null),
+            employmentYears: new FormControl(null),
             employeeCode: new FormControl(null),
             employeeType: new FormControl(''),
             department: new FormControl(''),
@@ -60,7 +61,7 @@ export class BasicDetailsComponent implements OnInit {
             businessName: new FormControl(null),
             businessStartDate: new FormControl(null),
             currentBusinessYear: new FormControl(null),
-            turnOver: new FormControl(null)
+            // turnOver: new FormControl(null)
         });
         formArray.push(controls);
         setTimeout(() => {
@@ -71,20 +72,16 @@ export class BasicDetailsComponent implements OnInit {
     addNonIndividualFormControls() {
         const formArray = (this.basicForm.get('details') as FormArray);
         const controls = new FormGroup({
-            occupation: new FormControl(''),
-            customerCategory: new FormControl(null),
-            emailId: new FormControl(null),
-            altrEmailId: new FormControl(null),
-            language: new FormControl(''),
             company1: new FormControl(null),
             company2: new FormControl(null),
             company3: new FormControl(null),
+            mobileNumber: new FormControl(null),
             incorporationDate: new FormControl(null),
-            numberOfDirection: new FormControl(null),
-            accountNumber: new FormControl(null),
-            accountBank: new FormControl(''),
-            branchAddress: new FormControl(null),
-            spokeAddress: new FormControl(null),
+            customerCategory: new FormControl(null),
+            emailId: new FormControl(null),
+            altrEmailId: new FormControl(null),
+            language: new FormControl(null),
+            directionsNumber: new FormControl(''),
             directorName: new FormControl(null),
             din: new FormControl(null),
             contactPerson: new FormControl(null),

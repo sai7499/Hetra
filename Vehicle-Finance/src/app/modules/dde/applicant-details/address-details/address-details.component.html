@@ -1,9 +1,10 @@
 <div class="content">
-    <form class="multisteps-form__form" style="height: 400px;">
+    <form class="multisteps-form__form" style="height: 400px;" [formGroup]="addressForm">
+        <ng-container formArrayName="details">
         <div class="multisteps-form__panel js-active basic_scroll" data-animation="scaleIn">
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
-                    <select id="select_main_button" class="dropdown_individual" name="">
+                    <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
                                 <option value="individual"> Individual </option>
                                 <option value="non-individual"> Non-Individual </option>
                             </select>
@@ -12,61 +13,65 @@
 
                 </div>
             </div>
-            <div id="individual_section_start">
+            <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0">
                 <!-- <h4 class="title">individual</h4> -->
                 <h4 class="title">Permanent Address</h4>
-                <div class="row">
+                <div class="row" >
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">Address 1</label>
-                        <input type="text" class="form-control" id="address1">
+                        <input formControlName="address1" type="text" class="form-control" id="address1">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Address 2</label>
-                        <input type="text" class="form-control" id="address2">
+                        <input formControlName="address2" type="text" class="form-control" id="address2">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Address 3</label>
-                        <input type="text" class="form-control" id="address3">
+                        <input formControlName="address3" type="text" class="form-control" id="address3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pincode">Permanent Address PIN Code</label>
-                        <input type="text" class="form-control" id="pincode">
+                        <input formControlName="pinCode" type="text" class="form-control" id="pincode">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Permanent Address City</label>
-                        <select class="form-control" id="permanent_address_city">
+                        <!-- <select class="form-control" id="permanent_address_city">
                                     <option>City 1</option>
                                     <option>City 2</option>
                                     <option>City 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="city"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Permanent Address District</label>
-                        <select class="form-control" id="permanent_address_district">
+                        <!-- <select class="form-control" id="permanent_address_district">
                                     <option>District 1</option>
                                     <option>District 2</option>
                                     <option>District 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="district"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Permanent Address State</label>
-                        <select class="form-control" id="permanent_address_state">
+                        <!-- <select class="form-control" id="permanent_address_state">
                                     <option>State 1</option>
                                     <option>State 2</option>
                                     <option>State 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="state"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Permanent Address Country</label>
-                        <select class="form-control" id="permanent_address_country">
+                        <!-- <select class="form-control" id="permanent_address_country">
                                     <option>Country 1</option>
                                     <option>Country 2</option>
                                     <option>Country 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="country"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="landline">Permanent Address Landline</label>
-                        <input type="text" class="form-control" id="landline">
+                        <input formControlName="landLine" type="text" class="form-control" id="landline">
                     </div>
 
                 </div>
@@ -75,65 +80,70 @@
                         <h4 class="title">Current Address</h4>
                     </div>
                     <div class="col-sm-7 text-right">
-                        <input type="checkbox" id="address_section_checkbox"> <span id="address_section_checkbox_text">Is it same as your permanent Address? </span>
+                        <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"> <span id="address_section_checkbox_text">Is it same as your permanent Address? </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">Line 1</label>
-                        <input type="text" class="form-control" id="line1">
+                        <input formControlName="currentLine1" type="text" class="form-control" id="line1">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Line 2</label>
-                        <input type="text" class="form-control" id="line2">
+                        <input formControlName="currentLine2" type="text" class="form-control" id="line2">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Line 3</label>
-                        <input type="text" class="form-control" id="line3">
+                        <input formControlName="currentLine3" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_pincode">Current Address PIN Code</label>
-                        <input type="text" class="form-control" id="current_pincode">
+                        <input formControlName="currentPinCode" type="text" class="form-control" id="current_pincode">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Current Address City</label>
-                        <select class="form-control" id="current_address_city">
+                        <!-- <select class="form-control" id="current_address_city">
                                     <option>City 1</option>
                                     <option>City 2</option>
                                     <option>City 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="currentCity"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Current Address District</label>
-                        <select class="form-control" id="current_address_district">
+                        <!-- <select class="form-control" id="current_address_district">
                                     <option>District 1</option>
                                     <option>District 2</option>
                                     <option>District 3</option>
-                                </select>
+                                </select> -->  
+                        <app-vf-custom-select formControlName="currentDistrict"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Current Address State</label>
-                        <select class="form-control" id="current_address_state">
+                        <!-- <select class="form-control" id="current_address_state">
                                     <option>State 1</option>
                                     <option>State 2</option>
                                     <option>State 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="currentState"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Current Address Country</label>
-                        <select class="form-control" id="current_address_country">
+                        <!-- <select class="form-control" id="current_address_country">
                                     <option>Country 1</option>
                                     <option>Country 2</option>
                                     <option>Country 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="currentCountry"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Type of Accommmodation</label>
-                        <select class="form-control">
+                        <!-- <select class="form-control">
                                     <option>Own House</option>
                                     <option>Rented House</option>
                                     
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="currentAccommodation"> </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Period of Current Stay (in Years)</label>
@@ -144,162 +154,166 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_landline">Landline Number (Residence Phone)</label>
-                        <input type="text" class="form-control" id="current_landline">
+                        <input formControlName="currentLandLine" type="text" class="form-control" id="current_landline">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="alternate_mobile">Alternate Mobile Number</label>
-                        <input type="text" class="form-control" id="alternate_mobile">
+                        <input formControlName="currentMobile" type="text" class="form-control" id="alternate_mobile">
                     </div>
                 </div>
                 <h4 class="title">Office Address</h4>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">Line 1</label>
-                        <input type="text" class="form-control" id="passport">
+                        <input formControlName="officeLine1" type="text" class="form-control" id="passport">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Line 2</label>
-                        <input type="text" class="form-control" id="passport">
+                        <input formControlName="officeLine2" type="text" class="form-control" id="passport">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Line 3</label>
-                        <input type="text" class="form-control" id="passport">
+                        <input formControlName="officeLine3" type="text" class="form-control" id="passport">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="passport">Current Address PIN Code</label>
-                        <input type="text" class="form-control" id="current_pincode">
+                        <label for="passport">Office Address PIN Code</label>
+                        <input formControlName="officePinCode" type="text" class="form-control" id="current_pincode">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="passport">Current Address City</label>
-                        <select class="form-control">
+                        <label for="passport">Office Address City</label>
+                        <!-- <select class="form-control">
                                     <option>City 1</option>
                                     <option>City 2</option>
                                     <option>City 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="officeCity"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="passport">Current Address District</label>
-                        <select class="form-control">
+                        <label for="passport">Office Address District</label>
+                        <!-- <select class="form-control">
                                     <option>District 1</option>
                                     <option>District 2</option>
                                     <option>District 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="officeDistrict"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="passport">Current Address State</label>
-                        <select class="form-control">
+                        <label for="passport">Office Address State</label>
+                        <!-- <select class="form-control">
                                     <option>State 1</option>
                                     <option>State 2</option>
                                     <option>State 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="officeState"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="passport">Current Address Country</label>
-                        <select class="form-control">
+                        <label for="passport">Office Address Country</label>
+                        <!-- <select class="form-control">
                                     <option>Country 1</option>
                                     <option>Country 2</option>
                                     <option>Country 3</option>
-                                </select>
+                                </select> -->
+                         <app-vf-custom-select formControlName="city"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Type of Accommmodation</label>
-                        <select class="form-control">
+                        <!-- <select class="form-control">
                                     <option>Own House</option>
                                     <option>Rented House</option>
                                     
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="officeAccommodation" ></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Period of Current Stay (in Years)</label>
-                        <select class="form-control">
+                        <!-- <select class="form-control">
                                     <option>5 years</option>
                                     <option>2 years</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="officePeriod" ></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_landline_num">Landline Number (Residence Phone)</label>
-                        <input type="text" class="form-control" id="current_landline_num">
+                        <input formControlName="officeLandLine" type="text" class="form-control" id="current_landline_num">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="alternate_mobile_num">Alternate Mobile Number</label>
-                        <input type="text" class="form-control" id="alternate_mobile_num">
+                        <input formControlName="officeMobile" type="text" class="form-control" id="alternate_mobile_num">
                     </div>
                 </div>
             </div>
-            <div id="non_individual_section_start" style="display: none;">
+            <div id="non_individual_section_start" *ngIf="!isIndividual">
                 <!-- <h4 class="title">Non-individual</h4>-->
                 <h4 class="title">Registered Address</h4>
-                <div class="row">
+                <div class="row" formGroupName="0">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">Line 1</label>
-                        <input type="text" class="form-control" id="line1">
+                        <input formControlName="registeredLine1" type="text" class="form-control" id="line1">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Line 2</label>
-                        <input type="text" class="form-control" id="line2">
+                        <input formControlName="registeredLine2" type="text" class="form-control" id="line2">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Line 3</label>
-                        <input type="text" class="form-control" id="line3">
+                        <input formControlName="registeredLine3" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Registered  Address PIN Code</label>
-                        <select class="form-control" id="current_address_pin_code">
+                        <!-- <select class="form-control" id="current_address_pin_code">
                                     <option>pincode 1</option>
                                     <option>pincode 2</option>
                                     <option>pincode 3</option>
-                                </select>
+                                </select> -->
+                        <input formControlName="registeredPinCode" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Registered  Address City</label>
-                        <select class="form-control" id="current_address_city">
+                        <!-- <select class="form-control" id="current_address_city">
                                     <option>City 1</option>
                                     <option>City 2</option>
                                     <option>City 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="registeredCity"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Registered  Address District</label>
-                        <select class="form-control" id="current_address_district">
+                        <!-- <select class="form-control" id="current_address_district">
                                     <option>District 1</option>
                                     <option>District 2</option>
                                     <option>District 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="registeredDistrict"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Registered  Address State</label>
-                        <select class="form-control" id="current_address_state">
+                        <!-- <select class="form-control" id="current_address_state">
                                     <option>State 1</option>
                                     <option>State 2</option>
                                     <option>State 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="registeredState"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Registered  Address Country</label>
-                        <select class="form-control" id="current_address_country">
+                        <!-- <select class="form-control" id="current_address_country">
                                     <option>Country 1</option>
                                     <option>Country 2</option>
                                     <option>Country 3</option>
-                                </select>
+                                </select> -->
+                        <app-vf-custom-select formControlName="registeredCountry"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Registered  Address Landline Number (Residence Phone)</label>
-                        <select class="form-control">
-                                    <option>Landline 1</option>
-                                    <option>Landline 2</option>
-                                </select>
+                        <input formControlName="registeredLandLine" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">Alternate Mobile Number</label>
-                        <select class="form-control">
-                                    <option>Mobile Number 1</option>
-                                    <option>Mobile Number 2</option>
-                                    <option>Mobile Number 3</option>
-                                </select>
+                        <input formControlName="registeredMobile" type="text" class="form-control" id="line3">
                     </div>
                 </div>
             </div>
            
         </div>
-    
+    </ng-container>
         </form></div>
