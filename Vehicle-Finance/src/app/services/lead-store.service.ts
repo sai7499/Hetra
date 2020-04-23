@@ -6,14 +6,14 @@ import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } fr
     providedIn: 'root'
 })
 export class LeadStoreService {
-    leadCreation: Lead;
+    leadCreation: any;
     // coApplicant : CoApplicant;
     applicantList = [];
 
 
-    constructor() {}
+    constructor() { }
 
-    setLeadCreation(lead: Lead) {
+    setLeadCreation(lead: any) {
         this.leadCreation = lead;
     }
 
@@ -60,7 +60,7 @@ export class LeadStoreService {
     }
 
     getSelectedApplicant(index: number) {
-       return this.applicantList[index];
+        return this.applicantList[index];
     }
 
     updateApplicant(index: number, coApplicant) {

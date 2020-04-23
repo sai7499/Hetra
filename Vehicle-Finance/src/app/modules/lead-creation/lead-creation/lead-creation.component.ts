@@ -41,14 +41,14 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     });
 
   }
-  
+
   ngOnChanges() {
     console.log(this.test);
   }
 
   initForm() {
     this.createLeadForm = new FormGroup({
-      businessDivision: new FormControl({value: "1", disabled: true}),
+      businessDivision: new FormControl({ value: "1", disabled: true }),
       productCategory: new FormControl(''),
       childLoan: new FormControl(''),
       fundingProgram: new FormControl(''),
@@ -71,55 +71,48 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.values = [
-    //   { key: 1, value: 'Vechicle Finance' },
-    //   { key: 2, value: 'Housing Finance' },
-    //   { key: 3, value: 'Loan Against Property' }
-    // ];
-
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
         //console.log(this.labels.leadCreationTitle,this.labels.subventionApplied)
         console.log(this.labels.fundingProgram);
-      }    );
+      });
     this.onChangeLanguage('English');
     this.initForm();
   }
 
-  sourcingChannelChange(event: any){
-    
+  sourcingChannelChange(event: any) {
+
     this.SourcingChange = event.target.value;
     console.log(this.SourcingChange);
-    
+
     this.createLeadForm.controls['sourcingChannel'].valueChanges.subscribe((value) => {
 
 
-      setTimeout(()=>{
-        switch(this.SourcingChange){
-  
-      case '61': this.ProfessionList = [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
-                   break;
-      case '62': this.ProfessionList = [{key: 1,value: 'Liability Branch Code'}];
-                   break; 
-      case '63': this.ProfessionList = [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
-                   break;
-      default: this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
-                   break;                                      
-    }
-      },10);
+      setTimeout(() => {
+        switch (this.SourcingChange) {
+
+          case '61': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+            break;
+          case '62': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
+            break;
+          case '63': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+            break;
+          default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
+            break;
+        }
+      }, 10);
     });
 
-    if(this.SourcingChange==64)
-    {
+    if (this.SourcingChange == 64) {
       this.text = "Campaign Code";
     }
-    else{
+    else {
       this.text = "Employee Code";
     }
   }
 
-  
+
 
 
   onChangeLanguage(labels: string) {
@@ -143,12 +136,14 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   onSubmit() {
     const formValue = this.createLeadForm.value;
     const leadModel: Lead = { ...formValue };
+    console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
+
     const applicantModel = {
-      first_name: leadModel.firstName,
-      middle_name: leadModel.middleName,
-      last_name: leadModel.lastName,
-      mobile: leadModel.mobile
+      nameOne: leadModel.applicantDetails.nameOne,
+      nameTwo: leadModel.applicantDetails.nameTwo,
+      nameThree: leadModel.applicantDetails.nameThree,
+      mobile: leadModel.applicantDetails.mobile
     };
     this.leadStoreService.setCoApplicantDetails(applicantModel);
     this.router.navigate(['/pages/lead-creation/lead-dedupe']);

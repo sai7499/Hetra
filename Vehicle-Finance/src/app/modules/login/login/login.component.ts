@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
           if (response.Error === '0') {
             const role = response.ProcessVariables.roles[0].name;
             if (role === 'Sales Officer') {
-              this.router.navigateByUrl('/pages/lead-creation');
+              this.router.navigateByUrl('/activity-search');
             }
           }
         })

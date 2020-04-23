@@ -5,25 +5,16 @@ import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 
-export class LoginService {
+export class CreateLeadService {
 
     constructor(private http: HttpClient) { }
 
-    getLogin(data) {
-        let body = `email=${data.email}&password=${data.password}`;
-        // const body =  JSON.stringify(req);
-        const url = 'http://128.199.164.250/appiyo/account/login';
-        // const url = 'http://128.199.164.250/appiyo/account/' + environment.apiVersion.login + 'login';
-        // const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
-        return this.http.post(url, body);
-    }
-
-    getUserDetails() {
-        const processId = environment.api.getUserDetails.processId;
-        const workflowId = environment.api.getUserDetails.workflowId;
+    createLead(loanLeadDetail, applicantDetail) {
+        const processId = environment.api.createLead.processId;
+        const workflowId = environment.api.createLead.workflowId;
         const projectId = environment.projectId;
 
         let email = localStorage.getItem('email');
@@ -31,6 +22,8 @@ export class LoginService {
         const requestEntity: RequestEntity = {
             processId: processId,
             ProcessVariables: {
+                "loanLeadDetails": loanLeadDetail,
+                "applicantDetails": applicantDetail,
                 "loginId": email
             },
             workflowId: workflowId,
@@ -43,5 +36,4 @@ export class LoginService {
         // let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
         return this.http.post(url, body);
     }
-
 }
