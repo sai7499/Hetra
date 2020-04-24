@@ -15,7 +15,7 @@ export class LoginService {
     getLogin(data) {
         let body = `email=${data.email}&password=${data.password}`;
         // const body =  JSON.stringify(req);
-        const url = 'http://128.199.164.250/appiyo/account/login';
+        const url = `${environment.host}account/login`;
         // const url = 'http://128.199.164.250/appiyo/account/' + environment.apiVersion.login + 'login';
         // const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
         return this.http.post(url, body);

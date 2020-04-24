@@ -108,33 +108,27 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.SourcingChange = event.target.value;
     console.log(this.SourcingChange);
 
-    this.createLeadForm.controls['sourcingChannel'].valueChanges.subscribe((value) => {
-
-
-      setTimeout(() => {
-        switch (this.SourcingChange) {
-
-          case '61': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
-            break;
-          case '62': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
-            break;
-          case '63': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
-            break;
-          default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
-            break;
-        }
-      }, 10);
-    });
+    switch (this.SourcingChange) {
+      case '61': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+        break;
+      case '62': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
+        break;
+      case '63': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+        break;
+      default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
+        break;
+    }
 
     if (this.SourcingChange == 64) {
       this.text = "Campaign Code";
+      this.createLeadForm.patchValue({ sourcingCode: this.text });
     }
     else {
       this.text = "Employee Code";
+      this.createLeadForm.patchValue({ sourcingCode: this.text });
+
     }
   }
-
-
 
 
   onChangeLanguage(labels: string) {
@@ -210,6 +204,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       mobileNumber: "0123654897",
       dobOrDoc: "1993-07-07"
     }
+
     console.log("loanLeadDetails", this.loanLeadDetails)
     console.log("applicantDetails", this.applicantDetails)
 
