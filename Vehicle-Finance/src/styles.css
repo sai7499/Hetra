@@ -136,6 +136,13 @@ h3 {
     padding: 6px 48px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
 }
+.search .form-control .option {
+    height: 44px;
+    border: 1px solid #dedede;
+    border-radius: 22px;
+    padding: 6px 48px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+}
 
 .search .search-icon-left,
 .search .microphone-icon {
@@ -160,10 +167,17 @@ h3 {
     right: 0;
     border-top-right-radius: 1.5em;
     border-bottom-right-radius: 1.5em;
-    background-color: #f68834;
-    color: #ffffff;
+    background-color: transparent;
+    /* color: #black; */
     font-weight: bold;
 }
+.search select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
 
 .nav.back-btn li a {
     background: #efefef;
@@ -210,23 +224,40 @@ h3 {
 .table-head-bg {
     background-color: #272264;
     color: #fff;
+    font-size: 12px;
 }
-
+    
 .table tbody tr td {
     border-top: 1px solid #e6e6e6;
     padding: 10px;
+    text-align: center;
 }
 
 .table thead tr th {
+    /* border-bottom: none;
+    padding: 10px;
+    text-align: center; */
     border-bottom: none;
+    padding: 8px 0px 9px 0px;
+    font-size: 14px;
+    text-align: center;
 }
 
 .table .fa-sort {
-    font-size: 12px;
-    padding-left: 1px;
+        /* font-size: 12px;
+        padding-left: 1px; */
     cursor: pointer;
 }
 
+.row.top_bar {
+    margin: 0px;
+    border: 1px solid #ddd;
+    font-weight: 100;
+    border-radius: 6px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    background: white;
+}
 .content {
     background: #fff;
     padding: 25px 30px;
@@ -337,7 +368,7 @@ form .form-control {
 /**los style**/
 
 .container.overflow-hidden {
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 .page-select-width{
     padding: 6px !important;
