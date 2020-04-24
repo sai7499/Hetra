@@ -43,33 +43,41 @@
 
             <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
                 <button class="btn btn-primary" type="button"> View/Upload Document</button>
+        <app-dde-header></app-dde-header>
 
             </div>               
         </div>
         <!--progress bar-->
         <div class="multisteps-form">
-            <div class="multisteps-form__progress">
-                <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details" [routerLink]="[ './lead-details' ]" value ="lead-details" (click)="getRouterUrl($event.target.value)">Lead Details</button>
-              
-               
-                <!-- <button class="multisteps-form__progress-btn" type="button" id="credit_product_details"  [routerLink]="[ './product-details' ]" >Product Details</button> -->
-                <button class="multisteps-form__progress-btn" type="button" id="credit_application_details">Applicant Details</button>
-                <button class="multisteps-form__progress-btn " type="button" id="credit_liveloan">Exposure</button>
-                <button class="multisteps-form__progress-btn " type="button" id="credit_income_details">Income Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_details">Vechical Details</button>
-                <!-- <button class="multisteps-form__progress-btn" type="button" id="credit_loan_details"  [routerLink]="[ './loan-details' ]">Loan Details</button> -->
-                <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data">PSL Data</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_fleet_details">Fleet Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd">Fi Cum PD Report</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_viability_report">Viability Report</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_valuation">Vehicle Valuation</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_cam">CAM</button>
+            <div class="multisteps-form__progress" *ngIf="router.url!='/pages/dde/valuation'">
+                <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details" [routerLink]="[ './lead-details' ]" >Lead Details</button>
+                <button class="multisteps-form__progress-btn js-active" type="button" id="credit_application_details">Applicants</button>
+                <button class="multisteps-form__progress-btn js-active" type="button" id="credit_vehicle_details">Collaterals</button>
+                <button class="multisteps-form__progress-btn js-active" type="button" id="credit_fleet_details">Fleet</button>
+                <button class="multisteps-form__progress-btn js-active" type="button" id="credit_liveloan">Exposure</button>
+                <button class="multisteps-form__progress-btn js-active" type="button" id="credit_income_details">Income Details</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data" [routerLink]="['./psl-data']">PSL Data</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_valuation" [routerLink]="['./vehicle-valuation']">Vehicle Valuation</button>
+                <button class="multisteps-form__progress-btn js-active" type="button" id="credit_tvr_details">TVR</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./fl-report']">Fl Report</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./pd-report']"> PD Report</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_viability">Viability</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_score_card">Score Card</button>                    
+                <button class="multisteps-form__progress-btn" type="button" id="credit_cam">CAM</button>                    
                 <button class="multisteps-form__progress-btn" type="button" id="credit_deviations">Deviations</button>
-                <button class="multisteps-form__progress-btn " type="button" id="credit_liveloan">Live Loan</button>
-                <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_insurance">Insurance</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_conditions">Credit Conditions</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_term_sheets">Term Sheets</button>                     
+                <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button> -->
+                <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_reference">Reference</button> -->
             </div>  
+            <!-- <div class="multisteps-form__progress" *ngIf="router.url!='/pages/dde/fl-report'">
+                <button class="multisteps-form__progress-btn"  type="button" id="credit_sourcing_details" [routerLink]="['./applicant-details']">Applicant Details</button>
+                <button class="multisteps-form__progress-btn"  type="button" id="credit_product_details" [routerLink]="['./customer-profile']">Customer Profile Details</button>
+                <button class="multisteps-form__progress-btn"  type="button" id="credit_application_details" [routerLink]="['./loan-details']">Loan Details</button>
+            </div>   -->
             <div class="content">
-            <router-outlet></router-outlet>      
+            <router-outlet> </router-outlet>      
             </div>
         </div>
     </div>

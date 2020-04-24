@@ -21,7 +21,7 @@
                     [values]="vehicleLov?.region" 
                     formControlName="region"></app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg" *ngIf="show">
                     <label for="registartion_number"> {{ label.registartionNumber }} </label>
                     <input formControlName="registrationNumber" type="text" class="form-control mandatory" id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
                 </div>
@@ -45,7 +45,7 @@
                     [values]="vehicleLov?.assetModel" 
                     formControlName="assetModel"></app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type" *ngIf="show">
                     <label for="asset_body_type"> {{ label.assetBodyType }} </label>
                     <!-- <select class="form-control mandatory" id="asset_body_type">
                         <option *ngFor = "let asBodyType of assetBodyType" value="asBodyType"> {{asBodyType}} </option>
@@ -77,7 +77,7 @@
                     formControlName="assetSubVariant"></app-vf-custom-select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="show">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mon_manufacturing">
                     <label for="month_manufacturing"> {{ label.monthManufacturing }} </label>
                     <input formControlName="monthManufacturing" type="date" class="form-control mandatory" id="month_manufacturing" placeholder="Month of Manufacturing" name="month_manufacturing">
@@ -91,7 +91,7 @@
                     <input formControlName="ageOfAsset"  type="text" class="form-control mandatory" id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" disabled>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="show">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                     <label for="vechical_usage"> {{ label.vechicalUsage }} </label>
                     <!-- <select class="form-control mandatory" id="vechical_usage">
@@ -192,7 +192,7 @@
                     <div id="insurance_preview"></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="show">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
                     <label for="permit_type"> {{ label.permitType }} </label>
                     <!-- <select class="form-control mandatory" id="permit_type">
@@ -219,7 +219,7 @@
                     <input formControlName="permitOthers" type="text" class="form-control " id="permit_others" placeholder="Type of Other Permit" name="permit_others">
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="show">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
                     <label for="frsd_required"> {{ label.frsdRequired }} </label>
                     <input formControlName="frsdRequired" type="text" class="form-control mandatory" id="frsd_required" placeholder="FRSD Funding Required" name="frsd_required">
@@ -230,11 +230,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type" *ngIf="show">
                     <label for="fitness_date"> {{ label.fitnessDate }} </label>
                     <input formControlName="fitnessDate" type="date" class="form-control mandatory" id="fitness_date" placeholder="Fitness Date" name="fitness_date">
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type" *ngIf="show">
                     <label for="fitness_copy"> {{ label.fitnessCopy }} </label>
                     <input id="fitness_copy" type="file" multiple>
                     <div id="fitness_preview"></div>
