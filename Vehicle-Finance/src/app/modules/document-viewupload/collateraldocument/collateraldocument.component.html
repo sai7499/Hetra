@@ -1,1 +1,150 @@
-<p>collateraldocument works!</p>
+<form [formGroup] = "collateralDocumentForm">
+<div class="row">
+    <div class="form-group col-sm-3 col-md-3">
+
+    </div>
+    <div class="form-group col-sm-6 col-md-6" style="margin-bottom: 0px;">
+        <div class="form-group col-sm-3 col-md-3 text-right" style="padding: 0px;">
+            <label for="document" style="padding-top:8px;">Choose Vehicle</label>                        
+        </div>
+        <div class="form-group col-sm-3 col-md-3">                        
+            <select class="form-control" (change)= "selectChangeHandler($event)">
+                <option>Vehicle 1</option>
+                <option>Vehicle 2</option>
+                <option>Vehicle 3</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="form-group col-sm-2 col-md-2">
+
+    </div>
+</div>
+
+<div class="row js-active" data-animation="scaleIn">                      
+    <div class="panel-group hidden-xs" id="accordion">                            
+        <div class="panel panel-default">
+            <div class="panel-heading panel-primary" id="headingTwo1">
+              <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
+                    <i class="fa fa-plus-circle"></i>&nbsp; Vehicle Documents <i class="fa fa-angle-down"></i>
+                </a> 
+              </h4>
+            </div>
+            <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true"   >
+                <div class="panel-body" id="show_1_div_identity" *ngFor= "let addressGroup of collateralDocumentForm.get('documents').controls;let i = index" [formGroup] = "addressGroup" >
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="document">{{ labels.documentName }}</label>
+                           <!-- <select class="form-control">
+                               <option>RC Copy</option>
+                               <option>Fitness Certificate</option>
+                               <option>Permit Certificate</option>
+                               
+                           </select> -->
+                           <app-vf-custom-select 
+                        [values]="values?.documentName" 
+                        formControlName="documentName"></app-vf-custom-select>
+                       </div>
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="documentnumber">{{ labels.documentNumber }}</label>
+                           <input type="text" class="form-control" id="amount" formControlName = "documentNumber">
+                       </div>
+
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="idate">{{ labels.issueDate}}</label>
+                           <div class="input-group input-medium">
+                               <span class="input-group-btn">
+                                   <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                               </span>
+                               <input type="date" class="form-control date_width" id="date" formControlName = "issueDate" >
+                           </div>
+                       </div>
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="edate">{{ labels.documentExpiryDate }}</label>
+                           <div class="input-group input-medium">
+                               <span class="input-group-btn">
+                                   <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                               </span>
+                               <input type="date" class="form-control date_width" id="date" formControlName = "documentExpiryDate">
+                           </div>
+                       </div>
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="mandatory_stage">{{ labels.mandatoryStage}}</label>
+                           <input type="text" class="form-control" id="amount" value="Sales"  formControlName = "mandatoryStage">
+                       </div>
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="Status">{{ labels.status}}</label>
+                           <!-- <select name="status" id="deferral_status" class="form-control">
+                               <option value="Pending">Pending</option>
+                               <option value="Submitted">Submitted</option>
+                               <option value="Deferred">Deferred</option>
+                           </select> -->
+                           <app-vf-custom-select 
+                        [values]="values?.status" 
+                        formControlName="status"></app-vf-custom-select>
+                           
+                       </div>
+                       <div class="form-group col-sm-3 col-md-2" >
+                           <label for="edate">{{ labels.deferralDate}}</label>
+                           <div class="input-group input-medium" >
+                               <span class="input-group-btn">
+                                   <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                               </span>
+                               <input type="date" class="form-control date_width" id="d_date" name="Deferral" formControlName="deferralDate" >
+                           </div>
+                       </div>
+                       <div class="form-group col-sm-3 col-md-2" >														
+                        </div>
+                        
+                       <div class="form-group col-sm-3 col-md-2 text-right" >
+                        <label for="view">{{ labels.view}}</label>
+                        <p><a class="a_tag" href="documents/sample.pdf" target="_blank" download><u>RC Copy</u></a></p>  
+
+                    </div>
+                       
+                       <div class="form-group col-sm-3 col-md-2">
+                           <label for="action" >{{ labels.action}} </label>
+                           <div class="row">
+                               <div class="col-sm-1 col-md-1 col-lg-1">
+                                   <div class="image-upload"> <label style="cursor: pointer;margin-top: -20px;" for="file_upload"> <img src="" alt="" class="uploaded-image">
+                              
+                                       <div class="dplay-tbl">
+                                           <div class="dplay-tbl-cell"> <i class="fa fa-upload"></i>  
+                                           </div>
+                                       </div>
+                                  
+                                       <!--upload-content--> <input data-required="image" type="file" name="image_name" id="file_upload" class="image-input" data-traget-resolution="image_resolution" value="" formControlName="uploadDocument">
+                               </label>
+                               </div>
+                               </div>
+                               <div class="col-sm-6 col-md-6 col-lg-6">
+                                   <label class="image-upload" for="upload_files"><i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addNewAddressGroup()" ></i> &nbsp; <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i></label>
+
+                               </div>
+                               </div>
+                           
+                       </div> 
+                      <!--  <div class="form-group col-sm-3 col-md-2">
+                           <label >Actions </label>
+                           <p><label for="upload_files"><i class="fa fa-upload fa-3 custom-file-label" aria-hidden="true"  id="add_more_documents_upload1" ></i></label>&nbsp;  <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" ></i> &nbsp; <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i>  </p>
+                       </div> -->
+                       <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                           
+                   </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          
+          <div class="row">
+								
+            <div class="col-sm-5"></div>
+            <div class="col-sm-7 text-right">
+                <button class="btn btn-primary dash_href  mar-right8 " [routerLink]="['../applicant-documents']" type="button">Back</button>
+                <button class="btn btn-primary dash_href mar-right8" (click)="onFormSubmit()"> Save </button>
+                <button class="btn btn-primary dash_href " [routerLink]="['../../lead-section']" type="button">Next</button>
+            </div>
+                    
+        </div>
+        </form>

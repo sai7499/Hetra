@@ -53,8 +53,51 @@
             </div>
             
         </div>
+
+        <!--progress bar-->
+    <div class="multisteps-form">
+        <div class="multisteps-form__progress"  > 
+          <div class="multisteps-form__progress  ">
+            <button
+            class="multisteps-form__progress-btn"
+            type="button"
+            [routerLink]="['./Applicant-documents']"
+            [ngClass]="{ 'js-active': currentPage >= 0 }"
+            (click)="currentPage = 0"
+          >
+            Applicant Document
+          </button>
+         
+          <button
+            class="multisteps-form__progress-btn"
+            type="button"
+            [routerLink]="['./collateral-documents']"
+            [ngClass]="{ 'js-active': currentPage >= 1 }"
+            (click)="currentPage = 1"
+          >
+            Collateral Document
+          </button>
+          <button
+            class="multisteps-form__progress-btn"
+            type="button"
+            [routerLink]="['./other-documents']"
+            [ngClass]="{ 'js-active': currentPage >= 2 }"
+            (click)="currentPage = 2"
+          >
+            Other Documents
+          </button>
+         
+          <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
+        </div>
+          </div>
+        
+          
+       
+      </div>
+      
     </div>
 </main>
+
 <!-- <div class="content" style="height: 300px;"> -->
-    <router-outlet></router-outlet>
+    <router-outlet></router-outlet>   
 <!-- </div> -->

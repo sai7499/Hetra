@@ -198,6 +198,77 @@
         ]
       }
     ],
+    "collateralDocument":[
+        {
+          "documentName":[
+            {
+              "key":1,
+              "value":"RC Copy"
+            },
+            {
+              "key":2,
+              "value":"Fitness Certificate"
+            },
+            {
+              "key":3,
+              "value":"Permit Certificate"
+            }
+          ],
+          "status" : [
+            {
+              "key":1,
+              "value" : "Pending"
+            },
+            {
+              "key":2,
+              "value" : "Submitted"
+            },
+            {
+              "key":3,
+              "value" : "Deferred"
+
+            }
+          ]
+        }
+    ],
+
+    "applicantDocument":[
+      {
+        "documentName":[
+          {
+            "key":1,
+            "value":"Driving License"
+          },
+          {
+            "key":2,
+            "value":"Passport"
+          },
+          {
+            "key":3,
+            "value":"PAN Card"
+          },
+          {
+            "key":4,
+            "value":"Aadhar Card"
+          }
+        ],
+        "status" : [
+          {
+            "key":1,
+            "value" : "Pending"
+          },
+          {
+            "key":2,
+            "value" : "Submitted"
+          },
+          {
+            "key":3,
+            "value" : "Deferred"
+
+          }
+        ]
+      }
+  ],
     "sourcingDetails": [
       {
         "leadHandled": [

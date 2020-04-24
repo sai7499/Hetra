@@ -150,5 +150,13 @@
     "id": "ID",
     "applicant": "Applicant",
     "creditBureau": "Credit Bureau",
-    "eligibleLoanAmount": "Eligible Loan Amount"
+    "eligibleLoanAmount": "Eligible Loan Amount",
+    "documentName": "Document Name",
+    "documentNumber": "Document Number",
+    "issueDate": "Issue Date",
+    "documentExpiryDate": "Expiry Date",
+    "mandatoryStage": "Mandatory Stage",
+    "deferralDate" : "Deferral Date",
+    "view": "View"
+
 }

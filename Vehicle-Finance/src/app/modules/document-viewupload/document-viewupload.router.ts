@@ -17,6 +17,10 @@ const routes: Routes = [
         component: ApplicantdocumentComponent
       },
       {
+        path: "Applicant-documents",
+        component: ApplicantdocumentComponent
+      },
+      {
         path: "collateral-documents",
         component: CollateraldocumentComponent
       },
