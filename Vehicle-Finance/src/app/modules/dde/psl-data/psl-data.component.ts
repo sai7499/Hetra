@@ -286,8 +286,8 @@ export class PslDataComponent implements OnInit {
    onFormSubmit() {
     const formModel = this.pslDataForm.value;
     const pslDataModel = {...formModel};
-    this.ddeStoreService.setVehicleValuation(pslDataModel);
-    this.router.navigate(['/pages/dde/fleet-details']);
+    // this.ddeStoreService.setPslData(pslDataModel);
+    this.router.navigate(['/pages/dde/vehicle-valuation']);
   }
 
 }
