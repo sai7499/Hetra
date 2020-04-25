@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
@@ -22,6 +22,7 @@ export class TrackVehicleComponent implements OnInit {
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
+    private router: Router
 
   ) { }
 
@@ -30,7 +31,7 @@ export class TrackVehicleComponent implements OnInit {
 
 
     this.lovData.getLovData().subscribe((res: any) => {
-      
+
       this.values = res[0].trackVehicle[0];
       // console.log(this.values.repaymentMode[0]);
     });
@@ -47,23 +48,23 @@ export class TrackVehicleComponent implements OnInit {
 
       });
     this.trackVehicleForm = this.fb.group({
-      client: new FormControl('' ||'Deepika'),
+      client: new FormControl('' || 'Deepika'),
       financier: new FormControl('' || 'Bajaj'),
-      assetFinanced: new FormControl(''||'TATA ACE M100'),
+      assetFinanced: new FormControl('' || 'TATA ACE M100'),
       paymentMode: new FormControl(''),
       financeAmount: new FormControl({ value: '200000', disabled: true }),
-      financeCharges: new FormControl(''||'40000'),
+      financeCharges: new FormControl('' || '40000'),
       contractValue: new FormControl(''),
       contNo: new FormControl(''),
-      vehicleNo: new FormControl(''||'TN011234'),
+      vehicleNo: new FormControl('' || 'TN011234'),
       typesOfFinance: new FormControl(''),
       accountStatus: new FormControl(''),
-      loanStartDate: new FormControl(''||''),
-      loanMaturityDate: new FormControl(''||''),
-      count30: new FormControl({ value: ''|| '0', disabled: true }),
+      loanStartDate: new FormControl('' || ''),
+      loanMaturityDate: new FormControl('' || ''),
+      count30: new FormControl({ value: '' || '0', disabled: true }),
       count90: new FormControl({ value: '' || '0', disabled: true }),
-      totalNoOfEmis: new FormControl(''||'12'),
-      noOfEmisPaid: new FormControl(''||'6'),
+      totalNoOfEmis: new FormControl('' || '12'),
+      noOfEmisPaid: new FormControl('' || '6'),
       balanceTenor: new FormControl({ value: '0', disabled: true }),
       totalDelay: new FormControl({ value: '4.00', disabled: true }),
       peakDelay: new FormControl({ value: '4.00', disabled: true }),
@@ -85,7 +86,7 @@ export class TrackVehicleComponent implements OnInit {
 
 
       // })])
-     
+
 
     });
     // this.addNewRow();
@@ -101,10 +102,10 @@ export class TrackVehicleComponent implements OnInit {
 
   initRows() {
     return this.fb.group({
-      installmentNo: ['' ],
-      installmentAmt: [''|| '10000'],
+      installmentNo: [''],
+      installmentAmt: ['' || '10000'],
       dueDate: ['' || '01-01-2018'],
-      rcptNo: [''|| '1001'],
+      rcptNo: ['' || '1001'],
       recdDate: ['' || '05-01-2018'],
       rcptAmount: ['' || '10000'],
       delayDays: [{ value: '4', disabled: true }],
@@ -122,4 +123,8 @@ export class TrackVehicleComponent implements OnInit {
     this.formArr.removeAt(index);
   }
 
+  onFormSubmit() {
+    console.log(this.trackVehicleForm.value)
+    this.router.navigate(['/pages/dde/fleet-details']);
+  }
 }

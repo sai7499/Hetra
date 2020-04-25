@@ -252,3 +252,7 @@ td {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+
+.cst_btm_btns {
+    margin-bottom: 55px;
+}
