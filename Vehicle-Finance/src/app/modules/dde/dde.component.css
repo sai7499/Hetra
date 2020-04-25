@@ -297,6 +297,11 @@ select#select_main_button_match {
       text-indent: 0;
     }
   }
+  @media (min-width:1200px){
+      .container {
+          width: 1300px;
+      }
+  }
   .multisteps-form__progress-btn:before {
     position: absolute;
     top: 0;

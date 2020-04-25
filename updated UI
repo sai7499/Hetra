@@ -1,0 +1,672 @@
+[33mcommit 61073aef71116dff54f6416a474da351474f5126[m[33m ([m[1;36mHEAD -> [m[1;32mSushil[m[33m, [m[1;31morigin/Sushil[m[33m)[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Sat Apr 25 13:43:45 2020 +0530
+
+    Resolved Isseus with ddesourcinng
+
+[33mcommit 762808c8dde7523900be2ec9d84af41e5738a0a4[m[33m ([m[1;31morigin/ddeSourcing[m[33m)[m
+Merge: da8b98a f342d59
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Fri Apr 24 20:26:14 2020 +0530
+
+    Merge branch 'Sushil' into ddeSourcing
+
+[33mcommit da8b98a1a301a3d22b29799e9be2d5bd4b14b5fc[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Fri Apr 24 20:07:43 2020 +0530
+
+    exposure table  2
+
+[33mcommit 6b3bfbd3d6ce8e2646cca54ac6219eec16993b76[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Thu Apr 23 13:38:15 2020 +0530
+
+    exposure table
+
+[33mcommit f342d59dce4f8c83df58978bf9f29b7299bda3db[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Thu Apr 23 07:48:46 2020 +0530
+
+    Updated Work
+
+[33mcommit b3781603ea5b1b8b665753b5144fa3520e526de5[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Thu Apr 23 07:38:38 2020 +0530
+
+    updated UI
+
+[33mcommit 48dc54f0a71c3642ef19df587ace081f3a93a08a[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Apr 21 20:03:45 2020 +0530
+
+    dde
+
+[33mcommit cb96289aea140e5a17e9def312ae4949383a91e4[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Apr 21 12:49:12 2020 +0530
+
+    new components
+
+[33mcommit a7a361e48e8caa012e7eeef3a5b9ab2df0f547bc[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Apr 21 12:04:09 2020 +0530
+
+    update
+
+[33mcommit 1fb94b2e14e4a744f2bd9eb0072f69c690b6463a[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Apr 21 12:00:44 2020 +0530
+
+    dde assets dropdown
+
+[33mcommit 81ee0340a8e3978476ab8acbe34005d710f4a9d4[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Mon Apr 13 10:10:57 2020 +0530
+
+    incomplete
+
+[33mcommit 2cee5c28cd8122df7ce454accb790ad6b70e6bdb[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Sat Apr 11 07:36:18 2020 +0530
+
+    Comp Creation Done
+
+[33mcommit 95c49fc63546d2a9b9a7907e49b3bb86cca51061[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Fri Apr 10 04:39:58 2020 +0530
+
+    DDE Comp
+
+[33mcommit 06e986b56efbf3ef2893b506b587c34905a0ec86[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Apr 7 20:37:08 2020 +0530
+
+    dde loan
+
+[33mcommit 52f415b8b88f443031efff2944ceb67b35762b1a[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Sat Apr 4 08:51:49 2020 +0530
+
+    New Comp Added
+
+[33mcommit 24e84c33ebc496fb7e9a98316e43960e75ea106a[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Fri Apr 3 19:34:52 2020 +0530
+
+    product
+
+[33mcommit 6d1d3216a36fd1a840f4db0956562a222221d5e5[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Fri Apr 3 19:33:10 2020 +0530
+
+    product dde
+
+[33mcommit 51a203a7307ab9e8b2bc017549134f90b7baaddc[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Fri Apr 3 19:13:23 2020 +0530
+
+    source dde
+
+[33mcommit 68eb502b91818fddfae2145c48740f57088e89e7[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Fri Apr 3 19:12:42 2020 +0530
+
+    source dde
+
+[33mcommit ccf53d3100f2a6a4fbe9b8f7308b8e6862ea6b8d[m
+Merge: 089cee1 8ca4760
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Fri Apr 3 19:07:28 2020 +0530
+
+    Merge branch 'master' of https://github.com/sai7499/Hetra into Sushil
+
+[33mcommit 089cee16ceffab820a14e33a0a7bcc5d88968c5f[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Fri Apr 3 19:01:06 2020 +0530
+
+    All
+
+[33mcommit 8ca476080a3dc17448be0e9a47e7e746535bdc46[m
+Merge: 617ef9f 06c91d8
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Fri Apr 3 13:38:13 2020 +0530
+
+    Merge pull request #24 from sai7499/dev
+    
+    Dev
+
+[33mcommit 06c91d8e9f9793e42e9ad43743b9d74e3ebeb955[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m
+Merge: 342a57f 1a071c0
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Thu Apr 2 14:13:55 2020 +0530
+
+    Merge pull request #23 from sai7499/cf-dev
+    
+    DDE init
+
+[33mcommit 1a071c0aeb5e1d62096b07d1ac28b3ccd5607937[m[33m ([m[1;31morigin/cf-dev[m[33m)[m
+Author: Sai <sai>
+Date:   Thu Apr 2 10:42:30 2020 +0530
+
+    DDE init
+
+[33mcommit 342a57f4e68a7bcb72f10832daa9fa13f5b08953[m
+Merge: 5d8e737 f545a08
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 31 12:20:57 2020 +0530
+
+    Merge pull request #22 from sai7499/gomathi
+    
+    Multi lingual Approch
+
+[33mcommit f545a0886eba8f09d5aab0e5f1ccfab8018ad441[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Mar 31 09:52:42 2020 +0530
+
+    Language
+
+[33mcommit 617ef9fa878b7ea1b3eafc86627271decae7bb0f[m
+Merge: bef234f 5d8e737
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Fri Mar 27 10:37:07 2020 +0530
+
+    Merge pull request #21 from sai7499/dev
+    
+    message
+
+[33mcommit 5d8e737cdd0f0146e46617ed0c421c6a927ec1e4[m
+Merge: 151561d 0d367b7
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Fri Mar 27 10:02:00 2020 +0530
+
+    message
+
+[33mcommit bef234f1d3727d3469d3cc00c0e3d47476349f2e[m
+Merge: f46d92c 8ab0fa7
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Thu Mar 26 17:52:48 2020 +0530
+
+    Merge branch 'master' of https://github.com/sai7499/Hetra into Sushil
+
+[33mcommit f46d92c4907f25983a718cc9646aefc48a2f206d[m
+Merge: 0d367b7 151561d
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Thu Mar 26 17:51:48 2020 +0530
+
+    Merge branch 'dev' of https://github.com/sai7499/Hetra into Sushil
+
+[33mcommit 0d367b75f02c87dbffb1e27c8aa77020236e30e7[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Thu Mar 26 17:29:40 2020 +0530
+
+    Commit
+    
+    Commit To Sushil
+
+[33mcommit 8ab0fa71edc222037519c0036d7c438a9da7d364[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Wed Mar 25 22:09:12 2020 +0530
+
+    renoved unnecesary folder
+
+[33mcommit ec503f65db50ff2da7b7244559dc90a95849606f[m
+Merge: 02f229f 151561d
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Wed Mar 25 21:54:58 2020 +0530
+
+    Merge pull request #18 from sai7499/dev
+    
+    Dev
+
+[33mcommit 151561d8f475df80922f764a4e68c8b7594cb221[m
+Merge: 1f1f3d8 eb928cf
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Wed Mar 25 21:52:46 2020 +0530
+
+    Merge pull request #17 from sai7499/giri
+    
+    Giri
+
+[33mcommit eb928cff55cdff7607a873a9b2babe07805f34cf[m
+Merge: 63e442f 1f1f3d8
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Wed Mar 25 21:32:24 2020 +0530
+
+    Merge branch 'dev' of  giri
+
+[33mcommit 63e442f37d88d4027a60230cc670b40586e732e5[m
+Merge: 02ca543 0ad6bd4
+Author: Sai <sai>
+Date:   Wed Mar 25 19:44:18 2020 +0530
+
+    Merge remote-tracking branch 'origin/giri' into giri
+
+[33mcommit 02ca543d0c1f58ee33cf9a855cc86b0640fd1434[m
+Author: Sai <sai>
+Date:   Wed Mar 25 19:44:13 2020 +0530
+
+    changes in add applicant
+
+[33mcommit 0ad6bd45c7da7793750758c7a920f3508893f2b4[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Wed Mar 25 19:24:27 2020 +0530
+
+    loan details
+
+[33mcommit 1f1f3d89f1514efe1bd5ca472ead1faff3cfde29[m
+Merge: 6db466a ddbf022
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Wed Mar 25 18:56:51 2020 +0530
+
+    Merge pull request #15 from sai7499/revert-14-giri
+    
+    Revert "Giri"
+
+[33mcommit ddbf0225c577308d34dc97239e893a6346c7e98d[m[33m ([m[1;31morigin/revert-14-giri[m[33m)[m
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Wed Mar 25 18:53:56 2020 +0530
+
+    Revert "Giri"
+
+[33mcommit 6db466a82e48ac55bb79e3099a28f20c92cfb1f2[m
+Merge: 8d0a79d 6f9c449
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Wed Mar 25 18:47:01 2020 +0530
+
+    Merge pull request #14 from sai7499/giri
+    
+    Giri
+
+[33mcommit 6f9c449f8918fbd9f16ad8fbc00175c414532151[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Wed Mar 25 18:39:52 2020 +0530
+
+    coapplicant details
+
+[33mcommit 02f229f243c6ab8a4a079d91f913ddbd0c934486[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Wed Mar 25 13:16:50 2020 +0530
+
+    spacing errors
+
+[33mcommit 8d0a79da7a9ddbe8f925da17f4b8ca617a9d159d[m
+Merge: cda8513 eab8bde
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Wed Mar 25 13:13:35 2020 +0530
+
+    Merge pull request #13 from sai7499/arunt
+    
+    vehicle error resolved
+
+[33mcommit eab8bdeadf5f28977c4de1a262de879a068f71f0[m
+Merge: 93a6208 9aa7b14
+Author: Sai <sai>
+Date:   Wed Mar 25 13:09:49 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arunt
+
+[33mcommit 9aa7b1432917dda045e4e7417b5983f655c49e8c[m
+Merge: cda8513 93a6208
+Author: Sai <sai>
+Date:   Wed Mar 25 13:09:43 2020 +0530
+
+    Merge branch 'arunt' into origin/master
+
+[33mcommit 93a62085d6c3a80ee0e352a25348ab681a8cd6ae[m
+Author: Sai <sai>
+Date:   Wed Mar 25 13:09:10 2020 +0530
+
+    vehicle changes
+
+[33mcommit b62a4fb199400d0bc4b0642ffac7344357114c49[m
+Merge: 4ccb429 cda8513
+Author: Sai <sai>
+Date:   Wed Mar 25 13:00:02 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arunt
+
+[33mcommit 4ccb4292f57bdef164ada59131d770676c37e250[m
+Author: Sai <sai>
+Date:   Wed Mar 25 12:59:49 2020 +0530
+
+    vehicle details changes
+
+[33mcommit 1475a57878d7447cfc8d5c0ba543a7bbd4a17d6d[m
+Merge: fdbb229 a38333f
+Author: Sai <sai>
+Date:   Wed Mar 25 12:54:39 2020 +0530
+
+    Merge remote-tracking branch 'origin/arunt' into arunt
+
+[33mcommit fdbb229287a564bac13df8d20831ec847ea3d21c[m
+Author: Sai <sai>
+Date:   Wed Mar 25 08:08:58 2020 +0530
+
+    changes
+
+[33mcommit cda8513a32c93add235785ae6a7cc0bc4d6f072a[m
+Merge: 285dd57 25db1ca
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Wed Mar 25 00:05:28 2020 +0530
+
+    Merge branch 'master' of https://github.com/sai7499/Hetra into Sushil
+
+[33mcommit 285dd574b8cf082e27c06cbe3324094c188413ce[m
+Merge: 91efd9c 39164c6
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Wed Mar 25 00:01:51 2020 +0530
+
+    Merge branch 'Sushil' of https://github.com/sai7499/Hetra into Sushil
+
+[33mcommit c90275edd6505dc0c478dd3cc55e93df924e9ad8[m
+Author: Sai <sai>
+Date:   Tue Mar 24 21:06:16 2020 +0530
+
+    changes
+
+[33mcommit 25db1ca3675ef232f2f773743b5cf085b164256e[m
+Merge: 5704681 a38333f
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 21:03:45 2020 +0530
+
+    Merge pull request #11 from sai7499/arunt
+    
+    vehicle details
+
+[33mcommit a38333f2d8ab4652f6343cee0179b0d02726e08c[m
+Merge: d7131de 5704681
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 21:03:35 2020 +0530
+
+    Merge branch 'master' into arunt
+
+[33mcommit d7131de5b520c685fc440a722e6ec6c90f235b54[m
+Merge: 2d56a2f 6f53193
+Author: Sai <sai>
+Date:   Tue Mar 24 20:58:50 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arunt
+
+[33mcommit 6f53193e20f2a97b9379d6c307dfc5d2dee17576[m
+Merge: e6a2102 2d56a2f
+Author: Sai <sai>
+Date:   Tue Mar 24 20:58:42 2020 +0530
+
+    Merge branch 'arunt' into origin/master
+
+[33mcommit 2d56a2f9928316e78c3233b81e3f1db90dc606c1[m
+Merge: ce30ff3 e6a2102
+Author: Sai <sai>
+Date:   Tue Mar 24 20:54:00 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arunt
+
+[33mcommit e6a210283c054ffa25296acb90a98395adc4e34a[m
+Merge: 89bb621 ce30ff3
+Author: Sai <sai>
+Date:   Tue Mar 24 20:53:54 2020 +0530
+
+    Merge branch 'arunt' into origin/master
+
+[33mcommit ce30ff329dbf29781de4b907da808d8111747ede[m
+Author: Sai <sai>
+Date:   Tue Mar 24 20:53:41 2020 +0530
+
+    vehicle component
+
+[33mcommit 91efd9cab76c157a16eb7c940fc6c109f469d8a8[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Tue Mar 24 20:34:16 2020 +0530
+
+    Initial Commit
+
+[33mcommit 105c8df3fc5a881d8ea68a187b6929d74bffbef3[m
+Author: Sai <sai>
+Date:   Tue Mar 24 19:50:54 2020 +0530
+
+    form changes
+
+[33mcommit 602d7417f9775d2bb9057c62bab0539d72bbe951[m
+Merge: 857f9d9 89bb621
+Author: Sai <sai>
+Date:   Tue Mar 24 19:46:07 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arunt
+
+[33mcommit 89bb621fac09c92c18523b1ac608ea32a26d37b1[m
+Merge: b40eebd 857f9d9
+Author: Sai <sai>
+Date:   Tue Mar 24 19:46:00 2020 +0530
+
+    Merge branch 'arunt' into origin/master
+
+[33mcommit 857f9d9761177e2b58eea209f9e13a513c6f3756[m
+Author: Sai <sai>
+Date:   Tue Mar 24 19:45:03 2020 +0530
+
+    changes
+
+[33mcommit 5f1271a156968fb01a821d8fbc7ee14e232bc132[m
+Merge: ab5d985 b40eebd
+Author: Sai <sai>
+Date:   Tue Mar 24 19:44:19 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arun
+
+[33mcommit ab5d985d69a53fa2afee2ba3c45516ad8b72f01b[m
+Author: Sai <sai>
+Date:   Tue Mar 24 19:42:42 2020 +0530
+
+    changes
+
+[33mcommit 570468156c687928a7aa5a72daac5e23f6de25a1[m
+Merge: b40eebd 93db598
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 19:40:55 2020 +0530
+
+    Merge pull request #9 from sai7499/arun
+    
+    Arun
+
+[33mcommit 93db598e1de5e632d2b97c4120a8662f8f18d8fd[m
+Merge: 5e04290 b40eebd
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Mar 24 19:39:10 2020 +0530
+
+    conflicts resolved
+
+[33mcommit b40eebd2bba74a3a2191a78d5e47164ec6ae7ddc[m
+Author: Sai <sai>
+Date:   Tue Mar 24 19:29:26 2020 +0530
+
+    resolved
+
+[33mcommit 5e042904197205f5c4df1d4c1a7c2e950fa03497[m
+Author: Sai <sai>
+Date:   Tue Mar 24 19:28:11 2020 +0530
+
+    changes
+
+[33mcommit af12f91500abf83f715ae3a6193a937ffb315861[m
+Merge: b06e488 a780f11
+Author: Sai <sai>
+Date:   Tue Mar 24 18:23:12 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arun
+
+[33mcommit a780f1112642e800e14fab9b04a97d639d29c246[m
+Author: Sai <sai>
+Date:   Tue Mar 24 18:22:55 2020 +0530
+
+    product details changes
+
+[33mcommit 43b2475b95f59a31e1709cc59e265c4310d135eb[m
+Author: ERSUSHIL007 <ersushilkr@rediffmail.com>
+Date:   Tue Mar 24 18:19:44 2020 +0530
+
+    All
+
+[33mcommit 39164c6d7e07e1f79b5948f7b1d4dd7d26ac1f1e[m
+Merge: cf9e2bf b06e488
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 15:05:52 2020 +0530
+
+    Merge pull request #8 from sai7499/arun
+    
+    custom select change
+
+[33mcommit cf9e2bfa3f769ee06ca5be06cb14f1fbac211dd9[m
+Merge: 1e76843 4228085
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 15:04:48 2020 +0530
+
+    Merge pull request #7 from sai7499/dropdownImplementation
+    
+    latest changes
+
+[33mcommit 422808523de808c1f757fd9ee2f204561d1d2c7e[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Tue Mar 24 15:03:08 2020 +0530
+
+    latest changes
+
+[33mcommit b06e488c6917e2d6ce5585c577206360e7b2dfd2[m
+Author: Sai <sai>
+Date:   Tue Mar 24 14:06:42 2020 +0530
+
+    custom select change
+
+[33mcommit 1e7684333224fe546da318a4ee1f040a2b5f223a[m
+Merge: 30d14c8 b0f7e36
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 13:56:46 2020 +0530
+
+    Merge pull request #6 from sai7499/labels
+    
+    Labels
+
+[33mcommit b0f7e36191ede3725345b18d6a979c1ae307a607[m
+Merge: 9828984 30d14c8
+Author: Sai Krishna <saikrishna.y85@gmail.com>
+Date:   Tue Mar 24 13:54:59 2020 +0530
+
+    added
+
+[33mcommit 982898468a8280312cac4cadc559c84482ac463a[m
+Author: Sai Krishna <saikrishna.y85@gmail.com>
+Date:   Tue Mar 24 13:28:46 2020 +0530
+
+    implemented labels
+
+[33mcommit 30d14c8a9a77fde33ea116b85e14c89b60751a9c[m
+Merge: e8eb59a 5f44b29
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 12:20:29 2020 +0530
+
+    Merge pull request #5 from sai7499/arun
+    
+    changes
+
+[33mcommit 5f44b295023e7f3a5df3c8f399902f584ecb97fe[m
+Merge: 7700604 e8eb59a
+Author: Sai <sai>
+Date:   Tue Mar 24 12:19:43 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arun
+
+[33mcommit 770060480d325b2f8272270f0331b1f5bff27592[m
+Author: Sai <sai>
+Date:   Tue Mar 24 12:19:31 2020 +0530
+
+    error changes
+
+[33mcommit e8eb59ae0136833924467f8b56c5d5fe2813d02e[m
+Merge: 68d9415 9d7e167
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 12:14:32 2020 +0530
+
+    Merge pull request #4 from sai7499/arun
+    
+    changes
+
+[33mcommit 9d7e16723a12e539499c6b04ee97710cea510152[m
+Author: Sai <sai>
+Date:   Tue Mar 24 12:13:22 2020 +0530
+
+    changes
+
+[33mcommit 68d9415f4b704854916a49f1d924b1b3689e897e[m
+Merge: 7d47150 ed05c37
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Tue Mar 24 12:13:17 2020 +0530
+
+    Merge pull request #3 from sai7499/arun
+    
+    Arun
+
+[33mcommit ed05c37cc1b138b68035c507b3bfaa222dadd2cd[m
+Merge: ad79be5 7d47150
+Author: Sai <sai>
+Date:   Tue Mar 24 12:10:24 2020 +0530
+
+    Merge remote-tracking branch 'origin/master' into arun
+
+[33mcommit ad79be5a42e6baa9eacf89bf8b96fc05c18e5b7f[m
+Author: Sai <sai>
+Date:   Tue Mar 24 12:01:05 2020 +0530
+
+    changes
+
+[33mcommit ac81fafd175c229fde524684f70d0feb2761caba[m
+Author: Sai <sai>
+Date:   Tue Mar 24 11:58:19 2020 +0530
+
+    data store service
+
+[33mcommit 082ba7e0992e5eb628f7d7f4bd3ee385911760eb[m
+Author: Sai Krishna <saikrishna.y85@gmail.com>
+Date:   Mon Mar 23 22:40:41 2020 +0530
+
+    modified json labels
+
+[33mcommit 7d47150fde56ef53d884545abd039f19843d35d1[m
+Merge: 0511862 73837d9
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Mon Mar 23 19:21:46 2020 +0530
+
+    Merge pull request #2 from sai7499/dropdownImplementation
+    
+    lead section
+
+[33mcommit 73837d993e9800b6ee1bda9d847535208b7aa2cb[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Mon Mar 23 19:20:31 2020 +0530
+
+    lead section
+
+[33mcommit 05118622f530f9cb50141aa8ece86edbdbd831ba[m
+Merge: 01e8b52 0e00c6c
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Mon Mar 23 17:57:57 2020 +0530
+
+    Merge pull request #1 from sai7499/dropdownImplementation
+    
+    lead creation dropdowns
+
+[33mcommit 0e00c6c6dde53f48458bc696fd63014ca3984a91[m
+Author: sai7499 <saikrishna.y85@gmail.com>
+Date:   Mon Mar 23 17:52:02 2020 +0530
+
+    leead creation dropdowns
+
+[33mcommit 01e8b52f9bf021fab6a50507e5d99130470fb14f[m
+Author: Sai Krishna <saikrishna.y85@gmail.com>
+Date:   Fri Mar 20 18:37:55 2020 +0530
+
+    BaseProject
+
+[33mcommit e72c060501c1ec12f2629a7b192eb56e4c27a4b7[m
+Author: Krish yadagani <53928270+sai7499@users.noreply.github.com>
+Date:   Fri Mar 20 18:28:50 2020 +0530
+
+    Initial commit

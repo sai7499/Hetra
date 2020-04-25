@@ -142,7 +142,7 @@ export class LoanDetailsComponent implements OnInit {
     const formModal = this.loanDetailsForm.value;
     const loanDetailsModal = {...formModal};
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
-    this.router.navigate(['/pages/dde/viability']);
+    this.router.navigate(['/pages/dde']);
   }
 
 }

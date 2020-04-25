@@ -10,7 +10,7 @@ import { DdeStoreService } from '@services/dde-store.service';
     templateUrl: './applicant-details.component.html',
     styleUrls: ['./applicant-details.component.css']
 })
-export class ApplicantDetailsComponent implements OnInit {
+export class ApplicantDetailComponent implements OnInit {
   
   applicantForm: FormGroup;
 

@@ -17,6 +17,6 @@ export class LabelsService {
   }
 
   getLanguageLabelData(): Observable<any> {
-    return this.http.get(this.languageLabelsurl)
+    return this.http.get(this.languageLabelsurl);
   }
 }
