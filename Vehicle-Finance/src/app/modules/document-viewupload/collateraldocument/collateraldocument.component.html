@@ -32,7 +32,7 @@
               </h4>
             </div>
             <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true" formArrayName="documents"  >
-                <div class="panel-body" id="show_1_div_identity" *ngFor= "let addressGroup of collateralDocumentForm.controls.documents.controls;let i = index" [formGroup] = "addressGroup" >
+                <div class="panel-body" id="show_1_div_identity" *ngFor= "let i of collateralDocumentForm.controls.documents.controls;let i = index" [formGroup] = "i" >
                        <div class="form-group col-sm-3 col-md-2">
                            <label for="document">{{ labels.documentName }}</label>
                            <!-- <select class="form-control">
@@ -118,7 +118,7 @@
                                </div>
                                </div>
                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                   <label class="image-upload" for="upload_files"><i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addNewAddressGroup()" ></i> &nbsp; <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i></label>
+                                   <label class="image-upload" for="upload_files"><i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addUnit()" ></i> &nbsp; <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="removeUnit(i)"></i></label>
 
                                </div>
                                </div>
