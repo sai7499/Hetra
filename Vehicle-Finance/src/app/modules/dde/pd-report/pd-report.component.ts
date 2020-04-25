@@ -27,7 +27,7 @@ export class PdReportComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.router.navigate(['/pages/dde/viability-report']);
+    this.router.navigate(['/pages/dde/pd-report']);
   }
 
 }
