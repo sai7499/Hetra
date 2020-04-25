@@ -11,28 +11,11 @@ import { ValuationComponent } from './valuation/valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
-// import { ApplicantDetailsComponent } from './fl-and-pd-report/applicant-details/applicant-details.component';
 
 const routes: Routes = [{
     path: '',
     component: DdeComponent,
     children: [
-        // {
-        //     path: 'applicant-details',
-        //     component: ApplicantDetailsComponent
-        // },
-        {
-            path: 'lead-details',
-            component: SourcingDdeComponent
-        },
-        {
-            path: 'income-details',
-            component: IncomeDetailsComponent
-        },
-        {
-            path: 'exposure',
-            component: ExposureDetailsComponent
-        },
         {
             path: 'lead-details',
             component: SourcingDdeComponent

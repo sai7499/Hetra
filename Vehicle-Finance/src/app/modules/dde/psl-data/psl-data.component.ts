@@ -277,18 +277,9 @@ export class PslDataComponent implements OnInit {
       this.purposeLoan = this.pslDataLov.purposeLoan[4].value;
     }
     else {
-      this.detailActivity = [];
       this.purposeLoan = [];
+      this.showMs = false;
       this.typeService =[];
-      // this.show = false;
-      // this.showOption = false;
-      // this.showAct = false;
-      // this.showMs = true;
-      // this.showHs = true;
-      // this.showLoan = true;
-      // this.show3 = true;
-      // this.show4 = true;
-      // this.show5 = true;
     }
   }
 
