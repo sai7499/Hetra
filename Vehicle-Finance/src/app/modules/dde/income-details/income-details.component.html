@@ -1,1 +1,490 @@
-<p>income-details works!</p>
+<h3 class="dashboard m-0">Income and Obligation Details</h3>
+<!--progress bar-->
+<form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
+  <div class="multisteps-form">
+    <!-- <div class="content"> -->
+    <div class="multisteps-form__panel  js-active" data-animation="scaleIn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="table-responsive application">
+            <table id="POITable" border="1" class="table">
+              <caption class="caption">
+                Business Income Details
+              </caption>
+              <thead>
+                <tr class="">
+                  <th role="columnheader">S.No</th>
+                  <th role="columnheader">{{ labels?.applicantName }}</th>
+                  <th role="columnheader">{{ labels?.applicantType }}</th>
+                  <th role="columnheader">{{ labels?.businessEntityName }}</th>
+                  <th role="columnheader">{{ labels?.netProfit }}</th>
+                  <th role="columnheader">{{ labels?.depreciation }}</th>
+                  <th role="columnheader">{{ labels?.directorsSalary }}</th>
+                  <th role="columnheader">{{ labels?.grossDerivedIncome }}</th>
+                  <th role="columnheader">{{ labels?.grossMonthlyIncome }}</th>
+                  <th role="columnheader">{{ labels?.actions }}</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="businessDetails">
+                <tr
+                  class=" text-center"
+                  id="applicant_1_row"
+                  *ngFor="let item of incomeDetailsForm.controls.businessDetails.controls; let i = index"
+                  [formGroupName]="i"
+                >
+                  <td data-title="S.No">{{ i + 1 }}</td>
+                  <td data-title="Applicant Name">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Arun"
+                      class="no_border"
+                      class="input_value"
+                      name="applicantName"
+                      class="form-control text-center"
+                      formControlName="applicantName"
+                    />
+                  </td>
+                  <td data-title="Applicant Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Applicant"
+                      class="no_border"
+                      class="input_value"
+                      name="applicantType"
+                      class="form-control text-center"
+                      formControlName="applicantType"
+                    />
+                  </td>
+                  <td data-title="Business Entity Name">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="ABC Enterprises"
+                      class="no_border"
+                      class="input_value"
+                      name="entityName"
+                      class="form-control text-center"
+                      formControlName="entityName"
+                    />
+                  </td>
+                  <td data-title="Net Profit">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="254000"
+                      class="no_border"
+                      class="input_value"
+                      name="netProfit"
+                      class="form-control text-center"
+                      formControlName="netProfit"
+                    />
+                  </td>
+                  <td data-title="Depreciation">
+                    <input
+                      type="text"
+                      id="latbox"
+                      class="input_value"
+                      name="depreciation"
+                      class="form-control text-center"
+                      formControlName="depreciation"
+                    />
+                  </td>
+                  <td data-title="Directors salary/Interest to partners + Interest">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      readonly="true"
+                      class="input_value"
+                      name="directorsSalary"
+                      class="form-control text-center"
+                      formControlName="directorsSalary"
+                    />
+                  </td>
+                  <td data-title="Gross derived Income">
+                    <input
+                      type="text"
+                      id="latbox"
+                      class="input_value"
+                      name="grossIncome"
+                      class="form-control text-center"
+                      formControlName="grossIncome"
+                    />
+                  </td>
+                  <td data-title="Gross monthly income">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      readonly="true"
+                      class="input_value"
+                      name="monthlyIncome"
+                      class="form-control text-center"
+                      formControlName="monthlyIncome"
+                    />
+                  </td>
+                  <td data-title="Actions">
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      (click)="addIncomeUnit()"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      (click)="removeIncomeIndex(i)"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row bottom_common m-0"><div class="col-md-12 text-right">Total Monthly Business Income :</div></div>
+          </div>
+
+          <div class="table-responsive application mt-3">
+            <table id="POITable_other" border="1" class="table">
+              <caption class="caption">
+                Other Income Details
+              </caption>
+              <thead>
+                <tr class="">
+                  <th role="columnheader">S.No</th>
+                  <th role="columnheader">{{ labels?.applicantName }}</th>
+                  <th role="columnheader">{{ labels?.applicantType }}</th>
+                  <th role="columnheader">{{ labels?.incomeType }}</th>
+                  <th role="columnheader">{{ labels?.grossIncome }}</th>
+                  <th role="columnheader">{{ labels?.factoring }}</th>
+                  <th role="columnheader">{{ labels?.factoredIncome }}</th>
+                  <th role="columnheader">{{ labels?.actions }}</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="otherIncomeDetails">
+                <tr
+                  *ngFor="let item of incomeDetailsForm.controls.otherIncomeDetails.controls; let j = index"
+                  [formGroupName]="j"
+                >
+                  <td data-title="S.no">{{ j + 1 }}</td>
+                  <td data-title="Applicant Name">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Arun"
+                      class="no_border"
+                      class="input_value"
+                      name="applicantName"
+                      class="form-control text-center"
+                      formControlName="applicantName"
+                    />
+                  </td>
+                  <td data-title="Applicant Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Applicant"
+                      class="no_border"
+                      class="input_value"
+                      name="applicantType"
+                      class="form-control text-center"
+                      formControlName="applicantType"
+                    />
+                  </td>
+                  <td data-title="Income Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Salary"
+                      class="no_border"
+                      class="input_value"
+                      name="incomeType"
+                      class="form-control text-center"
+                      formControlName="incomeType"
+                    />
+                  </td>
+                  <td data-title="Gross Income">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="254000"
+                      class="no_border"
+                      class="input_value"
+                      name="grossIncome"
+                      class="form-control text-center"
+                      formControlName="grossIncome"
+                    />
+                  </td>
+                  <td data-title="Factoring %">
+                    <input
+                      type="text"
+                      id="latbox"
+                      class="input_value"
+                      name="factoring"
+                      class="form-control text-center"
+                      formControlName="factoring"
+                    />
+                  </td>
+                  <td data-title="Factored Income">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      readonly="true"
+                      class="input_value"
+                      name="factoredIncome"
+                      class="form-control text-center"
+                      formControlName="factoredIncome"
+                    />
+                  </td>
+                  <td data-title="Actions">
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      (click)="addOtherUnit()"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      (click)="removeOtherIndex(i)"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive application mt-3">
+            <table id="POITable_obligation" border="1" class="table">
+              <caption class="caption">
+                Obligation Details
+              </caption>
+              <thead>
+                <tr class="">
+                  <th role="columnheader">S.No</th>
+                  <th role="columnheader">{{ labels?.borrowerName }}</th>
+                  <th role="columnheader">{{ labels?.applicantType }}</th>
+                  <th role="columnheader">{{ labels?.typeOfLoan }}</th>
+                  <th role="columnheader">{{ labels?.financier }}</th>
+                  <th role="columnheader">{{ labels?.loanAmount }}</th>
+                  <th role="columnheader">"{{ labels?.tenorInMonths }}"</th>
+                  <th role="columnheader">{{ labels?.mob }}</th>
+                  <th role="columnheader">{{ labels?.emi }}</th>
+                  <th role="columnheader">{{ labels?.balanceTenor }}</th>
+                  <th role="columnheader">{{ labels?.obligationAmount }}</th>
+                  <th role="columnheader">{{ labels?.actions }}</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="obligationDetails">
+                <tr
+                  *ngFor="let item of incomeDetailsForm.controls.obligationDetails.controls; let k = index"
+                  [formGroupName]="k"
+                >
+                  <td data-title="S.No">{{ k + 1 }}</td>
+                  <td data-title="Borrower Name">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Kumar"
+                      class="no_border"
+                      class="input_value"
+                      name="borrowerName"
+                      class="form-control text-center"
+                      formControlName="borrowerName"
+                    />
+                  </td>
+                  <td data-title="Applicant Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Applicant"
+                      class="no_border"
+                      class="input_value"
+                      name="applicantType"
+                      class="form-control text-center"
+                      formControlName="applicantType"
+                    />
+                  </td>
+                  <td data-title="Type of Loan">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="Business Loan"
+                      class="no_border"
+                      class="input_value"
+                      name="businessLoan"
+                      class="form-control text-center"
+                      formControlName="businessLoan"
+                    />
+                  </td>
+                  <td data-title="Financier">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="muthoot"
+                      class="no_border"
+                      class="input_value"
+                      name="financier"
+                      class="form-control text-center"
+                      formControlName="financier"
+                    />
+                  </td>
+                  <td data-title="Loan Amount">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="150000"
+                      class="input_value"
+                      name="loanAmount"
+                      class="form-control text-center"
+                      formControlName="loanAmount"
+                    />
+                  </td>
+                  <td data-title="Tenor(In Months)">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      value="24"
+                      class="input_value"
+                      name="monthlyTenor"
+                      class="form-control text-center"
+                      formControlName="monthlyTenor"
+                    />
+                  </td>
+                  <td data-title="MOB">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      value="10"
+                      class="input_value"
+                      name="mob"
+                      class="form-control text-center"
+                      formControlName="mob"
+                    />
+                  </td>
+                  <td data-title="EMI">
+                    <input
+                      type="text"
+                      id="latbox"
+                      value="7931"
+                      class="input_value"
+                      name="emi"
+                      class="form-control text-center"
+                      formControlName="emi"
+                    />
+                  </td>
+                  <td data-title="Balance Tenor">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      value="14"
+                      class="input_value"
+                      name="balanceTenor"
+                      class="form-control text-center"
+                      formControlName="balanceTenor"
+                    />
+                  </td>
+                  <td data-title="Obligation Amount">
+                    <input
+                      type="text"
+                      id="lngbox"
+                      value="7931"
+                      class="input_value"
+                      name="obligationAmount"
+                      class="form-control text-center"
+                      formControlName="obligationAmount"
+                    />
+                  </td>
+                  <td data-title="Actions">
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      (click)="addObligationUnit()"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      (click)="removeObligationIndex(i)"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row bottom_common m-0"><div class="col-md-12 text-right">Total Monthly Obligation : 27,490</div></div>
+          </div>
+          <div class="table-responsive application mt-3">
+            <table id="POITable" border="1" class="table income_obli">
+              <caption class="caption">
+                Income & Obligation Summary
+              </caption>
+
+              <tr>
+                <td>{{ labels?.totalMonthlySalaryIncome }}</td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.salariedFOIRaspePolicy }}</td>
+                <td>70%</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.salairedFOIRDeviation }}</td>
+                <td>70%</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.consideredSalaryIncome }}</td>
+                <td>35000</td>
+              </tr>
+
+              <tr>
+                <td>{{ labels?.totalMonthlyBusinessIncome }}</td>
+                <td>212424</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.totalMonthlyRentalIncome }}</td>
+                <td>9600</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.totalMonthlyPensionIncome }}</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.totalMonthlyAgriIncome }}</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.totalMonthlyIncome }}</td>
+                <td>257024</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.totalMontlyObligations }}</td>
+                <td>27490</td>
+              </tr>
+              <tr>
+                <td>{{ labels?.loanEligibilityasperFOIR }}</td>
+                <td>9039107</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- </div> -->
+  </div>
+</form>
