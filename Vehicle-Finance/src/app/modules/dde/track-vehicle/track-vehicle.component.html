@@ -16,13 +16,15 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.repaymentMode}}</label>
-                <select class="form-control" formControlName="paymentMode">
+                <!-- <select class="form-control" formControlName="repaymentMode">
                     <option>{{labels.ecs}}</option>
                     <option>{{labels.ach}}</option>
                     <option>{{labels.pdc}}</option>
                     <option>{{labels.cash}}</option>
                     <option>{{labels.others}}</option>
-                </select>
+                </select> -->
+                <app-vf-custom-select [values]="values?.repaymentMode" formControlName="repaymentMode">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.financeAmount}}</label>
@@ -46,18 +48,22 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.typesOfFinance}}</label>
-                <select class="form-control" formControlName="typesOfFinance">
+                <!-- <select class="form-control" formControlName="typesOfFinance">
                     <option>{{labels.new}}</option>
                     <option>{{labels.refinance}}</option>
                     <option>{{labels.used}}</option>
-                </select>
+                </select> -->
+                <app-vf-custom-select [values]="values?.typesOfFinance" formControlName="typesOfFinance">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.accountStatus}}</label>
-                <select class="form-control" formControlName="accountStatus">
+                <!-- <select class="form-control" formControlName="accountStatus">
                     <option>{{labels.matured}}</option>
                     <option>{{labels.running}}</option>
-                </select>
+                </select> -->
+                <app-vf-custom-select [values]="values?.accountStatus" formControlName="accountStatus">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanStartDate}}</label>
@@ -166,7 +172,6 @@
 
             </div>
         </div>
-
 
 
     </div>

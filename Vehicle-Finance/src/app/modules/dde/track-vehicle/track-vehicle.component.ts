@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
+import { DdeStoreService } from '@services/dde-store.service';
 @Component({
   selector: 'app-track-vehicle',
   templateUrl: './track-vehicle.component.html',
@@ -22,7 +23,8 @@ export class TrackVehicleComponent implements OnInit {
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
-    private router: Router
+    private router: Router,
+    private ddeStoreService: DdeStoreService
 
   ) { }
 
@@ -33,7 +35,7 @@ export class TrackVehicleComponent implements OnInit {
     this.lovData.getLovData().subscribe((res: any) => {
 
       this.values = res[0].trackVehicle[0];
-      // console.log(this.values.repaymentMode[0]);
+      // console.log(this.values);
     });
 
     this.labelsData.getLabelsFleetData().subscribe(
@@ -51,7 +53,7 @@ export class TrackVehicleComponent implements OnInit {
       client: new FormControl('' || 'Deepika'),
       financier: new FormControl('' || 'Bajaj'),
       assetFinanced: new FormControl('' || 'TATA ACE M100'),
-      paymentMode: new FormControl(''),
+      repaymentMode: new FormControl(''),
       financeAmount: new FormControl({ value: '200000', disabled: true }),
       financeCharges: new FormControl('' || '40000'),
       contractValue: new FormControl(''),
@@ -125,6 +127,6 @@ export class TrackVehicleComponent implements OnInit {
 
   onFormSubmit() {
     console.log(this.trackVehicleForm.value)
-    this.router.navigate(['/pages/dde/fleet-details']);
+    // this.router.navigate(['/pages/dde/fleet-details']);
   }
 }

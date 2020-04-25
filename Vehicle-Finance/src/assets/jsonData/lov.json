@@ -644,7 +644,7 @@
                 "value": "Eicher"
             }
         ],
-        "finacier": [{
+        "financier": [{
                 "key": 1,
                 "value": "Bajaj"
             },
@@ -660,27 +660,27 @@
     }],
     "trackVehicle": [{
         "repaymentMode": [{
-                "Key": 1,
+                "key": 1,
                 "value": "ECS"
             },
             {
-                "Key": 2,
+                "key": 2,
                 "value": "ACH"
             },
             {
-                "Key": 3,
+                "key": 3,
                 "value": "PDC"
             },
             {
-                "Key": 4,
+                "key": 4,
                 "value": "Cash"
             },
             {
-                "Key": 5,
+                "key": 5,
                 "value": "Others"
             }
         ],
-        "typesOfFinacne": [{
+        "typesOfFinance": [{
                 "key": 1,
                 "value": "New"
             },

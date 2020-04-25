@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
+import { DdeStoreService } from '@services/dde-store.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -38,7 +39,7 @@ export class FleetDetailsComponent implements OnInit {
 
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].fleetDetails[0];
-      // console.log(this.values.relation);
+      // console.log(this.values.relation = this.values);
     });
 
 
@@ -63,13 +64,13 @@ export class FleetDetailsComponent implements OnInit {
   initRows() {
     return this.fb.group({
       regdNo: ['' || 'TN01AA1234'],
-      regdOwner: ['' ||'Deepika'],
+      regdOwner: ['' || 'Deepika'],
       relation: [''],
       make: [''],
-      yom: [''|| '2015'],
+      yom: ['' || '2015'],
       financier: [''],
-      loanNo: [''|| '4587'],
-      purchaseDate: [''|| '2007-05-12'],
+      loanNo: ['' || '4587'],
+      purchaseDate: ['' || '2007-05-12'],
       tenure: ['' || '60'],
       paid: ['' || '40'],
       seasoning: [{ value: "67%", disabled: true }],
@@ -88,9 +89,9 @@ export class FleetDetailsComponent implements OnInit {
     this.formArr.removeAt(index);
   }
 
-  showFormValues() {
+  onFormSubmit() {
 
-    console.log('values ', this.fleetForm.value.Rows[0].regdOwner)
+    console.log('form values ', this.fleetForm.value.Rows[0])
   }
 }
 
