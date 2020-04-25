@@ -2,8 +2,8 @@
   <div class="container overflow-hidden">
     <h3 class="margin_zero">Lead ID : 125468</h3>
 
-    <div class="row top_bar">
-      <div class="col-lg-4 col-md-4 col-sm-12">
+    <!-- <div class="row top_bar"> -->
+    <!-- <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">Lead Created By</label>
           <label for="lead_created_by_name" class="col-form-label-two">Mr. Racheal - Anna nagar</label>
@@ -38,14 +38,14 @@
           <label class="col-form-label" for="lead_handled_by">Mobile No</label>
           <label for="lead_handled_by_name" class="col-form-label-two">7894561230</label>
         </div>
-      </div>
-      <app-dde-header></app-dde-header>
+      </div> -->
+    <app-dde-header></app-dde-header>
 
-      <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
-        <button class="btn btn-primary" type="button">View/Upload Document</button>
-        <app-dde-header></app-dde-header>
-      </div>
+    <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
+      <button class="btn btn-primary" type="button">View/Upload Document</button>
+      <app-dde-header></app-dde-header>
     </div>
+    <!-- </div> -->
     <!--progress bar-->
     <div class="multisteps-form">
       <div class="multisteps-form__progress" *ngIf="router.url != '/pages/dde/valuation'">
@@ -57,13 +57,20 @@
         >
           Lead Details
         </button>
-        <button class="multisteps-form__progress-btn js-active" type="button" id="credit_application_details">
-          Applicants
+        <button class="multisteps-form__progress-btn " type="button" id="credit_application_details">Applicants</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_vehicle_details">Collaterals</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_fleet_details">Fleet</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_liveloan" [routerLink]="['./exposure']">
+          Exposure
         </button>
-        <button class="multisteps-form__progress-btn js-active" type="button" id="credit_vehicle_details">Collaterals</button>
-        <button class="multisteps-form__progress-btn js-active" type="button" id="credit_fleet_details">Fleet</button>
-        <button class="multisteps-form__progress-btn js-active" type="button" id="credit_liveloan">Exposure</button>
-        <button class="multisteps-form__progress-btn js-active" type="button" id="credit_income_details">Income Details</button>
+        <button
+          class="multisteps-form__progress-btn "
+          type="button"
+          id="credit_income_details"
+          [routerLink]="['./income-details']"
+        >
+          Income Details
+        </button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data" [routerLink]="['./psl-data']">
           PSL Data
         </button>
@@ -75,7 +82,7 @@
         >
           Vehicle Valuation
         </button>
-        <button class="multisteps-form__progress-btn js-active" type="button" id="credit_tvr_details">TVR</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_tvr_details">TVR</button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./fl-report']">
           Fl Report
         </button>
