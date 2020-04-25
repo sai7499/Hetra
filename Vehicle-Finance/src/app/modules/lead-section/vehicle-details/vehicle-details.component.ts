@@ -132,6 +132,7 @@ export class VehicleDetailComponent implements OnInit {
 
   ngOnChanges() { }
 
+<<<<<<< HEAD
   //To show and hide lov--select "Open" in Vehicle dependency
   onShow(event) {
     // console.log("event ", event.target.value);
@@ -141,5 +142,16 @@ export class VehicleDetailComponent implements OnInit {
       this.show = false;
     }
   }
+=======
+    //To show and hide lov--select "Open" in Vehicle dependency
+    onShow(event) {
+      // console.log("event ", event.target.value);
+      if (event.target.value === "1") {
+        this.show = true;
+      }  else {
+        this.show = false;
+      }
+    }
+>>>>>>> 8beb882e508113ea3abdf4838f0937b57ff0ee20
 
 }

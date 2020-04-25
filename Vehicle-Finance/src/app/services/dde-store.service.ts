@@ -13,6 +13,8 @@ export class DdeStoreService {
 
   public trackvehicle: any;
   public fleetDetails: any;
+  public vehicleValuation: any;
+  public pslData: any;
 
   constructor() { }
 
@@ -40,7 +42,44 @@ export class DdeStoreService {
     return this.ddeStore ? this.ddeStore.trackVehicle : {};
   }
 
+  setVehicleValuation(vehicleValuation: VehicleValuation) {
+    this.ddeStore.vehicleValuation = vehicleValuation;
+  }
 
+  getVehicleValuation() {
+    return this.ddeStore ? this.ddeStore.vehicleValuation : {};
+  }
 
+  setPslData(pslData: PslData) {
+    this.ddeStore.pslData = pslData;
+  }
+
+  getPslData() {
+    return this.ddeStore ? this.ddeStore.pslData : {};
+  }
+
+  setApplicantDetails(applicantDetails: ApplicantDetails) {
+    this.ddeStore.applicantDetails = applicantDetails;
+  }
+
+  getApplicantDetails() {
+    return this.ddeStore ? this.ddeStore.applicantDetails : {};
+  }
+
+  setCustomerProfile(customerProfile: CustomerProfile) {
+    this.ddeStore.customerProfile = customerProfile;
+  }
+
+  getCustomerProfile() {
+    return this.ddeStore ? this.ddeStore.customerProfile : {};
+  }
+
+  setLoanDetails(loanDetails: LoanDetails) {
+    this.ddeStore.loanDetails = loanDetails;
+  }
+
+  getLoanDetails() {
+    return this.ddeStore ? this.ddeStore.loanDetails : {};
+  }
 
 }

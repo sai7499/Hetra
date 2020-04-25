@@ -8,8 +8,7 @@
                 <!-- <select class="form-control mandatory" id="vechical_type">
                         <option *ngFor = "let vType of vehicleType" value="vType"> {{ vType }} </option>
                     </select> -->
-                <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                    (change)="onShow($event)"></app-vf-custom-select>
+                <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType" (change)="onShow($event)"></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechical_region"> {{ label.vechicalRegion }} </label>
@@ -20,8 +19,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                 <label for="registartion_number"> {{ label.registartionNumber }} </label>
-                <input formControlName="registrationNumber" type="text" class="form-control mandatory"
-                    id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
+                <input formControlName="registrationNumber" type="text" class="form-control mandatory" id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
             </div>
         </div>
         <div class="row">
@@ -73,18 +71,15 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mon_manufacturing">
                 <label for="month_manufacturing"> {{ label.monthManufacturing }} </label>
-                <input formControlName="monthManufacturing" type="date" class="form-control mandatory"
-                    id="month_manufacturing" placeholder="Month of Manufacturing" name="month_manufacturing">
+                <input formControlName="monthManufacturing" type="date" class="form-control mandatory" id="month_manufacturing" placeholder="Month of Manufacturing" name="month_manufacturing">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="yr_manufacturing">
                 <label for="year_manufacturing"> {{ label.yearManufacturing }} </label>
-                <input formControlName="yrManufacturing" type="date" class="form-control mandatory"
-                    id="year_manufacturing" placeholder="Year of Manufacturing" name="year_manufacturing">
+                <input formControlName="yrManufacturing" type="date" class="form-control mandatory" id="year_manufacturing" placeholder="Year of Manufacturing" name="year_manufacturing">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                 <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
-                <input formControlName="ageOfAsset" type="text" class="form-control mandatory" id="age_of_asset"
-                    placeholder="Age of Asset" name="age_of_asset" disabled>
+                <input formControlName="ageOfAsset" type="text" class="form-control mandatory" id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" disabled>
             </div>
         </div>
         <div class="row">
@@ -116,8 +111,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                 <label for="one_time_tax"> {{ label.oneTimeTax }} </label>
-                <input formControlName="oneTimeTax" type="text" class="form-control" id="one_time_tax"
-                    placeholder="One Time Tax" name="one_time_tax">
+                <input formControlName="oneTimeTax" type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax" name="one_time_tax">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                 <label for="pac"> {{ label.pac }} </label>
@@ -151,32 +145,27 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                 <label for="others"> {{ label.others }} </label>
-                <input formControlName="others" type="text" class="form-control" id="others" placeholder="Others"
-                    name="others">
+                <input formControlName="others" type="text" class="form-control" id="others" placeholder="Others" name="others">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                 <label for="discount"> {{ label.discount }} </label>
-                <input formControlName="discount" type="text" class="form-control" id="discount" placeholder="Discount"
-                    name="discount">
+                <input formControlName="discount" type="text" class="form-control" id="discount" placeholder="Discount" name="discount">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
-                <input formControlName="finalAssetCost" type="text" class="form-control mandatory" id="final_asset_cost"
-                    placeholder="Final Asset Cost" name="final_asset_cost">
+                <input formControlName="finalAssetCost" type="text" class="form-control mandatory" id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="idv"> {{ label.idv }} </label>
-                <input formControlName="idv" type="text" class="form-control mandatory" id="idv" placeholder="IDV"
-                    name="idv">
+                <input formControlName="idv" type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="insurance_validity"> {{ label.insuranceValidity }} </label>
-                <input formControlName="insuranceValidity" type="date" class="form-control mandatory"
-                    id="insurance_validity" placeholder="Insurance Validity" name="insurance_validity">
+                <input formControlName="insuranceValidity" type="date" class="form-control mandatory" id="insurance_validity" placeholder="Insurance Validity" name="insurance_validity">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="insurance_copy"> {{ label.insuranceCopy }} </label>
@@ -196,8 +185,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
                 <label for="expiry_date"> {{ label.expiryDate }} </label>
-                <input formControlName="expiryDate" type="date" class="form-control mandatory" id="expiry_date"
-                    placeholder="Permit Expiry Date" name="expiry_date">
+                <input formControlName="expiryDate" type="date" class="form-control mandatory" id="expiry_date" placeholder="Permit Expiry Date" name="expiry_date">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
                 <label for="permit_copy">{{ label.permitCopy }}</label>
@@ -208,27 +196,23 @@
         <div class="row" *ngIf="show">
             <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
                 <label for="permit_others"> {{ label.permitOthers }} </label>
-                <input formControlName="permitOthers" type="text" class="form-control " id="permit_others"
-                    placeholder="Type of Other Permit" name="permit_others">
+                <input formControlName="permitOthers" type="text" class="form-control " id="permit_others" placeholder="Type of Other Permit" name="permit_others">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
                 <label for="frsd_required"> {{ label.frsdRequired }} </label>
-                <input formControlName="frsdRequired" type="text" class="form-control mandatory" id="frsd_required"
-                    placeholder="FRSD Funding Required" name="frsd_required">
+                <input formControlName="frsdRequired" type="text" class="form-control mandatory" id="frsd_required" placeholder="FRSD Funding Required" name="frsd_required">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
                 <label for="frsd_amount"> {{ label.frsdAmount }} </label>
-                <input formControlName="frsdAmount" type="text" class="form-control" id="frsd_amount"
-                    placeholder="FRSD Premium Amount" name="frsd_amount">
+                <input formControlName="frsdAmount" type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount" name="frsd_amount">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
                 <label for="fitness_date"> {{ label.fitnessDate }} </label>
-                <input formControlName="fitnessDate" type="date" class="form-control mandatory" id="fitness_date"
-                    placeholder="Fitness Date" name="fitness_date">
+                <input formControlName="fitnessDate" type="date" class="form-control mandatory" id="fitness_date" placeholder="Fitness Date" name="fitness_date">
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
                 <label for="fitness_copy"> {{ label.fitnessCopy }} </label>
@@ -237,8 +221,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                 <label for="no_vehicle"> {{ label.noVehicle }} </label>
-                <input formControlName="noOfVehicle" type="number" class="form-control mandatory" id="no_vehicle"
-                    placeholder="No of vehicle" name="no_vehicle">
+                <input formControlName="noOfVehicle" type="number" class="form-control mandatory" id="no_vehicle" placeholder="No of vehicle" name="no_vehicle">
             </div>
         </div>
         <!--mobile view end-->
@@ -248,10 +231,8 @@
             <div class="col-sm-7 text-right">
                 <button class="btn btn-primary js-btn-prev" [routerLink]="['../product-details']" type="button">
                     {{ label.back }} </button> &nbsp;
-                <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button>
-                &nbsp;
-                <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"
-                    [routerLink]="['../applicant-details']"> {{ label.next }}
+                <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
+                <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()" [routerLink]="['../applicant-details']"> {{ label.next }}
                 </button>
             </div>
         </div>
