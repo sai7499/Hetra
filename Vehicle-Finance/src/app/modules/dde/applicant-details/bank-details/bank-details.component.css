@@ -1,0 +1,14 @@
+#scroll_starts_here {
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+input#add_banks {
+    width: 25%;
+}
+
+/* .content {
+    overflow: hidden;
+    overflow-y: scroll;
+} */

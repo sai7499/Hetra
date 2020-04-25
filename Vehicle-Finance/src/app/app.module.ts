@@ -8,6 +8,7 @@ import { HeaderComponent } from './modules/header/header.component';
 // import { LeadSectionModule } from './modules/lead-section/lead-section.module';
 import { LocationStrategy,HashLocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {  provide : LocationStrategy,

@@ -381,37 +381,164 @@
           }
         ],
         "subventionApplied": [
-          { "key": 41, "value": "Applied" },
-          { "key": 42, "value": "Not Applied" }
+          {
+            "key": 41,
+            "value": "Applied"
+          },
+          {
+            "key": 42,
+            "value": "Not Applied"
+          }
         ],
         "subvention": [
-          { "key": 51, "value": "Subvention 1" },
-          { "key": 52, "value": "Subvention 2" }
+          {
+            "key": 51,
+            "value": "Subvention 1"
+          },
+          {
+            "key": 52,
+            "value": "Subvention 2"
+          }
         ],
         "soucringChannel": [
-          { "key": 61, "value": "Assets Division" },
-          { "key": 62, "value": "Liability Division" },
-          { "key": 63, "value": "Web Based" },
-          { "key": 64, "value": "Campaign" },
-          { "key": 65, "value": "Business Banking" },
-          { "key": 66, "value": "Business Correspondence" },
-          { "key": 62, "value": "Call Center" }
+          {
+            "key": 61,
+            "value": "Assets Division"
+          },
+          {
+            "key": 62,
+            "value": "Liability Division"
+          },
+          {
+            "key": 63,
+            "value": "Web Based"
+          },
+          {
+            "key": 64,
+            "value": "Campaign"
+          },
+          {
+            "key": 65,
+            "value": "Business Banking"
+          },
+          {
+            "key": 66,
+            "value": "Business Correspondence"
+          },
+          {
+            "key": 62,
+            "value": "Call Center"
+          }
         ],
         "leadHandledBY": [
-          { "key": 71, "value": "Person 1" },
-          { "key": 72, "value": "Person 2" }
+          {
+            "key": 71,
+            "value": "Person 1"
+          },
+          {
+            "key": 72,
+            "value": "Person 2"
+          }
         ],
         "spokenCodeLocation": [
-          { "key": 51, "value": "Subvention 1" },
-          { "key": 52, "value": "Subvention 2" }
+          {
+            "key": 51,
+            "value": "Subvention 1"
+          },
+          {
+            "key": 52,
+            "value": "Subvention 2"
+          }
         ],
         "loanAccountBranch": [
-          { "key": 51, "value": "Branch 1" },
-          { "key": 52, "value": "Branch 2" }
+          {
+            "key": 51,
+            "value": "Branch 1"
+          },
+          {
+            "key": 52,
+            "value": "Branch 2"
+          }
         ],
         "entity": [
-          { "key": 51, "value": " Individual" },
-          { "key": 52, "value": "Non-Individual" }
+          {
+            "key": 51,
+            "value": " Individual"
+          },
+          {
+            "key": 52,
+            "value": "Non-Individual"
+          }
+        ]
+      }
+    ],
+    "productDetails": [
+      {
+        "businessDivision": [
+          {
+            "key": 1,
+            "value": "Vehicle Finance"
+          },
+          {
+            "key": 2,
+            "value": "Housing Finance"
+          },
+          {
+            "key": 3,
+            "value": "Loan Against Property"
+          },
+          {
+            "key": 4,
+            "value": "Gold Loan"
+          }
+        ],
+        "productCategory": [
+          {
+            "key": 11,
+            "value": "New CV"
+          },
+          {
+            "key": 12,
+            "value": "UsedCV"
+          },
+          {
+            "key": 13,
+            "value": "New Cars"
+          },
+          {
+            "key": 14,
+            "value": "Used Cars"
+          }
+        ],
+        "schemePromotion": [
+          {
+            "key": 31,
+            "value": "Scheme Type -1"
+          },
+          {
+            "key": 32,
+            "value": " Scheme Type -2"
+          }
+        ],
+        "subventionApplied": [
+          {
+            "key": 41,
+            "value": "Applied"
+          },
+          {
+            "key": 42,
+            "value": "Not Applied"
+          }
+        ],
+        "subventionIncentive": [
+          {
+            "key": 61,
+            "value": "Subvention 1"
+          },
+          {
+            "key": 62,
+            "value": "Subvention 2"
+          }
         ]
       }
     ],
@@ -476,54 +603,178 @@
     "loanDetails": [
       {
         "typesOfLoan": [
-          { "key": 1, "value": "Topup" },
-          { "key": 1, "value": "Tyre loan" },
-          { "key": 1, "value": "Saathi loan" },
-          { "key": 1, "value": "FC loan" }
+          {
+            "key": 1,
+            "value": "Topup"
+          },
+          {
+            "key": 1,
+            "value": "Tyre loan"
+          },
+          {
+            "key": 1,
+            "value": "Saathi loan"
+          },
+          {
+            "key": 1,
+            "value": "FC loan"
+          }
         ],
         "requestedTenor": [
-          { "key": 1, "value": 12 },
-          { "key": 2, "value": 18 },
-          { "key": 3, "value": 24 },
-          { "key": 4, "value": 30 },
-          { "key": 5, "value": 36 },
-          { "key": 6, "value": 42 },
-          { "key": 7, "value": 48 },
-          { "key": 8, "value": 54 },
-          { "key": 9, "value": 60 }
+          {
+            "key": 1,
+            "value": 12
+          },
+          {
+            "key": 2,
+            "value": 18
+          },
+          {
+            "key": 3,
+            "value": 24
+          },
+          {
+            "key": 4,
+            "value": 30
+          },
+          {
+            "key": 5,
+            "value": 36
+          },
+          {
+            "key": 6,
+            "value": 42
+          },
+          {
+            "key": 7,
+            "value": 48
+          },
+          {
+            "key": 8,
+            "value": 54
+          },
+          {
+            "key": 9,
+            "value": 60
+          }
         ]
       }
     ],
     "addApplicant": [
       {
         "entity": [
-          { "key": 1, "value": "Individual" },
-          { "key": 2, "value": "Non-Individual" }
+          {
+            "key": 1,
+            "value": "Individual"
+          },
+          {
+            "key": 2,
+            "value": "Non-Individual"
+          }
         ],
         "identityType": [
-          { "key": 1, "value": "PAN" },
-          { "key": 2, "value": "Aadhar" },
-          { "key": 3, "value": "Driving license" }
+          {
+            "key": 1,
+            "value": "PAN"
+          },
+          {
+            "key": 2,
+            "value": "Aadhar"
+          },
+          {
+            "key": 3,
+            "value": "Driving license"
+          }
         ],
         "state": [
-          { "key": 1, "value": "State 1" },
-          { "key": 2, "value": "State 2" },
-          { "key": 3, "value": "State 3" }
+          {
+            "key": 1,
+            "value": "State 1"
+          },
+          {
+            "key": 2,
+            "value": "State 2"
+          },
+          {
+            "key": 3,
+            "value": "State 3"
+          }
         ],
         "city": [
-          { "key": 1, "value": "City 1" },
-          { "key": 2, "value": "City 2" },
-          { "key": 3, "value": "City 3" }
+          {
+            "key": 1,
+            "value": "City 1"
+          },
+          {
+            "key": 2,
+            "value": "City 2"
+          },
+          {
+            "key": 3,
+            "value": "City 3"
+          }
         ],
         "district": [
-          { "key": 1, "value": "District 1" },
-          { "key": 2, "value": "District 2" },
-          { "key": 3, "value": "District 3" }
+          {
+            "key": 1,
+            "value": "District 1"
+          },
+          {
+            "key": 2,
+            "value": "District 2"
+          },
+          {
+            "key": 3,
+            "value": "District 3"
+          }
         ],
         "country": [
-          { "key": 1, "value": "Country 1" },
-          { "key": 2, "value": "Country 2" },
-          { "key": 3, "value": "Country 3" }
+          {
+            "key": 1,
+            "value": "Country 1"
+          },
+          {
+            "key": 2,
+            "value": "Country 2"
+          },
+          {
+            "key": 3,
+            "value": "Country 3"
+          }
+        ]
+      }
+    ],
+    "employmentDetails": [
+      {
+        "typeOfAccomdation": [
+          {
+            "key": 1,
+            "value": "Own House"
+          },
+          {
+            "key": 2,
+            "value": "Rented House"
+          }
+        ],
+        "periodOfCurrentStay": [
+          {
+            "key": 1,
+            "value": "5 Years"
+          },
+          {
+            "key": 2,
+            "value": "2 Years"
+          }
+        ]
+      }
+    ],
+    "documentUpload": [
+      {
+        "documentName": [
+          {
+            "key": 1,
+            "value": "Aadhaar"
+          }
         ]
       }
     ],
