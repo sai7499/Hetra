@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 
 @Component({
@@ -30,7 +30,10 @@ export class ViabilityDetailsComponent implements OnInit {
 
   createForm() {
     this.viabilityForm = this._fb.group({
+      vehicle_viability_navigate: ['passanger', Validators.required],
+      passanger: this._fb.group({
 
+      })
     })
   }
 

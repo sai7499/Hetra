@@ -2,6 +2,7 @@
     width: 100%;
 }
 
-.cus-select-pag {
-    padding: 0;
+.cus-btn-cls {
+    position: relative;
+    bottom: 22px;
 }

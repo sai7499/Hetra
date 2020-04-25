@@ -20,14 +20,13 @@ const routes: Routes = [{
             component: VehicleListComponent
         },
         {
-            path :'fleet-details',
-            component:FleetDetailsComponent
+            path: 'fleet-details',
+            component: FleetDetailsComponent
         },
         {
-            path :'track-vehicle',
-            component:TrackVehicleComponent
+            path: 'track-vehicle',
+            component: TrackVehicleComponent
         }
-    
     ]
 }
 ];

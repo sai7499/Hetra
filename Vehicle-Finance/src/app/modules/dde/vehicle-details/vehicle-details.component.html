@@ -22,15 +22,15 @@
         </div> -->
 
 
-        <div class="multisteps-form">
-            <div class="multisteps-form__progress">
+        <div class="multisteps-form" style="margin: 1rem">
+            <!-- <div class="multisteps-form__progress">
                 <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details"
                     [ngClass]="{'js-active': locationIndex >= 0}" [routerLink]="['./basic-vehicle-details']">Basic
                     Vehicle Details</button>
                 <button class="multisteps-form__progress-btn " type="button" id="vehicle_viability_details"
                     [ngClass]="{'js-active': locationIndex >= 1}" [routerLink]="['./viability-details']">Viability
                     Details</button>
-            </div>
+            </div> -->
 
             <router-outlet></router-outlet>
         </div>
