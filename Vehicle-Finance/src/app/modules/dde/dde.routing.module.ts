@@ -22,11 +22,11 @@ const routes: Routes = [{
             component: VehicleListComponent
         },
         {
-            path : 'fleet-details',
+            path: 'fleet-details',
             component: FleetDetailsComponent
         },
         {
-            path : 'track-vehicle',
+            path: 'track-vehicle',
             component: TrackVehicleComponent
         }
     ]

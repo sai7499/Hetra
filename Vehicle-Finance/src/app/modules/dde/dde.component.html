@@ -13,7 +13,9 @@
                 <button class="multisteps-form__progress-btn" type="button" id="credit_product_details">Product
                     Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_application_details" [routerLink]="['./applicant-list']">Applicant Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_details" [routerLink]="['./vehicle-list']">Vechical Details</button>
+                <!-- <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_details"
+                    [routerLink]="['./vehicle-list']">Vechical Details</button> -->
+                <button class="multisteps-form__progress-btn" type="button" [routerLink]="['./vehicle-list']">Collaterals</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_loan_details">Loan
                     Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data">PSL Data</button>
@@ -30,9 +32,10 @@
                 <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document
                     Details</button>
             </div>
-            <div >
-                <router-outlet></router-outlet>
-            </div>
+
+            <!-- <div class="content" style="height: auto;"> -->
+            <router-outlet></router-outlet>
+            <!-- </div> -->
         </div>
     </div>
 </main>

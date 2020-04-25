@@ -8,9 +8,11 @@ import { Location } from '@angular/common';
 })
 export class ApplicantDetailsComponent implements OnInit {
     locationIndex = 0;
-    constructor(private router: Router, private location: Location) {}
+    constructor(private router: Router, private location: Location) { }
 
     ngOnInit() {
+        const currentUrl = this.location.path();
+        this.locationIndex = this.getLocationIndex(currentUrl);
         this.location.onUrlChange((url: string) => {
             console.log('url', url, 'state');
             this.locationIndex = this.getLocationIndex(url);
@@ -26,6 +28,10 @@ export class ApplicantDetailsComponent implements OnInit {
             return 2;
         } else if (url.includes('address-details')) {
             return 3;
+        } else if (url.includes('employment-details')) {
+            return 4;
+        } else if (url.includes('document-upload')) {
+            return 5;
         }
     }
 }

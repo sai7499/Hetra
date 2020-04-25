@@ -1,13 +1,61 @@
-<form class="multisteps-form__form">
-
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <div class="container">
+<div class="content">
+    <form class="multisteps-form__form">
+        <div class="container cus-wid-sty">
             <div class="btn-sec clear-both row">
-                <div class="col-sm-5">
-                    <h4 class="title">Vehicle Details</h4>
+
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-secondary mar-right8" type="button"
+                        [routerLink]="['/pages/vehicle-details']"> Add Vehicle
+                    </button>
                 </div>
-                <div class="col-sm-7 text-right">
-                    <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']"> Add Vehicle </button> 
+            </div>
+            <div class="row">
+                <div class="table-responsive application" id="applicantTable">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <td>Registration Num</td>
+                                <td>Make</td>
+                                <td>Model</td>
+                                <td>Action </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="applicant_1_row">
+                                <td>TN-04-SS-0292</td>
+                                <td>TATA</td>
+                                <td>SUMO</td>
+                                <td><i class="fa fa-pencil" aria-hidden="true"
+                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                        aria-hidden="true" id="remove_item_applicant"></i></td>
+                            </tr>
+                            <tr id="applicant_2_row">
+                                <td>KL-05-AG-1191</td>
+                                <td>TATA</td>
+                                <td>SUMO</td>
+                                <td><i class="fa fa-pencil" aria-hidden="true"
+                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                        aria-hidden="true" id="remove_item_applicant2"></i></td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+            </div>
+
+            <div class="btn-sec clear-both row">
+                <!-- <div class="col-sm-5">
+                    <h4 class="title">Vehicle Details</h4> 
+                </div> -->
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-secondary mar-right8" type="button"
+                        [routerLink]="['/pages/vehicle-details']"> Add Additional
+                        Collaterals </button>
                     <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                 </div>
             </div>
@@ -16,62 +64,43 @@
                     <table class="table">
                         <thead>
                             <tr class="table-head-bg">
-                                <th>Registration Num<i class="fa fa-sort"></i> </th>
-                                <th>Vehicle Model <i class="fa fa-sort"></i> </th>
-                                <th>Asset Type <i class="fa fa-sort"></i> </th>
-                                <th>Asset Body <i class="fa fa-sort"></i> </th>
-                               
-                                <th>Action <i class="fa fa-sort"></i> </th>
+                                <td>Colleteral Type</td>
+                                <td>Column 2</td>
+                                <td>Column 3</td>
+                                <td>Action</td>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>TN-04-SS-0292</td>
-                                <td><a href="#">SUV</a></td>
-                                <td>Asset Type-1</td>
-                                <td>Asset Body-1</td>                                                    
-                                <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                            <tr id="applicant_1_row">
+                                <td>Colleteral Type-1</td>
+                                <td></td>
+                                <td></td>
+                                <td><i class="fa fa-pencil" aria-hidden="true"
+                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                        aria-hidden="true" id="remove_item_applicant"></i></td>
                             </tr>
-                            <tr>
-                                <td>KL-05-AG-1191</td>
-                                <td><a href="#">SUV</a></td>
-                                <td>Asset Type-2</td>
-                                <td>Asset Body-2</td>                                                   
-                                <td onclick="add_vehicle();"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                            <tr id="applicant_2_row">
+                                <td>Colleteral Type-2</td>
+                                <td></td>
+                                <td></td>
+                                <td><i class="fa fa-pencil" aria-hidden="true"
+                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                        aria-hidden="true" id="remove_item_applicant"></i></td>
                             </tr>
-                           
-
                         </tbody>
                     </table>
-                    <div class="btn-sec clear-both">
-                        <div class="records col-sm-6">
-                            <select class="form-control input-sm">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
-                            <nav class="col-sm-12 col-md-12 col-lg-12 page">
-                                <ul class="pagination">
-                                    <li class="disabled"><a href="#"><span>«</span></a></li>
-                                    <li class="active"><a href="#">1 <span
-                                                class="sr-only">(current)</span></a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><span>»</span></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+
                 </div>
-
-
 
             </div>
         </div>
-    </div>
+    </form>
+</div>
 
-</form>
+<div class="btn-sec clear-both text-right cus-btn-cls">
+    <!-- <div class="col-sm-12"> -->
+    <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">Back</button>&nbsp;
+    <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">Next</button>&nbsp;
+    <!-- </div> -->
+</div>

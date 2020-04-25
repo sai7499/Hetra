@@ -8,6 +8,8 @@ import { HeaderComponent } from './modules/header/header.component';
 // import { LeadSectionModule } from './modules/lead-section/lead-section.module';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    CollapseModule,
+    BrowserAnimationsModule,
     CommonModule
   ],
   providers: [
