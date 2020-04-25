@@ -5,7 +5,7 @@
             <div class="row">
 
                 <div class="form-group col-lg-3 col-sm-6 col-md-6 col-xs-3 ">
-                    <label for="lead_number">{{labels.leadNumber}}</label>
+                    <label for="lead_number">{{labels?.leadNumber}}</label>
                     <input formControlName="leadNumber" type="text" class="form-control mandatory" id="lead_number" placeholder="Lead Number" name="lead_number" disabled>
 
                 </div>
@@ -15,7 +15,7 @@
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme_type">
-                    <label for="lead_created_by">Lead Created By</label>
+                    <label for="lead_created_by">{{labels?.leadCreatedBy}}</label>
                     <input formControlName="leadCreatedBy" type="text" class="form-control mandatory select2" id="lead_created_by" placeholder="Lead Created By" name="lead_created_by">
 
                 </div>

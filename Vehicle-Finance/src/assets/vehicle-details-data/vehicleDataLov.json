@@ -471,6 +471,46 @@
         { "key": 62, "value": "Subvention 2" }
       ]
 
+    }],
+    "ddeLoanDetails":[{
+      "marginMoney":[{
+        "key":1,
+        "value":"10L"
+      },{
+        "key":2,
+        "value": "15C"
+      }],
+      "emiAffordability":[{}],
+      "requestedTenor": [{
+        "key":11,
+        "value":12
+      },
+      {
+        "key":12,
+        "value":18
+      },
+      {
+        "key":13,
+        "value":24
+      },{
+        "key":14,
+        "value":30
+      },{
+        "key":11,
+        "value":36
+      },{
+        "key":16,
+        "value":42
+      },{
+        "key":17,
+        "value":48
+      },{
+        "key":18,
+        "value":54
+      },{
+        "key":19,
+        "value":60
+      }]
     }]
   }
 ]

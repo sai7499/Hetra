@@ -542,6 +542,64 @@
         ]
       }
     ],
+    "productDetails": [
+      {
+        "businessDivision": [
+          {
+            "key": 1,
+            "value": "Vehicle Finance"
+          },
+          {
+            "key": 2,
+            "value": "Housing Finance"
+          },
+          {
+            "key": 3,
+            "value": "Loan Against Property"
+          },
+          {
+            "key": 4,
+            "value": "Gold Loan"
+          }
+        ],
+        "productCategory": [
+          {
+            "key": 11,
+            "value": "New CV"
+          },
+          {
+            "key": 12,
+            "value": "UsedCV"
+          },
+          {
+            "key": 13,
+            "value": "New Cars"
+          },
+          {
+            "key": 14,
+            "value": "Used Cars"
+          }
+        ],
+        "schemePromotion": [
+          {
+            "key": 31,
+            "value": "Scheme Type -1"
+          },
+          {
+            "key": 32,
+            "value": " Scheme Type -2"
+          }
+        ],
+        "subventionApplied": [
+          { "key": 41, "value": "Applied" },
+          { "key": 42, "value": "Not Applied" }
+        ],
+        "subventionIncentive": [
+          { "key": 61, "value": "Subvention 1" },
+          { "key": 62, "value": "Subvention 2" }
+        ]
+      }
+    ],
     "loanDetails": [
       {
         "typesOfLoan": [
@@ -719,6 +777,230 @@
           }
         ]
       }
-    ]
+    ],
+    "ddeLoanDetails": [
+      {
+       
+        "marginMoney": [
+          {
+            "key": 1,
+            "value": "10L"
+          },
+          {
+            "key": 2,
+            "value": "15C"
+          }
+        ],
+        "requestedTenor": [
+          {
+            "key": 11,
+            "value": 12
+          },
+          {
+            "key": 12,
+            "value": 18
+          },
+          {
+            "key": 13,
+            "value": 24
+          },
+          {
+            "key": 14,
+            "value": 30
+          },
+          {
+            "key": 11,
+            "value": 36
+          },
+          {
+            "key": 16,
+            "value": 42
+          },
+          {
+            "key": 17,
+            "value": 48
+          },
+          {
+            "key": 18,
+            "value": 54
+          },
+          {
+            "key": 19,
+            "value": 60
+          }
+        ],
+        "leadHandled": [
+          {
+            "key": 1,
+            "value": "Person-1"
+          },
+          {
+            "key": 1,
+            "value": "Person-2"
+          }
+        ],
+        "sourcingChannel": [
+          {
+            "key": 1,
+            "value": "Assets Division"
+          },
+          {
+            "key": 2,
+            "value": "Liability Division"
+          },
+          {
+            "key": 3,
+            "value": "Web based"
+          },
+          {
+            "key": 4,
+            "value": "Campaign"
+          },
+          {
+            "key": 5,
+            "value": "Corporate Finance"
+          },
+          {
+            "key": 6,
+            "value": "Banking Business"
+          },
+          {
+            "key": 7,
+            "value": "Business Correspondence"
+          },
+          {
+            "key": 8,
+            "value": "Call Centre"
+          }
+        ],
+        "spokenCode": [
+          {
+            "key": 1,
+            "value": "Location"
+          }
+        ],
+        "sourcingType": [
+          {
+            "assetsDivision": [
+              {
+                "key": 1,
+                "value": "DSA"
+              },
+              {
+                "key": 2,
+                "value": "Dealers"
+              },
+              {
+                "key": 3,
+                "value": "Connectors"
+              },
+              {
+                "key": 4,
+                "value": "Direct/Employee/DSE"
+              },
+              {
+                "key": 5,
+                "value": "Manufacturers"
+              }
+            ],
+            "liabilityDivision": [
+              {
+                "key": 1,
+                "value": "Liability Branch Code"
+              }
+            ],
+            "webBased": [
+              {
+                "key": 1,
+                "value": "Corporate Website"
+              },
+              {
+                "key": 2,
+                "value": "Internet Banking"
+              },
+              {
+                "key": 3,
+                "value": "Mobile Banking"
+              }
+            ],
+            "commonKeyValue": [
+              {
+                "key": 1,
+                "value": "Not Applicable"
+              }
+            ]
+          }
+        ],
+        "sourcingCode": [
+          {
+            "key": 1,
+            "value": "Employee Code"
+          },
+          {
+            "key": 2,
+            "value": "Vendor Code"
+          },
+          {
+            "key": 3,
+            "value": "Campaign Code"
+          }
+        ],
+        "businessDivision": [
+          {
+            "key": 1,
+            "value": "Vehicle Finance"
+          },
+          {
+            "key": 2,
+            "value": "Housing Finance"
+          },
+          {
+            "key": 3,
+            "value": "Loan Against Property"
+          },
+          {
+            "key": 4,
+            "value": "Gold Loan"
+          }
+        ],
+        "productCategory": [
+          {
+            "key": 11,
+            "value": "New CV"
+          },
+          {
+            "key": 12,
+            "value": "UsedCV"
+          },
+          {
+            "key": 13,
+            "value": "New Cars"
+          },
+          {
+            "key": 14,
+            "value": "Used Cars"
+          }
+        ],
+        "schemePromotion": [
+          {
+            "key": 31,
+            "value": "Scheme Type -1"
+          },
+          {
+            "key": 32,
+            "value": " Scheme Type -2"
+          }
+        ],
+        "subventionApplied": [
+          { "key": 41, "value": "Applied" },
+          { "key": 42, "value": "Not Applied" }
+        ],
+        "subventionIncentive": [
+          { "key": 61, "value": "Subvention 1" },
+          { "key": 62, "value": "Subvention 2" }
+        ]
+      }
+    ],
+    "ddeLeadDetails":[{}]
   }
 ]

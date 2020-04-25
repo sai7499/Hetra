@@ -2,21 +2,63 @@
     <div class="container overflow-hidden">
         <h3 class="margin_zero">Lead ID : 125468</h3>
 
-     <app-dde-header></app-dde-header>
 
+        <div class="row top_bar">
 
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="lead_created_by">Lead Created By</label>
+                    <label for="lead_created_by_name" class="col-form-label-two">Mr. Racheal - Anna nagar</label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="lead_created_by">Lead Created Date</label>
+                    <label for="lead_created_by_name" class="col-form-label-two">12-02-2020</label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="customer_name_label">Product</label>
+                    <label for="customer_name" class="col-form-label-two">New Car</label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="roi">Loan Amount</label>
+                    <label for="roi_value" class="col-form-label-two">1500000</label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="lead_handled_by">Applicant</label>
+                    <label for="lead_handled_by_name" class="col-form-label-two">Mr. Galle</label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="lead_handled_by">Mobile No</label>
+                    <label for="lead_handled_by_name" class="col-form-label-two">7894561230</label>
+                </div>
+            </div>
 
+            <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
+                <button class="btn btn-primary" type="button"> View/Upload Document</button>
 
-
-
+            </div>               
+        </div>
         <!--progress bar-->
         <div class="multisteps-form">
             <div class="multisteps-form__progress">
-                <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details">Sourcing Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_product_details">Product Details</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details" [routerLink]="[ './lead-details' ]" value ="lead-details" (click)="getRouterUrl($event.target.value)">Lead Details</button>
+              
+               
+                <!-- <button class="multisteps-form__progress-btn" type="button" id="credit_product_details"  [routerLink]="[ './product-details' ]" >Product Details</button> -->
                 <button class="multisteps-form__progress-btn" type="button" id="credit_application_details">Applicant Details</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_liveloan">Exposure</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_income_details">Income Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_details">Vechical Details</button>
-                <button class="multisteps-form__progress-btn" type="button" id="credit_loan_details">Loan Details</button>
+                <!-- <button class="multisteps-form__progress-btn" type="button" id="credit_loan_details"  [routerLink]="[ './loan-details' ]">Loan Details</button> -->
                 <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data">PSL Data</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_fleet_details">Fleet Details</button>
                 <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd">Fi Cum PD Report</button>

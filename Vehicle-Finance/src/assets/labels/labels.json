@@ -126,6 +126,8 @@
     "loanDetailsTitle": "Loan Details",
     "requestedAmount": "Requested Amount",
     "requestedTenor": "Requested Tenor",
+    "marginMoney":"Margin Money",
+    "emiAffordability":"EMI Affordibility",
     "creditBureauTitle": "Credit Bureau",
     "productOffered": "Product Offered",
     "customerSegment": "Customer Segment",
@@ -159,5 +161,6 @@
     "issuesDate": "Issues Date",
     "expiryDate": "Expiry Date",
     "attachment": "Attachment",
-    "additionalDocument": "Additional Document"
+    "additionalDocument": "Additional Document",
+    "eligibleLoanAmount": "Eligible Loan Amount"
 }
