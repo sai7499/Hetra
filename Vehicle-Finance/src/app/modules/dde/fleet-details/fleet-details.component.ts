@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-
+import { LovDataService } from '@services/lov-data.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -12,12 +12,16 @@ export class FleetDetailsComponent implements OnInit {
 
   public fleetForm: FormGroup;
   labels: any = {};
+  values: any = [];
 
 
   constructor(
 
     private labelsData: LabelsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private lovData: LovDataService,
+
+
 
   ) { }
 
@@ -31,6 +35,14 @@ export class FleetDetailsComponent implements OnInit {
       }
     );
 
+
+    this.lovData.getLovData().subscribe((res: any) => {
+      this.values = res[0].fleetDetails[0];
+      // console.log(this.values.relation);
+    });
+
+
+
     this.labelsData.getLabelsFleetData().subscribe(
       data => {
         this.labels = data;
@@ -40,6 +52,7 @@ export class FleetDetailsComponent implements OnInit {
         console.log(error);
 
       });
+
   }
 
   get formArr() {
@@ -49,19 +62,20 @@ export class FleetDetailsComponent implements OnInit {
 
   initRows() {
     return this.fb.group({
-      regdNo: [''],
-      regdOwner: [''],
+      regdNo: ['' || 'TN01AA1234'],
+      regdOwner: ['' ||'Deepika'],
+      relation: [''],
       make: [''],
-      yom: [''],
+      yom: [''|| '2015'],
       financier: [''],
-      loanNo: [''],
-      purchaseDate: [''],
-      tenure: [''],
-      paid: [''],
-      seasoning: [{value :"67%",disabled :true}],
-      ad: [{value :"",disabled :true}],
-      pd: [{value :"",disabled :true}],
-      gridValue: [{value :"",disabled :true}]
+      loanNo: [''|| '4587'],
+      purchaseDate: [''|| '2007-05-12'],
+      tenure: ['' || '60'],
+      paid: ['' || '40'],
+      seasoning: [{ value: "67%", disabled: true }],
+      ad: [{ value: "", disabled: true }],
+      pd: [{ value: "", disabled: true }],
+      gridValue: [{ value: "", disabled: true }]
     });
   }
 
@@ -72,6 +86,11 @@ export class FleetDetailsComponent implements OnInit {
 
   deleteRow(index: number) {
     this.formArr.removeAt(index);
+  }
+
+  showFormValues() {
+
+    console.log('values ', this.fleetForm.value.Rows[0].regdOwner)
   }
 }
 
