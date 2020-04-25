@@ -16,6 +16,11 @@ const routes: Routes = [
         component: ApplicantDetailsComponent,
         children: [
             {
+                path: '',
+                redirectTo: 'basic-data',
+                pathMatch: 'full'
+            },
+            {
                 path: 'basic-data',
                 component: BasicDetailsComponent
             },

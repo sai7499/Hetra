@@ -7,6 +7,13 @@ import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 
+
+import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
+import { ValuationComponent } from './valuation/valuation.component';
+import { PslDataComponent } from './psl-data/psl-data.component';
+import { FlReportComponent } from './fl-report/fl-report.component';
+import { PdReportComponent } from './pd-report/pd-report.component';
+import { ApplicantDetailsComponent } from './fl-and-pd-report/applicant-details/applicant-details.component';
 const routes: Routes = [{
     path: '',
     component: DdeComponent,
@@ -26,7 +33,26 @@ const routes: Routes = [{
         {
             path: 'exposure',
             component: ExposureDetailsComponent
-
+        },
+        {
+            path: 'fl-report',
+            component: FlReportComponent,
+        },
+        {
+            path: 'pd-report',
+            component: PdReportComponent,
+        },
+        {
+            path: 'vehicle-valuation',
+            component: VehicleValuationComponent,
+        },
+        {
+            path: 'valuation',
+            component: ValuationComponent
+        },
+        {
+            path: 'psl-data',
+            component: PslDataComponent
         }
     ]
 }
