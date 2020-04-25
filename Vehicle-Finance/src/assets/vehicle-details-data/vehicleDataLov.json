@@ -381,96 +381,166 @@
           }
         ],
         "subventionApplied": [
-          { "key": 41, "value": "Applied" },
-          { "key": 42, "value": "Not Applied" }
+          {
+            "key": 41,
+            "value": "Applied"
+          },
+          {
+            "key": 42,
+            "value": "Not Applied"
+          }
         ],
         "subvention": [
-          { "key": 51, "value": "Subvention 1" },
-          { "key": 52, "value": "Subvention 2" }
+          {
+            "key": 51,
+            "value": "Subvention 1"
+          },
+          {
+            "key": 52,
+            "value": "Subvention 2"
+          }
         ],
         "soucringChannel": [
-          { "key": 61, "value": "Assets Division" },
-          { "key": 62, "value": "Liability Division" },
-          { "key": 63, "value": "Web Based" },
-          { "key": 64, "value": "Campaign" },
-          { "key": 65, "value": "Business Banking" },
-          { "key": 66, "value": "Business Correspondence" },
-          { "key": 62, "value": "Call Center" }
+          {
+            "key": 61,
+            "value": "Assets Division"
+          },
+          {
+            "key": 62,
+            "value": "Liability Division"
+          },
+          {
+            "key": 63,
+            "value": "Web Based"
+          },
+          {
+            "key": 64,
+            "value": "Campaign"
+          },
+          {
+            "key": 65,
+            "value": "Business Banking"
+          },
+          {
+            "key": 66,
+            "value": "Business Correspondence"
+          },
+          {
+            "key": 62,
+            "value": "Call Center"
+          }
         ],
         "leadHandledBY": [
-          { "key": 71, "value": "Person 1" },
-          { "key": 72, "value": "Person 2" }
+          {
+            "key": 71,
+            "value": "Person 1"
+          },
+          {
+            "key": 72,
+            "value": "Person 2"
+          }
         ],
         "spokenCodeLocation": [
-          { "key": 51, "value": "Subvention 1" },
-          { "key": 52, "value": "Subvention 2" }
+          {
+            "key": 51,
+            "value": "Subvention 1"
+          },
+          {
+            "key": 52,
+            "value": "Subvention 2"
+          }
         ],
         "loanAccountBranch": [
-          { "key": 51, "value": "Branch 1" },
-          { "key": 52, "value": "Branch 2" }
+          {
+            "key": 51,
+            "value": "Branch 1"
+          },
+          {
+            "key": 52,
+            "value": "Branch 2"
+          }
         ],
         "entity": [
-          { "key": 51, "value": " Individual" },
-          { "key": 52, "value": "Non-Individual" }
+          {
+            "key": 51,
+            "value": " Individual"
+          },
+          {
+            "key": 52,
+            "value": "Non-Individual"
+          }
         ]
       }
     ],
-    "productDetails":[{
-      "businessDivision": [
-        {
-          "key": 1,
-          "value": "Vehicle Finance"
-        },
-        {
-          "key": 2,
-          "value": "Housing Finance"
-        },
-        {
-          "key": 3,
-          "value": "Loan Against Property"
-        },
-        {
-          "key":4,
-          "value": "Gold Loan"
-        }
-      ],
-      "productCategory": [
-        {
-          "key": 11,
-          "value": "New CV"
-        },
-        {
-          "key": 12,
-          "value": "UsedCV"
-        },
-        {
-          "key": 13,
-          "value": "New Cars"
-        },
-        {
-          "key": 14,
-          "value": "Used Cars"
-        }
-      ],
-      "schemePromotion": [
-        {
-          "key": 31,
-          "value": "Scheme Type -1"
-        },
-        {
-          "key": 32,
-          "value": " Scheme Type -2"
-        }
-      ],
-      "subventionApplied": [
-        { "key": 41, "value": "Applied" },
-        { "key": 42, "value": "Not Applied" }
-      ],
-     "subventionIncentive": [
-        { "key": 61, "value": "Subvention 1" },
-        { "key": 62, "value": "Subvention 2" }
-      ]
-
-    }]
+    "productDetails": [
+      {
+        "businessDivision": [
+          {
+            "key": 1,
+            "value": "Vehicle Finance"
+          },
+          {
+            "key": 2,
+            "value": "Housing Finance"
+          },
+          {
+            "key": 3,
+            "value": "Loan Against Property"
+          },
+          {
+            "key": 4,
+            "value": "Gold Loan"
+          }
+        ],
+        "productCategory": [
+          {
+            "key": 11,
+            "value": "New CV"
+          },
+          {
+            "key": 12,
+            "value": "UsedCV"
+          },
+          {
+            "key": 13,
+            "value": "New Cars"
+          },
+          {
+            "key": 14,
+            "value": "Used Cars"
+          }
+        ],
+        "schemePromotion": [
+          {
+            "key": 31,
+            "value": "Scheme Type -1"
+          },
+          {
+            "key": 32,
+            "value": " Scheme Type -2"
+          }
+        ],
+        "subventionApplied": [
+          {
+            "key": 41,
+            "value": "Applied"
+          },
+          {
+            "key": 42,
+            "value": "Not Applied"
+          }
+        ],
+        "subventionIncentive": [
+          {
+            "key": 61,
+            "value": "Subvention 1"
+          },
+          {
+            "key": 62,
+            "value": "Subvention 2"
+          }
+        ]
+      }
+    ]
   }
 ]

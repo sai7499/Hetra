@@ -4,12 +4,15 @@
 
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
-                    <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
+                    <!-- <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
                         <option value="New CV">New CV</option>
                         <option value="New Car">New Car</option>
                         <option value="Used CV">Used CV</option>
                         <option value="Used Car">Used Car</option>
-                    </select>
+                    </select> -->
+                    <app-vf-custom-select id="select_main_button" [values]="lovLabels?.select_main_button"
+                        (change)="select_main_button($event)">
+                    </app-vf-custom-select>
                 </div>
             </div>
 
@@ -17,39 +20,47 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="asset_make">{{label.asset_make}}</label>
-                    <select class="form-control mandatory" id="asset_make" formControlName="asset_make">
+                    <!-- <select class="form-control mandatory" id="asset_make" formControlName="asset_make">
                         <option value="Tata Motors">Tata Motors</option>
                         <option value="Eicher">Eicher</option>
-                    </select>
+                    </select> -->
+                    <app-vf-custom-select [values]="lovLabels?.assetMakeCV" formControlName="asset_make">
+                    </app-vf-custom-select>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="asset_model">{{label.asset_model}}</label>
-                    <select class="form-control mandatory" id="asset_model" formControlName="asset_model">
+                    <app-vf-custom-select [values]="lovLabels?.assetModelCV" formControlName="asset_model">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_model" formControlName="asset_model">
                         <option value="CITY RIDER">CITY RIDER</option>
                         <option value="LP 709 32 SEATER">LP 709 32 SEATER</option>
                         <option value="LP 709 36 SEATER">LP 709 36 SEATER</option>
-                        <option value="10.50 - 12+1 SEATER<">10.50 - 12+1 SEATER</option>
+                        <option value="10.50 - 12+1 SEATER">10.50 - 12+1 SEATER</option>
                         <option value="SKYLINE - 36 SEATER">SKYLINE - 36 SEATER</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="asset_variant">{{label.asset_variant}}</label>
-                    <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
+                    <app-vf-custom-select [values]="lovLabels?.assetVariantCV" formControlName="asset_variant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
                         <option value="LP 1512 - 54 SEATER">LP 1512 - 54 SEATER</option>
                         <option value="Viking HCV BUS">Viking HCV BUS</option>
                         <option value="2214">2214</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="asset_sub_variant">{{label.asset_sub_variant}}</label>
-                    <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
+                    <app-vf-custom-select [values]="lovLabels?.assetSubVariantCV" formControlName="asset_variant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
                         <option value="Petrol">Petrol</option>
                         <option value="AMT">AMT</option>
                         <option value="Diesel">Diesel</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -264,7 +275,7 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant">>{{label.asset_sub_variant}}</label>
+                    <label for="asset_sub_variant">{{label.asset_sub_variant}}</label>
                     <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
                         <option value="1">Sub Variant 1</option>
                         <option value="2">Sub Variant 2</option>
@@ -875,7 +886,7 @@
                 To
                 Vehicle Details </button></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href mar-right8"> Save </button>
+            <button class="btn btn-primary dash_href mar-right8" (click)="onSubmit()"> Save </button>
         </div>
 
     </div>

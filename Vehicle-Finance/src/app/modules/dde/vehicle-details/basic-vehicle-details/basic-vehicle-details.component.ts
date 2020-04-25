@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
+import { LovDataService } from '@services/lov-data.service';
+import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -11,18 +13,23 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   basicVehicleForm: FormGroup;
   public label: any = {};
+  public lovLabels: any = {};
 
   public select_main_button_value: string = 'New CV';
 
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService) { }
+  constructor(private _fb: FormBuilder, private labelsData: LabelsService, private lovData: LovDataService, private leadStoreService: LeadStoreService) {
+    this.lovData.getLovData().subscribe((res: any) => {
+      this.lovLabels = res[0].basicVehicleDetails[0];
+      this.setFormValue();
+      console.log(this.lovLabels)
+    });
+  }
 
   ngOnInit() {
     this.createForm();
-
     this.labelsData.getLabelsOfDDEData()
       .subscribe(data => {
         this.label = data[0].basicVehicleDetails[0];
-        console.log(this.label, 'Lables')
       },
         error => {
           console.log(error, 'error')
@@ -166,7 +173,50 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   select_main_button(event: any) {
     this.select_main_button_value = event.target.value;
-    console.log(this.select_main_button_value)
+  }
+
+  onSubmit() {
+
+  }
+
+  setFormValue() {
+    const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+    this.basicVehicleForm.patchValue({
+      // vehicleType: vehicleModel.vehicleType || '',
+      // region: vehicleModel.region || '',
+      // registrationNumber: vehicleModel.registrationNumber || '',
+      // assetMake: vehicleModel.assetMake || '',
+      // assetModel: vehicleModel.assetModel || '',
+      // assetBodyType: vehicleModel.assetBodyType || '',
+      // assetVariant: vehicleModel.assetVariant || '',
+      // assetSubVariant: vehicleModel.assetSubVariant || '',
+      // monthManufacturing: vehicleModel.monthManufacturing || '',
+      // yrManufacturing: vehicleModel.yrManufacturing || '',
+      // ageOfAsset: vehicleModel.vehicleType || '',
+      // vechicalUsage: vehicleModel.vechicalUsage || '',
+      // vehicleCategory: vehicleModel.vehicleCategory || '',
+      // orpFunding: vehicleModel.orpFunding || '',
+      // oneTimeTax: vehicleModel.oneTimeTax || '',
+      // pac: vehicleModel.pac || '',
+      // vas: vehicleModel.vas || '',
+      // emiProtect: vehicleModel.emiProtect || '',
+      // fastTag: vehicleModel.fastTag || '',
+      // others: vehicleModel.others || '',
+      // discount: vehicleModel.discount || '',
+      // finalAssetCost: vehicleModel.finalAssetCost || '',
+      // idv: vehicleModel.idv || '',
+      // insuranceValidity: vehicleModel.insuranceValidity || '',
+      // insuranceCopy: vehicleModel.insuranceCopy || '',
+      // permitType: vehicleModel.permitType || '',
+      // expiryDate: vehicleModel.expiryDate || '',
+      // permitCopy: vehicleModel.permitCopy || '',
+      // permitOthers: vehicleModel.permitOthers || '',
+      // frsdRequired: vehicleModel.frsdRequired || '',
+      // frsdAmount: vehicleModel.vehicleType || '',
+      // fitnessDate: vehicleModel.fitnessDate || '',
+      // fitnessCopy: vehicleModel.permitCopy || '',
+      // noOfVehicle: vehicleModel.noOfVehicle || '',
+    });
   }
 
 }

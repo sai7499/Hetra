@@ -8,6 +8,7 @@ import { DdeSharedModule } from '../shared/shared.module';
 import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent, InsuranceDetailsComponent, ViabilityDetailsComponent],
@@ -16,7 +17,8 @@ import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-de
     VehicleDetailsRoutingModule,
     DdeSharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class VehicleDetailsModule { }
