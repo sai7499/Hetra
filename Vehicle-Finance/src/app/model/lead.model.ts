@@ -1,52 +1,53 @@
 export interface Lead {
-    businessDivision?: number;
-    productCategory?: number;
-    childLoan?: number;
-    schemePromotion?: number;
-    subventionApplied?: number;
-    subvention?: number;
-    sourcingChannel?: number;
-    sourcingType?: number;
-    sourcingCode?: number;
-    spokeCodeLocation?: number;
-    loanAccountBranch?: number;
-    leadHandledBy?: number;
-    entity?: number;
-    firstName?: string;
-    middleName?: string;
-    lastName?: string;
-    companyName1?: string;
-    companyName2?: string;
-    companyName3?: string;
-    mobile?: string;
-    dateOfBirth?: string;
-    dateOfIncorporation?: string;
-    sourcingDetails?: SourcingDetails;
-    productDetails?: ProductDetails;
-    loanDetails?: LoanDetails;
-    vehicleDetails?: VehicleDetails;
-    fundingProgram?: string;
-  }
+  loanLeadDetails?: LoanLeadDetails;
+  applicantDetails?: ApplicantDetails;
+  sourcingDetails?: SourcingDetails;
+  productDetails?: ProductDetails;
+  loanDetails?: LoanDetails;
+  vehicleDetails?: VehicleDetails;
+}
+
+export interface LoanLeadDetails {
+  bizDivision?: number;
+  productCategory?: number;
+  priority?: number;
+  fundingProgram?: number;
+  sourcingChannel?: number;
+  sourcingType?: number;
+  sourcingCode?: string;
+  spokeCodeLocation?: number;
+  loanBranch?: number;
+  leadHandeledBy?: number;
+}
+
+export interface ApplicantDetails {
+  entity?: string;
+  nameOne?: string;
+  nameTwo?: string;
+  nameThree?: string;
+  mobile?: string;
+  dateOfBirth?: string;
+}
 
 export interface SourcingDetails {
-    leadNumber?: string;
-    leadCreatedDate?: string;
-    leadCreatedBy?: string;
-    leadHandledBy?: string;
-    sourcingChannel?: string;
-    sourcingType?: string;
-    sourcingCode?: string;
-    spokeCodeLocation?: string;
-    loanAccountBranch?: string;
-  }
+  leadNumber?: string;
+  leadCreatedDate?: string;
+  leadCreatedBy?: string;
+  leadHandledBy?: string;
+  sourcingChannel?: string;
+  sourcingType?: string;
+  sourcingCode?: string;
+  spokeCodeLocation?: string;
+  loanAccountBranch?: string;
+}
 
 export interface ProductDetails {
-    businessDivision?: string;
-    product?: string;
-    schemePromotion?: string;
-    subventionApplied?: string;
-    subventionIncentive?: string;
-  }
+  businessDivision?: string;
+  product?: string;
+  schemePromotion?: string;
+  subventionApplied?: string;
+  subventionIncentive?: string;
+}
 
 export interface VehicleDetails {
   vehicleType?: number;
@@ -83,13 +84,13 @@ export interface VehicleDetails {
   fitnessDate?: string;
   fitnessCopy?: string;
   noOfVehicle?: string;
-  }
+}
 
 export interface LoanDetails {
-      loanType?: string;
-      amount?: number;
-      tenor?: number;
-  }
+  loanType?: string;
+  amount?: number;
+  tenor?: number;
+}
 
 export interface CoApplicant {
   entity?: number;

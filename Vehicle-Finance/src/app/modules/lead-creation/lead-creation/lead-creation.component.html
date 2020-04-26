@@ -5,19 +5,6 @@
         <h3 class="margin_zero">{{ labels.leadCreationTitle }}</h3>
       </div>
       <div class="col-md-6 text-right">
-
-        <!-- <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="true">
-            Language
-            <span class="fa fa-language"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a (click)="onChangeLanguage('Hindi')">Hindi</a></li>
-            <li><a (click)="onChangeLanguage('English')">English</a></li>
-          </ul>
-        </div> -->
-
       </div>
     </div>
 
@@ -26,7 +13,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }}</label>
-            <app-vf-custom-select [values]="lovLabels?.businessDivision" formControlName="businessDivision" >
+            <app-vf-custom-select [values]="lovLabels?.businessDivision" formControlName="bizDivision">
             </app-vf-custom-select>
           </div>
         </div>
@@ -38,33 +25,38 @@
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="scheme_type">{{ labels.scheme_Promotion }}</label>
-            <app-vf-custom-select [values]="lovLabels?.schemePromotion" formControlName="schemePromotion">
+            <app-vf-custom-select [values]="lovLabels?.schemePromotion" formControlName="priority">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fundingProgram">{{ labels.fundingProgram }}</label>
-            <app-vf-custom-select [values]="lovLabels?.fundingProgram" formControlName="fundingProgram"></app-vf-custom-select>
+            <app-vf-custom-select [values]="lovLabels?.fundingProgram" formControlName="fundingProgram">
+            </app-vf-custom-select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-            <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel" (change)="sourcingChannelChange($event)" name ="sourcingChannel">
+            <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel"
+              (change)="sourcingChannelChange($event)" name="sourcingChannel">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_type">{{ labels.sourcingType }}</label>
             <!-- <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType">
             </app-vf-custom-select> -->
-             <select class="form-control" name="profession_id" > 
-            <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
-          </select>
+            <app-vf-custom-select [values]="ProfessionList" formControlName="sourcingType">
+            </app-vf-custom-select>
+            <!-- <select class="form-control" name="profession_id" formControlName="sourcingType">
+              <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
+            </select> -->
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">{{ labels.sourcingCode }}</label>
             <!-- <app-vf-custom-select [values]="lovLabels?.sourcingCode" formControlName="sourcingCode" [(ngModel)]="text">
             </app-vf-custom-select> -->
-            <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode" placeholder="Sourcing Code" name="sourcingCode" [(ngModel)]="text">
+            <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode"
+              placeholder="Sourcing Code" name="sourcingCode">
           </div>
         </div>
         <div class="row">
@@ -76,69 +68,74 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="account_branch">{{ labels.loanAccountBranch }}</label>
 
-            <app-vf-custom-select [values]="lovLabels?.loanAccountBranch"  formControlName="loanAccountBranch">
+            <app-vf-custom-select [values]="lovLabels?.loanAccountBranch" formControlName="loanBranch">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="lead_handled">{{ labels.leadHandledBy }}</label>
-            <app-vf-custom-select [values]="lovLabels?.leadHandledBY" formControlName="leadHandledBy">
+            <app-vf-custom-select [values]="lovLabels?.leadHandledBY" formControlName="leadHandeledBy">
             </app-vf-custom-select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }}</label>
-            <app-vf-custom-select [values]="lovLabels?.entity" formControlName="entity" (change)="selectApplicantType($event)"></app-vf-custom-select>
+            <app-vf-custom-select [values]="lovLabels?.entity" formControlName="entity"
+              (change)="selectApplicantType($event)"></app-vf-custom-select>
           </div>
         </div>
-        <div class="row individual_section_leadco" *ngIf="applicantType == '51'" >
+        <div class="row individual_section_leadco">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="first_name">{{ labels.firstName }}</label>
-            <input type="text" class="form-control mandatory" id="first_name" placeholder="First Name" name="first_name"
-              formControlName="firstName" />
+            <label for="first_name" *ngIf="applicantType == 'I'">{{ labels.firstName }}</label>
+            <label for="first_name" *ngIf="applicantType == 'C'">{{ labels.companyName1 }}</label>
+            <input type="text" class="form-control mandatory" id="first_name" name="first_name"
+              formControlName="nameOne" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">{{ labels.middleName }}</label>
-            <input type="text" class="form-control mandatory" id="middle_name" placeholder="Middle Name"
-              name="middle_name" formControlName="middleName" />
+            <label for="middle_name" *ngIf="applicantType == 'I'">{{ labels.middleName }}</label>
+            <label for="middle_name" *ngIf="applicantType == 'C'">{{ labels.companyName2 }}</label>
+            <input type="text" class="form-control mandatory" id="middle_name" name="middle_name"
+              formControlName="nameTwo" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name">{{ labels.lastName }}</label>
-            <input type="text" class="form-control mandatory" id="last_name" placeholder="Last Name" name="last_name"
-              formControlName="lastName" />
+            <label for="last_name" *ngIf="applicantType == 'I'">{{ labels.lastName }}</label>
+            <label for="last_name" *ngIf="applicantType == 'C'">{{ labels.companyName3 }}</label>
+            <input type="text" class="form-control mandatory" id="last_name" name="last_name"
+              formControlName="nameThree" />
           </div>
         </div>
-        <div class="row non_individual_section_leadco" *ngIf="applicantType == '52'">
+        <!-- <div class="row non_individual_section_leadco" *ngIf="applicantType == '52'">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="company_name1">Company Name 1</label>
-              <input type="text" class="form-control" id="company_name1">
+            <label for="company_name1">Company Name 1</label>
+            <input type="text" class="form-control" id="company_name1">
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="company_name2">Company Name 2</label>
-              <input type="text" class="form-control" id="company_name2">
+            <label for="company_name2">Company Name 2</label>
+            <input type="text" class="form-control" id="company_name2">
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="company_name3">Company Name 3</label>
-              <input type="text" class="form-control" id="company_name3">
+            <label for="company_name3">Company Name 3</label>
+            <input type="text" class="form-control" id="company_name3">
           </div>
-      </div>
+        </div> -->
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="mobile">{{ labels.mobile }}</label>
             <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile"
               formControlName="mobile" />
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == '51'">
-            <label for="dob">Date of Birth</label>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="dob" *ngIf="applicantType == 'I'">Date of Birth</label>
+            <label for="dob" *ngIf="applicantType == 'C'">Date of Incorporation</label>
             <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
               formControlName="dateOfBirth" />
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == '52'">
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="applicantType == '52'">
             <label for="dob">Date of Incorporation</label>
             <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
               formControlName="dateOfBirth" />
-          </div>
+          </div> -->
 
           <div class="btn-sec clear-both">
             <!-- <div class="col-sm-5">
@@ -147,8 +144,7 @@
             <div class="col-sm-12 text-right">
               <!-- routerLink="../lead-dedupe" -->
 
-              <button type="button" routerLink="../lead-dedupe" class="btn btn-primary " value="submit"
-                (click)="onSubmit()">
+              <button type="button" class="btn btn-primary " value="submit" (click)="onSubmit()">
                 {{ labels.createLead }}
               </button>
             </div>
