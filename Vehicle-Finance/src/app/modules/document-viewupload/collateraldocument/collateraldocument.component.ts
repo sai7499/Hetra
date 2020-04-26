@@ -21,9 +21,7 @@ export class CollateraldocumentComponent implements OnInit {
     private lovData: LovDataService,
     private router: Router,
     private labelsData: LabelsService,
-    private fb: FormBuilder) { 
-     
-    }
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.initForm();
@@ -32,6 +30,11 @@ export class CollateraldocumentComponent implements OnInit {
       //console.log(this.values)
     });
 
+    this.collateralDocumentForm  = this.fb.group({
+      documents : this.fb.array([
+          this.getUnit()
+      ])
+    });
     
   }
   initForm() {
@@ -47,11 +50,11 @@ export class CollateraldocumentComponent implements OnInit {
       status : new FormControl ('')
     })
 
-    this.collateralDocumentForm  = this.fb.group({
-      documents : this.fb.array([
-          this.getUnit()
-      ])
-    });
+    // this.collateralDocumentForm  = this.fb.group({
+    //   documents : this.fb.array([
+    //       this.getUnit()
+    //   ])
+    // });
 
     this.labelsData.getLabelsData().subscribe(
       data => {
