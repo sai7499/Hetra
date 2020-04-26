@@ -15,7 +15,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id="add_vhd_tabletr"></tr>
+                    <tr id="add_vhd_tabletr" >
+                        <td>{{vehicleDetails.registrationNumber}}</td>
+                        <td>{{varVehicle[0]}}</td>
+                        <td>{{varVehicle[1]}}</td>
+                        <td>{{varVehicle[2]}}</td>
+                        <td>{{vehicleDetails.finalAssetCost}}</td>
+                        <td *ngIf='varVehicle.length' (click)="editVehicle()"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -23,10 +30,13 @@
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5"> </div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary js-btn-prev"  [routerLink]="['../applicant-details']" type="button"> {{ label.back }} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
-                    <button class="btn btn-primary js-btn-next"  [routerLink]="['/pages/lead-section/credit-score']"type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
+                    <button class="btn btn-primary js-btn-prev"  [routerLink]="['../applicant-details']" type="button"> Back </button> &nbsp;
+                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()" > save</button> &nbsp;
+                    <button class="btn btn-primary js-btn-next"  [routerLink]="['/pages/lead-section/credit-score']" type="button" >Next</button>
                 </div>
+            </div>
+            <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Vehicle Details saved Successfully.
             </div>
         <!-- </div> -->
 

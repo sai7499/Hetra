@@ -30,9 +30,9 @@
                                     <td>55464</td>
                                     <td><a href="#">{{applicant.first_name}}</a></td>
                                     <td>{{applicant.mobile}}</td>
-                                    <td>{{applicant.date_of_birth}}</td>
+                                    <td>{{applicant.dateOfBirth}}</td>
                                     <td>{{i === 0 ? 'Applicant' : 'Co-Applicant'}}</td>
-                                    <td (click)="editApplicant(i);"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                    <td (click)="editApplicant(i);" ><i class="fa fa-pencil" aria-hidden="true"></i></td>
                                 </tr>
                                
 
@@ -69,12 +69,15 @@
                         </div>
                         <div class="col-sm-7 text-right">
                             <button class="btn btn-primary js-btn-prev mar-right8" type="button"  [routerLink]="['../']"> Back </button>
-                            <!-- <button class="btn btn-primary  mar-right8"> Save </button> -->
+                            <button class="btn btn-primary  mar-right8" (click)="onSubmit()"> Save </button>
                             <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['../vehicle-details']"> Next </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Application Details saved Successfully.
         </div>
     </form>
 </div> 

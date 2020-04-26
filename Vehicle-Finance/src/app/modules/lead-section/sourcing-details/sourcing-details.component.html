@@ -17,7 +17,6 @@
                         formControlName="product"></app-vf-custom-select>
         
                 </div>
-                
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="scheme_type">{{ labels.priority }}</label>
         
@@ -50,24 +49,26 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="subvention">
                     <label for="lead_handled">{{labels.leadHandledBy}}</label>
                     <app-vf-custom-select 
-                    [values]="values?.leadHandled" 
+                    [values]="values?.leadHandledBY" 
                     formControlName="leadHandledBy"></app-vf-custom-select>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-                    <app-vf-custom-select [values]="values?.sourcingChannel" formControlName="sourcingChannel" (change)="sourcingChannelChange($event)" name ="sourcingChannel">
-                    </app-vf-custom-select>
-                  </div>
-                  <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="sourcing_type">{{ labels.sourcingType }}</label>
-                    <!-- <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType">
-                    </app-vf-custom-select> -->
-                     <select class="form-control" name="profession_id" > 
-                    <option *ngFor='let values of ProfessionList'>{{ values.value }}</option>
-                  </select>
-                  </div>
+                    <label for="sourcing_channel">{{labels.sourcingChannel}}</label>
+                    <app-vf-custom-select 
+                    [values]="values?.soucringChannel" 
+                    formControlName="sourcingChannel" (change)="sourcingChannelChange($event)"  name ="sourcingChannel"></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="sourcing_type">{{labels.sourcingType}}</label>
+                    <!-- <app-vf-custom-select 
+                    [values]="values?.sourcingType" 
+                    formControlName="sourcingType"></app-vf-custom-select> -->
+                    <select class="form-control" name="profession_id" > 
+                        <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
+                      </select>
+                </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_code">{{labels.sourcingCode}}</label>
                     <!-- <app-vf-custom-select 
@@ -82,7 +83,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="spoken_code">{{labels.spokeCodeLocation}}</label>
                     <app-vf-custom-select 
-                    [values]="values?.spokenCode" 
+                    [values]="values?.spokenCodeLocation" 
                     formControlName="spokeCodeLocation"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">

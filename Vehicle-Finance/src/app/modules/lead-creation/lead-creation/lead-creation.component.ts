@@ -22,6 +22,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   labels: any = {};
 
   applicantType = '51';
+  SourcingChange: any;
+  ProfessionList = [];
+  text: string;
 
   selectApplicantType(event: any) {
     console.log(this.applicantType)
@@ -35,6 +38,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private labelsData: LabelsService) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
+      console.log(this.lovLabels);
     });
 
   }
@@ -45,11 +49,11 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   initForm() {
     this.createLeadForm = new FormGroup({
-      businessDivision: new FormControl({value: "Vehicle Finance", disabled: true}),
+      businessDivision: new FormControl({value: "1", disabled: true}),
       productCategory: new FormControl(''),
       childLoan: new FormControl(''),
       fundingProgram: new FormControl(''),
-      schemePromotion: new FormControl(''),
+      priority: new FormControl(''),
       subventionApplied: new FormControl(''),
       subvention: new FormControl(''),
       sourcingChannel: new FormControl(''),
@@ -73,7 +77,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     //   { key: 2, value: 'Housing Finance' },
     //   { key: 3, value: 'Loan Against Property' }
     // ];
-
+    
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -84,9 +88,54 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
-  sourcingChannelChange(e){
-    console.log(e)
+  sourcingChannelChange(event: any){
+    
+    this.SourcingChange = event.target.value;
+    // console.log(this.SourcingChange);
+    
+    // this.createLeadForm.controls['sourcingChannel'].valueChanges.subscribe((value) => {
+
+
+    //   setTimeout(()=>{
+    //     switch(this.SourcingChange){
+  
+    //   case '61': this.ProfessionList = [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+    //                break;
+    //   case '62':  [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];lity Branch Code'}];
+    //                break; 
+    //   case '63': this.ProfessionList = [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+    //                break;
+    //   default: this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+    //                break;                                      
+    // }
+    //   },10);
+    // });
+   if(this.SourcingChange == 61){
+     this.ProfessionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+     this.text="Employee Code"
+   }
+   else if(this.SourcingChange== 62){
+        this.ProfessionList=[{key: 1, value: "Liability Branch Code" }];
+              this.text= "Employee Code"
+   }
+   else if(this.SourcingChange== 63){
+     this.ProfessionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+     this.text="Employee Code"
+   }
+   else if(this.SourcingChange==64)
+    {
+      this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+      this.text = "Campaign Code";
+      
+    }
+    else{
+      this.ProfessionList= [{key: 1,value: 'Not Applicable'}];
+      this.text = "Employee Code";
+    }
   }
+
+  
+
 
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
@@ -106,6 +155,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     console.log(e.target.value);
   }
 
+
   onSubmit() {
     const formValue = this.createLeadForm.value;
     const leadModel: Lead = { ...formValue };
@@ -114,7 +164,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       first_name: leadModel.firstName,
       middle_name: leadModel.middleName,
       last_name: leadModel.lastName,
-      mobile: leadModel.mobile
+      mobile: leadModel.mobile,
+      dateOfBirth : leadModel.dateOfBirth
     };
     this.leadStoreService.setCoApplicantDetails(applicantModel);
     this.router.navigate(['/pages/lead-creation/lead-dedupe']);

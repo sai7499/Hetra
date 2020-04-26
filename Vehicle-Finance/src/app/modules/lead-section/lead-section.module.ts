@@ -13,6 +13,8 @@ import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 import { CreditScoreComponent } from './credit-score/credit-score.component';
+import { ExactMatchComponent } from './exact-match/exact-match.component';
+import { OtpSectionComponent } from './otp-section/otp-section.component';
 
 
 @NgModule({
@@ -31,6 +33,10 @@ import { CreditScoreComponent } from './credit-score/credit-score.component';
     AddvehicleComponent,
   
     CreditScoreComponent,
+  
+    ExactMatchComponent,
+  
+    OtpSectionComponent,
   
    
     

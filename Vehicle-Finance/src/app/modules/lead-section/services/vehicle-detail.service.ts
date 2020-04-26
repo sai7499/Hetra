@@ -16,6 +16,8 @@ export class VehicleDetailService {
 
   private url: string = "../assets/vehicle-details-data/vehicle-details-label.json";
 
+  public vehicleVariable : any;
+
   constructor(private http: HttpClient) { }
 
   getVehicleDetailLabels(): Observable<VehicleDetailModel[]> {
@@ -34,6 +36,14 @@ export class VehicleDetailService {
 
   getCurrentPage() {
     return this.currentPage$;
+  }
+
+  setVehicle(varvehicle){
+        this.vehicleVariable= varvehicle
+  }
+
+  getVehicle(){
+    this.vehicleVariable
   }
 
 

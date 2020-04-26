@@ -37,8 +37,8 @@
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="scheme_type">{{ labels.scheme_Promotion }}</label>
-            <app-vf-custom-select [values]="lovLabels?.schemePromotion" formControlName="schemePromotion">
+            <label for="priority">{{ labels.priority }}</label>
+            <app-vf-custom-select [values]="lovLabels?.priority" formControlName="priority">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -49,18 +49,22 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-            <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel" (change)="sourcingChannelChange($event)">
+            <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel" (change)="sourcingChannelChange($event)" name ="sourcingChannel">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_type">{{ labels.sourcingType }}</label>
-            <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType">
-            </app-vf-custom-select>
+            <!-- <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType">
+            </app-vf-custom-select> -->
+             <select class="form-control" name="profession_id" [(ngModel)] = 'ProfessionList'> 
+            <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
+          </select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">{{ labels.sourcingCode }}</label>
-            <app-vf-custom-select [values]="lovLabels?.sourcingCode" formControlName="sourcingCode">
-            </app-vf-custom-select>
+            <!-- <app-vf-custom-select [values]="lovLabels?.sourcingCode" formControlName="sourcingCode" [(ngModel)]="text">
+            </app-vf-custom-select> -->
+            <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode" placeholder="Sourcing Code" name="sourcingCode" [(ngModel)]="text">
           </div>
         </div>
         <div class="row">
@@ -127,7 +131,7 @@
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == '51'">
             <label for="dob">Date of Birth</label>
-            <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
+            <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob" dd-mm-yyyy
               formControlName="dateOfBirth" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == '52'">

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { VehicleDetailService} from '../services/vehicle-detail.service'
 
 @Component({
   selector: 'app-addvehicle',
@@ -20,12 +21,16 @@ export class AddvehicleComponent implements OnInit {
     public errorMsg;
     public getAllFieldLabel;
     public show: boolean = false;
+    public formVehicle: any;
+    public isAlert : boolean = false;
+  
 
   constructor(
       private labelsData: LabelsService,
       private lovDataService: LovDataService,
       private router: Router,
-      private leadStoreService: LeadStoreService ) { }
+      private leadStoreService: LeadStoreService,
+      private vehicleDetailService : VehicleDetailService ) { }
 
       ngOnInit() {
         this.initForm();
@@ -37,9 +42,22 @@ export class AddvehicleComponent implements OnInit {
               this.errorMsg = error;
             });
         this.lovDataService.getLovData().subscribe((value: any) => {
+          
           this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
           console.log('vehicleLov', this.vehicleLov);
+          this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
+          this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel
+          this.vehicleLov.vehicleType=value[0].vehicleDetails[0].vehicleType
+          this.vehicleLov.assetBodyType=value[0].vehicleDetails[0].assetBodyType
+          this.vehicleLov.region=value[0].vehicleDetails[0].region
+          this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant
+          this.vehicleLov.assetSubVariant=value[0].vehicleDetails[0].assetSubVariant
+          this.vehicleLov.vechicalUsage=value[0].vehicleDetails[0].vechicalUsage
+          // this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake
+          // this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake
+          // this.getVehicle();
           this.setFormValue();
+
         });
       }
   
@@ -84,7 +102,9 @@ export class AddvehicleComponent implements OnInit {
       }
   
       setFormValue() {
+        
         const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+        
         this.vehicleForm.patchValue({
           vehicleType: vehicleModel.vehicleType || '',
           region: vehicleModel.region || '',
@@ -124,11 +144,57 @@ export class AddvehicleComponent implements OnInit {
       }
   
       onFormSubmit() {
+
         const formModel = this.vehicleForm.value;
+        // console.log('formModel',formModel)
         const vehicleModel = {...formModel};
+        this.isAlert= true
+        
+        // console.log('vehicleModel',vehicleModel)
         this.leadStoreService.setVehicleDetails(vehicleModel);
-        this.router.navigate(['/pages/lead-section/applicant-details']);
+        
+         this.router.navigateByUrl['/pages/lead-section/vehicle-details']
+        
       }
+      
+
+      onCheck(){
+           this.formVehicle= this.vehicleForm.value;
+           console.log('onCheck', this.formVehicle);
+           this.getcategory(this.vehicleLov.assetMake, this.formVehicle.assetMake, "assetMake")
+           this.getcategory(this.vehicleLov.assetModel, this.formVehicle.assetModel, "assetModel")
+           this.getcategory(this.vehicleLov.assetVariant, this.formVehicle.assetVariant, "assetVariant")
+           this.getcategory(this.vehicleLov.assetSubVariant, this.formVehicle.assetSubVariant, "assetSubVariant")
+           this.getcategory(this.vehicleLov.assetBodyType, this.formVehicle.assetBodyType, "assetBodyType")
+           this.getcategory(this.vehicleLov.vehicleType, this.formVehicle.vehicleType, "vehicleType")
+           this.getcategory(this.vehicleLov.region, this.formVehicle.region, "region")
+           this.getcategory(this.vehicleLov.vechicalUsage, this.formVehicle.vechicalUsage, "vechicalUsage")
+
+           this.vehicleForm.controls["finalAssetCost"].setValue(this.formVehicle.finalAssetCost);
+           this.vehicleForm.controls["noOfVehicle"].setValue(this.formVehicle.noOfVehicle)
+          //  this.vehicleLov.assetMake.forEach(element=>{
+          //   if(parseInt(this.formVehicle.assetMake) == element.key){
+          //     console.log('hello')
+          //     this.vehicleForm.controls["assetMake"].setValue(element.key)
+          //   }
+          //  });
+            
+            
+      }
+
+      getcategory(category, value,formcontrolName){
+        category.forEach(element=>{
+          if(parseInt(value) == element.key){
+            console.log('hello')
+            this.vehicleForm.controls[formcontrolName].setValue(element.key)
+          }
+         });
+      }
+
+      // getVehicle(){
+      //  this.tableVehicleDetail=this.vehicleDetailService.getVehicle()
+      //  console.log('tableDetails',this.tableVehicleDetail)
+      // }
   
       ngOnChanges() { }
   
