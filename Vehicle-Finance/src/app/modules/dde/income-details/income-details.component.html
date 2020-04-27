@@ -27,7 +27,7 @@
               </thead>
               <tbody formArrayName="businessDetails">
                 <tr class=" text-center" id="applicant_1_row"
-                  *ngFor="let item of incomeDetailsForm.controls.businessDetails.controls; let i = index"
+                  *ngFor="let item of incomeDetailsForm.get('businessDetails')['controls']; let i = index"
                   [formGroupName]="i">
                   <td data-title="S.No">{{ i + 1 }}</td>
                   <td data-title="Applicant Name">
@@ -94,7 +94,7 @@
                 </tr>
               </thead>
               <tbody formArrayName="otherIncomeDetails">
-                <tr *ngFor="let item of incomeDetailsForm.controls.otherIncomeDetails.controls; let j = index"
+                <tr *ngFor="let item of incomeDetailsForm.get('otherIncomeDetails')['controls']; let j = index"
                   [formGroupName]="j">
                   <td data-title="S.no">{{ j + 1 }}</td>
                   <td data-title="Applicant Name">
@@ -153,7 +153,7 @@
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
-                <tr *ngFor="let item of incomeDetailsForm.controls.obligationDetails.controls; let k = index"
+                <tr *ngFor="let item of incomeDetailsForm.get('obligationDetails')['controls']; let k = index"
                   [formGroupName]="k">
                   <td data-title="S.No">{{ k + 1 }}</td>
                   <td data-title="Borrower Name">
