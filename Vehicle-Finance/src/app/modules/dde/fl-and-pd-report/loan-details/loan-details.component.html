@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="loanDetailsForm">
+<form class="multisteps-form__form" [formGroup]="loanDetailsForm" *ngIf="labels">
 
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <h3 class="title">{{labels.loanDetailsTitle}}</h3>
@@ -302,7 +302,8 @@
                     <option value="Self Driven">Self Driven</option>
                     <option value="Driver">Driver</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.selfDriver" formControlName="selfDriver"></app-vf-custom-select>
+                <app-vf-custom-select [values]="loanDetailsLov?.selfDriver" formControlName="selfDriver">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks">{{labels.remarks}}</label>
@@ -312,14 +313,14 @@
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" routerLink="/pages/fl-and-pd-report/customer-profile"> 
-                       {{labels.back}}
+                    <button class="btn btn-primary" type="button" routerLink="/pages/fl-and-pd-report/customer-profile">
+                        {{labels.back}}
                     </button>&nbsp;
-                    <button class="btn btn-primary " (click)="onFormSubmit()"> 
+                    <button class="btn btn-primary " (click)="onFormSubmit()">
                         {{labels.save}}
                     </button>&nbsp;
                     <button class="btn btn-primary" type="button" (click)="onFormSubmit()">
-                       {{labels.next}}
+                        {{labels.next}}
                     </button>
 
                 </div>
