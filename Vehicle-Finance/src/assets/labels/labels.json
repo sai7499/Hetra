@@ -374,5 +374,82 @@
   "totalMonthlyAgriIncome": "Total Monthly Agri Income",
   "totalMonthlyIncome": "Total Monthly Income",
   "totalMontlyObligations": "Total Montly Obligations",
-  "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR"
+  "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR",
+
+  "customerBankName":"Customer Bank Name",
+  "bankBranch":"Bank Branch",
+  "bankAddress":"Bank Address",
+  "accountType":"Account Type",
+  "accountNumber":"Account Number",
+  "accountHolderName":"Account Holder Name",
+  "minimumAverageBalance":"Minimum Average Balance",
+  "micrCode":"MICR Code",
+  "ifscCode": "IFSC Code",
+
+  "seniorCitizen": "Senior Citizen?",
+  "ifMinorIsYesGuardianName": "if Minor is yes Guardian Name",
+  "ifGuardianIsAnExistingCustomer": "If Guardian is an existing customer, UCIC",
+  "spouseName": "Spouse Name",
+  "mothersMaidenName": "Mother's Maiden Name",
+  "occupation": "Occupation",
+  "nationality":"Nationality",
+  "customerCategory":"Customer Category",
+  "emailID":"Email ID",
+  "alternateEmailID":"Alternate email ID",
+  "prefferedLanguageForCommunication":"Preferred Language for Communication",
+  "bankAccountNumber":"Bank Account Number",
+  "accountHoldingBank": "Account Holding Bank",
+  "branchAndCommunicationAddress": "Branch and Communication Address",
+  "spokeAndCommunicationAddress": "Spoke and Communication Address",
+  "designation": "Designation",
+  "officeName": "Office Name",
+  "noOfyearsInCurrEmployment": "No. of years in curr. Employment",
+  "employeeCode": "Employee Code",
+  "employeeType": "Employee Type",
+  "department": "Department",
+  "typeOfBusiness": "Type of Business",
+  "businessName": "Business Name",
+  "businessStartDate": "Business Start Date",
+  "numberOfYearsInCurrentBusiness": "Number of Years in current Business",
+  "turnOver": "Turn Over",
+  "annualIncome": "Annual Income",
+  "numberOfDirections": "Number Of Directions",
+  "nameofDirector": "Name of Director",
+  "directorIdentificationNumber": "Director Identification number (DIN)",
+  "contactPerson": "Contact Person",
+  "contactPersonDesignation": "Contact Person Designation",
+  "contactPersonMobileNumber": "Contact Person mobile number",
+  "ratingIssuerName": "Rating Issuer Name",
+  "externalRatingAssigned": "External Rating Assigned",
+  "extnlRatingIssuedDate": "Extnl. Rating Issued Date",
+  "extnlRatingExpiryDate": "Extnl. Rating Expiry Date",
+  "totalExposureInThebankingsystem": "Total Exposure in the banking system(In lakhs)",
+  "creditRiskScore": "Credit Risk Score",
+
+
+  "identityCardNumber": "Identity Card Number",
+  "identityCardExpiryDate": "Identity Card Expiry Date",
+  "uploadDocumnet": "Upload Documnet",
+  "addMultipleIdentityCardDetails": "Add Multiple Identity Card Details",
+  "tinNumber": "TIN Number",
+  "companyPanNumber": "Company PAN Number",
+  "cinNumber": "CIN Number",
+  "gstNumber": "GST Number",
+  "leadID": "Lead ID",
+  "queue": "Queue",
+
+  "userName": "User Name",
+  "password": "Password",
+
+  "enterOtpSharedByCustomer": "Enter the OTP shared by the customer",
+  "offersAccepted": "Offers Accepted"
+
+  
+
+
+
+
+
+
+
 }

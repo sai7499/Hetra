@@ -14,15 +14,15 @@
                 <h4 class="title">EMP &amp; Income details  -  Individual</h4>										
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="name">Name</label>
+                        <label for="name">{{labels?.name}}</label>
                         <input formControlName="name" type="text" class="form-control" id="name" value="Mr. Antony Mathew" readonly="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="mobile_number">Mobile Number</label>
+                        <label for="mobile_number">{{labels?.mobileNumber}}</label>
                         <input formControlName="mobileNumber" type="text" class="form-control" id="mobile_number" name="mobile_number" value="8974563210" readonly="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="date_of_birth">DOB</label>
+                        <label for="date_of_birth">{{labels?.dateOfBirth}}</label>
                         <div class="input-group input-medium" id="date_of_birth" name="date_of_birth">
                             <span class="input-group-btn">
                                         <button class="btn btn-default"><i class="fa fa-calendar" id="datepicker"></i> </button>
@@ -31,11 +31,11 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="applicant_type">Applicant Type</label>
+                        <label for="applicant_type">{{labels?.applicantType}}</label>
                         <input formControlName="applicantType" type="text" class="form-control" id="applicant_type" name="applicant_type">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="senior_citizen">Senior Citizen?</label>
+                        <label for="senior_citizen">{{labels?.seniorCitizen}}</label>
                         <!-- <select class="form-control" id="senior_citizen" name="senior_citizen">
                                     <option>Yes</option>
                                     <option>No</option>
@@ -43,27 +43,27 @@
                                 <app-vf-custom-select formControlName="seniorCitizen"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="guardian_name">if Minor is yes Guardian Name</label>
+                        <label for="guardian_name">{{labels?.ifMinorIsYesGuardianName}}</label>
                         <input formControlName="guardianName" type="text" class="form-control" id="guardian_name" name="guardian_name">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="existing_customer">If Guardian is an existing customer, UCIC</label>
+                        <label for="existing_customer">{{labels?.ifGuardianIsAnExistingCustomer}}</label>
                         <input formControlName="ucic" type="text" class="form-control" id="existing_customer" name="existing_customer">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="father_name">Father Name</label>
+                        <label for="father_name">{{labels?.fatherName}}</label>
                         <input formControlName="fatherName" type="text" class="form-control" id="father_name" name="father_name">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="spouse_name">Spouse Name</label>
+                        <label for="spouse_name">{{labels?.spouseName}}</label>
                         <input formControlName="spouseName" type="text" class="form-control" id="spouse_name" name="spouse_name">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="maiden_name">Mother's Maiden Name</label>
+                        <label for="maiden_name">{{labels?.mothersMaidenName}}</label>
                         <input formControlName="maidenName" type="text" class="form-control" id="maiden_name" name="maiden_name">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="occupation">Occupation</label>
+                        <label for="occupation">{{labels?.occupation}}</label>
                         <!-- <select class="form-control" id="occupation" name="occupation">
                                     <option>Occupation 1</option>
                                     <option>Occupation 2</option>
@@ -71,35 +71,35 @@
                                 <app-vf-custom-select formControlName="occupation"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="nationality">Nationality</label>
+                        <label for="nationality">{{labels?.nationality}}</label>
                         <!-- <select class="form-control" id="nationality" name="nationality">
                                     <option>Select</option>
                                 </select> -->
                                 <app-vf-custom-select formControlName="nationality"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="customer_category">Customer Category</label>
+                        <label for="customer_category">{{labels?.customerCategory}}</label>
                         <!-- <select class="form-control" id="customer_category" name="customer_category">
                                     <option>Select</option>
                                 </select> -->
                             <app-vf-custom-select formControlName="customerCategory"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="email_id">Email ID</label>
+                        <label for="email_id">{{labels?.emailId}}</label>
                         <!-- <select class="form-control" id="email_id" name="email_id">
                                     <option>Select</option>
                                 </select> -->
                         <app-vf-custom-select formControlName="emailId"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="alternate_email_id">Alternate email ID</label>
+                        <label for="alternate_email_id">{{labels?.alternateEmailID}}</label>
                         <!-- <select class="form-control" id="alternate_email_id" name="alternate_email_id">
                                     <option>Select</option>
                                 </select> -->
                         <app-vf-custom-select formControlName="altrEmailId"></app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="preffered_language">Preferred Language for Communication</label>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">{{labels?.prefferedLanguageForCommunication}}
+                        <label for="preffered_language"></label>
                         <!-- <select class="form-control" id="preffered_language" name="preffered_language">
                                     <option>Select</option>
                                 </select> -->
@@ -108,7 +108,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="bank_account_number">Bank Account Number</label>
+                        <label for="bank_account_number">{{labels?.Bank Account Number}}</label>
                         <input formControlName="accountNumber" type="text" class="form-control" name="bank_account_number" id="bank_account_number" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -332,7 +332,7 @@
                         </div>
                     </div>	
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="dealing_foreign_currency">Dealing in Foreign Currency</label>
+                        <label for="dealing_foreign_currency">Extnl. Rating Expiry Date</label>
                         <input formControlName="foreignCurrency" type="text" class="form-control" name="dealing_foreign_currency" id="dealing_foreign_currency">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
