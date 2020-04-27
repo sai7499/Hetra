@@ -272,6 +272,7 @@ select#select_main_button_match {
 }
 
 /* progress bar */
+
 .multisteps-form__progress {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
@@ -417,5 +418,3 @@ select#select_main_button_match {
       margin-bottom: 20px;
       margin-top: 4px;
   }
-
-  

@@ -2,31 +2,26 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DdeComponent  } from './dde.component';
+import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
+import { FlAndPDComponent } from './fl-and-pd/fl-and-pd.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
-import { ValuationComponent } from './valuation/valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
-import { FlReportComponent } from './fl-report/fl-report.component';
-import { PdReportComponent } from './pd-report/pd-report.component';
 
 const routes: Routes = [{
     path: '',
     component: DdeComponent,
     children: [
         {
-            path: 'fl-report',
-            component: FlReportComponent,
+            path: 'applicant-details',
+            component: ApplicantDetailsComponent
         },
         {
-            path: 'pd-report',
-            component: PdReportComponent,
+            path: 'fl-and-pd',
+            component: FlAndPDComponent
         },
         {
             path: 'vehicle-valuation',
-            component: VehicleValuationComponent,
-        },
-        {
-            path: 'valuation',
-            component: ValuationComponent
+            component: VehicleValuationComponent
         },
         {
             path: 'psl-data',

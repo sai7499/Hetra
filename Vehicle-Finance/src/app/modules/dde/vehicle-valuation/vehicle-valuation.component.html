@@ -1,206 +1,278 @@
-<form class="multisteps-form__form" method="post">
+<form class="multisteps-form__form" method="POST" [formGroup]="vehicleValForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <div class="container">
+        <h3 class="title"> {{ labels.vehicleValTitle }} </h3>
+        <!------- Individual Section Starts Here ------->
+        <div id="individual_section_start">
 
-            <div class="btn-sec clear-both row">
-                <div
-                    class="col-sm-5"><!-- <h4 class="title">PSL Data</h4> -->
-                </div>
-                <div class="col-sm-7 text-right"><!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
-                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-                </div>
-            </div>
             <div class="row">
-                <div class="table-responsive application" id="applicantTable">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-head-bg">
-                                <td>{{labels.registrationNumber}}</td>
-                                <td>{{labels.make}}</td>
-                                <td> {{labels.model}}</td>
-                                <td> {{labels.address}}</td>
-                                <td>{{labels.valuationStatus}}</td>
-                                <td>{{labels.valuationReport}}</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>TN-04-SS-0292</td>
-                                <td>TATA</td>
-                                <td>SUMO</td>
-                                <td>No: 10, Syamala Street, Chengalpattu, TN, 600228</td>
-                                <td>Not Initiated</td>
-                                <td>
-                                    <u>
-                                        <a class="a_tag" 
-                                        (click)="OnSubmit()" data-toggle="modal" data-target="#myModal">Initiate</a>
-                                    </u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>KL-05-AG-1191</td>
-                                <td>TATA</td>
-                                <td>LP 709 32 SEATER</td>
-                                <td>No: 6, MGR street, velacherry, TN, 600042</td>
-                                <td>Initiated</td>
-                                <td>
-                                    <u>
-                                        <a class="a_tag" href="vehicle_valuation/vehicle_valuation_details.html"></a>
-                                    </u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>TN-04-SS-0388</td>
-                                <td>TATA</td>
-                                <td>CITY RIDER</td>
-                                <td>No: 214, Annai teresa nagar, Avadi, TN, 600054</td>
-                                <td>Submitted</td>
-                                <td>
-                                    <u>
-                                        <a class="a_tag" [routerLink]="['/pages/dde/valuation']">View</a>
-                                    </u>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <!-- <div class="btn-sec clear-both">
-                                            <div class="records col-sm-6">
-                                                <select class="form-control input-sm">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
-                                                <nav class="col-sm-12 col-md-12 col-lg-12 page">
-                                                    <ul class="pagination">
-                                                        <li class="disabled"><a href="#"><span>«</span></a></li>
-                                                        <li class="active"><a href="#">1 <span
-                                                                    class="sr-only">(current)</span></a></li>
-                                                        <li><a href="#">2</a></li>
-                                                        <li><a href="#">3</a></li>
-                                                        <li><a href="#">4</a></li>
-                                                        <li><a href="#">5</a></li>
-                                                        <li><a href="#"><span>»</span></a></li>
-                                                    </ul>
-                                                </nav>
-                                            </div>
-                                        </div> -->
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="valuator_type">{{labels.valuatorType}}</label>
+                    <!-- <select class="form-control" id="valuator_type" name="valuator_type">
+                        <option>Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.valuatorType" 
+                     formControlName="valuatorType"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="valuator_code">{{labels.valuatorCode}}</label>
+                    <!-- <select class="form-control" id="valuator_code" name="valuator_code" required="required">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.valuatorCode" 
+                      formControlName="valuatorCode"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="valuator_name">{{labels.valuatorName}}</label>
+                    <input type="text" formControlName="valuatorName" class="form-control" id="valuator_name" name="valuator_name">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="valuation_amount">{{labels.valuationAmount}}</label>
+                    <input type="text" formControlName="valuationAmount" class="form-control" id="valuation_amount" name="valuation_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="valuation_date">{{labels.valuationDate}}</label>
+                    <div class="input-group input-medium">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                        </span>
+                        <input type="text" formControlName="valuationDate" class="form-control" id="valuation_date" name="valuation_date">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="idv">{{labels.idv}}</label>
+                    <input type="text" formControlName="idv" class="form-control" id="idv" name="idv">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="idv_valididty_date">{{labels.idvValidityDate}}</label>
+                    <div class="input-group input-medium">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                        </span>
+                        <input type="text" formControlName="idvValidityDate" class="form-control" id="idv_valididty_date" name="idv_valididty_date">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="vehicle_available_in_grid">{{labels.vhAvailInGrid}}</label>
+                    <!-- <select class="form-control" id="vehicle_available_in_grid" name="vehicle_available_in_grid"
+                        required="required">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.vhAvailInGrid" 
+                    formControlName="vhAvailInGrid"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="grid_amount">{{labels.gridAmount}}</label>
+                    <input type="text" formControlName="gridAmount" class="form-control" id="grid_amount" name="grid_amount">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="asset_manufacturer">{{labels.assetManufacturer}}</label>
+                    <!-- <select class="form-control" id="asset_manufacturer" name="asset_manufacturer" required="required">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.assetManufacturer" 
+                    formControlName="assetManufacturer"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="asset_model">{{labels.assetModel}} </label>
+                    <!-- <select class="form-control" id="asset_model" name="asset_model" required="required">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.assetModel" 
+                    formControlName="assetModel"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="new_used_asset">{{labels.newUsedAsset}} </label>
+                    <!-- <select class="form-control" id="new_used_asset" name="new_used_asset" required="required">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.newUsedAsset" 
+                    formControlName="newUsedAsset"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="vechicle_no_prefix">{{labels.vechicleNoPrefix}}</label>
+                    <input type="text" formControlName="vechicleNoPrefix" class="form-control" id="vechile_no_prefix" name="vechile_no_prefix">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="vechicle_number"> {{labels.vehicleNumber}} </label>
+                    <input type="text" formControlName="vechicleNumber" class="form-control" id="vechicle_number" name="vechicle_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="chassis_number">{{labels.chassisNumber}}</label>
+                    <input type="text" formControlName="chassisNumber" class="form-control" id="chassis_number" name="chassis_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="engine_number"> {{labels.engineNumber}}</label>
+                    <input type="text" formControlName="engineNumber" class="form-control" id="engine_number" name="engine_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="reg_of_asset">{{labels.yearRegOfAsset}} </label>
+                    <input type="text" formControlName="yearRegOfAsset" class="form-control" id="reg_of_asset" name="reg_of_asset">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="month_reg_of_asset">{{labels.monthRegOfAsset}} </label>
+                    <input type="text" formControlName="monthRegOfAsset" class="form-control" id="month_reg_of_asset" name="month_reg_of_asset">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="age_of_asset">{{labels.ageOfAsset}} </label>
+                    <input type="text" formControlName="ageOfAsset" class="form-control" id="age_of_asset" name="age_of_asset">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="seller_short_descr">{{labels.sellerShortDescr}} </label>
+                    <input type="text" formControlName="sellerShortDescr" class="form-control" id="seller_short_descr" name="seller_short_descr">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="second_asset">{{labels.secondAsset}} </label>
+                    <input type="text" formControlName="secondAsset" class="form-control" id="second_asset" name="second_asset">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="second_vechicle_no_prefix">{{labels.secondVechicleNoPrefix}} </label>
+                    <input type="text" class="form-control" id="second_vechicle_no_prefix"
+                    formControlName="secondVechicleNoPrefix"   name="second_vechicle_no_prefix">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="second_vechicle_no">{{labels.secondVechicleNo}} </label>
+                    <input type="text" formControlName="secondVechicleNo" class="form-control" id="second_vechicle_no" name="second_vechicle_no">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="second_chassis_number">{{labels.secondChassisNumber}} </label>
+                    <input type="text" formControlName="secondChassisNumber" class="form-control" id="second_chassis_number" name="second_chassis_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="agriculture_proof">{{labels.agricultureProof}} </label>
+                    <input type="text" formControlName="agricultureProof" class="form-control" id="agriculture_proof" name="agriculture_proof">
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="fc_expiry_date">{{labels.fcExpiryDate}} </label>
+                    <div class="input-group input-medium">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                        </span>
+                        <input type="text" formControlName="fcExpiryDate" class="form-control" id="fc_expiry_date" name="fc_expiry_date">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="vechicle_reg_date">{{labels.vehicleRegDate}} </label>
+                    <div class="input-group input-medium">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                        </span>
+                        <input type="text" formControlName="vehicleRegDate" class="form-control" id="vechicle_reg_date" name="vechicle_reg_date">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="gvw">{{labels.gvw}} </label>
+                    <input type="text" formControlName="gvw" class="form-control" id="gvw" name="gvw">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="re_registered_vechicle">{{labels.reRegisteredVechicle}} </label>
+                    <input type="text" formControlName="reRegisteredVechicle" class="form-control" id="re_registered_vechicle" name="re_registered_vechicle">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="inner_state_vechicle">{{labels.interStateVehicle}} </label>
+                    <!-- <select class="form-control" id="inner_state_vechicle" name="inner_state_vechicle">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.interStateVehicle" 
+                    formControlName="interStateVehicle"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="duplicate_rc">{{labels.duplicateRC}} </label>
+                    <!-- <select class="form-control" id="duplicate_rc" name="duplicate_rc">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.duplicateRC" 
+                    formControlName="duplicateRC"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="cubic_capacity">{{labels.cubicCapacity}} </label>
+                    <input type="text" formControlName="cubicCapacity" class="form-control" id="cubic_capacity" name="cubic_capacity">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="seating_capacity">{{labels.seatingCapacity}} </label>
+                    <input type="text" formControlName="seatingCapacity" class="form-control" id="seating_capacity" name="seating_capacity">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="existing_vechicle_owned">{{labels.existingVechicleOwned}} </label>
+                    <input type="text" formControlName="existingVechicleOwned" class="form-control" id="existing_vechicle_owned" name="existing_vechicle_owned">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="no_of_vechicles">{{labels.noOfVehicles}} </label>
+                    <input type="text" formControlName="noOfVehicles" class="form-control" id="no_of_vechicles" name="no_of_vechicles">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="existing_self_cost_asset">{{labels.existingSelfCostAsset}} </label>
+                    <input type="text" class="form-control" id="existing_self_cost_asset"
+                    formControlName="existingSelfCostAsset" name="existing_self_cost_asset">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="total">{{labels.total}} </label>
+                    <input type="text" formControlName="total"  class="form-control" id="total" name="total">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="make">{{labels.make}}</label>
+                    <!-- <select class="form-control" id="make" name="make">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.make" 
+                    formControlName="make"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="Model">{{labels.model}} </label>
+                    <!-- <select class="form-control" id="Model" name="Model">
+                        <option value="">Select</option>
+                    </select> -->
+                    <app-vf-custom-select [values]="vhValLov?.model" 
+                    formControlName="model"> </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="year">{{labels.year}} </label>
+                    <input type="text" formControlName="year" class="form-control" id="year" name="year">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_owner">{{labels.registeredOwner}} </label>
+                    <input type="text" formControlName="registeredOwner" class="form-control" id="registered_owner" name="registered_owner">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_owner_name">{{labels.registeredOwnerName}} </label>
+                    <input type="text" formControlName="registeredOwnerName" class="form-control" id="registered_owner_name" name="registered_owner_name">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="vechicle_no_prefix">{{labels.vhNoPrefix}} </label>
+                    <input type="text" formControlName="vhNoPrefix" class="form-control" id="vechicle_no_prefix" name="vechicle_no_prefix">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="vechicle_number">{{labels.vhNumber}} </label>
+                    <input type="text" formControlName="vhNumber" class="form-control" id="vechicle_number" name="vechicle_number">
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="Costof Vehicle ">{{labels.costOfVehicle}} </label>
+                    <input type="text" formControlName="costOfVehicle" class="form-control" id="Costof Vehicle" name="Costof Vehicle">
                 </div>
             </div>
-<div class="row">
-<div class="col-sm-5"></div>
-<div class="col-sm-7 text-right">
-    <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/viability-report']"> {{labels.back}} </button> &nbsp;
-    <!-- <button class="btn btn-primary"> Save </button> -->
-    <button class="btn btn-primary " type="button" (click)="onFormSubmit()" [routerLink]="['../cam']"> {{labels.next}} </button>
-</div>
-</div>
 
-</div>
-</div>
+        </div>
+    </div>
+    <!------- Individual Section End Here ------->
+
+
+    <!-------- Non-Individual Section Starts------->
+    <!------ <div id="non_individual_section_start">
+            <h4 class="title">Non Individual</h4>
+            <div class="row"  >
+                
+            </div> 
+        </div> ------->
+    <!-------- Non-Individual Section End------->
+    <!-- </div>
+    </div> -->
+    
+    <div class="row">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary js-btn-prev" type="button"> {{labels.back}} </button> &nbsp;
+            <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
+            <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+        </div>
+    </div>
+
 </form>
-
-
-<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" *ngIf="isModal" [ngClass]="{ in: isModal, showModal: isModal }">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header table-head-bg">
-                <button type="button" (click)="isModal = false" class="close" data-dismiss="modal"
-                    style="color:white;opacity: 1;">&times;</button>
-                <!-- <button type="button" (click)="isModal = false" class="close" data-dismiss="modal">&times;</button> -->
-                <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-                        <label for="registration_cost"> {{labels.registrationNumber}} </label>
-                        <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" value="TN-04-SS-0292">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-                        <label for="registration_cost"> {{labels.make}}</label>
-                        <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" value="TATA">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-                        <label for="registration_cost"> {{labels.model}} </label>
-                        <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" value="SUMO">
-                    </div>
-                    <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
-                        <label for="registration_cost">{{labels.address}}</label>
-                        <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" value="No: 10, syamala street, chengalpattu, TN, 600228">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-                        <label for="property_located_city"> {{labels.chooseValuator}} </label>
-                        <select class="form-control" id="property_located_city" name="property_located_city"
-                            required="required">
-                            <option value="">Valuator 1</option>
-                            <option value="">Valuator 2</option>
-                            <option value="">Valuator 3</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" data-dismiss="modal" data-toggle="modal"
-                    data-target="#myModal_one" (click)="okModal()" id="model_ok">{{labels.ok}}</button>
-                <button type="button" (click)="closeModal()" class="btn btn-default table-head-bg" data-dismiss="modal">{{labels.close}}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="myModal_one" role="dialog" *ngIf="isOk" [ngClass]="{ in: isModal, showModal: isModal }">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header table-head-bg">
-                <button type="button" (click)="isModal = false" class="close" data-dismiss="modal"
-                    style="color:white;opacity: 1;">&times;</button>
-                <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
-            </div>
-            <div class="modal-body">
-                <p>{{labels.modalBody}}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" data-dismiss="modal" data-toggle="modal"
-                    data-target="#myModal_two" (click)="yesModal()" id="model_ok">{{labels.yes}}</button>
-                <button type="button" (click)="closeModal()" class="btn btn-default table-head-bg" data-dismiss="modal">{{labels.close}}</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="modal fade" id="myModal_two" role="dialog" *ngIf="isYes" [ngClass]="{ in: isModal, showModal: isModal }">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header table-head-bg">
-                <button type="button" class="close" data-dismiss="modal" (click)="isModal=false"
-                    style="color:white;opacity: 1;">&times;</button>
-                <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
-            </div>
-            <div class="modal-body">
-                <p>{{labels.modalBody2}}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" (click)="okModal()" data-dismiss="modal">{{labels.ok}}</button>
-                <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()" data-dismiss="modal">{{labels.close}}</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- <div class="modal-backdrop fade" *ngIf="isModal" [ngClass]="{ in: isModal }"></div> -->
