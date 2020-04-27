@@ -28,6 +28,7 @@ export class SourcingDdeComponent implements OnInit {
     this.initForm();
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].ddeLoanDetails[0];
+      // this.values = res[0]
       console.log(this.values);
       this.values.loanAccountBranch = res[0].leadCreation[0].loanAccountBranch;
       this.setFormValue();
@@ -35,15 +36,15 @@ export class SourcingDdeComponent implements OnInit {
   }
   initForm() {
     this.sourcingDdeForm = new FormGroup({
-      leadNumber: new FormControl({value: '', disabled: true}),
-      leadCreatedDate: new FormControl({value: '', disabled: true}),
-      leadCreatedBy: new FormControl({value: '', disabled: true}),
+      leadNumber: new FormControl({ value: '', disabled: true }),
+      leadCreatedDate: new FormControl({ value: '', disabled: true }),
+      leadCreatedBy: new FormControl({ value: '', disabled: true }),
       leadHandledBy: new FormControl(''),
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
       spokeCodeLocation: new FormControl(''),
-      loanAccountBranch: new FormControl({value: '', disabled: true}),
+      loanAccountBranch: new FormControl({ value: '', disabled: true }),
       requestedAmount: new FormControl(''),
       businessDivision: new FormControl(''),
       product: new FormControl(''),
@@ -86,9 +87,9 @@ export class SourcingDdeComponent implements OnInit {
   onFormSubmit() {
     console.log('sourcing form', this.sourcingDdeForm.value);
     const formValue = this.sourcingDdeForm.value;
-    const sourcingModel = {...formValue};
+    const sourcingModel = { ...formValue };
     // this.leadStoreService.setSourcingDetails(sourcingModel);
-    this.router.navigate(['/pages/dde/product-details']);
+    this.router.navigate(['/pages/dde/applicant-list']);
   }
   sourcingChannelChange(event: any) {
 
@@ -102,17 +103,17 @@ export class SourcingDdeComponent implements OnInit {
       setTimeout(() => {
         switch (this.SourcingChange) {
 
-      case '1': this.ProfessionList = [{key: 1, value: 'DSA'}, {key: 2, value: 'Dealers'},
-      {key: 3, value: 'Connectors'}, {key: 4, value: 'Direct/Employee/DSE'}, {key: 5, value: 'Manufacturers'}];
-                break;
-      case '2': this.ProfessionList = [{key: 1, value: 'Liability Branch Code'}];
-                break;
-      case '3': this.ProfessionList = [{key: 1, value: 'Corporate Website'},
-       {key: 2, value: 'Internet Banking'}, {key: 3, value: 'Mobile Banking'}];
-                break;
-      default: this.ProfessionList = [{key: 1, value: 'Not Applicable'}];
-               break;
-    }
+          case '1': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' },
+          { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+            break;
+          case '2': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
+            break;
+          case '3': this.ProfessionList = [{ key: 1, value: 'Corporate Website' },
+          { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+            break;
+          default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
+            break;
+        }
       }, 10);
     });
   }
