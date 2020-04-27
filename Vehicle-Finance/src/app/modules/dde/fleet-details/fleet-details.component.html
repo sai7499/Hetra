@@ -94,12 +94,16 @@
                                 </tr>
                             </thead>
                             <tbody formArrayName="Rows">
-                                <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i">
+                                <tr id="applicant_1_row"
+                                    *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
+                                    [formGroupName]="i">
 
                                     <td>{{i+1}}</td>
-                                    <td><input type="text" class="form-control input_value height" value="TN01AA1234" formControlName="regdNo">
+                                    <td><input type="text" class="form-control input_value height" value="TN01AA1234"
+                                            formControlName="regdNo">
                                     </td>
-                                    <td><input type="text" class="form-control input_value height" value="KUMAR" formControlName="regdOwner">
+                                    <td><input type="text" class="form-control input_value height" value="KUMAR"
+                                            formControlName="regdOwner">
                                     </td>
                                     <td>
                                         <select class="form-control input_value height" formControlName="relation">
@@ -122,17 +126,20 @@
                                         </app-vf-custom-select> -->
                                     </td>
                                     <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
-                                    <td><input type="text" class="form-control input_value height" value="2015" formControlName="yom"></td>
+                                    <td><input type="text" class="form-control input_value height" value="2015"
+                                            formControlName="yom"></td>
                                     <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                                     <td>
-                                        <select class="form-control input_value height" id="asset_make" formControlName="financier">
+                                        <select class="form-control input_value height" id="asset_make"
+                                            formControlName="financier">
                                             <option>{{labels.bajaj}}</option>
                                             <option>{{labels.icici}}</option>
                                             <option>{{labels.chola}}</option>
 
                                         </select>
                                     </td>
-                                    <td><input type="text" class="form-control input_value height" value="4587" formControlName="loanNo"></td>
+                                    <td><input type="text" class="form-control input_value height" value="4587"
+                                            formControlName="loanNo"></td>
                                     <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
                                     <td>
                                         <div class="form-group">
@@ -140,23 +147,30 @@
                                                 <span class="input-group-addon"><span
                                                         class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                                <input type='text' class="form-control" value="12-05-2007" formControlName="purchaseDate">
+                                                <input type='text' class="form-control" value="12-05-2007"
+                                                    formControlName="purchaseDate">
                                             </div>
                                         </div>
                                     </td>
-                                    <td><input type="text" class="form-control input_value height" formControlName="tenure">
+                                    <td><input type="text" class="form-control input_value height"
+                                            formControlName="tenure">
                                     </td>
-                                    <td><input type="text" class="form-control input_value height" formControlName="paid">
+                                    <td><input type="text" class="form-control input_value height"
+                                            formControlName="paid">
                                     </td>
-                                    <td><input type="text" class="form-control input_value height" formControlName="seasoning"></td>
+                                    <td><input type="text" class="form-control input_value height"
+                                            formControlName="seasoning"></td>
                                     <td><input type="text" class="form-control input_value height" formControlName="ad">
                                     </td>
                                     <td><input type="text" class="form-control input_value height" formControlName="pd">
                                     </td>
-                                    <td><input type="text" class="form-control input_value height" formControlName="gridValue"></td>
+                                    <td><input type="text" class="form-control input_value height"
+                                            formControlName="gridValue"></td>
                                     <td><u><a class="a_tag" [routerLink]="['../track-vehicle']">RTR</a></u></td>
-                                    <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" (click)="addNewRow()"></i></td>
-                                    <td><i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant" (click)="deleteRow(i)"></i></td>
+                                    <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
+                                            (click)="addNewRow()"></i></td>
+                                    <td><i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
+                                            (click)="deleteRow(i)"></i></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -166,8 +180,6 @@
         </div>
 
     </form>
-
-
 </div>
 
 

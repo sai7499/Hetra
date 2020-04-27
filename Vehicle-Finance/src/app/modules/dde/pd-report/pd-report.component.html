@@ -1,4 +1,4 @@
-<!-- <div class="content"> -->
+<div class="content">
     <form class="multisteps-form__form" method="post">
 
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
@@ -41,7 +41,7 @@
                                         {{ labels.pdReport }}
                                         <!-- <i class="fa fa-sort"></i> -->
                                     </th>
-    
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +52,11 @@
                                     <td>7894561230</td>
                                     <td>Applicant</td>
                                     <td>Submitted</td>
-                                    <td><u><a class="a_tag" routerLink="/pages/fl-and-pd-report/applicant-detail">Version - 1</a></u><br/><u><a class="a_tag" routerLink="/pages/fl-and-pd-report/applicant-detail">Version - 2</a></u></td>
+                                    <td><u><a class="a_tag"
+                                                routerLink="/pages/fl-and-pd-report/applicant-detail">Version -
+                                                1</a></u><br /><u><a class="a_tag"
+                                                routerLink="/pages/fl-and-pd-report/applicant-detail">Version -
+                                                2</a></u></td>
                                 </tr>
                                 <tr>
                                     <td>-</td>
@@ -60,7 +64,9 @@
                                     <td>7894561230</td>
                                     <td>Co-Applicant</td>
                                     <td>Submitted</td>
-                                    <td><u><a class="a_tag" routerLink="/pages/fl-and-pd-report/applicant-detail">Version - 1</a></u></td>
+                                    <td><u><a class="a_tag"
+                                                routerLink="/pages/fl-and-pd-report/applicant-detail">Version -
+                                                1</a></u></td>
                                 </tr>
                                 <tr>
                                     <td>97912</td>
@@ -70,7 +76,7 @@
                                     <td>Waiting</td>
                                     <td></td>
                                 </tr>
-    
+
                             </tbody>
                         </table>
                         <!-- <div class="btn-sec clear-both">
@@ -113,9 +119,9 @@
                                             </a>
                                         </li>
                                     </ul> -->
-                                    <!-- <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
+                        <!-- <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
                                     </pagination-controls> -->
-                                <!-- </nav>
+                        <!-- </nav>
                             </div>
                         </div> -->
 
@@ -123,14 +129,16 @@
                 </div>
             </div>
         </div>
-    
+
     </form>
-    <!-- </div> -->
-    <div class="btn-sec clear-both">
-        <div class="col-sm-5"> </div>
-        <div class="col-sm-7 text-right"> <br> <br>
-            <button class="btn btn-primary" type="button" [routerLink]="['../fl-report']"> {{labels.back}} </button> &nbsp;
-            <!-- <p class="btn btn-primary save"> Save </p> -->
-            <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
-        </div>
+</div>
+<!-- </div> -->
+<div class="btn-sec clear-both">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right"> <br> <br>
+        <button class="btn btn-primary" type="button" [routerLink]="['../fl-report']"> {{labels.back}} </button>
+        &nbsp;
+        <!-- <p class="btn btn-primary save"> Save </p> -->
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
     </div>
+</div>
