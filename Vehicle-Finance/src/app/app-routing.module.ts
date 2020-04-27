@@ -32,10 +32,6 @@ const routes: Routes = [
       {
         path: 'terms-condition',
         loadChildren: () => import('./modules/terms-conditions/terms-conditions.module').then(m => m.TermsConditionsModule)
-      },
-      {
-        path: 'dde',
-        loadChildren: () => import('./modules/dde/dde.module').then(m => m.DdeModule)
       }
     ]
   }

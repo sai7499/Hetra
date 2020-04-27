@@ -137,9 +137,9 @@ export class VehicleDetailComponent implements OnInit {
       // console.log("event ", event.target.value);
       if (event.target.value === "1") {
         this.show = true;
-      }  else {
+      } else {
         this.show = false;
       }
     }
 
-}
+  }

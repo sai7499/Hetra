@@ -2,9 +2,9 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { LovDataService } from '@services/lov-data.service';
-import { LabelsService } from '@services/labels.service';
-import { LeadStoreService } from '@services/lead-store.service';
+import { LovDataService } from 'src/app/services/lov-data.service';
+import { LabelsService } from 'src/app/services/labels.service';
+import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { Lead } from '@model/lead.model';
 
 @Component({
