@@ -143,7 +143,7 @@
   "applicant": "Applicant",
   "creditBureau": "Credit Bureau",
   "eligibleLoanAmount": "Eligible Loan Amount",
-  "sNO": "SNo",
+  "sNo": "SNo",
   "type": "Type",
   "loanNo": "Loan No",
   "assets": "Assets",
@@ -349,12 +349,10 @@
   "grossDerivedIncome": "Gross derived Income",
   "grossMonthlyIncome": "Gross monthly income",
   "actions": "Actions",
-
   "incomeType": "Income Type",
   "grossIncome": "Gross Income",
   "factoring": "Factoring %",
   "factoredIncome": "Factored Income",
-
   "borrowerName": "Borrower Name",
   "typeOfLoan": "Type of Loan",
   "financier": "Financier",
@@ -363,7 +361,6 @@
   "emi": "EMI",
   "balanceTenor": "Balance Tenor",
   "obligationAmount": "Obligation Amount",
-
   "totalMonthlySalaryIncome": "Total Monthly Salary Income",
   "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
   "salairedFOIRDeviation": "Salaired FOIR Deviation %",

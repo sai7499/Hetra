@@ -12,24 +12,25 @@ export class ExposureDetailsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService) { }
   exposureLiveLoan: FormGroup;
   exposureProposedLoan: FormGroup;
-  labels: any;
+  labels: any = {};
+
   ngOnInit() {
     this.exposureLiveLoan = this.formBuilder.group({
-      loanTable: this.formBuilder.array([ this.getLiveLoan() ])
+      loanTable: this.formBuilder.array([this.getLiveLoan()])
     });
     this.exposureProposedLoan = this.formBuilder.group({
-       proposedTable: this.formBuilder.array([this.getProposedLoan()])
-      });
+      proposedTable: this.formBuilder.array([this.getProposedLoan()])
+    });
     this.labelService.getLabelsData().subscribe((res) => {
-  this.labels = res;
-  console.log('res in exposure', res);
-});
+      this.labels = res;
+      console.log('res in exposure', res);
+    });
   }
   private getProposedLoan() {
     return this.formBuilder.group({
       loanType: [''],
       loanNumber: ['' || '55601'],
-      assetType: ['' ],
+      assetType: [''],
       yearOfManufacture: ['' || '2015'],
       gridValue: ['' || '55'],
       LTV: ['' || '80'],
@@ -42,7 +43,7 @@ export class ExposureDetailsComponent implements OnInit {
     return this.formBuilder.group({
       loanType: [''],
       loanNumber: ['' || '55601'],
-      assetType: ['' ],
+      assetType: [''],
       yearOfManufacture: ['' || '2015'],
       gridValue: ['' || '55'],
       LTV: ['' || '80'],
