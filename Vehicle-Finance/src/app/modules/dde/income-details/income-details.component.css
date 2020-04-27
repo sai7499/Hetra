@@ -159,3 +159,10 @@ i.fa.fa-minus.delete-row {
   padding: 10px;
   cursor: pointer;
 }
+.table.income_obli > tbody > tr > td {
+  width: 50% !important;
+}
+.oblig {
+  padding: 0px;
+  margin: 0px -5px 0px -6px;
+}
