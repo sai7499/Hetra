@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { LabelsService } from '@services/labels.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fl-and-pd',
@@ -14,7 +13,7 @@ export class FlAndPDComponent implements OnInit {
   public errorMsg;
   public getLabels;
 
-  constructor( private labelsData: LabelsService, private router:Router ) { }
+  constructor( private labelsData: LabelsService ) { }
 
   ngOnInit() {
     this.getLabels = this.labelsData.getLabelsData()
@@ -24,10 +23,7 @@ export class FlAndPDComponent implements OnInit {
     error => {
       this.errorMsg = error;
     });
-  }
 
-  onFormSubmit() {
-    this.router.navigate(['/pages/dde/viability-report']);
   }
 
 }

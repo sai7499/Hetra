@@ -5,7 +5,6 @@ import { DdeComponent  } from './dde.component';
 import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
 import { FlAndPDComponent } from './fl-and-pd/fl-and-pd.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
-import { PslDataComponent } from './psl-data/psl-data.component';
 
 const routes: Routes = [{
     path: '',
@@ -22,10 +21,6 @@ const routes: Routes = [{
         {
             path: 'vehicle-valuation',
             component: VehicleValuationComponent
-        },
-        {
-            path: 'psl-data',
-            component: PslDataComponent
         }
     ]
 }];
