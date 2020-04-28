@@ -15,7 +15,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   customerProfileForm: FormGroup;
 
-  public customerProfileLov: any = {};
+  public customerProfileLov:any = {};
   public labels: any = {};
   public errorMsg;
   public getLabels;

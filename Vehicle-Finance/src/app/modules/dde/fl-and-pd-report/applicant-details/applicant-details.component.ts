@@ -14,7 +14,7 @@ export class ApplicantDetailComponent implements OnInit {
   
   applicantForm: FormGroup;
 
-  public applicantLov: any = {};
+  public applicantLov:any = {};
   public labels: any = {};
   public errorMsg;
   public getLabels;
