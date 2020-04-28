@@ -112,25 +112,25 @@
                         <input formControlName="accountNumber" type="text" class="form-control" name="bank_account_number" id="bank_account_number" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="account_holding_bank">Account Holding Bank</label>
+                        <label for="account_holding_bank">{{labels?.accountHoldingBank}}</label>
                         <!-- <select class="form-control" id="account_holding_bank" name="account_holding_bank" required="required">
                             <option value="">Select</option>
                         </select> -->
                         <app-vf-custom-select formControlName="accountBank"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="branch_and_communication_address">Branch and Communication Address</label>
+                        <label for="branch_and_communication_address">{{labels?.branchAndCommunicationAddress}}</label>
                         <textarea formControlName="branchAddress" class="form-control" rows="1" id="branch_and_communication_address" name="branch_and_communication_address"></textarea>											
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="spoke_and_communication_address">Spoke and Communication Address</label>
+                        <label for="spoke_and_communication_address">{{labels?.spokeAndCommunicationAddress}}</label>
                         <textarea formControlName="spokeAddress" class="form-control" rows="1" id="spoke_and_communication_address" name="spoke_and_communication_address"></textarea>					
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="designation">Designation</label>
+                        <label for="designation">{{labels?.designation}}</label>
                         <!-- <select class="form-control" id="designation" name="designation">
                             <option value="Salaried">Salaried</option>
                             <option value="Self_Employed">Self Employed</option>
@@ -138,44 +138,44 @@
                         <app-vf-custom-select formControlName="designation" [values]="designation" (change)="onDesignationChange($event)"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="office_name">Office Name</label>
+                        <label for="office_name">{{labels?.officeName}}</label>
                         <input formControlName="officeName" type="text" class="form-control" name="office_name" id="office_name" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="yr_curr_employment">No. of years in curr. Employment</label>
+                        <label for="yr_curr_employment">{{labels?.noOfyearsInCurrEmployment}}</label>
                         <input formControlName="years" type="text" class="form-control" name="yr_curr_employment" id="yr_curr_employment" required="required">
                     </div>	
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="employee_code">Employee Code</label>
+                        <label for="employee_code">{{labels?.employeeCode}}</label>
                         <input formControlName="employeeCode" type="text" class="form-control" name="employee_code" id="employee_code" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="employee_type">Employee Type</label>
+                        <label for="employee_type">{{labels?.employeeType}}</label>
                         <!-- <select class="form-control" id="employee_type" name="employee_type">
                             <option value="">Select</option>
                         </select> -->
                         <app-vf-custom-select formControlName="employeeType"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="department">Department</label>
+                        <label for="department">{{labels?.department}}</label>
                         <!-- <select class="form-control" id="department" name="department">
                             <option value="">Select</option>
                         </select> -->
                         <app-vf-custom-select formControlName="department"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="type_of_business_div" *ngIf="isSelfEmployed"> 
-                        <label for="type_of_business">Type of Business</label>
+                        <label for="type_of_business">{{labels?.typeOfBusiness}}</label>
                         <!-- <select class="form-control" id="type_of_business" name="type_of_business" required="required">
                             <option value="">Select</option>
                         </select> -->
                         <app-vf-custom-select formControlName="businessType" ></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="business_name_div" *ngIf="isSelfEmployed">
-                        <label for="business_name">Business Name</label>
+                        <label for="business_name">{{labels?.businessName}}</label>
                         <input formControlName="businessName" type="text" class="form-control" name="business_name" id="business_name" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="business_start_date_div" *ngIf="isSelfEmployed">
-                        <label for="business_start_date">Business Start Date</label>
+                        <label for="business_start_date">{{labels?.businessStartDate}}</label>
                         <div class="input-group input-medium" id="datetimepicker6">
                             <span class="input-group-btn">
                                 <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
@@ -184,15 +184,15 @@
                         </div>
                     </div>	
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="yrs_current_business_div" *ngIf="isSelfEmployed">
-                        <label for="yrs_current_business">Number of Years in current Business</label>
+                        <label for="yrs_current_business">{{labels?.numberOfYearsInCurrentBusiness}}</label>
                         <input formControlName="currentBusinessYear" type="text" class="form-control" name="yrs_current_business" id="yrs_current_business" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="turn_over_div" *ngIf="isSelfEmployed">
-                        <label for="turn_over">Turn Over</label>
+                        <label for="turn_over">{{labels?.turnOver}}</label>
                         <input  formControlName="turnOver" type="text" class="form-control" name="turn_over" id="turn_over">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="annual_income_div" style="display: none;" *ngIf="isSelfEmployed">
-                        <label for="annual_income">Annual Income</label>
+                        <label for="annual_income">{{labels?.annualIncome}}</label>
                         <input formControlName="name" type="text" class="form-control" name="annual_income" id="annual_income">
                     </div>
 
@@ -207,7 +207,7 @@
                 <h3>Basic Customer Data - Non individual</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="non_occupation">Occupation</label>
+                        <label for="non_occupation">{{labels?.occupation}}</label>
                         <!-- <select class="form-control" id="non_occupation" name="non_occupation">
                                 <option>Occupation 1</option>
                                 <option>Occupation 2</option>
@@ -215,38 +215,38 @@
                        <app-vf-custom-select formControlName="occupation"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="customer_category">Customer Category</label>
+                        <label for="customer_category">{{labels?.customerCategory}}</label>
                         <input formControlName="customerCategory" type="text" class="form-control" id="amount">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="Lead Created">Email ID</label>
+                        <label for="Lead Created">{{labels?.emailID}}</label>
                         <input formControlName="emailId" type="text" class="form-control" id="amount">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="Lead Created By">Alternate Email ID</label>
+                        <label for="Lead Created By">{{labels?.alternateEmailID}}</label>
                         <input formControlName="altrEmailId" type="text" class="form-control" id="amount">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="title">Preferred Language for Communication</label>
+                        <label for="title">{{labels?.prefferedLanguageForCommunication}}</label>
                         <!-- <select class="form-control">
                                 <option>Select</option>
                             </select> -->
                         <app-vf-custom-select formControlName="language"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="channel">Company 1</label>
+                        <label for="channel">{{labels?.company1}}</label>
                         <input formControlName="company1" type="text" class="form-control" id="amount">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="sourcing type">Company 2</label>
+                        <label for="sourcing type">{{labels?.company2}}</label>
                         <input formControlName="company2" type="text" class="form-control" id="amount">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="sourcing code">Company 3</label>
+                        <label for="sourcing code">{{labels?.company3}}</label>
                         <input formControlName="company3" type="text" class="form-control" id="amount">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="entity">Date Of Incorporation</label>
+                        <label for="entity">{{labels?.dateOfIncorporation}}</label>
                         <div class="input-group input-medium">
                             <span class="input-group-btn">
                                     <button class="btn btn-default" disabled=""> <i class="fa fa-calendar"></i> </button>
@@ -255,66 +255,66 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="title">Number Of Directions</label>
+                        <label for="title">{{labels?.numberOfDirections}}</label>
                         <input formControlName="numberOfDirection" type="text" class="form-control" id="amount">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="bank_account_number">Bank Account Number</label>
+                        <label for="bank_account_number">{{labels?.bankAccountNumber}}</label>
                         <input formControlName="accountNumber" type="text" class="form-control" name="bank_account_number" id="bank_account_number" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="account_holding_bank">Account Holding Bank</label>
+                        <label for="account_holding_bank">{{labels?.accountHoldingBank}}</label>
                         <!-- <select class="form-control" id="account_holding_bank" name="account_holding_bank" required="required">
                             <option value="">Select</option>
                         </select> -->
                         <app-vf-custom-select formControlName="accountBank"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="branch_and_communication_address">Branch and Communication Address</label>
+                        <label for="branch_and_communication_address">{{labels?.branchAndCommunicationAddress}}</label>
                         <textarea formControlName="branchAddress" class="form-control" rows="1" id="branch_and_communication_address" name="branch_and_communication_address"></textarea>											
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="spoke_and_communication_address">Spoke and Communication Address</label>
+                        <label for="spoke_and_communication_address">{{labels?.spokeAndCommunicationAddress}}</label>
                         <textarea formControlName="spokeAddress" class="form-control" rows="1" id="spoke_and_communication_address" name="spoke_and_communication_address"></textarea>					
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="name_of_director">Name of Director</label>
+                        <label for="name_of_director">{{labels?.nameofDirector}}</label>
                         <input formControlName="directorName" type="text" class="form-control" name="name_of_director" id="name_of_director">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="din">Director Identification number (DIN)</label>
+                        <label for="din">{{labels?.directorIdentificationNumber}}</label>
                         <input formControlName="din" type="text" class="form-control" name="din" id="din">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="contact_person">Contact Person</label>
+                        <label for="contact_person">{{labels?.contactPerson}}</label>
                         <input formControlName="contactPerson" type="text" class="form-control" name="contact_person" id="contact_person" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="contact_person_designation">Contact Person Designation</label>
+                        <label for="contact_person_designation">{{labels?.contactPersonDesignation}}</label>
                         <!-- <select class="form-control" id="contact_person_designation" name="contact_person_designation">
                             <option value="">Select</option>
                         </select> -->
                         <app-vf-custom-select formControlName="contactDesignation"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="contact_person_mobile_number">Contact Person mobile number</label>
+                        <label for="contact_person_mobile_number">{{labels?.contactPersonMobileNumber}}</label>
                         <input formControlName="contactMobileNumber" type="text" class="form-control" name="contact_person_mobile_number" id="contact_person_mobile_number" required="required">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="rating_issuer_name">Rating Issuer Name</label>
+                        <label for="rating_issuer_name">{{labels?.ratingIssuerName}}</label>
                         <input formControlName="issuerName" type="text" class="form-control" name="rating_issuer_name" id="rating_issuer_name">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="external_rating_assigned">External Rating Assigned</label>
+                        <label for="external_rating_assigned">{{labels?.ratingIssuerName}}</label>
                         <input formControlName="ratingAssigned" type="text" class="form-control" name="external_rating_assigned" id="external_rating_assigned">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="extnl_rating_issued_date">Extnl. Rating Issued Date</label>
+                        <label for="extnl_rating_issued_date">{{labels?.externalRatingAssigned}}</label>
                         <div class="input-group input-medium">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" disabled=""> <i class="fa fa-calendar"></i> </button>
@@ -323,7 +323,7 @@
                         </div>
                     </div>	
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="extnl_rating_expiry_date">Extnl. Rating Expiry Date</label>
+                        <label for="extnl_rating_expiry_date">{{labels?.extnlRatingIssuedDate}}</label>
                         <div class="input-group input-medium">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" disabled=""> <i class="fa fa-calendar"></i> </button>
@@ -332,15 +332,15 @@
                         </div>
                     </div>	
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="dealing_foreign_currency">Extnl. Rating Expiry Date</label>
+                        <label for="dealing_foreign_currency">{{labels?.dealingForeignCurrency}}</label>
                         <input formControlName="foreignCurrency" type="text" class="form-control" name="dealing_foreign_currency" id="dealing_foreign_currency">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="exposure_banking_system">Total Exposure in the banking system(In lakhs)</label>
+                        <label for="exposure_banking_system">{{labels?.totalExposureInThebankingsystem}}</label>
                         <input  formControlName="totalExposure" type="text" class="form-control" name="exposure_banking_system" id="exposure_banking_system">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="credit_risk_score">Credit Risk Score</label>
+                        <label for="credit_risk_score">{{labels?.creditRiskScore}}</label>
                         <input formControlName="creditScore" type="text" class="form-control" name="credit_risk_score" id="credit_risk_score" required="required">
                     </div>
                 </div> 
