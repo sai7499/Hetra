@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { interval} from 'rxjs'
+import { map} from 'rxjs/operators'
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { VehicleDetailService} from '../services/vehicle-detail.service'
 
 @Component({
   selector: 'app-vehicle-details',
@@ -20,16 +23,26 @@ export class VehicleDetailComponent implements OnInit {
     public errorMsg;
     public getAllFieldLabel;
     public show: boolean = false;
+    public vehicleDetails : any;
+    public isAlert : boolean = true
+    
+    public varVehicle=[];
+    
+
+
     
     constructor(
       private labelsData: LabelsService,
       private lovDataService: LovDataService,
       private router: Router,
-      private leadStoreService: LeadStoreService ) { }
+      private activateroute : ActivatedRoute,
+      private leadStoreService: LeadStoreService,
+      private vehicleDetailService : VehicleDetailService ) { }
   
       
     ngOnInit() {
       this.initForm();
+      console.log('ngonit', this.vehicleForm.value)
       this.getAllFieldLabel = this.labelsData.getLabelsData()
           .subscribe( data => {
             this.label = data;
@@ -67,7 +80,7 @@ export class VehicleDetailComponent implements OnInit {
       fastTag: new FormControl(''),
       others: new FormControl(''),
       discount: new FormControl(''),
-      finalAssetCost: new FormControl(''),
+      finalAssetCost: new FormControl('500000', ),
       idv: new FormControl(''),
       insuranceValidity: new FormControl(''),
       insuranceCopy: new FormControl(''),
@@ -85,6 +98,8 @@ export class VehicleDetailComponent implements OnInit {
 
     setFormValue() {
       const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+      
+      
       this.vehicleForm.patchValue({
         vehicleType: vehicleModel.vehicleType || '',
         region: vehicleModel.region || '',
@@ -125,12 +140,48 @@ export class VehicleDetailComponent implements OnInit {
 
     onFormSubmit() {
       const formModel = this.vehicleForm.value;
+      console.log('formmodel', formModel)
       const vehicleModel = {...formModel};
+      this.isAlert= false
+      setTimeout(() => {
+        this.isAlert = true
+      },1000);
+      // this.isAlert = true
       this.leadStoreService.setVehicleDetails(vehicleModel);
-      this.router.navigate(['/pages/lead-section/applicant-details']);
+      
     }
+    getData(){
+      this.vehicleDetails = this.leadStoreService.getVehicleDetails();
+
+      // console.log('vehicle',this.vehicleDetails)
+      this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake, this.varVehicle)
+      this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel, this.varVehicle)
+      this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant, this.varVehicle)
+      
+        
+    }
+    
+
+    getCategory( category, value, varVehicle ){
+      category.forEach(element => {
+        // console.log(element)
+          if(parseInt(value) == element.key){
+          varVehicle.push(element.value)
+          }
+      });
+      // console.log('varVehicle',this.varVehicle)
+    }
+   
 
     ngOnChanges() { }
+
+
+    editVehicle() {
+      this.router.navigate(['pages/lead-section/add-vehicle']);
+      const tableVehicle= this.varVehicle
+      console.log('vehicleTable',tableVehicle)
+      
+    }
 
     //To show and hide lov--select "Open" in Vehicle dependency
     onShow(event) {

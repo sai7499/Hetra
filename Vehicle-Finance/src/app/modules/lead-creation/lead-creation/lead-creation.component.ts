@@ -64,6 +64,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   ) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
+      console.log(this.lovLabels);
     });
 
   }
@@ -148,6 +149,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   gotValue(e) {
     console.log(e.target.value);
   }
+
 
   onSubmit() {
     const formValue = this.createLeadForm.value;

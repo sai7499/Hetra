@@ -13,6 +13,7 @@ export class ApplicantDetailsComponent implements OnInit {
 
   labels: any = {};
   applicantDetails = [];
+  isAlert : boolean = true
 
   constructor(
     private route: Router,
@@ -36,9 +37,15 @@ export class ApplicantDetailsComponent implements OnInit {
     this.applicantDetails = this.leadStoreService.getApplicantList();
     // console.log('applicant array', applicants)
     // this.applicantDetails.push(applicants)
+    // this.leadStoreService.getApplicantList();
     console.log('applicant Details', this.applicantDetails);
   }
-
+  onSubmit(){
+    this.isAlert= false
+    setTimeout(() => {
+      this.isAlert=true
+    },1000);
+  }
   onChange() {
     this.route.navigateByUrl('pages/lead-section/co-applicant');
   }

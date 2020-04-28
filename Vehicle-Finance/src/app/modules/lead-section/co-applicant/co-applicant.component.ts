@@ -66,7 +66,7 @@ export class CoApplicantComponent implements OnInit {
       company_name2: new FormControl(''),
       company_name3: new FormControl(''),
       mobile: new FormControl(''),
-      date_of_birth: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       date_of_incorporation: new FormControl(''),
       identity_type: new FormControl(''),
       aadharnumber:new FormControl(''),
@@ -115,9 +115,13 @@ export class CoApplicantComponent implements OnInit {
   }
 
   setFormValue(applicantValue: Temp) {
+    console.log('applicant value', applicantValue)
     if (!applicantValue) {
+      console.log('applicant value -1', applicantValue)
       return;
     }
+    else{
+      console.log('applicant 2', applicantValue)
     this.coApplicantForm.patchValue({
       entity: applicantValue.entity || '',
       relationshipwithloanapplicant: applicantValue.relationshipwithloanapplicant || '',
@@ -160,6 +164,7 @@ export class CoApplicantComponent implements OnInit {
       registered_address_state: applicantValue.registered_address_state || '',
       registered_address_country: applicantValue.registered_address_country || '',
     });
+  }
   }
 
   onNext() {

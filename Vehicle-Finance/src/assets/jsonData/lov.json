@@ -495,6 +495,7 @@
             "value": "New CV"
           },
           {
+            
             "key": 12,
             "value": "UsedCV"
           },
@@ -505,6 +506,16 @@
           {
             "key": 14,
             "value": "Used Cars"
+          }
+        ],
+        "priority" : [
+          {
+            "key" : 1,
+            "value": "Yes"
+          },
+          {
+            "key" : 2,
+            "value" : "No"
           }
         ],
         "childLoan": [
@@ -564,7 +575,7 @@
           { "key": 64, "value": "Campaign" },
           { "key": 65, "value": "Business Banking" },
           { "key": 66, "value": "Business Correspondence" },
-          { "key": 62, "value": "Call Center" }
+          { "key": 67, "value": "Call Center" }
         ],
         "leadHandledBY": [
           { "key": 71, "value": "Person 1" },
