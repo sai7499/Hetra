@@ -53,14 +53,14 @@ export class VehicleDetailComponent implements OnInit {
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
         // console.log('vehicleLov', this.vehicleLov);
-        // this.setFormValue();
+        this.setFormValue();
         this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
         this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel;
         this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant;
 
 
         console.log('asset make', this.vehicleLov.assetMake)
-        this.getData();
+        // this.getData();
       
       });
     }
@@ -107,7 +107,7 @@ export class VehicleDetailComponent implements OnInit {
     setFormValue() {
       const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
       
-      
+       console.log('vehicle Model', vehicleModel)
       this.vehicleForm.patchValue({
         vehicleType: vehicleModel.vehicleType || '',
         region: vehicleModel.region || '',
@@ -160,24 +160,29 @@ export class VehicleDetailComponent implements OnInit {
     }
     getData(){
       this.vehicleDetails = this.leadStoreService.getVehicleDetails();
+      console.log('vehicledetails', this.vehicleDetails)
 
-      // console.log('vehicle',this.vehicleDetails)
-      this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake, this.varVehicle)
-      this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel, this.varVehicle)
-      this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant, this.varVehicle)
+      this.varVehicle.push(this.vehicleDetails.registrationNumber)
+
+      this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake)
+      this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel)
+      this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant)
+
+      this.varVehicle.push(this.vehicleDetails.finalAssetCost)
+        
       
         
     }
     
-
-    getCategory( category, value, varVehicle ){
+   
+    getCategory( category, value){
       category.forEach(element => {
-        // console.log(element)
+      
           if(parseInt(value) == element.key){
-          varVehicle.push(element.value)
+          this.varVehicle.push(element.value)
           }
       });
-      // console.log('varVehicle',this.varVehicle)
+      
     }
    
 
@@ -185,9 +190,10 @@ export class VehicleDetailComponent implements OnInit {
 
 
     editVehicle() {
-      this.router.navigate(['pages/lead-section/add-vehicle']);
       const tableVehicle= this.varVehicle
       console.log('vehicleTable',tableVehicle)
+      // this.router.navigate(['pages/lead-section/add-vehicle',]);
+     
       
     }
 

@@ -1,7 +1,9 @@
 <div class="content">
     <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm">
         <h4 class="title">{{ label.vehcileDetailsTitle }}</h4>
-        <div class="text-right" id="add_vehicle_details_btn"><input class="btn btn-primary" type="button" value="Add Vehicle" id="add_vehicle" [routerLink]="['/pages/lead-section/add-vehicle']" ></div>
+        <div class="text-right" id="add_vehicle_details_btn">
+            <button class="btn btn-primary  mar-right8" type="button" [routerLink]="['/pages/lead-section/add-vehicle']">Add Vehicle</button>
+        </div>
         <div class="table-responsive">
             <table class="table" id="add_vhd_table" >
                 <thead>
@@ -14,14 +16,15 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                     <tr id="add_vhd_tabletr" >
-                        <td>{{vehicleDetails.registrationNumber}}</td>
-                        <td>{{varVehicle[0]}}</td>
-                        <td>{{varVehicle[1]}}</td>
-                        <td>{{varVehicle[2]}}</td>
-                        <td>{{vehicleDetails.finalAssetCost}}</td>
-                        <td *ngIf='varVehicle.length' (click)="editVehicle()"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                        <td *ngFor="let vehicle of varVehicle">
+                            {{vehicle}}
+                        </td>
+                        
+                        <td *ngIf='varVehicle.length>3' (click)="editVehicle()">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </td>
                     </tr>
                 </tbody>
             </table>

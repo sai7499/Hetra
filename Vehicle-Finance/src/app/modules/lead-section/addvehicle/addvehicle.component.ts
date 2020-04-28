@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router,  } from '@angular/router';
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
@@ -57,6 +57,7 @@ export class AddvehicleComponent implements OnInit {
           // this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake
           // this.getVehicle();
           this.setFormValue();
+          // this.onCheck();
 
         });
       }
