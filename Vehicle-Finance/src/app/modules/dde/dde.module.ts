@@ -19,8 +19,12 @@ import { PslDataComponent } from "./psl-data/psl-data.component";
 import { FlReportComponent } from "./fl-report/fl-report.component";
 import { PdReportComponent } from "./pd-report/pd-report.component";
 import { ApplicantListComponent } from "./applicant-list/applicant-list.component";
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
+import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { ApplicantListComponent } from "./applicant-list/applicant-list.componen
     SourcingDdeComponent,
     ExposureDetailsComponent,
     IncomeDetailsComponent,
-    ApplicantListComponent
+    ApplicantListComponent,
+    VehicleListComponent,
+    FleetDetailsComponent,
+    TrackVehicleComponent
   ],
   imports: [
     DdeRoutingModule,
@@ -45,4 +52,4 @@ import { ApplicantListComponent } from "./applicant-list/applicant-list.componen
     DdeSharedModule
   ]
 })
-export class DdeModule {}
+export class DdeModule { }

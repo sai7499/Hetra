@@ -1,0 +1,163 @@
+<div class="content">
+    <div class="multisteps-form__form">
+        <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
+        <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
+            <option value="individual"> {{label_rto_declaration.title}} </option>
+            <option value="non-individual">{{label_rto_confirmation.title}}</option>
+        </select>
+        <!-- </div> -->
+
+        <form [formGroup]="rtoDeclarationForm" *ngIf="select_main_button_value === 'individual'">
+            <div id="individual_section_start">
+
+                <!-- <h4 class="title">RTO Declaration</h4> -->
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="objection_filed_vehicle">{{label_rto_declaration.objectionFiled}}</label>
+                        <input type="text" class="form-control" name="objection_filed_vehicle"
+                            id="objection_filed_vehicle" formControlName="objection_filed_vehicle" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="case_filed_vehicle">{{label_rto_declaration.caseFiled}}</label>
+                        <input type="text" class="form-control" name="case_filed_vehicle" id="case_filed_vehicle"
+                            formControlName="case_filed_vehicle" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="court_revenue">{{label_rto_declaration.attachmentbyCourt_Revenue}}</label>
+                        <input type="text" class="form-control" name="court_revenue" id="court_revenue"
+                            formControlName="court_revenue" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="duplicate_rc">{{label_rto_declaration.duplicateRC}}</label>
+                        <input type="text" class="form-control" name="duplicate_rc" id="duplicate_rc"
+                            formControlName="duplicate_rc" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="interstate_vehicle">{{label_rto_declaration.interstate_vehicle}}</label>
+                        <input type="text" class="form-control" name="interstate_vehicle" id="interstate_vehicle"
+                            formControlName="interstate_vehicle" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="re_registered_vehicle">{{label_rto_declaration.reRegistered_vehicle}}</label>
+                        <input type="text" class="form-control" name="re_registered_vehicle" id="re_registered_vehicle"
+                            formControlName="re_registered_vehicle" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="assigned_number">{{label_rto_declaration.assigned_number}}</label>
+                        <input type="text" class="form-control" name="assigned_number" id="assigned_number"
+                            formControlName="assigned_number" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="fine_vehicle">{{label_rto_declaration.fine_vehicle}}</label>
+                        <input type="text" class="form-control" name="fine_vehicle" id="fine_vehicle"
+                            formControlName="fine_vehicle" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="tax_arrears">{{label_rto_declaration.taxArrears}}</label>
+                        <input type="text" class="form-control" name="tax_arrears" id="tax_arrears"
+                            formControlName="tax_arrears" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="engine_number_match">{{label_rto_declaration.engineNum_chassisnumbermatch}}</label>
+                        <input type="text" class="form-control" name="engine_number_match" id="engine_number_match"
+                            formControlName="engine_number_match" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="issues_permit_transfer">{{label_rto_declaration.issueinpermit_transfer}}</label>
+                        <input type="text" class="form-control" name="issues_permit_transfer"
+                            id="issues_permit_transfer" formControlName="issues_permit_transfer" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="discrepancy">{{label_rto_declaration.anyOtherIssue_discrepancy}}</label>
+                        <input type="text" class="form-control" name="discrepancy" id="discrepancy"
+                            formControlName="discrepancy" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="tax_valid_upto">{{label_rto_declaration.taxValid}}</label>
+                        <input type="text" class="form-control" name="tax_valid_upto" id="tax_valid_upto"
+                            formControlName="tax_valid_upto" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="fitness_valid_upto">{{label_rto_declaration.fitnessValid}}</label>
+                        <input type="text" class="form-control" name="fitness_valid_upto" id="fitness_valid_upto"
+                            formControlName="fitness_valid_upto" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="remarks">{{label_rto_declaration.remarks}}</label>
+                        <input type="text" class="form-control" name="remarks" id="remarks" formControlName="remarks" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form [formGroup]="rtoConfirmationForm" *ngIf="select_main_button_value === 'non-individual'">
+            <div id="non_individual_section_start">
+
+                <!-- <h4 class="title" >RTO Confirmation</h4> -->
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="rto_agent_name">{{label_rto_confirmation.rto_agent_name}}</label>
+                        <input type="text" class="form-control" name="rto_agent_name" id="rto_agent_name"
+                            formControlName="rto_agent_name" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="rto_agent_signature">{{label_rto_confirmation.rto_agent_signature}}</label>
+                        <input type="text" class="form-control" name="rto_agent_signature" id="rto_agent_signature"
+                            formControlName="rto_agent_signature" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="date">{{label_rto_confirmation.date}}</label>
+                        <div class="input-group input-medium">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" disabled> <i class="fa fa-calendar"></i> </button>
+                            </span>
+                            <input type="text" class="form-control" id="date" name="date" formControlName="date" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="borrower_name">{{label_rto_confirmation.borrower_name}}</label>
+                        <input type="text" class="form-control" name="borrower_name" id="borrower_name"
+                            formControlName="borrower_name" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="borrower_signature">{{label_rto_confirmation.borrower_signature}}</label>
+                        <input type="text" class="form-control" name="borrower_signature" id="borrower_signature"
+                            formControlName="borrower_signature" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="remark">{{label_rto_confirmation.remark}}</label>
+                        <input type="text" class="form-control" name="remark" id="remark" formControlName="remark" />
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="date">{{label_rto_confirmation.date}}</label>
+                        <div class="input-group input-medium">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" disabled> <i class="fa fa-calendar"></i> </button>
+                            </span>
+                            <input type="text" class="form-control" id="date1" name="date1" formControlName="date1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+<div class="btn-sec clear-both row text-right">
+    <div class="col-sm-12">
+        <button class="btn btn-primary" [ngClass]="{'cus-btn-sty' : select_main_button_value === 'individual'}"
+            type="button">{{label.back}}</button> &nbsp;
+        <button class="btn btn-primary save" [ngClass]="{'cus-btn-sty' : select_main_button_value === 'individual'}">
+            {{label.save}} </button>&nbsp;
+        <button class="btn btn-primary" [ngClass]="{'cus-btn-sty' : select_main_button_value === 'individual'}"
+            type="button">{{label.next}}</button>&nbsp;
+    </div>
+</div>

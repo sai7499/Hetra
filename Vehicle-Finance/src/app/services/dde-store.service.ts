@@ -1,66 +1,85 @@
 import { Injectable } from '@angular/core';
-
-import { Dde, VehicleValuation, PslData, ApplicantDetails, CustomerProfile, 
-         LoanDetails } from '@model/dde.model';
+import {
+  Dde, VehicleValuation, PslData, ApplicantDetails, CustomerProfile,
+  LoanDetails, FleetDetails, TrackVehicle
+} from '@model/dde.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class DdeStoreService {
 
-    public ddeStore: Dde;
+  public ddeStore: Dde;
 
-    public vehicleValuation: any;
-    public pslData: any;
+  public trackvehicle: any;
+  public fleetDetails: any;
+  public vehicleValuation: any;
+  public pslData: any;
 
-    constructor() {}
+  constructor() { }
 
-    setDde(dde: Dde) {
-        this.ddeStore = dde;
-    }
+  setDde(dde: Dde) {
+    this.ddeStore = dde;
+  }
 
-    getDde() {
-        return this.ddeStore;
-    }
+  getDde() {
+    return this.ddeStore;
+  }
 
-    setVehicleValuation(vehicleValuation: VehicleValuation) {
-        this.ddeStore.vehicleValuation = vehicleValuation;
-    }
+  setFleetDetails(fleetDetails: FleetDetails) {
+    this.ddeStore.fleetDetails = fleetDetails
+  }
 
-    getVehicleValuation() {
-        return this.ddeStore ? this.ddeStore.vehicleValuation : {};
-    }
+  getFleetDetails() {
+    return this.ddeStore ? this.ddeStore.fleetDetails : {};
+  }
 
-    setPslData(pslData: PslData) {
-        this.ddeStore.pslData = pslData;
-    }
+  setTrackVehicle(trackvehicle: TrackVehicle) {
+    this.ddeStore.trackVehicle = trackvehicle
+  }
 
-    getPslData() {
-        return this.ddeStore ? this.ddeStore.pslData : {};
-    }
+  getTrackVehicle() {
+    return this.ddeStore ? this.ddeStore.trackVehicle : {};
+  }
 
-    setApplicantDetails(applicantDetails: ApplicantDetails) {
-        this.ddeStore.applicantDetails = applicantDetails;
-    }
+  setVehicleValuation(vehicleValuation: VehicleValuation) {
+    this.ddeStore.vehicleValuation = vehicleValuation;
+  }
 
-    getApplicantDetails() {
-        return this.ddeStore ? this.ddeStore.applicantDetails : {};
-    }
+  getVehicleValuation() {
+    return this.ddeStore ? this.ddeStore.vehicleValuation : {};
+  }
 
-    setCustomerProfile(customerProfile: CustomerProfile) {
-        this.ddeStore.customerProfile = customerProfile;
-    }
+  setPslData(pslData: PslData) {
+    this.ddeStore.pslData = pslData;
+  }
 
-    getCustomerProfile() {
-        return this.ddeStore ? this.ddeStore.customerProfile : {};
-    }
+  getPslData() {
+    return this.ddeStore ? this.ddeStore.pslData : {};
+  }
 
-    setLoanDetails(loanDetails: LoanDetails) {
-        this.ddeStore.loanDetails = loanDetails;
-    }
+  setApplicantDetails(applicantDetails: ApplicantDetails) {
+    this.ddeStore.applicantDetails = applicantDetails;
+  }
 
-    getLoanDetails() {
-        return this.ddeStore ? this.ddeStore.loanDetails : {};
-    }
+  getApplicantDetails() {
+    return this.ddeStore ? this.ddeStore.applicantDetails : {};
+  }
+
+  setCustomerProfile(customerProfile: CustomerProfile) {
+    this.ddeStore.customerProfile = customerProfile;
+  }
+
+  getCustomerProfile() {
+    return this.ddeStore ? this.ddeStore.customerProfile : {};
+  }
+
+  setLoanDetails(loanDetails: LoanDetails) {
+    this.ddeStore.loanDetails = loanDetails;
+  }
+
+  getLoanDetails() {
+    return this.ddeStore ? this.ddeStore.loanDetails : {};
+  }
 
 }

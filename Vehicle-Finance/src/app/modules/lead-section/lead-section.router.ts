@@ -43,11 +43,7 @@ const routes: Routes = [
       {
         path: "loan-details",
         component: LoanDetailsComponent
-      },
-        
-     
-  
-      
+      }
     ]
   }
 ];

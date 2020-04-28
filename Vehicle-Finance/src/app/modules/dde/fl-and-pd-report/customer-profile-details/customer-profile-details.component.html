@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="customerProfileForm">
+<form class="multisteps-form__form" [formGroup]="customerProfileForm" *ngIf="labels">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <h3 class="title">{{labels.customerProfileTitle}}</h3>
         <div class="row">
@@ -9,7 +9,8 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="addressRecord"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="addressRecord">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="no_employees">{{labels.noEmployees}}</label>
@@ -22,7 +23,8 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="nameBoardSeen"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="nameBoardSeen">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="office_premises">{{labels.officePremises}}</label>
@@ -33,7 +35,8 @@
                     <option value="Resi cum office">Resi cum office</option>
                     <option value="Shared">Shared</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.officePremises" formControlName="officePremises"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.officePremises" formControlName="officePremises">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="size_of_office">{{labels.sizeOfOffice}}</label>
@@ -43,7 +46,8 @@
                     <option value="Average">500 to 1000 Sft</option>
                     <option value="Poor">More than 1000 Sft</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.sizeOfOffice" formControlName="sizeOfOffice"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.sizeOfOffice" formControlName="sizeOfOffice">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="rating_by_so">{{labels.ratingBySo}}</label>
@@ -54,11 +58,13 @@
                     <option value="Good">Good</option>
                     <option value="Very Good">Very Good</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.ratingBySo" formControlName="ratingBySo"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.ratingBySo" formControlName="ratingBySo">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mismatch_address">{{labels.mismatchAddress}}</label>
-                <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea>
+                <textarea class="form-control" rows="1" id="mismatch_address"
+                    formControlName="mismatchAddress"></textarea>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="selfie_with_house">{{labels.selfieWithHouse}}</label>
@@ -67,7 +73,8 @@
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="selfieWithHouse"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="selfieWithHouse">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="ownership_proof">{{labels.ownershipProof}}</label>
@@ -76,7 +83,8 @@
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                      </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="ownershipProof"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="ownershipProof">
+                </app-vf-custom-select>
 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -86,22 +94,24 @@
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="metCustomer"></app-vf-custom-select>
+                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="metCustomer">
+                </app-vf-custom-select>
             </div>
 
 
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" routerLink="/pages/fl-and-pd-report/applicant-detail"> {{labels.back}} </button> &nbsp;
+                    <button class="btn btn-primary" type="button" routerLink="/pages/fl-and-pd-report/applicant-detail">
+                        {{labels.back}} </button> &nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
                     <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 
 </form>

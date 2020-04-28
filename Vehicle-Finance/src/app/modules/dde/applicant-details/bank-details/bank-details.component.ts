@@ -5,6 +5,7 @@ import {
     Validators,
     FormControl,
     FormArray } from '@angular/forms';
+    import { LabelsService } from "src/app/services/labels.service";
 
 @Component({
     templateUrl: './bank-details.component.html',
@@ -12,10 +13,22 @@ import {
 })
 export class BankDetailsComponent implements OnInit {
     bankForm: FormGroup;
+    labels: any = {};
 
-    constructor(private fb: FormBuilder) {}
+    constructor(private fb: FormBuilder,
+        private labelsData: LabelsService) {}
 
     ngOnInit() {
+        this.labelsData.getLabelsData().subscribe(
+            data => {
+              this.labels = data;
+              // console.log(this.labels)
+            },
+            error => {
+              console.log(error);
+            }
+          );
+
         this.bankForm = this.fb.group({
             details: this.fb.array([])
         });
