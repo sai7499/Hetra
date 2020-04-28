@@ -5,12 +5,12 @@
             <div class="container">
                 <div class="btn-sec clear-both row">
                     <div class="col-sm-5">
-                        <h4 class="title"> {{ label.loanDetailsTitle }} </h4>
+                        <h4 class="title"> {{ labels?.loanDetailsTitle }} </h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="customer_category"> {{ label.customerSegment }} </label>
+                        <label for="customer_category"> {{ labels?.customerSegment }} </label>
                         <select formControlName="customerSegment" class="form-control mandatory" id="customer_category">
                             <option value=""> -- Select One --</option>
                             <option *ngFor ="let cCategory of lov.typesOfLoan" value="{{cCategory.key}}">{{cCategory.value}}</option>
@@ -22,13 +22,13 @@
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="requested_amount"> {{ label.requestedAmount }} </label>
+                        <label for="requested_amount"> {{ labels?.requestedAmount }} </label>
                         <input type="text" formControlName="requestedAmount" class="form-control mandatory" id="requested_amount"
                             placeholder="Requested Amount" name="requested_amount">
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="loan_tenor"> {{ label.requestedTenor }} </label>
+                        <label for="loan_tenor"> {{ labels?.requestedTenor }} </label>
                         <select formControlName="requestedTenor" class="form-control mandatory" id="loan_tenor">
                             <option value=""> -- Select One --</option>
                             <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
@@ -205,17 +205,16 @@ import { TermsConditionComponent } from './terms-condition/terms-condition.compo
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-head-bg">
-                                                    <th>Product Offered <i class="fa fa-sort"></i> </th>
-                                                    <th>Customer Segment <i class="fa fa-sort"></i> </th>
-                                                    <th>Loan Tenor <i class="fa fa-sort"></i> </th>
-                                                    <th>Loan Amount Range <i class="fa fa-sort"></i> </th>
-                                                    <th>Age of the car at the end of tenor (months) <i
-                                                            class="fa fa-sort"></i> </th>
-                                                    <th>Loan to Value <i class="fa fa-sort"></i> </th>
-                                                    <th>Insurance Cross sell<i class="fa fa-sort"></i> </th>
-                                                    <th>Loan to Value Insurance Funded<i class="fa fa-sort"></i> </th>
-                                                    <th>Equitas Fast tag required <i class="fa fa-sort"></i> </th>
-                                                    <th>On road pricing funding<i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.productOffered}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.customerSegment}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanTenor}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanAmountRange}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.ageOfCar}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanToValue}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.insuranceCrossSell}}<i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.OnRoadPricingFunding}}<i class="fa fa-sort"></i> </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -253,9 +252,9 @@ import { TermsConditionComponent } from './terms-condition/terms-condition.compo
                                         <table class="table">
                                             <thead>
                                                 <tr class=" table-head-bg ">
-                                                    <th>ID</th>
-                                                    <th>Applicant</th>
-                                                    <th>Credit Bureau</th>
+                                                    <th>{{labels?.id}}</th>
+                                                    <th>{{labels?.applicant}}</th>
+                                                    <th>{{labels?.creditBureau}}</th>
 
                                                 </tr>
 
