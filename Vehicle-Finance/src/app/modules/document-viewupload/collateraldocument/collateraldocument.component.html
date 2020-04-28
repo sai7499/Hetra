@@ -32,7 +32,7 @@
               </h4>
             </div>
             <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true" formArrayName="documents"  >
-                <div class="panel-body" id="show_1_div_identity" *ngFor= "let i of collateralDocumentForm.controls.documents.controls;let i = index" [formGroup] = "i" >
+                <div class="panel-body" id="show_1_div_identity" *ngFor= "let item of collateralDocumentForm.controls.documents.controls;let i = index" [formGroupName] = "i" >
                        <div class="form-group col-sm-3 col-md-2">
                            <label for="document">{{ labels.documentName }}</label>
                            <!-- <select class="form-control">

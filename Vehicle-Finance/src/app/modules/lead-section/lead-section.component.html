@@ -2,6 +2,7 @@
   <div class="container overflow-hidden">
     <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
     <div class="row  top_bar" *ngIf="router.url!='/pages/lead-section/credit-score'">
+      <div class="col-lg-10 col-md-10 col-sm-12">
       <div class="col-lg-4 col-md-4 col-sm-12 row">
         <div class="col-lg-12 col-md-12 col-sm-12 p-0">
           <div class="form-group">
@@ -46,10 +47,13 @@
         </div>
       </div>
       </div>
-      <div class="col-lg-2 col-md-2 col-sm-2">
+      <div class="col-lg-2 col-md-2 col-sm-12">
         <button class="btn btn-primary"[routerLink]="['../../document-viewupload']" type="button">View/Upload Document</button>
     </div>
+      </div>
+      
     </div>
+    
 
     <!--progress bar-->
     <div class="multisteps-form">

@@ -46,13 +46,14 @@ export class VehicleDetailComponent implements OnInit {
       this.getAllFieldLabel = this.labelsData.getLabelsData()
           .subscribe( data => {
             this.label = data;
+            console.log('Vehicle Labels', this.label.save);
           },
           error => {
             this.errorMsg = error;
           });
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
-        // console.log('vehicleLov', this.vehicleLov);
+         console.log('vehicleLov', this.vehicleLov);
         this.setFormValue();
       });
     }
@@ -153,7 +154,7 @@ export class VehicleDetailComponent implements OnInit {
     getData(){
       this.vehicleDetails = this.leadStoreService.getVehicleDetails();
 
-      // console.log('vehicle',this.vehicleDetails)
+       console.log('vehicle',this.vehicleDetails)
       this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake, this.varVehicle)
       this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel, this.varVehicle)
       this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant, this.varVehicle)

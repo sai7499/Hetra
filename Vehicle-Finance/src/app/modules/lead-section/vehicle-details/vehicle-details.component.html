@@ -16,11 +16,11 @@
                 </thead>
                 <tbody>
                     <tr id="add_vhd_tabletr" >
-                        <td>{{vehicleDetails.registrationNumber}}</td>
+                        <td>{{vehicleDetails?.registrationNumber}}</td>
                         <td>{{varVehicle[0]}}</td>
                         <td>{{varVehicle[1]}}</td>
                         <td>{{varVehicle[2]}}</td>
-                        <td>{{vehicleDetails.finalAssetCost}}</td>
+                        <td>{{vehicleDetails?.finalAssetCost}}</td>
                         <td *ngIf='varVehicle.length' (click)="editVehicle()"><i class="fa fa-pencil" aria-hidden="true"></i></td>
                     </tr>
                 </tbody>
@@ -31,7 +31,7 @@
                 <div class="col-sm-5"> </div>
                 <div class="col-sm-7 text-right">
                     <button class="btn btn-primary js-btn-prev"  [routerLink]="['../applicant-details']" type="button"> {{ label.back }} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
+                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label?.save }} </button> &nbsp;
                     <button class="btn btn-primary js-btn-next"  [routerLink]="['/pages/lead-section/credit-score']" type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
                 </div>
             </div>
