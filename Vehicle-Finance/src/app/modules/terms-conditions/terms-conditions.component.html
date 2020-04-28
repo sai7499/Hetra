@@ -9,16 +9,16 @@
                     <table class="table">
                         <thead>
                             <tr class="table-head-bg">
-                                <th>Product Offered <i class="fa fa-sort"></i> </th>
-                                <th>Customer Segment <i class="fa fa-sort"></i> </th>
-                                <th>Loan Tenor <i class="fa fa-sort"></i> </th>
-                                <th>Loan Amount Range <i class="fa fa-sort"></i> </th>
-                                <th>Age of the car at the end of tenor (months) <i class="fa fa-sort"></i> </th>
-                                <th>Loan to Value <i class="fa fa-sort"></i> </th>
-                                <th>Insurance Cross sell<i class="fa fa-sort"></i> </th>
-                                <th>Loan to Value Insurance Funded<i class="fa fa-sort"></i> </th>
-                                <th>Equitas Fast tag required <i class="fa fa-sort"></i> </th>
-                                <th>On road pricing funding<i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.productOffered}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.customerSegment}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.loanTenor}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.loanAmountRange}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.ageOfCar}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.loanToValue}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.insuranceCrossSell}}<i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i> </th>
+                                <th>{{labels?.OnRoadPricingFunding}}<i class="fa fa-sort"></i> </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,11 +87,11 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-2 col-lg-2">
-                        <label for="otp_number">Mobile Number</label>
+                        <label for="otp_number">{{labels?.mobileNumber}}</label>
                         <input type="text" class="form-control mandatory" id="otp_number" name="otp_number" value="7894561230">
                     </div>
                     <div class="form-group col-sm-6 col-md-2 col-lg-3">
-                        <label for="otp_number"><b>Enter the OTP shared by the customer</b></label>
+                        <label for="otp_number"><b> {{labels?.enterOtpSharedByCustomer}}</b></label>
                         <input type="text" class="form-control mandatory" id="otp_number" name="otp_number">
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="button submit_button cus-offer-cred">
-                    <label for="offers_accepted">Offers Accepted</label>&nbsp;
+                    <label for="offers_accepted">{{labels?.offersAccepted}}</label>&nbsp;
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offer_yes">Accept</button>&nbsp;
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offer_no">Reject</button>
                 </div>

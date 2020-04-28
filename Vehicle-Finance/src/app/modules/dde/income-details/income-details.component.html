@@ -13,7 +13,7 @@
               </caption>
               <thead>
                 <tr class="">
-                  <th role="columnheader">S.No</th>
+                  <th role="columnheader">{{labels?.sNO}}</th>
                   <th role="columnheader">{{ labels?.applicantName }}</th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
                   <th role="columnheader">{{ labels?.businessEntityName }}</th>
@@ -29,7 +29,7 @@
                 <tr
                   class=" text-center"
                   id="applicant_1_row"
-                  *ngFor="let item of incomeDetailsForm.controls.businessDetails.controls; let i = index"
+                  *ngFor="let item of incomeDetailsForm.get('businessDetails')['controls']; let i = index"
                   [formGroupName]="i"
                 >
                   <td data-title="S.No">{{ i + 1 }}</td>
@@ -155,7 +155,7 @@
               </caption>
               <thead>
                 <tr class="">
-                  <th role="columnheader">S.No</th>
+                  <th role="columnheader">{{labels?.sNO}}</th>
                   <th role="columnheader">{{ labels?.applicantName }}</th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
                   <th role="columnheader">{{ labels?.incomeType }}</th>
@@ -167,7 +167,7 @@
               </thead>
               <tbody formArrayName="otherIncomeDetails">
                 <tr
-                  *ngFor="let item of incomeDetailsForm.controls.otherIncomeDetails.controls; let j = index"
+                  *ngFor="let item of incomeDetailsForm.get('otherIncomeDetails')['controls']; let j = index"
                   [formGroupName]="j"
                 >
                   <td data-title="S.no">{{ j + 1 }}</td>
@@ -270,7 +270,7 @@
               </caption>
               <thead>
                 <tr class="">
-                  <th role="columnheader">S.No</th>
+                  <th role="columnheader">{{labels?.sNO}}ws</th>
                   <th role="columnheader">{{ labels?.borrowerName }}</th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
                   <th role="columnheader">{{ labels?.typeOfLoan }}</th>
@@ -286,7 +286,7 @@
               </thead>
               <tbody formArrayName="obligationDetails">
                 <tr
-                  *ngFor="let item of incomeDetailsForm.controls.obligationDetails.controls; let k = index"
+                  *ngFor="let item of incomeDetailsForm.get('obligationDetails')['controls']; let k = index"
                   [formGroupName]="k"
                 >
                   <td data-title="S.No">{{ k + 1 }}</td>

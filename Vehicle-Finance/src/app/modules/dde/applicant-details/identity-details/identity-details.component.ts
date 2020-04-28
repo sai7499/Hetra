@@ -5,20 +5,33 @@ import {
     Validators,
     FormControl,
     FormArray } from '@angular/forms';
+    import { LabelsService } from "src/app/services/labels.service";
 
 @Component({
     templateUrl: './identity-details.component.html',
     styleUrls: ['./identity-details.component.css']
 })
 export class IdentityDetailsComponent implements OnInit {
+    labels: any = {};
 
     isIndividual = true;
 
     identityForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {}
+    constructor(private labelsData: LabelsService,private fb: FormBuilder) {}
 
     ngOnInit() {
+
+        this.labelsData.getLabelsData().subscribe(
+            data => {
+              this.labels = data;
+              // console.log(this.labels)
+            },
+            error => {
+              console.log(error);
+            }
+          );
+
         // this.identityForm = this.fb.group({
         //     details: this.fb.array([])
         // });

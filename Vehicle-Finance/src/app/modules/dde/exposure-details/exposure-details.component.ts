@@ -67,7 +67,7 @@ export class ExposureDetailsComponent implements OnInit {
       control.removeAt(i);
     } else {
       alert("Atleast One Row Required");
-    }
+    }``
   }
   addProposedUnit() {
     const control = this.exposureProposedLoan.controls.proposedTable as FormArray;
