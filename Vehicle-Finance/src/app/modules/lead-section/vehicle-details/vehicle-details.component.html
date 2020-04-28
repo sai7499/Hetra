@@ -1,259 +1,241 @@
 <div class="content">
     <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm">
         <!-- <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn"> -->
-            <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="vechical_type"> {{ label.vechicalType }} </label>
-                    <!-- <select class="form-control mandatory" id="vechical_type">
+        <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vechical_type"> {{ label.vechicalType }} </label>
+                <!-- <select class="form-control mandatory" id="vechical_type">
                         <option *ngFor = "let vType of vehicleType" value="vType"> {{ vType }} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.vehicleType" 
-                    formControlName="vehicleType" (change)="onShow($event)"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="vechical_region"> {{ label.vechicalRegion }} </label>
-                    <!-- <select class="form-control mandatory" id="vechical_region">
+                <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType" (change)="onShow($event)"></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vechical_region"> {{ label.vechicalRegion }} </label>
+                <!-- <select class="form-control mandatory" id="vechical_region">
                         <option *ngFor = "let vRegion of vechicalRegion" value="vRegion">{{vRegion}}</option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.region" 
-                    formControlName="region"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
-                    <label for="registartion_number"> {{ label.registartionNumber }} </label>
-                    <input formControlName="registrationNumber" type="text" class="form-control mandatory" id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
-                </div>
+                <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"></app-vf-custom-select>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_make"> {{ label.assetMake }} </label>
-                    <!-- <select class="form-control mandatory" id="asset_make">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
+                <label for="registartion_number"> {{ label.registartionNumber }} </label>
+                <input formControlName="registrationNumber" type="text" class="form-control mandatory" id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="asset_make"> {{ label.assetMake }} </label>
+                <!-- <select class="form-control mandatory" id="asset_make">
                         <option *ngFor = "let asMake of assetMake" value="asMake"> {{asMake}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.assetMake" 
-                    formControlName="assetMake"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_model"> {{ label.assetModel }} </label>
-                    <!-- <select class="form-control mandatory" id="asset_model">
+                <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="asset_model"> {{ label.assetModel }} </label>
+                <!-- <select class="form-control mandatory" id="asset_model">
                         <option *ngFor = "let asModel of assetModel" value="asModel"> {{asModel}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.assetModel" 
-                    formControlName="assetModel"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
-                    <label for="asset_body_type"> {{ label.assetBodyType }} </label>
-                    <!-- <select class="form-control mandatory" id="asset_body_type">
+                <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
+                <label for="asset_body_type"> {{ label.assetBodyType }} </label>
+                <!-- <select class="form-control mandatory" id="asset_body_type">
                         <option *ngFor = "let asBodyType of assetBodyType" value="asBodyType"> {{asBodyType}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.assetBodyType" 
-                    formControlName="assetBodyType"></app-vf-custom-select>
-                </div>
+                <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType">
+                </app-vf-custom-select>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_variant"> {{ label.assetVariant }} </label>
-                    <!-- <select class="form-control mandatory" id="asset_variant">
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="asset_variant"> {{ label.assetVariant }} </label>
+                <!-- <select class="form-control mandatory" id="asset_variant">
                         <option *ngFor = "let asVariant of assetVariant" value="asVariant"> {{asVariant}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.assetVariant" 
-                    formControlName="assetVariant"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
-                    <!-- <select class="form-control mandatory" id="asset_sub_variant">
+                <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
+                <!-- <select class="form-control mandatory" id="asset_sub_variant">
                         
                         <option *ngFor = "let asSubVariant of assetSubVariant" value="asSubVariant"> {{asSubVariant}} </option>
                         
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.assetSubVariant" 
-                    formControlName="assetSubVariant"></app-vf-custom-select>
-                </div>
+                <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" formControlName="assetSubVariant">
+                </app-vf-custom-select>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mon_manufacturing">
-                    <label for="month_manufacturing"> {{ label.monthManufacturing }} </label>
-                    <input formControlName="monthManufacturing" type="date" class="form-control mandatory" id="month_manufacturing" placeholder="Month of Manufacturing" name="month_manufacturing">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="yr_manufacturing">
-                    <label for="year_manufacturing"> {{ label.yearManufacturing }} </label>
-                    <input formControlName="yrManufacturing" type="date" class="form-control mandatory" id="year_manufacturing" placeholder="Year of Manufacturing" name="year_manufacturing">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                    <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
-                    <input formControlName="ageOfAsset"  type="text" class="form-control mandatory" id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" disabled>
-                </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mon_manufacturing">
+                <label for="month_manufacturing"> {{ label.monthManufacturing }} </label>
+                <input formControlName="monthManufacturing" type="date" class="form-control mandatory" id="month_manufacturing" placeholder="Month of Manufacturing" name="month_manufacturing">
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
-                    <label for="vechical_usage"> {{ label.vechicalUsage }} </label>
-                    <!-- <select class="form-control mandatory" id="vechical_usage">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="yr_manufacturing">
+                <label for="year_manufacturing"> {{ label.yearManufacturing }} </label>
+                <input formControlName="yrManufacturing" type="date" class="form-control mandatory" id="year_manufacturing" placeholder="Year of Manufacturing" name="year_manufacturing">
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
+                <input formControlName="ageOfAsset" type="text" class="form-control mandatory" id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
+                <label for="vechical_usage"> {{ label.vechicalUsage }} </label>
+                <!-- <select class="form-control mandatory" id="vechical_usage">
                         <option *ngFor = "let vUsage of vechicalUsage" value="vUsage"> {{vUsage}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.vechicalUsage" 
-                    formControlName="vechicalUsage"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
-                    <label for="vehicle_category"> {{ label.vehicleCategory }} </label>
-                    <!-- <select class="form-control mandatory" id="vehicle_category">
+                <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vechicalUsage">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
+                <label for="vehicle_category"> {{ label.vehicleCategory }} </label>
+                <!-- <select class="form-control mandatory" id="vehicle_category">
                         <option *ngFor = "let vCategory of vechicleCategory" value="vCategory"> {{vCategory}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.vechicleCategory" 
-                    formControlName="vehicleCategory"></app-vf-custom-select>
-                </div>
+                <app-vf-custom-select [values]="vehicleLov?.vechicleCategory" formControlName="vehicleCategory">
+                </app-vf-custom-select>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                    <label for="orp_funding"> {{ label.orpFunding }} </label>
-                    <!-- <select class="form-control mandatory" id="orp_funding">
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
+                <label for="orp_funding"> {{ label.orpFunding }} </label>
+                <!-- <select class="form-control mandatory" id="orp_funding">
                         <option *ngFor = "let orpFund of orpFunding" value="orpFund"> {{orpFund}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.orpFunding" 
-                    formControlName="orpFunding"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="one_time_tax"> {{ label.oneTimeTax }} </label>
-                    <input formControlName="oneTimeTax" type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax" name="one_time_tax">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="pac"> {{ label.pac }} </label>
-                    <!-- <select class="form-control" id="pac">
+                <app-vf-custom-select [values]="vehicleLov?.orpFunding" formControlName="orpFunding">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                <label for="one_time_tax"> {{ label.oneTimeTax }} </label>
+                <input formControlName="oneTimeTax" type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax" name="one_time_tax">
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                <label for="pac"> {{ label.pac }} </label>
+                <!-- <select class="form-control" id="pac">
                         <option *ngFor = "let pac of pac" value="pac"> {{pac}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.pac" 
-                    formControlName="pac"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="vas"> {{ label.vas }} </label>
-                    <!-- <select class="form-control" id="vas">
+                <app-vf-custom-select [values]="vehicleLov?.pac" formControlName="pac"></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                <label for="vas"> {{ label.vas }} </label>
+                <!-- <select class="form-control" id="vas">
                         <option *ngFor = "let vas of vas" value="vas"> {{vas}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.vas" 
-                    formControlName="vas"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="emi_protect"> {{ label.emiProtect }} </label>
-                    <!-- <select class="form-control" id="emi_protect">
+                <app-vf-custom-select [values]="vehicleLov?.vas" formControlName="vas"></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                <label for="emi_protect"> {{ label.emiProtect }} </label>
+                <!-- <select class="form-control" id="emi_protect">
                         <option *ngFor = "let emiPro of emiProtect" value="emiPro"> {{emiPro}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.emiProtect" 
-                    formControlName="emiProtect"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                    <label for="fast_tag"> {{ label.fastTag }} </label>
-                    <!-- <select class="form-control" id="fast_tag">
+                <app-vf-custom-select [values]="vehicleLov?.emiProtect" formControlName="emiProtect">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                <label for="fast_tag"> {{ label.fastTag }} </label>
+                <!-- <select class="form-control" id="fast_tag">
                         <option *ngFor = "let fTag of fastTag" value="fTag"> {{fTag}} </option>
   
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.fastTag" 
-                    formControlName="fastTag"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                    <label for="others"> {{ label.others }} </label>
-                    <input formControlName="others" type="text" class="form-control" id="others" placeholder="Others" name="others">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                    <label for="discount"> {{ label.discount }} </label>
-                    <input formControlName="discount" type="text" class="form-control" id="discount" placeholder="Discount" name="discount">
-                </div>
+                <app-vf-custom-select [values]="vehicleLov?.fastTag" formControlName="fastTag"></app-vf-custom-select>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
-                    <input formControlName="finalAssetCost" type="text" class="form-control mandatory" id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="idv"> {{ label.idv }} </label>
-                    <input formControlName="idv" type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv">
-                </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                <label for="others"> {{ label.others }} </label>
+                <input formControlName="others" type="text" class="form-control" id="others" placeholder="Others" name="others">
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="insurance_validity"> {{ label.insuranceValidity }} </label>
-                    <input formControlName="insuranceValidity" type="date" class="form-control mandatory" id="insurance_validity" placeholder="Insurance Validity" name="insurance_validity">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="insurance_copy"> {{ label.insuranceCopy }} </label>
-                    <input id="insurance_copy" formControlName="insuranceCopy" type="file" multiple>
-                    <div id="insurance_preview"></div>
-                </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                <label for="discount"> {{ label.discount }} </label>
+                <input formControlName="discount" type="text" class="form-control" id="discount" placeholder="Discount" name="discount">
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                    <label for="permit_type"> {{ label.permitType }} </label>
-                    <!-- <select class="form-control mandatory" id="permit_type">
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
+                <input formControlName="finalAssetCost" type="text" class="form-control mandatory" id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="idv"> {{ label.idv }} </label>
+                <input formControlName="idv" type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="insurance_validity"> {{ label.insuranceValidity }} </label>
+                <input formControlName="insuranceValidity" type="date" class="form-control mandatory" id="insurance_validity" placeholder="Insurance Validity" name="insurance_validity">
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="insurance_copy"> {{ label.insuranceCopy }} </label>
+                <input id="insurance_copy" formControlName="insuranceCopy" type="file" multiple>
+                <div id="insurance_preview"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
+                <label for="permit_type"> {{ label.permitType }} </label>
+                <!-- <select class="form-control mandatory" id="permit_type">
                         
                         <option *ngFor = "let pType of permitType" value="pType"> {{pType}} </option>
                     </select> -->
-                    <app-vf-custom-select 
-                    [values]="vehicleLov?.permitType" 
-                    formControlName="permitType"></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                    <label for="expiry_date"> {{ label.expiryDate }} </label>
-                    <input formControlName="expiryDate" type="date" class="form-control mandatory" id="expiry_date" placeholder="Permit Expiry Date" name="expiry_date">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                    <label for="permit_copy">{{ label.permitCopy }}</label>
-                    <input id="permit_copy" type="file" multiple>
-                    <div id="permit_preview"></div>
-                </div>
+                <app-vf-custom-select [values]="vehicleLov?.permitType" formControlName="permitType">
+                </app-vf-custom-select>
             </div>
-            <div class="row" *ngIf="show"> 
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
-                    <label for="permit_others"> {{ label.permitOthers }} </label>
-                    <input formControlName="permitOthers" type="text" class="form-control " id="permit_others" placeholder="Type of Other Permit" name="permit_others">
-                </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
+                <label for="expiry_date"> {{ label.expiryDate }} </label>
+                <input formControlName="expiryDate" type="date" class="form-control mandatory" id="expiry_date" placeholder="Permit Expiry Date" name="expiry_date">
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                    <label for="frsd_required"> {{ label.frsdRequired }} </label>
-                    <input formControlName="frsdRequired" type="text" class="form-control mandatory" id="frsd_required" placeholder="FRSD Funding Required" name="frsd_required">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                    <label for="frsd_amount"> {{ label.frsdAmount }} </label>
-                    <input formControlName="frsdAmount" type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount" name="frsd_amount">
-                </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
+                <label for="permit_copy">{{ label.permitCopy }}</label>
+                <input id="permit_copy" type="file" multiple>
+                <div id="permit_preview"></div>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                    <label for="fitness_date"> {{ label.fitnessDate }} </label>
-                    <input formControlName="fitnessDate" type="date" class="form-control mandatory" id="fitness_date" placeholder="Fitness Date" name="fitness_date">
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
-                    <label for="fitness_copy"> {{ label.fitnessCopy }} </label>
-                    <input id="fitness_copy" type="file" multiple>
-                    <div id="fitness_preview"></div>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
-                    <label for="no_vehicle"> {{ label.noVehicle }} </label>
-                    <input formControlName="noOfVehicle" type="number" class="form-control mandatory" id="no_vehicle" placeholder="No of vehicle" name="no_vehicle">
-                </div>
+        </div>
+        <div class="row" *ngIf="show">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 premit_type">
+                <label for="permit_others"> {{ label.permitOthers }} </label>
+                <input formControlName="permitOthers" type="text" class="form-control " id="permit_others" placeholder="Type of Other Permit" name="permit_others">
             </div>
-            <!--mobile view end-->
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
+                <label for="frsd_required"> {{ label.frsdRequired }} </label>
+                <input formControlName="frsdRequired" type="text" class="form-control mandatory" id="frsd_required" placeholder="FRSD Funding Required" name="frsd_required">
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
+                <label for="frsd_amount"> {{ label.frsdAmount }} </label>
+                <input formControlName="frsdAmount" type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount" name="frsd_amount">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
+                <label for="fitness_date"> {{ label.fitnessDate }} </label>
+                <input formControlName="fitnessDate" type="date" class="form-control mandatory" id="fitness_date" placeholder="Fitness Date" name="fitness_date">
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 frsd_type">
+                <label for="fitness_copy"> {{ label.fitnessCopy }} </label>
+                <input id="fitness_copy" type="file" multiple>
+                <div id="fitness_preview"></div>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
+                <label for="no_vehicle"> {{ label.noVehicle }} </label>
+                <input formControlName="noOfVehicle" type="number" class="form-control mandatory" id="no_vehicle" placeholder="No of vehicle" name="no_vehicle">
+            </div>
+        </div>
+        <!--mobile view end-->
 
-            <div class="btn-sec clear-both row">
-                <div class="col-sm-5"> </div>
-                <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary js-btn-prev"  [routerLink]="['../product-details']" type="button"> {{ label.back }} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
-                    <button class="btn btn-primary js-btn-next"  [routerLink]="['../applicant-details']"type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
-                </div>
+        <div class="btn-sec clear-both row">
+            <div class="col-sm-5"> </div>
+            <div class="col-sm-7 text-right">
+                <button class="btn btn-primary js-btn-prev" [routerLink]="['../product-details']" type="button">
+                    {{ label.back }} </button> &nbsp;
+                <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
+                <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()" [routerLink]="['../applicant-details']"> {{ label.next }}
+                </button>
             </div>
+        </div>
         <!-- </div> -->
 
     </form>

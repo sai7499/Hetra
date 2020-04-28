@@ -1,0 +1,195 @@
+[
+    {
+        "basicVehicleDetails": [
+            {
+                "title": "Basic Vehicle Details",
+                "registartion_number": "Vechical Registration No",
+                "asset_make": "Asset Make",
+                "asset_model": "Asset Model",
+                "asset_variant": "Asset Variant",
+                "asset_sub_variant": "Asset Sub-Variant",
+                "asset_other": "Asset Variant - Other",
+                "asset_body_type": "Asset Body Type",
+                "vehicle_type": "Vehicle Type",
+                "vechical_usage": "Vehicle Usage",
+                "vehicle_category": "Vehicle Category",
+                "vechical_region": "Region",
+                "month_year": "Month and Year",
+                "age_vehicle": "Age of Vehicle",
+                "asset_cost_indian": "Asset Cost basis Indian bluebook",
+                "asset_cost_car": "Asset Cost basis Car Trade",
+                "asset_cost_least": "Asset Cost Least",
+                "ex_showroom_cost": "Ex Showroom Cost",
+                "fitness_date": "Fitness Date",
+                "permit_type": "Type of Permit",
+                "permit_other": "Type of Other Permit",
+                "permit_expire_date": "Permit Expiry Date",
+                "permit_upload": "Upload Permit Document",
+                "chassis_number": "Chassis Number",
+                "engine_number": "Engine Number",
+                "vehicle_purchased_cost": "Vehicle Purchased Cost",
+                "vehicle_ownership": "Vehicle Ownership Member",
+                "rc_owner_name": "RC Owner Name",
+                "vehicle_registration_date": "Vehicle Registration Date",
+                "gross_vehicle_weight": "Gross Vehicle Weight",
+                "re_registered_vehicle": "Re-Registered Vehicle",
+                "inter_state_vehicle": "Inter State Vehicle",
+                "duplicate_rc": "Duplicate RC",
+                "cubic_capacity": "Cubic Capacity",
+                "seating_capacity": "Seating Capacity",
+                "insurance_validity": "Insurance Validity",
+                "idv": "IDV",
+                "insurance_copy": "Upload Insurance Document",
+                "frsd_required": "FRSD Funding Required",
+                "frsd_amount": "FRSD Premium Amount",
+                "final_asset_cost": "Final Asset Cost",
+                "dealer_subvention_applicable": "Dealer Subvention Applicable",
+                "dealer_subvention_amount": "Dealer Subvention Amount",
+                "dealer_subvention_irr": "Dealer Subvention Part of Operating IRR",
+                "dealer_subvention_finance": "Dealer Subvention Part of Finance Charges",
+                "manufacturer_subvention_applicable": "Manufacturer Subvention Applicable",
+                "manufacturer_subvention_amount": "Manufacturer Subvention Amount",
+                "manufacturer_subvention_irr": "Manufacturer Subvention Part of Operating IRR",
+                "manufacturer_subvention_finance": "Manufacturer Subvention Part of Finance Charges",
+                "proforma_invoice_no": "Proforma Invoice No",
+                "proforma_invoice_date": "Proforma Invoice Date",
+                "proforma_invoice_amount": "Proforma Invoice Amount",
+                "orp_funding": "ORP Funding",
+                "insurance": "Insurance",
+                "one_time_tax": "One Time Tax",
+                "pac": "PAC",
+                "vas": "VAS",
+                "emi_protect": "EMI Protect",
+                "fast_tag": "Fast Tag",
+                "others": "Others",
+                "discount": "Discount",
+                "back": "Back",
+                "save": "Save",
+                "next": "Next"
+            }
+        ],
+        "insuranceDetails": [
+            {
+                "title": "Insurance Details",
+                "credit_shield": [
+                    {
+                        "title": "Credit Shield",
+                        "creditShieldApplicable": "Credit Shield Applicable",
+                        "insuranceCompanyName": "Insurance Company Name",
+                        "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
+                        "creditShieldPremium": "Credit Shield Premium",
+                        "creditShieldNominee": "Credit Shield Nominee",
+                        "creditShieldNomineeAge": "Credit Shield Nominee Age",
+                        "creditShieldNomineeRelationship": "Credit Shield Nominee Relationship",
+                        "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount"
+                    }
+                ],
+                "existing_insurance_details": [
+                    {
+                        "title": "Existing Insurance Details",
+                        "insuranceCompanyName": "Insurance Company Name",
+                        "expirydateofcurrentpolicy": "Expiry date of current policy",
+                        "noclaimbonus": "No claim bonus",
+                        "owndamagediscount": "own damage discount",
+                        "comprehensive-thirdparty": "Comprehensive / third party",
+                        "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)"
+                    }
+                ],
+                "back": "Back",
+                "save": "Save",
+                "next": "Next"
+            }
+        ],
+        "rtoDetails": [
+            {
+                "title": "RTO Declaration Details",
+                "rto_declaration": [
+                    {
+                        "title": "RTO Declaration",
+                        "objectionFiled": "Objection filed on the vehicle",
+                        "caseFiled": "Case filed on the vehicle",
+                        "attachmentbyCourt_Revenue": "Attachment by Court / Revenue etc.",
+                        "duplicateRC": "Duplicate RC",
+                        "interstate_vehicle": "Interstate vehicle",
+                        "reRegistered_vehicle": "Re-registered vehicle",
+                        "assigned_number": "Assigned number",
+                        "fine_vehicle": "Fine on the Vehicle",
+                        "taxArrears": "Tax Arrears",
+                        "engineNum_chassisnumbermatch": "Engine No. / Chassis number match",
+                        "issueinpermit_transfer": "Issues in permit transfer",
+                        "anyOtherIssue_discrepancy": "Any other issue / discrepancy",
+                        "taxValid": "Tax Valid upto",
+                        "fitnessValid": "Fitness Valid upto",
+                        "remarks": "Remarks"
+                    }
+                ],
+                "rto_confirmation": [
+                    {
+                        "title": "RTO Confirmation",
+                        "rto_agent_name": "RTO Agent name",
+                        "rto_agent_signature": "RTO Agent Signature",
+                        "date": "Date",
+                        "borrower_name": "Borrower Name",
+                        "borrower_signature": "Borrower Signature",
+                        "remark": "Remark",
+                        "Date": "Date"
+                    }
+                ],
+                "back": "Back",
+                "save": "Save",
+                "next": "Next"
+            }
+        ],
+        "viabilityDetails": [
+            {
+                "title": "Viability Details",
+                "passanger": [
+                    {
+                        "title": "Passanger",
+                        "Title": "VIABILITY/NET CASH FLOW",
+                        "creditShieldApplicable": "Credit Shield Applicable",
+                        "insuranceCompanyName": "Insurance Company Name",
+                        "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
+                        "creditShieldPremium": "Credit Shield Premium",
+                        "creditShieldNominee": "Credit Shield Nominee",
+                        "creditShieldNomineeAge": "Credit Shield Nominee Age",
+                        "creditShieldNomineeRelationship": "Credit Shield Nominee Relationship",
+                        "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount"
+                    }
+                ],
+                "passanger_stand_operator": [
+                    {
+                        "title": "Passanger & Stand Operator",
+                        "insuranceCompanyName": "Insurance Company Name",
+                        "expirydateofcurrentpolicy": "Expiry date of current policy",
+                        "noclaimbonus": "No claim bonus",
+                        "owndamagediscount": "own damage discount",
+                        "comprehensive-thirdparty": "Comprehensive / third party",
+                        "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)"
+                    }
+                ],
+                "captive": [
+                    {
+                        "title": "Captive"
+                    }
+                ],
+                "back": "Back",
+                "save": "Save",
+                "next": "Next"
+            }
+        ],
+        "vehicleDetailsTable": [
+            {
+                "title": "Vehicle Details",
+                "addVehicle": "Add Vehicle",
+                "registrationNum": "Registration Num",
+                "vehicleModel": "Vehicle Model",
+                "assetType": "Asset Type",
+                "assetBody": "Asset Body",
+                "action": "Action",
+                "back": "Back",
+                "next": "Next"
+            }
+        ]
+    }
+]

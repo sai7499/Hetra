@@ -333,17 +333,84 @@ form .form-control {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5)
 }
 
+#scroll_starts_here {
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 
 /**los style**/
 
 .container.overflow-hidden {
     overflow-y: hidden;
 }
-.page-select-width{
+
+.page-select-width {
     padding: 6px !important;
 }
 
 
 /* progress bar */
 
+.tab_content {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 0px;
+}
 
+.tab_content2 {
+    padding-bottom: 0px!important;
+}
+
+.add_button {
+    margin: 10px 0;
+}
+
+.a_tag {
+    color: #272264;
+}
+
+.basic_scroll_2 {
+    overflow-y: auto;
+    max-height: 230px;
+}
+
+
+/**custom style starts here**/
+
+.dropdown_individual {
+    background-color: #6c757d;
+    padding: 6px;
+    color: white;
+}
+
+input#add_banks {
+    width: 20%;
+}
+
+i.fa.fa-angle-down {
+    float: right;
+    font-size: 24px;
+    line-height: 16px;
+}
+
+.btn.btn-primary>a {
+    color: white;
+}
+
+h4.table-head-bg.m-0.p-02 {
+    margin: 0px;
+    padding: 5px;
+}
+
+
+/**custom style starts here**/
+
+.basic_scroll {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}

@@ -272,7 +272,6 @@ select#select_main_button_match {
 }
 
 /* progress bar */
-
 .multisteps-form__progress {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
@@ -297,6 +296,11 @@ select#select_main_button_match {
     .multisteps-form__progress-btn {
       text-indent: 0;
     }
+  }
+  @media (min-width:1200px){
+      .container {
+          width: 1300px;
+      }
   }
   .multisteps-form__progress-btn:before {
     position: absolute;
@@ -418,3 +422,8 @@ select#select_main_button_match {
       margin-bottom: 20px;
       margin-top: 4px;
   }
+
+  /* .cst_btm_btns {
+    margin-bottom: 55px;
+    padding-bottom: 10px;
+} */

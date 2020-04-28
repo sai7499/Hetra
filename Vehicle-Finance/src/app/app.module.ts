@@ -6,8 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
 // import { LeadSectionModule } from './modules/lead-section/lead-section.module';
-import { LocationStrategy,HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -18,10 +21,14 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CollapseModule,
+    BrowserAnimationsModule,
+    CommonModule
   ],
   providers: [
-    {  provide : LocationStrategy,
+    {
+      provide: LocationStrategy,
       useClass: HashLocationStrategy
     }
   ],
