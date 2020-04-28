@@ -1,0 +1,14 @@
+input#add_banks {
+    width: 25%;
+}
+
+.content { 
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.dropdown_individual {
+    background-color: #6c757d;
+    padding: 6px;
+    color: white;
+}

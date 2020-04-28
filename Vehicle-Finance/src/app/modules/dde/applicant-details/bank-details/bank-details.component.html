@@ -1,0 +1,82 @@
+<div class="content">
+    <form class="multisteps-form__form"  [formGroup]="bankForm" id="scroll_starts_here">
+        <div class="multisteps-form__panel js-active" data-animation="scaleIn"  >
+            <h4 class="title">Bank Details</h4>
+            <!-- Individual Section Starts Here -->
+            <ng-container formArrayName="details">
+            <div class="panel-group hidden-xs" id="accordion" 
+            *ngFor="let ctrl of bankForm.get('details')['controls']; let i = index" [formGroupName]="i">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" id="headingOne">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          Bank Details <i class="fa fa-angle-down"></i>
+                        </a>
+                      </h4>
+                    </div>
+                </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="row" >
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="customer_bank_name">Customer Bank Name</label>
+                            <input formControlName="bankName" type="text" class="form-control"  name="customer_bank_name" id="customer_bank_name" required="required"  />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="bank_branch">Bank Branch</label>
+                            <input formControlName="bankBranch" type="text" class="form-control"  name="bank_branch" id="bank_branch" required="required"  />
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="bank_address">Bank Address</label>
+                            <textarea formControlName="bankAddress" class="form-control" rows="1" id="bank_address" name="bank_address" ></textarea>					
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="account_type">Account Type</label>
+                            <app-vf-custom-select formControlName="accountType" [values]=""></app-vf-custom-select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="account_number">Account Number</label>
+                            <input formControlName="accountNumber" type="text" class="form-control"  name="account_number" id="account_number" />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="account_holder_name">Account Holder Name</label>
+                            <input formControlName="holderName" type="text" class="form-control"  name="account_holder_name" id="account_holder_name"  />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="minimum_average_balance">Minimum Average Balance</label>
+                            <input formControlName="averageBalance" type="text" class="form-control"  name="minimum_average_balance" id="minimum_average_balance"  />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="micr_code">MICR Code</label>
+                            <input formControlName="micrCode" type="text" class="form-control"  name="micr_code" id="micr_code"   />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="ifsc_code">IFSC Code</label>
+                            <input formControlName="ifscCode" type="text" class="form-control"  name="ifsc_code" id="ifsc_code"   />
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+            </ng-container>
+
+
+            
+                
+                <div class="row" >
+                    
+                    </div>
+                    <div id="add_multiple_banks"></div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="">Add Multiple Bank Accounts</label>
+                        <input class="form-control btn-primary" (click)="addBankDetailsForm()" type="button" value="Add Here" id="add_banks" /> 
+                    </div>
+                    
+            
+                </div>
+    </form>
+        </div>
