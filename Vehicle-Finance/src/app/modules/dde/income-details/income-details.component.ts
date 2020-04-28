@@ -14,13 +14,13 @@ export class IncomeDetailsComponent implements OnInit {
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
 
-  constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder) {}
+  constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        // console.log(this.labels)
+        console.log(this.labels)
       },
       error => {
         console.log(error);

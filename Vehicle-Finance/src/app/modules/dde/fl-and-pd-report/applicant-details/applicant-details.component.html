@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="applicantForm">
+<form class="multisteps-form__form" [formGroup]="applicantForm" *ngIf="labels">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <h3 class="title"> {{labels.applicantDetailsTitle}} </h3>
 
@@ -18,8 +18,7 @@
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.gender" 
-                formControlName="gender"> </app-vf-custom-select>
+                <app-vf-custom-select [values]="applicantLov?.gender" formControlName="gender"> </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="marital_status"> {{labels.maritalStatus}} </label>
@@ -83,7 +82,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="locate" >
+                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="locate">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -95,7 +94,7 @@
                         <option value="Middle Class">Middle Class</option>
                         <option value="Middle/Upper Class">Middle/Upper Class</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.locality" formControlName="locality" >
+                <app-vf-custom-select [values]="applicantLov?.locality" formControlName="locality">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -107,7 +106,7 @@
                     <option value="Independent House">Independent House</option>
                     <option value="Flat/Apartment">Flat/Apartment</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.residentialType" formControlName="residentialType" >
+                <app-vf-custom-select [values]="applicantLov?.residentialType" formControlName="residentialType">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -118,7 +117,7 @@
                     <option value="Average">Average</option>
                     <option value="Poor">Poor</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.standardHouse" formControlName="standardHouse" >
+                <app-vf-custom-select [values]="applicantLov?.standardHouse" formControlName="standardHouse">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -129,7 +128,7 @@
                     <option value="Average">500 to 1000 Sft</option>
                     <option value="Poor">More than 1000 Sft</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.sizeOfHouse" formControlName="sizeOfHouse" >
+                <app-vf-custom-select [values]="applicantLov?.sizeOfHouse" formControlName="sizeOfHouse">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -142,7 +141,7 @@
                     <option value="Car">Car</option>
                     <option value="TW">Tw</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.stdOfLiving" formControlName="stdOfLiving" >
+                <app-vf-custom-select [values]="applicantLov?.stdOfLiving" formControlName="stdOfLiving">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -153,7 +152,7 @@
                     <option value="Rented">Rented</option>
                     <option value="Family Owned">Family Owned</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.houseOwnership" formControlName="houseOwnership" >
+                <app-vf-custom-select [values]="applicantLov?.houseOwnership" formControlName="houseOwnership">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -165,14 +164,15 @@
                     <option value="Good">Good</option>
                     <option value="Very Good">Very Good</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.ratingBySo" formControlName="ratingBySo" >
+                <app-vf-custom-select [values]="applicantLov?.ratingBySo" formControlName="ratingBySo">
                 </app-vf-custom-select>
             </div>
 
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" routerLink="/pages/dde/fl-report"> {{labels.back}} </button> &nbsp;
+                    <button class="btn btn-primary" type="button" routerLink="/pages/dde/fl-report"> {{labels.back}}
+                    </button> &nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
                     <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
                 </div>

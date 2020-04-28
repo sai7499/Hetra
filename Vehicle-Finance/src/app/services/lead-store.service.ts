@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } from '@model/lead.model';
+import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails, BasicVehicleDetails } from '../model/lead.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LeadStoreService {
     leadCreation: Lead;
+    basicVehicleDetails: BasicVehicleDetails;
     // coApplicant : CoApplicant;
     applicantList = [];
 
 
-    constructor() {}
+    constructor() { }
 
     setLeadCreation(lead: Lead) {
         this.leadCreation = lead;
@@ -56,11 +57,14 @@ export class LeadStoreService {
     setCoApplicantDetails(coApplicant) {
         // this.coApplicant = coApplicant;
         this.applicantList.push(coApplicant);
-        console.log('this.addApplicant', this.applicantList);
     }
 
+    // getBasicVehicleDetails() {
+    //     return this.leadCreation ? this.leadCreation.BasicVehicleDetails : {};
+    // }
+
     getSelectedApplicant(index: number) {
-       return this.applicantList[index];
+        return this.applicantList[index];
     }
 
     updateApplicant(index: number, coApplicant) {
@@ -70,8 +74,4 @@ export class LeadStoreService {
     getApplicantList() {
         return this.applicantList;
     }
-
-    // getCoApplicantDetails(){
-    //     return this.addApplicant;
-    // }
 }

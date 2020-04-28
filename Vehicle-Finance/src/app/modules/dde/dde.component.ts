@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './dde.component.html',
-    styleUrls: [ './dde.component.css']
+    styleUrls: ['./dde.component.css']
 })
 export class DdeComponent implements OnInit {
-    constructor(private router: Router) {}
+    constructor(public router: Router) { }
 
     ngOnInit() {
 
@@ -14,5 +14,5 @@ export class DdeComponent implements OnInit {
 
     hasRoute(route: string) {
         return this.router.url.includes(route);
-      }
+    }
 }

@@ -1,9 +1,11 @@
 export interface Dde {
     vehicleValuation?: VehicleValuation;
     pslData?: PslData;
-    applicantDetails? : ApplicantDetails;
+    applicantDetails?: ApplicantDetails;
     customerProfile?: CustomerProfile;
     loanDetails?: LoanDetails;
+    fleetDetails?: FleetDetails;
+    trackVehicle?: TrackVehicle;
 }
 
 export interface VehicleValuation {
@@ -52,7 +54,7 @@ export interface VehicleValuation {
     vhNoPrefix?: string;
     vhNumber?: string;
     costOfVehicle?: string;
-} 
+}
 
 export interface PslData {
     activity?: string;
@@ -70,7 +72,7 @@ export interface PslData {
     landAreaInAcres?: string;
     landProof?: string;
     landProofUpload?: string;
-    loanAmount? : string;
+    loanAmount?: string;
     proofOfInvest?: string;
     investProofUpload?: string;
     nameOfCa?: string;
@@ -109,25 +111,25 @@ export interface PslData {
 
 export interface ApplicantDetails {
     applicantName?: string;
-        fatherName?: string;
-        gender?: string;
-        maritalStatus?: string;
-        physicallyChallenged?: string;
-        residenceNo?: string;
-        officeNo?: string;
-        mobile?: string;
-        residenceAddress?: string;
-        bankName?: string;
-        accountNo?: string;
-        landmark?: string;
-        locate?: string;
-        locality?: string;
-        residentialType?: string;
-        standardHouse?: string;
-        sizeOfHouse?: string;
-        stdOfLiving?: string;
-        houseOwnership?: string;
-        ratingBySo?: string;
+    fatherName?: string;
+    gender?: string;
+    maritalStatus?: string;
+    physicallyChallenged?: string;
+    residenceNo?: string;
+    officeNo?: string;
+    mobile?: string;
+    residenceAddress?: string;
+    bankName?: string;
+    accountNo?: string;
+    landmark?: string;
+    locate?: string;
+    locality?: string;
+    residentialType?: string;
+    standardHouse?: string;
+    sizeOfHouse?: string;
+    stdOfLiving?: string;
+    houseOwnership?: string;
+    ratingBySo?: string;
 }
 
 export interface CustomerProfile {
@@ -185,4 +187,54 @@ export interface LoanDetails {
     tripAmt?: string;
     selfDriver?: string;
     remarks?: string;
+}
+
+export interface FleetDetails {
+
+    regdNo?: string;
+    regdOwner?: string;
+    relation?: string;
+    make?: string;
+    yom?: string;
+    financier?: string;
+    loanNo?: string;
+    purchaseDate?: string;
+    tenure?: string;
+    paid?: string;
+    seasioning?: string;
+    ad?: string;
+    pd?: string;
+    gridValue?: string;
+}
+export interface TrackVehicle {
+    nameOfTheClient?: string;
+    nameOfTheFinancier?: string;
+    assetsFinanced?: string;
+    repaymentMode?: string;
+    financeAmount?: string;
+    financeCharges?: string;
+    contractValue?: string;
+    contNo?: string;
+    vehicleNo?: string;
+    typesOfFinance?: string;
+    accpuntStatus?: string;
+    loanStatus?: string;
+    loanMaturityDate?: string;
+    countOn30?: string;
+    cpuntOn90?: string;
+    totalNoOfEmis?: string;
+    noOfEmisPaid?: string;
+    balanceTenor?: string;
+    totalDelay?: string;
+    peakDelay?: string;
+    avgDelay?: string;
+    trackStatus?: string;
+    totalAmtPaid?: string;
+    installmentAmt?: string;
+    dueDate?: string;
+    rcptNp?: string;
+    recdDate?: string;
+    rcptAmount?: string;
+    delayDays?: string;
+    paymentsExcess?: string;
 }

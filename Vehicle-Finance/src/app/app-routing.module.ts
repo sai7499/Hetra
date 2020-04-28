@@ -37,7 +37,16 @@ const routes: Routes = [
         loadChildren: () => import("./modules/dde/dde.module").then(m => m.DdeModule)
       },
       {
-        path: "fl-and-pd-report",
+        path: 'applicant-details',
+        loadChildren: () => import('./modules/dde/applicant-details/applicant-details.module').then(m => m.ApplicantDetailsModule)
+      },
+      {
+        path: 'vehicle-details',
+        loadChildren: () => import('./modules/dde/vehicle-details/vehicle-details.module').then(m => m.VehicleDetailsModule)
+
+      },
+      {
+        path: 'fl-and-pd-report',
         loadChildren: () => import("./modules/dde/fl-and-pd-report/fl-and-pd-report.module").then(m => m.FlAndPdReportModule)
       },
       {
@@ -53,4 +62,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
