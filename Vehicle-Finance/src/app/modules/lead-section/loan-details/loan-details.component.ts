@@ -25,7 +25,7 @@ export class LoanDetailsComponent implements OnInit {
     private leadSectionService: LeadSectionService,
     private labelsData: LabelsService,
     private leadStoreService: LeadStoreService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -61,7 +61,7 @@ export class LoanDetailsComponent implements OnInit {
   getLabel() {
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.label = data;
+        this.labels = data;
       },
       error => {
         this.errorMsg = error;
