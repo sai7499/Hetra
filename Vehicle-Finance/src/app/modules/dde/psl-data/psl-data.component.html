@@ -1,6 +1,6 @@
 <!-- <div class="content"> -->
-<form class="multisteps-form__form" method="POST" id="scroll_starts_here" [formGroup]="pslDataForm">
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+<form class="multisteps-form__form"  [formGroup]="pslDataForm">
+    <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
         <h3 class="title">PSL Data</h3>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -396,16 +396,16 @@
                 </app-vf-custom-select>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     <div class="btn-sec clear-both row">
         <div class="col-sm-5"> </div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary js-btn-prev" type="button" routerLink="['../loan-details']">
+            <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['../income-details']">
                 {{labels.back}} </button> &nbsp;
             <!-- <p class="btn btn-primary save"> Save </p>  -->
             <button class="btn btn-primary save" type="button" (click)="onFormSubmit()"> {{labels.save}} </button>
             &nbsp;
-            <button class="btn btn-primary" type="button" routerLink="['../fleet-details']" (click)="onFormSubmit()">
+            <button class="btn btn-primary" type="button"  (click)="onFormSubmit()">
                 {{labels.next}} </button>
         </div>
     </div>

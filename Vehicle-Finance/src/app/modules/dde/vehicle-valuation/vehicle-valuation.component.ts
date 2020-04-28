@@ -72,7 +72,7 @@ export class VehicleValuationComponent implements OnInit {
   }
   
   onFormSubmit() {
-    this.router.navigate(['/pages/dde/cam']);
+    this.router.navigate(['/pages/dde/track-vehicle']);
   }
 
 }
