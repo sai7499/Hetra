@@ -69,11 +69,11 @@ export class IncomeDetailsComponent implements OnInit {
     });
   }
   addIncomeUnit() {
-    const control = this.incomeDetailsForm.controls["businessDetails"] as FormArray;
+    const control = this.incomeDetailsForm.controls.businessDetails as FormArray;
     control.push(this.getIncomeDetails());
   }
   removeIncomeIndex(i?: any) {
-    const control = this.incomeDetailsForm.controls["businessDetails"] as FormArray;
+    const control = this.incomeDetailsForm.controls.businessDetails as FormArray;
     console.log(control.controls.length);
     if (control.controls.length > 1) {
       control.removeAt(i);
@@ -83,11 +83,11 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   addOtherUnit() {
-    const control = this.incomeDetailsForm.controls["otherIncomeDetails"] as FormArray;
+    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
     control.push(this.getOtherIncomeDetails());
   }
   removeOtherIndex(i?: any) {
-    const control = this.incomeDetailsForm.controls["otherIncomeDetails"] as FormArray;
+    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
     console.log(control.controls.length);
     if (control.controls.length > 1) {
       control.removeAt(i);
@@ -96,11 +96,11 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   addObligationUnit() {
-    const control = this.incomeDetailsForm.controls["obligationDetails"] as FormArray;
+    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
     control.push(this.getObligationDetails());
   }
   removeObligationIndex(i?: any) {
-    const control = this.incomeDetailsForm.controls["obligationDetails"] as FormArray;
+    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
     console.log(control.controls.length);
     if (control.controls.length > 1) {
       control.removeAt(i);

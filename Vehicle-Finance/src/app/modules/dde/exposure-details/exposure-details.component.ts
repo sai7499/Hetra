@@ -55,12 +55,12 @@ export class ExposureDetailsComponent implements OnInit {
     // tslint:disable-next-line:no-string-literal
     // tslint:disable-next-line:no-angle-bracket-type-assertion
     // tslint:disable-next-line: no-string-literal
-    const control = this.exposureLiveLoan.controls['loanTable'] as FormArray;
+    const control = this.exposureLiveLoan.controls.loanTable as FormArray;
     control.push(this.getLiveLoan());
   }
   removeIndex(i?: any) {
     // tslint:disable-next-line:no-string-literal
-    const control = this.exposureLiveLoan.controls['loanTable'] as FormArray;
+    const control = this.exposureLiveLoan.controls.loanTable as FormArray;
     console.log(control.controls.length);
     if (control.controls.length > 1) {
       control.removeAt(i);
@@ -72,12 +72,12 @@ export class ExposureDetailsComponent implements OnInit {
     // tslint:disable-next-line:no-string-literal
     // tslint:disable-next-line:no-angle-bracket-type-assertion
     // tslint:disable-next-line: no-string-literal
-    const control = this.exposureProposedLoan.controls['proposedTable'] as FormArray;
+    const control = this.exposureProposedLoan.controls.proposedTable as FormArray;
     control.push(this.getLiveLoan());
   }
   removeProposedIndex(i?: any) {
     // tslint:disable-next-line:no-string-literal
-    const control = this.exposureProposedLoan.controls['proposedTable'] as FormArray;
+    const control = this.exposureProposedLoan.controls.proposedTable as FormArray;
     console.log(control.controls.length);
     if (control.controls.length > 1) {
       control.removeAt(i);

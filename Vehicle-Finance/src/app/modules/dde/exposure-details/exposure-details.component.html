@@ -21,7 +21,7 @@
                        </tr>
                    </thead>
                    <tbody formArrayName="loanTable">
-                       <tr class=" text-center" id="applicant_1_row" *ngFor="let item of exposureLiveLoan.controls.loanTable.controls; let i= index" [formGroupName]="i">
+                       <tr class=" text-center" id="applicant_1_row" *ngFor="let item of exposureLiveLoan.get('loanTable')['controls']; let i= index" [formGroupName]="i">
                            <td>{{i+1}}</td>
                            <td>
                                <select class="input_value height_alter"   name="loanType" formControlName="loanType" >
@@ -94,7 +94,7 @@
                        </tr>
                    </thead>
                    <tbody formArrayName="proposedTable">
-                       <tr class=" text-center" id="applicant_1_row" *ngFor="let item of exposureProposedLoan.controls.proposedTable.controls; let i= index" [formGroupName]="i">
+                       <tr class=" text-center" id="applicant_1_row" *ngFor="let item of exposureProposedLoan.get('proposedTable')['controls']; let i= index" [formGroupName]="i">
                            <td>{{i+1}}</td>
                            <td>
                                <select class="input_value height_alter"   name="loanType" formControlName="loanType" >
