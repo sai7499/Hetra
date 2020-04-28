@@ -1215,10 +1215,8 @@
           { "key": 3, "value": "Good" },
           { "key": 4, "value": "Very Good" }
         ]
-      }
-    ],
-    "customerProfile": [
-      {
+      }],
+    "customerProfile": [{
         "commonLov": [
           { "key": 1, "value": "Yes" },
           { "key": 2, "value": "No" }
@@ -1240,10 +1238,8 @@
           { "key": 3, "value": "Good" },
           { "key": 4, "value": "Very Good" }
         ]
-      }
-    ],
-    "loanDetail": [
-      {
+      }],
+    "loanDetail": [{
         "commonLov": [
           { "key": 1, "value": "Yes" },
           { "key": 2, "value": "No" }
@@ -1274,8 +1270,7 @@
           { "key": 1, "value": "Self Driven" },
           { "key": 2, "value": "Driver" }
         ]
-      }
-    ],
+      }],
     "employmentDetails": [
       {
         "typeOfAccomdation": [
