@@ -166,44 +166,23 @@ export class VehicleDetailComponent implements OnInit {
       this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetMake.forEach(element=>{
         if(parseInt(x.assetMake)== element.key){
          
-            this.vehicleDetails.assetMake= element.value;
+            x.assetMake= element.value;
             console.log(this.vehicleDetails.assetMake)
-          
           
         }
       }))
-      console.log('2nd',this.vehicleDetails.assetMake)
-      // console.log('assetmake',this.vehicleDetails[0].assetMake);
-      // console.log('assetModel', this.vehicleDetails[0].assetModel);
-      // console.log('assetVariant',this.vehicleDetails[0].assetVariant);
-      
-
-
-      
-      
-
-      // // this.varVehicle.push(this.vehicleDetails.registrationNumber)
-
-      // this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake)
-      // this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel)
-      // this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant)
-
-      // // this.varVehicle.push(this.vehicleDetails.finalAssetCost)
-      // console.log('getDatapush',this.varVehicle)
-        
+      this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetModel.forEach(element=>{
+        if(parseInt(x.assetModel)== element.key){
+          x.assetModel= element.value
+        }
+      }))
+      this.vehicleDetails.findIndex(x=>x.assetVariant=== this.vehicleLov.assetVariant.forEach(element=>{
+        if(parseInt(x.assetVariant)==element.key){
+          x.assetVariant= element.value
+        }
+      }))
+     
     }
-    
-
-    // getCategory( category, value ){
-    //   // console.log(category,value)
-    //   category.forEach(element => {
-      
-    //       if(parseInt(value) === element.key){
-    //       this.vehicleDetails.push(element.value)
-    //       }
-    //   });
-    //   // console.log('varVehicle',this.varVehicle)
-    // }
    
 
     ngOnChanges() { }

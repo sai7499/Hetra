@@ -72,8 +72,11 @@ export class AddvehicleComponent implements OnInit {
             console.log('lead selecetd Id',selectedVehicle)
             this.setFormValue(selectedVehicle);
             console.log('selectedVehicle', selectedVehicle)
+            this.vehicleForm.controls["assetMake"].setValue(selectedVehicle.assetMake)
           }
+          
         })
+        
 
         
       }
@@ -129,7 +132,7 @@ export class AddvehicleComponent implements OnInit {
             vehicleType: vehicleValue.vehicleType || '',
             region: vehicleValue.region || '',
             registrationNumber: vehicleValue.registrationNumber || '',
-            assetMake: vehicleValue.assetMake || '',
+            // assetMake: vehicleValue.assetMake || '',
             assetModel: vehicleValue.assetModel || '',
             assetBodyType: vehicleValue.assetBodyType || '',
             assetVariant: vehicleValue.assetVariant || '',
@@ -181,6 +184,8 @@ export class AddvehicleComponent implements OnInit {
          this.router.navigateByUrl['/pages/lead-section/vehicle-details']
         
       }
+
+      
       
 
       onCheck(){
