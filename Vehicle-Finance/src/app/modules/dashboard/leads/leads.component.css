@@ -1,0 +1,19 @@
+    .nav>li>a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+    }
+    
+    .nav-pills>li>a {
+        border: 1px solid #cac4c4 !important;
+    }
+    
+    .mar-bottom {
+        margin-bottom: 20px;
+    }
+    
+    .nav>li>a:hover {
+        text-decoration: none;
+        /* background-color: #eee; */
+        cursor: pointer;
+    }

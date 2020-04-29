@@ -1,0 +1,94 @@
+<main class="mar-top90">
+    <div class="row container-fluid">
+        <div class="pull-right dropdown nav">
+            <span class="visible-xs pull-left mar-right8">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button>
+                        <ul class="dropdown-menu">
+                            <li> <div class="checkbox"><label><input type="checkbox">Product <span class="checkmark"></span></label>
+        </div>
+        </li>
+        <li>
+            <div class="checkbox"><label><input type="checkbox">Stage <span class="checkmark"></span> </label></div>
+        </li>
+        <li>
+            <div class="checkbox"><label><input type="checkbox">Loan Amount <span class="checkmark"></span> </label></div>
+        </li>
+        <li>
+            <div class="checkbox"><label><input type="checkbox">Assigned By <span class="checkmark"></span> </label></div>
+        </li>
+        </ul>
+        </span>
+        <button class="btn btn-default" id="filter-btn" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
+    </div>
+    </div>
+    <div class="filter-block container-fluid" *ngIf="showFilter">
+        <div class="row">
+            <div class="col-md-4">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="filter">Add filter</label> &nbsp;
+                        <select class="form-control" id="label">
+                            <option value="1">Status</option>
+                            <option value="2">Created Date</option>
+                            <!--- <option value="3">Assignee</option> --->
+                            <option value="">Product</option>
+                            <option value="4">Created By </option>
+                            <option value="5">Loan Amount</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <div class="row" id="status-content">
+                    <div class="form-group col-sm-4 col-md-3">
+                        <div class="checkbox">
+                            <label> <input type="checkbox" name=""> Status <span class="checkmark"></span> </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label class="sr-only">Status</label>
+                        <select class="form-control">
+                            <option>Select</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" id="date-content">
+                    <div class="form-group col-sm-4 col-md-3">
+                        <div class="checkbox">
+                            <label id="label-select"> <input type="checkbox" name=""> Created Date <span class="checkmark"></span></label>
+                        </div>
+                    </div>
+                    <!---- <div class="form-group col-sm-4">
+                        <label class="sr-only"></label>
+                        <select class="form-control">
+                            <option>Select</option>
+                        </select>
+                    </div> ---->
+                    <div class="form-group col-sm-4">
+                        <label class="sr-only">Start Date</label>
+                        <div class="input-group input-medium">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                            </span>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-sec col-xs-12 text-right">
+                <button class="btn btn-default mar-right8" id="clearbtn"> Clear </button>
+                <button class="btn btn-primary"> Apply </button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container-fluid mar-bottom">
+        <ul class="nav nav-pills nav-justified" id="background_white">
+            <li [routerLink]="[ '/pages/dashboard/leads' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
+            <li id="pd" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
+            <li id="viability" [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Vehicle Viability</a></li>
+            <li id="query"><a>Query</a></li>
+        </ul>
+    </div>
+    <router-outlet></router-outlet>
+</main>

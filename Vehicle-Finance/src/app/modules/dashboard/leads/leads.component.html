@@ -1,0 +1,10 @@
+<div class="container-fluid mar-bottom">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+        <li id="new_leads" [routerLink]="['/pages/dashboard/leads/new-leads']" routerLinkActive="active"><a data-toggle="tab">New Leads</a></li>
+        <li id="sanction_leads" [routerLink]="['/pages/dashboard/leads/sanction-leads']" routerLinkActive="active" class=""><a data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
+        <li id="sanction_leads_branch" [routerLink]="['/pages/dashboard/leads/sanction-leads-branch']" routerLinkActive="active" class=""><a data-toggle="tab">Sanctioned Leads Pending with Branch</a></li>
+        <li id="declined_leads" [routerLink]="['/pages/dashboard/leads/declined-leads']" routerLinkActive="active" class=""><a data-toggle="tab">Declined Leads with Me</a></li>
+        <li id="declined_leads_branch" [routerLink]="['/pages/dashboard/leads/declined-branch']" routerLinkActive="active" class=""><a data-toggle="tab">Declined Leads with Branch</a></li>
+    </ul>
+</div>
+<router-outlet></router-outlet>
