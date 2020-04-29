@@ -136,6 +136,7 @@ h3 {
     padding: 6px 48px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
 }
+
 .search .form-control .option {
     height: 44px;
     border: 1px solid #dedede;
@@ -171,13 +172,13 @@ h3 {
     /* color: #black; */
     font-weight: bold;
 }
+
 .search select {
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
 }
-
 
 .nav.back-btn li a {
     background: #efefef;
@@ -226,7 +227,7 @@ h3 {
     color: #fff;
     font-size: 12px;
 }
-    
+
 .table tbody tr td {
     border-top: 1px solid #e6e6e6;
     padding: 10px;
@@ -244,7 +245,7 @@ h3 {
 }
 
 .table .fa-sort {
-        /* font-size: 12px;
+    /* font-size: 12px;
         padding-left: 1px; */
     cursor: pointer;
 }
@@ -258,6 +259,7 @@ h3 {
     padding-bottom: 0px;
     background: white;
 }
+
 .content {
     background: #fff;
     padding: 25px 30px;
@@ -370,11 +372,14 @@ form .form-control {
 .container.overflow-hidden {
     /* overflow-y: hidden; */
 }
-.page-select-width{
+
+.page-select-width {
     padding: 6px !important;
 }
 
 
 /* progress bar */
 
-
+#background_white {
+    background: #fff !important;
+}
