@@ -21,7 +21,7 @@
         <button class="btn btn-default" id="filter-btn" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
     </div>
     </div>
-    <div class="filter-block container-fluid" *ngIf="showFilter">
+    <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div class="row">
             <div class="col-md-4">
                 <form class="form-inline">
@@ -81,7 +81,6 @@
             </div>
         </div>
     </div>
-    <br><br>
     <div class="container-fluid mar-bottom">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
