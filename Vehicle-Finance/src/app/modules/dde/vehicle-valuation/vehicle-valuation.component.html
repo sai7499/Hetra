@@ -91,6 +91,14 @@
                                         </div> -->
                 </div>
             </div>
+<div class="row">
+<div class="col-sm-5"></div>
+<div class="col-sm-7 text-right">
+    <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/psl-data']"> {{labels.back}} </button> &nbsp;
+    <!-- <button class="btn btn-primary"> Save </button> -->
+    <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+</div>
+</div>
 
         </div>
     </div>
@@ -108,17 +116,6 @@
     </div>
 </div> -->
 
-
-<div class="btn-sec clear-both row cst_btm_btns">
-    <div class="col-sm-5">
-
-    </div>
-    <div class="col-sm-7 text-right ">
-        <button class="btn btn-primary mar-right8" type="button" routerLink="['../viability-report']">Back </button>
-        <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-        <button class="btn btn-primary js-btn-next" type="button" routerLink="../cam"> Next </button>
-    </div>
-</div>
 
 
 
@@ -218,7 +215,7 @@
                 <p>{{labels.modalBody2}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" (click)="okModal()"
+                <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
                     data-dismiss="modal">{{labels.ok}}</button>
                 <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
                     data-dismiss="modal">{{labels.close}}</button>
