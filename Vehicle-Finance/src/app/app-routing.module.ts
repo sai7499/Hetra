@@ -22,6 +22,10 @@ const routes: Routes = [
     component: HeaderComponent,
     children: [
       {
+        path: "dashboard",
+        loadChildren: () => import("./modules/dashboard/dashboard.module").then(m => m.DashboardModule)
+      },
+      {
         path: "lead-creation",
         loadChildren: () => import("./modules/lead-creation/lead-creation.module").then(m => m.LeadCreationModule)
       },

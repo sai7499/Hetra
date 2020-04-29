@@ -378,3 +378,53 @@ form .form-control {
 /* progress bar */
 
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.dashboard-tab .mat-tab-label-container .mat-tab-label{
+    min-width: 24.9% !important;
+    border: 1px solid #cac4c4 !important;
+    margin-right: 1px;
+    opacity: 1;
+    color: #1d1a4b;
+    border-radius: 4px;
+    padding: 10px 15px;
+    height: auto;
+    font-size:14px;
+   }
+   .mat-ink-bar{
+       height: 0px !important;
+   }
+   .mat-tab-header, .mat-tab-nav-bar{
+       border:none !important;
+   }
+   .mat-table {
+    font-family: "Open sans",Helvetica,Arial,sans-serif;
+}
+   .dashboard-tab .mat-tab-label-container .mat-tab-label-active{
+    color: #fff;  
+    background-color: #1d1a4b;
+    opacity: 1;
+   }
+   .lead-tab .mat-tab-label-container .mat-tab-label{
+    min-width: 19.9% !important;
+     }
+   .custom-table.mat-table thead{
+    background-color: #272264;
+}
+.personal-tab .mat-tab-label-container .mat-tab-label{
+    min-width: 49.9% !important;
+}
+.custom-table tr.mat-header-row , .custom-table tr.mat-row {
+    height: 40px;
+}
+.custom-table .mat-header-cell{
+    color:#fff;
+}
+.mat-paginator-range-label{
+    /* display: none !important; */
+}
+.mat-paginator-container {
+    align-items: center !important;
+}

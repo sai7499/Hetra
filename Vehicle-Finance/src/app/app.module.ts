@@ -9,7 +9,8 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LocationStrategy,HashLocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor.service';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MaterialModule} from './material-module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { AuthInterceptor } from './services/auth.interceptor.service';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
