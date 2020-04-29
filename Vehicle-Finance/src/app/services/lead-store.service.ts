@@ -10,6 +10,8 @@ export class LeadStoreService {
     // coApplicant : CoApplicant;
     applicantList = [];
 
+    vehicleList =[];
+
 
     constructor() {}
 
@@ -38,12 +40,21 @@ export class LeadStoreService {
     }
 
     setVehicleDetails(vehicleDetails: VehicleDetails) {
-        this.leadCreation.vehicleDetails = vehicleDetails;
+        // this.leadCreation.vehicleDetails = vehicleDetails;
+        this.vehicleList.push(vehicleDetails)
     }
 
     getVehicleDetails() {
-        return this.leadCreation ? this.leadCreation.vehicleDetails : {};
+        // return this.leadCreation ? this.leadCreation.vehicleDetails : {};
+        return this.vehicleList;
     }
+    getSelectedVehicle(index: number) {
+        return this.vehicleList[index];
+     }
+ 
+     updateVehicle(index: number, vehicleDetails) {
+         this.vehicleList[index] = vehicleDetails;
+     }
 
     setLoanDetails(loanDetails: LoanDetails) {
         this.leadCreation.loanDetails = loanDetails;

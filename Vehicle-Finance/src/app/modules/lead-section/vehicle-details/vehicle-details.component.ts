@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { interval} from 'rxjs'
-import { map} from 'rxjs/operators'
+import { map, findIndex} from 'rxjs/operators'
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService} from '../services/vehicle-detail.service'
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -53,14 +54,14 @@ export class VehicleDetailComponent implements OnInit {
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
         // console.log('vehicleLov', this.vehicleLov);
-        this.setFormValue();
+        // this.setFormValue();
         this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
         this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel;
         this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant;
 
 
-        console.log('asset make', this.vehicleLov.assetMake)
-        // this.getData();
+        // console.log('asset make', this.vehicleLov.assetMake)
+        this.getData();
       
       });
     }
@@ -104,47 +105,47 @@ export class VehicleDetailComponent implements OnInit {
       });
     }
 
-    setFormValue() {
-      const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+    // setFormValue() {
+    //   const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
       
-       console.log('vehicle Model', vehicleModel)
-      this.vehicleForm.patchValue({
-        vehicleType: vehicleModel.vehicleType || '',
-        region: vehicleModel.region || '',
-        registrationNumber: vehicleModel.registrationNumber || '',
-        assetMake: vehicleModel.assetMake || '',
-        assetModel: vehicleModel.assetModel || '',
-        assetBodyType: vehicleModel.assetBodyType || '',
-        assetVariant: vehicleModel.assetVariant || '',
-        assetSubVariant: vehicleModel.assetSubVariant || '',
-        monthManufacturing: vehicleModel.monthManufacturing || '',
-        yrManufacturing: vehicleModel.yrManufacturing || '',
-        ageOfAsset: vehicleModel.vehicleType || '',
-        vechicalUsage: vehicleModel.vechicalUsage || '',
-        vehicleCategory: vehicleModel.vehicleCategory || '',
-        orpFunding: vehicleModel.orpFunding || '',
-        oneTimeTax: vehicleModel.oneTimeTax || '',
-        pac: vehicleModel.pac || '',
-        vas: vehicleModel.vas || '',
-        emiProtect: vehicleModel.emiProtect || '',
-        fastTag: vehicleModel.fastTag || '',
-        others: vehicleModel.others || '',
-        discount: vehicleModel.discount || '',
-        finalAssetCost: vehicleModel.finalAssetCost || '',
-        idv: vehicleModel.idv || '',
-        insuranceValidity: vehicleModel.insuranceValidity || '',
-        insuranceCopy: vehicleModel.insuranceCopy || '',
-        permitType: vehicleModel.permitType || '',
-        expiryDate: vehicleModel.expiryDate || '',
-        permitCopy: vehicleModel.permitCopy || '',
-        permitOthers: vehicleModel.permitOthers || '',
-        frsdRequired: vehicleModel.frsdRequired || '',
-        frsdAmount: vehicleModel.vehicleType || '',
-        fitnessDate: vehicleModel.fitnessDate || '',
-        fitnessCopy: vehicleModel.permitCopy || '',
-        noOfVehicle: vehicleModel.noOfVehicle || '',
-      });
-    }
+      
+    //   this.vehicleForm.patchValue({
+    //     vehicleType: vehicleModel.vehicleType || '',
+    //     region: vehicleModel.region || '',
+    //     registrationNumber: vehicleModel.registrationNumber || '',
+    //     assetMake: vehicleModel.assetMake || '',
+    //     assetModel: vehicleModel.assetModel || '',
+    //     assetBodyType: vehicleModel.assetBodyType || '',
+    //     assetVariant: vehicleModel.assetVariant || '',
+    //     assetSubVariant: vehicleModel.assetSubVariant || '',
+    //     monthManufacturing: vehicleModel.monthManufacturing || '',
+    //     yrManufacturing: vehicleModel.yrManufacturing || '',
+    //     ageOfAsset: vehicleModel.vehicleType || '',
+    //     vechicalUsage: vehicleModel.vechicalUsage || '',
+    //     vehicleCategory: vehicleModel.vehicleCategory || '',
+    //     orpFunding: vehicleModel.orpFunding || '',
+    //     oneTimeTax: vehicleModel.oneTimeTax || '',
+    //     pac: vehicleModel.pac || '',
+    //     vas: vehicleModel.vas || '',
+    //     emiProtect: vehicleModel.emiProtect || '',
+    //     fastTag: vehicleModel.fastTag || '',
+    //     others: vehicleModel.others || '',
+    //     discount: vehicleModel.discount || '',
+    //     finalAssetCost: vehicleModel.finalAssetCost || '',
+    //     idv: vehicleModel.idv || '',
+    //     insuranceValidity: vehicleModel.insuranceValidity || '',
+    //     insuranceCopy: vehicleModel.insuranceCopy || '',
+    //     permitType: vehicleModel.permitType || '',
+    //     expiryDate: vehicleModel.expiryDate || '',
+    //     permitCopy: vehicleModel.permitCopy || '',
+    //     permitOthers: vehicleModel.permitOthers || '',
+    //     frsdRequired: vehicleModel.frsdRequired || '',
+    //     frsdAmount: vehicleModel.vehicleType || '',
+    //     fitnessDate: vehicleModel.fitnessDate || '',
+    //     fitnessCopy: vehicleModel.permitCopy || '',
+    //     noOfVehicle: vehicleModel.noOfVehicle || '',
+    //   });
+    // }
 
     onFormSubmit() {
       const formModel = this.vehicleForm.value;
@@ -159,40 +160,58 @@ export class VehicleDetailComponent implements OnInit {
       
     }
     getData(){
+
       this.vehicleDetails = this.leadStoreService.getVehicleDetails();
-      console.log('vehicledetails', this.vehicleDetails)
 
-      this.varVehicle.push(this.vehicleDetails.registrationNumber)
-
-      this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake)
-      this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel)
-      this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant)
-
-      this.varVehicle.push(this.vehicleDetails.finalAssetCost)
-        
+      this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetMake.forEach(element=>{
+        if(parseInt(x.assetMake)== element.key){
+         
+            this.vehicleDetails.assetMake= element.value;
+            console.log(this.vehicleDetails.assetMake)
+          
+          
+        }
+      }))
+      console.log('2nd',this.vehicleDetails.assetMake)
+      // console.log('assetmake',this.vehicleDetails[0].assetMake);
+      // console.log('assetModel', this.vehicleDetails[0].assetModel);
+      // console.log('assetVariant',this.vehicleDetails[0].assetVariant);
       
+
+
+      
+      
+
+      // // this.varVehicle.push(this.vehicleDetails.registrationNumber)
+
+      // this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake)
+      // this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel)
+      // this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant)
+
+      // // this.varVehicle.push(this.vehicleDetails.finalAssetCost)
+      // console.log('getDatapush',this.varVehicle)
         
     }
     
-   
-    getCategory( category, value){
-      category.forEach(element => {
+
+    // getCategory( category, value ){
+    //   // console.log(category,value)
+    //   category.forEach(element => {
       
-          if(parseInt(value) == element.key){
-          this.varVehicle.push(element.value)
-          }
-      });
-      
-    }
+    //       if(parseInt(value) === element.key){
+    //       this.vehicleDetails.push(element.value)
+    //       }
+    //   });
+    //   // console.log('varVehicle',this.varVehicle)
+    // }
    
 
     ngOnChanges() { }
 
 
-    editVehicle() {
-      const tableVehicle= this.varVehicle
-      console.log('vehicleTable',tableVehicle)
-      // this.router.navigate(['pages/lead-section/add-vehicle',]);
+    editVehicle(index: number) {
+      
+      this.router.navigate(['pages/lead-section/add-vehicle',{id:index}]);
      
       
     }

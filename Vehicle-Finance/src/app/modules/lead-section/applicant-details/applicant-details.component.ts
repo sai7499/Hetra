@@ -38,6 +38,7 @@ export class ApplicantDetailsComponent implements OnInit {
     // console.log('applicant array', applicants)
     // this.applicantDetails.push(applicants)
     console.log('applicant Details', this.applicantDetails);
+    
   }
   onSubmit(){
     this.isAlert= false

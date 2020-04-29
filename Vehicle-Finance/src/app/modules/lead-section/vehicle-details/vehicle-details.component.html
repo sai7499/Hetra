@@ -17,12 +17,14 @@
                     </tr>
                 </thead>
                 <tbody >
-                    <tr id="add_vhd_tabletr" >
-                        <td *ngFor="let vehicle of varVehicle">
-                            {{vehicle}}
-                        </td>
+                    <tr id="add_vhd_tabletr" *ngFor="let vehicleDetails of vehicleDetails; let i=index" >
+                        <td>{{vehicleDetails.registrationNumber}}</td>
+                        <td>{{vehicleDetails.assetMake}}</td>
+                        <td>{{vehicleDetails.assetModel}}</td>
+                        <td>{{vehicleDetails.assetVariant}}</td>
+                        <td>{{vehicleDetails.finalAssetCost}}</td>
                         
-                        <td *ngIf='varVehicle.length>3' (click)="editVehicle()">
+                        <td  (click)="editVehicle(i)">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </td>
                     </tr>
