@@ -166,19 +166,19 @@ export class VehicleDetailComponent implements OnInit {
       this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetMake.forEach(element=>{
         if(parseInt(x.assetMake)== element.key){
          
-            x.assetMake= element.value;
+            x.assetMake= element;
             console.log(this.vehicleDetails.assetMake)
           
         }
       }))
       this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetModel.forEach(element=>{
         if(parseInt(x.assetModel)== element.key){
-          x.assetModel= element.value
+          x.assetModel= element;
         }
       }))
       this.vehicleDetails.findIndex(x=>x.assetVariant=== this.vehicleLov.assetVariant.forEach(element=>{
         if(parseInt(x.assetVariant)==element.key){
-          x.assetVariant= element.value
+          x.assetVariant= element;
         }
       }))
      
@@ -189,7 +189,7 @@ export class VehicleDetailComponent implements OnInit {
 
 
     editVehicle(index: number) {
-      
+      console.log('onClickedit',this.vehicleDetails)
       this.router.navigate(['pages/lead-section/add-vehicle',{id:index}]);
      
       

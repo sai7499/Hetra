@@ -6,6 +6,7 @@ import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService} from '../services/vehicle-detail.service'
+import { element } from 'protractor';
 
 
 @Component({
@@ -50,6 +51,8 @@ export class AddvehicleComponent implements OnInit {
           console.log('vehicleLov', this.vehicleLov);
           this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
           this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel
+
+          
           this.vehicleLov.vehicleType=value[0].vehicleDetails[0].vehicleType
           this.vehicleLov.assetBodyType=value[0].vehicleDetails[0].assetBodyType
           this.vehicleLov.region=value[0].vehicleDetails[0].region
@@ -69,10 +72,9 @@ export class AddvehicleComponent implements OnInit {
             this.selectedVehicle = Number(vehicleId);
             console.log('numberselectId', this.selectedVehicle)
             const selectedVehicle : Temp= this.leadStoreService.getSelectedVehicle(Number(vehicleId));
-            console.log('lead selecetd Id',selectedVehicle)
             this.setFormValue(selectedVehicle);
-            console.log('selectedVehicle', selectedVehicle)
-            this.vehicleForm.controls["assetMake"].setValue(selectedVehicle.assetMake)
+            console.log('selectedVehicle', selectedVehicle) 
+            
           }
           
         })
@@ -132,10 +134,10 @@ export class AddvehicleComponent implements OnInit {
             vehicleType: vehicleValue.vehicleType || '',
             region: vehicleValue.region || '',
             registrationNumber: vehicleValue.registrationNumber || '',
-            // assetMake: vehicleValue.assetMake || '',
-            assetModel: vehicleValue.assetModel || '',
+            assetMake: vehicleValue.assetMake.key || '',
+            assetModel: vehicleValue.assetModel.key || '',
             assetBodyType: vehicleValue.assetBodyType || '',
-            assetVariant: vehicleValue.assetVariant || '',
+            assetVariant: vehicleValue.assetVariant.key || '',
             assetSubVariant: vehicleValue.assetSubVariant || '',
             monthManufacturing: vehicleValue.monthManufacturing || '',
             yrManufacturing: vehicleValue.yrManufacturing || '',
@@ -164,6 +166,16 @@ export class AddvehicleComponent implements OnInit {
             fitnessCopy: vehicleValue.permitCopy || '',
             noOfVehicle: vehicleValue.noOfVehicle || '',
           });
+
+          console.log('assetModel',vehicleValue.assetModel)
+          // this.vehicleLov.assetModel.forEach(element=>{
+            
+          //   if(vehicleValue.assetModel===element.value){
+          //     console.log('hello')
+          //     this.vehicleForm.controls["assetModel"].setValue(element.key)
+          //   }
+          // })
+          
         }
         
       }
@@ -244,10 +256,13 @@ export class AddvehicleComponent implements OnInit {
       vehicleType? : string
       region?:string 
       registrationNumber ?:string 
-      assetMake?:string 
-      assetModel?:string 
+      assetMake?:{key?: string,
+                 value?: string}
+      assetModel?:{key?: string,
+                  value?: string}
       assetBodyType?:string 
-      assetVariant?:string 
+      assetVariant?:{key?: string,
+                    value?: string}
       assetSubVariant?:string 
       monthManufacturing?:string 
       yrManufacturing?:string 

@@ -19,9 +19,9 @@
                 <tbody >
                     <tr id="add_vhd_tabletr" *ngFor="let vehicleDetails of vehicleDetails; let i=index" >
                         <td>{{vehicleDetails.registrationNumber}}</td>
-                        <td>{{vehicleDetails.assetMake}}</td>
-                        <td>{{vehicleDetails.assetModel}}</td>
-                        <td>{{vehicleDetails.assetVariant}}</td>
+                        <td>{{vehicleDetails.assetMake.value}}</td>
+                        <td>{{vehicleDetails.assetModel.value}}</td>
+                        <td>{{vehicleDetails.assetVariant.value}}</td>
                         <td>{{vehicleDetails.finalAssetCost}}</td>
                         
                         <td  (click)="editVehicle(i)">
