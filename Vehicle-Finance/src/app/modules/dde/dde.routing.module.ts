@@ -23,6 +23,10 @@ const routes: Routes = [
     component: DdeComponent,
     children: [
       {
+        path: '',
+        component: SourcingDdeComponent
+      },
+      {
         path: 'applicant-list',
         component: ApplicantListComponent
       },

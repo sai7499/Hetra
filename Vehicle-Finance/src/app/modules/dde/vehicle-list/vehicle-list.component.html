@@ -1,104 +1,102 @@
-<div class="content">
-    <form class="multisteps-form__form">
-        <div class="container cus-wid-sty">
-            <div class="btn-sec clear-both row">
+<!-- <div class="content"> -->
+<form class="multisteps-form__form">
+    <div class="container cus-wid-sty">
+        <div class="btn-sec clear-both row">
 
-                <div class="col-sm-12 text-right">
-                    <button class="btn btn-secondary mar-right8" type="button"
-                        [routerLink]="['/pages/vehicle-details']">
-                        Add Vehicle
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="table-responsive application" id="applicantTable">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-head-bg">
-                                <td>Registration Num</td>
-                                <td>Make</td>
-                                <td>Model</td>
-                                <td>Action </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="applicant_1_row">
-                                <td>TN-04-SS-0292</td>
-                                <td>TATA</td>
-                                <td>SUMO</td>
-                                <td><i class="fa fa-pencil" aria-hidden="true"
-                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                        aria-hidden="true" id="remove_item_applicant"></i></td>
-                            </tr>
-                            <tr id="applicant_2_row">
-                                <td>KL-05-AG-1191</td>
-                                <td>TATA</td>
-                                <td>SUMO</td>
-                                <td><i class="fa fa-pencil" aria-hidden="true"
-                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                        aria-hidden="true" id="remove_item_applicant2"></i></td>
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-
-                </div>
-
-
-
-            </div>
-
-            <div class="btn-sec clear-both row">
-                <!-- <div class="col-sm-5">
-                    <h4 class="title">Vehicle Details</h4> 
-                </div> -->
-                <div class="col-sm-12 text-right">
-                    <button class="btn btn-secondary mar-right8" type="button"
-                        [routerLink]="['/pages/vehicle-details']">
-                        Add Additional
-                        Collaterals </button>
-                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-                </div>
-            </div>
-            <div class="row">
-                <div class="table-responsive application" id="applicantTable">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-head-bg">
-                                <td>Colleteral Type</td>
-                                <td>Column 2</td>
-                                <td>Column 3</td>
-                                <td>Action</td>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="applicant_1_row">
-                                <td>Colleteral Type-1</td>
-                                <td></td>
-                                <td></td>
-                                <td><i class="fa fa-pencil" aria-hidden="true"
-                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                        aria-hidden="true" id="remove_item_applicant"></i></td>
-                            </tr>
-                            <tr id="applicant_2_row">
-                                <td>Colleteral Type-2</td>
-                                <td></td>
-                                <td></td>
-                                <td><i class="fa fa-pencil" aria-hidden="true"
-                                        [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                        aria-hidden="true" id="remove_item_applicant"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
+                    Add Vehicle
+                </button>
             </div>
         </div>
-    </form>
-</div>
+        <div class="row">
+            <div class="table-responsive application" id="applicantTable">
+                <table class="table">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <td>Registration Num</td>
+                            <td>Make</td>
+                            <td>Model</td>
+                            <td>Action </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="applicant_1_row">
+                            <td>TN-04-SS-0292</td>
+                            <td>TATA</td>
+                            <td>SUMO</td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                        </tr>
+                        <tr id="applicant_2_row">
+                            <td>KL-05-AG-1191</td>
+                            <td>TATA</td>
+                            <td>SUMO</td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant2"></i></td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="btn-sec clear-both row">
+            <!-- <div class="col-sm-5">
+                    <h4 class="title">Vehicle Details</h4> 
+                </div> -->
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
+                    Add Additional
+                    Collaterals </button>
+                <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive application" id="applicantTable">
+                <table class="table">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <td>Colleteral Type</td>
+                            <td>Column 2</td>
+                            <td>Column 3</td>
+                            <td>Action</td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="applicant_1_row">
+                            <td>Colleteral Type-1</td>
+                            <td></td>
+                            <td></td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                        </tr>
+                        <tr id="applicant_2_row">
+                            <td>Colleteral Type-2</td>
+                            <td></td>
+                            <td></td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- </div> -->
 
 
 

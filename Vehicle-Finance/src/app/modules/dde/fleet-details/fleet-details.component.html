@@ -1,9 +1,9 @@
-<div class="content">
-    <form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetForm">
-        <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn">
-            <div class="container">
-                <div class="row">
-                    <!-- <div class="table-responsive application">
+<!-- <div class="content"> -->
+<form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetForm">
+    <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn">
+        <div class="container">
+            <div class="row">
+                <!-- <div class="table-responsive application">
                     <table class="table">
                         <thead>
                             <tr class="table-head-bg">
@@ -69,118 +69,116 @@
                     <i type="button" class="fa fa-plus add-row" aria-hidden="true" (click)="addNewRow()">+</i>
                     <i type="button" class="fa fa-minus delete-row" aria-hidden="true"(click)="deleteRow(i)">-</i>
                 </div> -->
-                    <div class="table-responsive application">
-                        <table class="table">
-                            <thead>
-                                <tr class="table-head-bg">
+                <div class="table-responsive application">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
 
-                                    <td role="columnheader">{{labels.sNo}} </td>
-                                    <td role="columnheader">{{labels.regdNo}} </td>
-                                    <td role="columnheader">{{labels.regdOwner}}</td>
-                                    <td role="columnheader">{{labels.relation}}</td>
-                                    <td role="columnheader">{{labels.make}} </td>
-                                    <td role="columnheader">{{labels.yom}} </td>
-                                    <td role="columnheader">{{labels.financier}} </td>
-                                    <td role="columnheader">{{labels.loanNo}} </td>
-                                    <td role="columnheader">{{labels.purchaseDate}} </td>
-                                    <td role="columnheader">{{labels.tenure}} </td>
-                                    <td role="columnheader">{{labels.paid}} </td>
-                                    <td role="columnheader">{{labels.seasoning}} </td>
-                                    <td role="columnheader">{{labels.ad}} </td>
-                                    <td role="columnheader">{{labels.pd}} </td>
-                                    <td role="columnheader">{{labels.gridValue}}</td>
-                                    <td role="columnheader">{{labels.track}} </td>
-                                    <td role="columnheader">{{labels.action}} </td>
-                                </tr>
-                            </thead>
-                            <tbody formArrayName="Rows">
-                                <tr id="applicant_1_row"
-                                    *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
-                                    [formGroupName]="i">
+                                <td role="columnheader">{{labels.sNo}} </td>
+                                <td role="columnheader">{{labels.regdNo}} </td>
+                                <td role="columnheader">{{labels.regdOwner}}</td>
+                                <td role="columnheader">{{labels.relation}}</td>
+                                <td role="columnheader">{{labels.make}} </td>
+                                <td role="columnheader">{{labels.yom}} </td>
+                                <td role="columnheader">{{labels.financier}} </td>
+                                <td role="columnheader">{{labels.loanNo}} </td>
+                                <td role="columnheader">{{labels.purchaseDate}} </td>
+                                <td role="columnheader">{{labels.tenure}} </td>
+                                <td role="columnheader">{{labels.paid}} </td>
+                                <td role="columnheader">{{labels.seasoning}} </td>
+                                <td role="columnheader">{{labels.ad}} </td>
+                                <td role="columnheader">{{labels.pd}} </td>
+                                <td role="columnheader">{{labels.gridValue}}</td>
+                                <td role="columnheader">{{labels.track}} </td>
+                                <td role="columnheader">{{labels.action}} </td>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="Rows">
+                            <tr id="applicant_1_row"
+                                *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
+                                [formGroupName]="i">
 
-                                    <td>{{i+1}}</td>
-                                    <td><input type="text" class="form-control input_value height" value="TN01AA1234"
-                                            formControlName="regdNo">
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height" value="KUMAR"
-                                            formControlName="regdOwner">
-                                    </td>
-                                    <td>
-                                        <select class="form-control input_value height" formControlName="relation">
-                                            <option>{{labels.applicant}}</option>
-                                            <option>{{labels.coApplicant}}</option>
-                                            <option>{{labels.guarantor}}</option>
-                                        </select>
+                                <td>{{i+1}}</td>
+                                <td><input type="text" class="form-control input_value height" value="TN01AA1234"
+                                        formControlName="regdNo">
+                                </td>
+                                <td><input type="text" class="form-control input_value height" value="KUMAR"
+                                        formControlName="regdOwner">
+                                </td>
+                                <td>
+                                    <select class="form-control input_value height" formControlName="relation">
+                                        <option>{{labels.applicant}}</option>
+                                        <option>{{labels.coApplicant}}</option>
+                                        <option>{{labels.guarantor}}</option>
+                                    </select>
 
-                                        <!-- <app-vf-custom-select [values]="values?.relation" formControlName="relation">
+                                    <!-- <app-vf-custom-select [values]="values?.relation" formControlName="relation">
                                         </app-vf-custom-select> -->
-                                    </td>
-                                    <td>
-                                        <select class="form-control input_value height" formControlName="make">
-                                            <option>{{labels.tatamotors}}</option>
-                                            <option>{{labels.eicher}}</option>
+                                </td>
+                                <td>
+                                    <select class="form-control input_value height" formControlName="make">
+                                        <option>{{labels.tatamotors}}</option>
+                                        <option>{{labels.eicher}}</option>
 
-                                        </select>
+                                    </select>
 
-                                        <!-- <app-vf-custom-select [values]="values?.make" formControlName="make">
+                                    <!-- <app-vf-custom-select [values]="values?.make" formControlName="make">
                                         </app-vf-custom-select> -->
-                                    </td>
-                                    <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
-                                    <td><input type="text" class="form-control input_value height" value="2015"
-                                            formControlName="yom"></td>
-                                    <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
-                                    <td>
-                                        <select class="form-control input_value height" id="asset_make"
-                                            formControlName="financier">
-                                            <option>{{labels.bajaj}}</option>
-                                            <option>{{labels.icici}}</option>
-                                            <option>{{labels.chola}}</option>
+                                </td>
+                                <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
+                                <td><input type="text" class="form-control input_value height" value="2015"
+                                        formControlName="yom"></td>
+                                <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
+                                <td>
+                                    <select class="form-control input_value height" id="asset_make"
+                                        formControlName="financier">
+                                        <option>{{labels.bajaj}}</option>
+                                        <option>{{labels.icici}}</option>
+                                        <option>{{labels.chola}}</option>
 
-                                        </select>
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height" value="4587"
-                                            formControlName="loanNo"></td>
-                                    <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
-                                    <td>
-                                        <div class="form-group">
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <span class="input-group-addon"><span
-                                                        class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                                <input type='text' class="form-control" value="12-05-2007"
-                                                    formControlName="purchaseDate">
-                                            </div>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control input_value height" value="4587"
+                                        formControlName="loanNo"></td>
+                                <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
+                                <td>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <span class="input-group-addon"><span
+                                                    class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                            <input type='text' class="form-control" value="12-05-2007"
+                                                formControlName="purchaseDate">
                                         </div>
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height"
-                                            formControlName="tenure">
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height"
-                                            formControlName="paid">
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height"
-                                            formControlName="seasoning"></td>
-                                    <td><input type="text" class="form-control input_value height" formControlName="ad">
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height" formControlName="pd">
-                                    </td>
-                                    <td><input type="text" class="form-control input_value height"
-                                            formControlName="gridValue"></td>
-                                    <td><u><a class="a_tag" [routerLink]="['../track-vehicle']">RTR</a></u></td>
-                                    <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
-                                            (click)="addNewRow()"></i></td>
-                                    <td><i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
-                                            (click)="deleteRow(i)"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                                <td><input type="text" class="form-control input_value height" formControlName="tenure">
+                                </td>
+                                <td><input type="text" class="form-control input_value height" formControlName="paid">
+                                </td>
+                                <td><input type="text" class="form-control input_value height"
+                                        formControlName="seasoning"></td>
+                                <td><input type="text" class="form-control input_value height" formControlName="ad">
+                                </td>
+                                <td><input type="text" class="form-control input_value height" formControlName="pd">
+                                </td>
+                                <td><input type="text" class="form-control input_value height"
+                                        formControlName="gridValue"></td>
+                                <td><u><a class="a_tag" [routerLink]="['../track-vehicle']">RTR</a></u></td>
+                                <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
+                                        (click)="addNewRow()"></i></td>
+                                <td><i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
+                                        (click)="deleteRow(i)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
-    </form>
-</div>
+</form>
+<!-- </div> -->
 
 
 <div class="btn-sec clear-both row cst_btm_btns">

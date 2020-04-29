@@ -19,59 +19,57 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="customer_bank_name">Customer Bank Name</label>
+                                    <label for="customer_bank_name">{{labels?.customerBankName}}</label>
                                     <input formControlName="bankName" type="text" class="form-control"
                                         name="customer_bank_name" id="customer_bank_name" required="required" />
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="bank_branch">Bank Branch</label>
+                                    <label for="bank_branch">{{labels?.bankBranch}}</label>
                                     <input formControlName="bankBranch" type="text" class="form-control"
                                         name="bank_branch" id="bank_branch" required="required" />
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="bank_address">Bank Address</label>
+                                    <label for="bank_address">{{labels?.bankAddress}}</label>
                                     <textarea formControlName="bankAddress" class="form-control" rows="1"
                                         id="bank_address" name="bank_address"></textarea>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="account_type">Account Type</label>
+                                    <label for="account_type">{{labels?.accountType}}</label>
                                     <app-vf-custom-select formControlName="accountType" [values]="">
                                     </app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="account_number">Account Number</label>
+                                    <label for="account_number">{{labels?.accountNumber}}</label>
                                     <input formControlName="accountNumber" type="text" class="form-control"
                                         name="account_number" id="account_number" />
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="account_holder_name">Account Holder Name</label>
+                                    <label for="account_holder_name">{{labels?.accountHolderName}}</label>
                                     <input formControlName="holderName" type="text" class="form-control"
                                         name="account_holder_name" id="account_holder_name" />
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="minimum_average_balance">Minimum Average Balance</label>
+                                    <label for="minimum_average_balance">{{labels?.minimumAverageBalance}}</label>
                                     <input formControlName="averageBalance" type="text" class="form-control"
                                         name="minimum_average_balance" id="minimum_average_balance" />
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="micr_code">MICR Code</label>
+                                    <label for="micr_code">{{labels?.micrCode}}</label>
                                     <input formControlName="micrCode" type="text" class="form-control" name="micr_code"
                                         id="micr_code" />
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="ifsc_code">IFSC Code</label>
+                                    <label for="ifsc_code">{{labels?.ifscCode}}</label>
                                     <input formControlName="ifscCode" type="text" class="form-control" name="ifsc_code"
                                         id="ifsc_code" />
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
-
                 </div>
 
-                <!-- </div> -->
             </ng-container>
         </div>
 

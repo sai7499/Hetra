@@ -1,73 +1,72 @@
-<div class="content">
-    <form class="multisteps-form__form" method="post">
-        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-            <div class="container">
+<!-- <div class="content"> -->
+<form class="multisteps-form__form">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <div class="container">
 
-                <div class="btn-sec clear-both row">
-                    <div class="col-sm-5">
-                        <!-- <h4 class="title">PSL Data</h4> -->
-                    </div>
-                    <div class="col-sm-7 text-right">
-                        <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
-                        <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-                    </div>
+            <div class="btn-sec clear-both row">
+                <div class="col-sm-5">
+                    <!-- <h4 class="title">PSL Data</h4> -->
                 </div>
-                <div class="row">
-                    <div class="table-responsive application" id="applicantTable">
-                        <table class="table">
-                            <thead>
-                                <tr class="table-head-bg">
-                                    <td>{{labels.registrationNumber}}</td>
-                                    <td>{{labels.make}}</td>
-                                    <td> {{labels.model}}</td>
-                                    <td> {{labels.address}}</td>
-                                    <td>{{labels.valuationStatus}}</td>
-                                    <td>{{labels.valuationReport}}</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>TN-04-SS-0292</td>
-                                    <td>TATA</td>
-                                    <td>SUMO</td>
-                                    <td>No: 10, Syamala Street, Chengalpattu, TN, 600228</td>
-                                    <td>Not Initiated</td>
-                                    <td>
-                                        <u>
-                                            <a class="a_tag" (click)="OnSubmit()" data-toggle="modal"
-                                                data-target="#myModal">Initiate</a>
-                                        </u>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>KL-05-AG-1191</td>
-                                    <td>TATA</td>
-                                    <td>LP 709 32 SEATER</td>
-                                    <td>No: 6, MGR street, velacherry, TN, 600042</td>
-                                    <td>Initiated</td>
-                                    <td>
-                                        <u>
-                                            <a class="a_tag"
-                                                href="vehicle_valuation/vehicle_valuation_details.html"></a>
-                                        </u>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>TN-04-SS-0388</td>
-                                    <td>TATA</td>
-                                    <td>CITY RIDER</td>
-                                    <td>No: 214, Annai teresa nagar, Avadi, TN, 600054</td>
-                                    <td>Submitted</td>
-                                    <td>
-                                        <u>
-                                            <a class="a_tag" [routerLink]="['/pages/dde/valuation']">View</a>
-                                        </u>
-                                    </td>
-                                </tr>
+                <div class="col-sm-7 text-right">
+                    <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
+                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive application" id="applicantTable">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <td>{{labels.registrationNumber}}</td>
+                                <td>{{labels.make}}</td>
+                                <td> {{labels.model}}</td>
+                                <td> {{labels.address}}</td>
+                                <td>{{labels.valuationStatus}}</td>
+                                <td>{{labels.valuationReport}}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TN-04-SS-0292</td>
+                                <td>TATA</td>
+                                <td>SUMO</td>
+                                <td>No: 10, Syamala Street, Chengalpattu, TN, 600228</td>
+                                <td>Not Initiated</td>
+                                <td>
+                                    <u>
+                                        <a class="a_tag" (click)="OnSubmit()" data-toggle="modal"
+                                            data-target="#myModal">Initiate</a>
+                                    </u>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>KL-05-AG-1191</td>
+                                <td>TATA</td>
+                                <td>LP 709 32 SEATER</td>
+                                <td>No: 6, MGR street, velacherry, TN, 600042</td>
+                                <td>Initiated</td>
+                                <td>
+                                    <u>
+                                        <a class="a_tag" href="vehicle_valuation/vehicle_valuation_details.html"></a>
+                                    </u>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>TN-04-SS-0388</td>
+                                <td>TATA</td>
+                                <td>CITY RIDER</td>
+                                <td>No: 214, Annai teresa nagar, Avadi, TN, 600054</td>
+                                <td>Submitted</td>
+                                <td>
+                                    <u>
+                                        <a class="a_tag" [routerLink]="['/pages/dde/valuation']">View</a>
+                                    </u>
+                                </td>
+                            </tr>
 
-                            </tbody>
-                        </table>
-                        <!-- <div class="btn-sec clear-both">
+                        </tbody>
+                    </table>
+                    <!-- <div class="btn-sec clear-both">
                                             <div class="records col-sm-6">
                                                 <select class="form-control input-sm">
                                                     <option value="10">10</option>
@@ -90,13 +89,21 @@
                                                 </nav>
                                             </div>
                                         </div> -->
-                    </div>
                 </div>
-
             </div>
-        </div>
-    </form>
+<div class="row">
+<div class="col-sm-5"></div>
+<div class="col-sm-7 text-right">
+    <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/psl-data']"> {{labels.back}} </button> &nbsp;
+    <!-- <button class="btn btn-primary"> Save </button> -->
+    <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
 </div>
+</div>
+
+        </div>
+    </div>
+</form>
+<!-- </div> -->
 
 <!-- <div class="row">
     <div class="col-sm-5"></div>
@@ -109,17 +116,6 @@
     </div>
 </div> -->
 
-
-<div class="btn-sec clear-both row cst_btm_btns">
-    <div class="col-sm-5">
-
-    </div>
-    <div class="col-sm-7 text-right ">
-        <button class="btn btn-primary mar-right8" type="button" routerLink="['../viability-report']">Back </button>
-        <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-        <button class="btn btn-primary js-btn-next" type="button" routerLink="../cam"> Next </button>
-    </div>
-</div>
 
 
 
@@ -219,7 +215,7 @@
                 <p>{{labels.modalBody2}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" (click)="okModal()"
+                <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
                     data-dismiss="modal">{{labels.ok}}</button>
                 <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
                     data-dismiss="modal">{{labels.close}}</button>

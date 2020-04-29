@@ -15,7 +15,7 @@ export class LoanDetailsComponent implements OnInit {
 
   loanDetailsForm: FormGroup;
 
-  public loanDetailsLov = {};
+  public loanDetailsLov: any = {};
   public labels: any = {};
   public errorMsg;
   public getLabels;
