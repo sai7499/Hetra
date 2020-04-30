@@ -53,6 +53,11 @@ const routes: Routes = [
         path: "applicant-details",
         loadChildren: () =>
           import("./modules/dde/applicant-details/applicant-details.module").then(m => m.ApplicantDetailsModule)
+      },
+      {
+        path: "vh-val",
+        loadChildren: () =>
+        import ("./modules/dde/vh-val/vh-val.module").then(m => m.VhValModule)
       }
     ]
   }

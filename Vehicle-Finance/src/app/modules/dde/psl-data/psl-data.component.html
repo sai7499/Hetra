@@ -1,6 +1,6 @@
 <!-- <div class="content"> -->
 <form class="multisteps-form__form"  [formGroup]="pslDataForm">
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
         <h3 class="title">PSL Data</h3>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -15,15 +15,6 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" *ngIf="showHs">
                 <label for="property_type">{{labels.propertyType}}</label>
-                <!-- <select class="form-control" formControlName="propertyType" id="property_type" name="property_type" required="required">
-                        <option value="Self construction"> Select an option </option>
-                        <option *ngFor="let propType of pslDataLov.propertyType" [value]="propType.key" > {{propType.value}} </option>
-                        <option value="New Flat" >New Flat</option>
-                        <option value="Resale Flat" >Resale Flat</option>
-                        <option value="Idependent Flat New" >Idependent Flat New</option>
-                        <option value="Idependent Flat Old" >Idependent Flat Old</option>
-                        <option value="Composite" >Composite</option>
-                    </select> -->
                 <app-vf-custom-select [values]="pslDataLov?.propertyType" formControlName="propertyType">
                 </app-vf-custom-select>
             </div>
@@ -95,16 +86,6 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="!showAct">
                 <label for="relationship_with_landowner">{{labels.relWithLandowner}}</label>
-                <!-- <select class="form-control" formControlName= "relWithLandowner"
-                   id="relationship_with_landowner" name="relationship_with_landowner" required="required" >
-                        <option value="Spouse" >Spouse</option>
-                        <option value="Father" >Father</option>
-                        <option value="Mother" >Mother</option>
-                        <option value="Son" >Son</option>
-                        <option value="Daughter" >Daughter</option>
-                        <option value="Sister" >Sister</option>
-                        <option value="Brother" >Brother</option>
-                    </select> -->
                 <app-vf-custom-select [values]="pslDataLov?.relWithLandowner" formControlName="relWithLandowner">
                 </app-vf-custom-select>
             </div>
@@ -356,28 +337,32 @@
                             {{pslCertHos.value}}
                         </option>
                     </select> -->
-                    <app-vf-custom-select [values]="pslDataLov?.pslCertificateHos" formControlName="pslCertificateHos">
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="!showAct">
-                    <label for="weaker_section_ag">{{labels.weakerSection}}</label>
-                    <app-vf-custom-select [values]="pslDataLov?.weakerSection" formControlName="weakerSectionAg">
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" *ngIf="!show">
-                    <label for="weaker_section_msme">{{labels.weakerSection}}</label>
-                       <app-vf-custom-select [values]="pslDataLov?.weakerSection" formControlName="weakerSectionMsme">
-                        </app-vf-custom-select>
-                </div>
+                <app-vf-custom-select [values]="pslDataLov?.pslCertificateHos" formControlName="pslCertificateHos">
+                </app-vf-custom-select>
             </div>
-</div>
-<div class="btn-sec clear-both row">
-<div class="col-sm-5"> </div>
-<div class="col-sm-7 text-right">
-    <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/income-details']"> {{labels.back}} </button>	&nbsp;											
-    <!-- <p class="btn btn-primary save"> Save </p>  -->
-    <button class="btn btn-primary save" type="button" (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
-</div>
-</div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="!showAct">
+                <label for="weaker_section_ag">{{labels.weakerSection}}</label>
+                <app-vf-custom-select [values]="pslDataLov?.weakerSection" formControlName="weakerSectionAg">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" *ngIf="!show">
+                <label for="weaker_section_msme">{{labels.weakerSection}}</label>
+                <app-vf-custom-select [values]="pslDataLov?.weakerSection" formControlName="weakerSectionMsme">
+                </app-vf-custom-select>
+            </div>
+        </div>
+    <!-- </div> -->
 </form>
+
+<div class="btn-sec clear-both ">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
+        <button class="btn btn-primary" type="button" [routerLink]="['../income-details']">
+            {{labels.back}} </button> &nbsp;
+        <!-- <p class="btn btn-primary save"> Save </p>  -->
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.save}} </button>
+        &nbsp;
+        <button class="btn btn-primary" type="button"  (click)="onFormSubmit()">
+            {{labels.next}} </button>
+    </div>
+</div>
