@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of newArray">
+            <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
 
                 <td>{{item.leadId}}</td>
                 <td>{{item.product}}</td>
@@ -29,9 +29,25 @@
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
-
             </tr>
         </tbody>
     </table>
+    <div class="row clearfix m-0">
+        <div class="records col-xs-3 col-sm-4">
+
+            <div class="col-lg-2"><label>No. of Rows </label>
+                <select class="form-control  input-sm" [(ngModel)]="itemsPerPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    </select>
+            </div>
+
+        </div>
+        <nav class="col-xs-9 col-sm-4 text-center">
+            <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls>
+        </nav>
+    </div>
 
 </div>

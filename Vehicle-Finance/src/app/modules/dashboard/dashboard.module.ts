@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import {NgxPaginationModule} from 'ngx-pagination';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewLeadsComponent } from './leads/new-leads/new-leads.component';
 import { LeadsComponent } from './leads/leads.component';
@@ -16,13 +17,16 @@ import { BranchTasksComponent } from './personal-discussion/branch-tasks/branch-
 import { VehicleViabilityComponent } from './vehicle-viability/vehicle-viability.component';
 import { ViabilityChecksComponent } from './vehicle-viability/viability-checks/viability-checks.component';
 import { ViabilityChecksBranchComponent } from './vehicle-viability/viability-checks-branch/viability-checks-branch.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
   declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    NgxPaginationModule,
+    FormsModule
   ]
 })
 export class DashboardModule { }

@@ -1,5 +1,5 @@
 <main class="mar-top90">
-    <div class="row container-fluid">
+    <div class="container-fluid">
         <div class="pull-right dropdown nav">
             <span class="visible-xs pull-left mar-right8">
                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button>
@@ -18,11 +18,11 @@
         </li>
         </ul>
         </span>
-        <button class="btn btn-default mar-bottom" id="filter-btn" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
+        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
     </div>
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
-        <div class="row">
+        <div>
             <div class="col-md-4">
                 <form class="form-inline">
                     <div class="form-group">
@@ -90,4 +90,5 @@
         </ul>
     </div>
     <router-outlet></router-outlet>
+
 </main>

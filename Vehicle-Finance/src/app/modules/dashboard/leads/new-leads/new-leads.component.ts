@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class NewLeadsComponent implements OnInit {
 
   newArray;
+  itemsPerPage = 5;
 
   constructor() {
     this.newArray =  [
