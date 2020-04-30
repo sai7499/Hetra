@@ -16,7 +16,7 @@ import { VehicleDetailService} from '../services/vehicle-detail.service'
 })
 export class VehicleDetailComponent implements OnInit {
 
-    vehicleForm: FormGroup;
+  vehicleForm: FormGroup;
 
     public vehicleLov: any  = {};
     public label: any = {};
@@ -58,8 +58,25 @@ export class VehicleDetailComponent implements OnInit {
       });
     }
 
-    initForm() {
-      this.vehicleForm = new FormGroup({
+
+  // ngOnInit() {
+  //   this.initForm();
+  //   this.getAllFieldLabel = this.labelsData.getLabelsData()
+  //     .subscribe(data => {
+  //       this.label = data;
+  //     },
+  //       error => {
+  //         this.errorMsg = error;
+  //       });
+  //   this.lovDataService.getLovData().subscribe((value: any) => {
+  //     this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
+  //     console.log('vehicleLov', this.vehicleLov);
+  //     this.setFormValue();
+  //   });
+  // }
+
+  initForm() {
+    this.vehicleForm = new FormGroup({
       vehicleType: new FormControl(''),
       region: new FormControl(''),
       registrationNumber: new FormControl(''),
@@ -94,8 +111,8 @@ export class VehicleDetailComponent implements OnInit {
       fitnessDate: new FormControl(''),
       fitnessCopy: new FormControl(''),
       noOfVehicle: new FormControl(''),
-      });
-    }
+    });
+  }
 
     setFormValue() {
       const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
@@ -174,7 +191,7 @@ export class VehicleDetailComponent implements OnInit {
     }
    
 
-    ngOnChanges() { }
+  ngOnChanges() { }
 
 
     editVehicle() {
@@ -193,5 +210,7 @@ export class VehicleDetailComponent implements OnInit {
         this.show = false;
       }
     }
+  
 
-  }
+
+}

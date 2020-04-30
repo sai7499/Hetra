@@ -1,476 +1,543 @@
-[
-  {
-    "vehicleDetails": [
-      {
-        "vehicleType": [
-          {
-            "key": 1,
-            "value": "Open"
-          },
-          {
-            "key": 2,
-            "value": "Tripper"
-          },
-          {
-            "key": 3,
-            "value": "Trailer"
-          },
-          {
-            "key": 4,
-            "value": "Goods"
-          },
-          {
-            "key": 5,
-            "value": "Bus"
-          },
-          {
-            "key": 6,
-            "value": "Passenger Vehicle"
-          },
-          {
-            "key": 7,
-            "value": "ODC"
-          }
+[{
+    "vehicleDetails": [{
+        "vehicleType": [{
+                "key": 1,
+                "value": "Open"
+            },
+            {
+                "key": 2,
+                "value": "Tripper"
+            },
+            {
+                "key": 3,
+                "value": "Trailer"
+            },
+            {
+                "key": 4,
+                "value": "Goods"
+            },
+            {
+                "key": 5,
+                "value": "Bus"
+            },
+            {
+                "key": 6,
+                "value": "Passenger Vehicle"
+            },
+            {
+                "key": 7,
+                "value": "ODC"
+            }
         ],
-        "vechicalRegion": [
-          {
-            "key": 1,
-            "value": "TN"
-          },
-          {
-            "key": 2,
-            "value": "AP"
-          }
+        "vechicalRegion": [{
+                "key": 1,
+                "value": "TN"
+            },
+            {
+                "key": 2,
+                "value": "AP"
+            }
         ],
-        "assetMake": [
-          {
-            "key": 1,
-            "value": "Tata Motors"
-          },
-          {
-            "key": 2,
-            "value": "Eicher"
-          }
+        "assetMake": [{
+                "key": 1,
+                "value": "Tata Motors"
+            },
+            {
+                "key": 2,
+                "value": "Eicher"
+            }
         ],
-        "assetModel": [
-          {
-            "key": 1,
-            "value": "Asset-Model-1"
-          },
-          {
-            "key": 2,
-            "value": "Asset-Model-2"
-          },
-          {
-            "key": 3,
-            "value": "Asset-Model-3"
-          }
+        "assetModel": [{
+                "key": 1,
+                "value": "Asset-Model-1"
+            },
+            {
+                "key": 2,
+                "value": "Asset-Model-2"
+            },
+            {
+                "key": 3,
+                "value": "Asset-Model-3"
+            }
         ],
-        "assetBodyType": [
-          {
-            "key": 1,
-            "value": "Asset Body Type 1"
-          },
-          {
-            "key": 2,
-            "value": "Asset Body Type 2"
-          },
-          {
-            "key": 3,
-            "value": "Asset Body Type 3"
-          }
+        "assetBodyType": [{
+                "key": 1,
+                "value": "Asset Body Type 1"
+            },
+            {
+                "key": 2,
+                "value": "Asset Body Type 2"
+            },
+            {
+                "key": 3,
+                "value": "Asset Body Type 3"
+            }
         ],
-        "assetVariant": [
-          {
-            "key": 1,
-            "value": "Asset-variant-1"
-          },
-          {
-            "key": 2,
-            "value": "Asset-variant-2"
-          },
-          {
-            "key": 3,
-            "value": "Asset-variant-3"
-          }
+        "assetVariant": [{
+                "key": 1,
+                "value": "Asset-variant-1"
+            },
+            {
+                "key": 2,
+                "value": "Asset-variant-2"
+            },
+            {
+                "key": 3,
+                "value": "Asset-variant-3"
+            }
         ],
-        "assetSubVariant": [
-          {
-            "key": 1,
-            "value": "Sub Variant 1"
-          },
-          {
-            "key": 2,
-            "value": "Sub Variant 2"
-          },
-          {
-            "key": 3,
-            "value": "Sub Variant 3"
-          }
+        "assetSubVariant": [{
+                "key": 1,
+                "value": "Sub Variant 1"
+            },
+            {
+                "key": 2,
+                "value": "Sub Variant 2"
+            },
+            {
+                "key": 3,
+                "value": "Sub Variant 3"
+            }
         ],
-        "vechicalUsage": [
-          {
-            "key": 1,
-            "value": "Yellow Board"
-          },
-          {
-            "key": 2,
-            "value": "White Board"
-          }
+        "vechicalUsage": [{
+                "key": 1,
+                "value": "Yellow Board"
+            },
+            {
+                "key": 2,
+                "value": "White Board"
+            }
         ],
-        "vechicleCategory": [
-          {
-            "key": 1,
-            "value": "CAT 1"
-          },
-          {
-            "key": 2,
-            "value": "CAT 2"
-          },
-          {
-            "key": 2,
-            "value": "CAT 3"
-          }
+        "vechicleCategory": [{
+                "key": 1,
+                "value": "CAT 1"
+            },
+            {
+                "key": 2,
+                "value": "CAT 2"
+            },
+            {
+                "key": 2,
+                "value": "CAT 3"
+            }
         ],
-        "orpFunding": [
-          {
-            "key": 1,
-            "value": "Yes"
-          },
-          {
-            "key": 2,
-            "value": "No"
-          }
+        "orpFunding": [{
+                "key": 1,
+                "value": "Yes"
+            },
+            {
+                "key": 2,
+                "value": "No"
+            }
         ],
-        "pac": [
-          {
-            "key": 1,
-            "value": "Yes"
-          },
-          {
-            "key": 2,
-            "value": "No"
-          }
+        "pac": [{
+                "key": 1,
+                "value": "Yes"
+            },
+            {
+                "key": 2,
+                "value": "No"
+            }
         ],
-        "vas": [
-          {
-            "key": 1,
-            "value": "Yes"
-          },
-          {
-            "key": 2,
-            "value": "No"
-          }
+        "vas": [{
+                "key": 1,
+                "value": "Yes"
+            },
+            {
+                "key": 2,
+                "value": "No"
+            }
         ],
-        "emiProtect": [
-          {
-            "key": 1,
-            "value": "Yes"
-          },
-          {
-            "key": 2,
-            "value": "No"
-          }
+        "emiProtect": [{
+                "key": 1,
+                "value": "Yes"
+            },
+            {
+                "key": 2,
+                "value": "No"
+            }
         ],
-        "fastTag": [
-          {
-            "key": 1,
-            "value": "Yes"
-          },
-          {
-            "key": 2,
-            "value": "No"
-          }
+        "fastTag": [{
+                "key": 1,
+                "value": "Yes"
+            },
+            {
+                "key": 2,
+                "value": "No"
+            }
         ],
-        "permitType": [
-          {
-            "key": 1,
-            "value": "National"
-          },
-          {
-            "key": 2,
-            "value": "State"
-          },
-          {
-            "key": 3,
-            "value": "Others"
-          }
+        "permitType": [{
+                "key": 1,
+                "value": "National"
+            },
+            {
+                "key": 2,
+                "value": "State"
+            },
+            {
+                "key": 3,
+                "value": "Others"
+            }
         ]
-      }
-    ],
-    "sourcingDetails": [
-      {
-        "leadHandled": [
-          {
-            "key": 1,
-            "value": "Person-1"
-          },
-          {
-            "key": 1,
-            "value": "Person-2"
-          }
+    }],
+    "sourcingDetails": [{
+        "leadHandled": [{
+                "key": 1,
+                "value": "Person-1"
+            },
+            {
+                "key": 1,
+                "value": "Person-2"
+            }
         ],
-        "sourcingChannel": [
-          {
-            "key": 1,
-            "value": "Assets Division"
-          },
-          {
-            "key": 2,
-            "value": "Liability Division"
-          },
-          {
-            "key": 3,
-            "value": "Web based"
-          },
-          {
-            "key": 4,
-            "value": "Campaign"
-          },
-          {
-            "key": 5,
-            "value": "Corporate Finance"
-          },
-          {
-            "key": 6,
-            "value": "Banking Business"
-          },
-          {
-            "key": 7,
-            "value": "Business Correspondence"
-          },
-          {
-            "key": 8,
-            "value": "Call Centre"
-          }
+        "sourcingChannel": [{
+                "key": 1,
+                "value": "Assets Division"
+            },
+            {
+                "key": 2,
+                "value": "Liability Division"
+            },
+            {
+                "key": 3,
+                "value": "Web based"
+            },
+            {
+                "key": 4,
+                "value": "Campaign"
+            },
+            {
+                "key": 5,
+                "value": "Corporate Finance"
+            },
+            {
+                "key": 6,
+                "value": "Banking Business"
+            },
+            {
+                "key": 7,
+                "value": "Business Correspondence"
+            },
+            {
+                "key": 8,
+                "value": "Call Centre"
+            }
         ],
-        "spokenCode": [
-          {
+        "spokenCode": [{
             "key": 1,
             "value": "Location"
-          }
-        ],
-        "sourcingType": [
-          {
-            "assetsDivision": [
-              {
-                "key": 1,
-                "value": "DSA"
-              },
-              {
-                "key": 2,
-                "value": "Dealers"
-              },
-              {
-                "key": 3,
-                "value": "Connectors"
-              },
-              {
-                "key": 4,
-                "value": "Direct/Employee/DSE"
-              },
-              {
-                "key": 5,
-                "value": "Manufacturers"
-              }
+        }],
+        "sourcingType": [{
+            "assetsDivision": [{
+                    "key": 1,
+                    "value": "DSA"
+                },
+                {
+                    "key": 2,
+                    "value": "Dealers"
+                },
+                {
+                    "key": 3,
+                    "value": "Connectors"
+                },
+                {
+                    "key": 4,
+                    "value": "Direct/Employee/DSE"
+                },
+                {
+                    "key": 5,
+                    "value": "Manufacturers"
+                }
             ],
-            "liabilityDivision": [
-              {
+            "liabilityDivision": [{
                 "key": 1,
                 "value": "Liability Branch Code"
-              }
+            }],
+            "webBased": [{
+                    "key": 1,
+                    "value": "Corporate Website"
+                },
+                {
+                    "key": 2,
+                    "value": "Internet Banking"
+                },
+                {
+                    "key": 3,
+                    "value": "Mobile Banking"
+                }
             ],
-            "webBased": [
-              {
-                "key": 1,
-                "value": "Corporate Website"
-              },
-              {
-                "key": 2,
-                "value": "Internet Banking"
-              },
-              {
-                "key": 3,
-                "value": "Mobile Banking"
-              }
-            ],
-            "commonKeyValue": [
-              {
+            "commonKeyValue": [{
                 "key": 1,
                 "value": "Not Applicable"
-              }
-            ]
-          }
-        ],
-        "sourcingCode": [
-          {
-            "key": 1,
-            "value": "Employee Code"
-          },
-          {
-            "key": 2,
-            "value": "Vendor Code"
-          },
-          {
-            "key": 3,
-            "value": "Campaign Code"
-          }
+            }]
+        }],
+        "sourcingCode": [{
+                "key": 1,
+                "value": "Employee Code"
+            },
+            {
+                "key": 2,
+                "value": "Vendor Code"
+            },
+            {
+                "key": 3,
+                "value": "Campaign Code"
+            }
         ]
-      }
-    ],
-    "leadCreation": [
-      {
-        "businessDivision": [
-          {
-            "key": 1,
-            "value": "Vehicle Finance"
-          },
-          {
-            "key": 2,
-            "value": "Housing Finance"
-          },
-          {
-            "key": 3,
-            "value": "Loan Against Property"
-          }
+    }],
+    "leadCreation": [{
+        "businessDivision": [{
+                "key": 1,
+                "value": "Vehicle Finance"
+            },
+            {
+                "key": 2,
+                "value": "Housing Finance"
+            },
+            {
+                "key": 3,
+                "value": "Loan Against Property"
+            }
         ],
-        "productCategory": [
-          {
-            "key": 11,
-            "value": "New CV"
-          },
-          {
-            "key": 12,
-            "value": "UsedCV"
-          },
-          {
-            "key": 13,
-            "value": "New Cars"
-          },
-          {
-            "key": 14,
-            "value": "Used Cars"
-          }
+        "productCategory": [{
+                "key": 11,
+                "value": "New CV"
+            },
+            {
+                "key": 12,
+                "value": "UsedCV"
+            },
+            {
+                "key": 13,
+                "value": "New Cars"
+            },
+            {
+                "key": 14,
+                "value": "Used Cars"
+            }
         ],
-        "childLoan": [
-          {
-            "key": 21,
-            "value": "TopUp - 1"
-          },
-          {
-            "key": 22,
-            "value": "TopUp - 2"
-          },
-          {
-            "key": 23,
-            "value": "Tire Loan"
-          },
-          {
-            "key": 24,
-            "value": "Insurance Loan"
-          }
+        "childLoan": [{
+                "key": 21,
+                "value": "TopUp - 1"
+            },
+            {
+                "key": 22,
+                "value": "TopUp - 2"
+            },
+            {
+                "key": 23,
+                "value": "Tire Loan"
+            },
+            {
+                "key": 24,
+                "value": "Insurance Loan"
+            }
         ],
-        "schemePromotion": [
-          {
-            "key": 31,
-            "value": "Scheme Type -1"
-          },
-          {
-            "key": 32,
-            "value": " Scheme Type -2"
-          }
+        "schemePromotion": [{
+                "key": 31,
+                "value": "Scheme Type -1"
+            },
+            {
+                "key": 32,
+                "value": " Scheme Type -2"
+            }
         ],
-        "subventionApplied": [
-          { "key": 41, "value": "Applied" },
-          { "key": 42, "value": "Not Applied" }
+        "subventionApplied": [{
+                "key": 41,
+                "value": "Applied"
+            },
+            {
+                "key": 42,
+                "value": "Not Applied"
+            }
         ],
-        "subvention": [
-          { "key": 51, "value": "Subvention 1" },
-          { "key": 52, "value": "Subvention 2" }
+        "subvention": [{
+                "key": 51,
+                "value": "Subvention 1"
+            },
+            {
+                "key": 52,
+                "value": "Subvention 2"
+            }
         ],
-        "soucringChannel": [
-          { "key": 61, "value": "Assets Division" },
-          { "key": 62, "value": "Liability Division" },
-          { "key": 63, "value": "Web Based" },
-          { "key": 64, "value": "Campaign" },
-          { "key": 65, "value": "Business Banking" },
-          { "key": 66, "value": "Business Correspondence" },
-          { "key": 62, "value": "Call Center" }
+        "soucringChannel": [{
+                "key": 61,
+                "value": "Assets Division"
+            },
+            {
+                "key": 62,
+                "value": "Liability Division"
+            },
+            {
+                "key": 63,
+                "value": "Web Based"
+            },
+            {
+                "key": 64,
+                "value": "Campaign"
+            },
+            {
+                "key": 65,
+                "value": "Business Banking"
+            },
+            {
+                "key": 66,
+                "value": "Business Correspondence"
+            },
+            {
+                "key": 62,
+                "value": "Call Center"
+            }
         ],
-        "leadHandledBY": [
-          { "key": 71, "value": "Person 1" },
-          { "key": 72, "value": "Person 2" }
+        "leadHandledBY": [{
+                "key": 71,
+                "value": "Person 1"
+            },
+            {
+                "key": 72,
+                "value": "Person 2"
+            }
         ],
-        "spokenCodeLocation": [
-          { "key": 51, "value": "Subvention 1" },
-          { "key": 52, "value": "Subvention 2" }
+        "spokenCodeLocation": [{
+                "key": 51,
+                "value": "Subvention 1"
+            },
+            {
+                "key": 52,
+                "value": "Subvention 2"
+            }
         ],
-        "loanAccountBranch": [
-          { "key": 51, "value": "Branch 1" },
-          { "key": 52, "value": "Branch 2" }
+        "loanAccountBranch": [{
+                "key": 51,
+                "value": "Branch 1"
+            },
+            {
+                "key": 52,
+                "value": "Branch 2"
+            }
         ],
-        "entity": [
-          { "key": 51, "value": " Individual" },
-          { "key": 52, "value": "Non-Individual" }
+        "entity": [{
+                "key": 51,
+                "value": " Individual"
+            },
+            {
+                "key": 52,
+                "value": "Non-Individual"
+            }
         ]
-      }
-    ],
-    "productDetails":[{
-      "businessDivision": [
-        {
-          "key": 1,
-          "value": "Vehicle Finance"
-        },
-        {
-          "key": 2,
-          "value": "Housing Finance"
-        },
-        {
-          "key": 3,
-          "value": "Loan Against Property"
-        },
-        {
-          "key":4,
-          "value": "Gold Loan"
-        }
-      ],
-      "productCategory": [
-        {
-          "key": 11,
-          "value": "New CV"
-        },
-        {
-          "key": 12,
-          "value": "UsedCV"
-        },
-        {
-          "key": 13,
-          "value": "New Cars"
-        },
-        {
-          "key": 14,
-          "value": "Used Cars"
-        }
-      ],
-      "schemePromotion": [
-        {
-          "key": 31,
-          "value": "Scheme Type -1"
-        },
-        {
-          "key": 32,
-          "value": " Scheme Type -2"
-        }
-      ],
-      "subventionApplied": [
-        { "key": 41, "value": "Applied" },
-        { "key": 42, "value": "Not Applied" }
-      ],
-     "subventionIncentive": [
-        { "key": 61, "value": "Subvention 1" },
-        { "key": 62, "value": "Subvention 2" }
-      ]
-
+    }],
+    "productDetails": [{
+        "businessDivision": [{
+                "key": 1,
+                "value": "Vehicle Finance"
+            },
+            {
+                "key": 2,
+                "value": "Housing Finance"
+            },
+            {
+                "key": 3,
+                "value": "Loan Against Property"
+            },
+            {
+                "key": 4,
+                "value": "Gold Loan"
+            }
+        ],
+        "productCategory": [{
+                "key": 11,
+                "value": "New CV"
+            },
+            {
+                "key": 12,
+                "value": "UsedCV"
+            },
+            {
+                "key": 13,
+                "value": "New Cars"
+            },
+            {
+                "key": 14,
+                "value": "Used Cars"
+            }
+        ],
+        "schemePromotion": [{
+                "key": 31,
+                "value": "Scheme Type -1"
+            },
+            {
+                "key": 32,
+                "value": " Scheme Type -2"
+            }
+        ],
+        "subventionApplied": [{
+                "key": 41,
+                "value": "Applied"
+            },
+            {
+                "key": 42,
+                "value": "Not Applied"
+            }
+        ],
+        "subventionIncentive": [{
+                "key": 61,
+                "value": "Subvention 1"
+            },
+            {
+                "key": 62,
+                "value": "Subvention 2"
+            }
+        ]
+    }],
+    "ddeLoanDetails": [{
+        "marginMoney": [{
+                "key": 1,
+                "value": "10L"
+            },
+            {
+                "key": 2,
+                "value": "15C"
+            }
+        ],
+        "emiAffordability": [
+            {}
+        ],
+        "requestedTenor": [{
+                "key": 11,
+                "value": 12
+            },
+            {
+                "key": 12,
+                "value": 18
+            },
+            {
+                "key": 13,
+                "value": 24
+            },
+            {
+                "key": 14,
+                "value": 30
+            },
+            {
+                "key": 11,
+                "value": 36
+            },
+            {
+                "key": 16,
+                "value": 42
+            },
+            {
+                "key": 17,
+                "value": 48
+            },
+            {
+                "key": 18,
+                "value": 54
+            },
+            {
+                "key": 19,
+                "value": 60
+            }
+        ]
     }]
-  }
-]
+}]
