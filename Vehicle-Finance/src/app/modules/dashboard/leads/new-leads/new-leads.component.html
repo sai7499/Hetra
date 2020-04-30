@@ -2,7 +2,6 @@
     <table class="table">
         <thead>
             <tr class="table-head-bg">
-                <th>Action<i class="fa fa-sort"></i></th>
                 <th>Lead ID <i class="fa fa-sort"></i> </th>
                 <th>Product<i class="fa fa-sort"></i> </th>
                 <th>Loan Amount<i class="fa fa-sort"></i> </th>
@@ -16,8 +15,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of leadDetails">
-                <td><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
+            <tr *ngFor="let item of newArray">
+
                 <td>{{item.leadId}}</td>
                 <td>{{item.product}}</td>
                 <td>{{item.loanAmount}}</td>
@@ -34,4 +33,5 @@
             </tr>
         </tbody>
     </table>
+
 </div>

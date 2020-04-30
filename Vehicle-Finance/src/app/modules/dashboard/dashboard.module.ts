@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NewLeadsComponent } from './new-leads/new-leads.component';
+import { NewLeadsComponent } from './leads/new-leads/new-leads.component';
 import { LeadsComponent } from './leads/leads.component';
-import { SanctionedLeadsPendingWithMeComponent } from './sanctioned-leads-pending-with-me/sanctioned-leads-pending-with-me.component';
+import { SanctionedLeadsPendingWithMeComponent } from './leads/sanctioned-leads-pending-with-me/sanctioned-leads-pending-with-me.component';
 // tslint:disable-next-line: max-line-length
-import { SanctionedLeadsPendingWithBranchComponent } from './sanctioned-leads-pending-with-branch/sanctioned-leads-pending-with-branch.component';
-import { DeclinedLeadsWithMeComponent } from './declined-leads-with-me/declined-leads-with-me.component';
-import { DeclinedLeadsWithBranchComponent } from './declined-leads-with-branch/declined-leads-with-branch.component';
+import { SanctionedLeadsPendingWithBranchComponent } from './leads/sanctioned-leads-pending-with-branch/sanctioned-leads-pending-with-branch.component';
+import { DeclinedLeadsWithMeComponent } from './leads/declined-leads-with-me/declined-leads-with-me.component';
+import { DeclinedLeadsWithBranchComponent } from './leads/declined-leads-with-branch/declined-leads-with-branch.component';
 import { PersonalDiscussionComponent } from './personal-discussion/personal-discussion.component';
 import { MyTasksComponent } from './personal-discussion/my-tasks/my-tasks.component';
 import { BranchTasksComponent } from './personal-discussion/branch-tasks/branch-tasks.component';
