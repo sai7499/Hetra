@@ -54,59 +54,46 @@
                 ],
                 "assetModel": [
                     {
-                        "key": 1,
-                        "value": "Asset-Model-1"
+                      "key": 1,
+                      "value": "Mahindra XUV Aero"
                     },
                     {
-                        "key": 2,
-                        "value": "Asset-Model-2"
+                      "key": 2,
+                      "value": "Renault Arkana"
                     },
                     {
-                        "key": 3,
-                        "value": "Asset-Model-3"
+                      "key": 3,
+                      "value": "Mahindra eKUV100"
                     }
-                ],
+                  ],
                 "assetBodyType": [
                     {
-                        "key": 1,
-                        "value": "Asset Body Type 1"
+                      "key": 1,
+                      "value": "Chevrolet"
                     },
                     {
-                        "key": 2,
-                        "value": "Asset Body Type 2"
+                      "key": 2,
+                      "value": "Swift"
                     },
                     {
-                        "key": 3,
-                        "value": "Asset Body Type 3"
+                      "key": 3,
+                      "value": "Ciaz"
                     }
-                ],
-                "assetVariant": [
+                  ],
+                  "assetVariant": [
                     {
-                        "key": 1,
-                        "value": "Asset-variant-1"
+                      "key": 1,
+                      "value": "Petrol"
                     },
                     {
-                        "key": 2,
-                        "value": "Asset-variant-2"
+                      "key": 2,
+                      "value": "AMT"
                     },
                     {
-                        "key": 3,
-                        "value": "Asset-variant-3"
+                      "key": 3,
+                      "value": "Petrol"
                     }
-                ],
-                "assetSubVariant": [
-                    {
-                        "key": 1,
-                        "value": "Sub Variant 1"
-                    },
-                    {
-                        "key": 2,
-                        "value": "Sub Variant 2"
-                    },
-                    {
-                        "key": 3,
-                        "value": "Sub Variant 3"
-                    }
+              
                 ],
                 "vechicalUsage": [
                     {
@@ -352,6 +339,30 @@
                         "value": "Used Cars"
                     }
                 ],
+                "priority" : [
+                    {
+                      "key" : 1,
+                      "value": "Yes"
+                    },
+                    {
+                      "key" : 2,
+                      "value" : "No"
+                    }
+                  ],
+                  "fundingProgram" : [
+                    {
+                      "key" : 1,
+                      "value": "Income Proof"
+                    },
+                    {
+                      "key" : 2,
+                      "value" : "NIP"
+                    },
+                    {
+                        "key" : 3,
+                        "value" : "Surrogate"
+                      }
+                  ],
                 "childLoan": [
                     {
                         "key": 21,
@@ -462,16 +473,18 @@
                 ],
                 "entity": [
                     {
-                        "key": 51,
-                        "value": " Individual"
+                      "key": "I",
+                      "value": " Individual"
                     },
                     {
-                        "key": 52,
-                        "value": "Non-Individual"
+                      "key": "C",
+                      "value": "Non-Individual"
                     }
-                ]
+                  ]
+            
             }
         ],
+
         "productDetails": [
             {
                 "businessDivision": [
@@ -614,6 +627,20 @@
                         "value": "Non-Individual"
                     }
                 ],
+                "relationshipwithloanapplicant": [
+                    {
+                      "key": 1,
+                      "value": "Applicant"
+                    },
+                    {
+                      "key": 2,
+                      "value": "Co-Applicant"
+                    },
+                    {
+                      "key": 3,
+                      "value": "Guarantar"
+                    }
+                  ],
                 "identityType": [
                     {
                         "key": 1,
@@ -628,6 +655,16 @@
                         "value": "Driving license"
                     }
                 ],
+                "panform": [
+                    {
+                      "key": 1,
+                      "value": "PAN"
+                    },
+                    {
+                      "key": 2,
+                      "value": "Form 60"
+                    }
+                  ],
                 "state": [
                     {
                         "key": 1,
@@ -1725,7 +1762,78 @@
                         "key": 1,
                         "value": "Aadhaar"
                     }
+
                 ]
+            }
+        ],
+        "collateralDocument":[
+            {
+              "documentName":[
+                {
+                  "key":1,
+                  "value":"RC Copy"
+                },
+                {
+                  "key":2,
+                  "value":"Fitness Certificate"
+                },
+                {
+                  "key":3,
+                  "value":"Permit Certificate"
+                }
+              ],
+              "status" : [
+                {
+                  "key":1,
+                  "value" : "Pending"
+                },
+                {
+                  "key":2,
+                  "value" : "Submitted"
+                },
+                {
+                  "key":3,
+                  "value" : "Deferred"
+    
+                }
+              ]
+            }
+        ],
+        "applicantDocument":[
+            {
+              "documentName":[
+                {
+                  "key":1,
+                  "value":"Driving License"
+                },
+                {
+                  "key":2,
+                  "value":"Passport"
+                },
+                {
+                  "key":3,
+                  "value":"PAN Card"
+                },
+                {
+                  "key":4,
+                  "value":"Aadhar Card"
+                }
+              ],
+              "status" : [
+                {
+                  "key":1,
+                  "value" : "Pending"
+                },
+                {
+                  "key":2,
+                  "value" : "Submitted"
+                },
+                {
+                  "key":3,
+                  "value" : "Deferred"
+      
+                }
+              ]
             }
         ],
         "basicVehicleDetails": [

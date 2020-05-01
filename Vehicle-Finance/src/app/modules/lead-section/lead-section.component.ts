@@ -6,7 +6,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 // import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from './services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
-
+import {Router, NavigationEnd} from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -19,13 +19,18 @@ export class LeadSectionComponent implements OnInit {
   applicantMobile: string;
   currentPage = 0;
   public labels: any;
+  public hideElement: boolean= false;
+  
 
   constructor(
+    public router : Router,
     private leadSectionService: VehicleDetailService,
     private location: Location,
     private labelsData: LabelsService,
-    private leadStoreService: LeadStoreService
-  ) {}
+    private leadStoreService: LeadStoreService,
+  ) {
+    this.onHideRoute();
+  }
 
 
   ngOnInit() {
@@ -33,7 +38,9 @@ export class LeadSectionComponent implements OnInit {
       data => {
         this.labels = data;
       }
+      
     );
+    
     const leadValue = this.leadStoreService.getLeadCreation();
     if (leadValue) {
       this.applicantName = `${leadValue.firstName} ${leadValue.lastName}`;
@@ -45,13 +52,33 @@ export class LeadSectionComponent implements OnInit {
       } else if (url.includes('vehicle-details')) {
         this.currentPage = 2;
       } else if (url.includes('applicant-details')) {
-        this.currentPage = 3;
+        this.currentPage = 1;
       } else if (url.includes('loan-details')) {
         this.currentPage = 4;
+      } else if (url.includes('add-vehicle')) {
+        this.currentPage = 2;
+      }else if (url.includes('co-applicant')) {
+        this.currentPage = 1;
       } else {
         this.currentPage = 0;
       }
     });
+    
 
+  }
+
+  onHideRoute() {
+    this.router.events.subscribe((event)=>{
+      if(event instanceof NavigationEnd){
+        if(event.url ==='/pages/lead-section/co-applicant' || event.url ==='/pages/lead-section/credit-score' || event.url ==='/pages/lead-section/exact-match' || event.url ==='/pages/lead-section/otp-section' ){
+          console.log('welcome to hide element')
+          this.hideElement= true;
+          console.log(this.hideElement)
+        } else {
+          this.hideElement = false;
+        }
+      }
+    }
+    )
   }
 }

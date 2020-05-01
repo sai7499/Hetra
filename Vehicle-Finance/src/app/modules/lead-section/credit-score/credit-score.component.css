@@ -1,0 +1,29 @@
+#row1, #row2,#row3{
+    margin-left: -20px;
+}
+#col{
+    padding-top: 10px;
+}
+
+#col1{
+    padding-top: 13px;
+}
+#col2{
+    padding-top: 7px;
+}
+.row{
+    margin-left: 1px;
+    background-color: white;
+    max-width: 1138px;
+    
+}
+
+.btn-primary {
+    padding: 8px 6px; 
+}
+
+#sales_credit_score
+        {
+            background: #fff;
+            padding: 10px;
+        }

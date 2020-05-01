@@ -29,16 +29,21 @@ const routes: Routes = [
         loadChildren: () => import("./modules/lead-section/lead-section.module").then(m => m.LeadSectionModule)
       },
       {
+        path: "document-viewupload",
+        loadChildren: () => import("./modules/document-viewupload/document-viewupload.module").then(m => m.DocumentViewuploadModule)
+      },
+      {
+        path: 'terms-condition',
+        loadChildren: () => import('./modules/terms-conditions/terms-conditions.module').then(m => m.TermsConditionsModule)
+      },
+      
+      {
         path: "terms-condition",
         loadChildren: () => import("./modules/terms-conditions/terms-conditions.module").then(m => m.TermsConditionsModule)
       },
       {
         path: "dde",
         loadChildren: () => import("./modules/dde/dde.module").then(m => m.DdeModule)
-      },
-      {
-        path: 'applicant-details',
-        loadChildren: () => import('./modules/dde/applicant-details/applicant-details.module').then(m => m.ApplicantDetailsModule)
       },
       {
         path: 'vehicle-details',
