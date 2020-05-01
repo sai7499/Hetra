@@ -181,7 +181,20 @@ h3.dedupe_head {
   margin-top: 0px;
 }
 
+.btn-primary{
+  margin: 8px;
+  padding: 6px 8px;
+}
 
+.row.top_bar {
+  margin: 0px;
+  border: 1px solid #ddd;
+  font-weight: 100;
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  background: white;
+}
 /* footer */
 
 .ok_footer {
@@ -368,4 +381,15 @@ select#select_main_button_match {
   padding: 6px;
   color: white;
   margin-bottom: 1%;
+}
+.row{
+  margin-left: 15px;
+ background-color: white;
+ border-radius: 10px;
+ max-width: 1115px;
+
+
+}
+.form-group{
+  margin-top: 10px;
 }

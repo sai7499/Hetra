@@ -26,38 +26,21 @@
                     formControlName="schemePromotion"></app-vf-custom-select>
     
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="subvention">{{ labels.subventionApplied }}</label>
-                
-                    <app-vf-custom-select 
-                    [values]="values?.subventionApplied" 
-                    formControlName="subventionApplied"></app-vf-custom-select>
-    
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="subvention">{{ labels.subventionIncentive }}</label>
-    
-               
-                <app-vf-custom-select 
-                    [values]="values?.subventionIncentive" 
-                    formControlName="subventionIncentive"></app-vf-custom-select>
-    
-            </div>
-            <div class="btn-sec clear-both">
-                <div class="col-sm-5">
-                  
-                </div>
-                <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary mar-right8 js-btn-prev" type="button" [routerLink]="['/pages/lead-section']" (click)="locationBack()"> Back </button>
-                    <button class="btn btn-primary mar-right8" type="submit" (click)="onFormSubmit()"> Save </button>
-                    <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button>
-                </div>
-            </div>
         </div>
     </div> 
         </form>
+        
     </div>
-    
+    <div class="btn-sec clear-both">
+        <div class="col-sm-5">
+          
+        </div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary mar-right8 js-btn-prev" type="button" [routerLink]="['/pages/lead-section']" (click)="locationBack()"> Back </button>
+            <button class="btn btn-primary mar-right8" type="submit" (click)="onFormSubmit()"> Save </button>
+            <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button>
+        </div>
+    </div>
 </body>
 
 
