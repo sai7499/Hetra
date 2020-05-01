@@ -445,3 +445,58 @@ h4.table-head-bg.m-0.p-02 {
     max-height: 400px;
     overflow-x: hidden;
 }
+
+/**Exact Match css**/
+
+#found_in_nl
+{
+    margin-left: 35px;
+    font-weight: bold;
+    color: #ef5342;
+}
+#found_in_trnl
+{
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+#exact_macth_title1
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#exact_macth_title2
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#exact_macth_title3
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#probale_title4
+{
+    margin-top: -1px;
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#nagative_list_results {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    /*text-align: center;*/
+}

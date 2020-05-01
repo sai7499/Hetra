@@ -114,7 +114,7 @@ export class SourcingDetailsComponent implements OnInit {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
-      spokeCodeLocation: new FormControl(''),
+      spokeCodeLocation: new FormControl({value:'',disabled:true}),
       loanAccountBranch: new FormControl({value: '', disabled: true}),
       requestedAmount : new FormControl(''),
       requestedTenor : new FormControl('')

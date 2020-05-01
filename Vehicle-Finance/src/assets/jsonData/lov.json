@@ -349,6 +349,20 @@
                       "value" : "No"
                     }
                   ],
+                  "fundingProgram" : [
+                    {
+                      "key" : 1,
+                      "value": "Income Proof"
+                    },
+                    {
+                      "key" : 2,
+                      "value" : "NIP"
+                    },
+                    {
+                        "key" : 3,
+                        "value" : "Surrogate"
+                      }
+                  ],
                 "childLoan": [
                     {
                         "key": 21,

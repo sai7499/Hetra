@@ -28,11 +28,13 @@
                             <tbody>
                                 <tr *ngFor="let applicant of applicantDetails; let i = index">
                                     <td>55464</td>
-                                    <td>{{applicant.firstName}}</td>
+                                    <td>{{applicant.first_name}}</td>
                                     <td>{{applicant.mobile}}</td>
-                                    <td>{{applicant.dobOrDoc}}</td>
+                                    <td>{{applicant.dateOfBirth}}</td>
                                     <td>{{i === 0 ? 'Applicant' : 'Co-Applicant'}}</td>
-                                    <td (click)="editApplicant(i);" ><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                    <td ><i (click)="editApplicant(i);" class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="deleteApplicant(i)" class="fa fa-trash" aria-hidden="true"></i></td>
+                                    
+
                                 </tr>
                                
 

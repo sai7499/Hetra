@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService} from '../services/vehicle-detail.service'
+import { element } from 'protractor';
+
 
 @Component({
   selector: 'app-addvehicle',
@@ -23,12 +25,15 @@ export class AddvehicleComponent implements OnInit {
     public show: boolean = false;
     public formVehicle: any;
     public isAlert : boolean = false;
+    selectedVehicle : number;
+    isHidden : boolean =false;
   
 
   constructor(
       private labelsData: LabelsService,
       private lovDataService: LovDataService,
       private router: Router,
+      private activatedRoute : ActivatedRoute,
       private leadStoreService: LeadStoreService,
       private vehicleDetailService : VehicleDetailService ) { }
 
@@ -47,18 +52,37 @@ export class AddvehicleComponent implements OnInit {
           console.log('vehicleLov', this.vehicleLov);
           this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
           this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel
+
+          
           this.vehicleLov.vehicleType=value[0].vehicleDetails[0].vehicleType
           this.vehicleLov.assetBodyType=value[0].vehicleDetails[0].assetBodyType
           this.vehicleLov.region=value[0].vehicleDetails[0].region
           this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant
           this.vehicleLov.assetSubVariant=value[0].vehicleDetails[0].assetSubVariant
           this.vehicleLov.vechicalUsage=value[0].vehicleDetails[0].vechicalUsage
-          // this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake
-          // this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake
-          // this.getVehicle();
-          this.setFormValue();
+         
+          // this.setFormValue();
+          // this.onCheck();
 
         });
+        this.activatedRoute.params.subscribe((value)=>{
+          console.log('vehicle params', value);
+          const vehicleId= value? value.id : null;
+          console.log('vehicleId', vehicleId)
+          if (vehicleId !== null && vehicleId !==undefined){
+            this.isHidden= true;
+            this.selectedVehicle = Number(vehicleId);
+            console.log('numberselectId', this.selectedVehicle)
+            const selectedVehicle : Temp= this.leadStoreService.getSelectedVehicle(Number(vehicleId));
+            this.setFormValue(selectedVehicle);
+            console.log('selectedVehicle', selectedVehicle) 
+            
+          }
+          
+        })
+        
+
+        
       }
   
       initForm() {
@@ -101,46 +125,61 @@ export class AddvehicleComponent implements OnInit {
         });
       }
   
-      setFormValue() {
+      setFormValue(vehicleValue : Temp) {
         
-        const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+        // const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+        console.log('vehicle model', vehicleValue)
+        if (!vehicleValue){return}
+        else{
+          console.log('elseVehiclevalue',vehicleValue)
+          this.vehicleForm.patchValue({
+            vehicleType: vehicleValue.vehicleType || '',
+            region: vehicleValue.region || '',
+            registrationNumber: vehicleValue.registrationNumber || '',
+            assetMake: vehicleValue.assetMake.key || '',
+            assetModel: vehicleValue.assetModel.key || '',
+            assetBodyType: vehicleValue.assetBodyType || '',
+            assetVariant: vehicleValue.assetVariant.key || '',
+            assetSubVariant: vehicleValue.assetSubVariant || '',
+            monthManufacturing: vehicleValue.monthManufacturing || '',
+            yrManufacturing: vehicleValue.yrManufacturing || '',
+            ageOfAsset: vehicleValue.vehicleType || '',
+            vechicalUsage: vehicleValue.vechicalUsage || '',
+            vehicleCategory: vehicleValue.vehicleCategory || '',
+            orpFunding: vehicleValue.orpFunding || '',
+            oneTimeTax: vehicleValue.oneTimeTax || '',
+            pac: vehicleValue.pac || '',
+            vas: vehicleValue.vas || '',
+            emiProtect: vehicleValue.emiProtect || '',
+            fastTag: vehicleValue.fastTag || '',
+            others: vehicleValue.others || '',
+            discount: vehicleValue.discount || '',
+            finalAssetCost: vehicleValue.finalAssetCost || '',
+            idv: vehicleValue.idv || '',
+            insuranceValidity: vehicleValue.insuranceValidity || '',
+            insuranceCopy: vehicleValue.insuranceCopy || '',
+            permitType: vehicleValue.permitType || '',
+            expiryDate: vehicleValue.expiryDate || '',
+            permitCopy: vehicleValue.permitCopy || '',
+            permitOthers: vehicleValue.permitOthers || '',
+            frsdRequired: vehicleValue.frsdRequired || '',
+            frsdAmount: vehicleValue.vehicleType || '',
+            fitnessDate: vehicleValue.fitnessDate || '',
+            fitnessCopy: vehicleValue.permitCopy || '',
+            noOfVehicle: vehicleValue.noOfVehicle || '',
+          });
+
+          console.log('assetModel',vehicleValue.assetModel)
+          // this.vehicleLov.assetModel.forEach(element=>{
+            
+          //   if(vehicleValue.assetModel===element.value){
+          //     console.log('hello')
+          //     this.vehicleForm.controls["assetModel"].setValue(element.key)
+          //   }
+          // })
+          
+        }
         
-        this.vehicleForm.patchValue({
-          vehicleType: vehicleModel.vehicleType || '',
-          region: vehicleModel.region || '',
-          registrationNumber: vehicleModel.registrationNumber || '',
-          assetMake: vehicleModel.assetMake || '',
-          assetModel: vehicleModel.assetModel || '',
-          assetBodyType: vehicleModel.assetBodyType || '',
-          assetVariant: vehicleModel.assetVariant || '',
-          assetSubVariant: vehicleModel.assetSubVariant || '',
-          monthManufacturing: vehicleModel.monthManufacturing || '',
-          yrManufacturing: vehicleModel.yrManufacturing || '',
-          ageOfAsset: vehicleModel.vehicleType || '',
-          vechicalUsage: vehicleModel.vechicalUsage || '',
-          vehicleCategory: vehicleModel.vehicleCategory || '',
-          orpFunding: vehicleModel.orpFunding || '',
-          oneTimeTax: vehicleModel.oneTimeTax || '',
-          pac: vehicleModel.pac || '',
-          vas: vehicleModel.vas || '',
-          emiProtect: vehicleModel.emiProtect || '',
-          fastTag: vehicleModel.fastTag || '',
-          others: vehicleModel.others || '',
-          discount: vehicleModel.discount || '',
-          finalAssetCost: vehicleModel.finalAssetCost || '',
-          idv: vehicleModel.idv || '',
-          insuranceValidity: vehicleModel.insuranceValidity || '',
-          insuranceCopy: vehicleModel.insuranceCopy || '',
-          permitType: vehicleModel.permitType || '',
-          expiryDate: vehicleModel.expiryDate || '',
-          permitCopy: vehicleModel.permitCopy || '',
-          permitOthers: vehicleModel.permitOthers || '',
-          frsdRequired: vehicleModel.frsdRequired || '',
-          frsdAmount: vehicleModel.vehicleType || '',
-          fitnessDate: vehicleModel.fitnessDate || '',
-          fitnessCopy: vehicleModel.permitCopy || '',
-          noOfVehicle: vehicleModel.noOfVehicle || '',
-        });
       }
   
       onFormSubmit() {
@@ -149,13 +188,18 @@ export class AddvehicleComponent implements OnInit {
         // console.log('formModel',formModel)
         const vehicleModel = {...formModel};
         this.isAlert= true
-        
+        if(this.selectedVehicle !==undefined){
+          this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
+          return;
+        }
         // console.log('vehicleModel',vehicleModel)
         this.leadStoreService.setVehicleDetails(vehicleModel);
         
          this.router.navigateByUrl['/pages/lead-section/vehicle-details']
         
       }
+
+      
       
 
       onCheck(){
@@ -208,4 +252,45 @@ export class AddvehicleComponent implements OnInit {
         }
       }
   
+    }
+
+    export interface Temp{
+      vehicleType? : string
+      region?:string 
+      registrationNumber ?:string 
+      assetMake?:{key?: string,
+                 value?: string}
+      assetModel?:{key?: string,
+                  value?: string}
+      assetBodyType?:string 
+      assetVariant?:{key?: string,
+                    value?: string}
+      assetSubVariant?:string 
+      monthManufacturing?:string 
+      yrManufacturing?:string 
+      yearAndMonthManufacturing ?:string 
+      ageOfAsset?:string 
+      vechicalUsage?:string 
+      vehicleCategory ?:string 
+      orpFunding ?:string 
+      oneTimeTax ?:string 
+      pac ?:string 
+      vas?:string 
+      emiProtect ?:string 
+      fastTag ?:string 
+      others?:string 
+      discount?:string 
+      finalAssetCost?:string 
+      idv?:string 
+      insuranceValidity?:string 
+      insuranceCopy?:string 
+      permitType?:string 
+      expiryDate ?:string 
+      permitCopy?:string 
+      permitOthers?:string 
+      frsdRequired?:string 
+      frsdAmount?:string 
+      fitnessDate ?:string 
+      fitnessCopy?:string 
+      noOfVehicle ?:string 
     }

@@ -158,11 +158,11 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.leadStoreService.setLeadCreation(leadModel);
 
     const applicantModel = {
-      firstName: leadModel.nameOne,
-      middleName: leadModel.nameTwo,
-      lastName: leadModel.nameThree,
+      first_name: leadModel.nameOne,
+      middle_name: leadModel.nameTwo,
+      last_name: leadModel.nameThree,
       mobile: leadModel.mobile,
-      dobOrDoc: leadModel.dateOfBirth
+      dateOfBirth: leadModel.dateOfBirth
     };
 
     // this.loanLeadDetails = {

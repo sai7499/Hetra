@@ -71,8 +71,8 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
                                         </span>
-                                        <input type="text" class="form-control" id="date_of_birth"
-                                            formControlName="dateOfBirth">
+                                        <input type="date" class="form-control" id="date_of_birth"
+                                            formControlName="dateOfBirth"/>
                                     </div>
                                 </div>
                             </div>
@@ -113,92 +113,139 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.pannumber}}</label>
-                                <input type="text" class="form-control" id="pannumber" formControlName="pannumber">
+                                <label for="mobile">{{labels?.drivingLicenseNumber}}</label>
+                                <input type="text" class="form-control" id="pannumber" formControlName="drivingLicenseNumber">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.drivingLicenceIssueDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="drivingLicenceIssueDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="drivingLicenceIssueDate"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.drivingLicenceExpiryDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="drivingLicenceExpiryDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="drivingLicenceExpiryDate"/>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.drivinglicense}}</label>
-                                <input type="text" class="form-control" id="drivinglicense" formControlName="drivinglicense">
+                                <label for="mobile">{{labels?.passportNumber}}</label>
+                                <input type="text" class="form-control" id="pannumber" formControlName="passportNumber">
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.passportnumber}}</label>
-                                <input type="text" class="form-control" id="passportnumber" formControlName="passportnumber">
+                                <label for="mobile">{{labels?.passportIssueDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="passportIssueDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="passportIssueDate"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.passportExpiryDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="passportExpiryDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="passportExpiryDate"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.identityNumber}}</label>
+                                <input type="text" class="form-control" id="drivinglicense" formControlName="identityNumber">
                             </div>
                         </div>
                         <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
 
+                            
                             <div id="individual_section_address" class="individual_section_leadco"
                                 *ngIf="applicantType === '1'">
                                 <!-- <h4 class="title">individual</h4> -->
                                 <h3 class="title">Permanent Address</h3>
                                 <div class="row">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="address1">{{labels?.address1}}</label>
+                                        <label for="address1">{{labels?.addressline1}}</label>
                                         <input type="text" class="form-control" id="address1"
                                             formControlName="address1">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="address2">{{labels?.address2}}</label>
+                                        <label for="address2">{{labels?.addressline2}}</label>
                                         <input type="text" class="form-control" id="address2"
                                             formControlName="address2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="address3">{{labels?.address3}}</label>
+                                        <label for="address3">{{labels?.addressline3}}</label>
                                         <input type="text" class="form-control" id="address3"
                                             formControlName="address3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="pincode">{{labels?.permanentAddressPINCode}}</label>
+                                        <label for="pincode">{{labels?.code}}</label>
                                         <input type="text" class="form-control" id="pincode" formControlName="pincode">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="permanent_address_city">{{labels?.permanentAddressCity}}</label>
-                                        <select class="form-control" id="permanent_address_city" >
+                                        <label for="permanent_address_city">{{labels?.city}}</label>
+                                        <!-- <select class="form-control" id="permanent_address_city" >
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressCity"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.city"
                                             formControlName="permanent_address_city">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
-                                            for="permanent_address_district">{{labels?.permanentAddressDistrict}}</label>
-                                        <select class="form-control" id="permanent_address_district" >
+                                            for="permanent_address_district">{{labels?.district}}</label>
+                                        <!-- <select class="form-control" id="permanent_address_district" >
                                             <option>District 1</option>
                                             <option>District 2</option>
                                             <option>District 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressDistrict"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.district"
                                             formControlName="permanent_address_district">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="permanent_address_state">{{labels?.permanentAddressState}}</label>
-                                        <select class="form-control" id="permanent_address_state" >
+                                        <label for="permanent_address_state">{{labels?.state}}</label>
+                                        <!-- <select class="form-control" id="permanent_address_state" >
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressState"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.state"
                                             formControlName="permanent_address_state">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
 
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
-                                            for="permanent_address_country">{{labels?.permanentAddressCountry}}</label>
-                                        <select class="form-control" id="permanent_address_country">
+                                            for="permanent_address_country">{{labels.country}}</label>
+                                        <!-- <select class="form-control" id="permanent_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.permanentAddressCountry"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.country"
                                             formControlName="permanent_address_country">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="landline">{{labels?.permanentAddressLandline}}</label>
@@ -209,75 +256,75 @@
                                 </div>
                                 <div class="btn-sec clear-both row">
                                     <div class="col-sm-5">
-                                        <h3 class="title">Current Address</h3>
+                                        <h3 class="title">Current/Communication Address</h3>
                                     </div>
                                     <div class="col-sm-7 text-right">
-                                        <input type="checkbox" id="address_section_checkbox"> <span
-                                            id="address_section_checkbox_text">Is it same as your permanent Address?
+                                        <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)" > <span
+                                            id="address_section_checkbox_text">Check If It Is Same As Permanent Address?
                                         </span>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row"    >
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="line1">{{labels?.line1}}</label>
-                                        <input type="text" class="form-control" id="line1" formControlName="line1">
+                                        <label for="line1">{{labels?.addressline1}}</label>
+                                        <input type="text" class="form-control" id="line1" formControlName="line1" >
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="line2">{{labels?.line2}}</label>
+                                        <label for="line2">{{labels?.addressline2}}</label>
                                         <input type="text" class="form-control" id="line2" formControlName="line2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="line3">{{labels?.line3}}</label>
+                                        <label for="line3">{{labels?.addressline3}}</label>
                                         <input type="text" class="form-control" id="line3" formControlName="line3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_pincode">{{labels?.currentAddressPINCode}}</label>
+                                        <label for="current_pincode">{{labels?.code}}</label>
                                         <input type="text" class="form-control" id="current_pincode"
                                             formControlName="current_pincode">
                                     </div>
                                     <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_city">{{labels?.currentAddressCity}}</label>
-                                        <select class="form-control" id="current_address_city">
+                                        <label for="current_address_city">{{labels?.city}}</label>
+                                        <!-- <select class="form-control" id="current_address_city">
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.currentAddressCity"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.city"
                                             formControlName="current_address_city">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_district">{{labels?.currentAddressDistrict}}</label>
-                                        <select class="form-control" id="current_address_district">
+                                        <label for="current_address_district">{{labels?.district}}</label>
+                                        <!-- <select class="form-control" id="current_address_district">
                                             <option>District 1</option>
                                             <option>District 2</option>
                                             <option>District 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.currentAddressDistrict"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.district"
                                             formControlName="current_address_district">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_state">{{labels?.currentAddressState}}</label>
-                                        <select class="form-control" id="current_address_state">
+                                        <label for="current_address_state">{{labels?.state}}</label>
+                                        <!-- <select class="form-control" id="current_address_state">
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.currentAddressState"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.state"
                                             formControlName="current_address_state">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_country">{{labels?.currentAddressCountry}}</label>
-                                        <select class="form-control" id="current_address_country">
+                                        <label for="current_address_country">{{labels?.country}}</label>
+                                        <!-- <select class="form-control" id="current_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
-                                        </select>
-                                        <!-- <app-vf-custom-select [values]="values?.currentAddressCountry"
+                                        </select> -->
+                                        <app-vf-custom-select [values]="values?.country"
                                             formControlName="current_address_country">
-                                        </app-vf-custom-select> -->
+                                        </app-vf-custom-select>
                                     </div>
 
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">

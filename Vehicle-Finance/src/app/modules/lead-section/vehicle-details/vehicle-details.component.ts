@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { interval} from 'rxjs'
-import { map} from 'rxjs/operators'
+import { map, findIndex} from 'rxjs/operators'
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService} from '../services/vehicle-detail.service'
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -16,7 +17,7 @@ import { VehicleDetailService} from '../services/vehicle-detail.service'
 })
 export class VehicleDetailComponent implements OnInit {
 
-  vehicleForm: FormGroup;
+    vehicleForm: FormGroup;
 
     public vehicleLov: any  = {};
     public label: any = {};
@@ -46,37 +47,27 @@ export class VehicleDetailComponent implements OnInit {
       this.getAllFieldLabel = this.labelsData.getLabelsData()
           .subscribe( data => {
             this.label = data;
-            console.log('Vehicle Labels', this.label.save);
           },
           error => {
             this.errorMsg = error;
           });
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
-         console.log('vehicleLov', this.vehicleLov);
-        this.setFormValue();
+        // console.log('vehicleLov', this.vehicleLov);
+        // this.setFormValue();
+        this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
+        this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel;
+        this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant;
+
+
+        // console.log('asset make', this.vehicleLov.assetMake)
+        this.getData();
+      
       });
     }
 
-
-  // ngOnInit() {
-  //   this.initForm();
-  //   this.getAllFieldLabel = this.labelsData.getLabelsData()
-  //     .subscribe(data => {
-  //       this.label = data;
-  //     },
-  //       error => {
-  //         this.errorMsg = error;
-  //       });
-  //   this.lovDataService.getLovData().subscribe((value: any) => {
-  //     this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
-  //     console.log('vehicleLov', this.vehicleLov);
-  //     this.setFormValue();
-  //   });
-  // }
-
-  initForm() {
-    this.vehicleForm = new FormGroup({
+    initForm() {
+      this.vehicleForm = new FormGroup({
       vehicleType: new FormControl(''),
       region: new FormControl(''),
       registrationNumber: new FormControl(''),
@@ -111,50 +102,50 @@ export class VehicleDetailComponent implements OnInit {
       fitnessDate: new FormControl(''),
       fitnessCopy: new FormControl(''),
       noOfVehicle: new FormControl(''),
-    });
-  }
-
-    setFormValue() {
-      const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
-      
-      
-      this.vehicleForm.patchValue({
-        vehicleType: vehicleModel.vehicleType || '',
-        region: vehicleModel.region || '',
-        registrationNumber: vehicleModel.registrationNumber || '',
-        assetMake: vehicleModel.assetMake || '',
-        assetModel: vehicleModel.assetModel || '',
-        assetBodyType: vehicleModel.assetBodyType || '',
-        assetVariant: vehicleModel.assetVariant || '',
-        assetSubVariant: vehicleModel.assetSubVariant || '',
-        monthManufacturing: vehicleModel.monthManufacturing || '',
-        yrManufacturing: vehicleModel.yrManufacturing || '',
-        ageOfAsset: vehicleModel.vehicleType || '',
-        vechicalUsage: vehicleModel.vechicalUsage || '',
-        vehicleCategory: vehicleModel.vehicleCategory || '',
-        orpFunding: vehicleModel.orpFunding || '',
-        oneTimeTax: vehicleModel.oneTimeTax || '',
-        pac: vehicleModel.pac || '',
-        vas: vehicleModel.vas || '',
-        emiProtect: vehicleModel.emiProtect || '',
-        fastTag: vehicleModel.fastTag || '',
-        others: vehicleModel.others || '',
-        discount: vehicleModel.discount || '',
-        finalAssetCost: vehicleModel.finalAssetCost || '',
-        idv: vehicleModel.idv || '',
-        insuranceValidity: vehicleModel.insuranceValidity || '',
-        insuranceCopy: vehicleModel.insuranceCopy || '',
-        permitType: vehicleModel.permitType || '',
-        expiryDate: vehicleModel.expiryDate || '',
-        permitCopy: vehicleModel.permitCopy || '',
-        permitOthers: vehicleModel.permitOthers || '',
-        frsdRequired: vehicleModel.frsdRequired || '',
-        frsdAmount: vehicleModel.vehicleType || '',
-        fitnessDate: vehicleModel.fitnessDate || '',
-        fitnessCopy: vehicleModel.permitCopy || '',
-        noOfVehicle: vehicleModel.noOfVehicle || '',
       });
     }
+
+    // setFormValue() {
+    //   const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
+      
+      
+    //   this.vehicleForm.patchValue({
+    //     vehicleType: vehicleModel.vehicleType || '',
+    //     region: vehicleModel.region || '',
+    //     registrationNumber: vehicleModel.registrationNumber || '',
+    //     assetMake: vehicleModel.assetMake || '',
+    //     assetModel: vehicleModel.assetModel || '',
+    //     assetBodyType: vehicleModel.assetBodyType || '',
+    //     assetVariant: vehicleModel.assetVariant || '',
+    //     assetSubVariant: vehicleModel.assetSubVariant || '',
+    //     monthManufacturing: vehicleModel.monthManufacturing || '',
+    //     yrManufacturing: vehicleModel.yrManufacturing || '',
+    //     ageOfAsset: vehicleModel.vehicleType || '',
+    //     vechicalUsage: vehicleModel.vechicalUsage || '',
+    //     vehicleCategory: vehicleModel.vehicleCategory || '',
+    //     orpFunding: vehicleModel.orpFunding || '',
+    //     oneTimeTax: vehicleModel.oneTimeTax || '',
+    //     pac: vehicleModel.pac || '',
+    //     vas: vehicleModel.vas || '',
+    //     emiProtect: vehicleModel.emiProtect || '',
+    //     fastTag: vehicleModel.fastTag || '',
+    //     others: vehicleModel.others || '',
+    //     discount: vehicleModel.discount || '',
+    //     finalAssetCost: vehicleModel.finalAssetCost || '',
+    //     idv: vehicleModel.idv || '',
+    //     insuranceValidity: vehicleModel.insuranceValidity || '',
+    //     insuranceCopy: vehicleModel.insuranceCopy || '',
+    //     permitType: vehicleModel.permitType || '',
+    //     expiryDate: vehicleModel.expiryDate || '',
+    //     permitCopy: vehicleModel.permitCopy || '',
+    //     permitOthers: vehicleModel.permitOthers || '',
+    //     frsdRequired: vehicleModel.frsdRequired || '',
+    //     frsdAmount: vehicleModel.vehicleType || '',
+    //     fitnessDate: vehicleModel.fitnessDate || '',
+    //     fitnessCopy: vehicleModel.permitCopy || '',
+    //     noOfVehicle: vehicleModel.noOfVehicle || '',
+    //   });
+    // }
 
     onFormSubmit() {
       const formModel = this.vehicleForm.value;
@@ -169,36 +160,43 @@ export class VehicleDetailComponent implements OnInit {
       
     }
     getData(){
+
       this.vehicleDetails = this.leadStoreService.getVehicleDetails();
 
-       console.log('vehicle',this.vehicleDetails)
-      this.getCategory(this.vehicleLov.assetMake, this.vehicleDetails.assetMake, this.varVehicle)
-      this.getCategory(this.vehicleLov.assetModel, this.vehicleDetails.assetModel, this.varVehicle)
-      this.getCategory(this.vehicleLov.assetVariant, this.vehicleDetails.assetVariant, this.varVehicle)
-      
-        
-    }
-    
-
-    getCategory( category, value, varVehicle ){
-      category.forEach(element => {
-        // console.log(element)
-          if(parseInt(value) == element.key){
-          varVehicle.push(element.value)
-          }
-      });
-      // console.log('varVehicle',this.varVehicle)
+      this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetMake.forEach(element=>{
+        if(parseInt(x.assetMake)== element.key){
+         
+            x.assetMake= element;
+            console.log(this.vehicleDetails.assetMake)
+          
+        }
+      }))
+      this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetModel.forEach(element=>{
+        if(parseInt(x.assetModel)== element.key){
+          x.assetModel= element;
+        }
+      }))
+      this.vehicleDetails.findIndex(x=>x.assetVariant=== this.vehicleLov.assetVariant.forEach(element=>{
+        if(parseInt(x.assetVariant)==element.key){
+          x.assetVariant= element;
+        }
+      }))
+     
     }
    
 
-  ngOnChanges() { }
+    ngOnChanges() { }
 
 
-    editVehicle() {
-      this.router.navigate(['pages/lead-section/add-vehicle']);
-      const tableVehicle= this.varVehicle
-      console.log('vehicleTable',tableVehicle)
+    editVehicle(index: number) {
+      console.log('onClickedit',this.vehicleDetails)
+      this.router.navigate(['pages/lead-section/add-vehicle',{id:index}]);
+     
       
+    }
+
+    deleteVehicle(index: number){
+      this.leadStoreService.deleteVehicle(index);
     }
 
     //To show and hide lov--select "Open" in Vehicle dependency
@@ -210,7 +208,5 @@ export class VehicleDetailComponent implements OnInit {
         this.show = false;
       }
     }
-  
 
-
-}
+  }
