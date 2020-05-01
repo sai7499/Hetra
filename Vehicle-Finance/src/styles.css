@@ -500,3 +500,61 @@ h4.table-head-bg.m-0.p-02 {
     border: 1px solid #ddd;
     /*text-align: center;*/
 }
+
+/*-----------Credit_Score Style -------------*/
+/* #sales_credit_score
+        {
+            background: #fff;
+            padding: 10px;
+        } */
+        #credit_score_tag1
+        {
+            margin-left: 100px;
+            font-weight: bold;
+        }
+        #credit_score_tag2
+        {
+            margin-left: 78px;
+            font-weight: bold;
+        }
+
+        #credit_score_tag3
+        {
+            margin-left: 130px;
+            font-weight: bold;
+        }
+        #credit_score_tag4
+        {
+            margin-left: 150px;
+            font-weight: bold;
+        }
+        #credit_score_tag5
+        {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        #credit_score_tag6
+        {
+            margin-left: 195px;
+            font-weight: bold;
+        }
+        #credit_score_tag7
+        {
+            margin-left: 50px;
+            font-weight: bold;
+        }
+        #credit_score_tag8
+        {
+            margin-left: 90px;
+            font-weight: bold;
+        }
+        #credit_score_tag9
+        {
+            margin-left: 100px;
+            font-weight: bold;
+        }
+        #credit_score_tag10
+        {
+            font-weight: bold;
+        }
+        /*---------------- credit Score End Styles ---------------*/
