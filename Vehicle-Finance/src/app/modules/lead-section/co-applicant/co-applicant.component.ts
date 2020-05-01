@@ -17,6 +17,7 @@ export class CoApplicantComponent implements OnInit {
   coApplicantForm: FormGroup;
 
   selectedApplicant: number;
+  isDisabled : boolean= true
 
   applicantType = '1';
 
@@ -108,6 +109,7 @@ export class CoApplicantComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
+        console.log('labels',this.labels)
       },
       error => {
         console.log(error);
@@ -183,6 +185,45 @@ export class CoApplicantComponent implements OnInit {
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
     // this.router.navigate(['/pages/lead-section/product-details']);
+  }
+
+  onAddress(event){
+    console.log("Checkbox "+event.target.checked)
+
+    if(event.target.checked){
+      this.coApplicantForm.controls["line1"].setValue(this.coApplicantForm.controls.address1.value)
+      this.coApplicantForm.controls["line2"].setValue(this.coApplicantForm.controls.address2.value)
+      this.coApplicantForm.controls["line3"].setValue(this.coApplicantForm.controls.address3.value)
+      this.coApplicantForm.controls["current_pincode"].setValue(this.coApplicantForm.controls.pincode.value)
+      this.coApplicantForm.controls["current_address_city"].setValue(this.coApplicantForm.controls.permanent_address_city.value)
+      this.coApplicantForm.controls["current_address_district"].setValue(this.coApplicantForm.controls.permanent_address_district.value)
+      this.coApplicantForm.controls["current_address_state"].setValue(this.coApplicantForm.controls.permanent_address_state.value)
+      this.coApplicantForm.controls["current_address_country"].setValue(this.coApplicantForm.controls.permanent_address_country.value)
+      this.coApplicantForm.controls["current_landline"].setValue(this.coApplicantForm.controls.landline.value)
+
+
+
+      this.coApplicantForm.controls["line1"].disable()
+      this.coApplicantForm.controls["line2"].disable()
+      this.coApplicantForm.controls["line3"].disable()
+      this.coApplicantForm.controls["current_pincode"].disable()
+      this.coApplicantForm.controls["current_address_city"].disable()
+      this.coApplicantForm.controls["current_address_district"].disable()
+      this.coApplicantForm.controls["current_address_state"].disable()
+      this.coApplicantForm.controls["current_address_country"].disable()
+      this.coApplicantForm.controls["current_landline"].disable()   
+    }
+    else{
+      this.coApplicantForm.controls["line1"].enable()
+      this.coApplicantForm.controls["line2"].enable()
+      this.coApplicantForm.controls["line3"].enable()
+      this.coApplicantForm.controls["current_pincode"].enable()
+      this.coApplicantForm.controls["current_address_city"].enable()
+      this.coApplicantForm.controls["current_address_district"].enable()
+      this.coApplicantForm.controls["current_address_state"].enable()
+      this.coApplicantForm.controls["current_address_country"].enable()
+      this.coApplicantForm.controls["current_landline"].enable()
+      }
   }
 
 }
