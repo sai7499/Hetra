@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { interval} from 'rxjs'
@@ -24,11 +24,12 @@ export class VehicleDetailComponent implements OnInit {
     public errorMsg;
     public getAllFieldLabel;
     public show: boolean = false;
-    public vehicleDetails : any;
+    public vehicleDetails : any=[];
     public isAlert : boolean = true
     
     public varVehicle=[];
-    
+    isshow : boolean
+
 
 
     
@@ -42,6 +43,7 @@ export class VehicleDetailComponent implements OnInit {
   
       
     ngOnInit() {
+    
       this.initForm();
       console.log('ngonit', this.vehicleForm.value)
       this.getAllFieldLabel = this.labelsData.getLabelsData()
@@ -105,47 +107,7 @@ export class VehicleDetailComponent implements OnInit {
       });
     }
 
-    // setFormValue() {
-    //   const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
-      
-      
-    //   this.vehicleForm.patchValue({
-    //     vehicleType: vehicleModel.vehicleType || '',
-    //     region: vehicleModel.region || '',
-    //     registrationNumber: vehicleModel.registrationNumber || '',
-    //     assetMake: vehicleModel.assetMake || '',
-    //     assetModel: vehicleModel.assetModel || '',
-    //     assetBodyType: vehicleModel.assetBodyType || '',
-    //     assetVariant: vehicleModel.assetVariant || '',
-    //     assetSubVariant: vehicleModel.assetSubVariant || '',
-    //     monthManufacturing: vehicleModel.monthManufacturing || '',
-    //     yrManufacturing: vehicleModel.yrManufacturing || '',
-    //     ageOfAsset: vehicleModel.vehicleType || '',
-    //     vechicalUsage: vehicleModel.vechicalUsage || '',
-    //     vehicleCategory: vehicleModel.vehicleCategory || '',
-    //     orpFunding: vehicleModel.orpFunding || '',
-    //     oneTimeTax: vehicleModel.oneTimeTax || '',
-    //     pac: vehicleModel.pac || '',
-    //     vas: vehicleModel.vas || '',
-    //     emiProtect: vehicleModel.emiProtect || '',
-    //     fastTag: vehicleModel.fastTag || '',
-    //     others: vehicleModel.others || '',
-    //     discount: vehicleModel.discount || '',
-    //     finalAssetCost: vehicleModel.finalAssetCost || '',
-    //     idv: vehicleModel.idv || '',
-    //     insuranceValidity: vehicleModel.insuranceValidity || '',
-    //     insuranceCopy: vehicleModel.insuranceCopy || '',
-    //     permitType: vehicleModel.permitType || '',
-    //     expiryDate: vehicleModel.expiryDate || '',
-    //     permitCopy: vehicleModel.permitCopy || '',
-    //     permitOthers: vehicleModel.permitOthers || '',
-    //     frsdRequired: vehicleModel.frsdRequired || '',
-    //     frsdAmount: vehicleModel.vehicleType || '',
-    //     fitnessDate: vehicleModel.fitnessDate || '',
-    //     fitnessCopy: vehicleModel.permitCopy || '',
-    //     noOfVehicle: vehicleModel.noOfVehicle || '',
-    //   });
-    // }
+   
 
     onFormSubmit() {
       const formModel = this.vehicleForm.value;
@@ -160,8 +122,10 @@ export class VehicleDetailComponent implements OnInit {
       
     }
     getData(){
+     
 
       this.vehicleDetails = this.leadStoreService.getVehicleDetails();
+      console.log('veh det', this.vehicleDetails)
 
       this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetMake.forEach(element=>{
         if(parseInt(x.assetMake)== element.key){
@@ -181,6 +145,15 @@ export class VehicleDetailComponent implements OnInit {
           x.assetVariant= element;
         }
       }))
+
+      if(this.vehicleDetails.length>0){
+        this.isAlert= false
+        setTimeout(() => {
+          this.isAlert = true
+        },1000);
+     
+      }
+       
      
     }
    

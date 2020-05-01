@@ -130,7 +130,7 @@ h3 {
 }
 
 .search .form-control {
-    /*   */
+    height: 44px;
     border: 1px solid #dedede;
     border-radius: 22px;
     padding: 6px 48px;
@@ -148,21 +148,16 @@ h3 {
 }
 
 .search .search-icon-left {
-    background: url(./assets/images/search.png) no-repeat center;
+    background: url(/images/search.png) no-repeat center;
     left: 20px;
 }
 
 .search .microphone-icon {
-    /* background: url(../images/mic.png) no-repeat center; */
+    background: url(/images/mic.png) no-repeat center;
     cursor: pointer;
     margin-inline-end: 16px;
-    padding: 4px 28px 0 7px;
+    padding: 22px 12px 0;
     right: 0;
-    border-top-right-radius: 1.5em;
-    border-bottom-right-radius: 1.5em;
-    background-color: #f68834;
-    color: #ffffff;
-    font-weight: bold;
 }
 
 .nav.back-btn li a {
@@ -179,7 +174,7 @@ h3 {
 }
 
 .records select {
-    max-width: 50px;
+    max-width: 55px;
     padding: 5px;
 }
 
@@ -279,7 +274,7 @@ form .form-control {
 }
 
 .alert {
-    position: absolute;
+    position: fixed;
     top: 13px;
     z-index: 9999;
     width: 400px;
@@ -339,11 +334,205 @@ form .form-control {
 .container.overflow-hidden {
     overflow-y: hidden;
 }
-.page-select-width{
-    padding: 6px !important;
+
+.basic_scroll {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
+i{
+    cursor: pointer;
+}
+.text-center
+{
+    text-align: center;
 }
 
 
-/* progress bar */
+/*---- Search bar ------*/
 
+#myUL {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 22px;
+    border: 1px solid #dedede;
+    background: #fff;
+}
 
+#myUL li a {
+    padding: 8px 48px;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    position: relative;
+    text-align: left;
+}
+
+#myUL li a::before {
+    content: '';
+    position: absolute;
+    background: url(/images/search.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    left: 20px;
+    top: 10px;
+}
+
+#myUL li a:hover:not(.header) {
+    background-color: #eee;
+}
+
+#myUL li:first-child a:hover:not(.header) {
+    border-radius: 22px 22px 0 0;
+}
+
+#myUL li:last-child a:hover:not(.header) {
+    border-radius: 0 0 22px 22px;
+}
+.search-container {
+    position: absolute;
+    top: 35%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.search-container .search .search-icon-left,
+.search-container .search .microphone-icon {
+    height: 44px;
+}
+.search .search-icon-left,
+.search .microphone-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    border: none;
+    outline: none;
+}
+
+.search .search-icon-left {
+    background: url(/images/search.png) no-repeat center;
+    left: 20px;
+}
+
+.search .microphone-icon {
+    /* background: url(../images/mic.png) no-repeat center; */
+    cursor: pointer;
+    margin-inline-end: 16px;
+    padding: 22px 12px 0;
+    right: 0;
+}
+
+.vertical-middle .search .search-icon-left,
+.vertical-middle .search .microphone-icon {
+    height: 40px;
+}
+/*---- Search bar End ------*/
+
+#mobile_view_cont
+    {
+        display: none;
+    }
+
+.star_red_col
+{
+    color: #da3939;
+    font-size: 25px;
+   
+}
+.star_blue_col
+{
+    color:#0000FF;
+    font-size: 25px;
+}
+
+.business_division
+{
+    font-size: 14px !important;
+}
+#align_this_checkbox
+{
+    margin-top: 16px;
+}
+#model_p_size
+{
+    font-size: 17px !important;
+}
+#a_under_lin
+{
+    text-decoration: underline;
+}
+.text-center
+{
+    text-align: center;
+}
+.text-right
+{
+    text-align: right;
+}
+#otp_button
+{
+    width: 35%;
+}
+#otp_sec_div
+{
+    border: 1px solid #c0c0c0;
+    padding: 0px 0px 5px 0px;
+    text-align: center;
+    margin-top: -15px;
+}
+#otp_section_heading
+{
+    padding: 5px;
+    background: #c0c0c0;
+    font-size: 15px;
+    font-weight: bold;
+}
+#found_in_nl
+{
+    margin-left: 35px;
+    font-weight: bold;
+    color: #ef5342;
+}
+#found_in_trnl
+{
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+#exact_macth_title1
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#exact_macth_title2
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#exact_macth_title3
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#probale_title4
+{
+    margin-top: -1px;
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}

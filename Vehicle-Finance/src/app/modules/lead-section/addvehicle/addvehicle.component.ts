@@ -25,7 +25,9 @@ export class AddvehicleComponent implements OnInit {
     public show: boolean = false;
     public formVehicle: any;
     public isAlert : boolean = false;
+    isHidden : boolean =false
     selectedVehicle : number;
+    
   
 
   constructor(
@@ -69,6 +71,7 @@ export class AddvehicleComponent implements OnInit {
           const vehicleId= value? value.id : null;
           console.log('vehicleId', vehicleId)
           if (vehicleId !== null && vehicleId !==undefined){
+             this.isHidden= true;
             this.selectedVehicle = Number(vehicleId);
             console.log('numberselectId', this.selectedVehicle)
             const selectedVehicle : Temp= this.leadStoreService.getSelectedVehicle(Number(vehicleId));
@@ -185,15 +188,17 @@ export class AddvehicleComponent implements OnInit {
         const formModel = this.vehicleForm.value;
         // console.log('formModel',formModel)
         const vehicleModel = {...formModel};
-        this.isAlert= true
+        
         if(this.selectedVehicle !==undefined){
           this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
           return;
         }
-        // console.log('vehicleModel',vehicleModel)
+       
         this.leadStoreService.setVehicleDetails(vehicleModel);
         
          this.router.navigateByUrl['/pages/lead-section/vehicle-details']
+         
+
         
       }
 
