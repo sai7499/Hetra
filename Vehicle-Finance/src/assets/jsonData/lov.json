@@ -1730,51 +1730,51 @@
         ],
         "basicVehicleDetails": [
             {
-                "select_main_button": [
+                "selectMainButton": [
                     {
-                        "key": "New CV",
+                        "key": 1,
                         "value": "New CV"
                     },
                     {
-                        "key": "New Car",
+                        "key": 2,
                         "value": "New Car"
                     },
                     {
-                        "key": "Used CV",
+                        "key": 3,
                         "value": "Used CV"
                     },
                     {
-                        "key": "Used Car",
+                        "key": 4,
                         "value": "Used Car"
                     }
                 ],
                 "vehicleType": [
                     {
-                        "key": 1,
+                        "key": "Open",
                         "value": "Open"
                     },
                     {
-                        "key": 2,
+                        "key": "Tripper",
                         "value": "Tripper"
                     },
                     {
-                        "key": 3,
+                        "key": "Trailer",
                         "value": "Trailer"
                     },
                     {
-                        "key": 4,
+                        "key": "Goods",
                         "value": "Goods"
                     },
                     {
-                        "key": 5,
+                        "key": "Bus",
                         "value": "Bus"
                     },
                     {
-                        "key": 6,
+                        "key": "Passenger Vehicle",
                         "value": "Passenger Vehicle"
                     },
                     {
-                        "key": 7,
+                        "key": "ODC",
                         "value": "ODC"
                     }
                 ],
@@ -1785,7 +1785,11 @@
                     },
                     {
                         "key": 2,
-                        "value": "AP"
+                        "value": "Kerala"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Karnataka"
                     }
                 ],
                 "assetMakeCV": [
@@ -1846,6 +1850,36 @@
                     {
                         "key": "Diesel",
                         "value": "Diesel"
+                    }
+                ],
+                "assetBodyTypeCV": [
+                    {
+                        "key": "Chevrolet",
+                        "value": "Chevrolet"
+                    },
+                    {
+                        "key": "Swift",
+                        "value": "Swift"
+                    },
+                    {
+                        "key": "Ciaz",
+                        "value": "Ciaz"
+                    }
+                ],
+                "subventionApplicable": [
+                    {
+                        "key": "Yes",
+                        "value": "Yes"
+                    },
+                    {
+                        "key": "No",
+                        "value": "No"
+                    }
+                ],
+                "assetMake": [
+                    {
+                        "key": "Tata Motors",
+                        "value": "Tata Motors"
                     }
                 ],
                 "assetModel": [
@@ -1978,6 +2012,36 @@
                         "value": "No"
                     }
                 ],
+                "reRegisteredVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "interStateVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "duplicateRC": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
                 "permitType": [
                     {
                         "key": 1,
@@ -1990,6 +2054,20 @@
                     {
                         "key": 3,
                         "value": "Others"
+                    }
+                ]
+            }
+        ],
+        "vehicleList": [
+            {
+                "registrationNum": [
+                    {
+                        "key": 1,
+                        "value": "TN-04-SS-0292"
+                    },
+                    {
+                        "key": 2,
+                        "value": "KL-05-AG-1191"
                     }
                 ]
             }

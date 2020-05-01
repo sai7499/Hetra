@@ -29,7 +29,6 @@ export class FleetDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-
     this.fleetForm = this.fb.group(
       {
         Rows: this.fb.array([this.initRows()])
@@ -41,8 +40,6 @@ export class FleetDetailsComponent implements OnInit {
       this.values = res[0].fleetDetails[0];
       // console.log(this.values.relation = this.values);
     });
-
-
 
     this.labelsData.getLabelsFleetData().subscribe(
       data => {

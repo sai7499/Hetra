@@ -4,33 +4,32 @@
 
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
-                    <!-- <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
+                    <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
                         <option value="New CV">New CV</option>
                         <option value="New Car">New Car</option>
                         <option value="Used CV">Used CV</option>
                         <option value="Used Car">Used Car</option>
-                    </select> -->
-                    <app-vf-custom-select id="select_main_button" [values]="lovLabels?.select_main_button"
-                        (change)="select_main_button($event)">
-                    </app-vf-custom-select>
+                    </select>
+                    <!-- <app-vf-custom-select [values]="lovLabels?.selectMainButton" (change)="select_main_button($event)">
+                    </app-vf-custom-select> -->
                 </div>
             </div>
 
             <div class="" id="new_cv_show" formGroupName="new_cv_show" *ngIf="select_main_button_value === 'New CV'">
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_make">{{label.asset_make}}</label>
+                    <label for="asset_make">{{label.assetMake}}</label>
                     <!-- <select class="form-control mandatory" id="asset_make" formControlName="asset_make">
                         <option value="Tata Motors">Tata Motors</option>
                         <option value="Eicher">Eicher</option>
                     </select> -->
-                    <app-vf-custom-select [values]="lovLabels?.assetMakeCV" formControlName="asset_make">
+                    <app-vf-custom-select [values]="lovLabels?.assetMakeCV" formControlName="assetMake">
                     </app-vf-custom-select>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_model">{{label.asset_model}}</label>
-                    <app-vf-custom-select [values]="lovLabels?.assetModelCV" formControlName="asset_model">
+                    <label for="asset_model">{{label.assetModel}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetModelCV" formControlName="assetModel">
                     </app-vf-custom-select>
                     <!-- <select class="form-control mandatory" id="asset_model" formControlName="asset_model">
                         <option value="CITY RIDER">CITY RIDER</option>
@@ -42,8 +41,8 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_variant">{{label.asset_variant}}</label>
-                    <app-vf-custom-select [values]="lovLabels?.assetVariantCV" formControlName="asset_variant">
+                    <label for="asset_variant">{{label.assetVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetVariantCV" formControlName="assetVariant">
                     </app-vf-custom-select>
                     <!-- <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
                         <option value="LP 1512 - 54 SEATER">LP 1512 - 54 SEATER</option>
@@ -53,8 +52,8 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant">{{label.asset_sub_variant}}</label>
-                    <app-vf-custom-select [values]="lovLabels?.assetSubVariantCV" formControlName="asset_variant">
+                    <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetSubVariantCV" formControlName="assetSubVariant">
                     </app-vf-custom-select>
                     <!-- <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
                         <option value="Petrol">Petrol</option>
@@ -64,25 +63,29 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_other">{{label.asset_other}}</label>
+                    <label for="asset_other">{{label.assetOther}}</label>
                     <input type="text" class="form-control mandatory " id="asset_other"
-                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="asset_other">
+                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_body_type">{{label.asset_body_type}}</label>
-                    <select class="form-control mandatory" id="asset_body_type" name="asset_body_type"
-                        formControlName="asset_body_type">
+                    <label for="asset_body_type">{{label.assetBodyType}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetBodyTypeCV" formControlName="assetBodyType">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_body_type" name="asset_body_type"
+                        formControlName="assetBodyType">
                         <option value="Chevrolet">Chevrolet</option>
                         <option value="Swift">Swift</option>
                         <option value="Ciaz">Ciaz</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="vehicle_type">{{label.vehicle_type}}</label>
-                    <select class="form-control mandatory" id="vehicle_type" name="vehicle_type"
-                        formControlName="vehicle_type">
+                    <label for="vehicle_type">{{label.vehicleType}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.vehicleType" formControlName="vehicleType">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="vehicle_type" name="vehicle_type"
+                        formControlName="vehicleType">
                         <option value="Open">Open</option>
                         <option value="Tipper">Tipper</option>
                         <option value="Trailer">Trailer</option>
@@ -91,107 +94,115 @@
                         <option value="Passenger">Passenger</option>
                         <option value="Vehicle">Vehicle</option>
                         <option value="ODC">ODC</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="ex_showroom_cost">{{label.ex_showroom_cost}}</label>
+                    <label for="ex_showroom_cost">{{label.exShowroomCost}}</label>
                     <input type="text" class="form-control mandatory " id="ex_showroom_cost"
-                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="ex_showroom_cost">
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowroomCost">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="final_asset_cost">{{label.final_asset_cost}}</label>
+                    <label for="final_asset_cost">{{label.finalAssetCost}}</label>
                     <input type="text" class="form-control mandatory " id="final_asset_cost"
-                        placeholder="Final Asset Cost" name="final_asset_cost" formControlName="final_asset_cost">
+                        placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="dealer_subvention_applicable">{{label.dealer_subvention_applicable}}</label>
-                    <select class="form-control mandatory" id="dealer_subvention_applicable"
-                        formControlName="dealer_subvention_applicable">
+                    <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.subventionApplicable"
+                        formControlName="dealerSubventionApplicable">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="dealer_subvention_applicable"
+                        formControlName="dealerSubventionApplicable">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="dealer_subvention_amount">{{label.dealer_subvention_amount}}</label>
+                    <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
                     <input type="text" class="form-control" id="dealer_subvention_amount"
                         placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                        formControlName="dealer_subvention_amount">
+                        formControlName="dealerSubventionAmount">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="dealer_subvention_irr">{{label.dealer_subvention_irr}}</label>
+                    <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
                     <input type="text" class="form-control" id="dealer_subvention_irr"
                         placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                        formControlName="dealer_subvention_irr">
+                        formControlName="dealerSubventionIRR">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="dealer_subvention_finance">{{label.dealer_subvention_finance}}</label>
+                    <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
                     <input type="text" class="form-control" id="dealer_subvention_finance"
                         placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
-                        formControlName="dealer_subvention_finance">
+                        formControlName="dealerSubventionFinance">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="manufacturer_subvention_applicable">{{label.manufacturer_subvention_applicable}}</label>
-                    <select class="form-control mandatory" id="manufacturer_subvention_applicable"
-                        formControlName="manufacturer_subvention_applicable">
+                    <label for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.subventionApplicable"
+                        formControlName="manufacturerSubventionApplicable">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="manufacturer_subvention_applicable"
+                        formControlName="manufacturerSubventionApplicable">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="manufacturer_subvention_amount">{{label.manufacturer_subvention_amount}}</label>
+                    <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                     <input type="text" class="form-control" id="manufacturer_subvention_amount"
                         placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                        formControlName="manufacturer_subvention_amount">
+                        formControlName="manufacturerSubventionAmount">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="manufacturer_subvention_irr">{{label.manufacturer_subvention_irr}}</label>
+                    <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
                     <input type="text" class="form-control" id="manufacturer_subvention_irr"
                         placeholder="Manufacturer Subvention Part of Operating IRR" name="manufacturer_subvention_irr"
-                        formControlName="manufacturer_subvention_irr">
+                        formControlName="manufacturerSubventionIRR">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="manufacturer_subvention_finance">{{label.manufacturer_subvention_finance}}</label>
+                    <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
                     <input type="text" class="form-control" id="manufacturer_subvention_finance"
                         placeholder="Manufacturer Subvention Part of Finance Charges"
-                        name="manufacturer_subvention_finance" formControlName="manufacturer_subvention_finance">
+                        name="manufacturer_subvention_finance" formControlName="manufacturerSubventionFinance">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="proforma_invoice_no">{{label.proforma_invoice_no}}</label>
+                    <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                     <input type="text" class="form-control" id="proforma_invoice_no" placeholder="Proforma Invoice No"
-                        name="proforma_invoice_no" formControlName="proforma_invoice_no">
+                        name="proforma_invoice_no" formControlName="proformaInvoiceNo">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="proforma_invoice_date">{{label.proforma_invoice_date}}</label>
+                    <label for="proforma_invoice_date">{{label.proformaInvoiceDate}}</label>
                     <input type="text" class="form-control" id="proforma_invoice_date"
                         placeholder="Proforma Invoice Date" name="proforma_invoice_date"
-                        formControlName="proforma_invoice_date">
+                        formControlName="proformaInvoiceDate">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="proforma_invoice_amount">{{label.proforma_invoice_amount}}</label>
+                    <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                     <input type="text" class="form-control" id="proforma_invoice_amount"
                         placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                        formControlName="proforma_invoice_amount">
+                        formControlName="proformaInvoiceAmount">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                    <label for="orp_funding">{{label.orp_funding}}</label>
-                    <select class="form-control mandatory" id="orp_funding" formControlName="orp_funding">
+                    <label for="orp_funding">{{label.orpFunding}}</label>
+                    <!-- <select class="form-control mandatory" id="orp_funding" formControlName="orpFunding">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
+                    <app-vf-custom-select [values]="lovLabels?.orpFunding" formControlName="orpFunding">
+                    </app-vf-custom-select>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -201,38 +212,46 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="one_time_tax">{{label.one_time_tax}}</label>
+                    <label for="one_time_tax">{{label.oneTimeTax}}</label>
                     <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                        name="one_time_tax" formControlName="one_time_tax">
+                        name="one_time_tax" formControlName="oneTimeTax">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                     <label for="pac">{{label.pac}}</label>
-                    <select class="form-control" id="pac" formControlName="pac">
+                    <app-vf-custom-select [values]="lovLabels?.pac" formControlName="pac">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="pac" formControlName="pac">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                     <label for="vas">{{label.vas}}</label>
-                    <select class="form-control" id="vas" formControlName="vas">
+                    <app-vf-custom-select [values]="lovLabels?.vas" formControlName="vas">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="vas" formControlName="vas">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="emi_protect">{{label.emi_protect}}</label>
-                    <select class="form-control" id="emi_protect" formControlName="emi_protect">
+                    <label for="emi_protect">{{label.emiProtect}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.emiProtect" formControlName="emiProtect">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="emi_protect" formControlName="emiProtect">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                    <label for="fast_tag">{{label.fast_tag}}</label>
-                    <select class="form-control" id="fast_tag" formControlName="fast_tag">
+                    <label for="fast_tag">{{label.fastTag}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.fastTag" formControlName="fastTag">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="fast_tag" formControlName="fastTag">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                     <label for="others">{{label.others}}</label>
@@ -249,49 +268,59 @@
 
             <div class="" id="new_car_show" formGroupName="new_car_show" *ngIf="select_main_button_value === 'New Car'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_make">{{label.asset_make}}</label>
-                    <select class="form-control mandatory" id="asset_make" formControlName="asset_make">
+                    <label for="asset_make">{{label.assetMake}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetMake" formControlName="assetMake">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_make" formControlName="assetMake">
                         <option value="Tata Motors">Tata Motors</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_model">{{label.asset_model}}</label>
-                    <select class="form-control mandatory" id="asset_model" formControlName="asset_model">
+                    <label for="asset_model">{{label.assetModel}}</label>
+                    <!-- <select class="form-control mandatory" id="asset_model" formControlName="assetModel">
                         <option value="1">Asset-Model-1</option>
                         <option value="2">Asset-Model-2</option>
                         <option value="3">Asset-Model-3</option>
-                    </select>
+                    </select> -->
+                    <app-vf-custom-select [values]="lovLabels?.assetModel" formControlName="assetModel">
+                    </app-vf-custom-select>
 
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_variant">{{label.asset_variant}}</label>
-                    <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
+                    <label for="asset_variant">{{label.assetVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetVariant" formControlName="assetVariant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_variant" formControlName="assetVariant">
                         <option value="1">Asset-variant-1</option>
                         <option value="2">Asset-variant-2</option>
                         <option value="3">Asset-variant-3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant">{{label.asset_sub_variant}}</label>
-                    <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
+                    <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetSubVariant" formControlName="assetSubVariant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_sub_variant" formControlName="assetSubVariant">
                         <option value="1">Sub Variant 1</option>
                         <option value="2">Sub Variant 2</option>
                         <option value="3">Sub Variant 3</option>
-                    </select>
+                    </select> -->
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_other">{{label.asset_other}}</label>
+                    <label for="asset_other">{{label.assetOther}}</label>
                     <input type="text" class="form-control mandatory " id="asset_other"
-                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="asset_other">
+                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="vehicle_type">{{label.vehicle_type}}</label>
-                    <select class="form-control mandatory" id="vehicle_type" name="vehicle_type"
-                        formControlName="vehicle_type">
+                    <label for="vehicle_type">{{label.vehicleType}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.vehicleType" formControlName="vehicleType">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="vehicle_type" name="vehicle_type"
+                        formControlName="vehicleType">
                         <option value="Open">Open</option>
                         <option value="Tipper">Tipper</option>
                         <option value="Trailer">Trailer</option>
@@ -300,92 +329,100 @@
                         <option value="Passenger">Passenger</option>
                         <option value="Vehicle">Vehicle</option>
                         <option value="ODC">ODC</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="ex_showroom_cost">{{label.ex_showroom_cost}}</label>
+                    <label for="ex_showroom_cost">{{label.exShowroomCost}}</label>
                     <input type="text" class="form-control mandatory " id="ex_showroom_cost"
-                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="ex_showroom_cost">
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowroomCost">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="final_asset_cost">{{label.final_asset_cost}}</label>
+                    <label for="final_asset_cost">{{label.finalAssetCost}}</label>
                     <input type="text" class="form-control mandatory " id="final_asset_cost"
-                        placeholder="Final Asset Cost" name="final_asset_cost" formControlName="final_asset_cost">
+                        placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="dealer_subvention_applicable">{{label.dealer_subvention_applicable}}</label>
-                    <select class="form-control mandatory" id="dealer_subvention_applicable"
-                        formControlName="dealer_subvention_applicable">
+                    <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.subventionApplicable"
+                        formControlName="dealerSubventionApplicable">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="dealer_subvention_applicable"
+                        formControlName="dealerSubventionApplicable">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="dealer_subvention_amount">{{label.dealer_subvention_amount}}</label>
+                    <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
                     <input type="text" class="form-control" id="dealer_subvention_amount"
                         placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                        formControlName="dealer_subvention_amount">
+                        formControlName="dealerSubventionAmount">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="dealer_subvention_irr">{{label.dealer_subvention_irr}}</label>
+                    <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
                     <input type="text" class="form-control" id="dealer_subvention_irr"
                         placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                        formControlName="dealer_subvention_irr">
+                        formControlName="dealerSubventionIRR">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="dealer_subvention_finance">{{label.dealer_subvention_finance}}</label>
+                    <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
                     <input type="text" class="form-control" id="dealer_subvention_finance"
-                        formControlName="dealer_subvention_finance">
+                        formControlName="dealerSubventionFinance">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="manufacturer_subvention_applicable">{{label.manufacturer_subvention_applicable}}</label>
-                    <select class="form-control mandatory" id="manufacturer_subvention_applicable"
-                        formControlName="manufacturer_subvention_applicable">
+                    <label for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.subventionApplicable"
+                        formControlName="manufacturerSubventionApplicable">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="manufacturer_subvention_applicable"
+                        formControlName="manufacturerSubventionApplicable">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="manufacturer_subvention_amount">{{label.manufacturer_subvention_amount}}</label>
+                    <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                     <input type="text" class="form-control" id="manufacturer_subvention_amount"
                         placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                        formControlName="manufacturer_subvention_amount">
+                        formControlName="manufacturerSubventionAmount">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="manufacturer_subvention_irr">{{label.manufacturer_subvention_irr}}</label>
+                    <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
                     <input type="text" class="form-control" id="manufacturer_subvention_irr"
                         placeholder="Manufacturer Subvention Part of Operating IRR" name="manufacturer_subvention_irr"
-                        formControlName="manufacturer_subvention_irr">
+                        formControlName="manufacturerSubventionIRR">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="manufacturer_subvention_finance">{{label.manufacturer_subvention_finance}}</label>
+                    <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
                     <input type="text" class="form-control" id="manufacturer_subvention_finance"
                         placeholder="Manufacturer Subvention Part of Finance Charges"
-                        name="manufacturer_subvention_finance" formControlName="manufacturer_subvention_finance">
+                        name="manufacturer_subvention_finance" formControlName="manufacturerSubventionFinance">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="proforma_invoice_no">{{label.proforma_invoice_no}}</label>
+                    <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                     <input type="text" class="form-control" id="proforma_invoice_no" placeholder="Proforma Invoice No"
-                        name="proforma_invoice_no" formControlName="proforma_invoice_no">
+                        name="proforma_invoice_no" formControlName="proformaInvoiceNo">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="proforma_invoice_date">{{label.proforma_invoice_date}}</label>
+                    <label for="proforma_invoice_date">{{label.proformaInvoiceDate}}</label>
                     <input type="text" class="form-control" id="proforma_invoice_date"
                         placeholder="Proforma Invoice Date" name="proforma_invoice_date"
-                        formControlName="proforma_invoice_date">
+                        formControlName="proformaInvoiceDate">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="proforma_invoice_amount">{{label.proforma_invoice_amount}}</label>
+                    <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                     <input type="text" class="form-control" id="proforma_invoice_amount"
                         placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                        formControlName="proforma_invoice_amount">
+                        formControlName="proformaInvoiceAmount">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                    <label for="orp_funding">{{label.orp_funding}}</label>
-                    <select class="form-control mandatory" id="orp_funding" formControlName="orp_funding">
+                    <label for="orp_funding">{{label.orpFunding}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.orpFunding" formControlName="orpFunding">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="orp_funding" formControlName="orpFunding">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                     <label for="insurance">{{label.insurance}}</label>
@@ -394,37 +431,45 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="one_time_tax">{{label.one_time_tax}}</label>
+                    <label for="one_time_tax">{{label.oneTimeTax}}</label>
                     <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                        name="one_time_tax" formControlName="one_time_tax">
+                        name="one_time_tax" formControlName="oneTimeTax">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                     <label for="pac">{{label.pac}}</label>
-                    <select class="form-control" id="pac" formControlName="pac">
+                    <app-vf-custom-select [values]="lovLabels?.pac" formControlName="pac">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="pac" formControlName="pac">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                     <label for="vas">{{label.vas}}</label>
-                    <select class="form-control" id="vas" formControlName="vas">
+                    <app-vf-custom-select [values]="lovLabels?.vas" formControlName="vas">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="vas" formControlName="vas">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                    <label for="emi_protect">{{label.emi_protect}}</label>
-                    <select class="form-control" id="emi_protect" formControlName="emi_protect">
+                    <label for="emi_protect">{{label.emiProtect}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.emiProtect" formControlName="emiProtect">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="emi_protect" formControlName="emiProtect">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                    <label for="fast_tag">{{label.fast_tag}}</label>
-                    <select class="form-control" id="fast_tag" formControlName="fast_tag">
+                    <label for="fast_tag">{{label.fastTag}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.fastTag" formControlName="fastTag">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control" id="fast_tag" formControlName="fastTag">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                     <label for="others">{{label.others}}</label>
@@ -442,66 +487,78 @@
             <div class="" id="used_cv_show" formGroupName="used_cv_show" *ngIf="select_main_button_value === 'Used CV'">
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="registartion_number">{{label.registartion_number}}</label>
+                    <label for="registartion_number">{{label.registartionNumber}}</label>
                     <input type="text" class="form-control mandatory" id="registartion_number"
                         placeholder="Vechical Registration No" name="registartion_number"
-                        formControlName="registartion_number">
+                        formControlName="registartionNumber">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_make">{{label.asset_make}}</label>
-                    <select class="form-control mandatory" id="asset_make" formControlName="asset_make">
+                    <label for="asset_make">{{label.assetMake}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetMake" formControlName="assetMake">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_make" formControlName="assetMake">
                         <option value="Tata Motors">Tata Motors</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_model">{{label.asset_model}}</label>
-                    <select class="form-control mandatory" id="asset_model" formControlName="asset_model">
+                    <label for="asset_model">{{label.assetModel}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetModel" formControlName="assetModel">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_model" formControlName="assetModel">
                         <option value="1">Asset-Model-1</option>
                         <option value="2">Asset-Model-2</option>
                         <option value="3">Asset-Model-3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_variant">{{label.asset_variant}}</label>
-                    <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
+                    <label for="asset_variant">{{label.assetVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetVariant" formControlName="assetVariant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_variant" formControlName="assetVariant">
                         <option value="1">Asset-variant-1</option>
                         <option value="2">Asset-variant-2</option>
                         <option value="3">Asset-variant-3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant">{{label.asset_sub_variant}}</label>
-                    <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
+                    <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetSubVariant" formControlName="assetSubVariant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_sub_variant" formControlName="assetSubVariant">
                         <option value="1">Sub Variant 1</option>
                         <option value="2">Sub Variant 2</option>
                         <option value="3">Sub Variant 3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_other">{{label.asset_other}}</label>
+                    <label for="asset_other">{{label.assetOther}}</label>
                     <input type="text" class="form-control mandatory " id="asset_other"
-                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="asset_other">
+                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_body_type">{{label.asset_body_type}}</label>
-                    <select class="form-control mandatory" id="asset_body_type" name="asset_body_type"
-                        formControlName="asset_body_type">
+                    <label for="asset_body_type">{{label.assetBodyType}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetBodyType" formControlName="assetBodyType">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_body_type" name="asset_body_type"
+                        formControlName="assetBodyType">
                         <option value="Body Type-1">Body Type-1</option>
                         <option value="Body Type-2">Body Type-2</option>
                         <option value="Body Type-3">Body Type-3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="vehicle_type">{{label.vehicle_type}}</label>
-                    <select class="form-control mandatory" id="vehicle_type" name="vehicle_type"
-                        formControlName="vehicle_type">
+                    <label for="vehicle_type">{{label.vehicleType}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.vehicleType" formControlName="vehicleType">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="vehicle_type" name="vehicle_type"
+                        formControlName="vehicleType">
                         <option value="Open">Open</option>
                         <option value="Tipper">Tipper</option>
                         <option value="Trailer">Trailer</option>
@@ -510,132 +567,142 @@
                         <option value="Passenger">Passenger</option>
                         <option value="Vehicle">Vehicle</option>
                         <option value="ODC">ODC</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vechical_region">{{label.vechical_region}}</label>
-                    <select class="form-control mandatory" id="vechical_region" formControlName="vechical_region">
+                    <label for="vechical_region">{{label.vechicalRegion}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.vechicalRegion" formControlName="vechicalRegion">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="vechical_region" formControlName="vechicalRegion">
                         <option value="TN">TN</option>
                         <option value="Kerala">Kerala</option>
                         <option value="Karnataka">Karnataka</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="month_year">{{label.month_year}}</label>
+                    <label for="month_year">{{label.monthYear}}</label>
                     <input type="date" class="form-control mandatory " id="month_year" placeholder="Month and Year"
-                        name="month_year" formControlName="month_year">
+                        name="month_year" formControlName="monthYear">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="age_vehicle">{{label.age_vehicle}}</label>
+                    <label for="age_vehicle">{{label.ageVehicle}}</label>
                     <input type="text" class="form-control mandatory " id="age_vehicle" placeholder="Age of Vehicle"
-                        name="age_vehicle" formControlName="age_vehicle">
+                        name="age_vehicle" formControlName="ageVehicle">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="ex_showroom_cost">{{label.ex_showroom_cost}}</label>
+                    <label for="ex_showroom_cost">{{label.exShowroomCost}}</label>
                     <input type="text" class="form-control mandatory " id="ex_showroom_cost"
-                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="ex_showroom_cost">
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowroomCost">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="fitness_date">{{label.fitness_date}}</label>
+                    <label for="fitness_date">{{label.fitnessDate}}</label>
                     <input type="date" class="form-control mandatory date_caps" id="fitness_date"
-                        placeholder="Fitness Date" name="fitness_date" formControlName="fitness_date">
+                        placeholder="Fitness Date" name="fitness_date" formControlName="fitnessDate">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="permit_type">{{label.permit_type}}</label>
-                    <select class="form-control mandatory" id="permit_type" formControlName="permit_type">
+                    <label for="permit_type">{{label.permitType}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.permitType" formControlName="permitType">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="permit_type" formControlName="permitType">
                         <option value="National">National</option>
                         <option value="State">State</option>
                         <option value="Other">Other</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="permit_other">{{label.permit_other}}</label>
+                    <label for="permit_other">{{label.permitOther}}</label>
                     <input type="text" class="form-control" id="permit_other" placeholder="Type of Permit Other"
-                        name="permit_other" formControlName="permit_other">
+                        name="permit_other" formControlName="permitOther">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="permit_expire_date">{{label.permit_expire_date}}</label>
+                    <label for="permit_expire_date">{{label.permitExpireDate}}</label>
                     <input type="date" class="form-control mandatory date_caps" id="permit_expire_date"
-                        placeholder="Permit Expire Date" name="permit_expire_date" formControlName="permit_expire_date">
+                        placeholder="Permit Expire Date" name="permit_expire_date" formControlName="permitExpireDate">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="permit_upload">{{label.permit_upload}}</label>
-                    <input id="permit_upload" type="file" multiple formControlName="permit_upload">
+                    <label for="permit_upload">{{label.permitUpload}}</label>
+                    <input id="permit_upload" type="file" multiple formControlName="permitUpload">
                     <div id="permit_upload_perview"></div>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="chassis_number">{{label.chassis_number}}</label>
+                    <label for="chassis_number">{{label.chassisNumber}}</label>
                     <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                        name="chassis_number" formControlName="chassis_number">
+                        name="chassis_number" formControlName="chassisNumber">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="engine_number">{{label.engine_number}}</label>
+                    <label for="engine_number">{{label.engineNumber}}</label>
                     <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
-                        name="engine_number" formControlName="engine_number">
+                        name="engine_number" formControlName="engineNumber">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_purchased_cost">{{label.vehicle_purchased_cost}}</label>
+                    <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
                     <input type="text" class="form-control" id="vehicle_purchased_cost"
                         placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                        formControlName="vehicle_purchased_cost">
+                        formControlName="vehiclePurchasedCost">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_ownership">{{label.vehicle_ownership}}</label>
+                    <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
                     <input type="number" class="form-control" id="vehicle_ownership"
                         placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                        formControlName="vehicle_ownership">
+                        formControlName="vehicleOwnership">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="rc_owner_name">{{label.rc_owner_name}}</label>
+                    <label for="rc_owner_name">{{label.rcOwnerName}}</label>
                     <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                        name="rc_owner_name" formControlName="rc_owner_name">
+                        name="rc_owner_name" formControlName="rcOwnerName">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_registration_date">{{label.vehicle_registration_date}}</label>
+                    <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}}</label>
                     <input type="date" class="form-control mandatory date_caps" id="vehicle_registration_date"
                         placeholder="Vehicle Registration Date" name="vehicle_registration_date"
-                        formControlName="vehicle_registration_date">
+                        formControlName="vehicleRegistrationDate">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="re_registered_vehicle">{{label.re_registered_vehicle}}</label>
-                    <select class="form-control mandatory" id="re_registered_vehicle"
-                        formControlName="re_registered_vehicle">
+                    <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.reRegisteredVehicle"
+                        formControlName="reRegisteredVehicle">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="re_registered_vehicle"
+                        formControlName="reRegisteredVehicle">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="inter_state_vehicle">{{label.inter_state_vehicle}}</label>
-                    <select class="form-control mandatory" id="inter_state_vehicle"
-                        formControlName="inter_state_vehicle">
+                    <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.interStateVehicle" formControlName="interStateVehicle">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="inter_state_vehicle" formControlName="interStateVehicle">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="duplicate_rc">{{label.duplicate_rc}}</label>
-                    <select class="form-control mandatory" id="duplicate_rc" formControlName="duplicate_rc">
+                    <label for="duplicate_rc">{{label.duplicateRC}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.duplicateRC" formControlName="duplicateRC">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="duplicate_rc" formControlName="duplicateRC">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="cubic_capacity">{{label.cubic_capacity}}</label>
+                    <label for="cubic_capacity">{{label.cubicCapacity}}</label>
                     <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                        name="cubic_capacity" formControlName="cubic_capacity">
+                        name="cubic_capacity" formControlName="cubicCapacity">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="seating_capacity">{{label.seating_capacity}}</label>
+                    <label for="seating_capacity">{{label.seatingCapacity}}</label>
                     <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                        name="seating_capacity" formControlName="seating_capacity">
+                        name="seating_capacity" formControlName="seatingCapacity">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="insurance_validity">{{label.insurance_validity}}</label>
+                    <label for="insurance_validity">{{label.insuranceValidity}}</label>
                     <input type="date" class="form-control mandatory date_caps" id="insurance_validity"
-                        placeholder="Insurance Validity" name="insurance_validity" formControlName="insurance_validity">
+                        placeholder="Insurance Validity" name="insurance_validity" formControlName="insuranceValidity">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                     <label for="idv">{{label.idv}}</label>
@@ -643,20 +710,20 @@
                         formControlName="idv">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="insurance_copy">{{label.insurance_copy}}</label>
-                    <input id="insurance_copy" type="file" multiple formControlName="insurance_copy">
+                    <label for="insurance_copy">{{label.insuranceCopy}}</label>
+                    <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
                     <div id="insurance_preview"></div>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="frsd_required">{{label.frsd_required}}</label>
+                    <label for="frsd_required">{{label.frsdRequired}}</label>
                     <input type="text" class="form-control mandatory" id="frsd_required"
-                        placeholder="FRSD Funding Required" name="frsd_required" formControlName="frsd_required">
+                        placeholder="FRSD Funding Required" name="frsd_required" formControlName="frsdRequired">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="frsd_amount">{{label.frsd_amount}}</label>
+                    <label for="frsd_amount">{{label.frsdAmount}}</label>
                     <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                        name="frsd_amount" formControlName="frsd_amount">
+                        name="frsd_amount" formControlName="frsdAmount">
                 </div>
 
             </div>
@@ -664,194 +731,210 @@
                 *ngIf="select_main_button_value === 'Used Car'">
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="registartion_number">{{label.registartion_number}}</label>
+                    <label for="registartion_number">{{label.registartionNumber}}</label>
                     <input type="text" class="form-control mandatory" id="registartion_number"
                         placeholder="Vechical Registration No" name="registartion_number"
-                        formControlName="registartion_number">
+                        formControlName="registartionNumber">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_make">{{label.asset_make}}</label>
-                    <select class="form-control mandatory" id="asset_make" formControlName="asset_make">
+                    <label for="asset_make">{{label.assetMake}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetMake" formControlName="assetMake">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_make" formControlName="assetMake">
                         <option value="Tata Motors">Tata Motors</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_model">{{label.asset_model}}</label>
-                    <select class="form-control mandatory" id="asset_model" formControlName="asset_model">
+                    <label for="asset_model">{{label.assetModel}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetModel" formControlName="assetModel">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_model" formControlName="assetModel">
                         <option value="1">Asset-Model-1</option>
                         <option value="2">Asset-Model-2</option>
                         <option value="3">Asset-Model-3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_variant">{{label.asset_variant}}</label>
-                    <select class="form-control mandatory" id="asset_variant" formControlName="asset_variant">
+                    <label for="asset_variant">{{label.assetVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetVariant" formControlName="assetVariant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_variant" formControlName="assetVariant">
                         <option value="1">Asset-variant-1</option>
                         <option value="2">Asset-variant-2</option>
                         <option value="3">Asset-variant-3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant">{{label.asset_sub_variant}}</label>
-                    <select class="form-control mandatory" id="asset_sub_variant" formControlName="asset_sub_variant">
+                    <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.assetSubVariant" formControlName="assetSubVariant">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="asset_sub_variant" formControlName="assetSubVariant">
                         <option value="1">Sub Variant 1</option>
                         <option value="2">Sub Variant 2</option>
                         <option value="3">Sub Variant 3</option>
-                    </select>
+                    </select> -->
 
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_other">{{label.asset_other}}</label>
+                    <label for="asset_other">{{label.assetOther}}</label>
                     <input type="text" class="form-control mandatory " id="asset_other"
-                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="asset_other">
+                        placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vechical_usage">{{label.vechical_usage}}</label>
-                    <select class="form-control mandatory" id="vechical_usage" formControlName="vechical_usage">
+                    <label for="vechical_usage">{{label.vechicalUsage}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.vechicalUsage" formControlName="vechicalUsage">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="vechical_usage" formControlName="vechicalUsage">
                         <option value="Commercial Use">Commercial Use</option>
                         <option value="Personal Use">Personal Use</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_category">{{label.vehicle_category}}</label>
-                    <select class="form-control mandatory" id="vehicle_category" formControlName="vehicle_category">
+                    <label for="vehicle_category">{{label.vehicleCategory}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.vehicleCategory" formControlName="vehicleCategory">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="vehicle_category" formControlName="vehicleCategory">
                         <option value="CAT 1">CAT 1</option>
                         <option value="CAT 2">CAT 2</option>
                         <option value="CAT 3">CAT 3</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="month_year">{{label.month_year}}</label>
+                    <label for="month_year">{{label.monthYear}}</label>
                     <input type="date" class="form-control mandatory " id="month_year" placeholder="Month and Year"
-                        name="month_year" formControlName="month_year">
+                        name="month_year" formControlName="monthYear">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="age_vehicle">{{label.age_vehicle}}</label>
+                    <label for="age_vehicle">{{label.ageVehicle}}</label>
                     <input type="text" class="form-control mandatory " id="age_vehicle" placeholder="Age of Vehicle"
-                        name="age_vehicle" formControlName="age_vehicle">
+                        name="age_vehicle" formControlName="ageVehicle">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="asset_cost_indian">{{label.asset_cost_indian}}</label>
+                    <label for="asset_cost_indian">{{label.assetCostIndian}}</label>
                     <input type="text" class="form-control mandatory " id="asset_cost_indian"
                         placeholder="Asset Cost basis Indian bluebook" name="asset_cost_indian"
-                        formControlName="asset_cost_indian">
+                        formControlName="assetCostIndian">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="asset_cost_car">{{label.asset_cost_car}}</label>
+                    <label for="asset_cost_car">{{label.assetCostCar}}</label>
                     <input type="text" class="form-control mandatory " id="asset_cost_car"
-                        placeholder="Asset Cost basis Car Trade" name="asset_cost_car" formControlName="asset_cost_car">
+                        placeholder="Asset Cost basis Car Trade" name="asset_cost_car" formControlName="assetCostCar">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="asset_cost_least">{{label.asset_cost_least}}</label>
+                    <label for="asset_cost_least">{{label.assetCostLeast}}</label>
                     <input type="text" class="form-control mandatory " id="asset_cost_least"
-                        placeholder="Asset Cost Least" name="asset_cost_least" formControlName="asset_cost_least">
+                        placeholder="Asset Cost Least" name="asset_cost_least" formControlName="assetCostLeast">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="ex_showroom_cost">{{label.ex_showroom_cost}}</label>
+                    <label for="ex_showroom_cost">{{label.exShowroomCost}}</label>
                     <input type="text" class="form-control mandatory " id="ex_showroom_cost"
-                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="ex_showroom_cost">
+                        placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowroomCost">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="chassis_number">{{label.chassis_number}}</label>
+                    <label for="chassis_number">{{label.chassisNumber}}</label>
                     <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                        name="chassis_number" formControlName="chassis_number">
+                        name="chassis_number" formControlName="chassisNumber">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="engine_number">{{label.engine_number}}</label>
+                    <label for="engine_number">{{label.engineNumber}}</label>
                     <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
-                        name="engine_number" formControlName="engine_number">
+                        name="engine_number" formControlName="engineNumber">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_purchased_cost">{{label.vehicle_purchased_cost}}</label>
+                    <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
                     <input type="text" class="form-control" id="vehicle_purchased_cost"
                         placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                        formControlName="vehicle_purchased_cost">
+                        formControlName="vehiclePurchasedCost">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_ownership">{{label.vehicle_ownership}}</label>
+                    <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
                     <input type="number" class="form-control" id="vehicle_ownership"
                         placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                        formControlName="vehicle_ownership">
+                        formControlName="vehicleOwnership">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="rc_owner_name">{{label.rc_owner_name}}</label>
+                    <label for="rc_owner_name">{{label.rcOwnerName}}</label>
                     <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                        name="rc_owner_name" formControlName="rc_owner_name">
+                        name="rc_owner_name" formControlName="rcOwnerName">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="vehicle_registration_date">{{label.vehicle_registration_date}}</label>
+                    <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}}</label>
                     <input type="date" class="form-control mandatory date_caps" id="vehicle_registration_date"
                         placeholder="Vehicle Registration Date" name="vehicle_registration_date"
-                        formControlName="vehicle_registration_date">
+                        formControlName="vehicleRegistrationDate">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="gross_vehicle_weight">{{label.gross_vehicle_weight}}</label>
+                    <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
                     <input type="text" class="form-control" id="gross_vehicle_weight" placeholder="Gross Vehicle Weight"
-                        name="gross_vehicle_weight" formControlName="gross_vehicle_weight">
+                        name="gross_vehicle_weight" formControlName="grossVehicleWeight">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="re_registered_vehicle">{{label.re_registered_vehicle}}</label>
-                    <select class="form-control mandatory" id="re_registered_vehicle"
-                        formControlName="re_registered_vehicle">
+                    <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.reRegisteredVehicle"
+                        formControlName="reRegisteredVehicle">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="re_registered_vehicle"
+                        formControlName="reRegisteredVehicle">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="inter_state_vehicle">{{label.inter_state_vehicle}}</label>
-                    <select class="form-control mandatory" id="inter_state_vehicle"
-                        formControlName="inter_state_vehicle">
+                    <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
+                    <app-vf-custom-select [values]="lovLabels?.interStateVehicle" formControlName="interStateVehicle">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="inter_state_vehicle" formControlName="interStateVehicle">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="duplicate_rc">{{label.duplicate_rc}}</label>
-                    <select class="form-control mandatory" id="duplicate_rc" formControlName="duplicate_rc">
+                    <label for="duplicate_rc">{{label.duplicateRC}}</label>
+                    <select class="form-control mandatory" id="duplicate_rc" formControlName="duplicateRC">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="cubic_capacity">{{label.cubic_capacity}}</label>
+                    <label for="cubic_capacity">{{label.cubicCapacity}}</label>
                     <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                        name="cubic_capacity" formControlName="cubic_capacity">
+                        name="cubic_capacity" formControlName="cubicCapacity">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                    <label for="seating_capacity">{{label.seating_capacity}}</label>
+                    <label for="seating_capacity">{{label.seatingCapacity}}</label>
                     <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                        name="seating_capacity" formControlName="seating_capacity">
+                        name="seating_capacity" formControlName="seatingCapacity">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="insurance_validity">{{label.insurance_validity}}</label>
+                    <label for="insurance_validity">{{label.insuranceValidity}}</label>
                     <input type="date" class="form-control mandatory date_caps" id="insurance_validity"
-                        placeholder="Insurance Validity" name="insurance_validity" formControlName="insurance_validity">
+                        placeholder="Insurance Validity" name="insurance_validity" formControlName="insuranceValidity">
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -861,20 +944,20 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="insurance_copy">{{label.insurance_copy}}</label>
-                    <input id="insurance_copy" type="file" multiple formControlName="insurance_copy">
+                    <label for="insurance_copy">{{label.insuranceCopy}}</label>
+                    <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
                     <div id="insurance_preview"></div>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="frsd_required">{{label.frsd_required}}</label>
+                    <label for="frsd_required">{{label.frsdRequired}}</label>
                     <input type="text" class="form-control mandatory" id="frsd_required"
-                        placeholder="FRSD Funding Required" name="frsd_required" formControlName="frsd_required">
+                        placeholder="FRSD Funding Required" name="frsd_required" formControlName="frsdRequired">
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                    <label for="frsd_amount">{{label.frsd_amount}}</label>
+                    <label for="frsd_amount">{{label.frsdAmount}}</label>
                     <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                        name="frsd_amount" formControlName="frsd_amount">
+                        name="frsd_amount" formControlName="frsdAmount">
                 </div>
             </div>
 
