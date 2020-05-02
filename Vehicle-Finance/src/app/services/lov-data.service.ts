@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class LovDataService {
   private dataUrl = 'assets/jsonData/lov.json';
 
-  constructor( private http: HttpClient) { }
- getLovData(): Observable<any> {
-  return this.http.get(this.dataUrl);
-}
+  constructor(private http: HttpClient) { }
+  getLovData(): Observable<any> {
+    return this.http.get(this.dataUrl);
+  }
 }

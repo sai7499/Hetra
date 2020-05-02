@@ -19,7 +19,8 @@
                         <label for="loan_tenor"> {{ labels?.requestedTenor }} </label>
                         <select formControlName="requestedTenor" class="form-control mandatory" id="loan_tenor">
                             <option value=""> -- Select One --</option>
-                            <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
+                            <option *ngFor="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}
+                            </option>
                         </select>
 
                     </div>
@@ -43,7 +44,7 @@
 
                 </div>
 
-                
+
 
                 <div class="modal fade in" id="myModal" #myModal>
                     <!--  style="display: block;" -->
@@ -74,8 +75,10 @@
                                                     <th>{{labels?.ageOfCar}} <i class="fa fa-sort"></i> </th>
                                                     <th>{{labels?.loanToValue}} <i class="fa fa-sort"></i> </th>
                                                     <th>{{labels?.insuranceCrossSell}}<i class="fa fa-sort"></i> </th>
-                                                    <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i> </th>
-                                                    <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i>
+                                                    </th>
+                                                    <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i>
+                                                    </th>
                                                     <th>{{labels?.OnRoadPricingFunding}}<i class="fa fa-sort"></i> </th>
                                                 </tr>
                                             </thead>

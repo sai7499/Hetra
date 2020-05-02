@@ -384,12 +384,10 @@
   "grossDerivedIncome": "Gross derived Income",
   "grossMonthlyIncome": "Gross monthly income",
   "actions": "Actions",
-
   "incomeType": "Income Type",
   "grossIncome": "Gross Income",
   "factoring": "Factoring %",
   "factoredIncome": "Factored Income",
-
   "borrowerName": "Borrower Name",
   "typeOfLoan": "Type of Loan",
   "financier": "Financier",
@@ -398,7 +396,6 @@
   "emi": "EMI",
   "balanceTenor": "Balance Tenor",
   "obligationAmount": "Obligation Amount",
-
   "totalMonthlySalaryIncome": "Total Monthly Salary Income",
   "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
   "salairedFOIRDeviation": "Salaired FOIR Deviation %",
@@ -410,29 +407,27 @@
   "totalMonthlyIncome": "Total Monthly Income",
   "totalMontlyObligations": "Total Montly Obligations",
   "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR",
-
-  "customerBankName":"Customer Bank Name",
-  "bankBranch":"Bank Branch",
-  "bankAddress":"Bank Address",
-  "accountType":"Account Type",
-  "accountNumber":"Account Number",
-  "accountHolderName":"Account Holder Name",
-  "minimumAverageBalance":"Minimum Average Balance",
-  "micrCode":"MICR Code",
+  "customerBankName": "Customer Bank Name",
+  "bankBranch": "Bank Branch",
+  "bankAddress": "Bank Address",
+  "accountType": "Account Type",
+  "accountNumber": "Account Number",
+  "accountHolderName": "Account Holder Name",
+  "minimumAverageBalance": "Minimum Average Balance",
+  "micrCode": "MICR Code",
   "ifscCode": "IFSC Code",
-
   "seniorCitizen": "Senior Citizen?",
   "ifMinorIsYesGuardianName": "if Minor is yes Guardian Name",
   "ifGuardianIsAnExistingCustomer": "If Guardian is an existing customer, UCIC",
   "spouseName": "Spouse Name",
   "mothersMaidenName": "Mother's Maiden Name",
   "occupation": "Occupation",
-  "nationality":"Nationality",
-  "customerCategory":"Customer Category",
-  "emailID":"Email ID",
-  "alternateEmailID":"Alternate email ID",
-  "prefferedLanguageForCommunication":"Preferred Language for Communication",
-  "bankAccountNumber":"Bank Account Number",
+  "nationality": "Nationality",
+  "customerCategory": "Customer Category",
+  "emailID": "Email ID",
+  "alternateEmailID": "Alternate email ID",
+  "prefferedLanguageForCommunication": "Preferred Language for Communication",
+  "bankAccountNumber": "Bank Account Number",
   "accountHoldingBank": "Account Holding Bank",
   "branchAndCommunicationAddress": "Branch and Communication Address",
   "spokeAndCommunicationAddress": "Spoke and Communication Address",
@@ -457,11 +452,10 @@
   "ratingIssuerName": "Rating Issuer Name",
   "externalRatingAssigned": "External Rating Assigned",
   "extnlRatingIssuedDate": "Extnl. Rating Issued Date",
- " dealingForeignCurrency":"Dealing Foreign Currency",
+  " dealingForeignCurrency": "Dealing Foreign Currency",
   "extnlRatingExpiryDate": "Extnl. Rating Expiry Date",
   "totalExposureInThebankingsystem": "Total Exposure in the banking system(In lakhs)",
   "creditRiskScore": "Credit Risk Score",
-
   "selectIdDetails": "Select Id Details",
   "identityCardNumber": "Identity Card Number",
   "identityCardExpiryDate": "Identity Card Expiry Date",
@@ -473,19 +467,8 @@
   "gstNumber": "GST Number",
   "leadID": "Lead ID",
   "queue": "Queue",
-
   "userName": "User Name",
   "password": "Password",
-
   "enterOtpSharedByCustomer": "Enter the OTP shared by the customer",
   "offersAccepted": "Offers Accepted"
-
-  
-
-
-
-
-
-
-
 }
