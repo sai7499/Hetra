@@ -24,7 +24,7 @@ export class AddvehicleComponent implements OnInit {
     public getAllFieldLabel;
     public show: boolean = false;
     public formVehicle: any;
-    public isAlert : boolean = false;
+    public isAlert : boolean = true;
     isHidden : boolean =false
     selectedVehicle : number;
     
@@ -193,14 +193,17 @@ export class AddvehicleComponent implements OnInit {
           this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
           return;
         }
+        this.isAlert= false
+        setTimeout(() => {
+          this.isAlert = true
+        },1000);
        
         this.leadStoreService.setVehicleDetails(vehicleModel);
         
-         this.router.navigateByUrl['/pages/lead-section/vehicle-details']
-         
 
         
       }
+
 
       
       

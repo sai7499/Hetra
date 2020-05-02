@@ -18,6 +18,7 @@ export class CoApplicantComponent implements OnInit {
 
   selectedApplicant: number;
   isDisabled : boolean= true
+  public isAlert : boolean = true;
 
   applicantType = '1';
 
@@ -184,6 +185,10 @@ export class CoApplicantComponent implements OnInit {
     }
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
+    this.isAlert= false
+    setTimeout(() => {
+      this.isAlert = true
+    },1000);
     // this.router.navigate(['/pages/lead-section/product-details']);
   }
 

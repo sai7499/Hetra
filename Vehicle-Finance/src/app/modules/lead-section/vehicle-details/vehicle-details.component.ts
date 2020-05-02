@@ -56,13 +56,11 @@ export class VehicleDetailComponent implements OnInit {
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
         // console.log('vehicleLov', this.vehicleLov);
-        // this.setFormValue();
+        
         this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
         this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel;
         this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant;
 
-
-        // console.log('asset make', this.vehicleLov.assetMake)
         this.getData();
       
       });
@@ -146,15 +144,6 @@ export class VehicleDetailComponent implements OnInit {
         }
       }))
 
-      if(this.vehicleDetails.length>0){
-        this.isAlert= false
-        setTimeout(() => {
-          this.isAlert = true
-        },1000);
-     
-      }
-       
-     
     }
    
 
