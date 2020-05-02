@@ -21,8 +21,6 @@ export class BasicVehicleDetailsComponent implements OnInit {
   constructor(private _fb: FormBuilder, private labelsData: LabelsService, private lovData: LovDataService, private leadStoreService: LeadStoreService) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].basicVehicleDetails[0];
-      this.setFormValue();
-      console.log(this.lovLabels)
     });
   }
 
@@ -37,9 +35,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
         });
 
     this.lovData.getLovData().subscribe((res: any) => {
-
       this.values = res[0].basicVehicleDetails[0];
-      console.log(this.values);
     });
   }
 
@@ -47,81 +43,81 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
     this.basicVehicleForm = this._fb.group({
       new_cv_show: this._fb.group({
-        assetMake: ['Tata Motors', Validators.required],
-        assetModel: ['CITY RIDER', Validators.required],
-        assetVariant: ['LP 1512 - 54 SEATER', Validators.required],
-        assetSubVariant: ['Petrol', Validators.required],
-        assetOther: ['', Validators.required],
-        assetBodyType: ['Chevrolet', Validators.required],
-        vehicleType: ['Open', Validators.required],
-        exShowroomCost: ['', Validators.required],
-        finalAssetCost: ['', Validators.required],
-        dealerSubventionApplicable: ['Yes', Validators.required],
-        dealerSubventionAmount: [''],
-        dealerSubventionIRR: [''],
-        dealerSubventionFinance: [''],
-        manufacturerSubventionApplicable: ['Yes', Validators.required],
-        manufacturerSubventionAmount: [''],
-        manufacturerSubventionIRR: [''],
-        manufacturerSubventionFinance: [''],
-        proformaInvoiceNo: [''],
-        proformaInvoiceDate: [''],
-        proformaInvoiceAmount: [''],
-        orpFunding: ['Yes', Validators.required],
-        insurance: [''],
-        oneTimeTax: [''],
-        pac: ['Yes'],
-        vas: ['Yes'],
-        emiProtect: ['Yes'],
-        fastTag: ['Yes'],
-        others: [''],
-        discount: [''],
-      }),
-      new_car_show: this._fb.group({
-        assetMake: ['Tata Motors', Validators.required],
+        assetMake: ['1', Validators.required],
         assetModel: ['1', Validators.required],
         assetVariant: ['1', Validators.required],
         assetSubVariant: ['1', Validators.required],
         assetOther: ['', Validators.required],
-        vehicleType: ['Open', Validators.required],
+        assetBodyType: ['1', Validators.required],
+        vehicleType: ['1', Validators.required],
         exShowroomCost: ['', Validators.required],
         finalAssetCost: ['', Validators.required],
-        dealerSubventionApplicable: ['Yes', Validators.required],
+        dealerSubventionApplicable: ['1', Validators.required],
         dealerSubventionAmount: [''],
         dealerSubventionIRR: [''],
         dealerSubventionFinance: [''],
-        manufacturerSubventionApplicable: ['Yes', Validators.required],
+        manufacturerSubventionApplicable: ['1', Validators.required],
         manufacturerSubventionAmount: [''],
         manufacturerSubventionIRR: [''],
         manufacturerSubventionFinance: [''],
         proformaInvoiceNo: [''],
         proformaInvoiceDate: [''],
         proformaInvoiceAmount: [''],
-        orpFunding: ['Yes', Validators.required],
+        orpFunding: ['1', Validators.required],
         insurance: [''],
         oneTimeTax: [''],
-        pac: ['Yes'],
-        vas: ['Yes'],
-        emiProtect: ['Yes'],
-        fastTag: ['Yes'],
+        pac: ['1'],
+        vas: ['1'],
+        emiProtect: ['1'],
+        fastTag: ['1'],
+        others: [''],
+        discount: [''],
+      }),
+      new_car_show: this._fb.group({
+        assetMake: ['1', Validators.required],
+        assetModel: ['1', Validators.required],
+        assetVariant: ['1', Validators.required],
+        assetSubVariant: ['1', Validators.required],
+        assetOther: ['', Validators.required],
+        vehicleType: ['1', Validators.required],
+        exShowroomCost: ['', Validators.required],
+        finalAssetCost: ['', Validators.required],
+        dealerSubventionApplicable: ['1', Validators.required],
+        dealerSubventionAmount: [''],
+        dealerSubventionIRR: [''],
+        dealerSubventionFinance: [''],
+        manufacturerSubventionApplicable: ['1', Validators.required],
+        manufacturerSubventionAmount: [''],
+        manufacturerSubventionIRR: [''],
+        manufacturerSubventionFinance: [''],
+        proformaInvoiceNo: [''],
+        proformaInvoiceDate: [''],
+        proformaInvoiceAmount: [''],
+        orpFunding: ['1', Validators.required],
+        insurance: [''],
+        oneTimeTax: [''],
+        pac: ['1'],
+        vas: ['1'],
+        emiProtect: ['1'],
+        fastTag: ['1'],
         others: [''],
         discount: [''],
       }),
       used_cv_show: this._fb.group({
         registartionNumber: ['', Validators.required],
-        assetMake: ['Tata Motors', Validators.required],
+        assetMake: ['1', Validators.required],
         assetModel: ['1', Validators.required],
         assetVariant: ['1', Validators.required],
         assetSubVariant: ['1', Validators.required],
         assetOther: ['', Validators.required],
-        assetBodyType: ['Body Type-1', Validators.required],
-        vehicleType: ['Open', Validators.required],
-        vechicalRegion: ['TN', Validators.required],
+        assetBodyType: ['1', Validators.required],
+        vehicleType: ['1', Validators.required],
+        vechicalRegion: ['1', Validators.required],
         monthYear: ['', Validators.required],
         ageVehicle: ['', Validators.required],
         exShowroomCost: ['', Validators.required],
         fitnessDate: ['', Validators.required],
-        permitType: ['National', Validators.required],
+        permitType: ['1', Validators.required],
         permitOther: [''],
         permitExpireDate: ['', Validators.required],
         permitUpload: [''],
@@ -131,9 +127,9 @@ export class BasicVehicleDetailsComponent implements OnInit {
         vehicleOwnership: [''],
         rcOwnerName: [''],
         vehicleRegistrationDate: ['', Validators.required],
-        reRegisteredVehicle: ['Yes', Validators.required],
-        interStateVehicle: ['Yes', Validators.required],
-        duplicateRC: ['Yes', Validators.required],
+        reRegisteredVehicle: ['1', Validators.required],
+        interStateVehicle: ['1', Validators.required],
+        duplicateRC: ['1', Validators.required],
         cubicCapacity: [''],
         seatingCapacity: [''],
         insuranceValidity: ['', Validators.required],
@@ -144,13 +140,13 @@ export class BasicVehicleDetailsComponent implements OnInit {
       }),
       used_car_show: this._fb.group({
         registartionNumber: ['', Validators.required],
-        assetMake: ['Tata Motors', Validators.required],
+        assetMake: ['1', Validators.required],
         assetModel: ['1', Validators.required],
         assetVariant: ['1', Validators.required],
         assetSubVariant: ['1', Validators.required],
         assetOther: ['', Validators.required],
-        vechicalUsage: ['Commercial Use', Validators.required],
-        vehicleCategory: ['CAT 1', Validators.required],
+        vechicalUsage: ['1', Validators.required],
+        vehicleCategory: ['1', Validators.required],
         monthYear: ['', Validators.required],
         ageVehicle: ['', Validators.required],
         assetCostIndian: ['', Validators.required],
@@ -164,9 +160,9 @@ export class BasicVehicleDetailsComponent implements OnInit {
         rcOwnerName: [''],
         vehicleRegistrationDate: ['', Validators.required],
         grossVehicleWeight: [''],
-        reRegisteredVehicle: ['Yes', Validators.required],
-        interStateVehicle: ['Yes', Validators.required],
-        duplicateRC: ['Yes', Validators.required],
+        reRegisteredVehicle: ['1', Validators.required],
+        interStateVehicle: ['1', Validators.required],
+        duplicateRC: ['1', Validators.required],
         cubicCapacity: [''],
         seatingCapacity: [''],
         insuranceValidity: ['', Validators.required],
@@ -184,10 +180,6 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   onSubmit() {
 
-  }
-
-  setFormValue() {
-    const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
   }
 
 }

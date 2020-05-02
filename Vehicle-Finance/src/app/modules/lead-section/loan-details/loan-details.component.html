@@ -9,17 +9,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="requested_amount"> {{ label.requestedAmount }} </label>
-                        <input type="text" formControlName="requestedAmount" class="form-control mandatory" id="requested_amount"
-                            placeholder="Requested Amount" name="requested_amount">
+0                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="requested_amount"> {{ labels.requestedAmount }} </label>
+                        <input type="text" formControlName="requestedAmount" class="form-control mandatory"
+                            id="requested_amount" placeholder="Requested Amount" name="requested_amount">
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="loan_tenor"> {{ labels?.requestedTenor }} </label>
                         <select formControlName="requestedTenor" class="form-control mandatory" id="loan_tenor">
                             <option value=""> -- Select One --</option>
-                            <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
+                            <option *ngFor="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}
+                            </option>
                         </select>
 
                     </div>
@@ -43,7 +44,7 @@
 
                 </div>
 
-                
+
 
                 <div class="modal fade in" id="myModal" #myModal>
                     <!--  style="display: block;" -->
@@ -74,8 +75,10 @@
                                                     <th>{{labels?.ageOfCar}} <i class="fa fa-sort"></i> </th>
                                                     <th>{{labels?.loanToValue}} <i class="fa fa-sort"></i> </th>
                                                     <th>{{labels?.insuranceCrossSell}}<i class="fa fa-sort"></i> </th>
-                                                    <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i> </th>
-                                                    <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i>
+                                                    </th>
+                                                    <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i>
+                                                    </th>
                                                     <th>{{labels?.OnRoadPricingFunding}}<i class="fa fa-sort"></i> </th>
                                                 </tr>
                                             </thead>

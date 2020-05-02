@@ -727,6 +727,7 @@
                 </div>
 
             </div>
+
             <div class="" id="used_car_show" formGroupName="used_car_show"
                 *ngIf="select_main_button_value === 'Used Car'">
 
@@ -913,10 +914,12 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                     <label for="duplicate_rc">{{label.duplicateRC}}</label>
-                    <select class="form-control mandatory" id="duplicate_rc" formControlName="duplicateRC">
+                    <app-vf-custom-select [values]="lovLabels?.duplicateRC" formControlName="duplicateRC">
+                    </app-vf-custom-select>
+                    <!-- <select class="form-control mandatory" id="duplicate_rc" formControlName="duplicateRC">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
