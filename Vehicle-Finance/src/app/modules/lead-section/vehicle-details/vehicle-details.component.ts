@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { interval} from 'rxjs'
-import { map, findIndex} from 'rxjs/operators'
+import { interval} from 'rxjs';
+import { map, findIndex} from 'rxjs/operators';
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { VehicleDetailService} from '../services/vehicle-detail.service'
+import { VehicleDetailService} from '../services/vehicle-detail.service';
 import { element } from 'protractor';
 
 @Component({
@@ -23,27 +23,27 @@ export class VehicleDetailComponent implements OnInit {
     public label: any = {};
     public errorMsg;
     public getAllFieldLabel;
-    public show: boolean = false;
-    public vehicleDetails : any;
-    public isAlert : boolean = true
-    
-    public varVehicle=[];
-    
+    public show = false;
+    public vehicleDetails: any;
+    public isAlert = true;
+
+    public varVehicle = [];
 
 
-    
+
+
     constructor(
       private labelsData: LabelsService,
       private lovDataService: LovDataService,
       private router: Router,
-      private activateroute : ActivatedRoute,
+      private activateroute: ActivatedRoute,
       private leadStoreService: LeadStoreService,
-      private vehicleDetailService : VehicleDetailService ) { }
-  
-      
+      private vehicleDetailService: VehicleDetailService ) { }
+
+
     ngOnInit() {
       this.initForm();
-      console.log('ngonit', this.vehicleForm.value)
+      console.log('ngonit', this.vehicleForm.value);
       this.getAllFieldLabel = this.labelsData.getLabelsData()
           .subscribe( data => {
             this.label = data;
@@ -55,14 +55,14 @@ export class VehicleDetailComponent implements OnInit {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
         // console.log('vehicleLov', this.vehicleLov);
         // this.setFormValue();
-        this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
-        this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel;
-        this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant;
+        this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
+        this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel;
+        this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant;
 
 
         // console.log('asset make', this.vehicleLov.assetMake)
         this.getData();
-      
+
       });
     }
 
@@ -107,8 +107,8 @@ export class VehicleDetailComponent implements OnInit {
 
     // setFormValue() {
     //   const vehicleModel = this.leadStoreService.getVehicleDetails() || {};
-      
-      
+
+
     //   this.vehicleForm.patchValue({
     //     vehicleType: vehicleModel.vehicleType || '',
     //     region: vehicleModel.region || '',
@@ -149,60 +149,67 @@ export class VehicleDetailComponent implements OnInit {
 
     onFormSubmit() {
       const formModel = this.vehicleForm.value;
-      console.log('formmodel', formModel)
+      console.log('formmodel', formModel);
       const vehicleModel = {...formModel};
-      this.isAlert= false
+      this.isAlert = false;
       setTimeout(() => {
-        this.isAlert = true
-      },1000);
+        this.isAlert = true;
+      }, 1000);
       // this.isAlert = true
       this.leadStoreService.setVehicleDetails(vehicleModel);
-      
+
     }
-    getData(){
+    getData() {
 
       this.vehicleDetails = this.leadStoreService.getVehicleDetails();
 
-      this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetMake.forEach(element=>{
-        if(parseInt(x.assetMake)== element.key){
-         
-            x.assetMake= element;
-            console.log(this.vehicleDetails.assetMake)
-          
-        }
-      }))
-      this.vehicleDetails.findIndex(x=>x.assetMake===this.vehicleLov.assetModel.forEach(element=>{
-        if(parseInt(x.assetModel)== element.key){
-          x.assetModel= element;
-        }
-      }))
-      this.vehicleDetails.findIndex(x=>x.assetVariant=== this.vehicleLov.assetVariant.forEach(element=>{
-        if(parseInt(x.assetVariant)==element.key){
-          x.assetVariant= element;
-        }
-      }))
-     
-    }
-   
+      // tslint:disable-next-line: no-shadowed-variable
+      this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetMake.forEach(element => {
+        // tslint:disable-next-line: radix
+        if (parseInt(x.assetMake) === element.key) {
 
+            x.assetMake = element;
+            console.log(this.vehicleDetails.assetMake);
+
+        }
+      }));
+      // tslint:disable-next-line: no-shadowed-variable
+      this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetModel.forEach(element => {
+        // tslint:disable-next-line: radix
+        if (parseInt(x.assetModel) === element.key) {
+          x.assetModel = element;
+        }
+      }));
+      // tslint:disable-next-line: no-shadowed-variable
+      this.vehicleDetails.findIndex(x => x.assetVariant === this.vehicleLov.assetVariant.forEach(element => {
+        // tslint:disable-next-line: radix
+        if (parseInt(x.assetVariant) === element.key) {
+          x.assetVariant = element;
+        }
+      }));
+
+    }
+
+
+    // tslint:disable-next-line: use-lifecycle-interface
     ngOnChanges() { }
 
 
     editVehicle(index: number) {
-      console.log('onClickedit',this.vehicleDetails)
-      this.router.navigate(['pages/lead-section/add-vehicle',{id:index}]);
-     
-      
+      console.log('onClickedit', this.vehicleDetails);
+      this.router.navigate(['pages/lead-section/add-vehicle', {id: index}]);
+
+
     }
 
-    deleteVehicle(index: number){
+    deleteVehicle(index: number) {
       this.leadStoreService.deleteVehicle(index);
     }
 
-    //To show and hide lov--select "Open" in Vehicle dependency
+    // To show and hide lov--select "Open" in Vehicle dependency
     onShow(event) {
       // console.log("event ", event.target.value);
-      if (event.target.value === "1") {
+      if (event.target.value === '1') {
         this.show = true;
       } else {
         this.show = false;
