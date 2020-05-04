@@ -43,6 +43,8 @@ export class SourcingDetailsComponent implements OnInit {
       this.values.leadHandledBY = res[0].leadCreation[0].leadHandledBY;
       this.values.soucringChannel= res[0].leadCreation[0].soucringChannel;
       this.values.spokenCodeLocation = res[0].leadCreation[0].spokenCodeLocation;
+      this.values.sourcingType = res[0].sourcingDetails[0].sourcingType;
+      console.log(this.values.sourcingType)
       // this.setFormValue();
       this.getdata()
       
@@ -156,6 +158,7 @@ export class SourcingDetailsComponent implements OnInit {
   getdata(){
    this.id= this.leadStoreService.getLeadCreation();
    console.log(this.id)
+   
   //  console.log(this.values.productCategory)
 
 
@@ -166,30 +169,13 @@ export class SourcingDetailsComponent implements OnInit {
    this.getCategory(this.values.loanAccountBranch, this.id.loanAccountBranch,"loanAccountBranch")
    this.getCategory(this.values.leadHandledBY, this.id.leadHandledBy,"leadHandledBy");
    this.getCategory(this.values.soucringChannel, this.id.sourcingChannel,"sourcingChannel");
-   
-  //  if(this.id.sourcingChannel == 61){
-  //    this.ProfessionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
-  //    this.text="Employee Code"
-  //  }
-  //  else if(this.values.soucringChannel== 62){
-  //       this.ProfessionList=[{key: 1, value: "Liability Branch Code" }];
-  //             this.text= "Employee Code"
-  //  }
-  //  else if(this.values.soucringChannel== 63){
-  //    this.ProfessionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
-  //    this.text="Employee Code"
-  //  }
-  //  else if(this.values.soucringChannel==64)
-  //   {
-  //     this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
-  //     this.text = "Campaign Code";
-      
-  //   }
-  //   else{
-  //     this.ProfessionList= [{key: 1,value: 'Not Applicable'}];
-  //     this.text = "Employee Code";
-  //   }
+   this.getCategory(this.values.sourcingType, this.id.sourcingType, "sourcingType");
+   this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)
 
+  
+   
+   
+  
    
 
 
@@ -205,7 +191,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   getCategory(categoryArray, value,formControlName){
     categoryArray.forEach(element => {
-       console.log(element)
+      //  console.log(element)
          if(parseInt(value) == element.key){
            console.log(element.value)
           this.sourcingDetailsForm.controls[formControlName].setValue(element.key)
