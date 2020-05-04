@@ -71,7 +71,7 @@
         "insuranceDetails": [
             {
                 "title": "Insurance Details",
-                "credit_shield": [
+                "creditShield": [
                     {
                         "title": "Credit Shield",
                         "creditShieldApplicable": "Credit Shield Applicable",
@@ -84,15 +84,15 @@
                         "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount"
                     }
                 ],
-                "existing_insurance_details": [
+                "existingInsuranceDetails": [
                     {
                         "title": "Existing Insurance Details",
                         "insuranceCompanyName": "Insurance Company Name",
-                        "expirydateofcurrentpolicy": "Expiry date of current policy",
-                        "noclaimbonus": "No claim bonus",
-                        "owndamagediscount": "own damage discount",
-                        "comprehensive-thirdparty": "Comprehensive / third party",
-                        "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)"
+                        "expiryDateofCurrentpolicy": "Expiry date of current policy",
+                        "noClaimBonus": "No claim bonus",
+                        "ownDamageDiscount": "own damage discount",
+                        "comprehensive": "Comprehensive / third party",
+                        "insuranceType": "Insurance type (bumper to bumper / normal / return to invoice)"
                     }
                 ],
                 "back": "Back",
@@ -103,36 +103,35 @@
         "rtoDetails": [
             {
                 "title": "RTO Declaration Details",
-                "rto_declaration": [
+                "rtoDeclaration": [
                     {
                         "title": "RTO Declaration",
                         "objectionFiled": "Objection filed on the vehicle",
                         "caseFiled": "Case filed on the vehicle",
-                        "attachmentbyCourt_Revenue": "Attachment by Court / Revenue etc.",
+                        "attachmentbyCourtRevenue": "Attachment by Court / Revenue etc.",
                         "duplicateRC": "Duplicate RC",
-                        "interstate_vehicle": "Interstate vehicle",
-                        "reRegistered_vehicle": "Re-registered vehicle",
-                        "assigned_number": "Assigned number",
-                        "fine_vehicle": "Fine on the Vehicle",
+                        "interstateVehicle": "Interstate vehicle",
+                        "reRegisteredVehicle": "Re-registered vehicle",
+                        "assignedNumber": "Assigned number",
+                        "fineVehicle": "Fine on the Vehicle",
                         "taxArrears": "Tax Arrears",
-                        "engineNum_chassisnumbermatch": "Engine No. / Chassis number match",
-                        "issueinpermit_transfer": "Issues in permit transfer",
-                        "anyOtherIssue_discrepancy": "Any other issue / discrepancy",
+                        "engineNumChassisnumbermatch": "Engine No. / Chassis number match",
+                        "issueinpermitTransfer": "Issues in permit transfer",
+                        "anyOtherIssueDiscrepancy": "Any other issue / discrepancy",
                         "taxValid": "Tax Valid upto",
                         "fitnessValid": "Fitness Valid upto",
                         "remarks": "Remarks"
                     }
                 ],
-                "rto_confirmation": [
+                "rtoConfirmation": [
                     {
                         "title": "RTO Confirmation",
-                        "rto_agent_name": "RTO Agent name",
-                        "rto_agent_signature": "RTO Agent Signature",
+                        "rtoAgentName": "RTO Agent name",
+                        "rtoAgentSignature": "RTO Agent Signature",
                         "date": "Date",
-                        "borrower_name": "Borrower Name",
-                        "borrower_signature": "Borrower Signature",
-                        "remark": "Remark",
-                        "Date": "Date"
+                        "borrowerName": "Borrower Name",
+                        "borrowerSignature": "Borrower Signature",
+                        "remark": "Remark"
                     }
                 ],
                 "back": "Back",
