@@ -91,7 +91,6 @@ export class DeclinedLeadsWithMeComponent implements OnInit {
   }
 
   paginate(event: any) {
-    console.log(this.dataSource);
     if (event === 0) {
       event = 1;
     }
