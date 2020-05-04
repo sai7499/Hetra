@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-lead-dedupe',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lead-dedupe.component.css']
 })
 export class LeadDedupeComponent implements OnInit {
+  labels: any = {};
 
   isReason: boolean;
   isSubmit: boolean;
@@ -18,21 +20,24 @@ export class LeadDedupeComponent implements OnInit {
 
   dummmyArray = [];
 
-
-  constructor() { }
+  constructor( private labelsData: LabelsService) {}
 
   ngOnInit() {
     this.dummy();
   }
 
   OnProceed() {
-    this.isReason = true;
-    this.isSubmit = true;
+    this.isReason = false;
+    this.isSubmit = false;
   }
 
   OnReject() {
     this.isReason = true;
-    this.isSubmit = false;
+    this.isSubmit = true;
+  }
+
+  OnCreateNew(){
+
   }
 
   OnChecked(e) {    
@@ -43,7 +48,8 @@ export class LeadDedupeComponent implements OnInit {
    else{
      this.count--;
    }
-   this.isChecked = this.count !=0 ? true : false;   
+   this.isChecked = this.count !=0 ? true : false;
+   console.log(this.isChecked);   
   }
 
   OnItemPerPage(e) {
@@ -60,6 +66,8 @@ export class LeadDedupeComponent implements OnInit {
       this.dummmyArray.push({
         applicantId: `${i}`,
         loanCreatedBy: " person",
+        createdDate: "05-03-2020",
+        leadId: "11257009",
         branch: "chennai",
         businessDivision: "Vehicle Finance",
         product: "New CV",

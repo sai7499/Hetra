@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 
-import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails } from '../model/lead.model';
+import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails, BasicVehicleDetails } from '../model/lead.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LeadStoreService {
-    leadCreation: Lead;
+    leadCreation: any;
+    // leadCreation: Lead;
+    basicVehicleDetails: BasicVehicleDetails;
     // coApplicant : CoApplicant;
     applicantList = [];
+    vehicleList = [];
 
+    constructor() { }
 
-    constructor() {}
-
-    setLeadCreation(lead: Lead) {
+    setLeadCreation(lead: any) {
         this.leadCreation = lead;
     }
 
@@ -38,12 +40,25 @@ export class LeadStoreService {
     }
 
     setVehicleDetails(vehicleDetails: VehicleDetails) {
-        this.leadCreation.vehicleDetails = vehicleDetails;
+        // this.leadCreation.vehicleDetails = vehicleDetails;
+        this.vehicleList.push(vehicleDetails);
     }
 
     getVehicleDetails() {
-        return this.leadCreation ? this.leadCreation.vehicleDetails : {};
+        // return this.leadCreation ? this.leadCreation.vehicleDetails : {};
+        return this.vehicleList;
     }
+    getSelectedVehicle(index: number) {
+        return this.vehicleList[index];
+     }
+
+     updateVehicle(index: number, vehicleDetails) {
+         this.vehicleList[index] = vehicleDetails;
+     }
+
+     deleteVehicle(index: number) {
+        this.vehicleList.splice(index, 1);
+     }
 
     setLoanDetails(loanDetails: LoanDetails) {
         this.leadCreation.loanDetails = loanDetails;
@@ -56,22 +71,24 @@ export class LeadStoreService {
     setCoApplicantDetails(coApplicant) {
         // this.coApplicant = coApplicant;
         this.applicantList.push(coApplicant);
-        console.log('this.addApplicant', this.applicantList);
     }
 
+    // getBasicVehicleDetails() {
+    //     return this.leadCreation ? this.leadCreation.BasicVehicleDetails : {};
+    // }
+
     getSelectedApplicant(index: number) {
-       return this.applicantList[index];
+        return this.applicantList[index];
     }
 
     updateApplicant(index: number, coApplicant) {
         this.applicantList[index] = coApplicant;
     }
 
+    deleteApplicant(index: number) {
+        this.applicantList.splice(index, 1);
+    }
     getApplicantList() {
         return this.applicantList;
     }
-
-    // getCoApplicantDetails(){
-    //     return this.addApplicant;
-    // }
 }

@@ -130,6 +130,13 @@ h3 {
 }
 
 .search .form-control {
+    /*   */
+    border: 1px solid #dedede;
+    border-radius: 22px;
+    padding: 6px 48px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+}
+.search .form-control .option {
     height: 44px;
     border: 1px solid #dedede;
     border-radius: 22px;
@@ -160,10 +167,17 @@ h3 {
     right: 0;
     border-top-right-radius: 1.5em;
     border-bottom-right-radius: 1.5em;
-    background-color: #f68834;
-    color: #ffffff;
+    background-color: transparent;
+    /* color: #black; */
     font-weight: bold;
 }
+.search select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
 
 .nav.back-btn li a {
     background: #efefef;
@@ -210,23 +224,40 @@ h3 {
 .table-head-bg {
     background-color: #272264;
     color: #fff;
+    font-size: 12px;
 }
-
+    
 .table tbody tr td {
     border-top: 1px solid #e6e6e6;
     padding: 10px;
+    text-align: center;
 }
 
 .table thead tr th {
+    /* border-bottom: none;
+    padding: 10px;
+    text-align: center; */
     border-bottom: none;
+    padding: 8px 0px 9px 0px;
+    font-size: 14px;
+    text-align: center;
 }
 
 .table .fa-sort {
-    font-size: 12px;
-    padding-left: 1px;
+        /* font-size: 12px;
+        padding-left: 1px; */
     cursor: pointer;
 }
 
+.row.top_bar {
+    margin: 0px;
+    border: 1px solid #ddd;
+    font-weight: 100;
+    border-radius: 6px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    background: white;
+}
 .content {
     background: #fff;
     padding: 25px 30px;
@@ -333,17 +364,197 @@ form .form-control {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5)
 }
 
+#scroll_starts_here {
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 
 /**los style**/
 
 .container.overflow-hidden {
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
-.page-select-width{
+
+.page-select-width {
     padding: 6px !important;
 }
 
 
 /* progress bar */
 
+.tab_content {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 0px;
+}
 
+.tab_content2 {
+    padding-bottom: 0px!important;
+}
+
+.add_button {
+    margin: 10px 0;
+}
+
+.a_tag {
+    color: #272264;
+}
+
+.basic_scroll_2 {
+    overflow-y: auto;
+    max-height: 230px;
+}
+
+
+/**custom style starts here**/
+
+.dropdown_individual {
+    background-color: #6c757d;
+    padding: 6px;
+    color: white;
+}
+
+input#add_banks {
+    width: 20%;
+}
+
+i.fa.fa-angle-down {
+    float: right;
+    font-size: 24px;
+    line-height: 16px;
+}
+
+.btn.btn-primary>a {
+    color: white;
+}
+
+h4.table-head-bg.m-0.p-02 {
+    margin: 0px;
+    padding: 5px;
+}
+
+
+/**custom style starts here**/
+
+.basic_scroll {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
+/**Exact Match css**/
+
+#found_in_nl
+{
+    margin-left: 35px;
+    font-weight: bold;
+    color: #ef5342;
+}
+#found_in_trnl
+{
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+#exact_macth_title1
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#exact_macth_title2
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#exact_macth_title3
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#probale_title4
+{
+    margin-top: -1px;
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#nagative_list_results {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    /*text-align: center;*/
+}
+
+/*-----------Credit_Score Style -------------*/
+/* #sales_credit_score
+        {
+            background: #fff;
+            padding: 10px;
+        } */
+        #credit_score_tag1
+        {
+            margin-left: 100px;
+            font-weight: bold;
+        }
+        #credit_score_tag2
+        {
+            margin-left: 78px;
+            font-weight: bold;
+        }
+
+        #credit_score_tag3
+        {
+            margin-left: 130px;
+            font-weight: bold;
+        }
+        #credit_score_tag4
+        {
+            margin-left: 150px;
+            font-weight: bold;
+        }
+        #credit_score_tag5
+        {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        #credit_score_tag6
+        {
+            margin-left: 195px;
+            font-weight: bold;
+        }
+        #credit_score_tag7
+        {
+            margin-left: 50px;
+            font-weight: bold;
+        }
+        #credit_score_tag8
+        {
+            margin-left: 90px;
+            font-weight: bold;
+        }
+        #credit_score_tag9
+        {
+            margin-left: 100px;
+            font-weight: bold;
+        }
+        #credit_score_tag10
+        {
+            font-weight: bold;
+        }
+        /*---------------- credit Score End Styles ---------------*/

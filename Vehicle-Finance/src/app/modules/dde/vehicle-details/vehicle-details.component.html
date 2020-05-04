@@ -1,0 +1,39 @@
+<main class="mar-top90">
+    <div class="container">
+        <h3 class="margin_zero">Lead ID : 125468</h3>
+
+        <app-dde-header></app-dde-header>
+
+        <!-- <div class="multisteps-form">
+            <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details"
+                    [ngClass]="{'js-active': locationIndex >= 0}" [routerLink]="['./basic-vehicle-details']">Basic
+                    Vehicle Details</button>
+                <button class="multisteps-form__progress-btn " type="button" id="vehicle_insurance_details"
+                    [ngClass]="{'js-active': locationIndex >= 1}" [routerLink]="['./insurance-details']">Insurance
+                    Details</button>
+                <button class="multisteps-form__progress-btn" type="button" id="vehicle_rto_details"
+                    [ngClass]="{'js-active': locationIndex >= 2}" [routerLink]="['./rto-details']">RTO Declaration
+                    Details</button>
+            </div>
+
+            <router-outlet></router-outlet>
+
+        </div> -->
+
+
+        <div class="multisteps-form" style="margin: 1rem">
+            <!-- <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details"
+                    [ngClass]="{'js-active': locationIndex >= 0}" [routerLink]="['./basic-vehicle-details']">Basic
+                    Vehicle Details</button>
+                <button class="multisteps-form__progress-btn " type="button" id="vehicle_viability_details"
+                    [ngClass]="{'js-active': locationIndex >= 1}" [routerLink]="['./viability-details']">Viability
+                    Details</button>
+            </div> -->
+
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+</main>

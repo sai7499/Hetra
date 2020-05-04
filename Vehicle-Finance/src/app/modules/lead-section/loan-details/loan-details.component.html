@@ -5,42 +5,22 @@
             <div class="container">
                 <div class="btn-sec clear-both row">
                     <div class="col-sm-5">
-                        <h4 class="title"> {{ label.loanDetailsTitle }} </h4>
+                        <h4 class="title"> {{ labels?.loanDetailsTitle }} </h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="customer_category"> {{ label.customerSegment }} </label>
-                        <select formControlName="customerSegment" class="form-control mandatory" id="customer_category">
-                            <option value=""> -- Select One --</option>
-                            <option *ngFor ="let cCategory of lov.typesOfLoan" value="{{cCategory.key}}">{{cCategory.value}}</option>
-                            <!-- <option value="Topup">Topup</option>
-                            <option value="Tyre loan">Tyre loan</option>
-                            <option value="Saathi loan">Saathi loan</option>
-                            <option value="FC loan">FC loan</option> -->
-                        </select>
-
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="requested_amount"> {{ label.requestedAmount }} </label>
+                        <label for="requested_amount"> {{ labels?.requestedAmount }} </label>
                         <input type="text" formControlName="requestedAmount" class="form-control mandatory" id="requested_amount"
                             placeholder="Requested Amount" name="requested_amount">
 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="loan_tenor"> {{ label.requestedTenor }} </label>
+                        <label for="loan_tenor"> {{ labels?.requestedTenor }} </label>
                         <select formControlName="requestedTenor" class="form-control mandatory" id="loan_tenor">
                             <option value=""> -- Select One --</option>
-                            <option *ngFor ="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}</option>
-                            <!-- <option value="12">12</option>
-                            <option value="18">18</option>
-                            <option value="24">24</option>
-                            <option value="30">30</option>
-                            <option value="36">36</option>
-                            <option value="42">42</option>
-                            <option value="48">48</option>
-                            <option value="54">54</option>
-                            <option value="60">60</option> -->
+                            <option *ngFor="let rTenor of lov.requestedTenor" value="{{rTenor.key}}">{{rTenor.value}}
+                            </option>
                         </select>
 
                     </div>
@@ -64,124 +44,7 @@
 
                 </div>
 
-                <!-- Modal Page -->
 
-                <!-- <div class="modal fade" id="myModal">
-                    <div class="modal-dialog modal-dialog-centered modal_resize">
-                        <div class="modal-content">
-
-                          
-                            <div class="modal-header">
-
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-   
-                            <div class="modal-body">
-                                <h4 class="modal-title modal_title">LOS - Lead Creation</h4>
-
-                                <h3 class="modal-title modal_title">Credit Bureau </h3>
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="table-responsive application">
-                                        <table class="table">
-                                            <thead>
-                                                <tr class="table-head-bg">
-                                                    <th>Product Offered <i class="fa fa-sort"></i> </th>
-                                                    <th>Customer Segment <i class="fa fa-sort"></i> </th>
-                                                    <th>Loan Tenor <i class="fa fa-sort"></i> </th>
-                                                    <th>Loan Amount Range <i class="fa fa-sort"></i> </th>
-                                                    <th>Age of the car at the end of tenor (months) <i
-                                                            class="fa fa-sort"></i> </th>
-                                                    <th>Loan to Value <i class="fa fa-sort"></i> </th>
-                                                    <th>Insurance Cross sell<i class="fa fa-sort"></i> </th>
-                                                    <th>Loan to Value Insurance Funded<i class="fa fa-sort"></i> </th>
-                                                    <th>Equitas Fast tag required <i class="fa fa-sort"></i> </th>
-                                                    <th>On road pricing funding<i class="fa fa-sort"></i> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>New CV</td>
-                                                    <td>Customer</td>
-                                                    <td>12</td>
-                                                    <td>15L</td>
-                                                    <td>5 years</td>
-                                                    <td>10L</td>
-                                                    <td>5</td>
-                                                    <td>12</td>conditions
-                                                    <td>applicable</td>
-                                                    <td>125</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>New CV</td>
-                                                    <td>Customer</td>
-                                                    <td>12</td>
-                                                    <td>15L</td>
-                                                    <td>5 years</td>
-                                                    <td>10L</td>
-                                                    <td>5</td>
-                                                    <td>12</td>
-                                                    <td>applicable</td>
-                                                    <td>125</td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="table-responsive">
-
-
-                                        <table class="table">
-                                            <thead>
-                                                <tr class=" table-head-bg ">
-                                                    <th>ID</th>
-                                                    <th>Applicant</th>
-                                                    <th>Credit Bureau</th>
-
-                                                </tr>
-
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th>Los-1112445</th>
-                                                    <th>Mathew Perry</th>
-                                                    <th>780</th>
-
-                                                </tr>
-                                                <tr>
-                                                    <th>Los-1112422</th>
-                                                    <th>Matt Leblanc</th>
-                                                    <th>780</th>
-
-                                                </tr>
-                                                <tr>
-                                                    <th>Los-1112423</th>
-                                                    <th>David Schwimmer</th>
-                                                    <th>744</th>import { TermsConditionComponent } from './terms-condition/terms-condition.component';
-
-
-                                            </tbody>
-
-
-                                        </table>
-                                    </div>
-import { TermsConditionComponent } from './terms-condition/terms-condition.component';
-
-                                </div>
-                                <h3 class="modal-title modal_title ">Eligible Loan Amount : 250000</h3>
-                            </div>
-
-                            <div class=" ok_footer ">
-                                <button type="button " class="btn btn-primary ok_button proceed_button "
-                                    id="proceed_button " data-dismiss="modal "
-                                    onclick="terms_info() ">Proceed</button>&nbsp;
-                                <button type="button " class=" btn btn-primary nt_ok_button reject_button "
-                                    id="reject_button " data-dismiss="modal " onclick="dashboard() ">Reject</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div> -->
 
                 <div class="modal fade in" id="myModal" #myModal>
                     <!--  style="display: block;" -->
@@ -205,17 +68,18 @@ import { TermsConditionComponent } from './terms-condition/terms-condition.compo
                                         <table class="table">
                                             <thead>
                                                 <tr class="table-head-bg">
-                                                    <th>Product Offered <i class="fa fa-sort"></i> </th>
-                                                    <th>Customer Segment <i class="fa fa-sort"></i> </th>
-                                                    <th>Loan Tenor <i class="fa fa-sort"></i> </th>
-                                                    <th>Loan Amount Range <i class="fa fa-sort"></i> </th>
-                                                    <th>Age of the car at the end of tenor (months) <i
-                                                            class="fa fa-sort"></i> </th>
-                                                    <th>Loan to Value <i class="fa fa-sort"></i> </th>
-                                                    <th>Insurance Cross sell<i class="fa fa-sort"></i> </th>
-                                                    <th>Loan to Value Insurance Funded<i class="fa fa-sort"></i> </th>
-                                                    <th>Equitas Fast tag required <i class="fa fa-sort"></i> </th>
-                                                    <th>On road pricing funding<i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.productOffered}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.customerSegment}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanTenor}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanAmountRange}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.ageOfCar}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanToValue}} <i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.insuranceCrossSell}}<i class="fa fa-sort"></i> </th>
+                                                    <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i>
+                                                    </th>
+                                                    <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i>
+                                                    </th>
+                                                    <th>{{labels?.OnRoadPricingFunding}}<i class="fa fa-sort"></i> </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -253,9 +117,9 @@ import { TermsConditionComponent } from './terms-condition/terms-condition.compo
                                         <table class="table">
                                             <thead>
                                                 <tr class=" table-head-bg ">
-                                                    <th>ID</th>
-                                                    <th>Applicant</th>
-                                                    <th>Credit Bureau</th>
+                                                    <th>{{labels?.id}}</th>
+                                                    <th>{{labels?.applicant}}</th>
+                                                    <th>{{labels?.creditBureau}}</th>
 
                                                 </tr>
 

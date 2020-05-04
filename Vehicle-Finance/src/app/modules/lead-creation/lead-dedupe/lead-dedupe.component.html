@@ -1,35 +1,35 @@
 <main class="mar-top90">
-  <div class="container overflow-hidden">
+  <div class="container-fluid">
     <!-- <h3>Lead - #1000002 </h3>-->
     <h3 class="dedupe_head">Results For Lead Dedupe</h3>
     <div class="">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="table-responsive application">
             <table class="table">
               <thead>
                 <tr class="table-head-bg">
-                  <th>Select <i class="fa fa-sort"></i></th>
-                  <th>Application ID <i class="fa fa-sort"></i></th>
-                  <th>Loan Created By <i class="fa fa-sort"></i></th>
-                  <th>Loan Account Branch <i class="fa fa-sort"></i></th>
-                  <th>Business Division <i class="fa fa-sort"></i></th>
-                  <th>Product <i class="fa fa-sort"></i></th>
-                  <th>Loan Amount <i class="fa fa-sort"></i></th>
-                  <th>Stage <i class="fa fa-sort"></i></th>
-                  <th>Status <i class="fa fa-sort"></i></th>
-                  <th>Reason For Rejection <i class="fa fa-sort"></i></th>
-                  <th>Applicant Name<i class="fa fa-sort"></i></th>
-                  <th>Mobile<i class="fa fa-sort"></i></th>
+                  <th>{{labels?.select}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.applicationId}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.loanCreatedBy}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.loanAccountBranch}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.businessDivision}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.Product}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.loanAmount}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.stage}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.status}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.reasonForRejection}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.applicantName}}<i class="fa fa-sort"></i></th>
+                  <th>{{labels?.mobile}}<i class="fa fa-sort"></i></th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let dummy of (dummmyArray | paginate: { itemsPerPage: perPage, currentPage: p })">
                   <td><input (change)="OnChecked($event)" class="checkbox" type="checkbox" /></td>
-                  <td>{{ dummy.applicantId }}</td>
+                  <td>{{ dummy.createdDate }}</td>
+                  <td>{{ dummy.leadId }}</td>
                   <td>{{ dummy.loanCreatedBy }}</td>
                   <td>{{ dummy.branch }}</td>
-                  <td>{{ dummy.businessDivision }}</td>
                   <td>{{ dummy.product }}</td>
                   <td>{{ dummy.loanAmount }}</td>
                   <td>{{ dummy.stage }}</td>
@@ -66,39 +66,42 @@
               </div>
 
               <div class="text-center">
-                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button">
-                  Proceed
+                <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"  data-toggle="modal" data-target="#proceedModal_without" [disabled]="isChecked">
+                  Proceed as new Lead
                 </button>
-                <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button">
-                  Reject
+                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button" data-toggle="modal" data-target="#proceedModal_with" [disabled] = "!isChecked">
+                  Proceed with selected lead
                 </button>
 
-                <div *ngIf="isReason">
+                <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button">
+                  Reject lead
+                </button>
+               <div *ngIf="isReason">
                   <div class="col-12 mx-auto" id="proceed_div">
-                    <div class="col-6 field"><label for="proceed_reason">Select the reason for Proceed</label></div>
+                    <div class="col-6 field"><label for="proceed_reason">Select the reason for Rejection</label></div>
                     <div class="col-6 field">
                       <select class="form-control " id="proceed_reason">
                         <option value="Reason-1">Reason-1</option>
                         <option value="Reason-2">Reason-2</option>
                       </select>
-                    </div>
+                    </div> 
                     <button
                       *ngIf="isSubmit || isChecked"
-                      (click)="OnSubmit()"
+                      
                       class="btn btn-primary mar-right8"
                       id="proceed_with_sumbit"
                       type="button"
                       data-toggle="modal"
-                      data-target="#proceedModal_with"
+                      data-target="#rejectModal"
                     >
                       Submit
                     </button>
-                    <!-- <button *ngIf="isChecked " (click)="OnSubmit()" class="btn btn-primary mar-right8"
+                     <!-- <button *ngIf="isChecked " (click)="OnSubmit()" class="btn btn-primary mar-right8"
                     id="proceed_with_sumbit" type="button" data-toggle="modal" data-target="#proceedModal_with">
                     SubmitR
                   </button> -->
                   </div>
-                  <!-- <div class=" col-12 mx-auto" id="reject_div">
+                <!--   <div class=" col-12 mx-auto" id="reject_div">
                                         <div class="col-6 field">
                                             <label for="reject_reason">Select the reason for Rejection</label>
                                         </div>
@@ -112,8 +115,8 @@
                                         </div>
                                         <button class="btn btn-primary mar-right8" id="reject_sumbit" type="button"
                                             data-toggle="modal" data-target="#rejectModal"> Submit </button>
-                                    </div> -->
-                </div>
+                                    </div>  -->
+                </div> 
               </div>
             </div>
           </div>
@@ -149,6 +152,87 @@
         <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="'/pages/lead-section'">OK</button>
       </div>
     </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="proceedModal_with">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header ">
+              <!-- <h4 class="text-center">Decision on Dedupe Results</h4> -->
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center ">Decision on Dedupe Results</h4>
+
+          </div>
+          <!-- Modal body -->
+
+
+          <div class="modal-body ">
+              <div class="">
+                  <div class="row text-center">
+                      <div class="col-12 p-0">
+
+
+                          <div class="form-group">
+                              <p>Are you sure you want to proceed with lead - 1110980 ?</p>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class=" ok_footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="'/pages/lead-section'">Yes</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rejectModal">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header ">
+              <!-- <h4 class="text-center">Decision on Dedupe Results</h4> -->
+
+
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title text-center ">Decision on Dedupe Results</h4>
+          </div>
+
+
+          <!-- Modal body -->
+          <div class="modal-body ">
+
+              <div class="">
+                  <div class="row text-center">
+                      <div class="col-12 p-0">
+
+
+                          <div class="form-group">
+                              <p>Are you sure you want to reject lead - #xxxxxx ?</p>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+
+          </div>
+
+
+          <!-- Modal footer -->
+          <div class=" ok_footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="['/activity-search']">Yes</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Cancel</button>
+          </div>
+
+      </div>
   </div>
 </div>
 
