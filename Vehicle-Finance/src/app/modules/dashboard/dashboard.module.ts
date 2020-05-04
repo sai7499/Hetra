@@ -14,10 +14,11 @@ import { BranchPdTasksComponent } from './personal-discussion/branch-pd-tasks/br
 import {SharedModule} from '../shared/shared.module';
 import { ViabilityChecksPendingWithMeComponent } from './vechile-viability/viability-checks-pending-with-me/viability-checks-pending-with-me.component';
 import { ViabilityChecksPendingWithBranchComponent } from './vechile-viability/viability-checks-pending-with-branch/viability-checks-pending-with-branch.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [ DashboardComponent, NewLeadComponent, SecsanctionedLeadsPendingWithMeComponent, SecsanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, MyPdTasksComponent, BranchPdTasksComponent, ViabilityChecksPendingWithMeComponent, ViabilityChecksPendingWithBranchComponent],
   imports: [
-    CommonModule ,DashboardRouterModule,MaterialModule,SharedModule
+    CommonModule ,DashboardRouterModule,MaterialModule,SharedModule, NgxPaginationModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

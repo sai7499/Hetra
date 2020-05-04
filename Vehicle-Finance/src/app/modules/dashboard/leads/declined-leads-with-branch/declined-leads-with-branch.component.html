@@ -1,60 +1,78 @@
 <br/>
-<table mat-table [dataSource]="dataSource" style="width: 100%;" class="custom-table w-100">
-
+<table mat-table [dataSource]="dataSource | paginate: {itemsPerPage: size, currentPage: p, totalItems: data.length}"
+  style="width: 100%;" class="custom-table w-100">
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action </th>
         <td mat-cell *matCellDef="let element"> 
             <button class="btn btn-primary">Assign</button>
         </td>
       </ng-container>
+
+
+  <ng-container matColumnDef="leadId">
+    <th mat-header-cell *matHeaderCellDef>Lead ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.leadId}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="product">
+    <th mat-header-cell *matHeaderCellDef> Product </th>
+    <td mat-cell *matCellDef="let element"> {{element.product}} </td>
+  </ng-container>
+  '
+  <ng-container matColumnDef="loanAmount">
+    <th mat-header-cell *matHeaderCellDef> Loan Amount </th>
+    <td mat-cell *matCellDef="let element"> {{element.loanAmount}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="applicants">
+    <th mat-header-cell *matHeaderCellDef> Applicants </th>
+    <td mat-cell *matCellDef="let element"> {{element.applicants}} </td>
+  </ng-container>
+  <ng-container matColumnDef="createdOn">
+    <th mat-header-cell *matHeaderCellDef> Created On </th>
+    <td mat-cell *matCellDef="let element"> {{element.createdOn}} </td>
+  </ng-container>
+  <ng-container matColumnDef="createdBy">
+    <th mat-header-cell *matHeaderCellDef> Created By </th>
+    <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+  </ng-container>
+  <ng-container matColumnDef="priority">
+    <th mat-header-cell *matHeaderCellDef> Priority </th>
+    <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
+  </ng-container>
+  <ng-container matColumnDef="promoCode">
+    <th mat-header-cell *matHeaderCellDef> Promocode </th>
+    <td mat-cell *matCellDef="let element"> {{element.promoCode}} </td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+  </ng-container>
+  <ng-container matColumnDef="history">
+    <th mat-header-cell *matHeaderCellDef> History </th>
+    <td mat-cell *matCellDef="let element"> {{element.history}} </td>
+  </ng-container>
     
-    <ng-container matColumnDef="leadId">
-      <th mat-header-cell *matHeaderCellDef>Lead ID  </th>
-      <td mat-cell *matCellDef="let element"> {{element.leadId}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="product">
-      <th mat-header-cell *matHeaderCellDef> Product </th>
-      <td mat-cell *matCellDef="let element"> {{element.product}} </td>
-    </ng-container>
-   
-    <ng-container matColumnDef="loanAmount">
-      <th mat-header-cell *matHeaderCellDef> Loan Amount </th>
-      <td mat-cell *matCellDef="let element"> {{element.loanAmount}} </td>
-    </ng-container>
-  
-   
-    <ng-container matColumnDef="applicants">
-      <th mat-header-cell *matHeaderCellDef> Applicants </th>
-      <td mat-cell *matCellDef="let element"> {{element.applicants}} </td>
-    </ng-container>
-    <ng-container matColumnDef="createdOn">
-        <th mat-header-cell *matHeaderCellDef> Created On  </th>
-        <td mat-cell *matCellDef="let element"> {{element.createdOn}} </td>
-      </ng-container>
-      <ng-container matColumnDef="createdBy">
-        <th mat-header-cell *matHeaderCellDef> Created By  </th>
-        <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
-      </ng-container> 
-      <ng-container matColumnDef="priority">
-        <th mat-header-cell *matHeaderCellDef> Priority </th>
-        <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
-      </ng-container>
-      <ng-container matColumnDef="promoCode">
-        <th mat-header-cell *matHeaderCellDef> Promocode </th>
-        <td mat-cell *matCellDef="let element"> {{element.promoCode}} </td>
-      </ng-container>
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status  </th>
-        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-      </ng-container>
-      <ng-container matColumnDef="history">
-        <th mat-header-cell *matHeaderCellDef> History  </th>
-        <td mat-cell *matCellDef="let element"> {{element.history}} </td>
-      </ng-container>
-  
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+
+<pagination-controls class="pagination" (pageChange)="p = $event;paginate(p)"></pagination-controls>
+
+
+
+<div class="records col-xs-3 col-sm-4">
+
+  <div class="col-lg-3"><label>No. of Rows </label>
+    <mat-select [(value)]="size" (selectionChange)="paginate(pageIndex)" style="width: 50px;margin-left: 15px">
+      <mat-option [value]="5">5</mat-option>
+      <mat-option [value]="10">10</mat-option>
+      <mat-option [value]="25">25</mat-option>
+      <mat-option [value]="50">50</mat-option>
+    </mat-select>
+  </div>
+
+</div>
   

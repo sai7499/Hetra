@@ -7,39 +7,96 @@ import {MatTableDataSource} from '@angular/material/table';
   styleUrls: ['./declined-leads-with-me.component.css']
 })
 export class DeclinedLeadsWithMeComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-  ELEMENT_DATA: any[] = [
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
-   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: "26-Feb-2020	", createdBy: "Aravind Kumar", 
-   priority: "Yes", promoCode: "PROMO001", status: "Lead Created	", history: "test"},
- 
- ];
- displayedColumns: string[] = ['action','leadId', 'product', 'loanAmount', 'applicants',
- 'createdOn','createdBy','priority', 'promoCode','status','history'];
- dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
- @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
- 
- 
- 
-   ngOnInit() {
-     this.dataSource.paginator = this.paginator;
- 
-   }
+  data = [
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000101, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000021, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000020, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000018, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+    {
+      leadId: 1000017, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
+      priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'
+    },
+
+  ];
+  displayedColumns: string[] = ['action', 'leadId', 'product', 'loanAmount', 'applicants',
+    'createdOn', 'createdBy', 'priority', 'promoCode', 'status', 'history'];
+  size = 5;
+  pageIndex = 0;
+  dataSource: any;
+
+  ngOnInit() {
+    this.dataSource = this.data.slice(0, 5);
+  }
+
+  paginate(event: any) {
+    console.log(this.dataSource);
+    if (event === 0) {
+      event = 1;
+    }
+    this.pageIndex = event;
+    this.dataSource = this.data.slice(event * this.size - this.size, event * this.size);
+  }
 
 }
