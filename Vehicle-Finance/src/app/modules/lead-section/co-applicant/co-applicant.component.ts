@@ -18,9 +18,10 @@ export class CoApplicantComponent implements OnInit {
 
   selectedApplicant: number;
 
-  applicantType = 'individual';
+  applicantType = '1';
 
   selectApplicantType(event: any) {
+    console.log(this.applicantType)
     this.applicantType = event.target.value;
   }
 
@@ -57,6 +58,7 @@ export class CoApplicantComponent implements OnInit {
   initForm() {
     this.coApplicantForm = new FormGroup({
       entity: new FormControl(''),
+      relationshipwithloanapplicant: new FormControl(''),
       first_name: new FormControl(''),
       middle_name: new FormControl(''),
       last_name: new FormControl(''),
@@ -64,10 +66,15 @@ export class CoApplicantComponent implements OnInit {
       company_name2: new FormControl(''),
       company_name3: new FormControl(''),
       mobile: new FormControl(''),
-      date_of_birth: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       date_of_incorporation: new FormControl(''),
       identity_type: new FormControl(''),
-      identity_number: new FormControl(''),
+      aadharnumber:new FormControl(''),
+      panform: new FormControl(''),
+      pannumber:new FormControl(''),
+      // drivinglicense: new FormControl(''),
+      passportnumber:new FormControl(''),
+      identityNumber: new FormControl(''),
       identity_copy: new FormControl(''),
       address1: new FormControl(''),
       address2: new FormControl(''),
@@ -96,6 +103,11 @@ export class CoApplicantComponent implements OnInit {
       registered_address_state: new FormControl(''),
       registered_address_country: new FormControl(''),
       reg_mobile: new FormControl(''),
+      drivingLicenseNumber : new FormControl(''),
+      drivingLicenceIssueDate : new FormControl(''),
+      drivingLicenceExpiryDate :new FormControl(''),
+      passportIssueDate:new FormControl(''),
+      passportExpiryDate:new FormControl('')
     });
 
     this.labelsData.getLabelsData().subscribe(
@@ -108,11 +120,16 @@ export class CoApplicantComponent implements OnInit {
   }
 
   setFormValue(applicantValue: Temp) {
+    console.log('applicant value', applicantValue)
     if (!applicantValue) {
+      console.log('applicant value -1', applicantValue)
       return;
     }
+    else{
+      console.log('applicant 2', applicantValue)
     this.coApplicantForm.patchValue({
       entity: applicantValue.entity || '',
+      relationshipwithloanapplicant: applicantValue.relationshipwithloanapplicant || '',
       first_name: applicantValue.first_name || '',
       middle_name: applicantValue.middle_name || '',
       last_name: applicantValue.last_name || '',
@@ -120,9 +137,14 @@ export class CoApplicantComponent implements OnInit {
       company_name2: applicantValue.company_name2 || '',
       company_name3: applicantValue.company_name3 || '',
       mobile: applicantValue.mobile || '',
-      date_of_birth: applicantValue.date_of_birth || '',
+      dateOfBirth: applicantValue.date_of_birth || '',
       date_of_incorporation: applicantValue.date_of_incorporation || '',
       identity_type: applicantValue.identity_type || '',
+      aadharnumber:applicantValue.aadharnumber || '',
+      panform:applicantValue.panform ||'',
+      pannumber:applicantValue.pannumber || '',
+      drivinglicense:applicantValue.drivinglicense ||'',
+      passportnumber:applicantValue.passportnumber ||'',
       identity_number: applicantValue.identity_number || '',
       identity_copy: applicantValue.identity_copy || '',
       address1: applicantValue.address1 || '',
@@ -148,6 +170,7 @@ export class CoApplicantComponent implements OnInit {
       registered_address_country: applicantValue.registered_address_country || '',
     });
   }
+  }
 
   onNext() {
     // this.leadSectionService.setCurrentPage(1);
@@ -167,10 +190,50 @@ export class CoApplicantComponent implements OnInit {
     // this.router.navigate(['/pages/lead-section/product-details']);
   }
 
+  onAddress(event){
+    console.log("Checkbox "+event.target.checked)
+
+    if(event.target.checked){
+      this.coApplicantForm.controls["line1"].setValue(this.coApplicantForm.controls.address1.value)
+      this.coApplicantForm.controls["line2"].setValue(this.coApplicantForm.controls.address2.value)
+      this.coApplicantForm.controls["line3"].setValue(this.coApplicantForm.controls.address3.value)
+      this.coApplicantForm.controls["current_pincode"].setValue(this.coApplicantForm.controls.pincode.value)
+      this.coApplicantForm.controls["current_address_city"].setValue(this.coApplicantForm.controls.permanent_address_city.value)
+      this.coApplicantForm.controls["current_address_district"].setValue(this.coApplicantForm.controls.permanent_address_district.value)
+      this.coApplicantForm.controls["current_address_state"].setValue(this.coApplicantForm.controls.permanent_address_state.value)
+      this.coApplicantForm.controls["current_address_country"].setValue(this.coApplicantForm.controls.permanent_address_country.value)
+      this.coApplicantForm.controls["current_landline"].setValue(this.coApplicantForm.controls.landline.value)
+
+
+
+      this.coApplicantForm.controls["line1"].disable()
+      this.coApplicantForm.controls["line2"].disable()
+      this.coApplicantForm.controls["line3"].disable()
+      this.coApplicantForm.controls["current_pincode"].disable()
+      this.coApplicantForm.controls["current_address_city"].disable()
+      this.coApplicantForm.controls["current_address_district"].disable()
+      this.coApplicantForm.controls["current_address_state"].disable()
+      this.coApplicantForm.controls["current_address_country"].disable()
+      this.coApplicantForm.controls["current_landline"].disable()   
+    }
+    else{
+      this.coApplicantForm.controls["line1"].enable()
+      this.coApplicantForm.controls["line2"].enable()
+      this.coApplicantForm.controls["line3"].enable()
+      this.coApplicantForm.controls["current_pincode"].enable()
+      this.coApplicantForm.controls["current_address_city"].enable()
+      this.coApplicantForm.controls["current_address_district"].enable()
+      this.coApplicantForm.controls["current_address_state"].enable()
+      this.coApplicantForm.controls["current_address_country"].enable()
+      this.coApplicantForm.controls["current_landline"].enable()
+      }
+  }
+
 }
 
 export interface Temp {
   entity?: string;
+  relationshipwithloanapplicant?:string
 first_name?: string;
 middle_name?: string;
 last_name?: string;
@@ -181,6 +244,11 @@ mobile?: string;
 date_of_birth?: string;
 date_of_incorporation?: string;
 identity_type?: string;
+aadharnumber?:string;
+panform?:string;
+pannumber?:string;
+drivinglicense?:string;
+passportnumber?:string;
 identity_number?: string;
 identity_copy?: string;
 address1?: string;

@@ -1,4 +1,32 @@
 export interface Lead {
+  loanLeadDetails?: LoanLeadDetails;
+  applicantDetails?: ApplicantDetails;
+  sourcingDetails?: SourcingDetails;
+  productDetails?: ProductDetails;
+  loanDetails?: LoanDetails;
+  vehicleDetails?: VehicleDetails;
+}
+
+export interface LoanLeadDetails {
+  bizDivision?: number;
+  productCategory?: number;
+  priority?: number;
+  fundingProgram?: number;
+  sourcingChannel?: number;
+  sourcingType?: number;
+  sourcingCode?: string;
+  spokeCodeLocation?: number;
+  loanBranch?: number;
+  leadHandeledBy?: number;
+}
+
+export interface ApplicantDetails {
+  entity?: string;
+  nameOne?: string;
+  nameTwo?: string;
+  nameThree?: string;
+  mobile?: string;
+  dateOfBirth?: string;
   businessDivision?: number;
   productCategory?: number;
   childLoan?: number;
@@ -11,15 +39,15 @@ export interface Lead {
   spokeCodeLocation?: number;
   loanAccountBranch?: number;
   leadHandledBy?: number;
-  entity?: number;
+  // entity?: number;
   firstName?: string;
   middleName?: string;
   lastName?: string;
   companyName1?: string;
   companyName2?: string;
   companyName3?: string;
-  mobile?: string;
-  dateOfBirth?: string;
+  // mobile?: string;
+  // dateOfBirth?: string;
   dateOfIncorporation?: string;
   sourcingDetails?: SourcingDetails;
   productDetails?: ProductDetails;
@@ -72,7 +100,7 @@ export interface VehicleDetails {
   finalAssetCost?: string;
   idv?: string;
   insuranceValidity?: string;
-  insuranceCopy?: string,
+  insuranceCopy?: string;
   permitType?: string;
   expiryDate?: string;
   permitCopy?: string;

@@ -14,6 +14,7 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
 import { EmploymentDetailsComponent } from './employment-details/employment-details.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { SharedModule } from '@shared/shared.module';
+// import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -28,10 +29,10 @@ import { SharedModule } from '@shared/shared.module';
     imports: [
         ApplicantRouterModule,
         DdeSharedModule,
+        SharedModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        SharedModule,
         CollapseModule.forRoot()
     ]
 })

@@ -5,7 +5,7 @@
 
             <div class="col-sm-12 text-right">
                 <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
-                    Add Vehicle
+                    {{labels.addVehicle}}
                 </button>
             </div>
         </div>
@@ -14,10 +14,10 @@
                 <table class="table">
                     <thead>
                         <tr class="table-head-bg">
-                            <td>Registration Num</td>
-                            <td>Make</td>
-                            <td>Model</td>
-                            <td>Action </td>
+                            <td>{{labels.registrationNum}}</td>
+                            <td>{{labels.make}}</td>
+                            <td>{{labels.model}}</td>
+                            <td>{{labels.action}} </td>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,8 +54,7 @@
                 </div> -->
             <div class="col-sm-12 text-right">
                 <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
-                    Add Additional
-                    Collaterals </button>
+                    {{labels.addAdditionalCollaterals}}</button>
                 <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
             </div>
         </div>
@@ -64,11 +63,10 @@
                 <table class="table">
                     <thead>
                         <tr class="table-head-bg">
-                            <td>Colleteral Type</td>
-                            <td>Column 2</td>
-                            <td>Column 3</td>
-                            <td>Action</td>
-
+                            <td>{{labels.colleteralType}}</td>
+                            <td>{{labels.column2}}</td>
+                            <td>{{labels.column3}}</td>
+                            <td>{{labels.action}}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,7 +100,7 @@
 
 <div class="btn-sec clear-both text-right cus-btn-cls">
     <!-- <div class="col-sm-12"> -->
-    <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">Back</button>&nbsp;
-    <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">Next</button>&nbsp;
+    <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">{{labels.back}}</button>&nbsp;
+    <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{labels.next}}</button>&nbsp;
     <!-- </div> -->
 </div>
