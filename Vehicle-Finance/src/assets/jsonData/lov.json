@@ -73,7 +73,7 @@
                         "key": 5,
                         "value": "SKYLINE - 36 SEATER"
                     }
-                  ],
+                ],
                 "assetBodyType": [
                     {
                       "key": 1,
@@ -87,8 +87,8 @@
                       "key": 3,
                       "value": "Asset Body Type 3"
                     }
-                  ],
-                  "assetVariant": [
+                ],
+                "assetVariant": [
                     {
                       "key": 1,
                       "value": "LP 1512-54 SEATER"
@@ -116,7 +116,6 @@
                       "key": 3,
                       "value": "Sub Variant 3"
                     }
-              
                 ],
                 "vechicalUsage": [
                     {
@@ -362,30 +361,30 @@
                         "value": "Used Cars"
                     }
                 ],
-                "priority" : [
+                "priority": [
                     {
-                      "key" : 1,
-                      "value": "Yes"
+                        "key": 1,
+                        "value": "Yes"
                     },
                     {
-                      "key" : 2,
-                      "value" : "No"
+                        "key": 2,
+                        "value": "No"
                     }
-                  ],
-                  "fundingProgram" : [
+                ],
+                "fundingProgram": [
                     {
-                      "key" : 1,
-                      "value": "Income Proof"
+                        "key": 1,
+                        "value": "Income Proof"
                     },
                     {
-                      "key" : 2,
-                      "value" : "NIP"
+                        "key": 2,
+                        "value": "NIP"
                     },
                     {
-                        "key" : 3,
-                        "value" : "Surrogate"
-                      }
-                  ],
+                        "key": 3,
+                        "value": "Surrogate"
+                    }
+                ],
                 "childLoan": [
                     {
                         "key": 21,
@@ -496,18 +495,16 @@
                 ],
                 "entity": [
                     {
-                      "key": "I",
-                      "value": " Individual"
+                        "key": "I",
+                        "value": " Individual"
                     },
                     {
-                      "key": "C",
-                      "value": "Non-Individual"
+                        "key": "C",
+                        "value": "Non-Individual"
                     }
-                  ]
-            
+                ]
             }
         ],
-
         "productDetails": [
             {
                 "businessDivision": [
@@ -652,18 +649,18 @@
                 ],
                 "relationshipwithloanapplicant": [
                     {
-                      "key": 1,
-                      "value": "Applicant"
+                        "key": 1,
+                        "value": "Applicant"
                     },
                     {
-                      "key": 2,
-                      "value": "Co-Applicant"
+                        "key": 2,
+                        "value": "Co-Applicant"
                     },
                     {
-                      "key": 3,
-                      "value": "Guarantar"
+                        "key": 3,
+                        "value": "Guarantar"
                     }
-                  ],
+                ],
                 "identityType": [
                     {
                         "key": 1,
@@ -680,14 +677,14 @@
                 ],
                 "panform": [
                     {
-                      "key": 1,
-                      "value": "PAN"
+                        "key": 1,
+                        "value": "PAN"
                     },
                     {
-                      "key": 2,
-                      "value": "Form 60"
+                        "key": 2,
+                        "value": "Form 60"
                     }
-                  ],
+                ],
                 "state": [
                     {
                         "key": 1,
@@ -1785,97 +1782,94 @@
                         "key": 1,
                         "value": "Aadhaar"
                     }
-
                 ]
             }
         ],
-        "collateralDocument":[
+        "collateralDocument": [
             {
-              "documentName":[
-                {
-                  "key":1,
-                  "value":"RC Copy"
-                },
-                {
-                  "key":2,
-                  "value":"Fitness Certificate"
-                },
-                {
-                  "key":3,
-                  "value":"Permit Certificate"
-                }
-              ],
-              "status" : [
-                {
-                  "key":1,
-                  "value" : "Pending"
-                },
-                {
-                  "key":2,
-                  "value" : "Submitted"
-                },
-                {
-                  "key":3,
-                  "value" : "Deferred"
-    
-                }
-              ]
+                "documentName": [
+                    {
+                        "key": 1,
+                        "value": "RC Copy"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Fitness Certificate"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Permit Certificate"
+                    }
+                ],
+                "status": [
+                    {
+                        "key": 1,
+                        "value": "Pending"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Submitted"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Deferred"
+                    }
+                ]
             }
         ],
-        "applicantDocument":[
+        "applicantDocument": [
             {
-              "documentName":[
-                {
-                  "key":1,
-                  "value":"Driving License"
-                },
-                {
-                  "key":2,
-                  "value":"Passport"
-                },
-                {
-                  "key":3,
-                  "value":"PAN Card"
-                },
-                {
-                  "key":4,
-                  "value":"Aadhar Card"
-                }
-              ],
-              "status" : [
-                {
-                  "key":1,
-                  "value" : "Pending"
-                },
-                {
-                  "key":2,
-                  "value" : "Submitted"
-                },
-                {
-                  "key":3,
-                  "value" : "Deferred"
-      
-                }
-              ]
+                "documentName": [
+                    {
+                        "key": 1,
+                        "value": "Driving License"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Passport"
+                    },
+                    {
+                        "key": 3,
+                        "value": "PAN Card"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Aadhar Card"
+                    }
+                ],
+                "status": [
+                    {
+                        "key": 1,
+                        "value": "Pending"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Submitted"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Deferred"
+                    }
+                ]
             }
         ],
         "basicVehicleDetails": [
             {
-                "select_main_button": [
+                "selectMainButton": [
                     {
-                        "key": "New CV",
+                        "key": 1,
                         "value": "New CV"
                     },
                     {
-                        "key": "New Car",
+                        "key": 2,
                         "value": "New Car"
                     },
                     {
-                        "key": "Used CV",
+                        "key": 3,
                         "value": "Used CV"
                     },
                     {
-                        "key": "Used Car",
+                        "key": 4,
                         "value": "Used Car"
                     }
                 ],
@@ -1916,67 +1910,101 @@
                     },
                     {
                         "key": 2,
-                        "value": "AP"
+                        "value": "Kerala"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Karnataka"
                     }
                 ],
                 "assetMakeCV": [
                     {
-                        "key": "Tata Motors",
+                        "key": 1,
                         "value": "Tata Motors"
                     },
                     {
-                        "key": "Eicher",
+                        "key": 2,
                         "value": "Eicher"
                     }
                 ],
                 "assetModelCV": [
                     {
-                        "key": "CITY RIDER",
+                        "key": 1,
                         "value": "CITY RIDER"
                     },
                     {
-                        "key": "LP 709 32 SEATER",
+                        "key": 2,
                         "value": "LP 709 32 SEATER"
                     },
                     {
-                        "key": "LP 709 36 SEATER",
+                        "key": 3,
                         "value": "LP 709 36 SEATER"
                     },
                     {
-                        "key": "10.50 - 12+1 SEATER",
+                        "key": 4,
                         "value": "10.50 - 12+1 SEATER"
                     },
                     {
-                        "key": "SKYLINE - 36 SEATER",
+                        "key": 5,
                         "value": "SKYLINE - 36 SEATER"
                     }
                 ],
                 "assetVariantCV": [
                     {
-                        "key": "LP 1512 - 54 SEATER",
+                        "key": 1,
                         "value": "LP 1512 - 54 SEATER"
                     },
                     {
-                        "key": "Viking HCV BU",
+                        "key": 2,
                         "value": "Viking HCV BU"
                     },
                     {
-                        "key": "2214",
+                        "key": 3,
                         "value": "2214"
                     }
                 ],
                 "assetSubVariantCV": [
                     {
-                        "key": "Petrol",
+                        "key": 1,
                         "value": "Petrol"
                     },
                     {
-                        "key": "AMT",
+                        "key": 2,
                         "value": "AMT"
                     },
                     {
-                        "key": "Diesel",
+                        "key": 3,
                         "value": "Diesel"
+                    }
+                ],
+                "assetBodyTypeCV": [
+                    {
+                        "key": 1,
+                        "value": "Chevrolet"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Swift"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Ciaz"
+                    }
+                ],
+                "subventionApplicable": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "assetMake": [
+                    {
+                        "key": 1,
+                        "value": "Tata Motors"
                     }
                 ],
                 "assetModel": [
@@ -2038,14 +2066,14 @@
                 "vechicalUsage": [
                     {
                         "key": 1,
-                        "value": "Yellow Board"
+                        "value": "Commercial Use"
                     },
                     {
                         "key": 2,
-                        "value": "White Board"
+                        "value": "Personal Use"
                     }
                 ],
-                "vechicleCategory": [
+                "vehicleCategory": [
                     {
                         "key": 1,
                         "value": "CAT 1"
@@ -2055,7 +2083,7 @@
                         "value": "CAT 2"
                     },
                     {
-                        "key": 2,
+                        "key": 3,
                         "value": "CAT 3"
                     }
                 ],
@@ -2109,6 +2137,36 @@
                         "value": "No"
                     }
                 ],
+                "reRegisteredVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "interStateVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "duplicateRC": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
                 "permitType": [
                     {
                         "key": 1,
@@ -2121,6 +2179,20 @@
                     {
                         "key": 3,
                         "value": "Others"
+                    }
+                ]
+            }
+        ],
+        "vehicleList": [
+            {
+                "registrationNum": [
+                    {
+                        "key": 1,
+                        "value": "TN-04-SS-0292"
+                    },
+                    {
+                        "key": 2,
+                        "value": "KL-05-AG-1191"
                     }
                 ]
             }

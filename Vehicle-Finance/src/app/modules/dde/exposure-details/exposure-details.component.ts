@@ -8,10 +8,11 @@ import { LabelsService } from "@services/labels.service";
   styleUrls: ["./exposure-details.component.css"]
 })
 export class ExposureDetailsComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder, private labelService: LabelsService) {}
+  constructor(private formBuilder: FormBuilder, private labelService: LabelsService) { }
   exposureLiveLoan: FormGroup;
   exposureProposedLoan: FormGroup;
-  labels: any;
+  labels: any = {};
+
   ngOnInit() {
     this.exposureLiveLoan = this.formBuilder.group({
       loanTable: this.formBuilder.array([this.getLiveLoan()])
@@ -67,7 +68,7 @@ export class ExposureDetailsComponent implements OnInit {
       control.removeAt(i);
     } else {
       alert("Atleast One Row Required");
-    }``
+    } ``
   }
   addProposedUnit() {
     const control = this.exposureProposedLoan.controls.proposedTable as FormArray;

@@ -11,7 +11,7 @@ export class LeadStoreService {
     basicVehicleDetails: BasicVehicleDetails;
     // coApplicant : CoApplicant;
     applicantList = [];
-    vehicleList =[];
+    vehicleList = [];
 
     constructor() { }
 
@@ -41,7 +41,7 @@ export class LeadStoreService {
 
     setVehicleDetails(vehicleDetails: VehicleDetails) {
         // this.leadCreation.vehicleDetails = vehicleDetails;
-        this.vehicleList.push(vehicleDetails)
+        this.vehicleList.push(vehicleDetails);
     }
 
     getVehicleDetails() {
@@ -51,13 +51,13 @@ export class LeadStoreService {
     getSelectedVehicle(index: number) {
         return this.vehicleList[index];
      }
- 
+
      updateVehicle(index: number, vehicleDetails) {
          this.vehicleList[index] = vehicleDetails;
      }
 
-     deleteVehicle(index:number){
-        this.vehicleList.splice(index,1);
+     deleteVehicle(index: number) {
+        this.vehicleList.splice(index, 1);
      }
 
     setLoanDetails(loanDetails: LoanDetails) {
@@ -84,9 +84,9 @@ export class LeadStoreService {
     updateApplicant(index: number, coApplicant) {
         this.applicantList[index] = coApplicant;
     }
-     
-    deleteApplicant(index:number){
-        this.applicantList.splice(index,1);
+
+    deleteApplicant(index: number) {
+        this.applicantList.splice(index, 1);
     }
     getApplicantList() {
         return this.applicantList;
