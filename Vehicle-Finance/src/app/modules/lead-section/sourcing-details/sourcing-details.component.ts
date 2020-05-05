@@ -18,7 +18,6 @@ export class SourcingDetailsComponent implements OnInit {
   public labels: any = {};
   sourcingDetailsForm: FormGroup;
   SourcingChange: any;
-  ProfessionList = [];
   text:any;
   id: any;
 
@@ -57,21 +56,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.SourcingChange = event.target.value;
     console.log(this.SourcingChange);
     
-    // this.sourcingDetailsForm.controls['sourcingChannel'].valueChanges.subscribe((value) => {
-      
-    //   switch(this.SourcingChange){
   
-    //   case '61': this.ProfessionList = [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
-    //                break;
-    //   case '62': this.ProfessionList = [{key: 1,value: 'Liability Branch Code'}];
-    //                break; 
-    //   case '63': this.ProfessionList = [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
-    //                break;
-    //   default: this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
-    //                break;                                      
-    // }
-      
-    // });
     if(this.SourcingChange == 61){
      this.id.professionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
      this.text="Employee Code"
@@ -137,23 +122,19 @@ export class SourcingDetailsComponent implements OnInit {
    this.id= this.leadStoreService.getLeadCreation();
    console.log(this.id)
    
-   console.log(this.id.sourcingType)
 
-   
-   this.getCategory( this.id.productCategory,"product");
-   this.getCategory(this.id.priority,"priority");
-   this.getCategory( this.id.spokeCodeLocation,"spokeCodeLocation")
-   this.getCategory(this.id.loanAccountBranch,"loanAccountBranch")
-   this.getCategory( this.id.leadHandledBy,"leadHandledBy");
-   this.getCategory( this.id.sourcingChannel,"sourcingChannel");
-   this.getCategory(Number(this.id.sourcingType) , "sourcingType");
-   this.getCategory(this.id.sourcingCode,"sourcingCode")
+
+   this.sourcingDetailsForm.controls["product"].setValue(this.id.productCategory)
+   this.sourcingDetailsForm.controls["priority"].setValue(this.id.priority)
+   this.sourcingDetailsForm.controls["spokeCodeLocation"].setValue(this.id.spokeCodeLocation)
+   this.sourcingDetailsForm.controls["loanAccountBranch"].setValue(this.id.loanAccountBranch)
+   this.sourcingDetailsForm.controls["leadHandledBy"].setValue(this.id.leadHandledBy)
+   this.sourcingDetailsForm.controls["sourcingChannel"].setValue(this.id.sourcingChannel)
+   this.sourcingDetailsForm.controls["sourcingType"].setValue(this.id.sourcingType)
+   this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)
 
   };
 
-  getCategory( value,formControlName){
-           this.sourcingDetailsForm.controls[formControlName].setValue(value)
-     }
 
   onFormSubmit() {
     this.router.navigate(['/pages/lead-section/applicant-details']);
