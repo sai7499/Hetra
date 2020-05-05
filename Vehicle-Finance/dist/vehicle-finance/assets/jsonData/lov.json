@@ -1,0 +1,2270 @@
+[
+    {
+        "vehicleDetails": [
+            {
+                "vehicleType": [
+                    {
+                        "key": 1,
+                        "value": "Open"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Tripper"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Trailer"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Goods"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Bus"
+                    },
+                    {
+                        "key": 6,
+                        "value": "Passenger Vehicle"
+                    },
+                    {
+                        "key": 7,
+                        "value": "ODC"
+                    }
+                ],
+                "region": [
+                    {
+                        "key": 1,
+                        "value": "TN"
+                    },
+                    {
+                        "key": 2,
+                        "value": "AP"
+                    }
+                ],
+                "assetMake": [
+                    {
+                        "key": 1,
+                        "value": "Tata Motors"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Eicher"
+                    }
+                ],
+                "assetModel": [
+                    {
+                        "key": 1,
+                        "value": "Mahindra XUV Aero"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Renault Arkana"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Mahindra eKUV100"
+                    }
+                ],
+                "assetBodyType": [
+                    {
+                        "key": 1,
+                        "value": "Chevrolet"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Swift"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Ciaz"
+                    }
+                ],
+                "assetVariant": [
+                    {
+                        "key": 1,
+                        "value": "Petrol"
+                    },
+                    {
+                        "key": 2,
+                        "value": "AMT"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Petrol"
+                    }
+                ],
+                "vechicalUsage": [
+                    {
+                        "key": 1,
+                        "value": "Yellow Board"
+                    },
+                    {
+                        "key": 2,
+                        "value": "White Board"
+                    }
+                ],
+                "vechicleCategory": [
+                    {
+                        "key": 1,
+                        "value": "CAT 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "CAT 2"
+                    },
+                    {
+                        "key": 2,
+                        "value": "CAT 3"
+                    }
+                ],
+                "orpFunding": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "pac": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "vas": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "emiProtect": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "fastTag": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "permitType": [
+                    {
+                        "key": 1,
+                        "value": "National"
+                    },
+                    {
+                        "key": 2,
+                        "value": "State"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Others"
+                    }
+                ]
+            }
+        ],
+        "sourcingDetails": [
+            {
+                "leadHandled": [
+                    {
+                        "key": 1,
+                        "value": "Person-1"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Person-2"
+                    }
+                ],
+                "sourcingChannel": [
+                    {
+                        "key": 1,
+                        "value": "Assets Division"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Liability Division"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Web based"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Campaign"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Corporate Finance"
+                    },
+                    {
+                        "key": 6,
+                        "value": "Banking Business"
+                    },
+                    {
+                        "key": 7,
+                        "value": "Business Correspondence"
+                    },
+                    {
+                        "key": 8,
+                        "value": "Call Centre"
+                    }
+                ],
+                "spokenCode": [
+                    {
+                        "key": 1,
+                        "value": "Location"
+                    }
+                ],
+                "sourcingType": [
+                    {
+                        "assetsDivision": [
+                            {
+                                "key": 1,
+                                "value": "DSA"
+                            },
+                            {
+                                "key": 2,
+                                "value": "Dealers"
+                            },
+                            {
+                                "key": 3,
+                                "value": "Connectors"
+                            },
+                            {
+                                "key": 4,
+                                "value": "Direct/Employee/DSE"
+                            },
+                            {
+                                "key": 5,
+                                "value": "Manufacturers"
+                            }
+                        ],
+                        "liabilityDivision": [
+                            {
+                                "key": 1,
+                                "value": "Liability Branch Code"
+                            }
+                        ],
+                        "webBased": [
+                            {
+                                "key": 1,
+                                "value": "Corporate Website"
+                            },
+                            {
+                                "key": 2,
+                                "value": "Internet Banking"
+                            },
+                            {
+                                "key": 3,
+                                "value": "Mobile Banking"
+                            }
+                        ],
+                        "commonKeyValue": [
+                            {
+                                "key": 1,
+                                "value": "Not Applicable"
+                            }
+                        ]
+                    }
+                ],
+                "sourcingCode": [
+                    {
+                        "key": 1,
+                        "value": "Employee Code"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Vendor Code"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Campaign Code"
+                    }
+                ]
+            }
+        ],
+        "leadCreation": [
+            {
+                "businessDivision": [
+                    {
+                        "key": 1,
+                        "value": "Vehicle Finance"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Housing Finance"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Loan Against Property"
+                    }
+                ],
+                "productCategory": [
+                    {
+                        "key": 11,
+                        "value": "New CV"
+                    },
+                    {
+                        "key": 12,
+                        "value": "UsedCV"
+                    },
+                    {
+                        "key": 13,
+                        "value": "New Cars"
+                    },
+                    {
+                        "key": 14,
+                        "value": "Used Cars"
+                    }
+                ],
+                "priority": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "fundingProgram": [
+                    {
+                        "key": 1,
+                        "value": "Income Proof"
+                    },
+                    {
+                        "key": 2,
+                        "value": "NIP"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Surrogate"
+                    }
+                ],
+                "childLoan": [
+                    {
+                        "key": 21,
+                        "value": "TopUp - 1"
+                    },
+                    {
+                        "key": 22,
+                        "value": "TopUp - 2"
+                    },
+                    {
+                        "key": 23,
+                        "value": "Tire Loan"
+                    },
+                    {
+                        "key": 24,
+                        "value": "Insurance Loan"
+                    }
+                ],
+                "schemePromotion": [
+                    {
+                        "key": 31,
+                        "value": "Scheme Type -1"
+                    },
+                    {
+                        "key": 32,
+                        "value": " Scheme Type -2"
+                    }
+                ],
+                "subventionApplied": [
+                    {
+                        "key": 41,
+                        "value": "Applied"
+                    },
+                    {
+                        "key": 42,
+                        "value": "Not Applied"
+                    }
+                ],
+                "subvention": [
+                    {
+                        "key": 51,
+                        "value": "Subvention 1"
+                    },
+                    {
+                        "key": 52,
+                        "value": "Subvention 2"
+                    }
+                ],
+                "soucringChannel": [
+                    {
+                        "key": 61,
+                        "value": "Assets Division"
+                    },
+                    {
+                        "key": 62,
+                        "value": "Liability Division"
+                    },
+                    {
+                        "key": 63,
+                        "value": "Web Based"
+                    },
+                    {
+                        "key": 64,
+                        "value": "Campaign"
+                    },
+                    {
+                        "key": 65,
+                        "value": "Business Banking"
+                    },
+                    {
+                        "key": 66,
+                        "value": "Business Correspondence"
+                    },
+                    {
+                        "key": 62,
+                        "value": "Call Center"
+                    }
+                ],
+                "leadHandledBY": [
+                    {
+                        "key": 71,
+                        "value": "Person 1"
+                    },
+                    {
+                        "key": 72,
+                        "value": "Person 2"
+                    }
+                ],
+                "spokenCodeLocation": [
+                    {
+                        "key": 51,
+                        "value": "Subvention 1"
+                    },
+                    {
+                        "key": 52,
+                        "value": "Subvention 2"
+                    }
+                ],
+                "loanAccountBranch": [
+                    {
+                        "key": 51,
+                        "value": "Branch 1"
+                    },
+                    {
+                        "key": 52,
+                        "value": "Branch 2"
+                    }
+                ],
+                "entity": [
+                    {
+                        "key": "I",
+                        "value": " Individual"
+                    },
+                    {
+                        "key": "C",
+                        "value": "Non-Individual"
+                    }
+                ]
+            }
+        ],
+        "productDetails": [
+            {
+                "businessDivision": [
+                    {
+                        "key": 1,
+                        "value": "Vehicle Finance"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Housing Finance"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Loan Against Property"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Gold Loan"
+                    }
+                ],
+                "productCategory": [
+                    {
+                        "key": 11,
+                        "value": "New CV"
+                    },
+                    {
+                        "key": 12,
+                        "value": "UsedCV"
+                    },
+                    {
+                        "key": 13,
+                        "value": "New Cars"
+                    },
+                    {
+                        "key": 14,
+                        "value": "Used Cars"
+                    }
+                ],
+                "schemePromotion": [
+                    {
+                        "key": 31,
+                        "value": "Scheme Type -1"
+                    },
+                    {
+                        "key": 32,
+                        "value": " Scheme Type -2"
+                    }
+                ],
+                "subventionApplied": [
+                    {
+                        "key": 41,
+                        "value": "Applied"
+                    },
+                    {
+                        "key": 42,
+                        "value": "Not Applied"
+                    }
+                ],
+                "subventionIncentive": [
+                    {
+                        "key": 61,
+                        "value": "Subvention 1"
+                    },
+                    {
+                        "key": 62,
+                        "value": "Subvention 2"
+                    }
+                ]
+            }
+        ],
+        "loanDetails": [
+            {
+                "typesOfLoan": [
+                    {
+                        "key": 1,
+                        "value": "Topup"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Tyre loan"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Saathi loan"
+                    },
+                    {
+                        "key": 1,
+                        "value": "FC loan"
+                    }
+                ],
+                "requestedTenor": [
+                    {
+                        "key": 1,
+                        "value": 12
+                    },
+                    {
+                        "key": 2,
+                        "value": 18
+                    },
+                    {
+                        "key": 3,
+                        "value": 24
+                    },
+                    {
+                        "key": 4,
+                        "value": 30
+                    },
+                    {
+                        "key": 5,
+                        "value": 36
+                    },
+                    {
+                        "key": 6,
+                        "value": 42
+                    },
+                    {
+                        "key": 7,
+                        "value": 48
+                    },
+                    {
+                        "key": 8,
+                        "value": 54
+                    },
+                    {
+                        "key": 9,
+                        "value": 60
+                    }
+                ]
+            }
+        ],
+        "addApplicant": [
+            {
+                "entity": [
+                    {
+                        "key": 1,
+                        "value": "Individual"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Non-Individual"
+                    }
+                ],
+                "relationshipwithloanapplicant": [
+                    {
+                        "key": 1,
+                        "value": "Applicant"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Co-Applicant"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Guarantar"
+                    }
+                ],
+                "identityType": [
+                    {
+                        "key": 1,
+                        "value": "PAN"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Aadhar"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Driving license"
+                    }
+                ],
+                "panform": [
+                    {
+                        "key": 1,
+                        "value": "PAN"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Form 60"
+                    }
+                ],
+                "state": [
+                    {
+                        "key": 1,
+                        "value": "State 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "State 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "State 3"
+                    }
+                ],
+                "city": [
+                    {
+                        "key": 1,
+                        "value": "City 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "City 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "City 3"
+                    }
+                ],
+                "district": [
+                    {
+                        "key": 1,
+                        "value": "District 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "District 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "District 3"
+                    }
+                ],
+                "country": [
+                    {
+                        "key": 1,
+                        "value": "Country 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Country 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Country 3"
+                    }
+                ]
+            }
+        ],
+        "ddeLoanDetails": [
+            {
+                "marginMoney": [
+                    {
+                        "key": 1,
+                        "value": "10L"
+                    },
+                    {
+                        "key": 2,
+                        "value": "15C"
+                    }
+                ],
+                "requestedTenor": [
+                    {
+                        "key": 11,
+                        "value": 12
+                    },
+                    {
+                        "key": 12,
+                        "value": 18
+                    },
+                    {
+                        "key": 13,
+                        "value": 24
+                    },
+                    {
+                        "key": 14,
+                        "value": 30
+                    },
+                    {
+                        "key": 11,
+                        "value": 36
+                    },
+                    {
+                        "key": 16,
+                        "value": 42
+                    },
+                    {
+                        "key": 17,
+                        "value": 48
+                    },
+                    {
+                        "key": 18,
+                        "value": 54
+                    },
+                    {
+                        "key": 19,
+                        "value": 60
+                    }
+                ],
+                "leadHandled": [
+                    {
+                        "key": 1,
+                        "value": "Person-1"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Person-2"
+                    }
+                ],
+                "sourcingChannel": [
+                    {
+                        "key": 1,
+                        "value": "Assets Division"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Liability Division"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Web based"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Campaign"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Corporate Finance"
+                    },
+                    {
+                        "key": 6,
+                        "value": "Banking Business"
+                    },
+                    {
+                        "key": 7,
+                        "value": "Business Correspondence"
+                    },
+                    {
+                        "key": 8,
+                        "value": "Call Centre"
+                    }
+                ],
+                "spokenCode": [
+                    {
+                        "key": 1,
+                        "value": "Location"
+                    }
+                ],
+                "sourcingType": [
+                    {
+                        "assetsDivision": [
+                            {
+                                "key": 1,
+                                "value": "DSA"
+                            },
+                            {
+                                "key": 2,
+                                "value": "Dealers"
+                            },
+                            {
+                                "key": 3,
+                                "value": "Connectors"
+                            },
+                            {
+                                "key": 4,
+                                "value": "Direct/Employee/DSE"
+                            },
+                            {
+                                "key": 5,
+                                "value": "Manufacturers"
+                            }
+                        ],
+                        "liabilityDivision": [
+                            {
+                                "key": 1,
+                                "value": "Liability Branch Code"
+                            }
+                        ],
+                        "webBased": [
+                            {
+                                "key": 1,
+                                "value": "Corporate Website"
+                            },
+                            {
+                                "key": 2,
+                                "value": "Internet Banking"
+                            },
+                            {
+                                "key": 3,
+                                "value": "Mobile Banking"
+                            }
+                        ],
+                        "commonKeyValue": [
+                            {
+                                "key": 1,
+                                "value": "Not Applicable"
+                            }
+                        ]
+                    }
+                ],
+                "sourcingCode": [
+                    {
+                        "key": 1,
+                        "value": "Employee Code"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Vendor Code"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Campaign Code"
+                    }
+                ],
+                "businessDivision": [
+                    {
+                        "key": 1,
+                        "value": "Vehicle Finance"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Housing Finance"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Loan Against Property"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Gold Loan"
+                    }
+                ],
+                "productCategory": [
+                    {
+                        "key": 11,
+                        "value": "New CV"
+                    },
+                    {
+                        "key": 12,
+                        "value": "UsedCV"
+                    },
+                    {
+                        "key": 13,
+                        "value": "New Cars"
+                    },
+                    {
+                        "key": 14,
+                        "value": "Used Cars"
+                    }
+                ],
+                "schemePromotion": [
+                    {
+                        "key": 31,
+                        "value": "Scheme Type -1"
+                    },
+                    {
+                        "key": 32,
+                        "value": " Scheme Type -2"
+                    }
+                ],
+                "subventionApplied": [
+                    {
+                        "key": 41,
+                        "value": "Applied"
+                    },
+                    {
+                        "key": 42,
+                        "value": "Not Applied"
+                    }
+                ],
+                "subventionIncentive": [
+                    {
+                        "key": 61,
+                        "value": "Subvention 1"
+                    },
+                    {
+                        "key": 62,
+                        "value": "Subvention 2"
+                    }
+                ]
+            }
+        ],
+        "vehicleVal": [
+            {
+                "valuatorType": [
+                    {
+                        "key": 1,
+                        "value": "VT-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "VT-2"
+                    }
+                ],
+                "valuatorCode": [
+                    {
+                        "key": 1,
+                        "value": "VC-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "VC-2"
+                    }
+                ],
+                "vhAvailInGrid": [
+                    {
+                        "key": 1,
+                        "value": "Grid-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Grid-2"
+                    }
+                ],
+                "assetModel": [
+                    {
+                        "key": 1,
+                        "value": "Asset Model-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Asset Model-2"
+                    }
+                ],
+                "newUsedAsset": [
+                    {
+                        "key": 1,
+                        "value": "Asset-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Asset-2"
+                    }
+                ],
+                "assetManufacturer": [
+                    {
+                        "key": 1,
+                        "value": "Asset Manufacturer-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Asset Manufacturer-2"
+                    }
+                ],
+                "interStateVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Vehicle-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Vehicle-2"
+                    }
+                ],
+                "duplicateRC": [
+                    {
+                        "key": 1,
+                        "value": "DRC-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "DRC-2"
+                    }
+                ],
+                "model": [
+                    {
+                        "key": 1,
+                        "value": "Model-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Model-2"
+                    }
+                ],
+                "make": [
+                    {
+                        "key": 1,
+                        "value": "Make-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Make-2"
+                    }
+                ]
+            }
+        ],
+        "pslData": [
+            {
+                "activity": [
+                    {
+                        "key": 1,
+                        "value": "Agriculture"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Micro, Small and Medium Enterprises"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Housing"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Export Credit"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Education"
+                    },
+                    {
+                        "key": 6,
+                        "value": "Social Infrastructure"
+                    },
+                    {
+                        "key": 7,
+                        "value": "Renewable Energy"
+                    },
+                    {
+                        "key": 8,
+                        "value": "Others"
+                    }
+                ],
+                "propertyType": [
+                    {
+                        "key": 1,
+                        "value": "Self Construction"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Vacant Land"
+                    },
+                    {
+                        "key": 3,
+                        "value": "New Flat"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Resale Flat"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Independent Flat New"
+                    },
+                    {
+                        "key": 6,
+                        "value": "Independent Flat Old"
+                    },
+                    {
+                        "key": 7,
+                        "value": "Composite"
+                    }
+                ],
+                "detailActivity": [
+                    {
+                        "key": 1,
+                        "value": [
+                            "Agriculture",
+                            "Allied Activities",
+                            "Agriculture Infrastructure",
+                            "Ancilary activities"
+                        ]
+                    },
+                    {
+                        "key": 2,
+                        "value": [
+                            "Manufacturing",
+                            "Service"
+                        ]
+                    },
+                    {
+                        "key": 3,
+                        "value": [
+                            "Self Construction",
+                            "Purchase",
+                            "Balance Transfer",
+                            "Repair and Renovation"
+                        ]
+                    },
+                    {
+                        "key": 4,
+                        "value": []
+                    }
+                ],
+                "purposeLoan": [
+                    {
+                        "key": 1,
+                        "value": [
+                            "Growing",
+                            "Spraying",
+                            "weeding",
+                            "harvesting",
+                            "sorting",
+                            "Transporting own farm produce",
+                            "purchase of agricultural implements and machinery",
+                            "Purchase of agriculture land",
+                            "loans for irrigation",
+                            "loans for development activities in farms",
+                            "Vermiculture"
+                        ]
+                    },
+                    {
+                        "key": 2,
+                        "value": [
+                            "Pollutry",
+                            "Sericulture",
+                            "Animal Husbandry",
+                            "Bee-Keeping",
+                            "Dairies",
+                            "Fisheries",
+                            "Food and Agro processing unit",
+                            "Forestry",
+                            "Horticulture",
+                            "Other allied activities"
+                        ]
+                    },
+                    {
+                        "key": 3,
+                        "value": [
+                            "construction of warehouse",
+                            "construction of market yards",
+                            "construction of godowns",
+                            "construction of silos",
+                            "cold storage units designed to store agri produce",
+                            "cold storage chains designed to store agri produce/Products",
+                            "soil conservation and watershed development",
+                            "Plant tissue culture",
+                            "Agri-biotechnology",
+                            "seed production",
+                            "production of bio-pesticides",
+                            "bio-fertilizer",
+                            "vermi compositing"
+                        ]
+                    },
+                    {
+                        "key": 4,
+                        "value": [
+                            "Loans for setting of Agriclinics",
+                            "Loans for setting up of Agribusiness Centres",
+                            "Loans for Food and Agro-processing",
+                            "Loans to custom service, maintaining fleet of tractors",
+                            "Loans to custom service, maintaining service buildozers",
+                            "Loans to custom service, maintaining wellboring",
+                            "Loans to custom service, maintaining equipement",
+                            "Loans to custom service, maintaining threshers",
+                            "Bank loans to Primary Agricultural Credit Societies (PACS) for an agriculture",
+                            "Loans to Farmers Service Societies (FSS) for an agriculture",
+                            "Loans to Large-sized Adivasi Multi-Purpose Societies (LAMPS) for an agriculture"
+                        ]
+                    },
+                    {
+                        "key": 5,
+                        "value": [
+                            "Working capital needs",
+                            "Setting up new manufacturing unit",
+                            "setting up new trading/service unit",
+                            "Modernization and renovation of existing service units",
+                            "Modernization and renovation of existing manufacturing units",
+                            "Purchase of land & construction of factory shed",
+                            "Purchase of fixed assets viz., land, building, vehicles & equipments",
+                            "Erecting plant & Machinery, equipments, etc",
+                            "Personal use"
+                        ]
+                    },
+                    {
+                        "key": 6,
+                        "value": [
+                            "Working capital needs",
+                            "Setting up new manufacturing unit",
+                            "Modernization and renovation of existing manufacturing units",
+                            "Purchase of land & construction of factory shed",
+                            "Erecting plant & Machinery, equipments, etc"
+                        ]
+                    }
+                ],
+                "typeService": [
+                    {
+                        "Key": 1,
+                        "value": [
+                            "Transport services"
+                        ]
+                    }
+                ],
+                "businessActivity": [
+                    {
+                        "key": 1,
+                        "value": "Business Activity"
+                    },
+                    {
+                        "key": 2,
+                        "value": "agriculture-Business Activity"
+                    }
+                ],
+                "weakerSection": [
+                    {
+                        "key": 1,
+                        "value": "Small and marrginal Farmers"
+                    },
+                    {
+                        "key": 2,
+                        "value": " Schedule caste and schedule tribes"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Persons with disabilities"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Induvival women beneficires upto 1 Lakh borrower"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Distressed farmers indebted to agriculture-insitutional lenders"
+                    },
+                    {
+                        "key": 6,
+                        "value": " Artisans, village and cottage industries where induival credit limit upto 1 Lakh borrower"
+                    },
+                    {
+                        "key": 7,
+                        "value": "Beneficares under govermen schemes (NRLM, NULM, SRMS)"
+                    },
+                    {
+                        "key": 8,
+                        "value": "Beneficares of differential rate of interest (DRI)"
+                    },
+                    {
+                        "key": 9,
+                        "value": "Self Help groups"
+                    },
+                    {
+                        "key": 10,
+                        "value": " Minority communities"
+                    }
+                ],
+                "pslCertificateHos": [
+                    {
+                        "key": 1,
+                        "value": "PSLC General"
+                    }
+                ],
+                "pslCertificate": [
+                    {
+                        "key": 1,
+                        "value": "PSLC SF"
+                    },
+                    {
+                        "key": 2,
+                        "value": "PSLC MF"
+                    },
+                    {
+                        "key": 3,
+                        "value": "PSLC Agriculture"
+                    }
+                ],
+                "pslSubCategoryAg": [
+                    {
+                        "key": 1,
+                        "value": "Marginal Farmer"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Small Farmer"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Other Farmer"
+                    }
+                ],
+                "pslCategoryHos": [
+                    {
+                        "key": 1,
+                        "value": "Housing-PSL"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Non-Housing-PSL"
+                    }
+                ],
+                "pslCategoryMsme": [
+                    {
+                        "key": 1,
+                        "value": "Non-PSL"
+                    }
+                ],
+                "pslCategoryAg": [
+                    {
+                        "key": 1,
+                        "value": "Agriculture"
+                    }
+                ],
+                "propertyLocation": [
+                    {
+                        "key": 1,
+                        "value": "Metro"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Non-Metro"
+                    }
+                ],
+                "relWithLandowner": [
+                    {
+                        "key": 1,
+                        "value": "Spouse"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Father"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Mother"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Son"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Daughter"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Sister"
+                    },
+                    {
+                        "key": 1,
+                        "value": "Brother"
+                    }
+                ],
+                "landOwner": [
+                    {
+                        "key": 1,
+                        "value": "Applicant"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Co-Applicant"
+                    }
+                ],
+                "landHolding": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ]
+            }
+        ],
+        "applicantDetails": [
+            {
+                "gender": [
+                    {
+                        "key": 1,
+                        "value": "Male"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Female"
+                    }
+                ],
+                "maritalStatus": [
+                    {
+                        "key": 1,
+                        "value": "Single"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Married"
+                    }
+                ],
+                "commonLov": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "locality": [
+                    {
+                        "key": 1,
+                        "value": "Slum"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Community Dominated"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Middle Class"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Middle/Upper Class"
+                    }
+                ],
+                "residentialType": [
+                    {
+                        "key": 1,
+                        "value": "Hut/Asbestos/Tin Sheets"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Tiled House"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Independent House "
+                    },
+                    {
+                        "key": 4,
+                        "value": "Flat/Apartment"
+                    }
+                ],
+                "standardHouse": [
+                    {
+                        "key": 1,
+                        "value": "Good"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Average"
+                    },
+                    {
+                        "key": 3,
+                        "value": " Poor "
+                    }
+                ],
+                "sizeOfHouse": [
+                    {
+                        "key": 1,
+                        "value": "Less than 500 Sft"
+                    },
+                    {
+                        "key": 2,
+                        "value": "500 to 1000 Sft"
+                    },
+                    {
+                        "key": 3,
+                        "value": " More than 1000 Sft "
+                    }
+                ],
+                "stdOfLiving": [
+                    {
+                        "key": 1,
+                        "value": "Tv"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Fridge"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Gas Connection"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Car"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Tw"
+                    }
+                ],
+                "houseOwnership": [
+                    {
+                        "key": 1,
+                        "value": "Own House"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Rented"
+                    },
+                    {
+                        "key": 3,
+                        "value": " Family Owned "
+                    }
+                ],
+                "ratingBySo": [
+                    {
+                        "key": 1,
+                        "value": "Poor"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Average"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Good"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Very Good"
+                    }
+                ]
+            }
+        ],
+        "customerProfile": [
+            {
+                "commonLov": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "officePremises": [
+                    {
+                        "key": 1,
+                        "value": "Owned"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Rented"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Resi Cum Office"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Shared"
+                    }
+                ],
+                "sizeOfOffice": [
+                    {
+                        "key": 1,
+                        "value": "Less than 500 Sft"
+                    },
+                    {
+                        "key": 2,
+                        "value": "500 to 1000 Sft"
+                    },
+                    {
+                        "key": 3,
+                        "value": " More than 1000 Sft "
+                    }
+                ],
+                "ratingBySo": [
+                    {
+                        "key": 1,
+                        "value": "Poor"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Average"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Good"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Very Good"
+                    }
+                ]
+            }
+        ],
+        "loanDetail": [
+            {
+                "commonLov": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "nameOfChannel": [
+                    {
+                        "key": 1,
+                        "value": "Source -UCVD"
+                    },
+                    {
+                        "key": 2,
+                        "value": "DOST"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Direct Customer"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Seller"
+                    }
+                ],
+                "vehicleConditions": [
+                    {
+                        "key": 1,
+                        "value": "Container Operation"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Trailer"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Others"
+                    }
+                ],
+                "earlierDriving": [
+                    {
+                        "key": 1,
+                        "value": "Passenger Car/Cab"
+                    },
+                    {
+                        "key": 2,
+                        "value": "2Wheeler Auto - Goods"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Mini CV"
+                    },
+                    {
+                        "key": 4,
+                        "value": "LCV"
+                    },
+                    {
+                        "key": 5,
+                        "value": "HCV"
+                    }
+                ],
+                "physicalCondition": [
+                    {
+                        "key": 1,
+                        "value": "Good"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Average"
+                    }
+                ],
+                "selfDriver": [
+                    {
+                        "key": 1,
+                        "value": "Self Driven"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Driver"
+                    }
+                ]
+            }
+        ],
+        "employmentDetails": [
+            {
+                "typeOfAccomdation": [
+                    {
+                        "key": 1,
+                        "value": "Own House"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Rented House"
+                    }
+                ],
+                "periodOfCurrentStay": [
+                    {
+                        "key": 1,
+                        "value": "5 Years"
+                    },
+                    {
+                        "key": 2,
+                        "value": "2 Years"
+                    }
+                ]
+            }
+        ],
+        "documentUpload": [
+            {
+                "documentName": [
+                    {
+                        "key": 1,
+                        "value": "Aadhaar"
+                    }
+                ]
+            }
+        ],
+        "collateralDocument": [
+            {
+                "documentName": [
+                    {
+                        "key": 1,
+                        "value": "RC Copy"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Fitness Certificate"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Permit Certificate"
+                    }
+                ],
+                "status": [
+                    {
+                        "key": 1,
+                        "value": "Pending"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Submitted"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Deferred"
+                    }
+                ]
+            }
+        ],
+        "applicantDocument": [
+            {
+                "documentName": [
+                    {
+                        "key": 1,
+                        "value": "Driving License"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Passport"
+                    },
+                    {
+                        "key": 3,
+                        "value": "PAN Card"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Aadhar Card"
+                    }
+                ],
+                "status": [
+                    {
+                        "key": 1,
+                        "value": "Pending"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Submitted"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Deferred"
+                    }
+                ]
+            }
+        ],
+        "basicVehicleDetails": [
+            {
+                "selectMainButton": [
+                    {
+                        "key": 1,
+                        "value": "New CV"
+                    },
+                    {
+                        "key": 2,
+                        "value": "New Car"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Used CV"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Used Car"
+                    }
+                ],
+                "vehicleType": [
+                    {
+                        "key": 1,
+                        "value": "Open"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Tripper"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Trailer"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Goods"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Bus"
+                    },
+                    {
+                        "key": 6,
+                        "value": "Passenger Vehicle"
+                    },
+                    {
+                        "key": 7,
+                        "value": "ODC"
+                    }
+                ],
+                "vechicalRegion": [
+                    {
+                        "key": 1,
+                        "value": "TN"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Kerala"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Karnataka"
+                    }
+                ],
+                "assetMakeCV": [
+                    {
+                        "key": 1,
+                        "value": "Tata Motors"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Eicher"
+                    }
+                ],
+                "assetModelCV": [
+                    {
+                        "key": 1,
+                        "value": "CITY RIDER"
+                    },
+                    {
+                        "key": 2,
+                        "value": "LP 709 32 SEATER"
+                    },
+                    {
+                        "key": 3,
+                        "value": "LP 709 36 SEATER"
+                    },
+                    {
+                        "key": 4,
+                        "value": "10.50 - 12+1 SEATER"
+                    },
+                    {
+                        "key": 5,
+                        "value": "SKYLINE - 36 SEATER"
+                    }
+                ],
+                "assetVariantCV": [
+                    {
+                        "key": 1,
+                        "value": "LP 1512 - 54 SEATER"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Viking HCV BU"
+                    },
+                    {
+                        "key": 3,
+                        "value": "2214"
+                    }
+                ],
+                "assetSubVariantCV": [
+                    {
+                        "key": 1,
+                        "value": "Petrol"
+                    },
+                    {
+                        "key": 2,
+                        "value": "AMT"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Diesel"
+                    }
+                ],
+                "assetBodyTypeCV": [
+                    {
+                        "key": 1,
+                        "value": "Chevrolet"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Swift"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Ciaz"
+                    }
+                ],
+                "subventionApplicable": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "assetMake": [
+                    {
+                        "key": 1,
+                        "value": "Tata Motors"
+                    }
+                ],
+                "assetModel": [
+                    {
+                        "key": 1,
+                        "value": "Asset-Model-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Asset-Model-2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Asset-Model-3"
+                    }
+                ],
+                "assetBodyType": [
+                    {
+                        "key": 1,
+                        "value": "Asset Body Type 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Asset Body Type 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Asset Body Type 3"
+                    }
+                ],
+                "assetVariant": [
+                    {
+                        "key": 1,
+                        "value": "Asset-variant-1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Asset-variant-2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Asset-variant-3"
+                    }
+                ],
+                "assetSubVariant": [
+                    {
+                        "key": 1,
+                        "value": "Sub Variant 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Sub Variant 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Sub Variant 3"
+                    }
+                ],
+                "vechicalUsage": [
+                    {
+                        "key": 1,
+                        "value": "Commercial Use"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Personal Use"
+                    }
+                ],
+                "vehicleCategory": [
+                    {
+                        "key": 1,
+                        "value": "CAT 1"
+                    },
+                    {
+                        "key": 2,
+                        "value": "CAT 2"
+                    },
+                    {
+                        "key": 3,
+                        "value": "CAT 3"
+                    }
+                ],
+                "orpFunding": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "pac": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "vas": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "emiProtect": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "fastTag": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "reRegisteredVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "interStateVehicle": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "duplicateRC": [
+                    {
+                        "key": 1,
+                        "value": "Yes"
+                    },
+                    {
+                        "key": 2,
+                        "value": "No"
+                    }
+                ],
+                "permitType": [
+                    {
+                        "key": 1,
+                        "value": "National"
+                    },
+                    {
+                        "key": 2,
+                        "value": "State"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Others"
+                    }
+                ]
+            }
+        ],
+        "vehicleList": [
+            {
+                "registrationNum": [
+                    {
+                        "key": 1,
+                        "value": "TN-04-SS-0292"
+                    },
+                    {
+                        "key": 2,
+                        "value": "KL-05-AG-1191"
+                    }
+                ]
+            }
+        ],
+        "fleetDetails": [
+            {
+                "relation": [
+                    {
+                        "key": 1,
+                        "value": "Applicant"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Co-Applicant"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Guarantor"
+                    }
+                ],
+                "make": [
+                    {
+                        "key": 1,
+                        "value": "Tata Motors"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Eicher"
+                    }
+                ],
+                "financier": [
+                    {
+                        "key": 1,
+                        "value": "Bajaj"
+                    },
+                    {
+                        "key": 2,
+                        "value": "ICICI"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Chola"
+                    }
+                ]
+            }
+        ],
+        "trackVehicle": [
+            {
+                "repaymentMode": [
+                    {
+                        "key": 1,
+                        "value": "ECS"
+                    },
+                    {
+                        "key": 2,
+                        "value": "ACH"
+                    },
+                    {
+                        "key": 3,
+                        "value": "PDC"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Cash"
+                    },
+                    {
+                        "key": 5,
+                        "value": "Others"
+                    }
+                ],
+                "typesOfFinance": [
+                    {
+                        "key": 1,
+                        "value": "New"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Refinance"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Used"
+                    }
+                ],
+                "accountStatus": [
+                    {
+                        "key": 1,
+                        "value": "Matured"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Running"
+                    }
+                ]
+            }
+        ]
+    }
+]
