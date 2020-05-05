@@ -153,7 +153,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue };
+    const leadModel: any = { ...formValue, professionList : this.ProfessionList };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 
