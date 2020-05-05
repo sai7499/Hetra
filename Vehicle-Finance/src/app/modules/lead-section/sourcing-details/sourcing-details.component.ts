@@ -73,25 +73,25 @@ export class SourcingDetailsComponent implements OnInit {
       
     // });
     if(this.SourcingChange == 61){
-     this.ProfessionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+     this.id.professionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
      this.text="Employee Code"
    }
    else if(this.SourcingChange== 62){
-        this.ProfessionList=[{key: 1, value: "Liability Branch Code" }];
+        this.id.professionList=[{key: 1, value: "Liability Branch Code" }];
               this.text= "Employee Code"
    }
    else if(this.SourcingChange== 63){
-     this.ProfessionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+     this.id.professionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
      this.text="Employee Code"
    }
    else if(this.SourcingChange==64)
     {
-      this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+      this.id.professionList = [{key: 1,value: 'Not Applicable'}];
       this.text = "Campaign Code";
       
     }
     else{
-      this.ProfessionList= [{key: 1,value: 'Not Applicable'}];
+      this.id.professionList= [{key: 1,value: 'Not Applicable'}];
       this.text = "Employee Code";
     }
 
