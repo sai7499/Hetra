@@ -55,66 +55,43 @@
                 "assetModel": [
                     {
                       "key": 1,
-                      "value": "CITY RIDER"
+                      "value": "Mahindra XUV Aero"
                     },
                     {
                       "key": 2,
-                      "value": "LP 709 32 SEATER"
+                      "value": "Renault Arkana"
                     },
                     {
                       "key": 3,
-                      "value": "LP 709 36 SEATER"
-                    },
-                    {
-                        "key": 4,
-                        "value": "10.50 - 12+1 SEATER"
-                    },
-                    {
-                        "key": 5,
-                        "value": "SKYLINE - 36 SEATER"
+                      "value": "Mahindra eKUV100"
                     }
                 ],
                 "assetBodyType": [
                     {
                       "key": 1,
-                      "value": "Asset Body Type 1"
+                      "value": "Chevrolet"
                     },
                     {
                       "key": 2,
-                      "value": "Asset Body Type 2"
+                      "value": "Swift"
                     },
                     {
                       "key": 3,
-                      "value": "Asset Body Type 3"
+                      "value": "Ciaz"
                     }
                 ],
                 "assetVariant": [
                     {
                       "key": 1,
-                      "value": "LP 1512-54 SEATER"
+                      "value": "Petrol"
                     },
                     {
                       "key": 2,
-                      "value": "viking HCV BUS"
+                      "value": "AMT"
                     },
                     {
                       "key": 3,
-                      "value": "2214"
-                    }
-              
-                ],
-                "assetSubVariant": [
-                    {
-                      "key": 1,
-                      "value": "Sub Variant 1"
-                    },
-                    {
-                      "key": 2,
-                      "value": "Sub Variant 2"
-                    },
-                    {
-                      "key": 3,
-                      "value": "Sub Variant 3"
+                      "value": "Petrol"
                     }
                 ],
                 "vechicalUsage": [
