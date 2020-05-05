@@ -6,6 +6,7 @@ import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -94,14 +95,6 @@ export class SourcingDetailsComponent implements OnInit {
       this.text = "Employee Code";
     }
 
-    // if(this.SourcingChange==4)
-    // {
-    //   this.text = "Campaign Code";
-    // }
-    // else{
-    //   this.text = "Employee Code";
-    // }
-  
   }
 
   initForm() {
@@ -131,25 +124,10 @@ export class SourcingDetailsComponent implements OnInit {
       error => {
         console.log(error);
       });
+
       
   }
 
-  // setFormValue() {
-  //   const sourcingValue = this.leadStoreService.getSourcingDetails() || {};
-  //   console.log('source', sourcingValue)
-  //   this.sourcingDetailsForm.patchValue({
-  //     leadHandledBy: sourcingValue.leadHandledBy || '',
-  //     sourcingChannel: sourcingValue.sourcingChannel || '',
-  //     sourcingType: sourcingValue.sourcingType || '',
-  //     sourcingCode: sourcingValue.sourcingCode || '',
-  //     spokeCodeLocation: sourcingValue.spokeCodeLocation || ''
-  //   });
-  //   const leadData = this.leadStoreService.getLeadCreation() || {};
-  //   console.log('lead data', leadData)
-  //   this.sourcingDetailsForm.patchValue({
-  //     loanAccountBranch: leadData.loanAccountBranch || ''
-  //   });
-  // }
 
   onNext() {
     this.leadSectionService.setCurrentPage(1);
@@ -159,45 +137,23 @@ export class SourcingDetailsComponent implements OnInit {
    this.id= this.leadStoreService.getLeadCreation();
    console.log(this.id)
    
-  //  console.log(this.values.productCategory)
+   console.log(this.id.sourcingType)
 
-
-   this.getCategory(this.values.productCategory, this.id.productCategory,"product");
-   this.getCategory(this.values.priority, this.id.priority,"priority");
-   this.getCategory(this.values.businessDivision, this.id.businessDivision,"businessDivision");
-   this.getCategory(this.values.spokenCodeLocation, this.id.spokeCodeLocation,"spokeCodeLocation")
-   this.getCategory(this.values.loanAccountBranch, this.id.loanAccountBranch,"loanAccountBranch")
-   this.getCategory(this.values.leadHandledBY, this.id.leadHandledBy,"leadHandledBy");
-   this.getCategory(this.values.soucringChannel, this.id.sourcingChannel,"sourcingChannel");
-   this.getCategory(this.values.sourcingType, this.id.sourcingType, "sourcingType");
-   this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)
-
-  
    
-   
-  
-   
+   this.getCategory( this.id.productCategory,"product");
+   this.getCategory(this.id.priority,"priority");
+   this.getCategory( this.id.spokeCodeLocation,"spokeCodeLocation")
+   this.getCategory(this.id.loanAccountBranch,"loanAccountBranch")
+   this.getCategory( this.id.leadHandledBy,"leadHandledBy");
+   this.getCategory( this.id.sourcingChannel,"sourcingChannel");
+   this.getCategory(Number(this.id.sourcingType) , "sourcingType");
+   this.getCategory(this.id.sourcingCode,"sourcingCode")
 
-
-  //  this.values.productCategory.forEach(element => {
-  //    console.log(element)
-  //      if(parseInt(this.id.productCategory) == element.key){
-  //        console.log(element.value)
-  //       this.sourcingDetailsForm.controls["product"].setValue(element.key)
-  //      }
-  //  });
-    
   };
 
-  getCategory(categoryArray, value,formControlName){
-    categoryArray.forEach(element => {
-      //  console.log(element)
-         if(parseInt(value) == element.key){
-           console.log(element.value)
-          this.sourcingDetailsForm.controls[formControlName].setValue(element.key)
-         }
-     })
-  }
+  getCategory( value,formControlName){
+           this.sourcingDetailsForm.controls[formControlName].setValue(value)
+     }
 
   onFormSubmit() {
     this.router.navigate(['/pages/lead-section/applicant-details']);
