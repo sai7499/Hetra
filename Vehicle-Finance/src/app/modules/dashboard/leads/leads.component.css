@@ -1,7 +1,7 @@
     .nav>li>a {
         position: relative;
         display: block;
-        padding: 10px 15px;
+        padding: 10px 8px;
     }
     
     .nav-pills>li>a {
