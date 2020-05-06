@@ -47,6 +47,10 @@ const routes: Routes = [
         path: 'dde',
         loadChildren: () => import('./modules/dde/dde.module').then(m => m.DdeModule)
       },
+      // {
+      //   path: 'tvr',
+      //   loadChildren: () => import('./modules/dde/tvr/tvr.module').then(m => m.TvrModule)
+      // },
       {
         path: 'vehicle-details',
         loadChildren: () => import('./modules/dde/vehicle-details/vehicle-details.module').then(m => m.VehicleDetailsModule)
