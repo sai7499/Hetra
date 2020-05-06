@@ -6,31 +6,27 @@
                 <label for="registartion_number"> {{ label.registartionNumber }} </label>
                 <input formControlName="registrationNumber" type="text" class="form-control mandatory" id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1">
+            <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1"  *ngIf="!isHidden" >
                 <label for="registartion_number"></label>
-                <input type="button" class="form-control btn-primary" id="check_dedupe"  name="registartion_number" value="Check Dedupe"  data-toggle="modal" data-target="#myModal" />
+                <input type="button" class="form-control btn-primary" id="check_dedupe"  name="registartion_number" value="Check Dedupe"  data-toggle="modal" data-target="#myModal"  (click)="onCheck()"/>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechical_type"> {{ label.vechicalType }} </label>
-                <!-- <select class="form-control mandatory" id="vechical_type">
-                    <option *ngFor = "let vType of vehicleType" value="vType"> {{ vType }} </option>
-                </select> -->
+               
                 <app-vf-custom-select 
                 [values]="vehicleLov?.vehicleType" 
                 formControlName="vehicleType" (change)="onShow($event)"></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechical_region"> {{ label.vechicalRegion }} </label>
-                <!-- <select class="form-control mandatory" id="vechical_region">
-                    <option *ngFor = "let vRegion of vechicalRegion" value="vRegion">{{vRegion}}</option>
-                </select> -->
+                
                 <app-vf-custom-select 
                 [values]="vehicleLov?.region" 
                 formControlName="region"></app-vf-custom-select>
             </div>
-        </div>
+        </div> -->
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="asset_make"> {{ label.assetMake }} </label>
@@ -81,6 +77,13 @@
                 [values]="vehicleLov?.assetSubVariant" 
                 formControlName="assetSubVariant"></app-vf-custom-select>
             </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vechical_type"> {{ label.vechicalType }} </label>
+               
+                <app-vf-custom-select 
+                [values]="vehicleLov?.vehicleType" 
+                formControlName="vehicleType" (change)="onShow($event)"></app-vf-custom-select>
+            </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
@@ -110,22 +113,26 @@
                 [values]="vehicleLov?.vechicalUsage" 
                 formControlName="vechicalUsage"></app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
+            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
                 <label for="vehicle_category"> {{ label.vehicleCategory }} </label>
-                <!-- <select class="form-control mandatory" id="vehicle_category">
-                    <option *ngFor = "let vCategory of vechicleCategory" value="vCategory"> {{vCategory}} </option>
-                </select> -->
+               
                 <app-vf-custom-select 
                 [values]="vehicleLov?.vechicleCategory" 
                 formControlName="vehicleCategory"></app-vf-custom-select>
+            </div> -->
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vechical_region"> {{ label.vechicalRegion }} </label>
+                
+                <app-vf-custom-select 
+                [values]="vehicleLov?.region" 
+                formControlName="region"></app-vf-custom-select>
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                 <label for="no_vehicle"> {{ label.noVehicle }} </label>
                 <input formControlName="noOfVehicle" type="number" class="form-control mandatory" id="no_vehicle" placeholder="No of vehicle" name="no_vehicle">
             </div>
         </div>
+       
            <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -265,18 +272,18 @@
                                             [values]="vehicleLov?.vechicalUsage" 
                                             formControlName="vechicalUsage"></app-vf-custom-select>
                                       </div>
-                                      <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
+                                      <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_group">
                                           <label for="vehicle_category">{{ label.vehicleCategory }}</label>
-                                          <!-- <select class="form-control mandatory" id="vehicle_category">
+                                          <select class="form-control mandatory" id="vehicle_category">
                                               <option value="CAT 1">CAT 1</option>
                                               <option value="CAT 2">CAT 2</option>
                                               <option value="CAT 3">CAT 3</option>
   
-                                          </select> -->
+                                          </select>
                                           <app-vf-custom-select 
                                             [values]="vehicleLov?.vechicleCategory" 
                                             formControlName="vehicleCategory"></app-vf-custom-select>
-                                      </div>
+                                      </div> -->
                                       <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                                         <label for="no_vehicle"> {{ label.noVehicle }} </label>
                                         <input formControlName="noOfVehicle" type="number" class="form-control mandatory" id="no_vehicle" placeholder="No of vehicle" name="no_vehicle">
@@ -294,11 +301,18 @@
      <!-- Modal End    -->
         <div class="btn-sec clear-both row">
             <div class="col-sm-5"> </div>
-            <div class="col-sm-7 text-right">
-                <button class="btn btn-primary js-btn-prev"  [routerLink]="['../vehicle-details']" type="button"> {{ label.back }} </button> &nbsp;
-                <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
+            <div class="col-sm-7 text-right" *ngIf="!isHidden">
+                <button class="btn btn-primary js-btn-prev"   type="button"> {{ label.back }} </button> &nbsp;
+                <button class="btn btn-primary" type="button" (click)="onFormSubmit()" [routerLink]="['/pages/lead-section/vehicle-details']"> {{ label.save }} </button> &nbsp;
                 <button class="btn btn-primary js-btn-next"  [routerLink]="['/pages/lead-section/credit-score']"type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
             </div>
+            <div  style="float: right;" *ngIf="isHidden">
+                <button class="btn btn-primary" [routerLink]="['/pages/lead-section/vehicle-details']" (click)="onFormSubmit()">submit</button>
+            </div>
+        </div>
+
+        <div class="alert alert-success alert-dismissible" id="alert" [hidden]="!isAlert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Vehicle Details saved Successfully.
         </div>
     </form>
 </div>

@@ -1,0 +1,106 @@
+<!-- <div class="content"> -->
+<form class="multisteps-form__form">
+    <div class="container cus-wid-sty">
+        <div class="btn-sec clear-both row">
+
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
+                    {{labels.addVehicle}}
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive application" id="applicantTable">
+                <table class="table">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <td>{{labels.registrationNum}}</td>
+                            <td>{{labels.make}}</td>
+                            <td>{{labels.model}}</td>
+                            <td>{{labels.action}} </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="applicant_1_row">
+                            <td>TN-04-SS-0292</td>
+                            <td>TATA</td>
+                            <td>SUMO</td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                        </tr>
+                        <tr id="applicant_2_row">
+                            <td>KL-05-AG-1191</td>
+                            <td>TATA</td>
+                            <td>SUMO</td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant2"></i></td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="btn-sec clear-both row">
+            <!-- <div class="col-sm-5">
+                    <h4 class="title">Vehicle Details</h4> 
+                </div> -->
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
+                    {{labels.addAdditionalCollaterals}}</button>
+                <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive application" id="applicantTable">
+                <table class="table">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <td>{{labels.colleteralType}}</td>
+                            <td>{{labels.column2}}</td>
+                            <td>{{labels.column3}}</td>
+                            <td>{{labels.action}}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="applicant_1_row">
+                            <td>Colleteral Type-1</td>
+                            <td></td>
+                            <td></td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                        </tr>
+                        <tr id="applicant_2_row">
+                            <td>Colleteral Type-2</td>
+                            <td></td>
+                            <td></td>
+                            <td><i class="fa fa-pencil" aria-hidden="true"
+                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
+                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- </div> -->
+
+
+
+<div class="btn-sec clear-both text-right cus-btn-cls">
+    <!-- <div class="col-sm-12"> -->
+    <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">{{labels.back}}</button>&nbsp;
+    <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{labels.next}}</button>&nbsp;
+    <!-- </div> -->
+</div>

@@ -364,67 +364,197 @@ form .form-control {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5)
 }
 
+#scroll_starts_here {
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 
 /**los style**/
 
 .container.overflow-hidden {
     /* overflow-y: hidden; */
 }
-.page-select-width{
+
+.page-select-width {
     padding: 6px !important;
 }
 
 
 /* progress bar */
 
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.dashboard-tab .mat-tab-label-container .mat-tab-label{
-    min-width: 24.9% !important;
-    border: 1px solid #cac4c4 !important;
-    margin-right: 1px;
-    opacity: 1;
-    color: #1d1a4b;
-    border-radius: 4px;
-    padding: 10px 15px;
-    height: auto;
-    font-size:14px;
-   }
-   .mat-ink-bar{
-       height: 0px !important;
-   }
-   .mat-tab-header, .mat-tab-nav-bar{
-       border:none !important;
-   }
-   .mat-table {
-    font-family: "Open sans",Helvetica,Arial,sans-serif;
+.tab_content {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 0px;
 }
-   .dashboard-tab .mat-tab-label-container .mat-tab-label-active{
-    color: #fff;  
-    background-color: #1d1a4b;
-    opacity: 1;
-   }
-   .lead-tab .mat-tab-label-container .mat-tab-label{
-    min-width: 19.9% !important;
-     }
-   .custom-table.mat-table thead{
+
+.tab_content2 {
+    padding-bottom: 0px!important;
+}
+
+.add_button {
+    margin: 10px 0;
+}
+
+.a_tag {
+    color: #272264;
+}
+
+.basic_scroll_2 {
+    overflow-y: auto;
+    max-height: 230px;
+}
+
+
+/**custom style starts here**/
+
+.dropdown_individual {
+    background-color: #6c757d;
+    padding: 6px;
+    color: white;
+}
+
+input#add_banks {
+    width: 20%;
+}
+
+i.fa.fa-angle-down {
+    float: right;
+    font-size: 24px;
+    line-height: 16px;
+}
+
+.btn.btn-primary>a {
+    color: white;
+}
+
+h4.table-head-bg.m-0.p-02 {
+    margin: 0px;
+    padding: 5px;
+}
+
+
+/**custom style starts here**/
+
+.basic_scroll {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
+/**Exact Match css**/
+
+#found_in_nl
+{
+    margin-left: 35px;
+    font-weight: bold;
+    color: #ef5342;
+}
+#found_in_trnl
+{
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+#exact_macth_title1
+{
     background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.personal-tab .mat-tab-label-container .mat-tab-label{
-    min-width: 49.9% !important;
+#exact_macth_title2
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.custom-table tr.mat-header-row , .custom-table tr.mat-row {
-    height: 40px;
+#exact_macth_title3
+{
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.custom-table .mat-header-cell{
-    color:#fff;
+#probale_title4
+{
+    margin-top: -1px;
+    background-color: #272264;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.mat-paginator-range-label{
-    /* display: none !important; */
+
+#nagative_list_results {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    /*text-align: center;*/
 }
-.mat-paginator-container {
-    align-items: center !important;
-}
+
+/*-----------Credit_Score Style -------------*/
+/* #sales_credit_score
+        {
+            background: #fff;
+            padding: 10px;
+        } */
+        #credit_score_tag1
+        {
+            margin-left: 100px;
+            font-weight: bold;
+        }
+        #credit_score_tag2
+        {
+            margin-left: 78px;
+            font-weight: bold;
+        }
+
+        #credit_score_tag3
+        {
+            margin-left: 130px;
+            font-weight: bold;
+        }
+        #credit_score_tag4
+        {
+            margin-left: 150px;
+            font-weight: bold;
+        }
+        #credit_score_tag5
+        {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        #credit_score_tag6
+        {
+            margin-left: 195px;
+            font-weight: bold;
+        }
+        #credit_score_tag7
+        {
+            margin-left: 50px;
+            font-weight: bold;
+        }
+        #credit_score_tag8
+        {
+            margin-left: 90px;
+            font-weight: bold;
+        }
+        #credit_score_tag9
+        {
+            margin-left: 100px;
+            font-weight: bold;
+        }
+        #credit_score_tag10
+        {
+            font-weight: bold;
+        }
+        /*---------------- credit Score End Styles ---------------*/

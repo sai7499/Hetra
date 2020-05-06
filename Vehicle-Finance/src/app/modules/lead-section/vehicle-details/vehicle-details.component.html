@@ -1,34 +1,52 @@
 <div class="content">
     <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm">
         <h4 class="title">{{ label.vehcileDetailsTitle }}</h4>
-        <div class="text-right" id="add_vehicle_details_btn"><input class="btn btn-primary" type="button" value="Add Vehicle" id="add_vehicle" [routerLink]="['/pages/lead-section/add-vehicle']" ></div>
+            <div class="text-right" id="add_vehicle_details_btn">
+            <button class="btn btn-primary mar-right8" type="button" [routerLink]="['/pages/lead-section/add-vehicle']">Add Vehicle</button>
+            </div>
         <div class="table-responsive">
             <table class="table" id="add_vhd_table" >
                 <thead>
-                    <tr class=" table-head-bg ">
-                        <th>Registration No</th>
-                        <th>Make </th>
-                        <th>Model</th>
-                        <th>Variant</th>
-                        <th>Final Asset Cost</th>
-                        <th>Action</th>
-                    </tr>
+                <tr class=" table-head-bg ">
+                <th>Registration No</th>
+                <th>Make </th>
+                <th>Model</th>
+                <th>Variant</th>
+                <th>Final Asset Cost</th>
+                <th>Action</th>
+                </tr>
                 </thead>
-                <tbody>
-                    <tr id="add_vhd_tabletr"></tr>
+                <tbody >
+                <tr id="add_vhd_tabletr" *ngFor="let vehicleDetails of vehicleDetails; let i=index" >
+                <td>{{vehicleDetails.registrationNumber}}</td>
+
+                <td>{{vehicleDetails.assetMake.value}}</td>
+                <td>{{vehicleDetails.assetModel.value}}</td>
+                <td>{{vehicleDetails.assetVariant.value}}</td>
+
+                <td>{{vehicleDetails.finalAssetCost}}</td>
+
+                <td >
+                <i (click)="editVehicle(i)" class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;
+                <i (click)="deleteVehicle(i)" class="fa fa-trash" aria-hidden="true"></i>
+                </td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
-            <div class="btn-sec clear-both row">
-                <div class="col-sm-5"> </div>
+        <div class="btn-sec clear-both row">
+            <div class="col-sm-5"> </div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary js-btn-prev"  [routerLink]="['../applicant-details']" type="button"> {{ label.back }} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
-                    <button class="btn btn-primary js-btn-next"  [routerLink]="['/pages/lead-section/credit-score']" type="button" (click)="onFormSubmit()"> {{ label.next }} </button>
+                    <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> Back </button> &nbsp;
+                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()" > save</button> &nbsp;
+                    <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/credit-score']" type="button" >Next</button>
                 </div>
-            </div>
-        <!-- </div> -->
+        </div>
+        <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Vehicle Details saved Successfully.
+        </div>
+    <!-- </div> -->
 
     </form>
 </div>
