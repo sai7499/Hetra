@@ -2,12 +2,13 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            <a class="navbar-brand"><img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class=""></a>
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand"><img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra"
+                    class=""></a>
         </div>
         <nav id="bs-navbar" class="collapse navbar-collapse">
             <!-- <ul class="nav navbar-nav back-btn">
@@ -18,7 +19,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" [ngClass]="{'open': openProfile}">
                     <a class="dropdown-toggle name" data-toggle="dropdown" id="profileDropDown">
-                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal <i class="fa fa-angle-down"></i>
+                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal <i
+                            class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Profile</a></li>
@@ -26,10 +28,20 @@
                     </ul>
                 </li>
             </ul>
-            <div class="search">
-                <input type="text" class="form-control" placeholder="Search">
-                <span class="search-icon-left"></span>
+            <div class="search" (mouseover)="showSearch($event)" (mouseout)="hideSearch($event)">
+                <div>
+                    <span class="search-icon-left" *ngIf="showSearchIcon"></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
                 <!-- <button class="microphone-icon" title="Search by voice"></button> -->
+
+                <ul id="myUL" class="unique">
+                    <li [routerLink]="['/pages/lead-creation']">Create Lead</li>
+                    <li [routerLink]="['/pages/dashboard/leads/new-leads']">Go to New Lead Dashboard</li>
+                    <li [routerLink]="['QDE/QDE-section.html']">QDE</li>
+                    <li [routerLink]="['lead/pd_section.html']">PD</li>
+                    <li [routerLink]="['DDE/basic_details.html']">DDE</li>
+                </ul>
             </div>
         </nav>
 
@@ -37,33 +49,7 @@
 </header>
 
 <router-outlet></router-outlet>
-<!-- <div class="row clearfix m-0">
-    <div class="records col-xs-3 col-sm-4">
 
-        <form>
-            <div class="row">
-                <div class="col-lg-3"><label>No. of Rows </label><select class="form-control input-sm">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </select></div>
-            </div>
-
-        </form>
-    </div>
-
-    <nav class="col-xs-9 col-sm-4 text-center">
-        <ul class="pagination">
-            <li class="disabled"><a><span>«</span></a></li>
-            <li class="active"><a>1 <span class="sr-only">(current)</span></a></li>
-            <li><a>2</a></li>
-            <li><a>3</a></li>
-            <li><a>4</a></li>
-            <li><a>5</a></li>
-            <li><a><span>»</span></a></li>
-        </ul>
-    </nav>
-</div> -->
 <!-- <footer class="footer pf">
     <div class="container">
 
