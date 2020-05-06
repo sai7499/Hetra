@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~8.0.0",
     "@angular/platform-browser-dynamic": "~8.0.0",
     "@angular/router": "~8.0.0",
-    "ngx-bootstrap": "^5.6.1",
+    "ngx-bootstrap": "^2.0.5",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.4.0",
     "sjcl": "^1.0.8",
