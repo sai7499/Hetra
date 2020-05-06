@@ -4,14 +4,13 @@ import { HeaderComponent } from './modules/header/header.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full"
   },
   {
-    path: 'login',
-    loadChildren: () =>
-      import('./modules/login/login.module').then(m => m.LoginModule)
+    path: "login",
+    loadChildren: () => import("./modules/login/login.module").then(m => m.LoginModule)
   },
   {
     path: 'activity-search',
@@ -37,13 +36,35 @@ const routes: Routes = [
         path: 'terms-condition',
         loadChildren: () => import('./modules/terms-conditions/terms-conditions.module').then(m => m.TermsConditionsModule)
       },
+      
       {
         path: 'dde',
         loadChildren: () => import('./modules/dde/dde.module').then(m => m.DdeModule)
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
+        {
+        path: "terms-condition",
+        loadChildren: () => import("./modules/terms-conditions/terms-conditions.module").then(m => m.TermsConditionsModule)
+      },
+      {
+        path: "dde",
+        loadChildren: () => import("./modules/dde/dde.module").then(m => m.DdeModule)
+      },
+      {
+        path: 'vehicle-details',
+        loadChildren: () => import('./modules/dde/vehicle-details/vehicle-details.module').then(m => m.VehicleDetailsModule)
+
+      },
+      {
+        path: 'fl-and-pd-report',
+        loadChildren: () => import("./modules/dde/fl-and-pd-report/fl-and-pd-report.module").then(m => m.FlAndPdReportModule)
+      },
+      {
+        path: "applicant-details",
+        loadChildren: () =>
+          import("./modules/dde/applicant-details/applicant-details.module").then(m => m.ApplicantDetailsModule)
       }
     ]
   }

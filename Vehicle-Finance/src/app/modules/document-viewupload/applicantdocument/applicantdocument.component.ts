@@ -80,6 +80,7 @@ export class ApplicantdocumentComponent implements OnInit {
      }
   removeIdentity(index){
     if(index >=1){
+      console.log('value of I',index);
       this.identityControls.removeAt(index)
     }
   }

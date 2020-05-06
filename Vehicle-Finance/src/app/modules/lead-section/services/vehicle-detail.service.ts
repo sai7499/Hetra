@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -14,7 +14,9 @@ export class VehicleDetailService {
 
   private currentPage$ = new BehaviorSubject(0);
 
-  private url: string = "../assets/vehicle-details-data/vehicle-details-label.json";
+  private url = '../assets/vehicle-details-data/vehicle-details-label.json';
+
+  public vehicleVariable: any;
 
   constructor(private http: HttpClient) { }
 
@@ -25,15 +27,25 @@ export class VehicleDetailService {
       );
   }
   errorHandler(error: HttpErrorResponse) {
+    // tslint:disable-next-line: deprecation
     return Observable.throw(error.message || 'SERVER Error');
   }
 
   setCurrentPage(pageNumber: number) {
-    this.currentPage$.next(pageNumber)
+    this.currentPage$.next(pageNumber);
   }
 
   getCurrentPage() {
     return this.currentPage$;
+  }
+
+  setVehicle(varvehicle) {
+        this.vehicleVariable = varvehicle;
+        return this.vehicleVariable;
+  }
+
+  getVehicle() {
+    return this.vehicleVariable;
   }
 
 

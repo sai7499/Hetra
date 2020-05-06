@@ -3,7 +3,6 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
-
 @Component({
   selector: 'app-collateraldocument',
   templateUrl: './collateraldocument.component.html',
@@ -72,19 +71,6 @@ export class CollateraldocumentComponent implements OnInit {
       console.log(this.vehicleName);
   }
 
-  
-
-  addUnit(){
-              const control = <FormArray>this.collateralDocumentForm.controls['documents'];
-              control.push(this.getUnit());
-       }
-
-  removeUnit(i: number) {
-                            
-                          const control = <FormArray>this.collateralDocumentForm.controls['documents'];
-                          control.removeAt(i);
-                        }     
-
   getUnit() {
     return this.fb.group({
       documentName: [('')],
@@ -98,6 +84,19 @@ export class CollateraldocumentComponent implements OnInit {
 
     });
   }
+
+  addUnit(){
+              const control = <FormArray>this.collateralDocumentForm.controls['documents'];
+              control.push(this.getUnit());
+       }
+
+  removeUnit(i: number) {
+                          console.log('value of I',i);  
+                          const control = <FormArray>this.collateralDocumentForm.controls['documents'];
+                          control.removeAt(i);
+                        }     
+
+  
 
   onFormSubmit(){
     this.router.navigate(['/pages/lead-section']);

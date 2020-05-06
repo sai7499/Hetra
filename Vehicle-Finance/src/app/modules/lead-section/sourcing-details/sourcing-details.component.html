@@ -30,7 +30,7 @@
             <div class="row">
 
                 <div class="form-group col-lg-3 col-sm-6 col-md-6 col-xs-3 ">
-                    <label for="lead_number">{{labels.leadNumber}}</label>
+                    <label for="lead_number">{{labels?.leadNumber}}</label>
                     <input formControlName="leadNumber" type="text" class="form-control mandatory" id="lead_number" placeholder="Lead Number" name="lead_number" disabled>
 
                 </div>
@@ -40,7 +40,7 @@
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme_type">
-                    <label for="lead_created_by">Lead Created By</label>
+                    <label for="lead_created_by">{{labels?.leadCreatedBy}}</label>
                     <input formControlName="leadCreatedBy" type="text" class="form-control mandatory select2" id="lead_created_by" placeholder="Lead Created By" name="lead_created_by">
 
                 </div>
@@ -49,7 +49,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="subvention">
                     <label for="lead_handled">{{labels.leadHandledBy}}</label>
                     <app-vf-custom-select 
-                    [values]="values?.leadHandled" 
+                    [values]="values?.leadHandledBY" 
                     formControlName="leadHandledBy"></app-vf-custom-select>
                 </div>
             </div>
@@ -57,8 +57,8 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_channel">{{labels.sourcingChannel}}</label>
                     <app-vf-custom-select 
-                    [values]="values?.sourcingChannel" 
-                    formControlName="sourcingChannel"  (change)="sourcingChannelChange($event)" name ="sourcingChannel"></app-vf-custom-select>
+                    [values]="values?.soucringChannel" 
+                    formControlName="sourcingChannel" (change)="sourcingChannelChange($event)"  name ="sourcingChannel"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_type">{{labels.sourcingType}}</label>
@@ -83,7 +83,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="spoken_code">{{labels.spokeCodeLocation}}</label>
                     <app-vf-custom-select 
-                    [values]="values?.spokenCode" 
+                    [values]="values?.spokenCodeLocation" 
                     formControlName="spokeCodeLocation"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">

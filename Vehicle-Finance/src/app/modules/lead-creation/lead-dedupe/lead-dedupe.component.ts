@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-lead-dedupe',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lead-dedupe.component.css']
 })
 export class LeadDedupeComponent implements OnInit {
+  labels: any = {};
 
   isReason: boolean;
   isSubmit: boolean;
@@ -18,8 +20,7 @@ export class LeadDedupeComponent implements OnInit {
 
   dummmyArray = [];
 
-
-  constructor() { }
+  constructor( private labelsData: LabelsService) {}
 
   ngOnInit() {
     this.dummy();

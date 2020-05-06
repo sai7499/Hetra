@@ -64,6 +64,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   ) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
+      console.log(this.lovLabels);
     });
 
   }
@@ -149,6 +150,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     console.log(e.target.value);
   }
 
+
   onSubmit() {
     const formValue = this.createLeadForm.value;
     const leadModel: any = { ...formValue };
@@ -156,10 +158,11 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.leadStoreService.setLeadCreation(leadModel);
 
     const applicantModel = {
-      firstName: leadModel.nameOne,
-      middleName: leadModel.nameTwo,
-      lastName: leadModel.nameThree,
-      mobile: leadModel.mobile
+      first_name: leadModel.nameOne,
+      middle_name: leadModel.nameTwo,
+      last_name: leadModel.nameThree,
+      mobile: leadModel.mobile,
+      dateOfBirth: leadModel.dateOfBirth
     };
 
     // this.loanLeadDetails = {

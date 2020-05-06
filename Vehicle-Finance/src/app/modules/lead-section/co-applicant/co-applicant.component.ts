@@ -66,15 +66,15 @@ export class CoApplicantComponent implements OnInit {
       company_name2: new FormControl(''),
       company_name3: new FormControl(''),
       mobile: new FormControl(''),
-      date_of_birth: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       date_of_incorporation: new FormControl(''),
       identity_type: new FormControl(''),
       aadharnumber:new FormControl(''),
       panform: new FormControl(''),
       pannumber:new FormControl(''),
-      drivinglicense: new FormControl(''),
+      // drivinglicense: new FormControl(''),
       passportnumber:new FormControl(''),
-      identity_number: new FormControl(''),
+      identityNumber: new FormControl(''),
       identity_copy: new FormControl(''),
       address1: new FormControl(''),
       address2: new FormControl(''),
@@ -103,6 +103,11 @@ export class CoApplicantComponent implements OnInit {
       registered_address_state: new FormControl(''),
       registered_address_country: new FormControl(''),
       reg_mobile: new FormControl(''),
+      drivingLicenseNumber : new FormControl(''),
+      drivingLicenceIssueDate : new FormControl(''),
+      drivingLicenceExpiryDate :new FormControl(''),
+      passportIssueDate:new FormControl(''),
+      passportExpiryDate:new FormControl('')
     });
 
     this.labelsData.getLabelsData().subscribe(
@@ -115,9 +120,13 @@ export class CoApplicantComponent implements OnInit {
   }
 
   setFormValue(applicantValue: Temp) {
+    console.log('applicant value', applicantValue)
     if (!applicantValue) {
+      console.log('applicant value -1', applicantValue)
       return;
     }
+    else{
+      console.log('applicant 2', applicantValue)
     this.coApplicantForm.patchValue({
       entity: applicantValue.entity || '',
       relationshipwithloanapplicant: applicantValue.relationshipwithloanapplicant || '',
@@ -128,7 +137,7 @@ export class CoApplicantComponent implements OnInit {
       company_name2: applicantValue.company_name2 || '',
       company_name3: applicantValue.company_name3 || '',
       mobile: applicantValue.mobile || '',
-      date_of_birth: applicantValue.date_of_birth || '',
+      dateOfBirth: applicantValue.date_of_birth || '',
       date_of_incorporation: applicantValue.date_of_incorporation || '',
       identity_type: applicantValue.identity_type || '',
       aadharnumber:applicantValue.aadharnumber || '',
@@ -161,6 +170,7 @@ export class CoApplicantComponent implements OnInit {
       registered_address_country: applicantValue.registered_address_country || '',
     });
   }
+  }
 
   onNext() {
     // this.leadSectionService.setCurrentPage(1);
@@ -178,6 +188,45 @@ export class CoApplicantComponent implements OnInit {
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
     // this.router.navigate(['/pages/lead-section/product-details']);
+  }
+
+  onAddress(event){
+    console.log("Checkbox "+event.target.checked)
+
+    if(event.target.checked){
+      this.coApplicantForm.controls["line1"].setValue(this.coApplicantForm.controls.address1.value)
+      this.coApplicantForm.controls["line2"].setValue(this.coApplicantForm.controls.address2.value)
+      this.coApplicantForm.controls["line3"].setValue(this.coApplicantForm.controls.address3.value)
+      this.coApplicantForm.controls["current_pincode"].setValue(this.coApplicantForm.controls.pincode.value)
+      this.coApplicantForm.controls["current_address_city"].setValue(this.coApplicantForm.controls.permanent_address_city.value)
+      this.coApplicantForm.controls["current_address_district"].setValue(this.coApplicantForm.controls.permanent_address_district.value)
+      this.coApplicantForm.controls["current_address_state"].setValue(this.coApplicantForm.controls.permanent_address_state.value)
+      this.coApplicantForm.controls["current_address_country"].setValue(this.coApplicantForm.controls.permanent_address_country.value)
+      this.coApplicantForm.controls["current_landline"].setValue(this.coApplicantForm.controls.landline.value)
+
+
+
+      this.coApplicantForm.controls["line1"].disable()
+      this.coApplicantForm.controls["line2"].disable()
+      this.coApplicantForm.controls["line3"].disable()
+      this.coApplicantForm.controls["current_pincode"].disable()
+      this.coApplicantForm.controls["current_address_city"].disable()
+      this.coApplicantForm.controls["current_address_district"].disable()
+      this.coApplicantForm.controls["current_address_state"].disable()
+      this.coApplicantForm.controls["current_address_country"].disable()
+      this.coApplicantForm.controls["current_landline"].disable()   
+    }
+    else{
+      this.coApplicantForm.controls["line1"].enable()
+      this.coApplicantForm.controls["line2"].enable()
+      this.coApplicantForm.controls["line3"].enable()
+      this.coApplicantForm.controls["current_pincode"].enable()
+      this.coApplicantForm.controls["current_address_city"].enable()
+      this.coApplicantForm.controls["current_address_district"].enable()
+      this.coApplicantForm.controls["current_address_state"].enable()
+      this.coApplicantForm.controls["current_address_country"].enable()
+      this.coApplicantForm.controls["current_landline"].enable()
+      }
   }
 
 }

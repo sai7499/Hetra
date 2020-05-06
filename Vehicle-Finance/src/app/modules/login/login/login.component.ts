@@ -3,12 +3,16 @@ import { FormGroup ,FormControl, Validators,ReactiveFormsModule } from '@angular
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 
+import { LabelsService } from "src/app/services/labels.service";
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  labels: any = {};
+
 
   loginForm: FormGroup;
 
@@ -19,10 +23,21 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private labelsData: LabelsService
   ) { }
 
   ngOnInit() {
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+        // console.log(this.labels)
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
     this.loginForm = new FormGroup({
       email: new FormControl('', Validators.required),
@@ -57,3 +72,4 @@ export class LoginComponent implements OnInit {
       })
   }
 }
+

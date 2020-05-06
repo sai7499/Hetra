@@ -5,11 +5,11 @@ import { LeadSectionComponent } from "./lead-section.component";
 import { VehicleDetailComponent } from "./vehicle-details/vehicle-details.component";
 import { ApplicantDetailsComponent } from "./applicant-details/applicant-details.component";
 import { CoApplicantComponent } from "./co-applicant/co-applicant.component";
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { SourcingDetailsComponent } from './sourcing-details/sourcing-details.component';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 import { CreditScoreComponent } from './credit-score/credit-score.component';
+import { ExactMatchComponent} from './exact-match/exact-match.component';
+import { OtpSectionComponent} from './otp-section/otp-section.component'
 
 const routes: Routes = [
   {
@@ -20,11 +20,6 @@ const routes: Routes = [
       {
         path: "",
         component: SourcingDetailsComponent
-      },
-
-      {
-        path: "product-details",
-        component: ProductDetailsComponent
       },
 
       {
@@ -41,11 +36,6 @@ const routes: Routes = [
         path: "co-applicant",
         component: CoApplicantComponent
       },
-
-      {
-        path: "loan-details",
-        component: LoanDetailsComponent
-      },
         
       {
         path : "add-vehicle",
@@ -54,6 +44,14 @@ const routes: Routes = [
       {
         path : "credit-score",
         component : CreditScoreComponent
+      },
+      {
+        path : "exact-match",
+        component : ExactMatchComponent
+      },
+      {
+        path : "otp-section",
+        component : OtpSectionComponent
       }
 
      
