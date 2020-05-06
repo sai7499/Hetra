@@ -54,44 +54,44 @@
                 ],
                 "assetModel": [
                     {
-                        "key": 1,
-                        "value": "Mahindra XUV Aero"
+                      "key": 1,
+                      "value": "Mahindra XUV Aero"
                     },
                     {
-                        "key": 2,
-                        "value": "Renault Arkana"
+                      "key": 2,
+                      "value": "Renault Arkana"
                     },
                     {
-                        "key": 3,
-                        "value": "Mahindra eKUV100"
+                      "key": 3,
+                      "value": "Mahindra eKUV100"
                     }
                 ],
                 "assetBodyType": [
                     {
-                        "key": 1,
-                        "value": "Chevrolet"
+                      "key": 1,
+                      "value": "Chevrolet"
                     },
                     {
-                        "key": 2,
-                        "value": "Swift"
+                      "key": 2,
+                      "value": "Swift"
                     },
                     {
-                        "key": 3,
-                        "value": "Ciaz"
+                      "key": 3,
+                      "value": "Ciaz"
                     }
                 ],
                 "assetVariant": [
                     {
-                        "key": 1,
-                        "value": "Petrol"
+                      "key": 1,
+                      "value": "Petrol"
                     },
                     {
-                        "key": 2,
-                        "value": "AMT"
+                      "key": 2,
+                      "value": "AMT"
                     },
                     {
-                        "key": 3,
-                        "value": "Petrol"
+                      "key": 3,
+                      "value": "Petrol"
                     }
                 ],
                 "vechicalUsage": [
