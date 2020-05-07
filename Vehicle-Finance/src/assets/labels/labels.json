@@ -470,5 +470,11 @@
   "userName": "User Name",
   "password": "Password",
   "enterOtpSharedByCustomer": "Enter the OTP shared by the customer",
-  "offersAccepted": "Offers Accepted"
+  "offersAccepted": "Offers Accepted",
+
+  "createdOn": "Created On",
+  "createdBy": "Created By",
+  "promoCode": "Promocode",
+  "history": "History"
+  
 }

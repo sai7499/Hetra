@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-viability-checks-branch',
@@ -9,8 +10,10 @@ export class ViabilityChecksBranchComponent implements OnInit {
 
   leadDetails;
   itemsPerPage = 5;
+  labels: any = {};
+  q;
 
-  constructor() {
+  constructor(private labelsData: LabelsService) {
     this.leadDetails = [
       {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'},
@@ -30,6 +33,11 @@ export class ViabilityChecksBranchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      }
+    );
   }
 
 }

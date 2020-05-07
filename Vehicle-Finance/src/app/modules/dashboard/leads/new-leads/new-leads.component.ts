@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-new-leads',
@@ -9,8 +10,10 @@ export class NewLeadsComponent implements OnInit {
 
   newArray;
   itemsPerPage = 5;
+  labels: any = {};
+  q;
 
-  constructor() {
+  constructor(private labelsData: LabelsService) {
     this.newArray =  [
       {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'},
@@ -49,7 +52,12 @@ export class NewLeadsComponent implements OnInit {
     ];
    }
 
-  ngOnInit() {
+   ngOnInit() {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      }
+    );
   }
 
 }
