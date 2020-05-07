@@ -219,13 +219,14 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         console.log('Success Message', message);
 
         if (isDedupeAvailable) {
+          const leadDedupeData = response.ProcessVariables.leadDedupeResults;
+          this.leadStoreService.setDedupeData(leadDedupeData);
           this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
           return;
         }
         this.router.navigateByUrl('pages/lead-section');
       }
     })
-
     this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { LeadStoreService } from 'src/app/services/lead-store.service';
+
 
 @Component({
   selector: 'app-lead-dedupe',
@@ -20,10 +22,15 @@ export class LeadDedupeComponent implements OnInit {
 
   dummmyArray = [];
 
-  constructor( private labelsData: LabelsService) {}
+  constructor( 
+    private labelsData: LabelsService,
+    private leadStoreService: LeadStoreService
+    ) {}
 
   ngOnInit() {
     this.dummy();
+    const dedupeData = this.leadStoreService.getDedupeData();
+    console.log('dedupeData',dedupeData)
   }
 
   OnProceed() {
