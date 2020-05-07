@@ -14,12 +14,14 @@ import { AuthInterceptor } from './services/auth.interceptor.service';
 // import { HttpClientModule } from '@angular/common/http';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TeleVerificationFormComponent } from '../app/modules/dde/tele-verification-form/tele-verification-form.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    TeleVerificationFormComponent,
 
   ],
   imports: [
