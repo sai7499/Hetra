@@ -15,6 +15,7 @@ import { ValuationComponent } from "./valuation/valuation.component";
 import { PslDataComponent } from "./psl-data/psl-data.component";
 import { FlReportComponent } from "./fl-report/fl-report.component";
 import { PdReportComponent } from "./pd-report/pd-report.component";
+import { CreditConditionsComponent } from './credit-conditions/credit-conditions.component';
 
 
 const routes: Routes = [
@@ -77,6 +78,10 @@ const routes: Routes = [
       {
         path: "applicant-list",
         component: ApplicantListComponent
+      },
+      {
+        path: "credit-conditins",
+        component: CreditConditionsComponent
       }
     ]
   }
