@@ -10,7 +10,7 @@
             <!--<a href="#" class="navbar-brand">LOS</a>-->
         </div>
         <nav id="bs-navbar" class="collapse navbar-collapse" (click)="openProfile = !openProfile">
-            <ul class="nav navbar-nav navbar-right">
+            <!-- <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" [ngClass]="{'open': openProfile}">
                     <a  class="dropdown-toggle name" data-toggle="dropdown" id="profileDropDown">
                         <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal <i class="fa fa-angle-down"></i>
@@ -19,6 +19,25 @@
                         <li><a >Profile</a></li>
                         <li><a >Logout</a></li>
                     </ul>
+                </li>
+            </ul> -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle name" data-toggle="dropdown">
+                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal Nataraj <b class="fa fa-angle-down"></b>
+                    </a>
+                     <ul class="dropdown-menu">
+                        <li><a >Dhanapal Nataraj</a></li>
+                        <li><a > <select class="form-control"><option value="Sales Officer" selected="selected" >Sales Officer</option></select></a></li>
+                        <li><a >Velachery Branch</a></li>
+                        <!--- <li><a href="#profile" >Profile</a></li> ---->
+                        
+                        <li><a [routerLink]="['']">Logout</a></li>
+                    </ul>
+                    <!---- <ul class="dropdown-menu">
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul> ----->
                 </li>
             </ul>
         </nav>
@@ -30,7 +49,7 @@
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
-                <select class="form-control "  id="selectbox" name="" [(ngModel)]="seletedRoute">
+                <!-- <select class="form-control "  id="selectbox" name="" [(ngModel)]="seletedRoute">
                   
                     <option value=""></option>
                     <option value="/pages/lead-creation">Create Lead</option>
@@ -38,8 +57,16 @@
                     <option value="lead/pd_section.html">PD</option>
                     <option value="/pages/dde">DDE</option>
                 
-                </select>
+                </select> -->
                 <!-- <input type="text" class="form-control" placeholder="Search"> -->
+                <span class="form-control " id="selectbox" name="" ></span>
+                <span class="search-icon-left"></span>
+                <div class="dropdown-content">
+                    <a [routerLink]="['../pages/lead-creation']">Create Lead</a>
+                    <a href="#">QDE</a>
+                    <a href="#">PD</a>
+                    <a [routerLink]="['../pages/dde']">DDE</a>
+                </div>
                 <span class="search-icon-left"></span>
                 <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
             </div>

@@ -20,7 +20,16 @@ export class LeadDedupeComponent implements OnInit {
 
   dummmyArray = [];
 
-  constructor( private labelsData: LabelsService) {}
+  constructor( private labelsData: LabelsService) {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+        console.log('labels',this.labels)
+      },
+      error => {
+        console.log(error);
+      });
+  }
 
   ngOnInit() {
     this.dummy();

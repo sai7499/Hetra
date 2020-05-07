@@ -55,43 +55,65 @@
                 "assetModel": [
                     {
                       "key": 1,
-                      "value": "Mahindra XUV Aero"
+                      "value": "CITY RIDER"
                     },
                     {
                       "key": 2,
-                      "value": "Renault Arkana"
+                      "value": "LP 709 32 SEATER"
                     },
                     {
                       "key": 3,
-                      "value": "Mahindra eKUV100"
+                      "value": "LP 709 36 SEATER"
+                    },
+                    {
+                        "key": 3,
+                        "value": "10.50- 12 + 1 SEATER"
+                    },
+                    {
+                        "key": 3,
+                        "value": "SKYLINE- 36 SEATER"
                     }
                 ],
                 "assetBodyType": [
                     {
                       "key": 1,
-                      "value": "Chevrolet"
+                      "value": "Asset Body Type 1"
                     },
                     {
                       "key": 2,
-                      "value": "Swift"
+                      "value": "Asset Body Type 2"
                     },
                     {
                       "key": 3,
-                      "value": "Ciaz"
+                      "value": "Asset Body Type 3"
                     }
                 ],
                 "assetVariant": [
                     {
                       "key": 1,
-                      "value": "Petrol"
+                      "value": "LP 1512 - 54 SEATER"
                     },
                     {
                       "key": 2,
-                      "value": "AMT"
+                      "value": "Viking HCV BUS"
                     },
                     {
                       "key": 3,
-                      "value": "Petrol"
+                      "value": "2214"
+                    }
+                ],
+                "assetSubVariant": [
+                    {
+                      "key": 1,
+                      "value": "Sub Variant 1"
+                    },
+                    {
+                      "key": 2,
+                      "value": "Sub Variant 2"
+                    },
+                    {
+                      "key": 3,
+                      "value": "Sub Variant 3"
                     }
                 ],
                 "vechicalUsage": [
