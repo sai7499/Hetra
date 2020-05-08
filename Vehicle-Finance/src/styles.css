@@ -130,7 +130,7 @@ h3 {
 }
 
 .search .form-control {
-    height: 44px;
+    /*   */
     border: 1px solid #dedede;
     border-radius: 22px;
     padding: 6px 48px;
@@ -155,15 +155,15 @@ h3 {
 }
 
 .search .search-icon-left {
-    background: url(/images/search.png) no-repeat center;
+    background: url(./assets/images/search.png) no-repeat center;
     left: 20px;
 }
 
 .search .microphone-icon {
-    background: url(/images/mic.png) no-repeat center;
+    /* background: url(../images/mic.png) no-repeat center; */
     cursor: pointer;
     margin-inline-end: 16px;
-    padding: 22px 12px 0;
+    padding: 4px 28px 0 7px;
     right: 0;
     border-top-right-radius: 1.5em;
     border-bottom-right-radius: 1.5em;
@@ -193,7 +193,7 @@ h3 {
 }
 
 .records select {
-    max-width: 55px;
+    max-width: 50px;
     padding: 5px;
 }
 
@@ -310,7 +310,7 @@ form .form-control {
 }
 
 .alert {
-    position: fixed;
+    position: absolute;
     top: 13px;
     z-index: 9999;
     width: 400px;
@@ -381,24 +381,8 @@ form .form-control {
     padding: 6px !important;
 }
 
-.search .microphone-icon {
-    /* background: url(../images/mic.png) no-repeat center; */
-    cursor: pointer;
-    margin-inline-end: 16px;
-    padding: 22px 12px 0;
-    right: 0;
-}
 
-.vertical-middle .search .search-icon-left,
-.vertical-middle .search .microphone-icon {
-    height: 40px;
-}
-/*---- Search bar End ------*/
-
-#mobile_view_cont
-    {
-        display: none;
-    }
+/* progress bar */
 
 .tab_content {
     background: #fff;

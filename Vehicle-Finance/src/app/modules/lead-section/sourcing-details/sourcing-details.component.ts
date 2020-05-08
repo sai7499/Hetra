@@ -6,7 +6,6 @@ import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -15,10 +14,9 @@ import { element } from 'protractor';
 })
 export class SourcingDetailsComponent implements OnInit {
   values: any = [];
-  tenorValue= []
   public labels: any = {};
   sourcingDetailsForm: FormGroup;
-  SourcingChange: any;
+  SourcingChange: any
   text:any;
   id: any;
 
@@ -34,8 +32,6 @@ export class SourcingDetailsComponent implements OnInit {
     this.initForm();
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].sourcingDetails[0];
-      console.log("values", this.values)
-      
 
 
       this.values.loanAccountBranch = res[0].leadCreation[0].loanAccountBranch;
@@ -46,8 +42,6 @@ export class SourcingDetailsComponent implements OnInit {
       this.values.leadHandledBY = res[0].leadCreation[0].leadHandledBY;
       this.values.soucringChannel= res[0].leadCreation[0].soucringChannel;
       this.values.spokenCodeLocation = res[0].leadCreation[0].spokenCodeLocation;
-      this.values.sourcingType = res[0].sourcingDetails[0].sourcingType;
-      console.log(this.values.sourcingType)
       // this.setFormValue();
       this.getdata()
       
@@ -59,22 +53,36 @@ export class SourcingDetailsComponent implements OnInit {
     this.SourcingChange = event.target.value;
     console.log(this.SourcingChange);
     
+    // this.sourcingDetailsForm.controls['sourcingChannel'].valueChanges.subscribe((value) => {
+      
+    //   switch(this.SourcingChange){
   
+    //   case '61': this.ProfessionList = [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+    //                break;
+    //   case '62': this.ProfessionList = [{key: 1,value: 'Liability Branch Code'}];
+    //                break; 
+    //   case '63': this.ProfessionList = [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+    //                break;
+    //   default: this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+    //                break;                                      
+    // }
+      
+    // });
     if(this.SourcingChange == 61){
      this.id.professionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
      this.text="Employee Code"
    }
    else if(this.SourcingChange== 62){
-        this.id.professionList=[{key: 1, value: "Liability Branch Code" }];
+    this.id.professionList=[{key: 1, value: "Liability Branch Code" }];
               this.text= "Employee Code"
    }
    else if(this.SourcingChange== 63){
-     this.id.professionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+    this.id.professionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
      this.text="Employee Code"
    }
    else if(this.SourcingChange==64)
     {
-      this.id.professionList = [{key: 1,value: 'Not Applicable'}];
+      this.id.professionList= [{key: 1,value: 'Not Applicable'}];
       this.text = "Campaign Code";
       
     }
@@ -83,6 +91,14 @@ export class SourcingDetailsComponent implements OnInit {
       this.text = "Employee Code";
     }
 
+    // if(this.SourcingChange==4)
+    // {
+    //   this.text = "Campaign Code";
+    // }
+    // else{
+    //   this.text = "Employee Code";
+    // }
+  
   }
 
   initForm() {
@@ -112,10 +128,25 @@ export class SourcingDetailsComponent implements OnInit {
       error => {
         console.log(error);
       });
-
       
   }
 
+  // setFormValue() {
+  //   const sourcingValue = this.leadStoreService.getSourcingDetails() || {};
+  //   console.log('source', sourcingValue)
+  //   this.sourcingDetailsForm.patchValue({
+  //     leadHandledBy: sourcingValue.leadHandledBy || '',
+  //     sourcingChannel: sourcingValue.sourcingChannel || '',
+  //     sourcingType: sourcingValue.sourcingType || '',
+  //     sourcingCode: sourcingValue.sourcingCode || '',
+  //     spokeCodeLocation: sourcingValue.spokeCodeLocation || ''
+  //   });
+  //   const leadData = this.leadStoreService.getLeadCreation() || {};
+  //   console.log('lead data', leadData)
+  //   this.sourcingDetailsForm.patchValue({
+  //     loanAccountBranch: leadData.loanAccountBranch || ''
+  //   });
+  // }
 
   onNext() {
     this.leadSectionService.setCurrentPage(1);
@@ -135,9 +166,53 @@ export class SourcingDetailsComponent implements OnInit {
    this.sourcingDetailsForm.controls["sourcingChannel"].setValue(this.id.sourcingChannel)
    this.sourcingDetailsForm.controls["sourcingType"].setValue(this.id.sourcingType)
    this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)
+   
+   
+  //  if(this.id.sourcingChannel == 61){
+  //    this.ProfessionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+  //    this.text="Employee Code"
+  //  }
+  //  else if(this.values.soucringChannel== 62){
+  //       this.ProfessionList=[{key: 1, value: "Liability Branch Code" }];
+  //             this.text= "Employee Code"
+  //  }
+  //  else if(this.values.soucringChannel== 63){
+  //    this.ProfessionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+  //    this.text="Employee Code"
+  //  }
+  //  else if(this.values.soucringChannel==64)
+  //   {
+  //     this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+  //     this.text = "Campaign Code";
+      
+  //   }
+  //   else{
+  //     this.ProfessionList= [{key: 1,value: 'Not Applicable'}];
+  //     this.text = "Employee Code";
+  //   }
 
+   
+
+
+  //  this.values.productCategory.forEach(element => {
+  //    console.log(element)
+  //      if(parseInt(this.id.productCategory) == element.key){
+  //        console.log(element.value)
+  //       this.sourcingDetailsForm.controls["product"].setValue(element.key)
+  //      }
+  //  });
+    
   };
 
+  // getCategory(categoryArray, value,formControlName){
+  //   categoryArray.forEach(element => {
+  //      console.log(element)
+  //        if(parseInt(value) == element.key){
+  //          console.log('element value',element.value)
+  //         this.sourcingDetailsForm.controls[formControlName].setValue(element.key)
+  //        }
+  //    })
+  // }
 
   onFormSubmit() {
     this.router.navigate(['/pages/lead-section/applicant-details']);

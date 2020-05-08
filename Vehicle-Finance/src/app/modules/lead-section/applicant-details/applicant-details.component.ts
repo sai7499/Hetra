@@ -39,7 +39,6 @@ export class ApplicantDetailsComponent implements OnInit {
     // this.applicantDetails.push(applicants)
     // this.leadStoreService.getApplicantList();
     console.log('applicant Details', this.applicantDetails);
-    
   }
   onSubmit(){
     this.isAlert= false
@@ -55,8 +54,6 @@ export class ApplicantDetailsComponent implements OnInit {
     console.log(index);
     this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
   }
-
-  
 
   deleteApplicant(index: number){
 console.log(index);

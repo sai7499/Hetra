@@ -24,10 +24,9 @@ export class AddvehicleComponent implements OnInit {
     public getAllFieldLabel;
     public show: boolean = false;
     public formVehicle: any;
-    public isAlert : boolean = true;
-    isHidden : boolean =false
+    public isAlert : boolean = false;
     selectedVehicle : number;
-    
+    isHidden : boolean =false;
   
 
   constructor(
@@ -51,7 +50,16 @@ export class AddvehicleComponent implements OnInit {
           
           this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
           console.log('vehicleLov', this.vehicleLov);
-         
+          this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
+          this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel
+
+          
+          this.vehicleLov.vehicleType=value[0].vehicleDetails[0].vehicleType
+          this.vehicleLov.assetBodyType=value[0].vehicleDetails[0].assetBodyType
+          this.vehicleLov.region=value[0].vehicleDetails[0].region
+          this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant
+          this.vehicleLov.assetSubVariant=value[0].vehicleDetails[0].assetSubVariant
+          this.vehicleLov.vechicalUsage=value[0].vehicleDetails[0].vechicalUsage
          
           // this.setFormValue();
           // this.onCheck();
@@ -62,7 +70,7 @@ export class AddvehicleComponent implements OnInit {
           const vehicleId= value? value.id : null;
           console.log('vehicleId', vehicleId)
           if (vehicleId !== null && vehicleId !==undefined){
-             this.isHidden= true;
+            this.isHidden= true;
             this.selectedVehicle = Number(vehicleId);
             console.log('numberselectId', this.selectedVehicle)
             const selectedVehicle : Temp= this.leadStoreService.getSelectedVehicle(Number(vehicleId));
@@ -179,19 +187,15 @@ export class AddvehicleComponent implements OnInit {
         const formModel = this.vehicleForm.value;
         // console.log('formModel',formModel)
         const vehicleModel = {...formModel};
-        
+        this.isAlert= true
         if(this.selectedVehicle !==undefined){
           this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
           return;
         }
-        this.isAlert= false
-        setTimeout(() => {
-          this.isAlert = true
-        },1000);
-       
+        // console.log('vehicleModel',vehicleModel)
         this.leadStoreService.setVehicleDetails(vehicleModel);
         
-
+         this.router.navigateByUrl['/pages/lead-section/vehicle-details']
         
       }
 
@@ -201,21 +205,40 @@ export class AddvehicleComponent implements OnInit {
       onCheck(){
            this.formVehicle= this.vehicleForm.value;
            console.log('onCheck', this.formVehicle);
-           this.vehicleForm.controls["assetMake"].setValue(this.formVehicle.assetMake)
-           this.vehicleForm.controls["assetModel"].setValue(this.formVehicle.assetModel)
-           this.vehicleForm.controls["assetVariant"].setValue(this.formVehicle.assetVariant)
-           this.vehicleForm.controls["assetSubVariant"].setValue(this.formVehicle.assetSubVariant)
-           this.vehicleForm.controls["assetBodyType"].setValue(this.formVehicle.assetBodyType)
-           this.vehicleForm.controls["vehicleType"].setValue(this.formVehicle.vehicleType)
-           this.vehicleForm.controls["region"].setValue(this.formVehicle.region)
-           this.vehicleForm.controls["vechicalUsage"].setValue(this.formVehicle.vechicalUsage)
+           this.getcategory(this.vehicleLov.assetMake, this.formVehicle.assetMake, "assetMake")
+           this.getcategory(this.vehicleLov.assetModel, this.formVehicle.assetModel, "assetModel")
+           this.getcategory(this.vehicleLov.assetVariant, this.formVehicle.assetVariant, "assetVariant")
+           this.getcategory(this.vehicleLov.assetSubVariant, this.formVehicle.assetSubVariant, "assetSubVariant")
+           this.getcategory(this.vehicleLov.assetBodyType, this.formVehicle.assetBodyType, "assetBodyType")
+           this.getcategory(this.vehicleLov.vehicleType, this.formVehicle.vehicleType, "vehicleType")
+           this.getcategory(this.vehicleLov.region, this.formVehicle.region, "region")
+           this.getcategory(this.vehicleLov.vechicalUsage, this.formVehicle.vechicalUsage, "vechicalUsage")
+
            this.vehicleForm.controls["finalAssetCost"].setValue(this.formVehicle.finalAssetCost);
            this.vehicleForm.controls["noOfVehicle"].setValue(this.formVehicle.noOfVehicle)
-           this.vehicleForm.controls["yearAndMonthManufacturing"].setValue(this.formVehicle.yearAndMonthManufacturing)
-              
+          //  this.vehicleLov.assetMake.forEach(element=>{
+          //   if(parseInt(this.formVehicle.assetMake) == element.key){
+          //     console.log('hello')
+          //     this.vehicleForm.controls["assetMake"].setValue(element.key)
+          //   }
+          //  });
+            
+            
       }
 
-    
+      getcategory(category, value,formcontrolName){
+        category.forEach(element=>{
+          if(parseInt(value) == element.key){
+            console.log('hello')
+            this.vehicleForm.controls[formcontrolName].setValue(element.key)
+          }
+         });
+      }
+
+      // getVehicle(){
+      //  this.tableVehicleDetail=this.vehicleDetailService.getVehicle()
+      //  console.log('tableDetails',this.tableVehicleDetail)
+      // }
   
       ngOnChanges() { }
   

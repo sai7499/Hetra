@@ -329,7 +329,7 @@
 
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
-                                            for="current_landline">{{labels?.landlineNumber}}</label>
+                                            for="current_landline">{{labels?.registeredAddressLandlineNumber}}</label>
                                         <input type="text" class="form-control" id="current_landline"
                                             formControlName="current_landline">
                                     </div>
@@ -345,73 +345,73 @@
                                 <h3 class="title">Registered Address</h3>
                                 <div class="row">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line1">{{labels?.addressline1}}</label>
+                                        <label for="registered_line1">{{labels?.line1}}</label>
                                         <input type="text" class="form-control" id="registered_line1"
                                             formControlName="registered_line1">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line2">{{labels?.addressline2}}</label>
+                                        <label for="registered_line2">{{labels?.line2}}</label>
                                         <input type="text" class="form-control" id="registered_line2"
                                             formControlName="registered_line2">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line3">{{labels?.addressline3}}</label>
+                                        <label for="registered_line3">{{labels?.line3}}</label>
                                         <input type="text" class="form-control" id="registered_line3"
                                             formControlName="registered_line3">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_pincode">{{labels?.code}}</label>
+                                        <label for="registered_pincode">{{labels?.registeredAddressPINCode}}</label>
                                         <input type="text" class="form-control" id="registered_pincode"
                                             formControlName="registered_pincode">
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_address_city">{{labels?.city}}</label>
-                                        <!-- <select class="form-control" id="registered_address_city">
+                                        <label for="registered_address_city">{{labels?.registeredAddressCity}}</label>
+                                        <select class="form-control" id="registered_address_city">
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.city"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressCity"
                                             formControlName="registered_address_city">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
-                                            for="current_address_district">{{labels?.district}}</label>
-                                        <!-- <select class="form-control" id="current_address_district">
+                                            for="current_address_district">{{labels?.registeredAddressDistrict}}</label>
+                                        <select class="form-control" id="current_address_district">
                                             <option>District 1</option>
                                             <option>District 2</option>
                                             <option>District 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.district"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressDistrict"
                                             formControlName="current_address_district">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_state">{{labels?.state}}</label>
-                                        <!-- <select class="form-control" id="current_address_state">
+                                        <label for="current_address_state">{{labels?.registeredAddressState}}</label>
+                                        <select class="form-control" id="current_address_state">
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.state"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressState"
                                             formControlName="current_address_state">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
-                                            for="current_address_country">{{labels?.country}}</label>
-                                        <!-- <select class="form-control" id="current_address_country">
+                                            for="current_address_country">{{labels?.registeredAddressCountry}}</label>
+                                        <select class="form-control" id="current_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
-                                        </select> -->
-                                        <app-vf-custom-select [values]="values?.country"
+                                        </select>
+                                        <!-- <app-vf-custom-select [values]="values?.registeredAddressCountry"
                                             formControlName="current_address_country">
-                                        </app-vf-custom-select>
+                                        </app-vf-custom-select> -->
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="reg_mobile">{{labels?.registeredAddressLandlineNumber}}</label>
+                                        <label for="reg_mobile">{{labels?.landlineNumber}}</label>
                                         <input type="number" class="form-control" id="reg_mobile" formControlName="reg_mobile">
                                     </div>
 
@@ -431,16 +431,12 @@
                                     [routerLink]="['../exact-match']" ><a
                                         class="back_color">Save</a>
                                 </button>
-                                
 
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Application Details saved Successfully.
             </div>
         </form>
     </div>

@@ -38,7 +38,7 @@
     "stage": "Lead Stage",
     "status": "Status",
     "reasonForRejection": "Rejection Reason",
-    "applicantName": "Applicant",
+    "applicantName": "Applicant",   
     "modelTitle": "LOS - Lead Creation",
     "message": "Are you sure you want to create a new lead?",
     "proceed": "Proceed",

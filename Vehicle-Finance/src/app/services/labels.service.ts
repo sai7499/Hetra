@@ -11,7 +11,6 @@ export class LabelsService {
 
   private labelFleetUrl = 'assets/labels/labelFleetDetails.json';
   private languageLabelsurl = 'assets/labels/labels-hindi.json';
-  
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +28,4 @@ export class LabelsService {
   getLanguageLabelData(): Observable<any> {
     return this.http.get(this.languageLabelsurl);
   }
-
- 
 }

@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { interval} from 'rxjs'
-import { map, findIndex} from 'rxjs/operators'
+import { interval} from 'rxjs';
+import { map, findIndex} from 'rxjs/operators';
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { VehicleDetailService} from '../services/vehicle-detail.service'
+import { VehicleDetailService} from '../services/vehicle-detail.service';
 import { element } from 'protractor';
 
 @Component({
@@ -23,12 +23,12 @@ export class VehicleDetailComponent implements OnInit {
     public label: any = {};
     public errorMsg;
     public getAllFieldLabel;
-    public show: boolean = false;
-    public vehicleDetails : any=[];
-    public isAlert : boolean = true
-    
-    public varVehicle=[];
-    isshow : boolean
+    public show = false;
+    public vehicleDetails: any;
+    public isAlert = true;
+
+    public varVehicle = [];
+
 
 
 
@@ -42,7 +42,6 @@ export class VehicleDetailComponent implements OnInit {
 
 
     ngOnInit() {
-    
       this.initForm();
       console.log('ngonit', this.vehicleForm.value);
       this.getAllFieldLabel = this.labelsData.getLabelsData()
@@ -55,11 +54,13 @@ export class VehicleDetailComponent implements OnInit {
       this.lovDataService.getLovData().subscribe((value: any) => {
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
         // console.log('vehicleLov', this.vehicleLov);
-        
-        this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;
-        this.vehicleLov.assetModel=value[0].vehicleDetails[0].assetModel;
-        this.vehicleLov.assetVariant=value[0].vehicleDetails[0].assetVariant;
+        // this.setFormValue();
+        this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
+        this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel;
+        this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant;
 
+
+        // console.log('asset make', this.vehicleLov.assetMake)
         this.getData();
 
       });

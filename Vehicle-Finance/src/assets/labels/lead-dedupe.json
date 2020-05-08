@@ -2,17 +2,16 @@
   {
     "title": "Results For Load Dedupe",
     "select": "Select",
-    "applicationId": "Lead ID",
-    "loanCreatedBy": "Created By",
-    "loanCreatedDate" : "created Date",
-    "loanAccountBranch": " Branch",
+    "applicationId": "Application ID",
+    "loanCreatedBy": " Loan Created By",
+    "loanAccountBranch": " Loan Account Branch",
     "businessDivision": "Business Division",
     "product": "Product",
     "loanAmount": "Loan Amount",
-    "stage": "Lead Stage",
+    "stage": "Stage",
     "status": "Status",
-    "reasonForRejection": "Rejection Reason",
-    "applicantName": "Applicant",
+    "reasonForRejection": "Reason For Rejection",
+    "applicantName": "Applicant Name",
     "mobile": "Mobile",
     "proceed": "Proceed",
     "reject": "Reject",
@@ -68,4 +67,3 @@
       "title":"Offer Accetence"
   }
 ]
-

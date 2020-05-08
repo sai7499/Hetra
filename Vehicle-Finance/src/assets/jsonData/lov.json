@@ -102,16 +102,6 @@
                       "value": "2214"
                     }
                 ],
-                "vechicalUsage": [
-                    {
-                        "key": 1,
-                        "value": "Yellow Board"
-                    },
-                    {
-                        "key": 2,
-                        "value": "White Board"
-                    }
-                ],
                 "assetSubVariant": [
                     {
                       "key": 1,
@@ -124,6 +114,16 @@
                     {
                       "key": 3,
                       "value": "Sub Variant 3"
+                    }
+                ],
+                "vechicalUsage": [
+                    {
+                        "key": 1,
+                        "value": "Yellow Board"
+                    },
+                    {
+                        "key": 2,
+                        "value": "White Board"
                     }
                 ],
                 "vechicleCategory": [
