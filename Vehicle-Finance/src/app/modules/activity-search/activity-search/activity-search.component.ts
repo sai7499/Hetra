@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 
+
 @Component({
   selector: "app-dashboard",
   templateUrl: "./activity-search.component.html",
@@ -8,6 +9,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 export class ActivitySearchComponent implements OnInit, OnDestroy {
   openProfile: boolean;
   seletedRoute: string;
+  changeText : boolean
 
   bodyClickEvent = event => {
     if (event.target.id === "profileDropDown") {
@@ -17,7 +19,9 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     this.openProfile = false;
   };
 
-  constructor() {}
+  constructor() {
+   this.changeText= true
+  }
 
   ngOnInit() {
     document

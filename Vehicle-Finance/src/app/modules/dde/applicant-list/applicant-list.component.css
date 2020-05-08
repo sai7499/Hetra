@@ -1,0 +1,14 @@
+.controlWidth {
+    width: 100%;
+}
+
+.pagination>.active>a {
+    z-index: 0;
+}
+
+
+/* bottom buttons css */
+
+.cst_btm_btns {
+    margin-bottom: 55px;
+}

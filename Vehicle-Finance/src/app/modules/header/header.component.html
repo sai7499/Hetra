@@ -1,5 +1,5 @@
 <header class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -15,7 +15,7 @@
                     <a href="dashboard.html"> <i class="fa fa-angle-left"></i> Back </a>
                 </li>
             </ul> -->
-            <ul class="nav navbar-nav navbar-right" >
+            <!-- <ul class="nav navbar-nav navbar-right" >
                 <li class="dropdown" [ngClass]="{'open': openProfile}">
                     <a  class="dropdown-toggle name" data-toggle="dropdown"  id="profileDropDown">
                         <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal <i class="fa fa-angle-down"></i>
@@ -25,10 +25,38 @@
                         <li><a href="#">Logout</a></li>
                     </ul>
                 </li>
+            </ul> -->
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle name" data-toggle="dropdown">
+                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal Nataraj <b class="fa fa-angle-down"></b>
+                    </a>
+                     <ul class="dropdown-menu">
+                        <li><a >Dhanapal Nataraj</a></li>
+                        <li><a > <select class="form-control"><option value="Sales Officer" selected="selected" >Sales Officer</option></select></a></li>
+                        <li><a [routerLink]="['']">Velachery Branch</a></li>
+                        <!--- <li><a href="#profile" >Profile</a></li> ---->
+                        <li></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                    <!---- <ul class="dropdown-menu">
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul> ----->
+                </li>
             </ul>
+
+
             <div class="search">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" id="selectbox" placeholder="Search">
                 <span class="search-icon-left"></span>
+                <div class="dropdown-content">
+                    <a [routerLink]="['../pages/lead-creation']">Create Lead</a>
+                    <a href="#">QDE</a>
+                    <a href="#">PD</a>
+                    <a href="#">DDE</a>
+                </div>
                 <!-- <button class="microphone-icon" title="Search by voice"></button> -->
             </div>
         </nav>

@@ -15,6 +15,7 @@ import { element } from 'protractor';
 })
 export class SourcingDetailsComponent implements OnInit {
   values: any = [];
+  tenorValue= []
   public labels: any = {};
   sourcingDetailsForm: FormGroup;
   SourcingChange: any;
@@ -33,6 +34,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.initForm();
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].sourcingDetails[0];
+      console.log("values", this.values)
+      
 
 
       this.values.loanAccountBranch = res[0].leadCreation[0].loanAccountBranch;
@@ -94,7 +97,7 @@ export class SourcingDetailsComponent implements OnInit {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
-      spokeCodeLocation: new FormControl(''),
+      spokeCodeLocation: new FormControl({value:'',disabled:true}),
       loanAccountBranch: new FormControl({value: '', disabled: true}),
       requestedAmount : new FormControl(''),
       requestedTenor : new FormControl('')
@@ -127,8 +130,8 @@ export class SourcingDetailsComponent implements OnInit {
    this.sourcingDetailsForm.controls["product"].setValue(this.id.productCategory)
    this.sourcingDetailsForm.controls["priority"].setValue(this.id.priority)
    this.sourcingDetailsForm.controls["spokeCodeLocation"].setValue(this.id.spokeCodeLocation)
-   this.sourcingDetailsForm.controls["loanAccountBranch"].setValue(this.id.loanAccountBranch)
-   this.sourcingDetailsForm.controls["leadHandledBy"].setValue(this.id.leadHandledBy)
+   this.sourcingDetailsForm.controls["loanAccountBranch"].setValue(this.id.loanBranch)
+   this.sourcingDetailsForm.controls["leadHandledBy"].setValue(this.id.leadHandeledBy)
    this.sourcingDetailsForm.controls["sourcingChannel"].setValue(this.id.sourcingChannel)
    this.sourcingDetailsForm.controls["sourcingType"].setValue(this.id.sourcingType)
    this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)

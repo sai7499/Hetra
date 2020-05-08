@@ -74,9 +74,9 @@ export class CoApplicantComponent implements OnInit {
       aadharnumber:new FormControl(''),
       panform: new FormControl(''),
       pannumber:new FormControl(''),
-      drivinglicense: new FormControl(''),
+      // drivinglicense: new FormControl(''),
       passportnumber:new FormControl(''),
-      identity_number: new FormControl(''),
+      identityNumber: new FormControl(''),
       identity_copy: new FormControl(''),
       address1: new FormControl(''),
       address2: new FormControl(''),
@@ -105,6 +105,11 @@ export class CoApplicantComponent implements OnInit {
       registered_address_state: new FormControl(''),
       registered_address_country: new FormControl(''),
       reg_mobile: new FormControl(''),
+      drivingLicenseNumber : new FormControl(''),
+      drivingLicenceIssueDate : new FormControl(''),
+      drivingLicenceExpiryDate :new FormControl(''),
+      passportIssueDate:new FormControl(''),
+      passportExpiryDate:new FormControl('')
     });
 
     this.labelsData.getLabelsData().subscribe(
@@ -135,7 +140,7 @@ export class CoApplicantComponent implements OnInit {
       company_name2: applicantValue.company_name2 || '',
       company_name3: applicantValue.company_name3 || '',
       mobile: applicantValue.mobile || '',
-      date_of_birth: applicantValue.date_of_birth || '',
+      dateOfBirth: applicantValue.date_of_birth || '',
       date_of_incorporation: applicantValue.date_of_incorporation || '',
       identity_type: applicantValue.identity_type || '',
       aadharnumber:applicantValue.aadharnumber || '',

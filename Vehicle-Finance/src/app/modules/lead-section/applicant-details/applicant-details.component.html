@@ -8,7 +8,7 @@
                         <h4 class="title">{{labels.applicantDetailsTitle}}</h4>
                     </div>
                     <div class="col-sm-7 text-right">
-                        <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
+                        <button class="btn btn-primary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
                         <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                     </div>
                 </div>
@@ -28,11 +28,36 @@
                             <tbody>
                                 <tr *ngFor="let applicant of applicantDetails; let i = index">
                                     <td>55464</td>
-                                    <td><a href="#">{{applicant.first_name}}</a></td>
+                                    <td>{{applicant.first_name}}</td>
                                     <td>{{applicant.mobile}}</td>
                                     <td>{{applicant.dateOfBirth}}</td>
                                     <td>{{i === 0 ? 'Applicant' : 'Co-Applicant'}}</td>
-                                    <td (click)="editApplicant(i);" ><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                                    <td ><i (click)="editApplicant(i);" class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;<a data-toggle="modal" data-target="#myModal"><i  class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                    
+                                    <div class="modal" id="myModal">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                      
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                              <h4 class="modal-title"></h4>
+                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                      
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                              Are you Sure Want to Delete?
+                                            </div>
+                                      
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer text-center">
+                                               <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteApplicant(i)">Yes</button>
+                                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                      
+                                          </div>
+                                        </div>
+                                      </div>
                                 </tr>
                                
 

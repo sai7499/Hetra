@@ -71,8 +71,8 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
                                         </span>
-                                        <input type="text" class="form-control" id="date_of_birth"
-                                            formControlName="dateOfBirth">
+                                        <input type="date" class="form-control" id="date_of_birth"
+                                            formControlName="dateOfBirth"/>
                                     </div>
                                 </div>
                             </div>
@@ -113,22 +113,69 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.pannumber}}</label>
-                                <input type="text" class="form-control" id="pannumber" formControlName="pannumber">
+                                <label for="mobile">{{labels?.drivingLicenseNumber}}</label>
+                                <input type="text" class="form-control" id="pannumber" formControlName="drivingLicenseNumber">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.drivingLicenceIssueDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="drivingLicenceIssueDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="drivingLicenceIssueDate"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.drivingLicenceExpiryDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="drivingLicenceExpiryDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="drivingLicenceExpiryDate"/>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.drivinglicense}}</label>
-                                <input type="text" class="form-control" id="drivinglicense" formControlName="drivinglicense">
+                                <label for="mobile">{{labels?.passportNumber}}</label>
+                                <input type="text" class="form-control" id="pannumber" formControlName="passportNumber">
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="mobile">{{labels?.passportnumber}}</label>
-                                <input type="text" class="form-control" id="passportnumber" formControlName="passportnumber">
+                                <label for="mobile">{{labels?.passportIssueDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="passportIssueDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="passportIssueDate"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.passportExpiryDate}}</label>
+                                <!-- <input type="date" class="form-control" id="pannumber" formControlName="passportExpiryDate"> -->
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_of_birth"
+                                        formControlName="passportExpiryDate"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="mobile">{{labels?.identityNumber}}</label>
+                                <input type="text" class="form-control" id="drivinglicense" formControlName="identityNumber">
                             </div>
                         </div>
                         <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
 
+                            
                             <div id="individual_section_address" class="individual_section_leadco"
                                 *ngIf="applicantType === '1'">
                                 <!-- <h4 class="title">individual</h4> -->
@@ -282,7 +329,7 @@
 
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label
-                                            for="current_landline">{{labels?.registeredAddressLandlineNumber}}</label>
+                                            for="current_landline">{{labels?.landlineNumber}}</label>
                                         <input type="text" class="form-control" id="current_landline"
                                             formControlName="current_landline">
                                     </div>
@@ -364,7 +411,7 @@
                                         </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="reg_mobile">{{labels?.landlineNumber}}</label>
+                                        <label for="reg_mobile">{{labels?.registeredAddressLandlineNumber}}</label>
                                         <input type="number" class="form-control" id="reg_mobile" formControlName="reg_mobile">
                                     </div>
 

@@ -13,7 +13,12 @@
     "target": "es2015",
     "paths": {
       "@model/*": ["src/app/model/*"],
-      "@services/*": ["src/app/services/*"]
+      "@services/*": ["src/app/services/*"],
+   
+
+      "@shared/*": [
+        "src/app/modules/shared/*"
+      ]
     },
     "typeRoots": [
       "node_modules/@types"

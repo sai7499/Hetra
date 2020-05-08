@@ -37,6 +37,7 @@ export class ApplicantDetailsComponent implements OnInit {
     this.applicantDetails = this.leadStoreService.getApplicantList();
     // console.log('applicant array', applicants)
     // this.applicantDetails.push(applicants)
+    // this.leadStoreService.getApplicantList();
     console.log('applicant Details', this.applicantDetails);
     
   }
@@ -51,6 +52,14 @@ export class ApplicantDetailsComponent implements OnInit {
   }
 
   editApplicant(index: number) {
+    console.log(index);
     this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
+  }
+
+  
+
+  deleteApplicant(index: number){
+console.log(index);
+this.leadStoreService.deleteApplicant(index);
   }
 }

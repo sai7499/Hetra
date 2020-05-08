@@ -92,3 +92,13 @@ i.fa.fa-minus.delete-row {
     padding: 10px;
     cursor:pointer;
 }
+
+.btn-primary {
+    padding: 8px 6px; 
+}
+
+#sales_credit_score
+        {
+            background: #fff;
+            padding: 10px;
+        }
