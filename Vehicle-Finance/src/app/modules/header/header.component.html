@@ -29,12 +29,17 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle name" data-toggle="dropdown">
-                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal Nataraj <b class="fa fa-angle-down"></b>
+                        <span class="name-circle"><span class="name-circle-txt"> {{firstLetter}} </span></span> {{userName}} <b class="fa fa-angle-down"></b>
                     </a>
                      <ul class="dropdown-menu">
-                        <li><a >Dhanapal Nataraj</a></li>
-                        <li><a > <select class="form-control"><option value="Sales Officer" selected="selected" >Sales Officer</option></select></a></li>
-                        <li><a >Velachery Branch</a></li>
+                        <li><a >{{userName}}</a></li>
+                        <li><a > 
+                            <select class="form-control">
+                                <option value="Sales Officer" selected="selected" >Sales Officer</option>
+                            </select>
+                            </a>
+                        </li>
+                        <li><a >{{branchName}} Branch</a></li>
                         <!--- <li><a href="#profile" >Profile</a></li> ---->
                         <li></li>
                         <li><a [routerLink]="['']">Logout</a></li>

@@ -24,12 +24,17 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle name" data-toggle="dropdown">
-                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal Nataraj <b class="fa fa-angle-down"></b>
+                        <span class="name-circle"><span class="name-circle-txt"> {{firstLetter}} </span></span>{{userName}} <b class="fa fa-angle-down"></b>
                     </a>
                      <ul class="dropdown-menu">
-                        <li><a >Dhanapal Nataraj</a></li>
-                        <li><a > <select class="form-control"><option value="Sales Officer" selected="selected" >Sales Officer</option></select></a></li>
-                        <li><a >Velachery Branch</a></li>
+                        <li><a >{{userName}}</a></li>
+                        <li><a > 
+                            <select class="form-control">
+                                <option *ngFor="let role of roles" value="{{role.name}}" selected="selected" >{{role.name}}</option>
+                            </select>
+                            </a>
+                        </li>
+                        <li><a >{{branchName}} Branch</a></li>
                         <!--- <li><a href="#profile" >Profile</a></li> ---->
                         
                         <li><a [routerLink]="['']">Logout</a></li>
@@ -50,12 +55,10 @@
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
                 <!-- <select class="form-control "  id="selectbox" name="" [(ngModel)]="seletedRoute">
-                  
-                    <option value=""></option>
-                    <option value="/pages/lead-creation">Create Lead</option>
-                    <option value="QDE/QDE-section.html">QDE</option>
-                    <option value="lead/pd_section.html">PD</option>
-                    <option value="/pages/dde">DDE</option>
+                    <option class="option" value="/pages/lead-creation">Create Lead</option>
+                    <option class="option" value="QDE/QDE-section.html">QDE</option>
+                    <option class="option" value="lead/pd_section.html">PD</option>
+                    <option class="option" value="/pages/dde">DDE</option>
                 
                 </select> -->
                 <!-- <input type="text" class="form-control" placeholder="Search"> -->
@@ -67,6 +70,7 @@
                     <a href="#">PD</a>
                     <a [routerLink]="['../pages/dde']">DDE</a>
                 </div>
+
                 <span class="search-icon-left"></span>
                 <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
             </div>

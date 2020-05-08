@@ -29,7 +29,7 @@ export class LoginService {
         let email = localStorage.getItem('email');
 
         const requestEntity: RequestEntity = {
-            processId: processId,
+            processId: processId, 
             ProcessVariables: {
                 "loginId": email
             },

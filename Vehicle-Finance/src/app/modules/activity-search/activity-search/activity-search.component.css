@@ -30,3 +30,7 @@ z-index: 1;
 .search:hover .dropdown-content {display: block;}
 
 .search:hover #selectbox {background-color: white;}   
+
+.option{
+border-radius:50px;
+}
