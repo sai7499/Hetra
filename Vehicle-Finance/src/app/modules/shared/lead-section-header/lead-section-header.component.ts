@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from "src/app/services/labels.service";
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-lead-section-header',
@@ -9,7 +9,8 @@ import { Routes, RouterModule } from '@angular/router';
 })
 export class LeadSectionHeaderComponent implements OnInit {
   labels: any = {};
-  constructor(private labelsData: LabelsService) {  }
+  constructor(private labelsData: LabelsService,
+    public router : Router) {  }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(

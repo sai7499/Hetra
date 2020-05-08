@@ -46,8 +46,15 @@
                 </li>
             </ul>
             <div class="search">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" id="selectbox" placeholder="Search">
                 <span class="search-icon-left"></span>
+                <div class="dropdown-content">
+                    
+                    <a  [routerLink]="['../pages/lead-creation']">Create Lead</a>
+                    <a href="#">QDE</a>
+                    <a href="#">PD</a>
+                    <a [routerLink]="['../pages/dde']">DDE</a>
+                </div>
                 <!-- <button class="microphone-icon" title="Search by voice"></button> -->
             </div>
         </nav>
