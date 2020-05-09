@@ -22,11 +22,11 @@ export class LeadDedupeComponent implements OnInit {
 
   dummmyArray = [];
 
-  constructor( private labelsData: LabelsService,private leadStoreService: LeadStoreService) {
+  constructor( private labelsData: LabelsService, private leadStoreService: LeadStoreService) {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        console.log('labels',this.labels)
+        console.log('labels', this.labels);
       },
       error => {
         console.log(error);
@@ -36,7 +36,7 @@ export class LeadDedupeComponent implements OnInit {
   ngOnInit() {
     this.dummy();
     const dedupeData = this.leadStoreService.getDedupeData();
-    console.log('dedupeData',dedupeData)
+    console.log('dedupeData', dedupeData);
   }
 
   OnProceed() {
@@ -49,52 +49,51 @@ export class LeadDedupeComponent implements OnInit {
     this.isSubmit = true;
   }
 
-  OnCreateNew(){
+  OnCreateNew() {
 
   }
 
-  OnChecked(e) {    
+  OnChecked(e) {
    const seleted = e.target.checked;
-   if(seleted){
+   if (seleted) {
      this.count++;
-   }
-   else{
+   } else {
      this.count--;
    }
-   this.isChecked = this.count !=0 ? true : false;
-   console.log(this.isChecked);   
+   this.isChecked = this.count !== 0 ? true : false;
+   console.log(this.isChecked);
   }
 
   OnItemPerPage(e) {
     this.perPage = e.target.value;
-    console.log(this.perPage)
+    console.log(this.perPage);
   }
 
-  OnSubmit(){
-    this.isModal = true;   
+  OnSubmit() {
+    this.isModal = true;
   }
 
   dummy() {
     for (let i = 0; i <= 500; i++) {
       this.dummmyArray.push({
         applicantId: `${i}`,
-        loanCreatedBy: " person",
-        createdDate: "05-03-2020",
-        leadId: "11257009",
-        branch: "chennai",
-        businessDivision: "Vehicle Finance",
-        product: "New CV",
-        loanAmount: "500000",
-        stage: "Lead Creation",
-        status: "rej or App",
-        reason: "Not Submitted",
-        applicantName: "Mathew",
-        mobile: "8282828145"
-      })
+        loanCreatedBy: 'person',
+        createdDate: '05-03-2020',
+        leadId: '11257009',
+        branch: 'chennai',
+        businessDivision: 'Vehicle Finance',
+        product: 'New CV',
+        loanAmount: '500000',
+        stage: 'Lead Creation',
+        status: 'rej or App',
+        reason: 'Not Submitted',
+        applicantName: 'Mathew',
+        mobile: '8282828145'
+      });
     }
   }
 
-  closeModal(){
-    this.isModal = false
+  closeModal() {
+    this.isModal = false;
   }
 }
