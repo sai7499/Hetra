@@ -36,15 +36,17 @@ getvalue(env: any) {
     { name: 'DDE' , route: '/pages/dde' },
   ];
   console.log(this.searchText);
-  // tslint:disable-next-line: no-unused-expression
-  // tslint:disable-next-line: only-arrow-functions
   this.searchLead = sections.filter( e => {
-         return e.name.includes(env);
+        //  return e.name.includes(env);
+        if (e.name.includes(env)) {
+          return e;
+        }
   });
   console.log('SortedArray :', this.searchLead);
 }
 
-isInArray() {
+getRoute(data: any) {
+  console.log(data);
 
 }
 
