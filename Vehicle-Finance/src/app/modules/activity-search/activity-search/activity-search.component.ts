@@ -14,6 +14,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   seletedRoute: string;
   searchText: string;
   searchLead: any;
+  searchDiv = false;
   bodyClickEvent = event => {
     if (event.target.id === 'profileDropDown') {
       this.openProfile = true;
@@ -38,10 +39,14 @@ getvalue(env: any) {
   console.log(this.searchText);
   this.searchLead = sections.filter( e => {
         //  return e.name.includes(env);
-        if (e.name.includes(env)) {
+        env = env.toLowerCase();
+        const eName = e.name.toLowerCase();
+        if (eName.includes(env)) {
           return e;
         }
-  });
+        this.searchDiv = true;
+  }
+  );
   console.log('SortedArray :', this.searchLead);
 }
 
