@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-tvr-details',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TvrDetailsComponent implements OnInit {
 
-  constructor() { }
+  labels: any = {};
+
+  constructor(private labelDetails: LabelsService) { }
 
   ngOnInit() {
+    this.labelDetails.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      }
+    );
   }
 
 }

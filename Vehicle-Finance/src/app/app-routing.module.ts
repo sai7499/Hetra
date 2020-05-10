@@ -38,8 +38,9 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
-        {
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
+      {
         path: 'terms-condition',
         loadChildren: () => import('./modules/terms-conditions/terms-conditions.module').then(m => m.TermsConditionsModule)
       },
@@ -60,9 +61,14 @@ const routes: Routes = [
         path: 'applicant-details',
         loadChildren: () =>
           import('./modules/dde/applicant-details/applicant-details.module').then(m => m.ApplicantDetailsModule)
+      },
+      {
+        path: 'tele-verification-form',
+        loadChildren: () =>
+          import('./modules/dde/tele-verificarion-form/tele-verificarion-form.module').then(m => m.TeleVerificarionFormModule)
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

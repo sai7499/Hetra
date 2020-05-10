@@ -15,7 +15,7 @@ import { ValuationComponent } from './valuation/valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
-import { TvrDetailsComponent } from './tvr/tvr-details/tvr-details.component';
+import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 
 
 const routes: Routes = [
@@ -80,8 +80,8 @@ const routes: Routes = [
         component: ApplicantListComponent
       },
       {
-        path: 'tvr',
-        loadChildren: () => import('./tvr/tvr.module').then(m => m.TvrModule)
+        path: 'tvr-details',
+        component: TvrDetailsComponent
       }
     ]
   }
