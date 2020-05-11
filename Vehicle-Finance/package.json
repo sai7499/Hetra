@@ -19,8 +19,18 @@
     "@angular/platform-browser": "~8.0.0",
     "@angular/platform-browser-dynamic": "~8.0.0",
     "@angular/router": "~8.0.0",
+    "@capacitor/android": "^2.1.0",
+    "@capacitor/cli": "^2.1.0",
+    "@capacitor/core": "^2.1.0",
+    "@ionic-native/core": "^5.25.0",
+    "@ionic-native/http": "^5.25.0",
+    "cordova-plugin-advanced-http": "^2.4.1",
+    "cordova-plugin-file": "^6.0.2",
+    "crypto-js": "^3.1.9-1",
     "ngx-bootstrap": "^5.6.1",
+    "ngx-device-detector": "^1.4.2",
     "ngx-pagination": "^5.0.0",
+    "ngx-ui-loader": "^9.1.1",
     "rxjs": "~6.4.0",
     "sjcl": "^1.0.8",
     "tslib": "^1.9.0",
@@ -46,5 +56,8 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
+  },
+  "browser": {
+    "crypto": false
   }
 }

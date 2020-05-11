@@ -1,3 +1,5 @@
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { HTTP } from '@ionic-native/http/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -30,6 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule
   ],
   providers: [
+    HTTP,
+    DeviceDetectorService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
