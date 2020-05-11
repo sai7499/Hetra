@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup ,FormControl, Validators,ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 
 import { LabelsService } from "src/app/services/labels.service";
+import { LoginStoreService } from '../../../services/login-store.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private labelsData: LabelsService
+    private labelsData: LabelsService,
+    private loginStoreService: LoginStoreService
   ) { }
 
   ngOnInit() {
@@ -58,10 +60,14 @@ export class LoginComponent implements OnInit {
         this.loginService.getUserDetails().subscribe((res: any) => {
           const response = res;
           if (response.Error === '0') {
-            const role = response.ProcessVariables.roles[0].name;
-            if (role === 'Sales Officer') {
-              this.router.navigateByUrl('/activity-search');
-            }
+            const roles = response.ProcessVariables.roles;
+            const userDetails = response.ProcessVariables.userDetails;
+            this.loginStoreService.setRolesAndUserDetails(roles, userDetails);
+            this.router.navigateByUrl('/activity-search');
+            // const role = response.ProcessVariables.roles[0].name;
+            // if (role === 'Sales Officer') {
+            //   this.router.navigateByUrl('/activity-search');
+            // }
           }
         })
       }

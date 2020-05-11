@@ -16,7 +16,7 @@ import { AuthInterceptor } from './services/auth.interceptor.service';
 // import { HttpClientModule } from '@angular/common/http';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { SharedModule} from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [
     HTTP,

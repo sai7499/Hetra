@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginStoreService } from '../../../services/login-store.service';
 
-
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./activity-search.component.html",
-  styleUrls: ["./activity-search.component.css"]
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
-export class ActivitySearchComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
   openProfile: boolean;
   seletedRoute: string;
   userName: string;
@@ -15,14 +14,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   branchName: string;
   roles = [];
 
-  bodyClickEvent = event => {
-    if (event.target.id === "profileDropDown") {
-      this.openProfile = true;
-      return;
-    }
-    this.openProfile = false;
-  };
-
+ 
   constructor(private loginStoreService: LoginStoreService) { }
 
   ngOnInit() {
@@ -36,10 +28,19 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
       .querySelector("body")
       .addEventListener("click", this.bodyClickEvent);
   }
+  
+  bodyClickEvent = event => {
+    if (event.target.id === "profileDropDown") {
+      this.openProfile = true;
+      return;
+    }
+    this.openProfile = false;
+  };
 
   ngOnDestroy() {
     document
       .querySelector("body")
       .removeEventListener("click", this.bodyClickEvent);
   }
+
 }
