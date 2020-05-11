@@ -470,5 +470,11 @@
   "userName": "User Name",
   "password": "Password",
   "enterOtpSharedByCustomer": "Enter the OTP shared by the customer",
-  "offersAccepted": "Offers Accepted"
+  "offersAccepted": "Offers Accepted",
+  "accepted": "Accepted",
+  "notAccepted":"Not Accepted",
+  "defferedTillDate":"Deffered till date",
+  "creditCondition":"Credit Condition",
+  "salesResponse": "Sales Response",
+  "supportDocument":"Support Document"
 }
