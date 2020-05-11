@@ -25,6 +25,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   applicantType: string = 'I';
   SourcingChange: any;
+  sourcingCode: string = 'Sourcing Code'
   ProfessionList = [];
   text: string;
 
@@ -121,12 +122,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     }
 
     if (this.SourcingChange == 64) {
-      this.text = "Campaign Code";
-      this.createLeadForm.patchValue({ sourcingCode: this.text });
+      this.sourcingCode = "Campaign Code";
+      // this.createLeadForm.patchValue({ sourcingCode: this.text });
     }
     else {
-      this.text = "Employee Code";
-      this.createLeadForm.patchValue({ sourcingCode: this.text });
+      // this.text = "Employee Code";
+      // this.createLeadForm.patchValue({ sourcingCode: this.text });
+      this.sourcingCode = "Employee Code";
 
     }
   }

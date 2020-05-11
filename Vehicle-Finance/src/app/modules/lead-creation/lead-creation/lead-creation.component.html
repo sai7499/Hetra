@@ -56,7 +56,7 @@
             <!-- <app-vf-custom-select [values]="lovLabels?.sourcingCode" formControlName="sourcingCode" [(ngModel)]="text">
             </app-vf-custom-select> -->
             <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode"
-              placeholder="Sourcing Code" name="sourcingCode">
+              [placeholder]="sourcingCode" name="sourcingCode">
           </div>
         </div>
         <div class="row">
