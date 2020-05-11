@@ -22,6 +22,7 @@ import { ApplicantListComponent } from './applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
+import { InsuranceDetailsComponent } from './vehicle-details/insurance-details/insurance-details.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
 
@@ -33,6 +34,7 @@ import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
     PdReportComponent,
     VehicleValuationComponent,
     ValuationComponent,
+    InsuranceDetailsComponent,
     PslDataComponent,
     SourcingDdeComponent,
     ExposureDetailsComponent,

@@ -20,10 +20,6 @@ const routes: Routes = [
         component: ViabilityDetailsComponent,
       },
       {
-        path: "insurance-details",
-        component: InsuranceDetailsComponent,
-      },
-      {
         path: "rto-details",
         component: RtoDeclarationDetailsComponent,
       },
