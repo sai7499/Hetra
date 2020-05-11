@@ -27,6 +27,7 @@ export class TeleVerificationFormComponent implements OnInit {
         sourceOfProposal: [],
         product: [],
         emi: [],
+        contractDetails: [],
         residence: [],
         otherVehicles: [],
         phoneNo: [],
@@ -64,6 +65,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
       });
     }
+
+    get teleVerificationFormControls() { return this.teleVerificationForm.controls; }
 
   ngOnInit() {
     this.labelDetails.getLabelsData().subscribe(

@@ -498,7 +498,7 @@
   "familyMembers": "Family Members",
   "relationWithApplicant": "Relation with Applicant",
   "date": "Date",
-  "Time": "Time",
+  "time": "Time",
   "tvrDoneByName": "TVR done by name",
   "eCode": "E code",
   "sign": "Sign",
@@ -517,5 +517,8 @@
   "relation": "Relation",
   "decision": "Decision",
   "monthlySalaryGross": "Monthly Salary : Gross",
-  "otherSourcesofIncome": "Other Sources of Income, if any"
+  "otherSourcesofIncome": "Other Sources of Income, if any",
+  "residenceStability": "Residence Stability Confirmed",
+  "customerAvailability": "Customer Availability",
+  "confirmedAddress": "Address Confirmed"
 }
