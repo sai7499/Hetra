@@ -18,10 +18,9 @@ import { ApplicantListComponent } from "./applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
-import { TermSheetsComponent } from './term-sheets/term-sheets.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
-// import { DdeRoutingModule } from './dde.routing.module';
-// import { DdeSharedModule } from './shared/shared.module';
+
+
 
 
 @NgModule({
@@ -38,7 +37,7 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
-    TermSheetsComponent,
+    InsuranceDetailsComponent,
     InsuranceDetailsComponent
   ],
   imports: [
