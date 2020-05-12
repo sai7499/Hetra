@@ -5,13 +5,17 @@
 /* .multisteps-form__panel js-active {
     width: 878px;
     height: 286.4px;
-}
+} */
 
-.container {
+/* .container {
     width: 1050px; 
     height: 276.4px;
 } */
 
+.table-head-bg {
+    text-align: center;
+    font-size: 14px;
+}
 .showModal{
     display: block;
 }
