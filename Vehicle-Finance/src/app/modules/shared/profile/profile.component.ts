@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   branchName: string;
   roles = [];
 
- 
+
   constructor(private loginStoreService: LoginStoreService) { }
 
   ngOnInit() {
@@ -25,22 +25,27 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.roles = roleAndUserDetails.roles;
 
     document
-      .querySelector("body")
-      .addEventListener("click", this.bodyClickEvent);
+      .querySelector('body')
+      .addEventListener('click', this.bodyClickEvent);
   }
-  
+
   bodyClickEvent = event => {
-    if (event.target.id === "profileDropDown") {
+    const targetId = event.target.id;
+    if (targetId === 'roles') {
+      this.openProfile = true;
+      return;
+    }
+    if (event.target.id === 'profileDropDown') {
       this.openProfile = true;
       return;
     }
     this.openProfile = false;
-  };
+  }
 
   ngOnDestroy() {
     document
-      .querySelector("body")
-      .removeEventListener("click", this.bodyClickEvent);
+      .querySelector('body')
+      .removeEventListener('click', this.bodyClickEvent);
   }
 
 }
