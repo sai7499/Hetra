@@ -59,12 +59,12 @@
                     <option value="/pages/dde">DDE</option>
                 
                 </select> -->
-
-                <!-- <select  class="form-control "  id="selectbox"  [(ngModel)]="seletedRoute">
-                    <option *ngFor="let item of searchLead" value ="{{item.route}}" (click)="getRoute($event.target.value)">{{item.name}}</option>
+                <!-- <div class="dropdown-content" *ngIf="searchDiv">
+                <select  class="form-control "  id="selectbox"  [(ngModel)]="seletedRoute">
+                    <option *ngFor="let item of searchLead" value ="{{item.route}}" >{{item.name}}</option>
                     
-                </select> -->
-               
+                </select>
+            </div> -->
                 <!-- <span class="form-control " id="selectbox" name="" ></span>
                 <span class="search-icon"></span>
                 <div class="dropdown-content">
@@ -75,7 +75,7 @@
                     <a [routerLink]="['../pages/dde']">DDE</a>
                     </ul>
                 </div>-->
-                <div class="search" *ngIf="searchDiv">
+                <div class="dropdown-content" *ngIf="searchDiv">
                     <div *ngFor="let item of searchLead" >
                     <a [routerLink]="item.route">{{item.name}}</a>
                     </div>

@@ -63,7 +63,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="sourcing_type">{{labels.sourcingType}}</label>
                     <app-vf-custom-select 
-                    [values]="id.professionList" 
+                    [values]="id?.professionList" 
                     formControlName="sourcingType"></app-vf-custom-select>
                     <!-- <select class="form-control" name="profession_id" > 
                         <option *ngFor='let value of ProfessionList'>{{ value.value }}</option>
@@ -112,8 +112,11 @@
                 </div>
                 <div class="col-sm-7 text-right">
                     <button class="btn btn-primary mar-right8"  type="button" (click)="onFormSubmit()">Save </button>
-                    <button class="btn btn-primary js-btn-next" type="button"  (click)="onFormSubmit()" > Next </button>
+                    <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['/pages/lead-section/applicant-details']" > Next </button>
                 </div>
+            </div>
+            <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Saved!
             </div>
         </div>
     </form>
