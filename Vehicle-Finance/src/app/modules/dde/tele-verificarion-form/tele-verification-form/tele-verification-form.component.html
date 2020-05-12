@@ -43,8 +43,7 @@
                             formControlName="sourceOfProposal" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="sourcing_code" class="ellipsify">How did the customer come to know about Equitas
-                            Bank (Existing)</label>
+                        <label for="sourcing_code" class="ellipsify">{{labels.knowAboutEquitasBank}}</label>
                         <select class="form-control" id="senior_citizen" name="senior_citizen">
                             <option>option 1</option>
                             <option>option 2</option>
@@ -61,10 +60,10 @@
 
                         <div>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">New
+                                <input type="radio" name="optradio">{{labels.new}}
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">Used
+                                <input type="radio" name="optradio">{{labels.used}}
                             </label>
                         </div>
                     </div>
@@ -97,10 +96,9 @@
                            formControlName="contractDetails" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="lead_created_by_source" class="ellipsify">Type of Goods Carried - Onward and Return
-                            (Applicable for CV).</label>
-                        <input type="text" class="form-control" id="lead_created_date" name="lead_created_date"
-                            value="">
+                        <label for="typeofGoodsCarried" class="ellipsify">{{labels.typeofGoodsCarried}}</label>
+                        <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried"
+                           formControlName="typeofGoodsCarried" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="fundingAmountRequested" class="ellipsify">{{labels.fundingAmountRequested}}</label>
@@ -204,10 +202,10 @@
                         <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
                         <div>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">Yes
+                                <input type="radio" name="optradio">{{labels.yes}}
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">No
+                                <input type="radio" name="optradio">{{labels.no}}
                             </label>
                         </div>
                     </div>
@@ -221,10 +219,10 @@
                         <label for="sourcing_type" class="asset_type">{{labels.residenceStability}}</label>
                         <div>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">Yes
+                                <input type="radio" name="optradio">{{labels.yes}}
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">No
+                                <input type="radio" name="optradio">{{labels.no}}
                             </label>
                         </div>
                     </div>
@@ -233,10 +231,10 @@
                         <label for="sourcing_type" class="asset_type">{{labels.customerAvailability}}</label>
                        <div>
                         <label class="radio-inline">
-                            <input type="radio" name="optradio">Yes
+                            <input type="radio" name="optradio">{{labels.yes}}
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="optradio">No
+                            <input type="radio" name="optradio">{{labels.no}}
                         </label>
                        </div>
                     </div>
@@ -431,7 +429,7 @@
             <div class="row mar-top19">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 padding-10 text-right">
-                    <button class="btn btn-primary"> Save </button>
+                    <button type="submit" class="btn btn-primary" (click)="onSave()"> Save </button>
                     <button class="btn btn-primary dash_href" type="button"><a
                            [routerLink]="['/pages/dde/tvr-details']" >Next</a></button>
                 </div>

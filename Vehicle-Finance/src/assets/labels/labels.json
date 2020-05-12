@@ -523,5 +523,10 @@
   "confirmedAddress": "Address Confirmed",
   "fundingAmountRequested": "Funding Amount Requested",
   "endUseFunds": "End Use of Funds",
-  "tenureRequested": "Tenure Requested"
+  "tenureRequested": "Tenure Requested",
+  "typeofGoodsCarried": "Type of Goods Carried - Onward and return(Applicable for CV).",
+  "new": "New",
+  "used": "Used",
+  "no": "NO",
+  "knowAboutEquitasBank": "How did the customer come to know about Equitas Bank (Existing)"
 }
