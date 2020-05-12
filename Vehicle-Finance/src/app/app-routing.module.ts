@@ -60,9 +60,9 @@ const routes: Routes = [
           import("./modules/dde/applicant-details/applicant-details.module").then(m => m.ApplicantDetailsModule)
       },
       {
-        path: "vh-val",
+        path: "vehicle-valuation",
         loadChildren: () =>
-        import ("./modules/dde/vh-val/vh-val.module").then(m => m.VhValModule)
+        import ("./modules/dde/vehicle-valuation-router/vehicle-valuation-router.module").then(m => m.VehicleValuationRouterModule)
       }
     ]
   }

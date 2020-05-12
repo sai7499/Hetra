@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { VhValComponent } from './vh-val.component';
+import { VehicleValuationRouterComponent } from './vehicle-valuation-router.component';
 import { ValuationComponent } from './valuation/valuation.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: VhValComponent,
+    component: VehicleValuationRouterComponent,
     children: [
       {
         path: 'valuation',
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VhValRoutingModule { }
+export class VehicleValuationRoutingModule { }
