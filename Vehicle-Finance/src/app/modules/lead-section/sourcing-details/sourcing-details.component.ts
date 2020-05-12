@@ -220,11 +220,12 @@ export class SourcingDetailsComponent implements OnInit {
     setTimeout(() => {
       this.isAlert=true
     },1000);
-   // this.router.navigate(['/pages/lead-section/applicant-details']);
+   
     console.log('sourcing form', this.sourcingDetailsForm.value);
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = {...formValue};
     this.leadStoreService.setSourcingDetails(sourcingModel);
+    // this.router.navigate(['/pages/lead-section/applicant-details']);
     
     
   }
