@@ -153,7 +153,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue };
+    const leadModel: any = { ...formValue,professionList : this.ProfessionList };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 
@@ -219,13 +219,14 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         console.log('Success Message', message);
 
         if (isDedupeAvailable) {
+          const leadDedupeData = response.ProcessVariables.leadDedupeResults;
+          this.leadStoreService.setDedupeData(leadDedupeData);
           this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
           return;
         }
         this.router.navigateByUrl('pages/lead-section');
       }
     })
-
     this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 

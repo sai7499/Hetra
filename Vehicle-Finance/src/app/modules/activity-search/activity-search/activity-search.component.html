@@ -7,39 +7,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-            <!--<a href="#" class="navbar-brand">LOS</a>-->
         </div>
-        <nav id="bs-navbar" class="collapse navbar-collapse" (click)="openProfile = !openProfile">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" [ngClass]="{'open': openProfile}">
-                    <a  class="dropdown-toggle name" data-toggle="dropdown" id="profileDropDown">
-                        <span class="name-circle"><span class="name-circle-txt"> D </span></span> Dhanapal <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a >Profile</a></li>
-                        <li><a >Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+        <app-profile></app-profile>
     </div>
 </header>
-
 <main>
     <div class="container">
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
-                <select class="form-control "  id="selectbox" name="" [(ngModel)]="seletedRoute">
-                  
-                    <option value=""></option>
-                    <option value="/pages/lead-creation">Create Lead</option>
-                    <option value="QDE/QDE-section.html">QDE</option>
-                    <option value="lead/pd_section.html">PD</option>
-                    <option value="/pages/dde">DDE</option>
-                
-                </select>
-                <!-- <input type="text" class="form-control" placeholder="Search"> -->
+                <span class="form-control " id="selectbox" name="" ></span>
+                <span class="search-icon-left"></span>
+                <div class="dropdown-content">
+                    <a [routerLink]="['../pages/lead-creation']">Create Lead</a>
+                    <a href="#">QDE</a>
+                    <a href="#">PD</a>
+                    <a [routerLink]="['../pages/dde']">DDE</a>
+                </div>
+
                 <span class="search-icon-left"></span>
                 <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
             </div>

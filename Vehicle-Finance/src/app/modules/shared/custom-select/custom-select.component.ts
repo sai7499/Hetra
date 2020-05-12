@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, forwardRef, OnChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { DataService } from '../../lead-creation/service/data.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
 
 
