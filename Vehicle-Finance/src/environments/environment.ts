@@ -15,6 +15,10 @@ export const environment = {
     'createLead': {
       'workflowId': 'f000e040845a11eabdc2f2fa9bec3d63',
       'processId': 'f0269e8e845a11eabdc2f2fa9bec3d63'
+    },
+    'getLOVs':{
+      'workflowId': 'bd15880c904911eabdc4f2fa9bec3d63',
+      'processId': '674941a2904e11eabdc4f2fa9bec3d63'
     }
   },
   host: 'http://128.199.164.250/appiyo/',

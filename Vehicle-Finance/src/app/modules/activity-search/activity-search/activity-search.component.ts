@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { LoginStoreService } from '../../../services/login-store.service';
+import { ActivatedRoute } from '@angular/router';
+import {CommomLovService} from '../../../services/commom-lov-service';
 
 
 @Component({
@@ -23,7 +25,19 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     this.openProfile = false;
   };
 
-  constructor(private loginStoreService: LoginStoreService) { }
+  constructor(
+    private loginStoreService: LoginStoreService,
+    private route: ActivatedRoute,
+    private commomLovService: CommomLovService) {
+
+      const error = this.route.snapshot.data.getLOV.Error;
+      if(error === '0'){
+        const LOVs = JSON.parse(this.route.snapshot.data.getLOV.ProcessVariables.response);
+        this.commomLovService.setLovData(LOVs)
+      }
+     
+      // console.log('LOV',JSON.parse(this.route.snapshot.data.getLOV.ProcessVariables.response).LOVS.applicantRelationshipWithLead);
+     }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -34,7 +48,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 
     document
       .querySelector("body")
-      .addEventListener("click", this.bodyClickEvent);
+      .addEventListener("click", this.bodyClickEvent);     
   }
 
   ngOnDestroy() {

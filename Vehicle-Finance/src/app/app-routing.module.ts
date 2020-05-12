@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { HeaderComponent } from "./modules/header/header.component";
+import { LovResolverService } from './services/Lov-resolver.service';
 
 const routes: Routes = [
   {
@@ -14,7 +15,10 @@ const routes: Routes = [
   },
   {
     path: "activity-search",
-    loadChildren: () => import("./modules/activity-search/activity-search.module").then(m => m.ActivitySearchModule)
+    loadChildren: () => import("./modules/activity-search/activity-search.module").then(m => m.ActivitySearchModule),
+    resolve: {
+      getLOV: LovResolverService
+    }
   },
   {
     path: "pages",
@@ -36,7 +40,7 @@ const routes: Routes = [
         path: 'terms-condition',
         loadChildren: () => import('./modules/terms-conditions/terms-conditions.module').then(m => m.TermsConditionsModule)
       },
-      
+
       {
         path: "terms-condition",
         loadChildren: () => import("./modules/terms-conditions/terms-conditions.module").then(m => m.TermsConditionsModule)

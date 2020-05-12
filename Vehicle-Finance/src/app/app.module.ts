@@ -17,6 +17,8 @@ import { AuthInterceptor } from './services/auth.interceptor.service';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule} from './modules/shared/shared.module';
+import { LovResolverService } from '@services/Lov-resolver.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { SharedModule} from './modules/shared/shared.module';
     },
     CollapseModule,
     BrowserAnimationsModule,
-    CommonModule
+    CommonModule,
+    LovResolverService,
+    CommomLovService
   ],
 
   bootstrap: [AppComponent]

@@ -9,6 +9,7 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { Lead } from '@model/lead.model';
 
 import { CreateLeadService } from '../service/creatLead.service';
+import {CommomLovService} from '../../../services/commom-lov-service';
 
 @Component({
   selector: 'app-lead-creation',
@@ -61,8 +62,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private router: Router,
     private leadStoreService: LeadStoreService,
     private labelsData: LabelsService,
-    private createLeadService: CreateLeadService
+    private createLeadService: CreateLeadService,
+    private commomLovService: CommomLovService
   ) {
+  
+    console.log('LOV data', this.commomLovService.getLovData() )
+    
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
       console.log(this.lovLabels);
