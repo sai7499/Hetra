@@ -15,7 +15,8 @@ import { ValuationComponent } from "./valuation/valuation.component";
 import { PslDataComponent } from "./psl-data/psl-data.component";
 import { FlReportComponent } from "./fl-report/fl-report.component";
 import { PdReportComponent } from "./pd-report/pd-report.component";
-import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
+import { TermSheetsComponent } from './term-sheets/term-sheets.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 
 
 const routes: Routes = [
@@ -80,8 +81,12 @@ const routes: Routes = [
         component: ApplicantListComponent
       },
       {
-        path: "viability-details",
-        component: ViabilityDetailsComponent
+        path: "term-sheets",
+        component: TermSheetsComponent
+      },
+      {
+        path: "insurance-details",
+        component: InsuranceDetailsComponent
       }
     ]
   }
