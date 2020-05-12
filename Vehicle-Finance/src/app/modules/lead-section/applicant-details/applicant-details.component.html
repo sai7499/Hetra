@@ -1,4 +1,98 @@
+
 <div class="content">
+
+    <h4 class="title"><b>{{ labels.applicantDetailsTitle }}</b></h4>
+    <div class="text-right" id="add_vehicle_details_btn">
+        <button class="btn btn-primary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">Add
+            Applicant</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table" id="add_vhd_table">
+            <thead>
+                <tr class="table-head-bg">
+                    <th>{{labels.ucicId}} <i class="fa fa-sort"></i> </th>
+                    <th>{{labels.name}} <i class="fa fa-sort"></i> </th>
+                    <th>{{labels.mobileNumber}} <i class="fa fa-sort"></i> </th>
+                    <th>{{labels.dateOfBirth}} <i class="fa fa-sort"></i> </th>
+                    <th>{{labels.applicantType}} <i class="fa fa-sort"></i> </th>
+                    <th>{{labels.action}} <i class="fa fa-sort"></i> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let applicant of applicantDetails; let i = index">
+                    <td>55464</td>
+                    <td>{{applicant.first_name}}</td>
+                    <td>{{applicant.mobile}}</td>
+                    <td>{{applicant.dateOfBirth}}</td>
+                    <td>{{i === 0 ? 'Applicant' : 'Co-Applicant'}}</td>
+                    <td><i (click)="editApplicant(i);" class="fa fa-pencil"
+                            aria-hidden="true"></i>&nbsp;&nbsp;<a data-toggle="modal"
+                            data-target="#myModal"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </td>
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title"></h4>
+                                    <button type="button" class="close"
+                                        data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    Are you Sure Want to Delete?
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer text-center">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                                        (click)="deleteApplicant(i)">Yes</button>
+                                    <button type="button" class="btn btn-danger"
+                                        data-dismiss="modal">Cancel</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- <div class="btn-sec clear-both row">
+            <div class="col-sm-5"> </div>
+            <div class="col-sm-7 text-right">
+                <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> Back
+                </button> &nbsp;
+                <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> save</button> &nbsp;
+                <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/credit-score']"
+                    type="button">Next</button>
+            </div>
+        </div> -->
+    <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button> Applicant Details saved Successfully.
+    </div>
+    <!-- </div> -->
+
+
+</div>
+<div class="btn-sec clear-both row" id="clickButton">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right">
+        <button class="btn btn-primary js-btn-prev" [routerLink]="['../']" type="button"> Back
+        </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onSubmit()"> save</button> &nbsp;
+        <button class="btn btn-primary js-btn-next" [routerLink]="['../vehicle-details']" type="button">Next</button>
+    </div>
+</div>
+
+
+
+<!-- <div class="content">
     <form class="multisteps-form__form">
 
         <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
@@ -8,8 +102,9 @@
                         <h4 class="title">{{labels.applicantDetailsTitle}}</h4>
                     </div>
                     <div class="col-sm-7 text-right">
-                        <button class="btn btn-primary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
-                        <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+                        <button class="btn btn-primary mar-right8" type="button"
+                            [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -32,38 +127,44 @@
                                     <td>{{applicant.mobile}}</td>
                                     <td>{{applicant.dateOfBirth}}</td>
                                     <td>{{i === 0 ? 'Applicant' : 'Co-Applicant'}}</td>
-                                    <td ><i (click)="editApplicant(i);" class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;<a data-toggle="modal" data-target="#myModal"><i  class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                    <td><i (click)="editApplicant(i);" class="fa fa-pencil"
+                                            aria-hidden="true"></i>&nbsp;&nbsp;<a data-toggle="modal"
+                                            data-target="#myModal"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </td>
                                     <div class="modal" id="myModal">
                                         <div class="modal-dialog">
-                                          <div class="modal-content">
-                                      
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                              <h4 class="modal-title"></h4>
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <div class="modal-content">
+
+                                                
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title"></h4>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+
+                                                
+                                                <div class="modal-body">
+                                                    Are you Sure Want to Delete?
+                                                </div>
+
+                                                
+                                                <div class="modal-footer text-center">
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                                                        (click)="deleteApplicant(i)">Yes</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-dismiss="modal">Cancel</button>
+                                                </div>
+
                                             </div>
-                                      
-                                            <!-- Modal body -->
-                                            <div class="modal-body">
-                                              Are you Sure Want to Delete?
-                                            </div>
-                                      
-                                            <!-- Modal footer -->
-                                            <div class="modal-footer text-center">
-                                               <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteApplicant(i)">Yes</button>
-                                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                      
-                                          </div>
                                         </div>
-                                      </div>
+                                    </div>
 
                                 </tr>
-                               
+
 
                             </tbody>
-                        </table>
-                        <div class="btn-sec clear-both">
+                        </table> -->
+                        <!-- <div class="btn-sec clear-both">
                             <div class="records col-sm-6">
                                 <select class="form-control input-sm page-select-width">
                                     <option value="10">10</option>
@@ -84,25 +185,34 @@
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
-                    </div>
+                        </div> -->
+                    <!-- </div>
 
 
                     <div class="btn-sec clear-both">
                         <div class="col-sm-5">
 
                         </div>
-                        <div class="col-sm-7 text-right">
-                            <button class="btn btn-primary js-btn-prev mar-right8" type="button"  [routerLink]="['../']"> Back </button>
+                        <div class="col-sm-7 text-right" id="clickButton">
+                            <button class="btn btn-primary js-btn-prev mar-right8" type="button" [routerLink]="['../']">
+                                Back </button>
                             <button class="btn btn-primary  mar-right8" (click)="onSubmit()"> Save </button>
-                            <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['../vehicle-details']"> Next </button>
+                            <button class="btn btn-primary js-btn-next" type="button"
+                                [routerLink]="['../vehicle-details']"> Next </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="alert alert-success alert-dismissible" id="alert" *ngIf="!isAlert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Application Details saved Successfully.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button> Application Details saved Successfully.
         </div>
     </form>
-</div> 
+</div> -->
+
+
+
+
+
+

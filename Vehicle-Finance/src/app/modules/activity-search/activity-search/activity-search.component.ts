@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { LeadCreationComponent } from '../../lead-creation/lead-creation/lead-creation.component';
 
 @Component({
   selector: "app-dashboard",
@@ -8,7 +9,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 export class ActivitySearchComponent implements OnInit, OnDestroy {
   openProfile: boolean;
   seletedRoute: string;
-
+  
   bodyClickEvent = event => {
     if (event.target.id === "profileDropDown") {
       this.openProfile = true;

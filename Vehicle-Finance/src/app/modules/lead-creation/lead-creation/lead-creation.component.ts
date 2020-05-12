@@ -25,7 +25,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   applicantType: string = 'I';
   SourcingChange: any;
-  ProfessionList = [];
+  professionList = [];
   text: string;
 
   loanLeadDetails: {
@@ -110,13 +110,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     console.log(this.SourcingChange);
 
     switch (this.SourcingChange) {
-      case '61': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+      case '61': this.professionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
         break;
-      case '62': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
+      case '62': this.professionList = [{ key: 1, value: 'Liability Branch Code' }];
         break;
-      case '63': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+      case '63': this.professionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
         break;
-      default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
+      default: this.professionList = [{ key: 1, value: 'Not Applicable' }];
         break;
     }
 
@@ -153,7 +153,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue,professionList : this.ProfessionList };
+    const leadModel: any = { ...formValue,professionList : this.professionList };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 

@@ -113,7 +113,8 @@ h3.dedupe_head {
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin: 0px 25px 20px;
+    height: 420px;
 }
 
 label.col-form-label {
@@ -356,4 +357,7 @@ select#select_main_button_leadco {
     overflow-y: auto;
     max-height: 400px;
     overflow-x: hidden;
+}
+#clickButton{
+    margin-right: 10px;
 }

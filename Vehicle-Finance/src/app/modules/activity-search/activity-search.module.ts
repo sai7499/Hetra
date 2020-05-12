@@ -5,6 +5,7 @@ import { ActivitySearchComponent } from "./activity-search/activity-search.compo
 
 import { ActivitySearchRouterModule } from "./activity-search.router";
 
+
 @NgModule({
   declarations: [ActivitySearchComponent],
   imports: [CommonModule, ActivitySearchRouterModule, FormsModule]
