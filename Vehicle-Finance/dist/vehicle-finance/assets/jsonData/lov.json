@@ -54,44 +54,66 @@
                 ],
                 "assetModel": [
                     {
-                        "key": 1,
-                        "value": "Mahindra XUV Aero"
+                      "key": 1,
+                      "value": "CITY RIDER"
                     },
                     {
-                        "key": 2,
-                        "value": "Renault Arkana"
+                      "key": 2,
+                      "value": "LP 709 32 SEATER"
+                    },
+                    {
+                      "key": 3,
+                      "value": "LP 709 36 SEATER"
                     },
                     {
                         "key": 3,
-                        "value": "Mahindra eKUV100"
+                        "value": "10.50- 12 + 1 SEATER"
+                    },
+                    {
+                        "key": 3,
+                        "value": "SKYLINE- 36 SEATER"
                     }
                 ],
                 "assetBodyType": [
                     {
-                        "key": 1,
-                        "value": "Chevrolet"
+                      "key": 1,
+                      "value": "Asset Body Type 1"
                     },
                     {
-                        "key": 2,
-                        "value": "Swift"
+                      "key": 2,
+                      "value": "Asset Body Type 2"
                     },
                     {
-                        "key": 3,
-                        "value": "Ciaz"
+                      "key": 3,
+                      "value": "Asset Body Type 3"
                     }
                 ],
                 "assetVariant": [
                     {
-                        "key": 1,
-                        "value": "Petrol"
+                      "key": 1,
+                      "value": "LP 1512 - 54 SEATER"
                     },
                     {
-                        "key": 2,
-                        "value": "AMT"
+                      "key": 2,
+                      "value": "Viking HCV BUS"
                     },
                     {
-                        "key": 3,
-                        "value": "Petrol"
+                      "key": 3,
+                      "value": "2214"
+                    }
+                ],
+                "assetSubVariant": [
+                    {
+                      "key": 1,
+                      "value": "Sub Variant 1"
+                    },
+                    {
+                      "key": 2,
+                      "value": "Sub Variant 2"
+                    },
+                    {
+                      "key": 3,
+                      "value": "Sub Variant 3"
                     }
                 ],
                 "vechicalUsage": [
