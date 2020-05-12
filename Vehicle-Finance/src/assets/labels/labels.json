@@ -520,5 +520,8 @@
   "otherSourcesofIncome": "Other Sources of Income, if any",
   "residenceStability": "Residence Stability Confirmed",
   "customerAvailability": "Customer Availability",
-  "confirmedAddress": "Address Confirmed"
+  "confirmedAddress": "Address Confirmed",
+  "fundingAmountRequested": "Funding Amount Requested",
+  "endUseFunds": "End Use of Funds",
+  "tenureRequested": "Tenure Requested"
 }
