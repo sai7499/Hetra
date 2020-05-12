@@ -49,35 +49,41 @@
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
-                
-                <select class="form-control "  id="selectBox" name="" [(ngModel)]="seletedRoute">
+                <input type="text" class="form-control" autocomplete="off" placeholder="Search" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value);">
+                <!-- <select class="form-control "  id="selectbox" name="" [(ngModel)]="seletedRoute">
                   
-                    <!-- <option value=""></option> -->
+                    <option value=""></option>
                     <option value="/pages/lead-creation">Create Lead</option>
                     <option value="QDE/QDE-section.html">QDE</option>
                     <option value="lead/pd_section.html">PD</option>
                     <option value="/pages/dde">DDE</option>
                 
-                </select>
-
-                
-                <!-- <input type="text" class="form-control" placeholder="Search"> -->
-                <!-- <span class="form-control " id="selectbox" name="" ></span>
-                <span class="search-icon-left"></span>
-                <div class="dropdown-content">
+                </select> -->
+                <!-- <div class="dropdown-content" *ngIf="searchDiv">
+                <select  class="form-control "  id="selectbox"  [(ngModel)]="seletedRoute">
+                    <option *ngFor="let item of searchLead" value ="{{item.route}}" >{{item.name}}</option>
                     
-                    <a  [routerLink]="['../pages/lead-creation']">Create Lead</a>
+                </select>
+            </div> -->
+                <!-- <span class="form-control " id="selectbox" name="" ></span>
+                <span class="search-icon"></span>
+                <div class="dropdown-content">
+                    <ul>
+                    <li><i class="fa fa-search"></i><a [routerLink]="['../pages/lead-creation']">Create Lead</a></li>
                     <a href="#">QDE</a>
                     <a href="#">PD</a>
                     <a [routerLink]="['../pages/dde']">DDE</a>
-                </div> -->
-                <!-- <input type="text" class="form-control" [(ngModel)]="seletedRoute"> -->
-                <span class="search-icon-left"></span>
+                    </ul>
+                </div>-->
+                <div class="dropdown-content" *ngIf="searchDiv">
+                    <div *ngFor="let item of searchLead" >
+                    <a [routerLink]="item.route">{{item.name}}</a>
+                    </div>
+                
+                </div>
+                <span class="search-icon-left"></span> 
                 <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
-                
-                
             </div>
-        
         </div>
     </div>
 </main>
