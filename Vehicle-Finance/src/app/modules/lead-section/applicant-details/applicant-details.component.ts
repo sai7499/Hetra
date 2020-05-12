@@ -51,7 +51,7 @@ export class ApplicantDetailsComponent implements OnInit {
   }
 
   editApplicant(index: number) {
-    console.log(index);
+    // console.log(index);
     this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
   }
 
