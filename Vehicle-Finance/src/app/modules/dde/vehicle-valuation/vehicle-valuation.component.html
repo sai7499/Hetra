@@ -59,7 +59,7 @@
                                 <td>Submitted</td>
                                 <td>
                                     <u>
-                                        <a class="a_tag" [routerLink]="['/pages/dde/valuation']">View</a>
+                                        <a class="a_tag" [routerLink]="['/pages/vehicle-valuation/valuation']">View</a>
                                     </u>
                                 </td>
                             </tr>
@@ -91,32 +91,37 @@
                                         </div> -->
                 </div>
             </div>
-<div class="row">
+<!-- <div class="row">
 <div class="col-sm-5"></div>
 <div class="col-sm-7 text-right">
     <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/psl-data']"> {{labels.back}} </button> &nbsp;
-    <!-- <button class="btn btn-primary"> Save </button> -->
     <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
 </div>
-</div>
+</div> -->
 
         </div>
     </div>
 </form>
-<!-- </div> -->
 
-<!-- <div class="row">
+<!-- <div class="btn-sec clear-both"> 
     <div class="col-sm-5"></div>
-    <div class="col-sm-7 text-right">
-        <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/viability-report']">
+    <div class="col-sm-7 text-right cst_btm_btns" >
+        <button class="btn btn-primary  " type="button" [routerLink]="['/pages/dde/psl-data']">
             {{labels.back}} </button> &nbsp;
-
-        <button class="btn btn-primary " type="button" (click)="onFormSubmit()" [routerLink]="['../cam']">
-            {{labels.next}} </button>
+       
+        <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
     </div>
 </div> -->
 
-
+<div class="btn-sec clear-both">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right cst_btm_btns" > <br> <br>
+        <button class="btn btn-primary" type="button" [routerLink]="['/pages/dde/psl-data']"> {{labels.back}} </button>
+        &nbsp;
+        <!-- <p class="btn btn-primary save"> Save </p> -->
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+    </div>
+</div>
 
 
 <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" *ngIf="isModal"
