@@ -12,6 +12,7 @@ export class LeadStoreService {
     // coApplicant : CoApplicant;
     applicantList = [];
     vehicleList = [];
+    leadDedupeData: any;
 
     constructor() { }
 
@@ -90,5 +91,12 @@ export class LeadStoreService {
     }
     getApplicantList() {
         return this.applicantList;
+    }
+
+    setDedupeData(leadDedupeData){
+        this.leadDedupeData =  leadDedupeData;
+    }
+    getDedupeData(){
+        return this.leadDedupeData; 
     }
 }
