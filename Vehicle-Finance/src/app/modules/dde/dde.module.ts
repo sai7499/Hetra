@@ -38,7 +38,6 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     FleetDetailsComponent,
     TrackVehicleComponent,
     InsuranceDetailsComponent,
-    InsuranceDetailsComponent
   ],
   imports: [
     DdeRoutingModule,
