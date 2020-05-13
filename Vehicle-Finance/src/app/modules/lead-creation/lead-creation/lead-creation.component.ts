@@ -29,6 +29,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   sourcingCode: string = 'Sourcing Code'
   ProfessionList = [];
   text: string;
+  isDisabled: boolean = true;
 
   loanLeadDetails: {
     bizDivision: number,
@@ -88,8 +89,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
-      spokeCodeLocation: new FormControl(''),
-      loanBranch: new FormControl(''),
+      spokeCodeLocation: new FormControl({ value: "1", disabled: true }),
+      loanBranch: new FormControl({ value: "1", disabled: true }),
       leadHandeledBy: new FormControl(''),
       entity: new FormControl(''),
       nameOne: new FormControl(''),

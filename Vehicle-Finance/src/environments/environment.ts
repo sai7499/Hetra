@@ -5,7 +5,8 @@ export const environment = {
     api: "v2/"
   },
 
-  projectId: '74c36bec6da211eabdc2f2fa9bec3d63',
+  // projectId: '74c36bec6da211eabdc2f2fa9bec3d63',
+  projectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
 
   api: {
     'getUserDetails': {
