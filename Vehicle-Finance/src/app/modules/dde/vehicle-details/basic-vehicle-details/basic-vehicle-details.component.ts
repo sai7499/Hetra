@@ -42,6 +42,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
   createForm() {
 
     this.basicVehicleForm = this._fb.group({
+      // selectMainButton: ['1'],
       new_cv_show: this._fb.group({
         assetMake: ['1', Validators.required],
         assetModel: ['1', Validators.required],

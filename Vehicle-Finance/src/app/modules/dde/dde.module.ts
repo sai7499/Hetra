@@ -23,6 +23,7 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 import { InsuranceDetailsComponent } from './vehicle-details/insurance-details/insurance-details.component';
+import { ViabilityListComponent } from './viability-list/viability-list.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
 
@@ -33,6 +34,7 @@ import { InsuranceDetailsComponent } from './vehicle-details/insurance-details/i
     FlReportComponent,
     PdReportComponent,
     VehicleValuationComponent,
+    ViabilityListComponent,
     ValuationComponent,
     InsuranceDetailsComponent,
     PslDataComponent,

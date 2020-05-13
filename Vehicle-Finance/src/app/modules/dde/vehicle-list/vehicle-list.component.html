@@ -11,13 +11,14 @@
         </div>
         <div class="row">
             <div class="table-responsive application" id="applicantTable">
+
                 <table class="table">
                     <thead>
                         <tr class="table-head-bg">
-                            <td>{{labels.registrationNum}}</td>
-                            <td>{{labels.make}}</td>
-                            <td>{{labels.model}}</td>
-                            <td>{{labels.action}} </td>
+                            <th>{{labels?.registrationNum}} </th>
+                            <th>{{labels?.make}} </th>
+                            <th>{{labels?.model}} </th>
+                            <th>{{labels?.action}} </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +38,6 @@
                                     [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
                                     aria-hidden="true" id="remove_item_applicant2"></i></td>
                         </tr>
-
 
                     </tbody>
                 </table>
@@ -63,10 +63,10 @@
                 <table class="table">
                     <thead>
                         <tr class="table-head-bg">
-                            <td>{{labels.colleteralType}}</td>
-                            <td>{{labels.column2}}</td>
-                            <td>{{labels.column3}}</td>
-                            <td>{{labels.action}}</td>
+                            <th>{{labels?.colleteralType}} </th>
+                            <th>{{labels?.column2}} </th>
+                            <th>{{labels?.column3}} </th>
+                            <th>{{labels?.action}} </th>
                         </tr>
                     </thead>
                     <tbody>

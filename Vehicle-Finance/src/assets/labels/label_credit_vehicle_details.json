@@ -142,21 +142,23 @@
         "viabilityDetails": [
             {
                 "title": "Viability Details",
+                "Title": "VIABILITY/NET CASH FLOW",
+                "vehicleModel": "Vehicle Model",
+                "income": "INCOME",
                 "passanger": [
                     {
                         "title": "Passanger",
-                        "Title": "VIABILITY/NET CASH FLOW",
-                        "creditShieldApplicable": "Credit Shield Applicable",
-                        "insuranceCompanyName": "Insurance Company Name",
-                        "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
-                        "creditShieldPremium": "Credit Shield Premium",
-                        "creditShieldNominee": "Credit Shield Nominee",
-                        "creditShieldNomineeAge": "Credit Shield Nominee Age",
-                        "creditShieldNomineeRelationship": "Credit Shield Nominee Relationship",
-                        "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount"
+                        "route": "ROUTE",
+                        "natureGoods": "Nature of Goods",
+                        "distanceKm": "Distance in Km",
+                        "noofTrips": "No. of Trips per month",
+                        "monthlyRunninginKm": "Monthly running in Km",
+                        "averageLoad": "Average load in per ton.",
+                        "rateTonneKL": "Rate / Tonne / KL",
+                        "monthlyRevenue": "Monthly revenue in Rs. Lacs."
                     }
                 ],
-                "passanger_stand_operator": [
+                "passangerStandOperator": [
                     {
                         "title": "Passanger & Stand Operator",
                         "insuranceCompanyName": "Insurance Company Name",
@@ -189,6 +191,18 @@
                 "colleteralType": "Colleteral Type",
                 "column2": "Column 2",
                 "column3": "Column 3",
+                "back": "Back",
+                "next": "Next"
+            }
+        ],
+        "viabilityListTable": [
+            {
+                "title": "Viability List",
+                "registrationNum": "Registration Num",
+                "make": "Make",
+                "model": "Model",
+                "viabilityStatus": "Viability Status",
+                "action": "Action",
                 "back": "Back",
                 "next": "Next"
             }

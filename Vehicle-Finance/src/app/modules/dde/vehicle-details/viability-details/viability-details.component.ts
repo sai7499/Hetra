@@ -10,6 +10,9 @@ import { LabelsService } from '@services/labels.service';
 export class ViabilityDetailsComponent implements OnInit {
 
   public label: any = {};
+  public labelPassanger: any = {};
+  public labelPassangerStandOperator: any = {};
+  public labelCaptive: any = {};
   public vehicle_viability_value: string = 'passanger';
 
   public viabilityForm: FormGroup;
@@ -22,6 +25,10 @@ export class ViabilityDetailsComponent implements OnInit {
     this.labelsData.getLabelsOfDDEData()
       .subscribe(data => {
         this.label = data[0].viabilityDetails[0];
+        console.log(this.label)
+        this.labelPassanger = this.label.passanger[0];
+        this.labelPassangerStandOperator = this.label.passangerStandOperator[0];
+        this.labelCaptive = this.label.captive[0];
       },
         error => {
           console.log(error, 'error')
@@ -30,10 +37,22 @@ export class ViabilityDetailsComponent implements OnInit {
 
   createForm() {
     this.viabilityForm = this._fb.group({
-      vehicle_viability_navigate: ['passanger', Validators.required],
+      vehicleViabilityNavigate: ['passanger', Validators.required],
       passanger: this._fb.group({
+        route: ['Chennai to Athipattu'],
+        natureGoods: ['Oil'],
+        distanceKm: ['220'],
+        noofTrips: ['25'],
+        monthlyRunninginKm: ['5500'],
+        averageLoad: ['9'],
+        rateTonneKL: ['600'],
+      }),
+      passangerStandOperator: this._fb.group({
 
-      })
+      }),
+      captive: this._fb.group({
+
+      }),
     })
   }
 
