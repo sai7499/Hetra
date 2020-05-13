@@ -64,40 +64,42 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>(g) {{labelPassanger.monthlyRunninginKm}} (A)</strong></td>
+                        <td><strong>(g) {{labelPassanger.monthlyRevenue}} (A)</strong></td>
                         <td><strong>135000.00</strong></td>
                     </tr>
                     <tr>
-                        <td>(To be validated with a bill/ contract Copy)</td>
+                        <td>{{labelPassanger.tobeValidated}}</td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>(g) Fuel average in KM per litre</td>
-                        <td><input type="text" value="5.00" class="form-control" name="fuel_average_km"
-                                id="fuel_average_km" /></td>
+                        <td>(g) {{labelPassanger.fuelAverage}}</td>
+                        <td><input type="text" class="form-control" name="fuel_average_km" id="fuel_average_km"
+                                formControlName="fuelAverage" /></td>
                     </tr>
                     <tr>
-                        <td>(h) Cost per litre of fuel</td>
-                        <td><input type="text" value="65.00" class="form-control" name="cost_litre_fuel"
-                                id="cost_litre_fuel" /></td>
+                        <td>(h) {{labelPassanger.costLitreFuel}}</td>
+                        <td><input type="text" class="form-control" name="cost_litre_fuel" id="cost_litre_fuel"
+                                formControlName="costLitreFuel" /></td>
                     </tr>
                     <tr>
-                        <td>(i) No. of tyres</td>
-                        <td><input type="text" value="6.00" class="form-control" name="num_tyres" id="num_tyres" />
+                        <td>(i) {{labelPassanger.numTyres}}</td>
+                        <td><input type="text" class="form-control" name="num_tyres" id="num_tyres"
+                                formControlName="numTyres" />
                         </td>
                     </tr>
                     <tr>
-                        <td>(j) Cost of 1 tyre</td>
-                        <td><input type="text" value="8000.00" class="form-control" name="cost_tyre" id="cost_tyre" />
+                        <td>(j) {{labelPassanger.costTyre}}</td>
+                        <td><input type="text" class="form-control" name="cost_tyre" id="cost_tyre"
+                                formControlName="costTyre" />
                         </td>
                     </tr>
                     <tr>
-                        <td>(k) Life of new tyres in Km</td>
+                        <td>(k) {{labelPassanger.lifeNewTyres}}</td>
                         <td><input type="text" value="60000.00" class="form-control" name="life_new_tyres_km"
-                                name="life_new_tyres_km" /></td>
+                                name="life_new_tyres_km" formControlName="lifeNewTyres"/></td>
                     </tr>
                     <tr>
-                        <td><strong>EXPENSES</strong></td>
+                        <td><strong>{{labelPassanger.expenses}}</strong></td>
                         <td></td>
                     </tr>
                     <tr>

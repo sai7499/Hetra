@@ -46,6 +46,11 @@ export class ViabilityDetailsComponent implements OnInit {
         monthlyRunninginKm: ['5500'],
         averageLoad: ['9'],
         rateTonneKL: ['600'],
+        fuelAverage: ['5.00'],
+        costLitreFuel: ['65.00'],
+        numTyres: ['6.00'],
+        costTyre: ['8000.00'],
+        lifeNewTyres: ['60000.00']
       }),
       passangerStandOperator: this._fb.group({
 

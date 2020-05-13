@@ -155,18 +155,7 @@
                         "monthlyRunninginKm": "Monthly running in Km",
                         "averageLoad": "Average load in per ton.",
                         "rateTonneKL": "Rate / Tonne / KL",
-                        "monthlyRevenue": "Monthly revenue in Rs. Lacs.",
-                        "tobeValidated": "(To be validated with a bill/ contract Copy)",
-                        "fuelAverage": "Fuel average in KM per litre",
-                        "costLitreFuel": "Cost per litre of fuel",
-                        "numTyres": "No. of tyres",
-                        "costTyre": "Cost of 1 tyre",
-                        "lifeNewTyres": "Life of new tyres in Km",
-                        "expenses": "EXPENSES",
-                        "fuelCost": "Fuel Cost (c*h / g)",
-                        "tyreCost": "Tyre Cost (I*J*c) / (k)",
-                        "driversSalary": "Drivers Salary + Allowances",
-                        "cleanersSalary": "Cleaners Salary + Allowances"
+                        "monthlyRevenue": "Monthly revenue in Rs. Lacs."
                     }
                 ],
                 "passangerStandOperator": [
