@@ -22,21 +22,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="applicant_1_row">
-                            <td>TN-04-SS-0292</td>
-                            <td>TATA</td>
-                            <td>SUMO</td>
-                            <td><i class="fa fa-pencil" aria-hidden="true"
+                        <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleListArray; let i = index">
+                            <td data-title="Registration Number">
+                                {{item.registrationNum}}
+                            </td>
+                            <td data-title="Make">
+                                {{item.make}}
+                            </td>
+                            <td data-title="Model">
+                                {{item.model}}
+                            </td>
+                            <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
                                     [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant"></i></td>
-                        </tr>
-                        <tr id="applicant_2_row">
-                            <td>KL-05-AG-1191</td>
-                            <td>TATA</td>
-                            <td>SUMO</td>
-                            <td><i class="fa fa-pencil" aria-hidden="true"
-                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant2"></i></td>
+                                    aria-hidden="true" id="remove_item_applicant" (click)="removeOtherIndex(i, vehicleListArray)"></i>
+                            </td>
                         </tr>
 
                     </tbody>
@@ -70,21 +69,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="applicant_1_row">
-                            <td>Colleteral Type-1</td>
-                            <td></td>
-                            <td></td>
-                            <td><i class="fa fa-pencil" aria-hidden="true"
+                        <tr class="text-center" id="applicant_row" *ngFor="let item of colleteralArray; let i = index">
+                            <td data-title="Colleteral Type">
+                                {{item.colleteralType}}
+                            </td>
+                            <td data-title="Column 2">
+                                {{item.column2}}
+                            </td>
+                            <td data-title="Column 3">
+                                {{item.column3}}
+                            </td>
+                            <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
                                     [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant"></i></td>
-                        </tr>
-                        <tr id="applicant_2_row">
-                            <td>Colleteral Type-2</td>
-                            <td></td>
-                            <td></td>
-                            <td><i class="fa fa-pencil" aria-hidden="true"
-                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant"></i></td>
+                                    aria-hidden="true" id="remove_item_applicant" (click)="removeOtherIndex(i, colleteralArray)"></i>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
