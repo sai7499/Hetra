@@ -81,4 +81,8 @@ export class LeadSectionComponent implements OnInit {
     }
     )
   }
+
+  hasRoute(route: string){
+    return this.router.url.includes(route);
+  }
 }

@@ -16,8 +16,7 @@ export class SourcingDetailsComponent implements OnInit {
   values: any = [];
   public labels: any = {};
   sourcingDetailsForm: FormGroup;
-  SourcingChange: any;
-  ProfessionList = [];
+  SourcingChange: any
   text:any;
   id: any;
 
@@ -70,25 +69,25 @@ export class SourcingDetailsComponent implements OnInit {
       
     // });
     if(this.SourcingChange == 61){
-     this.ProfessionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
+     this.id.professionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
      this.text="Employee Code"
    }
    else if(this.SourcingChange== 62){
-        this.ProfessionList=[{key: 1, value: "Liability Branch Code" }];
+    this.id.professionList=[{key: 1, value: "Liability Branch Code" }];
               this.text= "Employee Code"
    }
    else if(this.SourcingChange== 63){
-     this.ProfessionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
+    this.id.professionList= [{key: 1,value: 'Corporate Website'},{key: 2,value: 'Internet Banking'},{key: 3,value: 'Mobile Banking'}];
      this.text="Employee Code"
    }
    else if(this.SourcingChange==64)
     {
-      this.ProfessionList = [{key: 1,value: 'Not Applicable'}];
+      this.id.professionList= [{key: 1,value: 'Not Applicable'}];
       this.text = "Campaign Code";
       
     }
     else{
-      this.ProfessionList= [{key: 1,value: 'Not Applicable'}];
+      this.id.professionList= [{key: 1,value: 'Not Applicable'}];
       this.text = "Employee Code";
     }
 
@@ -155,17 +154,19 @@ export class SourcingDetailsComponent implements OnInit {
 
   getdata(){
    this.id= this.leadStoreService.getLeadCreation();
-   console.log('sourcing coming values',this.id)
-  //  console.log(this.values.productCategory)
+   console.log(this.id)
+   
 
 
-   this.getCategory(this.values.productCategory, this.id.productCategory,"product");
-   this.getCategory(this.values.priority, this.id.priority,"priority");
-   this.getCategory(this.values.businessDivision, this.id.businessDivision,"businessDivision");
-   this.getCategory(this.values.spokenCodeLocation, this.id.spokeCodeLocation,"spokeCodeLocation")
-   this.getCategory(this.values.loanAccountBranch, this.id.loanAccountBranch,"loanAccountBranch")
-   this.getCategory(this.values.leadHandledBY, this.id.leadHandledBy,"leadHandledBy");
-   this.getCategory(this.values.soucringChannel, this.id.sourcingChannel,"sourcingChannel");
+   this.sourcingDetailsForm.controls["product"].setValue(this.id.productCategory)
+   this.sourcingDetailsForm.controls["priority"].setValue(this.id.priority)
+   this.sourcingDetailsForm.controls["spokeCodeLocation"].setValue(this.id.spokeCodeLocation)
+   this.sourcingDetailsForm.controls["loanAccountBranch"].setValue(this.id.loanBranch)
+   this.sourcingDetailsForm.controls["leadHandledBy"].setValue(this.id.leadHandeledBy)
+   this.sourcingDetailsForm.controls["sourcingChannel"].setValue(this.id.sourcingChannel)
+   this.sourcingDetailsForm.controls["sourcingType"].setValue(this.id.sourcingType)
+   this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)
+   
    
   //  if(this.id.sourcingChannel == 61){
   //    this.ProfessionList= [{key: 1,value: 'DSA'},{key: 2,value: 'Dealers'},{key: 3,value: 'Connectors'},{key: 4,value: 'Direct/Employee/DSE'},{key: 5,value: 'Manufacturers'}];
@@ -203,15 +204,15 @@ export class SourcingDetailsComponent implements OnInit {
     
   };
 
-  getCategory(categoryArray, value,formControlName){
-    categoryArray.forEach(element => {
-       console.log(element)
-         if(parseInt(value) == element.key){
-           console.log('element value',element.value)
-          this.sourcingDetailsForm.controls[formControlName].setValue(element.key)
-         }
-     })
-  }
+  // getCategory(categoryArray, value,formControlName){
+  //   categoryArray.forEach(element => {
+  //      console.log(element)
+  //        if(parseInt(value) == element.key){
+  //          console.log('element value',element.value)
+  //         this.sourcingDetailsForm.controls[formControlName].setValue(element.key)
+  //        }
+  //    })
+  // }
 
   onFormSubmit() {
     this.router.navigate(['/pages/lead-section/applicant-details']);

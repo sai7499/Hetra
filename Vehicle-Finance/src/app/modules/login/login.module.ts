@@ -1,3 +1,4 @@
+import { LoginService } from './login/login.service';
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { LoginComponent } from "./login/login.component";
@@ -8,10 +9,13 @@ import { LoginRouterModule } from "./login.router";
 
 @NgModule({
   declarations: [LoginComponent],
-  imports: [CommonModule,
-     LoginRouterModule ,
-     FormsModule,
+  imports: [
+    CommonModule,
+    LoginRouterModule ,
+    FormsModule,
     ReactiveFormsModule,
-    HttpClientModule]
+    HttpClientModule
+  ],
+  providers:[LoginService]
 })
 export class LoginModule {}

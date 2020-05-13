@@ -1,0 +1,24 @@
+<nav id="bs-navbar" class="collapse navbar-collapse" (click)="openProfile = !openProfile">
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" [ngClass]="{'open': openProfile}">
+            <a href="#" class="dropdown-toggle name" data-toggle="dropdown">
+                <span class="name-circle"><span class="name-circle-txt"> {{firstLetter}} </span></span>{{userName}} <b
+                    class="fa fa-angle-down"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a>{{userName}}</a></li>
+                <li><a>
+                        <select class="form-control">
+                            <option *ngFor="let role of roles" value="{{role.name}}" selected="selected">{{role.name}}
+                            </option>
+                        </select>
+                    </a>
+                </li>
+                <li><a>{{branchName}} Branch</a></li>
+
+                <li><a [routerLink]="['']">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ng-content></ng-content>
+</nav>
