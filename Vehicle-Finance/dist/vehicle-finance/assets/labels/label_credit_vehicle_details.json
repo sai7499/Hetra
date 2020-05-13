@@ -155,23 +155,54 @@
                         "monthlyRunninginKm": "Monthly running in Km",
                         "averageLoad": "Average load in per ton.",
                         "rateTonneKL": "Rate / Tonne / KL",
-                        "monthlyRevenue": "Monthly revenue in Rs. Lacs."
+                        "monthlyRevenue": "Monthly revenue in Rs. Lacs.",
+                        "tobeValidated": "(To be validated with a bill/ contract Copy)",
+                        "fuelAverage": "Fuel average in KM per litre",
+                        "costLitreFuel": "Cost per litre of fuel",
+                        "numTyres": "No. of tyres",
+                        "costTyre": "Cost of 1 tyre",
+                        "lifeNewTyres": "Life of new tyres in Km",
+                        "expenses": "EXPENSES",
+                        "fuelCost": "Fuel Cost (c*h / g)",
+                        "tyreCost": "Tyre Cost (I*J*c) / (k)",
+                        "driversSalaryAllowances": "Drivers Salary + Allowances",
+                        "cleanersSalaryAllowances": "Cleaners Salary + Allowances",
+                        "permitCost": "Permit Cost",
+                        "fcCharges": "F.C charges",
+                        "tollTaxPaid": "Toll Tax paid",
+                        "taxes": "Taxes",
+                        "maintenance": "Maintenance",
+                        "miscellaneous": "Miscellaneous",
+                        "insuranceExpenses": "Insurance Expenses",
+                        "totalExpenses": "Total Expenses (B)",
+                        "netCashFlow": "Net Cash Flow (NCF) (A-B)",
+                        "emi": "Equated Monthly Instalments (EMI)",
+                        "netCashFlowEMI": "Net Cash flow (NCF)/ EMI"
                     }
                 ],
                 "passangerStandOperator": [
                     {
                         "title": "Passanger & Stand Operator",
-                        "insuranceCompanyName": "Insurance Company Name",
-                        "expirydateofcurrentpolicy": "Expiry date of current policy",
-                        "noclaimbonus": "No claim bonus",
-                        "owndamagediscount": "own damage discount",
-                        "comprehensive-thirdparty": "Comprehensive / third party",
-                        "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)"
+                        "application": "Application",
+                        "grossIncome": "Gross income per day",
+                        "earningsperday": "No. of earnings per day (No of days)",
+                        "monthlyIncome": "Monthly income (A)",
+                        "expensesperday": "Expenses per day",
+                        "avgTyreExpenses": "Avg tyre expenses per month",
+                        "insuranceExpenses": "Insurance expenses per month",
+                        "miscellaneousExpenses": "Miscellaneous expenses",
+                        "totalExpenses": "Total Expenses (B)"
                     }
                 ],
                 "captive": [
                     {
-                        "title": "Captive"
+                        "title": "Captive",
+                        "natureBusiness": "Nature of Business",
+                        "grossIncome": "Gross income per day on business",
+                        "numEarnings": " No. of earnings per day (No of days)",
+                        "monthlyIncome": "Monthly income (A)",
+                        "expensesperdayBusiness": "Expenses per day in business",
+                        "obligationsBusinessMonth": "Obligations in business (Loans) per month"
                     }
                 ],
                 "back": "Back",

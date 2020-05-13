@@ -95,88 +95,94 @@
                     </tr>
                     <tr>
                         <td>(k) {{labelPassanger.lifeNewTyres}}</td>
-                        <td><input type="text" value="60000.00" class="form-control" name="life_new_tyres_km"
-                                name="life_new_tyres_km" formControlName="lifeNewTyres"/></td>
+                        <td><input type="text" class="form-control" name="life_new_tyres_km" name="life_new_tyres_km"
+                                formControlName="lifeNewTyres" /></td>
                     </tr>
                     <tr>
                         <td><strong>{{labelPassanger.expenses}}</strong></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Fuel Cost (c*h / g)</td>
-                        <td><input type="text" value="71500.00" class="form-control" name="fuel_cost" id="fuel_cost" />
+                        <td>{{labelPassanger.fuelCost}}</td>
+                        <td><input type="text" class="form-control" name="fuel_cost" id="fuel_cost"
+                                formControlName="fuelCost" />
                         </td>
                     </tr>
                     <tr>
-                        <td>Tyre Cost (I*J*c) / (k)</td>
-                        <td><input type="text" value="4400.00" class="form-control" name="tyre_cost" id="tyre_cost" />
+                        <td>{{labelPassanger.tyreCost}}</td>
+                        <td><input type="text" class="form-control" name="tyre_cost" id="tyre_cost"
+                                formControlName="tyreCost" />
                         </td>
                     </tr>
                     <tr>
-                        <td>Drivers Salary + Allowances</td>
-                        <td><input type="text" value="8000.00" class="form-control" name="drivers_salary_allowances"
-                                id="drivers_salary_allowances" /></td>
+                        <td>{{labelPassanger.driversSalaryAllowances}}</td>
+                        <td><input type="text" class="form-control" name="drivers_salary_allowances"
+                                id="drivers_salary_allowances" formControlName="driversSalaryAllowances" /></td>
                     </tr>
                     <tr>
-                        <td>Cleaners Salary + Allowances</td>
-                        <td><input type="text" value="4000.00" class="form-control" name="cleaners_salary_allowances"
-                                id="cleaners_salary_allowances" /></td>
+                        <td>{{labelPassanger.cleanersSalaryAllowances}}</td>
+                        <td><input type="text" class="form-control" name="cleaners_salary_allowances"
+                                id="cleaners_salary_allowances" formControlName="cleanersSalaryAllowances" /></td>
                     </tr>
                     <tr>
-                        <td>Permit Cost</td>
-                        <td><input type="text" value="0.00" class="form-control" name="permit_cost" id="permit_cost" />
+                        <td>{{labelPassanger.permitCost}}</td>
+                        <td><input type="text" class="form-control" name="permit_cost" id="permit_cost"
+                                formControlName="permitCost" />
                         </td>
                     </tr>
                     <tr>
-                        <td>F.C charges</td>
-                        <td><input type="text" value="0.00" class="form-control" name="fc_charge" id="fc_charge" />
+                        <td>{{labelPassanger.fcCharges}}</td>
+                        <td><input type="text" class="form-control" name="fc_charge" id="fc_charge"
+                                formControlName="fcCharges" />
                         </td>
                     </tr>
                     <tr>
-                        <td>Toll Tax paid</td>
-                        <td><input type="text" value="0.00" class="form-control" name="toll_tax_paid"
-                                id="toll_tax_paid" />
+                        <td>{{labelPassanger.tollTaxPaid}}</td>
+                        <td><input type="text" class="form-control" name="toll_tax_paid" id="toll_tax_paid"
+                                formControlName="tollTaxPaid" />
                         </td>
                     </tr>
                     <tr>
-                        <td>Taxes</td>
-                        <td><input type="text" value="1500.00" class="form-control" name="taxes" id="taxes" /></td>
-                    </tr>
-                    <tr>
-                        <td>Maintenance</td>
-                        <td><input type="text" value="2000.00" class="form-control" name="maintenance"
-                                id="maintenance" />
+                        <td>{{labelPassanger.taxes}}</td>
+                        <td><input type="text" class="form-control" name="taxes" id="taxes" formControlName="taxes"
+                                formControlName="taxes" />
                         </td>
                     </tr>
                     <tr>
-                        <td>Miscellaneous</td>
-                        <td><input type="text" value="1000.00" class="form-control" name="miscellaneous"
-                                id="miscellaneous" /></td>
+                        <td>{{labelPassanger.maintenance}}</td>
+                        <td><input type="text" class="form-control" name="maintenance" id="maintenance"
+                                formControlName="maintenance" />
+                        </td>
                     </tr>
                     <tr>
-                        <td>Insurance Expenses</td>
-                        <td><input type="text" value="5000.00" class="form-control" name="insurance_expenses"
-                                id="insurance_expenses" /></td>
+                        <td>{{labelPassanger.miscellaneous}}</td>
+                        <td><input type="text" class="form-control" name="miscellaneous" id="miscellaneous"
+                                formControlName="miscellaneous" /></td>
                     </tr>
                     <tr>
-                        <td>Total Expenses (B)</td>
-                        <td><input type="text" value="97400.00" class="form-control" name="total_expenses"
-                                id="total_expenses" /></td>
+                        <td>{{labelPassanger.insuranceExpenses}}</td>
+                        <td><input type="text" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="insuranceExpenses" /></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassanger.totalExpenses}}</td>
+                        <td><input type="text" class="form-control" name="total_expenses" id="total_expenses"
+                                formControlName="totalExpenses" /></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Net Cash Flow (NCF) (A-B)</td>
+                        <td>{{labelPassanger.netCashFlow}}</td>
                         <td><strong>37600.00</strong></td>
                     </tr>
                     <tr>
-                        <td>Equated Monthly Instalments (EMI)</td>
-                        <td><input type="text" value="16580.00" class="form-control" name="emi" id="emi" /></td>
+                        <td>{{labelPassanger.emi}}</td>
+                        <td><input type="text" class="form-control" name="emi" id="emi" formControlName="emi" /></td>
                     </tr>
                     <tr>
-                        <td><strong>Net Cash flow (NCF)/ EMI</strong></td>
+                        <td><strong>{{labelPassanger.netCashFlowEMI}}</strong></td>
                         <td><strong>2.27</strong></td>
                     </tr>
                     <tr>
@@ -195,84 +201,84 @@
             <!-- <p id="">Customer Name: ANTONY</p>  -->
             <p id="">{{label.vehicleModel}}: TOYOTA INNOVA /TATA ACE</p>
             <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
-            <form action="" method="POST">
-                <table
-                    class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
-                    <tr class="table-head-bg m-0 p-02">
-                        <th>
-                            <h4>{{label.income}}</h4>
-                        </th>
-                        <th></th>
+            <!-- <form action="" method="POST"> -->
+            <table
+                class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
+                <tr class="table-head-bg m-0 p-02">
+                    <th>
+                        <h4>{{label.income}}</h4>
+                    </th>
+                    <th></th>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>{{labelPassangerStandOperator.application}}</td>
+                        <td><input type="text" class="form-control" name="application" id="application"
+                                formControlName="application" />
+                        </td>
                     </tr>
-                    <tbody>
-                        <tr>
-                            <td>Application</td>
-                            <td><input type="text" value="Travels" class="form-control" name="application"
-                                    id="application" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>(a) Gross income per day</td>
-                            <td><input type="text" value="3100" class="form-control" name="gross_income_perday"
-                                    id="gross_income_perday" /> </td>
-                        </tr>
-                        <tr>
-                            <td>(b) No. of earnings per day (No of days)</td>
-                            <td><input type="text" value="22" name="earnings_perday" class="form-control"
-                                    id="earnings_perday" /></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monthly income (A)</strong></td>
-                            <td><strong>68200</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Expenses per day</td>
-                            <td><input type="text" value="1300.00" class="form-control" name="expenses_perday"
-                                    id="expenses_perday" /> </td>
-                        </tr>
-                        <tr>
-                            <td>Avg tyre expenses per month</td>
-                            <td><input type="text" value="1500.00" class="form-control"
-                                    name="avg_tyre_expenses_permonth" id="avg_tyre_expenses_permonth" /></td>
-                        </tr>
-                        <tr>
-                            <td>Insurance expenses per month</td>
-                            <td><input type="text" value="2000.00" class="form-control"
-                                    name="insurance_expenses_permonth" id="insurance_expenses_permonth" /></td>
-                        </tr>
-                        <tr>
-                            <td>Miscellaneous expenses</td>
-                            <td><input type="text" value="2000.00" class="form-control" name="miscellaneous_expenses"
-                                    id="miscellaneous_expenses" /></td>
-                        </tr>
-                        <tr>
-                            <td>Total Expenses (B)</td>
-                            <td><input type="text" value="34100.00" class="form-control" name="total_expenses"
-                                    id="total_expenses" /></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Net Cash Flow (NCF) (A-B)</td>
-                            <td><input type="text" value="34100.00" class="form-control" name="net_cash_flow"
-                                    id="net_cash_flow" /></td>
-                        </tr>
-                        <tr>
-                            <td>Equated Monthly Instalments (EMI)</td>
-                            <td><input type="text" value="15810.00" class="form-control" name="emi" id="emi" /></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Net Cash flow (NCF)/ EMI</strong></td>
-                            <td><strong>2.16</strong></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+                    <tr>
+                        <td>(a) {{labelPassangerStandOperator.grossIncome}}</td>
+                        <td><input type="text" class="form-control" name="gross_income_perday" id="gross_income_perday"
+                                formControlName="grossIncome" /> </td>
+                    </tr>
+                    <tr>
+                        <td>(b) {{labelPassangerStandOperator.earningsperday}}</td>
+                        <td><input type="text" name="earnings_perday" class="form-control" id="earnings_perday"
+                                formControlName="earningsperday" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{labelPassangerStandOperator.monthlyIncome}}</strong></td>
+                        <td><strong>68200</strong></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassangerStandOperator.expensesperday}}</td>
+                        <td><input type="text" class="form-control" name="expenses_perday" id="expenses_perday"
+                                formControlName="expensesperday" /> </td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassangerStandOperator.avgTyreExpenses}}</td>
+                        <td><input type="text" class="form-control" name="avg_tyre_expenses_permonth"
+                                id="avg_tyre_expenses_permonth" formControlName="avgTyreExpenses" /></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassangerStandOperator.insuranceExpenses}}</td>
+                        <td><input type="text" class="form-control" name="insurance_expenses_permonth"
+                                id="insurance_expenses_permonth" formControlName="insuranceExpenses" /></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassangerStandOperator.miscellaneousExpenses}}</td>
+                        <td><input type="text" class="form-control" name="miscellaneous_expenses"
+                                id="miscellaneous_expenses" formControlName="miscellaneousExpenses" /></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassangerStandOperator.totalExpenses}}</td>
+                        <td><input type="text" class="form-control" name="total_expenses" id="total_expenses"
+                                formControlName="totalExpenses" /></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassanger.netCashFlow}}</td>
+                        <td><input type="text" class="form-control" name="net_cash_flow" id="net_cash_flow"
+                                formControlName="netCashFlow" /></td>
+                    </tr>
+                    <tr>
+                        <td>{{labelPassanger.emi}}</td>
+                        <td><input type="text" class="form-control" name="emi" id="emi" formControlName="emi" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{labelPassanger.netCashFlowEMI}}</strong></td>
+                        <td><strong>2.16</strong></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </form> -->
 
         </div>
         <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === 'captive'">
@@ -281,7 +287,7 @@
             <!-- <p id="">Customer Name: BALAJI</p>  -->
             <p id="">{{label.vehicleModel}}: AL 142</p>
             <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
-            <form action="" method="POST">
+            <!-- <form action="" method="POST"> -->
                 <table
                     class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                     <tr class="table-head-bg m-0 p-02">
@@ -292,69 +298,70 @@
                     </tr>
                     <tbody>
                         <tr>
-                            <td>Nature of Business</td>
-                            <td><input type="text" value="SAND" class="form-control" name="nature_business"
-                                    id="nature_business" /></td>
+                            <td>{{labelCaptive.natureBusiness}}</td>
+                            <td><input type="text" class="form-control" name="nature_business" id="nature_business"
+                                    formControlName="natureBusiness" /></td>
                         </tr>
                         <tr>
-                            <td>(a) Gross income per day on business</td>
-                            <td><input type="text" value="5000" class="form-control" name="gross_income_perday_business"
-                                    id="gross_income_perday_business" /></td>
+                            <td>(a) {{labelCaptive.grossIncome}}</td>
+                            <td><input type="text" class="form-control" name="gross_income_perday_business"
+                                    id="gross_income_perday_business" formControlName="grossIncome" /></td>
                         </tr>
                         <tr>
-                            <td>(b) No. of earnings per day (No of days)</td>
-                            <td><input type="text" value="25" class="form-control" name="num_earnings_perday"
-                                    id="num_earnings_perday" /></td>
+                            <td>(b) {{labelCaptive.numEarnings}}</td>
+                            <td><input type="text" class="form-control" name="num_earnings_perday"
+                                    id="num_earnings_perday" formControlName="numEarnings" /></td>
                         </tr>
                         <tr>
-                            <td><strong>Monthly income (A)</strong></td>
+                            <td><strong>{{labelCaptive.monthlyIncome}}</strong></td>
                             <td><strong>125000</strong></td>
                         </tr>
                         <tr>
-                            <td>Expenses per day in business</td>
-                            <td><input type="text" value="3000.00" class="form-control" name="expenses_perday_business"
-                                    id="expenses_perday_business" /></td>
+                            <td>{{labelCaptive.expensesperdayBusiness}}</td>
+                            <td><input type="text" class="form-control" name="expenses_perday_business"
+                                    id="expenses_perday_business" formControlName="expensesperdayBusiness" /></td>
                         </tr>
                         <tr>
-                            <td>Obligations in business (Loans) per month</td>
-                            <td><input type="text" value="5000.00" class="form-control"
-                                    name="obligations_business_month" id="obligations_business_month" /></td>
+                            <td>{{labelCaptive.obligationsBusinessMonth}}</td>
+                            <td><input type="text" class="form-control" name="obligations_business_month"
+                                    id="obligations_business_month" formControlName="obligationsBusinessMonth" /></td>
                         </tr>
                         <tr>
-                            <td>Avg tyre expenses per month</td>
-                            <td><input type="text" value="1500.00" class="form-control" name="avgtyre_expenses_permonth"
-                                    id="avgtyre_expenses_permonth" /></td>
+                            <td>{{labelPassangerStandOperator.avgTyreExpenses}}</td>
+                            <td><input type="text" class="form-control" name="avgtyre_expenses_permonth"
+                                    id="avgtyre_expenses_permonth" formControlName="avgTyreExpenses" /></td>
                         </tr>
                         <tr>
-                            <td>Insurance expenses per month</td>
-                            <td><input type="text" value="2000.00" class="form-control"
-                                    name="insurance_expenses_permonth" id="insurance_expenses_permonth" /></td>
+                            <td>{{labelPassangerStandOperator.insuranceExpenses}}</td>
+                            <td><input type="text" class="form-control" name="insurance_expenses_permonth"
+                                    id="insurance_expenses_permonth" formControlName="insuranceExpenses" /></td>
                         </tr>
                         <tr>
-                            <td>Miscellaneous expenses</td>
-                            <td><input type="text" value="1500.00" class="form-control" name="miscellaneous_expenses"
-                                    id="miscellaneous_expenses" /></td>
+                            <td>{{labelPassangerStandOperator.miscellaneousExpenses}}</td>
+                            <td><input type="text" class="form-control" name="miscellaneous_expenses"
+                                    id="miscellaneous_expenses" formControlName="miscellaneousExpenses" /></td>
                         </tr>
                         <tr>
-                            <td>Total Expenses (B)</td>
-                            <td><input type="text" value="80000.00" class="form-control" name="total_expenses"
-                                    id="total_expenses" /></td>
+                            <td>{{labelPassangerStandOperator.totalExpenses}}</td>
+                            <td><input type="text" class="form-control" name="total_expenses" id="total_expenses"
+                                    formControlName="totalExpenses" /></td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Net Cash Flow (NCF) (A-B)</td>
-                            <td><input type="text" value="45000.00" class="form-control" name="net_cash_flow"
-                                    id="net_cash_flow" /></td>
+                            <td>{{labelPassanger.netCashFlow}}</td>
+                            <td><input type="text" class="form-control" name="net_cash_flow" id="net_cash_flow"
+                                    formControlName="netCashFlow" /></td>
                         </tr>
                         <tr>
-                            <td>Equated Monthly Instalments (EMI)</td>
-                            <td><input type="text" value="15670.00" class="form-control" name="emi" id="emi" /></td>
+                            <td>{{labelPassanger.emi}}</td>
+                            <td><input type="text" value="15670.00" class="form-control" name="emi" id="emi"
+                                    formControlName="emi" /></td>
                         </tr>
                         <tr>
-                            <td><strong>Net Cash flow (NCF)/ EMI</strong></td>
+                            <td><strong>{{labelPassanger.netCashFlowEMI}}</strong></td>
                             <td><strong>2.87</strong></td>
                         </tr>
                         <tr>
@@ -362,7 +369,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </form>
+            <!-- </form> -->
 
         </div>
     </form>
