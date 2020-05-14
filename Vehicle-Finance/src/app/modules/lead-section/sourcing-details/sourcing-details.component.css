@@ -357,7 +357,3 @@ select#select_main_button_leadco {
     max-height: 400px;
     overflow-x: hidden;
 }
-#clickButton{
-    float: right;
-    margin-right: 12px;
-}

@@ -25,7 +25,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   applicantType: string = 'I';
   SourcingChange: any;
-  professionList = [];
+  ProfessionList = [];
   text: string;
 
   loanLeadDetails: {
@@ -64,6 +64,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   ) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
+      console.log('entity',this.lovLabels.entity)
       console.log(this.lovLabels);
     });
 
@@ -110,13 +111,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     console.log(this.SourcingChange);
 
     switch (this.SourcingChange) {
-      case '61': this.professionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+      case '61': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
         break;
-      case '62': this.professionList = [{ key: 1, value: 'Liability Branch Code' }];
+      case '62': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
         break;
-      case '63': this.professionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+      case '63': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
         break;
-      default: this.professionList = [{ key: 1, value: 'Not Applicable' }];
+      default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
         break;
     }
 
@@ -153,18 +154,20 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue,professionList : this.professionList };
+    const leadModel: any = { ...formValue,professionList : this.ProfessionList };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
-
+    const entityObject = this.lovLabels.entity.find(value => value.key=== leadModel.entity)
+    console.log('entityObject', entityObject)
     const applicantModel = {
       first_name: leadModel.nameOne,
       middle_name: leadModel.nameTwo,
       last_name: leadModel.nameThree,
       mobile: leadModel.mobile,
-      dateOfBirth: leadModel.dateOfBirth
+      dateOfBirth: leadModel.dateOfBirth,
+      entity : entityObject
     };
-
+    
     // this.loanLeadDetails = {
     //   bizDivision: leadModel.bizDivision,
     //   productCategory: leadModel.productCategory,

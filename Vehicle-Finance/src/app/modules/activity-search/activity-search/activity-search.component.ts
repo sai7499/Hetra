@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { element } from 'protractor';
+import { LoginStoreService } from '../../../services/login-store.service';
 
 
 @Component({
@@ -9,12 +10,16 @@ import { element } from 'protractor';
 })
 export class ActivitySearchComponent implements OnInit, OnDestroy {
 
-  constructor() {}
   openProfile: boolean;
   seletedRoute: string;
   searchText: string;
   searchLead: any;
   searchDiv = false;
+  userName: string;
+  firstLetter: string;
+  branchName: string;
+  roles = [];
+
   bodyClickEvent = event => {
     if (event.target.id === 'profileDropDown') {
       this.openProfile = true;
@@ -22,6 +27,8 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     }
     this.openProfile = false;
   }
+
+  constructor(private loginStoreService: LoginStoreService) { }
 
   ngOnInit() {
     document

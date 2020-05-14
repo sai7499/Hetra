@@ -2,12 +2,16 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule} from '@angular/forms';
 import { ActivitySearchComponent } from "./activity-search/activity-search.component";
-
 import { ActivitySearchRouterModule } from "./activity-search.router";
-
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [ActivitySearchComponent],
-  imports: [CommonModule, ActivitySearchRouterModule, FormsModule]
+  imports: [
+    CommonModule, 
+    ActivitySearchRouterModule, 
+    FormsModule,
+    SharedModule
+  ]
 })
 export class ActivitySearchModule {}

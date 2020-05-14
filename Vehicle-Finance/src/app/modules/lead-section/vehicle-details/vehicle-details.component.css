@@ -23,6 +23,7 @@ h3.dedupe_head {
     justify-content: center;
     padding: 1rem;
     border-top: 1px solid #e9ecef;
+    
 }
 
 
@@ -113,8 +114,7 @@ h3.dedupe_head {
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin: 0px 25px 20px;
-    height: 420px;
+    margin-bottom: 20px;
 }
 
 label.col-form-label {
@@ -267,7 +267,8 @@ h3.dedupe_head {
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin:15px;
+    /* height: 400px; */
 }
 
 label.col-form-label {
@@ -359,5 +360,15 @@ select#select_main_button_leadco {
     overflow-x: hidden;
 }
 #clickButton{
-    margin-right: 10px;
+    margin-right: 2px;
 }
+
+table th, table td{
+    text-align: left;
+    padding-left: 10px;
+}
+/* .table-responsive{
+    height: 320px;
+    
+} */
+

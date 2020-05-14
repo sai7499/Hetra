@@ -218,44 +218,6 @@
                         "value": "Person-2"
                     }
                 ],
-                "requestedTenor": [
-                    {
-                        "key": 1,
-                        "value": 12
-                    },
-                    {
-                        "key": 2,
-                        "value": 18
-                    },
-                    {
-                        "key": 3,
-                        "value": 24
-                    },
-                    {
-                        "key": 4,
-                        "value": 30
-                    },
-                    {
-                        "key": 5,
-                        "value": 36
-                    },
-                    {
-                        "key": 6,
-                        "value": 42
-                    },
-                    {
-                        "key": 7,
-                        "value": 48
-                    },
-                    {
-                        "key": 8,
-                        "value": 54
-                    },
-                    {
-                        "key": 9,
-                        "value": 60
-                    }
-                ],
                 "sourcingChannel": [
                     {
                         "key": 1,

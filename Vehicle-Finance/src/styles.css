@@ -135,6 +135,7 @@ h3 {
     border-radius: 22px;
     padding: 6px 48px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        
 }
 .search .form-control .option {
     height: 44px;
@@ -300,7 +301,7 @@ form .form-control {
 }
 
 .mar-right8 {
-    margin-right: 8px !important;
+    margin: 8px;
 }
 
 .panel-group .fa-angle-down {

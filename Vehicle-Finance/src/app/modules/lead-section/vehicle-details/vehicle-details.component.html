@@ -1,5 +1,6 @@
 <div class="content">
-    <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm">
+    <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm" style="height: 380px;">
+        <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn">
         <h4 class="title"><b>{{ label.vehcileDetailsTitle }}</b></h4>
         <div class="text-right" id="add_vehicle_details_btn">
             <button class="btn btn-primary mar-right8" type="button"
@@ -62,6 +63,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
         <!-- <div class="btn-sec clear-both row">
             <div class="col-sm-5"> </div>

@@ -14,7 +14,7 @@
 .row{
     margin-left: 1px;
     background-color: white;
-    max-width: 1138px;
+    max-width: 100%;
     
 }
 
@@ -23,8 +23,16 @@
 }
 
 #sales_credit_score
-        {
-            background: #fff;
-            padding: 10px;
-            width: 1990px;
-        }
+{
+    background: #fff;
+     padding: 10px;
+    width: 100%;
+    margin-left: 15px;
+ }
+ .table td, .table th{
+     text-align: left;
+     
+ }
+ .table th{
+     padding: 10px;
+ }

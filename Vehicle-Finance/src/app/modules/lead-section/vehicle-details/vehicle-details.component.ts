@@ -160,9 +160,9 @@ export class VehicleDetailComponent implements OnInit {
 
     }
     getData() {
-
-      this.vehicleDetails = this.leadStoreService.getVehicleDetails();
-
+      
+      this.vehicleDetails =this.leadStoreService.getVehicleDetails();
+      console.log(this.vehicleDetails)
       // tslint:disable-next-line: no-shadowed-variable
       this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetMake.forEach(element => {
         // tslint:disable-next-line: radix
@@ -174,7 +174,7 @@ export class VehicleDetailComponent implements OnInit {
         }
       }));
       // tslint:disable-next-line: no-shadowed-variable
-      this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetModel.forEach(element => {
+      this.vehicleDetails.findIndex(x => x.assetModel === this.vehicleLov.assetModel.forEach(element => {
         // tslint:disable-next-line: radix
         if (parseInt(x.assetModel) === element.key) {
           x.assetModel = element;

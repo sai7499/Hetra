@@ -10,7 +10,7 @@ import { Routes, RouterModule, Router } from '@angular/router';
 export class LeadSectionHeaderComponent implements OnInit {
   labels: any = {};
   constructor(private labelsData: LabelsService,
-    public router : Router) {  }
+    public router :  Router) {  }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(

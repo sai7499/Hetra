@@ -225,6 +225,7 @@ export class SourcingDetailsComponent implements OnInit {
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = {...formValue};
     this.leadStoreService.setSourcingDetails(sourcingModel);
+
   }
 
 }
