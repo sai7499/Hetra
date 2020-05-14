@@ -12,7 +12,6 @@
     <!--progress bar-->
     <div class="multisteps-form">
       <div class="multisteps-form__progress">
-        <!-- <div class="multisteps-form__progress" *ngIf="router.url != '/pages/dde/valuation'"> -->
         <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details"
           [routerLink]="['./lead-details']">
           Lead Details
@@ -45,7 +44,7 @@
           PD Report
         </button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_viability">Viability</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_score_card">Score Card</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_score_card" [routerLink]="['./score-card']">Score Card</button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_cam">CAM</button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_deviations">Deviations</button>
         <button class="multisteps-form__progress-btn " type="button" id="credit_insurance">Insurance</button>
@@ -54,14 +53,11 @@
         <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button> -->
         <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_reference">Reference</button> -->
       </div>
-      <!-- <div class="multisteps-form__progress" *ngIf="router.url!='/pages/dde/fl-report'">
-                <button class="multisteps-form__progress-btn"  type="button" id="credit_sourcing_details" [routerLink]="['./applicant-details']">Applicant Details</button>
-                <button class="multisteps-form__progress-btn"  type="button" id="credit_product_details" [routerLink]="['./customer-profile']">Customer Profile Details</button>
-                <button class="multisteps-form__progress-btn"  type="button" id="credit_application_details" [routerLink]="['./loan-details']">Loan Details</button>
-            </div>   -->
+
       <div class="content">
         <router-outlet> </router-outlet>
       </div>
+
     </div>
   </div>
 </main>
