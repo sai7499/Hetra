@@ -18,6 +18,7 @@ import { ApplicantListComponent } from "./applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
+import { ScoreCardComponent } from './score-card/score-card.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
     ApplicantListComponent,
     VehicleListComponent,
     FleetDetailsComponent,
-    TrackVehicleComponent
+    TrackVehicleComponent,
+    ScoreCardComponent
   ],
   imports: [
     DdeRoutingModule,
