@@ -6,10 +6,9 @@ import { Router } from '@angular/router';
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
-import { Lead } from '@model/lead.model';
 
 import { CreateLeadService } from '../service/creatLead.service';
-import {CommomLovService} from '../../../services/commom-lov-service';
+import { CommomLovService } from '../../../services/commom-lov-service';
 
 @Component({
   selector: 'app-lead-creation',
@@ -30,6 +29,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   ProfessionList = [];
   text: string;
   isDisabled: boolean = true;
+
+  LOV: any = [];
 
   loanLeadDetails: {
     bizDivision: number,
@@ -66,31 +67,45 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private createLeadService: CreateLeadService,
     private commomLovService: CommomLovService
   ) {
-  
-    console.log('LOV data', this.commomLovService.getLovData() )
-    
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
       console.log(this.lovLabels);
     });
-
   }
 
   ngOnChanges() {
     console.log(this.test);
   }
 
+  ngOnInit() {
+    this.onChangeLanguage('English');
+    this.getLabels();
+    this.initForm();
+
+    this.LOV = this.commomLovService.getLovData()
+    console.log('Create Lead LOV data ---', this.LOV);
+
+    this.createLeadForm.patchValue({ bizDivision: 'VFBIZDIV' })
+  }
+
+  getLabels() {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      });
+  }
+
   initForm() {
     this.createLeadForm = new FormGroup({
-      bizDivision: new FormControl({ value: "1", disabled: true }),
+      bizDivision: new FormControl({value: '', disabled: true}),
       productCategory: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
-      spokeCodeLocation: new FormControl({ value: "1", disabled: true }),
-      loanBranch: new FormControl({ value: "1", disabled: true }),
+      spokeCodeLocation: new FormControl(''),
+      loanBranch: new FormControl(),
       leadHandeledBy: new FormControl(''),
       entity: new FormControl(''),
       nameOne: new FormControl(''),
@@ -101,27 +116,17 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit() {
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-        console.log(this.labels.fundingProgram);
-      });
-    this.onChangeLanguage('English');
-    this.initForm();
-  }
 
   sourcingChannelChange(event: any) {
-
     this.SourcingChange = event.target.value;
-    console.log(this.SourcingChange);
+    console.log('SourcingChange', this.SourcingChange);
 
     switch (this.SourcingChange) {
-      case '61': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+      case '1SOURCHAN': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
         break;
-      case '62': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
+      case '2SOURCHAN': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
         break;
-      case '63': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+      case '3SOURCHAN': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
         break;
       default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
         break;
@@ -129,11 +134,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
     if (this.SourcingChange == 64) {
       this.sourcingCode = "Campaign Code";
-      // this.createLeadForm.patchValue({ sourcingCode: this.text });
     }
     else {
-      // this.text = "Employee Code";
-      // this.createLeadForm.patchValue({ sourcingCode: this.text });
       this.sourcingCode = "Employee Code";
 
     }
@@ -154,14 +156,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     }
   }
 
-  gotValue(e) {
-    console.log(e.target.value);
-  }
-
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue,professionList : this.ProfessionList };
+    const leadModel: any = { ...formValue, professionList: this.ProfessionList };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 

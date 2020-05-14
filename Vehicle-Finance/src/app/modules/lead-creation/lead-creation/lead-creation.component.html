@@ -13,7 +13,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col" >*</sub> </label>
-            <app-vf-custom-select [values]="lovLabels?.businessDivision" formControlName="bizDivision">
+            <app-vf-custom-select [values]="LOV.LOVS.businessDivision" formControlName="bizDivision" >
             </app-vf-custom-select>
           </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_channel">{{ labels.sourcingChannel }} <sub class="star_red_col" >*</sub></label>
-            <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel"
+            <app-vf-custom-select [values]="LOV.LOVS.sOURCINGCHANNEL" formControlName="sourcingChannel"
               (change)="sourcingChannelChange($event)" name="sourcingChannel">
             </app-vf-custom-select>
           </div>
