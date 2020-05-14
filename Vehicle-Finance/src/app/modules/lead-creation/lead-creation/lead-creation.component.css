@@ -173,10 +173,16 @@ select#select_main_button_leadco {
 {
     color: #da3939;
     font-size: 25px;
+    margin-left: 4px;
    
 }
 .star_blue_col
 {
     color:#0000FF;
     font-size: 25px;
+    margin-left: 4px;
+}
+
+label{
+    font-size: 14px !important;
 }

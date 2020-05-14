@@ -8,7 +8,7 @@
                         <h4 class="title">{{labels.applicantDetailsTitle}}</h4>
                     </div>
                     <div class="col-sm-7 text-right">
-                        <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
+                        <button class="btn btn-primary mar-right8" type="button" [routerLink]="['/pages/lead-section/co-applicant']">{{labels.addApplicantTitle}} </button>
                         <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                     </div>
                 </div>
@@ -63,18 +63,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="btn-sec clear-both">
-                        <div class="col-sm-5">
-
-                        </div>
-                        <div class="col-sm-7 text-right">
-                            <button class="btn btn-primary js-btn-prev mar-right8" type="button"  [routerLink]="['../']"> Back </button>
-                            <button class="btn btn-primary  mar-right8" (click)="onSubmit()"> Save </button>
-                            <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['../vehicle-details']"> Next </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -83,3 +71,13 @@
         </div>
     </form>
 </div> 
+<div class="btn-sec clear-both">
+    <div class="col-sm-5">
+
+    </div>
+    <div class="col-sm-7 text-right">
+        <button class="btn btn-primary js-btn-prev mar-right8" type="button"  [routerLink]="['../']"> Back </button>
+        <button class="btn btn-primary  mar-right8" (click)="onSubmit()"> Save </button>
+        <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['../vehicle-details']"> Next </button>
+    </div>
+</div>

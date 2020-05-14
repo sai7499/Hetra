@@ -1,5 +1,5 @@
-<main class="mar-top90">
-    <div class="container">
+<main>
+    <div class="container-fluid">
         <h3 class="margin_zero">{{labels?.addApplicantTitle}}</h3>
         <form [formGroup]="coApplicantForm">
             <div class="content">
@@ -255,10 +255,10 @@
 
                                 </div>
                                 <div class="btn-sec clear-both row">
-                                    <div class="col-sm-5">
+                                    <div class="col-lg-3 col-sm-5">
                                         <h3 class="title">Current/Communication Address</h3>
                                     </div>
-                                    <div class="col-sm-7 text-right">
+                                    <div class="col-lg-3 text-left" id="align_this_checkbox">
                                         <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)" > <span
                                             id="address_section_checkbox_text">Check If It Is Same As Permanent Address?
                                         </span>
@@ -419,28 +419,26 @@
                             </div>
 
                         </div>
-
-                        <div class="btn-sec clear-both">
-                            <div class="col-sm-5">
-
-                            </div>
-                            <div class="col-sm-7 text-right">
-                                <button class="btn btn-primary mar-right8 " type="button"
-                                    [routerLink]="['../applicant-details']"> <a class="back_color">Back</a></button>
-                                <button type="button" (click)="onFormSubmit()" class="btn btn-primary " 
-                                    [routerLink]="['../exact-match']" ><a
-                                        class="back_color">Save</a>
-                                </button>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
 
             </div>
         </form>
     </div>
+    <div class="btn-sec clear-both">
+        <div class="col-sm-5">
 
+        </div>
+        <div class="col-sm-7 text-right" id="clickButton">
+            <button class="btn btn-primary mar-right8 " type="button"
+                [routerLink]="['../applicant-details']"> <a class="back_color">Back</a></button>
+            <button type="button" (click)="onFormSubmit()" class="btn btn-primary " 
+                [routerLink]="['../exact-match']" ><a
+                    class="back_color">Save</a>
+            </button>
+
+        </div>
+    </div>
 
 
 

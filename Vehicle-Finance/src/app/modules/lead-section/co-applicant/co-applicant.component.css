@@ -1,7 +1,7 @@
 /* Top-heading Space */
 
 h3.margin_zero {
-    margin-top: 0px;
+ /* margin-top: 0px; */
 }
 
 h3.dedupe_head {
@@ -231,3 +231,11 @@ select#select_main_button_match {
     box-shadow: 0px 10px 10px -11px #561ba3cc;
 }
 /*----- Exact match Testing Model End-------*/
+
+#clickButton{
+    margin-bottom: 50px;
+}
+
+#align_this_checkbox{
+    margin-top : 16px ;
+}
