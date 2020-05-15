@@ -1,0 +1,111 @@
+<div class="content">
+    <form class="multisteps-form__form" method="POST" style="height: 400px;">
+        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+            <!-- <h4 class="title">Bank Details</h4> -->
+            <!-- Individual Section Starts Here -->
+            
+            <div class="container">
+                    <div class="btn-sec clear-both row">
+                        <!-- <div class="col-sm-5">
+                           <h4 class="title">Vehicle Details</h4> 
+                       </div> --> 
+                       <div class="col-sm-12 text-right">
+                           <button class="btn btn-secondary mar-right8" type="button" routerLink="/pages/applicant-details/bank-details"> Add Bank Details </button> 
+                           <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+                       </div>
+                   </div>
+                    <div class="row">
+                        <div class="table-responsive application" id="applicantTable">
+                            <table class="table">
+                                <thead>
+                                    <tr class="table-head-bg">
+                                        
+                                        <td>Account Holder Name </td>
+                                        <td>Bank Name </td>
+                                        <td>A/C Number </td>
+                                        <td>A/C Type</td>
+                                        <td>From Date</td>
+                                        <td>To Date</td>
+                                        <td>Period</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="applicant_1_row">
+                                        
+                                        <td>Hariharan</td>
+                                        <td>ICICI</td>
+                                        <td>5777843</td>
+                                        <td>Savings</td>
+                                        <td>02-06-2019</td>
+                                        <td>22-12-2019</td>
+                                        <td>6</td>                                                              
+                                        <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"></i></td>
+                                    </tr>
+                                    <tr id="applicant_2_row">
+                                        
+                                        <td>Saravana Kumar</td>
+                                        <td>ICICI</td>
+                                        <td>6878780</td>
+                                        <td>Savings</td>
+                                        <td>02-06-2019</td>
+                                        <td>22-12-2019</td>
+                                        <td>6</td>                                                      
+                                        <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant2"></i></td>
+                                    </tr>
+                                    <tr id="applicant_3_row">
+                                        
+                                        <td>Akash</td>
+                                        <td>ICICI</td>
+                                        <td>9764542</td>
+                                        <td>Savings</td>
+                                        <td>02-06-2019</td>
+                                        <td>22-12-2019</td>
+                                        <td>6</td>                                                          
+                                        <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant3"></i></td>
+                                    </tr>
+                                    
+
+                                </tbody>
+                            </table>
+                            
+                        </div>
+
+
+
+                    </div>
+            
+
+    </div>
+
+
+            
+                
+                <div class="row">
+                    
+                    </div>
+                    <div id="add_multiple_banks"></div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <label for="">Add Multiple Bank Accounts</label>
+                        <input class="form-control btn-primary" type="button" value="Add Here" id="add_banks" />  -->
+                        
+                        <!-- <button type="button" onclick="add_applicant_details();" class="add-row">Add Row</button> -->
+                        <!-- <input type="button" class="add-row" value="Add Row"> -->
+                        <!-- <button type="button" class="delete-row">Delete Row</button> -->
+                    </div>
+                    
+            
+            </div>
+            <!-- Individual Section End Here -->
+
+
+            <!-- Non-Individual Section Starts------->
+            <!---- <div id="non_individual_section_start">
+                <h4 ></h4>
+                <div class="row"  >
+                    
+                </div> 
+            </div> ---->
+            <!-- Non-Individual Section End-->
+        </form></div>

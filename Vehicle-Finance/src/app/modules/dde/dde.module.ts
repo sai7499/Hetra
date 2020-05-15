@@ -22,6 +22,7 @@ import { CamComponent } from './cam/cam.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
 
+import { ScoreCardComponent } from './score-card/score-card.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { CamComponent } from './cam/cam.component';
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent, 
-    CamComponent
+    CamComponent,
+    ScoreCardComponent
   ],
   imports: [
     DdeRoutingModule,

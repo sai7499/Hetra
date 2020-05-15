@@ -15,6 +15,7 @@ import { PslDataComponent } from "./psl-data/psl-data.component";
 import { FlReportComponent } from "./fl-report/fl-report.component";
 import { PdReportComponent } from "./pd-report/pd-report.component";
 import { CamComponent } from './cam/cam.component';
+import { ScoreCardComponent } from './score-card/score-card.component';
 
 
 const routes: Routes = [
@@ -78,7 +79,10 @@ const routes: Routes = [
         path:"cam",
         component:CamComponent
       },
-     
+     {
+        path: 'score-card',
+        component: ScoreCardComponent
+      }
     ]
   }
 ];
