@@ -27,14 +27,17 @@ export class TeleVerificationFormComponent implements OnInit {
         sourceOfProposal: [''],
         product: [''],
         emi: [''],
-        needForProposedVehicle: [''],
+        vehicleLoanRelated: this.fb.group({
+          needForProposedVehicle: [''],
         routeOfOperation: [''],
         contractDetails: [''],
         typeofGoodsCarried: [''],
         fundingAmountRequested: [''],
         endUseFunds: [''],
         tenureRequested: [''],
-        residence: [''],
+        }),
+        teleVerification: this.fb.group({
+          residence: [''],
         otherVehicles: [''],
         phoneNo: [''],
         address: [''],
@@ -68,7 +71,8 @@ export class TeleVerificationFormComponent implements OnInit {
         relation: [''],
         monthlySalaryGross: [''],
         otherSourcesofIncome: [''],
-        decision: [''],
+        decision: ['']
+        })
 
       });
     }
@@ -85,7 +89,7 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   onSave() {
-    console.log('on save',this.teleVerificationForm.value);
+    console.log('on save', this.teleVerificationForm.value);
   }
 
 }
