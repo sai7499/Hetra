@@ -15,10 +15,8 @@ export class CamComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        console.log(this.labels)
       },
       error => {
-        console.log(error);
       }
     );
   }
