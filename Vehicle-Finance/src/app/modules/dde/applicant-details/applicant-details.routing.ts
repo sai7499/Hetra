@@ -8,6 +8,7 @@ import { IdentityDetailsComponent } from './identity-details/identity-details.co
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { EmploymentDetailsComponent } from './employment-details/employment-details.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
+import { BankListComponent } from './bank-list/bank-list.component';
 
 const routes: Routes = [
     {
@@ -17,6 +18,10 @@ const routes: Routes = [
             {
                 path: 'basic-data',
                 component: BasicDetailsComponent
+            },
+            {
+                path: 'bank-list',
+                component: BankListComponent
             },
             {
                 path: 'bank-details',
