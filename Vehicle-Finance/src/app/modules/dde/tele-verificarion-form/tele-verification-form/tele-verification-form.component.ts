@@ -54,7 +54,6 @@ export class TeleVerificationFormComponent implements OnInit {
         time: [''],
         tvrDoneByName: [''],
         eCode: [''],
-        sign: [''],
         office: [''],
         workExperience: [''],
         phoneNo2: [''],
