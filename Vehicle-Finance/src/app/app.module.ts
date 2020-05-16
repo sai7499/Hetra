@@ -1,3 +1,6 @@
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { HTTP } from '@ionic-native/http/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -14,7 +17,11 @@ import { AuthInterceptor } from './services/auth.interceptor.service';
 // import { HttpClientModule } from '@angular/common/http';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule} from './modules/shared/shared.module';
 
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @agm/core
+import { AgmDirectionModule } from 'agm-direction';   // agm-direction
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [
@@ -26,9 +33,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
+    AgmCoreModule.forRoot({ // @agm/core
+      apiKey: 'AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw',
+    }),
+    AgmDirectionModule,     // agm-direction
   ],
   providers: [
+    HTTP,
+    DeviceDetectorService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -39,7 +53,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     },
     CollapseModule,
     BrowserAnimationsModule,
-    CommonModule
+    CommonModule,
+    GoogleMapsAPIWrapper,
+    LocationAccuracy,
+    Geolocation
   ],
 
   bootstrap: [AppComponent]

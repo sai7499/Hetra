@@ -11,10 +11,11 @@ import { IncomeDetailsComponent } from './income-details/income-details.componen
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
-import { ValuationComponent } from './valuation/valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
+import { CamComponent } from './cam/cam.component';
+import { ScoreCardComponent } from './score-card/score-card.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 
 
@@ -68,10 +69,6 @@ const routes: Routes = [
         component: VehicleValuationComponent
       },
       {
-        path: 'valuation',
-        component: ValuationComponent
-      },
-      {
         path: 'psl-data',
         component: PslDataComponent
       },
@@ -82,6 +79,14 @@ const routes: Routes = [
       {
         path: 'tvr-details',
         component: TvrDetailsComponent
+      },
+      {
+        path: 'cam',
+        component: CamComponent
+      },
+     {
+        path: 'score-card',
+        component: ScoreCardComponent
       }
     ]
   }

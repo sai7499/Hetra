@@ -66,6 +66,11 @@ const routes: Routes = [
         path: 'tele-verification-form',
         loadChildren: () =>
           import('./modules/dde/tele-verificarion-form/tele-verificarion-form.module').then(m => m.TeleVerificarionFormModule)
+      },
+      {
+        path: 'vehicle-valuation',
+        loadChildren: () =>
+        import ('./modules/dde/vehicle-valuation-router/vehicle-valuation-router.module').then(m => m.VehicleValuationRouterModule)
       }
     ]
   },
