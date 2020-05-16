@@ -27,28 +27,30 @@
                     </ul>
                 </li>
             </ul> -->
-        <div class="search" (mouseover)="showSearch($event)" (mouseout)="hideSearch($event)">
-            <div>
+        <!-- <div class="search" (mouseover)="showSearch($event)" (mouseout)="hideSearch($event)"> -->
+        <!-- <div>
                 <span class="search-icon-left" *ngIf="showSearchIcon"></span>
                 <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <!-- <button class="microphone-icon" title="Search by voice"></button> -->
+            </div> -->
+        <!-- <button class="microphone-icon" title="Search by voice"></button> -->
 
-            <ul id="myUL" class="unique">
+        <!-- <ul id="myUL" class="unique">
                 <li [routerLink]="['/pages/lead-creation']">Create Lead</li>
                 <li [routerLink]="['/pages/dashboard/leads/new-leads']">Go to New Lead Dashboard</li>
                 <li [routerLink]="['QDE/QDE-section.html']">QDE</li>
                 <li [routerLink]="['lead/pd_section.html']">PD</li>
                 <li [routerLink]="['/pages/dde']">DDE</li>
-            </ul>
-            <app-profile>
-                <div class="search">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <span class="search-icon-left"></span>
-                </div>
-            </app-profile>
+            </ul> -->
 
-        </div>
+
+        <!-- </div> -->
+        <app-profile>
+            <div class="search">
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="search-icon-left"></span>
+            </div>
+        </app-profile>
+    </div>
 </header>
 
 
