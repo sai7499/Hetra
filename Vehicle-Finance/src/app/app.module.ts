@@ -26,8 +26,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
