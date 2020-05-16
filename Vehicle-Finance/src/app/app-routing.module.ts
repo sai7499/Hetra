@@ -58,6 +58,11 @@ const routes: Routes = [
         path: "applicant-details",
         loadChildren: () =>
           import("./modules/dde/applicant-details/applicant-details.module").then(m => m.ApplicantDetailsModule)
+      },
+      {
+        path: "vehicle-valuation",
+        loadChildren: () =>
+        import ("./modules/dde/vehicle-valuation-router/vehicle-valuation-router.module").then(m => m.VehicleValuationRouterModule)
       }
     ]
   }

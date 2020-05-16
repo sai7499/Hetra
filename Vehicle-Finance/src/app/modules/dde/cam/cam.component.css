@@ -1,0 +1,89 @@
+
+.col-sm-7.text-right.mb-low{margin-top:15px !important;}
+.cam-title{margin-top:0px !important;}
+.row.top_bar {
+    /* padding: 0px; */
+}
+.form-group.mb-0 {
+    margin-bottom: 0px;
+}
+.table.mb-0 {
+    margin-bottom: 0px;
+}
+td{border:1px solid #ddd;}
+th{border:1px solid #ddd;}
+.readonly {
+    background: #ddd;
+    text-align: center;
+}
+.bank_name {
+    background-color: #f7f7f7;
+}
+.col-sm-7.text-right.mb-low_other{margin-top:80px !important;}
+#cam_recommendation {
+    word-wrap: break-word;
+}
+.recommondation{font-size:14px;color:#272264;font-weight:bold;}
+.col-sm-7.text-right.Recommendation {
+    margin-bottom: 30PX;
+}
+.fixed-btn {
+            position: fixed;
+            position: fixed;
+            top: 300px;
+            right: -12px;
+            height: 100px;
+            z-index: 999;
+        }
+
+/***PDF DESIGN***/
+.navbar-brand img {
+    /* max-width: 70px !important; */
+}
+.caption{
+	color: #fff;
+text-align: center;
+border: 1px solid #ddd;
+background-color: #272264;
+padding: 1px;
+font-size: 16px;
+}
+.cam_table{width:100%;}
+.cam_table_proposed{width:100%;margin-top:0px;}
+.cam_table > tbody > tr > td {padding:1px;width:16.6%;}
+.cam_table_proposed > tbody > tr > td {padding:1px;}
+.cam_table.mt-3{margin-top:0px;}
+.cam_table > tbody > tr > td:nth-child(odd) { background-color : #f7f7f7; }
+.for_space{height:100px;}
+.credit_officer{width:100%;}
+.for_100{width:100% !important;}
+
+@media print {
+ .navbar-brand img {
+    max-width: 70px !important;
+}
+.navbar.navbar-default.navbar-fixed-top{display:none !important;}
+.caption{
+	color: #fff;
+text-align: center;
+border: 1px solid #ddd;
+background-color: #272264;
+padding: 1px;
+font-size: 16px;
+}
+.cam_table{width:100%;}
+.cam_table_proposed{width:100%;margin-top:0px;}
+.cam_table > tbody > tr > td {padding:1px;width:16.6%;}
+.cam_table_proposed > tbody > tr > td {padding:1px;}
+.cam_table.mt-3{margin-top:0px;}
+.cam_table > tbody > tr > td:nth-child(odd) { background-color : #f7f7f7; }
+.for_space{height:100px;}
+.credit_officer{width:100%;}
+.for_100{width:100% !important;}
+.footer{display:none;}
+}
+
+.btn-sec .btn {
+    margin: 10px 4px;
+}
+
