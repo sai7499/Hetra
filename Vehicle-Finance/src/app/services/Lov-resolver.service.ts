@@ -19,20 +19,14 @@ export class LovResolverService implements Resolve<any>{
         const workflowId = environment.api.getLOVs.workflowId;
         const projectId = environment.projectId;
 
-        let url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
+        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 
-        let qdeRequestEntity: RequestEntity = {
+        let body: RequestEntity = {
             processId: processId,
             ProcessVariables: {},
             workflowId: workflowId,
             projectId: projectId
         };
-
-        const body = {
-            'processVariables':
-                JSON.stringify(qdeRequestEntity)
-        }
-
         // if(this.commonLovService.getLovData()){
         //     return this.commonLovService.getLovData()
         // }

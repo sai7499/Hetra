@@ -20,7 +20,7 @@ export class CreateLeadService {
 
         let email = localStorage.getItem('email');
 
-        const requestEntity: RequestEntity = {
+        const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
                 "loanLeadDetails": loanLeadDetail,
@@ -30,13 +30,8 @@ export class CreateLeadService {
             workflowId: workflowId,
             projectId: projectId
         };
-
-        const body = {
-            'processVariables':
-                JSON.stringify(requestEntity)
-        };
-        let url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
-        // let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+        
+        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
 }

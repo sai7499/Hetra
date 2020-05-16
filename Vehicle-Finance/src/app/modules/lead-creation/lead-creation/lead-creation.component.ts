@@ -9,6 +9,7 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
 
 import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-lead-creation',
@@ -23,12 +24,14 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   lovLabels: any = [];
   labels: any = {};
 
-  applicantType: string = 'I';
-  SourcingChange: any;
-  sourcingCode: string = 'Sourcing Code'
+  applicantType: string = 'INDIVENTTYP';
+  sourcingChange: any;
+  sourcingCodePlaceholder: string = 'Sourcing Code';
   ProfessionList = [];
   text: string;
   isDisabled: boolean = true;
+  loanAccountBranch: string;
+  leadHandeledBy: string;
 
   LOV: any = [];
 
@@ -65,7 +68,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private leadStoreService: LeadStoreService,
     private labelsData: LabelsService,
     private createLeadService: CreateLeadService,
-    private commomLovService: CommomLovService
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService
   ) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
@@ -79,13 +83,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.onChangeLanguage('English');
-    this.getLabels();
+    this.getLabels();    
+    this.getLOV();
+    this.getUserDetailsData();
     this.initForm();
-
-    this.LOV = this.commomLovService.getLovData()
-    console.log('Create Lead LOV data ---', this.LOV);
-
-    this.createLeadForm.patchValue({ bizDivision: 'VFBIZDIV' })
+    this.createLeadForm.patchValue({ bizDivision: 'VFBIZDIV' });
+    this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' })
   }
 
   getLabels() {
@@ -97,7 +100,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   initForm() {
     this.createLeadForm = new FormGroup({
-      bizDivision: new FormControl({value: '', disabled: true}),
+      bizDivision: new FormControl({ value: '', disabled: true }),
       productCategory: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
@@ -105,8 +108,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
       spokeCodeLocation: new FormControl(''),
-      loanBranch: new FormControl(),
-      leadHandeledBy: new FormControl(''),
+      loanBranch: new FormControl({value:this.loanAccountBranch, disabled: true}),
+      leadHandeledBy: new FormControl({value:this.leadHandeledBy, disabled: true}),
       entity: new FormControl(''),
       nameOne: new FormControl(''),
       nameTwo: new FormControl(''),
@@ -116,12 +119,27 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     });
   }
 
+  getLOV() {
+    this.LOV = this.commomLovService.getLovData()
+    console.log('Create Lead LOV data ---', this.LOV);
+  }
+
+  getUserDetailsData() {
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    const branchId = roleAndUserDetails.userDetails.branchId;
+    const branchName = roleAndUserDetails.userDetails.branchName;
+    this.loanAccountBranch = `${branchId}-${branchName}`;
+
+    const userId = roleAndUserDetails.userDetails.userId;
+    const userName = roleAndUserDetails.userDetails.firstName;
+    this.leadHandeledBy = `${userId}-${userName}`;
+  }
 
   sourcingChannelChange(event: any) {
-    this.SourcingChange = event.target.value;
-    console.log('SourcingChange', this.SourcingChange);
+    this.sourcingChange = event.target.value;
+    console.log('SourcingChange', this.sourcingChange);
 
-    switch (this.SourcingChange) {
+    switch (this.sourcingChange) {
       case '1SOURCHAN': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
         break;
       case '2SOURCHAN': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
@@ -132,11 +150,11 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         break;
     }
 
-    if (this.SourcingChange == 64) {
-      this.sourcingCode = "Campaign Code";
+    if (this.sourcingChange == 64) {
+      this.sourcingCodePlaceholder = "Campaign Code";
     }
     else {
-      this.sourcingCode = "Employee Code";
+      this.sourcingCodePlaceholder = "Employee Code";
 
     }
   }

@@ -71,7 +71,8 @@ export class HttpService {
           headers: headers
         });
       }
-      const body = new HttpParams({ "fromObject": requestEntity});
+      // const body = new HttpParams({ "fromObject": requestEntity});
+      const body = JSON.stringify(requestEntity);
       return this.http.post(url, body);
     }
   }

@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   apiVersion: {
-    login: "v4/",
+    login: "v3/",
     api: "v2/"
   },
 
