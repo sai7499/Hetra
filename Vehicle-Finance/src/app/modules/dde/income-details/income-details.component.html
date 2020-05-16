@@ -1,4 +1,4 @@
-<h3 class="dashboard m-0">Income and Obligation Details</h3>
+<h3 class="dashboard m-0">{{labels?.incomeAndObligationDetailsTitle}}</h3>
 <!--progress bar-->
 <form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
   <div class="multisteps-form">
@@ -9,7 +9,7 @@
           <div class="table-responsive application">
             <table id="POITable" border="1" class="table">
               <caption class="caption">
-                Business Income Details
+                {{labels?.businessIncomeDetailsTitle}}
               </caption>
               <thead>
                 <tr class="">
@@ -79,7 +79,7 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_other" border="1" class="table">
               <caption class="caption">
-                Other Income Details
+                {{labels?.otherIncomeDetailsTitle}}
               </caption>
               <thead>
                 <tr class="">
@@ -134,17 +134,17 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_obligation" border="1" class="table">
               <caption class="caption">
-                Obligation Details
+                {{labels?.obligationDetailsTitle}}
               </caption>
               <thead>
                 <tr class="">
-                  <th role="columnheader">{{labels?.sNO}}ws</th>
+                  <th role="columnheader">{{labels?.sNO}}</th>
                   <th role="columnheader">{{ labels?.borrowerName }}</th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
                   <th role="columnheader">{{ labels?.typeOfLoan }}</th>
                   <th role="columnheader">{{ labels?.financier }}</th>
                   <th role="columnheader">{{ labels?.loanAmount }}</th>
-                  <th role="columnheader">"{{ labels?.tenorInMonths }}"</th>
+                  <th role="columnheader">{{ labels?.tenorInMonths }}</th>
                   <th role="columnheader">{{ labels?.mob }}</th>
                   <th role="columnheader">{{ labels?.emi }}</th>
                   <th role="columnheader">{{ labels?.balanceTenor }}</th>
@@ -212,7 +212,7 @@
           <div class="table-responsive application mt-3 oblig">
             <table id="POITable" border="1" class="table income_obli ">
               <caption class="caption">
-                Income & Obligation Summary
+                {{ labels?.incomeObligationSummaryTitle }}
               </caption>
 
               <tr>
