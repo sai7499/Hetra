@@ -1,165 +1,77 @@
 <div class="mb-50">
-                                    
-    <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          
-            <label for="acp"> {{labels.creditCondition}} </label>
-            <textarea class="form-control" disabled>Content Goes here......</textarea>  
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="acp"> {{labels.salesResponse}} </label>
-            <textarea class="form-control" disabled>Content Goes here......</textarea>
-        </div>
-        <div class="form-group col-sm-6 col-md-2 col-lg-3">
-            <label for="activity"> {{labels.supportDocument}} </label>
-            <!-- <input type="text" name="file" class="form-control"  value="Ref#123456"/> -->
-            <a href="" class="input_design">Ref<span class="text-dec">#123456</span></a>
-        </div>
 
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="end" class="action"> {{labels.action}} </label>
-            
-            <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio" checked> {{labels.accepted}}
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="optradio"> {{labels.notAccepted}}
-            </label>
-            </div>
-            <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio">{{labels.defferedTillDate}}
-            </label>
-            <label class="radio-inline p-0 m-0">
-              <div class="input-group date check_input" id="datetimepicker1">
-                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                        </span>
-                        <input type="text" class="form-control" value="">
-                </div>
-            </label>
-            </div>
-         
-        </div>
-        
+  <div class="row">
+    <div class="col-xs-6 col-sm-3">
+      <label> {{labels.creditCondition}} </label>
     </div>
-    <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xl-3">
-            <textarea class="form-control" disabled>Content Goes here......</textarea>   
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xl-3">
-            <textarea class="form-control" disabled>Content Goes here......</textarea>
-        </div>
-        
-        <div class="form-group col-sm-6 col-md-2 col-lg-3 col-xl-3">
-           
-            <div class="btn btn-primary uploadsan">Upload
-            <input type="file" name="file" class="upload_sanction"/>
-            </div>
-        </div>
-
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <form>
-            <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio" data-toggle="modal" data-target="#myModal">{{labels.accepted}}
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="optradio" checked>{{labels.notAccepted}}
-            </label>
-            </div>
-            <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio">{{labels.defferedTillDate}}
-            </label>
-            <label class="radio-inline p-0 m-0">
-              <div class="input-group date check_input" id="datetimepicker1">
-                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                        </span>
-                        <input type="text" class="form-control" value="">
-                </div>
-            </label>
-            </div>
-          </form>
-        </div>
-        
+    <div class="col-xs-6 col-sm-3">  <label> {{labels.salesResponse}} </label></div>  
+    <div class="col-xs-6 col-sm-3">    
+      <label> {{labels.supportDocument}} </label>
     </div>
-    <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <textarea class="form-control" disabled>Content Goes here......</textarea>  
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <textarea class="form-control" disabled>Content Goes here......</textarea>
-        </div>
-        <div class="form-group col-sm-6 col-md-2 col-lg-3">
-            <div class="btn btn-primary uploadsan">Upload
-            <input type="file" name="file" class="upload_sanction"/>
-            </div>
-        </div>
+    <div class="col-xs-6" [ngClass]="{
+      'col-sm-2':userType === 'credit',
+      'col-sm-3':userType === 'sales'
+    }">
+      <label class="action"> {{labels.action}} </label>
+    </div>
+    <div class="col-xs-6 col-sm-1 "  *ngIf="userType == 'credit'">More</div>
+  </div>
+  <form class="multisteps-form__form" [formGroup]="creditConditionForm">
+<div formArrayName="creditConditionControls">
 
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <form>
-                <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio">{{labels.accepted}}
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="optradio">{{labels.notAccepted}}
-            </label>
+  <div class="row"  *ngFor="let item of creditConditionForm.get('creditConditionControls')['controls']; let i = index"
+  [formGroupName]="i">
+    <div class="col-xs-6 col-sm-3">
+              
+        <textarea class="form-control" name="creditConditionResponce" formControlName="creditConditionResponce" >Content Goes here......</textarea>  
+      
+    </div>
+    <div class="col-xs-6 col-sm-3">  
+      <textarea class="form-control" name="salesResponse" formControlName="salesResponse"  >Content Goes here......</textarea>
+    </div>  
+    <div class="col-xs-6 col-sm-3">    
+      <a href="#" *ngIf="userType == 'credit'" class="input_design">Ref<span class="text-dec">#123456</span></a>
+      <div *ngIf="userType == 'sales'" class="btn btn-primary uploadsan">Upload
+        <input type="file" name="salesResponseDoc" formControlName="salesResponseDoc"  class="upload_sanction"/>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-2" [ngClass]="{
+      'col-sm-2':userType === 'credit',
+      'col-sm-3':userType === 'sales'
+    }">
+      
+      <div class="row m-0">
+        <label class="radio-inline">
+          <input type="radio" name="action" value="accepted" formControlName="action" > {{labels.accepted}}
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="action" value="notAccepted" formControlName="action" > {{labels.notAccepted}}
+        </label>
         </div>
         <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio" checked>{{labels.defferedTillDate}}
-            </label>
-            <label class="radio-inline p-0 m-0">
-              <div class="input-group date check_input" id="datetimepicker1">
-                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                        </span>
-                        <input type="text" class="form-control" value="2020-01-01">
-                </div>
-            </label>
+        <label class="radio-inline">
+          <input type="radio" name="action" value="defferedTillDate" formControlName="action" >{{labels.defferedTillDate}}
+        </label>
+        <label class="radio-inline p-0 m-0">
+          <div class="input-group date check_input" id="dateTimePicker">
+                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
+                    </span>
+                    <input type="text" class="form-control" name="dateTimePicker" formControlName="dateTimePicker" value="">
+            </div>
+        </label>
         </div>
-          </form>
-        </div>
-        
     </div>
-    <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <textarea class="form-control" disabled>Content Goes here......</textarea>   
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <textarea class="form-control" disabled>Content Goes here......</textarea>  
-        </div>
-        <div class="form-group col-sm-6 col-md-2 col-lg-3">
-           <a href="" class="input_design">Ref<span class="text-dec">#123456</span></a>
-        </div>
-
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <form>
-                <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio" checked>{{labels.accepted}}
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="optradio">{{labels.notAccepted}}
-            </label>
-        </div>
-        <div class="row m-0">
-            <label class="radio-inline">
-              <input type="radio" name="optradio">{{labels.defferedTillDate}}
-            </label>
-            <label class="radio-inline p-0 m-0">
-             <div class="input-group date check_input" id="datetimepicker1">
-                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                        </span>
-                        <input type="text" class="form-control" value="">
-                </div>
-            </label>
-        </div>
-          </form>
-        </div>
-        
+    <div class="col-xs-6 col-sm-1" *ngIf="userType == 'credit'">
+      <div>
+        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+        (click)="addOtherUnit()"></i>&nbsp;
+      <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+        (click)="removeOtherIndex(i)"></i>
+      </div>
     </div>
+  </div>
+</div>
+</form>
 
 <div class="bottom_20"></div>
 <div class="btn-sec clear-both">
