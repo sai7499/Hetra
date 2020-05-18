@@ -23,7 +23,7 @@
     "@capacitor/android": "^2.1.0",
     "@capacitor/cli": "^2.1.0",
     "@capacitor/core": "^2.1.0",
-    "@ionic-native/camera": "^5.25.0",
+    "@ionic-native/camera": "^5.26.0",
     "@ionic-native/core": "^5.25.0",
     "@ionic-native/geolocation": "^5.26.0",
     "@ionic-native/http": "^5.25.0",
