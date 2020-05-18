@@ -18,6 +18,7 @@ import { ApplicantListComponent } from "./applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
+import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { CamComponent } from './cam/cam.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
@@ -37,7 +38,8 @@ import { ScoreCardComponent } from './score-card/score-card.component';
     ApplicantListComponent,
     VehicleListComponent,
     FleetDetailsComponent,
-    TrackVehicleComponent, 
+    TrackVehicleComponent,
+    TvrDetailsComponent,
     CamComponent,
     ScoreCardComponent
   ],

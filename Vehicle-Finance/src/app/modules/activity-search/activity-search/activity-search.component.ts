@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginStoreService } from '../../../services/login-store.service';
 
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./activity-search.component.html",
-  styleUrls: ["./activity-search.component.css"]
+  selector: 'app-dashboard',
+  templateUrl: './activity-search.component.html',
+  styleUrls: ['./activity-search.component.css']
 })
 export class ActivitySearchComponent implements OnInit, OnDestroy {
   openProfile: boolean;
@@ -16,7 +16,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   roles = [];
 
   bodyClickEvent = event => {
-    if (event.target.id === "profileDropDown") {
+    if (event.target.id === 'profileDropDown') {
       this.openProfile = true;
       return;
     }
@@ -33,13 +33,13 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     this.roles = roleAndUserDetails.roles;
 
     document
-      .querySelector("body")
-      .addEventListener("click", this.bodyClickEvent);
+      .querySelector('body')
+      .addEventListener('click', this.bodyClickEvent);
   }
 
   ngOnDestroy() {
     document
-      .querySelector("body")
-      .removeEventListener("click", this.bodyClickEvent);
+      .querySelector('body')
+      .removeEventListener('click', this.bodyClickEvent);
   }
 }
