@@ -1,3 +1,4 @@
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { HTTP } from '@ionic-native/http/ngx';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,11 +19,14 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule} from './modules/shared/shared.module';
 
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @agm/core
+import { AgmDirectionModule } from 'agm-direction';   // agm-direction
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,11 @@ import { SharedModule} from './modules/shared/shared.module';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    AgmCoreModule.forRoot({ // @agm/core
+      apiKey: 'AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw',
+    }),
+    AgmDirectionModule,     // agm-direction
   ],
   providers: [
     HTTP,
@@ -45,7 +53,10 @@ import { SharedModule} from './modules/shared/shared.module';
     },
     CollapseModule,
     BrowserAnimationsModule,
-    CommonModule
+    CommonModule,
+    GoogleMapsAPIWrapper,
+    LocationAccuracy,
+    Geolocation
   ],
 
   bootstrap: [AppComponent]

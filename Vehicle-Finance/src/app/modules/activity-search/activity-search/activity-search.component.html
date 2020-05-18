@@ -16,15 +16,17 @@
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
-                <span class="form-control " id="selectbox" name="" ></span>
-                <span class="search-icon-left"></span>
-                <div class="dropdown-content">
-                    <a [routerLink]="['../pages/lead-creation']">Create Lead</a>
-                    <a href="#">QDE</a>
-                    <a href="#">PD</a>
-                    <a [routerLink]="['../pages/dde']">DDE</a>
-                </div>
-
+                <select class="form-control " id="selectbox" name="" [(ngModel)]="seletedRoute">
+                  
+                    <option value=""></option>
+                    <option value="/pages/lead-creation">Create Lead</option>
+                    <option value="/pages/dashboard/leads/new-leads">Go to New Lead Dashboard</option>
+                    <option value="QDE/QDE-section.html">QDE</option>
+                    <option value="lead/pd_section.html">PD</option>
+                    <option value="/pages/dde">DDE</option>
+                
+                </select>
+                <!-- <input type="text" class="form-control" placeholder="Search"> -->
                 <span class="search-icon-left"></span>
                 <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
             </div>
