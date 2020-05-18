@@ -9,7 +9,6 @@ import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
-
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
@@ -87,10 +86,12 @@ const routes: Routes = [
      {
         path: 'score-card',
         component: ScoreCardComponent
+
       },
       {
         path: 'credit-conditions',
         component: CreditConditionsComponent
+
       }
     ]
   }

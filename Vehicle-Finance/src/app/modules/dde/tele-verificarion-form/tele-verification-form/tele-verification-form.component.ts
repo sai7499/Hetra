@@ -10,7 +10,6 @@ import { FormGroup, FormBuilder, FormControl, Form, Validators } from '@angular/
 export class TeleVerificationFormComponent implements OnInit {
   teleVerificationForm: FormGroup;
   labels: any = {};
-  Bussiness: any;
   constructor(
     private fb: FormBuilder,
     private labelDetails: LabelsService
