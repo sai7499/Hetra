@@ -63,6 +63,48 @@ export class GpsService {
     
   }
 
+  getBrowserLatLong() {
+
+    const obs = new Observable(observer => {
+
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+      
+      function success(pos) {
+        var crd = pos.coords;
+      
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+
+        if(crd["latitude"]){
+          let gps = {
+            "latitude": crd["latitude"],
+            "longitude": crd["longitude"]
+          }
+          observer.next(gps);
+          observer.complete();
+        }
+
+        
+      }
+      
+      function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+        observer.next(err);
+        observer.complete();
+    }
+      
+      navigator.geolocation.getCurrentPosition(success, error, options);
+
+    });
+    return obs;
+  }
+
   getLatLong() {
 
     let that = this;
