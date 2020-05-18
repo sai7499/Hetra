@@ -1,3 +1,4 @@
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from './login.service';
@@ -9,6 +10,9 @@ import { LoginStoreService } from '../../../services/login-store.service';
 import {GoogleMapsAPIWrapper} from '@agm/core';
 
 import { GpsService } from "src/app/services/gps.service";
+
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
 
 
 @Component({
@@ -34,6 +38,9 @@ export class LoginComponent implements OnInit {
   lng: any;
   zoom: any;
   flag: boolean;
+  imageURI: any;
+  cameraImage:any;
+
 
   geoLocationError = {
     1 : "PERMISSION_DENIED",
@@ -41,14 +48,20 @@ export class LoginComponent implements OnInit {
     3 : "TIMEOUT"
   }
 
+  isMobile: any;
+
   constructor(
     private loginService: LoginService,
     private router: Router,
     private labelsData: LabelsService,
     private loginStoreService: LoginStoreService,
     private gmapsApi: GoogleMapsAPIWrapper,
-    private gpsService: GpsService
-  ) { }
+    private gpsService: GpsService,
+    private deviceService: DeviceDetectorService,
+    private camera: Camera,
+  ) {
+    this.isMobile = this.deviceService.isMobile();
+   }
 
   ngOnInit() {
 
@@ -68,16 +81,23 @@ export class LoginComponent implements OnInit {
     });
 
     /* Get latitude and longitude from mobile */
+    if(this.isMobile) {
+      this.gpsService.initLatLong().subscribe((res) =>{
+        if(res){
+          this.gpsService.getLatLong().subscribe((position) =>{
+            console.log("login position", position);
+          });  
+        }else {
+          console.log(res);
+        }
+      });
+    }else {
+     this.gpsService.getBrowserLatLong().subscribe((position) =>{
+        console.log("login position", position);
+      });  
+    }
 
-    this.gpsService.initLatLong().subscribe((res) =>{
-      if(res){
-        this.gpsService.getLatLong().subscribe((position) =>{
-          console.log("login position", position);
-        });  
-      }else {
-        console.log(res);
-      }
-    });
+   
   }
 
   login() {
@@ -129,6 +149,42 @@ export class LoginComponent implements OnInit {
     let dirUrl = "https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167"
     window.open(dirUrl, "_blank", "location=yes");
 
+  }
+
+
+  async takePicture() {
+
+    const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        allowEdit: true,
+        encodingType: this.camera.EncodingType.PNG,
+        targetWidth: 100,
+        targetHeight: 100,
+        saveToPhotoAlbum: false
+    }
+
+    return this.camera.getPicture(options);
+
+  }
+
+  openCamera() {
+    this.takePicture().then(uri => {
+      console.log('imageData', uri);
+      this.imageURI = uri;
+
+      let url = uri.split('/');
+      url = url[url.length - 1];
+
+      this.cameraImage = (<any>window).Ionic.WebView.convertFileSrc(
+        this.imageURI
+      )
+        .toString()
+        .split('cache/')[1];
+
+        console.log("Camera Image", this.cameraImage)
+    });
 
   }
 
