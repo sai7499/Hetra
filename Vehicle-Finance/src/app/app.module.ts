@@ -22,12 +22,12 @@ import { SharedModule} from './modules/shared/shared.module';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';   // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +57,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     CommonModule,
     GoogleMapsAPIWrapper,
     LocationAccuracy,
-    Geolocation
+    Geolocation,
+    Camera
   ],
 
   bootstrap: [AppComponent]
