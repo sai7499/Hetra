@@ -32,7 +32,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="priority">{{ labels.priority }}</label>
             <app-vf-custom-select 
-              [values]="lovLabels?.priority" 
+              [values]="[{key:1,value:'Yes'},{key:0,value:'No'}]"
               formControlName="priority">
             </app-vf-custom-select>
           </div>
@@ -78,7 +78,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="spoken_code">{{ labels.spokeCodeLocation }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
-              [values]="lovLabels?.spokenCodeLocation" 
+              [values]="spokesCodeLocation" 
               formControlName="spokeCodeLocation">
             </app-vf-custom-select>
           </div>

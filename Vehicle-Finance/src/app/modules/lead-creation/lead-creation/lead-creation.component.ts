@@ -29,9 +29,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   sourcingCodePlaceholder: string = 'Sourcing Code';
   ProfessionList = [];
   text: string;
-  isDisabled: boolean = true;
   loanAccountBranch: string;
   leadHandeledBy: string;
+  spokesCodeLocation: any = [];
+  isSpoke: boolean;
 
   LOV: any = [];
 
@@ -73,7 +74,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   ) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
-      console.log(this.lovLabels);
+      // console.log(this.lovLabels);
     });
   }
 
@@ -107,7 +108,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
-      spokeCodeLocation: new FormControl(''),
+      spokeCodeLocation: new FormControl({value:'', disabled: !this.isSpoke}),
       loanBranch: new FormControl({value:this.loanAccountBranch, disabled: true}),
       leadHandeledBy: new FormControl({value:this.leadHandeledBy, disabled: true}),
       entity: new FormControl(''),
@@ -133,6 +134,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     const userId = roleAndUserDetails.userDetails.userId;
     const userName = roleAndUserDetails.userDetails.firstName;
     this.leadHandeledBy = `${userId}-${userName}`;
+
+    this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
+    this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
   }
 
   sourcingChannelChange(event: any) {
@@ -189,48 +193,48 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       dateOfBirth: leadModel.dateOfBirth
     };
 
-    // this.loanLeadDetails = {
-    //   bizDivision: leadModel.bizDivision,
-    //   productCategory: leadModel.productCategory,
-    //   priority: leadModel.priority,
-    //   fundingProgram: leadModel.fundingProgram,
-    //   sourcingChannel: leadModel.sourcingChannel,
-    //   sourcingType: leadModel.sourcingType,
-    //   sourcingCode: leadModel.sourcingCode,
-    //   spokeCode: leadModel.spokeCode,
-    //   loanBranch: leadModel.loanBranch,
-    //   leadHandeledBy: leadModel.leadHandeledBy
-    // }
-
-    // this.applicantDetails = {
-    //   entity: leadModel.entity,
-    //   nameOne: leadModel.nameOne,
-    //   nameTwo: leadModel.nameTwo,
-    //   nameThree: leadModel.nameThree,
-    //   mobileNumber: leadModel.mobile,
-    //   dobOrDoc: leadModel.dateOfBirth
-    // }
-
     this.loanLeadDetails = {
-      bizDivision: 1,
-      productCategory: 2,
-      priority: 1,
-      fundingProgram: 1,
-      sourcingChannel: 1,
-      sourcingType: 1,
-      sourcingCode: "sourcingCode",
-      spokeCode: 1,
-      loanBranch: 1,
-      leadHandeledBy: 1
+      bizDivision: leadModel.bizDivision,
+      productCategory: leadModel.productCategory,
+      priority: leadModel.priority,
+      fundingProgram: leadModel.fundingProgram,
+      sourcingChannel: leadModel.sourcingChannel,
+      sourcingType: leadModel.sourcingType,
+      sourcingCode: leadModel.sourcingCode,
+      spokeCode: leadModel.spokeCode,
+      loanBranch: leadModel.loanBranch,
+      leadHandeledBy: leadModel.leadHandeledBy
     }
+
     this.applicantDetails = {
-      entity: "I",
-      nameOne: "firstOrCompany",
-      nameTwo: "firstOrCompany",
-      nameThree: "firstOrCompany",
-      mobileNumber: "0123654897",
-      dobOrDoc: "1993-07-07"
+      entity: leadModel.entity,
+      nameOne: leadModel.nameOne,
+      nameTwo: leadModel.nameTwo,
+      nameThree: leadModel.nameThree,
+      mobileNumber: leadModel.mobile,
+      dobOrDoc: leadModel.dateOfBirth
     }
+
+    // this.loanLeadDetails = {
+    //   bizDivision: 1,
+    //   productCategory: 2,
+    //   priority: 1,
+    //   fundingProgram: 1,
+    //   sourcingChannel: 1,
+    //   sourcingType: 1,
+    //   sourcingCode: "sourcingCode",
+    //   spokeCode: 1,
+    //   loanBranch: 1,
+    //   leadHandeledBy: 1
+    // }
+    // this.applicantDetails = {
+    //   entity: "I",
+    //   nameOne: "firstOrCompany",
+    //   nameTwo: "firstOrCompany",
+    //   nameThree: "firstOrCompany",
+    //   mobileNumber: "0123654897",
+    //   dobOrDoc: "1993-07-07"
+    // }
 
     console.log("loanLeadDetails", this.loanLeadDetails)
     console.log("applicantDetails", this.applicantDetails)
