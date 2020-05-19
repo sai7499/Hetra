@@ -10,6 +10,14 @@ import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 
+// import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
+// import { PslDataComponent } from './psl-data/psl-data.component';
+// import { FlReportComponent } from './fl-report/fl-report.component';
+// import { PdReportComponent } from './pd-report/pd-report.component';
+// import { CamComponent } from './cam/cam.component';
+// import { ScoreCardComponent } from './score-card/score-card.component';
+// import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
@@ -17,7 +25,7 @@ import { PdReportComponent } from './pd-report/pd-report.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
-
+import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 
 const routes: Routes = [
   {
@@ -87,6 +95,12 @@ const routes: Routes = [
      {
         path: 'score-card',
         component: ScoreCardComponent
+
+      },
+      {
+        path: 'credit-conditions',
+        component: CreditConditionsComponent
+
       }
     ]
   }
