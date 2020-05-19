@@ -24,7 +24,9 @@ import { CamComponent } from './cam/cam.component';
 // import { DdeSharedModule } from './shared/shared.module';
 
 import { ScoreCardComponent } from './score-card/score-card.component';
+
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
+
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import {CreditConditionsComponent} from './credit-conditions/credit-conditions.c
     CamComponent,
     ScoreCardComponent,
     CreditConditionsComponent
+    
   ],
   imports: [
     DdeRoutingModule,

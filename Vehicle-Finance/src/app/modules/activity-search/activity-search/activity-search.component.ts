@@ -21,7 +21,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
       return;
     }
     this.openProfile = false;
-  };
+  }
 
   constructor(private loginStoreService: LoginStoreService) { }
 
