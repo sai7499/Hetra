@@ -20,6 +20,14 @@ export const environment = {
     'getLOVs':{
       'workflowId': 'bd15880c904911eabdc4f2fa9bec3d63',
       'processId': '674941a2904e11eabdc4f2fa9bec3d63'
+    },
+    'getAssetProductCategory':{
+      'workflowId': 'b0a9ef02939d11eabdc6f2fa9bec3d63',
+      'processId': 'b0c8aa96939d11eabdc6f2fa9bec3d63'
+    },
+    'getSourcingChannel':{
+      'workflowId': '99e9c24294e711eabdcdf2fa9bec3d63',
+      'processId': '4e4033dc96a211eabdcff2fa9bec3d63'
     }
   },
   host: 'http://128.199.164.250/appiyo/',

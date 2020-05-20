@@ -16,7 +16,8 @@
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub> </label>
             <app-vf-custom-select 
               [values]="LOV.LOVS.businessDivision" 
-              formControlName="bizDivision">
+              formControlName="bizDivision"
+              (change)=getProductCategory($event)>
             </app-vf-custom-select>
           </div>
         </div>
@@ -25,21 +26,21 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{ labels.productCategory }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
-              [values]="lovLabels?.productCategory" 
+              [values]="productCategoryData" 
               formControlName="productCategory">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="priority">{{ labels.priority }}</label>
             <app-vf-custom-select 
-              [values]="[{key:1,value:'Yes'},{key:0,value:'No'}]"
+              [values]="[{key:'1',value:'Yes'},{key:'0',value:'No'}]"
               formControlName="priority">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fundingProgram">{{ labels.fundingProgram }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
-              [values]="lovLabels?.fundingProgram" 
+              [values]="LOV.LOVS.fUNDINGPROGRAM" 
               formControlName="fundingProgram">
             </app-vf-custom-select>
           </div>

@@ -62,7 +62,8 @@ export class LoginComponent implements OnInit {
           if (response.Error === '0') {
             const roles = response.ProcessVariables.roles;
             const userDetails = response.ProcessVariables.userDetails;
-            this.loginStoreService.setRolesAndUserDetails(roles, userDetails);
+            const businessDivisionList = response.ProcessVariables.businessDivisionLIst;
+            this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;
             // if (role === 'Sales Officer') {

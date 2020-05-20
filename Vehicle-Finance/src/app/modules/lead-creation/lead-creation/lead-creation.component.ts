@@ -33,20 +33,25 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   leadHandeledBy: string;
   spokesCodeLocation: any = [];
   isSpoke: boolean;
+  businessDivision: any;
+  isBusinessDivisionEnable: boolean;
+  bizDivId: string;
 
   LOV: any = [];
 
+  productCategoryData = [];
+
   loanLeadDetails: {
-    bizDivision: number,
-    productCategory: number,
-    priority: number,
-    fundingProgram: number,
-    sourcingChannel: number,
-    sourcingType: number,
+    bizDivision: string,
+    productCategory: string,
+    priority: string,
+    fundingProgram: string,
+    sourcingChannel: string,
+    sourcingType: string,
     sourcingCode: string,
-    spokeCode: number,
-    loanBranch: number,
-    leadHandeledBy: number
+    spokeCode: string,
+    loanBranch: string,
+    leadHandeledBy: string
   }
 
   applicantDetails: {
@@ -84,11 +89,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.onChangeLanguage('English');
-    this.getLabels();    
+    this.getLabels();
     this.getLOV();
     this.getUserDetailsData();
+    this.getSourcingChannel();
     this.initForm();
-    this.createLeadForm.patchValue({ bizDivision: 'VFBIZDIV' });
+    // this.createLeadForm.patchValue({ bizDivision: this.businessDivision.key });
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' })
   }
 
@@ -101,16 +107,16 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   initForm() {
     this.createLeadForm = new FormGroup({
-      bizDivision: new FormControl({ value: '', disabled: true }),
+      bizDivision: new FormControl({ value: this.businessDivision.key, disabled: this.isBusinessDivisionEnable }),
       productCategory: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
-      spokeCodeLocation: new FormControl({value:'', disabled: !this.isSpoke}),
-      loanBranch: new FormControl({value:this.loanAccountBranch, disabled: true}),
-      leadHandeledBy: new FormControl({value:this.leadHandeledBy, disabled: true}),
+      spokeCodeLocation: new FormControl({ value: '', disabled: !this.isSpoke }),
+      loanBranch: new FormControl({ value: this.loanAccountBranch, disabled: true }),
+      leadHandeledBy: new FormControl({ value: this.leadHandeledBy, disabled: true }),
       entity: new FormControl(''),
       nameOne: new FormControl(''),
       nameTwo: new FormControl(''),
@@ -127,6 +133,32 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   getUserDetailsData() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+
+    const businessDivision = roleAndUserDetails.businessDivisionList;
+    this.bizDivId = businessDivision[0].bizDivId;
+    this.isBusinessDivisionEnable = (businessDivision.length > 1) ? false : true;
+
+    let lov = this.LOV.LOVS.businessDivision;
+    lov.map(data => {
+      if (data.key == businessDivision[0].bizDivId) {
+        this.businessDivision = data;
+      }
+    });
+ 
+    this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
+      const product = res.ProcessVariables.productCategoryDetails;
+      product.map(data => {
+        if (data) {
+          const val = {
+            key: data.assetProdcutCode,
+            value: data.prodcutCatName
+          }
+          this.productCategoryData.push(val);
+        }
+      });
+    })
+    console.log('this.productCategoryData', this.productCategoryData)
+
     const branchId = roleAndUserDetails.userDetails.branchId;
     const branchName = roleAndUserDetails.userDetails.branchName;
     this.loanAccountBranch = `${branchId}-${branchName}`;
@@ -137,6 +169,18 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
     this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
+  }
+
+  getProductCategory(event) {
+    console.log('event', event.target.value)
+    this.bizDivId = event.target.value;
+  }
+
+  getSourcingChannel() {
+    this.createLeadService.getSourcingChannel().subscribe((res: any) => {
+      const response = res.ProcessVariables.sourcingChannelObj;
+      console.log('sourching', response);
+    })
   }
 
   sourcingChannelChange(event: any) {
@@ -180,18 +224,18 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
 
   onSubmit() {
-    const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue, professionList: this.ProfessionList };
+    const formValue = this.createLeadForm.getRawValue();
+    const leadModel: any = { ...formValue };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 
-    const applicantModel = {
-      first_name: leadModel.nameOne,
-      middle_name: leadModel.nameTwo,
-      last_name: leadModel.nameThree,
-      mobile: leadModel.mobile,
-      dateOfBirth: leadModel.dateOfBirth
-    };
+    // const applicantModel = {
+    //   first_name: leadModel.nameOne,
+    //   middle_name: leadModel.nameTwo,
+    //   last_name: leadModel.nameThree,
+    //   mobile: leadModel.mobile,
+    //   dateOfBirth: leadModel.dateOfBirth
+    // };
 
     this.loanLeadDetails = {
       bizDivision: leadModel.bizDivision,
@@ -204,6 +248,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       spokeCode: leadModel.spokeCode,
       loanBranch: leadModel.loanBranch,
       leadHandeledBy: leadModel.leadHandeledBy
+      
     }
 
     this.applicantDetails = {
@@ -214,27 +259,6 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       mobileNumber: leadModel.mobile,
       dobOrDoc: leadModel.dateOfBirth
     }
-
-    // this.loanLeadDetails = {
-    //   bizDivision: 1,
-    //   productCategory: 2,
-    //   priority: 1,
-    //   fundingProgram: 1,
-    //   sourcingChannel: 1,
-    //   sourcingType: 1,
-    //   sourcingCode: "sourcingCode",
-    //   spokeCode: 1,
-    //   loanBranch: 1,
-    //   leadHandeledBy: 1
-    // }
-    // this.applicantDetails = {
-    //   entity: "I",
-    //   nameOne: "firstOrCompany",
-    //   nameTwo: "firstOrCompany",
-    //   nameThree: "firstOrCompany",
-    //   mobileNumber: "0123654897",
-    //   dobOrDoc: "1993-07-07"
-    // }
 
     console.log("loanLeadDetails", this.loanLeadDetails)
     console.log("applicantDetails", this.applicantDetails)
@@ -255,7 +279,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         this.router.navigateByUrl('pages/lead-section');
       }
     })
-    this.leadStoreService.setCoApplicantDetails(applicantModel);
+    // this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 
 }

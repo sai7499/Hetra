@@ -34,4 +34,38 @@ export class CreateLeadService {
         let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
+
+    getProductCategory(bizDivId){
+        const processId = environment.api.getAssetProductCategory.processId;
+        const workflowId = environment.api.getAssetProductCategory.workflowId;
+        const projectId = environment.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                "bussinessDivision":bizDivId
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        
+        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    getSourcingChannel(){
+        const processId = environment.api.getSourcingChannel.processId;
+        const workflowId = environment.api.getSourcingChannel.workflowId;
+        const projectId = environment.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {},
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        
+        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
 }
