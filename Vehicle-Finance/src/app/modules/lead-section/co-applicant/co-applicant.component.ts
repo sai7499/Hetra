@@ -41,6 +41,7 @@ export class CoApplicantComponent implements OnInit {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
+      // this.values.entity= res[0].addApplicant[0].entity
       // this.setFormValue();
     });
     this.activatedRoute.params.subscribe((value) => {
@@ -176,9 +177,17 @@ export class CoApplicantComponent implements OnInit {
     // this.leadSectionService.setCurrentPage(1);
   }
 
+  getEntityObject(key: string){
+   console.log(this.values.entity, 'entity',key) 
+    return this.values.entity.find(value => value.key=== Number(key))
+
+  }
+
   onFormSubmit() {
     const formValue = this.coApplicantForm.value;
-    const coApplicantModel = {...formValue};
+    console.log('formModel', formValue)
+    const coApplicantModel = {...formValue, entity: this.getEntityObject(formValue.entity)};
+
     console.log('CoApplicant form', coApplicantModel);
 
     if (this.selectedApplicant !== undefined) {
@@ -232,7 +241,7 @@ export class CoApplicantComponent implements OnInit {
 }
 
 export interface Temp {
-  entity?: string;
+  entity?: string
   relationshipwithloanapplicant?:string
 first_name?: string;
 middle_name?: string;

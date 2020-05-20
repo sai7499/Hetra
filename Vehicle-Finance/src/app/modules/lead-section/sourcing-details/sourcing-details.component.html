@@ -112,12 +112,12 @@
         </div>
     </form>
 </div>
-<div class="btn-sec clear-both row">
+<div class="btn-sec clear-both row" id="clickButton">
     <div class="col-sm-5">
 
     </div>
-    <div class="col-sm-7 text-right" id="clickButton">
-        <button class="btn btn-primary mar-right8"  type="button" (click)="onFormSubmit()">Save </button>
+    <div class="col-sm-7 text-right" >
+        <button class="btn btn-primary mar-right8"  type="button" (click)="onFormSubmit()">Save </button>&nbsp;
         <button class="btn btn-primary js-btn-next" type="button"  [routerLink]="['/pages/lead-section/applicant-details']" > Next </button>
     </div>
 </div>

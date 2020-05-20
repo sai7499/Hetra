@@ -113,7 +113,8 @@ h3.dedupe_head {
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin:15px;
+    height: 400px;
 }
 
 label.col-form-label {
@@ -171,6 +172,7 @@ select#select_main_button_leadco {
 }
 
 
+
 /* for inside scroll */
 
 .basic_scroll {
@@ -178,73 +180,7 @@ select#select_main_button_leadco {
     max-height: 400px;
     overflow-x: hidden;
 }
-
-@media
-only screen 
-and (max-width: 760px), (min-device-width: 768px) 
-and (max-device-width: 1024px)  {
-  .table tbody tr td {
-      border-top: 1px solid #e6e6e6;
-      padding: 10px;
-      padding-left: 50%;
-  }
-  /* Force table to not be like tables anymore */
-  table, thead, tbody, th, td, tr {
-      display: block;
-  }
-
-  /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-  }
-
-tr {
-/*margin: 0 0 1rem 0;*/
+#clickButton{
+    margin-right: 2px;
 }
-
-tr:nth-child(odd) {
-/*background: #ccc;*/
-}
-
-  td {
-      /* Behave  like a "row" */
-      border: none;
-      border-bottom: 1px solid #eee;
-      position: relative;
-      padding-left: 50%;
-      height:40px;
-  }
-
-  td:before {
-      /* Now like a table header */
-      position: absolute;
-      /* Top/left values mimic padding */
-      top: 0;
-      left: 6px;
-      width: 45%;
-      padding-right: 10px;
-      white-space: nowrap;
-  }
-
-.multisteps-form__form
-{
-height: 900px !important;
-}
-}
-.font-weight{font-weight:bold;background-color:#efefef;}
-.track{margin-bottom: 30px;}
-.input_value{width:90px;}
-i.fa.fa-plus.add-row {
-/*background-color: #ddd;*/
-padding: 10px;
-cursor:pointer;
-}
-i.fa.fa-trash.delete-row {
-background-color: #ddd;
-padding: 10px;
-cursor:pointer;
-}
-/*QDE styles ends here*/
 

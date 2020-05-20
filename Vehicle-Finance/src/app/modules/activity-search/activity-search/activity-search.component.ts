@@ -31,12 +31,6 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   constructor(private loginStoreService: LoginStoreService) { }
 
   ngOnInit() {
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userName = roleAndUserDetails.userDetails.firstName;
-    this.firstLetter = this.userName.slice(0, 1);
-    this.branchName = roleAndUserDetails.userDetails.branchName;
-    this.roles = roleAndUserDetails.roles;
-
     document
       .querySelector('body')
       .addEventListener('click', this.bodyClickEvent);

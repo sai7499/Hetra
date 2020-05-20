@@ -74,7 +74,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="radio"  value="" name="exact_matches" ischecked="false" (change)="OnChecked($event)">
+                            <td><input type="radio"  value="" name="exact_matches" [checked]="radioSel===0" (click)="OnChecked(0)">
                             </td>
                             <td>12345</td>
                             <td>Venkata Swamy Narasimhan</td>
@@ -89,8 +89,9 @@
                             <td></td>
                             <td></td>
                         </tr>
+
                         <tr>
-                            <td><input type="radio"  value="" name="exact_matches" ischecked="false" (change)="OnChecked($event)">
+                            <td><input type="radio"  value="" name="exact_matches" ischecked="false"  [checked]="radioSel===1" (click)="OnChecked(1)">
                             </td>
                             <td>12344</td>
                             <td>Sampath Kumar</td>
@@ -132,7 +133,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="radio"  value="" name="probable_matches" isChecked="false" (change)="OnChecked($event)">
+                            <td><input type="radio"  value="" name="probable_matches" isChecked="false" [checked]="radioSel===2" (click)="OnChecked(2)">
                             </td>
                             <td>12343</td>
                             <td>Venkata Swamy Narasimhan</td>
@@ -149,7 +150,7 @@
 
                         </tr>
                         <tr>
-                            <td><input type="radio"  value="" name="probable_matches" isChecked="false" (change)="OnChecked($event)">
+                            <td><input type="radio"  value="" name="probable_matches" isChecked="false" [checked]="radioSel===3" (click)="OnChecked(3)">
                             </td>
                             <td>12345</td>
                             <td>Sampath Kumar</td>
@@ -171,9 +172,9 @@
 
              <div class="text-right">
              <button  class="btn btn-primary js-btn-prev mar-right8" type="button" data-toggle="modal" data-target="#myModal" > Reject Lead</button>
-                <button  class="btn btn-primary mar-right8"  id="proceed_without_sumbit" data-toggle="modal" data-target="#newLeadModal" [disabled]="isChecked"> Continue as new applicant </button>
+                <button  class="btn btn-primary mar-right8"  id="proceed_without_sumbit" data-toggle="modal" data-target="#newLeadModal" [disabled]="radioSel !==-1"> Continue as new applicant </button>
                 <!--- <a href="sales_application_details.html" ><button class="btn btn-primary mar-right8 probable_table" id="proceed_without_sumbit" > Continue as new applicant </button></a> --->
-               <button (click)="onSelected()" class="btn btn-primary " type="button" id="proceed_new_button" data-toggle="modal" data-target="#ucicModel" [disabled]="!isChecked">Continue with selected UCIC</button>
+               <button (click)="onSelected()" class="btn btn-primary " type="button" id="proceed_new_button" data-toggle="modal" data-target="#ucicModel" [disabled]="radioSel ==-1">Continue with selected UCIC</button>
         </div> 
     </div>
 </main>

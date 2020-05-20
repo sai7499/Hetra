@@ -192,7 +192,7 @@ export class AddvehicleComponent implements OnInit {
           this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
           return;
         }
-        // console.log('vehicleModel',vehicleModel)
+        console.log('vehicleModel',vehicleModel)
         this.leadStoreService.setVehicleDetails(vehicleModel);
         
          this.router.navigateByUrl['/pages/lead-section/vehicle-details']

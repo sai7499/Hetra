@@ -16,6 +16,10 @@ export class LeadDedupeComponent implements OnInit {
   isChecked: boolean;
   isModal: boolean;
   count = 0;
+  radioValue = false;
+  radioSelected: string;
+  radioSel : number= -1;
+  preSelectedIndex : number;
 
   p: number = 1;
   perPage: number = 5;
@@ -53,15 +57,27 @@ export class LeadDedupeComponent implements OnInit {
 
   }
 
-  OnChecked(e) {
-   const seleted = e.target.checked;
-   if (seleted) {
-     this.count++;
-   } else {
-     this.count--;
-   }
-   this.isChecked = this.count !== 0 ? true : false;
-   console.log(this.isChecked);
+  OnChecked(index: number) {
+    console.log(this.preSelectedIndex);
+    console.log(index);
+    this.radioSel = index;
+    if ( this.preSelectedIndex !== undefined && this.preSelectedIndex === index) {
+      this.radioSel = -1;
+    }
+    this.preSelectedIndex = index;
+    console.log(this.preSelectedIndex);
+    console.log(index);
+  // this.radioValue = !this.radioValue;
+  // const seleted = e.target.checked;
+  // if (seleted) {
+  //    this.count++;
+  //  } else {
+  //    this.count--;
+  //  }
+  // this.isChecked = this.count !== 0 ? true : false;
+  // console.log(this.isChecked);
+  // console.log(this.count);
+  // console.log(this.radioValue);
   }
 
   OnItemPerPage(e) {

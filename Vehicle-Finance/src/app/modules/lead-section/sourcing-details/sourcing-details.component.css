@@ -114,6 +114,8 @@ h3.dedupe_head {
     border-radius: 8px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
 label.col-form-label {
@@ -359,6 +361,6 @@ select#select_main_button_leadco {
 }
 
 #clickButton{
-    float: right;
-    margin-bottom: 50px;
+    margin-right: 2px;
+    margin-bottom: 40px;
 }
