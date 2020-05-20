@@ -8,11 +8,12 @@ export class LoginStoreService {
 
 roleAndUserDetails ;
 
-    setRolesAndUserDetails(roles, userDetails, businessDivisionList) {
+    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList) {
         this.roleAndUserDetails = {
             roles,
             userDetails,
-            businessDivisionList
+            businessDivisionList,
+            activityList
         }
     }
 

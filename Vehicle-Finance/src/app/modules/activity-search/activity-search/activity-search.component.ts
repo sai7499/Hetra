@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { LoginStoreService } from '../../../services/login-store.service';
-import { ActivatedRoute } from '@angular/router';
-import {CommomLovService} from '../../../services/commom-lov-service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommomLovService } from '../../../services/commom-lov-service';
+import { commonRoutingUrl } from '../../shared/routing.constant';
 
 
 @Component({
@@ -16,6 +17,11 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   firstLetter: string;
   branchName: string;
   roles = [];
+  searchText: string;
+  dropDown: boolean;
+  searchLead = [];
+  routingId: string;
+  activityList = [];
 
   bodyClickEvent = event => {
     if (event.target.id === "profileDropDown") {
@@ -27,17 +33,8 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private loginStoreService: LoginStoreService,
-    private route: ActivatedRoute,
-    private commomLovService: CommomLovService) {
-
-      const error = this.route.snapshot.data.getLOV.Error;
-      if(error === '0'){
-        const LOVs = JSON.parse(this.route.snapshot.data.getLOV.ProcessVariables.response);
-        this.commomLovService.setLovData(LOVs)
-      }
-     
-      // console.log('LOV',JSON.parse(this.route.snapshot.data.getLOV.ProcessVariables.response).LOVS.applicantRelationshipWithLead);
-     }
+    private route: Router) {
+  }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -45,10 +42,38 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     this.firstLetter = this.userName.slice(0, 1);
     this.branchName = roleAndUserDetails.userDetails.branchName;
     this.roles = roleAndUserDetails.roles;
+    this.activityList = roleAndUserDetails.activityList;
 
     document
       .querySelector("body")
-      .addEventListener("click", this.bodyClickEvent);     
+      .addEventListener("click", this.bodyClickEvent);
+  }
+
+  getvalue(enteredValue: string) {
+    this.dropDown = (enteredValue === '') ? false : true;
+    const sections = this.activityList;
+
+    this.searchLead = sections.filter(e => {
+      enteredValue = enteredValue.toLowerCase();
+      const eName = e.name.toLowerCase();
+      if (eName.includes(enteredValue)) {
+        return e;
+      }
+      this.dropDown = true;
+    });
+  }
+
+  getRoute(id, name) {
+    this.searchText = name;
+    this.routingId = id;
+    this.dropDown = false;
+  }
+
+  navigateToModule() {
+    commonRoutingUrl.map(element => {
+      if (element.routeId == this.routingId)
+        this.route.navigateByUrl(element.routeUrl);
+    })
   }
 
   ngOnDestroy() {

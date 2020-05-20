@@ -16,13 +16,14 @@ const routes: Routes = [
   {
     path: "activity-search",
     loadChildren: () => import("./modules/activity-search/activity-search.module").then(m => m.ActivitySearchModule),
-    resolve: {
-      getLOV: LovResolverService
-    }
+    
   },
   {
     path: "pages",
     component: HeaderComponent,
+    resolve: {
+      getLOV: LovResolverService
+    },
     children: [
       {
         path: "lead-creation",

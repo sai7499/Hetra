@@ -133,7 +133,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   getUserDetailsData() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-
+    if(!roleAndUserDetails){
+      return
+    }
     const businessDivision = roleAndUserDetails.businessDivisionList;
     this.bizDivId = businessDivision[0].bizDivId;
     this.isBusinessDivisionEnable = (businessDivision.length > 1) ? false : true;

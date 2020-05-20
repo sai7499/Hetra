@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,18 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private route: Router) { }
+  constructor( 
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+    private commomLovService: CommomLovService) {
+
+    const error = this.activatedRoute.snapshot.data.getLOV.Error;
+    if (error === '0') {
+      const LOVs = JSON.parse(this.activatedRoute.snapshot.data.getLOV.ProcessVariables.response);
+      this.commomLovService.setLovData(LOVs)
+    }
+  }
+  
 
   ngOnInit() {
   }
