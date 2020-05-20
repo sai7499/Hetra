@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes } from '@angular/router';
 import { DdeComponent } from './dde.component';
 import { ApplicantListComponent } from './applicant-list/applicant-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
@@ -13,12 +13,14 @@ import { PslDataComponent } from "./psl-data/psl-data.component";
 import { FlReportComponent } from "./fl-report/fl-report.component";
 import { PdReportComponent } from "./pd-report/pd-report.component";
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
-
-
+import { CamComponent } from './cam/cam.component';
+import { ScoreCardComponent } from './score-card/score-card.component';
+import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: DdeComponent,
     children: [
       {
@@ -42,41 +44,53 @@ const routes: Routes = [
         component: TrackVehicleComponent
       },
       {
-        path: "lead-details",
+        path: 'lead-details',
         component: SourcingDdeComponent
       },
       {
-        path: "income-details",
+        path: 'income-details',
         component: IncomeDetailsComponent
       },
       {
-        path: "exposure",
+        path: 'exposure',
         component: ExposureDetailsComponent
       },
       {
-        path: "fl-report",
+        path: 'fl-report',
         component: FlReportComponent
       },
       {
-        path: "pd-report",
+        path: 'pd-report',
         component: PdReportComponent
       },
       {
-        path: "vehicle-valuation",
+        path: 'vehicle-valuation',
         component: VehicleValuationComponent
       },
       {
-        path: "psl-data",
+        path: 'psl-data',
         component: PslDataComponent
       },
       {
-        path: "applicant-list",
-        component: ApplicantListComponent
-      },
-
-      {
         path: "insurance-details",
         component: InsuranceDetailsComponent
+      },
+      {
+        path: 'tvr-details',
+        component: TvrDetailsComponent
+      },
+      {
+        path: 'cam',
+        component: CamComponent
+      },
+     {
+        path: 'score-card',
+        component: ScoreCardComponent
+
+      },
+      {
+        path: 'credit-conditions',
+        component: CreditConditionsComponent
       }
     ]
   }

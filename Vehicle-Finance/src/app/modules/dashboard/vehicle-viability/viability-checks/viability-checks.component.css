@@ -1,0 +1,7 @@
+:host ::ng-deep .ngx-pagination .current {
+    padding: 4px 10px !important;
+    background: #272264 !important;
+    color: #fefefe;
+    cursor: default;
+    border: 1px solid #e6e6e6;
+}
