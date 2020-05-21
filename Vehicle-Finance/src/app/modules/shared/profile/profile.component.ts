@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginStoreService } from '../../../services/login-store.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,11 +16,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   roles = [];
 
 
-  constructor(private loginStoreService: LoginStoreService) { }
+  constructor(
+    private loginStoreService: LoginStoreService,
+    private utilityService: UtilityService) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    if(!roleAndUserDetails){
+    if (!roleAndUserDetails) {
       return
     }
     this.userName = roleAndUserDetails.userDetails.firstName;
@@ -43,6 +46,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       return;
     }
     this.openProfile = false;
+  }
+
+  logOut() {
+    this.utilityService.logOut();
   }
 
   ngOnDestroy() {

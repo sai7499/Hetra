@@ -15,7 +15,8 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub> </label>
             <app-vf-custom-select 
-              [values]="LOV.LOVS.businessDivision" 
+              [isDisabled]="isBusinessDivisionEnable"
+              [values]="businessDivision" 
               formControlName="bizDivision"
               (change)=getProductCategory($event)>
             </app-vf-custom-select>
@@ -59,7 +60,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_type">{{ labels.sourcingType }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
-              [values]="ProfessionList" 
+              [values]="sourchingTypeValues" 
               formControlName="sourcingType">
             </app-vf-custom-select>
           </div>

@@ -27,19 +27,22 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   applicantType: string = 'INDIVENTTYP';
   sourcingChange: any;
   sourcingCodePlaceholder: string = 'Sourcing Code';
-  ProfessionList = [];
+  // ProfessionList = [];
+  sourchingTypeData = [];
+  sourchingTypeValues = [];
   text: string;
   loanAccountBranch: string;
   leadHandeledBy: string;
   spokesCodeLocation: any = [];
   isSpoke: boolean;
-  businessDivision: any;
+  businessDivision: any = [];
   isBusinessDivisionEnable: boolean;
   bizDivId: string;
 
   LOV: any = [];
 
   productCategoryData = [];
+  sourchingType: string;
 
   loanLeadDetails: {
     bizDivision: string,
@@ -94,7 +97,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.getUserDetailsData();
     this.getSourcingChannel();
     this.initForm();
-    // this.createLeadForm.patchValue({ bizDivision: this.businessDivision.key });
+    this.createLeadForm.patchValue({ bizDivision: 'EBBIZDIV' });
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' })
   }
 
@@ -107,7 +110,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   initForm() {
     this.createLeadForm = new FormGroup({
-      bizDivision: new FormControl({ value: this.businessDivision.key, disabled: this.isBusinessDivisionEnable }),
+      bizDivision: new FormControl(''),
       productCategory: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
@@ -133,33 +136,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   getUserDetailsData() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    if(!roleAndUserDetails){
+    if (!roleAndUserDetails) {
       return
     }
-    const businessDivision = roleAndUserDetails.businessDivisionList;
-    this.bizDivId = businessDivision[0].bizDivId;
-    this.isBusinessDivisionEnable = (businessDivision.length > 1) ? false : true;
-
-    let lov = this.LOV.LOVS.businessDivision;
-    lov.map(data => {
-      if (data.key == businessDivision[0].bizDivId) {
-        this.businessDivision = data;
-      }
-    });
- 
-    this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
-      const product = res.ProcessVariables.productCategoryDetails;
-      product.map(data => {
-        if (data) {
-          const val = {
-            key: data.assetProdcutCode,
-            value: data.prodcutCatName
-          }
-          this.productCategoryData.push(val);
-        }
-      });
-    })
-    console.log('this.productCategoryData', this.productCategoryData)
+    this.getBusinessDivision(roleAndUserDetails)
 
     const branchId = roleAndUserDetails.userDetails.branchId;
     const branchName = roleAndUserDetails.userDetails.branchName;
@@ -173,39 +153,77 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
   }
 
-  getProductCategory(event) {
-    console.log('event', event.target.value)
-    this.bizDivId = event.target.value;
+  getBusinessDivision(roleAndUserDetails) {
+    const businessDivision = roleAndUserDetails.businessDivisionList;
+    this.bizDivId = businessDivision[0].bizDivId;
+    let lov = this.LOV.LOVS.businessDivision;
+    lov.map(data => {
+      businessDivision.map(ele => {
+        if (ele.bizDivId == data.key) {
+          const val = {
+            key: ele.bizDivId,
+            value: data.value
+          }
+          this.businessDivision.push(val);
+        }
+      })
+      //  console.log('this.businessDivision',this.businessDivision)
+      //  console.log('this.businessDivision length',this.businessDivision.length)
+    });
+
+    if (this.businessDivision.length == 1) {
+      this.isBusinessDivisionEnable = true;
+      this.getProductCategory(this.bizDivId);
+    }
+    else {
+      this.isBusinessDivisionEnable = false;
+    }
   }
+
+  getProductCategory(event) {
+    this.bizDivId = (this.isBusinessDivisionEnable) ? event : event.target.value;
+    this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
+      const product = res.ProcessVariables.productCategoryDetails;
+      product.map(data => {
+        if (data) {
+          const val = {
+            key: data.assetProdcutCode,
+            value: data.prodcutCatName
+          }
+          this.productCategoryData.push(val);
+        }
+      });
+    })
+    console.log('this.productCategoryData', this.productCategoryData)
+  }
+
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
       const response = res.ProcessVariables.sourcingChannelObj;
       console.log('sourching', response);
+      this.sourchingTypeData = response;
     })
   }
 
   sourcingChannelChange(event: any) {
+    this.sourchingTypeValues = [];
     this.sourcingChange = event.target.value;
-    console.log('SourcingChange', this.sourcingChange);
+    this.sourcingCodePlaceholder = (this.sourcingChange === '4SOURCHAN') ? "Campaign Code" : "Employee Code";
+    console.log('SourcingChange --', this.sourcingChange);
 
-    switch (this.sourcingChange) {
-      case '1SOURCHAN': this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' }, { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
-        break;
-      case '2SOURCHAN': this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
-        break;
-      case '3SOURCHAN': this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
-        break;
-      default: this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
-        break;
-    }
-
-    if (this.sourcingChange == 64) {
-      this.sourcingCodePlaceholder = "Campaign Code";
-    }
-    else {
-      this.sourcingCodePlaceholder = "Employee Code";
-
+    this.sourchingTypeData.map(element => {
+      if (element.sourcingChannelId == this.sourcingChange) {
+        console.log('Sourching Type --', element.sourcingTypeDesc);
+        const data = {
+          key: element.sourcingChannelId,
+          value: element.sourcingTypeDesc
+        }
+        this.sourchingTypeValues.push(data);        
+      }
+    });
+    if(this.sourchingTypeValues.length === 0){
+      this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
     }
   }
 
@@ -250,7 +268,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       spokeCode: leadModel.spokeCode,
       loanBranch: leadModel.loanBranch,
       leadHandeledBy: leadModel.leadHandeledBy
-      
+
     }
 
     this.applicantDetails = {

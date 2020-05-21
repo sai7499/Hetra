@@ -58,6 +58,10 @@ export class HttpService {
   }
 
   post(url: string, requestEntity: any, showLoader: boolean = true, headers?: any) {
+    
+    // if (requestEntity["processVariables"]){
+    //   requestEntity["processVariables"]["userId"] = localStorage.getItem('userId')
+    // }
     if (showLoader) {
       // this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     }
@@ -346,5 +350,10 @@ export class HttpService {
     });
 
     return obs;
+  }
+
+  logOut(){
+    let url = environment.host + "/account/logout";
+    return this.http.get(url);
   }
 }

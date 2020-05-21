@@ -20,9 +20,9 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // console.log('auth', localStorage.getItem('token'))
         let httpMethod = req.method;
-        if (httpMethod == 'POST') {
+        console.log("Before Encryption", req.body);
+        if (httpMethod == 'POST') {            
             if (environment.encryptionType == true) {
-                // console.log("req.body", req.body);
                 const encryption = this.encrytionService.encrypt(req.body, environment.aesPublicKey);
                 req = req.clone(
                     {

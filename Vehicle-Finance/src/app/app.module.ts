@@ -12,13 +12,15 @@ import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/c
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor.service';
 
-// import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
-// import { HttpClientModule } from '@angular/common/http';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule} from './modules/shared/shared.module';
 import { LovResolverService } from '@services/Lov-resolver.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { UtilityService } from '@services/utility.service';
+import { Authguard } from '@services/authguard';
+import { LoginService } from './modules/login/login/login.service';
+import { LoginModule } from './modules/login/login.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { CommomLovService } from '@services/commom-lov-service';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    LoginModule
   ],
   providers: [
     HTTP,
@@ -49,7 +52,10 @@ import { CommomLovService } from '@services/commom-lov-service';
     BrowserAnimationsModule,
     CommonModule,
     LovResolverService,
-    CommomLovService
+    CommomLovService,
+    UtilityService,
+    Authguard,
+    LoginService
   ],
 
   bootstrap: [AppComponent]

@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 
 export class LoginStoreService {
 
-roleAndUserDetails ;
+    roleAndUserDetails;
+    emailId: string;
 
     setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList) {
         this.roleAndUserDetails = {
@@ -19,5 +20,13 @@ roleAndUserDetails ;
 
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
+    }
+
+    setEmailId(email) {
+        this.emailId = email;
+    }
+
+    getEmailId(){
+        return this.emailId;
     }
 }

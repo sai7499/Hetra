@@ -1,16 +1,16 @@
-import { HttpService } from './../../../services/http.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { environment } from '../../../../environments/environment';
-import RequestEntity from '../../../model/request.entity';
+import { LoginStoreService } from '@services/login-store.service';
+import { HttpService } from '@services/http.service';
+import RequestEntity from '@model/request.entity';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 
 export class LoginService {
 
     constructor( 
-        private httpService: HttpService) { }
+        private httpService: HttpService,
+        private loginService: LoginStoreService) { }
 
     getLogin(data) {
         const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
@@ -21,17 +21,18 @@ export class LoginService {
         return this.httpService.post(url, body);
     }   
 
-    getUserDetails() {
+    getUserDetails(data?) {
         const processId = environment.api.getUserDetails.processId;
         const workflowId = environment.api.getUserDetails.workflowId;
         const projectId = environment.projectId;
 
-        let email = localStorage.getItem('email');
-
+        let email = data ? data.userId : this.loginService.getEmailId();
+        let objectKey = data ? 'userId': 'loginId';
         const body: RequestEntity = {
             processId: processId, 
             ProcessVariables: {
-                "loginId": email
+                // "loginId": email
+                [objectKey]:email
             },
             workflowId: workflowId,
             projectId: projectId

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { LabelsService } from "src/app/services/labels.service";
 import { LoginStoreService } from '../../../services/login-store.service';
-
+import {storage} from '../../../storage/localstorage';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         const token = response.token;
         console.log('token', token);
         localStorage.setItem('token', token);
-        localStorage.setItem('email', this.loginData.email)
+        this.loginStoreService.setEmailId(this.loginData.email);
 
         this.loginService.getUserDetails().subscribe((res: any) => {
           const response = res;
@@ -64,6 +64,8 @@ export class LoginComponent implements OnInit {
             const userDetails = response.ProcessVariables.userDetails;
             const businessDivisionList = response.ProcessVariables.businessDivisionLIst;
             const activityList = response.ProcessVariables.activityList;
+            const userId =  response.ProcessVariables.userId;
+            localStorage.setItem('userId',userId);
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;
