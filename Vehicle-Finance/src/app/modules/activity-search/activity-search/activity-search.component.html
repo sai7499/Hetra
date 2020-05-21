@@ -17,39 +17,15 @@
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
                 <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value);">
-                <!-- <select class="form-control "  id="selectbox" name="" [(ngModel)]="seletedRoute">
-                  
-                    <option value=""></option>
-                    <option value="/pages/lead-creation">Create Lead</option>
-                    <option value="QDE/QDE-section.html">QDE</option>
-                    <option value="lead/pd_section.html">PD</option>
-                    <option value="/pages/dde">DDE</option>
-                
-                </select> -->
-                <!-- <div class="dropdown-content" *ngIf="searchDiv">
-                <select  class="form-control "  id="selectbox"  [(ngModel)]="seletedRoute">
-                    <option *ngFor="let item of searchLead" value ="{{item.route}}" >{{item.name}}</option>
-                    
-                </select>
-            </div> -->
-                <!-- <span class="form-control " id="selectbox" name="" ></span>
-                <span class="search-icon"></span>
-                <div class="dropdown-content">
-                    <ul>
-                    <li><i class="fa fa-search"></i><a [routerLink]="['../pages/lead-creation']">Create Lead</a></li>
-                    <a href="#">QDE</a>
-                    <a href="#">PD</a>
-                    <a [routerLink]="['../pages/dde']">DDE</a>
-                    </ul>
-                </div>-->
+
                 <div class="dropdown-content" *ngIf="searchDiv">
                     <div *ngFor="let item of searchLead" >
-                    <a [routerLink]="item.route">{{item.name}}</a>
+                    <a (click)="getRoute(item.route, item.name)">{{item.name}}</a>
                     </div>
                 
                 </div>
                 <span class="search-icon-left"></span> 
-                <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
+                <button class="microphone-icon" title="Search by voice" (click)="navigateToModule()">GO</button>
             </div>
         </div>
     </div>
