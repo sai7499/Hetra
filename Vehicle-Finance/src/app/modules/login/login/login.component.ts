@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LabelsService } from "src/app/services/labels.service";
 import { LoginStoreService } from '../../../services/login-store.service';
 import {storage} from '../../../storage/localstorage';
+import { CommonDataService } from '@services/common-data.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private labelsData: LabelsService,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private cds : CommonDataService
   ) { }
 
   ngOnInit() {

@@ -21,6 +21,7 @@ import { UtilityService } from '@services/utility.service';
 import { Authguard } from '@services/authguard';
 import { LoginService } from './modules/login/login/login.service';
 import { LoginModule } from './modules/login/login.module';
+import { CommonDataService } from '@services/common-data.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { LoginModule } from './modules/login/login.module';
     CommomLovService,
     UtilityService,
     Authguard,
-    LoginService
+    LoginService,
+    CommonDataService
   ],
 
   bootstrap: [AppComponent]

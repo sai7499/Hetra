@@ -16,6 +16,7 @@ const routes: Routes = [
   },
   {
     path: "activity-search",
+    canActivate:[Authguard],
     loadChildren: () => import("./modules/activity-search/activity-search.module").then(m => m.ActivitySearchModule),
     
   },

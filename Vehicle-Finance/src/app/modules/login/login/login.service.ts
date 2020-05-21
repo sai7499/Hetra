@@ -31,7 +31,6 @@ export class LoginService {
         const body: RequestEntity = {
             processId: processId, 
             ProcessVariables: {
-                // "loginId": email
                 [objectKey]:email
             },
             workflowId: workflowId,

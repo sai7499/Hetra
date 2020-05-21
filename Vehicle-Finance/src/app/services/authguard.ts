@@ -8,14 +8,18 @@ import { HttpService } from './http.service';
 import { LoginService } from '../modules/login/login/login.service';
 import { LoginStoreService } from './login-store.service';
 import { UtilityService } from './utility.service';
+import { CommonDataService } from './common-data.service';
 
 @Injectable()
 export class Authguard implements CanActivate {
+    cdsStatus;
     constructor(
         private httpService: HttpService,
         private loginService: LoginService,
         private loginStoreService: LoginStoreService,
-        private utilityService: UtilityService) {
+        private utilityService: UtilityService,
+        private cds : CommonDataService) {
+            this.cds.cdsStatusssss.subscribe(value => this.cdsStatus = value )
     }
 
     canActivate(
@@ -24,8 +28,8 @@ export class Authguard implements CanActivate {
     ): Observable<boolean> | Promise<boolean> | boolean {
 
         if (storage.checkToken()) {
-
             return new Observable<boolean>(observer => {
+                if(!this.cdsStatus){
                 let data = { "userId": storage.getUserId() };
                 this.loginService.getUserDetails(data).subscribe((res: any) => {
                     const response = res;
@@ -38,6 +42,9 @@ export class Authguard implements CanActivate {
                         observer.next(true);
                     }
                 });
+            }else {
+                    observer.next(true);
+                }
             });
         }
         else {
