@@ -4,12 +4,12 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 
-import { LabelsService } from "src/app/services/labels.service";
+import { LabelsService } from 'src/app/services/labels.service';
 import { LoginStoreService } from '../../../services/login-store.service';
 
 import {GoogleMapsAPIWrapper} from '@agm/core';
 
-import { GpsService } from "src/app/services/gps.service";
+import { GpsService } from 'src/app/services/gps.service';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
@@ -23,7 +23,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 export class LoginComponent implements OnInit {
 
   direction: any;
-  
+
   labels: any = {};
 
 
@@ -32,21 +32,21 @@ export class LoginComponent implements OnInit {
   loginData: {
     email: string,
     password: string
-  }
+  };
 
   lat: any;
   lng: any;
   zoom: any;
   flag: boolean;
   imageURI: any;
-  cameraImage:any;
+  cameraImage: any;
 
 
   geoLocationError = {
-    1 : "PERMISSION_DENIED",
-    2 : "POSITION_UNAVAILABLE",
-    3 : "TIMEOUT"
-  }
+    1 : 'PERMISSION_DENIED',
+    2 : 'POSITION_UNAVAILABLE',
+    3 : 'TIMEOUT'
+  };
 
   isMobile: any;
 
@@ -81,23 +81,23 @@ export class LoginComponent implements OnInit {
     });
 
     /* Get latitude and longitude from mobile */
-    if(this.isMobile) {
-      this.gpsService.initLatLong().subscribe((res) =>{
-        if(res){
-          this.gpsService.getLatLong().subscribe((position) =>{
-            console.log("login position", position);
-          });  
-        }else {
+    if (this.isMobile) {
+      this.gpsService.initLatLong().subscribe((res) => {
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+            console.log('login position', position);
+          });
+        } else {
           console.log(res);
         }
       });
-    }else {
-     this.gpsService.getBrowserLatLong().subscribe((position) =>{
-        console.log("login position", position);
-      });  
+    } else {
+     this.gpsService.getBrowserLatLong().subscribe((position) => {
+        console.log('login position', position);
+      });
     }
 
-   
+
   }
 
   login() {
@@ -108,13 +108,19 @@ export class LoginComponent implements OnInit {
         const token = response.token;
         console.log('token', token);
         localStorage.setItem('token', token);
-        localStorage.setItem('email', this.loginData.email)
+        localStorage.setItem('email', this.loginData.email);
+        // localStorage.setItem('userId', userId );
 
+        // tslint:disable-next-line: no-shadowed-variable
         this.loginService.getUserDetails().subscribe((res: any) => {
+          // tslint:disable-next-line: no-shadowed-variable
           const response = res;
+          console.log(response);
           if (response.Error === '0') {
             const roles = response.ProcessVariables.roles;
             const userDetails = response.ProcessVariables.userDetails;
+            const userId = response.ProcessVariables.userId;
+            console.log(userId); localStorage.setItem('userId', userId );
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;
@@ -122,32 +128,32 @@ export class LoginComponent implements OnInit {
             //   this.router.navigateByUrl('/activity-search');
             // }
           }
-        })
+        });
       }
     },
       err => {
-        alert('Invalid Login')
-        this.loginForm.reset()
-      })
+        alert('Invalid Login');
+        this.loginForm.reset();
+      });
   }
 
   showMap() {
     this.flag = true;
     this.lat = 12.963134;
     this.lng = 80.198337;
-    //google maps zoom
+    // google maps zoom
     this.zoom = 14;
-  
+
     this.direction = {
       origin: { lat: 12.963134, lng: 80.198337 },
       destination: { lat: 12.990884, lng: 80.242167 }
-    }
+    };
   }
 
   openMap() {
 
-    let dirUrl = "https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167"
-    window.open(dirUrl, "_blank", "location=yes");
+    const dirUrl = 'https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167';
+    window.open(dirUrl, '_blank', 'location=yes');
 
   }
 
@@ -163,7 +169,7 @@ export class LoginComponent implements OnInit {
         targetWidth: 100,
         targetHeight: 100,
         saveToPhotoAlbum: false
-    }
+    };
 
     return this.camera.getPicture(options);
 
@@ -177,13 +183,13 @@ export class LoginComponent implements OnInit {
       let url = uri.split('/');
       url = url[url.length - 1];
 
-      this.cameraImage = (<any>window).Ionic.WebView.convertFileSrc(
+      this.cameraImage = ( window as any).Ionic.WebView.convertFileSrc(
         this.imageURI
       )
         .toString()
         .split('cache/')[1];
 
-        console.log("Camera Image", this.cameraImage)
+      console.log('Camera Image', this.cameraImage);
     });
 
   }

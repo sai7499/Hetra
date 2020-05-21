@@ -9,8 +9,8 @@ import RequestEntity from '../../../model/request.entity';
 
 export class LoginService {
 
-    constructor(private http: HttpClient, 
-        private httpService: HttpService) { }
+    constructor(private http: HttpClient,
+                private httpService: HttpService) { }
 
     getLogin(data) {
         // let body = `email=${data.email}&password=${data.password}`;
@@ -18,10 +18,10 @@ export class LoginService {
         const url = `${environment.host}account/login`;
         // const url = 'http://128.199.164.250/appiyo/account/' + environment.apiVersion.login + 'login';
         // const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
-        let body = {
+        const body = {
             email: data.email,
             password: data.password
-        }
+        };
         return this.httpService.post(url, body);
     }
 
@@ -30,21 +30,21 @@ export class LoginService {
         const workflowId = environment.api.getUserDetails.workflowId;
         const projectId = environment.projectId;
 
-        let email = localStorage.getItem('email');
+        const email = localStorage.getItem('email');
 
         const requestEntity: RequestEntity = {
-            processId: processId, 
+            processId,
             ProcessVariables: {
-                "loginId": email
+                'loginId': email
             },
-            workflowId: workflowId,
-            projectId: projectId
+            workflowId,
+            projectId
         };
 
-        let url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
         // let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
         const body = {
-            'processVariables':
+            processVariables:
             JSON.stringify(requestEntity)
         };
         return this.httpService.post(url, body);
