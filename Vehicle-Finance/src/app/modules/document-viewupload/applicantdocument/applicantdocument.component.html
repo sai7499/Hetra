@@ -1,3 +1,5 @@
+<div class="form">
+    <div class="container-fluid">
 <form [formGroup]="applicantForm">
     <div class="row">
         <div class="form-group col-sm-3 col-md-3">
@@ -496,13 +498,14 @@
         <div class="for_space"></div>
     
     
-    <div class="row">
+            <div class="row" id="saveNext">
                     
-        <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href mar-right8" (click)="onSubmitForm()"> Save </button>
-            <button class="btn btn-primary dash_href " [routerLink]="['../collateral-documents']" type="button">Next</button>
-        </div>
-                
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7 text-right">
+                    <button class="btn btn-primary dash_href mar-right8" (click)="onSubmitForm()"> Save </button>
+                    <button class="btn btn-primary dash_href " [routerLink]="['../collateral-documents']" type="button">Next</button>
+                </div>      
+            </div>
+        </form>
     </div>
-    </form>
+</div>
