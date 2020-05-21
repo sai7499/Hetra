@@ -1,63 +1,57 @@
 <main class="mar-top90">
-  <div class="container overflow-hidden">
-    <h3 class="margin_zero">Lead ID : 125468</h3>
+    <div class="container overflow-hidden">
+        <h3 class="margin_zero">Lead ID : 125468</h3>
 
-    <app-dde-header></app-dde-header>
+        <app-dde-header></app-dde-header>
 
-    <!-- <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
+        <!-- <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
       <button class="btn btn-primary" type="button">View/Upload Document</button>
       <app-dde-header></app-dde-header>
     </div> -->
-    <!-- </div> -->
-    <!--progress bar-->
-    <div class="multisteps-form">
-      <div class="multisteps-form__progress">
-        <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details"
-          [routerLink]="['./lead-details']">
+        <!-- </div> -->
+        <!--progress bar-->
+        <div class="multisteps-form">
+            <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details" [routerLink]="['./lead-details']">
           Lead Details
         </button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_application_details"
-          [routerLink]="['./applicant-list']">Applicants</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_vehicle_details"
-          [routerLink]="['./vehicle-list']">Collaterals</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_fleet_details"
-          [routerLink]="['./fleet-details']">Fleet</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_liveloan" [routerLink]="['./exposure']">
+                <button class="multisteps-form__progress-btn " type="button" id="credit_application_details" [routerLink]="['./applicant-list']">Applicants</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_vehicle_details" [routerLink]="['./vehicle-list']">Collaterals</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_fleet_details" [routerLink]="['./fleet-details']">Fleet</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_liveloan" [routerLink]="['./exposure']">
           Exposure
         </button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_income_details"
-          [routerLink]="['./income-details']">
+                <button class="multisteps-form__progress-btn " type="button" id="credit_income_details" [routerLink]="['./income-details']">
           Income Details
         </button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data" [routerLink]="['./psl-data']">
+                <button class="multisteps-form__progress-btn" type="button" id="credit_psl_data" [routerLink]="['./psl-data']">
           PSL Data
         </button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_valuation"
-          [routerLink]="['./vehicle-valuation']">
+                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_valuation" [routerLink]="['./vehicle-valuation']">
           Vehicle Valuation
         </button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_tvr_details">TVR</button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./fl-report']">
+                <button class="multisteps-form__progress-btn " type="button" id="credit_tvr_details" [routerLink]="['./tvr-details']">TVR</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./fl-report']">
           Fl Report
         </button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./pd-report']">
+                <button class="multisteps-form__progress-btn" type="button" id="credit_fi_pd" [routerLink]="['./pd-report']">
           PD Report
         </button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_viability">Viability</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_score_card">Score Card</button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_cam">CAM</button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_deviations">Deviations</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_insurance">Insurance</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_conditions">Credit Conditions</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_term_sheets">Term Sheets</button>
-        <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button> -->
-        <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_reference">Reference</button> -->
-      </div>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_viability">Viability</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_score_card" [routerLink]="['./score-card']">Score Card</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_cam" [routerLink]="['./cam']">CAM</button>
+                <button class="multisteps-form__progress-btn" type="button" id="credit_deviations">Deviations</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_insurance">Insurance</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_conditions" [routerLink]="['./credit-conditions']">Credit Conditions</button>
+                <button class="multisteps-form__progress-btn " type="button" id="credit_term_sheets">Term Sheets</button>
+                <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button> -->
+                <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_reference">Reference</button> -->
+            </div>
 
-      <div class="content">
-        <router-outlet> </router-outlet>
-      </div>
+            <div class="content">
+                <router-outlet> </router-outlet>
+            </div>
 
+        </div>
     </div>
-  </div>
 </main>

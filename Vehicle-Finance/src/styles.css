@@ -138,6 +138,7 @@ h3 {
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
         
 }
+
 .search .form-control .option {
     height: 44px;
     border: 1px solid #dedede;
@@ -173,13 +174,13 @@ h3 {
     /* color: #black; */
     font-weight: bold;
 }
+
 .search select {
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
 }
-
 
 .nav.back-btn li a {
     background: #efefef;
@@ -228,7 +229,7 @@ h3 {
     color: #fff;
     font-size: 12px;
 }
-    
+
 .table tbody tr td {
     border-top: 1px solid #e6e6e6;
     padding: 10px;
@@ -246,7 +247,7 @@ h3 {
 }
 
 .table .fa-sort {
-        /* font-size: 12px;
+    /* font-size: 12px;
         padding-left: 1px; */
     cursor: pointer;
 }
@@ -260,6 +261,7 @@ h3 {
     padding-bottom: 0px;
     background: white;
 }
+
 .content {
     background: #fff;
     padding: 25px 30px;
@@ -386,6 +388,10 @@ form .form-control {
 
 /* progress bar */
 
+#background_white {
+    background: #fff !important;
+}
+
 .tab_content {
     background: #fff;
     padding: 25px 30px;
@@ -448,46 +454,45 @@ h4.table-head-bg.m-0.p-02 {
     overflow-x: hidden;
 }
 
+
 /**Exact Match css**/
 
-#found_in_nl
-{
+#found_in_nl {
     margin-left: 35px;
     font-weight: bold;
     color: #ef5342;
 }
-#found_in_trnl
-{
+
+#found_in_trnl {
     margin-left: 16px;
     font-weight: bold;
 }
 
-#exact_macth_title1
-{
+#exact_macth_title1 {
     background-color: #272264;
     color: #fff;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
 }
-#exact_macth_title2
-{
+
+#exact_macth_title2 {
     background-color: #272264;
     color: #fff;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
 }
-#exact_macth_title3
-{
+
+#exact_macth_title3 {
     background-color: #272264;
     color: #fff;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
 }
-#probale_title4
-{
+
+#probale_title4 {
     margin-top: -1px;
     background-color: #272264;
     color: #fff;
@@ -503,60 +508,64 @@ h4.table-head-bg.m-0.p-02 {
     /*text-align: center;*/
 }
 
+
 /*-----------Credit_Score Style -------------*/
+
+
 /* #sales_credit_score
         {
             background: #fff;
             padding: 10px;
         } */
-        #credit_score_tag1
-        {
-            margin-left: 100px;
-            font-weight: bold;
-        }
-        #credit_score_tag2
-        {
-            margin-left: 78px;
-            font-weight: bold;
-        }
 
-        #credit_score_tag3
-        {
-            margin-left: 130px;
-            font-weight: bold;
-        }
-        #credit_score_tag4
-        {
-            margin-left: 150px;
-            font-weight: bold;
-        }
-        #credit_score_tag5
-        {
-            margin-left: 10px;
-            font-weight: bold;
-        }
-        #credit_score_tag6
-        {
-            margin-left: 195px;
-            font-weight: bold;
-        }
-        #credit_score_tag7
-        {
-            margin-left: 50px;
-            font-weight: bold;
-        }
-        #credit_score_tag8
-        {
-            margin-left: 90px;
-            font-weight: bold;
-        }
-        #credit_score_tag9
-        {
-            margin-left: 100px;
-            font-weight: bold;
-        }
-        #credit_score_tag10
-        {
-            font-weight: bold;
-        }
-        /*---------------- credit Score End Styles ---------------*/
+#credit_score_tag1 {
+    margin-left: 100px;
+    font-weight: bold;
+}
+
+#credit_score_tag2 {
+    margin-left: 78px;
+    font-weight: bold;
+}
+
+#credit_score_tag3 {
+    margin-left: 130px;
+    font-weight: bold;
+}
+
+#credit_score_tag4 {
+    margin-left: 150px;
+    font-weight: bold;
+}
+
+#credit_score_tag5 {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+#credit_score_tag6 {
+    margin-left: 195px;
+    font-weight: bold;
+}
+
+#credit_score_tag7 {
+    margin-left: 50px;
+    font-weight: bold;
+}
+
+#credit_score_tag8 {
+    margin-left: 90px;
+    font-weight: bold;
+}
+
+#credit_score_tag9 {
+    margin-left: 100px;
+    font-weight: bold;
+}
+
+#credit_score_tag10 {
+    font-weight: bold;
+}
+
+
+/*---------------- credit Score End Styles ---------------*/
