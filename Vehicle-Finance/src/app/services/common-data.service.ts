@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 
 export class CommonDataService {
-    constructor(){}
+    constructor() { }
 
     cdsStatus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public cdsStatusssss = this.cdsStatus$.asObservable();
-  changeCdsStatus(value: boolean) {
-    this.cdsStatus$.next(value);
-  }
+    public cdsStatus = this.cdsStatus$.asObservable();
+    changeCdsStatus(value: boolean) {
+        this.cdsStatus$.next(value);
+    }
 }

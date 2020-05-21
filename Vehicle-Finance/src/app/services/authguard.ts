@@ -19,7 +19,7 @@ export class Authguard implements CanActivate {
         private loginStoreService: LoginStoreService,
         private utilityService: UtilityService,
         private cds : CommonDataService) {
-            this.cds.cdsStatusssss.subscribe(value => this.cdsStatus = value )
+            this.cds.cdsStatus$.subscribe(value => this.cdsStatus = value )
     }
 
     canActivate(
