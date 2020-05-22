@@ -9,7 +9,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor( 
+  constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
     private commomLovService: CommomLovService) {
@@ -17,10 +17,9 @@ export class HeaderComponent implements OnInit {
     const error = this.activatedRoute.snapshot.data.getLOV.Error;
     if (error === '0') {
       const LOVs = JSON.parse(this.activatedRoute.snapshot.data.getLOV.ProcessVariables.response);
-      this.commomLovService.setLovData(LOVs)
+      this.commomLovService.setLovData(LOVs);
     }
   }
-  
 
   ngOnInit() {
   }

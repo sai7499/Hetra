@@ -1,3 +1,4 @@
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { HTTP } from '@ionic-native/http/ngx';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,11 +24,15 @@ import { LoginService } from './modules/login/login/login.service';
 import { LoginModule } from './modules/login/login.module';
 import { CommonDataService } from '@services/common-data.service';
 
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @agm/core
+import { AgmDirectionModule } from 'agm-direction';   // agm-direction
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,11 @@ import { CommonDataService } from '@services/common-data.service';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    LoginModule
+    LoginModule,
+    AgmCoreModule.forRoot({ // @agm/core
+      apiKey: 'AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw',
+    }),
+    AgmDirectionModule,     // agm-direction
   ],
   providers: [
     HTTP,
@@ -57,7 +66,11 @@ import { CommonDataService } from '@services/common-data.service';
     UtilityService,
     Authguard,
     LoginService,
-    CommonDataService
+    CommonDataService,
+    GoogleMapsAPIWrapper,
+    LocationAccuracy,
+    Geolocation,
+    Camera
   ],
 
   bootstrap: [AppComponent]

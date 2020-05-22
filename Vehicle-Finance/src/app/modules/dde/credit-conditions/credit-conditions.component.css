@@ -1,0 +1,63 @@
+.upload_sanction {
+	position: absolute;
+	font-size: 50px;
+	opacity: 0;
+	right: 87px;
+	top: 34px;
+	width: 95px;
+	height: 37px;
+}
+.mb-50{
+    margin-bottom: 50px;
+}
+.uploadsan {
+	margin-top: 15px;
+}
+
+.check_input {
+	width: 171px;
+	margin-left: 0px;
+}
+
+.input_design {
+	border: 1px solid #ccc;
+	padding: 6px;
+	width: 100%;
+	display: block;
+	border-radius: 5px;
+	margin-top: 14px;
+}
+
+.form-group.col-sm-6.col-md-3.col-lg-3 {
+	width: 28%;
+}
+
+.form-group.col-sm-6.col-md-4.col-lg-3 {
+	width: 28%;
+	max-width: 28%;
+}
+
+.form-group.col-sm-6.col-md-2.col-lg-3 {
+	width: 15%;
+}
+
+.form-group.col-sm-6.col-md-4.col-lg-3.p-0 {
+	padding: 0px;
+}
+.btn{
+    margin-right: 10px;
+}
+.radio-inline.p-0.m-0 {
+    padding: 0px;
+    margin-left: 0px;
+    margin-top: 10px;
+}
+.row.m-0{margin:0px;}
+.radio-inline {
+	width: 155px;
+	margin-left:0px !important;
+	width: 155px;
+}
+.fa-plus  ,.fa-minus{
+	cursor: pointer;
+}

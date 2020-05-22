@@ -41,16 +41,16 @@
               </tbody>
             </table>
             <div class="btn-sec clear-both">
-              <div class="records col-sm-6">
+              <!-- <div class="records col-sm-6">
                 <select class="form-control input-sm" (change)="OnItemPerPage($event)">
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
                 </select>
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+              </div> -->
+              <!-- <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
                 <nav class="col-sm-12 col-md-12 col-lg-12 page">
-                  <!-- <ul class="pagination">
+                  <ul class="pagination">
                                         <li class="disabled"><a href="#"><span>«</span></a></li>
                                         <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
                                         <li><a href="#">2</a></li>
@@ -60,16 +60,16 @@
                                         <li><a href="#"><span>»</span></a></li>
                                     </ul> -->
 
-                  <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
+                  <!-- <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
                   </pagination-controls>
-                </nav>
-              </div>
+                </nav> -->
+              <!-- </div> -->
 
               <div class="text-center">
-                <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"  data-toggle="modal" data-target="#proceedModal_without" [disabled]="isChecked">
+                <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"  data-toggle="modal" data-target="#proceedModal_without" [disabled]="radioSel !==-1">
                   Proceed as new Lead
                 </button>
-                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button" data-toggle="modal" data-target="#proceedModal_with" [disabled] = "!isChecked">
+                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button" data-toggle="modal" data-target="#proceedModal_with" [disabled] = "radioSel ==-1">
                   Proceed with selected lead
                 </button>
 

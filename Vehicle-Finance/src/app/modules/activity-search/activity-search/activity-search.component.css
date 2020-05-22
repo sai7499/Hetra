@@ -83,3 +83,15 @@ position: absolute;
   right: 0;
   margin: 0 auto;
 }
+
+.form-control{
+  height: 44px;
+}
+
+.vertical-middle{
+  position: absolute;
+    top: 23%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}

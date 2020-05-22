@@ -499,3 +499,18 @@ form .form-control {
         position: relative;
     }
 }
+
+agm-map {
+    height: 150px;
+    width: 250px;
+    text-align: center;
+    margin: 5px;
+}
+
+.hide {
+    display: none;
+}
+
+.show{
+    display: inline-block;
+}

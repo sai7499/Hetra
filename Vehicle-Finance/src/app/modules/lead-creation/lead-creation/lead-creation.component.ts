@@ -24,9 +24,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   lovLabels: any = [];
   labels: any = {};
 
-  applicantType: string = 'INDIVENTTYP';
+  applicantType = 'INDIVENTTYP';
   sourcingChange: any;
-  sourcingCodePlaceholder: string = 'Sourcing Code';
+  sourcingCodePlaceholder = 'Sourcing Code';
   // ProfessionList = [];
   sourchingTypeData = [];
   sourchingTypeValues = [];
@@ -55,7 +55,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     spokeCode: string,
     loanBranch: string,
     leadHandeledBy: string
-  }
+  };
 
   applicantDetails: {
     entity: string
@@ -64,10 +64,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     nameThree: string,
     mobileNumber: string,
     dobOrDoc: string
-  }
+  };
 
   selectApplicantType(event: any) {
-    console.log(this.applicantType)
+    console.log(this.applicantType);
     this.applicantType = event.target.value;
   }
 
@@ -98,7 +98,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     this.getSourcingChannel();
     this.initForm();
     this.createLeadForm.patchValue({ bizDivision: 'EBBIZDIV' });
-    this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' })
+    this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
   }
 
   getLabels() {
@@ -130,16 +130,16 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   getLOV() {
-    this.LOV = this.commomLovService.getLovData()
+    this.LOV = this.commomLovService.getLovData();
     console.log('Create Lead LOV data ---', this.LOV);
   }
 
   getUserDetailsData() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     if (!roleAndUserDetails) {
-      return
+      return;
     }
-    this.getBusinessDivision(roleAndUserDetails)
+    this.getBusinessDivision(roleAndUserDetails);
 
     const branchId = roleAndUserDetails.userDetails.branchId;
     const branchName = roleAndUserDetails.userDetails.branchName;
@@ -156,26 +156,27 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   getBusinessDivision(roleAndUserDetails) {
     const businessDivision = roleAndUserDetails.businessDivisionList;
     this.bizDivId = businessDivision[0].bizDivId;
-    let lov = this.LOV.LOVS.businessDivision;
+    const lov = this.LOV.LOVS.businessDivision;
     lov.map(data => {
       businessDivision.map(ele => {
+        // tslint:disable-next-line: triple-equals
         if (ele.bizDivId == data.key) {
           const val = {
             key: ele.bizDivId,
             value: data.value
-          }
+          };
           this.businessDivision.push(val);
         }
-      })
+      });
       //  console.log('this.businessDivision',this.businessDivision)
       //  console.log('this.businessDivision length',this.businessDivision.length)
     });
 
+    // tslint:disable-next-line: triple-equals
     if (this.businessDivision.length == 1) {
       this.isBusinessDivisionEnable = true;
       this.getProductCategory(this.bizDivId);
-    }
-    else {
+    } else {
       this.isBusinessDivisionEnable = false;
     }
   }
@@ -189,12 +190,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
           const val = {
             key: data.assetProdcutCode,
             value: data.prodcutCatName
-          }
+          };
           this.productCategoryData.push(val);
         }
       });
-    })
-    console.log('this.productCategoryData', this.productCategoryData)
+    });
+    console.log('this.productCategoryData', this.productCategoryData);
   }
 
 
@@ -203,26 +204,27 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       const response = res.ProcessVariables.sourcingChannelObj;
       console.log('sourching', response);
       this.sourchingTypeData = response;
-    })
+    });
   }
 
   sourcingChannelChange(event: any) {
     this.sourchingTypeValues = [];
     this.sourcingChange = event.target.value;
-    this.sourcingCodePlaceholder = (this.sourcingChange === '4SOURCHAN') ? "Campaign Code" : "Employee Code";
+    this.sourcingCodePlaceholder = (this.sourcingChange === '4SOURCHAN') ? 'Campaign Code' : 'Employee Code';
     console.log('SourcingChange --', this.sourcingChange);
 
     this.sourchingTypeData.map(element => {
+      // tslint:disable-next-line: triple-equals
       if (element.sourcingChannelId == this.sourcingChange) {
         console.log('Sourching Type --', element.sourcingTypeDesc);
         const data = {
           key: element.sourcingChannelId,
           value: element.sourcingTypeDesc
-        }
-        this.sourchingTypeValues.push(data);        
+        };
+        this.sourchingTypeValues.push(data);
       }
     });
-    if(this.sourchingTypeValues.length === 0){
+    if (this.sourchingTypeValues.length === 0) {
       this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
     }
   }
@@ -269,7 +271,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       loanBranch: leadModel.loanBranch,
       leadHandeledBy: leadModel.leadHandeledBy
 
-    }
+    };
 
     this.applicantDetails = {
       entity: leadModel.entity,
@@ -278,10 +280,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       nameThree: leadModel.nameThree,
       mobileNumber: leadModel.mobile,
       dobOrDoc: leadModel.dateOfBirth
-    }
+    };
 
-    console.log("loanLeadDetails", this.loanLeadDetails)
-    console.log("applicantDetails", this.applicantDetails)
+    console.log('loanLeadDetails', this.loanLeadDetails);
+    console.log('applicantDetails', this.applicantDetails);
 
     this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails).subscribe((res: any) => {
       const response = res;
@@ -298,7 +300,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         }
         this.router.navigateByUrl('pages/lead-section');
       }
-    })
+    });
     // this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 
