@@ -12,14 +12,14 @@
       <form [formGroup]="createLeadForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">{{ labels.businessDivision }}</label>
+            <label for="business_division">{{ labels.businessDivision }}<sub class="star_red_col" >*</sub></label>
             <app-vf-custom-select [values]="lovLabels?.businessDivision" formControlName="bizDivision">
             </app-vf-custom-select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">{{ labels.productCategory }}</label>
+            <label for="product_type">{{ labels.productCategory }}<sub class="star_red_col" >*</sub></label>
             <app-vf-custom-select [values]="lovLabels?.productCategory" formControlName="productCategory">
             </app-vf-custom-select>
           </div>
@@ -29,20 +29,20 @@
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="fundingProgram">{{ labels.fundingProgram }}</label>
+            <label for="fundingProgram">{{ labels.fundingProgram }}<sub class="star_red_col" >*</sub></label>
             <app-vf-custom-select [values]="lovLabels?.fundingProgram" formControlName="fundingProgram">
             </app-vf-custom-select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
+            <label for="sourcing_channel">{{ labels.sourcingChannel }}<sub class="star_red_col" >*</sub></label>
             <app-vf-custom-select [values]="lovLabels?.soucringChannel" formControlName="sourcingChannel"
               (change)="sourcingChannelChange($event)" name="sourcingChannel">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_type">{{ labels.sourcingType }}</label>
+            <label for="sourcing_type">{{ labels.sourcingType }}<sub class="star_red_col" >*</sub></label>
             <!-- <app-vf-custom-select [values]="lovLabels?.sourcingType" formControlName="sourcingType">
             </app-vf-custom-select> -->
             <app-vf-custom-select [values]="ProfessionList" formControlName="sourcingType">
@@ -52,7 +52,7 @@
             </select> -->
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_code">{{ labels.sourcingCode }}</label>
+            <label for="sourcing_code">{{ labels.sourcingCode }}<sub class="star_blue_col" >*</sub></label>
             <!-- <app-vf-custom-select [values]="lovLabels?.sourcingCode" formControlName="sourcingCode" [(ngModel)]="text">
             </app-vf-custom-select> -->
             <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode"
@@ -61,12 +61,12 @@
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="spoken_code">{{ labels.spokeCodeLocation }}</label>
+            <label for="spoken_code">{{ labels.spokeCodeLocation }}<sub class="star_red_col" >*</sub></label>
             <app-vf-custom-select [values]="lovLabels?.spokenCodeLocation" formControlName="spokeCodeLocation">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="account_branch">{{ labels.loanAccountBranch }}</label>
+            <label for="account_branch">{{ labels.loanAccountBranch }}<sub class="star_red_col" >*</sub></label>
 
             <app-vf-custom-select [values]="lovLabels?.loanAccountBranch" formControlName="loanBranch">
             </app-vf-custom-select>
@@ -87,8 +87,8 @@
         </div>
         <div class="row individual_section_leadco">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="first_name" *ngIf="applicantType == 'I'">{{ labels.firstName }}</label>
-            <label for="first_name" *ngIf="applicantType == 'C'">{{ labels.companyName1 }}</label>
+            <label for="first_name" *ngIf="applicantType == 'I'">{{ labels.firstName }}<sub class="star_red_col" >*</sub></label>
+            <label for="first_name" *ngIf="applicantType == 'C'">{{ labels.companyName1 }}<sub class="star_red_col" >*</sub></label>
             <input type="text" class="form-control mandatory" id="first_name" name="first_name"
               formControlName="nameOne" />
           </div>
@@ -99,7 +99,7 @@
               formControlName="nameTwo" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name" *ngIf="applicantType == 'I'">{{ labels.lastName }}</label>
+            <label for="last_name" *ngIf="applicantType == 'I'">{{ labels.lastName }}<sub class="star_red_col" >*</sub></label>
             <label for="last_name" *ngIf="applicantType == 'C'">{{ labels.companyName3 }}</label>
             <input type="text" class="form-control mandatory" id="last_name" name="last_name"
               formControlName="nameThree" />
@@ -121,13 +121,13 @@
         </div> -->
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="mobile">{{ labels.mobile }}</label>
+            <label for="mobile">{{ labels.mobile }}<sub class="star_red_col" >*</sub></label>
             <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile"
               formControlName="mobile" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="dob" *ngIf="applicantType == 'I'">{{labels.dateOfBirth}}</label>
-            <label for="dob" *ngIf="applicantType == 'C'">{{labels.dateOfIncorporation}}</label>
+            <label for="dob" *ngIf="applicantType == 'I'">{{labels.dateOfBirth}}<sub class="star_red_col" >*</sub></label>
+            <label for="dob" *ngIf="applicantType == 'C'">{{labels.dateOfIncorporation}}<sub class="star_red_col" >*</sub></label>
             <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
               formControlName="dateOfBirth" />
           </div>
@@ -157,7 +157,7 @@
 
 <!-- Footer -->
 <footer class="footer pf">
-  <div class="container">
+  <div class="container-fluid">
     <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>
 </footer>

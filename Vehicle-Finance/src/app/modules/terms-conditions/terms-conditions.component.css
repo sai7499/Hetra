@@ -58,3 +58,17 @@
             /* background: #fff; */
             padding: 10px;
         }
+
+        .margin_zero{
+    margin-top: 0;
+}  
+.content{
+    margin-bottom: 50px;
+}   
+li{
+    line-height: 30px;
+    font-weight: 500;
+}   
+#termsnconditions{
+    margin-top: -20px;
+}
