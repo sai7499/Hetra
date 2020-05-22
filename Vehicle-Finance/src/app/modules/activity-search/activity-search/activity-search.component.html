@@ -16,26 +16,17 @@
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
-                <span class="form-control " id="selectbox" name=""></span>
-                <span class="search-icon-left"></span>
-                <div class="dropdown-content">
-                    <a [routerLink]="['../pages/lead-creation']">Create Lead</a>
-                    <a [routerLink]="['../pages/dashboard/leads/new-leads']">Go to New Lead Dashboard</a>
-                    <a href="#">QDE</a>
-                    <a href="#">PD</a>
-                    <a [routerLink]="['../pages/dde']">DDE</a>
-                </div>
+                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value);">
 
-                <span class="search-icon-left"></span>
-                <button class="microphone-icon" title="Search by voice" [routerLink]="seletedRoute">GO</button>
+                <div class="dropdown-content" *ngIf="searchDiv">
+                    <div *ngFor="let item of searchLead" >
+                    <a (click)="getRoute(item.route, item.name)">{{item.name}}</a>
+                    </div>
+                
+                </div>
+                <span class="search-icon-left"></span> 
+                <button class="microphone-icon" title="Search by voice" (click)="navigateToModule()">GO</button>
             </div>
         </div>
     </div>
 </main>
-
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
-    </div>
-</footer>
