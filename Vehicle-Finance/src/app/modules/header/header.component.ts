@@ -14,9 +14,9 @@ export class HeaderComponent implements OnInit {
     private route: Router,
     private commomLovService: CommomLovService) {
 
-    const error = this.activatedRoute.snapshot.data.getLOV.Error;
-    if (error === '0') {
-      const LOVs = JSON.parse(this.activatedRoute.snapshot.data.getLOV.ProcessVariables.response);
+    const lovData = this.activatedRoute.snapshot.data.getLOV;
+    if (lovData.Error === '0') {
+      const LOVs = JSON.parse(lovData.ProcessVariables.response);
       this.commomLovService.setLovData(LOVs);
     }
   }
