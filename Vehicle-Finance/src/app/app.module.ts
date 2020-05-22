@@ -23,7 +23,6 @@ import { Authguard } from '@services/authguard';
 import { LoginService } from './modules/login/login/login.service';
 import { LoginModule } from './modules/login/login.module';
 import { CommonDataService } from '@services/common-data.service';
-
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';   // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';

@@ -19,7 +19,7 @@ export class LeadDedupeComponent implements OnInit {
   count = 0;
   radioValue = false;
   radioSelected: string;
-  radioSel = -1;
+  radioSel: number = -1;
   preSelectedIndex: number;
 
   p = 1;

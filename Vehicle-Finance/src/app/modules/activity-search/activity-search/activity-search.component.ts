@@ -86,6 +86,39 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     });
   }
 
+// getvalue(env: any) {
+//   const sections = [
+//     { name: 'Create Lead', route: '/pages/lead-creation' },
+//     { name: 'QDE' , route: 'USA'},
+//     { name: 'PD' , route: 'UK'},
+//     { name: 'DDE' , route: '/pages/dde' },
+//   ];
+//   console.log(this.searchText);
+//   this.searchLead = sections.filter( e => {
+//         //  return e.name.includes(env);
+//         env = env.toLowerCase();
+//         const eName = e.name.toLowerCase();
+//         if (eName.includes(env)) {
+//           return e;
+//         }
+//         this.searchDiv = true;
+//   }
+//   );
+//   console.log('SortedArray :', this.searchLead);
+// }
+
+// getRoute(route, name) {
+//   console.log('route', route, 'name', name);
+//   this.searchText = name;
+//   this.routingModule = route;
+//   this.searchDiv = false;
+
+// }
+
+// navigateToModule() {
+// this.route.navigateByUrl(this.routingModule);
+// }
+
   ngOnDestroy() {
     document
       .querySelector('body')

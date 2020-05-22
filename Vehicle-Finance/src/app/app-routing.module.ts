@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './modules/header/header.component';
+<<<<<<< HEAD
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
+=======
+>>>>>>> e080f5ab514111577cb44049e08688381cb516f1
 
 const routes: Routes = [
   {

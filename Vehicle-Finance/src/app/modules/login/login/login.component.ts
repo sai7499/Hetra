@@ -9,6 +9,14 @@ import { LoginStoreService } from '../../../services/login-store.service';
 import {storage} from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
 
+// import {GoogleMapsAPIWrapper} from '@agm/core';
+
+// import { GpsService } from 'src/app/services/gps.service';
+
+// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+
+
 import {GoogleMapsAPIWrapper} from '@agm/core';
 
 import { GpsService } from 'src/app/services/gps.service';
@@ -25,7 +33,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 export class LoginComponent implements OnInit {
 
   direction: any;
-
   labels: any = {};
 
 
@@ -51,6 +58,7 @@ export class LoginComponent implements OnInit {
   };
 
   isMobile: any;
+
 
   constructor(
     private loginService: LoginService,
@@ -153,9 +161,10 @@ export class LoginComponent implements OnInit {
     };
   }
 
+
   openMap() {
 
-    const dirUrl = 'https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167';
+    let dirUrl = 'https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167'
     window.open(dirUrl, '_blank', 'location=yes');
 
   }
