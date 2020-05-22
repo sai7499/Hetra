@@ -69,17 +69,6 @@ export class LeadDedupeComponent implements OnInit {
     this.preSelectedIndex = index;
     console.log(this.preSelectedIndex);
     console.log(index);
-  // this.radioValue = !this.radioValue;
-  // const seleted = e.target.checked;
-  // if (seleted) {
-  //    this.count++;
-  //  } else {
-  //    this.count--;
-  //  }
-  // this.isChecked = this.count !== 0 ? true : false;
-  // console.log(this.isChecked);
-  // console.log(this.count);
-  // console.log(this.radioValue);
   }
 
   OnItemPerPage(e) {

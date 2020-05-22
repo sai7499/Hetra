@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 
-import { LovDataService } from 'src/app/services/lov-data.service';
+// import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 
@@ -72,21 +72,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   constructor(
-    private lovData: LovDataService,
     private router: Router,
     private leadStoreService: LeadStoreService,
     private labelsData: LabelsService,
     private createLeadService: CreateLeadService,
     private commomLovService: CommomLovService,
     private loginStoreService: LoginStoreService
-  ) {
-    this.lovData.getLovData().subscribe((res: any) => {
-      this.lovLabels = res[0].leadCreation[0];
-      // console.log(this.lovLabels);
-      console.log('entity', this.lovLabels.entity);
-      console.log(this.lovLabels);
-    });
-  }
+  ) {}
 
   ngOnChanges() {
     console.log(this.test);
@@ -132,7 +124,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   getLOV() {
-    this.LOV = this.commomLovService.getLovData();
+    this.LOV = this.commomLovService.getLovData()
     console.log('Create Lead LOV data ---', this.LOV);
   }
 
@@ -161,8 +153,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     const lov = this.LOV.LOVS.businessDivision;
     lov.map(data => {
       businessDivision.map(ele => {
-        // tslint:disable-next-line: triple-equals
-        if (ele.bizDivId == data.key) {
+        if (ele.bizDivId === data.key) {
           const val = {
             key: ele.bizDivId,
             value: data.value
@@ -170,12 +161,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
           this.businessDivision.push(val);
         }
       });
-      //  console.log('this.businessDivision',this.businessDivision)
-      //  console.log('this.businessDivision length',this.businessDivision.length)
     });
 
-    // tslint:disable-next-line: triple-equals
-    if (this.businessDivision.length == 1) {
+    if (this.businessDivision.length === 1) {
       this.isBusinessDivisionEnable = true;
       this.getProductCategory(this.bizDivId);
     } else {
@@ -216,8 +204,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     console.log('SourcingChange --', this.sourcingChange);
 
     this.sourchingTypeData.map(element => {
-      // tslint:disable-next-line: triple-equals
-      if (element.sourcingChannelId == this.sourcingChange) {
+      if (element.sourcingChannelId === this.sourcingChange) {
         console.log('Sourching Type --', element.sourcingTypeDesc);
         const data = {
           key: element.sourcingChannelId,

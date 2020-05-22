@@ -18,7 +18,7 @@ export class CreateLeadService {
         const workflowId = environment.api.createLead.workflowId;
         const projectId = environment.projectId;
 
-        let email = localStorage.getItem('email');
+        const email = localStorage.getItem('email');
 
         const body: RequestEntity = {
             processId: processId,
@@ -31,7 +31,7 @@ export class CreateLeadService {
             projectId: projectId
         };
 
-        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
 
@@ -49,7 +49,7 @@ export class CreateLeadService {
             projectId: projectId
         };
 
-        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
 
@@ -65,7 +65,7 @@ export class CreateLeadService {
             projectId: projectId
         };
 
-        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
 }

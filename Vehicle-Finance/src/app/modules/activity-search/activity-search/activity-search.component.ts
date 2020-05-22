@@ -23,9 +23,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   firstLetter: string;
   branchName: string;
   roles = [];
-  // searchText: string;
   dropDown: boolean;
-  // searchLead = [];
   routingId: string;
   activityList = [];
   routingModule: string;
@@ -77,47 +75,12 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   }
 
   navigateToModule() {
-    // tslint:disable-next-line: no-shadowed-variable
-    commonRoutingUrl.map( element => {
-      // tslint:disable-next-line: triple-equals
-      if (element.routeId == this.routingId) {
+    commonRoutingUrl.map(element => {
+      if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);
       }
     });
   }
-
-// getvalue(env: any) {
-//   const sections = [
-//     { name: 'Create Lead', route: '/pages/lead-creation' },
-//     { name: 'QDE' , route: 'USA'},
-//     { name: 'PD' , route: 'UK'},
-//     { name: 'DDE' , route: '/pages/dde' },
-//   ];
-//   console.log(this.searchText);
-//   this.searchLead = sections.filter( e => {
-//         //  return e.name.includes(env);
-//         env = env.toLowerCase();
-//         const eName = e.name.toLowerCase();
-//         if (eName.includes(env)) {
-//           return e;
-//         }
-//         this.searchDiv = true;
-//   }
-//   );
-//   console.log('SortedArray :', this.searchLead);
-// }
-
-// getRoute(route, name) {
-//   console.log('route', route, 'name', name);
-//   this.searchText = name;
-//   this.routingModule = route;
-//   this.searchDiv = false;
-
-// }
-
-// navigateToModule() {
-// this.route.navigateByUrl(this.routingModule);
-// }
 
   ngOnDestroy() {
     document

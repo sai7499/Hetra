@@ -19,17 +19,17 @@ export class LovResolverService implements Resolve<any>{
         const workflowId = environment.api.getLOVs.workflowId;
         const projectId = environment.projectId;
 
-        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 
-        let body: RequestEntity = {
+        const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {},
             workflowId: workflowId,
             projectId: projectId
         };
-        // if(this.commonLovService.getLovData()){
-        //     return this.commonLovService.getLovData()
-        // }
+        if(this.commonLovService.getLovData()){
+            return this.commonLovService.getLovData();
+        }
         return this.httpService.post(url, body);
     }
 }
