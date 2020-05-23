@@ -1,0 +1,36 @@
+.row.top_bar {
+  border: 1px solid #ddd;
+  font-weight: 100;
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  background: white;
+ margin : 0 15px;
+
+  }
+  
+  .form-group.mb-0 {
+    margin-bottom: 3px;
+  }
+  
+  label.col-form-label {
+    width: 50%;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-weight: bolder;
+    font-size: 14px;
+  }
+  
+  label.col-form-label-two {
+    width: 50%;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-weight: bolder;
+    font-size: 14px;
+    float: right;
+  }
+  
+  .a_doc {
+    color: white;
+  }
+  

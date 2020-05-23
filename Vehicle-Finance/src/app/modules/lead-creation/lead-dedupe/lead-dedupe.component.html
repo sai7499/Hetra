@@ -1,7 +1,7 @@
 <main class="mar-top90">
   <div class="container-fluid">
     <!-- <h3>Lead - #1000002 </h3>-->
-    <h3 class="dedupe_head">Results For Lead Dedupe</h3>
+    <h3 class="dedupe_head">{{labels?.leadDedupetitle}}</h3>
     <div class="">
       <div class="container-fluid">
         <div class="row">
@@ -11,46 +11,48 @@
                 <tr class="table-head-bg">
                   <th>{{labels?.select}} <i class="fa fa-sort"></i></th>
                   <th>{{labels?.applicationId}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.branch}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.loanCreatedDate}} <i class="fa fa-sort"></i></th>
                   <th>{{labels?.loanCreatedBy}} <i class="fa fa-sort"></i></th>
-                  <th>{{labels?.loanAccountBranch}} <i class="fa fa-sort"></i></th>
-                  <th>{{labels?.businessDivision}} <i class="fa fa-sort"></i></th>
-                  <th>{{labels?.Product}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.product}} <i class="fa fa-sort"></i></th>
                   <th>{{labels?.loanAmount}} <i class="fa fa-sort"></i></th>
+                  <th>{{labels?.applicantName}}<i class="fa fa-sort"></i></th>
+                  <th>{{labels?.mobile}}<i class="fa fa-sort"></i></th>
                   <th>{{labels?.stage}} <i class="fa fa-sort"></i></th>
                   <th>{{labels?.status}} <i class="fa fa-sort"></i></th>
                   <th>{{labels?.reasonForRejection}} <i class="fa fa-sort"></i></th>
-                  <th>{{labels?.applicantName}}<i class="fa fa-sort"></i></th>
-                  <th>{{labels?.mobile}}<i class="fa fa-sort"></i></th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let dummy of (dummmyArray | paginate: { itemsPerPage: perPage, currentPage: p })">
-                  <td><input (change)="OnChecked($event)" class="checkbox" type="checkbox" /></td>
-                  <td>{{ dummy.createdDate }}</td>
+                <tr *ngFor="let dummy of (dummmyArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i=index">
+                  <td><input (click)="OnChecked(i)" class="radio" type="radio" [checked]="i===radioSel"/></td>
                   <td>{{ dummy.leadId }}</td>
-                  <td>{{ dummy.loanCreatedBy }}</td>
                   <td>{{ dummy.branch }}</td>
+                  <td>{{ dummy.createdDate }}</td>
+                  
+                  <td>{{ dummy.loanCreatedBy }}</td>
+                  
                   <td>{{ dummy.product }}</td>
                   <td>{{ dummy.loanAmount }}</td>
+                  <td>{{ dummy.applicantName }}</td>
+                  <td>{{ dummy.mobile }}</td>
                   <td>{{ dummy.stage }}</td>
                   <td class="reject_reason">{{ dummy.status }}</td>
                   <td>{{ dummy.reason }}</td>
-                  <td>{{ dummy.applicantName }}</td>
-                  <td>{{ dummy.mobile }}</td>
                 </tr>
               </tbody>
             </table>
             <div class="btn-sec clear-both">
-              <div class="records col-sm-6">
+              <!-- <div class="records col-sm-6">
                 <select class="form-control input-sm" (change)="OnItemPerPage($event)">
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
                 </select>
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+              </div> -->
+              <!-- <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
                 <nav class="col-sm-12 col-md-12 col-lg-12 page">
-                  <!-- <ul class="pagination">
+                  <ul class="pagination">
                                         <li class="disabled"><a href="#"><span>«</span></a></li>
                                         <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
                                         <li><a href="#">2</a></li>
@@ -60,16 +62,16 @@
                                         <li><a href="#"><span>»</span></a></li>
                                     </ul> -->
 
-                  <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
+                  <!-- <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
                   </pagination-controls>
-                </nav>
-              </div>
+                </nav> -->
+              <!-- </div> -->
 
               <div class="text-center">
-                <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"  data-toggle="modal" data-target="#proceedModal_without" [disabled]="isChecked">
+                <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"  data-toggle="modal" data-target="#proceedModal_without" [disabled]="radioSel !==-1">
                   Proceed as new Lead
                 </button>
-                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button" data-toggle="modal" data-target="#proceedModal_with" [disabled] = "!isChecked">
+                <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button" data-toggle="modal" data-target="#proceedModal_with" [disabled] = "radioSel ==-1">
                   Proceed with selected lead
                 </button>
 

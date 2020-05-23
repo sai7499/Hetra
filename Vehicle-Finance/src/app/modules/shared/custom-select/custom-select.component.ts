@@ -1,8 +1,14 @@
-import { Component, OnInit, Input, forwardRef, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  forwardRef,
+  OnChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { DataService } from '../../lead-creation/service/data.service';
 import { LovDataService } from 'src/app/services/lov-data.service';
-
 
 @Component({
   selector: 'app-vf-custom-select',
@@ -12,35 +18,49 @@ import { LovDataService } from 'src/app/services/lov-data.service';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CustomSelectComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class CustomSelectComponent
+  implements OnInit, OnChanges, ControlValueAccessor {
   @Input() className = 'form-control mandatory';
   @Input() defaultOption = {
     key: '',
-    value: '-- select one --'
+    value: '-- select one --',
   };
   isDisabled: boolean;
   // tslint:disable-next-line:no-input-rename
-  @Input('selectedOption') val: any ;
+  @Input('selectedOption') val: any;
   @Input() values: any[];
+
+  @Output() valueChange = new EventEmitter();
 
   onChange: any = () => {};
   onTouch: any = () => {};
 
+  // onValueChange(event) {
+  //   console.log('event', event);
+  // }
+
   set selectedOption(val) {
     this.val = val;
     this.onChange(this.val);
+    const selectedValue = this.getSelectedObject();
+    this.valueChange.emit(selectedValue);
+  }
+
+  getSelectedObject() {
+    return this.values
+      ? this.values.find((value) => String(value.key) === this.selectedOption)
+      : {};
   }
 
   get selectedOption() {
     return this.val;
   }
 
-  constructor(private lovDataService: LovDataService) {
-  }
+  constructor(private lovDataService: LovDataService) {}
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;
@@ -48,7 +68,7 @@ export class CustomSelectComponent implements OnInit, OnChanges, ControlValueAcc
 
   ngOnChanges() {
     if (this.selectedOption) {
-       this.onChange(this.val);
+      this.onChange(this.val);
     }
   }
 

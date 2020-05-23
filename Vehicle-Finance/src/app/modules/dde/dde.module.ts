@@ -8,13 +8,9 @@ import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
 import { DdeRoutingModule } from './dde.routing.module';
 import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
-// import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-// import { SharedModule } from '../shared/shared.module';
-// import { CommonModule } from '@angular/common';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
-import { ValuationComponent } from './valuation/valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
@@ -27,6 +23,15 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
 
+import { ScoreCardComponent } from './score-card/score-card.component';
+
+import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
+import { CamComponent } from './cam/cam.component';
+import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+// import { ValuationComponent } from './vehicle-valuation-router/valuation/valuation.component';
+// import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+// import { CamComponent } from './cam/cam.component';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +40,6 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
     PdReportComponent,
     VehicleValuationComponent,
     ViabilityListComponent,
-    ValuationComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
     SourcingDdeComponent,
@@ -44,7 +48,11 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
     ApplicantListComponent,
     VehicleListComponent,
     FleetDetailsComponent,
-    TrackVehicleComponent
+    TrackVehicleComponent,
+    ScoreCardComponent,
+    CreditConditionsComponent,
+    CamComponent,
+    TvrDetailsComponent
   ],
   imports: [
     DdeRoutingModule,

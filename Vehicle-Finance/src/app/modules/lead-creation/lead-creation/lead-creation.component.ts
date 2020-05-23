@@ -64,6 +64,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   ) {
     this.lovData.getLovData().subscribe((res: any) => {
       this.lovLabels = res[0].leadCreation[0];
+      console.log('entity',this.lovLabels.entity)
       console.log(this.lovLabels);
     });
 
@@ -153,18 +154,20 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   onSubmit() {
     const formValue = this.createLeadForm.value;
-    const leadModel: any = { ...formValue };
+    const leadModel: any = { ...formValue,professionList : this.ProfessionList };
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
-
+    const entityObject = this.lovLabels.entity.find(value => value.key=== leadModel.entity)
+    console.log('entityObject', entityObject)
     const applicantModel = {
       first_name: leadModel.nameOne,
       middle_name: leadModel.nameTwo,
       last_name: leadModel.nameThree,
       mobile: leadModel.mobile,
-      dateOfBirth: leadModel.dateOfBirth
+      dateOfBirth: leadModel.dateOfBirth,
+      entity : entityObject
     };
-
+    
     // this.loanLeadDetails = {
     //   bizDivision: leadModel.bizDivision,
     //   productCategory: leadModel.productCategory,
@@ -219,13 +222,14 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         console.log('Success Message', message);
 
         if (isDedupeAvailable) {
+          const leadDedupeData = response.ProcessVariables.leadDedupeResults;
+          this.leadStoreService.setDedupeData(leadDedupeData);
           this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
           return;
         }
         this.router.navigateByUrl('pages/lead-section');
       }
     })
-
     this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 

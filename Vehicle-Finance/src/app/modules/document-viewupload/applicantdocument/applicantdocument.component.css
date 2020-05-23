@@ -41,7 +41,9 @@
     @media (min-width: 992px){
         .form .col-md-2 {
     width: 20%;
-}
+        }
     }
 
-  
+    #saveNext{
+        margin-bottom: 50px;
+      }
