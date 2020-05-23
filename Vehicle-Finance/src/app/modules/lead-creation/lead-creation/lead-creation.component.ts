@@ -124,7 +124,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   getLOV() {
-    this.LOV = this.commomLovService.getLovData()
+    this.commomLovService.getLovData().subscribe(lov => this.LOV = lov);
     console.log('Create Lead LOV data ---', this.LOV);
   }
 
