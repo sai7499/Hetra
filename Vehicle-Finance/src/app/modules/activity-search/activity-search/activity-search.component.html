@@ -20,7 +20,7 @@
                 <span class="search-icon-left"></span>
                 <div class="dropdown-content">
                     <a [routerLink]="['../pages/lead-creation']">Create Lead</a>
-                    <a [routerLink]="['../pages/dashboard/leads/new-leads']">Go to New Lead Dashboard</a>
+                    <a [routerLink]="['../pages/dashboard/leads/new-leads']" (click)="onSelectDashboard()">Go to New Lead Dashboard</a>
                     <a href="#">QDE</a>
                     <a href="#">PD</a>
                     <a [routerLink]="['../pages/dde']">DDE</a>

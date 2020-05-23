@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginStoreService } from '../../../services/login-store.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   firstLetter: string;
   branchName: string;
   roles = [];
+  // isCredit = true;
 
   bodyClickEvent = event => {
     if (event.target.id === 'profileDropDown') {
@@ -23,7 +25,10 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     this.openProfile = false;
   }
 
-  constructor(private loginStoreService: LoginStoreService) { }
+  constructor(
+    private loginStoreService: LoginStoreService,
+    private dashboardService: DashboardService
+    ) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -35,6 +40,11 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     document
       .querySelector('body')
       .addEventListener('click', this.bodyClickEvent);
+  }
+
+  onSelectDashboard() {
+    this.dashboardService.leadsChange(true);
+    console.log('action - search');
   }
 
   ngOnDestroy() {

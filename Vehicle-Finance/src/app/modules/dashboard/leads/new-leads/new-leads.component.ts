@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-new-leads',
@@ -12,8 +13,12 @@ export class NewLeadsComponent implements OnInit {
   itemsPerPage = 5;
   labels: any = {};
   q;
+  isCredit: boolean;
 
-  constructor(private labelsData: LabelsService) {
+  constructor(
+    private labelsData: LabelsService,
+    private dashboardSevice: DashboardService
+    ) {
     this.newArray =  [
       {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'},
@@ -50,6 +55,7 @@ export class NewLeadsComponent implements OnInit {
       {leadId: 1000017, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'},
     ];
+    this.getMyLeads();
    }
 
    ngOnInit() {
@@ -57,6 +63,15 @@ export class NewLeadsComponent implements OnInit {
       data => {
         this.labels = data;
       }
+    );
+
+    this.dashboardSevice.isCreditShow.subscribe(value => {
+      this.isCredit = value;
+    });
+  }
+
+  async getMyLeads() {
+    const myLeads = await this.dashboardSevice.myLeads().subscribe(res => console.log(res)
     );
   }
 
