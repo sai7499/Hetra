@@ -6,14 +6,24 @@ import { TextOnlyModalComponent } from './Modals/text-only-modal/text-only-modal
 import { LeadSectionHeaderComponent } from './lead-section-header/lead-section-header.component';
 import { Routes,RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
+import { IdentityDetailsComponent } from './identity-details/identity-details.component';
+import { ReactiveFormsModule} from '@angular/forms';
+import { AddressDetailsComponent } from './address-details/address-details.component'
 
 
 @NgModule({
-  declarations: [CustomSelectComponent, TextOnlyModalComponent, LeadSectionHeaderComponent, ProfileComponent],
-  imports: [CommonModule, FormsModule,RouterModule],
+  declarations: [CustomSelectComponent, 
+                 TextOnlyModalComponent, 
+                 LeadSectionHeaderComponent, 
+                 ProfileComponent, 
+                 IdentityDetailsComponent, 
+                 AddressDetailsComponent],
+  imports: [CommonModule, FormsModule,RouterModule, ReactiveFormsModule],
   exports: [
     CustomSelectComponent,
     LeadSectionHeaderComponent,
-    ProfileComponent]
+    ProfileComponent,
+    AddressDetailsComponent
+    ]
 })
 export class SharedModule {}
