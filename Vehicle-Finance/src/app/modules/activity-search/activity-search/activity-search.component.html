@@ -16,13 +16,11 @@
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
             <div class="search">
-                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value);">
-
-                <div class="dropdown-content" *ngIf="searchDiv">
+                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value)">
+                <div class="dropdown-content" *ngIf="dropDown">
                     <div *ngFor="let item of searchLead" >
-                    <a (click)="getRoute(item.route, item.name)">{{item.name}}</a>
-                    </div>
-                
+                    <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
+                    </div>                
                 </div>
                 <span class="search-icon-left"></span> 
                 <button class="microphone-icon" title="Search by voice" (click)="navigateToModule()">GO</button>

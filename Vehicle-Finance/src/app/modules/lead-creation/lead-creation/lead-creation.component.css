@@ -169,6 +169,11 @@ select#select_main_button_leadco {
 .back_color {
     color: #fff;
 }
+
+.dropdownDisable{
+    pointer-events: none;
+    opacity: 0.4;
+}
 .star_red_col
 {
     color: #da3939;
