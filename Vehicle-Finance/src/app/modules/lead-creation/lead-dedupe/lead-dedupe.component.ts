@@ -15,16 +15,17 @@ export class LeadDedupeComponent implements OnInit {
   isSubmit: boolean;
   isChecked: boolean;
   isModal: boolean;
+  // isDisabled: boolean = true;
   count = 0;
   radioValue = false;
   radioSelected: string;
-  radioSel : number= -1;
-  preSelectedIndex : number;
+  radioSel: number = -1;
+  preSelectedIndex: number;
 
-  p: number = 1;
-  perPage: number = 5;
+  p = 1;
+  perPage = 5;
 
-  dummmyArray = [];
+  dedupeArray = [];
 
   constructor( private labelsData: LabelsService, private leadStoreService: LeadStoreService) {
     this.labelsData.getLabelsData().subscribe(
@@ -38,9 +39,10 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dummy();
+    // this.dummy();
     const dedupeData = this.leadStoreService.getDedupeData();
     console.log('dedupeData', dedupeData);
+    this.dedupeArray = dedupeData;
   }
 
   OnProceed() {
@@ -67,17 +69,6 @@ export class LeadDedupeComponent implements OnInit {
     this.preSelectedIndex = index;
     console.log(this.preSelectedIndex);
     console.log(index);
-  // this.radioValue = !this.radioValue;
-  // const seleted = e.target.checked;
-  // if (seleted) {
-  //    this.count++;
-  //  } else {
-  //    this.count--;
-  //  }
-  // this.isChecked = this.count !== 0 ? true : false;
-  // console.log(this.isChecked);
-  // console.log(this.count);
-  // console.log(this.radioValue);
   }
 
   OnItemPerPage(e) {
@@ -87,26 +78,6 @@ export class LeadDedupeComponent implements OnInit {
 
   OnSubmit() {
     this.isModal = true;
-  }
-
-  dummy() {
-    for (let i = 0; i <= 500; i++) {
-      this.dummmyArray.push({
-        applicantId: `${i}`,
-        loanCreatedBy: 'person',
-        createdDate: '05-03-2020',
-        leadId: '11257009',
-        branch: 'chennai',
-        businessDivision: 'Vehicle Finance',
-        product: 'New CV',
-        loanAmount: '500000',
-        stage: 'Lead Creation',
-        status: 'rej or App',
-        reason: 'Not Submitted',
-        applicantName: 'Mathew',
-        mobile: '8282828145'
-      });
-    }
   }
 
   closeModal() {

@@ -29,7 +29,7 @@ export class CustomSelectComponent
     key: '',
     value: '-- select one --',
   };
-  isDisabled: boolean;
+  @Input() isDisabled: boolean;
   // tslint:disable-next-line:no-input-rename
   @Input('selectedOption') val: any;
   @Input() values: any[];
