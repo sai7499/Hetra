@@ -179,7 +179,7 @@ getRegisteredAddressValue(){
 
 
 hasRoute(){
- this.isSalesOrCredit = this.router.url.includes('/dde/credit')?'credit': 'sales';
+ this.isSalesOrCredit = this.router.url.includes('pages/applicant-details/address-details')?'credit': 'sales';
 }
 
 
