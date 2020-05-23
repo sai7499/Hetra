@@ -7,6 +7,9 @@ import { LeadSectionHeaderComponent } from './lead-section-header/lead-section-h
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
 import { ApplicantListComponent } from './applicant-list/applicant-list.component';
+import { IdentityDetailsComponent } from './identity-details/identity-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddressDetailsComponent } from './address-details/address-details.component';
 
 @NgModule({
   declarations: [
@@ -15,13 +18,16 @@ import { ApplicantListComponent } from './applicant-list/applicant-list.componen
     LeadSectionHeaderComponent,
     ProfileComponent,
     ApplicantListComponent,
+    IdentityDetailsComponent,
+    AddressDetailsComponent,
   ],
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
   exports: [
     CustomSelectComponent,
     LeadSectionHeaderComponent,
     ProfileComponent,
     ApplicantListComponent,
+    AddressDetailsComponent,
   ],
 })
 export class SharedModule {}
