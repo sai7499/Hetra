@@ -28,6 +28,7 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
     ProfileComponent,
     ApplicantListComponent,
     AddressDetailsComponent,
+    IdentityDetailsComponent
   ],
 })
 export class SharedModule {}

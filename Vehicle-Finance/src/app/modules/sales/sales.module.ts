@@ -6,6 +6,7 @@ import { SalesComponent } from './sales.component';
 import { SalesRoutingModule } from './sales.module.routing';
 import { DdeSharedModule } from '../dde/shared/shared.module';
 
+
 @NgModule({
   imports: [
     SalesRoutingModule,
