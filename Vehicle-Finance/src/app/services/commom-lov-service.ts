@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class CommomLovService {
         this.lovData = LOVsData;
     }
 
-    getLovData(){
-        return this.lovData;
+    getLovData(): Observable<any>{
+        return of(this.lovData);
     }
 }

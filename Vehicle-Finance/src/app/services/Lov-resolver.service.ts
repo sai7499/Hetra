@@ -8,10 +8,10 @@ import { CommomLovService } from '../services/commom-lov-service';
 
 @Injectable()
 export class LovResolverService implements Resolve<any>{
-
+    lovData: any;
     constructor(
         private httpService: HttpService,
-        private commonLovService : CommomLovService) { }
+        private commonLovService: CommomLovService) { }
 
     resolve(route: ActivatedRouteSnapshot): Observable<any> {
 
@@ -27,8 +27,9 @@ export class LovResolverService implements Resolve<any>{
             workflowId: workflowId,
             projectId: projectId
         };
-        if(this.commonLovService.getLovData()){
-            return this.commonLovService.getLovData();
+        this.commonLovService.getLovData().subscribe(lov => this.lovData = lov);
+        if (this.lovData) {
+            return this.lovData;
         }
         return this.httpService.post(url, body);
     }
