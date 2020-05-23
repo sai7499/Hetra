@@ -13,7 +13,6 @@ export class ApplicantDetailsComponent implements OnInit {
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
-      console.log('url', url, 'state');
       this.locationIndex = this.getLocationIndex(url);
     });
   }
