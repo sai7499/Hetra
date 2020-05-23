@@ -5,6 +5,7 @@ import { ApplicantDetailsComponent } from './applicant-details.component';
 import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { IdentityDetailsComponent } from './identity-details/identity-details.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
+import { DocumentUploadComponent } from './document-upload/document-upload.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'address-details',
         component: AddressDetailsComponent,
+      },
+      {
+        path: 'document-upload',
+        component: DocumentUploadComponent,
       },
     ],
   },
