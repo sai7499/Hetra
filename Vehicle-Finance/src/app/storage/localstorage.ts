@@ -37,5 +37,17 @@ export const storage = {
 
     removeUserId(){
         localStorage.removeItem('userId');
+    },
+    
+
+    getRoleType() {
+        let role = localStorage.getItem('role')
+            ? localStorage.getItem('role')
+            : ''
+        return role;
+    },
+
+    removeRoleType() {
+        localStorage.removeItem('role');
     }
 }

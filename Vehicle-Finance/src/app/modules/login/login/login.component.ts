@@ -106,9 +106,11 @@ export class LoginComponent implements OnInit {
       const response = res;
       if (response.status) {
         const token = response.token;
-        console.log('token', token);
+        const role = response.role;
+        console.log('response', response);
         localStorage.setItem('token', token);
-        localStorage.setItem('email', this.loginData.email)
+        localStorage.setItem('email', this.loginData.email);
+        localStorage.setItem('role', role);
 
         this.loginService.getUserDetails().subscribe((res: any) => {
           const response = res;
