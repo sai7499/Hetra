@@ -1,0 +1,54 @@
+<main class="mar-top90">
+  <div class="container overflow-hidden">
+    <h3 class="dashboard">QDE - Reference</h3>
+    <app-dde-header></app-dde-header>
+
+    <!--progress bar-->
+    <div class="multisteps-form">
+      <div class="multisteps-form__progress">
+        <button
+          class="multisteps-form__progress-btn js-active"
+          id="sales_additional_applicant_basic"
+          type="button"
+        >
+          Basic Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_additional_applicant_identity"
+          type="button"
+        >
+          Identity Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_additional_applicant_address"
+          type="button"
+        >
+          Address Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_applicant_document_upload"
+          type="button"
+        >
+          Document Upload
+        </button>
+      </div>
+      <router-outlet></router-outlet>
+
+      <div class="btn-sec clear-both">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+          <button class="btn btn-primary dash_href" type="button">
+            <a href="sales_applicant_details.html">Back</a>
+          </button>
+          <button class="btn btn-primary" id="submit">Save</button>
+          <button class="btn btn-primary dash_href" type="button">
+            <a href="sales_additional_applicant_identity.html">Next</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

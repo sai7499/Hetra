@@ -14,7 +14,6 @@ import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
-import { ApplicantListComponent } from './applicant-list/applicant-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
@@ -25,8 +24,7 @@ import { CamComponent } from './cam/cam.component';
 
 import { ScoreCardComponent } from './score-card/score-card.component';
 
-import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
-
+import { CreditConditionsComponent } from './credit-conditions/credit-conditions.component';
 
 @NgModule({
   declarations: [
@@ -38,15 +36,13 @@ import {CreditConditionsComponent} from './credit-conditions/credit-conditions.c
     SourcingDdeComponent,
     ExposureDetailsComponent,
     IncomeDetailsComponent,
-    ApplicantListComponent,
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
     TvrDetailsComponent,
     CamComponent,
     ScoreCardComponent,
-    CreditConditionsComponent
-
+    CreditConditionsComponent,
   ],
   imports: [
     DdeRoutingModule,
@@ -55,7 +51,7 @@ import {CreditConditionsComponent} from './credit-conditions/credit-conditions.c
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    DdeSharedModule
-  ]
+    DdeSharedModule,
+  ],
 })
-export class DdeModule { }
+export class DdeModule {}

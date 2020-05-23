@@ -1,0 +1,265 @@
+<div class="content">
+  <form
+    class="multisteps-form__form"
+    method="POST"
+    style="height: 400px;"
+    [formGroup]="basicForm"
+  >
+    <div
+      class="multisteps-form__panel js-active basic_scroll js-active"
+      data-animation="scaleIn"
+    >
+      <div class="btn-sec clear-both row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="Vechical Type">Entity</label>
+          <select
+            id="select_main_button"
+            class="form-control"
+            name=""
+            (change)="onIndividualChange($event)"
+          >
+            <option value="individual"> Individual </option>
+            <option value="non-individual"> Non-Individual </option>
+          </select>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="Vechical Type">Relationship with Lead</label>
+          <select class="form-control" id="">
+            <option value="">-- select one -- </option>
+            <option value="individual"> Applicant </option>
+            <option value="non-individual"> Co-applicant </option>
+            <option value="non-individual"> Guarantor </option>
+          </select>
+        </div>
+        <div class="col-sm-7 text-right"></div>
+      </div>
+      <ng-container formArrayName="details">
+        <div
+          id="individual_section_start"
+          [formGroupName]="0"
+          *ngIf="isIndividual"
+        >
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="first_name">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="first_name"
+                readonly=""
+                value="Deepika"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Middle Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="middle_name"
+                readonly=""
+                value=""
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="last_name">Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="last_name"
+                value="Deepika"
+                readonly=""
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="mobile_number">Mobile Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="mobile_number"
+                name="mobile_number"
+                value="8974563210"
+                readonly=""
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="date_of_birth">DOB</label>
+              <div
+                class="input-group input-medium"
+                id="date_of_birth"
+                name="date_of_birth"
+              >
+                <span class="input-group-btn">
+                  <button class="btn btn-default">
+                    <i class="fa fa-calendar" id="datepicker"></i>
+                  </button>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="datepicker"
+                  value="27-05-1974"
+                  readonly=""
+                />
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="guardian_name"
+                >Guardian Name(applicable for minor applicant)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="guardian_name"
+                name="guardian_name"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="father_name">Father Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="father_name"
+                name="father_name"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="spouse_name">Spouse Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="spouse_name"
+                name="spouse_name"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="maiden_name">Mother's Maiden Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="maiden_name"
+                name="maiden_name"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="occupation">Occupation</label>
+              <select class="form-control" id="occupation" name="occupation">
+                <option>Occupation 1</option>
+                <option>Occupation 2</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="nationality">Nationality</label>
+              <select class="form-control" id="nationality" name="nationality">
+                <option>Select</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer Category</label>
+              <select
+                class="form-control"
+                id="customer_category"
+                name="customer_category"
+              >
+                <option>Select</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="email_id">Email ID</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email_id"
+                name="email_id"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="alternate_email_id">Alternate email ID</label>
+              <input
+                type="text"
+                class="form-control"
+                id="alternate_email_id"
+                name="alternate_email_id"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="preffered_language"
+                >Preferred Language for Communication</label
+              >
+              <select
+                class="form-control"
+                id="preffered_language"
+                name="preffered_language"
+              >
+                <option>Select</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div
+          id="non_individual_section_start"
+          *ngIf="!isIndividual"
+          [formGroupName]="0"
+        >
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="non_occupation">Occupation</label>
+              <select
+                class="form-control"
+                id="non_occupation"
+                name="non_occupation"
+              >
+                <option>Occupation 1</option>
+                <option>Occupation 2</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer Category</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Lead Created">Email ID</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Lead Created By">Alternate Email ID</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="title">Preferred Language for Communication</label>
+              <select class="form-control">
+                <option>Select</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="channel">Company 1</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="sourcing type">Company 2</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="sourcing code">Company 3</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="entity">Date Of Incorporation</label>
+              <div class="input-group input-medium">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" disabled="">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+                <input type="text" class="form-control" id="date" disabled="" />
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="title">Number Of Directions</label>
+              <input type="text" class="form-control" id="amount" />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>
