@@ -10,6 +10,8 @@
           class="multisteps-form__progress-btn js-active"
           id="sales_additional_applicant_basic"
           type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 0 }"
+          [routerLink]="['./basic-details']"
         >
           Basic Details
         </button>
@@ -17,6 +19,8 @@
           class="multisteps-form__progress-btn"
           id="sales_additional_applicant_identity"
           type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 1 }"
+          [routerLink]="['./identity-details']"
         >
           Identity Details
         </button>
@@ -24,6 +28,8 @@
           class="multisteps-form__progress-btn"
           id="sales_additional_applicant_address"
           type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 2 }"
+          [routerLink]="['./address-details']"
         >
           Address Details
         </button>
@@ -31,6 +37,7 @@
           class="multisteps-form__progress-btn"
           id="sales_applicant_document_upload"
           type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 3 }"
         >
           Document Upload
         </button>

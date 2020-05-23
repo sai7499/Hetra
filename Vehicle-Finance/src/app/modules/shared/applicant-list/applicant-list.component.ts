@@ -9,7 +9,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 })
 export class ApplicantListComponent implements OnInit {
   labels: any = {};
-
+  showAddApplicant: boolean;
   applicantUrl: string;
 
   constructor(private labelsData: LabelsService, private location: Location) {}
@@ -19,8 +19,10 @@ export class ApplicantListComponent implements OnInit {
 
     console.log('currentUrl', currentUrl);
 
+    this.isShowAddaApplicant(currentUrl);
+
     if (currentUrl.includes('sales')) {
-      this.applicantUrl = '/pages/sales-applicant-details';
+      this.applicantUrl = '/pages/sales-applicant-details/basic-details';
     } else {
       this.applicantUrl = '/pages/applicant-details/basic-data';
     }
@@ -34,5 +36,9 @@ export class ApplicantListComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  isShowAddaApplicant(currentUrl: string) {
+    this.showAddApplicant = !currentUrl.includes('dde');
   }
 }
