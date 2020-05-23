@@ -1,11 +1,12 @@
 .row.top_bar {
-  margin: 0px;
   border: 1px solid #ddd;
   font-weight: 100;
   border-radius: 6px;
   padding-top: 5px;
   padding-bottom: 0px;
   background: white;
+ margin : 0 15px;
+
   }
   
   .form-group.mb-0 {

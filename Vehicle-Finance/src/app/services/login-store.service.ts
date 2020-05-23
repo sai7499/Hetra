@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CommonDataService } from './common-data.service';
 
 @Injectable({
     providedIn: 'root'
@@ -6,16 +7,30 @@ import { Injectable } from '@angular/core';
 
 export class LoginStoreService {
 
-roleAndUserDetails ;
+    constructor(private cds: CommonDataService){}
 
-    setRolesAndUserDetails(roles, userDetails) {
+    roleAndUserDetails;
+    emailId: string;
+
+    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList) {
         this.roleAndUserDetails = {
             roles,
-            userDetails
+            userDetails,
+            businessDivisionList,
+            activityList
         }
+        this.cds.changeCdsStatus(true);
     }
 
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
+    }
+
+    setEmailId(email) {
+        this.emailId = email;
+    }
+
+    getEmailId(){
+        return this.emailId;
     }
 }

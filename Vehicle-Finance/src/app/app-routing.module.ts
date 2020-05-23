@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './modules/header/header.component';
+import { LovResolverService } from './services/Lov-resolver.service';
+import { Authguard } from '@services/authguard';
 
 const routes: Routes = [
   {
@@ -23,6 +25,10 @@ const routes: Routes = [
   {
     path: 'pages',
     component: HeaderComponent,
+    canActivate: [Authguard],
+    resolve: {
+      getLOV: LovResolverService
+    },
     children: [
       {
         path: 'lead-creation',

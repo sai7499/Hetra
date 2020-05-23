@@ -12,18 +12,20 @@
     padding-top: 7px;
 }
 .row{
-    margin-left: 1px;
-    background-color: white;
-    max-width: 1138px;
-    
+    max-width: 100%;
 }
 
-.btn-primary {
-    padding: 8px 6px; 
-}
 
 #sales_credit_score
-        {
-            background: #fff;
-            padding: 10px;
-        }
+{
+    background: #fff;
+     padding: 10px;
+    width: 100%;
+ }
+ .table td, .table th{
+     text-align: left;
+     
+ }
+ .table th{
+     padding: 10px;
+ }
