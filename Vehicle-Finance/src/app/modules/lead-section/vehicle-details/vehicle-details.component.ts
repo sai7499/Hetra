@@ -89,7 +89,7 @@ export class VehicleDetailComponent implements OnInit {
       fastTag: new FormControl(''),
       others: new FormControl(''),
       discount: new FormControl(''),
-      finalAssetCost: new FormControl('500000', ),
+      finalAssetCost: new FormControl('' ),
       idv: new FormControl(''),
       insuranceValidity: new FormControl(''),
       insuranceCopy: new FormControl(''),
@@ -148,21 +148,21 @@ export class VehicleDetailComponent implements OnInit {
     // }
 
     onFormSubmit() {
-      const formModel = this.vehicleForm.value;
-      console.log('formmodel', formModel);
-      const vehicleModel = {...formModel};
+      // const formModel = this.vehicleForm.value;
+      // console.log('formmodel', formModel);
+      // const vehicleModel = {...formModel};
       this.isAlert = false;
       setTimeout(() => {
         this.isAlert = true;
-      }, 1000);
+      }, 1500);
       // this.isAlert = true
-      this.leadStoreService.setVehicleDetails(vehicleModel);
+      // this.leadStoreService.setVehicleDetails(vehicleModel);
 
     }
     getData() {
-
-      this.vehicleDetails = this.leadStoreService.getVehicleDetails();
-
+      
+      this.vehicleDetails =this.leadStoreService.getVehicleDetails();
+      console.log(this.vehicleDetails)
       // tslint:disable-next-line: no-shadowed-variable
       this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetMake.forEach(element => {
         // tslint:disable-next-line: radix
@@ -174,7 +174,7 @@ export class VehicleDetailComponent implements OnInit {
         }
       }));
       // tslint:disable-next-line: no-shadowed-variable
-      this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetModel.forEach(element => {
+      this.vehicleDetails.findIndex(x => x.assetModel === this.vehicleLov.assetModel.forEach(element => {
         // tslint:disable-next-line: radix
         if (parseInt(x.assetModel) === element.key) {
           x.assetModel = element;

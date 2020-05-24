@@ -1,41 +1,51 @@
 export const storage = {
-    
-    getToken(){
+
+    getToken() {
         let token = localStorage.getItem('token')
-                    ? localStorage.getItem('token')
-                    : ''
+            ? localStorage.getItem('token')
+            : ''
         return token;
     },
 
-    setToken(token){
+    setToken(token) {
         localStorage.setItem('token', token ? token : '');
     },
 
-    removeToken(){
+    removeToken() {
         localStorage.removeItem('token');
     },
 
 
-    getUserId(){
+    getUserId() {
         let token = localStorage.getItem('userId')
-                    ? localStorage.getItem('userId')
-                    : ''
+            ? localStorage.getItem('userId')
+            : ''
         return token;
     },
 
-    setUserId(userId){
+    setUserId(userId) {
         localStorage.setItem('userId', userId ? userId : '');
     },
 
-  
+
     getEmployeeId() {
         let token = localStorage.getItem('employeeId')
-                    ? localStorage.getItem('employeeId')
-                    : ''
-        return token; 
+            ? localStorage.getItem('employeeId')
+            : ''
+        return token;
     },
 
-    removeUserId(){
+    removeUserId() {
         localStorage.removeItem('userId');
+    },
+
+    checkToken() {
+        if (localStorage.getItem('token')) {
+            return true
+        }
+        else{
+            return false
+        }
     }
+
 }

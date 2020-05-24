@@ -13,21 +13,25 @@ import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/c
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor.service';
 
-// import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
-// import { HttpClientModule } from '@angular/common/http';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule} from './modules/shared/shared.module';
-
+import { LovResolverService } from '@services/Lov-resolver.service';
+import { CommomLovService } from '@services/commom-lov-service';
+import { UtilityService } from '@services/utility.service';
+import { Authguard } from '@services/authguard';
+import { LoginService } from './modules/login/login/login.service';
+import { LoginModule } from './modules/login/login.module';
+import { CommonDataService } from '@services/common-data.service';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';   // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +40,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    LoginModule,
     AgmCoreModule.forRoot({ // @agm/core
       apiKey: 'AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw',
     }),
@@ -55,9 +60,16 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     CollapseModule,
     BrowserAnimationsModule,
     CommonModule,
+    LovResolverService,
+    CommomLovService,
+    UtilityService,
+    Authguard,
+    LoginService,
+    CommonDataService,
     GoogleMapsAPIWrapper,
     LocationAccuracy,
-    Geolocation
+    Geolocation,
+    Camera
   ],
 
   bootstrap: [AppComponent]

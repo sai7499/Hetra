@@ -1,0 +1,25 @@
+.mar-top19 {
+    margin-top: 18px;
+}
+
+.text-underline{
+    text-decoration: underline;
+    color: darkslateblue;
+}
+
+.cam_table_proposed {
+    width: 98%;
+    margin: 0 auto;
+}
+
+.bank_name {
+    background-color: #f7f7f7;
+}
+
+.padding-10 {
+    padding: 10px;
+}
+
+.dash_href {
+    margin: 5px;
+}
