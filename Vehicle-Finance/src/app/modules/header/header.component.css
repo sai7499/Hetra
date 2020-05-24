@@ -1,3 +1,9 @@
+.hetra{
+    cursor: pointer !important;
+}
+.search input{
+    height: 44px;
+}
 .unique {
     list-style-type: none;
     cursor: pointer;

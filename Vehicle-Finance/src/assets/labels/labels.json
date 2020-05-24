@@ -46,7 +46,7 @@
     "submit": "Submit",
     "ok": "OK",
     "sourceDetailsTitle": "Sourcing Details",
-    "leadNumber": "Lead Number",
+    "leadNumber": "Lead ID",
     "leadCreatedDate": "Lead Created Date",
     "leadCreatedBy": "Lead Created By",
     "next": "Next",
@@ -493,10 +493,10 @@
     "spokenTo": "Spoken to",
     "familyMembers": "Family Members",
     "relationWithApplicant": "Relation with Applicant",
-    "date": "Date",
+    
     "time": "Time",
     "tvrDoneByName": "TVR done by name",
-    "eCode": "E code",
+   
     "sign": "Sign",
     "office": "Office",
     "workExperience": "Work Experience",
@@ -635,8 +635,11 @@
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
-    "keyFinancialTitle": "KEY FINANCIAL"
-
-
-
+    "keyFinancialTitle": "KEY FINANCIAL",
+    "creditCondition": "Credit Condition",
+    "salesResponse" : "Sales Response",
+    "supportDocument": "Support Document",
+    "accepted" : "Accepted",
+    "notAccepted": "Not Accepted",
+    "defferedTillDate" : "Deffered till date"
 }

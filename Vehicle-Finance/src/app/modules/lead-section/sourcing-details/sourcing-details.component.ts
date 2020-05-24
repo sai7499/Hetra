@@ -19,6 +19,7 @@ export class SourcingDetailsComponent implements OnInit {
   SourcingChange: any
   text:any;
   id: any;
+  isAlert : boolean = true
 
 
   constructor(
@@ -153,9 +154,9 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   getdata(){
-   this.id= this.leadStoreService.getLeadCreation();
-   console.log(this.id)
-   
+   this.id = this.leadStoreService.getLeadCreation();
+   console.log(this.id);
+
 
 
    this.sourcingDetailsForm.controls["product"].setValue(this.id.productCategory)
@@ -215,12 +216,16 @@ export class SourcingDetailsComponent implements OnInit {
   // }
 
   onFormSubmit() {
-    this.router.navigate(['/pages/lead-section/applicant-details']);
+    this.isAlert = false;
+    setTimeout(() => {
+      this.isAlert = true;
+    }, 1000);
+    // this.router.navigate(['/pages/lead-section/applicant-details']);
     console.log('sourcing form', this.sourcingDetailsForm.value);
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = {...formValue};
     this.leadStoreService.setSourcingDetails(sourcingModel);
-    
+
   }
 
 }
