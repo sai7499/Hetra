@@ -56,6 +56,7 @@ export class NewLeadsComponent implements OnInit {
       priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'},
     ];
     this.getMyLeads();
+    console.log('dashboard const');
    }
 
    ngOnInit() {
@@ -70,9 +71,11 @@ export class NewLeadsComponent implements OnInit {
     });
   }
 
-  async getMyLeads() {
-    const myLeads = await this.dashboardSevice.myLeads().subscribe(res => console.log(res)
-    );
+   getMyLeads() {
+    this.dashboardSevice.myLeads().subscribe( (res:any) =>{
+const response = res;
+console.log('dash',res);
+    })
   }
 
 }

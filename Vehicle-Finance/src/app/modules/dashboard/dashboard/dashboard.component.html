@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid mar-bottom" *ngIf="isCredit">
+    <div class="container-fluid mar-bottom" *ngIf="!isCredit">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
             <li id="pd" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
@@ -82,7 +82,7 @@
             <li id="query"><a>Query</a></li>
         </ul>
     </div>
-    <div class="container-fluid mar-bottom" *ngIf="!isCredit">
+    <div class="container-fluid mar-bottom" *ngIf="isCredit">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
             <li id="pd" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
