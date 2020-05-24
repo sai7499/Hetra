@@ -78,7 +78,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private createLeadService: CreateLeadService,
     private commomLovService: CommomLovService,
     private loginStoreService: LoginStoreService
-  ) {}
+  ) { }
 
   ngOnChanges() {
     console.log(this.test);
@@ -276,7 +276,9 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
     this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails).subscribe((res: any) => {
       const response = res;
-      if (response.Error === '0') {
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
         const message = response.ProcessVariables.error.message;
         const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
         console.log('Success Message', message);
@@ -289,7 +291,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         }
         this.router.navigateByUrl('pages/lead-section');
       }
-    });
+    },
+      err => { alert(err) });
     // this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 

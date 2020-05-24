@@ -9,66 +9,71 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
   styleUrls: ['./lead-dedupe.component.css']
 })
 export class LeadDedupeComponent implements OnInit {
-  labels: any = {};
 
+  labels: any = {};
   isReason: boolean;
   isSubmit: boolean;
   isChecked: boolean;
   isModal: boolean;
-  // isDisabled: boolean = true;
-  count = 0;
   radioValue = false;
   radioSelected: string;
-  radioSel: number = -1;
-  preSelectedIndex: number;
-
   p = 1;
   perPage = 5;
-
   dedupeArray = [];
+  selectedLead: boolean;
+  showModal: string;
+  modalMessage: string;
+  leadId: string;
 
-  constructor( private labelsData: LabelsService, private leadStoreService: LeadStoreService) {
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-        console.log('labels', this.labels);
-      },
-      error => {
-        console.log(error);
-      });
-  }
+  constructor(
+    private labelsData: LabelsService,
+    private leadStoreService: LeadStoreService
+  ) { }
 
   ngOnInit() {
-    // this.dummy();
+    this.getLabels();
+    this.getDedupeData();
+  }
+
+  getLabels() {
+    this.labelsData.getLabelsData().subscribe(data => {
+      this.labels = data;
+      console.log('labels', this.labels);
+    },
+      error => console.log(error));
+  }
+
+  getDedupeData() {
     const dedupeData = this.leadStoreService.getDedupeData();
+    if (!dedupeData) {
+      return;
+    }
     console.log('dedupeData', dedupeData);
     this.dedupeArray = dedupeData;
+    this.leadId = dedupeData[0].leadID;
   }
 
   OnProceed() {
     this.isReason = false;
     this.isSubmit = false;
+    this.showModal = 'proceedModal_with';
+    this.modalMessage = `Are you sure you want to proceed with lead - ${this.leadId} ?`;
   }
 
   OnReject() {
     this.isReason = true;
     this.isSubmit = true;
+    this.showModal = 'rejectModal';
+    this.modalMessage = `Are you sure you want to reject lead - ${this.leadId} ?`;
   }
 
   OnCreateNew() {
-
+    this.showModal = 'proceedModal_without';
+    this.modalMessage = 'Are you sure you want to create a new lead?';
   }
 
-  OnChecked(index: number) {
-    console.log(this.preSelectedIndex);
-    console.log(index);
-    this.radioSel = index;
-    if ( this.preSelectedIndex !== undefined && this.preSelectedIndex === index) {
-      this.radioSel = -1;
-    }
-    this.preSelectedIndex = index;
-    console.log(this.preSelectedIndex);
-    console.log(index);
+  onLeadSelect(index: number) {
+    this.selectedLead = !this.selectedLead;
   }
 
   OnItemPerPage(e) {
