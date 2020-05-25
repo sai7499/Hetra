@@ -10,7 +10,7 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LoginStoreService } from '@services/login-store.service';
-
+import { CreateLeadDataService } from '../service/createLead-data.service';
 @Component({
   selector: 'app-lead-creation',
   templateUrl: './lead-creation.component.html',
@@ -52,7 +52,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     sourcingChannel: string,
     sourcingType: string,
     sourcingCode: string,
-    spokeCode: string,
+    spokeCode: number,
     loanBranch: string,
     leadHandeledBy: string
   };
@@ -77,7 +77,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private labelsData: LabelsService,
     private createLeadService: CreateLeadService,
     private commomLovService: CommomLovService,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private createLeadDataService: CreateLeadDataService
   ) { }
 
   ngOnChanges() {
@@ -256,7 +257,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       sourcingChannel: leadModel.sourcingChannel,
       sourcingType: leadModel.sourcingType,
       sourcingCode: leadModel.sourcingCode,
-      spokeCode: leadModel.spokeCode,
+      // spokeCode: leadModel.spokeCode,
+      spokeCode:1,
       loanBranch: leadModel.loanBranch,
       leadHandeledBy: leadModel.leadHandeledBy
 
@@ -273,8 +275,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
     console.log('loanLeadDetails', this.loanLeadDetails);
     console.log('applicantDetails', this.applicantDetails);
-
-    this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails).subscribe((res: any) => {
+    this.createLeadDataService.setLeadData(this.loanLeadDetails, this.applicantDetails);
+    this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails, false).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;

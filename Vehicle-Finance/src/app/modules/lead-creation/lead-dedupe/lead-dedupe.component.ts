@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
+import { CreateLeadService } from '../service/creatLead.service';
+import { CreateLeadDataService } from '../service/createLead-data.service';
 
 
 @Component({
@@ -24,10 +26,14 @@ export class LeadDedupeComponent implements OnInit {
   showModal: string;
   modalMessage: string;
   leadId: string;
+  isWithLead: boolean;
 
   constructor(
     private labelsData: LabelsService,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,
+    private createLeadService: CreateLeadService,
+    private createLeadDataService: CreateLeadDataService
+
   ) { }
 
   ngOnInit() {
@@ -56,6 +62,7 @@ export class LeadDedupeComponent implements OnInit {
   OnProceed() {
     this.isReason = false;
     this.isSubmit = false;
+    this.isWithLead = false;
     this.showModal = 'proceedModal_with';
     this.modalMessage = `Are you sure you want to proceed with lead - ${this.leadId} ?`;
   }
@@ -68,8 +75,36 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   OnCreateNew() {
+    this.isWithLead = true;
     this.showModal = 'proceedModal_without';
     this.modalMessage = 'Are you sure you want to create a new lead?';
+  }
+
+  proceedAsNewLead() {
+    const createLead = this.createLeadDataService.getLeadData();
+    const data: any = { ...createLead };
+    const loanLeadDetails = data.loanLeadDetails;
+    const applicantDetails = data.applicantDetails;
+
+    this.createLeadService.createLead(loanLeadDetails, applicantDetails, true).subscribe((res: any) => {
+      const response = res;
+      console.log('proceedAsNewLead', response);
+    });
+  }
+
+  proceedWithSelectedLead() {
+    this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
+      const response = res;
+      console.log('proceedWithSelectedLead', response);
+    });
+  }
+
+  navigateToLeadSection() {
+    if (this.isWithLead) {
+      this.proceedAsNewLead();
+    } else {
+      this.proceedWithSelectedLead();
+    }
   }
 
   onLeadSelect(index: number) {
