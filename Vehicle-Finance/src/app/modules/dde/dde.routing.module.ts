@@ -10,13 +10,8 @@ import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 
-// import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
-// import { PslDataComponent } from './psl-data/psl-data.component';
-// import { FlReportComponent } from './fl-report/fl-report.component';
-// import { PdReportComponent } from './pd-report/pd-report.component';
-// import { CamComponent } from './cam/cam.component';
-// import { ScoreCardComponent } from './score-card/score-card.component';
-// import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+import { InsuranceDetailsComponent } from './vehicle-details/insurance-details/insurance-details.component';
+import { ViabilityListComponent } from './viability-list/viability-list.component';
 
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
@@ -85,22 +80,12 @@ const routes: Routes = [
         component: ApplicantListComponent
       },
       {
-        path: 'tvr-details',
-        component: TvrDetailsComponent
+        path: "insurance-details",
+        component: InsuranceDetailsComponent,
       },
       {
-        path: 'cam',
-        component: CamComponent
-      },
-     {
-        path: 'score-card',
-        component: ScoreCardComponent
-
-      },
-      {
-        path: 'credit-conditions',
-        component: CreditConditionsComponent
-
+        path: "viability-list",
+        component: ViabilityListComponent
       }
     ]
   }

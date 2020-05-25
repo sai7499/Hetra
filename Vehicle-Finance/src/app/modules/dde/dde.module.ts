@@ -18,14 +18,19 @@ import { ApplicantListComponent } from './applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
-import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
-import { CamComponent } from './cam/cam.component';
+import { InsuranceDetailsComponent } from './vehicle-details/insurance-details/insurance-details.component';
+import { ViabilityListComponent } from './viability-list/viability-list.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
 
 import { ScoreCardComponent } from './score-card/score-card.component';
 
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
+import { CamComponent } from './cam/cam.component';
+import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+// import { ValuationComponent } from './vehicle-valuation-router/valuation/valuation.component';
+// import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+// import { CamComponent } from './cam/cam.component';
 
 
 @NgModule({
@@ -34,6 +39,8 @@ import {CreditConditionsComponent} from './credit-conditions/credit-conditions.c
     FlReportComponent,
     PdReportComponent,
     VehicleValuationComponent,
+    ViabilityListComponent,
+    InsuranceDetailsComponent,
     PslDataComponent,
     SourcingDdeComponent,
     ExposureDetailsComponent,
@@ -42,11 +49,10 @@ import {CreditConditionsComponent} from './credit-conditions/credit-conditions.c
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
-    TvrDetailsComponent,
-    CamComponent,
     ScoreCardComponent,
-    CreditConditionsComponent
-
+    CreditConditionsComponent,
+    CamComponent,
+    TvrDetailsComponent
   ],
   imports: [
     DdeRoutingModule,

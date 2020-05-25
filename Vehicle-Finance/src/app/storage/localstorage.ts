@@ -38,14 +38,16 @@ export const storage = {
     removeUserId() {
         localStorage.removeItem('userId');
     },
+    
+    getRoleType() {
+        let role = localStorage.getItem('role')
+            ? localStorage.getItem('role')
+            : ''
+        return role;
+    },
 
-    checkToken() {
-        if (localStorage.getItem('token')) {
-            return true
-        }
-        else{
-            return false
-        }
+    removeRoleType() {
+        localStorage.removeItem('role');
     }
 
 }
