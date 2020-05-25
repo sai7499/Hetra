@@ -10,6 +10,8 @@ import { ApplicantListComponent } from './applicant-list/applicant-list.componen
 import { IdentityDetailsComponent } from './identity-details/identity-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressDetailsComponent } from './address-details/address-details.component';
+import { AddOrUpdateApplicantComponent } from './add-update-applicant/add-update-applicant.component';
+import { DdeSharedModule } from '../dde/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,15 +22,23 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
     ApplicantListComponent,
     IdentityDetailsComponent,
     AddressDetailsComponent,
+    AddOrUpdateApplicantComponent,
   ],
-  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    DdeSharedModule,
+  ],
   exports: [
     CustomSelectComponent,
     LeadSectionHeaderComponent,
     ProfileComponent,
     ApplicantListComponent,
     AddressDetailsComponent,
-    IdentityDetailsComponent
+    IdentityDetailsComponent,
+    AddOrUpdateApplicantComponent,
   ],
 })
 export class SharedModule {}
