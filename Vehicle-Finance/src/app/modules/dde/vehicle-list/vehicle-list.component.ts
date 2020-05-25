@@ -13,7 +13,7 @@ export class VehicleListComponent {
     ngOnInit() {
         this.labelsData.getLabelsOfDDEData().subscribe(
             data => {
-                this.labels = data[0].vehicleDetailsTable[0];
+                this.labels = data.vehicleDetailsTable[0];
             },
             error => {
                 console.log(error);

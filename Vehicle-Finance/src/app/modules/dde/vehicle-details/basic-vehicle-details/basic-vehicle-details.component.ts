@@ -28,14 +28,18 @@ export class BasicVehicleDetailsComponent implements OnInit {
     this.createForm();
     this.labelsData.getLabelsOfDDEData()
       .subscribe(data => {
-        this.label = data[0].basicVehicleDetails[0];
+
+        this.label = data.basicVehicleDetails[0];
+        console.log('basicVehicleDetailsLabels', this.label)
       },
         error => {
           console.log(error, 'error')
         });
 
     this.lovData.getLovData().subscribe((res: any) => {
+
       this.values = res[0].basicVehicleDetails[0];
+
     });
   }
 

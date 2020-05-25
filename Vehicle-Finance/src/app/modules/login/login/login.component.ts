@@ -117,6 +117,7 @@ export class LoginComponent implements OnInit {
       const response = res;
       if (response.status) {
         const token = response.token;
+        console.log('=> =>login-token', token)
         localStorage.setItem('token', token);
         console.log('loginData', this.loginData);
         this.loginStoreService.setEmailId(this.loginData.email);
