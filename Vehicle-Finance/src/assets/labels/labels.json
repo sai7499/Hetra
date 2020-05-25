@@ -54,6 +54,7 @@
     "schemePromotion": "Scheme/Promotion",
     "subventionIncentive": "Subvention + Incentive",
     "vehcileDetailsTitle": "Vehicle Details",
+    "addVehicle": "Add Vehicle",
     "vechicalType": "Vehicle Type",
     "vechicalRegion": "Region",
     "registartionNumber": "Vechical Registration No",
@@ -91,7 +92,6 @@
     "noVehicle": "No of Vehicles",
     "back": "Back",
     "save": "Save",
-
     "applicantDetailsTitle": "Applicant Details",
     "addApplicantTitle": "Add Applicant",
     "ucicId": "UCIC ID",
@@ -172,8 +172,6 @@
     "mandatoryStage": "Mandatory Stage",
     "deferralDate": "Deferral Date",
     "view": "View",
-
-
     "marginMoney": "Margin Money",
     "emiAffordability": "EMI Affordibility",
     "sNO": "S.No",
@@ -228,6 +226,7 @@
     "total": "Total",
     "make": "Make",
     "model": "Model",
+    "variant": "Variant",
     "year": "Year",
     "registeredOwner": "RegisteredOwner",
     "registeredOwnerName": "RegisteredOwnerName",
@@ -467,7 +466,6 @@
     "password": "Password",
     "enterOtpSharedByCustomer": "Enter the OTP shared by the customer",
     "offersAccepted": "Offers Accepted",
-
     "createdOn": "Created On",
     "createdBy": "Created By",
     "promoCode": "Promocode",
@@ -493,10 +491,8 @@
     "spokenTo": "Spoken to",
     "familyMembers": "Family Members",
     "relationWithApplicant": "Relation with Applicant",
-    
     "time": "Time",
     "tvrDoneByName": "TVR done by name",
-   
     "sign": "Sign",
     "office": "Office",
     "workExperience": "Work Experience",
@@ -583,7 +579,6 @@
     "hdfcIciciCholaIndusind": " HDFC, ICICI, CHOLA, INDUSIND",
     "firstVeh": "1st Veh",
     "tataLpk2518": "TATA LPK 2518",
-
     "purchasedOn": "Purchased on",
     "noOfVehOwned": "NO OF VEH OWNED",
     "expansionAndFfr": "EXPANSION AND FFR",
@@ -609,7 +604,6 @@
     "track5": "TRACK 5",
     "track6": "TRACK 6",
     "appIsInTransportFieldFromLastManyYears": " APP IS IN TRANSPORT FIELD FROM LAST MANY YEARS",
-
     "fy": "FY",
     "eighteenToNineteen": "2018-19",
     "seventeenToEightteen": "2017-18",
@@ -624,7 +618,6 @@
     "cmRecommendation": "CM RECOMMENDATION",
     "acmRecommendationApproval": "ACM RECOMMENDATION/APPROVAL",
     "ncmBhApprovalRecommendation": "NCM/BH APPROVAL-RECOMMENDATION",
-
     "incomeAndObligationDetailsTitle": "Income and Obligation Details",
     "businessIncomeDetailsTitle": "Business Income Details",
     "otherIncomeDetailsTitle": "Other Income Details",
@@ -639,9 +632,9 @@
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "KEY FINANCIAL",
     "creditCondition": "Credit Condition",
-    "salesResponse" : "Sales Response",
+    "salesResponse": "Sales Response",
     "supportDocument": "Support Document",
-    "accepted" : "Accepted",
+    "accepted": "Accepted",
     "notAccepted": "Not Accepted",
-    "defferedTillDate" : "Deffered till date"
+    "defferedTillDate": "Deffered till date"
 }

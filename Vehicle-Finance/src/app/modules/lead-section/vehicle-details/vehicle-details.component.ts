@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { interval} from 'rxjs';
-import { map, findIndex} from 'rxjs/operators';
 
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService} from '../services/vehicle-detail.service';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-vehicle-details',

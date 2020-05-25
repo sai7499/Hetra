@@ -24,21 +24,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let dummy of (dummmyArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i=index">
-                  <td><input (click)="OnChecked(i)" class="radio" type="radio" [checked]="i===radioSel"/></td>
-                  <td>{{ dummy.leadId }}</td>
-                  <td>{{ dummy.branch }}</td>
-                  <td>{{ dummy.createdDate }}</td>
-                  
-                  <td>{{ dummy.loanCreatedBy }}</td>
-                  
-                  <td>{{ dummy.product }}</td>
-                  <td>{{ dummy.loanAmount }}</td>
-                  <td>{{ dummy.applicantName }}</td>
-                  <td>{{ dummy.mobile }}</td>
-                  <td>{{ dummy.stage }}</td>
-                  <td class="reject_reason">{{ dummy.status }}</td>
-                  <td>{{ dummy.reason }}</td>
+                <tr *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">
+                  <td><input (change)="OnChecked($event)" class="checkbox" type="checkbox" name="selectLead" [disabled]="i !== 0 ? 'disabled' : null"/></td>
+                  <td>{{ dedupe.leadID }}{{i}}</td>
+                  <td>{{ dedupe.branch }}</td>
+                  <td>{{ dedupe.createdDate }}</td>                  
+                  <td>{{ dedupe.createdBy }}</td>                  
+                  <td>{{ dedupe.product }}</td>
+                  <td>{{ dedupe.loanAmount }}</td>
+                  <td>{{ dedupe.Applicant }}</td>
+                  <td>{{ dedupe.individualMobile }}</td>
+                  <td>{{ dedupe.leadStaage }}</td>
+                  <td class="reject_reason">{{ dedupe.status }}</td>
+                  <td>{{ dedupe.reasonForRejection }}</td>
                 </tr>
               </tbody>
             </table>

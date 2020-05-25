@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './modules/header/header.component';
+import { LovResolverService } from './services/Lov-resolver.service';
+import { Authguard } from '@services/authguard';
 
 const routes: Routes = [
   {
@@ -14,11 +16,16 @@ const routes: Routes = [
   },
   {
     path: 'activity-search',
-    loadChildren: () => import('./modules/activity-search/activity-search.module').then(m => m.ActivitySearchModule)
+    canActivate: [Authguard],
+    loadChildren: () => import('./modules/activity-search/activity-search.module').then(m => m.ActivitySearchModule),
   },
   {
     path: 'pages',
     component: HeaderComponent,
+    canActivate: [Authguard],
+    resolve: {
+      getLOV: LovResolverService
+    },
     children: [
       {
         path: 'lead-creation',
