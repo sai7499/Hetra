@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
@@ -18,16 +17,14 @@ import { ApplicantListComponent } from './applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
-import { InsuranceDetailsComponent } from './vehicle-details/insurance-details/insurance-details.component';
-import { ViabilityListComponent } from './viability-list/viability-list.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
-
 import { ScoreCardComponent } from './score-card/score-card.component';
-
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 import { CamComponent } from './cam/cam.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+import { ViabilityListComponent } from './viability-list/viability-list.component';
 // import { ValuationComponent } from './vehicle-valuation-router/valuation/valuation.component';
 // import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 // import { CamComponent } from './cam/cam.component';
@@ -49,6 +46,9 @@ import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
+    InsuranceDetailsComponent,
+    TvrDetailsComponent,
+    CamComponent,
     ScoreCardComponent,
     CreditConditionsComponent,
     CamComponent,

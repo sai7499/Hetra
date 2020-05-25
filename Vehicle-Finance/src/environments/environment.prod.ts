@@ -15,6 +15,30 @@ export const environment = {
     'createLead': {
       'workflowId': 'f000e040845a11eabdc2f2fa9bec3d63',
       'processId': 'f0269e8e845a11eabdc2f2fa9bec3d63'
+    },
+    'getLOVs': {
+      'workflowId': 'bd15880c904911eabdc4f2fa9bec3d63',
+      'processId': '674941a2904e11eabdc4f2fa9bec3d63'
+    },
+    'getAssetProductCategory': {
+      'workflowId': 'b0a9ef02939d11eabdc6f2fa9bec3d63',
+      'processId': 'b0c8aa96939d11eabdc6f2fa9bec3d63'
+    },
+    'getSourcingChannel': {
+      'workflowId': '99e9c24294e711eabdcdf2fa9bec3d63',
+      'processId': '4e4033dc96a211eabdcff2fa9bec3d63'
+    },
+    'getVehicleCollateralDetails': {
+      'workflowId': 'bd15880c904911eabdc4f2fa9bec3d63',
+      'processId': '5ded0268971711eabdcff2fa9bec3d63'
+    },
+    'saveOrUpdateVehicleCollateralDetails': {
+      'workflowId': 'b0a9ef02939d11eabdc6f2fa9bec3d63',
+      'processId': '74c36bec6da211eabdc2f2fa9bec3d63'
+    },
+    'getAllVehicleCollateralDetails': {
+      'workflowId': 'bd15880c904911eabdc4f2fa9bec3d63',
+      'processId': 'cd9ac3ba979a11eabdcff2fa9bec3d63'
     }
   },
   host: 'http://128.199.164.250/appiyo/',

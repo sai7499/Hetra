@@ -7,7 +7,7 @@ import { CommonDataService } from './common-data.service';
 
 export class LoginStoreService {
 
-    constructor(private cds: CommonDataService){}
+    constructor(private cds: CommonDataService) { }
 
     roleAndUserDetails;
     emailId: string;
@@ -32,21 +32,21 @@ export class LoginStoreService {
         this.emailId = email;
     }
 
-    getEmailId(){
+    getEmailId() {
         return this.emailId;
     }
 
     setRole(role) {
         const roleArray = role;
         this.roleName = role ? role[0].name : '';
-        this.roleId =  role ? role[0].roleId : '';
+        this.roleId = role ? role[0].roleId : '';
     }
 
-    getRoleName(){
+    getRoleName() {
         return this.roleName ? this.roleName : '';
     }
 
-    getRoleId(){
+    getRoleId() {
         return this.roleId ? this.roleId : '';
     }
 

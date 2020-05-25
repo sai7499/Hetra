@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { LoginStoreService } from '../../../services/login-store.service';
-import {storage} from '../../../storage/localstorage';
+import { storage } from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
 
 // import {GoogleMapsAPIWrapper} from '@agm/core';
@@ -15,7 +15,9 @@ import { CommonDataService } from '@services/common-data.service';
 
 // import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
-import {GoogleMapsAPIWrapper} from '@agm/core';
+
+
+import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { GpsService } from 'src/app/services/gps.service';
 
@@ -50,9 +52,9 @@ export class LoginComponent implements OnInit {
 
 
   geoLocationError = {
-    1 : 'PERMISSION_DENIED',
-    2 : 'POSITION_UNAVAILABLE',
-    3 : 'TIMEOUT'
+    1: 'PERMISSION_DENIED',
+    2: 'POSITION_UNAVAILABLE',
+    3: 'TIMEOUT'
   };
 
   isMobile: any;
@@ -70,7 +72,7 @@ export class LoginComponent implements OnInit {
     private camera: Camera,
   ) {
     this.isMobile = this.deviceService.isMobile();
-   }
+  }
 
   ngOnInit() {
 
@@ -101,7 +103,7 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-     this.gpsService.getBrowserLatLong().subscribe((position) => {
+      this.gpsService.getBrowserLatLong().subscribe((position) => {
         console.log('login position', position);
       });
     }
@@ -128,7 +130,7 @@ export class LoginComponent implements OnInit {
             const userDetails = response.ProcessVariables.userDetails;
             const businessDivisionList = response.ProcessVariables.businessDivisionLIst;
             const activityList = response.ProcessVariables.activityList;
-            const userId =  response.ProcessVariables.userId;
+            const userId = response.ProcessVariables.userId;
             localStorage.setItem('userId', userId);
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
             this.loginStoreService.setRole(roles);
@@ -172,14 +174,14 @@ export class LoginComponent implements OnInit {
   async takePicture() {
 
     const options: CameraOptions = {
-        quality: 50,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        allowEdit: true,
-        encodingType: this.camera.EncodingType.PNG,
-        targetWidth: 100,
-        targetHeight: 100,
-        saveToPhotoAlbum: false
+      quality: 50,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.PNG,
+      targetWidth: 100,
+      targetHeight: 100,
+      saveToPhotoAlbum: false
     };
 
     return this.camera.getPicture(options);
@@ -194,7 +196,7 @@ export class LoginComponent implements OnInit {
       let url = uri.split('/');
       url = url[url.length - 1];
 
-      this.cameraImage = ( window as any).Ionic.WebView.convertFileSrc(
+      this.cameraImage = (window as any).Ionic.WebView.convertFileSrc(
         this.imageURI
       )
         .toString()
@@ -206,4 +208,3 @@ export class LoginComponent implements OnInit {
   }
 
 }
-

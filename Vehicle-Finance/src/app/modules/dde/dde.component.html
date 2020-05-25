@@ -4,7 +4,12 @@
 
     <app-dde-header></app-dde-header>
 
-
+    <!-- <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="routerUrl">
+      <button class="btn btn-primary" type="button">View/Upload Document</button>
+      <app-dde-header></app-dde-header>
+    </div> -->
+    <!-- </div> -->
+    <!--progress bar-->
     <div class="multisteps-form">
       <div class="multisteps-form__progress">
         <button class="multisteps-form__progress-btn" type="button" id="credit_sourcing_details"
@@ -40,20 +45,26 @@
           PD Report
         </button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_vehicle_viability"
-          [routerLink]="['./viability-list']">Viability</button>
-        <button class=" multisteps-form__progress-btn " type=" button" id="credit_score_card">Score Card</button>
-        <button class="multisteps-form__progress-btn" type="button" id="credit_cam">CAM</button>
+          [routerLink]="['./viability-details']">Viability</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_score_card"
+          [routerLink]="['./score-card']">Score Card</button>
+        <button class="multisteps-form__progress-btn " type="button" id="credit_score_card">Score Card</button>
+        <button class="multisteps-form__progress-btn" type="button" id="credit_cam"
+          [routerLink]="['./cam']">CAM</button>
         <button class="multisteps-form__progress-btn" type="button" id="credit_deviations">Deviations</button>
         <button class="multisteps-form__progress-btn " type="button" id="credit_insurance"
           [routerLink]="['./insurance-details']">Insurance</button>
         <button class="multisteps-form__progress-btn " type="button" id="credit_conditions">Credit Conditions</button>
-        <button class="multisteps-form__progress-btn " type="button" id="credit_term_sheets">Term Sheets</button>
-
+        <button class="multisteps-form__progress-btn " type="button" id="credit_term_sheets"
+          [routerLink]="['./term-sheets']">Term Sheets</button>
+        <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button> -->
+        <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_reference">Reference</button> -->
       </div>
 
       <div class="content">
         <router-outlet> </router-outlet>
       </div>
+
     </div>
   </div>
 </main>

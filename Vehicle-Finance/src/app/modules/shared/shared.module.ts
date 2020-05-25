@@ -6,17 +6,17 @@ import { TextOnlyModalComponent } from './Modals/text-only-modal/text-only-modal
 import { LeadSectionHeaderComponent } from './lead-section-header/lead-section-header.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
-import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-vehicle-details.component';
 
 
 @NgModule({
-  declarations: [CustomSelectComponent, TextOnlyModalComponent, LeadSectionHeaderComponent, ProfileComponent, VehicleDetailsComponent],
+  declarations: [CustomSelectComponent, TextOnlyModalComponent, LeadSectionHeaderComponent, ProfileComponent, SharedVehicleDetailsComponent],
   imports: [CommonModule, FormsModule, RouterModule],
   exports: [
     CustomSelectComponent,
     LeadSectionHeaderComponent,
     ProfileComponent,
-    VehicleDetailsComponent
+    SharedVehicleDetailsComponent
   ]
 })
 export class SharedModule { }
