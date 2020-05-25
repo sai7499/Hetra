@@ -8,36 +8,36 @@ import { environment } from 'src/environments/environment';
 
 export class LoginService {
 
-    constructor( 
+    constructor(
         private httpService: HttpService,
         private loginService: LoginStoreService) { }
 
     getLogin(data) {
         const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
-        let body = {
+        const body = {
             email: data.email,
             password: data.password
         };
         return this.httpService.post(url, body);
-    }   
+    }
 
     getUserDetails(data?) {
         const processId = environment.api.getUserDetails.processId;
         const workflowId = environment.api.getUserDetails.workflowId;
         const projectId = environment.projectId;
 
-        let email = data ? data.userId : this.loginService.getEmailId();
-        let objectKey = data ? 'userId': 'loginId';
+        const email = data ? data.userId : this.loginService.getEmailId();
+        const objectKey = data ? 'userId' : 'loginId';
         const body: RequestEntity = {
-            processId: processId, 
+            processId,
             ProcessVariables: {
-                [objectKey]:email
+                [objectKey]: email
             },
             workflowId,
             projectId
         };
 
-        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
 

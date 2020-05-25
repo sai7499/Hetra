@@ -12,7 +12,8 @@ export class BankTransactionsService {
 
   constructor( private httpService: HttpService) { }
   setTransactionDetails(data) {
-    const processData = data.value;
+    const processData = data;
+    console.log(processData);
     const processId = environment.api.bankTransaction.processId;
     const workflowId = environment.api.bankTransaction.workflowId;
     const projectId = environment.projectId;
@@ -22,20 +23,17 @@ export class BankTransactionsService {
 
     const requestEntity: RequestEntity = {
         processId,
-        ProcessVariables: {
-         ...processData
-        },
+        ProcessVariables:  processData,
         workflowId,
         projectId
     };
     console.log(requestEntity, 'bank transactions');
 
-    const url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
-    // let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-    const body = {
-        processVariables:
-        JSON.stringify(requestEntity)
-    };
-    return this.httpService.post(url, body);
+    // const url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    // const body = {
+    //     JSON.stringify(requestEntity)
+    // };
+    return this.httpService.post(url, requestEntity);
 }
 }

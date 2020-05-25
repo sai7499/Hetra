@@ -8,6 +8,7 @@ import {
     FormArray } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 import { BankTransactionsService } from '@services/bank-transactions.service';
+import { LovResolverService } from '@services/Lov-resolver.service';
 
 @Component({
     templateUrl: './bank-details.component.html',
@@ -15,26 +16,30 @@ import { BankTransactionsService } from '@services/bank-transactions.service';
 })
 export class BankDetailsComponent implements OnInit {
     bankForm: FormGroup;
+    lovData: any;
 
-    constructor(private fb: FormBuilder, private bankTransaction: BankTransactionsService ) {}
+    constructor(private fb: FormBuilder, private bankTransaction: BankTransactionsService, private lovService: LovResolverService ) {}
 
     ngOnInit() {
         this.bankForm = this.fb.group({
            userId: 1,
            applicantId: 41,
-           accountHolderName: ['test'],
+           accountHolderName: [''],
            bankId: ['1'],
-           accountNumber: ['123'],
-           accountType: ['2'],
-           fromDate: ['2020-01-01'],
-           toDate: ['2020-05-05'],
-           period: ['5'],
-           limit: ['4'],
-           id: ['8'],
+           accountNumber: [''],
+           accountType: ['1'],
+           fromDate: [''],
+           toDate: [''],
+           period: [''],
+           limit: [''],
+           id: 8,
            transactionDetails: this.fb.array([this.initRows()]  )
         });
         // this.addBankDetailsForm();
         // this.initRows();
+        // this.lovService.resolve().subscribe((res:any) => { 
+        //     this.lovData
+        // })
     }
 
     // addBankDetailsForm() {
@@ -66,15 +71,15 @@ export class BankDetailsComponent implements OnInit {
    public initRows() {
         return this.fb.group({
             month: ['jan'],
-            year: ['' || '2020'],
-            inflow: ['10'],
-            outflow: ['20'],
-            noOfInWardBounces: ['21'],
-            noOfOutWardBounces: ['45'],
-            balanceOn5th: ['42'],
-            balanceOn15th: ['48'],
-            balanceOn20th: ['45'],
-            abbOfTheMonth: ['74']
+            year: [ 2020],
+            inflow: [ '' ],
+            outflow: [ ''],
+            noOfInWardBounces: [''],
+            noOfOutWardBounces: [''],
+            balanceOn5th: [''],
+            balanceOn15th: [''],
+            balanceOn20th: [''],
+            abbOfTheMonth: ['']
         });
     }
     // get formArr() {
@@ -86,7 +91,7 @@ export class BankDetailsComponent implements OnInit {
       }
     onSave() {
         console.log('form value', this.bankForm.value);
-        this.bankTransaction.setTransactionDetails(this.bankForm).subscribe((res: any) => {
+        this.bankTransaction.setTransactionDetails(this.bankForm.value).subscribe((res: any) => {
             console.log(res);
             alert(JSON.stringify(res));
         });
