@@ -6,6 +6,16 @@ import { Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { LoginStoreService } from '../../../services/login-store.service';
+import {storage} from '../../../storage/localstorage';
+import { CommonDataService } from '@services/common-data.service';
+
+// import {GoogleMapsAPIWrapper} from '@agm/core';
+
+// import { GpsService } from 'src/app/services/gps.service';
+
+// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+
 
 import {GoogleMapsAPIWrapper} from '@agm/core';
 
@@ -23,10 +33,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 export class LoginComponent implements OnInit {
 
   direction: any;
-
   labels: any = {};
-
-
   loginForm: FormGroup;
 
   loginData: {
@@ -50,11 +57,13 @@ export class LoginComponent implements OnInit {
 
   isMobile: any;
 
+
   constructor(
     private loginService: LoginService,
     private router: Router,
     private labelsData: LabelsService,
     private loginStoreService: LoginStoreService,
+    private cds: CommonDataService,
     private gmapsApi: GoogleMapsAPIWrapper,
     private gpsService: GpsService,
     private deviceService: DeviceDetectorService,
@@ -108,8 +117,7 @@ export class LoginComponent implements OnInit {
         const token = response.token;
         console.log('token', token);
         localStorage.setItem('token', token);
-        localStorage.setItem('email', this.loginData.email);
-        // localStorage.setItem('userId', userId );
+        this.loginStoreService.setEmailId(this.loginData.email);
 
         // tslint:disable-next-line: no-shadowed-variable
         this.loginService.getUserDetails().subscribe((res: any) => {
@@ -119,9 +127,11 @@ export class LoginComponent implements OnInit {
           if (response.Error === '0') {
             const roles = response.ProcessVariables.roles;
             const userDetails = response.ProcessVariables.userDetails;
-            const userId = response.ProcessVariables.userId;
-            console.log(userId); localStorage.setItem('userId', userId );
-            this.loginStoreService.setRolesAndUserDetails(roles, userDetails);
+            const businessDivisionList = response.ProcessVariables.businessDivisionLIst;
+            const activityList = response.ProcessVariables.activityList;
+            const userId =  response.ProcessVariables.userId;
+            localStorage.setItem('userId', userId);
+            this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;
             // if (role === 'Sales Officer') {
@@ -150,9 +160,10 @@ export class LoginComponent implements OnInit {
     };
   }
 
+
   openMap() {
 
-    const dirUrl = 'https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167';
+    let dirUrl = 'https://www.google.com/maps/dir/?api=1&origin=12.963134,80.198337&destination=12.990884,80.242167'
     window.open(dirUrl, '_blank', 'location=yes');
 
   }

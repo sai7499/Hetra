@@ -58,6 +58,10 @@ export class HttpService {
   }
 
   post(url: string, requestEntity: any, showLoader: boolean = true, headers?: any) {
+    
+    // if (requestEntity["processVariables"]){
+    //   requestEntity["processVariables"]["userId"] = localStorage.getItem('userId')
+    // }
     if (showLoader) {
       // this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     }
@@ -71,7 +75,8 @@ export class HttpService {
           headers: headers
         });
       }
-      const body = new HttpParams({ "fromObject": requestEntity});
+      // const body = new HttpParams({ "fromObject": requestEntity});
+      const body = JSON.stringify(requestEntity);
       return this.http.post(url, body);
     }
   }
@@ -345,5 +350,10 @@ export class HttpService {
     });
 
     return obs;
+  }
+
+  logOut(){
+    let url = environment.host + "/account/logout";
+    return this.http.get(url);
   }
 }

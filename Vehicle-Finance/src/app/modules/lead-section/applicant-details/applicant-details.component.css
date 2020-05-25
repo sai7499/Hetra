@@ -113,7 +113,8 @@ h3.dedupe_head {
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin:15px;
+    height: 400px;
 }
 
 label.col-form-label {
@@ -171,6 +172,7 @@ select#select_main_button_leadco {
 }
 
 
+
 /* for inside scroll */
 
 .basic_scroll {
@@ -178,3 +180,7 @@ select#select_main_button_leadco {
     max-height: 400px;
     overflow-x: hidden;
 }
+#clickButton{
+    margin-right: 2px;
+}
+
