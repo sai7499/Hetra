@@ -20,7 +20,7 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="Vechical Type">{{labels.relationshipwithloanapplicant}}</label>
-                                <app-vf-custom-select [values]="values?.relationshipwithloanapplicant" formControlName="entity">
+                                <app-vf-custom-select [values]="values?.relationshipwithloanapplicant" formControlName="loanApplicationRelation">
                                 </app-vf-custom-select>
                             </div>
                         </div>
@@ -28,15 +28,15 @@
                         <div class="row individual_section_leadco" *ngIf="applicantType === '1'">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="first_name">{{labels?.firstName}}</label>
-                                <input type="text" class="form-control" id="first_name" formControlName="first_name">
+                                <input type="text" class="form-control" id="first_name" formControlName="name1">
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="middle_name">{{labels?.middleName}}</label>
-                                <input type="text" class="form-control" id="middle_name" formControlName="middle_name">
+                                <input type="text" class="form-control" id="middle_name" formControlName="name2">
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="last_name">{{labels?.lastName}}</label>
-                                <input type="text" class="form-control" id="last_name" formControlName="last_name">
+                                <input type="text" class="form-control" id="last_name" formControlName="name3">
                             </div>
                         </div>
 

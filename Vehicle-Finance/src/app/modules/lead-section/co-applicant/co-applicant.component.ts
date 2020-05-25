@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { SaveUpdateApplicantService } from '../services/save-update-applicant.service';
 
 @Component({
   selector: 'app-co-applicant',
@@ -20,6 +22,14 @@ export class CoApplicantComponent implements OnInit {
 
   applicantType = '1';
 
+  applicantDetails: {
+    entityType: string
+    name1: string,
+    name2: string,
+    name3: string,
+    loanApplicationRelation: string
+  };
+
   selectApplicantType(event: any) {
     console.log(this.applicantType)
     this.applicantType = event.target.value;
@@ -29,7 +39,8 @@ export class CoApplicantComponent implements OnInit {
     private labelsData: LabelsService,
     private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private saveUpdateApplicant: SaveUpdateApplicantService
     ) {
 
   }
@@ -197,6 +208,23 @@ export class CoApplicantComponent implements OnInit {
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
     // this.router.navigate(['/pages/lead-section/product-details']);
+    this.applicantDetails = {
+      entityType: coApplicantModel.entityType,
+      name1: coApplicantModel.name1,
+      name2: coApplicantModel.name2,
+      name3: coApplicantModel.name3,
+      loanApplicationRelation: coApplicantModel.loanApplicationRelation
+    };
+
+    console.log(this.applicantDetails);
+
+    this.saveUpdateApplicant.saveApplicant(this.applicantDetails).subscribe((res: any) => {
+        const response = res;
+        if (response.error === 0) {
+          const message = response.ProcessVariables.error.message;
+          console.log('Success Message', message);
+        }
+    });
   }
 
   onAddress(event){
