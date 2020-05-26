@@ -643,27 +643,5 @@
     "supportDocument": "Support Document",
     "accepted" : "Accepted",
     "notAccepted": "Not Accepted",
-    "defferedTillDate" : "Deffered till date",
-
-    "autoDeviation": "Auto Deviation",
-  "manualDeviation": "Manual Deviation",
-  "deviation": "Deviation",
-  "coBorrower": "Co-Borrower / Guarantor - Waiver",
-  "approvalLevel": "Approval Level",
-  "bcm":"BCM",
-  "acm": "ACM",
-  "ncm" : "NCM",
-  "justification": "Justification",
-  "refer": "Refer",
-  "referTo": "Refer To",
-  "referToNextLevel": "Refer To next level",
-  "decline" : "Decline",
-  "referText2" : "For Cat B,C,D & E Repayment <12 Months from us or other financier on CV loans",
-  "referText1": "Co-Borrower / Guarantor - Waiver",
-  "approve": "Approve",
-  "sendBackToCredit": "Send Back To Credit",
-  "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
-  "recommendation" : "Recommendation",
-  "referText4": "Text area to input recommendation (max 2000 characters)",
-  "more":"More"
+    "defferedTillDate" : "Deffered till date"
 }
