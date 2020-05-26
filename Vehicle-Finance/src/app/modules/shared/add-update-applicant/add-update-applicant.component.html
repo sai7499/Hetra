@@ -1,5 +1,4 @@
-<main class="mar-top90">
-  <app-dde-header></app-dde-header>
+<main>
   <div class="container-fluid">
     <h3 class="margin_zero">{{ labels?.addApplicantTitle }}</h3>
     <form [formGroup]="coApplicantForm">
@@ -9,12 +8,6 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{ labels?.entity }}</label>
-                <!-- <select class="form-control dropdown_individual" id="select_main_button_leadco"
-                                    (change)="selectApplicantType($event)">
-                                    <option value="">-- select one -- </option>
-                                    <option value="individual"> Individual </option>
-                                    <option value="non-individual"> Non-Individual </option>
-                                </select> -->
                 <app-vf-custom-select
                   [values]="values?.entity"
                   formControlName="entity"
@@ -28,7 +21,7 @@
                 }}</label>
                 <app-vf-custom-select
                   [values]="values?.relationshipwithloanapplicant"
-                  formControlName="entity"
+                  formControlName="loanApplicationRelation"
                 >
                 </app-vf-custom-select>
               </div>
@@ -44,7 +37,7 @@
                   type="text"
                   class="form-control"
                   id="first_name"
-                  formControlName="first_name"
+                  formControlName="firstName"
                 />
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -53,7 +46,7 @@
                   type="text"
                   class="form-control"
                   id="middle_name"
-                  formControlName="middle_name"
+                  formControlName="middleName"
                 />
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -62,7 +55,7 @@
                   type="text"
                   class="form-control"
                   id="last_name"
-                  formControlName="last_name"
+                  formControlName="lastName"
                 />
               </div>
             </div>
@@ -202,7 +195,6 @@
                 <label for="mobile">{{
                   labels?.drivingLicenceIssueDate
                 }}</label>
-                <!-- <input type="date" class="form-control" id="pannumber" formControlName="drivingLicenceIssueDate"> -->
                 <div class="input-group input-medium">
                   <span class="input-group-btn">
                     <button class="btn btn-default">
@@ -221,7 +213,6 @@
                 <label for="mobile">{{
                   labels?.drivingLicenceExpiryDate
                 }}</label>
-                <!-- <input type="date" class="form-control" id="pannumber" formControlName="drivingLicenceExpiryDate"> -->
                 <div class="input-group input-medium">
                   <span class="input-group-btn">
                     <button class="btn btn-default">
@@ -249,7 +240,6 @@
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportIssueDate }}</label>
-                <!-- <input type="date" class="form-control" id="pannumber" formControlName="passportIssueDate"> -->
                 <div class="input-group input-medium">
                   <span class="input-group-btn">
                     <button class="btn btn-default">
@@ -266,7 +256,6 @@
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportExpiryDate }}</label>
-                <!-- <input type="date" class="form-control" id="pannumber" formControlName="passportExpiryDate"> -->
                 <div class="input-group input-medium">
                   <span class="input-group-btn">
                     <button class="btn btn-default">
@@ -302,7 +291,6 @@
                 class="individual_section_leadco"
                 *ngIf="applicantType === '1'"
               >
-                <!-- <h4 class="title">individual</h4> -->
                 <h3 class="title">Permanent Address</h3>
                 <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -345,11 +333,6 @@
                     <label for="permanent_address_city">{{
                       labels?.city
                     }}</label>
-                    <!-- <select class="form-control" id="permanent_address_city" >
-                                            <option>City 1</option>
-                                            <option>City 2</option>
-                                            <option>City 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.city"
                       formControlName="permanent_address_city"
@@ -360,11 +343,6 @@
                     <label for="permanent_address_district">{{
                       labels?.district
                     }}</label>
-                    <!-- <select class="form-control" id="permanent_address_district" >
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.district"
                       formControlName="permanent_address_district"
@@ -375,11 +353,6 @@
                     <label for="permanent_address_state">{{
                       labels?.state
                     }}</label>
-                    <!-- <select class="form-control" id="permanent_address_state" >
-                                            <option>State 1</option>
-                                            <option>State 2</option>
-                                            <option>State 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.state"
                       formControlName="permanent_address_state"
@@ -390,11 +363,6 @@
                     <label for="permanent_address_country">{{
                       labels.country
                     }}</label>
-                    <!-- <select class="form-control" id="permanent_address_country">
-                                            <option>Country 1</option>
-                                            <option>Country 2</option>
-                                            <option>Country 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.country"
                       formControlName="permanent_address_country"
@@ -467,11 +435,6 @@
                   </div>
                   <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_city">{{ labels?.city }}</label>
-                    <!-- <select class="form-control" id="current_address_city">
-                                            <option>City 1</option>
-                                            <option>City 2</option>
-                                            <option>City 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.city"
                       formControlName="current_address_city"
@@ -482,11 +445,6 @@
                     <label for="current_address_district">{{
                       labels?.district
                     }}</label>
-                    <!-- <select class="form-control" id="current_address_district">
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.district"
                       formControlName="current_address_district"
@@ -497,11 +455,6 @@
                     <label for="current_address_state">{{
                       labels?.state
                     }}</label>
-                    <!-- <select class="form-control" id="current_address_state">
-                                            <option>State 1</option>
-                                            <option>State 2</option>
-                                            <option>State 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.state"
                       formControlName="current_address_state"
@@ -512,11 +465,6 @@
                     <label for="current_address_country">{{
                       labels?.country
                     }}</label>
-                    <!-- <select class="form-control" id="current_address_country">
-                                            <option>Country 1</option>
-                                            <option>Country 2</option>
-                                            <option>Country 3</option>
-                                        </select> -->
                     <app-vf-custom-select
                       [values]="values?.country"
                       formControlName="current_address_country"
@@ -543,7 +491,6 @@
                 class="non_individual_section_leadco"
                 *ngIf="applicantType === '2'"
               >
-                <!-- <h4 class="title">Non-individual</h4>-->
                 <h3 class="title">Registered Address</h3>
                 <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -593,9 +540,6 @@
                       <option>City 2</option>
                       <option>City 3</option>
                     </select>
-                    <!-- <app-vf-custom-select [values]="values?.registeredAddressCity"
-                                            formControlName="registered_address_city">
-                                        </app-vf-custom-select> -->
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_district">{{
@@ -606,9 +550,6 @@
                       <option>District 2</option>
                       <option>District 3</option>
                     </select>
-                    <!-- <app-vf-custom-select [values]="values?.registeredAddressDistrict"
-                                            formControlName="current_address_district">
-                                        </app-vf-custom-select> -->
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state">{{
@@ -619,9 +560,6 @@
                       <option>State 2</option>
                       <option>State 3</option>
                     </select>
-                    <!-- <app-vf-custom-select [values]="values?.registeredAddressState"
-                                            formControlName="current_address_state">
-                                        </app-vf-custom-select> -->
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_country">{{
@@ -632,9 +570,6 @@
                       <option>Country 2</option>
                       <option>Country 3</option>
                     </select>
-                    <!-- <app-vf-custom-select [values]="values?.registeredAddressCountry"
-                                            formControlName="current_address_country">
-                                        </app-vf-custom-select> -->
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="reg_mobile">{{ labels?.landlineNumber }}</label>

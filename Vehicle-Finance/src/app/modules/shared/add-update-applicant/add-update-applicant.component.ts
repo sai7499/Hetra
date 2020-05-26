@@ -5,9 +5,11 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { SaveUpdateApplicantService } from '@services/add-update-applicant.service';
+import { Applicant } from '@model/applicant.model';
 
 @Component({
-  selector: 'app-add-or-update-applicant',
+  selector: 'app-add-update-applicant',
   templateUrl: './add-update-applicant.component.html',
   styleUrls: ['./add-update-applicant.component.css'],
 })
@@ -20,6 +22,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   applicantType = '1';
 
+  applicantDetails: {
+    entityType: string;
+    name1: string;
+    name2: string;
+    name3: string;
+    loanApplicationRelation: string;
+  };
+
   selectApplicantType(event: any) {
     console.log(this.applicantType);
     this.applicantType = event.target.value;
@@ -29,7 +39,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private labelsData: LabelsService,
     private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private saveUpdateApplicant: SaveUpdateApplicantService
   ) {}
 
   ngOnInit() {
@@ -46,7 +57,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicantId = value ? value.id : null;
       if (applicantId !== null && applicantId !== undefined) {
         this.selectedApplicant = Number(applicantId);
-        const selectedApplicant: Temp = this.leadStoreService.getSelectedApplicant(
+        const selectedApplicant: Applicant = this.leadStoreService.getSelectedApplicant(
           Number(applicantId)
         );
         this.setFormValue(selectedApplicant);
@@ -58,10 +69,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   initForm() {
     this.coApplicantForm = new FormGroup({
       entity: new FormControl(''),
-      relationshipwithloanapplicant: new FormControl(''),
-      first_name: new FormControl(''),
-      middle_name: new FormControl(''),
-      last_name: new FormControl(''),
+      loanApplicationRelation: new FormControl(''),
+      firstName: new FormControl(''),
+      middleName: new FormControl(''),
+      lastName: new FormControl(''),
       company_name1: new FormControl(''),
       company_name2: new FormControl(''),
       company_name3: new FormControl(''),
@@ -73,7 +84,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       panform: new FormControl(''),
       pannumber: new FormControl(''),
       // drivinglicense: new FormControl(''),
-      passportnumber: new FormControl(''),
+      passportNumber: new FormControl(''),
       identityNumber: new FormControl(''),
       identity_copy: new FormControl(''),
       address1: new FormControl(''),
@@ -120,7 +131,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     );
   }
 
-  setFormValue(applicantValue: Temp) {
+  setFormValue(applicantValue: Applicant) {
     console.log('applicant value', applicantValue);
     if (!applicantValue) {
       console.log('applicant value -1', applicantValue);
@@ -206,6 +217,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
     // this.router.navigate(['/pages/lead-section/product-details']);
+    this.applicantDetails = {
+      entityType: coApplicantModel.entityType,
+      name1: coApplicantModel.name1,
+      name2: coApplicantModel.name2,
+      name3: coApplicantModel.name3,
+      loanApplicationRelation: coApplicantModel.loanApplicationRelation,
+    };
+
+    console.log(this.applicantDetails);
+
+    this.saveUpdateApplicant
+      .saveApplicant(this.applicantDetails)
+      .subscribe((res: any) => {
+        const response = res;
+        if (response.error === 0) {
+          const message = response.ProcessVariables.error.message;
+          console.log('Success Message', message);
+        }
+      });
   }
 
   onAddress(event) {
@@ -261,53 +291,4 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.controls['current_landline'].enable();
     }
   }
-}
-
-export interface Temp {
-  entity?: string;
-  relationshipwithloanapplicant?: string;
-  first_name?: string;
-  middle_name?: string;
-  last_name?: string;
-  company_name1?: string;
-  company_name2?: string;
-  company_name3?: string;
-  mobile?: string;
-  date_of_birth?: string;
-  date_of_incorporation?: string;
-  identity_type?: string;
-  aadharnumber?: string;
-  panform?: string;
-  pannumber?: string;
-  drivinglicense?: string;
-  passportnumber?: string;
-  identity_number?: string;
-  identity_copy?: string;
-  address1?: string;
-  address2?: string;
-  address3?: string;
-  pincode?: string;
-  permanent_address_city?: string;
-  permanent_address_district?: string;
-  permanent_address_state?: string;
-  permanent_address_country?: string;
-  landline?: string;
-  line1?: string;
-  line2?: string;
-  line3?: string;
-  current_pincode?: string;
-  current_address_city?: string;
-  current_address_district?: string;
-  current_address_state?: string;
-  current_address_country?: string;
-  current_landline?: string;
-  registered_line1?: string;
-  registered_line2?: string;
-  registered_line3?: string;
-  registered_pincode?: string;
-  registered_address_city?: string;
-  registered_address_district?: string;
-  registered_address_state?: string;
-  registered_address_country?: string;
-  reg_mobile?: string;
 }
