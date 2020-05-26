@@ -5,16 +5,21 @@ import RequestEntity from '@model/request.entity';
 import { storage } from "../../storage/localstorage";
 
 import { HttpClient } from '@angular/common/http';
+import { HttpService } from '@services/http.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-
+  lovData: any;
   dashboardLeadsAction: Subject<boolean> = new Subject<boolean>();
   isCreditShow: Observable<boolean> = this.dashboardLeadsAction.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private httpService: HttpService,
+    private commonLovService: CommomLovService
+    ) { }
 
   leadsChange(value: boolean) {
     this.dashboardLeadsAction.next(value);
@@ -28,12 +33,13 @@ export class DashboardService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 
     const body: RequestEntity = {
-      processId: processId,
-      ProcessVariables: {"userId": storage.getUserId()},
-      workflowId: workflowId,
-      projectId: projectId
+      processId,
+      ProcessVariables: {userId: storage.getUserId()},
+      workflowId,
+      projectId
     };
-    return this.http.post(url, body);
+
+    return this.httpService.post(url, body);
   }
 
 }

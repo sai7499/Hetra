@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { DashboardService } from '@services/dashboard/dashboard.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-new-leads',
@@ -14,10 +15,12 @@ export class NewLeadsComponent implements OnInit {
   labels: any = {};
   q;
   isCredit: boolean;
+  lovData: any;
 
   constructor(
     private labelsData: LabelsService,
-    private dashboardSevice: DashboardService
+    private dashboardSevice: DashboardService,
+    private commonLovService: CommomLovService
     ) {
     this.newArray =  [
       {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
@@ -72,10 +75,10 @@ export class NewLeadsComponent implements OnInit {
   }
 
    getMyLeads() {
-    this.dashboardSevice.myLeads().subscribe( (res:any) =>{
+    this.dashboardSevice.myLeads().subscribe( (res: any) => {
 const response = res;
-console.log('dash',res);
-    })
+console.log('dash', res);
+    });
   }
 
 }
