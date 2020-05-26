@@ -4,7 +4,7 @@ export interface Applicant {
   indivIdentityInfoDetails?: IndivIdentityInfoDetails;
   indivProspectProfileDetails?: IndivProspectProfileDetails;
   corporateProspectDetails?: CorporateProspectDetails;
-  addressDetails?: AddressDetails;
+  addressDetails?: AddressDetails[];
 }
 
 export interface ApplicantDetails {
