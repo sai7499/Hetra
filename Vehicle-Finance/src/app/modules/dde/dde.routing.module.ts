@@ -26,6 +26,7 @@ import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
+import { DeviationsComponent } from './deviations/deviations.component';
 
 const routes: Routes = [
   {
@@ -100,6 +101,11 @@ const routes: Routes = [
       {
         path: 'credit-conditions',
         component: CreditConditionsComponent
+
+      },
+      {
+        path: 'deviations',
+        component: DeviationsComponent 
 
       }
     ]
