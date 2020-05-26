@@ -11,6 +11,7 @@ import { LabelsService } from '@services/labels.service';
 export class SharedVehicleDetailsComponent implements OnInit {
 
   roleId: any;
+  roleName: string;
   roles = [];
   public label: any = {};
 
@@ -29,13 +30,14 @@ export class SharedVehicleDetailsComponent implements OnInit {
   constructor(private loginStoreService: LoginStoreService, private labelsData: LabelsService) { }
 
   ngOnInit() {
-    const role = this.loginStoreService.getRoleId();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
-    this.roleId = role ? role : '';
+    this.roleId = this.loginStoreService.getRoleId();
+    this.roleName = this.loginStoreService.getRoleName();
 
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
+      console.log('labels', this.label)
     },
       error => {
         console.log('error', error)

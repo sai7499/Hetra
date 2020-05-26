@@ -78,7 +78,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private createLeadService: CreateLeadService,
     private commomLovService: CommomLovService,
     private loginStoreService: LoginStoreService
-  ) {}
+  ) { }
 
   ngOnChanges() {
     console.log(this.test);

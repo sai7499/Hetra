@@ -1,8 +1,10 @@
 <div class="multisteps-form__form">
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
-    <h4 class="title"><b>{{ roleId === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
+    <h4 class="title"><b>{{ roleName === 'Sales Officer' ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
-        <button class="btn btn-primary mar-right8" type="button">{{label.addVehicle}}</button>
+        <button class="btn btn-primary mar-right8" type="button"
+            [routerLink]=" roleName === 'Sales Officer' ? ['/pages/lead-section/add-vehicle'] : ['/pages/vehicle-details']">add
+            vehicle</button>
         <!-- [routerLink]="['/pages/lead-section/add-vehicle']" -->
     </div>
     <div class="table-responsive">
@@ -12,15 +14,15 @@
                     <th>{{label.registrationNo}}</th>
                     <th>{{label.make}} </th>
                     <th>{{label.model}}</th>
-                    <th *ngIf="roleId === 1">{{label.variant}}</th>
-                    <th *ngIf="roleId === 1">{{label.finalAssetCost}}</th>
+                    <th *ngIf="roleName === 'Sales Officer'">{{label.variant}}</th>
+                    <th *ngIf="roleName === 'Sales Officer'">{{label.finalAssetCost}}</th>
                     <th>{{label.action}}</th>
                 </tr>
             </thead>
-            <tbody *ngIf="roleId === 1">
+            <tbody *ngIf="roleName === 'Sales Officer'">
                 <tr id="add_vhd_tabletr"></tr>
             </tbody>
-            <tbody *ngIf="roleId !== 1">
+            <tbody *ngIf="roleName !== 'Sales Officer'">
                 <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleListArray; let i = index">
                     <td data-title="Registration Number">
                         {{item.registrationNum}}
