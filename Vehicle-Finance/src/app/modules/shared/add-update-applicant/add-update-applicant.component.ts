@@ -131,7 +131,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     );
   }
 
-  setFormValue(applicantValue: Applicant) {
+  setFormValue(applicantValue) {
     console.log('applicant value', applicantValue);
     if (!applicantValue) {
       console.log('applicant value -1', applicantValue);

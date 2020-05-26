@@ -1,48 +1,113 @@
 export interface Applicant {
-  entity?: string;
-  relationshipwithloanapplicant?: string;
-  first_name?: string;
-  middle_name?: string;
-  last_name?: string;
-  company_name1?: string;
-  company_name2?: string;
-  company_name3?: string;
-  mobile?: string;
-  date_of_birth?: string;
-  date_of_incorporation?: string;
-  identity_type?: string;
-  aadharnumber?: string;
-  panform?: string;
-  pannumber?: string;
-  drivinglicense?: string;
-  passportnumber?: string;
-  identity_number?: string;
-  identity_copy?: string;
-  address1?: string;
-  address2?: string;
-  address3?: string;
-  pincode?: string;
-  permanent_address_city?: string;
-  permanent_address_district?: string;
-  permanent_address_state?: string;
-  permanent_address_country?: string;
-  landline?: string;
-  line1?: string;
-  line2?: string;
-  line3?: string;
-  current_pincode?: string;
-  current_address_city?: string;
-  current_address_district?: string;
-  current_address_state?: string;
-  current_address_country?: string;
-  current_landline?: string;
-  registered_line1?: string;
-  registered_line2?: string;
-  registered_line3?: string;
-  registered_pincode?: string;
-  registered_address_city?: string;
-  registered_address_district?: string;
-  registered_address_state?: string;
-  registered_address_country?: string;
-  reg_mobile?: string;
+  applicantDetails?: ApplicantDetails;
+  aboutIndivProspectDetails?: IndividualProspectDetails;
+  indivIdentityInfoDetails?: IndivIdentityInfoDetails;
+  indivProspectProfileDetails?: IndivProspectProfileDetails;
+  corporateProspectDetails?: CorporateProspectDetails;
+  addressDetails?: AddressDetails;
+}
+
+export interface ApplicantDetails {
+  name1?: string;
+  name2?: string;
+  name3?: string;
+  title?: string;
+  loanApplicationRelation?: string;
+  entityType?: string;
+  customerCategory?: string;
+}
+
+export interface IndividualProspectDetails {
+  dob?: string;
+  mobilePhone?: string;
+  isSeniorCitizen?: string;
+  isMinor?: string;
+  minorGuardianName?: string;
+  minorGuardianUcic?: string;
+  spouseName?: string;
+  fatherName?: string;
+  motherMaidenName?: string;
+  nationality?: string;
+  occupation?: string;
+  emailId?: string;
+  alternateEmailId?: string;
+  preferredLanguage?: string;
+  designation?: string;
+  currentEmpYears?: string;
+  employeeCode?: number;
+  department?: string;
+}
+
+export interface AddressDetails {
+  addressType?: string;
+  addressLineOne?: string;
+  addressLineTwo?: string;
+  addressLineThree?: string;
+  pincode?: number;
+  city?: number;
+  district?: number;
+  state?: number;
+  country?: string;
+  landlineNumber?: string;
+  mobileNumber?: string;
+  accommodationType?: string;
+  periodOfCurrentStay?: number;
+  isCurrAddSameAsPermAdd?: string;
+}
+
+export interface CorporateProspectDetails {
+  dateOfIncorporation?: string;
+  countryOfCorporation?: string;
+  companyEmailId?: string;
+  alternateEmailId?: string;
+  preferredLanguageCommunication?: string;
+  numberOfDirectors?: number;
+  directorName?: string;
+  directorIdentificationNumber?: string;
+  contactPerson?: string;
+  contactPersonDesignation?: string;
+  contactPersonMobile?: string;
+  ratingIssuerName?: string;
+  externalRatingAssigned?: string;
+  externalRatingIssueDate?: string;
+  externalRatingExpiryDate?: string;
+  foreignCurrencyDealing?: string;
+  exposureBankingSystem?: string;
+  creditRiskScore?: string;
+  tinNumber?: string;
+  corporateIdentificationNumber?: string;
+  gstNumber?: string;
+  panNumber?: string;
+  aadhar?: string;
+  passportNumber?: string;
+  passportIssueDate?: string;
+  passportExpiryDate?: string;
+  drivingLicenseNumber?: string;
+  drivingLicenseIssueDate?: string;
+  drivingLicenseExpiryDate?: string;
+  voterIdNumber?: string;
+  voterIdIssueDate?: string;
+  voterIdExpiryDate?: string;
+  companyPhoneNumber?: string;
+}
+
+export interface IndivIdentityInfoDetails {
+  form60?: string;
+  pan?: string;
+  aadhar?: string;
+  passportNumber?: string;
+  passportIssueDate?: string;
+  passportExpiryDate?: string;
+  drivingLicenseNumber?: string;
+  drivingLicenseIssueDate?: string;
+  drivingLicenseExpiryDate?: string;
+  voterIdNumber?: string;
+  voterIdIssueDate?: string;
+  voterIdExpiryDate?: string;
+}
+
+export interface IndivProspectProfileDetails {
+  employerType?: string;
+  employerName?: string;
+  workplaceAddress?: string;
 }
