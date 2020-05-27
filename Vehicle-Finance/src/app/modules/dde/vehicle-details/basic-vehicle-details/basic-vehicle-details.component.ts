@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LabelsService } from '@services/labels.service';
-import { LovDataService } from '@services/lov-data.service';
-import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -18,25 +15,10 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   public select_main_button_value: string = 'New CV';
 
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService, private lovData: LovDataService, private leadStoreService: LeadStoreService) {
-    this.lovData.getLovData().subscribe((res: any) => {
-      this.lovLabels = res[0].basicVehicleDetails[0];
-    });
-  }
+  constructor(private _fb: FormBuilder) {}
 
   ngOnInit() {
     this.createForm();
-    this.labelsData.getLabelsOfDDEData()
-      .subscribe(data => {
-        this.label = data[0].basicVehicleDetails[0];
-      },
-        error => {
-          console.log(error, 'error')
-        });
-
-    this.lovData.getLovData().subscribe((res: any) => {
-      this.values = res[0].basicVehicleDetails[0];
-    });
   }
 
   createForm() {

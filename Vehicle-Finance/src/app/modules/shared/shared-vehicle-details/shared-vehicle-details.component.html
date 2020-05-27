@@ -2,9 +2,8 @@
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <h4 class="title"><b>{{ roleName === 'Sales Officer' ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
-        <button class="btn btn-primary mar-right8" type="button"
-            [routerLink]=" roleName === 'Sales Officer' ? ['/pages/lead-section/add-vehicle'] : ['/pages/vehicle-details']">{{label.addVehicle}}</button>
-        <!-- [routerLink]="['/pages/lead-section/add-vehicle']" -->
+        <button class="btn mar-right8" [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'" type="button"
+            [routerLink]="roleName === 'Sales Officer' ? ['/pages/lead-section/add-vehicle'] : ['/pages/vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -21,7 +20,7 @@
             <tbody *ngIf="roleName === 'Sales Officer'">
                 <tr id="add_vhd_tabletr"></tr>
             </tbody>
-            <tbody *ngIf="roleName !== 'Sales Officer'">
+            <tbody *ngIf="roleName === 'Credit Officer'">
                 <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleListArray; let i = index">
                     <td data-title="Registration Number">
                         {{item.registrationNum}}

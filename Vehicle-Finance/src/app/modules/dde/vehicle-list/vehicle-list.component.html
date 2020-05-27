@@ -1,15 +1,16 @@
 <!-- <div class="content"> -->
 <form class="multisteps-form__form">
     <div class="container cus-wid-sty">
-        <div class="btn-sec clear-both row">
+        <app-shared-vehicle-details></app-shared-vehicle-details>
+        <!-- <div class="btn-sec clear-both row">
 
             <div class="col-sm-12 text-right">
                 <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
                     {{labels.addVehicle}}
                 </button>
             </div>
-        </div>
-        <div class="row">
+        </div> -->
+        <!-- <div class="row">
             <div class="table-responsive application" id="applicantTable">
 
                 <table class="table">
@@ -45,7 +46,7 @@
 
 
 
-        </div>
+        </div> -->
 
         <div class="btn-sec clear-both row">
             <!-- <div class="col-sm-5">
@@ -81,7 +82,8 @@
                             </td>
                             <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
                                     [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant" (click)="removeOtherIndex(i, colleteralArray)"></i>
+                                    aria-hidden="true" id="remove_item_applicant"
+                                    (click)="removeOtherIndex(i, colleteralArray)"></i>
                             </td>
                         </tr>
                     </tbody>
