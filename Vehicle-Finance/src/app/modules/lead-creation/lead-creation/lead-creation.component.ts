@@ -1,9 +1,7 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-
-// import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 
@@ -16,7 +14,7 @@ import { CreateLeadDataService } from '../service/createLead-data.service';
   templateUrl: './lead-creation.component.html',
   styleUrls: ['./lead-creation.component.css']
 })
-export class LeadCreationComponent implements OnInit, OnChanges {
+export class LeadCreationComponent implements OnInit {
 
   createLeadForm: FormGroup;
   test: any;
@@ -66,11 +64,6 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     dobOrDoc: string
   };
 
-  selectApplicantType(event: any) {
-    console.log(this.applicantType);
-    this.applicantType = event.target.value;
-  }
-
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
@@ -79,11 +72,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private commomLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService
-  ) { }
-
-  ngOnChanges() {
-    console.log(this.test);
-  }
+  ) { };
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -98,9 +87,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      });
+      data => this.labels = data,
+      error => console.log('Lead Creation Label Error', error));
   }
 
   initForm() {
@@ -219,6 +207,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     }
   }
 
+  selectApplicantType(event: any) {
+    console.log(this.applicantType);
+    this.applicantType = event.target.value;
+  }
 
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
@@ -258,7 +250,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       sourcingType: leadModel.sourcingType,
       sourcingCode: leadModel.sourcingCode,
       // spokeCode: leadModel.spokeCode,
-      spokeCode:1,
+      spokeCode: 1,
       loanBranch: leadModel.loanBranch,
       leadHandeledBy: leadModel.leadHandeledBy
 
@@ -284,6 +276,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         const message = response.ProcessVariables.error.message;
         const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
         console.log('Success Message', message);
+        const leadSectionData = response.ProcessVariables;
+        this.createLeadDataService.setLeadSectionData(leadSectionData);
 
         if (isDedupeAvailable) {
           const leadDedupeData = response.ProcessVariables.leadDedupeResults;
@@ -294,7 +288,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
         this.router.navigateByUrl('pages/lead-section');
       }
     },
-      err => { alert(err) });
+      err => { alert(err); });
     // this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 

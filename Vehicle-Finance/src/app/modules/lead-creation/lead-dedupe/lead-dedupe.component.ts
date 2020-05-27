@@ -3,6 +3,7 @@ import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { CreateLeadService } from '../service/creatLead.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class LeadDedupeComponent implements OnInit {
   isWithLead: boolean;
 
   constructor(
+    private route: Router,
     private labelsData: LabelsService,
     private leadStoreService: LeadStoreService,
     private createLeadService: CreateLeadService,
@@ -89,6 +91,13 @@ export class LeadDedupeComponent implements OnInit {
     this.createLeadService.createLead(loanLeadDetails, applicantDetails, true).subscribe((res: any) => {
       const response = res;
       console.log('proceedAsNewLead', response);
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        const proceedAsNewLeadData = response.ProcessVariables;
+        this.createLeadDataService.setProceedAsNewLead(proceedAsNewLeadData);
+        this.route.navigateByUrl('/pages/lead-section');
+      }
     });
   }
 
@@ -96,6 +105,13 @@ export class LeadDedupeComponent implements OnInit {
     this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
       const response = res;
       console.log('proceedWithSelectedLead', response);
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        const proceedWithSelectedLeadData = response.ProcessVariables;
+        this.createLeadDataService.setProceedWithSelectedLead(proceedWithSelectedLeadData);
+        this.route.navigateByUrl('/pages/lead-section');
+      }
     });
   }
 
