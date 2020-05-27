@@ -20,14 +20,14 @@
                 <td *ngIf="!isCredit"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
                 <td>
                     <a [routerLink]="['/pages/dde']">{{item.leadId}}</a></td>
-                <td>{{item.product}}</td>
-                <td>{{item.loanAmount}}</td>
-                <td>{{item.applicants}}</td>
-                <td>{{item.createdOn}}</td>
-                <td>{{item.createdBy}}</td>
-                <td>{{item.priority}}</td>
-                <td>{{item.promoCode}}</td>
-                <td>{{item.status}}</td>
+                <td>{{item.product ? item.product : '--'}}</td>
+                <td>{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                <td>{{item.applicants ? item.applicants : '--'}}</td>
+                <td>{{item.createdOn ? item.createdOn : '--'}}</td>
+                <td>{{item.createdBy ? item.createdBy : '--'}}</td>
+                <td>{{item.priority ? item.priority : '--'}}</td>
+                <td>{{item.promoCode ? item.promoCode : '--'}}</td>
+                <td>{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>

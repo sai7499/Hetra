@@ -19,7 +19,7 @@ import { ViabilityChecksBranchComponent } from './vehicle-viability/viability-ch
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'leads/new-leads',
+    redirectTo: 'leads',
     pathMatch: 'full'
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     children: [
       {
         path: 'leads',
-        redirectTo: 'leads/new-leads',
+        redirectTo: 'leads',
         pathMatch: 'full'
       },
       {
@@ -36,7 +36,7 @@ const routes: Routes = [
         component: LeadsComponent,
         children: [
           {
-            path: 'new-leads',
+            path: '',
             component: NewLeadsComponent
           },
           {

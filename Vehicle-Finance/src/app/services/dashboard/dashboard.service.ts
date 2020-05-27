@@ -13,6 +13,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 })
 export class DashboardService {
   lovData: any;
+  userID = 1001;
   dashboardLeadsAction: Subject<boolean> = new Subject<boolean>();
   isCreditShow: Observable<boolean> = this.dashboardLeadsAction.asObservable();
 
@@ -30,14 +31,14 @@ export class DashboardService {
     const workflowId = environment.api.getMyLeads.workflowId;
     const projectId = environment.projectId;
 
-    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 
     const body: RequestEntity = {
       processId,
-      ProcessVariables: {userId: storage.getUserId()},
+      ProcessVariables: {userId: this.userID},
       workflowId,
       projectId
     };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 
     return this.httpService.post(url, body);
   }
