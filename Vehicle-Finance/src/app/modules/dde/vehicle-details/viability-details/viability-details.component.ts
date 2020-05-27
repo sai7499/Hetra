@@ -4,8 +4,8 @@ import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-viability-details',
-  templateUrl: './viability-details.component.html',
-  styleUrls: ['./viability-details.component.css']
+  templateUrl: './viability-details.component.html'
+  // styleUrls: ['./viability-details.component.css']
 })
 export class ViabilityDetailsComponent implements OnInit {
 

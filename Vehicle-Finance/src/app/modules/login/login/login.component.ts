@@ -118,7 +118,6 @@ export class LoginComponent implements OnInit {
       if (response.status) {
         const token = response.token;
         localStorage.setItem('token', token);
-        console.log('loginData', this.loginData);
         this.loginStoreService.setEmailId(this.loginData.email);
 
         // tslint:disable-next-line: no-shadowed-variable
@@ -133,7 +132,6 @@ export class LoginComponent implements OnInit {
             const userId = response.ProcessVariables.userId;
             localStorage.setItem('userId', userId);
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
-            this.loginStoreService.setRole(roles);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;
             // if (role === 'Sales Officer') {

@@ -15,7 +15,8 @@ import { PdReportComponent } from "./pd-report/pd-report.component";
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
-import { CreditConditionsComponent } from './credit-conditions/credit-conditions.component';
+import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
+import { DeviationsComponent } from './deviations/deviations.component';
 
 const routes: Routes = [
   {
@@ -90,6 +91,12 @@ const routes: Routes = [
       {
         path: 'credit-conditions',
         component: CreditConditionsComponent
+
+      },
+      {
+        path: 'deviations',
+        component: DeviationsComponent 
+
       }
     ]
   }

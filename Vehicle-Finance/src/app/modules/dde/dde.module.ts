@@ -17,17 +17,16 @@ import { ApplicantListComponent } from './applicant-list/applicant-list.componen
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
-import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
+import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+import { CamComponent } from './cam/cam.component';
+
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
 import { ScoreCardComponent } from './score-card/score-card.component';
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
-import { CamComponent } from './cam/cam.component';
-import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+import { DeviationsComponent } from './deviations/deviations.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
-// import { ValuationComponent } from './vehicle-valuation-router/valuation/valuation.component';
-// import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
-// import { CamComponent } from './cam/cam.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 
 
 @NgModule({
@@ -51,8 +50,8 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
     CamComponent,
     ScoreCardComponent,
     CreditConditionsComponent,
-    CamComponent,
-    TvrDetailsComponent
+    DeviationsComponent
+
   ],
   imports: [
     DdeRoutingModule,

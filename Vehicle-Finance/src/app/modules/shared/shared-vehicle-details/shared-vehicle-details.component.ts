@@ -32,8 +32,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
-    this.roleId = this.loginStoreService.getRoleId();
-    this.roleName = this.loginStoreService.getRoleName();
+    console.log(this.roles, 'roleUser')
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
 
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
