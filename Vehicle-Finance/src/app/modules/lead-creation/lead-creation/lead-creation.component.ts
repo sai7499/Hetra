@@ -76,7 +76,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     private leadStoreService: LeadStoreService,
     private labelsData: LabelsService,
     private createLeadService: CreateLeadService,
-    private commomLovService: CommomLovService,
+    private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService
   ) { }
 
@@ -124,8 +124,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   getLOV() {
-    this.commomLovService.getLovData().subscribe(lov => this.LOV = lov);
-    console.log('Create Lead LOV data ---', this.LOV);
+    this.commonLovService.getLovData().subscribe(lov => this.LOV = lov);
+    console.log('all lov data ---', this.LOV);
   }
 
   getUserDetailsData() {

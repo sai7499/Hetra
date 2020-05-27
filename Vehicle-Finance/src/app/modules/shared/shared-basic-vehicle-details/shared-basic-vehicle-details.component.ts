@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-
+import { CommomLovService } from '../../../services/commom-lov-service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -14,19 +14,30 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public basicVehicleForm: FormGroup;
   roleId: any;
   roleName: any;
+  roles: any = [];
   public label: any = {};
+  LOV: any = [];
 
   public select_main_button_value: string = 'New CV';
 
-  constructor(private _fb: FormBuilder, private loginStoreService: LoginStoreService, private labelsData: LabelsService) { }
+  constructor(
+    private _fb: FormBuilder,
+    private loginStoreService: LoginStoreService,
+    private labelsData: LabelsService,
+    private commonLovService: CommomLovService
+  ) { }
 
   ngOnInit() {
+
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
     })
-
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.roles = roleAndUserDetails.roles;
+    // console.log('roleUser', this.roles[0].name)
     this.roleId = this.loginStoreService.getRoleId();
     this.roleName = this.loginStoreService.getRoleName();
+
 
     this.initForms();
 
@@ -39,12 +50,23 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           console.log('error')
         });
 
+    this.getLOV();
+
   }
 
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
+    console.log("inintForms rolename => ", this.roleName)
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
+  }
+
+  getLOV() {
+
+    // console.log("in getLOV")
+    this.commonLovService.getLovData().subscribe(lov => this.LOV = lov);
+    console.log('vehicle lov data ---', this.LOV);
+
   }
 
   addSalesFormControls() {
@@ -99,10 +121,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   select_main_button(event) {
     const value = event.target.value;
-    // this.select_main_button_value = value === 'individual';
-    // const formArray = (this.basicForm.get('details') as FormArray);
+    this.select_main_button_value = value;
+
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+
+    const creditFormArray = (formArray.get('vehicleTypearray') as FormArray)
+
+    console.log(formArray['controls'])
+    console.log(creditFormArray, 'credit')
     // formArray.clear();
     // this.select_main_button_value ? this.addIndividualFormControls() : this.addNonIndividualFormControls();
+
   }
 
 }

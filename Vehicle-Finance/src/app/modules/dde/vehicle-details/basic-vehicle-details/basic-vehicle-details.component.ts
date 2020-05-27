@@ -30,7 +30,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
       .subscribe(data => {
 
         this.label = data.basicVehicleDetails[0];
-        console.log('basicVehicleDetailsLabels', this.label)
+        // console.log('basicVehicleDetailsLabels', this.label)
       },
         error => {
           console.log(error, 'error')

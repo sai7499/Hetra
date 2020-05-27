@@ -26,6 +26,7 @@ export class LoginStoreService {
 
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
+
     }
 
     setEmailId(email) {
@@ -37,6 +38,7 @@ export class LoginStoreService {
     }
 
     setRole(role) {
+
         const roleArray = role;
         this.roleName = role ? role[0].name : '';
         this.roleId = role ? role[0].roleId : '';
