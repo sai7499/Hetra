@@ -32,6 +32,8 @@ export interface ApplicantDetails {
   entityType?: string;
   entity?: string;
   customerCategory?: string;
+  applicantTypeKey?: string;
+  entityTypeKey?: string;
 }
 
 export interface IndividualProspectDetails {
@@ -70,6 +72,7 @@ export interface AddressDetails {
   accommodationType?: string;
   periodOfCurrentStay?: number;
   isCurrAddSameAsPermAdd?: string;
+  entityTypeKey?: string;
 }
 
 export interface CorporateProspectDetails {

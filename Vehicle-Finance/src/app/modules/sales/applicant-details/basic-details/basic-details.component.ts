@@ -52,6 +52,8 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
+      entity: new FormControl(''),
+      applicantRelationshipWithLead: new FormControl(''),
       details: new FormArray([]),
     });
     this.addNonIndividualFormControls();
@@ -65,7 +67,7 @@ export class BasicDetailsComponent implements OnInit {
       this.getApplicantDetails();
     });
     // setTimeout(() => {
-    this.clearFormArray();
+    // this.clearFormArray();
     // });
   }
 
@@ -87,10 +89,16 @@ export class BasicDetailsComponent implements OnInit {
 
   setBasicData() {
     this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
-    this.clearFormArray();
+    // this.clearFormArray();
     if (this.isIndividual) {
+      this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
+      this.basicForm.patchValue({
+        entity: this.applicant.applicantDetails.entityTypeKey,
+        applicantRelationshipWithLead: this.applicant.applicantDetails
+          .applicantTypeKey,
+      });
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
