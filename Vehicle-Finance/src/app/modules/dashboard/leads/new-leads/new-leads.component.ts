@@ -14,7 +14,7 @@ export class NewLeadsComponent implements OnInit {
   itemsPerPage = 5;
   labels: any = {};
   q;
-  isCredit: boolean;
+  isCredit;
   lovData: any;
 
   constructor(
@@ -67,10 +67,13 @@ export class NewLeadsComponent implements OnInit {
       }
     );
 
-    this.dashboardSevice.isCreditShow.subscribe(value => {
-      this.isCredit = value;
-    });
+    // this.dashboardSevice.isCreditShow.subscribe(value => {
+    //   this.isCredit = value;
+    // });
     this.getMyLeads();
+    this.isCredit = localStorage.getItem('userId');
+    console.log(this.isCredit);
+
 
   }
 

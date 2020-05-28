@@ -8,14 +8,16 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   showFilter;
-  isCredit: boolean;
+  isCredit;
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.dashboardService.isCreditShow.subscribe(value => {
-      this.isCredit = value;
-      console.log('action - dashboard', this.isCredit);
-    });
+    // console.log(localStorage.getItem('userId'));
+    // this.dashboardService.isCreditShow.subscribe(value => {
+    //   this.isCredit = value;
+    //   console.log('action - dashboard', this.isCredit);
+    // });
+    this.isCredit = localStorage.getItem('userId');
   }
 
 }

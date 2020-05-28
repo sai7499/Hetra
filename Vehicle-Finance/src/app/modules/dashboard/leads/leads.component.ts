@@ -7,17 +7,19 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
   styleUrls: ['./leads.component.css']
 })
 export class LeadsComponent implements OnInit {
-  isCredit: boolean;
+  isCredit;
 
   constructor(private dashboardService: DashboardService) {
 
-    this.dashboardService.isCreditShow.subscribe(value => {
-      this.isCredit = value;
-      console.log('action - leads', this.isCredit);
-    });
+    // this.dashboardService.isCreditShow.subscribe(value => {
+    //   this.isCredit = value;
+    //   console.log('action - leads', this.isCredit);
+    // });
    }
 
   ngOnInit() {
+    this.isCredit = localStorage.getItem('userId');
+
   }
 
 }
