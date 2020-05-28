@@ -33,10 +33,10 @@ export class DashboardService {
 
 
     const body: RequestEntity = {
-      processId,
+      processId : processId,
       ProcessVariables: {userId: this.userID},
-      workflowId,
-      projectId
+      workflowId : workflowId,
+      projectId : projectId
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 
