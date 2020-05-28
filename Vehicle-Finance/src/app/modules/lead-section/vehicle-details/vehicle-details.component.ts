@@ -49,6 +49,7 @@ export class VehicleDetailComponent implements OnInit {
             this.errorMsg = error;
           });
       this.lovDataService.getLovData().subscribe((value: any) => {
+        console.log(value, 'LovData')
         this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
         // console.log('vehicleLov', this.vehicleLov);
         // this.setFormValue();
@@ -164,10 +165,8 @@ export class VehicleDetailComponent implements OnInit {
       this.vehicleDetails.findIndex(x => x.assetMake === this.vehicleLov.assetMake.forEach(element => {
         // tslint:disable-next-line: radix
         if (parseInt(x.assetMake) === element.key) {
-
             x.assetMake = element;
             console.log(this.vehicleDetails.assetMake);
-
         }
       }));
       // tslint:disable-next-line: no-shadowed-variable
@@ -187,16 +186,12 @@ export class VehicleDetailComponent implements OnInit {
 
     }
 
-
     // tslint:disable-next-line: use-lifecycle-interface
     ngOnChanges() { }
-
 
     editVehicle(index: number) {
       console.log('onClickedit', this.vehicleDetails);
       this.router.navigate(['pages/lead-section/add-vehicle', {id: index}]);
-
-
     }
 
     deleteVehicle(index: number) {

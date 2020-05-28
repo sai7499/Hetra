@@ -47,7 +47,7 @@ export class AddvehicleComponent implements OnInit {
               this.errorMsg = error;
             });
         this.lovDataService.getLovData().subscribe((value: any) => {
-          
+          console.log('getLov', value);
           this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
           console.log('vehicleLov', this.vehicleLov);
           this.vehicleLov.assetMake=value[0].vehicleDetails[0].assetMake;

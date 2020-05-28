@@ -27,7 +27,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
-    console.log(this.roles, 'roleUser')
+
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.initForms();
