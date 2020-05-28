@@ -80,6 +80,7 @@ export class BasicDetailsComponent implements OnInit {
       };
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
+      console.log('applicantDetailsfromService--',this.applicant)
 
       this.setBasicData();
     });
