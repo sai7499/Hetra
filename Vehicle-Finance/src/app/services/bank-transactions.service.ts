@@ -13,7 +13,6 @@ export class BankTransactionsService {
   constructor( private httpService: HttpService) { }
   setTransactionDetails(data) {
     const processData = data;
-    console.log(processData);
     const processId = environment.api.bankTransaction.processId;
     const workflowId = environment.api.bankTransaction.workflowId;
     const projectId = environment.projectId;
@@ -30,10 +29,44 @@ export class BankTransactionsService {
     console.log(requestEntity, 'bank transactions');
 
     // const url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
+    // tslint:disable-next-line: prefer-const
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     // const body = {
     //     JSON.stringify(requestEntity)
     // };
     return this.httpService.post(url, requestEntity);
+}
+getBankDetails(data) {
+  const processData = data;
+  const processId = environment.api.getBankTransaction.processId;
+  const workflowId = environment.api.getBankTransaction.workflowId;
+  const projectId = environment.projectId;
+
+  const requestEntity: RequestEntity = {
+    processId,
+    ProcessVariables:  processData,
+    workflowId,
+    projectId
+};
+  console.log(requestEntity);
+  // tslint:disable-next-line: prefer-const
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  return this.httpService.post(url, requestEntity);
+}
+getBankList(data) {
+  const processData = data;
+  const processId = environment.api.getBankAccountList.processId;
+  const workflowId = environment.api.getBankAccountList.workflowId;
+  const projectId = environment.projectId;
+
+  const requestEntity: RequestEntity = {
+    processId,
+    ProcessVariables:  processData,
+    workflowId,
+    projectId
+};
+  // tslint:disable-next-line: prefer-const
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  return this.httpService.post(url, requestEntity);
 }
 }

@@ -36,6 +36,14 @@ export const environment = {
     'getSourcingChannel':{
       'workflowId': '99e9c24294e711eabdcdf2fa9bec3d63',
       'processId': '4e4033dc96a211eabdcff2fa9bec3d63'
+    },
+    'getBankTransaction': {
+      'workflowId': '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+      'processId': '18e0f1d28f8f11eabdc4f2fa9bec3d63'
+    },
+    'getBankAccountList': {
+      'workflowId': '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+      'processId': '6ee060e68f8911eabdc4f2fa9bec3d63'
     }
   },
   host: 'http://128.199.164.250/appiyo/',

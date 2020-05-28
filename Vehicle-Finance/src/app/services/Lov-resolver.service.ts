@@ -7,13 +7,13 @@ import { HttpService } from '../services/http.service';
 import { CommomLovService } from '../services/commom-lov-service';
 
 @Injectable()
-export class LovResolverService implements Resolve<any>{
+export class LovResolverService implements Resolve<any> {
     lovData: any;
     constructor(
         private httpService: HttpService,
         private commonLovService: CommomLovService) { }
 
-    resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    resolve(route?: ActivatedRouteSnapshot): Observable<any> {
 
         const processId = environment.api.getLOVs.processId;
         const workflowId = environment.api.getLOVs.workflowId;
