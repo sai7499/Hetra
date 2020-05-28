@@ -32,10 +32,12 @@ export class LeadCreationComponent implements OnInit {
   loanAccountBranch: string;
   leadHandeledBy: string;
   spokesCodeLocation: any = [];
-  isSpoke: boolean;
+  isSpoke: number;
   businessDivision: any = [];
   isBusinessDivisionEnable: boolean;
   bizDivId: string;
+  branchId: number;
+  userId: number;
 
   LOV: any = [];
 
@@ -44,15 +46,15 @@ export class LeadCreationComponent implements OnInit {
 
   loanLeadDetails: {
     bizDivision: string,
-    productCategory: string,
+    productCategory: number,
     priority: string,
     fundingProgram: string,
     sourcingChannel: string,
     sourcingType: string,
     sourcingCode: string,
     spokeCode: number,
-    loanBranch: string,
-    leadHandeledBy: string
+    loanBranch: number,
+    leadHandeledBy: number
   };
 
   applicantDetails: {
@@ -124,13 +126,13 @@ export class LeadCreationComponent implements OnInit {
     }
     this.getBusinessDivision(roleAndUserDetails);
 
-    const branchId = roleAndUserDetails.userDetails.branchId;
+    this.branchId = roleAndUserDetails.userDetails.branchId;
     const branchName = roleAndUserDetails.userDetails.branchName;
-    this.loanAccountBranch = `${branchId}-${branchName}`;
+    this.loanAccountBranch = `${this.branchId}-${branchName}`;
 
-    const userId = roleAndUserDetails.userDetails.userId;
+    this.userId = roleAndUserDetails.userDetails.userId;
     const userName = roleAndUserDetails.userDetails.firstName;
-    this.leadHandeledBy = `${userId}-${userName}`;
+    this.leadHandeledBy = `${this.userId}-${userName}`;
 
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
     this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
@@ -196,7 +198,7 @@ export class LeadCreationComponent implements OnInit {
       if (element.sourcingChannelId === this.sourcingChange) {
         console.log('Sourching Type --', element.sourcingTypeDesc);
         const data = {
-          key: element.sourcingChannelId,
+          key: element.sourcingTypeId,
           value: element.sourcingTypeDesc
         };
         this.sourchingTypeValues.push(data);
@@ -233,27 +235,18 @@ export class LeadCreationComponent implements OnInit {
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 
-    // const applicantModel = {
-    //   first_name: leadModel.nameOne,
-    //   middle_name: leadModel.nameTwo,
-    //   last_name: leadModel.nameThree,
-    //   mobile: leadModel.mobile,
-    //   dateOfBirth: leadModel.dateOfBirth
-    // };
-
     this.loanLeadDetails = {
       bizDivision: leadModel.bizDivision,
-      productCategory: leadModel.productCategory,
+      productCategory: Number(leadModel.productCategory),
       priority: leadModel.priority,
       fundingProgram: leadModel.fundingProgram,
       sourcingChannel: leadModel.sourcingChannel,
       sourcingType: leadModel.sourcingType,
       sourcingCode: leadModel.sourcingCode,
-      // spokeCode: leadModel.spokeCode,
+      // spokeCode: Number(leadModel.spokeCode),
       spokeCode: 1,
-      loanBranch: leadModel.loanBranch,
-      leadHandeledBy: leadModel.leadHandeledBy
-
+      loanBranch: Number(this.branchId),
+      leadHandeledBy: Number(this.userId)
     };
 
     this.applicantDetails = {
@@ -289,7 +282,6 @@ export class LeadCreationComponent implements OnInit {
       }
     },
       err => { alert(err); });
-    // this.leadStoreService.setCoApplicantDetails(applicantModel);
   }
 
 }

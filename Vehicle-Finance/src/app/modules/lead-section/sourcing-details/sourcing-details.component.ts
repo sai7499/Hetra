@@ -25,10 +25,14 @@ export class SourcingDetailsComponent implements OnInit {
   isAlert: boolean;
 
   bizDivId: string;
+  leadData: any;
 
   businessDivisionArray = [];
   productCategoryArray: Array<any> = [];
-  sourcingCodePlaceholder: string;
+  sourchingTypeData = [];
+  sourcingChange: any;
+  sourcingCodePlaceholder: string = 'Sourcing Code';
+
   spokesCodeLocation: any;
   sourchingTypeValues: any;
 
@@ -50,6 +54,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.initForm();
     this.getLabels();
     this.getLOV();
+    this.getSourcingChannel();
   }
 
   getLabels() {
@@ -68,14 +73,33 @@ export class SourcingDetailsComponent implements OnInit {
   getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
     console.log('leadSection----sour', leadSectionData);
-    const data: any = { ...leadSectionData }
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
 
-    const businessDivision: string = data.loanLeadDetails.bizDivision;
-    this.bizDivId = businessDivision;
+    if (!this.leadData) {
+      return;
+    }
+    const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
+    this.bizDivId = businessDivisionFromLead;
     const productCategory = data.loanLeadDetails.productCategory;
     this.productCategoryFromLead = productCategory;
-    const priority = data.loanLeadDetails.priority;
-    this.getBusinessDivision(businessDivision);
+    const priorityFromLead = data.loanLeadDetails.priority;
+    const leadId = data.leadId;
+    const loanBranchFromLead = data.loanLeadDetails.loanBranch;
+
+    this.getBusinessDivision(businessDivisionFromLead);
+    this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
+    this.sourcingDetailsForm.patchValue({ leadNumber: leadId });
+    this.sourcingDetailsForm.patchValue({ loanBranch: loanBranchFromLead });
+  }
+
+  patchSourcingDetails() {
+    const sourchingChannelFromLead = this.leadData.loanLeadDetails.sourcingChannel;
+    const sourchingTypeFromLead = this.leadData.loanLeadDetails.sourcingType;
+    const sourchingCodeFromLead = this.leadData.loanLeadDetails.sourcingCode;
+    this.sourcingDetailsForm.patchValue({ sourcingChannel: sourchingChannelFromLead });
+    this.sourcingDetailsForm.patchValue({ sourcingType: sourchingTypeFromLead });
+    this.sourcingDetailsForm.patchValue({ sourcingCode: sourchingCodeFromLead });
   }
 
   getBusinessDivision(bizDivision) {
@@ -109,12 +133,47 @@ export class SourcingDetailsComponent implements OnInit {
             key: data.assetProdcutCode,
             value: data.prodcutCatName
           };
-          this.productCategoryArray.push(val)
+          this.productCategoryArray.push(val);
           this.sourcingDetailsForm.patchValue({ productCategory: this.productCategoryFromLead });
         }
       });
     });
     console.log('this.productCategoryData', this.productCategoryArray);
+  }
+
+  getSourcingChannel() {
+    this.createLeadService.getSourcingChannel().subscribe((res: any) => {
+      const response = res.ProcessVariables.sourcingChannelObj;
+      console.log('sourching', response);
+      this.sourchingTypeData = response;
+      if (this.sourchingTypeData) {
+        const sourchingChannel = this.leadData.loanLeadDetails.sourcingChannel;
+        this.sourcingChannelChange(sourchingChannel, false);
+        this.patchSourcingDetails();
+      }
+    });
+  }
+
+  sourcingChannelChange(event: any, fromLead?) {
+    this.sourchingTypeValues = [];
+    this.sourcingChange = (fromLead) ? event.target.value : event;
+    this.sourcingCodePlaceholder = (this.sourcingChange === '4SOURCHAN') ? 'Campaign Code' : 'Employee Code';
+    console.log('SourcingChange --', this.sourcingChange);
+
+    this.sourchingTypeData.map(element => {
+      if (element.sourcingChannelId === this.sourcingChange) {
+        console.log('Sourching Type --', element.sourcingTypeDesc);
+        const data = {
+          key: element.sourcingTypeId,
+          value: element.sourcingTypeDesc
+        };
+        this.sourchingTypeValues.push(data);
+      }
+    });
+    console.log('this.sourchingTypeValues', this.sourchingTypeValues);
+    if (this.sourchingTypeValues.length === 0) {
+      this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
+    }
   }
 
   setPatchData(data) {
@@ -184,22 +243,6 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadSectionService.setCurrentPage(1);
   }
 
-  // getdata() {
-  //   this.id = this.leadStoreService.getLeadCreation();
-  //   console.log(this.id);
-
-
-
-  //   this.sourcingDetailsForm.controls["product"].setValue(this.id.productCategory)
-  //   this.sourcingDetailsForm.controls["priority"].setValue(this.id.priority)
-  //   this.sourcingDetailsForm.controls["spokeCodeLocation"].setValue(this.id.spokeCodeLocation)
-  //   this.sourcingDetailsForm.controls["loanAccountBranch"].setValue(this.id.loanBranch)
-  //   this.sourcingDetailsForm.controls["leadHandledBy"].setValue(this.id.leadHandeledBy)
-  //   this.sourcingDetailsForm.controls["sourcingChannel"].setValue(this.id.sourcingChannel)
-  //   this.sourcingDetailsForm.controls["sourcingType"].setValue(this.id.sourcingType)
-  //   this.sourcingDetailsForm.controls["sourcingCode"].setValue(this.id.sourcingCode)
-  // };
-
   // onFormSubmit() {
   //   this.isAlert = false;
   //   setTimeout(() => {
@@ -212,7 +255,4 @@ export class SourcingDetailsComponent implements OnInit {
   //   this.leadStoreService.setSourcingDetails(sourcingModel);
 
   // }
-
-  sourcingChannelChange(event) { }
-
 }

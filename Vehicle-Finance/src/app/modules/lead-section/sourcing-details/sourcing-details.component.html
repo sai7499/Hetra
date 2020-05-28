@@ -1,5 +1,5 @@
 <div class="content">
-    <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm">
+    <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm" autocomplete="off">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -80,7 +80,7 @@
                     <app-vf-custom-select 
                         [values]="LOV.LOVS.sourcingChannel" 
                         formControlName="sourcingChannel"
-                        (change)="sourcingChannelChange($event)" 
+                        (change)="sourcingChannelChange($event, true)" 
                         name="sourcingChannel">
                     </app-vf-custom-select>
                 </div>
