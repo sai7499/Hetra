@@ -26,6 +26,7 @@ export class LoginStoreService {
 
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
+
     }
 
     setEmailId(email) {

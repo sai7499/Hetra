@@ -9,7 +9,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-vehicle-details.component';
 import { SharedBasicVehicleDetailsComponent } from './shared-basic-vehicle-details/shared-basic-vehicle-details.component';
 
-
 @NgModule({
   declarations: [CustomSelectComponent, TextOnlyModalComponent, LeadSectionHeaderComponent, ProfileComponent, SharedVehicleDetailsComponent, SharedBasicVehicleDetailsComponent],
   imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
