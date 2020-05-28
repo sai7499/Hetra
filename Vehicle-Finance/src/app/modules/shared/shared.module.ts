@@ -3,6 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 import { CustomSelectComponent } from './custom-select/custom-select.component';
 import { TextOnlyModalComponent } from './Modals/text-only-modal/text-only-modal.component';
 import { LeadSectionHeaderComponent } from './lead-section-header/lead-section-header.component';
@@ -30,6 +32,7 @@ import { DdeSharedModule } from '../dde/shared/shared.module';
     RouterModule,
     ReactiveFormsModule,
     DdeSharedModule,
+    NgxPaginationModule,
   ],
   exports: [
     CustomSelectComponent,

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { LabelsService } from 'src/app/services/labels.service';
+import { ApplicantService } from '@services/applicant.service';
+import { ApplicantList } from '@model/applicant.model';
 
 @Component({
   templateUrl: './applicant-list.component.html',
@@ -11,8 +13,14 @@ export class ApplicantListComponent implements OnInit {
   labels: any = {};
   showAddApplicant: boolean;
   applicantUrl: string;
+  applicantList: ApplicantList[] = [];
+  p = 1;
 
-  constructor(private labelsData: LabelsService, private location: Location) {}
+  constructor(
+    private labelsData: LabelsService,
+    private location: Location,
+    private applicantService: ApplicantService
+  ) {}
 
   ngOnInit() {
     const currentUrl = this.location.path();
@@ -30,15 +38,31 @@ export class ApplicantListComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        // console.log(this.labels)
       },
       (error) => {
         console.log(error);
       }
     );
+    this.getApplicantList();
+  }
+
+  getApplicantList() {
+    const data = {
+      leadId: 3,
+    };
+
+    this.applicantService.getApplicantList(data).subscribe((value: any) => {
+      console.log('applicant list', value);
+      const processVariables = value.ProcessVariables;
+      this.applicantList = processVariables.applicantListForLead;
+      console.log('applicantList', this.applicantList);
+    });
   }
 
   isShowAddaApplicant(currentUrl: string) {
     this.showAddApplicant = !currentUrl.includes('dde');
+  }
+  onApplicantClick(item) {
+    console.log('item', item);
   }
 }
