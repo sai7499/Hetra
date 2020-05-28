@@ -14,15 +14,15 @@ import { CommomLovService } from '@services/commom-lov-service';
 export class DashboardService {
   lovData: any;
   userID = 1001;
-  dashboardLeadsAction: Subject<boolean> = new Subject<boolean>();
-  isCreditShow: Observable<boolean> = this.dashboardLeadsAction.asObservable();
+  dashboardLeadsAction: Subject<string> = new Subject<string>();
+  isCreditShow: Observable<string> = this.dashboardLeadsAction.asObservable();
 
   constructor(
     private httpService: HttpService,
     private commonLovService: CommomLovService
     ) { }
 
-  leadsChange(value: boolean) {
+  leadsChange(value: string) {
     this.dashboardLeadsAction.next(value);
   }
 

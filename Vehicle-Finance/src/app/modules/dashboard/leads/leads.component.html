@@ -1,17 +1,17 @@
-<div class="container-fluid mar-bottom" *ngIf="isCredit == '1001'">
+<div class="container-fluid mar-bottom" *ngIf="isCredit == 'Sales Officer'">
     <ul class="nav nav-pills nav-justified" id="background_white">
-        <li [routerLink]="[ '/pages/dashboard/leads' ]" routerLinkActive="active" id="leads"><a>New Leads</a></li>
-        <li [routerLink]="[ '/pages/dashboard/leads/sanction-leads' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Me</a></li>
-        <li [routerLink]="[ '/pages/dashboard/leads/sanction-leads-branch' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Branch</a></li>
-        <li [routerLink]="[ '/pages/dashboard/leads/declined-leads' ]" routerLinkActive="active"><a>Declined Leads with Me</a></li>
-        <li [routerLink]="['/pages/dashboard/leads/declined-branch']" routerLinkActive="active" class=""><a>Declined Leads with Branch {{isCredit}}</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/leads' ]" routerLinkActive="active" id="leads"><a>New Leads</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Me</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads-branch' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Branch</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/declined-leads' ]" routerLinkActive="active"><a>Declined Leads with Me</a></li>
+        <li [routerLink]="['/pages/dashboard/leads-section/declined-branch']" routerLinkActive="active" class=""><a>Declined Leads with Branch</a></li>
 
     </ul>
 </div>
-<div class="container-fluid mar-bottom" *ngIf="isCredit == '1002'">
+<div class="container-fluid mar-bottom" *ngIf="isCredit == 'Credit Officer'">
     <ul class="nav nav-pills nav-justified" id="background_white">
-        <li [routerLink]="[ '/pages/dashboard/leads' ]" routerLinkActive="active" id="leads"><a>My Leads</a></li>
-        <li [routerLink]="[ '/pages/dashboard/leads/sanction-leads-branch' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Branch</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/leads' ]" routerLinkActive="active" id="leads"><a>My Leads</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads-branch' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Branch</a></li>
     </ul>
 </div>
 <router-outlet></router-outlet>

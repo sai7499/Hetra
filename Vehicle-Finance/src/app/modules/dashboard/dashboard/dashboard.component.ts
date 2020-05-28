@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
+import { LoginService } from '../../login/login/login.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,15 +10,14 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 export class DashboardComponent implements OnInit {
   showFilter;
   isCredit;
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService, private loginService: LoginService) { }
 
   ngOnInit() {
-    // console.log(localStorage.getItem('userId'));
-    // this.dashboardService.isCreditShow.subscribe(value => {
-    //   this.isCredit = value;
-    //   console.log('action - dashboard', this.isCredit);
-    // });
-    this.isCredit = localStorage.getItem('userId');
+    this.loginService.getUserDetails().subscribe((res: any) => {
+      const response = res.ProcessVariables.roles[0].name;
+      this.dashboardService.leadsChange(response);
+      this.isCredit = response;
+    });
   }
 
 }

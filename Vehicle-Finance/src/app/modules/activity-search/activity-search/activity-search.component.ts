@@ -57,10 +57,6 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
       .addEventListener('click', this.bodyClickEvent);
   }
 
-  onSelectDashboard() {
-    this.dashboardService.leadsChange(true);
-    console.log('action - search');
-  }
   getvalue(enteredValue: string) {
     this.dropDown = (enteredValue === '') ? false : true;
     const sections = this.activityList;
