@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 
+import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -14,6 +15,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   roleName: string;
   roles = [];
   public label: any = {};
+  vehicleArray = [];
+  private leadId: "121";
 
   public vehicleListArray = [
     {
@@ -27,23 +30,55 @@ export class SharedVehicleDetailsComponent implements OnInit {
       model: 'SUMO'
     }
   ];
-  constructor(private loginStoreService: LoginStoreService, private labelsData: LabelsService) { }
+
+  constructor(
+    private loginStoreService: LoginStoreService,
+    private labelsData: LabelsService,
+    private vehicleDetailsService: VehicleDetailService) { }
 
   ngOnInit() {
+    this.getVehicleDetails();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
-    console.log(this.roles, 'roleUser')
+    // console.log(this.roles, 'roleUser')
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
 
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
+      // console.log("labels", this.label.addVehicle)
     },
       error => {
         console.log('error', error)
         // this.errorMsg = error;
       });
+
+
   }
+
+  getVehicleDetails() {
+    this.vehicleDetailsService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
+      this.vehicleArray = res.ProcessVariables.vehicleDetails;
+    })
+
+    console.log("vehilce list", this.vehicleArray)
+  }
+
+
+  // sample code for understanding
+  // this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
+  //   const product = res.ProcessVariables.productCategoryDetails;
+  //   product.map(data => {
+  //     if (data) {
+  //       const val = {
+  //         key: data.assetProdcutCode,
+  //         value: data.prodcutCatName
+  //       };
+  //       this.productCategoryData.push(val);
+  //     }
+  //   });
+  // });
+
 
 
   removeOtherIndex(i, vehicleArray: any) {

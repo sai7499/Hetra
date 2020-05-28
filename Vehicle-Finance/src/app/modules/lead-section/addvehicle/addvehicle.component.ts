@@ -5,9 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { VehicleDetailService } from '../services/vehicle-detail.service'
+import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { element } from 'protractor';
-
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -28,16 +28,24 @@ export class AddvehicleComponent implements OnInit {
   selectedVehicle: number;
   isHidden: boolean = false;
 
+  vehicleArray = [];
+  leadId: number = 121;
+  LOV: any = [];
 
   constructor(
     private labelsData: LabelsService,
     private lovDataService: LovDataService,
+    private commonLovService: CommomLovService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
     private vehicleDetailService: VehicleDetailService) { }
 
   ngOnInit() {
+
+
+
+    this.getVehicleDetails();
     this.initForm();
     this.getAllFieldLabel = this.labelsData.getLabelsData()
       .subscribe(data => {
@@ -63,6 +71,7 @@ export class AddvehicleComponent implements OnInit {
 
       // this.setFormValue();
       // this.onCheck();
+
 
     });
     this.activatedRoute.params.subscribe((value) => {
@@ -225,6 +234,18 @@ export class AddvehicleComponent implements OnInit {
 
 
   }
+  // => method to get all vehicle collateral details
+  getVehicleDetails() {
+    // this.leadId = 121;
+    this.vehicleDetailService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
+      console.log("response from api ", res)
+      this.vehicleArray = res.ProcessVariables;
+    })
+
+
+    console.log("vehilce Array", this.vehicleArray)
+  }
+
 
   getcategory(category, value, formcontrolName) {
     category.forEach(element => {

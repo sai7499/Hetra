@@ -81,7 +81,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                     <label for="vechical_usage"> {{ label.vechicleUsage }} </label>
 
-                    <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vechicalUsage">
+                    <app-vf-custom-select [values]="vehicleLov?.vechicleUsage" formControlName="vechicalUsage">
                     </app-vf-custom-select>
                 </div>
 
@@ -174,7 +174,7 @@
 
                                     <input formControlName="ageOfAsset" type="text" class="form-control mandatory"
                                         id="age_of_asset1" placeholder="Age of Asset" name="age_of_asset" disabled>
-
+                                    v
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label for="final_asset_cost1"> {{ label.finalAssetCost }} </label>
@@ -186,14 +186,16 @@
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                                     <label for="vechical_usage">{{ label.vechicleUsage }}</label>
 
-                                    <app-vf-custom-select [values]="vehicleLov?.vechicalUsage"
+                                    <app-vf-custom-select [values]="vehicleLov?.vehicleUsage"
                                         formControlName="vechicalUsage"></app-vf-custom-select>
+
+
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                                     <label for="no_vehicle"> {{ label.noVehicle }} </label>
-                                    <input formControlName="noOfVehicle1" type="number" class="form-control mandatory"
-                                        id="no_vehicle" placeholder="No of vehicle" name="no_vehicle">
+                                    <input formControlName="noOfVehicle" type="number" class="form-control mandatory"
+                                        id="no_vehicle1" placeholder="No of vehicle" name="no_vehicle">
                                 </div>
                             </div>
                         </div>
@@ -233,6 +235,10 @@
                 </div>
             </div>
             <ng-container formArrayName="vehicleTypearray">
+
+
+
+
             </ng-container>
 
         </div>

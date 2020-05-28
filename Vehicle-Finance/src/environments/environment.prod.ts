@@ -39,6 +39,10 @@ export const environment = {
     'getAllVehicleCollateralDetails': {
       'workflowId': 'bd15880c904911eabdc4f2fa9bec3d63',
       'processId': 'cd9ac3ba979a11eabdcff2fa9bec3d63'
+    },
+    'getVehicleMasterFromRegion': {
+      'workflowId': '385f090a957e11eabdcff2fa9bec3d63',
+      'processId': '74c36bec6da211eabdc2f2fa9bec3d63'
     }
   },
   host: 'http://128.199.164.250/appiyo/',
