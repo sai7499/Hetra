@@ -10,14 +10,15 @@ import { LoginService } from '../../login/login/login.service';
 export class DashboardComponent implements OnInit {
   showFilter;
   isCredit;
-  constructor(private dashboardService: DashboardService, private loginService: LoginService) { }
-
-  ngOnInit() {
-    this.loginService.getUserDetails().subscribe((res: any) => {
-      const response = res.ProcessVariables.roles[0].name;
-      this.dashboardService.leadsChange(response);
-      this.isCredit = response;
-    });
+  constructor(private dashboardService: DashboardService, private loginService: LoginService) { 
+    // this.loginService.getUserDetails().subscribe((res: any) => {
+    //   const response = res.ProcessVariables.roles[0].name;
+    //   this.dashboardService.leadsChange(response);
+    //   this.isCredit = response;
+    // });
+    this.isCredit = localStorage.getItem('role');
   }
+
+  ngOnInit() {  }
 
 }

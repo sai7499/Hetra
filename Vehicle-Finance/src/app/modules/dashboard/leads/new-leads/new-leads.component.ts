@@ -70,14 +70,20 @@ export class NewLeadsComponent implements OnInit {
       }
     );
 
-    this.dashboardService.isCreditShow.subscribe(value => {
-      this.isCredit = value;
-      if (this.isCredit === 'Credit Officer') {
-        this.getMyLeads();
-      } else {
-        this.newArray = this.newLeads;
-      }
-    });
+    // this.dashboardService.isCreditShow.subscribe(value => {
+    //   this.isCredit = value;
+    // if (this.isCredit === 'Credit Officer') {
+    //   this.getMyLeads();
+    // } else {
+    //   this.newArray = this.newLeads;
+    // }
+    // });
+    this.isCredit = localStorage.getItem('role');
+    if (this.isCredit === 'Credit Officer') {
+      this.getMyLeads();
+    } else {
+      this.newArray = this.newLeads;
+    }
 
 
   }
