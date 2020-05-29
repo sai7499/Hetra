@@ -3,6 +3,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
+import { FleetDetailsService } from '../services/fleet-details.service'
 
 @Component({
   selector: 'app-fleet-details',
@@ -14,20 +15,21 @@ export class FleetDetailsComponent implements OnInit {
   public fleetForm: FormGroup;
   labels: any = {};
   values: any = [];
-
+  leadId: number = 21;
+  userId: number = 1001;
+  fleets: any = [];
 
   constructor(
 
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
-
-
-
-  ) { }
+    private fleetDetailsService: FleetDetailsService) { }
 
 
   ngOnInit() {
+
+    this.saveOrUpdateFleetDetails()
 
     this.fleetForm = this.fb.group(
       {
@@ -74,6 +76,16 @@ export class FleetDetailsComponent implements OnInit {
       ad: [{ value: "", disabled: true }],
       pd: [{ value: "", disabled: true }],
       gridValue: [{ value: "", disabled: true }]
+    });
+  }
+  // method for saving and updating fleet details
+
+  saveOrUpdateFleetDetails() {
+    this.fleetDetailsService.saveOrUpdateFleetDetails(this.leadId, this.userId, this.fleets).subscribe((value: any) => {
+
+      this.fleets = value;
+      console.log("fleet details response", this.fleets)
+
     });
   }
 

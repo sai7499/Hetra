@@ -81,7 +81,7 @@ export class VehicleDetailService {
 
   // 2.method for save or update vehicle details
 
-  saveOrUpdateVehcicleDetails(vehicleDetails) {
+  saveOrUpdateVehcicleDetails(vehicleDetails, leadId, vehicleId, userId) {
 
     const processId = environment.api.saveOrUpdateVehicleCollateralDetails.processId;
     const workflowId = environment.api.saveOrUpdateVehicleCollateralDetails.workflowId;
@@ -92,8 +92,10 @@ export class VehicleDetailService {
       processId: processId,
       ProcessVariables: {
 
-        "vehicleDetails": vehicleDetails
-
+        "vehicleDetails": vehicleDetails,
+        "leadId": leadId,
+        "vehicleId": vehicleId,
+        "userId": userId
       },
       workflowId: workflowId,
       projectId: projectId
@@ -130,30 +132,6 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
-  // 4.method for getting vehicle master from region
-
-  getVehicleMasterFromRegion(region) {
-
-    const processId = environment.api.getVehicleMasterFromRegion.processId;
-    const workflowId = environment.api.getVehicleMasterFromRegion.workflowId;
-    const projectId = environment.projectId;
-
-    const body: RequestEntity = {
-
-      processId: processId,
-      ProcessVariables: {
-
-        "region": region
-
-      },
-      workflowId: workflowId,
-      projectId: projectId
-    };
-
-
-    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    return this.httpService.post(url, body);
-  }
 
 
 

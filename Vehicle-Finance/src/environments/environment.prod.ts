@@ -43,6 +43,18 @@ export const environment = {
     'getVehicleMasterFromRegion': {
       'workflowId': '385f090a957e11eabdcff2fa9bec3d63',
       'processId': '74c36bec6da211eabdc2f2fa9bec3d63'
+    },
+    'getfleetDetails': {
+
+      'workflowId': '05f4baea998511eabdcff2fa9bec3d63',
+      'processId': 'd6f39fda99b211eabdcff2fa9bec3d63'
+
+    },
+    'saveOrUpdateFleet': {
+
+      'workflowId': '0620e32c998511eabdcff2fa9bec3d63',
+      'processId': 'd6f39fda99b211eabdcff2fa9bec3d63'
+
     }
   },
   host: 'http://128.199.164.250/appiyo/',

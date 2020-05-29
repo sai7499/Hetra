@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+// services start here
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
+import { LovDataService } from '@services/lov-data.service';
+import { LeadStoreService } from '@services/lead-store.service';
+// services ended here
+
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -21,17 +26,23 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   LOV: any = [];
   public label: any = {};
   public select_main_button_value: string = 'New CV';
+  leadId: number;
+  private vehicleDetails: any = [];
+  mockLov: any = {};
+  //  declared mockLov for storing mock lov values from lov service regarding asset make and .....
 
   constructor(
     private _fb: FormBuilder,
     private loginStoreService: LoginStoreService,
+    private leadStoreService: LeadStoreService,
+    private lovDataService: LovDataService,
     private labelsData: LabelsService,
     private commonLovService: CommomLovService,
-    private vehicleDetailsService: VehicleDetailService) { }
+    private vehicleDetailsService: VehicleDetailService, ) { }
 
 
   ngOnInit() {
-
+    // this.getLeadId();
     this.getLov();
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
@@ -60,6 +71,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
+
+  // => method for getting lead id from leadstore service for unique lead id
+
+  // getLeadId() {
+  //   this.leadStoreService.getLeadCreation().subscribe((value: any) => {
+  //     console.log('response from getLeadCreation', value)
+
+  //     // console.log("leadID" , this.leadId)
+  //     // this.leadId
+  //   });
+  // }
+
+
   // => method for getting vehicle related lovs from common lov service
 
   getLov() {
@@ -80,7 +104,44 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     });
 
 
+
+    //  mock method for getting lovs for assetMake and so on ....
+
+    this.lovDataService.getLovData().subscribe((value: any) => {
+
+      this.mockLov = value ? value[0].vehicleDetails[0] : {};
+      // console.log('vehicleLov', this.mockLov);
+      this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
+      this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel
+      // this.vehicleLov.vehicleType = value[0].vehicleDetails[0].vehicleType
+      this.vehicleLov.assetBodyType = value[0].vehicleDetails[0].assetBodyType
+      // this.vehicleLov.region = value[0].vehicleDetails[0].region
+      this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant
+      this.vehicleLov.assetSubVariant = value[0].vehicleDetails[0].assetSubVariant
+      // this.vehicleLov.vechicalUsage = value[0].vehicleDetails[0].vechicalUsage
+
+
+
+    });
+    // <= mock method ends =>
+
   }
+
+  // common lov method from api ends..........
+
+
+  // save/update vehicle collaterals api starts here
+
+  // saveVehicleCollaterals() {
+
+  //   this.vehicleDetailsService.saveOrUpdateVehcicleDetails(this.vehicleDetails).subscribe((res: any) => {
+
+  //     console.log("response from saveUpdateVehicleCollaterals", res);
+
+
+  //   });
+  // }
+
 
 
 

@@ -9,6 +9,7 @@ import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { element } from 'protractor';
 import { CommomLovService } from '@services/commom-lov-service';
 
+
 @Component({
   selector: 'app-addvehicle',
   templateUrl: './addvehicle.component.html',
@@ -17,7 +18,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 export class AddvehicleComponent implements OnInit {
 
   vehicleForm: FormGroup;
-
+  private vehicleDetails: any = [];
   public vehicleLov: any = {};
   public label: any = {};
   public errorMsg;
@@ -29,7 +30,13 @@ export class AddvehicleComponent implements OnInit {
   isHidden: boolean = false;
 
   vehicleArray = [];
+
+  // process variable for save/update vehicle collaterals
+
+  userId = 1001;
+  vehicleId: number = 101;
   leadId: number = 121;
+
   LOV: any = [];
 
   constructor(
@@ -46,6 +53,7 @@ export class AddvehicleComponent implements OnInit {
 
 
     this.getVehicleDetails();
+
     this.initForm();
     this.getAllFieldLabel = this.labelsData.getLabelsData()
       .subscribe(data => {
@@ -193,8 +201,10 @@ export class AddvehicleComponent implements OnInit {
 
   onFormSubmit() {
 
+    this.saveVehicleCollaterals();
+
     const formModel = this.vehicleForm.value;
-    // console.log('formModel',formModel)
+    // console.log('formModel',foprivate vehicleDetails: any = [];rmModel)
     const vehicleModel = { ...formModel };
     this.isAlert = true
     if (this.selectedVehicle !== undefined) {
@@ -246,6 +256,19 @@ export class AddvehicleComponent implements OnInit {
     console.log("vehilce Array", this.vehicleArray)
   }
 
+  // save/update vehicle collaterals api starts here
+
+  saveVehicleCollaterals() {
+
+    this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleId, this.userId, this.leadId, this.vehicleDetails).subscribe((res: any) => {
+
+      console.log("response from saveUpdateVehicleCollaterals", res);
+
+
+    });
+  }
+
+
 
   getcategory(category, value, formcontrolName) {
     category.forEach(element => {
@@ -260,6 +283,9 @@ export class AddvehicleComponent implements OnInit {
   //  this.tableVehicleDetail=this.vehicleDetailService.getVehicle()
   //  console.log('tableDetails',this.tableVehicleDetail)
   // }
+
+
+
 
   ngOnChanges() { }
 
