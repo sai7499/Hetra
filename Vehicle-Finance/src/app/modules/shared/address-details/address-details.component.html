@@ -29,7 +29,7 @@
                         <input formControlName="addressLineTwo" type="text" class="form-control" id="address2">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="passport">{{labels.addressline3}}></label>
+                        <label for="passport">{{labels.addressline3}}</label>
                         <input formControlName="addressLineThree" type="text" class="form-control" id="address3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -169,19 +169,19 @@
                 <div class="row" formGroupName="officeAddress">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">{{labels.addressline1}}</label>
-                        <input formControlName="officeLine1" type="text" class="form-control" id="passport">
+                        <input formControlName="addressLineOne" type="text" class="form-control" id="passport">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.addressline2}}</label>
-                        <input formControlName="officeLine2" type="text" class="form-control" id="passport">
+                        <input formControlName="addressLineTwo" type="text" class="form-control" id="passport">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.addressline3}}</label>
-                        <input formControlName="officeLine3" type="text" class="form-control" id="passport">
+                        <input formControlName="addressLineThree" type="text" class="form-control" id="passport">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.code}}</label>
-                        <input formControlName="officePinCode" type="text" class="form-control" id="current_pincode">
+                        <input formControlName="pincode" type="text" class="form-control" id="current_pincode">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">City</label>
@@ -190,7 +190,7 @@
                                     <option>City 2</option>
                                     <option>City 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="officeCity"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="city"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.district}}</label>
@@ -199,7 +199,7 @@
                                     <option>District 2</option>
                                     <option>District 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="officeDistrict"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="district"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.state}}</label>
@@ -208,7 +208,7 @@
                                     <option>State 2</option>
                                     <option>State 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="officeState"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="state"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.country}}</label>
@@ -217,7 +217,7 @@
                                     <option>Country 2</option>
                                     <option>Country 3</option>
                                 </select> -->
-                         <app-vf-custom-select formControlName="officeCountry"></app-vf-custom-select>
+                         <app-vf-custom-select formControlName="country"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.typeOfAccommmodation}}</label>
@@ -226,7 +226,7 @@
                                     <option>Rented House</option>
                                     
                                 </select> -->
-                        <app-vf-custom-select formControlName="officeAccommodation" ></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="accommodationType" ></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.periodOfCurrentStayInYears}}</label>
@@ -234,15 +234,15 @@
                                     <option>5 years</option>
                                     <option>2 years</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="officePeriod" ></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="periodOfCurrentStay" ></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="current_landline_num">{{labels.landlineNumber}}</label>
-                        <input formControlName="officeLandLine" type="text" class="form-control" id="current_landline_num">
+                        <input formControlName="landlineNumber" type="text" class="form-control" id="current_landline_num">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="alternate_mobile_num">{{labels.alternateMobileNumber}}</label>
-                        <input formControlName="officeMobile" type="text" class="form-control" id="alternate_mobile_num">
+                        <input formControlName="mobileNumber" type="text" class="form-control" id="alternate_mobile_num">
                     </div>
                 </div>
             </div>
@@ -252,15 +252,15 @@
                 <div class="row" formGroupName="registeredAddress">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">{{labels.addressline1}}</label>
-                        <input formControlName="registeredLine1" type="text" class="form-control" id="line1">
+                        <input formControlName="addressLineOne" type="text" class="form-control" id="line1">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.addressline2}}</label>
-                        <input formControlName="registeredLine2" type="text" class="form-control" id="line2">
+                        <input formControlName="addressLineTwo" type="text" class="form-control" id="line2">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.addressline3}}</label>
-                        <input formControlName="registeredLine3" type="text" class="form-control" id="line3">
+                        <input formControlName="addressLineThree" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.code}}</label>
@@ -269,7 +269,7 @@
                                     <option>pincode 2</option>
                                     <option>pincode 3</option>
                                 </select> -->
-                        <input formControlName="registeredPinCode" type="text" class="form-control" id="line3">
+                        <input formControlName="pincode" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.city}}</label>
@@ -278,7 +278,7 @@
                                     <option>City 2</option>
                                     <option>City 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="registeredCity"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="city"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.district}}</label>
@@ -287,7 +287,7 @@
                                     <option>District 2</option>
                                     <option>District 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="registeredDistrict"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="district"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.state}}</label>
@@ -296,7 +296,7 @@
                                     <option>State 2</option>
                                     <option>State 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="registeredState"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="state"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.country}}</label>
@@ -305,15 +305,15 @@
                                     <option>Country 2</option>
                                     <option>Country 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="registeredCountry"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="country"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.registeredAddressLandlineNumber}}</label>
-                        <input formControlName="registeredLandLine" type="text" class="form-control" id="line3">
+                        <input formControlName="landlineNumber" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.alternateMobileNumber}}</label>
-                        <input formControlName="registeredMobile" type="text" class="form-control" id="line3">
+                        <input formControlName="mobileNumber" type="text" class="form-control" id="line3">
                     </div>
                 </div>
                 <div *ngIf="isSalesOrCredit== 'sales'">
@@ -328,25 +328,25 @@
                 <div class="row" formGroupName="communicationAddress">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="pan">{{labels.addressline1}}</label>
-                        <input formControlName="communicationLine1" type="text" class="form-control" id="line1">
+                        <input formControlName="addressLineOne" type="text" class="form-control" id="line1">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.addressline2}}</label>
-                        <input formControlName="communicationLine2" type="text" class="form-control" id="line2">
+                        <input formControlName="addressLineTwo" type="text" class="form-control" id="line2">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.addressline3}}</label>
-                        <input formControlName="communicationLine3" type="text" class="form-control" id="line3">
+                        <input formControlName="addressLineThree" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.code}}</label>
                         
-                        <input formControlName="communicationPinCode" type="text" class="form-control" id="line3">
+                        <input formControlName="pincode" type="text" class="form-control" id="line3">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.city}}</label>
                         
-                        <app-vf-custom-select formControlName="communicationCity"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="city"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.district}}</label>
@@ -355,21 +355,21 @@
                                     <option>District 2</option>
                                     <option>District 3</option>
                                 </select> -->
-                        <app-vf-custom-select formControlName="communicationDistrict"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="district"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.state}}</label>
                         
-                        <app-vf-custom-select formControlName="communicationState"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="state"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.country}}</label>
                         
-                        <app-vf-custom-select formControlName="communicationCountry"></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="country"></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.landlineNumber}}</label>
-                        <input formControlName="communicationLandLine" type="text" class="form-control" id="line3">
+                        <input formControlName="landlineNumber" type="text" class="form-control" id="line3">
                     </div>
                     
                 </div>

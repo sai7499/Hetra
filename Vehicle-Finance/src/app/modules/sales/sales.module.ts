@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SalesComponent } from './sales.component';
 import { SalesRoutingModule } from './sales.module.routing';
 import { DdeSharedModule } from '../dde/shared/shared.module';
+import { SharedModule } from '@shared/shared.module'
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { DdeSharedModule } from '../dde/shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    SharedModule
   ],
   declarations: [SalesComponent],
 })
