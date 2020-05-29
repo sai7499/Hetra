@@ -1,6 +1,6 @@
 <h3 class="dashboard m-0">{{labels?.incomeAndObligationDetailsTitle}}</h3>
 <!--progress bar-->
-<form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
+<form class="multisteps-form__form" [formGroup]="incomeDetailsForm" >
   <div class="multisteps-form">
     <!-- <div class="content"> -->
     <div class="multisteps-form__panel  js-active" data-animation="scaleIn">
@@ -40,7 +40,7 @@
                   </td>
                   <td data-title="Business Entity Name">
                     <input type="text" id="latbox" value="ABC Enterprises" class="no_border" class="input_value"
-                      name="entityName" class="form-control text-center" formControlName="entityName" />
+                      name="businessEnterpriseName" class="form-control text-center" formControlName="businessEnterpriseName" />
                   </td>
                   <td data-title="Net Profit">
                     <input type="text" id="latbox" value="254000" class="no_border" class="input_value" name="netProfit"
@@ -51,16 +51,16 @@
                       class="form-control text-center" formControlName="depreciation" />
                   </td>
                   <td data-title="Directors salary/Interest to partners + Interest">
-                    <input type="text" id="lngbox" readonly="true" class="input_value" name="directorsSalary"
-                      class="form-control text-center" formControlName="directorsSalary" />
+                    <input type="text" id="lngbox" readonly="true" class="input_value" name="directorSalary"
+                      class="form-control text-center" formControlName="directorSalary" />
                   </td>
                   <td data-title="Gross derived Income">
-                    <input type="text" id="latbox" class="input_value" name="grossIncome"
-                      class="form-control text-center" formControlName="grossIncome" />
+                    <input type="text" id="latbox" class="input_value" name="grossDerivedIncome"
+                      class="form-control text-center" formControlName="grossDerivedIncome" />
                   </td>
                   <td data-title="Gross monthly income">
-                    <input type="text" id="lngbox" readonly="true" class="input_value" name="monthlyIncome"
-                      class="form-control text-center" formControlName="monthlyIncome" />
+                    <input type="text" id="lngbox" readonly="true" class="input_value" name="grossMonthlyIncome"
+                      class="form-control text-center" formControlName="grossMonthlyIncome" />
                   </td>
                   <td data-title="Actions">
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
@@ -107,7 +107,7 @@
                   </td>
                   <td data-title="Income Type">
                     <input type="text" id="latbox" value="Salary" class="no_border" class="input_value"
-                      name="incomeType" class="form-control text-center" formControlName="incomeType" />
+                      name="incomeTypeValue" class="form-control text-center" formControlName="incomeTypeValue" />
                   </td>
                   <td data-title="Gross Income">
                     <input type="text" id="latbox" value="254000" class="no_border" class="input_value"
@@ -158,11 +158,11 @@
                   <td data-title="S.No">{{ k + 1 }}</td>
                   <td data-title="Borrower Name">
                     <input type="text" id="latbox" value="Kumar" class="no_border" class="input_value"
-                      name="borrowerName" class="form-control text-center" formControlName="borrowerName" />
+                      name="applicantName" class="form-control text-center" formControlName="applicantName" />
                   </td>
                   <td data-title="Applicant Type">
                     <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value"
-                      name="applicantType" class="form-control text-center" formControlName="applicantType" />
+                      name="applicantTypeValue" class="form-control text-center" formControlName="applicantTypeValue" />
                   </td>
                   <td data-title="Type of Loan">
                     <input type="text" id="latbox" value="Business Loan" class="no_border" class="input_value"
@@ -177,8 +177,8 @@
                       class="form-control text-center" formControlName="loanAmount" />
                   </td>
                   <td data-title="Tenor(In Months)">
-                    <input type="text" id="lngbox" value="24" class="input_value" name="monthlyTenor"
-                      class="form-control text-center" formControlName="monthlyTenor" />
+                    <input type="text" id="lngbox" value="24" class="input_value" name="tenure"
+                      class="form-control text-center" formControlName="tenure" />
                   </td>
                   <td data-title="MOB">
                     <input type="text" id="lngbox" value="10" class="input_value" name="mob"
@@ -189,8 +189,8 @@
                       class="form-control text-center" formControlName="emi" />
                   </td>
                   <td data-title="Balance Tenor">
-                    <input type="text" id="lngbox" value="14" class="input_value" name="balanceTenor"
-                      class="form-control text-center" formControlName="balanceTenor" />
+                    <input type="text" id="lngbox" value="14" class="input_value" name="balanceTenure"
+                      class="form-control text-center" formControlName="balanceTenure" />
                   </td>
                   <td data-title="Obligation Amount">
                     <input type="text" id="lngbox" value="7931" class="input_value" name="obligationAmount"
@@ -269,3 +269,15 @@
     <!-- </div> -->
   </div>
 </form>
+
+
+<div class="btn-sec clear-both row cst_btm_btns">
+  <div class="col-sm-5">
+
+  </div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary mar-right8" type="button" routerLink="../fleet-details">Back </button>
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">Save </button>
+    <button class="btn btn-primary js-btn-next" type="button" routerLink="../income-details"> Next </button>
+  </div>
+</div>

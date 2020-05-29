@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { FormBuilder, FormArray, FormGroup } from "@angular/forms";
 
 import { LabelsService } from "src/app/services/labels.service";
+import { IncomeDetailsService } from '@services/income-details.service';
 
 @Component({
   selector: "app-income-details",
@@ -14,7 +15,7 @@ export class IncomeDetailsComponent implements OnInit {
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
 
-  constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder) { }
+  constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder, private incomeDetailsService: IncomeDetailsService ) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -29,43 +30,51 @@ export class IncomeDetailsComponent implements OnInit {
     this.incomeDetailsForm = this.formBuilder.group({
       businessDetails: this.formBuilder.array([this.getIncomeDetails()]),
       otherIncomeDetails: this.formBuilder.array([this.getOtherIncomeDetails()]),
-      obligationDetails: this.formBuilder.array([this.getObligationDetails()])
+      obligationDetails: this.formBuilder.array([this.getObligationDetails()]),
+      leadId : 61,
+
     });
   }
   private getIncomeDetails() {
     return this.formBuilder.group({
       applicantName: ["" || "Arun"],
       applicantType: ["" || "Applicant"],
-      entityName: ["" || "ABC Enterprises"],
-      netProfit: ["" || "254000"],
+      businessEnterpriseName: ["" || "ABC Enterprises"],
       depreciation: [""],
-      directorsSalary: [""],
-      grossIncome: [""],
-      monthlyIncome: [""]
+      directorSalary: [""],
+      grossDerivedIncome: [""],
+      grossMonthlyIncome: [""],
+      netProfit: ["" || "254000"],
+
+
     });
   }
   private getOtherIncomeDetails() {
     return this.formBuilder.group({
       applicantName: ["" || "Arun"],
       applicantType: ["" || "Applicant"],
-      incomeType: ["" || "Salary"],
+      incomeTypeValue: ["" || "Salary"],
       grossIncome: ["" || "254000"],
       factoring: [""],
       factoredIncome: [""]
+
     });
   }
   private getObligationDetails() {
     return this.formBuilder.group({
-      borrowerName: ["" || "Kumar"],
-      applicantType: ["" || "Applicant"],
+      applicantName: ["" || "Kumar"],
+      applicantTypeValue: ["" || "Applicant"],
       businessLoan: ["" || "Business Loan"],
       financier: ["" || "muthoot"],
       loanAmount: ["" || "150000"],
-      monthlyTenor: ["" || "24"],
+      tenure: ["" || "24"],
       mob: ["" || "10"],
       emi: ["" || "7931"],
-      balanceTenor: ["" || "14"],
+      balanceTenure: ["" || "14"],
       obligationAmount: ["" || "7931"]
+    
+    
+
     });
   }
   addIncomeUnit() {
@@ -110,5 +119,13 @@ export class IncomeDetailsComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.incomeDetailsForm.value);
+  //   this.incomeDetailsService.setIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any) => {
+  //     console.log(res);
+  //     alert(JSON.stringify(res));
+  // });
+  this.incomeDetailsService.setTransactionDetails(this.incomeDetailsForm.value).subscribe((res:any)=>{
+    console.log(res);
+
+  })
   }
 }

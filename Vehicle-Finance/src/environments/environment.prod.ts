@@ -27,6 +27,10 @@ export const environment = {
     'getSourcingChannel': {
       'workflowId': '99e9c24294e711eabdcdf2fa9bec3d63',
       'processId': '4e4033dc96a211eabdcff2fa9bec3d63'
+    },
+    'incomeDetails': {
+      'workflowId': '6569c7e6967811eabdcff2fa9bec3d63',
+      'processId': 'eabfa04c96ae11eabdcff2fa9bec3d63'
     }
   },
   host: 'http://128.199.164.250/appiyo/',
