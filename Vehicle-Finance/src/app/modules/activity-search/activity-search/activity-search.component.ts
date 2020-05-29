@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { element } from 'protractor';
 import { LoginStoreService } from '../../../services/login-store.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { commonRoutingUrl } from '../../shared/routing.constant';
@@ -38,7 +39,9 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private loginStoreService: LoginStoreService,
-    private route: Router) {
+    private dashboardService: DashboardService,
+    private route: Router
+    ) {
   }
 
   ngOnInit() {
