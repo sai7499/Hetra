@@ -27,7 +27,19 @@ export const environment = {
     'getSourcingChannel': {
       'workflowId': '99e9c24294e711eabdcdf2fa9bec3d63',
       'processId': '4e4033dc96a211eabdcff2fa9bec3d63'
-    }
+    },
+    'saveUpdateFleetRtr':{
+      'processId' : 'be7ff35699c911eabdcff2fa9bec3d63',
+      'workflowId': 'be4f9c6099c911eabdcff2fa9bec3d63'
+    },
+    'getFleetRtr' :{
+      'processId' : '7e26a5b29aae11eabdd1f2fa9bec3d63',
+      'workflowId': 'be4f9c6099c911eabdcff2fa9bec3d63'
+    },
+    'deleteFleetRtr' :{
+      'processId' : '4f83a45c9b3111eabdd3f2fa9bec3d63',
+      'workflowId': 'be4f9c6099c911eabdcff2fa9bec3d63'
+    },
   },
   host: 'http://128.199.164.250/appiyo/',
 
