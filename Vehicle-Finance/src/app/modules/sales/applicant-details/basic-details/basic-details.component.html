@@ -12,24 +12,18 @@
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="Vechical Type">Entity</label>
-          <select
-            id="select_main_button"
-            class="form-control"
-            name=""
-            (change)="onIndividualChange($event)"
-          >
-            <option value="individual"> Individual </option>
-            <option value="non-individual"> Non-Individual </option>
-          </select>
+          <app-vf-custom-select
+            [values]="applicantLov?.entityType"
+            (valueChange)="onIndividualChange($event)"
+            formControlName="entity"
+          ></app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="Vechical Type">Relationship with Lead</label>
-          <select class="form-control" id="">
-            <option value="">-- select one -- </option>
-            <option value="individual"> Applicant </option>
-            <option value="non-individual"> Co-applicant </option>
-            <option value="non-individual"> Guarantor </option>
-          </select>
+          <app-vf-custom-select
+            formControlName="applicantRelationshipWithLead"
+            [values]="applicantLov?.applicantRelationshipWithLead"
+          ></app-vf-custom-select>
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
@@ -46,8 +40,7 @@
                 type="text"
                 class="form-control"
                 id="first_name"
-                readonly=""
-                value="Deepika"
+                formControlName="name1"
               />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -56,8 +49,7 @@
                 type="text"
                 class="form-control"
                 id="middle_name"
-                readonly=""
-                value=""
+                formControlName="name2"
               />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -66,8 +58,7 @@
                 type="text"
                 class="form-control"
                 id="last_name"
-                value="Deepika"
-                readonly=""
+                formControlName="name3"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -79,6 +70,7 @@
                 name="mobile_number"
                 value="8974563210"
                 readonly=""
+                formControlName="mobilePhone"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -99,6 +91,7 @@
                   id="datepicker"
                   value="27-05-1974"
                   readonly=""
+                  formControlName="dob"
                 />
               </div>
             </div>
@@ -111,6 +104,7 @@
                 class="form-control"
                 id="guardian_name"
                 name="guardian_name"
+                formControlName="minorGuardianName"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -120,6 +114,7 @@
                 class="form-control"
                 id="father_name"
                 name="father_name"
+                formControlName="fatherName"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -129,6 +124,7 @@
                 class="form-control"
                 id="spouse_name"
                 name="spouse_name"
+                formControlName="spouseName"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -138,30 +134,29 @@
                 class="form-control"
                 id="maiden_name"
                 name="maiden_name"
+                formControlName="motherMaidenName"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="occupation">Occupation</label>
-              <select class="form-control" id="occupation" name="occupation">
-                <option>Occupation 1</option>
-                <option>Occupation 2</option>
-              </select>
+              <app-vf-custom-select
+                formControlName="occupation"
+                [values]="applicantLov?.occupation"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="nationality">Nationality</label>
-              <select class="form-control" id="nationality" name="nationality">
-                <option>Select</option>
-              </select>
+              <app-vf-custom-select
+                formControlName="nationality"
+                [values]="applicantLov?.nationality"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category">Customer Category</label>
-              <select
-                class="form-control"
-                id="customer_category"
-                name="customer_category"
-              >
-                <option>Select</option>
-              </select>
+              <app-vf-custom-select
+                formControlName="customerCategory"
+                [values]="applicantLov?.customerCategory"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="email_id">Email ID</label>
@@ -170,6 +165,7 @@
                 class="form-control"
                 id="email_id"
                 name="email_id"
+                formControlName="emailId"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -179,19 +175,17 @@
                 class="form-control"
                 id="alternate_email_id"
                 name="alternate_email_id"
+                formControlName="alternateEmailId"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="preffered_language"
                 >Preferred Language for Communication</label
               >
-              <select
-                class="form-control"
-                id="preffered_language"
-                name="preffered_language"
-              >
-                <option>Select</option>
-              </select>
+              <app-vf-custom-select
+                formControlName="preferredLanguage"
+                [values]="applicantLov?.preferredLanguage"
+              ></app-vf-custom-select>
             </div>
           </div>
         </div>
@@ -203,44 +197,52 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="non_occupation">Occupation</label>
-              <select
-                class="form-control"
-                id="non_occupation"
-                name="non_occupation"
-              >
-                <option>Occupation 1</option>
-                <option>Occupation 2</option>
-              </select>
+              <app-vf-custom-select
+                [values]="applicantLov?.occupation"
+                formControlName="occupation"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category">Customer Category</label>
-              <input type="text" class="form-control" id="amount" />
+              <app-vf-custom-select
+                [values]="applicantLov?.customerCategory"
+                formControlName="customerCategory"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">Email ID</label>
-              <input type="text" class="form-control" id="amount" />
+              <input
+                type="text"
+                formControlName="companyEmailId"
+                class="form-control"
+              />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created By">Alternate Email ID</label>
-              <input type="text" class="form-control" id="amount" />
+              <input
+                formControlName="alternateEmailId"
+                type="text"
+                class="form-control"
+              />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">Preferred Language for Communication</label>
-              <select class="form-control">
-                <option>Select</option>
-              </select>
+              <app-vf-custom-select
+                formControlName="preferredLanguageCommunication"
+                [values]="applicantLov?.preferredLanguage"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="channel">Company 1</label>
-              <input type="text" class="form-control" id="amount" />
+              <input formControlName="name1" type="text" class="form-control" />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing type">Company 2</label>
-              <input type="text" class="form-control" id="amount" />
+              <input formControlName="name2" type="text" class="form-control" />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing code">Company 3</label>
-              <input type="text" class="form-control" id="amount" />
+              <input formControlName="name3" type="text" class="form-control" />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="entity">Date Of Incorporation</label>
@@ -250,16 +252,39 @@
                     <i class="fa fa-calendar"></i>
                   </button>
                 </span>
-                <input type="text" class="form-control" id="date" disabled="" />
+                <input
+                  formControlName="dateOfIncorporation"
+                  type="text"
+                  class="form-control"
+                  id="date"
+                  disabled=""
+                />
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">Number Of Directions</label>
-              <input type="text" class="form-control" id="amount" />
+              <input
+                formControlName="numberOfDirectors"
+                type="text"
+                class="form-control"
+              />
             </div>
           </div>
         </div>
       </ng-container>
     </div>
   </form>
+</div>
+
+<div class="btn-sec clear-both">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary dash_href" type="button">
+      <a>Back</a>
+    </button>
+    <button class="btn btn-primary" id="submit" (click)="onSave()">Save</button>
+    <button class="btn btn-primary dash_href" type="button">
+      <a>Next</a>
+    </button>
+  </div>
 </div>

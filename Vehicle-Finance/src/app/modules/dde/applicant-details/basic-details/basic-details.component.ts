@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
     templateUrl: './basic-details.component.html',
@@ -11,6 +12,7 @@ export class BasicDetailsComponent implements OnInit {
     isIndividual = true;
     isSelfEmployed = true;
     labels: any = {};
+    LOV: any = [];
 
     designation = [{
         key: 1,
@@ -21,9 +23,11 @@ export class BasicDetailsComponent implements OnInit {
         value: 'Self Employed'
       }
     ];
-    constructor( private labelsData: LabelsService) {}
+    constructor( private labelsData: LabelsService,
+                private commomLovService: CommomLovService) {}
     ngOnInit() {
-
+        this.getLOV();
+        
         this.labelsData.getLabelsData().subscribe(
             data => {
               this.labels = data;
@@ -35,17 +39,24 @@ export class BasicDetailsComponent implements OnInit {
           );
 
         this.basicForm = new FormGroup({
+            entity : new FormControl(''),
+            relationWithApplicant: new FormControl(''),
+            title: new FormControl(''),
             details: new FormArray([])
         });
         this.addIndividualFormControls();
+        this.basicForm.patchValue({ entity: 'INDIVENTTYP' });
     }
 
     addIndividualFormControls() {
         const formArray = (this.basicForm.get('details') as FormArray);
         const controls = new FormGroup({
-            name: new FormControl(null),
+            firstName: new FormControl(null),
+            middleName: new FormControl(null),
+            lastName: new FormControl(null),
             mobileNumber: new FormControl(null),
             dob: new FormControl(null),
+           
             applicantType: new FormControl(null),
             seniorCitizen: new FormControl(''),
             guardianName: new FormControl(null),
@@ -92,6 +103,7 @@ export class BasicDetailsComponent implements OnInit {
             company1: new FormControl(null),
             company2: new FormControl(null),
             company3: new FormControl(null),
+            mobileNumber: new FormControl(null),
             incorporationDate: new FormControl(null),
             numberOfDirection: new FormControl(null),
             accountNumber: new FormControl(null),
@@ -105,7 +117,7 @@ export class BasicDetailsComponent implements OnInit {
             contactMobileNumber: new FormControl(null),
             issuerName: new FormControl(null),
             ratingAssigned: new FormControl(null),
-            ratingIssuedDate: new FormControl(null),
+            ratingIssueDate: new FormControl(null),
             ratingExpiryDate: new FormControl(null),
             foreignCurrency: new FormControl(null),
             totalExposure: new FormControl(null),
@@ -113,6 +125,11 @@ export class BasicDetailsComponent implements OnInit {
         });
         formArray.push(controls);
     }
+
+    getLOV() {
+        this.commomLovService.getLovData().subscribe(lov => this.LOV = lov);
+        console.log('LOV data ---', this.LOV);
+      }
 
     onDesignationChange(event) {
         const value = event.target.value;
@@ -151,7 +168,7 @@ export class BasicDetailsComponent implements OnInit {
 
     onIndividualChange(event) {
         const value = event.target.value;
-        this.isIndividual = value === 'individual';
+        this.isIndividual = value === 'INDIVENTTYP';
         const formArray = (this.basicForm.get('details') as FormArray);
         formArray.clear();
         this.isIndividual ? this.addIndividualFormControls() : this.addNonIndividualFormControls();

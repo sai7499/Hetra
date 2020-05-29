@@ -1,3 +1,5 @@
+import { SpawnSyncOptionsWithBufferEncoding } from 'child_process';
+
 export interface Applicant {
   applicantDetails?: ApplicantDetails;
   aboutIndivProspectDetails?: IndividualProspectDetails;
@@ -7,6 +9,20 @@ export interface Applicant {
   addressDetails?: AddressDetails[];
 }
 
+export interface ApplicantList {
+  applicantId?: number;
+  applicantType?: string;
+  applicantTypeKey?: string;
+  companyPhoneNumber?: string;
+  dob?: string;
+  doi?: string;
+  entity?: string;
+  entityTypeKey?: string;
+  fullName?: string;
+  mobileNumber?: string;
+  ucic?: string;
+}
+
 export interface ApplicantDetails {
   name1?: string;
   name2?: string;
@@ -14,7 +30,10 @@ export interface ApplicantDetails {
   title?: string;
   loanApplicationRelation?: string;
   entityType?: string;
+  entity?: string;
   customerCategory?: string;
+  applicantTypeKey?: string;
+  entityTypeKey?: string;
 }
 
 export interface ApplicantList {
@@ -67,6 +86,7 @@ export interface AddressDetails {
   accommodationType?: string;
   periodOfCurrentStay?: number;
   isCurrAddSameAsPermAdd?: string;
+  entityTypeKey?: string;
 }
 
 export interface CorporateProspectDetails {

@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
   apiVersion: {
-    login: "v3/",
-    api: "v2/"
+    login: 'v3/',
+    api: 'v2/',
   },
 
    // projectId: '74c36bec6da211eabdc2f2fa9bec3d63',
@@ -44,10 +44,10 @@ export const environment = {
   },
   host: 'http://128.199.164.250/appiyo/',
 
-  aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
+  aesPublicKey:
+    'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
-  appiyoDrive: "/d/drive/upload/",
-
+  appiyoDrive: '/d/drive/upload/',
 };
 
 /*

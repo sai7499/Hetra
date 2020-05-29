@@ -69,6 +69,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   selectApplicantType(event: any) {
     console.log(this.applicantType);
     this.applicantType = event.target.value;
+    console.log(this.applicantType);
   }
 
   constructor(

@@ -13,7 +13,7 @@ const routes: Routes = [
     component: ApplicantDetailsComponent,
     children: [
       {
-        path: 'basic-details',
+        path: 'basic-details/:applicantId',
         component: BasicDetailsComponent,
       },
       {

@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
+import { LovDataService } from '@services/lov-data.service';
+import { CommomLovService } from '@services/commom-lov-service';
+import { LOVS, Item, LovList } from '@model/lov.model';
+import { ApplicantService } from '@services/applicant.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { Applicant, ApplicantDetails } from '@model/applicant.model';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -9,10 +16,12 @@ import { LabelsService } from '@services/labels.service';
 })
 export class BasicDetailsComponent implements OnInit {
   basicForm: FormGroup;
-  isIndividual = true;
+  isIndividual: boolean;
   isSelfEmployed = true;
   labels: any = {};
-
+  applicantLov: LOVS;
+  applicantId: number;
+  applicant: Applicant;
   designation = [
     {
       key: 1,
@@ -23,7 +32,13 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
-  constructor(private labelsData: LabelsService) {}
+  constructor(
+    private labelsData: LabelsService,
+    private lovService: CommomLovService,
+    private activatedRoute: ActivatedRoute,
+    private applicantService: ApplicantService,
+    private applicantDataService: ApplicantDataStoreService
+  ) {}
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -37,28 +52,136 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
+      entity: new FormControl(''),
+      applicantRelationshipWithLead: new FormControl(''),
       details: new FormArray([]),
     });
-    this.addIndividualFormControls();
+    this.addNonIndividualFormControls();
+    this.getLovData();
+    this.activatedRoute.params.subscribe((value) => {
+      console.log('value', value);
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      this.getApplicantDetails();
+    });
+    // setTimeout(() => {
+    // this.clearFormArray();
+    // });
+  }
+
+  getApplicantDetails() {
+    const data = {
+      applicantId: this.applicantId,
+    };
+    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      const applicant: Applicant = {
+        ...processVariables,
+      };
+      this.applicantDataService.setApplicant(applicant);
+      this.applicant = this.applicantDataService.getApplicant();
+      console.log('applicantDetailsfromService--',this.applicant)
+
+      this.setBasicData();
+    });
+  }
+
+  setBasicData() {
+    this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
+    // this.clearFormArray();
+    if (this.isIndividual) {
+      this.clearFormArray();
+      this.addIndividualFormControls();
+      this.setValuesForIndividual();
+      this.basicForm.patchValue({
+        entity: this.applicant.applicantDetails.entityTypeKey,
+        applicantRelationshipWithLead: this.applicant.applicantDetails
+          .applicantTypeKey,
+      });
+    } else {
+      this.addNonIndividualFormControls();
+      this.setValuesForNonIndividual();
+    }
+    const applicantDetails = this.applicant.applicantDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.patchValue({
+      name1: applicantDetails.name1,
+      name2: applicantDetails.name2,
+      name3: applicantDetails.name3,
+    });
+  }
+
+  setValuesForIndividual() {
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.patchValue({
+      emailId: aboutIndivProspectDetails.emailId,
+      alternateEmailId: aboutIndivProspectDetails.alternateEmailId,
+      mobilePhone: aboutIndivProspectDetails.mobilePhone,
+      dob: aboutIndivProspectDetails.dob,
+      minorGuardianName: aboutIndivProspectDetails.minorGuardianName,
+      fatherName: aboutIndivProspectDetails.fatherName,
+      spouseName: aboutIndivProspectDetails.spouseName,
+      motherMaidenName: aboutIndivProspectDetails.motherMaidenName,
+      preferredLanguage: aboutIndivProspectDetails.preferredLanguage,
+      occupation: aboutIndivProspectDetails.occupation,
+      nationality: aboutIndivProspectDetails.nationality,
+    });
+  }
+
+  setValuesForNonIndividual() {
+    const applicantDetails = this.applicant.applicantDetails;
+    const corporateProspectDetails = this.applicant.corporateProspectDetails;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.patchValue({
+      companyEmailId: corporateProspectDetails.companyEmailId,
+      alternateEmailId: corporateProspectDetails.alternateEmailId,
+      numberOfDirectors: corporateProspectDetails.numberOfDirectors,
+      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation,
+      // occupation: '',
+      // nationality: '',
+      preferredLanguageCommunication:
+        corporateProspectDetails.preferredLanguageCommunication,
+    });
+  }
+
+  clearFormArray() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    formArray.clear();
+  }
+
+  getLovData() {
+    this.lovService.getLovData().subscribe((value: LovList) => {
+      this.applicantLov = value.LOVS;
+      console.log('this.applicantLov', this.applicantLov);
+    });
   }
 
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name: new FormControl(null),
-      mobileNumber: new FormControl(null),
+      name1: new FormControl({ value: '', disabled: true }),
+      name2: new FormControl({ value: '', disabled: true }),
+      name3: new FormControl({ value: '', disabled: true }),
+      mobilePhone: new FormControl(null),
       dob: new FormControl(null),
       applicantType: new FormControl(null),
-      guardianName: new FormControl(null),
+      minorGuardianName: new FormControl(null),
       fatherName: new FormControl(null),
       spouseName: new FormControl(null),
-      maidenName: new FormControl(null),
+      motherMaidenName: new FormControl(null),
       occupation: new FormControl(''),
       nationality: new FormControl(''),
       customerCategory: new FormControl(''),
       emailId: new FormControl(''),
-      altrEmailId: new FormControl(''),
-      language: new FormControl(''),
+      alternateEmailId: new FormControl(''),
+      preferredLanguage: new FormControl(''),
     });
     formArray.push(controls);
   }
@@ -66,23 +189,27 @@ export class BasicDetailsComponent implements OnInit {
   addNonIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
+      name1: new FormControl(null),
+      name2: new FormControl(null),
+      name3: new FormControl(null),
       occupation: new FormControl(''),
       customerCategory: new FormControl(null),
-      emailId: new FormControl(null),
-      altrEmailId: new FormControl(null),
-      language: new FormControl(''),
-      company1: new FormControl(null),
-      company2: new FormControl(null),
-      company3: new FormControl(null),
-      incorporationDate: new FormControl(null),
-      numberOfDirection: new FormControl(null),
+      companyEmailId: new FormControl(null),
+      alternateEmailId: new FormControl(null),
+      preferredLanguageCommunication: new FormControl(''),
+      dateOfIncorporation: new FormControl(null),
+      numberOfDirectors: new FormControl(null),
     });
     formArray.push(controls);
   }
 
   onIndividualChange(event) {
-    const value = event.target.value;
-    this.isIndividual = value === 'individual';
+    if (!event) {
+      return;
+    }
+    const value = event.value;
+    console.log('value', value);
+    this.isIndividual = value === 'Individual';
     const formArray = this.basicForm.get('details') as FormArray;
     formArray.clear();
     this.isIndividual

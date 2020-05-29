@@ -17,7 +17,7 @@ export class ApplicantService {
       projectId,
       processId,
       workflowId,
-      ProcessVariables:{
+      ProcessVariables: {
         ...data,
         userId,
       },
@@ -25,5 +25,22 @@ export class ApplicantService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  
+
+  getApplicantDetail(data) {
+    const projectId = environment.projectId;
+    const processId = environment.api.getApplicantDetail.processId;
+    const workflowId = environment.api.getApplicantDetail.workflowId;
+    const userId = localStorage.getItem('userId');
+    const body = {
+      projectId,
+      processId,
+      workflowId,
+      ProcessVariables: {
+        ...data,
+        userId,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }
