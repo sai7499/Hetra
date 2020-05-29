@@ -17,13 +17,27 @@ export interface ApplicantDetails {
   customerCategory?: string;
 }
 
+export interface ApplicantList {
+  applicantId?: number;
+  applicantType?: string;
+  applicantTypeKey?: string;
+  companyPhoneNumber?: string;
+  dob?: string;
+  doi?: string;
+  entity?: string;
+  entityTypeKey?: string;
+  fullName?: string;
+  mobileNumber?: string;
+  ucic?: string;
+}
+
 export interface IndividualProspectDetails {
   dob?: string;
   mobilePhone?: string;
   isSeniorCitizen?: string;
   isMinor?: string;
   minorGuardianName?: string;
-  minorGuardianUcic?: string;
+  minorGuardianUcic?: number;
   spouseName?: string;
   fatherName?: string;
   motherMaidenName?: string;

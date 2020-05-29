@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 export class SaveUpdateApplicantService {
   constructor(private httpService: HttpService) {}
 
-  saveApplicant(applicantDetails) {
+  saveApplicant(data) {
     const processId = environment.api.saveUpdateApplicant.processId;
     const workflowId = environment.api.saveUpdateApplicant.workflowId;
     const projectId = environment.projectId;
@@ -20,7 +20,12 @@ export class SaveUpdateApplicantService {
       workflowId,
       projectId,
       ProcessVariables: {
-        applicantDetails,
+        userId: 1001,
+        loginId: email,
+			  applicantId: 0,
+			  leadId: 61,
+        ...data,
+
       },
     };
 

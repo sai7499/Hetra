@@ -123,16 +123,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let applicant of applicantDetails; let i = index">
-                  <td>55464</td>
-                  <td>{{ applicant.entity?.value }}</td>
-                  <td>{{ applicant.first_name }}</td>
-                  <td>{{ applicant.mobile }}</td>
-                  <td>{{ applicant.dateOfBirth }}</td>
-                  <td>{{ i === 0 ? 'Applicant' : 'Co-Applicant' }}</td>
+                <tr *ngFor="let item of applicantList; let i = index">
+                  <td>{{item.ucic ? item.ucic : '-'}}</td>
+                  <td>{{ item.entity ? item.entity : '-' }}</td>
+                  <td>{{item.fullName ? item.fullName : '-'}}</td>
+                  <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
+                  <td>{{ item.dob ? item.dob : '-' }}</td>
+                  <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
                   <td>
                     <i
-                      (click)="editApplicant(i)"
+                      (click)="editApplicant(item.applicantId)"
                       class="fa fa-pencil"
                       aria-hidden="true"
                     ></i

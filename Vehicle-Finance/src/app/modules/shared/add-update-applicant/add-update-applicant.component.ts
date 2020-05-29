@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
+import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { SaveUpdateApplicantService } from '@services/add-update-applicant.service';
-import { Applicant } from '@model/applicant.model';
+import { Applicant, ApplicantDetails, AddressDetails, IndivIdentityInfoDetails, IndivProspectProfileDetails, CorporateProspectDetails, IndividualProspectDetails } from '@model/applicant.model';
 
 @Component({
   selector: 'app-add-update-applicant',
@@ -16,19 +17,27 @@ import { Applicant } from '@model/applicant.model';
 export class AddOrUpdateApplicantComponent implements OnInit {
   values: any = [];
   labels: any = {};
+  LOV: any = [];
   coApplicantForm: FormGroup;
+  isCurrAddSameAsPermAdd: any = 0;
 
   selectedApplicant: number;
 
-  applicantType = '1';
+  applicantType = 'INDIVENTTYP';
 
-  applicantDetails: {
-    entityType: string;
-    name1: string;
-    name2: string;
-    name3: string;
-    loanApplicationRelation: string;
-  };
+  applicantDetails: ApplicantDetails;
+
+  aboutIndivProspectDetails: IndividualProspectDetails;
+
+  indivIdentityInfoDetails: IndivIdentityInfoDetails;
+
+  indivProspectProfileDetails: IndivProspectProfileDetails;
+
+  corporateProspectDetails: CorporateProspectDetails;
+
+  addressDetails: AddressDetails[];
+
+
 
   selectApplicantType(event: any) {
     console.log(this.applicantType);
@@ -38,6 +47,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   constructor(
     private labelsData: LabelsService,
     private lovData: LovDataService,
+    private CommomLovService: CommomLovService,
     private leadStoreService: LeadStoreService,
     private activatedRoute: ActivatedRoute,
     private saveUpdateApplicant: SaveUpdateApplicantService
@@ -45,6 +55,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.getLOV();
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
@@ -66,36 +77,58 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
   }
 
+  getLOV() {
+    this.CommomLovService.getLovData().subscribe(lov => this.LOV = lov);
+    console.log('ADD/UPDATE APPLICANT ---', this.LOV);
+  }
+
   initForm() {
     this.coApplicantForm = new FormGroup({
-      entity: new FormControl(''),
-      loanApplicationRelation: new FormControl(''),
-      firstName: new FormControl(''),
-      middleName: new FormControl(''),
-      lastName: new FormControl(''),
+      // entity: new FormControl(''),
+       loanApplicationRelation: new FormControl(''),
+      // firstName: new FormControl(''),
+      // middleName: new FormControl(''),
+      // lastName: new FormControl(''),
+      entityType: new FormControl(''),
+      name1: new FormControl(''),
+      name2: new FormControl(''),
+      name3: new FormControl(''),
       company_name1: new FormControl(''),
       company_name2: new FormControl(''),
       company_name3: new FormControl(''),
-      mobile: new FormControl(''),
-      dateOfBirth: new FormControl(''),
-      date_of_incorporation: new FormControl(''),
+      mobilePhone: new FormControl(''),
+      dob: new FormControl(''),
+      dateOfIncorporation: new FormControl(''),
       identity_type: new FormControl(''),
-      aadharnumber: new FormControl(''),
-      panform: new FormControl(''),
-      pannumber: new FormControl(''),
+      aadhar: new FormControl(''),
+      form60: new FormControl(''),
+      pan: new FormControl(''),
       // drivinglicense: new FormControl(''),
       passportNumber: new FormControl(''),
       identityNumber: new FormControl(''),
       identity_copy: new FormControl(''),
-      address1: new FormControl(''),
-      address2: new FormControl(''),
-      address3: new FormControl(''),
+      permentAddress: new FormGroup({
+      addressLineOne: new FormControl(''),
+      addressLineTwo: new FormControl(''),
+      addressLineThree: new FormControl(''),
       pincode: new FormControl(''),
-      permanent_address_city: new FormControl(''),
-      permanent_address_district: new FormControl(''),
-      permanent_address_state: new FormControl(''),
-      permanent_address_country: new FormControl(''),
-      landline: new FormControl(''),
+      city: new FormControl(''),
+      district: new FormControl(''),
+      state: new FormControl(''),
+      country: new FormControl(''),
+      landlineNumber: new FormControl(''),
+      }),
+      communicationAddress: new FormGroup({
+      addressLineOne: new FormControl(''),
+      addressLineTwo: new FormControl(''),
+      addressLineThree: new FormControl(''),
+      pincode: new FormControl(''),
+      city: new FormControl(''),
+      district: new FormControl(''),
+      state: new FormControl(''),
+      country: new FormControl(''),
+      landlineNumber: new FormControl(''),
+      }),
       line1: new FormControl(''),
       line2: new FormControl(''),
       line3: new FormControl(''),
@@ -115,8 +148,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       registered_address_country: new FormControl(''),
       reg_mobile: new FormControl(''),
       drivingLicenseNumber: new FormControl(''),
-      drivingLicenceIssueDate: new FormControl(''),
-      drivingLicenceExpiryDate: new FormControl(''),
+      drivingLicenseIssueDate: new FormControl(''),
+      drivingLicenseExpiryDate: new FormControl(''),
       passportIssueDate: new FormControl(''),
       passportExpiryDate: new FormControl(''),
     });
@@ -223,12 +256,162 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       name2: coApplicantModel.name2,
       name3: coApplicantModel.name3,
       loanApplicationRelation: coApplicantModel.loanApplicationRelation,
+      customerCategory: 'SALCUSTCAT',
+      title: 'MRSALUTATION',
     };
 
+    // this.applicantDetails = {
+    //   entityType: 'INDIVENTTYP',
+    //   name1: 'Kalpesh',
+    //   name2: 'Madhukar',
+    //   name3: 'Mahajan',
+    //   loanApplicationRelation: 'APPAPPREL',
+    //   title: 'MRSALUTATION',
+    //   customerCategory: 'SALCUSTCAT'
+    // };
+
+    this.aboutIndivProspectDetails = { dob: coApplicantModel.dob,
+    mobilePhone: coApplicantModel.mobilePhone,
+    // isSeniorCitizen: '1',
+    // isMinor: '1',
+    // minorGuardianName: 'Kumar',
+    // minorGuardianUcic: 600700,
+    // spouseName: 'Rani',
+    // fatherName: 'Raja',
+    // motherMaidenName: 'Kumari',
+    // nationality: 'INDNATIONALITY',
+    // occupation: 'DOCPTION',
+    // emailId: 'test@test.com',
+    // alternateEmailId: 'test1@test.com',
+    // preferredLanguage: 'ENGPRFLAN',
+    // designation: 'PRODMNGDESIGNATION',
+    // currentEmpYears: '10 Years',
+    // employeeCode: 100200,
+    // department: 'department'
+  };
+
+    this.indivIdentityInfoDetails = {
+      form60: coApplicantModel.form60,
+      pan: coApplicantModel.pan,
+      aadhar: coApplicantModel.aadhar,
+      passportNumber: coApplicantModel.passportNumber,
+      passportIssueDate: coApplicantModel.passportIssueDate,
+      passportExpiryDate: coApplicantModel.passportExpiryDate,
+      drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
+      drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
+      drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
+      // voterIdNumber: '1234567',
+      // voterIdIssueDate: '21-Mar-2020',
+      // voterIdExpiryDate: '21-Mar-2021'
+    };
+
+    this.indivProspectProfileDetails = {
+      employerType: 'test',
+      employerName: 'Appiyo Technologies',
+      workplaceAddress: 'test'
+    };
+
+    this.corporateProspectDetails = {
+      dateOfIncorporation: coApplicantModel.dateOfIncorporation,
+      // countryOfCorporation: 'IND',
+      // companyEmailId: 'appiyo@appiyo.com',
+      // alternateEmailId: 'inswit@appiyo.com',
+      // preferredLanguageCommunication: 'ENGPRFLAN',
+      // numberOfDirectors: 10,
+      // directorName: 'test',
+      // directorIdentificationNumber: '123456',
+      // contactPerson: 'test',
+      // contactPersonDesignation: 'Manager',
+      // contactPersonMobile: '9988776655',
+      // ratingIssuerName: 'test',
+      // externalRatingAssigned: 'test',
+      // externalRatingIssueDate: '22-Mar-2020',
+      // externalRatingExpiryDate: '31-Mar-2020',
+      // foreignCurrencyDealing: 'test',
+      // exposureBankingSystem: 'test',
+      // creditRiskScore: 'test',
+      // tinNumber: 'tin1234',
+      // corporateIdentificationNumber: '44455566',
+      // gstNumber: 'GST123',
+      panNumber: coApplicantModel.pan,
+      // aadhar: '123456786666',
+      passportNumber: coApplicantModel.passportNumber,
+      passportIssueDate: coApplicantModel.passportIssueDate,
+      passportExpiryDate: coApplicantModel.passportExpiryDate,
+      drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
+      drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
+      drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
+      // voterIdNumber: '1234567',
+      // voterIdIssueDate: '21-Mar-2020',
+      // voterIdExpiryDate: '21-Mar-2021',
+      // companyPhoneNumber: '9988445566'
+    };
+
+    this.addressDetails = [{
+      addressType: 'PERMADDADDTYP',
+      addressLineOne: coApplicantModel.permentAddress.addressLineOne,
+      addressLineTwo: coApplicantModel.permentAddress.addressLineTwo,
+      addressLineThree: coApplicantModel.permentAddress.addressLineThree,
+      pincode: Number(coApplicantModel.permentAddress.pincode),
+      city: Number(coApplicantModel.permentAddress.city),
+      district: Number(coApplicantModel.permentAddress.district),
+      state: Number(coApplicantModel.permentAddress.state),
+      country: 'IN',
+      landlineNumber: coApplicantModel.permentAddress.landlineNumber,
+      // mobileNumber: '9988776655',
+      // accommodationType: '1ADDACCTYP',
+      // periodOfCurrentStay: 10,
+      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd
+    },
+    {
+      addressType: 'COMMADDADDTYP',
+      addressLineOne: coApplicantModel.communicationAddress.addressLineOne,
+      addressLineTwo: coApplicantModel.communicationAddress.addressLineTwo,
+      addressLineThree: coApplicantModel.communicationAddress.addressLineThree,
+      pincode: Number(coApplicantModel.communicationAddress.pincode),
+      city: Number(coApplicantModel.communicationAddress.city),
+      district: Number(coApplicantModel.communicationAddress.district),
+      state: Number(coApplicantModel.communicationAddress.state),
+      country: 'IN',
+      landlineNumber: coApplicantModel.communicationAddress.landlineNumber,
+      // mobileNumber: '9988776655',
+      // accommodationType: '1ADDACCTYP',
+      // periodOfCurrentStay: 10,
+      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd
+    }
+  ];
+
+    // this.addressDetails = [{
+    //   addressType: 'PERMADDADDTYP',
+    //   addressLineOne: 'test',
+    //   addressLineTwo: 'test',
+    //   addressLineThree: 'test',
+    //   pincode: 123456,
+    //   city: 1,
+    //   district: 1,
+    //   state: 1,
+    //   country: 'IN',
+    //   landlineNumber: '044202020',
+    //   mobileNumber: '9988776655',
+    //   accommodationType: '1ADDACCTYP',
+    //   periodOfCurrentStay: 10,
+    //   isCurrAddSameAsPermAdd: '1'
+    // }];
+
+    console.log('adress Details', this.addressDetails);
+    const data = {
+      applicantDetails : this.applicantDetails,
+      aboutIndivProspectDetails : this.aboutIndivProspectDetails,
+      indivIdentityInfoDetails : this.indivIdentityInfoDetails,
+      indivProspectProfileDetails : this.indivProspectProfileDetails,
+      corporateProspectDetails : this.corporateProspectDetails,
+      addressDetails : this.addressDetails
+
+    };
     console.log(this.applicantDetails);
 
     this.saveUpdateApplicant
-      .saveApplicant(this.applicantDetails)
+      .saveApplicant(data)
       .subscribe((res: any) => {
         const response = res;
         if (response.error === 0) {
@@ -240,55 +423,57 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onAddress(event) {
     console.log('Checkbox ' + event.target.checked);
-
+    const eventclicked = event.target.checked;
+    this.isCurrAddSameAsPermAdd = (eventclicked === true) ? 1 : 0;
+    console.log('isCurrAddSameAsPermAdd', this.isCurrAddSameAsPermAdd);
     if (event.target.checked) {
-      this.coApplicantForm.controls['line1'].setValue(
+      this.coApplicantForm.controls.line1.setValue(
         this.coApplicantForm.controls.address1.value
       );
-      this.coApplicantForm.controls['line2'].setValue(
+      this.coApplicantForm.controls.line2.setValue(
         this.coApplicantForm.controls.address2.value
       );
-      this.coApplicantForm.controls['line3'].setValue(
+      this.coApplicantForm.controls.line3.setValue(
         this.coApplicantForm.controls.address3.value
       );
-      this.coApplicantForm.controls['current_pincode'].setValue(
+      this.coApplicantForm.controls.current_pincode.setValue(
         this.coApplicantForm.controls.pincode.value
       );
-      this.coApplicantForm.controls['current_address_city'].setValue(
+      this.coApplicantForm.controls.current_address_city.setValue(
         this.coApplicantForm.controls.permanent_address_city.value
       );
-      this.coApplicantForm.controls['current_address_district'].setValue(
+      this.coApplicantForm.controls.current_address_district.setValue(
         this.coApplicantForm.controls.permanent_address_district.value
       );
-      this.coApplicantForm.controls['current_address_state'].setValue(
+      this.coApplicantForm.controls.current_address_state.setValue(
         this.coApplicantForm.controls.permanent_address_state.value
       );
-      this.coApplicantForm.controls['current_address_country'].setValue(
+      this.coApplicantForm.controls.current_address_country.setValue(
         this.coApplicantForm.controls.permanent_address_country.value
       );
-      this.coApplicantForm.controls['current_landline'].setValue(
+      this.coApplicantForm.controls.current_landline.setValue(
         this.coApplicantForm.controls.landline.value
       );
 
-      this.coApplicantForm.controls['line1'].disable();
-      this.coApplicantForm.controls['line2'].disable();
-      this.coApplicantForm.controls['line3'].disable();
-      this.coApplicantForm.controls['current_pincode'].disable();
-      this.coApplicantForm.controls['current_address_city'].disable();
-      this.coApplicantForm.controls['current_address_district'].disable();
-      this.coApplicantForm.controls['current_address_state'].disable();
-      this.coApplicantForm.controls['current_address_country'].disable();
-      this.coApplicantForm.controls['current_landline'].disable();
+      this.coApplicantForm.controls.line1.disable();
+      this.coApplicantForm.controls.line2.disable();
+      this.coApplicantForm.controls.line3.disable();
+      this.coApplicantForm.controls.current_pincode.disable();
+      this.coApplicantForm.controls.current_address_city.disable();
+      this.coApplicantForm.controls.current_address_district.disable();
+      this.coApplicantForm.controls.current_address_state.disable();
+      this.coApplicantForm.controls.current_address_country.disable();
+      this.coApplicantForm.controls.current_landline.disable();
     } else {
-      this.coApplicantForm.controls['line1'].enable();
-      this.coApplicantForm.controls['line2'].enable();
-      this.coApplicantForm.controls['line3'].enable();
-      this.coApplicantForm.controls['current_pincode'].enable();
-      this.coApplicantForm.controls['current_address_city'].enable();
-      this.coApplicantForm.controls['current_address_district'].enable();
-      this.coApplicantForm.controls['current_address_state'].enable();
-      this.coApplicantForm.controls['current_address_country'].enable();
-      this.coApplicantForm.controls['current_landline'].enable();
+      this.coApplicantForm.controls.line1.enable();
+      this.coApplicantForm.controls.line2.enable();
+      this.coApplicantForm.controls.line3.enable();
+      this.coApplicantForm.controls.current_pincode.enable();
+      this.coApplicantForm.controls.current_address_city.enable();
+      this.coApplicantForm.controls.current_address_district.enable();
+      this.coApplicantForm.controls.current_address_state.enable();
+      this.coApplicantForm.controls.current_address_country.enable();
+      this.coApplicantForm.controls.current_landline.enable();
     }
   }
 }
