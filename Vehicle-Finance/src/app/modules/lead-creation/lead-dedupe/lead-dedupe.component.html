@@ -29,7 +29,7 @@
                       [disabled]="i !== 0 ? 'disabled' : null" /></td>
                   <td>{{ dedupe.leadID }}</td>
                   <td>{{ dedupe.branch }}</td>
-                  <td>{{ dedupe.createdDate }}</td>
+                  <td>{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ dedupe.createdBy }}</td>
                   <td>{{ dedupe.product }}</td>
                   <td>{{ dedupe.loanAmount }}</td>

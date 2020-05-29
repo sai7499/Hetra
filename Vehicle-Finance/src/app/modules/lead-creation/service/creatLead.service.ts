@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
 import { HttpService } from '../../../services/http.service';
 import { storage } from '../../../storage/localstorage';
+import { ApiService } from '@services/api.service';
 @Injectable({
     providedIn: 'root'
 })
@@ -13,12 +14,13 @@ export class CreateLeadService {
 
     constructor(
         private httpService: HttpService,
+        private apiService: ApiService
     ) { }
 
     createLead(loanLeadDetails, applicantDetails, fromDedupe) {
-        const processId = environment.api.createLead.processId;
-        const workflowId = environment.api.createLead.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.createLead.processId;
+        const workflowId = this.apiService.api.createLead.workflowId;
+        const projectId = this.apiService.api.createLead.projectId;
 
         const userId = storage.getUserId();
 
@@ -56,9 +58,9 @@ export class CreateLeadService {
     }
 
     getProductCategory(bizDivId) {
-        const processId = environment.api.getAssetProductCategory.processId;
-        const workflowId = environment.api.getAssetProductCategory.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getAssetProductCategory.processId;
+        const workflowId = this.apiService.api.getAssetProductCategory.workflowId;
+        const projectId = this.apiService.api.getAssetProductCategory.projectId;
 
         const body: RequestEntity = {
             processId: processId,
@@ -74,9 +76,9 @@ export class CreateLeadService {
     }
 
     getSourcingChannel() {
-        const processId = environment.api.getSourcingChannel.processId;
-        const workflowId = environment.api.getSourcingChannel.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getSourcingChannel.processId;
+        const workflowId = this.apiService.api.getSourcingChannel.workflowId;
+        const projectId = this.apiService.api.getSourcingChannel.projectId;
 
         const body: RequestEntity = {
             processId: processId,
@@ -90,9 +92,9 @@ export class CreateLeadService {
     }
 
     getLeadById(leadId) {
-        const processId = environment.api.getLeadById.processId;
-        const workflowId = environment.api.getLeadById.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getLeadById.processId;
+        const workflowId = this.apiService.api.getLeadById.workflowId;
+        const projectId = this.apiService.api.getLeadById.projectId;
 
         const body: RequestEntity = {
             processId: processId,

@@ -265,12 +265,13 @@ export class LeadCreationComponent implements OnInit {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
+
       if (appiyoError === '0' && apiError === '0') {
         const message = response.ProcessVariables.error.message;
         const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
         console.log('Success Message', message);
         const leadSectionData = response.ProcessVariables;
-        this.createLeadDataService.setLeadSectionData(leadSectionData);
+        const leadId = leadSectionData.leadId;
 
         if (isDedupeAvailable) {
           const leadDedupeData = response.ProcessVariables.leadDedupeResults;
@@ -278,7 +279,19 @@ export class LeadCreationComponent implements OnInit {
           this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
           return;
         }
-        this.router.navigateByUrl('pages/lead-section');
+
+        this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          const leadSectionData = response.ProcessVariables;
+
+          if (appiyoError === '0' && apiError === '0') {
+            console.log('leadSectionData', leadSectionData);
+            this.createLeadDataService.setLeadSectionData(leadSectionData);
+            this.router.navigateByUrl('pages/lead-section');
+          }
+        });
       }
     },
       err => { alert(err); });

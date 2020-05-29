@@ -94,9 +94,17 @@ export class LeadDedupeComponent implements OnInit {
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
-        const proceedAsNewLeadData = response.ProcessVariables;
-        this.createLeadDataService.setProceedAsNewLead(proceedAsNewLeadData);
-        this.route.navigateByUrl('/pages/lead-section');
+        const leadId = response.ProcessVariables.leadId;
+        this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          if (appiyoError === '0' && apiError === '0') {
+            const proceedAsNewLeadData = response.ProcessVariables;
+            this.createLeadDataService.setLeadSectionData(proceedAsNewLeadData);
+            this.route.navigateByUrl('/pages/lead-section');
+          }
+        });
       }
     });
   }
@@ -104,12 +112,12 @@ export class LeadDedupeComponent implements OnInit {
   proceedWithSelectedLead() {
     this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
       const response = res;
-      console.log('proceedWithSelectedLead', response);
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
+      console.log('proceedWithSelectedLead', response);
       if (appiyoError === '0' && apiError === '0') {
         const proceedWithSelectedLeadData = response.ProcessVariables;
-        this.createLeadDataService.setProceedWithSelectedLead(proceedWithSelectedLeadData);
+        this.createLeadDataService.setLeadSectionData(proceedWithSelectedLeadData);
         this.route.navigateByUrl('/pages/lead-section');
       }
     });

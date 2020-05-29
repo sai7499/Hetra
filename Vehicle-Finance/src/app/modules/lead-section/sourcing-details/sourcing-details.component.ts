@@ -86,11 +86,14 @@ export class SourcingDetailsComponent implements OnInit {
     const priorityFromLead = data.loanLeadDetails.priority;
     const leadId = data.leadId;
     const loanBranchFromLead = data.loanLeadDetails.loanBranch;
+    const leadCreatedDate = data.leadDetails.leadCreatedOn;
+    const leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: leadId });
     this.sourcingDetailsForm.patchValue({ loanBranch: loanBranchFromLead });
+    this.sourcingDetailsForm.patchValue({ leadCreatedDate: leadCreatedDateFromLead });
   }
 
   patchSourcingDetails() {
