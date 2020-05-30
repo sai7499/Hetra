@@ -9,7 +9,7 @@ import { ApiService } from '@services/api.service';
 
 export class LoginService {
 
-    constructor( 
+    constructor(
         private httpService: HttpService,
         private loginService: LoginStoreService,
         private apiService: ApiService) { }
@@ -21,7 +21,7 @@ export class LoginService {
             password: data.password
         }
         return this.httpService.post(url, body);
-    }   
+    }
 
     getUserDetails(data?) {
         const processId = this.apiService.api.getUserDetails.processId;
@@ -29,11 +29,11 @@ export class LoginService {
         const projectId = this.apiService.api.getUserDetails.projectId;
 
         let email = data ? data.userId : this.loginService.getEmailId();
-        let objectKey = data ? 'userId': 'loginId';
+        let objectKey = data ? 'userId' : 'loginId';
         const body: RequestEntity = {
-            processId: processId, 
+            processId: processId,
             ProcessVariables: {
-                [objectKey]:email
+                [objectKey]: email
             },
             workflowId: workflowId,
             projectId: projectId
@@ -42,5 +42,4 @@ export class LoginService {
         let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
-
 }

@@ -15,12 +15,8 @@ import { CommonDataService } from '@services/common-data.service';
 
 // import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
-
-
 import {GoogleMapsAPIWrapper} from '@agm/core';
-
 import { GpsService } from 'src/app/services/gps.service';
-
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 

@@ -8,6 +8,8 @@ import { LeadStoreService } from '@services/lead-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { CreateLeadService } from '../../lead-creation/service/creatLead.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { LeadDetails } from '../services/sourcingLeadDetails.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -26,6 +28,9 @@ export class SourcingDetailsComponent implements OnInit {
 
   bizDivId: string;
   leadData: any;
+  userId: any;
+  branchId: any;
+  leadId: number;
 
   businessDivisionArray = [];
   productCategoryArray: Array<any> = [];
@@ -40,6 +45,23 @@ export class SourcingDetailsComponent implements OnInit {
 
   isBusinessDivisionEnable: boolean;
 
+  saveUpdate: {
+    bizDivision: string,
+    productCategory: number,
+    priority: string,
+    sourcingChannel: string,
+    sourcingType: string,
+    sourcingCode: string,
+    spokeCode: number,
+    loanBranch: number,
+    leadHandeledBy: number,
+    leadCreatedBy: number,
+    requestedLoanAmount: number,
+    requestedLoanTenor: number
+    userId: number,
+    leadId: number
+  };
+
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -48,7 +70,9 @@ export class SourcingDetailsComponent implements OnInit {
     private createLeadService: CreateLeadService,
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
-    private createLeadDataService: CreateLeadDataService) { }
+    private createLeadDataService: CreateLeadDataService,
+    private loginService: LoginStoreService,
+    private leadDetail: LeadDetails) { }
 
   ngOnInit() {
     this.initForm();
@@ -67,8 +91,28 @@ export class SourcingDetailsComponent implements OnInit {
     this.commomLovService.getLovData().subscribe(lov => {
       this.LOV = lov;
       this.getLeadSectionData();
+
     });
   }
+
+  // getUserDetailsData() {
+  //   const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+  //   if (!roleAndUserDetails) {
+  //     return;
+  //   }
+  //   this.getBusinessDivision(roleAndUserDetails);
+
+  //   const branchId = roleAndUserDetails.userDetails.branchId;
+  //   const branchName = roleAndUserDetails.userDetails.branchName;
+  //   this.loanAccountBranch = `${branchId}-${branchName}`;
+
+  //   const userId = roleAndUserDetails.userDetails.userId;
+  //   const userName = roleAndUserDetails.userDetails.firstName;
+  //   this.leadHandeledBy = `${userId}-${userName}`;
+
+  //   this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
+  //   this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
+  // }
 
   getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
@@ -76,24 +120,34 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
 
+    const roleAndUserDetails = this.loginService.getRolesAndUserDetails();
+    console.log('SourcingRole', roleAndUserDetails);
+    const leadCreateBy = roleAndUserDetails.userDetails.firstName;
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.branchId = roleAndUserDetails.userDetails.branchId;
+
     if (!this.leadData) {
       return;
     }
     const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
     this.bizDivId = businessDivisionFromLead;
+
     const productCategory = data.loanLeadDetails.productCategory;
     this.productCategoryFromLead = productCategory;
+
     const priorityFromLead = data.loanLeadDetails.priority;
-    const leadId = data.leadId;
+    this.leadId = data.leadId;
+
     const loanBranchFromLead = data.loanLeadDetails.loanBranch;
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     const leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
-    this.sourcingDetailsForm.patchValue({ leadNumber: leadId });
+    this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
     this.sourcingDetailsForm.patchValue({ loanBranch: loanBranchFromLead });
     this.sourcingDetailsForm.patchValue({ leadCreatedDate: leadCreatedDateFromLead });
+    this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreateBy });
   }
 
   patchSourcingDetails() {
@@ -186,26 +240,6 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ bizDivision: 'EBBIZDIV' });
   }
 
-
-  // getUserDetailsData() {
-  //   const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-  //   if (!roleAndUserDetails) {
-  //     return;
-  //   }
-  //   this.getBusinessDivision(roleAndUserDetails);
-
-  //   const branchId = roleAndUserDetails.userDetails.branchId;
-  //   const branchName = roleAndUserDetails.userDetails.branchName;
-  //   this.loanAccountBranch = `${branchId}-${branchName}`;
-
-  //   const userId = roleAndUserDetails.userDetails.userId;
-  //   const userName = roleAndUserDetails.userDetails.firstName;
-  //   this.leadHandeledBy = `${userId}-${userName}`;
-
-  //   this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
-  //   this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
-  // }
-
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
       leadNumber: new FormControl({ value: '', disabled: true }),
@@ -225,7 +259,53 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
-  // setFormValue() {
+  onNext() {
+    this.leadSectionService.setCurrentPage(1);
+  }
+
+  saveAndUpdate(data) {
+    const formValue = this.sourcingDetailsForm.getRawValue();
+    const saveAndUpdate: any = { ...formValue };
+    console.log('Lead Save', saveAndUpdate);
+
+    this.saveUpdate = {
+      userId: this.userId,
+      leadId: Number(this.leadId),
+      bizDivision: saveAndUpdate.bizDivision,
+      productCategory: Number(saveAndUpdate.productCategory),
+      priority: saveAndUpdate.priority,
+      sourcingChannel: saveAndUpdate.sourcingChannel,
+      sourcingType: saveAndUpdate.sourcingType,
+      sourcingCode: saveAndUpdate.sourcingCode,
+      // spokeCode: Number(saveAndUpdate.spokeCode),
+      spokeCode: 1,
+      loanBranch: Number(this.branchId),
+      leadHandeledBy: Number(this.userId),
+      leadCreatedBy: Number(this.branchId),
+      requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
+      requestedLoanTenor: Number(saveAndUpdate.requestedTenor)
+    };
+
+    console.log('this.saveUpdate', this.saveUpdate);
+
+    // this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
+    //   const response = res;
+    // })
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+ // setFormValue() {
   //   const sourcingValue = this.leadStoreService.getSourcingDetails() || {};
   //   console.log('source', sourcingValue)
   //   this.sourcingDetailsForm.patchValue({
@@ -241,21 +321,3 @@ export class SourcingDetailsComponent implements OnInit {
   //     loanAccountBranch: leadData.loanAccountBranch || ''
   //   });
   // }
-
-  onNext() {
-    this.leadSectionService.setCurrentPage(1);
-  }
-
-  // onFormSubmit() {
-  //   this.isAlert = false;
-  //   setTimeout(() => {
-  //     this.isAlert = true;
-  //   }, 1000);
-  //   // this.router.navigate(['/pages/lead-section/applicant-details']);
-  //   console.log('sourcing form', this.sourcingDetailsForm.value);
-  //   const formValue = this.sourcingDetailsForm.value;
-  //   const sourcingModel = { ...formValue };
-  //   this.leadStoreService.setSourcingDetails(sourcingModel);
-
-  // }
-}

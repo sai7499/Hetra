@@ -37,10 +37,11 @@ import {
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
+  fgsColor: '#fa6745',
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 100,
-  bgsType: SPINNER.foldingCube, // background spinner type
-  fgsType: SPINNER.foldingCube, // foreground spinner type
+  bgsType: SPINNER.cubeGrid, // background spinner type
+  fgsType: SPINNER.cubeGrid, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbThickness: 5 // progress bar thickness
 };

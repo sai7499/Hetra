@@ -153,8 +153,8 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary mar-right8" type="button">Save </button>&nbsp;
-        <button class="btn btn-primary js-btn-next" type="button"
+        <button (click)="saveAndUpdate(data)" class="btn btn-primary mar-right8" type="button">Save </button>&nbsp;
+        <button  class="btn btn-primary js-btn-next" type="button"
             [routerLink]="['/pages/lead-section/applicant-details']"> Next </button>
     </div>
 </div>

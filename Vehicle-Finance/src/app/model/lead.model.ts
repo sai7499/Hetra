@@ -8,12 +8,12 @@ export interface Lead {
 }
 
 export interface LoanLeadDetails {
-  bizDivision?: number;
+  bizDivision?: string;
   productCategory?: number;
-  priority?: number;
-  fundingProgram?: number;
-  sourcingChannel?: number;
-  sourcingType?: number;
+  priority?: string;
+  fundingProgram?: string;
+  sourcingChannel?: string;
+  sourcingType?: string;
   sourcingCode?: string;
   spokeCodeLocation?: number;
   loanBranch?: number;
