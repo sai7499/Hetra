@@ -218,7 +218,6 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     }
   }
 
-
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
       this.labelsData.getLanguageLabelData().subscribe(
