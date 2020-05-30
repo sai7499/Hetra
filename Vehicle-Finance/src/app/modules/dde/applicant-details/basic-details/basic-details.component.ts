@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
+import { ActivatedRoute } from '@angular/router'
 import { CommomLovService } from '@services/commom-lov-service';
+import { ApplicantService } from '@services/applicant.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { Applicant, ApplicantDetails } from '@model/applicant.model';
 
 @Component({
     templateUrl: './basic-details.component.html',
@@ -13,72 +17,192 @@ export class BasicDetailsComponent implements OnInit {
     isSelfEmployed = true;
     labels: any = {};
     LOV: any = [];
+    applicantId: number;
+    applicant: Applicant;
 
     designation = [{
         key: 1,
         value: 'Salaried',
-      },
-      {
+    },
+    {
         key: 2,
         value: 'Self Employed'
-      }
+    }
     ];
-    constructor( private labelsData: LabelsService,
-                private commomLovService: CommomLovService) {}
+    constructor(
+        private labelsData: LabelsService,
+        private commomLovService: CommomLovService,
+        private activatedRoute: ActivatedRoute,
+        private applicantService: ApplicantService,
+        private applicantDataService: ApplicantDataStoreService) { }
     ngOnInit() {
-        this.getLOV();
         
+
         this.labelsData.getLabelsData().subscribe(
             data => {
-              this.labels = data;
-              // console.log(this.labels)
+                this.labels = data;
+                // console.log(this.labels)
             },
             error => {
-              console.log(error);
+                console.log(error);
             }
-          );
+        );
 
         this.basicForm = new FormGroup({
-            entity : new FormControl(''),
-            relationWithApplicant: new FormControl(''),
+            entity: new FormControl(''),
+            applicantRelationshipWithLead: new FormControl(''),
             title: new FormControl(''),
             details: new FormArray([])
         });
         this.addIndividualFormControls();
-        this.basicForm.patchValue({ entity: 'INDIVENTTYP' });
+        this.getLOV();
+        this.activatedRoute.params.subscribe((value) => {
+            console.log('value', value);
+            if (!value && !value.applicantId) {
+                return;
+            }
+            this.applicantId = Number(value.applicantId);
+            this.getApplicantDetails();
+        });
+    }
+
+    getApplicantDetails() {
+        const data = {
+            applicantId: this.applicantId,
+        };
+        this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+            const processVariables = res.ProcessVariables;
+            const applicant: Applicant = {
+                ...processVariables,
+            };
+            this.applicantDataService.setApplicant(applicant);
+            this.applicant = this.applicantDataService.getApplicant();
+            console.log('applicantDetailsfromService--', this.applicant)
+
+            this.setBasicData();
+        });
+    }
+
+    setBasicData() {
+        this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
+        this.clearFormArray();
+        if (this.isIndividual) {
+
+            this.addIndividualFormControls();
+            this.setValuesForIndividual();
+            this.basicForm.patchValue({
+                entity: this.applicant.applicantDetails.entityTypeKey,
+                applicantRelationshipWithLead: this.applicant.applicantDetails.applicantTypeKey,
+                title: this.applicant.applicantDetails.title,
+
+
+            });
+        } else {
+
+            this.addNonIndividualFormControls();
+            this.setValuesForNonIndividual();
+            const applicantDetails = this.applicant.applicantDetails;
+            
+            const formArray = this.basicForm.get('details') as FormArray;
+            const details = formArray.at(0);
+            details.patchValue({
+                name1: applicantDetails.name1,
+                name2: applicantDetails.name2,
+                name3: applicantDetails.name3,
+            });
+        }
+    }
+
+    setValuesForIndividual() {
+        const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+        console.log('aboutIndivProspectDetails--', aboutIndivProspectDetails)
+        const formArray = this.basicForm.get('details') as FormArray;
+        const details = formArray.at(0);
+        details.patchValue({
+            emailId: aboutIndivProspectDetails.emailId,
+            alternateEmailId: aboutIndivProspectDetails.alternateEmailId,
+            mobilePhone: aboutIndivProspectDetails.mobilePhone,
+            dob: aboutIndivProspectDetails.dob,
+            minorGuardianName: aboutIndivProspectDetails.minorGuardianName,
+            fatherName: aboutIndivProspectDetails.fatherName,
+            spouseName: aboutIndivProspectDetails.spouseName,
+            motherMaidenName: aboutIndivProspectDetails.motherMaidenName,
+            preferredLanguage: aboutIndivProspectDetails.preferredLanguage,
+            occupation: aboutIndivProspectDetails.occupation,
+            nationality: aboutIndivProspectDetails.nationality,
+            employeeCode: aboutIndivProspectDetails.employeeCode,
+            isSeniorCitizen: aboutIndivProspectDetails.isSeniorCitizen,
+            minorGuardianUcic: aboutIndivProspectDetails.minorGuardianUcic,
+            designation: aboutIndivProspectDetails.designation,
+
+            currentEmpYears: aboutIndivProspectDetails.currentEmpYears,
+            department: aboutIndivProspectDetails.department,
+
+            // employerType : aboutIndivProspectDetails.employerType,
+        })
+    }
+
+    setValuesForNonIndividual() {
+        const applicantDetails = this.applicant.applicantDetails;
+        const corporateProspectDetails = this.applicant.corporateProspectDetails;
+        const formArray = this.basicForm.get('details') as FormArray;
+        const details = formArray.at(0);
+        details.patchValue({
+            companyEmailId: corporateProspectDetails.companyEmailId,
+            alternateEmailId: corporateProspectDetails.alternateEmailId,
+            numberOfDirectors: corporateProspectDetails.numberOfDirectors,
+            dateOfIncorporation: corporateProspectDetails.dateOfIncorporation,
+            preferredLanguageCommunication: corporateProspectDetails.preferredLanguageCommunication,
+            customerCategory: applicantDetails.customerCategory,
+            directorName: corporateProspectDetails.directorName,
+            directorIdentificationNumber: corporateProspectDetails.directorIdentificationNumber,
+            contactPerson: corporateProspectDetails.contactPerson,
+            contactPersonDesignation: corporateProspectDetails.contactPersonDesignation,
+            contactPersonMobile: corporateProspectDetails.contactPersonMobile,
+            ratingIssuerName: corporateProspectDetails.ratingIssuerName,
+            externalRatingAssigned: corporateProspectDetails.externalRatingAssigned,
+            externalRatingIssueDate: corporateProspectDetails.externalRatingIssueDate,
+            externalRatingExpiryDate: corporateProspectDetails.externalRatingExpiryDate,
+            foreignCurrencyDealing: corporateProspectDetails.foreignCurrencyDealing,
+            exposureBankingSystem: corporateProspectDetails.exposureBankingSystem,
+            creditRiskScore: corporateProspectDetails.creditRiskScore,
+
+
+
+        })
     }
 
     addIndividualFormControls() {
         const formArray = (this.basicForm.get('details') as FormArray);
         const controls = new FormGroup({
-            firstName: new FormControl(null),
-            middleName: new FormControl(null),
-            lastName: new FormControl(null),
-            mobileNumber: new FormControl(null),
+            name1: new FormControl(null),
+            name2: new FormControl(null),
+            name3: new FormControl(null),
+            mobilePhone: new FormControl(null),
             dob: new FormControl(null),
-           
+
             applicantType: new FormControl(null),
-            seniorCitizen: new FormControl(''),
-            guardianName: new FormControl(null),
-            ucic: new FormControl(null),
+            isSeniorCitizen: new FormControl(''),
+            minorGuardianName: new FormControl(null),
+            minorGuardianUcic: new FormControl(null),
             fatherName: new FormControl(null),
             spouseName: new FormControl(null),
-            maidenName: new FormControl(null),
+            motherMaidenName: new FormControl(null),
             occupation: new FormControl(''),
             nationality: new FormControl(''),
             customerCategory: new FormControl(''),
             emailId: new FormControl(''),
-            altrEmailId: new FormControl(''),
-            language: new FormControl(''),
-            accountNumber: new FormControl(null),
-            accountBank: new FormControl(''),
-            branchAddress: new FormControl(null),
-            spokeAddress: new FormControl(null),
+            alternateEmailId: new FormControl(''),
+            preferredLanguage: new FormControl(''),
+            // accountNumber: new FormControl(null),
+            // accountBank: new FormControl(''),
+            // branchAddress: new FormControl(null),
+            // spokeAddress: new FormControl(null),
             designation: new FormControl(''),
             officeName: new FormControl(null),
-            years: new FormControl(null),
+            currentEmpYears: new FormControl(null),
             employeeCode: new FormControl(null),
-            employeeType: new FormControl(''),
+            employerType: new FormControl(''),
             department: new FormControl(''),
             businessType: new FormControl(''),
             businessName: new FormControl(null),
@@ -87,41 +211,41 @@ export class BasicDetailsComponent implements OnInit {
             turnOver: new FormControl(null)
         });
         formArray.push(controls);
-        setTimeout(() => {
-            this.addOrRemoveSelfEmployedFormControls(false);
-        });
+        // setTimeout(() => {
+        //     this.addOrRemoveSelfEmployedFormControls(false);
+        // });
     }
 
     addNonIndividualFormControls() {
         const formArray = (this.basicForm.get('details') as FormArray);
         const controls = new FormGroup({
-            occupation: new FormControl(''),
+            name1: new FormControl(null),
+            name2: new FormControl(null),
+            name3: new FormControl(null),
+            mobilePhone: new FormControl(null),
+            dateOfIncorporation: new FormControl(null),
+            // occupation: new FormControl(''),
             customerCategory: new FormControl(null),
-            emailId: new FormControl(null),
-            altrEmailId: new FormControl(null),
-            language: new FormControl(''),
-            company1: new FormControl(null),
-            company2: new FormControl(null),
-            company3: new FormControl(null),
-            mobileNumber: new FormControl(null),
-            incorporationDate: new FormControl(null),
-            numberOfDirection: new FormControl(null),
-            accountNumber: new FormControl(null),
-            accountBank: new FormControl(''),
-            branchAddress: new FormControl(null),
-            spokeAddress: new FormControl(null),
+            companyEmailId: new FormControl(null),
+            alternateEmailId: new FormControl(null),
+            preferredLanguageCommunication: new FormControl(''),
+            numberOfDirectors: new FormControl(null),
+            // accountNumber: new FormControl(null),
+            // accountBank: new FormControl(''),
+            // branchAddress: new FormControl(null),
+            // spokeAddress: new FormControl(null),
             directorName: new FormControl(null),
-            din: new FormControl(null),
+            directorIdentificationNumber: new FormControl(null),
             contactPerson: new FormControl(null),
-            contactDesignation: new FormControl(''),
-            contactMobileNumber: new FormControl(null),
-            issuerName: new FormControl(null),
-            ratingAssigned: new FormControl(null),
-            ratingIssueDate: new FormControl(null),
-            ratingExpiryDate: new FormControl(null),
-            foreignCurrency: new FormControl(null),
-            totalExposure: new FormControl(null),
-            creditScore: new FormControl(null),
+            contactPersonDesignation: new FormControl(''),
+            contactPersonMobile: new FormControl(null),
+            ratingIssuerName: new FormControl(null),
+            externalRatingAssigned: new FormControl(null),
+            externalRatingIssueDate: new FormControl(null),
+            externalRatingExpiryDate: new FormControl(null),
+            foreignCurrencyDealing: new FormControl(null),
+            exposureBankingSystem: new FormControl(null),
+            creditRiskScore: new FormControl(null),
         });
         formArray.push(controls);
     }
@@ -129,7 +253,11 @@ export class BasicDetailsComponent implements OnInit {
     getLOV() {
         this.commomLovService.getLovData().subscribe(lov => this.LOV = lov);
         console.log('LOV data ---', this.LOV);
-      }
+    }
+    clearFormArray() {
+        const formArray = this.basicForm.get('details') as FormArray;
+        formArray.clear();
+    }
 
     onDesignationChange(event) {
         const value = event.target.value;

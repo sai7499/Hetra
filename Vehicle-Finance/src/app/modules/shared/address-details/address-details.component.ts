@@ -208,7 +208,8 @@ export class AddressDetailsComponent implements OnInit {
 
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
-
+    console.log('this.indi', this.isIndividual)
+    this.clearFormArray();
     if (this.isIndividual) {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
@@ -219,33 +220,43 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   setValuesForIndividual() {
-    const permenantAddress = this.address.addressDetails[0];
-    console.log('permamantAddress---', permenantAddress);
+    
+    const addressObj = this.getAddressObj()
+    console.log('addressObj',addressObj)
+    
     const formArray = this.addressForm.get('details') as FormArray;
-
     const details = formArray.at(0);
 
-    const currentAddress = details.get('permanantAddress');
-    currentAddress.patchValue({
-      addressLineOne: permenantAddress.addressLineOne,
-      addressLineTwo: permenantAddress.addressLineTwo,
-      addressLineThree: permenantAddress.addressLineThree,
-      pincode: permenantAddress.pincode,
-      city: permenantAddress.city,
-      district: permenantAddress.district,
-      state: permenantAddress.state,
-      country: permenantAddress.country,
-      landlineNumber: permenantAddress.landlineNumber,
-    });
+    const permenantAddressObj= addressObj['PERMADDADDTYP']
+    if(permenantAddressObj){
+      const permenantAddress = details.get('permanantAddress');
+      permenantAddress.patchValue({
+
+        addressLineOne: permenantAddressObj.addressLineOne,
+        addressLineTwo: permenantAddressObj.addressLineTwo,
+        addressLineThree: permenantAddressObj.addressLineThree,
+        pincode: permenantAddressObj.pincode,
+        city: permenantAddressObj.city,
+        district: permenantAddressObj.district,
+        state: permenantAddressObj.state,
+        country: permenantAddressObj.country,
+        landlineNumber: permenantAddressObj.landlineNumber,
+      });
+    }
+    
+    
     console.log('details', details);
+    
   }
 
   setValuesForNonIndividual() {
     const communicationAddress = this.address.addressDetails[1];
+    console.log('communicationAddress---', communicationAddress);
     const formArray = this.addressForm.get('details') as FormArray;
 
-    const details = formArray.at(0);
-    details.patchValue({
+    const details = formArray.at(0)
+    const registeredAddress = details.get('registeredAddress')
+    registeredAddress.patchValue({
       addressLineOne: communicationAddress.addressLineOne,
       addressLineTwo: communicationAddress.addressLineTwo,
       addressLineThree: communicationAddress.addressLineThree,
@@ -257,6 +268,28 @@ export class AddressDetailsComponent implements OnInit {
       landlineNumber: communicationAddress.landlineNumber,
     });
   }
+
+  getAddressObj(){
+   const address = this.address.addressDetails;
+   const addressObj = {};
+    if(address) {
+      
+      address.forEach((value) => {
+          if(value.addressType === 'PERMADDADDTYP') {
+              addressObj['PERMADDADDTYP'] = value;
+          }
+          else if(value.addressType === 'COMMADDADDTYP') {
+              addressObj['COMMADDADDTYP'] = value;
+          }
+      })
+  }
+  return addressObj;
+  }
+
+  clearFormArray() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    formArray.clear();
+}
 
   isSameAddress(event) {
     const isChecked = event.target.checked;
