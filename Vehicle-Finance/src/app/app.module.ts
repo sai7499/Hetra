@@ -27,6 +27,23 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';            // @
 import { AgmDirectionModule } from 'agm-direction';   // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
+import {
+  NgxUiLoaderModule,
+  NgxUiLoaderConfig,
+  SPINNER,
+  POSITION,
+  PB_DIRECTION
+} from 'ngx-ui-loader';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  bgsColor: 'red',
+  bgsPosition: POSITION.bottomCenter,
+  bgsSize: 100,
+  bgsType: SPINNER.foldingCube, // background spinner type
+  fgsType: SPINNER.foldingCube, // foreground spinner type
+  pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+  pbThickness: 5 // progress bar thickness
+};
 
 @NgModule({
   declarations: [
@@ -45,6 +62,7 @@ import { Camera } from '@ionic-native/camera/ngx';
       apiKey: 'AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw',
     }),
     AgmDirectionModule,     // agm-direction
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
   providers: [
     HTTP,

@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
 import { HttpService } from '../../../services/http.service';
 import { storage } from '../../../storage/localstorage';
+import { ApiService } from '@services/api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,14 +14,15 @@ import { storage } from '../../../storage/localstorage';
 export class TrackVechileService {
 userId;
     constructor(
-        private httpService: HttpService,) {
+        private httpService: HttpService,
+        private apiService: ApiService) {
             this.userId =localStorage.getItem('userId');
          }
         
     saveUpdateFleetRtr(fleetRtrDetails,installmentDetails){
-        const processId = environment.api.saveUpdateFleetRtr.processId;
-        const workflowId = environment.api.saveUpdateFleetRtr.workflowId;
-        const projectId = environment.projectId ;
+        const processId = this.apiService.api.saveUpdateFleetRtr.processId;
+        const workflowId = this.apiService.api.saveUpdateFleetRtr.workflowId;
+        const projectId = this.apiService.api.saveUpdateFleetRtr.projectId ;
         const body: RequestEntity = {
             processId: processId,          
             ProcessVariables: {
@@ -39,9 +41,9 @@ userId;
         return this.httpService.post(url, body);
     }
     getFleetRtr(){
-        const processId = environment.api.getFleetRtr.processId;
-        const workflowId = environment.api.getFleetRtr.workflowId;
-        const projectId = environment.projectId ;
+        const processId = this.apiService.api.getFleetRtr.processId;
+        const workflowId = this.apiService.api.getFleetRtr.workflowId;
+        const projectId = this.apiService.api.getFleetRtr.projectId ;
         const body: RequestEntity = {
             processId: processId,          
             ProcessVariables: {
@@ -56,9 +58,9 @@ userId;
     }
 
    deleteFleetRtr(id){
-        const processId = environment.api.deleteFleetRtr.processId;
-        const workflowId = environment.api.deleteFleetRtr.workflowId;
-        const projectId = environment.projectId ;
+        const processId = this.apiService.api.deleteFleetRtr.processId;
+        const workflowId = this.apiService.api.deleteFleetRtr.workflowId;
+        const projectId = this.apiService.api.deleteFleetRtr.projectId ;
         const body: RequestEntity = {
             processId: processId,          
             ProcessVariables: {

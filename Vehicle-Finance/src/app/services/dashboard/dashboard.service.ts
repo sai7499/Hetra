@@ -7,6 +7,7 @@ import { storage } from "../../storage/localstorage";
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@services/http.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { ApiService } from '@services/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class DashboardService {
 
   constructor(
     private httpService: HttpService,
-    private commonLovService: CommomLovService
+    private commonLovService: CommomLovService,
+    private apiService: ApiService
     ) { }
 
   leadsChange(value: string) {
@@ -27,9 +29,9 @@ export class DashboardService {
   }
 
   myLeads() {
-    const processId = environment.api.getMyLeads.processId;
-    const workflowId = environment.api.getMyLeads.workflowId;
-    const projectId = environment.projectId;
+    const processId = this.apiService.api.getMyLeads.processId;
+    const workflowId = this.apiService.api.getMyLeads.workflowId;
+    const projectId = this.apiService.api.getMyLeads.projectId;
 
 
     const body: RequestEntity = {
