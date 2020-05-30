@@ -42,20 +42,35 @@ export class ApiService {
             processId: 'a8f86a64959a11eabdcff2fa9bec3d63',
             projectId: environment.projectIds.salesProjectId
         },
-          saveUpdateFleetRtr:{
+          saveUpdateFleetRtr: {
             processId : 'be7ff35699c911eabdcff2fa9bec3d63',
             workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
             projectId: environment.projectIds.salesProjectId
         },
-          getFleetRtr :{
+          getFleetRtr : {
             processId : '7e26a5b29aae11eabdd1f2fa9bec3d63',
             workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
             projectId: environment.projectIds.salesProjectId
           },
-          deleteFleetRtr :{
+          deleteFleetRtr : {
             processId : '4f83a45c9b3111eabdd3f2fa9bec3d63',
             workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
             projectId: environment.projectIds.salesProjectId
           },
-    }
+          getBankTransaction: {
+            workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+            processId: '18e0f1d28f8f11eabdc4f2fa9bec3d63',
+            projectId: environment.projectIds.salesProjectId
+          },
+          getBankAccountList: {
+            workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+            processId: '6ee060e68f8911eabdc4f2fa9bec3d63',
+            projectId: environment.projectIds.salesProjectId
+          },
+          bankTransaction: {
+            workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+            processId: 'bbc390e48f5811eabdc4f2fa9bec3d63',
+            projectId: environment.projectIds.salesProjectId
+          },
+    };
 }
