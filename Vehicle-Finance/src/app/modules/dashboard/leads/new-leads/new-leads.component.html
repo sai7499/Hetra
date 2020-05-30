@@ -2,6 +2,7 @@
     <table class="table">
         <thead>
             <tr class="table-head-bg">
+                <th *ngIf="isCredit == 'Credit Officer'">{{labels.action}}<i class="fa fa-sort"></i></th>
                 <th>{{labels.leadID}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.product}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.loanAmount}}<i class="fa fa-sort"></i> </th>
@@ -16,23 +17,24 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
-
-                <td>{{item.leadId}}</td>
-                <td>{{item.product}}</td>
-                <td>{{item.loanAmount}}</td>
-                <td>{{item.applicants}}</td>
-                <td>{{item.createdOn}}</td>
-                <td>{{item.createdBy}}</td>
-                <td>{{item.priority}}</td>
-                <td>{{item.promoCode}}</td>
-                <td>{{item.status}}</td>
+                <td *ngIf="isCredit == 'Credit Officer'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
+                <td>
+                    <a [routerLink]="['/pages/dde']">{{item.leadId}}</a></td>
+                <td>{{item.product ? item.product : '--'}}</td>
+                <td>{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                <td>{{item.applicants ? item.applicants : '--'}}</td>
+                <td>{{item.createdOn ? item.createdOn : '--'}}</td>
+                <td>{{item.createdBy ? item.createdBy : '--'}}</td>
+                <td>{{item.priority ? item.priority : '--'}}</td>
+                <td>{{item.promoCode ? item.promoCode : '--'}}</td>
+                <td>{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="row clearfix m-0">
+    <div class="row clearfix marBottom-45">
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>

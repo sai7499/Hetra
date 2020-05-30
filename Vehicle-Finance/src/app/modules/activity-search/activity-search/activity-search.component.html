@@ -18,11 +18,11 @@
             <div class="search">
                 <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value)">
                 <div class="dropdown-content" *ngIf="dropDown">
-                    <div *ngFor="let item of searchLead" >
-                    <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
-                    </div>                
+                    <div *ngFor="let item of searchLead">
+                        <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
+                    </div>
                 </div>
-                <span class="search-icon-left"></span> 
+                <span class="search-icon-left"></span>
                 <button class="microphone-icon" title="Search by voice" (click)="navigateToModule()">GO</button>
             </div>
         </div>

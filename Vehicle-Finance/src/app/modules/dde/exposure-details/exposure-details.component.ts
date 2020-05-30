@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormArray, FormGroup } from "@angular/forms";
-import { LabelsService } from "@services/labels.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
-  selector: "app-exposure-details",
-  templateUrl: "./exposure-details.component.html",
-  styleUrls: ["./exposure-details.component.css"]
+  selector: 'app-exposure-details',
+  templateUrl: './exposure-details.component.html',
+  styleUrls: ['./exposure-details.component.css']
 })
 export class ExposureDetailsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService) { }
@@ -22,33 +22,33 @@ export class ExposureDetailsComponent implements OnInit {
     });
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
-      console.log("res in exposure", res);
+      console.log('res in exposure', res);
     });
   }
   public getProposedLoan() {
     return this.formBuilder.group({
-      loanType: [""],
-      loanNumber: ["" || "55601"],
-      assetType: [""],
-      yearOfManufacture: ["" || "2015"],
-      gridValue: ["" || "55"],
-      LTV: ["" || "80"],
-      currentPOS: ["" || 34],
-      tenure: ["" || "60"],
-      emiPaid: ["" || "40"]
+      loanType: [''],
+      loanNumber: ['' || '55601'],
+      assetType: [''],
+      yearOfManufacture: ['' || '2015'],
+      gridValue: ['' || '55'],
+      LTV: ['' || '80'],
+      currentPOS: ['' || 34],
+      tenure: ['' || '60'],
+      emiPaid: ['' || '40']
     });
   }
   private getLiveLoan() {
     return this.formBuilder.group({
-      loanType: [""],
-      loanNumber: ["" || "55601"],
-      assetType: [""],
-      yearOfManufacture: ["" || "2015"],
-      gridValue: ["" || "55"],
-      LTV: ["" || "80"],
-      currentPOS: ["" || 34],
-      tenure: ["" || "60"],
-      emiPaid: ["" || "40"]
+      loanType: [''],
+      loanNumber: ['' || '55601'],
+      assetType: [''],
+      yearOfManufacture: ['' || '2015'],
+      gridValue: ['' || '55'],
+      LTV: ['' || '80'],
+      currentPOS: ['' || 34],
+      tenure: ['' || '60'],
+      emiPaid: ['' || '40']
     });
   }
   addUnit() {
@@ -67,8 +67,8 @@ export class ExposureDetailsComponent implements OnInit {
     if (control.controls.length > 1) {
       control.removeAt(i);
     } else {
-      alert("Atleast One Row Required");
-    } ``
+      alert('Atleast One Row Required');
+    }
   }
   addProposedUnit() {
     const control = this.exposureProposedLoan.controls.proposedTable as FormArray;
@@ -80,7 +80,7 @@ export class ExposureDetailsComponent implements OnInit {
     if (control.controls.length > 1) {
       control.removeAt(i);
     } else {
-      alert("Atleast One Row Required");
+      alert('Atleast One Row Required');
     }
   }
   onSubmit() {

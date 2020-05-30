@@ -5,19 +5,21 @@ import { environment } from '../../environments/environment';
 import RequestEntity from '@model/request.entity';
 import { HttpService } from '../services/http.service';
 import { CommomLovService } from '../services/commom-lov-service';
+import { ApiService } from './api.service';
 
 @Injectable()
-export class LovResolverService implements Resolve<any>{
+export class LovResolverService implements Resolve<any> {
     lovData: any;
     constructor(
         private httpService: HttpService,
-        private commonLovService: CommomLovService) { }
+        private commonLovService: CommomLovService,
+        private apiService: ApiService) { }
 
-    resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    resolve(route?: ActivatedRouteSnapshot): Observable<any> {
 
-        const processId = environment.api.getLOVs.processId;
-        const workflowId = environment.api.getLOVs.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getLOVs.processId;
+        const workflowId = this.apiService.api.getLOVs.workflowId;
+        const projectId = this.apiService.api.getLOVs.projectId;
 
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 

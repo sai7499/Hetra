@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../../../environments/environment';
+import { ApiService } from '../../../services/api.service';
 import RequestEntity from '../../../model/request.entity';
 import { HttpService } from '../../../services/http.service';
 
@@ -10,12 +11,13 @@ import { HttpService } from '../../../services/http.service';
 })
 export class PslDataService {
 
-  constructor( private httpService: HttpService ) { }
+  constructor( private httpService: HttpService,
+               private apiService: ApiService ) { }
 
   getActivity() {
-    const processId = environment.api.pslLOVsDropdown.processId;
-    const workflowId = environment.api.pslLOVsDropdown.workflowId;
-    const projectId = environment.projectId;
+    const processId = this.apiService.api.pslLOVsDropdown.processId;
+    const workflowId = this.apiService.api.pslLOVsDropdown.workflowId;
+    const projectId = this.apiService.api.pslLOVsDropdown.projectId;
 
     const body: RequestEntity = {
         processId: processId,

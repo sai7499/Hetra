@@ -12,7 +12,8 @@
                 name="activity"> 
             </app-vf-custom-select>
         </div>
-<!---------------------------------Other_Option_Starts-------------------------------------------------------->       
+
+<!---------------------------------Other_Option_Starts-------------------------------------------->       
         <div class="" id="other_option" formGroupName="otherOption" *ngIf="activityChange === ''">
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="property_type">{{labels.propertyType}}</label>
@@ -324,7 +325,8 @@
                 </app-vf-custom-select>
             </div>
         </div>
-        <!------------------End Of Other Option------------------------>
+        <!-----------------------------------End Of Other Option------------------------------------>
+
         <div class="" id="agriculture" formGroupName="agriculture" *ngIf="activityChange === '1PSLACTVTY'">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="detail_activity">{{labels.detailActivity}}</label>
@@ -426,7 +428,8 @@
                 </app-vf-custom-select>
             </div>
         </div>
-<!-----------------End Of Africulture Option------------------------------->
+<!-----------------------------------End Of Africulture Option------------------------------->
+
 <div class="" id="micro_small__medium_enterprises" formGroupName="microSmallAndMediumEnterprises" *ngIf="activityChange === '2PSLACTVTY'">
     <div class="form-group col-sm-6 col-md-4 col-lg-3">
         <label for="detail_activity">{{labels.detailActivity}}</label>
@@ -564,7 +567,8 @@
         </app-vf-custom-select>
     </div>
 </div>
-<!-----------------------End of MSME Section ----------------------------------->
+<!---------------------------------End of MSME Section ----------------------------------->
+
 <div class="" id="housing" formGroupName="housing" *ngIf="activityChange === '3PSLACTVTY'">
     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
         <label for="property_type">{{labels.propertyType}}</label>
@@ -655,7 +659,8 @@
         </app-vf-custom-select>
     </div>
 </div>
-<!-----------------------------------End Of Housing Section--------------------------------------------->
+<!-----------------------------------End Of Housing Section-------------------------------->
+
 <div class="" id="social_infrastructure" formGroupName="socialInfrastructure" *ngIf="activityChange === '4PSLACTVTY'">
     <div class="form-group col-sm-6 col-md-4 col-lg-3">
         <label for="detail_activity">{{labels.detailActivity}}</label>
@@ -883,7 +888,8 @@
         </app-vf-custom-select>
     </div>
 </div>
-<!----------------------------------------------------------------------------------------------------------->
+<!------------------------------END_OF_SOCIAL_INFRASTRUCTURE-------------------------------->
+
     </div>
 </form>
 
