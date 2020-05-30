@@ -5,18 +5,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import RequestEntity from '@model/request.entity';
 import { observable } from 'rxjs';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankTransactionsService {
 
-  constructor( private httpService: HttpService) { }
+  constructor( private httpService: HttpService,
+               private apiService: ApiService) { }
   setTransactionDetails(data) {
     const processData = data;
-    const processId = environment.api.bankTransaction.processId;
-    const workflowId = environment.api.bankTransaction.workflowId;
-    const projectId = environment.projectId;
+    const processId = this.apiService.api.bankTransaction.processId;
+    const workflowId = this.apiService.api.bankTransaction.workflowId;
+    const projectId = this.apiService.api.bankTransaction.projectId;
 
     const userId = localStorage.getItem('userId');
     console.log('userid in service', userId);
@@ -39,9 +41,9 @@ export class BankTransactionsService {
 }
 getBankDetails(data) {
   const processData = data;
-  const processId = environment.api.getBankTransaction.processId;
-  const workflowId = environment.api.getBankTransaction.workflowId;
-  const projectId = environment.projectId;
+  const processId = this.apiService.api.getBankTransaction.processId;
+  const workflowId = this.apiService.api.getBankTransaction.workflowId;
+  const projectId = this.apiService.api.getBankTransaction.projectId;
 
   const requestEntity: RequestEntity = {
     processId,
@@ -56,9 +58,9 @@ getBankDetails(data) {
 }
 getBankList(data) {
   const processData = data;
-  const processId = environment.api.getBankAccountList.processId;
-  const workflowId = environment.api.getBankAccountList.workflowId;
-  const projectId = environment.projectId;
+  const processId = this.apiService.api.getBankAccountList.processId;
+  const workflowId = this.apiService.api.getBankAccountList.workflowId;
+  const projectId = this.apiService.api.getBankAccountList.projectId;
 
   const requestEntity: RequestEntity = {
     processId,

@@ -3,6 +3,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { HttpService } from '@services/http.service';
 import RequestEntity from '@model/request.entity';
 import { environment } from 'src/environments/environment';
+import { ApiService } from '@services/api.service';
 
 @Injectable()
 
@@ -10,7 +11,8 @@ export class LoginService {
 
     constructor(
         private httpService: HttpService,
-        private loginService: LoginStoreService) { }
+        private loginService: LoginStoreService,
+        private apiService: ApiService) { }
 
     getLogin(data) {
         const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
@@ -22,9 +24,9 @@ export class LoginService {
     }
 
     getUserDetails(data?) {
-        const processId = environment.api.getUserDetails.processId;
-        const workflowId = environment.api.getUserDetails.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getUserDetails.processId;
+        const workflowId = this.apiService.api.getUserDetails.workflowId;
+        const projectId = this.apiService.api.getUserDetails.projectId;
 
         const email = data ? data.userId : this.loginService.getEmailId();
         const objectKey = data ? 'userId' : 'loginId';

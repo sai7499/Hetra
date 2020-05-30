@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 
+
 @Component({
   templateUrl: './bank-details.component.html',
   styleUrls: ['./bank-details.component.css'],
@@ -33,7 +34,7 @@ export class BankDetailsComponent implements OnInit {
     private lovService: CommomLovService,
     private route: ActivatedRoute,
     private router: Router,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
   ) {
     this.listArray = this.fb.array([]);
   }

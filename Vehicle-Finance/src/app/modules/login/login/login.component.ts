@@ -131,6 +131,8 @@ export class LoginComponent implements OnInit {
             const activityList = response.ProcessVariables.activityList;
             const userId =  response.ProcessVariables.userId;
             localStorage.setItem('userId', userId);
+            const role = response.ProcessVariables.roles[0].name;
+            localStorage.setItem('role', role);
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;
