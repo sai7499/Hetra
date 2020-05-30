@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 import RequestEntity from '@model/request.entity';
+import { observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
