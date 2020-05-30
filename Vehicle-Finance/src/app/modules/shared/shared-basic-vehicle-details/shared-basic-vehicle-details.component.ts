@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-import { CommomLovService } from '../../../services/commom-lov-service';
-import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -20,18 +19,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
+
   public select_main_button_value: string = 'New CV';
 
-  constructor(
-    private _fb: FormBuilder,
-    private loginStoreService: LoginStoreService,
-    private labelsData: LabelsService,
-    private commonLovService: CommomLovService,
-    private vehicleDetailsService: VehicleDetailService) { }
-
+  constructor(private _fb: FormBuilder, private loginStoreService: LoginStoreService, private labelsData: LabelsService, private commonLovService: CommomLovService) { }
 
   ngOnInit() {
-
     this.getLov();
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
@@ -39,10 +32,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
-    console.log("userRole", this.roles[0].name)
+
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    this.initForms();
 
     this.labelsData.getLabelsData()
       .subscribe(data => {
@@ -60,10 +52,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
-  // => method for getting vehicle related lovs from common lov service
-
   getLov() {
-
     this.commonLovService.getLovData().subscribe((value: any) => {
 
       this.LOV = value.LOVS;
@@ -71,12 +60,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicleUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
-
-
-      console.log('vehicle lov  => ', this.vehicleLov)
-
+      this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
     });
 
+    this.initForms();
 
   }
 
@@ -125,7 +112,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   addCreditFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleTypearray: this._fb.array([])
+      creditFormArray: this._fb.array([])
     })
     formArray.push(controls);
     this.addNewCVFormControls();
@@ -297,7 +284,5 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
     creditFormArray.push(controls);
   }
-
-
 
 }

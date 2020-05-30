@@ -54,10 +54,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails() {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
-      this.vehicleArray = res.ProcessVariables.vehicleDetails;
+      console.log('res', res)
+      this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
     })
-
-    console.log("vehilce list", this.vehicleArray)
   }
 
 

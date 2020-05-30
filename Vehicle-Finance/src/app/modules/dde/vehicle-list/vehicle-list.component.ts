@@ -25,5 +25,12 @@ export class VehicleListComponent {
     constructor(private labelsData: LabelsService, private _fb: FormBuilder) { }
 
     ngOnInit() {
+        this.labelsData.getLabelsOfDDEData()
+        .subscribe(data => {
+          this.labels = data.vehicleDetailsTable[0];
+        },
+          error => {
+            console.log('error')
+          });
     }
 }

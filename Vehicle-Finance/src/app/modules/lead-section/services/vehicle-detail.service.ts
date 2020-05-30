@@ -8,7 +8,6 @@ import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
 import { HttpService } from '../../../services/http.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
