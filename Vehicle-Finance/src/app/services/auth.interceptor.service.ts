@@ -4,6 +4,7 @@ import { EncryptService } from './encrypt.service';
 import { environment } from '../../environments/environment';
 import { Observable } from "rxjs";
 import { map, tap, first, catchError } from "rxjs/operators";
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 
@@ -14,14 +15,16 @@ import { map, tap, first, catchError } from "rxjs/operators";
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
-        private encrytionService: EncryptService
+        private encrytionService: EncryptService,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // console.log('auth', localStorage.getItem('token'))
+        this.ngxUiLoaderService.start();
         let httpMethod = req.method;
         console.log("Before Encryption", req.body);
-        if (httpMethod == 'POST') {            
+        if (httpMethod == 'POST') {
             if (environment.encryptionType == true) {
                 const encryption = this.encrytionService.encrypt(req.body, environment.aesPublicKey);
                 req = req.clone(
@@ -54,8 +57,12 @@ export class AuthInterceptor implements HttpInterceptor {
                         event = event.clone({ body: JSON.parse(this.encrytionService.decryptResponse(event)) });
                         console.log("after Encryption: ", event.body);
                     }
+                    this.ngxUiLoaderService.stop();
                     return event;
+                } else {
+                    this.ngxUiLoaderService.stop();
                 }
+
             }, (err: any) => {
                 console.log('err', err)
             })

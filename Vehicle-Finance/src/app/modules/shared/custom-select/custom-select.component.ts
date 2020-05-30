@@ -51,7 +51,8 @@ export class CustomSelectComponent
   }
 
   getSelectedObject() {
-    return this.values
+    console.log('this.values',this.values);
+    return (this.values && Array.isArray(this.values))
       ? this.values.find((value) => String(value.key) === this.selectedOption)
       : {};
   }

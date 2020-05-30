@@ -39,7 +39,7 @@ export class HttpService {
   constructor(
     private http: HttpClient,
     private httpIonic: HTTP,
-    // private ngxService: NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private deviceService: DeviceDetectorService,
     private encrytionService: EncryptService,
     private errorListenerService: ErrorListenerService,
@@ -62,9 +62,9 @@ export class HttpService {
     // if (requestEntity["processVariables"]){
     //   requestEntity["processVariables"]["userId"] = localStorage.getItem('userId')
     // }
-    if (showLoader) {
-      // this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
-    }
+    // if (showLoader) {
+    //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
+    // }
     if (this.isMobile) {
       console.log("url", url);
       console.log("body", requestEntity);
@@ -118,7 +118,7 @@ export class HttpService {
     reqEntity = params;
 
     if(this.activeRequests === 0){
-      // this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
+      this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     }
     this.activeRequests++;
 
@@ -256,7 +256,7 @@ export class HttpService {
 
           this.activeRequests--;
           if (this.activeRequests === 0) {
-          // this.ngxService.stop();
+          this.ngxService.stop();
           }
         })
         .catch(error => {
@@ -283,7 +283,7 @@ export class HttpService {
           observer.complete();
           this.activeRequests--;
           if (this.activeRequests === 0) {
-          // this.ngxService.stop();
+          this.ngxService.stop();
           }
         });
     });
@@ -292,7 +292,7 @@ export class HttpService {
   }
 
   getM(url?: string, params?: any) {
-    // this.ngxService.start();
+    this.ngxService.start();
 
     const obs = new Observable(observer => {
       const headers = {
@@ -314,13 +314,13 @@ export class HttpService {
           console.log('Data-success', data);
           observer.next(data);
           observer.complete();
-          // this.ngxService.stop();
+          this.ngxService.stop();
         })
         .catch(error => {
           console.log('Data-error', error);
           observer.error(error);
           observer.complete();
-          // this.ngxService.stop();
+          this.ngxService.stop();
         });
     });
 
@@ -328,7 +328,7 @@ export class HttpService {
   }
 
   downloadMFile(uri, savePath){
-    // this.ngxService.start();
+    this.ngxService.start();
 
     const obs = new Observable(observer => {
 
@@ -339,12 +339,12 @@ export class HttpService {
         console.log("Download file", result);
         observer.next(result);
         observer.complete();
-        // this.ngxService.stop();
+        this.ngxService.stop();
       }).catch((error) => {
         console.log(" error Download file", error);
         observer.error(error);
         observer.complete();
-        // this.ngxService.stop();
+        this.ngxService.stop();
       });
 
     });

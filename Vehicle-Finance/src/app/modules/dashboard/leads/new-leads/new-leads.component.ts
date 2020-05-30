@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
+import { CommomLovService } from '@services/commom-lov-service';
+import { LoginService } from 'src/app/modules/login/login/login.service';
 
 @Component({
   selector: 'app-new-leads',
@@ -9,12 +12,20 @@ import { LabelsService } from '@services/labels.service';
 export class NewLeadsComponent implements OnInit {
 
   newArray;
+  newLeads;
   itemsPerPage = 5;
   labels: any = {};
   q;
+  isCredit;
+  lovData: any;
 
-  constructor(private labelsData: LabelsService) {
-    this.newArray =  [
+  constructor(
+    private labelsData: LabelsService,
+    private dashboardService: DashboardService,
+    private commonLovService: CommomLovService,
+    private loginService: LoginService
+  ) {
+    this.newLeads =  [
       {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'},
       {leadId: 1000002, product: 'Used CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
@@ -50,14 +61,39 @@ export class NewLeadsComponent implements OnInit {
       {leadId: 1000017, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'Lead Created	', history: 'test'},
     ];
-   }
+  }
 
-   ngOnInit() {
+  ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
       }
     );
+
+    // this.dashboardService.isCreditShow.subscribe(value => {
+    //   this.isCredit = value;
+    // if (this.isCredit === 'Credit Officer') {
+    //   this.getMyLeads();
+    // } else {
+    //   this.newArray = this.newLeads;
+    // }
+    // });
+    this.isCredit = localStorage.getItem('role');
+    if (this.isCredit === 'Credit Officer') {
+      this.getMyLeads();
+    } else {
+      this.newArray = this.newLeads;
+    }
+
+
+  }
+
+  getMyLeads() {
+    this.dashboardService.myLeads().subscribe((res: any) => {
+      const response = res.ProcessVariables.loanLead;
+      console.log('dash', response);
+      this.newArray = response;
+    });
   }
 
 }
