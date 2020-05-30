@@ -4,6 +4,7 @@ import { EncryptService } from './encrypt.service';
 import { environment } from '../../environments/environment';
 import { Observable } from "rxjs";
 import { map, tap, first, catchError } from "rxjs/operators";
+import { UtilityService } from './utility.service';
 
 
 
@@ -14,7 +15,8 @@ import { map, tap, first, catchError } from "rxjs/operators";
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
-        private encrytionService: EncryptService
+        private encrytionService: EncryptService,
+        private utilityService: UtilityService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -52,8 +54,16 @@ export class AuthInterceptor implements HttpInterceptor {
                 if (event instanceof HttpResponse) {
                     if (event.headers.get("content-type") == "text/plain") {
                         event = event.clone({ body: JSON.parse(this.encrytionService.decryptResponse(event)) });
-                        console.log("after Encryption: ", event.body);
+                    } else{
+                        let res;
+                        if (event.headers.get("content-type") != "text/plain" && typeof(event.body) != "object") {
+                             res = JSON.parse(event.body);
+                          }
+                        if (res && res['login_required']) {
+                              this.utilityService.logOut();
+                          }
                     }
+                    console.log("after Encryption: ", event.body);
                     return event;
                 }
             }, (err: any) => {

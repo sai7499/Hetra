@@ -35,7 +35,7 @@
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input formControlName="fromDate" type="date" class="form-control" value="01-01-2020">
+                      <input formControlName="fromDate" type="date" class="form-control" [value]= "fromDate | date :'dd-MM-yyyy'" data-date-format="dd-MM-yy"  >
                    </div>
                 </div>
              </div>
@@ -45,7 +45,8 @@
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input  formControlName="toDate" type="date" class="form-control" value="01-06-2020" onchange="getMonths()">
+                      <input  formControlName="toDate" type="date" class="form-control" [value]="'01-06-2020' | date:'dd-MM-yyyy'" 
+                        (input)="getMonths()">
                    </div>
                 </div>
              </div>
