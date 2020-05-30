@@ -9,6 +9,7 @@ export const environment = {
   projectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
 
   api: {
+
     'getUserDetails': {
       'workflowId': '7fde429c82ea11eabdc2f2fa9bec3d63',
       'processId': '8000bb2e82ea11eabdc2f2fa9bec3d63'
@@ -51,6 +52,12 @@ export const environment = {
 
       'workflowId': '0620e32c998511eabdcff2fa9bec3d63',
       'processId': 'd6f39fda99b211eabdcff2fa9bec3d63'
+
+    },
+    'getVehicleMasterFromRegion': {
+
+      'workflowId': '385f090a957e11eabdcff2fa9bec3d63',
+      'processId': '3bed6af898f311eabdcff2fa9bec3d63'
 
     },
     'getMyLeads': {

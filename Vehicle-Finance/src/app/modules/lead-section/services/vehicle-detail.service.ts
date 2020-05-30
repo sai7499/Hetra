@@ -132,6 +132,31 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
+  // 4. method for getting vehicleMasterDetails from region
+
+  getVehicleMasterFromRegion(region) {
+
+    const processId = environment.api.getVehicleMasterFromRegion.processId;
+    const workflowId = environment.api.getVehicleMasterFromRegion.workflowId;
+    const projectId = environment.projectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: {
+
+        "region": region
+
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 
 
 
