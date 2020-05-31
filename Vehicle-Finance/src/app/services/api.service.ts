@@ -82,6 +82,11 @@ export class ApiService {
             processId: '658c979e967811eabdcff2fa9bec3d63',
             projectId: environment.projectIds.salesProjectId
           },
+          softDeleteIncomeDetails:{
+            workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+            processId: '0e6aecde972e11eabdcff2fa9bec3d63',
+            projectId: environment.projectIds.salesProjectId
+          }
       
     };
 }

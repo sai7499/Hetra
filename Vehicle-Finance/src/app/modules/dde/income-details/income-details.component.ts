@@ -14,122 +14,203 @@ export class IncomeDetailsComponent implements OnInit {
   labels: any = {};
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
-  id:['1','2','3']
-  constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder, private incomeDetailsService: IncomeDetailsService ) { }
+  formData: any;
+  getBuisinessIncomeId: any;
+  constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder, private incomeDetailsService: IncomeDetailsService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        console.log(this.labels)
+        // // console.log(this.labels)
       },
       error => {
-        console.log(error);
+        // // console.log(error);
       }
     );
+    
     this.incomeDetailsForm = this.formBuilder.group({
-      businessDetails: this.formBuilder.array([this.getIncomeDetails()]),
-      otherIncomeDetails: this.formBuilder.array([this.getOtherIncomeDetails()]),
-      obligationDetails: this.formBuilder.array([this.getObligationDetails()]),
-      leadId : 61,
-      id: this.id,
+      businessDetails: this.formBuilder.array([]),
+      otherIncomeDetails: this.formBuilder.array([]),
+      obligationDetails: this.formBuilder.array([]),
+      leadId: 61,
+      userId:1001
 
     });
+    this.getResponse();
+    // // console.log('getting form data resp',this.getResponse);
+    
+    
   }
-  private getIncomeDetails() {
+  private getIncomeDetails(data?:any) {
+    // // console.log('data in side  function', data);
     return this.formBuilder.group({
-      id:[""],
-      applicantName: ["" || "Arun"],
-      applicantType: ["" || "Applicant"],
-      businessEnterpriseName: ["" || "ABC Enterprises"],
-      depreciation: [""],
-      directorSalary: [""],
-      grossDerivedIncome: [""],
-      grossMonthlyIncome: [""],
-      netProfit: ["" || "254000"],
-
+      // id: data.id ? data.id : 0,
+      applicantName: [''],
+      applicantType: [''], 
+      businessEnterpriseName: data.businessEnterpriseName ? data.businessEnterpriseName : '',
+      depreciation: data.depreciation ? data.depreciation : '',
+      directorSalary: data.directorSalary ? data.directorSalary : '',
+      grossDerivedIncome: data.grossDerivedIncome ? data.grossDerivedIncome : '',
+      grossMonthlyIncome: data.grossMonthlyIncome ? data.grossMonthlyIncome : '',
+      netProfit: data.netProfit ? data.netProfit : '',
+      // id: [],
+      // applicantName: ["" || "Arun"],
+      // applicantType: ["" || "Applicant"],
+      // businessEnterpriseName: ["" || "ABC Enterprises"],
+      // depreciation: ["depreciation"],
+      // directorSalary: [""],
+      // grossDerivedIncome: [""],
+      // grossMonthlyIncome: [""],
+      // netProfit: ["" || "254000"],
 
     });
   }
-  private getOtherIncomeDetails() {
+  private getOtherIncomeDetails(data?:any) {
+    //  // console.log('data in side  function', data);
+
     return this.formBuilder.group({
-      applicantName: ["" || "Arun"],
-      applicantType: ["" || "Applicant"],
-      incomeTypeValue: ["" || "Salary"],
-      grossIncome: ["" || "254000"],
-      factoring: [""],
-      factoredIncome: [""]
+
+      applicantName: [""],
+      applicantType: [""],
+      incomeTypeValue: [""],
+      grossIncome: data.grossIncome ? data.grossIncome : '',
+      factoring: data.factoring ? data.factoring : '',
+      factoredIncome: data.factoredIncome ? data.factoredIncome : '',
+
+      // applicantName: ["" || "Kumar"],
+      // applicantType: ["" || "Applicant"],
+      // incomeTypeValue: ["" || "Salary"],
+      // grossIncome: ["" || "254000"],
+      // factoring: [""],
+      // factoredIncome: [""]
 
     });
   }
-  private getObligationDetails() {
+  private getObligationDetails(data?:any) {
     return this.formBuilder.group({
       applicantName: ["" || "Kumar"],
       applicantTypeValue: ["" || "Applicant"],
       businessLoan: ["" || "Business Loan"],
       financier: ["" || "muthoot"],
-      loanAmount: ["" || "150000"],
-      tenure: ["" || "24"],
-      mob: ["" || "10"],
-      emi: ["" || "7931"],
-      balanceTenure: ["" || "14"],
-      obligationAmount: ["" || "7931"]
-    
-    
+      loanAmount: data.loanAmount ? data.loanAmount : '',
+      tenure: data.tenure ? data.tenure : '',
+      mob: data.mob ? data.mob : '',
+      emi: data.emi ? data.emi : '',
+      balanceTenure: data.balanceTenure ? data.balanceTenure : '',
+      obligationAmount: data.obligationAmount ? data.obligationAmount : '',
+
+
 
     });
   }
-  addIncomeUnit() {
+  addIncomeUnit(data?: any) {
     const control = this.incomeDetailsForm.controls.businessDetails as FormArray;
-    control.push(this.getIncomeDetails());
+    // // console.log(data.length,'income length');
+    if(data.length > 0) {
+      for(let i=0;i<data.length;i++){
+        control.push(this.getIncomeDetails(data[i]));
+      }
+    } else {
+control.push(this.getIncomeDetails());
+    }
+    
+    
   }
   removeIncomeIndex(i?: any) {
     const control = this.incomeDetailsForm.controls.businessDetails as FormArray;
-    console.log(control.controls.length);
     if (control.controls.length > 1) {
-      control.removeAt(i);
+      this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
+        control.removeAt(i);
+        // // console.log(res);
+
+      })
     } else {
       alert("Atleast One Row Required");
     }
   }
 
-  addOtherUnit() {
+  addOtherUnit(data?:any) {
     const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    control.push(this.getOtherIncomeDetails());
+    // // console.log(data.length,'other length');
+    if(data.length > 0) {
+      for(let i=0;i<data.length;i++){
+        control.push(this.getOtherIncomeDetails(data[i]));
+      }
+    } else {
+control.push(this.getOtherIncomeDetails());
+    }
   }
   removeOtherIndex(i?: any) {
+
     const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    console.log(control.controls.length);
+    // // console.log(control.controls.length);
     if (control.controls.length > 1) {
-      control.removeAt(i);
+      this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
+        control.removeAt(i);
+        // console.log(res);
+      })
     } else {
       alert("Atleast One Row Required");
     }
   }
-  addObligationUnit() {
+  addObligationUnit(data?:any) {
     const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
-    control.push(this.getObligationDetails());
+    // console.log(data.length,'obligation length');
+    if(data.length > 0) {
+      for(let i=0;i<data.length;i++){
+        control.push(this.getObligationDetails(data[i]));
+      }
+    } else {
+control.push(this.getObligationDetails());
+    }
   }
   removeObligationIndex(i?: any) {
     const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
-    console.log(control.controls.length);
+    // console.log(control.controls.length);
     if (control.controls.length > 1) {
-      control.removeAt(i);
-    } else {
+      this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
+        control.removeAt(i);
+        // console.log(res);
+      })
+    }
+    else {
       alert("Atleast One Row Required");
     }
   }
-  onSubmit() {
-    console.log(this.incomeDetailsForm.value);
-  //   this.incomeDetailsService.setIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any) => {
-  //     console.log(res);
-  //     alert(JSON.stringify(res));
-  // });
-  this.incomeDetailsService.getAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res:any,)=>{
-    console.log(res);
+  getResponse() {
+    this.incomeDetailsService.getAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any ) => {
+      // console.log(res);
+      this.formData = res;
+      this.addIncomeUnit(this.formData.ProcessVariables.businessIncomeList);
+    this.addOtherUnit(this.formData.ProcessVariables.otherIncomeList);
+      this.addObligationUnit(this.formData.ProcessVariables.obligationsList);
 
-  })
-//   let itemIndex = this.incomeDetailsForm.value.findIndex(item => item.id == retrievedItem.id);
-// this.incomeDetailsForm.value[itemIndex] = retrievedItem;
+    })
+  }
+  
+
+  onSubmit() {
+    console.log(this.incomeDetailsForm.value,);
+    // console.log(data)
+    // if(this.)
+    this.incomeDetailsService.getAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any, ) => {
+      // console.log(res);
+      this.getBuisinessIncomeId = res.ProcessVariables.businessIncomeList.forEach(element => {
+        // console.log(element.id);
+        this.incomeDetailsService.setAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res:any)=>{
+
+// console.log(res);
+// console.log(element.id);
+ 
+
+        })
+        
+      });
+      // console.log(this.getBuisinessIncomeId);
+      
+
+    })
+
   }
 }

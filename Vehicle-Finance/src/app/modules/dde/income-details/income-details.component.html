@@ -30,8 +30,7 @@
                   *ngFor="let item of incomeDetailsForm.get('businessDetails')['controls']; let i = index"
                   [formGroupName]="i">
                   <td data-title="S.No" >
-                    <input type="number" id="latbox" [value]="i+1" class="no_border" class="input_value" 
-                      name="id" class="form-control text-center" formControlName="id" />
+                    {{i+1}}
                    </td>
                   <td data-title="Applicant Name">
                     <select class="form-control mandatory select2" id=""  name="applicantName" class="form-control text-center" formControlName="applicantName">
@@ -101,9 +100,9 @@
                 </tr>
               </thead>
               <tbody formArrayName="otherIncomeDetails">
-                <tr *ngFor="let item of incomeDetailsForm.get('otherIncomeDetails')['controls']; let j = index"
-                  [formGroupName]="j">
-                  <td data-title="S.no">{{ j + 1 }}</td>
+                <tr *ngFor="let item of incomeDetailsForm.get('otherIncomeDetails')['controls']; let i = index"
+                  [formGroupName]="i">
+                  <td data-title="S.no">{{ i + 1 }}</td>
                   <td data-title="Applicant Name">
                     <select class="form-control mandatory select2" id=""  name="applicantName" class="form-control text-center" formControlName="applicantName">
                       <option value="1">Kumar</option>
@@ -167,9 +166,9 @@
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
-                <tr *ngFor="let item of incomeDetailsForm.get('obligationDetails')['controls']; let k = index"
-                  [formGroupName]="k">
-                  <td data-title="S.No">{{ k + 1 }}</td>
+                <tr *ngFor="let item of incomeDetailsForm.get('obligationDetails')['controls']; let i = index"
+                  [formGroupName]="i">
+                  <td data-title="S.No">{{ i + 1 }}</td>
                   <td data-title="Borrower Name">
                     <select class="form-control mandatory select2" id=""  name="applicantName" class="form-control text-center" formControlName="applicantName">
                       <option value="1">Kumar</option>
@@ -306,7 +305,7 @@
   </div>
   <div class="col-sm-7 text-right">
     <button class="btn btn-primary dash_href" type="button" routerLink="../fleet-details">Back </button>
-    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">Save </button>
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit(i)">Save </button>
     <button class="btn btn-primary dash_href" type="button" routerLink="../income-details"> Next </button>
   </div>
 </div>

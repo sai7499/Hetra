@@ -58,4 +58,24 @@ setAllIncomeDetails(data)
  
   return this.httpService.post(url, requestEntity);
 }
+softDeleteIncomeDetails(data){
+  const processData = data;
+  const processId = this.apiService.api.setAllIncomeDetails.processId;
+  const workflowId = this.apiService.api.setAllIncomeDetails.workflowId;
+  const projectId = this.apiService.api.bankTransaction.projectId;
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'delete income details');
+
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+ 
+  return this.httpService.post(url, requestEntity);
+}
 }
