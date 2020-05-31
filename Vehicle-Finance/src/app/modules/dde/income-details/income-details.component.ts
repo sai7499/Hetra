@@ -14,7 +14,7 @@ export class IncomeDetailsComponent implements OnInit {
   labels: any = {};
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
-
+  id:['1','2','3']
   constructor(private route: Router, private labelsData: LabelsService, private formBuilder: FormBuilder, private incomeDetailsService: IncomeDetailsService ) { }
 
   ngOnInit() {
@@ -32,11 +32,13 @@ export class IncomeDetailsComponent implements OnInit {
       otherIncomeDetails: this.formBuilder.array([this.getOtherIncomeDetails()]),
       obligationDetails: this.formBuilder.array([this.getObligationDetails()]),
       leadId : 61,
+      id: this.id,
 
     });
   }
   private getIncomeDetails() {
     return this.formBuilder.group({
+      id:[""],
       applicantName: ["" || "Arun"],
       applicantType: ["" || "Applicant"],
       businessEnterpriseName: ["" || "ABC Enterprises"],
@@ -123,9 +125,11 @@ export class IncomeDetailsComponent implements OnInit {
   //     console.log(res);
   //     alert(JSON.stringify(res));
   // });
-  this.incomeDetailsService.setTransactionDetails(this.incomeDetailsForm.value).subscribe((res:any)=>{
+  this.incomeDetailsService.getAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res:any,)=>{
     console.log(res);
 
   })
+//   let itemIndex = this.incomeDetailsForm.value.findIndex(item => item.id == retrievedItem.id);
+// this.incomeDetailsForm.value[itemIndex] = retrievedItem;
   }
 }

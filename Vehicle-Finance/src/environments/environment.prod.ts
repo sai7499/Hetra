@@ -28,9 +28,13 @@ export const environment = {
       'workflowId': '99e9c24294e711eabdcdf2fa9bec3d63',
       'processId': '4e4033dc96a211eabdcff2fa9bec3d63'
     },
-    'incomeDetails': {
+    'getAllIncomeDetails': {
       'workflowId': '6569c7e6967811eabdcff2fa9bec3d63',
       'processId': 'eabfa04c96ae11eabdcff2fa9bec3d63'
+    },
+    'setAllIncomeDetails':{
+      'workflowId': '6569c7e6967811eabdcff2fa9bec3d63',
+      'processId': '658c979e967811eabdcff2fa9bec3d63'
     },
     'getMyLeads': {
       'workflowId': 'a8cc3836959a11eabdcff2fa9bec3d63',

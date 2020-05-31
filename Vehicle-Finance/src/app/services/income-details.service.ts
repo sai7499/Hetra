@@ -11,10 +11,10 @@ import RequestEntity from '@model/request.entity';
 export class IncomeDetailsService {
 
   constructor( private httpService: HttpService, ) { }
-  setTransactionDetails(data) {
+  getAllIncomeDetails(data) {
     const processData = data;
-    const processId = environment.api.incomeDetails.processId;
-    const workflowId = environment.api.incomeDetails.workflowId;
+    const processId = environment.api.getAllIncomeDetails.processId;
+    const workflowId = environment.api.getAllIncomeDetails.workflowId;
     const projectId = environment.projectId;
 
     const userId = localStorage.getItem('userId');
@@ -28,12 +28,32 @@ export class IncomeDetailsService {
     };
     console.log(requestEntity, 'income details');
 
-    // const url = `${environment.host}d/workflows/${workflowId}/execute?projectId=${projectId}`;
-    // tslint:disable-next-line: prefer-const
+    
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-    // const body = {
-    //     JSON.stringify(requestEntity)
-    // };
+    
     return this.httpService.post(url, requestEntity);
+}
+
+setAllIncomeDetails(data)
+{
+  const processData = data;
+  const processId = environment.api.setAllIncomeDetails.processId;
+  const workflowId = environment.api.setAllIncomeDetails.workflowId;
+  const projectId = environment.projectId;
+
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'Set income details');
+
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+ 
+  return this.httpService.post(url, requestEntity);
 }
 }

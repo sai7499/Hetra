@@ -29,13 +29,20 @@
                 <tr class=" text-center" id="applicant_1_row"
                   *ngFor="let item of incomeDetailsForm.get('businessDetails')['controls']; let i = index"
                   [formGroupName]="i">
-                  <td data-title="S.No">{{ i + 1 }}</td>
+                  <td data-title="S.No" >
+                    <input type="number" id="latbox" [value]="i+1" class="no_border" class="input_value" 
+                      name="id" class="form-control text-center" formControlName="id" />
+                   </td>
                   <td data-title="Applicant Name">
-                    <input type="text" id="latbox" value="Arun" class="no_border" class="input_value"
-                      name="applicantName" class="form-control text-center" formControlName="applicantName" />
+                    <select class="form-control mandatory select2" id=""  name="applicantName" class="form-control text-center" formControlName="applicantName">
+                      <option value="1">Arun</option>
+                      <option value="2">Kumar</option>
+                   </select>
+                    <!-- <input type="text" id="latbox" value="Arun" class="no_border" class="input_value"
+                      name="applicantName" class="form-control text-center" formControlName="applicantName" /> -->
                   </td>
                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value"
+                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value" readonly="true"
                       name="applicantType" class="form-control text-center" formControlName="applicantType" />
                   </td>
                   <td data-title="Business Entity Name">
@@ -55,7 +62,7 @@
                       class="form-control text-center" formControlName="directorSalary" />
                   </td>
                   <td data-title="Gross derived Income">
-                    <input type="text" id="latbox" class="input_value" name="grossDerivedIncome"
+                    <input type="text" id="latbox" class="input_value" name="grossDerivedIncome" readonly="true"
                       class="form-control text-center" formControlName="grossDerivedIncome" />
                   </td>
                   <td data-title="Gross monthly income">
@@ -98,27 +105,34 @@
                   [formGroupName]="j">
                   <td data-title="S.no">{{ j + 1 }}</td>
                   <td data-title="Applicant Name">
-                    <input type="text" id="latbox" value="Arun" class="no_border" class="input_value"
-                      name="applicantName" class="form-control text-center" formControlName="applicantName" />
+                    <select class="form-control mandatory select2" id=""  name="applicantName" class="form-control text-center" formControlName="applicantName">
+                      <option value="1">Kumar</option>
+                      <option value="2">Arun</option>
+                   </select>
                   </td>
                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value"
+                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value" readonly="true"
                       name="applicantType" class="form-control text-center" formControlName="applicantType" />
                   </td>
                   <td data-title="Income Type">
-                    <input type="text" id="latbox" value="Salary" class="no_border" class="input_value"
-                      name="incomeTypeValue" class="form-control text-center" formControlName="incomeTypeValue" />
+                    <select class="form-control mandatory select2" id=""  name="incomeTypeValue" class="form-control text-center" formControlName="incomeTypeValue">
+                      <option value="1">Salary</option>
+                                          <option value="2">Rental</option>
+                                          <option value="2">Pension</option>
+                                          <option value="2">Agri Income</option>
+                   </select>
+                   
                   </td>
                   <td data-title="Gross Income">
                     <input type="text" id="latbox" value="254000" class="no_border" class="input_value"
                       name="grossIncome" class="form-control text-center" formControlName="grossIncome" />
                   </td>
                   <td data-title="Factoring %">
-                    <input type="text" id="latbox" class="input_value" name="factoring" class="form-control text-center"
+                    <input type="text" id="latbox" class="input_value" name="factoring" class="form-control text-center" readonly="true"
                       formControlName="factoring" />
                   </td>
                   <td data-title="Factored Income">
-                    <input type="text" id="lngbox" readonly="true" class="input_value" name="factoredIncome"
+                    <input type="text" id="lngbox" readonly="true" class="input_value" name="factoredIncome" 
                       class="form-control text-center" formControlName="factoredIncome" />
                   </td>
                   <td data-title="Actions">
@@ -157,20 +171,35 @@
                   [formGroupName]="k">
                   <td data-title="S.No">{{ k + 1 }}</td>
                   <td data-title="Borrower Name">
-                    <input type="text" id="latbox" value="Kumar" class="no_border" class="input_value"
-                      name="applicantName" class="form-control text-center" formControlName="applicantName" />
+                    <select class="form-control mandatory select2" id=""  name="applicantName" class="form-control text-center" formControlName="applicantName">
+                      <option value="1">Kumar</option>
+                      <option value="2">Arun</option>
+                   </select>
                   </td>
                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value"
+                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value" readonly="true"
                       name="applicantTypeValue" class="form-control text-center" formControlName="applicantTypeValue" />
                   </td>
                   <td data-title="Type of Loan">
-                    <input type="text" id="latbox" value="Business Loan" class="no_border" class="input_value"
-                      name="businessLoan" class="form-control text-center" formControlName="businessLoan" />
+                    <!-- <input type="text" id="latbox" value="Business Loan" class="no_border" class="input_value"
+                      name="businessLoan" class="form-control text-center" formControlName="businessLoan" /> -->
+                      <select  id="latbox" class="no_border" class="input_value"
+                      name="businessLoan" class="form-control text-center" formControlName="businessLoan">
+                        <option value="0">Business Laon</option>
+                        <option value="1">Home Loan</option>
+                        <option value="2">LAP</option>
+                        <option value="2">Agri Loan</option>
+                        <option value="2">Personal Loan</option>
+                     </select>
                   </td>
                   <td data-title="Financier">
-                    <input type="text" id="latbox" value="muthoot" class="no_border" class="input_value"
-                      name="financier" class="form-control text-center" formControlName="financier" />
+                   
+                      <select  id="latbox" class="no_border" class="input_value"
+                      name="financier" class="form-control text-center" formControlName="financier">
+                      <option value="Eicher">Muthoot</option>
+                      <option value="Tata Motors">IDFC</option>
+                      <option value="Eicher">Chola</option>
+                     </select>
                   </td>
                   <td data-title="Loan Amount">
                     <input type="text" id="latbox" value="150000" class="input_value" name="loanAmount"
@@ -189,11 +218,11 @@
                       class="form-control text-center" formControlName="emi" />
                   </td>
                   <td data-title="Balance Tenor">
-                    <input type="text" id="lngbox" value="14" class="input_value" name="balanceTenure"
+                    <input type="text" id="lngbox" value="14" class="input_value" name="balanceTenure" readonly="true"
                       class="form-control text-center" formControlName="balanceTenure" />
                   </td>
                   <td data-title="Obligation Amount">
-                    <input type="text" id="lngbox" value="7931" class="input_value" name="obligationAmount"
+                    <input type="text" id="lngbox" value="7931" class="input_value" name="obligationAmount" readonly="true"
                       class="form-control text-center" formControlName="obligationAmount" />
                   </td>
                   <td data-title="Actions">
@@ -209,7 +238,7 @@
               <div class="col-md-12 text-right">Total Monthly Obligation : 27,490</div>
             </div>
           </div>
-          <div class="table-responsive application mt-3 oblig">
+          <div class="table-responsive application mt-3 oblig col-md-6 p-0">
             <table id="POITable" border="1" class="table income_obli ">
               <caption class="caption">
                 {{ labels?.incomeObligationSummaryTitle }}
@@ -276,8 +305,8 @@
 
   </div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary mar-right8" type="button" routerLink="../fleet-details">Back </button>
+    <button class="btn btn-primary dash_href" type="button" routerLink="../fleet-details">Back </button>
     <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">Save </button>
-    <button class="btn btn-primary js-btn-next" type="button" routerLink="../income-details"> Next </button>
+    <button class="btn btn-primary dash_href" type="button" routerLink="../income-details"> Next </button>
   </div>
 </div>
