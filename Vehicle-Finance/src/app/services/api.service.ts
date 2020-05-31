@@ -92,6 +92,12 @@ export class ApiService {
       workflowId: '385f090a957e11eabdcff2fa9bec3d63',
       processId: '74c36bec6da211eabdc2f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
+    },
+    saveOrUpdateFleet:{
+      workflowId: '0620e32c998511eabdcff2fa9bec3d63',
+      processId: 'd6f39fda99b211eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+
     }
   };
 }

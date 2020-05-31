@@ -3,6 +3,8 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
+import { FleetDetailsService } from '../services/fleet-details.service'
+import { CommomLovService } from '@services/commom-lov-service'
 
 @Component({
   selector: 'app-fleet-details',
@@ -14,20 +16,25 @@ export class FleetDetailsComponent implements OnInit {
   public fleetForm: FormGroup;
   labels: any = {};
   values: any = [];
-
+  leadId: number = 21;
+  userId: number = 1001;
+  fleetDetails: any = [];
+  fleetLov: any = [];
 
   constructor(
 
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
-
-
-
-  ) { }
+    private fleetDetailsService: FleetDetailsService,
+    private commonLovService: CommomLovService) { }
 
 
   ngOnInit() {
+
+    this.getLov();
+
+
 
     this.fleetForm = this.fb.group(
       {
@@ -60,20 +67,49 @@ export class FleetDetailsComponent implements OnInit {
 
   initRows() {
     return this.fb.group({
-      regdNo: ['' || 'TN01AA1234'],
-      regdOwner: ['' || 'Deepika'],
+      regdNo: [''],
+      regdOwner: [],
       relation: [''],
       make: [''],
-      yom: ['' || '2015'],
+      yom: [],
       financier: [''],
-      loanNo: ['' || '4587'],
-      purchaseDate: ['' || '2007-05-12'],
-      tenure: ['' || '60'],
-      paid: ['' || '40'],
-      seasoning: [{ value: "67%", disabled: true }],
+      loanNo: [''],
+      purchaseDate: [''],
+      tenure: [''],
+      paid: [''],
+      seasoning: [''],
       ad: [{ value: "", disabled: true }],
       pd: [{ value: "", disabled: true }],
       gridValue: [{ value: "", disabled: true }]
+    });
+  }
+
+  //  method for getting Lovs 
+
+  getLov() {
+
+    this.commonLovService.getLovData().subscribe((value: any) => {
+
+      this.fleetLov.applicantRelationshipWithLead = value.LOVS.applicantRelationshipWithLead;
+      this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
+      this.fleetLov.vehicleManufacturer = value.LOVS.vehicleManufacturer;
+
+
+      console.log('vehicle lov  => ', this.fleetLov)
+
+    });
+
+  }
+
+
+  // method for saving and updating fleet details
+
+  saveOrUpdateFleetDetails() {
+    this.fleetDetailsService.saveOrUpdateFleetDetails(this.leadId, this.userId, this.fleetDetails).subscribe((value: any) => {
+
+      this.fleetDetails = value;
+      console.log("fleet details response", this.fleetDetails.ProcessVariables.fleets)
+
     });
   }
 
@@ -87,8 +123,8 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   onFormSubmit() {
-
-    console.log('form values ', this.fleetForm.value.Rows[0])
+    this.saveOrUpdateFleetDetails();
+    console.log('form values ', this.fleetForm.value.Rows)
   }
 }
 

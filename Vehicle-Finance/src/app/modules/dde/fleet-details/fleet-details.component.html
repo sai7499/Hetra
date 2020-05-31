@@ -41,37 +41,43 @@
                                     formControlName="regdOwner">
                             </td>
                             <td>
-                                <select class="form-control input_value height" formControlName="relation">
+                                <!-- <select class="form-control input_value height" formControlName="relation">
                                     <option>{{labels.applicant}}</option>
                                     <option>{{labels.coApplicant}}</option>
                                     <option>{{labels.guarantor}}</option>
-                                </select>
+                                </select> -->
 
-                                <!-- <app-vf-custom-select [values]="values?.relation" formControlName="relation">
-                                        </app-vf-custom-select> -->
+                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
+                                    formControlName="relation">
+                                </app-vf-custom-select>
                             </td>
                             <td>
-                                <select class="form-control input_value height" formControlName="make">
+                                <!-- <select class="form-control input_value height" formControlName="make">
                                     <option>{{labels.tatamotors}}</option>
                                     <option>{{labels.eicher}}</option>
 
-                                </select>
+                                </select> -->
 
-                                <!-- <app-vf-custom-select [values]="values?.make" formControlName="make">
-                                        </app-vf-custom-select> -->
+                                <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make">
+                                </app-vf-custom-select>
                             </td>
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
                             <td><input type="text" class="form-control input_value height" value="2015"
                                     formControlName="yom"></td>
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td>
-                                <select class="form-control input_value height" id="asset_make"
+                                <!-- <select class="form-control input_value height" id="asset_make"
                                     formControlName="financier">
                                     <option>{{labels.bajaj}}</option>
                                     <option>{{labels.icici}}</option>
                                     <option>{{labels.chola}}</option>
 
-                                </select>
+                                </select> -->
+
+                                <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers"
+                                    formControlName="financier">
+                                </app-vf-custom-select>
+
                             </td>
                             <td><input type="text" class="form-control input_value height" value="4587"
                                     formControlName="loanNo"></td>

@@ -7,6 +7,7 @@ import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -16,7 +17,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 export class AddvehicleComponent implements OnInit {
 
   vehicleForm: FormGroup;
-
+  private vehicleDetails: any = [];
   public vehicleLov: any = {};
   public label: any = {};
   public errorMsg;
@@ -28,21 +29,46 @@ export class AddvehicleComponent implements OnInit {
   isHidden: boolean = false;
 
   vehicleArray = [];
-  leadId: number = 121;
+
+  // process variable for save/update vehicle collaterals
+
+  userId: any;
+  vehicleId: number = 101;
+  leadId: number;
+
   LOV: any = [];
 
+  formDataFromChild: any = {};
+
+
   constructor(
+
     private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private commonLovService: CommomLovService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
-    private vehicleDetailService: VehicleDetailService) { }
+    private vehicleDetailService: VehicleDetailService,
+    private vehicleDataService: VehicleDataService) { }
 
   ngOnInit() {
+
+
+    // method for getting all vehicle details related to a lead
+
     this.getVehicleDetails();
+
+    console.log("Data from service", this.vehicleDataService.getVehicleDetails())
+
+    //  initialising the form 
+
     this.initForm();
+
+    console.log("form data from child", this.formDataFromChild)
+
+    // method for getting labels 
+
     this.getAllFieldLabel = this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
@@ -50,26 +76,30 @@ export class AddvehicleComponent implements OnInit {
         error => {
           this.errorMsg = error;
         });
-    this.lovDataService.getLovData().subscribe((value: any) => {
-
-      this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
-      // console.log('vehicleLov', this.vehicleLov);
-      this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
-      this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel
 
 
-      this.vehicleLov.vehicleType = value[0].vehicleDetails[0].vehicleType
-      this.vehicleLov.assetBodyType = value[0].vehicleDetails[0].assetBodyType
-      this.vehicleLov.region = value[0].vehicleDetails[0].region
-      this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant
-      this.vehicleLov.assetSubVariant = value[0].vehicleDetails[0].assetSubVariant
-      this.vehicleLov.vechicalUsage = value[0].vehicleDetails[0].vechicalUsage
 
-      // this.setFormValue();
-      // this.onCheck();
+    // this.lovDataService.getLovData().subscribe((value: any) => {
+
+    //   this.vehicleLov = value ? value[0].vehicleDetails[0] : {};
+    // console.log('vehicleLov', this.vehicleLov);
+    // this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
+    // this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel
 
 
-    });
+    // this.vehicleLov.vehicleType = value[0].vehicleDetails[0].vehicleType
+    // this.vehicleLov.assetBodyType = value[0].vehicleDetails[0].assetBodyType
+    // this.vehicleLov.region = value[0].vehicleDetails[0].region
+    // this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant
+    // this.vehicleLov.assetSubVariant = value[0].vehicleDetails[0].assetSubVariant
+    // this.vehicleLov.vechicalUsage = value[0].vehicleDetails[0].vechicalUsage
+
+    // this.setFormValue();
+    // this.onCheck();
+
+
+    // });
+
     this.activatedRoute.params.subscribe((value) => {
       console.log('vehicle params', value);
       const vehicleId = value ? value.id : null;
@@ -89,6 +119,19 @@ export class AddvehicleComponent implements OnInit {
 
 
   }
+
+  // parent method to call the child method to access form data
+
+  FormDataParentMethod(value: any) {
+
+    this.formDataFromChild = value;
+    console.log("in form data parent method")
+    // console.log(value)
+    this.vehicleDetails = value;
+    console.log(" basic vehicle details", this.vehicleDetails)
+
+  }
+
 
   initForm() {
     this.vehicleForm = new FormGroup({
@@ -174,7 +217,7 @@ export class AddvehicleComponent implements OnInit {
         noOfVehicle: vehicleValue.noOfVehicle || '',
       });
 
-      console.log('assetModel', vehicleValue.assetModel)
+      // console.log('assetModel', vehicleValue.assetModel)
       // this.vehicleLov.assetModel.forEach(element=>{
 
       //   if(vehicleValue.assetModel===element.value){
@@ -189,16 +232,19 @@ export class AddvehicleComponent implements OnInit {
 
   onFormSubmit() {
 
+
     const formModel = this.vehicleForm.value;
-    // console.log('formModel',formModel)
+    // console.log('formModel',foprivate vehicleDetails: any = [];rmModel)
     const vehicleModel = { ...formModel };
     this.isAlert = true
     if (this.selectedVehicle !== undefined) {
       this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
       return;
     }
-    console.log('vehicleModel', vehicleModel)
+    // console.log('vehicleModel', vehicleModel)
     this.leadStoreService.setVehicleDetails(vehicleModel);
+
+    this.saveVehicleCollaterals();
 
     this.router.navigateByUrl['/pages/lead-section/vehicle-details']
 
@@ -231,7 +277,9 @@ export class AddvehicleComponent implements OnInit {
 
   }
   // => method to get all vehicle collateral details
+
   getVehicleDetails() {
+
     // this.leadId = 121;
     this.vehicleDetailService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
       console.log("response from api ", res)
@@ -239,8 +287,24 @@ export class AddvehicleComponent implements OnInit {
     })
 
 
-    console.log("vehilce Array", this.vehicleArray)
+    // console.log("vehilce Array", this.vehicleArray)
   }
+
+  // save/update vehicle collaterals api starts here
+
+  saveVehicleCollaterals() {
+
+    this.userId = "1001";
+    this.leadId = 121;
+
+    this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleId, this.userId, this.leadId, this.vehicleDetails).subscribe((res: any) => {
+
+      console.log("response from saveUpdateVehicleCollaterals", res);
+
+
+    });
+  }
+
 
 
   getcategory(category, value, formcontrolName) {
@@ -257,7 +321,13 @@ export class AddvehicleComponent implements OnInit {
   //  console.log('tableDetails',this.tableVehicleDetail)
   // }
 
-  ngOnChanges() { }
+
+
+
+  ngOnChanges() {
+
+    // console.log("iam in add component ng on changes")
+  }
 
   //To show and hide lov--select "Open" in Vehicle dependency
   onShow(event) {
@@ -268,6 +338,8 @@ export class AddvehicleComponent implements OnInit {
       this.show = false;
     }
   }
+
+
 
 }
 

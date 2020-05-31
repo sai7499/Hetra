@@ -1,32 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
+import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
+import { LovDataService } from '@services/lov-data.service';
+import { ArrayType } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
   templateUrl: './shared-basic-vehicle-details.component.html',
   styleUrls: ['./shared-basic-vehicle-details.component.css']
 })
+
+
 export class SharedBasicVehicleDetailsComponent implements OnInit {
+
+  @Output() formDataOutput = new EventEmitter<ArrayType>();
 
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
-
   roleId: any;
   roleName: any;
   roles: any = [];
   LOV: any = [];
   public label: any = {};
-
   public select_main_button_value: string = 'New CV';
+  public vehicleFormData: any = [];
+  mockLov: any = {};
 
-  constructor(private _fb: FormBuilder, private loginStoreService: LoginStoreService, private labelsData: LabelsService, private commonLovService: CommomLovService,
-    private vehicleDetailService: VehicleDetailService) { }
+  //  declared mockLov for storing mock lov values from lov service regarding asset make and .....
+
+
+  constructor(
+    private _fb: FormBuilder,
+    private loginStoreService: LoginStoreService,
+    private labelsData: LabelsService,
+    private commonLovService: CommomLovService,
+    private vehicleDetailService: VehicleDetailService,
+    private vehicleDataService: VehicleDataService,
+    private lovDataService: LovDataService) { }
 
   ngOnInit() {
+
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
     })
@@ -36,6 +54,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
+
     this.initForms();
     this.labelsData.getLabelsData()
       .subscribe(data => {
@@ -47,6 +66,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
+
+
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
@@ -54,31 +75,68 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
+  //  method for getting lovs from common lov service
+
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-
       this.LOV = value.LOVS;
-
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
-      console.log(this.vehicleLov)
+      // console.log(this.vehicleLov)
+
+
     });
+
+    //  mock method for getting lovs for assetMake and so on ....
+
+    this.lovDataService.getLovData().subscribe((value: any) => {
+
+      this.mockLov = value ? value[0].vehicleDetails[0] : {};
+      // console.log('vehicleLov', this.mockLov);
+      this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
+      this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel
+      // this.vehicleLov.vehicleType = value[0].vehicleDetails[0].vehicleType
+      this.vehicleLov.assetBodyType = value[0].vehicleDetails[0].assetBodyType
+      // this.vehicleLov.region = value[0].vehicleDetails[0].region
+      this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant
+      this.vehicleLov.assetSubVariant = value[0].vehicleDetails[0].assetSubVariant
+      // this.vehicleLov.vechicalUsage = value[0].vehicleDetails[0].vechicalUsage
+
+
+
+    });
+    // <= mock method ends =>
+
   }
 
+  // event emitter for giving output to parent add vehicle component
+
+  formDataOutputMethod(value) {
+
+    console.log('value', value)
+
+    this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+  }
+
+
+  //  method to get vehicle master data from region 
+
   onVehicleRegionSales(value: any) {
+
     console.log(value, 'region')
     const region = value ? value : '';
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
       console.log(data, 'data')
+
     })
   }
 
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleType: ['LCVVEHTYP'],
+      vehicleType: [''],
       region: ['APASTRGN'],
       registrationNumber: [''],
       assetMake: [''],
@@ -90,8 +148,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       yrManufacturing: [''],
       yearAndMonthManufacturing: [''],
       ageOfAsset: [''],
-      vechicalUsage: ['PVEHUSG'],
-      vehicleCategory: ['CATAVEHCAT'],
+      vechicleUsage: [''],
+      vehicleCategory: [''],
       orpFunding: [''],
       oneTimeTax: [''],
       pac: [''],
@@ -112,7 +170,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       frsdAmount: [''],
       fitnessDate: [''],
       fitnessCopy: [''],
-      noOfVehicle: ['']
+      noOfVehicles: ['']
     });
     formArray.push(controls);
     this.onVehicleRegionSales('APASTRGN')
@@ -175,7 +233,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   addNewcarFormControls() {
-
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
 
