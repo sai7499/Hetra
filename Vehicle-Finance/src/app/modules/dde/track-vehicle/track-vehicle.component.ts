@@ -4,6 +4,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
+import { TrackVechileService } from "./track-vechile.service";
 @Component({
   selector: 'app-track-vehicle',
   templateUrl: './track-vehicle.component.html',
@@ -19,7 +20,7 @@ export class TrackVehicleComponent implements OnInit {
 
 
   constructor(
-
+    private trackVechileService: TrackVechileService,
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
@@ -29,9 +30,7 @@ export class TrackVehicleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-
-
+    this.getFleetRtr()
     this.lovData.getLovData().subscribe((res: any) => {
 
       this.values = res[0].trackVehicle[0];
@@ -50,22 +49,22 @@ export class TrackVehicleComponent implements OnInit {
 
       });
     this.trackVehicleForm = this.fb.group({
-      client: new FormControl('' || 'Deepika'),
-      financier: new FormControl('' || 'Bajaj'),
-      assetFinanced: new FormControl('' || 'TATA ACE M100'),
+      clientName: new FormControl('' || 'Deepika'),
+      financierName: new FormControl('' || 'Bajaj'),
+      assetFinancied: new FormControl('' || 'TATA ACE M100'),
       repaymentMode: new FormControl(''),
       financeAmount: new FormControl({ value: '200000', disabled: true }),
       financeCharges: new FormControl('' || '40000'),
       contractValue: new FormControl(''),
       contNo: new FormControl(''),
       vehicleNo: new FormControl('' || 'TN011234'),
-      typesOfFinance: new FormControl(''),
+      financeType: new FormControl(''),
       accountStatus: new FormControl(''),
       loanStartDate: new FormControl('' || ''),
       loanMaturityDate: new FormControl('' || ''),
       count30: new FormControl({ value: '' || '0', disabled: true }),
       count90: new FormControl({ value: '' || '0', disabled: true }),
-      totalNoOfEmis: new FormControl('' || '12'),
+      totalEmi: new FormControl('' || '12'),
       noOfEmisPaid: new FormControl('' || '6'),
       balanceTenor: new FormControl({ value: '0', disabled: true }),
       totalDelay: new FormControl({ value: '4.00', disabled: true }),
@@ -73,7 +72,8 @@ export class TrackVehicleComponent implements OnInit {
       avgDelay: new FormControl({ value: '4.00', disabled: true }),
       trackStatus: new FormControl({ value: '4.00', disabled: true }),
       totalAmtPaid: new FormControl({ value: '20000', disabled: true }),
-      Rows: this.fb.array([this.initRows()])
+      emiPaid: new FormControl(3254),
+      installment: this.fb.array([])
       // Rows: this.fb.array([this.fb.group({
 
 
@@ -96,37 +96,103 @@ export class TrackVehicleComponent implements OnInit {
   }
 
   get formArr() {
-    return this.trackVehicleForm.get('Rows') as
+    return this.trackVehicleForm.get('installment') as
       FormArray;
   }
 
-
-
-  initRows() {
-    return this.fb.group({
-      installmentNo: [''],
-      installmentAmt: ['' || '10000'],
-      dueDate: ['' || '01-01-2018'],
-      rcptNo: ['' || '1001'],
-      recdDate: ['' || '05-01-2018'],
-      rcptAmount: ['' || '10000'],
-      delayDays: [{ value: '4', disabled: true }],
-      paymentsExcess: [{ value: '0', disabled: true }]
-
-    });
+  getFleetRtr() {
+    this.trackVechileService.getFleetRtr().subscribe((res) => {
+      console.log(res);
+      if (res['Status'] == "Execution Completed") {
+        console.log('test')
+        const installments = res['ProcessVariables'].installment;
+        for (let i = 0; i < installments.length; i++) {
+          if (i == 0) {
+            this.formArr.push(this.initRows(installments[i]));
+          }
+          else {
+            this.addNewRow(installments[i]);
+          }
+        }
+      } else {
+        this.formArr.push(this.initRows(null));
+      }
+    })
   }
 
-  addNewRow() {
+  initRows(rowData) {
+    if (rowData) {
+      return this.fb.group({
+        id: [rowData.id],
+        installmentAmt: [rowData.installmentAmt],
+        dueDate: [rowData.dueDate],
+        receiptNo: [rowData.receiptNo],
+        receivedDate: [rowData.receivedDate],
+        receivedAmt: [rowData.receivedAmt],
+        delayDays: [{ value: rowData.delayDays, disabled: true }],
+        paymentExcess: [{ value: rowData.paymentExcess, disabled: true }]
 
-    this.formArr.push(this.initRows());
+      });
+    } else {
+      return this.fb.group({
+        id: [],
+        installmentAmt: [''],
+        dueDate: [''],
+        receiptNo: [''],
+        receivedDate: [''],
+        receivedAmt: [''],
+        delayDays: [{ value: '', disabled: true }],
+        paymentExcess: [{ value: '', disabled: true }]
+
+      });
+    }
   }
 
-  deleteRow(index: number) {
-    this.formArr.removeAt(index);
+  addNewRow(rowData) {
+    this.formArr.push(this.initRows(rowData));
+  }
+
+  deleteRow(index: number , item) {
+    if(item.value['id'] != null || item.value['id'] != undefined ){
+      console.log(item.value);
+      this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res)=> {
+        console.log(res);
+        this.formArr.removeAt(index);
+      })
+    }else{
+      this.formArr.removeAt(index);
+    }
   }
 
   onFormSubmit() {
-    console.log(this.trackVehicleForm.value)
+    console.log(this.trackVehicleForm)
+
+    this.trackVehicleForm.value['financeAmount'] = parseInt(this.trackVehicleForm.controls['financeAmount'].value)
+    this.trackVehicleForm.value['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
+    this.trackVehicleForm.value['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
+    this.trackVehicleForm.value['totalEmi'] = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
+
+    this.trackVehicleForm.value['thirtyDpdCount'] = parseInt(this.trackVehicleForm.controls['count30'].value);
+    this.trackVehicleForm.value['ninetyDpdCount'] = parseInt(this.trackVehicleForm.controls['count90'].value);
+    this.trackVehicleForm.value['balanceTenor'] = parseInt(this.trackVehicleForm.controls['balanceTenor'].value);
+    this.trackVehicleForm.value['totalDelay'] = parseInt(this.trackVehicleForm.controls['totalDelay'].value);
+    this.trackVehicleForm.value['peakDelay'] = parseInt(this.trackVehicleForm.controls['peakDelay'].value);
+    this.trackVehicleForm.value['avgDelay'] = parseInt(this.trackVehicleForm.controls['avgDelay'].value);
+    this.trackVehicleForm.value['trackStatus'] = parseInt(this.trackVehicleForm.controls['trackStatus'].value);
+    this.trackVehicleForm.value['totalAmtPaid'] = parseInt(this.trackVehicleForm.controls['totalAmtPaid'].value);
     // this.router.navigate(['/pages/dde/fleet-details']);
+    for (let i = 0; i < this.formArr.length; i++) {
+      this.trackVehicleForm.value['installment'][i]['receivedAmt'] = parseInt(this.formArr.controls[i]['controls']['receivedAmt'].value);
+      this.trackVehicleForm.value['installment'][i]['installmentAmt'] = parseInt(this.formArr.controls[i]['controls']['installmentAmt'].value);
+
+      this.trackVehicleForm.value['installment'][i]['receiptNo'] = parseInt(this.formArr.controls[i]['controls']['receiptNo'].value);
+      this.trackVehicleForm.value['installment'][i]['delayDays'] = parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
+      this.trackVehicleForm.value['installment'][i]['paymentExcess'] = parseInt(this.formArr.controls[i]['controls']['paymentExcess'].value);
+    }
+    // console.log(this.formArr);
+    this.trackVechileService.saveUpdateFleetRtr(this.trackVehicleForm.value, this.trackVehicleForm.value['installment']).subscribe((res: any) => {
+      console.log(res);
+
+    });
   }
 }
