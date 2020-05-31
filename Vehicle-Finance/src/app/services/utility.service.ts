@@ -24,4 +24,18 @@ export class UtilityService {
         this.router.navigateByUrl('/login');
 
     }
+
+    getDateFormat(date) {
+        console.log('in date conversion ' + date);
+
+        const dateFormat: Date = new Date(date);
+        const year = dateFormat.getFullYear();
+        const month = Number(dateFormat.getMonth()) + 1;
+        const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+        let day = dateFormat.getDay().toString();
+        day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+        const formattedDate = year + '-' + month1 + '-' + day;
+        console.log('final Value ' + formattedDate);
+        return formattedDate;
+      }
 }

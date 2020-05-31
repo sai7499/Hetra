@@ -1,5 +1,5 @@
 <div class="content">
-    <form class="multisteps-form__form" method="POST" style="height: 400px;">
+    <form class="multisteps-form__form"  style="height: 400px;">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <!-- <h4 class="title">Bank Details</h4> -->
             <!-- Individual Section Starts Here -->
@@ -31,18 +31,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id="applicant_1_row">
+                                    <tr id="applicant_1_row" *ngFor= "let item of bankDetails">
                                         
-                                        <td>Hariharan</td>
-                                        <td>ICICI</td>
-                                        <td>5777843</td>
-                                        <td>Savings</td>
-                                        <td>02-06-2019</td>
-                                        <td>22-12-2019</td>
-                                        <td>6</td>                                                              
-                                        <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"></i></td>
+                                        <td>{{item.accountHolderName}}</td>
+                                        <td>{{item.bankName}}</td>
+                                        <td>{{item.accountNumber}}</td>
+                                        <td>{{item.accountType}}</td>
+                                        <td>{{item.fromDate | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{item.toDate | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{item.period}}</td>                                                              
+                                        <td><i class="fa fa-pencil" (click)="routeDetails(item.applicantId);" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"></i></td>
                                     </tr>
-                                    <tr id="applicant_2_row">
+                                    <!-- <tr id="applicant_2_row">
                                         
                                         <td>Saravana Kumar</td>
                                         <td>ICICI</td>
@@ -63,7 +63,7 @@
                                         <td>22-12-2019</td>
                                         <td>6</td>                                                          
                                         <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant3"></i></td>
-                                    </tr>
+                                    </tr> -->
                                     
 
                                 </tbody>

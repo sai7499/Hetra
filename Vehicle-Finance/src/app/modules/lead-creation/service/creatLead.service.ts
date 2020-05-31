@@ -4,6 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
 import { HttpService } from '../../../services/http.service';
+import { storage } from '../../../storage/localstorage';
+import { ApiService } from '@services/api.service';
 @Injectable({
     providedIn: 'root'
 })
@@ -11,34 +13,54 @@ import { HttpService } from '../../../services/http.service';
 export class CreateLeadService {
 
     constructor(
-        private httpService: HttpService) { }
+        private httpService: HttpService,
+        private apiService: ApiService
+    ) { }
 
-    createLead(loanLeadDetail, applicantDetail) {
-        const processId = environment.api.createLead.processId;
-        const workflowId = environment.api.createLead.workflowId;
-        const projectId = environment.projectId;
+    createLead(loanLeadDetails, applicantDetails, fromDedupe) {
+        const processId = this.apiService.api.createLead.processId;
+        const workflowId = this.apiService.api.createLead.workflowId;
+        const projectId = this.apiService.api.createLead.projectId;
 
-        const email = localStorage.getItem('email');
+        const userId = storage.getUserId();
 
-        const body: RequestEntity = {
-            processId: processId,
-            ProcessVariables: {
-                "loanLeadDetails": loanLeadDetail,
-                "applicantDetails": applicantDetail,
-                "loginId": email
-            },
-            workflowId: workflowId,
-            projectId: projectId
-        };
+        if (fromDedupe) {
+            console.log("loan", loanLeadDetails)
+            console.log("app", applicantDetails)
+            const body: RequestEntity = {
+                processId: processId,
+                ProcessVariables: {
+                    loanLeadDetails,
+                    applicantDetails,
+                    "userId": userId,
+                    'toCreateNewLead': true
+                },
+                workflowId: workflowId,
+                projectId: projectId
+            };
+            const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+            return this.httpService.post(url, body);
+        } else {
+            const body: RequestEntity = {
+                processId: processId,
+                ProcessVariables: {
+                    "loanLeadDetails": loanLeadDetails,
+                    "applicantDetails": applicantDetails,
+                    "userId": userId
+                },
+                workflowId: workflowId,
+                projectId: projectId
+            };
+            const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+            return this.httpService.post(url, body);
+        }
 
-        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-        return this.httpService.post(url, body);
     }
 
     getProductCategory(bizDivId) {
-        const processId = environment.api.getAssetProductCategory.processId;
-        const workflowId = environment.api.getAssetProductCategory.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getAssetProductCategory.processId;
+        const workflowId = this.apiService.api.getAssetProductCategory.workflowId;
+        const projectId = this.apiService.api.getAssetProductCategory.projectId;
 
         const body: RequestEntity = {
             processId: processId,
@@ -54,9 +76,9 @@ export class CreateLeadService {
     }
 
     getSourcingChannel() {
-        const processId = environment.api.getSourcingChannel.processId;
-        const workflowId = environment.api.getSourcingChannel.workflowId;
-        const projectId = environment.projectId;
+        const processId = this.apiService.api.getSourcingChannel.processId;
+        const workflowId = this.apiService.api.getSourcingChannel.workflowId;
+        const projectId = this.apiService.api.getSourcingChannel.projectId;
 
         const body: RequestEntity = {
             processId: processId,
@@ -65,6 +87,23 @@ export class CreateLeadService {
             projectId: projectId
         };
 
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    getLeadById(leadId) {
+        const processId = this.apiService.api.getLeadById.processId;
+        const workflowId = this.apiService.api.getLeadById.workflowId;
+        const projectId = this.apiService.api.getLeadById.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                'leadId': leadId
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }

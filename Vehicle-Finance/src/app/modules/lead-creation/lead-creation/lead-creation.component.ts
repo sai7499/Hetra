@@ -1,22 +1,20 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-
-// import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 
 import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LoginStoreService } from '@services/login-store.service';
-
+import { CreateLeadDataService } from '../service/createLead-data.service';
 @Component({
   selector: 'app-lead-creation',
   templateUrl: './lead-creation.component.html',
   styleUrls: ['./lead-creation.component.css']
 })
-export class LeadCreationComponent implements OnInit, OnChanges {
+export class LeadCreationComponent implements OnInit {
 
   createLeadForm: FormGroup;
   test: any;
@@ -34,10 +32,12 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   loanAccountBranch: string;
   leadHandeledBy: string;
   spokesCodeLocation: any = [];
-  isSpoke: boolean;
+  isSpoke: number;
   businessDivision: any = [];
   isBusinessDivisionEnable: boolean;
   bizDivId: string;
+  branchId: number;
+  userId: number;
 
   LOV: any = [];
 
@@ -46,15 +46,15 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   loanLeadDetails: {
     bizDivision: string,
-    productCategory: string,
+    productCategory: number,
     priority: string,
     fundingProgram: string,
     sourcingChannel: string,
     sourcingType: string,
     sourcingCode: string,
-    spokeCode: string,
-    loanBranch: string,
-    leadHandeledBy: string
+    spokeCode: number,
+    loanBranch: number,
+    leadHandeledBy: number
   };
 
   applicantDetails: {
@@ -66,23 +66,15 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     dobOrDoc: string
   };
 
-  selectApplicantType(event: any) {
-    console.log(this.applicantType);
-    this.applicantType = event.target.value;
-  }
-
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
     private labelsData: LabelsService,
     private createLeadService: CreateLeadService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService
-  ) { }
-
-  ngOnChanges() {
-    console.log(this.test);
-  }
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private createLeadDataService: CreateLeadDataService
+  ) { };
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -97,9 +89,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      });
+      data => this.labels = data,
+      error => console.log('Lead Creation Label Error', error));
   }
 
   initForm() {
@@ -124,7 +115,8 @@ export class LeadCreationComponent implements OnInit, OnChanges {
   }
 
   getLOV() {
-    this.commonLovService.getLovData().subscribe(lov => this.LOV = lov);
+    // this.commonLovService.getLovData().subscribe(lov => this.LOV = lov);
+    
     console.log('all lov data ---', this.LOV);
   }
 
@@ -135,13 +127,13 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     }
     this.getBusinessDivision(roleAndUserDetails);
 
-    const branchId = roleAndUserDetails.userDetails.branchId;
+    this.branchId = roleAndUserDetails.userDetails.branchId;
     const branchName = roleAndUserDetails.userDetails.branchName;
-    this.loanAccountBranch = `${branchId}-${branchName}`;
+    this.loanAccountBranch = `${this.branchId}-${branchName}`;
 
-    const userId = roleAndUserDetails.userDetails.userId;
+    this.userId = roleAndUserDetails.userDetails.userId;
     const userName = roleAndUserDetails.userDetails.firstName;
-    this.leadHandeledBy = `${userId}-${userName}`;
+    this.leadHandeledBy = `${this.userId}-${userName}`;
 
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
     this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
@@ -207,7 +199,7 @@ export class LeadCreationComponent implements OnInit, OnChanges {
       if (element.sourcingChannelId === this.sourcingChange) {
         console.log('Sourching Type --', element.sourcingTypeDesc);
         const data = {
-          key: element.sourcingChannelId,
+          key: element.sourcingTypeId,
           value: element.sourcingTypeDesc
         };
         this.sourchingTypeValues.push(data);
@@ -218,6 +210,10 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     }
   }
 
+  selectApplicantType(event: any) {
+    console.log(this.applicantType);
+    this.applicantType = event.target.value;
+  }
 
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
@@ -240,26 +236,18 @@ export class LeadCreationComponent implements OnInit, OnChanges {
     console.log('Form value', leadModel);
     this.leadStoreService.setLeadCreation(leadModel);
 
-    // const applicantModel = {
-    //   first_name: leadModel.nameOne,
-    //   middle_name: leadModel.nameTwo,
-    //   last_name: leadModel.nameThree,
-    //   mobile: leadModel.mobile,
-    //   dateOfBirth: leadModel.dateOfBirth
-    // };
-
     this.loanLeadDetails = {
       bizDivision: leadModel.bizDivision,
-      productCategory: leadModel.productCategory,
+      productCategory: Number(leadModel.productCategory),
       priority: leadModel.priority,
       fundingProgram: leadModel.fundingProgram,
       sourcingChannel: leadModel.sourcingChannel,
       sourcingType: leadModel.sourcingType,
       sourcingCode: leadModel.sourcingCode,
-      spokeCode: leadModel.spokeCode,
-      loanBranch: leadModel.loanBranch,
-      leadHandeledBy: leadModel.leadHandeledBy
-
+      // spokeCode: Number(leadModel.spokeCode),
+      spokeCode: 1,
+      loanBranch: Number(this.branchId),
+      leadHandeledBy: Number(this.userId)
     };
 
     this.applicantDetails = {
@@ -273,13 +261,18 @@ export class LeadCreationComponent implements OnInit, OnChanges {
 
     console.log('loanLeadDetails', this.loanLeadDetails);
     console.log('applicantDetails', this.applicantDetails);
-
-    this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails).subscribe((res: any) => {
+    this.createLeadDataService.setLeadData(this.loanLeadDetails, this.applicantDetails);
+    this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails, false).subscribe((res: any) => {
       const response = res;
-      if (response.Error === '0') {
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+
+      if (appiyoError === '0' && apiError === '0') {
         const message = response.ProcessVariables.error.message;
         const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
         console.log('Success Message', message);
+        const leadSectionData = response.ProcessVariables;
+        const leadId = leadSectionData.leadId;
 
         if (isDedupeAvailable) {
           const leadDedupeData = response.ProcessVariables.leadDedupeResults;
@@ -287,10 +280,22 @@ export class LeadCreationComponent implements OnInit, OnChanges {
           this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
           return;
         }
-        this.router.navigateByUrl('pages/lead-section');
+
+        this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          const leadSectionData = response.ProcessVariables;
+
+          if (appiyoError === '0' && apiError === '0') {
+            console.log('leadSectionData', leadSectionData);
+            this.createLeadDataService.setLeadSectionData(leadSectionData);
+            this.router.navigateByUrl('pages/lead-section');
+          }
+        });
       }
-    });
-    // this.leadStoreService.setCoApplicantDetails(applicantModel);
+    },
+      err => { alert(err); });
   }
 
 }

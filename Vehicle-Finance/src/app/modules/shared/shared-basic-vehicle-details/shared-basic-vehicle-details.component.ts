@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@ang
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -22,10 +23,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   public select_main_button_value: string = 'New CV';
 
-  constructor(private _fb: FormBuilder, private loginStoreService: LoginStoreService, private labelsData: LabelsService, private commonLovService: CommomLovService) { }
+  constructor(private _fb: FormBuilder, private loginStoreService: LoginStoreService, private labelsData: LabelsService, private commonLovService: CommomLovService,
+    private vehicleDetailService: VehicleDetailService) { }
 
   ngOnInit() {
-    this.getLov();
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
     })
@@ -35,7 +36,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-
+    this.initForms();
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
@@ -49,6 +50,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
+    this.getLov();
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
@@ -58,20 +60,26 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.LOV = value.LOVS;
 
       this.vehicleLov.region = value.LOVS.assetRegion;
-      this.vehicleLov.vechicleUsage = value.LOVS.vehicleUsage;
+      this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      console.log(this.vehicleLov)
     });
+  }
 
-    this.initForms();
-
+  onVehicleRegionSales(value: any) {
+    console.log(value, 'region')
+    const region = value ? value : '';
+    this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
+      console.log(data, 'data')
+    })
   }
 
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleType: [''],
-      region: [''],
+      vehicleType: ['LCVVEHTYP'],
+      region: ['APASTRGN'],
       registrationNumber: [''],
       assetMake: [''],
       assetModel: [''],
@@ -82,8 +90,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       yrManufacturing: [''],
       yearAndMonthManufacturing: [''],
       ageOfAsset: [''],
-      vechicalUsage: [''],
-      vehicleCategory: [''],
+      vechicalUsage: ['PVEHUSG'],
+      vehicleCategory: ['CATAVEHCAT'],
       orpFunding: [''],
       oneTimeTax: [''],
       pac: [''],
@@ -107,6 +115,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       noOfVehicle: ['']
     });
     formArray.push(controls);
+    this.onVehicleRegionSales('APASTRGN')
   }
 
   addCreditFormControls() {
@@ -138,7 +147,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: ['1', Validators.required],
       assetOther: ['', Validators.required],
       assetBodyType: ['1', Validators.required],
-      vehicleType: ['1', Validators.required],
+      vehicleType: ['LCVVEHTYP', Validators.required],
       exShowroomCost: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       dealerSubventionApplicable: ['1', Validators.required],
@@ -176,7 +185,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: ['1', Validators.required],
       assetSubVariant: ['1', Validators.required],
       assetOther: ['', Validators.required],
-      vehicleType: ['1', Validators.required],
+      vehicleType: ['LCVVEHTYP', Validators.required],
       exShowroomCost: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       dealerSubventionApplicable: ['1', Validators.required],
@@ -215,8 +224,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: ['1', Validators.required],
       assetOther: ['', Validators.required],
       assetBodyType: ['1', Validators.required],
-      vehicleType: ['1', Validators.required],
-      vechicalRegion: ['1', Validators.required],
+      vehicleType: ['LCVVEHTYP', Validators.required],
+      vechicalRegion: ['APASTRGN', Validators.required],
       monthYear: ['', Validators.required],
       ageVehicle: ['', Validators.required],
       exShowroomCost: ['', Validators.required],
@@ -256,8 +265,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: ['1', Validators.required],
       assetSubVariant: ['1', Validators.required],
       assetOther: ['', Validators.required],
-      vechicalUsage: ['1', Validators.required],
-      vehicleCategory: ['1', Validators.required],
+      vechicalUsage: ['PVEHUSG', Validators.required],
+      vehicleCategory: ['CATAVEHCAT', Validators.required],
       monthYear: ['', Validators.required],
       ageVehicle: ['', Validators.required],
       assetCostIndian: ['', Validators.required],

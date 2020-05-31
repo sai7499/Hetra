@@ -88,7 +88,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="vechical_region"> {{ label.vechicalRegion }} </label>
 
-                    <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"></app-vf-custom-select>
+                    <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region" (change)="onVehicleRegionSales($event.target.value)"></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                     <label for="no_vehicle"> {{ label.noVehicle }} </label>
@@ -118,8 +118,7 @@
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label for="vechical_region">{{ label.vechicalRegion }}</label>
 
-                                    <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region">
-                                    </app-vf-custom-select>
+                                    <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region" (change)="onVehicleRegionCredit($event)"></app-vf-custom-select>
                                 </div>
 
 
@@ -174,7 +173,7 @@
 
                                     <input formControlName="ageOfAsset" type="text" class="form-control mandatory"
                                         id="age_of_asset1" placeholder="Age of Asset" name="age_of_asset" disabled>
-                                    v
+
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label for="final_asset_cost1"> {{ label.finalAssetCost }} </label>
@@ -188,6 +187,13 @@
 
                                     <app-vf-custom-select [values]="vehicleLov?.vechicalUsage"
                                         formControlName="vechicalUsage"></app-vf-custom-select>
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
+                                    <label for="vechical_usage">{{ label.vehicleCategory }}</label>
+
+                                    <app-vf-custom-select [values]="vehicleLov?.vehicleCategory"
+                                        formControlName="vehicleCategory"></app-vf-custom-select>
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
