@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'pages',
     component: HeaderComponent,
-    canActivate: [Authguard],
+    // canActivate: [Authguard],
     resolve: {
       getLOV: LovResolverService
     },

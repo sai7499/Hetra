@@ -4,15 +4,15 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheClient}}</label>
-                <input type="text" class="form-control" id="client_name" formControlName="client">
+                <input type="text" class="form-control" id="client_name" formControlName="clientName">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheFinancier}}</label>
-                <input type="text" class="form-control" id="financier_name" formControlName="financier">
+                <input type="text" class="form-control" id="financier_name" formControlName="financierName">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.assetFinanced}}</label>
-                <input type="text" class="form-control" id="asset_financed" formControlName="assetFinanced">
+                <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.repaymentMode}}</label>
@@ -53,7 +53,7 @@
                     <option>{{labels.refinance}}</option>
                     <option>{{labels.used}}</option>
                 </select> -->
-                <app-vf-custom-select [values]="values?.typesOfFinance" formControlName="typesOfFinance">
+                <app-vf-custom-select [values]="values?.typesOfFinance" formControlName="financeType">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -82,7 +82,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalNoOfEmis}}</label>
-                <input type="text" class="form-control" id="no_of_emis" formControlName="totalNoOfEmis">
+                <input type="text" class="form-control" id="no_of_emis" formControlName="totalEmi">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.noOfEmisPaid}}</label>
@@ -134,10 +134,10 @@
                             <td>{{labels.action}} </td>
                         </tr>
                     </thead>
-                    <tbody formArrayName="Rows">
+                    <tbody formArrayName="installment">
 
                         <tr id="applicant_1_row"
-                            *ngFor="let itemrow of trackVehicleForm.get('Rows')['controls']; let i=index;let l=last"
+                            *ngFor="let itemrow of trackVehicleForm.get('installment')['controls']; let i=index;let l=last"
                             [formGroupName]="i">
                             <td>{{i+1}}</td>
                             <td><input type="text" class="form-control input_value" value="10000"
@@ -154,7 +154,7 @@
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value" value="1001"
-                                    formControlName="rcptNo"></td>
+                                    formControlName="receiptNo"></td>
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date' id='datetimepicker1'>
@@ -162,20 +162,20 @@
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                         <input type='text' class="form-control" value="05-01-2018"
-                                            formControlName="recdDate" />
+                                            formControlName="receivedDate" />
                                     </div>
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value" value="10000"
-                                    formControlName="rcptAmount"></td>
+                                    formControlName="receivedAmt"></td>
                             <td><input type="text" class="form-control input_value auto_cal"
                                     formControlName="delayDays"></td>
                             <td><input type="text" class="form-control input_value auto_cal"
-                                    formControlName="paymentsExcess"></td>
+                                    formControlName="paymentExcess"></td>
                             <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                                     (click)="addNewRow()"></i>&nbsp;
                                 <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                                    (click)="deleteRow(i)"></i></td>
+                                    (click)="deleteRow(i,itemrow)"></i></td>
                         </tr>
 
                     </tbody>
