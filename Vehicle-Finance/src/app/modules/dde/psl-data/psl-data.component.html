@@ -331,7 +331,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="detail_activity">{{labels.detailActivity}}</label>
                 <app-vf-custom-select 
-                    [values]="detailActivityValues" 
+                    [values]="detailActivityChangeValues" 
                     formControlName="detailActivity" 
                     (change)="onChangeDetailActivity($event)"
                     name="detailActivity"> 
@@ -434,7 +434,7 @@
     <div class="form-group col-sm-6 col-md-4 col-lg-3">
         <label for="detail_activity">{{labels.detailActivity}}</label>
         <app-vf-custom-select 
-            [values]="detailActivityValues" 
+            [values]="detailActivityChangeValues" 
             formControlName="detailActivity" 
             (change)="onChangeDetailActivity($event)"
             name="detailActivity"> 

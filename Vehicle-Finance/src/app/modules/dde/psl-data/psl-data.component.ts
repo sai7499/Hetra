@@ -14,6 +14,7 @@ import { PslDataService } from "./psl-data.service";
 })
 export class PslDataComponent implements OnInit, OnChanges {
   pslDataForm: FormGroup;
+  
 
   labels: any = {};
   test: any;
@@ -23,9 +24,8 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   pslDependentLOVSData: any = [];
   detailActivityValues: any = [];
+  detailActivityChangeValues: any = [];
   endUseValues: any = [];
-
-  detail: any = [];
 
   constructor(
     private _fb: FormBuilder,
@@ -41,7 +41,7 @@ export class PslDataComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getActivity();
+    this.getDependentDropdownLOV();
     this.getLabels();
     this.getLOV();
     this.initForm();
@@ -200,32 +200,44 @@ export class PslDataComponent implements OnInit, OnChanges {
     });
   }
 
-  getActivity() {
-    this.pslDataService.getActivity().subscribe((res: any) => {
+  getDependentDropdownLOV() {
+    this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
       console.log("RESPONSE FROM APPIYO_SERVER", res);
       const response = res.ProcessVariables.pslDataLovObj;
       console.log("PSLDATA Dependent_LOVS", response);
-      this.pslDependentLOVSData=  response;
+      this.pslDependentLOVSData = response;
     });
   }
 
   onActivityChange(event: any) {
     this.detailActivityValues = [];
     this.activityChange = event.target.value;
-    console.log("ACTIVITY_CHANGE_ID----", this.activityChange);
-
+    console.log("ACTIVITY_CHANGE----", this.activityChange);
+    let count = 0;
     this.pslDependentLOVSData.map((element) => {
       if (element.activityId === this.activityChange) {
-        console.log("RELATED_DETAILACTIVITY_ID----", element.dltActivityName);
+        // console.log("RELATED_DETAILACTIVITY_NAME----", element.dltActivityName);
         const data = {
           key: element.dltActivityId,
           value: element.dltActivityName,
-      };
+        };
         this.detailActivityValues.push(data);
-        // console.log('DETAILACTIVITY_VALUES --',this.detailActivityValues);
       }
+      // console.log("DETAIL_ACTIVITY_VALUES---", this.detailActivityValues);
+      
+      //To filter unique value in Array
+      let detailActivityObject = {};
+      const detailActivityData = [];
+      this.detailActivityValues.forEach((element) => {
+        if (!detailActivityObject[element.key]) {
+          detailActivityObject[element.key] = true;
+          detailActivityData.push(element);
+        }
+      });
+      console.log("DETAILACTIVITY_DATA", detailActivityData);
+      this.detailActivityChangeValues = detailActivityData;
     });
-    
+
     if (this.detailActivityValues.length === 0) {
       this.detailActivityValues = [{ key: null, value: "Not Applicable" }];
     }

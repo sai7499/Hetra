@@ -14,7 +14,7 @@ export class PslDataService {
   constructor( private httpService: HttpService,
                private apiService: ApiService ) { }
 
-  getActivity() {
+  getDependentDropdownLOV() {
     const processId = this.apiService.api.pslLOVsDropdown.processId;
     const workflowId = this.apiService.api.pslLOVsDropdown.workflowId;
     const projectId = this.apiService.api.pslLOVsDropdown.projectId;
