@@ -1,0 +1,243 @@
+ <form class="multisteps-form__form" [formGroup]="deviationsForm">
+                                <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+                                    <h3 class="margin_zero">{{labels?.autoDeviation}}</h3>  
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="acp">{{labels?.deviation}}</label>
+                <p>{{labels?.referText1}}</p>
+            </div>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                <label for="acp">{{labels?.approvalLevel}}</label>
+                <p>{{labels?.bcm}}</p>
+            </div>
+            <div class="form-group col-sm-6 col-md-5 col-lg-5">
+                <label for="activity">{{labels?.justification}}</label>
+                <!-- <input type="text" name="file" class="form-control"  value="Ref#123456"/> -->
+                <textarea class="form-control" value="Justification" formControlName = "bcmJustification"></textarea>
+            </div>
+
+                                        <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                            <label for="end" class="action">{{labels?.action}}</label>
+
+                                            <div class="row m-0">
+                                                <label class="radio-inline disabled">
+                                                  <input type="radio" name="bcmApproveAction" formControlName="bcmApproveAction" disabled>{{labels?.approve}}
+                                                </label>
+                                                <label class="radio-inline disabled">
+                                                  <input type="radio" name="bcmReferAction" formControlName="bcmReferAction"  disabled>{{labels?.referToNextLevel}}
+                                                </label>
+                                                <label class="radio-inline disabled">
+                                                  <input type="radio" name="bcmDeclineAction" formControlName="bcmDeclineAction" disabled>{{labels?.decline}}
+                                                </label>
+                                                </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                            <p>{{labels?.referText2}}</p>   
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                           <p>{{labels?.acm}}</p>
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-5 col-lg-5">
+                                           <textarea class="form-control" value="Justification" formControlName="acmJustification"></textarea>
+                                        </div>
+                            
+                                        <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                            <!-- <label for="end" class="action">Action</label> -->
+                                            
+                                            <div class="row m-0">
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="acmApproveAction" value="approve" formControlName="acmApproveAction" disabled>{{labels?.approve}}
+                                            </label>
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="acmReferAction" value="referToNextLevel" formControlName="acmReferAction" disabled>{{labels?.referToNextLevel}}
+                                            </label>
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="acmDeclineAction"  value="decline" formControlName="acmDeclineAction" disabled>{{labels?.decline}}
+                                            </label>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                            <!-- <label for="acp">Credit Condition</label> -->
+                                            <p>{{labels?.referText2}}
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                            <!-- <label for="acp">Sales Response</label> -->
+                                            <p>{{labels?.ncm}}</p>
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-5 col-lg-5">
+                                           <!--  <label for="activity">Support Document</label> -->
+                                             <textarea class="form-control" value="Justification" formControlName="ncmJustification" ></textarea>
+                                        </div>
+                            
+                                        <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                            <!-- <label for="end" class="action">Action</label> -->
+                                            
+                                            <div class="row m-0">
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="ncmApproveAction" value="approve" formControlName="ncmApproveAction" disabled>{{labels?.approve}}
+                                            </label>
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="ncmReferAction" value="referToNextLevel" formControlName="ncmReferAction" disabled>{{labels?.referToNextLevel}}
+                                            </label>
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="ncmDeclineAction"  value="decline" formControlName="ncmDeclineAction" disabled>{{labels?.decline}}
+                                            </label>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                   
+                                    <hr>
+                                    <h3 class="margin_zero">{{labels?.manualDeviation}}</h3>  
+
+                                    <div formArrayName="manualDeviations" >
+                                    <div class="panel-body row" id="show_1_div_identity"  *ngFor="let item of deviationsForm.get('manualDeviations')['controls']; let i = index"
+                                    [formGroupName]="i">
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="acp">{{labels?.deviation}}</label>
+                                        <textarea class="form-control"  value="Justification" formControlName="manualDeviationOne">Deviation 1</textarea>
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                        <label for="acp"> {{labels?.approvalLevel}}</label>
+                                        <select class="form-control" id="choose_applicant" formControlName="approvalLevelOne">
+                                            <option value="Deepika">ACM</option>
+                                            <option value="Navin">BCM</option>
+                                            <option value="Sampath">NCM</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        <label for="activity">{{labels?.justification}}</label>
+                                        <!-- <input type="text" name="file" class="form-control"  value="Ref#123456"/> -->
+                                        <textarea class="form-control"  value="Justification" formControlName="manualJustficationOne" ></textarea>
+                                    </div>
+                                        <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                            <label for="end" class="action">{{labels?.action}}</label>
+                                            <div class="row m-0">
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="approveAction" formControlName="approveAction" disabled>{{labels?.approve}}
+                                            </label>
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="referAction" formControlName="referAction"  disabled>{{labels?.referToNextLevel}}
+                                            </label>
+                                            <label class="radio-inline disabled">
+                                              <input type="radio" name="declineAction" formControlName="declineAction" disabled>{{labels?.decline}}
+                                            </label>
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label for="end" class="action">Action</label>
+                                            <form>
+                                            <div class="row m-0">
+                                            <label class="radio-inline ">
+                                              <input type="radio" name="optradio" >Approve
+                                            </label>
+                                            <label class="radio-inline ">
+                                              <input type="radio" name="optradio" >Refer To next level
+                                            </label>
+                                            <label class="radio-inline ">
+                                              <input type="radio" name="optradio" >Decline
+                                            </label>
+                                            </div>
+                                            
+                                          </form>
+                                        </div> -->
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1" >
+                                            <label >{{labels?.more}} </label>
+                                            <div class="row">
+                                                
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="image-upload" for="upload_files"><i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addDeviationUnit()" ></i> &nbsp; <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="removeDeviationIndex(i)"></i></label>
+
+                                                </div>
+                                                </div>
+                                             
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                    <div class="bottom_20"></div>
+                                    <div class="row btn-sec clear-both">
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="form-group col-md-10" style="margin-bottom: 0px;">
+                                      
+                                                <div class="form-group col-sm-3 col-md-3 text-right" style="padding: 0px;">
+                                                <label for="document" style="padding-top:8px;">{{labels?.referTo}}</label>                        
+                                                </div>
+                                             
+                                                <div class="form-group col-sm-8 col-md-8">
+                                                <select class="form-control multi-select "  data-live-search="true">
+                                                
+                                                <option>BM</option>
+                                                <option>ACM</option>
+                                                <option>ZM</option>
+                                                <option>NCM</option>
+                                                </select>  
+                                                <!-- <i class="fa fa-angle-down select"></i>                      -->
+                                                <!-- <select class="form-control" id="choose_applicant">
+                                                    <option value="Deepika">BM, ACM, ZM, NCM</option>
+                                                    <option value="Navin">ACM</option>
+                                                    <option value="Sampath">BM</option>
+                                                </select> -->
+                                                </div>                      
+                                        
+     
+                                             </div>
+                                              <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation">{{labels?.refer}}</button>
+                                        </div>
+                                        <div class="col-sm-3 row text-right">
+                                           
+                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation">{{labels?.approve}}</button>
+                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation">{{labels?.sendBackToCredit}}</button>                                  
+                                        </div>
+                                    </div>
+                                    <div class=" row btn-sec clear-both row">
+                                        <div class="col-sm-5">
+                                            
+                                        </div>
+                                        <div class="col-sm-7 text-right">
+                                            <button class="btn btn-primary dash_href" type="button" routerLink="../cam">{{labels?.back}}</button>
+            <!-- <button class="btn btn-primary" type="button"> Save </button> -->
+            <button class="btn btn-primary dash_href" type="button"   routerLink="../insurance">{{labels?.next}}</button>
+                                        </div>
+                                    </div>
+                               
+                                </div>
+                                
+                                
+                            </form>
+
+
+
+                            
+<!-- Modal -->
+<div class="modal fade" id="referRecommedation" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{labels?.recommendation}}</h4>
+        </div>
+        <div class="modal-body">
+            <textarea class="form-control" rows="10" cols="5">{{labels?.referText4}}</textarea>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.ok}}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
