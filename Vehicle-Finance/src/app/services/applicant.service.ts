@@ -1,16 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@services/http.service';
 import { environment } from '../../environments/environment';
+import { ApiService } from './api.service';
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicantService {
-  constructor(private httpService: HttpService) {}
+  applicantList: {
+    processId?: string;
+    workflowId?: string;
+  };
+  applicantDetail: {
+    processId?: string;
+    workflowId?: string;
+  };
+  saveUpdateApplicant: {
+    processId?: string;
+    workflowId?: string;
+  };
+  constructor(
+    private httpService: HttpService,
+    private apiService: ApiService
+  ) {
+    this.applicantList = this.apiService.api.getApplicantList;
+    this.applicantDetail = this.apiService.api.getApplicantDetail;
+    this.saveUpdateApplicant = this.apiService.api.saveUpdateApplicant;
+  }
 
   getApplicantList(data) {
-    const projectId = environment.projectId;
-    const processId = environment.api.getApplicantList.processId;
-    const workflowId = environment.api.getApplicantList.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+    const processId = this.applicantList.processId;
+    const workflowId = this.applicantList.workflowId;
     const userId = localStorage.getItem('userId');
     const body = {
       projectId,
@@ -26,9 +46,9 @@ export class ApplicantService {
   }
 
   getApplicantDetail(data) {
-    const projectId = environment.projectId;
-    const processId = environment.api.getApplicantDetail.processId;
-    const workflowId = environment.api.getApplicantDetail.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+    const processId = this.applicantDetail.processId;
+    const workflowId = this.applicantDetail.workflowId;
     const userId = localStorage.getItem('userId');
     const body = {
       projectId,
@@ -44,9 +64,9 @@ export class ApplicantService {
   }
 
   saveApplicant(data) {
-    const processId = environment.api.saveUpdateApplicant.processId;
-    const workflowId = environment.api.saveUpdateApplicant.workflowId;
-    const projectId = environment.projectId;
+    const projectId = environment.projectIds.salesProjectId;
+    const processId = this.saveUpdateApplicant.processId;
+    const workflowId = this.saveUpdateApplicant.workflowId;
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
