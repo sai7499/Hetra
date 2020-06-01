@@ -71,10 +71,14 @@ export class LeadCreationComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private labelsData: LabelsService,
     private createLeadService: CreateLeadService,
-    private commomLovService: CommomLovService,
+    private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService
-  ) { };
+  ) { }
+
+  ngOnChanges() {
+    console.log(this.test);
+  }
 
   ngOnInit() {
     this.onChangeLanguage('English');

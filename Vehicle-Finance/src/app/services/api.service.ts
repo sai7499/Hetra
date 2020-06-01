@@ -93,9 +93,19 @@ export class ApiService {
       processId: '3bed6af898f311eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
-    saveOrUpdateFleet:{
-      workflowId: '0620e32c998511eabdcff2fa9bec3d63',
+    saveUpdateFleetDetails: {
+      workflowId: '05f4baea998511eabdcff2fa9bec3d63',
+      processId: '0620e32c998511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getFleetDetails: {
+      workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: 'd6f39fda99b211eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    deleteFleetDetails: {
+      workflowId: '05f4baea998511eabdcff2fa9bec3d63',
+      processId: '8a5ad9369b3811eabdd3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     }
   };

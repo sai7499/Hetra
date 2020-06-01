@@ -12,8 +12,8 @@ import { ApiService } from './api.service';
 })
 export class BankTransactionsService {
 
-  constructor( private httpService: HttpService,
-               private apiService: ApiService) { }
+  constructor(private httpService: HttpService,
+    private apiService: ApiService) { }
   setTransactionDetails(data) {
     const processData = data;
     const processId = this.apiService.api.bankTransaction.processId;
@@ -24,10 +24,10 @@ export class BankTransactionsService {
     console.log('userid in service', userId);
 
     const requestEntity: RequestEntity = {
-        processId,
-        ProcessVariables:  processData,
-        workflowId,
-        projectId
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
     };
     console.log(requestEntity, 'bank transactions');
 
@@ -38,38 +38,38 @@ export class BankTransactionsService {
     //     JSON.stringify(requestEntity)
     // };
     return this.httpService.post(url, requestEntity);
-}
-getBankDetails(data) {
-  const processData = data;
-  const processId = this.apiService.api.getBankTransaction.processId;
-  const workflowId = this.apiService.api.getBankTransaction.workflowId;
-  const projectId = this.apiService.api.getBankTransaction.projectId;
+  }
+  getBankDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getBankTransaction.processId;
+    const workflowId = this.apiService.api.getBankTransaction.workflowId;
+    const projectId = this.apiService.api.getBankTransaction.projectId;
 
-  const requestEntity: RequestEntity = {
-    processId,
-    ProcessVariables:  processData,
-    workflowId,
-    projectId
-};
-  console.log(requestEntity);
-  // tslint:disable-next-line: prefer-const
-  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-  return this.httpService.post(url, requestEntity);
-}
-getBankList(data) {
-  const processData = data;
-  const processId = this.apiService.api.getBankAccountList.processId;
-  const workflowId = this.apiService.api.getBankAccountList.workflowId;
-  const projectId = this.apiService.api.getBankAccountList.projectId;
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    console.log(requestEntity);
+    // tslint:disable-next-line: prefer-const
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+  getBankList(data) {
+    const processData = data;
+    const processId = this.apiService.api.getBankAccountList.processId;
+    const workflowId = this.apiService.api.getBankAccountList.workflowId;
+    const projectId = this.apiService.api.getBankAccountList.projectId;
 
-  const requestEntity: RequestEntity = {
-    processId,
-    ProcessVariables:  processData,
-    workflowId,
-    projectId
-};
-  // tslint:disable-next-line: prefer-const
-  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-  return this.httpService.post(url, requestEntity);
-}
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    // tslint:disable-next-line: prefer-const
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 }

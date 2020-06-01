@@ -105,7 +105,12 @@ export class FleetDetailsComponent implements OnInit {
   // method for saving and updating fleet details
 
   saveOrUpdateFleetDetails() {
-    this.fleetDetailsService.saveOrUpdateFleetDetails(this.leadId, this.userId, this.fleetDetails).subscribe((value: any) => {
+    const data = {
+      leadId: this.leadId,
+      userId: this.userId,
+      fleetDetails: this.fleetDetails
+    }
+    this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((value: any) => {
 
       this.fleetDetails = value;
       console.log("fleet details response", this.fleetDetails.ProcessVariables.fleets)
