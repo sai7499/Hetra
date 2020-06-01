@@ -6,15 +6,15 @@ import { ApiService } from './api.service';
   providedIn: 'root',
 })
 export class ApplicantService {
-  applicantList: {
+  private applicantList: {
     processId?: string;
     workflowId?: string;
   };
-  applicantDetail: {
+  private applicantDetail: {
     processId?: string;
     workflowId?: string;
   };
-  saveUpdateApplicant: {
+  private saveUpdateApplicant: {
     processId?: string;
     workflowId?: string;
   };
