@@ -17,7 +17,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   roles = [];
   public label: any = {};
   vehicleArray = [];
-  private leadId: "121";
+  private leadId = 121;
 
   public vehicleListArray = [
     {
@@ -38,29 +38,28 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private vehicleDetailsService: VehicleDetailService) { }
 
   ngOnInit() {
-    this.getVehicleDetails();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    
+
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
     },
       error => {
         console.log('error', error)
       });
-
+    this.getVehicleDetails();
   }
 
   getVehicleDetails() {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
-      console.log('res', res)
+      console.log('res', res.ProcessVariables.vehicleDetails)
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
+      console.log('vehicleArray', this.vehicleArray)
     })
   }
-
 
   // sample code for understanding
   // this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {

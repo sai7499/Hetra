@@ -144,7 +144,7 @@ export class VehicleDetailService {
       processId: processId,
       ProcessVariables: {
 
-        "region": region
+        "region": 'AP'
 
       },
       workflowId: workflowId,
