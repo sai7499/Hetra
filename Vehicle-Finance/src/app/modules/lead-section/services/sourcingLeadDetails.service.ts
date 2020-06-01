@@ -22,16 +22,15 @@ export class LeadDetails {
         const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
-                leadId: 504,
+                leadId: leadDetails.leadId,
                 sourcingCode: leadDetails.sourcingCode,
-                branchType: 9999,
                 branchId: leadDetails.loanBranch,
                 productId: leadDetails.productCategory,
                 reqLoanAmt: leadDetails.requestedLoanAmount,
                 reqTenure: leadDetails.requestedLoanTenor,
                 leadHandledBy: leadDetails.leadHandeledBy,
-                leadCreatedBy: 0,
-                leadCreatedOn: '22/5/2020',
+                leadCreatedBy: leadDetails.leadCreatedBy,
+                leadCreatedOn: leadDetails.leadCreatedOn,
 
                 priority: leadDetails.priority,
                 spokesId: leadDetails.spokeCode,
@@ -40,19 +39,6 @@ export class LeadDetails {
                 bizDivision: leadDetails.bizDivision,
                 userId: leadDetails.userId
             },
-            // bizDivision: saveAndUpdate.bizDivision,
-            // productCategory: Number(saveAndUpdate.productCategory),
-            // priority: saveAndUpdate.priority,
-            // sourcingChannel: saveAndUpdate.sourcingChannel,
-            // sourcingType: saveAndUpdate.sourcingType,
-            // sourcingCode: saveAndUpdate.sourcingCode,
-            // spokeCode: Number(saveAndUpdate.spokeCode),
-            // loanBranch: Number(this.branchId),
-            // leadHandeledBy: Number(this.userId),
-            // requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
-            // requestedLoanTenor: Number(saveAndUpdate.requestedTenor)
-
-
             workflowId: workflowId,
             projectId: projectId
         };

@@ -17,12 +17,11 @@ import { LeadDetails } from '../services/sourcingLeadDetails.service';
   styleUrls: ['./sourcing-details.component.css']
 })
 export class SourcingDetailsComponent implements OnInit {
-  values: any = [];
+  // values: any = [];
   labels: any = {};
   sourcingDetailsForm: FormGroup;
-  SourcingChange: any;
-  text: any;
-  id: any;
+  // text: any;
+  // id: any;
   LOV: any;
   isAlert: boolean;
 
@@ -31,6 +30,8 @@ export class SourcingDetailsComponent implements OnInit {
   userId: any;
   branchId: any;
   leadId: number;
+  isSpoke: boolean;
+  // leadCreatedBy: string;
 
   businessDivisionArray = [];
   productCategoryArray: Array<any> = [];
@@ -40,15 +41,17 @@ export class SourcingDetailsComponent implements OnInit {
 
   spokesCodeLocation: any;
   sourchingTypeValues: any;
+  loanAccountBranch: any;
+  leadHandeledBy: any;
 
   productCategoryFromLead: string;
-
+  leadCreatedDateFromLead: string;
   isBusinessDivisionEnable: boolean;
 
   saveUpdate: {
     bizDivision: string,
     productCategory: number,
-    priority: string,
+    priority: number,
     sourcingChannel: string,
     sourcingType: string,
     sourcingCode: string,
@@ -56,6 +59,7 @@ export class SourcingDetailsComponent implements OnInit {
     loanBranch: number,
     leadHandeledBy: number,
     leadCreatedBy: number,
+    leadCreatedOn: string,
     requestedLoanAmount: number,
     requestedLoanTenor: number
     userId: number,
@@ -91,28 +95,31 @@ export class SourcingDetailsComponent implements OnInit {
     this.commomLovService.getLovData().subscribe(lov => {
       this.LOV = lov;
       this.getLeadSectionData();
-
+      this.getUserDetailsData();
     });
   }
 
-  // getUserDetailsData() {
-  //   const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-  //   if (!roleAndUserDetails) {
-  //     return;
-  //   }
-  //   this.getBusinessDivision(roleAndUserDetails);
+  getUserDetailsData() {
+    const roleAndUserDetails = this.loginService.getRolesAndUserDetails();
+    if (!roleAndUserDetails) {
+      return;
+    }
+    this.getBusinessDivision(roleAndUserDetails);
 
-  //   const branchId = roleAndUserDetails.userDetails.branchId;
-  //   const branchName = roleAndUserDetails.userDetails.branchName;
-  //   this.loanAccountBranch = `${branchId}-${branchName}`;
+    this.branchId = roleAndUserDetails.userDetails.branchId;
+    const branchName = roleAndUserDetails.userDetails.branchName;
+    this.loanAccountBranch = `${this.branchId}-${branchName}`;
 
-  //   const userId = roleAndUserDetails.userDetails.userId;
-  //   const userName = roleAndUserDetails.userDetails.firstName;
-  //   this.leadHandeledBy = `${userId}-${userName}`;
-
-  //   this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
-  //   this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
-  // }
+    const userId = roleAndUserDetails.userDetails.userId;
+    const userName = roleAndUserDetails.userDetails.firstName;
+    this.leadHandeledBy = `${userId}-${userName}`;
+    this.userId = userId;
+    this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
+    this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
+    this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
+    this.sourcingDetailsForm.patchValue({ leadCreatedBy: this.leadHandeledBy });
+    this.sourcingDetailsForm.patchValue({ leadHandeledBy: userName });
+  }
 
   getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
@@ -120,13 +127,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
 
-    const roleAndUserDetails = this.loginService.getRolesAndUserDetails();
-    console.log('SourcingRole', roleAndUserDetails);
-    const leadCreateBy = roleAndUserDetails.userDetails.firstName;
-    this.userId = roleAndUserDetails.userDetails.userId;
-    this.branchId = roleAndUserDetails.userDetails.branchId;
-
-    if (!this.leadData) {
+    if (!data) {
       return;
     }
     const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
@@ -138,16 +139,14 @@ export class SourcingDetailsComponent implements OnInit {
     const priorityFromLead = data.loanLeadDetails.priority;
     this.leadId = data.leadId;
 
-    const loanBranchFromLead = data.loanLeadDetails.loanBranch;
+    // const loanBranchFromLead = data.loanLeadDetails.loanBranch;
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
-    const leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
+    this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
-    this.sourcingDetailsForm.patchValue({ loanBranch: loanBranchFromLead });
-    this.sourcingDetailsForm.patchValue({ leadCreatedDate: leadCreatedDateFromLead });
-    this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreateBy });
+    this.sourcingDetailsForm.patchValue({ leadCreatedDate: this.leadCreatedDateFromLead });
   }
 
   patchSourcingDetails() {
@@ -259,6 +258,10 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
+  setFormData() {
+
+  }
+
   onNext() {
     this.leadSectionService.setCurrentPage(1);
   }
@@ -269,11 +272,11 @@ export class SourcingDetailsComponent implements OnInit {
     console.log('Lead Save', saveAndUpdate);
 
     this.saveUpdate = {
-      userId: this.userId,
+      userId: Number(this.userId),
       leadId: Number(this.leadId),
       bizDivision: saveAndUpdate.bizDivision,
       productCategory: Number(saveAndUpdate.productCategory),
-      priority: saveAndUpdate.priority,
+      priority: Number(saveAndUpdate.priority),
       sourcingChannel: saveAndUpdate.sourcingChannel,
       sourcingType: saveAndUpdate.sourcingType,
       sourcingCode: saveAndUpdate.sourcingCode,
@@ -282,42 +285,22 @@ export class SourcingDetailsComponent implements OnInit {
       loanBranch: Number(this.branchId),
       leadHandeledBy: Number(this.userId),
       leadCreatedBy: Number(this.branchId),
+      leadCreatedOn: this.leadCreatedDateFromLead,
       requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
       requestedLoanTenor: Number(saveAndUpdate.requestedTenor)
     };
-
     console.log('this.saveUpdate', this.saveUpdate);
 
-    // this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
-    //   const response = res;
-    // })
+    this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
+      const response = res;
+      console.log('saveUpdate', response);
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+
+      if (appiyoError === '0' && apiError === '0') {
+        alert(response.ProcessVariables.error.message);
+      }
+    });
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
- // setFormValue() {
-  //   const sourcingValue = this.leadStoreService.getSourcingDetails() || {};
-  //   console.log('source', sourcingValue)
-  //   this.sourcingDetailsForm.patchValue({
-  //     leadHandledBy: sourcingValue.leadHandledBy || '',
-  //     sourcingChannel: sourcingValue.sourcingChannel || '',
-  //     sourcingType: sourcingValue.sourcingType || '',
-  //     sourcingCode: sourcingValue.sourcingCode || '',
-  //     spokeCodeLocation: sourcingValue.spokeCodeLocation || ''
-  //   });
-  //   const leadData = this.leadStoreService.getLeadCreation() || {};
-  //   console.log('lead data', leadData)
-  //   this.sourcingDetailsForm.patchValue({
-  //     loanAccountBranch: leadData.loanAccountBranch || ''
-  //   });
-  // }
