@@ -222,8 +222,10 @@ export class BasicDetailsComponent implements OnInit {
     const rawValue = this.basicForm.getRawValue();
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
+      this.applicantDataService.setCorporateProspectDetails(null);
     } else {
       this.storeNonIndividualValueInService(rawValue);
+      this.applicantDataService.setIndividualProspectDetails(null);
     }
     const applicantData = this.applicantDataService.getApplicant();
     const data = {
