@@ -283,7 +283,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.companyEmailId = formValue.companyEmailId;
 
     prospectDetails.alternateEmailId = formValue.alternateEmailId;
-    prospectDetails.occupation = formValue.occupation;
+    // prospectDetails.occupation = formValue.occupation;
     prospectDetails.dateOfIncorporation = formValue.dateOfIncorporation;
     prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
     prospectDetails.preferredLanguageCommunication =
