@@ -50,7 +50,7 @@
                            
                             <option value="Mrs" selected>Mrs</option>                                                   
                         </select>  -->
-          <app-vf-custom-select formControlName="title"></app-vf-custom-select>
+          <app-vf-custom-select formControlName="title" [values]="LOV.LOVS.salutation" ></app-vf-custom-select>
         </div>
       </div>
       <ng-container formArrayName="details">
@@ -350,7 +350,7 @@
                         </select> -->
               <app-vf-custom-select
                 formControlName="employerType"
-                [values]=""
+                [values]="LOV.LOVS.aPPLICANTEMPLOYERTPE"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -363,15 +363,15 @@
                 [values]=""
               ></app-vf-custom-select>
             </div>
-            <div
+            <!-- <div
               class="form-group col-sm-6 col-md-4 col-lg-3"
               id="type_of_business_div"
               *ngIf="isSelfEmployed"
             >
               <label for="type_of_business">{{ labels?.typeOfBusiness }}</label>
-              <!-- <select class="form-control" id="type_of_business" name="type_of_business" required="required">
+              <select class="form-control" id="type_of_business" name="type_of_business" required="required">
                             <option value="">Select</option>
-                        </select> -->
+                        </select>
               <app-vf-custom-select
                 formControlName="businessType"
               ></app-vf-custom-select>
@@ -413,8 +413,8 @@
                   name="business_start_date"
                 />
               </div>
-            </div>
-            <div
+            </div> -->
+            <!-- <div
               class="form-group col-sm-6 col-md-4 col-lg-3"
               id="yrs_current_business_div"
               *ngIf="isSelfEmployed"
@@ -444,7 +444,7 @@
                 name="turn_over"
                 id="turn_over"
               />
-            </div>
+            </div> -->
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="annual_income_div" style="display: none;" *ngIf="isSelfEmployed">
                         <label for="annual_income">{{labels?.annualIncome}}</label>
                         <input formControlName="name" type="text" class="form-control" name="annual_income" id="annual_income">

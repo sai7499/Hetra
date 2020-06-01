@@ -6,6 +6,7 @@ import {
   FormControl,
   FormArray } from '@angular/forms';
   import { LabelsService } from "src/app/services/labels.service";
+  import { CommomLovService} from '@services/commom-lov-service'
 
 @Component({
   selector: 'app-identity-details',
@@ -14,12 +15,14 @@ import {
 })
 export class IdentityDetailsComponent implements OnInit {
   labels: any = {};
+  lov: any= {};
 
   isIndividual = true;
 
   identityForm: FormGroup;
 
-  constructor(private labelsData: LabelsService,private fb: FormBuilder) { }
+  constructor(private labelsData: LabelsService,
+             private commomLovservice : CommomLovService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -31,14 +34,23 @@ export class IdentityDetailsComponent implements OnInit {
         console.log(error);
       }
     );
+    this.getLov()
 
   // this.identityForm = this.fb.group({
   //     details: this.fb.array([])
   // });
   this.identityForm = new FormGroup({
+    entity : new FormControl(''),
       details: new FormArray([])
   });
   this.addIndividualFormControls();
+  this.identityForm.patchValue({entity : "INDIVENTTYP"})
+  }
+
+
+  getLov(){
+    this.commomLovservice.getLovData().subscribe((lov)=> (this.lov=lov));
+    console.log('lov', this.lov)
   }
   addIndividualFormControls() {
     const controls = new FormGroup({
@@ -73,7 +85,8 @@ addNonIndividualFormControls() {
 
 onIndividualChange(event) {
     const value = event.target.value;
-    this.isIndividual = value === 'individual';
+    console.log('value', value)
+    this.isIndividual = value === 'INDIVENTTYP';
     const formArray = (this.identityForm.get('details') as FormArray);
     formArray.clear();
     // const length = formArray.length;

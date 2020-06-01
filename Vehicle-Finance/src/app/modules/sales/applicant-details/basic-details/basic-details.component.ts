@@ -91,15 +91,16 @@ export class BasicDetailsComponent implements OnInit {
   setBasicData() {
     this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
     // this.clearFormArray();
+    this.basicForm.patchValue({
+      entity: this.applicant.applicantDetails.entityTypeKey,
+      applicantRelationshipWithLead: this.applicant.applicantDetails
+        .applicantTypeKey,
+    });
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
-      this.basicForm.patchValue({
-        entity: this.applicant.applicantDetails.entityTypeKey,
-        applicantRelationshipWithLead: this.applicant.applicantDetails
-          .applicantTypeKey,
-      });
+      
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();

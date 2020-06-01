@@ -21,6 +21,8 @@ export class AddressDetailsComponent implements OnInit {
   LOV: any = [];
   labels: any = {};
   address: Applicant;
+
+  isCurrAddSameAsPermAdd : any =0;
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
 
@@ -41,6 +43,7 @@ export class AddressDetailsComponent implements OnInit {
   }
   initForm() {
     this.addressForm = new FormGroup({
+      entity: new FormControl(''),
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
@@ -58,8 +61,12 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onIndividualChange(event) {
+    if (!event) {
+      return;
+    }
     const value = event.target.value;
-    this.isIndividual = value === 'individual';
+    console.log('value', value)
+    this.isIndividual = value === 'INDIVENTTYP';
     const formArray = this.addressForm.get('details') as FormArray;
     formArray.clear();
     this.isIndividual
@@ -210,6 +217,9 @@ export class AddressDetailsComponent implements OnInit {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
     console.log('this.indi', this.isIndividual)
     this.clearFormArray();
+    this.addressForm.patchValue({
+      entity : this.address.applicantDetails.entityTypeKey
+    });
     if (this.isIndividual) {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
@@ -228,6 +238,7 @@ export class AddressDetailsComponent implements OnInit {
     const details = formArray.at(0);
 
     const permenantAddressObj= addressObj['PERMADDADDTYP']
+    console.log('objectpermananentAddress--', permenantAddressObj)
     if(permenantAddressObj){
       const permenantAddress = details.get('permanantAddress');
       permenantAddress.patchValue({
@@ -244,29 +255,31 @@ export class AddressDetailsComponent implements OnInit {
       });
     }
     
-    
     console.log('details', details);
-    
   }
 
   setValuesForNonIndividual() {
-    const communicationAddress = this.address.addressDetails[1];
-    console.log('communicationAddress---', communicationAddress);
+    const addressObj = this.getAddressObj();
+    console.log('addressObj',addressObj)
+    
     const formArray = this.addressForm.get('details') as FormArray;
-
-    const details = formArray.at(0)
-    const registeredAddress = details.get('registeredAddress')
-    registeredAddress.patchValue({
-      addressLineOne: communicationAddress.addressLineOne,
-      addressLineTwo: communicationAddress.addressLineTwo,
-      addressLineThree: communicationAddress.addressLineThree,
-      pincode: communicationAddress.pincode,
-      city: communicationAddress.city,
-      district: communicationAddress.district,
-      state: communicationAddress.state,
-      country: communicationAddress.country,
-      landlineNumber: communicationAddress.landlineNumber,
-    });
+    const details = formArray.at(0);
+    const registeredAddressObj = addressObj['REGADDADDTYP']
+    if(registeredAddressObj){
+      const registeredAddress= details.get('registeredAddress')
+      registeredAddress.patchValue({
+        addressLineOne: registeredAddressObj.addressLineOne,
+        addressLineTwo: registeredAddressObj.addressLineTwo,
+        addressLineThree: registeredAddressObj.addressLineThree,
+        pincode: registeredAddressObj.pincode,
+        city: registeredAddressObj.city,
+        district: registeredAddressObj.district,
+        state: registeredAddressObj.state,
+        country: registeredAddressObj.country,
+        landlineNumber: registeredAddressObj.landlineNumber,
+      });
+    }
+    
   }
 
   getAddressObj(){
@@ -275,12 +288,22 @@ export class AddressDetailsComponent implements OnInit {
     if(address) {
       
       address.forEach((value) => {
+        
           if(value.addressType === 'PERMADDADDTYP') {
               addressObj['PERMADDADDTYP'] = value;
           }
           else if(value.addressType === 'COMMADDADDTYP') {
               addressObj['COMMADDADDTYP'] = value;
           }
+          else if(value.addressType === 'OFFADDADDTYP') {
+            addressObj['OFFADDADDTYP'] = value;
+          }
+          else if(value.addressType === 'REGADDADDTYP') {
+            addressObj['REGADDADDTYP'] = value;
+          }
+          else if(value.addressType === 'CURRADDADDTYP') {
+            addressObj['CURRADDADDTYP'] = value;
+        }
       })
   }
   return addressObj;
@@ -295,10 +318,12 @@ export class AddressDetailsComponent implements OnInit {
     const isChecked = event.target.checked;
     console.log('event', isChecked);
     this.getPermanentAddressValue();
+    this.isCurrAddSameAsPermAdd = isChecked=== true? 1: 0
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     this.getRegisteredAddressValue();
+    this.isCurrAddSameAsPermAdd = isChecked=== true? 1: 0
   }
 
   getPermanentAddressValue() {

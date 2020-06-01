@@ -10,6 +10,7 @@ import {
   ApplicantDetails,
   CorporateProspectDetails,
   IndividualProspectDetails,
+  IndivProspectProfileDetails
 } from '@model/applicant.model';
 
 @Component({
@@ -371,6 +372,7 @@ export class BasicDetailsComponent implements OnInit {
   storeIndividualValueInService(value) {
     const prospectDetails: IndividualProspectDetails = {};
     const applicantDetails: ApplicantDetails = {};
+    const ProspectProfileDetails : IndivProspectProfileDetails={}
     const formValue = value.details[0];
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2;
@@ -378,7 +380,39 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
+    applicantDetails.customerCategory= value.customerCategory
     this.applicantDataService.setApplicantDetails(applicantDetails);
+
+
+    const aboutIndivProspectDetails = formValue;
+    prospectDetails.dob = formValue.dob;
+    prospectDetails.mobilePhone = aboutIndivProspectDetails.mobilePhone;
+    prospectDetails.isSeniorCitizen = aboutIndivProspectDetails.isSeniorCitizen;
+    prospectDetails.minorGuardianName = aboutIndivProspectDetails.minorGuardianName;
+    prospectDetails.minorGuardianUcic = aboutIndivProspectDetails.minorGuardianUcic;
+    prospectDetails.spouseName = aboutIndivProspectDetails.spouseName;
+    prospectDetails.fatherName = aboutIndivProspectDetails.fatherName;
+    prospectDetails.motherMaidenName = aboutIndivProspectDetails.motherMaidenName;
+    prospectDetails.nationality = aboutIndivProspectDetails.nationality;
+    prospectDetails.occupation = aboutIndivProspectDetails.occupation;
+    prospectDetails.emailId = aboutIndivProspectDetails.emailId;
+    prospectDetails.alternateEmailId = aboutIndivProspectDetails.alternateEmailId;
+    prospectDetails.preferredLanguage = aboutIndivProspectDetails.preferredLanguage;
+    prospectDetails.designation = aboutIndivProspectDetails.designation;
+    prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears;
+    prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
+    prospectDetails.department = aboutIndivProspectDetails.department;
+
+    console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
+
+    this.applicantDataService.setIndividualProspectDetails(prospectDetails);
+
+    const IndivProspectProfileDetails = formValue
+    ProspectProfileDetails.employerType= IndivProspectProfileDetails.employerType;
+
+    console.log('IndivProspectProfileDetails', IndivProspectProfileDetails)
+    this.applicantDataService.setindivProspectProfileDetails(ProspectProfileDetails);
+
   }
 
   storeNonIndividualValueInService(value) {
@@ -393,6 +427,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
+    applicantDetails.customerCategory= value.customerCategory
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 

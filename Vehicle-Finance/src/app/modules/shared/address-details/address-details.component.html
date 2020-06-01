@@ -1,22 +1,23 @@
 <div class="content">
     <form class="multisteps-form__form" style="height: 400px;" [formGroup]="addressForm">
-        <ng-container formArrayName="details">
+        
         <div class="multisteps-form__panel js-active basic_scroll" data-animation="scaleIn">
             <div class="btn-sec clear-both row">
-                <div class="col-sm-5">
-                    <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
+                <div class="col-sm-3">
+                    <!-- <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
                                 <option value="individual"> Individual </option>
                                 <option value="non-individual"> Non-Individual </option>
-                            </select>
+                            </select> -->
 
-                            <!-- <app-vf-custom-select [values]="LOV.LOVS.entityType" (change)="onIndividualChange($event)">
-                            </app-vf-custom-select> -->
+                            <app-vf-custom-select formControlName="entity" [values]="LOV.LOVS.entityType" (change)="onIndividualChange($event)">
+                            </app-vf-custom-select>
                 </div>
                 <div class="col-sm-7 text-right">
 
                 </div>
             </div>
-            <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0">
+
+            <ng-container formArrayName="details">            <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0">
                 <!-- <h4 class="title">individual</h4> -->
                 <h4 class="title">Permanent Address</h4>
                 <div class="row" formGroupName="permanantAddress" >
@@ -146,7 +147,7 @@
                                     <option>Rented House</option>
                                     
                                 </select> -->
-                        <app-vf-custom-select formControlName="accommodationType"> </app-vf-custom-select>
+                        <app-vf-custom-select formControlName="accommodationType" [values]='LOV.LOVS.accomodationType'> </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.periodOfCurrentStayInYears}}</label>
@@ -226,7 +227,7 @@
                                     <option>Rented House</option>
                                     
                                 </select> -->
-                        <app-vf-custom-select formControlName="accommodationType" ></app-vf-custom-select>
+                        <app-vf-custom-select formControlName="accommodationType" [values]='LOV.LOVS.accomodationType'></app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="passport">{{labels.periodOfCurrentStayInYears}}</label>
@@ -375,10 +376,11 @@
                 </div>
             </div>
             </div>
-           
+        </ng-container>
         </div>
-    </ng-container>
-        </form></div>
+    
+        </form>
+    </div>
         <div class="row">
 
             <div class="col-sm-5">

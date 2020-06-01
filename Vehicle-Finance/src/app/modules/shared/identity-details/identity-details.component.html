@@ -1,21 +1,26 @@
 
 <div class="content">
     <form class="multisteps-form__form" style="height: 400px;" [formGroup]="identityForm">
-        <ng-container formArrayName="details">
+        
         <div class="multisteps-form__panel js-active basic_scroll" data-animation="scaleIn">
             <div class="btn-sec clear-both row">
-                <div class="col-sm-5">
+                <div class="col-sm-3">
                     <!-- <h4 class="title">Identity Details</h4> -->
-                    <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
+                    <!-- <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
                         <option value="individual"> Individual </option>
                         <option value="non-individual"> Non-Individual </option>
-                    </select>
+                    </select> -->
+
+                    <app-vf-custom-select formControlName="entity" [values]="lov.LOVS.entityType" (change)="onIndividualChange($event)">
+                        
+                    </app-vf-custom-select>
+
                 </div>
                 <div class="col-sm-7 text-right">
                 </div>
             </div>
-
-            <div id="individual_section_start" *ngIf="isIndividual">
+            <ng-container formArrayName="details">           
+                 <div id="individual_section_start" *ngIf="isIndividual">
                         <div class="row" formGroupName="0">
                             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                                 <label for="issuance_date">Aadhaar Number</label>
@@ -58,7 +63,7 @@
                                     <option value="PAN" selected="selected">PAN</option>
                                     <option value="form60">Form 60</option>
                                 </select> -->
-                                <app-vf-custom-select formControlName="panForm"></app-vf-custom-select>
+                                <app-vf-custom-select formControlName="panForm" [values]="lov.LOVS.aPPLICANTPANTYPE"></app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                                 <label for="pan_number">PAN Number</label>
@@ -247,10 +252,10 @@
                     </div>
                 </div>
             </div>
-
+        </ng-container>
             
         </div>
-    </ng-container>
+    
     </form>
 </div>
 
