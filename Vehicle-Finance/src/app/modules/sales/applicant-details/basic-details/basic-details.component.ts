@@ -8,7 +8,12 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { LOVS, Item, LovList } from '@model/lov.model';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
-import { Applicant, ApplicantDetails } from '@model/applicant.model';
+import {
+  Applicant,
+  ApplicantDetails,
+  CorporateProspectDetails,
+  IndividualProspectDetails,
+} from '@model/applicant.model';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -59,7 +64,6 @@ export class BasicDetailsComponent implements OnInit {
     this.addNonIndividualFormControls();
     this.getLovData();
     this.activatedRoute.params.subscribe((value) => {
-      console.log('value', value);
       if (!value && !value.applicantId) {
         return;
       }
@@ -82,7 +86,6 @@ export class BasicDetailsComponent implements OnInit {
       };
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
-      console.log('applicantDetailsfromService--',this.applicant)
 
       this.setBasicData();
     });
@@ -160,7 +163,6 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
-      console.log('this.applicantLov', this.applicantLov);
     });
   }
 
@@ -209,7 +211,6 @@ export class BasicDetailsComponent implements OnInit {
       return;
     }
     const value = event.value;
-    console.log('value', value);
     this.isIndividual = value === 'Individual';
     const formArray = this.basicForm.get('details') as FormArray;
     formArray.clear();
@@ -219,6 +220,75 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onSave() {
-    console.log('form value', this.basicForm.value);
+    const rawValue = this.basicForm.getRawValue();
+    if (this.isIndividual) {
+      this.storeIndividualValueInService(rawValue);
+      this.applicantDataService.setCorporateProspectDetails(null);
+    } else {
+      this.storeNonIndividualValueInService(rawValue);
+      this.applicantDataService.setIndividualProspectDetails(null);
+    }
+    const applicantData = this.applicantDataService.getApplicant();
+    const data = {
+      applicantId: this.applicantId,
+      ...applicantData,
+    };
+    this.applicantService.saveApplicant(data).subscribe((res) => {
+      console.log('res', res);
+    });
+  }
+
+  storeIndividualValueInService(value) {
+    const prospectDetails: IndividualProspectDetails = {};
+    const applicantDetails: ApplicantDetails = {};
+    const formValue = value.details[0];
+    applicantDetails.name1 = formValue.name1;
+    applicantDetails.name2 = formValue.name2;
+    applicantDetails.name3 = formValue.name3;
+    applicantDetails.loanApplicationRelation =
+      value.applicantRelationshipWithLead;
+    applicantDetails.entityType = value.entity;
+    applicantDetails.customerCategory = formValue.customerCategory;
+    this.applicantDataService.setApplicantDetails(applicantDetails);
+    prospectDetails.emailId = formValue.emailId;
+    prospectDetails.alternateEmailId = formValue.alternateEmailId;
+    prospectDetails.mobilePhone = formValue.mobilePhone;
+    prospectDetails.dob = formValue.dob;
+    prospectDetails.minorGuardianName = formValue.minorGuardianName;
+    prospectDetails.fatherName = formValue.fatherName;
+    prospectDetails.spouseName = formValue.spouseName;
+    prospectDetails.motherMaidenName = formValue.motherMaidenName;
+    prospectDetails.occupation = formValue.occupation;
+    prospectDetails.nationality = formValue.nationality;
+    prospectDetails.preferredLanguage = formValue.preferredLanguage;
+    this.applicantDataService.setIndividualProspectDetails(prospectDetails);
+  }
+
+  storeNonIndividualValueInService(value) {
+    const prospectDetails: CorporateProspectDetails = {};
+    const applicantDetails: ApplicantDetails = {};
+
+    const formValue = value.details[0];
+
+    applicantDetails.name1 = formValue.name1;
+    applicantDetails.name2 = formValue.name2;
+    applicantDetails.name3 = formValue.name3;
+    applicantDetails.loanApplicationRelation =
+      value.applicantRelationshipWithLead;
+    applicantDetails.entityType = value.entity;
+
+    applicantDetails.customerCategory = formValue.customerCategory;
+
+    this.applicantDataService.setApplicantDetails(applicantDetails);
+
+    prospectDetails.companyEmailId = formValue.companyEmailId;
+
+    prospectDetails.alternateEmailId = formValue.alternateEmailId;
+    prospectDetails.occupation = formValue.occupation;
+    prospectDetails.dateOfIncorporation = formValue.dateOfIncorporation;
+    prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
+    prospectDetails.preferredLanguageCommunication =
+      formValue.preferredLanguageCommunication;
+    this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
 }

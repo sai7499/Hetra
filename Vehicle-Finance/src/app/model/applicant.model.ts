@@ -123,6 +123,7 @@ export interface CorporateProspectDetails {
   voterIdIssueDate?: string;
   voterIdExpiryDate?: string;
   companyPhoneNumber?: string;
+  occupation?: string;
 }
 
 export interface IndivIdentityInfoDetails {
