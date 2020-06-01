@@ -24,6 +24,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public vehicleLov: any = {};
   roleId: any;
   roleName: any;
+  roleType: any;
   roles: any = [];
   LOV: any = [];
   public label: any = {};
@@ -54,6 +55,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
 
     this.initForms();
     this.labelsData.getLabelsData()

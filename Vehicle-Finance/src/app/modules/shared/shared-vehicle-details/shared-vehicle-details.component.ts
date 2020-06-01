@@ -13,6 +13,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   roleId: any;
   roleName: string;
+  roleType: any;
   roles = [];
   public label: any = {};
   vehicleArray = [];
@@ -42,7 +43,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-
+    this.roleType = this.roles[0].roleType;
+    
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
     },

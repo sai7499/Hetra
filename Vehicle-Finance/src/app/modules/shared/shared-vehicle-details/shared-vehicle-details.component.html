@@ -19,7 +19,9 @@
                 </tr>
             </thead>
             <tbody *ngIf="roleName === 'Sales Officer'">
-                <tr id="add_vhd_tabletr"></tr>
+                <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
+
+                </tr>
             </tbody>
             <tbody *ngIf="roleName === 'Credit Officer'">
                 <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleListArray; let i = index">

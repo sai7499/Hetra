@@ -127,6 +127,7 @@ export class VehicleDetailService {
       projectId: projectId
     };
 
+    console.log(JSON.stringify(body), 'body')
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
@@ -151,8 +152,6 @@ export class VehicleDetailService {
       workflowId: workflowId,
       projectId: projectId
     };
-
-
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
