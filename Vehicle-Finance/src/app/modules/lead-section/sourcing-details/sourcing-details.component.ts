@@ -127,7 +127,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
 
-    if (!data) {
+    if (!data.loanLeadDetails) {
       return;
     }
     const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
@@ -203,9 +203,11 @@ export class SourcingDetailsComponent implements OnInit {
       console.log('sourching', response);
       this.sourchingTypeData = response;
       if (this.sourchingTypeData) {
-        const sourchingChannel = this.leadData.loanLeadDetails.sourcingChannel;
-        this.sourcingChannelChange(sourchingChannel, false);
-        this.patchSourcingDetails();
+        if (this.leadData.loanLeadDetails) {
+          const sourchingChannel = this.leadData.loanLeadDetails.sourcingChannel;
+          this.sourcingChannelChange(sourchingChannel, false);
+          this.patchSourcingDetails();
+        }
       }
     });
   }
@@ -258,15 +260,11 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
-  setFormData() {
-
-  }
-
   onNext() {
     this.leadSectionService.setCurrentPage(1);
   }
 
-  saveAndUpdate(data) {
+  saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     const saveAndUpdate: any = { ...formValue };
     console.log('Lead Save', saveAndUpdate);
@@ -298,7 +296,8 @@ export class SourcingDetailsComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
 
       if (appiyoError === '0' && apiError === '0') {
-        alert(response.ProcessVariables.error.message);
+        // alert(response.ProcessVariables.error.message);
+        this.isAlert = true;
       }
     });
   }

@@ -364,3 +364,6 @@ select#select_main_button_leadco {
     margin-right: 2px;
     margin-bottom: 40px;
 }
+.fixed{
+    position: fixed !important;
+}
