@@ -5,9 +5,7 @@ import {
   CorporateProspectDetails,
   ApplicantDetails,
   IndividualProspectDetails,
-  IndivProspectProfileDetails,
-  IndivIdentityInfoDetails, 
-  AddressDetails
+  AddressDetails,
 } from '@model/applicant.model';
 
 @Injectable({
@@ -15,8 +13,7 @@ import {
 })
 export class ApplicantDataStoreService {
   applicant: Applicant;
-  applicantId ='';
-
+  applicantId = '';
   setApplicant(applicant: Applicant) {
     this.applicant = {
       aboutIndivProspectDetails: applicant.aboutIndivProspectDetails,
@@ -30,12 +27,14 @@ export class ApplicantDataStoreService {
   getApplicant() {
     return this.applicant;
   }
-  setApplicantId(applicantId){
-    this.applicantId= applicantId;
-  }
 
-  getApplicantId(){
-    return this.applicantId
+  setIndividualProspectDetails(value: IndividualProspectDetails) {
+    const details = this.applicant.aboutIndivProspectDetails;
+    const newDetails = {
+      ...details,
+      ...value,
+    };
+    this.applicant.aboutIndivProspectDetails = newDetails;
   }
 
   setCorporateProspectDetails(value: CorporateProspectDetails) {
@@ -43,19 +42,24 @@ export class ApplicantDataStoreService {
   }
 
   setApplicantDetails(value: ApplicantDetails) {
-    this.applicant.applicantDetails = value;
+    const details = this.applicant.applicantDetails;
+    const newDetails = {
+      ...details,
+      ...value,
+    };
+    this.applicant.applicantDetails = newDetails;
   }
-  setIndividualProspectDetails(value : IndividualProspectDetails){
-    this.applicant.aboutIndivProspectDetails = value;
-  }
-  setindivProspectProfileDetails(value : IndivProspectProfileDetails){
-    this.applicant.indivProspectProfileDetails = value;
-  }
-  setAddressDetails(value : AddressDetails[]){
-    console.log('setAddressDetails', value)
+
+  setAddressDetails(value: AddressDetails[]) {
+    console.log('setAddressDetails', value);
     this.applicant.addressDetails = value;
   }
-  setIndivIdentityInfoDetails(value : IndivIdentityInfoDetails){
-    this.applicant.indivIdentityInfoDetails= value;
+
+  setApplicantId(applicantId) {
+    this.applicantId = applicantId;
+  }
+
+  getApplicantId() {
+    return this.applicantId;
   }
 }
