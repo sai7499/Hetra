@@ -65,4 +65,15 @@ export class ApplicantListComponent implements OnInit {
   onApplicantClick(item) {
     console.log('item', item);
   }
+
+  softDeleteApplicant(index: number, applicantId: number) {
+    const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
+    const data = {
+      applicantId,
+    };
+    this.applicantService.softDeleteApplicant(data).subscribe((res) => {
+      console.log('res', applicantId);
+      this.applicantList.splice(findIndex, 1);
+    });
+  }
 }
