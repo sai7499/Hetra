@@ -29,6 +29,7 @@ export class AddvehicleComponent implements OnInit {
   isHidden: boolean = false;
 
   vehicleArray = [];
+  routerId = 0;
 
   // process variable for save/update vehicle collaterals
 
@@ -102,16 +103,12 @@ export class AddvehicleComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((value) => {
       console.log('vehicle params', value);
-      const vehicleId = value ? value.id : null;
-      console.log('vehicleId', vehicleId)
-      if (vehicleId !== null && vehicleId !== undefined) {
+       this.routerId = value ? value.id : null;
+      if (this.routerId !== null && this.routerId !== undefined) {
         this.isHidden = true;
-        this.selectedVehicle = Number(vehicleId);
-        console.log('numberselectId', this.selectedVehicle)
-        const selectedVehicle: Temp = this.leadStoreService.getSelectedVehicle(Number(vehicleId));
+        this.selectedVehicle = Number(this.routerId);
+        const selectedVehicle: Temp = this.leadStoreService.getSelectedVehicle(Number(this.routerId));
         this.setFormValue(selectedVehicle);
-        console.log('selectedVehicle', selectedVehicle)
-
       }
 
     })
@@ -251,8 +248,6 @@ export class AddvehicleComponent implements OnInit {
   }
 
 
-
-
   onCheck() {
     this.formVehicle = this.vehicleForm.value;
     console.log('onCheck', this.formVehicle);
@@ -315,14 +310,6 @@ export class AddvehicleComponent implements OnInit {
       }
     });
   }
-
-  // getVehicle(){
-  //  this.tableVehicleDetail=this.vehicleDetailService.getVehicle()
-  //  console.log('tableDetails',this.tableVehicleDetail)
-  // }
-
-
-
 
   ngOnChanges() {
 

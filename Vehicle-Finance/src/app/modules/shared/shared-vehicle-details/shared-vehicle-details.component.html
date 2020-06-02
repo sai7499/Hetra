@@ -4,7 +4,7 @@
     <div class="text-right" id="add_vehicle_details_btn">
         <button class="btn mar-right8" [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'"
             type="button"
-            [routerLink]="roleName === 'Sales Officer' ? ['/pages/lead-section/add-vehicle'] : ['/pages/vehicle-details']">{{label.addVehicle}}</button>
+            [routerLink]="roleName === 'Sales Officer' ? ['/pages/lead-section/add-vehicle/0'] : ['/pages/vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -37,7 +37,7 @@
                             <!-- {{item.model}} -->
                         </td>
                         <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                                [routerLink]="['/pages/vehicle-details']"></i>&nbsp;<i class="fa fa-minus"
+                                [routerLink]="['/pages/lead-section/add-vehicle/0']"></i>&nbsp;<i class="fa fa-minus"
                                 aria-hidden="true" id="remove_item_applicant"
                                 (click)="removeOtherIndex(i, vehicleListArray)"></i>
                         </td>

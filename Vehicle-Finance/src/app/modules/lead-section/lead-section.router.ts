@@ -38,7 +38,7 @@ const routes: Routes = [
       },
         
       {
-        path : "add-vehicle",
+        path : "add-vehicle/:id",
         component: AddvehicleComponent
       },
       {

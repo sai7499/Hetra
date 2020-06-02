@@ -61,6 +61,14 @@ export class SharedVehicleDetailsComponent implements OnInit {
     })
   }
 
+  // editVehicleSales(index: number) {
+  //   this.router.navigate(['pages/lead-section/add-vehicle', {id: index}]);
+  // }
+
+  // deleteVehicle(index: number) {
+  //   this.leadStoreService.deleteVehicle(index);
+  // }
+
   // sample code for understanding
   // this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
   //   const product = res.ProcessVariables.productCategoryDetails;

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
@@ -17,6 +17,8 @@ import { ArrayType } from '@angular/compiler';
 
 
 export class SharedBasicVehicleDetailsComponent implements OnInit {
+
+  @Input() id: any;
 
   @Output() formDataOutput = new EventEmitter<ArrayType>();
 
@@ -94,6 +96,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     //  mock method for getting lovs for assetMake and so on ....
 
     this.lovDataService.getLovData().subscribe((value: any) => {
+
+      console.log('asset', value)
 
       this.mockLov = value ? value[0].vehicleDetails[0] : {};
       // console.log('vehicleLov', this.mockLov);
