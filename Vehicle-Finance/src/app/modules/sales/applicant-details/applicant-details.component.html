@@ -11,7 +11,7 @@
           id="sales_additional_applicant_basic"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 0 }"
-          [routerLink]="['./basic-details']"
+          (click)="onNavigate('/pages/sales-applicant-details/basic-details')"
         >
           Basic Details
         </button>
@@ -20,7 +20,9 @@
           id="sales_additional_applicant_identity"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 1 }"
-          [routerLink]="['./identity-details']"
+          (click)="
+            onNavigate('/pages/sales-applicant-details/identity-details')
+          "
         >
           Identity Details
         </button>
@@ -29,7 +31,7 @@
           id="sales_additional_applicant_address"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 2 }"
-          [routerLink]="['./address-details']"
+          (click)="onNavigate('/pages/sales-applicant-details/address-details')"
         >
           Address Details
         </button>

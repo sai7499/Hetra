@@ -393,47 +393,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return this.values.entity.find((value) => value.key === Number(key));
   }
 
-  onFormSubmit() {
-    const formValue = this.coApplicantForm.value;
-    console.log('formModel', formValue);
-    const coApplicantModel = {
-      ...formValue,
-      entity: this.getEntityObject(formValue.entity),
-    };
-
-    console.log('CoApplicant form', coApplicantModel);
-
-    if (this.selectedApplicant !== undefined) {
-      this.leadStoreService.updateApplicant(
-        this.selectedApplicant,
-        coApplicantModel
-      );
-      return;
-    }
-
-    this.leadStoreService.setCoApplicantDetails(coApplicantModel);
-    // this.router.navigate(['/pages/lead-section/product-details']);
-    this.applicantDetails = {
-      entityType: coApplicantModel.entityType,
-      name1: coApplicantModel.name1,
-      name2: coApplicantModel.name2,
-      name3: coApplicantModel.name3,
-      loanApplicationRelation: coApplicantModel.loanApplicationRelation,
-      customerCategory: 'SALCUSTCAT',
-      title: 'MRSALUTATION',
-    };
-
-    // this.applicantDetails = {
-    //   entityType: 'INDIVENTTYP',
-    //   name1: 'Kalpesh',
-    //   name2: 'Madhukar',
-    //   name3: 'Mahajan',
-    //   loanApplicationRelation: 'APPAPPREL',
-    //   title: 'MRSALUTATION',
-    //   customerCategory: 'SALCUSTCAT'
-    // };
-    const DOB = this.utilityService.getDateFormat(coApplicantModel.dob);
-    console.log('Formatted DOB', DOB);
+  storeIndividualValueInService(coApplicantModel) {
+    
     this.aboutIndivProspectDetails = {
       dob: coApplicantModel.dob,
       mobilePhone: coApplicantModel.mobilePhone,
@@ -454,30 +415,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // employeeCode: 100200,
       // department: 'department'
     };
-    if (this.applicantType === 'INDIVENTTYP') {
-      this.indivIdentityInfoDetails = {
-        form60: coApplicantModel.form60,
-        panType: coApplicantModel.panType,
-        pan: coApplicantModel.pan,
-        aadhar: coApplicantModel.aadhar,
-        passportNumber: coApplicantModel.passportNumber,
-        passportIssueDate: coApplicantModel.passportIssueDate,
-        passportExpiryDate: coApplicantModel.passportExpiryDate,
-        drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
-        drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
-        drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
-        voterIdNumber: coApplicantModel.voterIdNumber,
-        // voterIdIssueDate: '21-Mar-2020',
-        // voterIdExpiryDate: '21-Mar-2021'
-      };
-    }
-    console.log('ApplicantPanType', this.indivIdentityInfoDetails.panType);
-    this.indivProspectProfileDetails = {
-      employerType: 'test',
-      employerName: 'Appiyo Technologies',
-      workplaceAddress: 'test',
-    };
 
+    this.indivIdentityInfoDetails = {
+      form60: coApplicantModel.form60,
+      panType: coApplicantModel.panType,
+      pan: coApplicantModel.pan,
+      aadhar: coApplicantModel.aadhar,
+      passportNumber: coApplicantModel.passportNumber,
+      passportIssueDate: coApplicantModel.passportIssueDate,
+      passportExpiryDate: coApplicantModel.passportExpiryDate,
+      drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
+      drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
+      drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
+      voterIdNumber: coApplicantModel.voterIdNumber,
+      // voterIdIssueDate: '21-Mar-2020',
+      // voterIdExpiryDate: '21-Mar-2021'
+    };
+  }
+
+  storeNonIndividualValueInService(coApplicantModel) {
     this.corporateProspectDetails = {
       dateOfIncorporation: coApplicantModel.dateOfIncorporation,
       // countryOfCorporation: 'IND',
@@ -513,6 +469,66 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // voterIdExpiryDate: '21-Mar-2021',
       // companyPhoneNumber: '9988445566'
     };
+  }
+  onFormSubmit() {
+    const formValue = this.coApplicantForm.value;
+    console.log('formModel', formValue);
+    const coApplicantModel = {
+      ...formValue,
+      entity: this.getEntityObject(formValue.entity),
+    };
+    const rawValue = this.coApplicantForm.getRawValue();
+    if (this.applicantType === 'INDIVENTTYP' ) {
+      this.storeIndividualValueInService(coApplicantModel);
+      this.applicantDataService.setCorporateProspectDetails(null);
+    } else {
+      this.storeNonIndividualValueInService(coApplicantModel);
+      this.applicantDataService.setIndividualProspectDetails(null);
+      this.applicantDataService.setIndivIdentityInfoDetails(null);
+    }
+
+    console.log('CoApplicant form', coApplicantModel);
+
+    if (this.selectedApplicant !== undefined) {
+      this.leadStoreService.updateApplicant(
+        this.selectedApplicant,
+        coApplicantModel
+      );
+      return;
+    }
+
+    this.leadStoreService.setCoApplicantDetails(coApplicantModel);
+    // this.router.navigate(['/pages/lead-section/product-details']);
+    this.applicantDetails = {
+      entityType: coApplicantModel.entityType,
+      name1: coApplicantModel.name1,
+      name2: coApplicantModel.name2,
+      name3: coApplicantModel.name3,
+      loanApplicationRelation: coApplicantModel.loanApplicationRelation,
+      customerCategory: 'SALCUSTCAT',
+      title: 'MRSALUTATION',
+    };
+
+    // this.applicantDetails = {
+    //   entityType: 'INDIVENTTYP',
+    //   name1: 'Kalpesh',
+    //   name2: 'Madhukar',
+    //   name3: 'Mahajan',
+    //   loanApplicationRelation: 'APPAPPREL',
+    //   title: 'MRSALUTATION',
+    //   customerCategory: 'SALCUSTCAT'
+    // };
+    const DOB = this.utilityService.getDateFormat(coApplicantModel.dob);
+    console.log('Formatted DOB', DOB);
+    
+    console.log('ApplicantPanType', this.indivIdentityInfoDetails.panType);
+    this.indivProspectProfileDetails = {
+      employerType: 'test',
+      employerName: 'Appiyo Technologies',
+      workplaceAddress: 'test',
+    };
+
+   
     console.log(
       'Drving Licanse Issue Date',
       coApplicantModel.dateOfIncorporation

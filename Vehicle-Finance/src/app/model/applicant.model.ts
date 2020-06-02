@@ -124,13 +124,13 @@ export interface CorporateProspectDetails {
   voterIdIssueDate?: string;
   voterIdExpiryDate?: string;
   companyPhoneNumber?: string;
+  occupation?: string;
 }
 
 export interface IndivIdentityInfoDetails {
   form60?: string;
   pan?: string;
   panType?: string;
-  panTypeValue?: string;
   aadhar?: string;
   passportNumber?: string;
   passportIssueDate?: string;

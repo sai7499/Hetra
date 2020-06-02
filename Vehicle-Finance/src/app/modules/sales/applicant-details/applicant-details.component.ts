@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { Router} from '@angular/router'
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -7,7 +9,10 @@ import { Location } from '@angular/common';
 })
 export class ApplicantDetailsComponent implements OnInit {
   locationIndex: number;
-  constructor(private location: Location) {}
+  applicantId ='';
+  constructor(private location: Location,
+              private applicantDataStoreservice : ApplicantDataStoreService,
+              private router : Router) {}
 
   ngOnInit() {
     const currentUrl = this.location.path();
@@ -15,6 +20,11 @@ export class ApplicantDetailsComponent implements OnInit {
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
+  }
+
+  onNavigate(url : string){
+    this.applicantId= this.applicantDataStoreservice.getApplicantId();
+     this.router.navigate([url, this.applicantId])
   }
 
   getLocationIndex(url: string) {
