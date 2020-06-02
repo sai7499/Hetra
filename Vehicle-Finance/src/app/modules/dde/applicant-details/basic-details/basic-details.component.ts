@@ -411,16 +411,8 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
-<<<<<<< HEAD
-    const IndivProspectProfileDetails = formValue
-    ProspectProfileDetails.employerType= IndivProspectProfileDetails.employerType;
-
-    console.log('IndivProspectProfileDetails', IndivProspectProfileDetails)
-    // this.applicantDataService.setIndividualProspectDetails(ProspectProfileDetails);
-=======
     // const IndivProspectProfileDetails = formValue
     // ProspectProfileDetails.employerType= IndivProspectProfileDetails.employerType;
->>>>>>> 65c826db2110533943ae82b8132a4ccfbf1937e7
 
     // console.log('IndivProspectProfileDetails', IndivProspectProfileDetails);
     this.applicantDataService.setIndividualProspectDetails(
