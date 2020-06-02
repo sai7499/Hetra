@@ -411,7 +411,7 @@ export class BasicDetailsComponent implements OnInit {
     ProspectProfileDetails.employerType= IndivProspectProfileDetails.employerType;
 
     console.log('IndivProspectProfileDetails', IndivProspectProfileDetails)
-    this.applicantDataService.setindivProspectProfileDetails(ProspectProfileDetails);
+    // this.applicantDataService.setIndividualProspectDetails(ProspectProfileDetails);
 
   }
 
