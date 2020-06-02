@@ -15,6 +15,7 @@ import {
 })
 export class ApplicantDataStoreService {
   applicant: Applicant;
+  applicantId ='';
 
   setApplicant(applicant: Applicant) {
     this.applicant = {
@@ -28,6 +29,13 @@ export class ApplicantDataStoreService {
 
   getApplicant() {
     return this.applicant;
+  }
+  setApplicantId(applicantId){
+    this.applicantId= applicantId;
+  }
+
+  getApplicantId(){
+    return this.applicantId
   }
 
   setCorporateProspectDetails(value: CorporateProspectDetails) {
@@ -44,6 +52,7 @@ export class ApplicantDataStoreService {
     this.applicant.indivProspectProfileDetails = value;
   }
   setAddressDetails(value : AddressDetails[]){
+    console.log('setAddressDetails', value)
     this.applicant.addressDetails = value;
   }
   setIndivIdentityInfoDetails(value : IndivIdentityInfoDetails){

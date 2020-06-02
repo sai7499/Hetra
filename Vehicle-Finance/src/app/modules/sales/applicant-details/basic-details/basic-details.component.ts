@@ -25,7 +25,7 @@ export class BasicDetailsComponent implements OnInit {
   isSelfEmployed = true;
   labels: any = {};
   applicantLov: LOVS;
-  applicantId: number;
+  applicantId: number | string= '';
   applicant: Applicant;
   designation = [
     {
@@ -68,6 +68,7 @@ export class BasicDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
+      this.applicantDataService.setApplicantId(this.applicantId);
       this.getApplicantDetails();
     });
     // setTimeout(() => {

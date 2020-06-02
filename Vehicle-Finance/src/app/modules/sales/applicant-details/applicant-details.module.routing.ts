@@ -21,7 +21,7 @@ const routes: Routes = [
         component: IdentityDetailsComponent,
       },
       {
-        path: 'address-details',
+        path: 'address-details/:applicantId',
         component: AddressDetailsComponent,
       },
       {

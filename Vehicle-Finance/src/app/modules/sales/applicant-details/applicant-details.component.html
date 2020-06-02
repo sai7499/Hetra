@@ -29,7 +29,8 @@
           id="sales_additional_applicant_address"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 2 }"
-          [routerLink]="['./address-details']"
+          
+          (click)="onNavigate('/pages/sales-applicant-details/address-details')"
         >
           Address Details
         </button>

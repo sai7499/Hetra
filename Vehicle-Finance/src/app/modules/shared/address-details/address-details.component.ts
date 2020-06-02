@@ -51,6 +51,7 @@ export class AddressDetailsComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       
+      
     });
     this.getAddressDetails();
   }
@@ -438,13 +439,14 @@ export class AddressDetailsComponent implements OnInit {
     const value = this.addressForm.value;
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
-      this.applicantDataService.setAddressDetails(null)
+     
 
     }else {
       this.storeNonIndividualValueInService(value);
-      this.applicantDataService.setAddressDetails(null)
+      
     }
     const applicantData = this.applicantDataService.getApplicant();
+    console.log('applicantData',applicantData)
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
@@ -455,9 +457,9 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   storeIndividualValueInService(value){
-    const applicantDetails : ApplicantDetails={}
-    applicantDetails.entityType = value.entity
-    this.applicantDataService.setApplicantDetails(applicantDetails)
+    const applicantDetails : ApplicantDetails= {}
+    applicantDetails.entityType = value.entity;
+    this.applicantDataService.setApplicantDetails(applicantDetails);
     
     const permenantAdress : AddressDetails= {}
     const permanantAddressObject = value.details[0].permanantAddress
@@ -506,7 +508,7 @@ export class AddressDetailsComponent implements OnInit {
 
     
      currentAddress.accommodationType= currentAddressObject.accommodationType;
-     currentAddress.periodOfCurrentStay= currentAddressObject.periodOfCurrentStay;
+     currentAddress.periodOfCurrentStay= Number(currentAddressObject.periodOfCurrentStay);
      currentAddress.landlineNumber= currentAddressObject.landlineNumber;
      currentAddress.mobileNumber= currentAddressObject.mobileNumber;
      currentAddress.isCurrAddSameAsPermAdd= this.isCurrAddSameAsPermAdd
@@ -532,7 +534,7 @@ export class AddressDetailsComponent implements OnInit {
      officeAddress.district= 1;
 
      officeAddress.accommodationType= officeAddressObject.accommodationType;
-     officeAddress.periodOfCurrentStay= officeAddressObject.periodOfCurrentStay;
+     officeAddress.periodOfCurrentStay= Number(officeAddressObject.periodOfCurrentStay);
      officeAddress.landlineNumber= officeAddressObject.landlineNumber;
      officeAddress.mobileNumber= officeAddressObject.mobileNumber;
      officeAddress.isCurrAddSameAsPermAdd= this.isCurrAddSameAsPermAdd
@@ -547,9 +549,6 @@ export class AddressDetailsComponent implements OnInit {
    
   }
   storeNonIndividualValueInService(value){
-    const applicantDetails : ApplicantDetails={}
-    applicantDetails.entityType = value.entity
-    this.applicantDataService.setApplicantDetails(applicantDetails)
     
     const registeredAddress : AddressDetails={}
     const registeredAddressObject = value.details[0].registeredAddress
