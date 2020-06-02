@@ -8,13 +8,17 @@ import { CoApplicantComponent } from "./co-applicant/co-applicant.component";
 import { SourcingDetailsComponent } from './sourcing-details/sourcing-details.component';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 import { CreditScoreComponent } from './credit-score/credit-score.component';
-import { ExactMatchComponent} from './exact-match/exact-match.component';
-import { OtpSectionComponent} from './otp-section/otp-section.component'
+import { ExactMatchComponent } from './exact-match/exact-match.component';
+import { OtpSectionComponent } from './otp-section/otp-section.component'
+import { LeadDataResolverService } from './services/leadDataResolver.service';
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":leadId",
     component: LeadSectionComponent,
+    resolve: { leadData: LeadDataResolverService },
+
+
     children: [
 
       {
@@ -36,27 +40,27 @@ const routes: Routes = [
         path: "co-applicant",
         component: CoApplicantComponent
       },
-        
+
       {
-        path : "add-vehicle",
+        path: "add-vehicle",
         component: AddvehicleComponent
       },
       {
-        path : "credit-score",
-        component : CreditScoreComponent
+        path: "credit-score",
+        component: CreditScoreComponent
       },
       {
-        path : "exact-match",
-        component : ExactMatchComponent
+        path: "exact-match",
+        component: ExactMatchComponent
       },
       {
-        path : "otp-section",
-        component : OtpSectionComponent
+        path: "otp-section",
+        component: OtpSectionComponent
       }
 
-     
-  
-      
+
+
+
     ]
   }
 ];
@@ -65,4 +69,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LeadCreationRouterModule {}
+export class LeadCreationRouterModule { }

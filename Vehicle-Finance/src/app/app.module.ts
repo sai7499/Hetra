@@ -34,6 +34,7 @@ import {
   POSITION,
   PB_DIRECTION
 } from 'ngx-ui-loader';
+import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
@@ -80,6 +81,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BrowserAnimationsModule,
     CommonModule,
     LovResolverService,
+    LeadDataResolverService,
     CommomLovService,
     UtilityService,
     Authguard,
