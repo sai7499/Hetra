@@ -50,7 +50,10 @@
                            
                             <option value="Mrs" selected>Mrs</option>                                                   
                         </select>  -->
-          <app-vf-custom-select formControlName="title" [values]="LOV.LOVS.salutation" ></app-vf-custom-select>
+          <app-vf-custom-select
+            formControlName="title"
+            [values]="LOV.LOVS.salutation"
+          ></app-vf-custom-select>
         </div>
       </div>
       <ng-container formArrayName="details">
@@ -765,21 +768,20 @@
       <!-- Non-Individual Section End-->
     </div>
   </form>
-</div>
-
-<div class="row">
-  <div class="col-sm-5">
-    <button class="btn btn-primary dash_href">
-      <a href="credit_application_details.html">Back To Applicant Details</a>
-    </button>
-  </div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href" type="button">
-      <a href="">Back</a>
-    </button>
-    <button class="btn btn-primary" (click)="onSubmit()">Save</button>
-    <button class="btn btn-primary dash_href" type="button">
-      <a href="">Next</a>
-    </button>
+  <div class="row">
+    <div class="col-sm-5">
+      <button class="btn btn-primary dash_href">
+        <a href="credit_application_details.html">Back To Applicant Details</a>
+      </button>
+    </div>
+    <div class="col-sm-7 text-right">
+      <button class="btn btn-primary dash_href" type="button">
+        <a href="">Back</a>
+      </button>
+      <button class="btn btn-primary" (click)="onSubmit()">Save</button>
+      <button class="btn btn-primary dash_href" type="button">
+        <a href="">Next</a>
+      </button>
+    </div>
   </div>
 </div>

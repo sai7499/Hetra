@@ -13,6 +13,10 @@ const routes: Routes = [
     component: ApplicantDetailsComponent,
     children: [
       {
+        path: 'basic-details',
+        component: BasicDetailsComponent,
+      },
+      {
         path: 'basic-details/:applicantId',
         component: BasicDetailsComponent,
       },
@@ -21,11 +25,23 @@ const routes: Routes = [
         component: IdentityDetailsComponent,
       },
       {
+        path: 'identity-details/:applicantId',
+        component: IdentityDetailsComponent,
+      },
+      {
+        path: 'address-details',
+        component: AddressDetailsComponent,
+      },
+      {
         path: 'address-details/:applicantId',
         component: AddressDetailsComponent,
       },
       {
         path: 'document-upload',
+        component: DocumentUploadComponent,
+      },
+      {
+        path: 'document-upload/:applicantId',
         component: DocumentUploadComponent,
       },
     ],
