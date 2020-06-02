@@ -112,6 +112,7 @@ export interface CorporateProspectDetails {
   corporateIdentificationNumber?: string;
   gstNumber?: string;
   panNumber?: string;
+  panType?: string;
   aadhar?: string;
   passportNumber?: string;
   passportIssueDate?: string;
@@ -128,6 +129,8 @@ export interface CorporateProspectDetails {
 export interface IndivIdentityInfoDetails {
   form60?: string;
   pan?: string;
+  panType?: string;
+  panTypeValue?: string;
   aadhar?: string;
   passportNumber?: string;
   passportIssueDate?: string;

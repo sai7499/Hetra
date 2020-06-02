@@ -17,9 +17,10 @@ export class ApplicantDetailsComponent implements OnInit {
 
   labels: any = {};
   applicantDetails = [];
-  isAlert : boolean = true;
+  isAlert: boolean = true;
   values : any;
   applicantList: ApplicantList [] = [];
+  p = 1;
 
   constructor(
     private route: Router,

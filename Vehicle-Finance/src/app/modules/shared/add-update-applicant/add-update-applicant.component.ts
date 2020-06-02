@@ -9,6 +9,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 import { SaveUpdateApplicantService } from '@services/add-update-applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ApplicantService } from '@services/applicant.service';
+import { UtilityService } from '@services/utility.service';
 import {
   Applicant,
   ApplicantDetails,
@@ -37,6 +38,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   applicantType = 'INDIVENTTYP';
 
+  panValue = '1PANTYPE';
+
   applicantDetails: ApplicantDetails;
 
   aboutIndivProspectDetails: IndividualProspectDetails;
@@ -48,10 +51,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   corporateProspectDetails: CorporateProspectDetails;
 
   addressDetails: AddressDetails[];
+  isPanDisabled: boolean;
 
   selectApplicantType(event: any) {
     console.log(this.applicantType);
     this.applicantType = event.target.value;
+  }
+
+  getPanValue(event: any) {
+    this.panValue = event.target.value;
+    console.log('PanValue', this.panValue);
+    this.isPanDisabled = this.panValue === '1PANTYPE' ? false : true;
+    console.log('ispandisabled' , this.isPanDisabled);
+    if (this.isPanDisabled) {
+    this.coApplicantForm.controls['pan'].disable();
+    } else {
+      this.coApplicantForm.controls['pan'].enable();
+    }
   }
 
   constructor(
@@ -62,7 +78,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     // private saveUpdateApplicant: SaveUpdateApplicantService,
     private applicantService: ApplicantService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+    private utilityService: UtilityService
   ) {}
 
   ngOnInit() {
@@ -137,9 +154,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       mobilePhone: new FormControl(''),
       dob: new FormControl(''),
       dateOfIncorporation: new FormControl(''),
+      voterIdNumber: new FormControl(''),
       identity_type: new FormControl(''),
       aadhar: new FormControl(''),
       form60: new FormControl(''),
+      panType: new FormControl(''),
       pan: new FormControl(''),
       // drivinglicense: new FormControl(''),
       passportNumber: new FormControl(''),
@@ -201,6 +220,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
     );
   }
+
+  getFormateDate(date: string) {
+    if (!date) {
+      return '';
+    }
+    date = date.split('/').reverse().join('-');
+    return date;
+  }
   getDetails() {
     // let pan,aadhar,mobile,dob,dateOfIncorporation;
     const details: any = {};
@@ -212,29 +239,31 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.pan = this.applicant.indivIdentityInfoDetails.pan;
       details.aadhar = this.applicant.indivIdentityInfoDetails.aadhar;
       details.mobile = this.applicant.aboutIndivProspectDetails.mobilePhone;
-      //details.dob = format(new Date(this.applicant.aboutIndivProspectDetails.dob), 'YYYY-MM-DD');
-      details.dob = this.applicant.aboutIndivProspectDetails.dob;
+      details.panType = this.applicant.indivIdentityInfoDetails.panType;
+      details.voterIdNumber = this.applicant.indivIdentityInfoDetails.voterIdNumber;
+     // const DOB = this.applicant.aboutIndivProspectDetails.dob;
+      details.dob = this.getFormateDate(this.applicant.aboutIndivProspectDetails.dob);
+      console.log('PantYPE Format While patching pancard', details.panType);
+      //details.dob = this.applicant.aboutIndivProspectDetails.dob;
       details.passportNumber = this.applicant.indivIdentityInfoDetails.passportNumber;
-      // details.passportIssueDate = format(new Date(this.applicant.indivIdentityInfoDetails.passportIssueDate), 'yyyy-MM-dd');
-      // details.passportExpiryDate = format(new Date(this.applicant.indivIdentityInfoDetails.passportExpiryDate), 'yyyy-MM-dd');
+      details.passportIssueDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.passportIssueDate);
+      details.passportExpiryDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.passportExpiryDate);
       details.drivingLicenseNumber = this.applicant.indivIdentityInfoDetails.drivingLicenseNumber;
-      // details.drivingLicenseIssueDate = format(new Date(this.applicant.indivIdentityInfoDetails.drivingLicenseIssueDate), 'yyyy-MM-dd');
-      // details.drivingLicenseExpiryDate = format(new Date(this.applicant.indivIdentityInfoDetails.drivingLicenseExpiryDate), 'yyyy-MM-dd');
+      details.drivingLicenseIssueDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.drivingLicenseIssueDate);
+      details.drivingLicenseExpiryDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.drivingLicenseExpiryDate);
     } else {
       details.pan = this.applicant.corporateProspectDetails.panNumber;
       details.aadhar = this.applicant.corporateProspectDetails.aadhar;
       details.mobile = this.applicant.corporateProspectDetails.companyPhoneNumber;
-      //details.dateOfIncorporation = format(new Date(this.applicant.corporateProspectDetails.dateOfIncorporation), 'yyyy-MM-dd');
+      details.panType = this.applicant.corporateProspectDetails.panType;
+      details.dateOfIncorporation = this.getFormateDate(this.applicant.corporateProspectDetails.dateOfIncorporation);
       details.passportNumber = this.applicant.corporateProspectDetails.passportNumber;
-      // details.passportIssueDate = format(new Date(this.applicant.corporateProspectDetails.passportIssueDate), 'yyyy-MM-dd');
-      // details.passportExpiryDate = format(new Date(this.applicant.corporateProspectDetails.passportExpiryDate), 'yyyy-MM-dd');
+      details.passportIssueDate = this.getFormateDate(this.applicant.corporateProspectDetails.passportIssueDate);
+      details.passportExpiryDate = this.getFormateDate(this.applicant.corporateProspectDetails.passportExpiryDate);
       details.drivingLicenseNumber = this.applicant.corporateProspectDetails.drivingLicenseNumber;
-      // details.drivingLicenseIssueDate = format(new Date(this.applicant.corporateProspectDetails.drivingLicenseIssueDate), 'yyyy-MM-dd');
-      // details.drivingLicenseExpiryDate = format(new Date(this.applicant.corporateProspectDetails.drivingLicenseExpiryDate), 'yyyy-MM-dd');
-      console.log(
-        'Entity TYPE IN APPLICANT Get DETAILS CALL',
-        this.applicantType
-      );
+      details.drivingLicenseIssueDate = this.getFormateDate(this.applicant.corporateProspectDetails.drivingLicenseIssueDate);
+      details.drivingLicenseExpiryDate = this.getFormateDate(this.applicant.corporateProspectDetails.drivingLicenseExpiryDate);
+      details.voterIdNumber = this.applicant.corporateProspectDetails.voterIdNumber;
     }
     return details;
   }
@@ -261,7 +290,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         dob: details.dob || '',
         dateOfIncorporation: details.dateOfIncorporation || '',
         identity_type: applicantValue.identity_type || '',
+        panType: details.panType,
         aadhar: details.aadhar || '',
+        voterIdNumber: details.voterIdNumber,
         //panform: details.form60 || '',
         pan: details.pan || '',
         // drivinglicense: applicantValue.drivinglicense || '',
@@ -401,7 +432,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     //   title: 'MRSALUTATION',
     //   customerCategory: 'SALCUSTCAT'
     // };
-
+    const DOB = this.utilityService.getDateFormat(coApplicantModel.dob);
+    console.log('Formatted DOB', DOB);
     this.aboutIndivProspectDetails = {
       dob: coApplicantModel.dob,
       mobilePhone: coApplicantModel.mobilePhone,
@@ -425,6 +457,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (this.applicantType === 'INDIVENTTYP') {
       this.indivIdentityInfoDetails = {
         form60: coApplicantModel.form60,
+        panType: coApplicantModel.panType,
         pan: coApplicantModel.pan,
         aadhar: coApplicantModel.aadhar,
         passportNumber: coApplicantModel.passportNumber,
@@ -433,12 +466,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
         drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
         drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
-        // voterIdNumber: '1234567',
+        voterIdNumber: coApplicantModel.voterIdNumber,
         // voterIdIssueDate: '21-Mar-2020',
         // voterIdExpiryDate: '21-Mar-2021'
       };
     }
-
+    console.log('ApplicantPanType', this.indivIdentityInfoDetails.panType);
     this.indivProspectProfileDetails = {
       employerType: 'test',
       employerName: 'Appiyo Technologies',
