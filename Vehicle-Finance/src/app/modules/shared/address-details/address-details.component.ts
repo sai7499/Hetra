@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
-import { AddressDetails, Applicant, ApplicantDetails } from '@model/applicant.model';
+import {
+  AddressDetails,
+  Applicant,
+  ApplicantDetails,
+} from '@model/applicant.model';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { Address } from 'cluster';
@@ -17,7 +21,7 @@ import { Address } from 'cluster';
 export class AddressDetailsComponent implements OnInit {
   isIndividual = true;
   addressForm: FormGroup;
-  addressDetailsDataArray : any =[];
+  addressDetailsDataArray: any = [];
 
   dropDownValues: any = [];
   isSalesOrCredit: string;
@@ -26,7 +30,7 @@ export class AddressDetailsComponent implements OnInit {
   address: Applicant;
   applicantId: number;
 
-  isCurrAddSameAsPermAdd : any =0;
+  isCurrAddSameAsPermAdd: any = 0;
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
 
@@ -50,10 +54,8 @@ export class AddressDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
-      
-      
+      this.getAddressDetails();
     });
-    this.getAddressDetails();
   }
   initForm() {
     this.addressForm = new FormGroup({
@@ -79,7 +81,7 @@ export class AddressDetailsComponent implements OnInit {
       return;
     }
     const value = event.target.value;
-    console.log('value', value)
+    console.log('value', value);
     this.isIndividual = value === 'INDIVENTTYP';
     const formArray = this.addressForm.get('details') as FormArray;
     formArray.clear();
@@ -229,10 +231,10 @@ export class AddressDetailsComponent implements OnInit {
 
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
-    console.log('this.indi', this.isIndividual)
+    console.log('this.indi', this.isIndividual);
     this.clearFormArray();
     this.addressForm.patchValue({
-      entity : this.address.applicantDetails.entityTypeKey
+      entity: this.address.applicantDetails.entityTypeKey,
     });
     if (this.isIndividual) {
       this.addIndividualFormControls();
@@ -244,19 +246,17 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   setValuesForIndividual() {
-    
-    const addressObj = this.getAddressObj()
-    console.log('addressObj',addressObj)
-    
+    const addressObj = this.getAddressObj();
+    console.log('addressObj', addressObj);
+
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
 
-    const permenantAddressObj= addressObj['PERMADDADDTYP']
-    console.log('objectpermananentAddress--', permenantAddressObj)
-    if(permenantAddressObj){
+    const permenantAddressObj = addressObj['PERMADDADDTYP'];
+    console.log('objectpermananentAddress--', permenantAddressObj);
+    if (permenantAddressObj) {
       const permenantAddress = details.get('permanantAddress');
       permenantAddress.patchValue({
-
         addressLineOne: permenantAddressObj.addressLineOne,
         addressLineTwo: permenantAddressObj.addressLineTwo,
         addressLineThree: permenantAddressObj.addressLineThree,
@@ -268,19 +268,19 @@ export class AddressDetailsComponent implements OnInit {
         landlineNumber: permenantAddressObj.landlineNumber,
       });
     }
-    
+
     console.log('details', details);
   }
 
   setValuesForNonIndividual() {
     const addressObj = this.getAddressObj();
-    console.log('addressObj',addressObj)
-    
+    console.log('addressObj', addressObj);
+
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const registeredAddressObj = addressObj['REGADDADDTYP']
-    if(registeredAddressObj){
-      const registeredAddress= details.get('registeredAddress')
+    const registeredAddressObj = addressObj['REGADDADDTYP'];
+    if (registeredAddressObj) {
+      const registeredAddress = details.get('registeredAddress');
       registeredAddress.patchValue({
         addressLineOne: registeredAddressObj.addressLineOne,
         addressLineTwo: registeredAddressObj.addressLineTwo,
@@ -293,51 +293,44 @@ export class AddressDetailsComponent implements OnInit {
         landlineNumber: registeredAddressObj.landlineNumber,
       });
     }
-    
   }
 
-  getAddressObj(){
-   const address = this.address.addressDetails;
-   const addressObj = {};
-    if(address) {
-      
+  getAddressObj() {
+    const address = this.address.addressDetails;
+    const addressObj = {};
+    if (address) {
       address.forEach((value) => {
-        
-          if(value.addressType === 'PERMADDADDTYP') {
-              addressObj['PERMADDADDTYP'] = value;
-          }
-          else if(value.addressType === 'COMMADDADDTYP') {
-              addressObj['COMMADDADDTYP'] = value;
-          }
-          else if(value.addressType === 'OFFADDADDTYP') {
-            addressObj['OFFADDADDTYP'] = value;
-          }
-          else if(value.addressType === 'REGADDADDTYP') {
-            addressObj['REGADDADDTYP'] = value;
-          }
-          else if(value.addressType === 'CURRADDADDTYP') {
-            addressObj['CURRADDADDTYP'] = value;
+        if (value.addressType === 'PERMADDADDTYP') {
+          addressObj['PERMADDADDTYP'] = value;
+        } else if (value.addressType === 'COMMADDADDTYP') {
+          addressObj['COMMADDADDTYP'] = value;
+        } else if (value.addressType === 'OFFADDADDTYP') {
+          addressObj['OFFADDADDTYP'] = value;
+        } else if (value.addressType === 'REGADDADDTYP') {
+          addressObj['REGADDADDTYP'] = value;
+        } else if (value.addressType === 'CURRADDADDTYP') {
+          addressObj['CURRADDADDTYP'] = value;
         }
-      })
-  }
-  return addressObj;
+      });
+    }
+    return addressObj;
   }
 
   clearFormArray() {
     const formArray = this.addressForm.get('details') as FormArray;
     formArray.clear();
-}
+  }
 
   isSameAddress(event) {
     const isChecked = event.target.checked;
     console.log('event', isChecked);
     this.getPermanentAddressValue();
-    this.isCurrAddSameAsPermAdd = isChecked=== true? 1: 0
+    this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     this.getRegisteredAddressValue();
-    this.isCurrAddSameAsPermAdd = isChecked=== true? 1: 0
+    this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
 
   getPermanentAddressValue() {
@@ -439,14 +432,11 @@ export class AddressDetailsComponent implements OnInit {
     const value = this.addressForm.value;
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
-     
-
-    }else {
+    } else {
       this.storeNonIndividualValueInService(value);
-      
     }
     const applicantData = this.applicantDataService.getApplicant();
-    console.log('applicantData',applicantData)
+    console.log('applicantData', applicantData);
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
@@ -456,151 +446,148 @@ export class AddressDetailsComponent implements OnInit {
     });
   }
 
-  storeIndividualValueInService(value){
-    const applicantDetails : ApplicantDetails= {}
+  storeIndividualValueInService(value) {
+    const applicantDetails: ApplicantDetails = {};
     applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
-    
-    const permenantAdress : AddressDetails= {}
-    const permanantAddressObject = value.details[0].permanantAddress
-    console.log('permanantAddressObject', permanantAddressObject)
-    permenantAdress.addressType="PERMADDADDTYP"
-    permenantAdress.addressLineOne= permanantAddressObject.addressLineOne;
-    permenantAdress.addressLineTwo= permanantAddressObject.addressLineOne;
-    permenantAdress.addressLineThree= permanantAddressObject.addressLineOne;
+
+    const permenantAdress: AddressDetails = {};
+    const permanantAddressObject = value.details[0].permanantAddress;
+    console.log('permanantAddressObject', permanantAddressObject);
+    permenantAdress.addressType = 'PERMADDADDTYP';
+    permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
+    permenantAdress.addressLineTwo = permanantAddressObject.addressLineOne;
+    permenantAdress.addressLineThree = permanantAddressObject.addressLineOne;
     // permenantAdress.pincode= permanantAddressObject.pinCode;
     // permenantAdress.city= permanantAddressObject.city;
     // permenantAdress.state= permanantAddressObject.state;
     // permenantAdress.country= permanantAddressObject.country;
     // permenantAdress.district= permanantAddressObject.district;
-    permenantAdress.pincode= 1;
-    permenantAdress.city= 1
-    permenantAdress.state= 1;
-    permenantAdress.country= "IN";
-    permenantAdress.district= 1;
+    permenantAdress.pincode = 1;
+    permenantAdress.city = 1;
+    permenantAdress.state = 1;
+    permenantAdress.country = 'IN';
+    permenantAdress.district = 1;
 
-
-    permenantAdress.landlineNumber= permanantAddressObject.landlineNumber;
-    permenantAdress.isCurrAddSameAsPermAdd=this.isCurrAddSameAsPermAdd;
+    permenantAdress.landlineNumber = permanantAddressObject.landlineNumber;
+    permenantAdress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
     this.addressDetailsDataArray.push(permenantAdress);
 
-     const currentAddress : AddressDetails ={}
-     const currentAddressObject = value.details[0].currentAddress
-     console.log('currentAddressObject', currentAddressObject);
-     currentAddress.addressType="CURRADDADDTYP"
-     currentAddress.addressLineOne= currentAddressObject.addressLineOne;
-     currentAddress.addressLineTwo= currentAddressObject.addressLineOne;
-     currentAddress.addressLineThree= currentAddressObject.addressLineOne;
-     currentAddress.pincode= currentAddressObject.pinCode;
+    const currentAddress: AddressDetails = {};
+    const currentAddressObject = value.details[0].currentAddress;
+    console.log('currentAddressObject', currentAddressObject);
+    currentAddress.addressType = 'CURRADDADDTYP';
+    currentAddress.addressLineOne = currentAddressObject.addressLineOne;
+    currentAddress.addressLineTwo = currentAddressObject.addressLineOne;
+    currentAddress.addressLineThree = currentAddressObject.addressLineOne;
+    currentAddress.pincode = currentAddressObject.pinCode;
     //  currentAddress.city= currentAddressObject.city;
     //  currentAddress.state= currentAddressObject.state;
     //  currentAddress.country= currentAddressObject.country;
     //  currentAddress.district= currentAddressObject.district;
 
-    currentAddress.pincode= 1;
-    currentAddress.city= 1
-    currentAddress.state= 1;
-    currentAddress.country= "IN";
-    currentAddress.district= 1;
+    currentAddress.pincode = 1;
+    currentAddress.city = 1;
+    currentAddress.state = 1;
+    currentAddress.country = 'IN';
+    currentAddress.district = 1;
 
+    currentAddress.accommodationType = currentAddressObject.accommodationType;
+    currentAddress.periodOfCurrentStay = Number(
+      currentAddressObject.periodOfCurrentStay
+    );
+    currentAddress.landlineNumber = currentAddressObject.landlineNumber;
+    currentAddress.mobileNumber = currentAddressObject.mobileNumber;
+    currentAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
+    this.addressDetailsDataArray.push(currentAddress);
 
-    
-     currentAddress.accommodationType= currentAddressObject.accommodationType;
-     currentAddress.periodOfCurrentStay= Number(currentAddressObject.periodOfCurrentStay);
-     currentAddress.landlineNumber= currentAddressObject.landlineNumber;
-     currentAddress.mobileNumber= currentAddressObject.mobileNumber;
-     currentAddress.isCurrAddSameAsPermAdd= this.isCurrAddSameAsPermAdd
-
-     this.addressDetailsDataArray.push(currentAddress);
-
-     const officeAddress : AddressDetails ={}
-     const officeAddressObject = value.details[0].officeAddress;
-     console.log('officeAddressObject',officeAddressObject);
-     officeAddress.addressType="OFFADDADDTYP"
-     officeAddress.addressLineOne= officeAddressObject.addressLineOne;
-     officeAddress.addressLineTwo= officeAddressObject.addressLineOne;
-     officeAddress.addressLineThree= officeAddressObject.addressLineOne;
+    const officeAddress: AddressDetails = {};
+    const officeAddressObject = value.details[0].officeAddress;
+    console.log('officeAddressObject', officeAddressObject);
+    officeAddress.addressType = 'OFFADDADDTYP';
+    officeAddress.addressLineOne = officeAddressObject.addressLineOne;
+    officeAddress.addressLineTwo = officeAddressObject.addressLineOne;
+    officeAddress.addressLineThree = officeAddressObject.addressLineOne;
     //  officeAddress.pincode= officeAddressObject.pinCode;
     //  officeAddress.city= officeAddressObject.city;
     //  officeAddress.state= officeAddressObject.state;
     //  officeAddress.country= officeAddressObject.country;
     //  officeAddress.district= officeAddressObject.district;
-    officeAddress.pincode= 1;
-     officeAddress.city= 1
-     officeAddress.state= 1;
-     officeAddress.country= "IN";
-     officeAddress.district= 1;
+    officeAddress.pincode = 1;
+    officeAddress.city = 1;
+    officeAddress.state = 1;
+    officeAddress.country = 'IN';
+    officeAddress.district = 1;
 
-     officeAddress.accommodationType= officeAddressObject.accommodationType;
-     officeAddress.periodOfCurrentStay= Number(officeAddressObject.periodOfCurrentStay);
-     officeAddress.landlineNumber= officeAddressObject.landlineNumber;
-     officeAddress.mobileNumber= officeAddressObject.mobileNumber;
-     officeAddress.isCurrAddSameAsPermAdd= this.isCurrAddSameAsPermAdd
+    officeAddress.accommodationType = officeAddressObject.accommodationType;
+    officeAddress.periodOfCurrentStay = Number(
+      officeAddressObject.periodOfCurrentStay
+    );
+    officeAddress.landlineNumber = officeAddressObject.landlineNumber;
+    officeAddress.mobileNumber = officeAddressObject.mobileNumber;
+    officeAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
-     this.addressDetailsDataArray.push(officeAddress)
-     console.log('addressDetailsDataArray',this.addressDetailsDataArray)
-    
-     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
+    this.addressDetailsDataArray.push(officeAddress);
+    console.log('addressDetailsDataArray', this.addressDetailsDataArray);
 
-     
-
-   
+    this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
-  storeNonIndividualValueInService(value){
-    
-    const registeredAddress : AddressDetails={}
-    const registeredAddressObject = value.details[0].registeredAddress
-    console.log('registeredAddressObject',registeredAddressObject)
-    registeredAddress.addressType="REGADDADDTYP"
-    registeredAddress.addressLineOne= registeredAddressObject.addressLineOne;
-    registeredAddress.addressLineTwo= registeredAddressObject.addressLineOne;
-    registeredAddress.addressLineThree= registeredAddressObject.addressLineOne;
+  storeNonIndividualValueInService(value) {
+    const registeredAddress: AddressDetails = {};
+    const registeredAddressObject = value.details[0].registeredAddress;
+    console.log('registeredAddressObject', registeredAddressObject);
+    registeredAddress.addressType = 'REGADDADDTYP';
+    registeredAddress.addressLineOne = registeredAddressObject.addressLineOne;
+    registeredAddress.addressLineTwo = registeredAddressObject.addressLineOne;
+    registeredAddress.addressLineThree = registeredAddressObject.addressLineOne;
     // registeredAddress.pincode= registeredAddressObject.pinCode;
     // registeredAddress.city= registeredAddressObject.city;
     // registeredAddress.state= registeredAddressObject.state;
     // registeredAddress.country= registeredAddressObject.country;
     // registeredAddress.district= registeredAddressObject.district;
 
-    registeredAddress.pincode= 1;
-    registeredAddress.city= 1;
-    registeredAddress.state= 1;
-    registeredAddress.country= "IN";
-    registeredAddress.district= 1;
+    registeredAddress.pincode = 1;
+    registeredAddress.city = 1;
+    registeredAddress.state = 1;
+    registeredAddress.country = 'IN';
+    registeredAddress.district = 1;
 
-    registeredAddress.landlineNumber= registeredAddressObject.landlineNumber;
-    registeredAddress.mobileNumber= registeredAddressObject.mobileNumber;
-    registeredAddress.isCurrAddSameAsPermAdd= this.isCurrAddSameAsPermAdd
+    registeredAddress.landlineNumber = registeredAddressObject.landlineNumber;
+    registeredAddress.mobileNumber = registeredAddressObject.mobileNumber;
+    registeredAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
     this.addressDetailsDataArray.push(registeredAddress);
 
-    const communicationAddress : AddressDetails={}
+    const communicationAddress: AddressDetails = {};
     const communicationAddressObject = value.details[0].communicationAddress;
-    console.log('communicationAddressObject',communicationAddressObject);
-    communicationAddress.addressType="COMMADDADDTYP"
-    communicationAddress.addressLineOne= communicationAddressObject.addressLineOne;
-    communicationAddress.addressLineTwo= communicationAddressObject.addressLineOne;
-    communicationAddress.addressLineThree= communicationAddressObject.addressLineOne;
+    console.log('communicationAddressObject', communicationAddressObject);
+    communicationAddress.addressType = 'COMMADDADDTYP';
+    communicationAddress.addressLineOne =
+      communicationAddressObject.addressLineOne;
+    communicationAddress.addressLineTwo =
+      communicationAddressObject.addressLineOne;
+    communicationAddress.addressLineThree =
+      communicationAddressObject.addressLineOne;
     // communicationAddress.pincode= communicationAddressObject.pinCode;
     // communicationAddress.city= communicationAddressObject.city;
     // communicationAddress.state= communicationAddressObject.state;
     // communicationAddress.country= communicationAddressObject.country;
     // communicationAddress.district= communicationAddressObject.district;
-    communicationAddress.pincode= 1;
-    communicationAddress.city= 1;
-    communicationAddress.state= 1;
-    communicationAddress.country= "IN";
-    communicationAddress.district= 1;
+    communicationAddress.pincode = 1;
+    communicationAddress.city = 1;
+    communicationAddress.state = 1;
+    communicationAddress.country = 'IN';
+    communicationAddress.district = 1;
 
-    communicationAddress.landlineNumber= communicationAddressObject.landlineNumber;
-    communicationAddress.isCurrAddSameAsPermAdd= this.isCurrAddSameAsPermAdd;
+    communicationAddress.landlineNumber =
+      communicationAddressObject.landlineNumber;
+    communicationAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
-    this.addressDetailsDataArray.push(communicationAddress)
+    this.addressDetailsDataArray.push(communicationAddress);
     console.log('addressDetailsDataArray', this.addressDetailsDataArray);
 
-    this.applicantDataService.setAddressDetails(this.addressDetailsDataArray)
-
-
+    this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
 }
