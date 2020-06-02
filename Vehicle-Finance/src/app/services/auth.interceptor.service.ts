@@ -15,6 +15,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 export class AuthInterceptor implements HttpInterceptor {
 
+    apiCount: number = 0;
+
     constructor(
         private encrytionService: EncryptService,
         private utilityService: UtilityService,
@@ -24,6 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // console.log('auth', localStorage.getItem('token'))
         this.ngxUiLoaderService.start();
+        this.apiCount++;
         let httpMethod = req.method;
         console.log("Before Encryption", req.body);
         if (httpMethod == 'POST') {
@@ -66,11 +69,15 @@ export class AuthInterceptor implements HttpInterceptor {
                               this.utilityService.logOut();
                           }
                     }
-                    console.log("after Encryption: ", event.body);
-                    this.ngxUiLoaderService.stop();
+                    this.apiCount--;
+                    if (this.apiCount === 0) {
+                        this.ngxUiLoaderService.stop();
+                    }
                     return event;
                 } else {
-                    this.ngxUiLoaderService.stop();
+                    if (this.apiCount === 0) {
+                        this.ngxUiLoaderService.stop();
+                    }
                 }
 
             }, (err: any) => {

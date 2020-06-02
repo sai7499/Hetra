@@ -1,19 +1,23 @@
+export default interface Qde {
+  lead ?: Lead;
+}
+
 export interface Lead {
   loanLeadDetails?: LoanLeadDetails;
-  applicantDetails?: ApplicantDetails;
+  applicantDetails?: Array<ApplicantDetails>;
   sourcingDetails?: SourcingDetails;
   productDetails?: ProductDetails;
   loanDetails?: LoanDetails;
-  vehicleDetails?: VehicleDetails;
+  vehicleDetails?: Array<VehicleDetails>;
 }
 
 export interface LoanLeadDetails {
-  bizDivision?: number;
+  bizDivision?: string;
   productCategory?: number;
-  priority?: number;
-  fundingProgram?: number;
-  sourcingChannel?: number;
-  sourcingType?: number;
+  priority?: string;
+  fundingProgram?: string;
+  sourcingChannel?: string;
+  sourcingType?: string;
   sourcingCode?: string;
   spokeCodeLocation?: number;
   loanBranch?: number;
@@ -26,33 +30,7 @@ export interface ApplicantDetails {
   nameTwo?: string;
   nameThree?: string;
   mobile?: string;
-  dateOfBirth?: string;
-  businessDivision?: number;
-  productCategory?: number;
-  childLoan?: number;
-  schemePromotion?: number;
-  subventionApplied?: number;
-  subvention?: number;
-  sourcingChannel?: number;
-  sourcingType?: number;
-  sourcingCode?: number;
-  spokeCodeLocation?: number;
-  loanAccountBranch?: number;
-  leadHandledBy?: number;
-  // entity?: number;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  companyName1?: string;
-  companyName2?: string;
-  companyName3?: string;
-  // mobile?: string;
-  // dateOfBirth?: string;
-  dateOfIncorporation?: string;
-  sourcingDetails?: SourcingDetails;
-  productDetails?: ProductDetails;
-  loanDetails?: LoanDetails;
-  vehicleDetails?: VehicleDetails;
+  dobOrDoc?: string;
 }
 
 export interface SourcingDetails {

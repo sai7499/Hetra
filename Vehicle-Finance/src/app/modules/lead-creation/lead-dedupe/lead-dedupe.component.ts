@@ -101,8 +101,9 @@ export class LeadDedupeComponent implements OnInit {
           const apiError = response.ProcessVariables.error.code;
           if (appiyoError === '0' && apiError === '0') {
             const proceedAsNewLeadData = response.ProcessVariables;
+            const leadId = proceedAsNewLeadData.leadId;
             this.createLeadDataService.setLeadSectionData(proceedAsNewLeadData);
-            this.route.navigateByUrl('/pages/lead-section');
+            this.route.navigateByUrl(`/pages/lead-section/${leadId}`);
           }
         });
       }
@@ -117,8 +118,9 @@ export class LeadDedupeComponent implements OnInit {
       console.log('proceedWithSelectedLead', response);
       if (appiyoError === '0' && apiError === '0') {
         const proceedWithSelectedLeadData = response.ProcessVariables;
+        const leadId = proceedWithSelectedLeadData.leadId;
         this.createLeadDataService.setLeadSectionData(proceedWithSelectedLeadData);
-        this.route.navigateByUrl('/pages/lead-section');
+        this.route.navigateByUrl(`/pages/lead-section/${leadId}`);
       }
     });
   }

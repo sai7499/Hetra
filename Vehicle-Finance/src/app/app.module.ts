@@ -39,9 +39,11 @@ import {
   POSITION,
   PB_DIRECTION
 } from 'ngx-ui-loader';
+import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
+  fgsColor: '#fa6745',
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 100,
   bgsType: SPINNER.cubeGrid, // background spinner type
@@ -82,6 +84,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BrowserAnimationsModule,
     CommonModule,
     LovResolverService,
+    LeadDataResolverService,
     CommomLovService,
     UtilityService,
     Authguard,
