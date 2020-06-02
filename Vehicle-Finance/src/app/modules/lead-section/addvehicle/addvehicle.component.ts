@@ -5,9 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { VehicleDetailService } from '../services/vehicle-detail.service';
+import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { CommomLovService } from '@services/commom-lov-service';
-import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
+import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -51,7 +51,7 @@ export class AddvehicleComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
     private vehicleDetailService: VehicleDetailService,
-    private vehicleDataService: VehicleDataService) { }
+    private vehicleDataService: VehicleDataStoreService) { }
 
   ngOnInit() {
 

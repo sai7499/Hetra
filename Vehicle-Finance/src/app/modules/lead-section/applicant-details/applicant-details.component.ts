@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Location } from '@angular/common';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { LovDataService } from '@services/lov-data.service';
-import { element } from 'protractor';
+import { ApplicantService } from '@services/applicant.service';
+import { ApplicantList } from '@model/applicant.model';
 
 @Component({
   selector: 'app-applicant-details',
@@ -15,15 +16,20 @@ export class ApplicantDetailsComponent implements OnInit {
 
   labels: any = {};
   applicantDetails = [];
-  isAlert : boolean = true
-  values : any
+  isAlert: boolean = true;
+  values: any;
+  applicantList: ApplicantList[] = [];
 
   constructor(
     private route: Router,
+    private location: Location,
     private labelsData: LabelsService,
-    private leadStoreService: LeadStoreService,private lovData: LovDataService,) { }
+    private leadStoreService: LeadStoreService, private lovData: LovDataService,
+    private applicantService: ApplicantService) { }
 
   ngOnInit() {
+
+    const currentUrl = this.location.path();
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -33,35 +39,49 @@ export class ApplicantDetailsComponent implements OnInit {
       error => {
         console.log(error);
       });
-      this.lovData.getLovData().subscribe((res: any) => {
-        console.log(res, 'res');
-        this.values = res[0].addApplicant[0];
-        console.log(this.values, 'values');
-        this.values.entity= res[0].addApplicant[0].entity
-        console.log('value Entity', this.values.entity)
-        
-      });
-    this.getData();
+    this.lovData.getLovData().subscribe((res: any) => {
+      console.log(res, 'res');
+      this.values = res[0].addApplicant[0];
+      console.log(this.values, 'values');
+      this.values.entity = res[0].addApplicant[0].entity;
+      console.log('value Entity', this.values.entity)
+
+    });
+    // this.getData();
+    this.getApplicantList();
   }
 
-  getData() {
-    this.applicantDetails = this.leadStoreService.getApplicantList();
-    console.log('applicant Details', this.applicantDetails);
-    // console.log(this.applicantDetails[0].entity)
+  // getData() {
+  //   this.applicantDetails = this.leadStoreService.getApplicantList();
+  //   console.log('applicant Details', this.applicantDetails);
+  //   // console.log(this.applicantDetails[0].entity)
 
-    // this.applicantDetails.findIndex(x => x.entity === this.values.entity.forEach(element=>{
-    //   if(parseInt(x.entity)=== element.key){
-    //     x.entity = element;
-    //     console.log(x.entity)
-    //   }
-    // }))
-    
+  //   // this.applicantDetails.findIndex(x => x.entity === this.values.entity.forEach(element=>{
+  //   //   if(parseInt(x.entity)=== element.key){
+  //   //     x.entity = element;
+  //   //     console.log(x.entity)
+  //   //   }
+  //   // }))
+
+  // }
+
+  getApplicantList() {
+    const data = {
+      leadId: 3,
+    };
+    this.applicantService.getApplicantList(data).subscribe((value: any) => {
+      console.log('Applicantlist', value);
+      const processVariables = value.ProcessVariables;
+      console.log('ProcessVariables', processVariables);
+      this.applicantList = processVariables.applicantListForLead;
+      console.log('applicantList', this.applicantList);
+    });
   }
-  onSubmit(){
-    this.isAlert= false
+  onSubmit() {
+    this.isAlert = false
     setTimeout(() => {
-      this.isAlert=true
-    },1500);
+      this.isAlert = true
+    }, 1500);
   }
   onChange() {
     this.route.navigateByUrl('pages/lead-section/co-applicant');
@@ -69,11 +89,10 @@ export class ApplicantDetailsComponent implements OnInit {
 
   editApplicant(index: number) {
     console.log(index);
-    this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
+    this.route.navigate(['pages/lead-section/co-applicant', { id: index }]);
   }
 
-  deleteApplicant(index: number){
-console.log(index);
-this.leadStoreService.deleteApplicant(index);
+  deleteApplicant(index: number) {
+    this.leadStoreService.deleteApplicant(index);
   }
 }

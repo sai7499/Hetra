@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { VehicleDetailModel } from '../model/vehicle-detail-model';
+import { VehicleDetailModel } from '../modules/lead-section/model/vehicle-detail-model';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import RequestEntity from '../../../model/request.entity';
-import { HttpService } from '../../../services/http.service';
+import { environment } from '../../environments/environment';
+import RequestEntity from '../model/request.entity';
+import { HttpService } from './http.service';
 import { ApiService } from '@services/api.service';
 
 @Injectable({

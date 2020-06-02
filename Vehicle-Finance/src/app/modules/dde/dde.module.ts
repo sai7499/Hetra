@@ -13,7 +13,6 @@ import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
-import { ApplicantListComponent } from './applicant-list/applicant-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
@@ -28,7 +27,6 @@ import { DeviationsComponent } from './deviations/deviations.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 
-
 @NgModule({
   declarations: [
     DdeComponent,
@@ -41,7 +39,6 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     SourcingDdeComponent,
     ExposureDetailsComponent,
     IncomeDetailsComponent,
-    ApplicantListComponent,
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
@@ -60,7 +57,7 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    DdeSharedModule
-  ]
+    DdeSharedModule,
+  ],
 })
-export class DdeModule { }
+export class DdeModule {}

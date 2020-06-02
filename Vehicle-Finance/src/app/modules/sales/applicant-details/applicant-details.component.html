@@ -1,0 +1,50 @@
+<main class="mar-top90">
+  <div class="container overflow-hidden">
+    <h3 class="dashboard">QDE - Reference</h3>
+    <app-dde-header></app-dde-header>
+
+    <!--progress bar-->
+    <div class="multisteps-form">
+      <div class="multisteps-form__progress">
+        <button
+          class="multisteps-form__progress-btn js-active"
+          id="sales_additional_applicant_basic"
+          type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 0 }"
+          [routerLink]="['./basic-details']"
+        >
+          Basic Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_additional_applicant_identity"
+          type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 1 }"
+          [routerLink]="['./identity-details']"
+        >
+          Identity Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_additional_applicant_address"
+          type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 2 }"
+          
+          (click)="onNavigate('/pages/sales-applicant-details/address-details')"
+        >
+          Address Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_applicant_document_upload"
+          type="button"
+          [ngClass]="{ 'js-active': locationIndex >= 3 }"
+          [routerLink]="['./document-upload']"
+        >
+          Document Upload
+        </button>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</main>

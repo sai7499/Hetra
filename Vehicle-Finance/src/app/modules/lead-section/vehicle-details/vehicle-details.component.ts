@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { VehicleDetailService} from '../services/vehicle-detail.service';
+import { VehicleDetailService} from '../../../services/vehicle-detail.service';
 
 @Component({
   selector: 'app-vehicle-details',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 
-import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
+import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',

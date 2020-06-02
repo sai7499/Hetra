@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@ang
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
-import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
-import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
+import { VehicleDetailService } from '../../../services/vehicle-detail.service';
+import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
 import { LovDataService } from '@services/lov-data.service';
 import { ArrayType } from '@angular/compiler';
 
@@ -43,7 +43,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private commonLovService: CommomLovService,
     private vehicleDetailService: VehicleDetailService,
-    private vehicleDataService: VehicleDataService,
+    private vehicleDataService: VehicleDataStoreService,
     private lovDataService: LovDataService) { }
 
   ngOnInit() {
