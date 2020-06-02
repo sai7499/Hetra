@@ -14,11 +14,8 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub> </label>
-            <app-vf-custom-select 
-              [isDisabled]="isBusinessDivisionEnable"
-              [values]="businessDivision" 
-              formControlName="bizDivision"
-              (change)=getProductCategory($event)>
+            <app-vf-custom-select [isDisabled]="isBusinessDivisionEnable" [values]="businessDivision"
+              formControlName="bizDivision" (change)=getProductCategory($event)>
             </app-vf-custom-select>
           </div>
         </div>
@@ -26,23 +23,17 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{ labels.productCategory }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="productCategoryData" 
-              formControlName="productCategory">
+            <app-vf-custom-select [values]="productCategoryData" formControlName="productCategory">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="priority">{{ labels.priority }}</label>
-            <app-vf-custom-select 
-              [values]="[{key:'1',value:'Yes'},{key:'0',value:'No'}]"
-              formControlName="priority">
+            <app-vf-custom-select [values]="[{key:'1',value:'Yes'},{key:'0',value:'No'}]" formControlName="priority">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fundingProgram">{{ labels.fundingProgram }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="LOV.LOVS.fUNDINGPROGRAM" 
-              formControlName="fundingProgram">
+            <app-vf-custom-select [values]="LOV.LOVS.fundingProgram" formControlName="fundingProgram">
             </app-vf-custom-select>
           </div>
         </div>
@@ -50,38 +41,26 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_channel">{{ labels.sourcingChannel }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="LOV.LOVS.sourcingChannel" 
-              formControlName="sourcingChannel"
-              (change)="sourcingChannelChange($event)" 
-              name="sourcingChannel">
+            <app-vf-custom-select [values]="LOV.LOVS.sourcingChannel" formControlName="sourcingChannel"
+              (change)="sourcingChannelChange($event)" name="sourcingChannel">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_type">{{ labels.sourcingType }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="sourchingTypeValues" 
-              formControlName="sourcingType">
+            <app-vf-custom-select [values]="sourchingTypeValues" formControlName="sourcingType">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">{{ labels.sourcingCode }} <sub class="star_blue_col">*</sub></label>
-            <input 
-              formControlName="sourcingCode" 
-              type="text" 
-              class="form-control mandatory select2" 
-              id="sourcingCode"
-              [placeholder]="sourcingCodePlaceholder" 
-              name="sourcingCode">
+            <input formControlName="sourcingCode" type="text" class="form-control mandatory select2" id="sourcingCode"
+              [placeholder]="sourcingCodePlaceholder" name="sourcingCode">
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="spoken_code">{{ labels.spokeCodeLocation }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="spokesCodeLocation" 
-              formControlName="spokeCodeLocation">
+            <app-vf-custom-select [values]="spokesCodeLocation" formControlName="spokeCodeLocation">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -90,10 +69,7 @@
               [values]="lovLabels?.loanAccountBranch" 
               formControlName="loanBranch">
             </app-vf-custom-select> -->
-            <input 
-            type="text" 
-            class="form-control mandatory" 
-            formControlName="loanBranch" />
+            <input type="text" class="form-control mandatory" formControlName="loanBranch" />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="lead_handled">{{ labels.leadHandledBy }}</label>
@@ -101,19 +77,14 @@
               [values]="lovLabels?.leadHandledBY" 
               formControlName="leadHandeledBy">
             </app-vf-custom-select> -->
-            <input 
-            type="text" 
-            class="form-control mandatory" 
-            formControlName="leadHandeledBy" />
+            <input type="text" class="form-control mandatory" formControlName="leadHandeledBy" />
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="LOV.LOVS.entityType" 
-              formControlName="entity"
+            <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity"
               (change)="selectApplicantType($event)">
             </app-vf-custom-select>
           </div>
@@ -122,41 +93,29 @@
         <div class="row individual_section_leadco">
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.firstName }} 
+            <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.firstName }}
               <sub class="star_red_col">*</sub>
             </label>
-            <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }} 
+            <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }}
               <sub class="star_red_col">*</sub>
             </label>
-            <input 
-              type="text" 
-              class="form-control mandatory" 
-              id="first_name" 
-              name="first_name"
+            <input type="text" class="form-control mandatory" id="first_name" name="first_name"
               formControlName="nameOne" />
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.middleName }}</label>
             <label for="middle_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}</label>
-            <input 
-              type="text" 
-              class="form-control mandatory" 
-              id="middle_name" 
-              name="middle_name"
+            <input type="text" class="form-control mandatory" id="middle_name" name="middle_name"
               formControlName="nameTwo" />
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }} 
+            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }}
               <sub class="star_red_col">*</sub>
             </label>
             <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}</label>
-            <input 
-              type="text" 
-              class="form-control mandatory" 
-              id="last_name" 
-              name="last_name"
+            <input type="text" class="form-control mandatory" id="last_name" name="last_name"
               formControlName="nameThree" />
           </div>
 
@@ -165,26 +124,16 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="mobile">{{ labels.mobile }} <sub class="star_red_col">*</sub></label>
-            <input 
-              type="text" 
-              class="form-control mandatory" 
-              id="mobile" 
-              placeholder="Mobile" 
-              name="mobile"
+            <input type="text" class="form-control mandatory" id="mobile" placeholder="Mobile" name="mobile"
               formControlName="mobile" />
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="dob" *ngIf="applicantType == 'INDIVENTTYP'">{{labels.dateOfBirth}} 
+            <label for="dob" *ngIf="applicantType == 'INDIVENTTYP'">{{labels.dateOfBirth}}
               <sub class="star_red_col">*</sub>
             </label>
             <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{labels.dateOfIncorporation}}</label>
-            <input 
-              type="date" 
-              class="form-control mandatory" 
-              id="dob" 
-              placeholder="Date of birth" 
-              name="dob"
+            <input type="date" class="form-control mandatory" id="dob" placeholder="Date of birth" name="dob"
               formControlName="dateOfBirth" />
           </div>
 
@@ -195,7 +144,7 @@
               </button>
             </div>
           </div>
-          
+
         </div>
       </form>
     </div>

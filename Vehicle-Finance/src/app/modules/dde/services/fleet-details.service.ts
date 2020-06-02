@@ -17,47 +17,47 @@ export class FleetDetailsService {
 
   // method for save or update fleet detals
 
-  saveOrUpdateFleetDetails(data) {
+  // saveOrUpdateFleetDetails(data) {
 
-    const processData = data;
-    const processId = this.apiService.api.saveUpdateFleetDetails.processId;
-    const workflowId = this.apiService.api.saveUpdateFleetDetails.workflowId;
-    const projectId = environment.projectIds.salesProjectId;
+  //   const processData = data;
+  //   const processId = this.apiService.api.saveUpdateFleetDetails.processId;
+  //   const workflowId = this.apiService.api.saveUpdateFleetDetails.workflowId;
+  //   const projectId = environment.projectIds.salesProjectId;
 
-    const email = localStorage.getItem('email');
+  //   const email = localStorage.getItem('email');
 
-    const body: RequestEntity = {
-      processId: processId,
-      ProcessVariables: processData,
-      workflowId: workflowId,
-      projectId: projectId
-    };
+  //   const body: RequestEntity = {
+  //     processId: processId,
+  //     ProcessVariables: processData,
+  //     workflowId: workflowId,
+  //     projectId: projectId
+  //   };
 
-    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    return this.httpService.post(url, body);
-  }
+  //   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+  //   return this.httpService.post(url, body);
+  // }
 
   // method for get fleet details
 
-  getFleetDetails(data) {
+  // getFleetDetails(data) {
 
-    const processData = data;
-    const processId = this.apiService.api.getFleetDetails.processId;
-    const workflowId = this.apiService.api.getFleetDetails.workflowId;
-    const projectId = environment.projectIds.salesProjectId;
+  //   const processData = data;
+  //   const processId = this.apiService.api.getFleetDetails.processId;
+  //   const workflowId = this.apiService.api.getFleetDetails.workflowId;
+  //   const projectId = environment.projectIds.salesProjectId;
 
-    const email = localStorage.getItem('email');
+  //   const email = localStorage.getItem('email');
 
-    const body: RequestEntity = {
-      processId: processId,
-      ProcessVariables: processData,
-      workflowId: workflowId,
-      projectId: projectId
-    };
+  //   const body: RequestEntity = {
+  //     processId: processId,
+  //     ProcessVariables: processData,
+  //     workflowId: workflowId,
+  //     projectId: projectId
+  //   };
 
-    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    return this.httpService.post(url, body);
-  }
+  //   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+  //   return this.httpService.post(url, body);
+  // }
 
 
 }

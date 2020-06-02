@@ -3,8 +3,8 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
-import { FleetDetailsService } from '../services/fleet-details.service'
-import { CommomLovService } from '@services/commom-lov-service'
+import { FleetDetailsService } from '../services/fleet-details.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -104,14 +104,14 @@ export class FleetDetailsComponent implements OnInit {
 
   // method for saving and updating fleet details
 
-  saveOrUpdateFleetDetails() {
-    this.fleetDetailsService.saveOrUpdateFleetDetails(this.leadId, this.userId, this.fleetDetails).subscribe((value: any) => {
+  // saveOrUpdateFleetDetails() {
+  //   this.fleetDetailsService.saveOrUpdateFleetDetails(this.leadId, this.userId, this.fleetDetails).subscribe((value: any) => {
 
-      this.fleetDetails = value;
-      console.log("fleet details response", this.fleetDetails.ProcessVariables.fleets)
+  //     this.fleetDetails = value;
+  //     console.log("fleet details response", this.fleetDetails.ProcessVariables.fleets)
 
-    });
-  }
+  //   });
+  // }
 
 
   addNewRow() {
@@ -123,7 +123,7 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.saveOrUpdateFleetDetails();
+    // this.saveOrUpdateFleetDetails();
     console.log('form values ', this.fleetForm.value.Rows)
   }
 }

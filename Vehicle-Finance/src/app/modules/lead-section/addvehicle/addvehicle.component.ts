@@ -30,6 +30,7 @@ export class AddvehicleComponent implements OnInit {
   isHidden: boolean = false;
 
   vehicleArray = [];
+  routerId = 0;
 
   // process variable for save/update vehicle collaterals
 
@@ -58,9 +59,9 @@ export class AddvehicleComponent implements OnInit {
 
     // method for getting all vehicle details related to a lead
 
-    this.getVehicleDetails();
+    // this.getVehicleDetails();
 
-    console.log("Data from service", this.vehicleDataService.getVehicleDetails())
+    // console.log("Data from service", this.vehicleDataService.getVehicleDetails())
 
     //  initialising the form 
 
@@ -295,10 +296,15 @@ export class AddvehicleComponent implements OnInit {
 
   saveVehicleCollaterals() {
 
-    this.userId = "1001";
+    this.userId = "0280";
     this.leadId = 121;
+    this.vehicleId = 100;
 
-    this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleId, this.userId, this.leadId, this.vehicleDetails).subscribe((res: any) => {
+
+    this.vehicleDetailService.saveOrUpdateVehcicleDetails({
+      "leadId": this.leadId, "userId": this.userId, "vehicleId": this.vehicleId, "manuFacMonthYear": this.vehicleDetails.manuFacMonthYear, "collateralType": this.vehicleDetails.vehicleType, "vehicleUsage": this.vehicleDetails.vehicleUsage,
+      "finalAssetCost": this.vehicleDetails.finalAssetCost, "registrationNumber": this.vehicleDetails.registrationNumber,
+    }).subscribe((res: any) => {
 
       console.log("response from saveUpdateVehicleCollaterals", res);
 

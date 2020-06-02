@@ -1,5 +1,5 @@
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm">
-    <!-- <form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event.target.value)"> -->
+<!-- <form class="multisteps-form__form" [formGroup]="basicVehicleForm"> -->
+<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event.target.value)">
 
     <ng-container formArrayName="vehicleFormArray">
 

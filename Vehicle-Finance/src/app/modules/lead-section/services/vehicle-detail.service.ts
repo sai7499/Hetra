@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import RequestEntity from '../../../model/request.entity';
 import { HttpService } from '../../../services/http.service';
-
+import { ApiService } from '../../../services/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,8 @@ export class VehicleDetailService {
   public vehicleVariable: any;
 
   constructor(private http: HttpClient,
-    private httpService: HttpService) { }
+    private httpService: HttpService,
+    private apiService: ApiService) { }
 
   getVehicleDetailLabels(): Observable<VehicleDetailModel[]> {
     return this.http.get<VehicleDetailModel[]>(this.url)
@@ -58,9 +59,9 @@ export class VehicleDetailService {
 
   getAnVehicleDetails(collateralId) {
 
-    const processId = environment.api.getAnVehicleCollateralDetails.processId;
-    const workflowId = environment.api.getAnVehicleCollateralDetails.workflowId;
-    const projectId = environment.projectId;
+    const processId = this.apiService.api.getAnVehicleCollateralDetails.processId;
+    const workflowId = this.apiService.api.getAnVehicleCollateralDetails.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
 
     const body: RequestEntity = {
 
@@ -79,24 +80,23 @@ export class VehicleDetailService {
 
 
 
+
+
   // 2.method for save or update vehicle details
 
-  saveOrUpdateVehcicleDetails(vehicleDetails, leadId, vehicleId, userId) {
+  saveOrUpdateVehcicleDetails(data) {
 
-    const processId = environment.api.saveOrUpdateVehicleCollateralDetails.processId;
-    const workflowId = environment.api.saveOrUpdateVehicleCollateralDetails.workflowId;
-    const projectId = environment.projectId;
+    console.log("in savevehileapi", data)
+
+    const processData = data;
+    const processId = this.apiService.api.saveOrUpdateVehicleCollateralDetails.processId;
+    const workflowId = this.apiService.api.saveOrUpdateVehicleCollateralDetails.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
 
     const body: RequestEntity = {
 
       processId: processId,
-      ProcessVariables: {
-
-        "vehicleDetails": vehicleDetails,
-        "leadId": leadId,
-        "vehicleId": vehicleId,
-        "userId": userId
-      },
+      ProcessVariables: processData,
       workflowId: workflowId,
       projectId: projectId
     };
@@ -111,9 +111,9 @@ export class VehicleDetailService {
 
   getAllVehicleCollateralDetails(leadId) {
 
-    const processId = environment.api.getAllVehicleCollateralDetails.processId;
-    const workflowId = environment.api.getAllVehicleCollateralDetails.workflowId;
-    const projectId = environment.projectId;
+    const processId = this.apiService.api.getAllVehicleCollateralDetails.processId;
+    const workflowId = this.apiService.api.getAllVehicleCollateralDetails.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
 
     const body: RequestEntity = {
 
@@ -127,7 +127,6 @@ export class VehicleDetailService {
       projectId: projectId
     };
 
-
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
@@ -136,23 +135,23 @@ export class VehicleDetailService {
 
   getVehicleMasterFromRegion(region) {
 
-    const processId = environment.api.getVehicleMasterFromRegion.processId;
-    const workflowId = environment.api.getVehicleMasterFromRegion.workflowId;
-    const projectId = environment.projectId;
+    const processId = this.apiService.api.getVehicleMasterFromRegion.processId;
+    const workflowId = this.apiService.api.getVehicleMasterFromRegion.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
 
     const body: RequestEntity = {
 
       processId: processId,
       ProcessVariables: {
 
-        "region": region
+        "region": 'TN'
 
       },
       workflowId: workflowId,
       projectId: projectId
     };
 
-
+    console.log(JSON.stringify(body), 'body')
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }

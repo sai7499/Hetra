@@ -50,10 +50,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    console.log("dataFromLoginStore", roleAndUserDetails)
     this.roles = roleAndUserDetails.roles;
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
+    console.log("user role", this.roleName)
 
     this.initForms();
 
@@ -128,14 +130,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     console.log(value, 'region')
     const region = value ? value : '';
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
-      console.log(data, 'data')
+      // console.log(data, 'data')
 
       // console.log("form data ", this.basicVehicleForm.value.vehicleFormArray[0])
     })
 
-    // console.log("form values", this.basicVehicleForm.value.vehicleFormArray)
-
-    // this.vehicleDataService.setVehicleDetails(this.basicVehicleForm.value.vehicleFormArray)
   }
 
 

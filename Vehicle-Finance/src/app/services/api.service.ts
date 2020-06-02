@@ -72,6 +72,30 @@ export class ApiService {
       processId: 'bbc390e48f5811eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+
+    // vehicle collateral api workflowIds
+
+    getAnVehicleCollateralDetails: {
+      workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
+      processId: '5ded0268971711eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveOrUpdateVehicleCollateralDetails: {
+      workflowId: 'b0a9ef02939d11eabdc6f2fa9bec3d63',
+      processId: '387d901e957e11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getAllVehicleCollateralDetails: {
+      workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
+      processId: 'cd9ac3ba979a11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+
+    },
+    getVehicleMasterFromRegion: {
+      workflowId: '385f090a957e11eabdcff2fa9bec3d63',
+      processId: '3bed6af898f311eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveUpdateFleetDetails: {
 
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',

@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'pages',
     component: HeaderComponent,
-    // canActivate: [Authguard],
+    canActivate: [Authguard],
     resolve: {
       getLOV: LovResolverService
     },
@@ -77,7 +77,7 @@ const routes: Routes = [
       {
         path: 'vehicle-valuation',
         loadChildren: () =>
-        import ('./modules/dde/vehicle-valuation-router/vehicle-valuation-router.module').then(m => m.VehicleValuationRouterModule)
+          import('./modules/dde/vehicle-valuation-router/vehicle-valuation-router.module').then(m => m.VehicleValuationRouterModule)
       }
     ]
   },

@@ -36,8 +36,8 @@ export class CustomSelectComponent
 
   @Output() valueChange = new EventEmitter();
 
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  onChange: any = () => { };
+  onTouch: any = () => { };
 
   // onValueChange(event) {
   //   console.log('event', event);
@@ -51,7 +51,7 @@ export class CustomSelectComponent
   }
 
   getSelectedObject() {
-    console.log('this.values',this.values);
+    // console.log('this.values',this.values);
     return (this.values && Array.isArray(this.values))
       ? this.values.find((value) => String(value.key) === this.selectedOption)
       : {};
@@ -61,7 +61,7 @@ export class CustomSelectComponent
     return this.val;
   }
 
-  constructor(private lovDataService: LovDataService) {}
+  constructor(private lovDataService: LovDataService) { }
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;
