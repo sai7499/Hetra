@@ -65,4 +65,11 @@ export class ApplicantListComponent implements OnInit {
   onApplicantClick(item) {
     console.log('item', item);
   }
+
+  softDeleteApplicant(index: number, applicantId: number) {
+    console.log('index', index, 'id', applicantId, 'p', this.p);
+
+    const findIndex = this.p === 1 ? index : this.p - 1 + 5 + index;
+    console.log('findIndex', findIndex);
+  }
 }
