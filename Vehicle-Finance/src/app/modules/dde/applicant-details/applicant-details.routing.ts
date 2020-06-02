@@ -16,7 +16,7 @@ const routes: Routes = [
         component: ApplicantDetailsComponent,
         children: [
             {
-                path: 'basic-data',
+                path: 'basic-data/:applicantId',
                 component: BasicDetailsComponent
             },
             {

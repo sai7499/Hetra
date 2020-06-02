@@ -1,0 +1,47 @@
+<main class="mar-top90">
+  <div class="container overflow-hidden">
+    <h3 class="dashboard">QDE - Reference</h3>
+    <app-dde-header></app-dde-header>
+
+    <!--progress bar-->
+    <div class="multisteps-form">
+      <div class="multisteps-form__progress">
+        <button
+          class="multisteps-form__progress-btn js-active"
+          id="sales_sourcinginfo"
+          type="button"
+        >
+          Lead Details
+        </button>
+        <!---- <button class="multisteps-form__progress-btn" id="sales_qde_product_details" type="button">Product Details</button> --->
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_applicant_details"
+          type="button"
+          [routerLink]="['./applicant-list']"
+          [ngClass]="{ 'js-active': locationIndex >= 1 }"
+        >
+          Applicant Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_vechicle_details"
+          type="button"
+        >
+          Vechical Details
+        </button>
+        <!--- <button class="multisteps-form__progress-btn" id="sales_loan_details" type="button">Loan Details</button> ---->
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_upload_documents"
+          type="button"
+        >
+          Document Upload
+        </button>
+      </div>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</main>
