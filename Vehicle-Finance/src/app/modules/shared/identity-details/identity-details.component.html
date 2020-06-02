@@ -25,7 +25,7 @@
                             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                                 <label for="issuance_date">Aadhaar Number</label>
                                 <div class="input-group input-medium">  
-                                    <input formControlName="aadharNumber" type="text" class="form-control date_caps" id="passport_expiry_date" name="passport_expiry_date" value="3456 1239 0987" disabled="">
+                                    <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date" name="passport_expiry_date" value="3456 1239 0987" disabled="">
                                     <span class="input-group-btn">
                                             <button class="btn btn-default" disabled=""> <i class="fa fa-credit-card"></i> </button>
                                         </span>
@@ -63,11 +63,11 @@
                                     <option value="PAN" selected="selected">PAN</option>
                                     <option value="form60">Form 60</option>
                                 </select> -->
-                                <app-vf-custom-select formControlName="panForm" [values]="lov.LOVS.aPPLICANTPANTYPE"></app-vf-custom-select>
+                                <app-vf-custom-select formControlName="form60" [values]="lov.LOVS.aPPLICANTPANTYPE"></app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                                 <label for="pan_number">PAN Number</label>
-                                <input formControlName="panNumber" type="text" class="form-control m-50" id="pan_number" name="pan_number" value="ECCAA4865C" disabled="">
+                                <input formControlName="pan" type="text" class="form-control m-50" id="pan_number" name="pan_number" value="ECCAA4865C" disabled="">
                             </div>
                             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width" style="visibility:hidden;">
                                 <label for="pan_number">PAN Number</label>
@@ -102,7 +102,7 @@
                                     <div class="input-group date" id="datetimepicker1">
                                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                                         </span>
-                                        <input formControlName="passportDate" type="date" class="form-control">
+                                        <input formControlName="passportIssueDate" type="date" class="form-control">
                                     </div>
                                     </div>
                             </div>
@@ -112,7 +112,7 @@
                                     <div class="input-group date" id="datetimepicker1">
                                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                                         </span>
-                                        <input formControlName="passportExpiry" type="date" class="form-control">
+                                        <input formControlName="passportExpiryDate" type="date" class="form-control">
                                     </div>
                                     </div>
                             </div>
@@ -137,7 +137,7 @@
                 
                     <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                         <label for="ration_card_number" class="driving_height">Driving Licencse Number</label>
-                        <input formControlName="licenseNumber" type="text" class="form-control m-50" id="ration_card_number" name="ration_card_number" value="TN99 20205678234" disabled="">
+                        <input formControlName="drivingLicenseNumber" type="text" class="form-control m-50" id="ration_card_number" name="ration_card_number" value="TN99 20205678234" disabled="">
                     </div>
                     <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                         <label for="issuance_date" class="driving_height">Issuance Date</label>
@@ -145,7 +145,7 @@
                             <div class="input-group date" id="datetimepicker1">
                              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                                 </span>
-                                <input formControlName="licenseDate" type="date" class="form-control">
+                                <input formControlName="drivingLicenseIssueDate" type="date" class="form-control">
                             </div>
                             </div>
                     </div>
@@ -155,7 +155,7 @@
                             <div class="input-group date" id="datetimepicker1">
                              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                                 </span>
-                                <input formControlName="licenseExpiry" type="date" class="form-control">
+                                <input formControlName="drivingLicenseExpiryDate" type="date" class="form-control">
                             </div>
                             </div>
                     </div>
@@ -179,7 +179,7 @@
 
                     <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
                         <label for="passport_number">Voter ID Number</label>
-                        <input formControlName="voterId" type="text" class="form-control  m-50" id="passport_number" name="passport_number" value="TRQ06734124" disabled="">
+                        <input formControlName="voterIdNumber" type="text" class="form-control  m-50" id="passport_number" name="passport_number" value="TRQ06734124" disabled="">
                     </div>
 
                     <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
@@ -188,7 +188,7 @@
                                     <div class="input-group date" id="datetimepicker1">
                                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                                         </span>
-                                        <input formControlName="voterDate" type="date" class="form-control" >
+                                        <input formControlName="voterIdIssueDate" type="date" class="form-control" >
                                     </div>
                                     </div>
                     </div>
@@ -198,7 +198,7 @@
                                     <div class="input-group date" id="datetimepicker1">
                                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                                         </span>
-                                        <input formControlName="voterExpiry" type="date" class="form-control">
+                                        <input formControlName="voterIdExpiryDate" type="date" class="form-control">
                                     </div>
                                     </div>
                     </div>
@@ -236,19 +236,19 @@
                 <div class="row mt-5" formGroupName="0">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="email">TIN Number</label>
-                        <input type="text" class="form-control"  formControlName="tin">
+                        <input type="text" class="form-control"  formControlName="tinNumber">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="adhar">Company PAN Number</label>
-                        <input type="text" class="form-control"  formControlName="pan">
+                        <input type="text" class="form-control"  formControlName="panNumber">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="adhar">CIN Number</label>
-                        <input type="text" class="form-control"  formControlName="cin">
+                        <input type="text" class="form-control"  formControlName="corporateIdentificationNumber">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="adhar">GST Number</label>
-                        <input type="text" class="form-control"  formControlName="gst">
+                        <input type="text" class="form-control"  formControlName="gstNumber">
                     </div>
                 </div>
             </div>
