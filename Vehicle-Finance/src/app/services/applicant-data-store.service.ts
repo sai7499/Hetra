@@ -17,7 +17,13 @@ export class ApplicantDataStoreService {
   applicant: Applicant;
 
   setApplicant(applicant: Applicant) {
-    this.applicant = applicant;
+    this.applicant = {
+      aboutIndivProspectDetails: applicant.aboutIndivProspectDetails,
+      addressDetails: applicant.addressDetails,
+      applicantDetails: applicant.applicantDetails,
+      corporateProspectDetails: applicant.corporateProspectDetails,
+      indivIdentityInfoDetails: applicant.indivIdentityInfoDetails,
+    };
   }
 
   getApplicant() {
