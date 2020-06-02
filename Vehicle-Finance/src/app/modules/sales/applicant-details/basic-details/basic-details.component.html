@@ -1,0 +1,290 @@
+<div class="content">
+  <form
+    class="multisteps-form__form"
+    method="POST"
+    style="height: 400px;"
+    [formGroup]="basicForm"
+  >
+    <div
+      class="multisteps-form__panel js-active basic_scroll js-active"
+      data-animation="scaleIn"
+    >
+      <div class="btn-sec clear-both row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="Vechical Type">Entity</label>
+          <app-vf-custom-select
+            [values]="applicantLov?.entityType"
+            (valueChange)="onIndividualChange($event)"
+            formControlName="entity"
+          ></app-vf-custom-select>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="Vechical Type">Relationship with Lead</label>
+          <app-vf-custom-select
+            formControlName="applicantRelationshipWithLead"
+            [values]="applicantLov?.applicantRelationshipWithLead"
+          ></app-vf-custom-select>
+        </div>
+        <div class="col-sm-7 text-right"></div>
+      </div>
+      <ng-container formArrayName="details">
+        <div
+          id="individual_section_start"
+          [formGroupName]="0"
+          *ngIf="isIndividual"
+        >
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="first_name">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="first_name"
+                formControlName="name1"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Middle Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="middle_name"
+                formControlName="name2"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="last_name">Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="last_name"
+                formControlName="name3"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="mobile_number">Mobile Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="mobile_number"
+                name="mobile_number"
+                value="8974563210"
+                readonly=""
+                formControlName="mobilePhone"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="date_of_birth">DOB</label>
+              <div
+                class="input-group input-medium"
+                id="date_of_birth"
+                name="date_of_birth"
+              >
+                <span class="input-group-btn">
+                  <button class="btn btn-default">
+                    <i class="fa fa-calendar" id="datepicker"></i>
+                  </button>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="datepicker"
+                  value="27-05-1974"
+                  readonly=""
+                  formControlName="dob"
+                />
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="guardian_name"
+                >Guardian Name(applicable for minor applicant)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="guardian_name"
+                name="guardian_name"
+                formControlName="minorGuardianName"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="father_name">Father Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="father_name"
+                name="father_name"
+                formControlName="fatherName"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="spouse_name">Spouse Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="spouse_name"
+                name="spouse_name"
+                formControlName="spouseName"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="maiden_name">Mother's Maiden Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="maiden_name"
+                name="maiden_name"
+                formControlName="motherMaidenName"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="occupation">Occupation</label>
+              <app-vf-custom-select
+                formControlName="occupation"
+                [values]="applicantLov?.occupation"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="nationality">Nationality</label>
+              <app-vf-custom-select
+                formControlName="nationality"
+                [values]="applicantLov?.nationality"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer Category</label>
+              <app-vf-custom-select
+                formControlName="customerCategory"
+                [values]="applicantLov?.customerCategory"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="email_id">Email ID</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email_id"
+                name="email_id"
+                formControlName="emailId"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="alternate_email_id">Alternate email ID</label>
+              <input
+                type="text"
+                class="form-control"
+                id="alternate_email_id"
+                name="alternate_email_id"
+                formControlName="alternateEmailId"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="preffered_language"
+                >Preferred Language for Communication</label
+              >
+              <app-vf-custom-select
+                formControlName="preferredLanguage"
+                [values]="applicantLov?.preferredLanguage"
+              ></app-vf-custom-select>
+            </div>
+          </div>
+        </div>
+        <div
+          id="non_individual_section_start"
+          *ngIf="!isIndividual"
+          [formGroupName]="0"
+        >
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="non_occupation">Occupation</label>
+              <app-vf-custom-select
+                [values]="applicantLov?.occupation"
+                formControlName="occupation"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer Category</label>
+              <app-vf-custom-select
+                [values]="applicantLov?.customerCategory"
+                formControlName="customerCategory"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Lead Created">Email ID</label>
+              <input
+                type="text"
+                formControlName="companyEmailId"
+                class="form-control"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Lead Created By">Alternate Email ID</label>
+              <input
+                formControlName="alternateEmailId"
+                type="text"
+                class="form-control"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="title">Preferred Language for Communication</label>
+              <app-vf-custom-select
+                formControlName="preferredLanguageCommunication"
+                [values]="applicantLov?.preferredLanguage"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="channel">Company 1</label>
+              <input formControlName="name1" type="text" class="form-control" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="sourcing type">Company 2</label>
+              <input formControlName="name2" type="text" class="form-control" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="sourcing code">Company 3</label>
+              <input formControlName="name3" type="text" class="form-control" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="entity">Date Of Incorporation</label>
+              <div class="input-group input-medium">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" disabled="">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+                <input
+                  formControlName="dateOfIncorporation"
+                  type="text"
+                  class="form-control"
+                  id="date"
+                  disabled=""
+                />
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="title">Number Of Directions</label>
+              <input
+                formControlName="numberOfDirectors"
+                type="text"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>
+
+<div class="btn-sec clear-both">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary dash_href" type="button">
+      <a>Back</a>
+    </button>
+    <button class="btn btn-primary" id="submit" (click)="onSave()">Save</button>
+    <button class="btn btn-primary dash_href" type="button">
+      <a>Next</a>
+    </button>
+  </div>
+</div>

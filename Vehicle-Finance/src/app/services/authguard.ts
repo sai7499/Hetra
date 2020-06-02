@@ -18,8 +18,8 @@ export class Authguard implements CanActivate {
         private loginService: LoginService,
         private loginStoreService: LoginStoreService,
         private utilityService: UtilityService,
-        private cds : CommonDataService) {
-            this.cds.cdsStatus$.subscribe(value => this.cdsStatus = value )
+        private cds: CommonDataService) {
+            this.cds.cdsStatus$.subscribe(value => this.cdsStatus = value );
     }
 
     canActivate(
@@ -29,8 +29,8 @@ export class Authguard implements CanActivate {
 
         if (storage.checkToken()) {
             return new Observable<boolean>(observer => {
-                if(!this.cdsStatus){
-                let data = { "userId": storage.getUserId() };
+                if (!this.cdsStatus) {
+                let data = { 'userId': storage.getUserId() };
                 this.loginService.getUserDetails(data).subscribe((res: any) => {
                     const response = res;
                     if (response.Error === '0') {
@@ -42,12 +42,11 @@ export class Authguard implements CanActivate {
                         observer.next(true);
                     }
                 });
-            }else {
+            } else {
                     observer.next(true);
                 }
             });
-        }
-        else {
+        } else {
             this.utilityService.logOut();
             return false;
         }

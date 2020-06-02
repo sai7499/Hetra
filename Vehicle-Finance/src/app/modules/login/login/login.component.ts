@@ -30,8 +30,6 @@ export class LoginComponent implements OnInit {
 
   direction: any;
   labels: any = {};
-
-
   loginForm: FormGroup;
 
   loginData: {
@@ -121,6 +119,7 @@ export class LoginComponent implements OnInit {
         this.loginService.getUserDetails().subscribe((res: any) => {
           // tslint:disable-next-line: no-shadowed-variable
           const response = res;
+          console.log(response);
           if (response.Error === '0') {
             const roles = response.ProcessVariables.roles;
             const userDetails = response.ProcessVariables.userDetails;
@@ -129,7 +128,9 @@ export class LoginComponent implements OnInit {
             const userId =  response.ProcessVariables.userId;
             localStorage.setItem('userId', userId);
             const role = response.ProcessVariables.roles[0].name;
+            const roleType = response.ProcessVariables.roles[0].roleType;
             localStorage.setItem('role', role);
+            localStorage.setItem('roleType', roleType);
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;

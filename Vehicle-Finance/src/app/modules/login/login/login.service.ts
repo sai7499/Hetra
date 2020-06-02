@@ -16,10 +16,10 @@ export class LoginService {
 
     getLogin(data) {
         const url = environment.host + 'account/' + environment.apiVersion.login + 'login';
-        let body = {
+        const body = {
             email: data.email,
             password: data.password
-        }
+        };
         return this.httpService.post(url, body);
     }
 
@@ -28,18 +28,20 @@ export class LoginService {
         const workflowId = this.apiService.api.getUserDetails.workflowId;
         const projectId = this.apiService.api.getUserDetails.projectId;
 
-        let email = data ? data.userId : this.loginService.getEmailId();
-        let objectKey = data ? 'userId' : 'loginId';
+        const email = data ? data.userId : this.loginService.getEmailId();
+        const objectKey = data ? 'userId' : 'loginId';
         const body: RequestEntity = {
-            processId: processId,
+            processId,
             ProcessVariables: {
                 [objectKey]: email
             },
-            workflowId: workflowId,
-            projectId: projectId
+            workflowId,
+            projectId
         };
 
-        let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
 }
+
+

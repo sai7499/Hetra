@@ -8,14 +8,14 @@ import { CommomLovService } from '../services/commom-lov-service';
 import { ApiService } from './api.service';
 
 @Injectable()
-export class LovResolverService implements Resolve<any>{
+export class LovResolverService implements Resolve<any> {
     lovData: any;
     constructor(
         private httpService: HttpService,
         private commonLovService: CommomLovService,
         private apiService: ApiService) { }
 
-    resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    resolve(route?: ActivatedRouteSnapshot): Observable<any> {
 
         const processId = this.apiService.api.getLOVs.processId;
         const workflowId = this.apiService.api.getLOVs.workflowId;
