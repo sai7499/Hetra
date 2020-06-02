@@ -21,7 +21,7 @@ ngOnInit() {
 //     console.log(this.isCredit, value);
 
 //  });
-  this.isCredit = localStorage.getItem('role');
+  this.isCredit = localStorage.getItem('roleType');
 
 }
 
