@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -25,7 +25,7 @@ export class BasicDetailsComponent implements OnInit {
   isSelfEmployed = true;
   labels: any = {};
   applicantLov: LOVS;
-  applicantId: number | string= '';
+  applicantId: number | string = '';
   applicant: Applicant;
   designation = [
     {
@@ -42,7 +42,8 @@ export class BasicDetailsComponent implements OnInit {
     private lovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -104,19 +105,18 @@ export class BasicDetailsComponent implements OnInit {
       this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
-      
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
     }
     const applicantDetails = this.applicant.applicantDetails;
-    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
       name1: applicantDetails.name1,
       name2: applicantDetails.name2,
       name3: applicantDetails.name3,
+      customerCategory: applicantDetails.customerCategory,
     });
   }
 
@@ -235,7 +235,10 @@ export class BasicDetailsComponent implements OnInit {
       ...applicantData,
     };
     this.applicantService.saveApplicant(data).subscribe((res) => {
-      console.log('res', res);
+      this.router.navigate([
+        '/pages/sales-applicant-details/identity-details',
+        this.applicantId,
+      ]);
     });
   }
 

@@ -1,10 +1,10 @@
 export const storage = {
 
     getToken() {
-        let token = localStorage.getItem('token')
+        let userId = localStorage.getItem('token')
             ? localStorage.getItem('token')
-            : ''
-        return token;
+            : '';
+        return userId;
     },
 
     setToken(token) {

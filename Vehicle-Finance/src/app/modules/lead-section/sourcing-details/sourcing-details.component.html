@@ -136,13 +136,20 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_branch">{{labels.requestedTenor}}</label>
-                <app-vf-custom-select 
+                <!-- <app-vf-custom-select 
                     [values]="values?.requestedTenor" 
                     formControlName="requestedTenor">
-                </app-vf-custom-select>
+                </app-vf-custom-select> -->
+                <input 
+                    type="text" 
+                    formControlName="requestedTenor" 
+                    class="form-control mandatory"
+                    id="requested_tenor" 
+                    placeholder="Requested Tenor" 
+                    name="requested_tenor">
             </div>
         </div>
-        <div class="alert alert-success alert-dismissible" id="alert" *ngIf="isAlert">
+        <div class="alert alert-success alert-dismissible fixed" id="alert" *ngIf="isAlert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>Saved!
         </div>
@@ -153,8 +160,8 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary mar-right8" type="button">Save </button>&nbsp;
-        <button class="btn btn-primary js-btn-next" type="button"
+        <button (click)="saveAndUpdate()" class="btn btn-primary mar-right8" type="button">Save </button>&nbsp;
+        <button  class="btn btn-primary js-btn-next" type="button"
             [routerLink]="['/pages/lead-section/applicant-details']"> Next </button>
     </div>
 </div>

@@ -1,229 +1,396 @@
-
 <div class="content">
-    <form class="multisteps-form__form" style="height: 400px;" [formGroup]="identityForm">
-        
-        <div class="multisteps-form__panel js-active basic_scroll" data-animation="scaleIn">
-            <div class="btn-sec clear-both row">
-                <div class="col-sm-3">
-                    <!-- <h4 class="title">Identity Details</h4> -->
-                    <!-- <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
+  <form
+    class="multisteps-form__form"
+    style="height: 400px;"
+    [formGroup]="identityForm"
+  >
+    <div
+      class="multisteps-form__panel js-active basic_scroll"
+      data-animation="scaleIn"
+    >
+      <div class="btn-sec clear-both row">
+        <div class="col-sm-3">
+          <!-- <h4 class="title">Identity Details</h4> -->
+          <!-- <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
                         <option value="individual"> Individual </option>
                         <option value="non-individual"> Non-Individual </option>
                     </select> -->
 
-                    <app-vf-custom-select formControlName="entity" [values]="lov.LOVS.entityType" (change)="onIndividualChange($event)">
-                        
-                    </app-vf-custom-select>
-
-                </div>
-                <div class="col-sm-7 text-right">
-                </div>
+          <!-- <app-vf-custom-select
+            formControlName="entity"
+            [values]="lov.LOVS.entityType"
+            (change)="onIndividualChange($event)"
+          >
+          </app-vf-custom-select> -->
+        </div>
+        <div class="col-sm-7 text-right"></div>
+      </div>
+      <ng-container formArrayName="details">
+        <div id="individual_section_start" *ngIf="isIndividual">
+          <div class="row" formGroupName="0">
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="issuance_date">Aadhaar Number</label>
+              <div class="input-group input-medium">
+                <input
+                  formControlName="aadhar"
+                  type="text"
+                  class="form-control date_caps"
+                  id="passport_expiry_date"
+                  name="passport_expiry_date"
+                  value="3456 1239 0987"
+                  disabled=""
+                />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" disabled="">
+                    <i class="fa fa-credit-card"></i>
+                  </button>
+                </span>
+              </div>
             </div>
-            <ng-container formArrayName="details">           
-                 <div id="individual_section_start" *ngIf="isIndividual">
-                        <div class="row" formGroupName="0">
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                                <label for="issuance_date">Aadhaar Number</label>
-                                <div class="input-group input-medium">  
-                                    <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date" name="passport_expiry_date" value="3456 1239 0987" disabled="">
-                                    <span class="input-group-btn">
-                                            <button class="btn btn-default" disabled=""> <i class="fa fa-credit-card"></i> </button>
-                                        </span>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width" style="visibility:hidden;">
-                                <label for="pan_number">PAN Number</label>
-                                <input type="text" class="form-control m-50">
-                            </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width" style="visibility:hidden;">
-                                <label for="pan_number">PAN Number</label>
-                                <input type="text" class="form-control m-50">
-                            </div>
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                                    <a href="#"><label for="upload_aadhaar" class="upload_down">AA_1098 </label></a>
-                            </div>
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">                                           
-                        
-                                <div class="image-upload"> <label style="cursor: pointer;" for="file_upload"> <img src="" alt="" class="uploaded-image">
-                           
-                                    <div class="dplay-tbl">
-                                        <div class="dplay-tbl-cell"> <i class="fa fa-upload"></i>  
-                                        </div>
-                                    </div>
-                               
-                                    <!--upload-content--> <input data-required="image" type="file" name="image_name" id="file_upload" class="image-input" data-traget-resolution="image_resolution" value="">
-                            </label>
-                            </div>
-                            
+            <div
+              class="form-group col-sm-12 col-md-3 col-lg-3 third_width"
+              style="visibility: hidden;"
+            >
+              <label for="pan_number">PAN Number</label>
+              <input type="text" class="form-control m-50" />
+            </div>
+            <div
+              class="form-group col-sm-12 col-md-3 col-lg-3 third_width"
+              style="visibility: hidden;"
+            >
+              <label for="pan_number">PAN Number</label>
+              <input type="text" class="form-control m-50" />
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <a href="#"
+                ><label for="upload_aadhaar" class="upload_down"
+                  >AA_1098
+                </label></a
+              >
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <div class="image-upload">
+                <label style="cursor: pointer;" for="file_upload">
+                  <img src="" alt="" class="uploaded-image" />
+
+                  <div class="dplay-tbl">
+                    <div class="dplay-tbl-cell">
+                      <i class="fa fa-upload"></i>
                     </div>
-                        <div class="clearfix"></div>
-                           <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                                <label for="pan_form">PAN / Form 60</label>
-                                <!-- <select class="form-control m-50" id="pan_form" name="pan_form" disabled="">
+                  </div>
+
+                  <!--upload-content-->
+                  <input
+                    data-required="image"
+                    type="file"
+                    name="image_name"
+                    class="image-input"
+                    data-traget-resolution="image_resolution"
+                    value=""
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="pan_form">PAN / Form 60</label>
+              <!-- <select class="form-control m-50" id="pan_form" name="pan_form" disabled="">
                                     <option value="PAN" selected="selected">PAN</option>
                                     <option value="form60">Form 60</option>
                                 </select> -->
-                                <app-vf-custom-select formControlName="form60" [values]="lov.LOVS.aPPLICANTPANTYPE"></app-vf-custom-select>
-                            </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                                <label for="pan_number">PAN Number</label>
-                                <input formControlName="pan" type="text" class="form-control m-50" id="pan_number" name="pan_number" value="ECCAA4865C" disabled="">
-                            </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width" style="visibility:hidden;">
-                                <label for="pan_number">PAN Number</label>
-                                <input type="text" class="form-control m-50">
-                            </div>
-                   
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                                <a href="#"><label for="upload_aadhaar" class="upload_down">PAN_1219</label></a>
-                            </div>
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">                                           
-                        
-                                <div class="image-upload"> <label style="cursor: pointer;" for="file_upload"> <img src="" alt="" class="uploaded-image">
-                           
-                                    <div class="dplay-tbl">
-                                        <div class="dplay-tbl-cell"> <i class="fa fa-upload"></i>  
-                                        </div>
-                                    </div>
-                               
-                                    <!--upload-content--> <input data-required="image" type="file" name="image_name" id="file_upload" class="image-input" data-traget-resolution="image_resolution" value="">
-                            </label>
-                            </div>
-                            
-                    </div>  
-                               <div class="clearfix"></div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                                <label for="passport_number">Passport Number</label>
-                                <input formControlName="passportNumber" type="text" class="form-control m-50" id="passport_number" name="passport_number" value="95855311" disabled="">
-                            </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                                <label for="passport_expiry_date">Issuance Date</label>
-                                <div class="form-group">
-                                    <div class="input-group date" id="datetimepicker1">
-                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                                        </span>
-                                        <input formControlName="passportIssueDate" type="date" class="form-control">
-                                    </div>
-                                    </div>
-                            </div>
-                            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                                <label for="issuance_date">Expiry Date</label>
-                                <div class="form-group">
-                                    <div class="input-group date" id="datetimepicker1">
-                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                                        </span>
-                                        <input formControlName="passportExpiryDate" type="date" class="form-control">
-                                    </div>
-                                    </div>
-                            </div>
-                            
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                                <a href="#"><label for="upload_aadhaar" class="upload_down">PP_1089</label></a>
-                            </div>
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">                                           
-                        
-                                <div class="image-upload"> <label style="cursor: pointer;" for="file_upload"> <img src="" alt="" class="uploaded-image">
-                           
-                                    <div class="dplay-tbl">
-                                        <div class="dplay-tbl-cell"> <i class="fa fa-upload"></i>  
-                                        </div>
-                                    </div>
-                               
-                                    <!--upload-content--> <input data-required="image" type="file" name="image_name" id="file_upload" class="image-input" data-traget-resolution="image_resolution" value="">
-                            </label>
-                            </div>
-                            
-                    </div>
-                
-                    <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                        <label for="ration_card_number" class="driving_height">Driving Licencse Number</label>
-                        <input formControlName="drivingLicenseNumber" type="text" class="form-control m-50" id="ration_card_number" name="ration_card_number" value="TN99 20205678234" disabled="">
-                    </div>
-                    <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                        <label for="issuance_date" class="driving_height">Issuance Date</label>
-                        <div class="form-group">
-                            <div class="input-group date" id="datetimepicker1">
-                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                                </span>
-                                <input formControlName="drivingLicenseIssueDate" type="date" class="form-control">
-                            </div>
-                            </div>
-                    </div>
-                    <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                        <label for="expiry_date" class="driving_height">Expiry Date</label>
-                        <div class="form-group">
-                            <div class="input-group date" id="datetimepicker1">
-                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                                </span>
-                                <input formControlName="drivingLicenseExpiryDate" type="date" class="form-control">
-                            </div>
-                            </div>
-                    </div>
-                    <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                                <a href="#"><label for="upload_aadhaar" class="upload_down">DL_3467</label></a>
-                            </div>
-                            <div class="form-group col-sm-1 col-md-1 col-lg-1">                                           
-                        
-                                <div class="image-upload"> <label style="cursor: pointer;" for="file_upload"> <img src="" alt="" class="uploaded-image">
-                           
-                                    <div class="dplay-tbl">
-                                        <div class="dplay-tbl-cell"> <i class="fa fa-upload"></i>  
-                                        </div>
-                                    </div>
-                               
-                                    <!--upload-content--> <input data-required="image" type="file" name="image_name" id="file_upload" class="image-input" data-traget-resolution="image_resolution" value="">
-                            </label>
-                            </div>
-                            
-                    </div>
+              <app-vf-custom-select
+                formControlName="form60"
+                [values]="lov?.LOVS?.applicantPanType"
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="pan_number">PAN Number</label>
+              <input
+                formControlName="pan"
+                type="text"
+                class="form-control m-50"
+                id="pan_number"
+                name="pan_number"
+                value="ECCAA4865C"
+                disabled=""
+              />
+            </div>
+            <div
+              class="form-group col-sm-12 col-md-3 col-lg-3 third_width"
+              style="visibility: hidden;"
+            >
+              <label for="pan_number">PAN Number</label>
+              <input type="text" class="form-control m-50" />
+            </div>
 
-                    <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                        <label for="passport_number">Voter ID Number</label>
-                        <input formControlName="voterIdNumber" type="text" class="form-control  m-50" id="passport_number" name="passport_number" value="TRQ06734124" disabled="">
-                    </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <a href="#"
+                ><label for="upload_aadhaar" class="upload_down"
+                  >PAN_1219</label
+                ></a
+              >
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <div class="image-upload">
+                <label style="cursor: pointer;" for="file_upload">
+                  <img src="" alt="" class="uploaded-image" />
 
-                    <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                        <label for="issuance_date">Issuance Date</label>
-                        <div class="form-group">
-                                    <div class="input-group date" id="datetimepicker1">
-                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                                        </span>
-                                        <input formControlName="voterIdIssueDate" type="date" class="form-control" >
-                                    </div>
-                                    </div>
+                  <div class="dplay-tbl">
+                    <div class="dplay-tbl-cell">
+                      <i class="fa fa-upload"></i>
                     </div>
-                    <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-                        <label for="expiry_date">Expiry Date</label>
-                        <div class="form-group">
-                                    <div class="input-group date" id="datetimepicker1">
-                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                                        </span>
-                                        <input formControlName="voterIdExpiryDate" type="date" class="form-control">
-                                    </div>
-                                    </div>
-                    </div>
-                    <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                        <a href="#"><label for="upload_aadhaar" class="upload_down">VOTE_8321</label></a>
-                    </div>
-                    <div class="form-group col-sm-1 col-md-1 col-lg-1">                                           
-                        
-                                <div class="image-upload"> <label style="cursor: pointer;" for="file_upload"> <img src="" alt="" class="uploaded-image">
-                           
-                                    <div class="dplay-tbl">
-                                        <div class="dplay-tbl-cell"> <i class="fa fa-upload"></i>  
-                                        </div>
-                                    </div>
-                               
-                                    <!--upload-content--> <input data-required="image" type="file" name="image_name" id="file_upload" class="image-input" data-traget-resolution="image_resolution" value="">
-                            </label>
-                            </div>
-                            
-                    </div>
+                  </div>
+
+                  <!--upload-content-->
+                  <input
+                    data-required="image"
+                    type="file"
+                    name="image_name"
+                    class="image-input"
+                    data-traget-resolution="image_resolution"
+                    value=""
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="passport_number">Passport Number</label>
+              <input
+                formControlName="passportNumber"
+                type="text"
+                class="form-control m-50"
+                name="passport_number"
+                value="95855311"
+                disabled=""
+              />
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="passport_expiry_date">Issuance Date</label>
+              <div class="form-group">
+                <div class="input-group date" id="datetimepicker1">
+                  <span class="input-group-addon"
+                    ><span
+                      class="glyphicon glyphicon-calendar fa fa-calendar"
+                    ></span>
+                  </span>
+                  <input
+                    formControlName="passportIssueDate"
+                    type="date"
+                    class="form-control"
+                  />
                 </div>
-    
-                
-            
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="issuance_date">Expiry Date</label>
+              <div class="form-group">
+                <div class="input-group date" id="datetimepicker1">
+                  <span class="input-group-addon"
+                    ><span
+                      class="glyphicon glyphicon-calendar fa fa-calendar"
+                    ></span>
+                  </span>
+                  <input
+                    formControlName="passportExpiryDate"
+                    type="date"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
 
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <a href="#"
+                ><label for="upload_aadhaar" class="upload_down"
+                  >PP_1089</label
+                ></a
+              >
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <div class="image-upload">
+                <label style="cursor: pointer;" for="file_upload">
+                  <img src="" alt="" class="uploaded-image" />
+
+                  <div class="dplay-tbl">
+                    <div class="dplay-tbl-cell">
+                      <i class="fa fa-upload"></i>
+                    </div>
+                  </div>
+
+                  <!--upload-content-->
+                  <input
+                    data-required="image"
+                    type="file"
+                    name="image_name"
+                    class="image-input"
+                    data-traget-resolution="image_resolution"
+                    value=""
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="ration_card_number" class="driving_height"
+                >Driving Licencse Number</label
+              >
+              <input
+                formControlName="drivingLicenseNumber"
+                type="text"
+                class="form-control m-50"
+                id="ration_card_number"
+                name="ration_card_number"
+                value="TN99 20205678234"
+                disabled=""
+              />
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="issuance_date" class="driving_height"
+                >Issuance Date</label
+              >
+              <div class="form-group">
+                <div class="input-group date" id="datetimepicker1">
+                  <span class="input-group-addon"
+                    ><span
+                      class="glyphicon glyphicon-calendar fa fa-calendar"
+                    ></span>
+                  </span>
+                  <input
+                    formControlName="drivingLicenseIssueDate"
+                    type="date"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="expiry_date" class="driving_height"
+                >Expiry Date</label
+              >
+              <div class="form-group">
+                <div class="input-group date" id="datetimepicker1">
+                  <span class="input-group-addon"
+                    ><span
+                      class="glyphicon glyphicon-calendar fa fa-calendar"
+                    ></span>
+                  </span>
+                  <input
+                    formControlName="drivingLicenseExpiryDate"
+                    type="date"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <a href="#"
+                ><label for="upload_aadhaar" class="upload_down"
+                  >DL_3467</label
+                ></a
+              >
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <div class="image-upload">
+                <label style="cursor: pointer;" for="file_upload">
+                  <img src="" alt="" class="uploaded-image" />
+
+                  <div class="dplay-tbl">
+                    <div class="dplay-tbl-cell">
+                      <i class="fa fa-upload"></i>
+                    </div>
+                  </div>
+
+                  <!--upload-content-->
+                  <input
+                    data-required="image"
+                    type="file"
+                    name="image_name"
+                    class="image-input"
+                    data-traget-resolution="image_resolution"
+                    value=""
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="passport_number">Voter ID Number</label>
+              <input
+                formControlName="voterIdNumber"
+                type="text"
+                class="form-control m-50"
+                name="passport_number"
+                value="TRQ06734124"
+                disabled=""
+              />
+            </div>
+
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="issuance_date">Issuance Date</label>
+              <div class="form-group">
+                <div class="input-group date" id="datetimepicker1">
+                  <span class="input-group-addon"
+                    ><span
+                      class="glyphicon glyphicon-calendar fa fa-calendar"
+                    ></span>
+                  </span>
+                  <input
+                    formControlName="voterIdIssueDate"
+                    type="date"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="expiry_date">Expiry Date</label>
+              <div class="form-group">
+                <div class="input-group date" id="datetimepicker1">
+                  <span class="input-group-addon"
+                    ><span
+                      class="glyphicon glyphicon-calendar fa fa-calendar"
+                    ></span>
+                  </span>
+                  <input
+                    formControlName="voterIdExpiryDate"
+                    type="date"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <a href="#"
+                ><label for="upload_aadhaar" class="upload_down"
+                  >VOTE_8321</label
+                ></a
+              >
+            </div>
+            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <div class="image-upload">
+                <label style="cursor: pointer;" for="file_upload">
+                  <img src="" alt="" class="uploaded-image" />
+
+                  <div class="dplay-tbl">
+                    <div class="dplay-tbl-cell">
+                      <i class="fa fa-upload"></i>
+                    </div>
+                  </div>
+
+                  <!--upload-content-->
+                  <input
+                    data-required="image"
+                    type="file"
+                    name="image_name"
+                    class="image-input"
+                    data-traget-resolution="image_resolution"
+                    value=""
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- <div id="add_multiple_banks"></div>
@@ -231,31 +398,68 @@
             <label for="">Add Multiple Identity Card Details</label>
             <input class="form-control btn-primary" type="button" value="Add Here" id="add_banks" />
         </div> -->
-      
-            <div id="non_individual_section_start" class="clearfix" *ngIf="!isIndividual">
-                <div class="row mt-5" formGroupName="0">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="email">TIN Number</label>
-                        <input type="text" class="form-control"  formControlName="tinNumber">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="adhar">Company PAN Number</label>
-                        <input type="text" class="form-control"  formControlName="panNumber">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="adhar">CIN Number</label>
-                        <input type="text" class="form-control"  formControlName="corporateIdentificationNumber">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="adhar">GST Number</label>
-                        <input type="text" class="form-control"  formControlName="gstNumber">
-                    </div>
-                </div>
+
+        <div
+          id="non_individual_section_start"
+          class="clearfix"
+          *ngIf="!isIndividual"
+        >
+          <div class="row mt-5" formGroupName="0">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="email">TIN Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="tinNumber"
+              />
             </div>
-        </ng-container>
-            
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">Company PAN Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="panNumber"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">CIN Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="corporateIdentificationNumber"
+              />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">GST Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="gstNumber"
+              />
+            </div>
+          </div>
         </div>
-    
-    </form>
+      </ng-container>
+    </div>
+  </form>
 </div>
 
+<div class="row btn-sec">
+  <div class="col-sm-5">
+    <button
+      class="btn btn-primary dash_href"
+      routerLink="/pages/sales/applicant-list"
+    >
+      <a>Back To Applicant Details</a>
+    </button>
+  </div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary dash_href" type="button">
+      <a href="">Back</a>
+    </button>
+    <button class="btn btn-primary" (click)="onSubmit()">Save</button>
+    <button class="btn btn-primary dash_href" type="button">
+      <a href="">Next</a>
+    </button>
+  </div>
+</div>

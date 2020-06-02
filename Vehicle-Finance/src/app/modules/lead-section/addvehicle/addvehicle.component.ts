@@ -234,8 +234,10 @@ export class AddvehicleComponent implements OnInit {
     // console.log('formModel',foprivate vehicleDetails: any = [];rmModel)
     const vehicleModel = { ...formModel };
     this.isAlert = true
-    if (this.selectedVehicle !== undefined) {
-      this.leadStoreService.updateVehicle(this.selectedVehicle, vehicleModel)
+    if (this.routerId !== undefined && this.routerId !== 0) {
+      this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, 121, 100, 1).subscribe((res: any) => {
+        console.log(res, 'out res')
+      })
       return;
     }
     // console.log('vehicleModel', vehicleModel)

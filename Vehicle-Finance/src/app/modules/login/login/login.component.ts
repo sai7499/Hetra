@@ -6,24 +6,11 @@ import { Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { LoginStoreService } from '../../../services/login-store.service';
-import { storage } from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
 
-// import {GoogleMapsAPIWrapper} from '@agm/core';
-
-// import { GpsService } from 'src/app/services/gps.service';
-
-// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
-
-
-import { GoogleMapsAPIWrapper } from '@agm/core';
-
+import {GoogleMapsAPIWrapper} from '@agm/core';
 import { GpsService } from 'src/app/services/gps.service';
-
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
-
 
 @Component({
   selector: 'app-login',
@@ -132,7 +119,9 @@ export class LoginComponent implements OnInit {
             const userId = response.ProcessVariables.userId;
             localStorage.setItem('userId', userId);
             const role = response.ProcessVariables.roles[0].name;
+            const roleType = response.ProcessVariables.roles[0].roleType;
             localStorage.setItem('role', role);
+            localStorage.setItem('roleType', roleType);
             this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList);
             this.router.navigateByUrl('/activity-search');
             // const role = response.ProcessVariables.roles[0].name;

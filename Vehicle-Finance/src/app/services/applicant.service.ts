@@ -86,4 +86,28 @@ export class ApplicantService {
     console.log('body', JSON.stringify(body));
     return this.httpService.post(url, body);
   }
+
+  softDeleteApplicant(data) {
+    const projectId = environment.projectIds.salesProjectId;
+    const processId = this.saveUpdateApplicant.processId;
+    const workflowId = this.saveUpdateApplicant.workflowId;
+
+    const email = localStorage.getItem('email');
+    const userId = localStorage.getItem('userId');
+
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        userId,
+        leadId: 3,
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    console.log('url', url);
+    console.log('body', JSON.stringify(body));
+    return this.httpService.post(url, body);
+  }
 }

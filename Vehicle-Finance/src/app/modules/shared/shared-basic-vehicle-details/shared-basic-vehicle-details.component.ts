@@ -33,6 +33,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public select_main_button_value: string = 'New CV';
   public vehicleFormData: any = [];
   mockLov: any = {};
+  regionDataArray = [];
 
   //  declared mockLov for storing mock lov values from lov service regarding asset make and .....
 
@@ -51,6 +52,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
     })
+
+    console.log('id', this.id)
+
+    this.id === 0 ? this.getAddVehice() : this.setFormValue()
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
@@ -88,17 +93,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
-      // console.log(this.vehicleLov)
-
-
     });
 
     //  mock method for getting lovs for assetMake and so on ....
 
     this.lovDataService.getLovData().subscribe((value: any) => {
-
-      console.log('asset', value)
-
       this.mockLov = value ? value[0].vehicleDetails[0] : {};
       // console.log('vehicleLov', this.mockLov);
       this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
@@ -117,12 +116,62 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
+  getAddVehice() {
+
+  }
+
+  setFormValue() {
+
+    this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
+      const VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+      console.log(VehicleDetail, 'response')
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({
+        vehicleType: VehicleDetail.vehicleTypeCode || '',
+        region: VehicleDetail.region || '',
+        registrationNumber: VehicleDetail.registrationNo || '',
+        assetMake: VehicleDetail.vehicleMfrCode || '',
+        assetModel: VehicleDetail.vehicleModelCode || '',
+        assetBodyType: VehicleDetail.assetBodyType || '',
+        assetVariant: [''],
+        assetSubVariant: [''],
+        monthManufacturing: [''],
+        yrManufacturing: [''],
+        yearAndMonthManufacturing: VehicleDetail.manuFacMonthYear || '',
+        ageOfAsset: VehicleDetail.ageOfAsset || '',
+        vechicleUsage: VehicleDetail.vehicleUsage || '',
+        vehicleCategory: [''],
+        orpFunding: VehicleDetail.isOrpFunding || '',
+        oneTimeTax: VehicleDetail.oneTimeTax || '',
+        pac: VehicleDetail.pac || '',
+        vas: VehicleDetail.vas || '',
+        emiProtect: VehicleDetail.emiProtect || '',
+        fastTag: VehicleDetail.fastTag || '',
+        others: VehicleDetail.others || '',
+        discount: VehicleDetail.discount || '',
+        finalAssetCost: VehicleDetail.finalAssetCost || '',
+        idv: VehicleDetail.idv || '',
+        insuranceValidity: VehicleDetail.insuranceValidity || '',
+        insuranceCopy: [''],
+        permitType: VehicleDetail.typeOfPermit || '',
+        expiryDate: [''],
+        permitCopy: [''],
+        permitOthers: VehicleDetail.typeOfPermitOthers || '',
+        frsdRequired: VehicleDetail.fsrdFundingReq || '',
+        frsdAmount: VehicleDetail.fsrdPremiumAmount || '',
+        fitnessDate: VehicleDetail.fitnessDate || '',
+        fitnessCopy: [''],
+        noOfVehicles: ['']
+      })
+      console.log(formArray, 'Res')
+      this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
+    })
+
+  }
+
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(value) {
-
-    console.log('value', value)
-
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
@@ -130,12 +179,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   //  method to get vehicle master data from region 
 
   onVehicleRegionSales(value: any) {
-
-    console.log(value, 'region')
     const region = value ? value : '';
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
-      console.log(data, 'data')
-
+      this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({})
     })
   }
 

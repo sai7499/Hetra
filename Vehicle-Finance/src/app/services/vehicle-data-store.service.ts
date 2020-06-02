@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { VehicleDetails, BasicVehicleDetails } from '@model/lead.model';
-import { VehicleList } from '@model/vehicle.model';
+import { VehicleList, IndivVehicleInfoDetails } from '@model/vehicle.model';
+import { IndivIdentityInfoDetails } from '@model/applicant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,9 @@ export class VehicleDataStoreService {
 
   // basicVehicleDetails: BasicVehicleDetails;
   vehicleList = [];
-  vehicleData: any = [];
+  vehicleData: any = {};
   basicVehicleDetails = {};
+  collateralId: number;
 
   constructor() { }
 
@@ -23,8 +24,12 @@ export class VehicleDataStoreService {
     return this.vehicleList;
   }
 
-  setIndividualVehicleDetails(vehiceList: VehicleDetails) {
+  setIndividualVehicleDetails(vehiceList: IndivVehicleInfoDetails) {
+    this.vehicleData = vehiceList;
+  }
 
+  setCollateralId(Id) {
+    this.collateralId = Id;
   }
 
   getSelectedVehicle(index: number) {

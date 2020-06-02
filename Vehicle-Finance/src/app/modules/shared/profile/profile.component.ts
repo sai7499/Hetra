@@ -52,6 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   logOut() {
     this.utilityService.logOut();
     localStorage.removeItem('role');
+    localStorage.removeItem('roleType');
   }
 
   ngOnDestroy() {

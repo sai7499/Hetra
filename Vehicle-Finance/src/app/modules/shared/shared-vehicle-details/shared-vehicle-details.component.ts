@@ -3,6 +3,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -35,7 +36,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   constructor(
     private loginStoreService: LoginStoreService,
     private labelsData: LabelsService,
-    private vehicleDetailsService: VehicleDetailService) { }
+    private vehicleDetailsService: VehicleDetailService,
+    private router: Router) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -51,6 +53,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
         console.log('error', error)
       });
     this.getVehicleDetails();
+  }
+
+  editVehicle(index: number) {
+    console.log('onClickedit', this.vehicleArray);
+    // this.router.navigate(['pages/lead-section/add-vehicle', {id: index}]);
+    this.router.navigate(['../add-vehicle', {id: 279}]);
+
   }
 
   getVehicleDetails() {

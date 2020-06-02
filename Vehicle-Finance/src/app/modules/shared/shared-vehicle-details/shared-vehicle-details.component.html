@@ -4,7 +4,7 @@
     <div class="text-right" id="add_vehicle_details_btn">
         <button class="btn mar-right8" [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'"
             type="button"
-            [routerLink]="roleName === 'Sales Officer' ? ['/pages/lead-section/add-vehicle/0'] : ['/pages/vehicle-details']">{{label.addVehicle}}</button>
+            [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle/0'] : ['/pages/vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -20,28 +20,29 @@
             </thead>
             <tbody *ngIf="roleName === 'Sales Officer'">
                 <!-- <ng-template *ngIf="vehicleArray.length > 0"> -->
-                    <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
-                        <td data-title="Registration Number">
-                            {{item.regNo}}
-                        </td>
-                        <td data-title="Make">
-                            {{item.make}}
-                        </td>
-                        <td data-title="Model">
-                            {{item.model}}
-                        </td>
-                        <td data-title="Variant">
-                            <!-- {{item.make}} -->
-                        </td>
-                        <td data-title="FinalAssetCost">
-                            <!-- {{item.model}} -->
-                        </td>
-                        <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                                [routerLink]="['/pages/lead-section/add-vehicle/0']"></i>&nbsp;<i class="fa fa-minus"
-                                aria-hidden="true" id="remove_item_applicant"
-                                (click)="removeOtherIndex(i, vehicleListArray)"></i>
-                        </td>
-                    </tr>
+                <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
+                    <td data-title="Registration Number">
+                        {{item.regNo}}
+                    </td>
+                    <td data-title="Make">
+                        {{item.make}}
+                    </td>
+                    <td data-title="Model">
+                        {{item.model}}
+                    </td>
+                    <td data-title="Variant">
+                        <!-- {{item.make}} -->
+                    </td>
+                    <td data-title="FinalAssetCost">
+                        <!-- {{item.model}} -->
+                    </td>
+                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
+                            [routerLink]="['../add-vehicle/279']"></i>&nbsp;<i class="fa fa-minus"
+                            aria-hidden="true" id="remove_item_applicant"
+                            (click)="removeOtherIndex(i, vehicleListArray)"></i>
+                        <!-- [routerLink]="['/pages/lead-section/add-vehicle']" -->
+                    </td>
+                </tr>
                 <!-- </ng-template> -->
             </tbody>
             <tbody *ngIf="roleName === 'Credit Officer'">
