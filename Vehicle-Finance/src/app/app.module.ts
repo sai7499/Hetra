@@ -15,6 +15,7 @@ import {
   CommonModule,
 } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
 import { AuthInterceptor } from './services/auth.interceptor.service';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -37,8 +38,9 @@ import {
   NgxUiLoaderConfig,
   SPINNER,
   POSITION,
-  PB_DIRECTION
+  PB_DIRECTION,
 } from 'ngx-ui-loader';
+import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
@@ -48,7 +50,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsType: SPINNER.cubeGrid, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbThickness: 5, // progress bar thickness
-  fgsColor: '#f58b35'
+  fgsColor: '#f58b35',
 };
 
 @NgModule({
@@ -82,6 +84,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BrowserAnimationsModule,
     CommonModule,
     LovResolverService,
+    LeadDataResolverService,
     CommomLovService,
     UtilityService,
     Authguard,

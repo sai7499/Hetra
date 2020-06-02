@@ -10,6 +10,7 @@ import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 import { CreditScoreComponent } from './credit-score/credit-score.component';
 import { ExactMatchComponent } from './exact-match/exact-match.component';
 import { OtpSectionComponent } from './otp-section/otp-section.component';
+import { LeadDataResolverService } from './services/leadDataResolver.service';
 
 const routes: Routes = [
   {
@@ -17,8 +18,9 @@ const routes: Routes = [
     component: CoApplicantComponent,
   },
   {
-    path: '',
+    path: ':leadId',
     component: LeadSectionComponent,
+    resolve: { leadData: LeadDataResolverService },
     children: [
       {
         path: '',
