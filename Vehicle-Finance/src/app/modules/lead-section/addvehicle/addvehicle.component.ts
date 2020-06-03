@@ -9,6 +9,9 @@ import { VehicleDetailService } from '../services/vehicle-detail.service';
 import { element } from 'protractor';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
+import { UtilityService } from '@services/utility.service';
+
+
 
 @Component({
   selector: 'app-addvehicle',
@@ -52,7 +55,8 @@ export class AddvehicleComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
     private vehicleDetailService: VehicleDetailService,
-    private vehicleDataService: VehicleDataService) { }
+    private vehicleDataService: VehicleDataService,
+    private utilityService: UtilityService) { }
 
   ngOnInit() {
 
@@ -67,7 +71,7 @@ export class AddvehicleComponent implements OnInit {
 
     this.initForm();
 
-    console.log("form data from child", this.formDataFromChild)
+    // console.log("form data from child", this.formDataFromChild)
 
     // method for getting labels 
 
@@ -130,9 +134,10 @@ export class AddvehicleComponent implements OnInit {
     console.log("in form data parent method")
     // console.log(value)
     this.vehicleDetails = value;
-    console.log(" basic vehicle details", this.vehicleDetails)
+    console.log(" basic vehicle details", this.vehicleDetails.yearAndMonthManufacturing)
 
   }
+
 
 
   initForm() {
@@ -300,9 +305,8 @@ export class AddvehicleComponent implements OnInit {
     this.leadId = 121;
     this.vehicleId = 100;
 
-
     this.vehicleDetailService.saveOrUpdateVehcicleDetails({
-      "leadId": this.leadId, "userId": this.userId, "vehicleId": this.vehicleId, "manuFacMonthYear": this.vehicleDetails.manuFacMonthYear, "collateralType": this.vehicleDetails.vehicleType, "vehicleUsage": this.vehicleDetails.vehicleUsage,
+      "leadId": this.leadId, "userId": this.userId, "vehicleId": this.vehicleId, "yearAndMonthManufacturing": this.utilityService.getDateFormat(this.vehicleDetails.yearAndMonthManufacturing), "collateralType": this.vehicleDetails.vehicleType, "vehicleUsage": this.vehicleDetails.vehicleUsage,
       "finalAssetCost": this.vehicleDetails.finalAssetCost, "registrationNumber": this.vehicleDetails.registrationNumber,
     }).subscribe((res: any) => {
 

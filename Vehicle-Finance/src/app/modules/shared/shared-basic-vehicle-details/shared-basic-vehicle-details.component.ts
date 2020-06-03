@@ -7,6 +7,7 @@ import { VehicleDetailService } from '../../lead-section/services/vehicle-detail
 import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
 import { LovDataService } from '@services/lov-data.service';
 import { ArrayType } from '@angular/compiler';
+import { UtilityService } from '@services/utility.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public select_main_button_value: string = 'New CV';
   public vehicleFormData: any = [];
   mockLov: any = {};
+  univDate: any = [];
 
   //  declared mockLov for storing mock lov values from lov service regarding asset make and .....
 
@@ -41,9 +43,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private commonLovService: CommomLovService,
     private vehicleDetailService: VehicleDetailService,
     private vehicleDataService: VehicleDataService,
-    private lovDataService: LovDataService) { }
+    private lovDataService: LovDataService,
+    private utilityService: UtilityService) { }
 
   ngOnInit() {
+
 
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
@@ -66,6 +70,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         error => {
           console.log('error')
         });
+
+
+    // date picker
 
   }
 
@@ -119,7 +126,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   formDataOutputMethod() {
 
+
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+
   }
 
 
@@ -140,14 +149,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
 
 
-
-
-
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
       vehicleType: [''],
-      region: ['APASTRGN'],
+      region: [''],
       registrationNumber: [''],
       assetMake: [''],
       assetModel: [''],

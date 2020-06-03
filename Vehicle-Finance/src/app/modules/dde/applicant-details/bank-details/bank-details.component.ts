@@ -41,20 +41,20 @@ export class BankDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.bankForm = this.fb.group({
-        userId: 1,
-        applicantId: 41,
-        accountHolderName: [''],
-        bankId: [''],
-        accountNumber: [''],
-        accountType: [''],
-        fromDate: [''],
-        toDate: [''],
-        period: [''],
-        limit: [''],
-        id: 8,
-        // transactionDetails: this.fb.array([]),
-        transactionDetails: this.listArray
-      });
+      userId: 1,
+      applicantId: 41,
+      accountHolderName: [''],
+      bankId: [''],
+      accountNumber: [''],
+      accountType: [''],
+      fromDate: [''],
+      toDate: [''],
+      period: [''],
+      limit: [''],
+      id: 8,
+      // transactionDetails: this.fb.array([]),
+      transactionDetails: this.listArray
+    });
     this.monthArray = [
       'Jan',
       'Feb',
@@ -70,8 +70,8 @@ export class BankDetailsComponent implements OnInit {
       'Dec',
     ];
     this.lovService.getLovData().subscribe((res: any) => {
-        this.lovData = res.LOVS;
-        console.log(this.lovData);
+      this.lovData = res.LOVS;
+      console.log(this.lovData);
     });
     // const navigation = this.route.getCurrentNavigation();
     this.applicantId = Number(this.route.snapshot.queryParams.applicantId);
@@ -90,21 +90,21 @@ export class BankDetailsComponent implements OnInit {
   }
 
   public initRows() {
-        return this.fb.group({
-            month: ['jan'],
-            year: [2020 ],
-            inflow: ['' ],
-            outflow: ['' ],
-            noOfInWardBounces: ['' ],
-            noOfOutWardBounces: ['' ],
-            balanceOn5th: ['' ],
-            balanceOn15th: ['' ],
-            balanceOn20th: ['' ],
-            abbOfTheMonth: ['' ],
-          });
+    return this.fb.group({
+      month: ['jan'],
+      year: [2020],
+      inflow: [''],
+      outflow: [''],
+      noOfInWardBounces: [''],
+      noOfOutWardBounces: [''],
+      balanceOn5th: [''],
+      balanceOn15th: [''],
+      balanceOn20th: [''],
+      abbOfTheMonth: [''],
+    });
   }
   public populateTransaction(data?: any) {
-    console.log(data , 'data in aptch ');
+    console.log(data, 'data in aptch ');
     return this.fb.group({
       month: data.month,
       year: data.year,
@@ -132,20 +132,20 @@ export class BankDetailsComponent implements OnInit {
   public populateData(data: any) {
     console.log('data in patch', data);
     this.bankForm.patchValue({
-        accountHolderName: data.ProcessVariables.accountHolderName
+      accountHolderName: data.ProcessVariables.accountHolderName
         ? data.ProcessVariables.accountHolderName
         : 'test 2',
-        bankId: data.ProcessVariables.bankId
+      bankId: data.ProcessVariables.bankId
         ? data.ProcessVariables.bankId
         : null,
-        accountNumber: data.ProcessVariables.accountNumber
+      accountNumber: data.ProcessVariables.accountNumber
         ? data.ProcessVariables.accountNumber
         : null,
-        accountType: data.ProcessVariables.accountTypeId ? data.ProcessVariables.accountTypeId : null,
-        fromDate: data.ProcessVariables.fromDate ? this.utilityService.getDateFormat(data.ProcessVariables.fromDate) : null,
-        toDate: data.ProcessVariables.toDate ?  this.utilityService.getDateFormat(data.ProcessVariables.toDate) : null,
-        period: data.ProcessVariables.period ? data.ProcessVariables.period : null,
-        limit: data.ProcessVariables.limit ? data.ProcessVariables.limit : null ,
+      accountType: data.ProcessVariables.accountTypeId ? data.ProcessVariables.accountTypeId : null,
+      fromDate: data.ProcessVariables.fromDate ? this.utilityService.getDateFormat(data.ProcessVariables.fromDate) : null,
+      toDate: data.ProcessVariables.toDate ? this.utilityService.getDateFormat(data.ProcessVariables.toDate) : null,
+      period: data.ProcessVariables.period ? data.ProcessVariables.period : null,
+      limit: data.ProcessVariables.limit ? data.ProcessVariables.limit : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -182,7 +182,7 @@ export class BankDetailsComponent implements OnInit {
     if (diff === undefined || diff === null) {
     } else {
       this.bankForm.patchValue({
-      period : diff + 1
+        period: diff + 1
       });
       this.assignedArray = this.monthArray(fromDate, toDate);
       setTimeout(() => {
