@@ -243,6 +243,7 @@ export class AddressDetailsComponent implements OnInit {
 
   getAddressDetails() {
     this.address = this.applicantDataService.getApplicant();
+    console.log('address', this.address )
     this.setAddressData();
   }
 
@@ -348,6 +349,7 @@ export class AddressDetailsComponent implements OnInit {
       state: registeredAddressObj.state,
       country: registeredAddressObj.country,
       landlineNumber: registeredAddressObj.landlineNumber,
+      mobileNumber : registeredAddressObj.mobileNumber
     });
     // }
     const communicationAddressObj = addressObj['COMMADDADDTYP'];
@@ -399,12 +401,12 @@ export class AddressDetailsComponent implements OnInit {
   isSameAddress(event) {
     const isChecked = event.target.checked;
     this.getPermanentAddressValue();
-    this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
+    // this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     this.getRegisteredAddressValue();
-    this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
+    // this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
 
   getPermanentAddressValue() {
@@ -486,19 +488,19 @@ export class AddressDetailsComponent implements OnInit {
     permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
     permenantAdress.addressLineTwo = permanantAddressObject.addressLineTwo;
     permenantAdress.addressLineThree = permanantAddressObject.addressLineThree;
-    // permenantAdress.pincode= permanantAddressObject.pinCode;
+    permenantAdress.pincode= permanantAddressObject.pinCode;
     // permenantAdress.city= permanantAddressObject.city;
     // permenantAdress.state= permanantAddressObject.state;
     // permenantAdress.country= permanantAddressObject.country;
     // permenantAdress.district= permanantAddressObject.district;
-    permenantAdress.pincode = 1;
+    // permenantAdress.pincode = 1;
     permenantAdress.city = 1;
     permenantAdress.state = 1;
     permenantAdress.country = 'IN';
     permenantAdress.district = 1;
 
     permenantAdress.landlineNumber = permanantAddressObject.landlineNumber;
-    permenantAdress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    permenantAdress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(permenantAdress);
 
@@ -510,7 +512,7 @@ export class AddressDetailsComponent implements OnInit {
     currentAddress.addressLineThree = currentAddressObject.addressLineThree;
     currentAddress.pincode = currentAddressObject.pinCode;
 
-    currentAddress.pincode = 1;
+    // currentAddress.pincode = 1;
     currentAddress.city = 1;
     currentAddress.state = 1;
     currentAddress.country = 'IN';
@@ -522,7 +524,7 @@ export class AddressDetailsComponent implements OnInit {
     );
     currentAddress.landlineNumber = currentAddressObject.landlineNumber;
     currentAddress.mobileNumber = currentAddressObject.mobileNumber;
-    currentAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    currentAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(currentAddress);
 
@@ -532,12 +534,12 @@ export class AddressDetailsComponent implements OnInit {
     officeAddress.addressLineOne = officeAddressObject.addressLineOne;
     officeAddress.addressLineTwo = officeAddressObject.addressLineTwo;
     officeAddress.addressLineThree = officeAddressObject.addressLineThree;
-    //  officeAddress.pincode= officeAddressObject.pinCode;
+    officeAddress.pincode= officeAddressObject.pinCode;
     //  officeAddress.city= officeAddressObject.city;
     //  officeAddress.state= officeAddressObject.state;
     //  officeAddress.country= officeAddressObject.country;
     //  officeAddress.district= officeAddressObject.district;
-    officeAddress.pincode = 1;
+    // officeAddress.pincode = 1;
     officeAddress.city = 1;
     officeAddress.state = 1;
     officeAddress.country = 'IN';
@@ -549,7 +551,7 @@ export class AddressDetailsComponent implements OnInit {
     );
     officeAddress.landlineNumber = officeAddressObject.landlineNumber;
     officeAddress.mobileNumber = officeAddressObject.mobileNumber;
-    officeAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    officeAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(officeAddress);
 
@@ -568,13 +570,13 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
     registeredAddress.addressLineThree =
       registeredAddressObject.addressLineThree;
-    // registeredAddress.pincode= registeredAddressObject.pinCode;
+    registeredAddress.pincode= registeredAddressObject.pinCode;
     // registeredAddress.city= registeredAddressObject.city;
     // registeredAddress.state= registeredAddressObject.state;
     // registeredAddress.country= registeredAddressObject.country;
     // registeredAddress.district= registeredAddressObject.district;
 
-    registeredAddress.pincode = 1;
+    // registeredAddress.pincode = 1;
     registeredAddress.city = 1;
     registeredAddress.state = 1;
     registeredAddress.country = 'IND';
@@ -582,7 +584,7 @@ export class AddressDetailsComponent implements OnInit {
 
     registeredAddress.landlineNumber = registeredAddressObject.landlineNumber;
     registeredAddress.mobileNumber = registeredAddressObject.mobileNumber;
-    registeredAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    registeredAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(registeredAddress);
 
@@ -595,12 +597,12 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddressObject.addressLineTwo;
     communicationAddress.addressLineThree =
       communicationAddressObject.addressLineThree;
-    // communicationAddress.pincode= communicationAddressObject.pinCode;
+     communicationAddress.pincode= communicationAddressObject.pinCode;
     // communicationAddress.city= communicationAddressObject.city;
     // communicationAddress.state= communicationAddressObject.state;
     // communicationAddress.country= communicationAddressObject.country;
     // communicationAddress.district= communicationAddressObject.district;
-    communicationAddress.pincode = 1;
+    // communicationAddress.pincode = 1;
     communicationAddress.city = 1;
     communicationAddress.state = 1;
     communicationAddress.country = 'IND';
@@ -608,7 +610,7 @@ export class AddressDetailsComponent implements OnInit {
 
     communicationAddress.landlineNumber =
       communicationAddressObject.landlineNumber;
-    communicationAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    communicationAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(communicationAddress);
 
