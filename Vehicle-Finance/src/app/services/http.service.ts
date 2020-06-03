@@ -313,8 +313,8 @@ export class HttpService {
     return obs;
   }
 
-  logOut() {
-    let url = environment.host + "account/logout";
+  logOut(){
+    let url = environment.host + "/account/logout";
     return this.http.get(url);
   }
 }

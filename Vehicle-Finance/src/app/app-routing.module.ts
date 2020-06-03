@@ -17,6 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'activity-search',
+    canActivate: [Authguard],
     loadChildren: () =>
       import('./modules/activity-search/activity-search.module').then(
         (m) => m.ActivitySearchModule
@@ -27,7 +28,7 @@ const routes: Routes = [
     component: HeaderComponent,
     canActivate: [Authguard],
     resolve: {
-      getLOV: LovResolverService
+      getLOV: LovResolverService,
     },
     children: [
       {

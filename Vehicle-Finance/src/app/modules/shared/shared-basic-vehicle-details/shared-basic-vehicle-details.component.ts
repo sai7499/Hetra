@@ -146,24 +146,25 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onVehicleRegionSales(value: any) {
     const region = value ? value : '';
+    const assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
 
       if (this.regionDataArray.length > 0) {
-        const assetMakeArray = [];
         this.regionDataArray.map((data, i) => {
           assetMakeArray.push({
             key: i,
             value: data['mfrCode']
           })
         })
-        this.vehicleLov.assetMake = assetMakeArray;
       }
+      this.vehicleLov.assetMake = assetMakeArray;
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
         assetMake: '',
       })
     })
+    this.onChangeSalesAssetMake(0)
   }
 
   onChangeSalesAssetMake(value) {
@@ -268,7 +269,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       frsdAmount: [''],
       fitnessDate: [''],
       fitnessCopy: [''],
-      noOfVehicles: ['']
+      noOfVehicles: [''],
+      vehicleId: 0,
+      vehicleCode: 0,
     });
     formArray.push(controls);
     this.onVehicleRegionSales('APASTRGN')

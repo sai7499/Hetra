@@ -25,6 +25,7 @@ export class AddressDetailsComponent implements OnInit {
 
   dropDownValues: any = [];
   isSalesOrCredit: string;
+  values: any = [];
   LOV: any = [];
   labels: any = {};
   address: Applicant;
@@ -55,6 +56,13 @@ export class AddressDetailsComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       this.getAddressDetails();
+    });
+
+    this.lovData.getLovData().subscribe((res: any) => {
+      console.log(res, 'res');
+      this.values = res[0].addApplicant[0];
+      console.log(this.values, 'values');
+
     });
   }
   initForm() {
@@ -248,42 +256,104 @@ export class AddressDetailsComponent implements OnInit {
     const details = formArray.at(0);
 
     const permenantAddressObj = addressObj['PERMADDADDTYP'];
-    if (permenantAddressObj) {
-      const permenantAddress = details.get('permanantAddress');
-      permenantAddress.patchValue({
-        addressLineOne: permenantAddressObj.addressLineOne,
-        addressLineTwo: permenantAddressObj.addressLineTwo,
-        addressLineThree: permenantAddressObj.addressLineThree,
-        pincode: permenantAddressObj.pincode,
-        city: permenantAddressObj.city,
-        district: permenantAddressObj.district,
-        state: permenantAddressObj.state,
-        country: permenantAddressObj.country,
-        landlineNumber: permenantAddressObj.landlineNumber,
-      });
-    }
+    console.log('objectpermananentAddress--', permenantAddressObj);
+    // if (permenantAddressObj) {
+    const permenantAddress = details.get('permanantAddress');
+    permenantAddress.patchValue({
+      addressLineOne: permenantAddressObj.addressLineOne,
+      addressLineTwo: permenantAddressObj.addressLineTwo,
+      addressLineThree: permenantAddressObj.addressLineThree,
+      pincode: permenantAddressObj.pincode,
+      city: permenantAddressObj.city,
+      district: permenantAddressObj.district,
+      state: permenantAddressObj.state,
+      country: permenantAddressObj.country,
+      landlineNumber: permenantAddressObj.landlineNumber,
+    });
+    // }
+    const currentaddressObj = addressObj['CURRADDADDTYP'];
+    console.log('objectCurrentAddress--', currentaddressObj);
+    // if(currentaddressObj){
+    const currentAddress = details.get('currentAddress');
+    currentAddress.patchValue({
+      addressLineOne: currentaddressObj.addressLineOne,
+      addressLineTwo: currentaddressObj.addressLineTwo,
+      addressLineThree: currentaddressObj.addressLineThree,
+      pincode: currentaddressObj.pincode,
+      city: currentaddressObj.city,
+      district: currentaddressObj.district,
+      state: currentaddressObj.state,
+      country: currentaddressObj.country,
+      landlineNumber: currentaddressObj.landlineNumber,
+      accommodationType: currentaddressObj.accommodationType,
+      periodOfCurrentStay: currentaddressObj.periodOfCurrentStay,
+      mobileNumber: currentaddressObj.mobileNumber
+    })
+    // }
+    const officeAddressObj = addressObj['OFFADDADDTYP']
+    console.log('objectOfficeAddress--', officeAddressObj);
+    //  if(officeAddressObj){
+    const officeAddress = details.get('officeAddress');
+    officeAddress.patchValue({
+      addressLineOne: officeAddressObj.addressLineOne,
+      addressLineTwo: officeAddressObj.addressLineTwo,
+      addressLineThree: officeAddressObj.addressLineThree,
+      pincode: officeAddressObj.pincode,
+      city: officeAddressObj.city,
+      district: officeAddressObj.district,
+      state: officeAddressObj.state,
+      country: officeAddressObj.country,
+      landlineNumber: officeAddressObj.landlineNumber,
+      accommodationType: officeAddressObj.accommodationType,
+      periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
+      mobileNumber: officeAddressObj.mobileNumber
+    })
+    // }
+
+
+    console.log('details', details);
   }
 
   setValuesForNonIndividual() {
     const addressObj = this.getAddressObj();
+    console.log('addressObj', addressObj);
 
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj['REGADDADDTYP'];
-    if (registeredAddressObj) {
-      const registeredAddress = details.get('registeredAddress');
-      registeredAddress.patchValue({
-        addressLineOne: registeredAddressObj.addressLineOne,
-        addressLineTwo: registeredAddressObj.addressLineTwo,
-        addressLineThree: registeredAddressObj.addressLineThree,
-        pincode: registeredAddressObj.pincode,
-        city: registeredAddressObj.city,
-        district: registeredAddressObj.district,
-        state: registeredAddressObj.state,
-        country: registeredAddressObj.country,
-        landlineNumber: registeredAddressObj.landlineNumber,
-      });
-    }
+
+    // if (registeredAddressObj) {
+    const registeredAddress = details.get('registeredAddress');
+    registeredAddress.patchValue({
+      addressLineOne: registeredAddressObj.addressLineOne,
+      addressLineTwo: registeredAddressObj.addressLineTwo,
+      addressLineThree: registeredAddressObj.addressLineThree,
+      pincode: registeredAddressObj.pincode,
+      city: registeredAddressObj.city,
+      district: registeredAddressObj.district,
+      state: registeredAddressObj.state,
+      country: registeredAddressObj.country,
+      landlineNumber: registeredAddressObj.landlineNumber,
+    });
+    // }
+    const communicationAddressObj = addressObj['COMMADDADDTYP']
+    // if(communicationAddressObj){
+    const communicationAddress = details.get('communicationAddress');
+    communicationAddress.patchValue({
+      addressLineOne: communicationAddressObj.addressLineOne,
+      addressLineTwo: communicationAddressObj.addressLineTwo,
+      addressLineThree: communicationAddressObj.addressLineThree,
+      pincode: communicationAddressObj.pincode,
+      city: communicationAddressObj.city,
+      district: communicationAddressObj.district,
+      state: communicationAddressObj.state,
+      country: communicationAddressObj.country,
+      landlineNumber: communicationAddressObj.landlineNumber,
+      accommodationType: communicationAddressObj.accommodationType,
+      periodOfCurrentStay: communicationAddressObj.periodOfCurrentStay,
+      mobileNumber: communicationAddressObj.mobileNumber
+    })
+    // }
   }
 
   getAddressObj() {
@@ -394,9 +464,13 @@ export class AddressDetailsComponent implements OnInit {
     const permanantAddressObject = value.details[0].permanantAddress;
     permenantAdress.addressType = 'PERMADDADDTYP';
     permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
-    permenantAdress.addressLineTwo = permanantAddressObject.addressLineOne;
-    permenantAdress.addressLineThree = permanantAddressObject.addressLineOne;
-
+    permenantAdress.addressLineTwo = permanantAddressObject.addressLineTwo;
+    permenantAdress.addressLineThree = permanantAddressObject.addressLineThree;
+    // permenantAdress.pincode= permanantAddressObject.pinCode;
+    // permenantAdress.city= permanantAddressObject.city;
+    // permenantAdress.state= permanantAddressObject.state;
+    // permenantAdress.country= permanantAddressObject.country;
+    // permenantAdress.district= permanantAddressObject.district;
     permenantAdress.pincode = 1;
     permenantAdress.city = 1;
     permenantAdress.state = 1;
@@ -412,8 +486,8 @@ export class AddressDetailsComponent implements OnInit {
     const currentAddressObject = value.details[0].currentAddress;
     currentAddress.addressType = 'CURRADDADDTYP';
     currentAddress.addressLineOne = currentAddressObject.addressLineOne;
-    currentAddress.addressLineTwo = currentAddressObject.addressLineOne;
-    currentAddress.addressLineThree = currentAddressObject.addressLineOne;
+    currentAddress.addressLineTwo = currentAddressObject.addressLineTwo;
+    currentAddress.addressLineThree = currentAddressObject.addressLineThree;
     currentAddress.pincode = currentAddressObject.pinCode;
 
     currentAddress.pincode = 1;
@@ -436,9 +510,13 @@ export class AddressDetailsComponent implements OnInit {
     const officeAddressObject = value.details[0].officeAddress;
     officeAddress.addressType = 'OFFADDADDTYP';
     officeAddress.addressLineOne = officeAddressObject.addressLineOne;
-    officeAddress.addressLineTwo = officeAddressObject.addressLineOne;
-    officeAddress.addressLineThree = officeAddressObject.addressLineOne;
-
+    officeAddress.addressLineTwo = officeAddressObject.addressLineTwo;
+    officeAddress.addressLineThree = officeAddressObject.addressLineThree;
+    //  officeAddress.pincode= officeAddressObject.pinCode;
+    //  officeAddress.city= officeAddressObject.city;
+    //  officeAddress.state= officeAddressObject.state;
+    //  officeAddress.country= officeAddressObject.country;
+    //  officeAddress.district= officeAddressObject.district;
     officeAddress.pincode = 1;
     officeAddress.city = 1;
     officeAddress.state = 1;
@@ -462,8 +540,13 @@ export class AddressDetailsComponent implements OnInit {
     const registeredAddressObject = value.details[0].registeredAddress;
     registeredAddress.addressType = 'REGADDADDTYP';
     registeredAddress.addressLineOne = registeredAddressObject.addressLineOne;
-    registeredAddress.addressLineTwo = registeredAddressObject.addressLineOne;
-    registeredAddress.addressLineThree = registeredAddressObject.addressLineOne;
+    registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
+    registeredAddress.addressLineThree = registeredAddressObject.addressLineThree;
+    // registeredAddress.pincode= registeredAddressObject.pinCode;
+    // registeredAddress.city= registeredAddressObject.city;
+    // registeredAddress.state= registeredAddressObject.state;
+    // registeredAddress.country= registeredAddressObject.country;
+    // registeredAddress.district= registeredAddressObject.district;
 
     registeredAddress.pincode = 1;
     registeredAddress.city = 1;
@@ -483,10 +566,14 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.addressLineOne =
       communicationAddressObject.addressLineOne;
     communicationAddress.addressLineTwo =
-      communicationAddressObject.addressLineOne;
+      communicationAddressObject.addressLineTwo;
     communicationAddress.addressLineThree =
-      communicationAddressObject.addressLineOne;
-
+      communicationAddressObject.addressLineThree;
+    // communicationAddress.pincode= communicationAddressObject.pinCode;
+    // communicationAddress.city= communicationAddressObject.city;
+    // communicationAddress.state= communicationAddressObject.state;
+    // communicationAddress.country= communicationAddressObject.country;
+    // communicationAddress.district= communicationAddressObject.district;
     communicationAddress.pincode = 1;
     communicationAddress.city = 1;
     communicationAddress.state = 1;

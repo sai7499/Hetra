@@ -9,15 +9,14 @@ import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
-import Qde from '@model/lead.model';
+// import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
   templateUrl: './lead-creation.component.html',
   styleUrls: ['./lead-creation.component.css']
 })
 export class LeadCreationComponent implements OnInit {
-
-  qde: Qde;
+  // qde: Qde;
   createLeadForm: FormGroup;
   lovLabels: any = [];
   labels: any = {};
@@ -276,8 +275,31 @@ export class LeadCreationComponent implements OnInit {
 
           if (appiyoError === '0' && apiError === '0') {
             const leadId = leadSectionData.leadId;
-            this.createLeadDataService.setLeadSectionData(leadSectionData);
-            this.router.navigateByUrl(`pages/lead-section/${leadId}`);
+
+            if (isDedupeAvailable) {
+              const leadDedupeData =
+                response.ProcessVariables.leadDedupeResults;
+              this.leadStoreService.setDedupeData(leadDedupeData);
+              this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
+              return;
+            }
+
+            this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+              const response = res;
+              const appiyoError = response.Error;
+              const apiError = response.ProcessVariables.error.code;
+              const leadSectionData = response.ProcessVariables;
+
+              if (appiyoError === '0' && apiError === '0') {
+                console.log('leadSectionData', leadSectionData);
+                const leadId = leadSectionData.leadId;
+                this.createLeadDataService.setLeadSectionData(leadSectionData);
+                this.router.navigateByUrl(`pages/lead-section/${leadId}`);
+              }
+            });
+          } else {
+            const message = response.ProcessVariables.error.message;
+            alert(message);
           }
         });
       } else {

@@ -8,10 +8,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-lead-dedupe',
   templateUrl: './lead-dedupe.component.html',
-  styleUrls: ['./lead-dedupe.component.css']
+  styleUrls: ['./lead-dedupe.component.css'],
 })
 export class LeadDedupeComponent implements OnInit {
-
   labels: any = {};
   isReason: boolean;
   isSubmit: boolean;
@@ -34,8 +33,7 @@ export class LeadDedupeComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private createLeadService: CreateLeadService,
     private createLeadDataService: CreateLeadDataService
-
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getLabels();
@@ -43,10 +41,13 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   getLabels() {
-    this.labelsData.getLabelsData().subscribe(data => {
-      this.labels = data;
-    },
-      error => console.log(error));
+    this.labelsData.getLabelsData().subscribe(
+      (data) => {
+        this.labels = data;
+        console.log('labels', this.labels);
+      },
+      (error) => console.log(error)
+    );
   }
 
   getDedupeData() {
@@ -85,25 +86,30 @@ export class LeadDedupeComponent implements OnInit {
     const loanLeadDetails = data.loanLeadDetails;
     const applicantDetails = data.applicantDetails;
 
-    this.createLeadService.createLead(loanLeadDetails, applicantDetails, true).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      if (appiyoError === '0' && apiError === '0') {
-        const leadId = response.ProcessVariables.leadId;
-        this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
-          const response = res;
-          const appiyoError = response.Error;
-          const apiError = response.ProcessVariables.error.code;
-          if (appiyoError === '0' && apiError === '0') {
-            const proceedAsNewLeadData = response.ProcessVariables;
-            const leadId = proceedAsNewLeadData.leadId;
-            this.createLeadDataService.setLeadSectionData(proceedAsNewLeadData);
-            this.route.navigateByUrl(`/pages/lead-section/${leadId}`);
-          }
-        });
-      }
-    });
+    this.createLeadService
+      .createLead(loanLeadDetails, applicantDetails, true)
+      .subscribe((res: any) => {
+        const response = res;
+        console.log('proceedAsNewLead', response);
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          const leadId = response.ProcessVariables.leadId;
+          this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+            const response = res;
+            const appiyoError = response.Error;
+            const apiError = response.ProcessVariables.error.code;
+            if (appiyoError === '0' && apiError === '0') {
+              const proceedAsNewLeadData = response.ProcessVariables;
+              const leadId = proceedAsNewLeadData.leadId;
+              this.createLeadDataService.setLeadSectionData(
+                proceedAsNewLeadData
+              );
+              this.route.navigateByUrl(`/pages/lead-section/${leadId}`);
+            }
+          });
+        }
+      });
   }
 
   proceedWithSelectedLead() {
@@ -114,7 +120,9 @@ export class LeadDedupeComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         const proceedWithSelectedLeadData = response.ProcessVariables;
         const leadId = proceedWithSelectedLeadData.leadId;
-        this.createLeadDataService.setLeadSectionData(proceedWithSelectedLeadData);
+        this.createLeadDataService.setLeadSectionData(
+          proceedWithSelectedLeadData
+        );
         this.route.navigateByUrl(`/pages/lead-section/${leadId}`);
       }
     });

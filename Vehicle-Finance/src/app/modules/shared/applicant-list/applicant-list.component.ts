@@ -15,6 +15,8 @@ export class ApplicantListComponent implements OnInit {
   applicantUrl: string;
   applicantList: ApplicantList[] = [];
   p = 1;
+  index : number;
+  selectedApplicantId : number
 
   constructor(
     private labelsData: LabelsService,
@@ -62,6 +64,26 @@ export class ApplicantListComponent implements OnInit {
   }
 
   softDeleteApplicant(index: number, applicantId: number) {
-    const findIndex = this.p === 1 ? index : this.p - 1 + 5 + index;
+    const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
+    this.index= findIndex;
+    this.selectedApplicantId= applicantId
+  
+    // const data = {
+    //   applicantId,
+    // };
+    // this.applicantService.softDeleteApplicant(data).subscribe((res) => {
+    //   console.log('res', applicantId);
+    //   this.applicantList.splice(findIndex, 1);
+    // });
+  }
+
+  callDeleteApplicant(){
+    const data ={
+      applicantId : this.selectedApplicantId,
+    };
+    this.applicantService.softDeleteApplicant(data).subscribe((res)=>{
+      console.log('res', this.selectedApplicantId);
+       this.applicantList.splice(this.index, 1);
+    })
   }
 }

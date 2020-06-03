@@ -116,6 +116,7 @@
     "passportExpiryDate": "Passport Expiry Date",
     "identityType": "Identity Type",
     "identityNumber": "Identity Number",
+    "voterIdNumber" : "Voter Id Number",
     "uploadIdentity": "Upload Identity",
     "address1": "Address 1",
     "address2": "Address 2",

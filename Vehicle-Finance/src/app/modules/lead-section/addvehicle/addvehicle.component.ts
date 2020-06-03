@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
+import { LeadDataResolverService } from '../services/leadDataResolver.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -33,7 +34,7 @@ export class AddvehicleComponent implements OnInit {
 
   // process variable for save/update vehicle collaterals
 
-  userId: any;
+  userId: number;
   vehicleId: number = 101;
   leadId: number;
 
@@ -45,18 +46,21 @@ export class AddvehicleComponent implements OnInit {
   constructor(
 
     private labelsData: LabelsService,
-    private lovDataService: LovDataService,
     private commonLovService: CommomLovService,
     private router: Router,
+    private leadData: LeadDataResolverService,
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
     private vehicleDetailService: VehicleDetailService,
-    private vehicleDataService: VehicleDataStoreService) { }
+    private loginStoreService: LoginStoreService) { }
 
   ngOnInit() {
 
 
     // method for getting all vehicle details related to a lead
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.leadId = parseInt(this.leadData.leadId);
 
     this.getVehicleDetails();
 
@@ -89,19 +93,19 @@ export class AddvehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
-    const formModel = this.vehicleForm.value;
-    const vehicleModel = { ...formModel };
-    this.isAlert = true
-    if (this.routerId !== undefined && this.routerId !== 0) {
-      this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, 121, 100, 1).subscribe((res: any) => {
-      })
-      return;
-    }
-    this.leadStoreService.setVehicleDetails(vehicleModel);
+    // const formModel = this.vehicleForm.value;
+    // const vehicleModel = { ...formModel };
+    // this.isAlert = true
+    // if (this.routerId !== undefined && this.routerId !== 0) {
+    //   this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, 121, 100, 1).subscribe((res: any) => {
+    //   })
+    //   return;
+    // }
+    // this.leadStoreService.setVehicleDetails(vehicleModel);
 
     this.saveVehicleCollaterals();
 
-    this.router.navigateByUrl['/pages/lead-section/vehicle-details']
+    this.router.navigateByUrl['/pages/lead-section/' + this.leadId + '/vehicle-details']
   }
 
 
@@ -129,12 +133,8 @@ export class AddvehicleComponent implements OnInit {
   }
 
   saveVehicleCollaterals() {
-
-    this.userId = "1001";
-    this.leadId = 121;
-
     this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleId, this.userId, this.leadId, this.vehicleDetails).subscribe((res: any) => {
-
+      console.log(res, 'res')
     });
   }
 
