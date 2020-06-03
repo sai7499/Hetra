@@ -10,6 +10,7 @@ import { SaveUpdateApplicantService } from '@services/add-update-applicant.servi
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
+import { formatDate } from '@angular/common';
 import {
   Applicant,
   ApplicantDetails,
@@ -393,10 +394,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return this.values.entity.find((value) => value.key === Number(key));
   }
 
+  formatGivenDate(date) {
+    return date ? formatDate(date, 'dd/MM/yyyy', 'en-us') : '';
+  }
   storeIndividualValueInService(coApplicantModel) {
     
     this.aboutIndivProspectDetails = {
-      dob: coApplicantModel.dob,
+      dob: this.formatGivenDate(coApplicantModel.dob),
       mobilePhone: coApplicantModel.mobilePhone,
       // isSeniorCitizen: '1',
       // isMinor: '1',
@@ -422,11 +426,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       pan: coApplicantModel.pan,
       aadhar: coApplicantModel.aadhar,
       passportNumber: coApplicantModel.passportNumber,
-      passportIssueDate: coApplicantModel.passportIssueDate,
-      passportExpiryDate: coApplicantModel.passportExpiryDate,
+      passportIssueDate: this.formatGivenDate(coApplicantModel.passportIssueDate),
+      passportExpiryDate: this.formatGivenDate(coApplicantModel.passportExpiryDate),
       drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
-      drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
-      drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
+      drivingLicenseIssueDate: this.formatGivenDate(coApplicantModel.drivingLicenseIssueDate),
+      drivingLicenseExpiryDate: this.formatGivenDate(coApplicantModel.drivingLicenseExpiryDate),
       voterIdNumber: coApplicantModel.voterIdNumber,
       // voterIdIssueDate: '21-Mar-2020',
       // voterIdExpiryDate: '21-Mar-2021'
@@ -435,7 +439,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   storeNonIndividualValueInService(coApplicantModel) {
     this.corporateProspectDetails = {
-      dateOfIncorporation: coApplicantModel.dateOfIncorporation,
+      dateOfIncorporation: this.formatGivenDate(coApplicantModel.dateOfIncorporation),
       // countryOfCorporation: 'IND',
       // companyEmailId: 'appiyo@appiyo.com',
       // alternateEmailId: 'inswit@appiyo.com',
@@ -459,15 +463,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       panNumber: coApplicantModel.pan,
       // aadhar: '123456786666',
       passportNumber: coApplicantModel.passportNumber,
-      passportIssueDate: coApplicantModel.passportIssueDate,
-      passportExpiryDate: coApplicantModel.passportExpiryDate,
+      passportIssueDate: this.formatGivenDate(coApplicantModel.passportIssueDate),
+      passportExpiryDate: this.formatGivenDate(coApplicantModel.passportExpiryDate),
       drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
-      drivingLicenseIssueDate: coApplicantModel.drivingLicenseIssueDate,
-      drivingLicenseExpiryDate: coApplicantModel.drivingLicenseExpiryDate,
-      // voterIdNumber: '1234567',
+      drivingLicenseIssueDate: this.formatGivenDate(coApplicantModel.drivingLicenseIssueDate),
+      drivingLicenseExpiryDate: this.formatGivenDate(coApplicantModel.drivingLicenseExpiryDate),
+      voterIdNumber: coApplicantModel.voterIdNumber,
       // voterIdIssueDate: '21-Mar-2020',
       // voterIdExpiryDate: '21-Mar-2021',
-      // companyPhoneNumber: '9988445566'
+       companyPhoneNumber: coApplicantModel.mobilePhone,
+       panType: coApplicantModel.panType,
     };
   }
   onFormSubmit() {
@@ -520,8 +525,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // };
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dob);
     console.log('Formatted DOB', DOB);
-    
-    console.log('ApplicantPanType', this.indivIdentityInfoDetails.panType);
+
     this.indivProspectProfileDetails = {
       employerType: 'test',
       employerName: 'Appiyo Technologies',

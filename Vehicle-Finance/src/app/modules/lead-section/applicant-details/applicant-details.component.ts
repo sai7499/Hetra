@@ -21,6 +21,8 @@ export class ApplicantDetailsComponent implements OnInit {
   values: any;
   applicantList: ApplicantList [] = [];
   p = 1;
+  selectedApplicant: number;
+  index: number;
 
   constructor(
     private route: Router,
@@ -97,8 +99,26 @@ export class ApplicantDetailsComponent implements OnInit {
     this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
   }
 
-  deleteApplicant(index: number){
+  deleteApplicant(index: number) {
 console.log(index);
 this.leadStoreService.deleteApplicant(index);
   }
+
+  softDeleteApplicant(index: number, applicantId: number) {
+    const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
+    this.index = findIndex;
+    this.selectedApplicant = applicantId;
+  }
+
+  callDeleteApplicant() {
+    const data = {
+      applicantId: this.selectedApplicant,
+    };
+    this.applicantService.softDeleteApplicant(data).subscribe((res) => {
+      console.log('res', this.selectedApplicant);
+      this.applicantList.splice(this.index, 1);
+    });
+  }
+
 }
+
