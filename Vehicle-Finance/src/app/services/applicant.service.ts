@@ -3,7 +3,7 @@ import { HttpService } from '@services/http.service';
 import { environment } from '../../environments/environment';
 import { ApiService } from './api.service';
 import { CreateLeadDataService } from '../modules/lead-creation/service/createLead-data.service';
-
+import { LeadStoreService } from '../modules/sales/services/lead.store.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +28,8 @@ export class ApplicantService {
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private leadStoreService: LeadStoreService
   ) {
     this.applicantList = this.apiService.api.getApplicantList;
     this.applicantDetail = this.apiService.api.getApplicantDetail;
@@ -83,7 +84,9 @@ export class ApplicantService {
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
     const leadDetails: any = this.createLeadDataService.getLeadSectionData();
-    const leadId = leadDetails.leadId;
+    let leadId = leadDetails.leadId;
+
+    leadId = leadId ? leadId : this.leadStoreService.getLeadId();
 
     const body = {
       processId,
