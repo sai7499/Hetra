@@ -46,7 +46,7 @@ export class ApplicantListComponent implements OnInit {
     this.activatedRoute.params.subscribe((value: any) => {
       console.log('params', value);
       if (value.leadId) {
-        this.leadStoreService.setLeadId(value.leadId);
+        this.leadStoreService.setLeadId(Number(value.leadId));
       }
       this.leadId = this.leadStoreService.getLeadId();
       if (currentUrl.includes('sales')) {
