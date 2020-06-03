@@ -73,10 +73,10 @@ export class LeadSectionComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (
-          event.url === '/pages/lead-section/co-applicant' ||
-          event.url === '/pages/lead-section/credit-score' ||
-          event.url === '/pages/lead-section/exact-match' ||
-          event.url === '/pages/lead-section/otp-section'
+          event.url.includes('co-applicant') ||
+          event.url.includes('credit-score') ||
+          event.url.includes('exact-match') ||
+          event.url.includes('otp-section')
         ) {
           console.log('welcome to hide element');
           this.hideElement = true;

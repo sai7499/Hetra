@@ -16,12 +16,27 @@ export class ApplicantDataStoreService {
   applicant: Applicant;
   applicantId = '';
   setApplicant(applicant: Applicant) {
+    const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
+      ? applicant.aboutIndivProspectDetails
+      : {};
+    const addressDetails = applicant.addressDetails
+      ? applicant.addressDetails
+      : [];
+    const applicantDetails = applicant.applicantDetails
+      ? applicant.applicantDetails
+      : {};
+    const corporateProspectDetails = applicant.corporateProspectDetails
+      ? applicant.corporateProspectDetails
+      : {};
+    const indivIdentityInfoDetails = applicant.indivIdentityInfoDetails
+      ? applicant.indivIdentityInfoDetails
+      : {};
     this.applicant = {
-      aboutIndivProspectDetails: applicant.aboutIndivProspectDetails,
-      addressDetails: applicant.addressDetails,
-      applicantDetails: applicant.applicantDetails,
-      corporateProspectDetails: applicant.corporateProspectDetails,
-      indivIdentityInfoDetails: applicant.indivIdentityInfoDetails,
+      aboutIndivProspectDetails,
+      addressDetails,
+      applicantDetails,
+      corporateProspectDetails,
+      indivIdentityInfoDetails,
     };
   }
 
