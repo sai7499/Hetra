@@ -46,6 +46,17 @@ export const storage = {
         else{
             return false
         }
+    },
+    
+    getRoleType() {
+        let role = localStorage.getItem('role')
+            ? localStorage.getItem('role')
+            : ''
+        return role;
+    },
+
+    removeRoleType() {
+        localStorage.removeItem('role');
     }
 
 }

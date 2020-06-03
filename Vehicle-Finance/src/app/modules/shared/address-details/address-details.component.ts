@@ -93,7 +93,6 @@ export class AddressDetailsComponent implements OnInit {
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOV data ---', this.LOV);
   }
 
   onIndividualChange(event) {
@@ -101,7 +100,6 @@ export class AddressDetailsComponent implements OnInit {
       return;
     }
     const value = event.target.value;
-    console.log('value', value);
     this.isIndividual = value === 'INDIVENTTYP';
     const formArray = this.addressForm.get('details') as FormArray;
     formArray.clear();
@@ -245,13 +243,11 @@ export class AddressDetailsComponent implements OnInit {
 
   getAddressDetails() {
     this.address = this.applicantDataService.getApplicant();
-    console.log('addressDetailsservice--', this.address);
     this.setAddressData();
   }
 
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
-    console.log('this.indi', this.isIndividual);
     this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
@@ -267,7 +263,6 @@ export class AddressDetailsComponent implements OnInit {
 
   setValuesForIndividual() {
     const addressObj = this.getAddressObj();
-    console.log('addressObj', addressObj);
 
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -329,6 +324,7 @@ export class AddressDetailsComponent implements OnInit {
       mobileNumber: officeAddressObj.mobileNumber,
     });
     // }
+
 
     console.log('details', details);
   }
@@ -403,7 +399,6 @@ export class AddressDetailsComponent implements OnInit {
 
   isSameAddress(event) {
     const isChecked = event.target.checked;
-    console.log('event', isChecked);
     this.getPermanentAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
@@ -415,9 +410,7 @@ export class AddressDetailsComponent implements OnInit {
 
   getPermanentAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
-    console.log('formArray', formArray);
     const formValue = formArray.at(0).value.permanantAddress;
-    console.log('formValue', formValue);
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
     currentAddress.patchValue({
@@ -431,34 +424,12 @@ export class AddressDetailsComponent implements OnInit {
       country: formValue.country,
       landlineNumber: formValue.landlineNumber,
     });
-    // const currentLine1 = formValue.address1;
-    // const currentLine2 = formValue.address2;
-    // const currentLine3 = formValue.address3;
-    // const currentPinCode = formValue.pinCode;
-    // const currentCity = formValue.city;
-    // const currentDistrict = formValue.district;
-    // const currentState = formValue.state;
-    // const currentCountry = formValue.country;
-    // const currentLandLine = formValue.landLine;
-    // formArray.at(0).patchValue({
-    //   currentLine1,
-    //   currentLine2,
-    //   currentLine3,
-    //   currentPinCode,
-    //   currentCity,
-    //   currentDistrict,
-    //   currentState,
-    //   currentCountry,
-    //   currentLandLine
 
-    // });
   }
 
   getRegisteredAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
-    console.log('formArray', formArray);
     const formValue = formArray.at(0).value.registeredAddress;
-    console.log('formValue', formValue);
     const details = formArray.at(0);
     const communicationAddress = details.get('communicationAddress');
     communicationAddress.patchValue({
@@ -472,32 +443,7 @@ export class AddressDetailsComponent implements OnInit {
       country: formValue.country,
       landlineNumber: formValue.landlineNumber,
     });
-    // const formArray = this.addressForm.get('details') as FormArray;
-    // console.log('formArray', formArray)
-    // const formValue = formArray.at(0).value;
-    // console.log('formValue', formValue);
-    // const communicationLine1 = formValue.registeredLine1
-    // const communicationLine2 = formValue.registeredLine2
-    // const communicationLine3 = formValue.registeredLine3
-    // const communicationCity = formValue.registeredCity
-    // const communicationDistrict = formValue.registeredCountry
-    // const communicationState = formValue.registeredState
-    // const communicationCountry = formValue.registeredCountry
-    // const communicationLandLine = formValue.registeredLandLine
-    // const communicationPinCode = formValue.registeredPinCode
 
-    // formArray.at(0).patchValue({
-    //   communicationLine1,
-    //   communicationLine2,
-    //   communicationLine3,
-    //   communicationCity,
-    //   communicationDistrict,
-    //   communicationState,
-    //   communicationCountry,
-    //   communicationLandLine,
-    //   communicationPinCode
-
-    // })
   }
 
   hasRoute() {
@@ -516,13 +462,11 @@ export class AddressDetailsComponent implements OnInit {
       this.storeNonIndividualValueInService(value);
     }
     const applicantData = this.applicantDataService.getApplicant();
-    console.log('applicantData', applicantData);
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
     };
     this.applicantService.saveApplicant(data).subscribe((res) => {
-      console.log('res', res);
     });
   }
 
@@ -534,7 +478,6 @@ export class AddressDetailsComponent implements OnInit {
 
     const permenantAdress: AddressDetails = {};
     const permanantAddressObject = value.details[0].permanantAddress;
-    console.log('permanantAddressObject', permanantAddressObject);
     permenantAdress.addressType = 'PERMADDADDTYP';
     permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
     permenantAdress.addressLineTwo = permanantAddressObject.addressLineTwo;
@@ -557,16 +500,11 @@ export class AddressDetailsComponent implements OnInit {
 
     const currentAddress: AddressDetails = {};
     const currentAddressObject = value.details[0].currentAddress;
-    console.log('currentAddressObject', currentAddressObject);
     currentAddress.addressType = 'CURRADDADDTYP';
     currentAddress.addressLineOne = currentAddressObject.addressLineOne;
     currentAddress.addressLineTwo = currentAddressObject.addressLineTwo;
     currentAddress.addressLineThree = currentAddressObject.addressLineThree;
     currentAddress.pincode = currentAddressObject.pinCode;
-    //  currentAddress.city= currentAddressObject.city;
-    //  currentAddress.state= currentAddressObject.state;
-    //  currentAddress.country= currentAddressObject.country;
-    //  currentAddress.district= currentAddressObject.district;
 
     currentAddress.pincode = 1;
     currentAddress.city = 1;
@@ -586,7 +524,6 @@ export class AddressDetailsComponent implements OnInit {
 
     const officeAddress: AddressDetails = {};
     const officeAddressObject = value.details[0].officeAddress;
-    console.log('officeAddressObject', officeAddressObject);
     officeAddress.addressType = 'OFFADDADDTYP';
     officeAddress.addressLineOne = officeAddressObject.addressLineOne;
     officeAddress.addressLineTwo = officeAddressObject.addressLineTwo;
@@ -611,7 +548,6 @@ export class AddressDetailsComponent implements OnInit {
     officeAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
     this.addressDetailsDataArray.push(officeAddress);
-    console.log('addressDetailsDataArray', this.addressDetailsDataArray);
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
@@ -623,7 +559,6 @@ export class AddressDetailsComponent implements OnInit {
 
     const registeredAddress: AddressDetails = {};
     const registeredAddressObject = value.details[0].registeredAddress;
-    console.log('registeredAddressObject', registeredAddressObject);
     registeredAddress.addressType = 'REGADDADDTYP';
     registeredAddress.addressLineOne = registeredAddressObject.addressLineOne;
     registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
@@ -649,7 +584,6 @@ export class AddressDetailsComponent implements OnInit {
 
     const communicationAddress: AddressDetails = {};
     const communicationAddressObject = value.details[0].communicationAddress;
-    console.log('communicationAddressObject', communicationAddressObject);
     communicationAddress.addressType = 'COMMADDADDTYP';
     communicationAddress.addressLineOne =
       communicationAddressObject.addressLineOne;
@@ -673,7 +607,6 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
     this.addressDetailsDataArray.push(communicationAddress);
-    console.log('addressDetailsDataArray', this.addressDetailsDataArray);
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }

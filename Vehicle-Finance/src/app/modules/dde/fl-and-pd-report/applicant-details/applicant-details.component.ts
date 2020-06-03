@@ -7,22 +7,22 @@ import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 
 @Component({
-    templateUrl: './applicant-details.component.html',
-    styleUrls: ['./applicant-details.component.css']
+  templateUrl: './applicant-details.component.html',
+  styleUrls: ['./applicant-details.component.css']
 })
 export class ApplicantDetailComponent implements OnInit {
-  
+
   applicantForm: FormGroup;
 
-  public applicantLov:any = {};
+  public applicantLov: any = {};
   public labels: any = {};
   public errorMsg;
   public getLabels;
 
-  constructor(private labelsData: LabelsService, 
-              private lovDataService:LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService) {}
+  constructor(private labelsData: LabelsService,
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService) { }
 
   ngOnInit() {
     this.initForm();
@@ -34,10 +34,9 @@ export class ApplicantDetailComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-      
+
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
-      console.log('applicantLov', this.applicantLov);
       this.setFormValue();
     });
 
@@ -45,52 +44,50 @@ export class ApplicantDetailComponent implements OnInit {
 
   initForm() {
     this.applicantForm = new FormGroup({
-        applicantName: new FormControl(''),
-        fatherName: new FormControl(''),
-        gender: new FormControl(''),
-        maritalStatus: new FormControl(''),
-        physicallyChallenged: new FormControl(''),
-        residenceNo: new FormControl(''),
-        officeNo: new FormControl(''),
-        mobile: new FormControl(''),
-        residenceAddress: new FormControl(''),
-        bankName: new FormControl(''),
-        accountNo: new FormControl(''),
-        landmark: new FormControl(''),
-        locate: new FormControl(''),
-        locality: new FormControl(''),
-        residentialType: new FormControl(''),
-        standardHouse: new FormControl(''),
-        sizeOfHouse: new FormControl(''),
-        stdOfLiving: new FormControl(''),
-        houseOwnership: new FormControl(''),
-        ratingBySo: new FormControl('')
+      applicantName: new FormControl(''),
+      fatherName: new FormControl(''),
+      gender: new FormControl(''),
+      maritalStatus: new FormControl(''),
+      physicallyChallenged: new FormControl(''),
+      residenceNo: new FormControl(''),
+      officeNo: new FormControl(''),
+      mobile: new FormControl(''),
+      residenceAddress: new FormControl(''),
+      bankName: new FormControl(''),
+      accountNo: new FormControl(''),
+      landmark: new FormControl(''),
+      locate: new FormControl(''),
+      locality: new FormControl(''),
+      residentialType: new FormControl(''),
+      standardHouse: new FormControl(''),
+      sizeOfHouse: new FormControl(''),
+      stdOfLiving: new FormControl(''),
+      houseOwnership: new FormControl(''),
+      ratingBySo: new FormControl('')
     });
   }
 
   setFormValue() {
     const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
-    console.log("Applicant Model", applicantModal);
-    
     this.applicantForm.patchValue({
-      applicantName: applicantModal.applicantName  || '',
+      applicantName: applicantModal.applicantName || '',
       fatherName: applicantModal.fatherName || '',
       gender: applicantModal.gender || '',
-      maritalStatus: applicantModal.maritalStatus  || '',
+      maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
-      residenceNo: applicantModal.residenceNo  || '',
+      residenceNo: applicantModal.residenceNo || '',
       officeNo: applicantModal.officeNo || '',
       mobile: applicantModal.mobile || '',
       residenceAddress: applicantModal.residenceAddress || '',
       bankName: applicantModal.bankName || '',
-      accountNo: applicantModal.accountNo  || '',
+      accountNo: applicantModal.accountNo || '',
       landmark: applicantModal.landmark || '',
       locate: applicantModal.locate || '',
       locality: applicantModal.locality || '',
-      residentialType: applicantModal.residentialType  || '',
-      standardHouse: applicantModal.standardHouse  || '',
-      sizeOfHouse: applicantModal.sizeOfHouse  || '',
-      stdOfLiving: applicantModal.stdOfLiving  || '',
+      residentialType: applicantModal.residentialType || '',
+      standardHouse: applicantModal.standardHouse || '',
+      sizeOfHouse: applicantModal.sizeOfHouse || '',
+      stdOfLiving: applicantModal.stdOfLiving || '',
       houseOwnership: applicantModal.houseOwnership || '',
       ratingBySo: applicantModal.ratingBySo || ''
     });
@@ -98,8 +95,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   onFormSubmit() {
     const formModal = this.applicantForm.value;
-    const applicantFormModal = {...formModal};
-    // this.ddeStoreService.setApplicantDetails(applicantFormModal);
+    const applicantFormModal = { ...formModal };
     this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
   }
 

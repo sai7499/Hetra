@@ -15,6 +15,8 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
 import { AddOrUpdateApplicantComponent } from './add-update-applicant/add-update-applicant.component';
 import { DdeSharedModule } from '../dde/shared/shared.module';
 import {ApplicantListComponent} from './applicant-list/applicant-list.component'
+import { SharedBasicVehicleDetailsComponent } from './shared-basic-vehicle-details/shared-basic-vehicle-details.component';
+import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-vehicle-details.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {ApplicantListComponent} from './applicant-list/applicant-list.component'
     IdentityDetailsComponent,
     AddressDetailsComponent,
     AddOrUpdateApplicantComponent,
-    ApplicantListComponent
+    ApplicantListComponent,
+    SharedBasicVehicleDetailsComponent,
+    SharedVehicleDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +47,8 @@ import {ApplicantListComponent} from './applicant-list/applicant-list.component'
     AddressDetailsComponent,
     IdentityDetailsComponent,
     AddOrUpdateApplicantComponent,
+    SharedBasicVehicleDetailsComponent,
+    SharedVehicleDetailsComponent
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

@@ -11,11 +11,10 @@ export class RtoDeclarationDetailsComponent implements OnInit {
 
   public select_main_button_value: string = 'individual';
   public label: any = {};
-  public label_rto_declaration: any = {};
-  public label_rto_confirmation: any = {};
+  public labelRtoDeclaration: any = {};
+  public labelRtoConfirmation: any = {};
 
-  public rtoDeclarationForm: FormGroup;
-  public rtoConfirmationForm: FormGroup
+  public rtoDetailsForm: FormGroup;
 
   constructor(private _fb: FormBuilder, private labelsData: LabelsService) { }
 
@@ -24,9 +23,8 @@ export class RtoDeclarationDetailsComponent implements OnInit {
     this.labelsData.getLabelsOfDDEData()
       .subscribe(data => {
         this.label = data[0].rtoDetails[0];
-        console.log(this.label, 'data')
-        this.label_rto_declaration = this.label.rto_declaration[0];
-        this.label_rto_confirmation = this.label.rto_confirmation[0];
+        this.labelRtoDeclaration = this.label.rtoDeclaration[0];
+        this.labelRtoConfirmation = this.label.rtoConfirmation[0];
       },
         error => {
           console.log(error, 'error')
@@ -38,32 +36,33 @@ export class RtoDeclarationDetailsComponent implements OnInit {
   }
 
   createForm() {
-    this.rtoDeclarationForm = this._fb.group({
-      objection_filed_vehicle: [''],
-      case_filed_vehicle: [''],
-      court_revenue: [''],
-      duplicate_rc: [''],
-      interstate_vehicle: [''],
-      re_registered_vehicle: [''],
-      assigned_number: [''],
-      fine_vehicle: [''],
-      tax_arrears: [''],
-      engine_number_match: [''],
-      issues_permit_transfer: [''],
-      discrepancy: [''],
-      tax_valid_upto: [''],
-      fitness_valid_upto: [''],
-      remarks: ['']
-    })
-
-    this.rtoConfirmationForm = this._fb.group({
-      rto_agent_name: [''],
-      rto_agent_signature: [''],
-      date: [{ value: '', disabled: true }],
-      borrower_name: [''],
-      borrower_signature: [''],
-      remark: [''],
-      date1: [{ value: '', disabled: true }]
+    this.rtoDetailsForm = this._fb.group({
+      rtoDeclaration: this._fb.group({
+        objectionFiled: [''],
+        caseFiled: [''],
+        attachmentbyCourtRevenue: [''],
+        duplicateRC: [''],
+        interstateVehicle: [''],
+        reRegisteredVehicle: [''],
+        assignedNumber: [''],
+        fineVehicle: [''],
+        taxArrears: [''],
+        engineNumChassisnumbermatch: [''],
+        issueinpermitTransfer: [''],
+        anyOtherIssueDiscrepancy: [''],
+        taxValid: [''],
+        fitnessValid: [''],
+        remarks: ['']
+      }),
+      rtoConfirmation: this._fb.group({
+        rtoAgentName: [''],
+        rtoAgentSignature: [''],
+        date: [{ value: '', disabled: true }],
+        borrowerName: [''],
+        borrowerSignature: [''],
+        remark: [''],
+        date1: [{ value: '', disabled: true }]
+      })
     })
   }
 

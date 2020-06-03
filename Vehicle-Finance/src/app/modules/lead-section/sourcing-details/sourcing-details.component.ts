@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { VehicleDetailService } from '../services/vehicle-detail.service';
+import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';

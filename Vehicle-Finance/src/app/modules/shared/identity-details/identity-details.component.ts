@@ -67,9 +67,6 @@ export class IdentityDetailsComponent implements OnInit {
     );
     this.getLov();
 
-    // this.identityForm = this.fb.group({
-    //     details: this.fb.array([])
-    // });
     this.identityForm = new FormGroup({
       entity: new FormControl(''),
       details: new FormArray([]),
@@ -93,17 +90,13 @@ export class IdentityDetailsComponent implements OnInit {
       this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     if (this.isIndividual) {
       this.indivIdentityInfoDetails = this.getIndivIdentityInfoDetails();
-      console.log(
-        'this.indivIdentityInfoDetails',
-        this.indivIdentityInfoDetails
-      );
+
       this.setIndividualValue();
     } else {
       this.corporateProspectDetails = this.getCorporateProspectDetails();
       (this.identityForm.get('details') as FormArray).clear();
       this.addNonIndividualFormControls();
       this.setNonIndividualValue();
-      console.log('this.applicant', this.applicant);
     }
   }
 
@@ -128,14 +121,10 @@ export class IdentityDetailsComponent implements OnInit {
   getLov() {
     this.commomLovservice.getLovData().subscribe((lov) => {
       this.lov = lov;
-      console.log('this.lov', this.lov);
     });
   }
   addIndividualFormControls() {
     const controls = new FormGroup({
-      //    idDetails: new FormControl(''),
-      //    idNumber: new FormControl(null),
-      //    expiryDate: new FormControl(null),
       aadhar: new FormControl(null),
       form60: new FormControl(''),
       pan: new FormControl(null),
@@ -164,15 +153,9 @@ export class IdentityDetailsComponent implements OnInit {
 
   onIndividualChange(event) {
     const value = event.target.value;
-    console.log('value', value);
     this.isIndividual = value === 'INDIVENTTYP';
     const formArray = this.identityForm.get('details') as FormArray;
     formArray.clear();
-    // const length = formArray.length;
-    // for (let i = 0; i < length; i++) {
-    //     formArray.removeAt(i);
-    // }
-    // console.log('formArray', formArray);
     this.isIndividual ? this.addIndividualForm() : this.addNonIndividualForm();
   }
 
@@ -185,15 +168,6 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onSave() {
-    // const rawValue = this.identityForm.getRawValue();
-    // if(this.isIndividual){
-    //   this.storeIndividualValueInService(rawValue);
-    //   this.applicantDataService.setIndivIdentityInfoDetails(null);
-    // } else {
-    //   this.storeNonIndividualValueInService(rawValue);
-    //   this.applicantDataService.setCorporateProspectDetails(null);
-    // }
-    // const identityData = this.applicantDataService.getApplicant();
   }
 
   storeNonIndividualValueInService() {
@@ -236,7 +210,6 @@ export class IdentityDetailsComponent implements OnInit {
     identityDetails.voterIdExpiryDate = this.formatGivenDate(
       formValue.voterIdExpiryDate
     );
-    console.log('identityDetails', identityDetails);
 
     this.applicantDataService.setIndivIdentityInfoDetails(identityDetails);
   }
@@ -285,7 +258,6 @@ export class IdentityDetailsComponent implements OnInit {
       drivingLicenseNumber: value.drivingLicenseNumber,
       voterIdNumber: value.voterIdNumber,
     });
-    console.log('details', details.value);
   }
   getFormateDate(date: string) {
     if (!date) {
@@ -309,13 +281,11 @@ export class IdentityDetailsComponent implements OnInit {
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const applicant = this.applicantDataService.getApplicant();
-    console.log('applicant', applicant);
     const data = {
       applicantId: this.applicantId,
       ...applicant,
     };
     this.applicantService.saveApplicant(data).subscribe((res) => {
-      console.log('res', res);
       this.router.navigate([
         '/pages/sales-applicant-details/address-details',
         this.applicantId,

@@ -32,8 +32,6 @@ export class ApplicantListComponent implements OnInit {
   ngOnInit() {
     const currentUrl = this.location.path();
 
-    console.log('currentUrl', currentUrl);
-
     this.isShowAddaApplicant(currentUrl);
 
     this.labelsData.getLabelsData().subscribe(
@@ -63,10 +61,8 @@ export class ApplicantListComponent implements OnInit {
     };
 
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
-      console.log('applicant list', value);
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
-      console.log('applicantList', this.applicantList);
     });
   }
 
@@ -74,7 +70,6 @@ export class ApplicantListComponent implements OnInit {
     this.showAddApplicant = !currentUrl.includes('dde');
   }
   onApplicantClick(item) {
-    console.log('item', item);
   }
 
   softDeleteApplicant(index: number, applicantId: number) {

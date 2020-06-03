@@ -14,12 +14,12 @@ export class ApplicantdocumentComponent implements OnInit {
 
   values: any = [];
   public labels: any = {};
-  public applicantForm : FormGroup
+  public applicantForm: FormGroup
 
   constructor(
     private lovData: LovDataService,
     private router: Router,
-    private labelsData: LabelsService, 
+    private labelsData: LabelsService,
     private fb: FormBuilder
   ) { }
 
@@ -27,93 +27,88 @@ export class ApplicantdocumentComponent implements OnInit {
     this.initform();
     this.labelsData.getLabelsData().subscribe(
       data => {
-
         this.labels = data;
-         console.log(this.labels)
       },
       error => {
         console.log(error);
       });
-    this.lovData.getLovData().subscribe((res : any) => {
-    this.values = res[0].applicantDocument[0];
-    console.log(this.values);
+    this.lovData.getLovData().subscribe((res: any) => {
+      this.values = res[0].applicantDocument[0];
     })
-    
+
   }
   initform() {
-     this.applicantForm = this.fb.group({
-       identityProof : this.fb.array([this.initControls()]),
-       addressProof : this.fb.array([this.initControls()]),
-       incomeProof : this.fb.array([this.initControls()]),
-       additionalProof : this.fb.array([this.initControls()])
-     })
+    this.applicantForm = this.fb.group({
+      identityProof: this.fb.array([this.initControls()]),
+      addressProof: this.fb.array([this.initControls()]),
+      incomeProof: this.fb.array([this.initControls()]),
+      additionalProof: this.fb.array([this.initControls()])
+    })
   }
 
-  initControls(){
+  initControls() {
     return this.fb.group({
-      documentName : '',
-      documentNumber : '',
-      issueDate : '',
-      documentExpiryDate : '',
-      mandatoryStage : '',
-      deferralDate : '',
-      status : '',
-      uploadDocument : '',
- })
+      documentName: '',
+      documentNumber: '',
+      issueDate: '',
+      documentExpiryDate: '',
+      mandatoryStage: '',
+      deferralDate: '',
+      status: '',
+      uploadDocument: '',
+    })
   }
 
-  get identityControls (){
+  get identityControls() {
     return this.applicantForm.get('identityProof') as FormArray
   }
-  get addressControls (){
+  get addressControls() {
     return this.applicantForm.get('addressProof') as FormArray
   }
-  get incomeControls (){
+  get incomeControls() {
     return this.applicantForm.get('incomeProof') as FormArray
   }
-  get additionalControls (){
+  get additionalControls() {
     return this.applicantForm.get('additionalProof') as FormArray
   }
 
-  addIdentity(){
+  addIdentity() {
     this.identityControls.push(this.initControls())
-     }
-  removeIdentity(index){
-    if(index >=1){
-      console.log('value of I',index);
+  }
+  removeIdentity(index) {
+    if (index >= 1) {
       this.identityControls.removeAt(index)
     }
   }
 
-  addIncome(){
+  addIncome() {
     this.incomeControls.push(this.initControls())
-     }
-  removeIncome(index){
-    if(index >=1){
+  }
+  removeIncome(index) {
+    if (index >= 1) {
       this.incomeControls.removeAt(index)
     }
   }
 
-  addAdditional(){
+  addAdditional() {
     this.additionalControls.push(this.initControls())
-     }
-  removeAdditional(index){
-    if(index >=1){
+  }
+  removeAdditional(index) {
+    if (index >= 1) {
       this.additionalControls.removeAt(index)
     }
   }
 
-  addAddress(){
+  addAddress() {
     this.addressControls.push(this.initControls())
-     }
-  removeAddress(index){
-    if(index >=1){
+  }
+  removeAddress(index) {
+    if (index >= 1) {
       this.addressControls.removeAt(index)
     }
   }
 
-  onSubmitForm(){
+  onSubmitForm() {
     this.router.navigate(['/pages/document-viewupload/collateral-documents']);
-    console.log('applicantform',this.applicantForm.value)
   }
 }

@@ -1,84 +1,15 @@
 <div class="content">
     <!-- <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm" style="height: 380px;"> -->
-        <div class="multisteps-form__form"  style="height: 400px;">
-        <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn">
-        <h4 class="title"><b>{{ label.vehcileDetailsTitle }}</b></h4>
-        <div class="text-right" id="add_vehicle_details_btn">
-            <button class="btn btn-primary mar-right8" type="button"
-                [routerLink]="['/pages/lead-section/add-vehicle']">Add Vehicle</button>
-        </div>
-        <div class="table-responsive">
-            <table class="table" id="add_vhd_table">
-                <thead>
-                    <tr class=" table-head-bg ">
-                        <th>Registration No</th>
-                        <th>Make </th>
-                        <th>Model</th>
-                        <th>Variant</th>
-                        <th>Final Asset Cost</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr id="add_vhd_tabletr" *ngFor="let vehicleDetails of vehicleDetails; let i=index">
-                        <td>{{vehicleDetails.registrationNumber}}</td>
-
-                        <td>{{vehicleDetails.assetMake.value}}</td>
-                        <td>{{vehicleDetails.assetModel.value}}</td>
-                        <td>{{vehicleDetails.assetVariant.value}}</td>
-
-                        <td>{{vehicleDetails.finalAssetCost}}</td>
-
-                        <td>
-                            <i (click)="editVehicle(i)" class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;
-                            <a data-toggle="modal" data-target="#myModal"><i class="fa fa-trash"
-                                    aria-hidden="true"></i></a>
-                        </td>
-                        <div class="modal" id="myModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title"></h4>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        Are you Sure Want to Delete?
-                                    </div>
-
-                                    <!-- Modal footer -->
-                                    <div class="modal-footer text-center">
-                                        <button type="button" class="btn btn-success" data-dismiss="modal"
-                                            (click)="deleteVehicle(i)">Yes</button>
-                                        <button type="button" class="btn btn-danger"
-                                            data-dismiss="modal">Cancel</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="alert alert-success alert-dismissible" style="position:fixed" id="alert"  *ngIf="!isAlert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                    aria-hidden="true">&times;</span></button> Vehicle Details saved Successfully.
-        </div>
-    <!-- </form> -->
-    </div>
+    <app-shared-vehicle-details></app-shared-vehicle-details>
 </div>
-</div>
+
 <div class="btn-sec clear-both row" id="clickButton">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 text-right">
         <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> Back
         </button> &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> save</button> &nbsp;
-        <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/credit-score']"
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{label.save}}</button> &nbsp;
+        <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/'+ leadId + 'credit-score']"
             type="button">Next</button>
     </div>
 </div>
