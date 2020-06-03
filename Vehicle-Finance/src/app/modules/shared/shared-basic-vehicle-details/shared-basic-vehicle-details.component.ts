@@ -148,6 +148,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const region = value ? value : '';
     const assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
+
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
 
       if (this.regionDataArray.length > 0) {
@@ -163,9 +164,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       formArray.controls[0].patchValue({
         assetMake: '',
       })
-      console.log('vehicleLov', this.vehicleLov)
+
     })
-    this.onChangeSalesAssetMake(0)
+    // this.onChangeSalesAssetMake(0)
   }
 
   onChangeSalesAssetMake(value) {
