@@ -11,7 +11,8 @@ import {
 } from '@model/applicant.model';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
-import { Address } from 'cluster';
+import { LeadStoreService } from '../../sales/services/lead.store.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-address-details',
@@ -22,14 +23,14 @@ export class AddressDetailsComponent implements OnInit {
   isIndividual = true;
   addressForm: FormGroup;
   addressDetailsDataArray: any = [];
-
   dropDownValues: any = [];
   isSalesOrCredit: string;
-  values : any =[];
+  values: any = [];
   LOV: any = [];
   labels: any = {};
   address: Applicant;
   applicantId: number;
+  leadId: number;
 
   isCurrAddSameAsPermAdd: any = 0;
   permenantAddressDetails: AddressDetails[];
@@ -42,8 +43,18 @@ export class AddressDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private commomLovService: CommomLovService,
     private applicantService: ApplicantService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+    private leadStoreService: LeadStoreService,
+    private location: Location
   ) {}
+
+  onBack() {
+    this.location.back();
+  }
+
+  navigateToApplicantList() {
+    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+  }
 
   ngOnInit() {
     this.initForm();
@@ -51,6 +62,8 @@ export class AddressDetailsComponent implements OnInit {
     this.getLOV();
     this.hasRoute();
     this.activatedRoute.params.subscribe((value) => {
+      this.leadId = Number(this.leadId);
+      this.leadId = this.leadStoreService.getLeadId();
       if (!value && !value.applicantId) {
         return;
       }
@@ -62,7 +75,6 @@ export class AddressDetailsComponent implements OnInit {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
-    
     });
   }
   initForm() {
@@ -262,24 +274,25 @@ export class AddressDetailsComponent implements OnInit {
 
     const permenantAddressObj = addressObj['PERMADDADDTYP'];
     console.log('objectpermananentAddress--', permenantAddressObj);
- // if (permenantAddressObj) {
-      const permenantAddress = details.get('permanantAddress');
-      permenantAddress.patchValue({
-        addressLineOne: permenantAddressObj.addressLineOne,
-        addressLineTwo: permenantAddressObj.addressLineTwo,
-        addressLineThree: permenantAddressObj.addressLineThree,
-        pincode: permenantAddressObj.pincode,
-        city: permenantAddressObj.city,
-        district: permenantAddressObj.district,
-        state: permenantAddressObj.state,
-        country: permenantAddressObj.country,
-        landlineNumber: permenantAddressObj.landlineNumber,
-      });
+    // if (permenantAddressObj) {
+    const permenantAddress = details.get('permanantAddress');
+    permenantAddress.patchValue({
+      addressLineOne: permenantAddressObj.addressLineOne,
+      addressLineTwo: permenantAddressObj.addressLineTwo,
+      addressLineThree: permenantAddressObj.addressLineThree,
+      pincode: permenantAddressObj.pincode,
+      city: permenantAddressObj.city,
+      district: permenantAddressObj.district,
+      state: permenantAddressObj.state,
+      country: permenantAddressObj.country,
+      landlineNumber: permenantAddressObj.landlineNumber,
+    });
     // }
     const currentaddressObj = addressObj['CURRADDADDTYP'];
     console.log('objectCurrentAddress--', currentaddressObj);
     // if(currentaddressObj){
-      const currentAddress = details.get('currentAddress');
+    const currentAddress = details.get('currentAddress');
+    if (currentAddress) {
       currentAddress.patchValue({
         addressLineOne: currentaddressObj.addressLineOne,
         addressLineTwo: currentaddressObj.addressLineTwo,
@@ -290,74 +303,75 @@ export class AddressDetailsComponent implements OnInit {
         state: currentaddressObj.state,
         country: currentaddressObj.country,
         landlineNumber: currentaddressObj.landlineNumber,
-        accommodationType :currentaddressObj.accommodationType,
-        periodOfCurrentStay :currentaddressObj.periodOfCurrentStay,
-        mobileNumber : currentaddressObj.mobileNumber
-      })
+        accommodationType: currentaddressObj.accommodationType,
+        periodOfCurrentStay: currentaddressObj.periodOfCurrentStay,
+        mobileNumber: currentaddressObj.mobileNumber,
+      });
+    }
+
     // }
-    const officeAddressObj = addressObj['OFFADDADDTYP']
+    const officeAddressObj = addressObj['OFFADDADDTYP'];
     console.log('objectOfficeAddress--', officeAddressObj);
     //  if(officeAddressObj){
-      const officeAddress = details.get('officeAddress');
-      officeAddress.patchValue({
-        addressLineOne: officeAddressObj.addressLineOne,
-        addressLineTwo: officeAddressObj.addressLineTwo,
-        addressLineThree: officeAddressObj.addressLineThree,
-        pincode: officeAddressObj.pincode,
-        city: officeAddressObj.city,
-        district: officeAddressObj.district,
-        state: officeAddressObj.state,
-        country: officeAddressObj.country,
-        landlineNumber: officeAddressObj.landlineNumber,
-        accommodationType :officeAddressObj.accommodationType,
-        periodOfCurrentStay :officeAddressObj.periodOfCurrentStay,
-        mobileNumber : officeAddressObj.mobileNumber
-      })
+    const officeAddress = details.get('officeAddress');
+    officeAddress.patchValue({
+      addressLineOne: officeAddressObj.addressLineOne,
+      addressLineTwo: officeAddressObj.addressLineTwo,
+      addressLineThree: officeAddressObj.addressLineThree,
+      pincode: officeAddressObj.pincode,
+      city: officeAddressObj.city,
+      district: officeAddressObj.district,
+      state: officeAddressObj.state,
+      country: officeAddressObj.country,
+      landlineNumber: officeAddressObj.landlineNumber,
+      accommodationType: officeAddressObj.accommodationType,
+      periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
+      mobileNumber: officeAddressObj.mobileNumber,
+    });
     // }
-    
 
     console.log('details', details);
   }
 
   setValuesForNonIndividual() {
     const addressObj = this.getAddressObj();
-    console.log('addressObj',addressObj);
+    console.log('addressObj', addressObj);
 
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj['REGADDADDTYP'];
-    
+
     // if (registeredAddressObj) {
-      const registeredAddress = details.get('registeredAddress');
-      registeredAddress.patchValue({
-        addressLineOne: registeredAddressObj.addressLineOne,
-        addressLineTwo: registeredAddressObj.addressLineTwo,
-        addressLineThree: registeredAddressObj.addressLineThree,
-        pincode: registeredAddressObj.pincode,
-        city: registeredAddressObj.city,
-        district: registeredAddressObj.district,
-        state: registeredAddressObj.state,
-        country: registeredAddressObj.country,
-        landlineNumber: registeredAddressObj.landlineNumber,
-      });
+    const registeredAddress = details.get('registeredAddress');
+    registeredAddress.patchValue({
+      addressLineOne: registeredAddressObj.addressLineOne,
+      addressLineTwo: registeredAddressObj.addressLineTwo,
+      addressLineThree: registeredAddressObj.addressLineThree,
+      pincode: registeredAddressObj.pincode,
+      city: registeredAddressObj.city,
+      district: registeredAddressObj.district,
+      state: registeredAddressObj.state,
+      country: registeredAddressObj.country,
+      landlineNumber: registeredAddressObj.landlineNumber,
+    });
     // }
-    const communicationAddressObj = addressObj['COMMADDADDTYP']
+    const communicationAddressObj = addressObj['COMMADDADDTYP'];
     // if(communicationAddressObj){
-      const communicationAddress = details.get('communicationAddress');
-      communicationAddress.patchValue({
-        addressLineOne: communicationAddressObj.addressLineOne,
-        addressLineTwo: communicationAddressObj.addressLineTwo,
-        addressLineThree: communicationAddressObj.addressLineThree,
-        pincode: communicationAddressObj.pincode,
-        city: communicationAddressObj.city,
-        district: communicationAddressObj.district,
-        state: communicationAddressObj.state,
-        country: communicationAddressObj.country,
-        landlineNumber: communicationAddressObj.landlineNumber,
-        accommodationType :communicationAddressObj.accommodationType,
-        periodOfCurrentStay :communicationAddressObj.periodOfCurrentStay,
-        mobileNumber : communicationAddressObj.mobileNumber
-      })
+    const communicationAddress = details.get('communicationAddress');
+    communicationAddress.patchValue({
+      addressLineOne: communicationAddressObj.addressLineOne,
+      addressLineTwo: communicationAddressObj.addressLineTwo,
+      addressLineThree: communicationAddressObj.addressLineThree,
+      pincode: communicationAddressObj.pincode,
+      city: communicationAddressObj.city,
+      district: communicationAddressObj.district,
+      state: communicationAddressObj.state,
+      country: communicationAddressObj.country,
+      landlineNumber: communicationAddressObj.landlineNumber,
+      accommodationType: communicationAddressObj.accommodationType,
+      periodOfCurrentStay: communicationAddressObj.periodOfCurrentStay,
+      mobileNumber: communicationAddressObj.mobileNumber,
+    });
     // }
   }
 
@@ -515,7 +529,7 @@ export class AddressDetailsComponent implements OnInit {
   storeIndividualValueInService(value) {
     const applicantDetails: ApplicantDetails = {};
     applicantDetails.entityType = value.entity;
-    console.log('valueEntity', value.entity)
+    console.log('valueEntity', value.entity);
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const permenantAdress: AddressDetails = {};
@@ -602,10 +616,9 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
   storeNonIndividualValueInService(value) {
-
     const applicantDetails: ApplicantDetails = {};
     applicantDetails.entityType = value.entity;
-    console.log('valueEntity', value.entity)
+    console.log('valueEntity', value.entity);
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const registeredAddress: AddressDetails = {};
@@ -614,7 +627,8 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.addressType = 'REGADDADDTYP';
     registeredAddress.addressLineOne = registeredAddressObject.addressLineOne;
     registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
-    registeredAddress.addressLineThree = registeredAddressObject.addressLineThree;
+    registeredAddress.addressLineThree =
+      registeredAddressObject.addressLineThree;
     // registeredAddress.pincode= registeredAddressObject.pinCode;
     // registeredAddress.city= registeredAddressObject.city;
     // registeredAddress.state= registeredAddressObject.state;

@@ -9,7 +9,7 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':leadId',
     component: ApplicantDetailsComponent,
     children: [
       {

@@ -7,7 +7,7 @@ import {
   FormArray,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { formatDate } from '@angular/common';
+import { formatDate, Location } from '@angular/common';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -19,6 +19,7 @@ import {
   Applicant,
   CorporateProspectDetails,
 } from '@model/applicant.model';
+import { LeadStoreService } from '../../sales/services/lead.store.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -30,6 +31,7 @@ export class IdentityDetailsComponent implements OnInit {
   lov: any = {};
   applicant: Applicant;
   applicantId: number;
+  leadId: number;
   indivIdentityInfoDetails: IndivIdentityInfoDetails;
   corporateProspectDetails: CorporateProspectDetails;
   isIndividual = true;
@@ -41,8 +43,18 @@ export class IdentityDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private leadStoreService: LeadStoreService,
+    private location: Location
   ) {}
+
+  navigateToApplicantList() {
+    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+  }
+
+  onBack() {
+    this.location.back();
+  }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -65,6 +77,8 @@ export class IdentityDetailsComponent implements OnInit {
     this.addIndividualFormControls();
     this.identityForm.patchValue({ entity: 'INDIVENTTYP' });
     this.activatedRoute.params.subscribe((value) => {
+      this.leadId = value.leadId;
+      this.leadId = this.leadStoreService.getLeadId();
       if (!value && !value.applicantId) {
         return;
       }
@@ -285,7 +299,6 @@ export class IdentityDetailsComponent implements OnInit {
     if (this.isIndividual) {
       this.storeIndividualValueInService();
       this.applicantDataService.setCorporateProspectDetails(null);
-     
     } else {
       this.storeNonIndividualValueInService();
       this.applicantDataService.setIndivIdentityInfoDetails(null);
