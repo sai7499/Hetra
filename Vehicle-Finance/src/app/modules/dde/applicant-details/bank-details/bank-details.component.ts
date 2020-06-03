@@ -23,7 +23,7 @@ export class BankDetailsComponent implements OnInit {
   applicantId: number;
   formType: string;
   monthArray: any;
-  assignedArray: any;
+  assignedArray = [];
   listArray: FormArray;
 
   constructor(
@@ -78,7 +78,7 @@ export class BankDetailsComponent implements OnInit {
     }
   }
 
-  public initRows() {
+  public initRows( data?: any) {
     return this.fb.group({
       month: ['jan'],
       year: [2020],
@@ -150,7 +150,7 @@ export class BankDetailsComponent implements OnInit {
 
   addProposedUnit(data?: any) {
     const control = this.bankForm.controls.transactionDetails as FormArray;
-    control.push(this.initRows(data));
+    control.push(this.populateTransaction(data));
   }
   onSave() {
     this.bankTransaction
@@ -198,7 +198,7 @@ export class BankDetailsComponent implements OnInit {
 
         // tslint:disable-next-line: prefer-const
         let count = i % 12;
-        let array = this.monthArray.slice(count, count + 1);
+        const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
         // }
       }
