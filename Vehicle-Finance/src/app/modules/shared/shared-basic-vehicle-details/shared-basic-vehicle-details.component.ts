@@ -130,7 +130,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         vehicleId: VehicleDetail.vehicleId || '',
         vehicleCode: VehicleDetail.vehicleCode || '',
       })
-      this.onVehicleRegionSales(VehicleDetail.region)
+      // this.onVehicleRegionSales(VehicleDetail.region)
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -148,6 +148,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const region = value ? value : '';
     const assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
+
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
 
       if (this.regionDataArray.length > 0) {
@@ -163,8 +164,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       formArray.controls[0].patchValue({
         assetMake: '',
       })
+
     })
-    this.onChangeSalesAssetMake(0)
+    // this.onChangeSalesAssetMake(0)
   }
 
   onChangeSalesAssetMake(value) {
@@ -236,7 +238,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
       vehicleType: [''],
-      region: ['APASTRGN'],
+      region: [''],
       registrationNumber: [''],
       assetMake: [''],
       assetModel: [''],
