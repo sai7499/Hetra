@@ -9,22 +9,21 @@ import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
+// import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
   templateUrl: './lead-creation.component.html',
   styleUrls: ['./lead-creation.component.css'],
 })
 export class LeadCreationComponent implements OnInit {
+  // qde: Qde;
   createLeadForm: FormGroup;
-  test: any;
-  values = [];
   lovLabels: any = [];
   labels: any = {};
 
   applicantType = 'INDIVENTTYP';
   sourcingChange: any;
   sourcingCodePlaceholder = 'Sourcing Code';
-  // ProfessionList = [];
   sourchingTypeData = [];
   sourchingTypeValues = [];
   text: string;
@@ -65,12 +64,6 @@ export class LeadCreationComponent implements OnInit {
     dobOrDoc: string;
   };
 
-  selectApplicantType(event: any) {
-    console.log(this.applicantType);
-    this.applicantType = event.target.value;
-    console.log(this.applicantType);
-  }
-
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
@@ -90,6 +83,9 @@ export class LeadCreationComponent implements OnInit {
     this.initForm();
     this.createLeadForm.patchValue({ bizDivision: 'EBBIZDIV' });
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
+    // if (this.qde) {
+    //   this.setFormData();
+    // }
   }
 
   getLabels() {
@@ -228,6 +224,11 @@ export class LeadCreationComponent implements OnInit {
     }
   }
 
+  selectApplicantType(event: any) {
+    console.log(this.applicantType);
+    this.applicantType = event.target.value;
+  }
+
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
       this.labelsData.getLanguageLabelData().subscribe((data) => {
@@ -239,6 +240,47 @@ export class LeadCreationComponent implements OnInit {
       });
     }
   }
+
+  // qdeData() {
+  //   const loanLeadData = this.qde.lead.loanLeadDetails;
+  //   loanLeadData.bizDivision = this.loanLeadDetails.bizDivision;
+  //   loanLeadData.productCategory = this.loanLeadDetails.productCategory;
+  //   loanLeadData.priority = this.loanLeadDetails.priority;
+  //   loanLeadData.fundingProgram = this.loanLeadDetails.fundingProgram;
+  //   loanLeadData.sourcingChannel = this.loanLeadDetails.sourcingChannel;
+  //   loanLeadData.sourcingType = this.loanLeadDetails.sourcingType;
+  //   loanLeadData.sourcingCode = this.loanLeadDetails.sourcingCode;
+  //   loanLeadData.spokeCodeLocation = this.loanLeadDetails.spokeCode;
+  //   loanLeadData.loanBranch = this.loanLeadDetails.loanBranch;
+  //   loanLeadData.leadHandeledBy = this.loanLeadDetails.leadHandeledBy;
+
+  //   const applicantData = this.qde.lead.applicantDetails;
+  //   applicantData.entity = this.applicantDetails.entity;
+  //   applicantData.nameOne = this.applicantDetails.nameOne;
+  //   applicantData.nameTwo = this.applicantDetails.nameTwo;
+  //   applicantData.nameThree = this.applicantDetails.nameThree;
+  //   applicantData.dobOrDoc = this.applicantDetails.dobOrDoc;
+  // }
+  // setFormData() {
+  //   const loanLead = this.qde.lead.loanLeadDetails;
+  //   const applicantData = this.qde.lead.applicantDetails;
+  //   this.createLeadForm.patchValue({ bizDivision: loanLead.bizDivision });
+  //   this.createLeadForm.patchValue({ productCategory: loanLead.productCategory });
+  //   this.createLeadForm.patchValue({ fundingProgram: loanLead.fundingProgram });
+  //   this.createLeadForm.patchValue({ priority: loanLead.priority });
+  //   this.createLeadForm.patchValue({ sourcingChannel: loanLead.sourcingChannel });
+  //   this.createLeadForm.patchValue({ sourcingType: loanLead.sourcingType });
+  //   this.createLeadForm.patchValue({ sourcingCode: loanLead.sourcingCode });
+  //   this.createLeadForm.patchValue({ spokeCodeLocation: loanLead.spokeCodeLocation});
+  //   this.createLeadForm.patchValue({ loanBranch: loanLead.loanBranch });
+  //   this.createLeadForm.patchValue({ leadHandeledBy: loanLead.leadHandeledBy });
+  //   this.createLeadForm.patchValue({ entity: applicantData.entity });
+  //   this.createLeadForm.patchValue({ nameOne: applicantData.nameOne });
+  //   this.createLeadForm.patchValue({ nameTwo: applicantData.nameTwo });
+  //   this.createLeadForm.patchValue({ nameThree: applicantData.nameThree });
+  //   this.createLeadForm.patchValue({ mobile: applicantData.mobile });
+  //   this.createLeadForm.patchValue({ dateOfBirth: applicantData.dobOrDoc });
+  // }
 
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
@@ -268,7 +310,7 @@ export class LeadCreationComponent implements OnInit {
       mobileNumber: leadModel.mobile,
       dobOrDoc: leadModel.dateOfBirth,
     };
-
+    // this.qdeData();
     console.log('loanLeadDetails', this.loanLeadDetails);
     console.log('applicantDetails', this.applicantDetails);
     this.createLeadDataService.setLeadData(
@@ -307,10 +349,14 @@ export class LeadCreationComponent implements OnInit {
 
               if (appiyoError === '0' && apiError === '0') {
                 console.log('leadSectionData', leadSectionData);
+                const leadId = leadSectionData.leadId;
                 this.createLeadDataService.setLeadSectionData(leadSectionData);
-                this.router.navigateByUrl('pages/lead-section');
+                this.router.navigateByUrl(`pages/lead-section/${leadId}`);
               }
             });
+          } else {
+            const message = response.ProcessVariables.error.message;
+            alert(message);
           }
         },
         (err) => {

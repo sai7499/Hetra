@@ -278,10 +278,6 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
-  onNext() {
-    this.leadSectionService.setCurrentPage(1);
-  }
-
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     const saveAndUpdate: any = { ...formValue };
@@ -318,5 +314,15 @@ export class SourcingDetailsComponent implements OnInit {
         this.isAlert = true;
       }
     });
+  }
+
+  onNext() {
+    this.leadSectionService.setCurrentPage(1);
+  }
+
+  nextToApplicant() {
+    this.router.navigateByUrl(
+      `/pages/lead-section/${this.leadId}/applicant-details`
+    );
   }
 }
