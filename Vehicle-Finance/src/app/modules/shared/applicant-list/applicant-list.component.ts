@@ -45,6 +45,9 @@ export class ApplicantListComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((value: any) => {
       console.log('params', value);
+      if (value.leadId) {
+        this.leadStoreService.setLeadId(value.leadId);
+      }
       this.leadId = this.leadStoreService.getLeadId();
       if (currentUrl.includes('sales')) {
         this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
@@ -69,8 +72,7 @@ export class ApplicantListComponent implements OnInit {
   isShowAddaApplicant(currentUrl: string) {
     this.showAddApplicant = !currentUrl.includes('dde');
   }
-  onApplicantClick(item) {
-  }
+  onApplicantClick(item) {}
 
   softDeleteApplicant(index: number, applicantId: number) {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
