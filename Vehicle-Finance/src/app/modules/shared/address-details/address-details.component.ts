@@ -522,8 +522,8 @@ export class AddressDetailsComponent implements OnInit {
     console.log('permanantAddressObject', permanantAddressObject);
     permenantAdress.addressType = 'PERMADDADDTYP';
     permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
-    permenantAdress.addressLineTwo = permanantAddressObject.addressLineOne;
-    permenantAdress.addressLineThree = permanantAddressObject.addressLineOne;
+    permenantAdress.addressLineTwo = permanantAddressObject.addressLineTwo;
+    permenantAdress.addressLineThree = permanantAddressObject.addressLineThree;
     // permenantAdress.pincode= permanantAddressObject.pinCode;
     // permenantAdress.city= permanantAddressObject.city;
     // permenantAdress.state= permanantAddressObject.state;
@@ -545,8 +545,8 @@ export class AddressDetailsComponent implements OnInit {
     console.log('currentAddressObject', currentAddressObject);
     currentAddress.addressType = 'CURRADDADDTYP';
     currentAddress.addressLineOne = currentAddressObject.addressLineOne;
-    currentAddress.addressLineTwo = currentAddressObject.addressLineOne;
-    currentAddress.addressLineThree = currentAddressObject.addressLineOne;
+    currentAddress.addressLineTwo = currentAddressObject.addressLineTwo;
+    currentAddress.addressLineThree = currentAddressObject.addressLineThree;
     currentAddress.pincode = currentAddressObject.pinCode;
     //  currentAddress.city= currentAddressObject.city;
     //  currentAddress.state= currentAddressObject.state;
@@ -574,8 +574,8 @@ export class AddressDetailsComponent implements OnInit {
     console.log('officeAddressObject', officeAddressObject);
     officeAddress.addressType = 'OFFADDADDTYP';
     officeAddress.addressLineOne = officeAddressObject.addressLineOne;
-    officeAddress.addressLineTwo = officeAddressObject.addressLineOne;
-    officeAddress.addressLineThree = officeAddressObject.addressLineOne;
+    officeAddress.addressLineTwo = officeAddressObject.addressLineTwo;
+    officeAddress.addressLineThree = officeAddressObject.addressLineThree;
     //  officeAddress.pincode= officeAddressObject.pinCode;
     //  officeAddress.city= officeAddressObject.city;
     //  officeAddress.state= officeAddressObject.state;
@@ -606,8 +606,8 @@ export class AddressDetailsComponent implements OnInit {
     console.log('registeredAddressObject', registeredAddressObject);
     registeredAddress.addressType = 'REGADDADDTYP';
     registeredAddress.addressLineOne = registeredAddressObject.addressLineOne;
-    registeredAddress.addressLineTwo = registeredAddressObject.addressLineOne;
-    registeredAddress.addressLineThree = registeredAddressObject.addressLineOne;
+    registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
+    registeredAddress.addressLineThree = registeredAddressObject.addressLineThree;
     // registeredAddress.pincode= registeredAddressObject.pinCode;
     // registeredAddress.city= registeredAddressObject.city;
     // registeredAddress.state= registeredAddressObject.state;
@@ -633,9 +633,9 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.addressLineOne =
       communicationAddressObject.addressLineOne;
     communicationAddress.addressLineTwo =
-      communicationAddressObject.addressLineOne;
+      communicationAddressObject.addressLineTwo;
     communicationAddress.addressLineThree =
-      communicationAddressObject.addressLineOne;
+      communicationAddressObject.addressLineThree;
     // communicationAddress.pincode= communicationAddressObject.pinCode;
     // communicationAddress.city= communicationAddressObject.city;
     // communicationAddress.state= communicationAddressObject.state;
