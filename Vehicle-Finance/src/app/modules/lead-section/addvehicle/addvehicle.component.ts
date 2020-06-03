@@ -137,6 +137,7 @@ export class AddvehicleComponent implements OnInit {
   saveVehicleCollaterals() {
     this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleId, this.userId, this.leadId, this.vehicleDetails).subscribe((res: any) => {
       console.log(res, 'res')
+      this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
     });
   }
 
