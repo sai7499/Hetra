@@ -4,6 +4,7 @@ import { LabelsService } from '@services/labels.service';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { Router } from '@angular/router';
+import { LeadDataResolverService } from '../../lead-section/services/leadDataResolver.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -18,7 +19,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   roles = [];
   public label: any = {};
   vehicleArray = [];
-  private leadId = 121;
+  public leadId: number;
 
   public vehicleListArray = [
     {
@@ -37,7 +38,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private labelsData: LabelsService,
     private vehicleDetailsService: VehicleDetailService,
-    private router: Router) { }
+    private router: Router,
+    public leadData: LeadDataResolverService) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -46,61 +48,34 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
+    this.leadId = parseInt(this.leadData.leadId);
+    this.getVehicleDetails(this.leadId)
+
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
-    },
-      error => {
-        console.log('error', error)
-      });
-    this.getVehicleDetails();
-  }
-
-  editVehicle(index: number) {
-    console.log('onClickedit', this.vehicleArray);
-    // this.router.navigate(['pages/lead-section/add-vehicle', {id: index}]);
-    this.router.navigate(['../add-vehicle', {id: 279}]);
+    }, error => {
+      console.log('error', error)
+    });
 
   }
 
-  getVehicleDetails() {
-    this.vehicleDetailsService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
-      console.log('res', res.ProcessVariables.vehicleDetails)
-      this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
-      console.log('vehicleArray', this.vehicleArray)
+  editVehicle(collateralId: number) {
+    this.router.navigate(['pages/lead-section/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
+  }
+
+  getVehicleDetails(id: number) {
+    this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
+      if (res.ProcessVariables) {
+        this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
+      }
     })
   }
 
-  // editVehicleSales(index: number) {
-  //   this.router.navigate(['pages/lead-section/add-vehicle', {id: index}]);
-  // }
-
-  // deleteVehicle(index: number) {
-  //   this.leadStoreService.deleteVehicle(index);
-  // }
-
-  // sample code for understanding
-  // this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
-  //   const product = res.ProcessVariables.productCategoryDetails;
-  //   product.map(data => {
-  //     if (data) {
-  //       const val = {
-  //         key: data.assetProdcutCode,
-  //         value: data.prodcutCatName
-  //       };
-  //       this.productCategoryData.push(val);
-  //     }
-  //   });
-  // });
-
   removeOtherIndex(i, vehicleArray: any) {
     if (vehicleArray.length > 1) {
-      console.log(i, 'i', vehicleArray.indexOf(i))
-      // control.removeAt(i);
       vehicleArray.splice(i, 1)
     } else {
       alert("Atleast One Row Required");
     }
   }
-
-
 }

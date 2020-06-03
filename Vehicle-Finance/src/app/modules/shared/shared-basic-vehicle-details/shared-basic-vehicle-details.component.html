@@ -1,5 +1,5 @@
 <!-- <form class="multisteps-form__form" [formGroup]="basicVehicleForm"> -->
-    <form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event.target.value)">
+<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event.target.value)">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -15,77 +15,11 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="!isHidden">
                     <label for="registartion_number"></label>
                     <input type="button" class="form-control btn-primary" id="check_dedupe" name="registartion_number"
-                        value="Check Dedupe" data-toggle="modal" data-target="#myModal" (click)="onCheck()" />
+                        value="Check Dedupe" data-toggle="modal" data-target="#myModal" />
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_make"> {{ label.assetMake }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake">
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_model"> {{ label.assetModel }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel">
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
-                    <label for="asset_body_type"> {{ label.assetBodyType }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType">
-                    </app-vf-custom-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_variant"> {{ label.assetVariant }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" formControlName="assetSubVariant">
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="vechical_type"> {{ label.vechicalType }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType">
-                    </app-vf-custom-select>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
-                    <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
-                    <input formControlName="yearAndMonthManufacturing" type="date" class="form-control mandatory"
-                        id="year_month_manufacturing" placeholder="Month of Manufacturing"
-                        name="year_month_manufacturing" data-date-format="mm-yyyy" data-date="02-2012">
-
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                    <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
-                    <input formControlName="ageOfAsset" type="text" class="form-control mandatory" id="age_of_asset"
-                        placeholder="Age of Asset" name="age_of_asset" disabled>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
-                    <input formControlName="finalAssetCost" type="text" class="form-control mandatory"
-                        id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
-                    <label for="vechical_usage"> {{ label.vechicleUsage }} </label>
-
-                    <app-vf-custom-select [values]="vehicleLov?.vechicleUsage" formControlName="vechicleUsage">
-                    </app-vf-custom-select>
-                </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="vechical_region"> {{ label.vechicalRegion }} </label>
@@ -94,6 +28,89 @@
                         (change)="onVehicleRegionSales($event.target.value)">
                     </app-vf-custom-select>
                 </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_make"> {{ label.assetMake }} </label>
+
+                    <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
+                        (change)="onChangeSalesAssetMake($event.target.value)">
+                    </app-vf-custom-select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="vechical_type"> {{ label.vechicalType }} </label>
+
+                    <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
+                        (change)="onChangeSalesVehicleType($event.target.value)">
+                    </app-vf-custom-select>
+
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
+                    <label for="asset_body_type"> {{ label.assetBodyType }} </label>
+
+                    <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
+                        (change)="onChangeSalesAssetBodyType($event.target.value)">
+                    </app-vf-custom-select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_model"> {{ label.assetModel }} </label>
+                    <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel">
+                    </app-vf-custom-select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_variant"> {{ label.assetVariant }} </label>
+
+                    <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+                    </app-vf-custom-select>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
+
+                    <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" formControlName="assetSubVariant">
+                    </app-vf-custom-select>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
+                    <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
+                    <input formControlName="yearAndMonthManufacturing" type="date" class="form-control mandatory"
+                        id="year_month_manufacturing" placeholder="Month of Manufacturing"
+                        name="year_month_manufacturing" data-date-format="mm-yyyy" data-date="02-2012">
+
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                    <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
+                    <input formControlName="ageOfAsset" type="text" class="form-control mandatory" id="age_of_asset"
+                        placeholder="Age of Asset" name="age_of_asset" disabled>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
+                    <input formControlName="finalAssetCost" type="text" class="form-control mandatory"
+                        id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
+                </div>
+
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
+                    <label for="vechical_usage"> {{ label.vechicleUsage }} </label>
+
+                    <app-vf-custom-select [values]="vehicleLov?.vechicleUsage" formControlName="vechicleUsage">
+                    </app-vf-custom-select>
+                </div>
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                     <label for="no_vehicle"> {{ label.noVehicle }} </label>
                     <input formControlName="noOfVehicles" type="number" class="form-control mandatory" id="no_vehicle"

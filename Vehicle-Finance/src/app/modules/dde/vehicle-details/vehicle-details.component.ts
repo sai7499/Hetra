@@ -13,8 +13,6 @@ export class VehicleDetailsComponent implements OnInit {
   constructor(private router: Router, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit() {
-
-
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
@@ -23,7 +21,6 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   getLocationIndex(url: string) {
-    console.log('url', url);
     if (url.includes('basic-vehicle-details')) {
       return 0;
     } else if (url.includes('viability-details')) {

@@ -26,11 +26,10 @@ export class VehicleListComponent {
 
     ngOnInit() {
         this.labelsData.getLabelsOfDDEData()
-        .subscribe(data => {
-          this.labels = data.vehicleDetailsTable[0];
-        },
-          error => {
-            console.log('error')
-          });
+            .subscribe(data => {
+                this.labels = data.vehicleDetailsTable[0];
+            }, error => {
+                console.log('error')
+            });
     }
 }

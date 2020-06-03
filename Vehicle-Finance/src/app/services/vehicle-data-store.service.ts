@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VehicleList, IndivVehicleInfoDetails } from '@model/vehicle.model';
-import { IndivIdentityInfoDetails } from '@model/applicant.model';
+import { VehicleList, IndivVehicleInfoDetails } from '@model/lead.model';
 
 @Injectable({
   providedIn: 'root'

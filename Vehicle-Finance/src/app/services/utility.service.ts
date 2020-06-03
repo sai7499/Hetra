@@ -26,8 +26,6 @@ export class UtilityService {
     }
 
     getDateFormat(date) {
-        console.log('in date conversion ' + date);
-
         const dateFormat: Date = new Date(date);
         const year = dateFormat.getFullYear();
         const month = Number(dateFormat.getMonth()) + 1;
@@ -35,7 +33,6 @@ export class UtilityService {
         let day = dateFormat.getDate().toString();
         day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
         const formattedDate = year + '-' + month1 + '-' + day;
-        console.log('final Value ' + formattedDate);
         return formattedDate;
       }
 }

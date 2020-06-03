@@ -38,7 +38,7 @@ const routes: Routes = [
         component: CoApplicantComponent,
       },
       {
-        path : "add-vehicle/:id",
+        path: "add-vehicle",
         component: AddvehicleComponent
       },
       {

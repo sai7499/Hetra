@@ -30,18 +30,13 @@ export class CustomSelectComponent
     value: '-- select one --',
   };
   @Input() isDisabled: boolean;
-  // tslint:disable-next-line:no-input-rename
   @Input('selectedOption') val: any;
   @Input() values: any[];
 
   @Output() valueChange = new EventEmitter();
 
-  onChange: any = () => {};
-  onTouch: any = () => {};
-
-  // onValueChange(event) {
-  //   console.log('event', event);
-  // }
+  onChange: any = () => { };
+  onTouch: any = () => { };
 
   set selectedOption(val) {
     this.val = val;
@@ -51,7 +46,6 @@ export class CustomSelectComponent
   }
 
   getSelectedObject() {
-    console.log('this.values',this.values);
     return (this.values && Array.isArray(this.values))
       ? this.values.find((value) => String(value.key) === this.selectedOption)
       : {};
@@ -61,7 +55,7 @@ export class CustomSelectComponent
     return this.val;
   }
 
-  constructor(private lovDataService: LovDataService) {}
+  constructor(private lovDataService: LovDataService) { }
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;

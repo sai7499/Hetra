@@ -58,7 +58,7 @@ export class HttpService {
   }
 
   post(url: string, requestEntity: any, showLoader: boolean = true, headers?: any) {
-    
+
     // if (requestEntity["processVariables"]){
     //   requestEntity["processVariables"]["userId"] = localStorage.getItem('userId')
     // }
@@ -66,8 +66,6 @@ export class HttpService {
     //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     // }
     if (this.isMobile) {
-      console.log("url", url);
-      console.log("body", requestEntity);
       return this.postMWithoutEncryption(url, requestEntity);
     } else {
       if (headers) {
@@ -81,29 +79,27 @@ export class HttpService {
     }
   }
 
-  postMWithoutEncryption(url, body){
+  postMWithoutEncryption(url, body) {
 
     const obs = new Observable(observer => {
 
-    const headers = {
+      const headers = {
         'Content-Type': 'text/html',
-        'authentication-token':  localStorage.getItem('token') ? localStorage.getItem('token') : '',
-    }; 
+        'authentication-token': localStorage.getItem('token') ? localStorage.getItem('token') : '',
+      };
 
-    this.httpIonic.setServerTrustMode("nocheck");
+      this.httpIonic.setServerTrustMode("nocheck");
 
-    this.httpIonic.setDataSerializer("urlencoded");
-      console.log("url", url);
-        this.httpIonic
-          .post(url, body, headers)
-          .then(result => {
-            console.log("result", result);
-            const data = JSON.parse(result.data);
-            observer.next(data);
-            observer.complete();
-          }).catch(error => {
-            console.log("error", error);
-          })
+      this.httpIonic.setDataSerializer("urlencoded");
+      this.httpIonic
+        .post(url, body, headers)
+        .then(result => {
+          const data = JSON.parse(result.data);
+          observer.next(data);
+          observer.complete();
+        }).catch(error => {
+          console.log("error", error);
+        })
     });
 
     return obs;
@@ -113,11 +109,9 @@ export class HttpService {
     let that = this;
     let reqEntity;
 
-    console.log('parmas', params);
-
     reqEntity = params;
 
-    if(this.activeRequests === 0){
+    if (this.activeRequests === 0) {
       this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     }
     this.activeRequests++;
@@ -126,8 +120,6 @@ export class HttpService {
       let data;
 
       this.httpIonic.setServerTrustMode('nocheck');
-
-      console.log('post requestEntity********', reqEntity);
 
       let encryption = this.encrytionService.encrypt(
         reqEntity,
@@ -146,14 +138,9 @@ export class HttpService {
         responseType: 'text'
       };
 
-      console.log('req post', this.ionicOption);
-
-      console.log('post url********', url);
-
       this.httpIonic
         .sendRequest(url, this.ionicOption)
         .then(result => {
-          console.log('result', result);
 
           if (
             result['headers']['content-type'] != 'text/plain' &&
@@ -164,10 +151,7 @@ export class HttpService {
             let decritedData = that.encrytionService.decryptMobileResponse(
               result
             );
-            console.log('decritedData', decritedData);
-
             data = JSON.parse(decritedData);
-            console.log('~~~***Response***~~~', data);
           }
 
           if (
@@ -180,7 +164,6 @@ export class HttpService {
             data['ProcessVariables']['errorCode'] == '' &&
             data['ProcessVariables']['errorCode'] != undefined
           ) {
-            // console.log("There are no Errors");
           } else if (
             data['Error'] == '0' &&
             data['Error'] != undefined &&
@@ -197,13 +180,11 @@ export class HttpService {
               data['ProcessVariables']['errorMessage'] != undefined &&
               data['ProcessVariables']['errroMessage'] != ''
             ) {
-              // this.cds.setErrorData(true, cdsData, msg);  
               this.errorListenerService.setError({
                 msg,
                 errorCode: cdsData
               })
             } else {
-              // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
                 errorCode: cdsData
               })
@@ -218,7 +199,6 @@ export class HttpService {
           ) {
             if (data['ProcessName'] != 'Required documents' && data['ProcessName'] != 'Authenticate User Login') {
               let data = 'DEF';
-              // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
                 errorCode: data
               })
@@ -228,7 +208,6 @@ export class HttpService {
             (data['status'] === false && data['status'] != undefined)
           ) {
             let data = 'APP001';
-            // this.cds.setErrorData(true, data);
             this.errorListenerService.setError({
               errorCode: data
             })
@@ -238,37 +217,26 @@ export class HttpService {
           observer.complete();
 
           if (data && data['login_required']) {
-            // storage.removeToken();
-            // storage.removeToken();
-            // storage.removeToken();
-            // this.utilService.clearCredentials();
             this.errorListenerService.setError({
               errorCode: 'SESSION_EXPIRED'
             })
             storage.removeToken();
-            // storage.removeRoles();
             storage.removeUserId();
-            // storage.removeBootData();
-            // storage.removeBranchData();
             this.router.navigate(['/login']);
 
           }
 
           this.activeRequests--;
           if (this.activeRequests === 0) {
-          this.ngxService.stop();
+            this.ngxService.stop();
           }
         })
         .catch(error => {
-          console.log('~~~***Response error***~~~', error);
 
           if (error['headers']['content-type'] == 'text/plain') {
-            console.log('text/plain');
             let decritedData = that.encrytionService.decryptMobileResponse(
               error
             );
-            console.log('decritedData', decritedData);
-
             data = JSON.parse(decritedData);
           }
 
@@ -283,7 +251,7 @@ export class HttpService {
           observer.complete();
           this.activeRequests--;
           if (this.activeRequests === 0) {
-          this.ngxService.stop();
+            this.ngxService.stop();
           }
         });
     });
@@ -303,15 +271,10 @@ export class HttpService {
 
       this.httpIonic.setServerTrustMode('nocheck');
 
-      console.log('isMobile-url', url);
-
       this.httpIonic
         .get(url, {}, headers)
         .then(result => {
-          console.log('isMobile-result', result);
-
           const data = JSON.parse(result.data);
-          console.log('Data-success', data);
           observer.next(data);
           observer.complete();
           this.ngxService.stop();
@@ -327,21 +290,19 @@ export class HttpService {
     return obs;
   }
 
-  downloadMFile(uri, savePath){
+  downloadMFile(uri, savePath) {
     this.ngxService.start();
 
     const obs = new Observable(observer => {
 
-      let header = { 'authentication-token': localStorage.getItem('token') ? localStorage.getItem('token'): '' };
+      let header = { 'authentication-token': localStorage.getItem('token') ? localStorage.getItem('token') : '' };
       this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.downloadFile(uri, {}, header, savePath).then(result=>{
-        console.log("Download file", result);
+      this.httpIonic.downloadFile(uri, {}, header, savePath).then(result => {
         observer.next(result);
         observer.complete();
         this.ngxService.stop();
       }).catch((error) => {
-        console.log(" error Download file", error);
         observer.error(error);
         observer.complete();
         this.ngxService.stop();
@@ -352,7 +313,7 @@ export class HttpService {
     return obs;
   }
 
-  logOut(){
+  logOut() {
     let url = environment.host + "account/logout";
     return this.http.get(url);
   }

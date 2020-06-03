@@ -60,7 +60,6 @@ export class ApplicantDataStoreService {
   }
 
   setAddressDetails(value: AddressDetails[]) {
-    console.log('setAddressDetails', value);
     this.applicant.addressDetails = value;
   }
 

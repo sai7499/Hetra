@@ -15,15 +15,15 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   customerProfileForm: FormGroup;
 
-  public customerProfileLov:any = {};
+  public customerProfileLov: any = {};
   public labels: any = {};
   public errorMsg;
   public getLabels;
 
-  constructor(private labelsData: LabelsService, 
-              private lovDataService:LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService) {}
+  constructor(private labelsData: LabelsService,
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService) { }
 
   ngOnInit() {
     this.initForm();
@@ -35,10 +35,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-      
+
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
-      // console.log('customerProfileLov', this.customerProfileLov);
       this.setFormValue();
     });
 
@@ -46,22 +45,21 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   initForm() {
     this.customerProfileForm = new FormGroup({
-        addressRecord: new FormControl(''),
-        noEmployees: new FormControl(''),
-        nameBoardSeen: new FormControl(''),
-        officePremises: new FormControl(''),
-        sizeOfOffice: new FormControl(''),
-        ratingBySo: new FormControl(''),
-        mismatchAddress: new FormControl(''),
-        selfieWithHouse: new FormControl(''),
-        ownershipProof: new FormControl(''),
-        metCustomer: new FormControl('')
+      addressRecord: new FormControl(''),
+      noEmployees: new FormControl(''),
+      nameBoardSeen: new FormControl(''),
+      officePremises: new FormControl(''),
+      sizeOfOffice: new FormControl(''),
+      ratingBySo: new FormControl(''),
+      mismatchAddress: new FormControl(''),
+      selfieWithHouse: new FormControl(''),
+      ownershipProof: new FormControl(''),
+      metCustomer: new FormControl('')
     });
   }
 
   setFormValue() {
     const customerProfileModal = this.ddeStoreService.getCustomerProfile() || {};
-    // console.log("customerProfile", customerProfileModal);
 
     this.customerProfileForm.patchValue({
       addressRecord: customerProfileModal.addressRecord || '',
@@ -79,8 +77,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   onFormSubmit() {
     const formModal = this.customerProfileForm.value;
-    const customerProfileModal = {...formModal};
-    // this.ddeStoreService.setCustomerProfile(customerProfileModal);
+    const customerProfileModal = { ...formModal };
     this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
   }
 

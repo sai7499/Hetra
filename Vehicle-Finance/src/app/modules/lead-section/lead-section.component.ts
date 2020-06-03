@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { VehicleDetailService } from "./services/vehicle-detail.service";
-// import { Location } from "@angular/common";
 import { LabelsService } from 'src/app/services/labels.service';
-// import { LeadStoreService } from '@services/lead-store.service';
-// import { Component, OnInit } from '@angular/core';
 import { VehicleDetailService } from '../../services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -83,9 +79,7 @@ export class LeadSectionComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (event.url === '/pages/lead-section/co-applicant' || event.url === '/pages/lead-section/credit-score' || event.url === '/pages/lead-section/exact-match' || event.url === '/pages/lead-section/otp-section') {
-          console.log('welcome to hide element')
           this.hideElement = true;
-          console.log(this.hideElement)
         } else {
           this.hideElement = false;
         }

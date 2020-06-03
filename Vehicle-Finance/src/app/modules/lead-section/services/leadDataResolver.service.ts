@@ -13,14 +13,10 @@ export class LeadDataResolverService implements Resolve<any> {
     leadId: any;
     constructor(
         private httpService: HttpService,
-        private apiService: ApiService
-    ) {
-
-    }
+        private apiService: ApiService) { }
 
     resolve(route: ActivatedRouteSnapshot): Observable<any> {
         this.leadId = route.params.leadId;
-        console.log('resolver', this.leadId);
 
         const processId = this.apiService.api.getLeadById.processId;
         const workflowId = this.apiService.api.getLeadById.workflowId;
@@ -34,10 +30,7 @@ export class LeadDataResolverService implements Resolve<any> {
             workflowId,
             projectId
         };
-        // this.commonLovService.getLovData().subscribe(lov => this.lovData = lov);
-        // if (this.lovData) {
-        //     return this.lovData;
-        // }
+
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }

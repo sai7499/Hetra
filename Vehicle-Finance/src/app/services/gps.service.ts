@@ -36,7 +36,6 @@ export class GpsService {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.
           request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() =>{
-              console.log('Request successful');
               var obj = {
                 "result": true
               }
@@ -48,7 +47,6 @@ export class GpsService {
                 "result": false,
                 "error": error
               }
-              console.log('Error requesting location permissions', error);
               observer.next(obj);
               observer.complete();    
             }

@@ -5,7 +5,6 @@ import { CreateLeadService } from '../service/creatLead.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-lead-dedupe',
   templateUrl: './lead-dedupe.component.html',
@@ -46,7 +45,6 @@ export class LeadDedupeComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(data => {
       this.labels = data;
-      console.log('labels', this.labels);
     },
       error => console.log(error));
   }
@@ -56,7 +54,6 @@ export class LeadDedupeComponent implements OnInit {
     if (!dedupeData) {
       return;
     }
-    console.log('dedupeData', dedupeData);
     this.dedupeArray = dedupeData;
     this.leadId = dedupeData[0].leadID;
   }
@@ -90,7 +87,6 @@ export class LeadDedupeComponent implements OnInit {
 
     this.createLeadService.createLead(loanLeadDetails, applicantDetails, true).subscribe((res: any) => {
       const response = res;
-      console.log('proceedAsNewLead', response);
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
@@ -115,7 +111,6 @@ export class LeadDedupeComponent implements OnInit {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
-      console.log('proceedWithSelectedLead', response);
       if (appiyoError === '0' && apiError === '0') {
         const proceedWithSelectedLeadData = response.ProcessVariables;
         const leadId = proceedWithSelectedLeadData.leadId;
@@ -139,7 +134,6 @@ export class LeadDedupeComponent implements OnInit {
 
   OnItemPerPage(e) {
     this.perPage = e.target.value;
-    console.log(this.perPage);
   }
 
   OnSubmit() {

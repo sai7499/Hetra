@@ -8,13 +8,11 @@ import { VehicleDataStoreService } from '../../../services/vehicle-data-store.se
 import { LovDataService } from '@services/lov-data.service';
 import { ArrayType } from '@angular/compiler';
 
-
 @Component({
   selector: 'app-shared-basic-vehicle-details',
   templateUrl: './shared-basic-vehicle-details.component.html',
   styleUrls: ['./shared-basic-vehicle-details.component.css']
 })
-
 
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
@@ -34,9 +32,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public vehicleFormData: any = [];
   mockLov: any = {};
   regionDataArray = [];
-
-  //  declared mockLov for storing mock lov values from lov service regarding asset make and .....
-
+  public vehicleRegionLov: any = {};
 
   constructor(
     private _fb: FormBuilder,
@@ -53,10 +49,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleFormArray: this._fb.array([])
     })
 
-    console.log('id', this.id)
-
-    this.id === 0 ? this.getAddVehice() : this.setFormValue()
-
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
 
@@ -64,18 +56,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
+    if (this.id) {
+      this.setFormValue();
+    }
+
     this.initForms();
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
-      },
-        error => {
-          console.log('error')
-        });
-
+      }, error => {
+        console.log('error', error)
+      });
   }
-
-
 
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -83,8 +75,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.getLov();
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
-
-  //  method for getting lovs from common lov service
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -94,37 +84,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
     });
-
-    //  mock method for getting lovs for assetMake and so on ....
-
-    this.lovDataService.getLovData().subscribe((value: any) => {
-      this.mockLov = value ? value[0].vehicleDetails[0] : {};
-      // console.log('vehicleLov', this.mockLov);
-      this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
-      this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel
-      // this.vehicleLov.vehicleType = value[0].vehicleDetails[0].vehicleType
-      this.vehicleLov.assetBodyType = value[0].vehicleDetails[0].assetBodyType
-      // this.vehicleLov.region = value[0].vehicleDetails[0].region
-      this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant
-      this.vehicleLov.assetSubVariant = value[0].vehicleDetails[0].assetSubVariant
-      // this.vehicleLov.vechicalUsage = value[0].vehicleDetails[0].vechicalUsage
-
-
-
-    });
-    // <= mock method ends =>
-
-  }
-
-  getAddVehice() {
-
   }
 
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
       const VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
-      console.log(VehicleDetail, 'response')
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
         vehicleType: VehicleDetail.vehicleTypeCode || '',
@@ -161,9 +126,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         frsdAmount: VehicleDetail.fsrdPremiumAmount || '',
         fitnessDate: VehicleDetail.fitnessDate || '',
         fitnessCopy: [''],
-        noOfVehicles: ['']
+        noOfVehicles: [''],
+        vehicleId: VehicleDetail.vehicleId || '',
+        vehicleCode: VehicleDetail.vehicleCode || '',
       })
-      console.log(formArray, 'Res')
+      this.onVehicleRegionSales(VehicleDetail.region)
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -175,16 +142,93 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
-
   //  method to get vehicle master data from region 
 
   onVehicleRegionSales(value: any) {
     const region = value ? value : '';
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
+
+      if (this.regionDataArray.length > 0) {
+        const assetMakeArray = [];
+        this.regionDataArray.map((data, i) => {
+          assetMakeArray.push({
+            key: i,
+            value: data['mfrCode']
+          })
+        })
+        this.vehicleLov.assetMake = assetMakeArray;
+      }
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      formArray.controls[0].patchValue({})
+      formArray.controls[0].patchValue({
+        assetMake: '',
+      })
     })
+  }
+
+  onChangeSalesAssetMake(value) {
+    const vehiclTypeArray = [];
+    if (value) {
+      const assetMake = this.vehicleLov.assetMake[value];
+
+      this.regionDataArray.filter((data, i) => {
+
+        if (assetMake.value === data.mfrCode) {
+          vehiclTypeArray.push({
+            key: i,
+            value: data['vehicleTypeUniqueCode']
+          })
+        }
+        this.vehicleLov.vehicleType = vehiclTypeArray;
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          vehicleType: '',
+        })
+      })
+    }
+  }
+
+  onChangeSalesVehicleType(value) {
+    const assetBodyArray = [];
+    if (value) {
+      const vehicleType = this.vehicleLov.vehicleType[value];
+      this.regionDataArray.filter((data, i) => {
+
+        if (vehicleType.value === data.vehicleTypeUniqueCode) {
+          assetBodyArray.push({
+            key: i,
+            value: data['uniqueSegmentCode']
+          })
+        }
+        this.vehicleLov.assetBodyType = assetBodyArray;
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          assetBodyType: '',
+        })
+      })
+    }
+  }
+
+  onChangeSalesAssetBodyType(value) {
+    const assetModelArray = [];
+    if (value) {
+      const assetModelBodyType = this.vehicleLov.assetBodyType[value];
+      this.regionDataArray.filter((data, i) => {
+        if (assetModelBodyType.value === data.uniqueSegmentCode) {
+          assetModelArray.push({
+            key: i,
+            value: data['vehicleModelCode']
+          })
+        }
+        this.vehicleLov.assetModel = assetModelArray;
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          assetModel: '',
+          assetVariant: '',
+          assetSubVariant: ''
+        })
+      })
+    }
   }
 
   addSalesFormControls() {

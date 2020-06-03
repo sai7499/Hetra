@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { VehicleDetailModel } from '../modules/lead-section/model/vehicle-detail-model';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import RequestEntity from '../model/request.entity';
 import { HttpService } from './http.service';
 import { ApiService } from '@services/api.service';
+import { IndivVehicleInfoDetails } from '@model/lead.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class VehicleDetailService {
   constructor(private http: HttpClient,
     private httpService: HttpService, private apiService: ApiService) { }
 
-  getVehicleDetailLabels(): Observable<VehicleDetailModel[]> {
-    return this.http.get<VehicleDetailModel[]>(this.url)
+  getVehicleDetailLabels(): Observable<IndivVehicleInfoDetails[]> {
+    return this.http.get<IndivVehicleInfoDetails[]>(this.url)
       .pipe(
         catchError(error => this.errorHandler)
       );
@@ -77,8 +77,6 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
-
-
   // 2.method for save or update vehicle details
 
   saveOrUpdateVehcicleDetails(vehicleDetails, leadId, vehicleId, userId) {
@@ -100,7 +98,6 @@ export class VehicleDetailService {
       workflowId: workflowId,
       projectId: projectId
     };
-
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
@@ -144,14 +141,12 @@ export class VehicleDetailService {
       processId: processId,
       ProcessVariables: {
 
-        "region": 'TN'
-
+        "region": region
       },
       workflowId: workflowId,
       projectId: projectId
     };
-    
-    console.log(JSON.stringify(body), 'body')
+
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
