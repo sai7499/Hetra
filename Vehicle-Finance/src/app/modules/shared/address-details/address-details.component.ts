@@ -515,6 +515,7 @@ export class AddressDetailsComponent implements OnInit {
   storeIndividualValueInService(value) {
     const applicantDetails: ApplicantDetails = {};
     applicantDetails.entityType = value.entity;
+    console.log('valueEntity', value.entity)
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const permenantAdress: AddressDetails = {};
@@ -601,6 +602,12 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
   storeNonIndividualValueInService(value) {
+
+    const applicantDetails: ApplicantDetails = {};
+    applicantDetails.entityType = value.entity;
+    console.log('valueEntity', value.entity)
+    this.applicantDataService.setApplicantDetails(applicantDetails);
+
     const registeredAddress: AddressDetails = {};
     const registeredAddressObject = value.details[0].registeredAddress;
     console.log('registeredAddressObject', registeredAddressObject);
@@ -617,7 +624,7 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.pincode = 1;
     registeredAddress.city = 1;
     registeredAddress.state = 1;
-    registeredAddress.country = 'IN';
+    registeredAddress.country = 'IND';
     registeredAddress.district = 1;
 
     registeredAddress.landlineNumber = registeredAddressObject.landlineNumber;
@@ -644,7 +651,7 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.pincode = 1;
     communicationAddress.city = 1;
     communicationAddress.state = 1;
-    communicationAddress.country = 'IN';
+    communicationAddress.country = 'IND';
     communicationAddress.district = 1;
 
     communicationAddress.landlineNumber =

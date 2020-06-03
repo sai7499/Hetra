@@ -284,8 +284,11 @@ export class IdentityDetailsComponent implements OnInit {
   onSubmit() {
     if (this.isIndividual) {
       this.storeIndividualValueInService();
+      this.applicantDataService.setCorporateProspectDetails(null);
+     
     } else {
       this.storeNonIndividualValueInService();
+      this.applicantDataService.setIndivIdentityInfoDetails(null);
     }
 
     const applicantDetails: ApplicantDetails = {};
