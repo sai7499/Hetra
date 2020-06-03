@@ -68,8 +68,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
-      if (res.ProcessVariables) {
+      if (res.ProcessVariables && res.ProcessVariables.error.code === 0) {
         this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
+      } else if (res.ProcessVariables.error.code !== 0 && res.ProcessVariables.error.code === 1) {
+        alert('' +  res.ProcessVariables.error.message)
       }
     })
   }
