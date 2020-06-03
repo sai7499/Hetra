@@ -323,3 +323,4 @@ export class SourcingDetailsComponent implements OnInit {
 
   }
 }
+

@@ -44,6 +44,7 @@ import { LeadDataResolverService } from './modules/lead-section/services/leadDat
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
+  fgsColor: '#fa6745',
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 100,
   bgsType: SPINNER.cubeGrid, // background spinner type
