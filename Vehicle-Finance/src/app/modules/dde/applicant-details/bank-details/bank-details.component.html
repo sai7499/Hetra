@@ -35,7 +35,7 @@
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input formControlName="fromDate" type="date" class="form-control"  data-date-format="dd-MM-yy"  >
+                      <input formControlName="fromDate" type="date" class="form-control"  data-date-format="dd-MM-yy" (input)= "getMonths()" >
                    </div>
                 </div>
              </div>
@@ -99,9 +99,12 @@
               <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index" [formGroupName]="i">
                   <!-- <td><input type='checkbox' name='record'></td> -->
                   <!-- <td>1</td> -->
-                  <td >
+                  <td *ngIf= "!formType" >
                       <!-- <p formControlName="month" value="Jan">Jan</p> -->
-                      Jan
+                     <p >{{ i + assignedArray[i][0]}} </p> 
+                  </td>
+                  <td *ngIf = "formType">
+                      {{bankDetailsNew[i].month}}
                   </td>
                   <td>
                       <input type="number" class="form-control input_value"  formControlName="inflow">
