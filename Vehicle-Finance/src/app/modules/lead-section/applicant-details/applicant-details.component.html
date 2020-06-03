@@ -125,10 +125,17 @@
               <tbody>
                 <tr *ngFor="let item of applicantList | paginate: { itemsPerPage: 5, currentPage: p }; let i= index ">
                   <td>{{item.ucic ? item.ucic : '-'}}</td>
+                  <ng-container></ng-container>
                   <td>{{ item.entity ? item.entity : '-' }}</td>
                   <td>{{item.fullName ? item.fullName : '-'}}</td>
-                  <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
-                  <td>{{ item.dob ? item.dob : '-' }}</td>
+                  <ng-container *ngIf="item.entityTypeKey !=='NONINDIVENTTYP'">
+                    <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td> 
+                    <td>{{ item.dob ? item.dob : '-' }}</td>
+                    </ng-container> 
+                    <ng-container *ngIf="item.entityTypeKey =='NONINDIVENTTYP'">
+                      <td>{{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}</td> 
+                      <td>{{ item.doi ? item.doi : '-' }}</td>
+                      </ng-container> 
                   <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
                   <td>
                     <i

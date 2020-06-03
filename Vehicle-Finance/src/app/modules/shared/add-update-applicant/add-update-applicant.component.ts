@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -11,6 +11,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
 import { formatDate } from '@angular/common';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import {
   Applicant,
   ApplicantDetails,
@@ -40,7 +41,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   applicantType = 'INDIVENTTYP';
 
   panValue = '1PANTYPE';
-
+  leadId:number;
   applicantDetails: ApplicantDetails;
 
   aboutIndivProspectDetails: IndividualProspectDetails;
@@ -80,10 +81,26 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // private saveUpdateApplicant: SaveUpdateApplicantService,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private router: Router,
+    private createLeadDataService: CreateLeadDataService
   ) {}
 
+  getLeadId() {
+    //   const currentUrl = this.location.path().split('/');
+    //   let id;
+    //   currentUrl.find((value) => {
+  
+    //     if(Number(value)) {
+    //         id =  Number(value);
+    //     }
+    // });
+    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+    console.log('Id inside getLead ID', );
+    return leadSectioData.leadId;
+    }
   ngOnInit() {
+    this.leadId = this.getLeadId();
     this.initForm();
     this.getLOV();
     this.lovData.getLovData().subscribe((res: any) => {
@@ -237,34 +254,37 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         'Entity TYPE IN APPLICANT Get DETAILS CALL',
         this.applicantType
       );
-      details.pan = this.applicant.indivIdentityInfoDetails.pan;
-      details.aadhar = this.applicant.indivIdentityInfoDetails.aadhar;
-      details.mobile = this.applicant.aboutIndivProspectDetails.mobilePhone;
-      details.panType = this.applicant.indivIdentityInfoDetails.panType;
-      details.voterIdNumber = this.applicant.indivIdentityInfoDetails.voterIdNumber;
+      const indivIdentityInfoDetails = this.applicant.indivIdentityInfoDetails ? this.applicant.indivIdentityInfoDetails : {};
+      const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails ? this.applicant.aboutIndivProspectDetails : {};
+      details.pan = indivIdentityInfoDetails.pan;
+      details.aadhar = indivIdentityInfoDetails.aadhar;
+      details.mobile = aboutIndivProspectDetails.mobilePhone;
+      details.panType = indivIdentityInfoDetails.panType;
+      details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
      // const DOB = this.applicant.aboutIndivProspectDetails.dob;
-      details.dob = this.getFormateDate(this.applicant.aboutIndivProspectDetails.dob);
+      details.dob = this.getFormateDate(aboutIndivProspectDetails.dob);
       console.log('PantYPE Format While patching pancard', details.panType);
       //details.dob = this.applicant.aboutIndivProspectDetails.dob;
-      details.passportNumber = this.applicant.indivIdentityInfoDetails.passportNumber;
-      details.passportIssueDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.passportIssueDate);
-      details.passportExpiryDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.passportExpiryDate);
-      details.drivingLicenseNumber = this.applicant.indivIdentityInfoDetails.drivingLicenseNumber;
-      details.drivingLicenseIssueDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.drivingLicenseIssueDate);
-      details.drivingLicenseExpiryDate = this.getFormateDate(this.applicant.indivIdentityInfoDetails.drivingLicenseExpiryDate);
+      details.passportNumber = indivIdentityInfoDetails.passportNumber;
+      details.passportIssueDate = this.getFormateDate(indivIdentityInfoDetails.passportIssueDate);
+      details.passportExpiryDate = this.getFormateDate(indivIdentityInfoDetails.passportExpiryDate);
+      details.drivingLicenseNumber = indivIdentityInfoDetails.drivingLicenseNumber;
+      details.drivingLicenseIssueDate = this.getFormateDate(indivIdentityInfoDetails.drivingLicenseIssueDate);
+      details.drivingLicenseExpiryDate = this.getFormateDate(indivIdentityInfoDetails.drivingLicenseExpiryDate);
     } else {
-      details.pan = this.applicant.corporateProspectDetails.panNumber;
-      details.aadhar = this.applicant.corporateProspectDetails.aadhar;
-      details.mobile = this.applicant.corporateProspectDetails.companyPhoneNumber;
-      details.panType = this.applicant.corporateProspectDetails.panType;
-      details.dateOfIncorporation = this.getFormateDate(this.applicant.corporateProspectDetails.dateOfIncorporation);
-      details.passportNumber = this.applicant.corporateProspectDetails.passportNumber;
-      details.passportIssueDate = this.getFormateDate(this.applicant.corporateProspectDetails.passportIssueDate);
-      details.passportExpiryDate = this.getFormateDate(this.applicant.corporateProspectDetails.passportExpiryDate);
-      details.drivingLicenseNumber = this.applicant.corporateProspectDetails.drivingLicenseNumber;
-      details.drivingLicenseIssueDate = this.getFormateDate(this.applicant.corporateProspectDetails.drivingLicenseIssueDate);
-      details.drivingLicenseExpiryDate = this.getFormateDate(this.applicant.corporateProspectDetails.drivingLicenseExpiryDate);
-      details.voterIdNumber = this.applicant.corporateProspectDetails.voterIdNumber;
+      const corporateProspectDetails = this.applicant.corporateProspectDetails ? this.applicant.corporateProspectDetails : {};
+      details.pan = corporateProspectDetails.panNumber;
+      details.aadhar = corporateProspectDetails.aadhar;
+      details.mobile = corporateProspectDetails.companyPhoneNumber;
+      details.panType = corporateProspectDetails.panType;
+      details.dateOfIncorporation = this.getFormateDate(corporateProspectDetails.dateOfIncorporation);
+      details.passportNumber = corporateProspectDetails.passportNumber;
+      details.passportIssueDate = this.getFormateDate(corporateProspectDetails.passportIssueDate);
+      details.passportExpiryDate = this.getFormateDate(corporateProspectDetails.passportExpiryDate);
+      details.drivingLicenseNumber = corporateProspectDetails.drivingLicenseNumber;
+      details.drivingLicenseIssueDate = this.getFormateDate(corporateProspectDetails.drivingLicenseIssueDate);
+      details.drivingLicenseExpiryDate = this.getFormateDate(corporateProspectDetails.drivingLicenseExpiryDate);
+      details.voterIdNumber = corporateProspectDetails.voterIdNumber;
     }
     return details;
   }
@@ -339,8 +359,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       console.log('Permsnt Address in', permentAddress);
       //const addressObj = this.getAddressObj();
       // console.log('addressObj', addressObj)
-      const permenantAddressObj = this.applicant.addressDetails[0];
-      const cummunicationAddressObj = this.applicant.addressDetails[1];
+      const address = this.applicant.addressDetails
+      const permenantAddressObj = address?address[0]:{};
+      const cummunicationAddressObj = address?address[1]:{};
       if (permenantAddressObj) {
         permentAddress.patchValue({
           addressLineOne: permenantAddressObj.addressLineOne,
@@ -604,10 +625,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
-      if (response.error === 0) {
+      if (response.Error == 0) {
         const message = response.ProcessVariables.error.message;
         console.log('Success Message', message);
+        
       }
+      this.router.navigateByUrl(`pages/lead-section/${this.leadId}/exact-match`);
     });
   }
 
