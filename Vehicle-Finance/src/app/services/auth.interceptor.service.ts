@@ -74,6 +74,7 @@ export class AuthInterceptor implements HttpInterceptor {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),
               });
+              res = event.body;
             } else {
               if (
                 event.headers.get('content-type') != 'text/plain' &&
