@@ -42,7 +42,7 @@ export class ApplicantService {
     const workflowId = this.applicantList.workflowId;
     const userId = localStorage.getItem('userId');
     const leadDetails: any = this.createLeadDataService.getLeadSectionData();
-    const leadId = leadDetails.leadId;
+    // const leadId = leadDetails.leadId;
     const body = {
       projectId,
       processId,
@@ -50,7 +50,7 @@ export class ApplicantService {
       ProcessVariables: {
         ...data,
         userId,
-        leadId,
+        // leadId,
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
