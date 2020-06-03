@@ -18,6 +18,11 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   };
+  private softDeleteDetail: {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  };
   constructor(
     private httpService: HttpService,
     private apiService: ApiService
@@ -25,6 +30,7 @@ export class ApplicantService {
     this.applicantList = this.apiService.api.getApplicantList;
     this.applicantDetail = this.apiService.api.getApplicantDetail;
     this.saveUpdateApplicant = this.apiService.api.saveUpdateApplicant;
+    this.softDeleteDetail = this.apiService.api.softDeleteApplicant;
   }
 
   getApplicantList(data) {
@@ -78,6 +84,29 @@ export class ApplicantService {
       ProcessVariables: {
         userId,
         leadId: 3,
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    console.log('url', url);
+    console.log('body', JSON.stringify(body));
+    return this.httpService.post(url, body);
+  }
+
+  softDeleteApplicant(data) {
+    const projectId = this.softDeleteDetail.projectId;
+    const processId = this.softDeleteDetail.processId;
+    const workflowId = this.softDeleteDetail.workflowId;
+
+    const email = localStorage.getItem('email');
+    const userId = localStorage.getItem('userId');
+
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        userId,
         ...data,
       },
     };
