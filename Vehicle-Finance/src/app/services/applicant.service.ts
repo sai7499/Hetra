@@ -6,15 +6,15 @@ import { ApiService } from './api.service';
   providedIn: 'root',
 })
 export class ApplicantService {
-  private applicantList: {
+  applicantList: {
     processId?: string;
     workflowId?: string;
   };
-  private applicantDetail: {
+  applicantDetail: {
     processId?: string;
     workflowId?: string;
   };
-  private saveUpdateApplicant: {
+  saveUpdateApplicant: {
     processId?: string;
     workflowId?: string;
   };
@@ -87,9 +87,8 @@ export class ApplicantService {
         ...data,
       },
     };
+
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    console.log('url', url);
-    console.log('body', JSON.stringify(body));
     return this.httpService.post(url, body);
   }
 

@@ -17,9 +17,12 @@ export class ApplicantDetailsComponent implements OnInit {
 
   labels: any = {};
   applicantDetails = [];
-  isAlert : boolean = true;
-  values : any;
+  isAlert: boolean = true;
+  values: any;
   applicantList: ApplicantList [] = [];
+  p = 1;
+  selectedApplicant: number;
+  index: number;
 
   constructor(
     private route: Router,
@@ -47,7 +50,7 @@ export class ApplicantDetailsComponent implements OnInit {
         this.values = res[0].addApplicant[0];
         console.log(this.values, 'values');
         this.values.entity = res[0].addApplicant[0].entity;
-        console.log('value Entity', this.values.entity)
+        console.log('value Entity', this.values.entity);
 
       });
     // this.getData();
@@ -80,10 +83,11 @@ export class ApplicantDetailsComponent implements OnInit {
       console.log('applicantList', this.applicantList);
     });
   }
-  onSubmit(){
-    this.isAlert = false
+  
+  onSubmit() {
+    this.isAlert = false;
     setTimeout(() => {
-      this.isAlert = true
+      this.isAlert = true;
     }, 1500);
   }
   onChange() {
@@ -95,8 +99,26 @@ export class ApplicantDetailsComponent implements OnInit {
     this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
   }
 
-  deleteApplicant(index: number){
+  deleteApplicant(index: number) {
 console.log(index);
 this.leadStoreService.deleteApplicant(index);
   }
+
+  softDeleteApplicant(index: number, applicantId: number) {
+    const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
+    this.index = findIndex;
+    this.selectedApplicant = applicantId;
+  }
+
+  callDeleteApplicant() {
+    const data = {
+      applicantId: this.selectedApplicant,
+    };
+    this.applicantService.softDeleteApplicant(data).subscribe((res) => {
+      console.log('res', this.selectedApplicant);
+      this.applicantList.splice(this.index, 1);
+    });
+  }
+
 }
+
