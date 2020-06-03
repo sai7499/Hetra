@@ -13,7 +13,7 @@
             (click)="onFormSubmit()"> {{ label.next }} </button>
     </div>
     <div style="float: right;" *ngIf="isHidden">
-        <button class="btn btn-primary" [routerLink]="['/pages/lead-section/'+ leadId + 'vehicle-details']"
+        <button class="btn btn-primary" [routerLink]="['/pages/lead-section/'+ leadId + '/vehicle-details']"
             (click)="onFormSubmit()">submit</button>
     </div>
 </div>
