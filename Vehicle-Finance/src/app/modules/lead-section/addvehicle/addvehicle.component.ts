@@ -306,7 +306,7 @@ export class AddvehicleComponent implements OnInit {
     this.vehicleId = 100;
 
     this.vehicleDetailService.saveOrUpdateVehcicleDetails({
-      "leadId": this.leadId, "userId": this.userId, "vehicleId": this.vehicleId, "yearAndMonthManufacturing": this.utilityService.getDateFormat(this.vehicleDetails.yearAndMonthManufacturing), "collateralType": this.vehicleDetails.vehicleType, "vehicleUsage": this.vehicleDetails.vehicleUsage,
+      "leadId": this.leadId, "userId": this.userId, "vehicleId": this.vehicleId, "yearAndMonthManufacturing": this.vehicleDetails.yearAndMonthManufacturing, "collateralType": this.vehicleDetails.vehicleType, "vehicleUsage": this.vehicleDetails.vehicleUsage,
       "finalAssetCost": this.vehicleDetails.finalAssetCost, "registrationNumber": this.vehicleDetails.registrationNumber,
     }).subscribe((res: any) => {
 
