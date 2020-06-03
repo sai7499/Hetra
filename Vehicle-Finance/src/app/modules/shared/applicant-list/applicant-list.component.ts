@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantList } from '@model/applicant.model';
+import { LeadStoreService } from '../../sales/services/lead.store.service';
 
 @Component({
   templateUrl: './applicant-list.component.html',
@@ -15,25 +17,22 @@ export class ApplicantListComponent implements OnInit {
   applicantUrl: string;
   applicantList: ApplicantList[] = [];
   p = 1;
-  index : number;
-  selectedApplicantId : number
+  index: number;
+  selectedApplicantId: number;
+  leadId: number;
 
   constructor(
     private labelsData: LabelsService,
     private location: Location,
-    private applicantService: ApplicantService
-  ) { }
+    private applicantService: ApplicantService,
+    private activatedRoute: ActivatedRoute,
+    private leadStoreService: LeadStoreService
+  ) {}
 
   ngOnInit() {
     const currentUrl = this.location.path();
 
     this.isShowAddaApplicant(currentUrl);
-
-    if (currentUrl.includes('sales')) {
-      this.applicantUrl = '/pages/sales-applicant-details/basic-details';
-    } else {
-      this.applicantUrl = '/pages/applicant-details/basic-data';
-    }
 
     this.labelsData.getLabelsData().subscribe(
       (data) => {
@@ -43,12 +42,22 @@ export class ApplicantListComponent implements OnInit {
         console.log(error);
       }
     );
-    this.getApplicantList();
+
+    this.activatedRoute.params.subscribe((value: any) => {
+      console.log('params', value);
+      this.leadId = this.leadStoreService.getLeadId();
+      if (currentUrl.includes('sales')) {
+        this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
+      } else {
+        this.applicantUrl = '/pages/applicant-details/basic-data';
+      }
+      this.getApplicantList();
+    });
   }
 
   getApplicantList() {
     const data = {
-      leadId: 3,
+      leadId: this.leadId,
     };
 
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
@@ -65,9 +74,9 @@ export class ApplicantListComponent implements OnInit {
 
   softDeleteApplicant(index: number, applicantId: number) {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
-    this.index= findIndex;
-    this.selectedApplicantId= applicantId
-  
+    this.index = findIndex;
+    this.selectedApplicantId = applicantId;
+
     // const data = {
     //   applicantId,
     // };
@@ -77,13 +86,13 @@ export class ApplicantListComponent implements OnInit {
     // });
   }
 
-  callDeleteApplicant(){
-    const data ={
-      applicantId : this.selectedApplicantId,
+  callDeleteApplicant() {
+    const data = {
+      applicantId: this.selectedApplicantId,
     };
-    this.applicantService.softDeleteApplicant(data).subscribe((res)=>{
+    this.applicantService.softDeleteApplicant(data).subscribe((res) => {
       console.log('res', this.selectedApplicantId);
-       this.applicantList.splice(this.index, 1);
-    })
+      this.applicantList.splice(this.index, 1);
+    });
   }
 }

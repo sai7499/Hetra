@@ -444,7 +444,7 @@
   </form>
 </div>
 
-<div class="row btn-sec">
+<div class="btn-sec clear-both row">
   <div class="col-sm-5">
     <button
       class="btn btn-primary dash_href"
@@ -454,12 +454,24 @@
     </button>
   </div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href" type="button">
-      <a href="">Back</a>
-    </button>
-    <button class="btn btn-primary" (click)="onSubmit()">Save</button>
-    <button class="btn btn-primary dash_href" type="button">
-      <a href="">Next</a>
-    </button>
+    <span id="edit_vehicle_details_replace"></span>
+    <a id="back_vehicle_details"
+      ><button class="btn btn-primary" type="button" (click)="onBack()">
+        Back
+      </button></a
+    >
+    <p
+      class="btn btn-primary save"
+      id="save_vehicle_details"
+      (click)="onSubmit()"
+    >
+      Save
+    </p>
+    <a id="next_vehicle_details"
+      ><button class="btn btn-primary" type="button">Next</button></a
+    >
+    <br />
+    <br />
+    <br />
   </div>
 </div>
