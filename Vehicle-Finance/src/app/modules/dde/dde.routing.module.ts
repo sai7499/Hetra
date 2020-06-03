@@ -34,7 +34,7 @@ const routes: Routes = [
     component: DdeComponent,
     children: [
       {
-        path: '',
+        path: ':id',
         component: SourcingDdeComponent,
       },
       {

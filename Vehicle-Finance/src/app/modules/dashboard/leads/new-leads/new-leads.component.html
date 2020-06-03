@@ -18,8 +18,8 @@
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
                 <td *ngIf="isCredit == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td>
-                    <a [routerLink]="['/pages/dde']">{{item.leadId}}</a></td>
+                <td *ngIf="isCredit == '1'"><a [routerLink]="['/pages/dde']">{{item.leadId}}</a></td>
+                <td *ngIf="isCredit == '2'"><a [routerLink]="['/pages/dde', item.leadId]">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmount ? item.loanAmount : '--'}}</td>
                 <td>{{item.applicants ? item.applicants : '--'}}</td>
