@@ -14,6 +14,7 @@ import {
   CorporateProspectDetails,
   IndividualProspectDetails,
 } from '@model/applicant.model';
+import { LeadStoreService } from '../../services/lead.store.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -43,7 +44,8 @@ export class BasicDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
-    private router: Router
+    private router: Router,
+    private leadStoreService: LeadStoreService
   ) {}
 
   ngOnInit() {
@@ -239,9 +241,11 @@ export class BasicDetailsComponent implements OnInit {
       applicantId: this.applicantId,
       ...applicantData,
     };
+    console.log('leadId', this.leadStoreService.getLeadId());
+    const leadId = this.leadStoreService.getLeadId();
     this.applicantService.saveApplicant(data).subscribe((res) => {
       this.router.navigate([
-        '/pages/sales-applicant-details/identity-details',
+        `/pages/sales-applicant-details/${leadId}/identity-details`,
         this.applicantId,
       ]);
     });

@@ -167,8 +167,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.addNonIndividualFormControls();
   }
 
-  onSave() {
-  }
+  onSave() {}
 
   storeNonIndividualValueInService() {
     const value = this.identityForm.getRawValue();
@@ -285,9 +284,11 @@ export class IdentityDetailsComponent implements OnInit {
       applicantId: this.applicantId,
       ...applicant,
     };
+    console.log('leadId', this.leadStoreService.getLeadId());
+    const leadId = this.leadStoreService.getLeadId();
     this.applicantService.saveApplicant(data).subscribe((res) => {
       this.router.navigate([
-        '/pages/sales-applicant-details/address-details',
+        `/pages/sales-applicant-details/${leadId}/address-details`,
         this.applicantId,
       ]);
     });
