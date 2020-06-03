@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
-import { Router} from '@angular/router'
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LeadStoreService } from '../services/lead.store.service';
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -9,10 +11,16 @@ import { Router} from '@angular/router'
 })
 export class ApplicantDetailsComponent implements OnInit {
   locationIndex: number;
-  applicantId ='';
-  constructor(private location: Location,
-              private applicantDataStoreservice : ApplicantDataStoreService,
-              private router : Router) {}
+  applicantId = '';
+  leadId: number;
+  constructor(
+    private location: Location,
+    private applicantDataStoreservice: ApplicantDataStoreService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private createLeadDataService: CreateLeadDataService,
+    private leadStoreService: LeadStoreService
+  ) {}
 
   ngOnInit() {
     const currentUrl = this.location.path();
@@ -20,11 +28,27 @@ export class ApplicantDetailsComponent implements OnInit {
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
+    this.activatedRoute.params.subscribe((value: any) => {
+      console.log('params', value);
+      this.leadId = Number(value.leadId);
+      if (!this.leadId) {
+        const data: any = this.createLeadDataService.getLeadData();
+        this.leadId = data.leadId;
+      }
+      this.leadStoreService.setLeadId(this.leadId);
+      console.log(
+        ' this.createLeadDataService.getLeadData()',
+        this.createLeadDataService.getLeadData()
+      );
+    });
   }
 
-  onNavigate(url : string){
-    this.applicantId= this.applicantDataStoreservice.getApplicantId();
-     this.router.navigate([url, this.applicantId])
+  onNavigate(url: string) {
+    this.applicantId = this.applicantDataStoreservice.getApplicantId();
+    this.router.navigate([
+      `/pages/sales-applicant-details/${this.leadId}/${url}`,
+      this.applicantId,
+    ]);
   }
 
   getLocationIndex(url: string) {

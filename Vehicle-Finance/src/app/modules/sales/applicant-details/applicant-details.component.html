@@ -11,7 +11,7 @@
           id="sales_additional_applicant_basic"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 0 }"
-          (click)="onNavigate('/pages/sales-applicant-details/basic-details')"
+          (click)="onNavigate('basic-details')"
         >
           Basic Details
         </button>
@@ -20,9 +20,7 @@
           id="sales_additional_applicant_identity"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 1 }"
-          (click)="
-            onNavigate('/pages/sales-applicant-details/identity-details')
-          "
+          (click)="onNavigate('identity-details')"
         >
           Identity Details
         </button>
@@ -31,7 +29,7 @@
           id="sales_additional_applicant_address"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 2 }"
-          (click)="onNavigate('/pages/sales-applicant-details/address-details')"
+          (click)="onNavigate('address-details')"
         >
           Address Details
         </button>
@@ -40,12 +38,15 @@
           id="sales_applicant_document_upload"
           type="button"
           [ngClass]="{ 'js-active': locationIndex >= 3 }"
-          [routerLink]="['./document-upload']"
+          (click)="onNavigate('document-upload')"
         >
           Document Upload
         </button>
       </div>
-      <router-outlet></router-outlet>
+      <!-- <router-outlet></router-outlet> -->
+      <div class="multisteps-form">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </main>

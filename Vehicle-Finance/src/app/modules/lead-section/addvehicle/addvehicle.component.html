@@ -8,12 +8,12 @@
     <div class="col-sm-7 text-right" *ngIf="!isHidden">
         <button class="btn btn-primary js-btn-prev" type="button"> {{ label.back }} </button> &nbsp;
         <button class="btn btn-primary" type="button" (click)="onFormSubmit()"
-            [routerLink]="['/pages/lead-section/vehicle-details']"> {{ label.save }} </button> &nbsp;
+            [routerLink]="['/pages/lead-section/'+ leadId + 'vehicle-details']"> {{ label.save }} </button> &nbsp;
         <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/credit-score']" type="button"
             (click)="onFormSubmit()"> {{ label.next }} </button>
     </div>
     <div style="float: right;" *ngIf="isHidden">
-        <button class="btn btn-primary" [routerLink]="['/pages/lead-section/vehicle-details']"
+        <button class="btn btn-primary" [routerLink]="['/pages/lead-section/'+ leadId + '/vehicle-details']"
             (click)="onFormSubmit()">submit</button>
     </div>
 </div>

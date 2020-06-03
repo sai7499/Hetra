@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { VehicleDetailService } from '../../../services/vehicle-detail.service';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -15,6 +15,8 @@ import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 export class VehicleDetailComponent implements OnInit {
 
   vehicleForm: FormGroup;
+
+  public leadId: number;
 
   public vehicleLov: any = {};
   public label: any = {};
@@ -32,7 +34,7 @@ export class VehicleDetailComponent implements OnInit {
     private router: Router,
     private activateroute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
-    private vehicleDetailService: VehicleDetailService) { }
+    private createLeadDataService: CreateLeadDataService) { }
 
 
   ngOnInit() {
@@ -53,6 +55,9 @@ export class VehicleDetailComponent implements OnInit {
       this.getData();
 
     });
+    const leadData = this.createLeadDataService.getLeadSectionData();
+
+    this.leadId = leadData['leadId']
   }
 
   initForm() {
