@@ -31,12 +31,12 @@ export class LoginService {
     let email = data ? data.userId : this.loginService.getEmailId();
     let objectKey = data ? 'userId' : 'loginId';
     const body: RequestEntity = {
-      processId: processId,
+      processId,
       ProcessVariables: {
         [objectKey]: email,
       },
-      workflowId: workflowId,
-      projectId: projectId,
+      workflowId,
+      projectId,
     };
 
     let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
