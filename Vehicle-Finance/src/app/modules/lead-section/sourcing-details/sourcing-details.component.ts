@@ -10,11 +10,13 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { CreateLeadService } from '../../lead-creation/service/creatLead.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LeadDetails } from '../services/sourcingLeadDetails.service';
+import { SharedService } from '@shared/shared-service/shared-service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-sourcing-details',
   templateUrl: './sourcing-details.component.html',
-  styleUrls: ['./sourcing-details.component.css'],
+  styleUrls: ['./sourcing-details.component.css']
 })
 export class SourcingDetailsComponent implements OnInit {
   // values: any = [];
@@ -32,7 +34,7 @@ export class SourcingDetailsComponent implements OnInit {
   leadId: number;
   isSpoke: boolean;
   // leadCreatedBy: string;
-
+  Item: { key: string, value: string }
   businessDivisionArray = [];
   productCategoryArray: Array<any> = [];
   sourchingTypeData = [];
@@ -47,24 +49,26 @@ export class SourcingDetailsComponent implements OnInit {
   productCategoryFromLead: string;
   leadCreatedDateFromLead: string;
   isBusinessDivisionEnable: boolean;
+  leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   saveUpdate: {
-    bizDivision: string;
-    productCategory: number;
-    priority: number;
-    sourcingChannel: string;
-    sourcingType: string;
-    sourcingCode: string;
-    spokeCode: number;
-    loanBranch: number;
-    leadHandeledBy: number;
-    leadCreatedBy: number;
-    leadCreatedOn: string;
-    requestedLoanAmount: number;
-    requestedLoanTenor: number;
-    userId: number;
-    leadId: number;
+    bizDivision: string,
+    productCategory: number,
+    priority: number,
+    sourcingChannel: string,
+    sourcingType: string,
+    sourcingCode: string,
+    spokeCode: number,
+    loanBranch: number,
+    leadHandeledBy: number,
+    leadCreatedBy: number,
+    leadCreatedOn: string,
+    requestedLoanAmount: number,
+    requestedLoanTenor: number
+    userId: number,
+    leadId: number
   };
+
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -75,8 +79,8 @@ export class SourcingDetailsComponent implements OnInit {
     private commomLovService: CommomLovService,
     private createLeadDataService: CreateLeadDataService,
     private loginService: LoginStoreService,
-    private leadDetail: LeadDetails
-  ) {}
+    private leadDetail: LeadDetails,
+    private sharedService: SharedService) { }
 
   ngOnInit() {
     this.initForm();
@@ -87,13 +91,12 @@ export class SourcingDetailsComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
-      (error) => console.log('Sourcing details Label Error', error)
-    );
+      data => this.labels = data,
+      error => console.log('Sourcing details Label Error', error));
   }
 
   getLOV() {
-    this.commomLovService.getLovData().subscribe((lov) => {
+    this.commomLovService.getLovData().subscribe(lov => {
       this.LOV = lov;
       this.getLeadSectionData();
       this.getUserDetailsData();
@@ -116,9 +119,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadHandeledBy = `${userId}-${userName}`;
     this.userId = userId;
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
-    this.spokesCodeLocation = this.isSpoke
-      ? roleAndUserDetails.userDetails.parentBranch
-      : null;
+    this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
     this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
     this.sourcingDetailsForm.patchValue({ leadCreatedBy: this.leadHandeledBy });
     this.sourcingDetailsForm.patchValue({ leadHandeledBy: userName });
@@ -146,38 +147,35 @@ export class SourcingDetailsComponent implements OnInit {
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
+    const requiredLoanAmount = data.leadDetails.reqLoanAmt;
+    const requiredLoanTenor = data.leadDetails.reqTenure;
+
+    this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount });
+    this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
+
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
-    this.sourcingDetailsForm.patchValue({
-      leadCreatedDate: this.leadCreatedDateFromLead,
-    });
+    this.sourcingDetailsForm.patchValue({ leadCreatedDate: this.leadCreatedDateFromLead });
   }
 
   patchSourcingDetails() {
-    const sourchingChannelFromLead = this.leadData.loanLeadDetails
-      .sourcingChannel;
+    const sourchingChannelFromLead = this.leadData.loanLeadDetails.sourcingChannel;
     const sourchingTypeFromLead = this.leadData.loanLeadDetails.sourcingType;
     const sourchingCodeFromLead = this.leadData.loanLeadDetails.sourcingCode;
-    this.sourcingDetailsForm.patchValue({
-      sourcingChannel: sourchingChannelFromLead,
-    });
-    this.sourcingDetailsForm.patchValue({
-      sourcingType: sourchingTypeFromLead,
-    });
-    this.sourcingDetailsForm.patchValue({
-      sourcingCode: sourchingCodeFromLead,
-    });
+    this.sourcingDetailsForm.patchValue({ sourcingChannel: sourchingChannelFromLead });
+    this.sourcingDetailsForm.patchValue({ sourcingType: sourchingTypeFromLead });
+    this.sourcingDetailsForm.patchValue({ sourcingCode: sourchingCodeFromLead });
   }
 
   getBusinessDivision(bizDivision) {
     const businessKey = bizDivision;
     const lov = this.LOV.LOVS.businessDivision;
-    lov.map((data) => {
+    lov.map(data => {
       if (data.key === businessKey) {
         const val = {
           key: data.key,
-          value: data.value,
+          value: data.value
         };
         this.businessDivisionArray.push(val);
         this.sourcingDetailsForm.patchValue({ bizDivision: data.key });
@@ -192,25 +190,27 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   getProductCategory(event) {
-    this.bizDivId = this.isBusinessDivisionEnable ? event : event.target.value;
-    this.createLeadService
-      .getProductCategory(this.bizDivId)
-      .subscribe((res: any) => {
-        const product = res.ProcessVariables.productCategoryDetails;
-        product.map((data) => {
-          if (data) {
-            const val = {
-              key: data.assetProdcutCode,
-              value: data.prodcutCatName,
-            };
-            this.productCategoryArray.push(val);
-            this.sourcingDetailsForm.patchValue({
-              productCategory: this.productCategoryFromLead,
-            });
-          }
-        });
+    this.bizDivId = (this.isBusinessDivisionEnable) ? event : event.target.value;
+    this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
+      const product = res.ProcessVariables.productCategoryDetails;
+      product.map(data => {
+        if (data) {
+          const val = {
+            key: data.assetProdcutCode,
+            value: data.prodcutCatName
+          };
+          this.productCategoryArray.push(val);
+          this.sourcingDetailsForm.patchValue({ productCategory: this.productCategoryFromLead });
+        }
       });
+      this.productCategoryArray.map(val => {
+        if (val.key == this.productCategoryFromLead) {
+          this.sharedService.leadDataToHeader(val.value)
+        }
+      });
+    });
     console.log('this.productCategoryData', this.productCategoryArray);
+
   }
 
   getSourcingChannel() {
@@ -220,8 +220,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourchingTypeData = response;
       if (this.sourchingTypeData) {
         if (this.leadData.loanLeadDetails) {
-          const sourchingChannel = this.leadData.loanLeadDetails
-            .sourcingChannel;
+          const sourchingChannel = this.leadData.loanLeadDetails.sourcingChannel;
           this.sourcingChannelChange(sourchingChannel, false);
           this.patchSourcingDetails();
         }
@@ -231,17 +230,16 @@ export class SourcingDetailsComponent implements OnInit {
 
   sourcingChannelChange(event: any, fromLead?) {
     this.sourchingTypeValues = [];
-    this.sourcingChange = fromLead ? event.target.value : event;
-    this.sourcingCodePlaceholder =
-      this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
+    this.sourcingChange = (fromLead) ? event.target.value : event;
+    this.sourcingCodePlaceholder = (this.sourcingChange === '4SOURCHAN') ? 'Campaign Code' : 'Employee Code';
     console.log('SourcingChange --', this.sourcingChange);
 
-    this.sourchingTypeData.map((element) => {
+    this.sourchingTypeData.map(element => {
       if (element.sourcingChannelId === this.sourcingChange) {
         console.log('Sourching Type --', element.sourcingTypeDesc);
         const data = {
           key: element.sourcingTypeId,
-          value: element.sourcingTypeDesc,
+          value: element.sourcingTypeDesc
         };
         this.sourchingTypeValues.push(data);
       }
@@ -274,7 +272,7 @@ export class SourcingDetailsComponent implements OnInit {
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
       requestedAmount: new FormControl(''),
-      requestedTenor: new FormControl(''),
+      requestedTenor: new FormControl('')
     });
   }
 
@@ -299,7 +297,7 @@ export class SourcingDetailsComponent implements OnInit {
       leadCreatedBy: Number(this.branchId),
       leadCreatedOn: this.leadCreatedDateFromLead,
       requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
-      requestedLoanTenor: Number(saveAndUpdate.requestedTenor),
+      requestedLoanTenor: Number(saveAndUpdate.requestedTenor)
     };
     console.log('this.saveUpdate', this.saveUpdate);
 
@@ -321,8 +319,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/applicant-details`
-    );
+    this.router.navigateByUrl(`/pages/lead-section/${this.leadId}/applicant-details`)
+
   }
 }

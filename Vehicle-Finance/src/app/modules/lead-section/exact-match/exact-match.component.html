@@ -258,7 +258,7 @@
 
   <!-- Modal footer -->
   <div class="modal-footer text-center">
-    <button type="button" class="btn btn-success" data-dismiss="modal" id="ucic_lead" [routerLink]="'/pages/lead-section/otp-section'">Yes</button>
+    <button type="button" class="btn btn-success" data-dismiss="modal" id="ucic_lead" (click)='nevigateOtp()' >Yes</button>
     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
   </div>
 
@@ -284,7 +284,7 @@
 
   <!-- Modal footer -->
   <div class="modal-footer text-center">
-    <button type="button" class="btn btn-success" data-dismiss="modal" id="cnew_lead" [routerLink]="'/pages/lead-section/otp-section'">Yes</button>
+    <button type="button" class="btn btn-success" data-dismiss="modal" id="cnew_lead" (click)='nevigateOtp()'>Yes</button>
     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
   </div>
 
