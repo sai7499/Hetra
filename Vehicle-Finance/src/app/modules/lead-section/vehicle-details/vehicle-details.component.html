@@ -9,7 +9,7 @@
         <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> Back
         </button> &nbsp;
         <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{label.save}}</button> &nbsp;
-        <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/credit-score']"
+        <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/'+ leadId + 'credit-score']"
             type="button">Next</button>
     </div>
 </div>

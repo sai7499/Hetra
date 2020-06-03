@@ -5,6 +5,7 @@ import { LabelsService } from '@services/labels.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { Router } from '@angular/router';
 import { LeadDataResolverService } from '../../lead-section/services/leadDataResolver.service';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -20,6 +21,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public label: any = {};
   vehicleArray = [];
   public leadId: number;
+  public leadData: any = {};
 
   public vehicleListArray = [
     {
@@ -39,7 +41,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private vehicleDetailsService: VehicleDetailService,
     private router: Router,
-    public leadData: LeadDataResolverService) { }
+    public createLeadDataService: CreateLeadDataService) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -48,7 +50,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.leadId = parseInt(this.leadData.leadId);
+    this.leadData = this.createLeadDataService.getLeadSectionData();
+    this.leadId = this.leadData.leadId;
     this.getVehicleDetails(this.leadId)
 
     this.labelsData.getLabelsData().subscribe(data => {

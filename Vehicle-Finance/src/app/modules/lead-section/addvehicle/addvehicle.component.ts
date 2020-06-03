@@ -9,6 +9,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
 import { LeadDataResolverService } from '../services/leadDataResolver.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -50,17 +51,18 @@ export class AddvehicleComponent implements OnInit {
     private router: Router,
     private leadData: LeadDataResolverService,
     private activatedRoute: ActivatedRoute,
-    private leadStoreService: LeadStoreService,
+    private createLeadDataService: CreateLeadDataService,
     private vehicleDetailService: VehicleDetailService,
     private loginStoreService: LoginStoreService) { }
 
   ngOnInit() {
 
-
     // method for getting all vehicle details related to a lead
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
-    this.leadId = parseInt(this.leadData.leadId);
+    const leadData = this.createLeadDataService.getLeadSectionData();
+
+    this.leadId = leadData['leadId']
 
     this.getVehicleDetails();
 
