@@ -52,23 +52,22 @@ export class SourcingDetailsComponent implements OnInit {
   leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   saveUpdate: {
-    bizDivision: string,
-    productCategory: number,
-    priority: number,
-    sourcingChannel: string,
-    sourcingType: string,
-    sourcingCode: string,
-    spokeCode: number,
-    loanBranch: number,
-    leadHandeledBy: number,
-    leadCreatedBy: number,
-    leadCreatedOn: string,
-    requestedLoanAmount: number,
-    requestedLoanTenor: number
-    userId: number,
-    leadId: number
+    bizDivision: string;
+    productCategory: number;
+    priority: number;
+    sourcingChannel: string;
+    sourcingType: string;
+    sourcingCode: string;
+    spokeCode: number;
+    loanBranch: number;
+    leadHandeledBy: number;
+    leadCreatedBy: number;
+    leadCreatedOn: string;
+    requestedLoanAmount: number;
+    requestedLoanTenor: number;
+    userId: number;
+    leadId: number;
   };
-
 
   constructor(
     private leadSectionService: VehicleDetailService,
