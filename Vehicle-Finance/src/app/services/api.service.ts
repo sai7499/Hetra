@@ -41,6 +41,42 @@ export class ApiService {
       processId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getAnVehicleCollateralDetails: {
+      workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
+      processId: '5ded0268971711eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveOrUpdateVehicleCollateralDetails: {
+      workflowId: 'b0a9ef02939d11eabdc6f2fa9bec3d63',
+      processId: '387d901e957e11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getAllVehicleCollateralDetails: {
+      workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
+      processId: 'cd9ac3ba979a11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+
+    },
+    getVehicleMasterFromRegion: {
+      workflowId: '385f090a957e11eabdcff2fa9bec3d63',
+      processId: '3bed6af898f311eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveUpdateFleetDetails: {
+      workflowId: '05f4baea998511eabdcff2fa9bec3d63',
+      processId: '0620e32c998511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getFleetDetails: {
+      workflowId: '05f4baea998511eabdcff2fa9bec3d63',
+      processId: 'd6f39fda99b211eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    deleteFleetDetails: {
+      workflowId: '05f4baea998511eabdcff2fa9bec3d63',
+      processId: '8a5ad9369b3811eabdd3f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveUpdateFleetRtr: {
       processId: 'be7ff35699c911eabdcff2fa9bec3d63',
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
@@ -88,11 +124,6 @@ export class ApiService {
       workflowId: '9832e748935811eabdc6f2fa9bec3d63',
       processId: '1fdbb4da9b1111eabdd2f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
-    },
-    saveAndUpdateLead: {
-      processId: '7e66e3fe9cc811eabdddf2fa9bec3d63',
-      workflowId: 'b4e6e94c6db611eabdc2f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId,
-    },
+    }
   };
 }

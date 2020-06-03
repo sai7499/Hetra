@@ -42,12 +42,11 @@ export class BasicDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService
-  ) {}
+  ) { }
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        // console.log(this.labels)
       },
       (error) => {
         console.log(error);
@@ -63,7 +62,6 @@ export class BasicDetailsComponent implements OnInit {
     this.addIndividualFormControls();
     this.getLOV();
     this.activatedRoute.params.subscribe((value) => {
-      console.log('value', value);
       if (!value && !value.applicantId) {
         return;
       }
@@ -83,8 +81,6 @@ export class BasicDetailsComponent implements OnInit {
       };
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
-      console.log('applicantDetailsfromService--', this.applicant);
-
       this.setBasicData();
     });
   }
@@ -98,11 +94,7 @@ export class BasicDetailsComponent implements OnInit {
         this.applicant.applicantDetails.applicantTypeKey || '',
       title: this.applicant.applicantDetails.title,
     });
-    console.log('"LOV?.LOVS?.entityType', this.LOV.LOVS.entityType);
-    console.log(
-      'this.applicant.applicantDetails.entityTypeKey',
-      this.applicant.applicantDetails.entityTypeKey
-    );
+
     if (this.isIndividual) {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
@@ -123,7 +115,6 @@ export class BasicDetailsComponent implements OnInit {
 
   setValuesForIndividual() {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
-    console.log('aboutIndivProspectDetails--', aboutIndivProspectDetails);
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
@@ -261,7 +252,6 @@ export class BasicDetailsComponent implements OnInit {
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOV data ---', this.LOV);
   }
   clearFormArray() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -270,13 +260,7 @@ export class BasicDetailsComponent implements OnInit {
 
   onDesignationChange(event) {
     const value = event.target.value;
-    // const formArray = (this.basicForm.get('details') as FormArray);
-    // const controls = formArray.at(0) as FormGroup;
-    // controls.removeControl('department');
-    // console.log('formArray', formArray);
-    // if (value === '1') {
 
-    // }
     this.addOrRemoveSelfEmployedFormControls(value === '2');
   }
 
@@ -312,9 +296,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('form value', this.basicForm.value);
     const value = this.basicForm.getRawValue();
-    console.log('raw value', value);
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
       return;
@@ -327,7 +309,6 @@ export class BasicDetailsComponent implements OnInit {
       ...applicantData,
     };
     this.applicantService.saveApplicant(data).subscribe((response) => {
-      console.log('response', response);
     });
   }
 
@@ -407,14 +388,8 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
     prospectDetails.department = aboutIndivProspectDetails.department;
 
-    console.log('aboutIndivProspectDetails', aboutIndivProspectDetails);
-
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
-    // const IndivProspectProfileDetails = formValue
-    // ProspectProfileDetails.employerType= IndivProspectProfileDetails.employerType;
-
-    // console.log('IndivProspectProfileDetails', IndivProspectProfileDetails);
     this.applicantDataService.setIndividualProspectDetails(
       ProspectProfileDetails
     );
@@ -473,7 +448,6 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.ratingIssuerName =
       corporateProspectDetails.ratingIssuerName;
 
-    console.log('prospectDetails', prospectDetails);
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
 }

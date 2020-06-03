@@ -41,10 +41,9 @@ const routes: Routes = [
         path: 'co-applicant',
         component: CoApplicantComponent,
       },
-
       {
-        path: 'add-vehicle',
-        component: AddvehicleComponent,
+        path: "add-vehicle",
+        component: AddvehicleComponent
       },
       {
         path: 'credit-score',

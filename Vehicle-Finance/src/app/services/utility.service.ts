@@ -20,13 +20,12 @@ export class UtilityService {
         localStorage.removeItem('token');
         localStorage.removeItem('roles');
         localStorage.removeItem('userId');
+        console.clear();
         this.router.navigateByUrl('/login');
 
     }
 
     getDateFormat(date) {
-        console.log('in date conversion ' + date);
-
         const dateFormat: Date = new Date(date);
         const year = dateFormat.getFullYear();
         const month = Number(dateFormat.getMonth()) + 1;
@@ -35,7 +34,6 @@ export class UtilityService {
         day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
         const formattedDate = year + '-' + month1 + '-' + day;
         // const formattedDate = day + '-' + month1 + '-' + year;
-        console.log('final Value ' + formattedDate);
         return formattedDate;
       }
 }

@@ -4,8 +4,9 @@ import {
     FormBuilder,
     Validators,
     FormControl,
-    FormArray } from '@angular/forms';
-    import { LabelsService } from "src/app/services/labels.service";
+    FormArray
+} from '@angular/forms';
+import { LabelsService } from "src/app/services/labels.service";
 
 @Component({
     templateUrl: './identity-details.component.html',
@@ -18,23 +19,18 @@ export class IdentityDetailsComponent implements OnInit {
 
     identityForm: FormGroup;
 
-    constructor(private labelsData: LabelsService,private fb: FormBuilder) {}
+    constructor(private labelsData: LabelsService, private fb: FormBuilder) { }
 
     ngOnInit() {
 
         this.labelsData.getLabelsData().subscribe(
             data => {
-              this.labels = data;
-              // console.log(this.labels)
+                this.labels = data;
             },
             error => {
-              console.log(error);
+                console.log(error);
             }
-          );
-
-        // this.identityForm = this.fb.group({
-        //     details: this.fb.array([])
-        // });
+        );
         this.identityForm = new FormGroup({
             details: new FormArray([])
         });
@@ -43,21 +39,18 @@ export class IdentityDetailsComponent implements OnInit {
 
     addIndividualFormControls() {
         const controls = new FormGroup({
-        //    idDetails: new FormControl(''),
-        //    idNumber: new FormControl(null),
-        //    expiryDate: new FormControl(null),
-        aadharNumber: new FormControl(null),
-        panForm: new FormControl(''),
-        panNumber: new FormControl(null),
-        passportNumber: new FormControl(null),
-        passportDate: new FormControl(null),
-        passportExpiry: new FormControl(null),
-        licenseNumber: new FormControl(null),
-        licenseDate: new FormControl(null),
-        licenseExpiry: new FormControl(null),
-        voterId: new FormControl(null),
-        voterDate: new FormControl(null),
-        voterExpiry: new FormControl(null)
+            aadharNumber: new FormControl(null),
+            panForm: new FormControl(''),
+            panNumber: new FormControl(null),
+            passportNumber: new FormControl(null),
+            passportDate: new FormControl(null),
+            passportExpiry: new FormControl(null),
+            licenseNumber: new FormControl(null),
+            licenseDate: new FormControl(null),
+            licenseExpiry: new FormControl(null),
+            voterId: new FormControl(null),
+            voterDate: new FormControl(null),
+            voterExpiry: new FormControl(null)
         });
         (this.identityForm.get('details') as FormArray).push(controls);
     }
@@ -77,11 +70,6 @@ export class IdentityDetailsComponent implements OnInit {
         this.isIndividual = value === 'individual';
         const formArray = (this.identityForm.get('details') as FormArray);
         formArray.clear();
-        // const length = formArray.length;
-        // for (let i = 0; i < length; i++) {
-        //     formArray.removeAt(i);
-        // }
-        // console.log('formArray', formArray);
         this.isIndividual ? this.addIndividualForm() : this.addNonIndividualForm();
     }
 

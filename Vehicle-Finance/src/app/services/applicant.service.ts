@@ -118,8 +118,6 @@ export class ApplicantService {
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    console.log('url', url);
-    console.log('body', JSON.stringify(body));
     return this.httpService.post(url, body);
   }
 }
