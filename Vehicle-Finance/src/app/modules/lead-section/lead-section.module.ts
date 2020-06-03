@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { LeadSectionComponent } from "./lead-section.component";
-
+import { NgxPaginationModule } from 'ngx-pagination';
 import { LeadCreationRouterModule } from "./lead-section.router";
 import { ApplicantDetailsComponent } from "./applicant-details/applicant-details.component";
 import { CoApplicantComponent } from "./co-applicant/co-applicant.component";
@@ -26,24 +26,18 @@ import { VehicleDetailComponent } from './vehicle-details/vehicle-details.compon
     VehicleDetailComponent,
     SourcingDetailsComponent,
     LoanDetailsComponent,
-  
     AddvehicleComponent,
-  
     CreditScoreComponent,
-  
     ExactMatchComponent,
-  
     OtpSectionComponent,
-    
-   
-    
   ],
   imports: [
     CommonModule,
     LeadCreationRouterModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxPaginationModule
   ]
 })
 export class LeadSectionModule {}

@@ -5,7 +5,6 @@ import {
   Validators,
   FormControl,
   FormArray,
-  Form,
 } from '@angular/forms';
 import { BankTransactionsService } from '@services/bank-transactions.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +17,15 @@ import { UtilityService } from '@services/utility.service';
 })
 export class BankDetailsComponent implements OnInit {
   bankDetailsNew: any;
+  bankForm: FormGroup;
+  lovData: any;
+  bankDetails: any;
+  applicantId: number;
+  formType: string;
+  monthArray: any;
+  assignedArray: any;
+  listArray: FormArray;
+
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -28,14 +36,6 @@ export class BankDetailsComponent implements OnInit {
   ) {
     this.listArray = this.fb.array([]);
   }
-  bankForm: FormGroup;
-  lovData: any;
-  bankDetails: any;
-  applicantId: number;
-  formType: string;
-  monthArray: any;
-  assignedArray = [];
-  listArray: FormArray;
   ngOnInit() {
     this.bankForm = this.fb.group({
       userId: 1,
@@ -68,18 +68,11 @@ export class BankDetailsComponent implements OnInit {
     ];
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
-      console.log(this.lovData);
     });
-    // const navigation = this.route.getCurrentNavigation();
     this.applicantId = Number(this.route.snapshot.queryParams.applicantId);
     this.formType = this.route.snapshot.queryParams.formType;
-    // this.lovService.resolve().subscribe((res: any) => {
-    //     console.log(res, ' lov in bank trans');
-    // });
-    console.log(this.monthArray);
-    // this.getBankDetails();
+
     if (this.formType) {
-      console.log(this.formType, 'applicant ID');
       this.getBankDetails();
     } else {
     }
@@ -115,19 +108,16 @@ export class BankDetailsComponent implements OnInit {
     });
   }
   getBankDetails() {
-    //    let bankDetails;
     this.bankTransaction
-      .getBankDetails({ applicantId: this.applicantId })
+      .getBankDetails({ applicantId: 41 })
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         this.populateData(res);
       });
-    //    console.log(bankDetails, 'let bank details');
   }
   public populateData(data: any) {
-    console.log('data in patch', data);
     this.bankForm.patchValue({
       accountHolderName: data.ProcessVariables.accountHolderName
         ? data.ProcessVariables.accountHolderName
@@ -153,25 +143,19 @@ export class BankDetailsComponent implements OnInit {
       limit: data.ProcessVariables.limit ? data.ProcessVariables.limit : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < transactionDetailsList.length; i++) {
       this.addProposedUnit(transactionDetailsList[i]);
     }
   }
 
-  // get formArr() {
-  //     return this.bankForm.get('transactions') as FormArray;
-  //   }
   addProposedUnit(data?: any) {
     const control = this.bankForm.controls.transactionDetails as FormArray;
-    control.push(this.populateTransaction(data));
+    control.push(this.initRows(data));
   }
   onSave() {
-    console.log('form value', this.bankForm.value);
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
-        console.log(res);
         alert(JSON.stringify(res));
         this.router.navigateByUrl('pages/dde/applicant-list//bank-list');
       });

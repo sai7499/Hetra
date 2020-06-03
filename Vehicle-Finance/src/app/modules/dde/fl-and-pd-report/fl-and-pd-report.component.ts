@@ -14,7 +14,6 @@ export class FlAndPdReportComponent implements OnInit {
         const currentUrl = this.location.path();
         this.locationIndex = this.getLocationIndex(currentUrl);
         this.location.onUrlChange((url: string) => {
-            console.log('url', url, 'state');
             this.locationIndex = this.getLocationIndex(url);
         });
     }
@@ -26,6 +25,6 @@ export class FlAndPdReportComponent implements OnInit {
             return 1;
         } else if (url.includes('loan-details')) {
             return 2;
-        } 
+        }
     }
 }

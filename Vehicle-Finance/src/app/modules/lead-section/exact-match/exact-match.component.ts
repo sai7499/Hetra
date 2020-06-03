@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-exact-match',
@@ -15,11 +17,34 @@ export class ExactMatchComponent implements OnInit {
    radioSel : number= -1;
    preSelectedIndex : number;
    againSelectedIndex : number;
+   leadId:number;
 
 
-  constructor() { }
+  constructor(
+    private createLeadDataService: CreateLeadDataService,
+    private router: Router
+  ) { }
+
+  getLeadId() {
+    //   const currentUrl = this.location.path().split('/');
+    //   let id;
+    //   currentUrl.find((value) => {
+  
+    //     if(Number(value)) {
+    //         id =  Number(value);
+    //     }
+    // });
+    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+    console.log('Id inside getLead ID', );
+    return leadSectioData.leadId;
+    }
 
   ngOnInit() {
+    this.leadId = this.getLeadId();
+  }
+
+  nevigateOtp(){
+    this.router.navigateByUrl(`pages/lead-section/${this.leadId}/otp-section`);
   }
 
   OnChecked(index) {

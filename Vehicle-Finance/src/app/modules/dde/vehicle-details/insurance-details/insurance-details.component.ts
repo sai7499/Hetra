@@ -10,12 +10,10 @@ import { LabelsService } from '@services/labels.service';
 export class InsuranceDetailsComponent implements OnInit {
 
   InsuranceDetailForm: FormGroup;
-  creditShieldForm: FormGroup;
-  existingInsuranceDetailForm: FormGroup;
 
   public label: any = {};
-  public label_credit_shield: any = {};
-  public label_existing_insurance_details: any = {};
+  public labelCreditShield: any = {};
+  public labelExistingInsuranceDetails: any = {};
 
   select_main_button_value: string = 'individual';
 
@@ -26,8 +24,8 @@ export class InsuranceDetailsComponent implements OnInit {
     this.labelsData.getLabelsOfDDEData()
       .subscribe(data => {
         this.label = data[0].insuranceDetails[0];
-        this.label_credit_shield = this.label.credit_shield[0];
-        this.label_existing_insurance_details = this.label.existing_insurance_details[0]
+        this.labelCreditShield = this.label.creditShield[0];
+        this.labelExistingInsuranceDetails = this.label.existingInsuranceDetails[0];
       },
         error => {
           console.log(error, 'error')
@@ -40,27 +38,24 @@ export class InsuranceDetailsComponent implements OnInit {
 
   createForm() {
     this.InsuranceDetailForm = this._fb.group({
-      select_main_button_value: ['']
-    })
-
-    this.creditShieldForm = this._fb.group({
-      credit_shield_applicable: [''],
-      insurance_company_name: [''],
-      credit_shield_coverage_amount: [''],
-      credit_shield_premium: [''],
-      credit_shield_nominee: [''],
-      credit_shield_nominee_age: [''],
-      credit_shield_nominee_relationship: [''],
-      credit_shield_added: ['']
-    })
-
-    this.existingInsuranceDetailForm = this._fb.group({
-      insurance_company_name: [''],
-      date_current_policy: [''],
-      no_claim_bonus: [''],
-      own_damage_discount: [''],
-      comprehensive: [''],
-      insurance_type: [''],
+      creditShield: this._fb.group({
+        creditShieldApplicable: [''],
+        insuranceCompanyName: [''],
+        creditShieldCoverageAmount: [''],
+        creditShieldPremium: [''],
+        creditShieldNominee: [''],
+        creditShieldNomineeAge: [''],
+        creditShieldNomineeRelationship: [''],
+        creditShieldaddedtoLoanAmount: ['']
+      }),
+      existingInsuranceDetails: this._fb.group({
+        insuranceCompanyName: [''],
+        expiryDateofCurrentpolicy: [''],
+        noClaimBonus: [''],
+        ownDamageDiscount: [''],
+        comprehensive: [''],
+        insuranceType: [''],
+      })
     })
   }
 

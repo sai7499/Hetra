@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
@@ -14,7 +13,6 @@ import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdReportComponent } from './pd-report/pd-report.component';
-import { ApplicantListComponent } from './applicant-list/applicant-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
@@ -23,12 +21,11 @@ import { CamComponent } from './cam/cam.component';
 
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
-
 import { ScoreCardComponent } from './score-card/score-card.component';
-
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
-
+import { ViabilityListComponent } from './viability-list/viability-list.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 
 @NgModule({
   declarations: [
@@ -36,14 +33,16 @@ import { DeviationsComponent } from './deviations/deviations.component';
     FlReportComponent,
     PdReportComponent,
     VehicleValuationComponent,
+    ViabilityListComponent,
+    InsuranceDetailsComponent,
     PslDataComponent,
     SourcingDdeComponent,
     ExposureDetailsComponent,
     IncomeDetailsComponent,
-    ApplicantListComponent,
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
+    InsuranceDetailsComponent,
     TvrDetailsComponent,
     CamComponent,
     ScoreCardComponent,
@@ -58,7 +57,7 @@ import { DeviationsComponent } from './deviations/deviations.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    DdeSharedModule
-  ]
+    DdeSharedModule,
+  ],
 })
-export class DdeModule { }
+export class DdeModule {}
