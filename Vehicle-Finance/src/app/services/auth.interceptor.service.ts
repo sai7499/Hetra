@@ -87,11 +87,11 @@ export class AuthInterceptor implements HttpInterceptor {
               }
             }
             console.log('after Encryption: ', event.body);
-            if (res['Error'] === '1') {
+
+            if (res && res['Error'] === '1') {
               alert(res['ErrorMessage']);
             }
             this.ngxUiLoaderService.stop();
-
             return event;
           } else {
             this.ngxUiLoaderService.stop();
