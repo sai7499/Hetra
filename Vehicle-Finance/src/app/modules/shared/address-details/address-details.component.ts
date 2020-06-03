@@ -25,6 +25,7 @@ export class AddressDetailsComponent implements OnInit {
 
   dropDownValues: any = [];
   isSalesOrCredit: string;
+  values : any =[];
   LOV: any = [];
   labels: any = {};
   address: Applicant;
@@ -55,6 +56,13 @@ export class AddressDetailsComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       this.getAddressDetails();
+    });
+
+    this.lovData.getLovData().subscribe((res: any) => {
+      console.log(res, 'res');
+      this.values = res[0].addApplicant[0];
+      console.log(this.values, 'values');
+    
     });
   }
   initForm() {

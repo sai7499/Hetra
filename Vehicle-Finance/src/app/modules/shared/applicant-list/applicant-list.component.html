@@ -57,6 +57,7 @@
                   ><i class="fa fa-trash" aria-hidden="true"></i
                 ></a>
               </td>
+              
             </tr>
             <!-- <tr>
               <td>-</td>
@@ -125,3 +126,32 @@
     </button>
   </div>
 </div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+
+          
+          <div class="modal-header">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="close"
+                  data-dismiss="modal">&times;</button>
+          </div>
+
+          
+          <div class="modal-body">
+              Are you Sure Want to Delete?
+          </div>
+
+          
+          <div class="modal-footer text-center">
+              <button type="button" class="btn btn-success" data-dismiss="modal"
+              (click)="callDeleteApplicant()">Yes</button>
+              <button type="button" class="btn btn-danger"
+                  data-dismiss="modal">Cancel</button>
+          </div>
+
+      </div>
+  </div>
+</div>
+
