@@ -34,6 +34,7 @@ export class UtilityService {
         let day = dateFormat.getDate().toString();
         day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
         const formattedDate = year + '-' + month1 + '-' + day;
+        // const formattedDate = day + '-' + month1 + '-' + year;
         console.log('final Value ' + formattedDate);
         return formattedDate;
       }

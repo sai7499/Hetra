@@ -13,7 +13,7 @@ import { CreateLeadDataService } from '../lead-creation/service/createLead-data.
 @Component({
   selector: 'app-lead-section',
   templateUrl: './lead-section.component.html',
-  styleUrls: ['./lead-section.component.css']
+  styleUrls: ['./lead-section.component.css'],
 })
 export class LeadSectionComponent implements OnInit {
   applicantName: string;
@@ -30,12 +30,11 @@ export class LeadSectionComponent implements OnInit {
     private labelsData: LabelsService,
     private leadStoreService: LeadStoreService,
     private route: ActivatedRoute,
-    private createLeadDataService: CreateLeadDataService,
+    private createLeadDataService: CreateLeadDataService
   ) {
     this.onHideRoute();
     this.leadId = this.route.snapshot.params['leadId'];
   }
-
 
   ngOnInit() {
     if (this.leadId) {
@@ -46,12 +45,9 @@ export class LeadSectionComponent implements OnInit {
       }
     }
 
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      }
-
-    );
+    this.labelsData.getLabelsData().subscribe((data) => {
+      this.labels = data;
+    });
 
     const leadValue = this.leadStoreService.getLeadCreation();
     if (leadValue) {
@@ -75,23 +71,25 @@ export class LeadSectionComponent implements OnInit {
         this.currentPage = 0;
       }
     });
-
-
   }
 
   onHideRoute() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url === '/pages/lead-section/co-applicant' || event.url === '/pages/lead-section/credit-score' || event.url === '/pages/lead-section/exact-match' || event.url === '/pages/lead-section/otp-section') {
-          console.log('welcome to hide element')
+        if (
+          event.url === '/pages/lead-section/co-applicant' ||
+          event.url === '/pages/lead-section/credit-score' ||
+          event.url === '/pages/lead-section/exact-match' ||
+          event.url === '/pages/lead-section/otp-section'
+        ) {
+          console.log('welcome to hide element');
           this.hideElement = true;
-          console.log(this.hideElement)
+          console.log(this.hideElement);
         } else {
           this.hideElement = false;
         }
       }
-    }
-    )
+    });
   }
 
   hasRoute(route: string) {

@@ -286,6 +286,7 @@ form .form-control {
   color: #cacaca;
   background-color: #1f1f1f;
   margin-top: 30px;
+  position: fixed !important;
 }
 
 .footer p {

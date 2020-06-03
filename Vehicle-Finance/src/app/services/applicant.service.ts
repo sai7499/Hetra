@@ -6,15 +6,20 @@ import { ApiService } from './api.service';
   providedIn: 'root',
 })
 export class ApplicantService {
-  private applicantList: {
+  applicantList: {
     processId?: string;
     workflowId?: string;
   };
-  private applicantDetail: {
+  applicantDetail: {
     processId?: string;
     workflowId?: string;
   };
-  private saveUpdateApplicant: {
+  saveUpdateApplicant: {
+    processId?: string;
+    workflowId?: string;
+  };
+  private softDeleteDetail: {
+    projectId?: string;
     processId?: string;
     workflowId?: string;
   };
@@ -25,6 +30,7 @@ export class ApplicantService {
     this.applicantList = this.apiService.api.getApplicantList;
     this.applicantDetail = this.apiService.api.getApplicantDetail;
     this.saveUpdateApplicant = this.apiService.api.saveUpdateApplicant;
+    this.softDeleteDetail = this.apiService.api.softDeleteApplicant;
   }
 
   getApplicantList(data) {
@@ -81,16 +87,15 @@ export class ApplicantService {
         ...data,
       },
     };
+
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    console.log('url', url);
-    console.log('body', JSON.stringify(body));
     return this.httpService.post(url, body);
   }
 
   softDeleteApplicant(data) {
-    const projectId = environment.projectIds.salesProjectId;
-    const processId = this.saveUpdateApplicant.processId;
-    const workflowId = this.saveUpdateApplicant.workflowId;
+    const projectId = this.softDeleteDetail.projectId;
+    const processId = this.softDeleteDetail.processId;
+    const workflowId = this.softDeleteDetail.workflowId;
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
@@ -101,7 +106,6 @@ export class ApplicantService {
       projectId,
       ProcessVariables: {
         userId,
-        leadId: 3,
         ...data,
       },
     };
