@@ -262,7 +262,7 @@ export class AddressDetailsComponent implements OnInit {
 
     const permenantAddressObj = addressObj['PERMADDADDTYP'];
     console.log('objectpermananentAddress--', permenantAddressObj);
-    if (permenantAddressObj) {
+ // if (permenantAddressObj) {
       const permenantAddress = details.get('permanantAddress');
       permenantAddress.patchValue({
         addressLineOne: permenantAddressObj.addressLineOne,
@@ -275,19 +275,59 @@ export class AddressDetailsComponent implements OnInit {
         country: permenantAddressObj.country,
         landlineNumber: permenantAddressObj.landlineNumber,
       });
-    }
+    // }
+    const currentaddressObj = addressObj['CURRADDADDTYP'];
+    console.log('objectCurrentAddress--', currentaddressObj);
+    // if(currentaddressObj){
+      const currentAddress = details.get('currentAddress');
+      currentAddress.patchValue({
+        addressLineOne: currentaddressObj.addressLineOne,
+        addressLineTwo: currentaddressObj.addressLineTwo,
+        addressLineThree: currentaddressObj.addressLineThree,
+        pincode: currentaddressObj.pincode,
+        city: currentaddressObj.city,
+        district: currentaddressObj.district,
+        state: currentaddressObj.state,
+        country: currentaddressObj.country,
+        landlineNumber: currentaddressObj.landlineNumber,
+        accommodationType :currentaddressObj.accommodationType,
+        periodOfCurrentStay :currentaddressObj.periodOfCurrentStay,
+        mobileNumber : currentaddressObj.mobileNumber
+      })
+    // }
+    const officeAddressObj = addressObj['OFFADDADDTYP']
+    console.log('objectOfficeAddress--', officeAddressObj);
+    //  if(officeAddressObj){
+      const officeAddress = details.get('officeAddress');
+      officeAddress.patchValue({
+        addressLineOne: officeAddressObj.addressLineOne,
+        addressLineTwo: officeAddressObj.addressLineTwo,
+        addressLineThree: officeAddressObj.addressLineThree,
+        pincode: officeAddressObj.pincode,
+        city: officeAddressObj.city,
+        district: officeAddressObj.district,
+        state: officeAddressObj.state,
+        country: officeAddressObj.country,
+        landlineNumber: officeAddressObj.landlineNumber,
+        accommodationType :officeAddressObj.accommodationType,
+        periodOfCurrentStay :officeAddressObj.periodOfCurrentStay,
+        mobileNumber : officeAddressObj.mobileNumber
+      })
+    // }
+    
 
     console.log('details', details);
   }
 
   setValuesForNonIndividual() {
     const addressObj = this.getAddressObj();
-    console.log('addressObj', addressObj);
+    console.log('addressObj',addressObj);
 
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj['REGADDADDTYP'];
-    if (registeredAddressObj) {
+    
+    // if (registeredAddressObj) {
       const registeredAddress = details.get('registeredAddress');
       registeredAddress.patchValue({
         addressLineOne: registeredAddressObj.addressLineOne,
@@ -300,7 +340,25 @@ export class AddressDetailsComponent implements OnInit {
         country: registeredAddressObj.country,
         landlineNumber: registeredAddressObj.landlineNumber,
       });
-    }
+    // }
+    const communicationAddressObj = addressObj['COMMADDADDTYP']
+    // if(communicationAddressObj){
+      const communicationAddress = details.get('communicationAddress');
+      communicationAddress.patchValue({
+        addressLineOne: communicationAddressObj.addressLineOne,
+        addressLineTwo: communicationAddressObj.addressLineTwo,
+        addressLineThree: communicationAddressObj.addressLineThree,
+        pincode: communicationAddressObj.pincode,
+        city: communicationAddressObj.city,
+        district: communicationAddressObj.district,
+        state: communicationAddressObj.state,
+        country: communicationAddressObj.country,
+        landlineNumber: communicationAddressObj.landlineNumber,
+        accommodationType :communicationAddressObj.accommodationType,
+        periodOfCurrentStay :communicationAddressObj.periodOfCurrentStay,
+        mobileNumber : communicationAddressObj.mobileNumber
+      })
+    // }
   }
 
   getAddressObj() {
