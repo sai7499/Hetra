@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -7,6 +7,7 @@ import { LovDataService } from '@services/lov-data.service';
 import { element } from 'protractor';
 import {ApplicantService} from '@services/applicant.service';
 import {ApplicantList} from '@model/applicant.model';
+import{ CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -23,19 +24,42 @@ export class ApplicantDetailsComponent implements OnInit {
   p = 1;
   selectedApplicant: number;
   index: number;
+  leadId:number;
 
   constructor(
     private route: Router,
     private location: Location,
     private labelsData: LabelsService,
     private leadStoreService: LeadStoreService, private lovData: LovDataService,
-    private applicantService: ApplicantService ) { }
+    private applicantService: ApplicantService,
+    private activatedRoute: ActivatedRoute,
+    private createLeadDataService: CreateLeadDataService) { }
 
+  getLeadId() {
+  //   const currentUrl = this.location.path().split('/');
+  //   let id;
+  //   currentUrl.find((value) => {
+
+  //     if(Number(value)) {
+  //         id =  Number(value);
+  //     }
+  // });
+  const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+  return leadSectioData.leadId;
+  console.log('Id inside getLead ID',leadSectioData.leadId );
+  }
   ngOnInit() {
-
+    this.leadId = this.getLeadId();
+    
     const currentUrl = this.location.path();
 
     console.log('currentUrl', currentUrl);
+
+    
+    // this.activatedRoute.params.subscribe((value) => {
+    //  console.log(this.activatedRoute.snapshot.params['leadId']);
+    // });
+
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -73,7 +97,7 @@ export class ApplicantDetailsComponent implements OnInit {
 
   getApplicantList() {
     const data = {
-      leadId: 3,
+      leadId: this.leadId,
     };
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
       console.log('Applicantlist', value);
