@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SalesComponent } from './sales.component';
 import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.component';
+import { VehicleDetailComponent } from '../lead-section/vehicle-details/vehicle-details.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
         path: 'applicant-list',
         component: ApplicantListComponent,
       },
+      {
+        path: 'vehicle-details',
+        component: VehicleDetailComponent
+      }
     ],
   },
 ];
