@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@services/http.service';
 import { environment } from '../../environments/environment';
 import { ApiService } from './api.service';
+import { CreateLeadDataService } from '../modules/lead-creation/service/createLead-data.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,7 +27,8 @@ export class ApplicantService {
   };
   constructor(
     private httpService: HttpService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private createLeadDataService: CreateLeadDataService
   ) {
     this.applicantList = this.apiService.api.getApplicantList;
     this.applicantDetail = this.apiService.api.getApplicantDetail;
@@ -38,6 +41,8 @@ export class ApplicantService {
     const processId = this.applicantList.processId;
     const workflowId = this.applicantList.workflowId;
     const userId = localStorage.getItem('userId');
+    const leadDetails: any = this.createLeadDataService.getLeadSectionData();
+    const leadId = leadDetails.leadId;
     const body = {
       projectId,
       processId,
@@ -45,6 +50,7 @@ export class ApplicantService {
       ProcessVariables: {
         ...data,
         userId,
+        leadId,
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -76,6 +82,8 @@ export class ApplicantService {
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
+    const leadDetails: any = this.createLeadDataService.getLeadSectionData();
+    const leadId = leadDetails.leadId;
 
     const body = {
       processId,
@@ -83,7 +91,7 @@ export class ApplicantService {
       projectId,
       ProcessVariables: {
         userId,
-        leadId: 3,
+        leadId,
         ...data,
       },
     };
