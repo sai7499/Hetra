@@ -88,7 +88,7 @@ export class BasicDetailsComponent implements OnInit {
       };
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
-      console.log('applicant',applicant)
+      console.log('applicant', applicant);
 
       this.setBasicData();
     });
@@ -122,7 +122,9 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   setValuesForIndividual() {
-    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
+      ? this.applicant.aboutIndivProspectDetails
+      : {};
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
@@ -142,7 +144,9 @@ export class BasicDetailsComponent implements OnInit {
 
   setValuesForNonIndividual() {
     const applicantDetails = this.applicant.applicantDetails;
-    const corporateProspectDetails = this.applicant.corporateProspectDetails;
+    const corporateProspectDetails = this.applicant.corporateProspectDetails
+      ? this.applicant.corporateProspectDetails
+      : {};
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
