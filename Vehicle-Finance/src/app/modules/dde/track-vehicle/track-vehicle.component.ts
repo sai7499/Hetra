@@ -16,8 +16,6 @@ export class TrackVehicleComponent implements OnInit {
   values: any = [];
 
   public trackVehicleForm: FormGroup;
-  // public trackVehicleTable : FormGroup;
-
 
   constructor(
     private trackVechileService: TrackVechileService,
@@ -32,19 +30,14 @@ export class TrackVehicleComponent implements OnInit {
   ngOnInit() {
     this.getFleetRtr()
     this.lovData.getLovData().subscribe((res: any) => {
-
       this.values = res[0].trackVehicle[0];
-      // console.log(this.values);
     });
 
     this.labelsData.getLabelsFleetData().subscribe(
 
       data => {
         this.labels = data;
-        // console.log('labels', this.labels)
-      },
-
-      error => {
+      }, error => {
         console.log(error);
 
       });
@@ -74,25 +67,8 @@ export class TrackVehicleComponent implements OnInit {
       totalAmtPaid: new FormControl({ value: '20000', disabled: true }),
       emiPaid: new FormControl(3254),
       installment: this.fb.array([])
-      // Rows: this.fb.array([this.fb.group({
-
-
-      //   installmentNo: [''],
-      //   installmentAmt: [''],
-      //   dueDate: [''],
-      //   rcptNo: [''],
-      //   recdDate: [''],
-      //   rcptAmount: [''],
-      //   delayDays: [{ value: '', disabled: true }],
-      //   paymentsExcess: [{ value: '', disabled: true }]
-
-
-      // })])
-
 
     });
-    // this.addNewRow();
-    // console.warn(this.trackVehicleForm.value);
   }
 
   get formArr() {
@@ -102,9 +78,8 @@ export class TrackVehicleComponent implements OnInit {
 
   getFleetRtr() {
     this.trackVechileService.getFleetRtr().subscribe((res) => {
-      console.log(res);
+
       if (res['Status'] == "Execution Completed") {
-        console.log('test')
         const installments = res['ProcessVariables'].installment;
         for (let i = 0; i < installments.length; i++) {
           if (i == 0) {
@@ -152,20 +127,17 @@ export class TrackVehicleComponent implements OnInit {
     this.formArr.push(this.initRows(rowData));
   }
 
-  deleteRow(index: number , item) {
-    if(item.value['id'] != null || item.value['id'] != undefined ){
-      console.log(item.value);
-      this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res)=> {
-        console.log(res);
+  deleteRow(index: number, item) {
+    if (item.value['id'] != null || item.value['id'] != undefined) {
+      this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res) => {
         this.formArr.removeAt(index);
       })
-    }else{
+    } else {
       this.formArr.removeAt(index);
     }
   }
 
   onFormSubmit() {
-    console.log(this.trackVehicleForm)
 
     this.trackVehicleForm.value['financeAmount'] = parseInt(this.trackVehicleForm.controls['financeAmount'].value)
     this.trackVehicleForm.value['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
@@ -180,7 +152,6 @@ export class TrackVehicleComponent implements OnInit {
     this.trackVehicleForm.value['avgDelay'] = parseInt(this.trackVehicleForm.controls['avgDelay'].value);
     this.trackVehicleForm.value['trackStatus'] = parseInt(this.trackVehicleForm.controls['trackStatus'].value);
     this.trackVehicleForm.value['totalAmtPaid'] = parseInt(this.trackVehicleForm.controls['totalAmtPaid'].value);
-    // this.router.navigate(['/pages/dde/fleet-details']);
     for (let i = 0; i < this.formArr.length; i++) {
       this.trackVehicleForm.value['installment'][i]['receivedAmt'] = parseInt(this.formArr.controls[i]['controls']['receivedAmt'].value);
       this.trackVehicleForm.value['installment'][i]['installmentAmt'] = parseInt(this.formArr.controls[i]['controls']['installmentAmt'].value);
@@ -189,10 +160,7 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.value['installment'][i]['delayDays'] = parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
       this.trackVehicleForm.value['installment'][i]['paymentExcess'] = parseInt(this.formArr.controls[i]['controls']['paymentExcess'].value);
     }
-    // console.log(this.formArr);
     this.trackVechileService.saveUpdateFleetRtr(this.trackVehicleForm.value, this.trackVehicleForm.value['installment']).subscribe((res: any) => {
-      console.log(res);
-
     });
   }
 }

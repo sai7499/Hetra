@@ -55,7 +55,6 @@ export class LeadDedupeComponent implements OnInit {
     if (!dedupeData) {
       return;
     }
-    console.log('dedupeData', dedupeData);
     this.dedupeArray = dedupeData;
     this.leadId = dedupeData[0].leadID;
   }
@@ -118,7 +117,6 @@ export class LeadDedupeComponent implements OnInit {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
-      console.log('proceedWithSelectedLead', response);
       if (appiyoError === '0' && apiError === '0') {
         const proceedWithSelectedLeadData = response.ProcessVariables;
         const leadId = proceedWithSelectedLeadData.leadId;
@@ -144,7 +142,6 @@ export class LeadDedupeComponent implements OnInit {
 
   OnItemPerPage(e) {
     this.perPage = e.target.value;
-    console.log(this.perPage);
   }
 
   OnSubmit() {

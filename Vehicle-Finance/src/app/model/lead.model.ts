@@ -1,5 +1,5 @@
 export default interface Qde {
-  lead ?: Lead;
+  lead?: Lead;
 }
 
 export interface Lead {
@@ -54,6 +54,88 @@ export interface ProductDetails {
 }
 
 export interface VehicleDetails {
+  DealerSubventionPartIRR?: string;
+  ageOfAsset?: string;
+  assetBodyType?: string;
+  assetCost?: string;
+  assetCostCarTrade?: string;
+  assetCostIBB?: string;
+  assetCostLeast?: string;
+  assetCostRef?: string;
+  category?: string;
+  chasisNumber?: number;
+  collateralId?: number
+  collateralType?: string;
+  cubicCapacity?: string;
+  dealerSubventionAmount?: number;
+  dealerSubventionPartFinCharge?: string;
+  dealerSuventionApproval?: string;
+  depositAccountNumber?: number;
+  discount?: string;
+  duplicateRc?: string;
+  emiProtect?: string;
+  emiProtectAmount?: number;
+  engineNumber?: number;
+  exShowRoomCost?: string;
+  fastTag?: string;
+  fastTagAmount?: number;
+  finalAssetCost?: string;
+  fitnessDate?: string;
+  fsrdFundingReq?: string;
+  fsrdPremiumAmount?: number;
+  gorssVehicleWeight?: string;
+  idv?: string;
+  insurance?: string;
+  insuranceValidity?: string;
+  interStateVehicle?: string;
+  inusrancePolicyNumber?: number;
+  invoiceAmount?: number;
+  invoiceDate?: string;
+  invoiceNumber?: number;
+  isOrpFunding?: string;
+  leadId?: number;
+  lmsCollateralId?: number;
+  manuFacMonthYear?: string;
+  manuFactureSubventionPartIRR?: string;
+  manuFatureSubventionPartIRR?: string;
+  manufacSubventionApplicable?: string;
+  manufactureSubventionAmount?: number;
+  noOfUnits?: string;
+  oneTimeTax?: string;
+  orpValue?: string;
+  others?: string;
+  pac?: string;
+  pacAmount?: number;
+  permitExpiryDate?: string;
+  processtionType?: string;
+  productCatCode?: string;
+  rcOwnerName?: string;
+  reRegVehicle?: string;
+  regMonthYear?: string;
+  region?: string;
+  registrationNo?: number;
+  seatingCapacity?: string;
+  subventionType?: string;
+  tonnage?: string;
+  typeOfPermit?: string;
+  typeOfPermitOthers?: string;
+  usage?: string;
+  vas?: string;
+  vasAmount?: number;
+  vehicleId?: number
+  vehicleMfrCode?: number;
+  vehicleModel?: string;
+  vehicleModelCode?: string;
+  vehicleOwnerShipNumber?: number;
+  vehiclePurchasedCost?: string;
+  vehicleRegDate?: string;
+  vehicleRegNo?: number;
+  vehicleSegmentCode?: string;
+  vehicleTypeCode?: string;
+  vehicleUsage?: string;
+}
+
+export interface IndivVehicleInfoDetails {
   vehicleType?: number;
   region?: number;
   registrationNumber?: string;
@@ -94,6 +176,15 @@ export interface LoanDetails {
   loanType?: string;
   amount?: number;
   tenor?: number;
+}
+
+export interface VehicleList {
+  make?: string;
+  model?: string;
+  modelCode?: string;
+  regNo?: string;
+  segmentCode?: string;
+  collateralId?: number;
 }
 
 export interface CoApplicant {

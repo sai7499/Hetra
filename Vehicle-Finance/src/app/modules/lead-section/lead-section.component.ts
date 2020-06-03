@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-// import { VehicleDetailService } from "./services/vehicle-detail.service";
-// import { Location } from "@angular/common";
 import { LabelsService } from 'src/app/services/labels.service';
-// import { LeadStoreService } from '@services/lead-store.service';
-// import { Component, OnInit } from '@angular/core';
-import { VehicleDetailService } from './services/vehicle-detail.service';
+import { VehicleDetailService } from '../../services/vehicle-detail.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';

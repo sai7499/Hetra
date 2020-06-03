@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    // console.log("user details", roleAndUserDetails.roles[0].name)
     if (!roleAndUserDetails) {
       return
     }

@@ -92,7 +92,6 @@ export class NewLeadsComponent implements OnInit {
   getMyLeads() {
     this.dashboardService.myLeads().subscribe((res: any) => {
       const response = res.ProcessVariables.loanLead;
-      console.log('dash', response);
       this.newArray = response;
     });
   }

@@ -26,17 +26,10 @@ import { VehicleDetailComponent } from './vehicle-details/vehicle-details.compon
     VehicleDetailComponent,
     SourcingDetailsComponent,
     LoanDetailsComponent,
-  
     AddvehicleComponent,
-  
     CreditScoreComponent,
-  
     ExactMatchComponent,
-  
     OtpSectionComponent,
-    
-   
-    
   ],
   imports: [
     CommonModule,

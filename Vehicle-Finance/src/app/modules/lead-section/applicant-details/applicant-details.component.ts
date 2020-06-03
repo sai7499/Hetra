@@ -20,7 +20,7 @@ export class ApplicantDetailsComponent implements OnInit {
   applicantDetails = [];
   isAlert: boolean = true;
   values: any;
-  applicantList: ApplicantList [] = [];
+  applicantList: ApplicantList[] = [];
   p = 1;
   selectedApplicant: number;
   index: number;
@@ -70,13 +70,13 @@ export class ApplicantDetailsComponent implements OnInit {
         console.log(error);
       });
     this.lovData.getLovData().subscribe((res: any) => {
-        console.log(res, 'res');
-        this.values = res[0].addApplicant[0];
-        console.log(this.values, 'values');
-        this.values.entity = res[0].addApplicant[0].entity;
-        console.log('value Entity', this.values.entity);
+      console.log(res, 'res');
+      this.values = res[0].addApplicant[0];
+      console.log(this.values, 'values');
+      this.values.entity = res[0].addApplicant[0].entity;
+      console.log('value Entity', this.values.entity);
 
-      });
+    });
     // this.getData();
     this.getApplicantList();
   }
@@ -92,7 +92,7 @@ export class ApplicantDetailsComponent implements OnInit {
   //   //     console.log(x.entity)
   //   //   }
   //   // }))
-    
+
   // }
 
   getApplicantList() {
@@ -107,7 +107,7 @@ export class ApplicantDetailsComponent implements OnInit {
       console.log('applicantList', this.applicantList);
     });
   }
-  
+
   onSubmit() {
     this.isAlert = false;
     setTimeout(() => {
@@ -120,12 +120,12 @@ export class ApplicantDetailsComponent implements OnInit {
 
   editApplicant(index: number) {
     console.log(index);
-    this.route.navigate(['pages/lead-section/co-applicant', {id: index}]);
+    this.route.navigate(['pages/lead-section/co-applicant', { id: index }]);
   }
 
   deleteApplicant(index: number) {
-console.log(index);
-this.leadStoreService.deleteApplicant(index);
+    console.log(index);
+    this.leadStoreService.deleteApplicant(index);
   }
 
   softDeleteApplicant(index: number, applicantId: number) {
