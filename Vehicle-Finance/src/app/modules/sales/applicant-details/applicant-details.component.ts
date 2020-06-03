@@ -35,7 +35,6 @@ export class ApplicantDetailsComponent implements OnInit {
         const data: any = this.createLeadDataService.getLeadData();
         this.leadId = data.leadId;
       }
-
       this.leadStoreService.setLeadId(this.leadId);
       console.log(
         ' this.createLeadDataService.getLeadData()',
