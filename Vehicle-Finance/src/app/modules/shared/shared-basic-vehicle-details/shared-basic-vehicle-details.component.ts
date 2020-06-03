@@ -130,7 +130,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         vehicleId: VehicleDetail.vehicleId || '',
         vehicleCode: VehicleDetail.vehicleCode || '',
       })
-      this.onVehicleRegionSales(VehicleDetail.region)
+      // this.onVehicleRegionSales(VehicleDetail.region)
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -163,6 +163,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       formArray.controls[0].patchValue({
         assetMake: '',
       })
+      console.log('vehicleLov', this.vehicleLov)
     })
     this.onChangeSalesAssetMake(0)
   }
@@ -236,7 +237,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
       vehicleType: [''],
-      region: ['APASTRGN'],
+      region: [''],
       registrationNumber: [''],
       assetMake: [''],
       assetModel: [''],
