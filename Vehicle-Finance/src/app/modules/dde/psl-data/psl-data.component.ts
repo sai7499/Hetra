@@ -19,7 +19,7 @@ export class PslDataComponent implements OnInit {
   public labels: any = {};
   public errorMsg;
   public getLabels;
-  
+
   public show: boolean = false;
   public showOption: boolean = false;
   public showAct: boolean = false;
@@ -30,19 +30,19 @@ export class PslDataComponent implements OnInit {
   public show4: boolean = false;
   public show5: boolean = false;
 
-  public detailActivity:any = [];
+  public detailActivity: any = [];
   public purposeLoan: any = [];
   public purLoanMs: any;
   public typeService: any = [];
 
-  constructor( private labelsData: LabelsService, 
-               private lovDataService: LovDataService,
-               private ddeStoreService: DdeStoreService,
-               private router: Router ) { }
+  constructor(private labelsData: LabelsService,
+    private lovDataService: LovDataService,
+    private ddeStoreService: DdeStoreService,
+    private router: Router) { }
 
   ngOnInit() {
     this.initForm();
-    
+
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -50,10 +50,9 @@ export class PslDataComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-      
+
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.pslDataLov = value ? value[0].pslData[0] : {};
-      console.log('PslDataLovs:', this.pslDataLov);
       this.setFormValue();
     });
     this.detailActivity = [];
@@ -114,9 +113,8 @@ export class PslDataComponent implements OnInit {
     });
   }
 
-  setFormValue(){
+  setFormValue() {
     const pslDataModel = this.ddeStoreService.getPslData() || {};
-    console.log('PSL Data', pslDataModel);
 
     this.pslDataForm.patchValue({
       activity: pslDataModel.activity || '',
@@ -153,7 +151,7 @@ export class PslDataComponent implements OnInit {
       propertyLocatedCity: pslDataModel.propertyLocatedCity || '',
       propertyLocation: pslDataModel.propertyLocation || '',
       propertyPincode: pslDataModel.propertyPincode || '',
-      landAmount: pslDataModel. landAmount|| '',
+      landAmount: pslDataModel.landAmount || '',
       landCost: pslDataModel.landCost || '',
       constructionCost: pslDataModel.constructionCost || '',
       totalPropertyCost: pslDataModel.totalPropertyCost || '',
@@ -171,60 +169,59 @@ export class PslDataComponent implements OnInit {
       weakerSectionMsme: pslDataModel.weakerSectionMsme || ''
     });
   }
- 
+
   onChangeActivity(event) {
-    console.log("Key", event.target.value);
-    if(event.target.value==="1") {
+    if (event.target.value === "1") {
       this.show = true;
       this.showAct = false;
-      this.showOption  = true;
+      this.showOption = true;
       this.showMs = false;
       this.showHs = false;
       this.showLoan = true;
       this.show3 = false;
       this.show4 = false;
       this.detailActivity = this.pslDataLov.detailActivity[0].value;
-    } 
-    else if(event.target.value==="2") {
+    }
+    else if (event.target.value === "2") {
       this.show = false;
       this.showAct = true;
       this.show3 = true;
-      this.showOption  = true;
+      this.showOption = true;
       this.showMs = true;
       this.showHs = false;
       this.showLoan = false;
       this.show4 = false;
       this.detailActivity = this.pslDataLov.detailActivity[1].value;
       this.purLoanMs = this.pslDataLov.purposeLoan[4].value;
-    } 
-    else if(event.target.value==="3") {
+    }
+    else if (event.target.value === "3") {
       this.show = true;
       this.showAct = true;
-      this.showOption  = true;
+      this.showOption = true;
       this.showMs = false;
       this.showHs = true;
       this.showLoan = false;
       this.show3 = false;
       this.show4 = false;
       this.detailActivity = this.pslDataLov.detailActivity[2].value;
-    } 
-    else if (event.target.value==="4") {
+    }
+    else if (event.target.value === "4") {
       this.show = false;
       this.showAct = false;
       this.show3 = true;
-      this.showOption  = true;
+      this.showOption = true;
       this.showMs = true;
       this.showHs = false;
       this.showLoan = true;
       this.show4 = true;
       this.detailActivity = this.pslDataLov.detailActivity[0].value;
       this.purLoanMs = this.pslDataLov.purposeLoan[4].value;
-    } 
-    else if (event.target.value==="5" || event.target.value==="6" || event.target.value==="7" || event.target.value==="8" ) {
+    }
+    else if (event.target.value === "5" || event.target.value === "6" || event.target.value === "7" || event.target.value === "8") {
       this.show = false;
       this.showAct = false;
       this.show3 = true;
-      this.showOption  = true;
+      this.showOption = true;
       this.showMs = true;
       this.showHs = false;
       this.showLoan = true;
@@ -235,7 +232,7 @@ export class PslDataComponent implements OnInit {
     else {
       this.show = false;
       this.showAct = false;
-      this.showOption  = false;
+      this.showOption = false;
       this.showMs = true;
       this.showHs = true;
       this.showLoan = true;
@@ -247,45 +244,43 @@ export class PslDataComponent implements OnInit {
   }
 
   onChangeDetailActivity(event) {
-    console.log("KEY", event.target.value);
-    
-    if(event.target.value==="Agriculture") {
+
+    if (event.target.value === "Agriculture") {
       this.showOption = true;
       this.purposeLoan = this.pslDataLov.purposeLoan[0].value;
-      // console.log("OnChangeDetailAct", this.purposeLoan);
-    } 
-    else if(event.target.value==="Allied Activities") {
-      this.showOption  = true;
+    }
+    else if (event.target.value === "Allied Activities") {
+      this.showOption = true;
       this.purposeLoan = this.pslDataLov.purposeLoan[1].value;
-    } 
-    else if(event.target.value==="Agriculture Infrastructure") {
-      this.showOption  = true;
+    }
+    else if (event.target.value === "Agriculture Infrastructure") {
+      this.showOption = true;
       this.purposeLoan = this.pslDataLov.purposeLoan[2].value;
-    } 
-    else if (event.target.value==="Ancilary activities") {
-      this.showOption  = true;
+    }
+    else if (event.target.value === "Ancilary activities") {
+      this.showOption = true;
       this.purposeLoan = this.pslDataLov.purposeLoan[3].value;
-    } 
-    else if (event.target.value==="Manufacturing") {
-      this.showOption  = true;
+    }
+    else if (event.target.value === "Manufacturing") {
+      this.showOption = true;
       this.typeService = this.pslDataLov.typeService[0].value;
       this.purposeLoan = this.pslDataLov.purposeLoan[5].value;
     }
-    else if (event.target.value==="Service") {
-      this.showOption  = true;
+    else if (event.target.value === "Service") {
+      this.showOption = true;
       this.typeService = this.pslDataLov.typeService[0].value;
       this.purposeLoan = this.pslDataLov.purposeLoan[4].value;
     }
     else {
       this.purposeLoan = [];
       this.showMs = false;
-      this.typeService =[];
+      this.typeService = [];
     }
   }
 
-   onFormSubmit() {
+  onFormSubmit() {
     const formModel = this.pslDataForm.value;
-    const pslDataModel = {...formModel};
+    const pslDataModel = { ...formModel };
     // this.ddeStoreService.setPslData(pslDataModel);
     this.router.navigate(['/pages/dde/vehicle-valuation']);
   }

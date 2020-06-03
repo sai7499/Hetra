@@ -7,10 +7,12 @@ import { CommonDataService } from './common-data.service';
 
 export class LoginStoreService {
 
-    constructor(private cds: CommonDataService){}
+    constructor(private cds: CommonDataService) { }
 
     roleAndUserDetails;
     emailId: string;
+    roleName: string;
+    roleId: any;
 
     setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList) {
         this.roleAndUserDetails = {
@@ -24,13 +26,15 @@ export class LoginStoreService {
 
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
+
     }
 
     setEmailId(email) {
         this.emailId = email;
     }
 
-    getEmailId(){
+    getEmailId() {
         return this.emailId;
     }
+
 }

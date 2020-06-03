@@ -14,7 +14,6 @@ import { ApiService } from '@services/api.service';
 })
 export class DashboardService {
   lovData: any;
-  userID = 1001;
   dashboardLeadsAction: Subject<string> = new Subject<string>();
   isCreditShow: Observable<string> = this.dashboardLeadsAction.asObservable();
 
@@ -36,7 +35,7 @@ export class DashboardService {
 
     const body: RequestEntity = {
       processId : processId,
-      ProcessVariables: {userId: this.userID},
+      ProcessVariables: {userId: Number(storage.getUserId())},
       workflowId : workflowId,
       projectId : projectId
     };

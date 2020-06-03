@@ -1,0 +1,12 @@
+.basic_scroll {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}
+.title{
+    font-weight: 600;
+    
+}
+#align_this_texbox{
+    margin-top: 16px;
+}

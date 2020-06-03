@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
 
 import { LabelsService } from "@services/labels.service";
@@ -22,10 +21,10 @@ export class VehicleValuationComponent implements OnInit {
   isOk: boolean;
   isYes: boolean;
 
-  constructor(private labelsData: LabelsService, 
-              private lovDataService:LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService) {}
+  constructor(private labelsData: LabelsService,
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService) { }
 
   ngOnInit() {
 
@@ -36,41 +35,32 @@ export class VehicleValuationComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-      
+
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.vhValLov = value ? value[0].vehicleVal[0] : {};
-      // console.log('vhValLov', this.vhValLov);
     });
-
   }
 
   onChange() {
     this.router.navigateByUrl('pages/dde/valuation');
-
   }
 
-  OnSubmit(){
+  OnSubmit() {
     this.isModal = true;
-    // console.log("ONSUB", this.isModal);
-    
   }
 
-  closeModal(){
+  closeModal() {
     this.isModal = false
   }
 
   okModal() {
     this.isOk = true;
-    // console.log("OKModal", this.isOk);
-    
   }
 
   yesModal() {
     this.isYes = true;
-    // console.log("yesModal", this.isYes);
-    
   }
-  
+
   onFormSubmit() {
     this.router.navigate(['/pages/dde/track-vehicle']);
   }

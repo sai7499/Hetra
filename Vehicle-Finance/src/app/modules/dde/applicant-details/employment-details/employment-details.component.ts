@@ -23,7 +23,6 @@ export class EmploymentDetailsComponent implements OnInit {
     this.getLabelData();
     this.lovDataService.getLovData().subscribe((res: any) => {
       this.values = res[0].employmentDetails[0];
-      console.log('employmentvalue', this.values);
     })
   }
 
