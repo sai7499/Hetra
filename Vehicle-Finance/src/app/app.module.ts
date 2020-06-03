@@ -51,7 +51,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsType: SPINNER.cubeGrid, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbThickness: 5, // progress bar thickness
-  fgsColor: '#f58b35',
+  // fgsColor: '#f58b35',
 };
 
 @NgModule({

@@ -78,8 +78,8 @@ export class NewLeadsComponent implements OnInit {
     //   this.newArray = this.newLeads;
     // }
     // });
-    this.isCredit = localStorage.getItem('role');
-    if (this.isCredit === 'Credit Officer') {
+    this.isCredit = localStorage.getItem('roleType');
+    if (this.isCredit === '2') {
       this.getMyLeads();
     } else {
       this.newArray = this.newLeads;
