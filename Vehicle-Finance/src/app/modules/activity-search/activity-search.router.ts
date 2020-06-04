@@ -1,10 +1,10 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { ActivitySearchComponent } from "./activity-search/activity-search.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ActivitySearchComponent } from './activity-search/activity-search.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: ActivitySearchComponent
   }
 ];

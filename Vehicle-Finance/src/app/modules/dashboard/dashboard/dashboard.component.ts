@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
     //   this.dashboardService.leadsChange(response);
     //   this.isCredit = response;
     // });
-    this.isCredit = localStorage.getItem('role');
+    this.isCredit = localStorage.getItem('roleType');
   }
 
   ngOnInit() {  }
