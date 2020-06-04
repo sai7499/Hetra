@@ -15,7 +15,7 @@
     <div class="container">
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
-            <div class="search">
+            <!-- <div class="search">
                 <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value)">
                 <div class="dropdown-content" *ngIf="dropDown">
                     <div *ngFor="let item of searchLead">
@@ -24,7 +24,8 @@
                 </div>
                 <span class="search-icon-left"></span>
                 <button class="microphone-icon" title="Search by voice" (click)="navigateToModule()">GO</button>
-            </div>
+            </div> -->
+            <app-search-bar></app-search-bar>
         </div>
     </div>
 </main>
