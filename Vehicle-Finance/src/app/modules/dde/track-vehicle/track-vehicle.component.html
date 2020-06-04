@@ -95,7 +95,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.noOfEmisPaid}}</label>
-                <input type="text" class="form-control" id="no_of_emis_paid" formControlName="noOfEmisPaid">
+                <input type="text" class="form-control" id="no_of_emis_paid" formControlName="noOfEmisPaid" (change)="noOfPaidEmis($event)">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.balanceTenor}}</label>
