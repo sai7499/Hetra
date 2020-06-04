@@ -6,7 +6,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';
-import { SaveUpdateApplicantService } from '@services/add-update-applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
@@ -21,7 +20,7 @@ import {
   CorporateProspectDetails,
   IndividualProspectDetails,
 } from '@model/applicant.model';
-import { from } from 'rxjs';
+import { Constant } from '@assets/constants/constant';
 
 @Component({
   selector: 'app-add-update-applicant',
@@ -38,7 +37,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   applicant: Applicant;
   selectedApplicant: number;
 
-  applicantType = 'INDIVENTTYP';
+  applicantType = Constant.ENTITY_INDIVIDUAL_TYPE;
 
   panValue = '1PANTYPE';
   leadId: number;
@@ -62,9 +61,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   getPanValue(event: any) {
     this.panValue = event.target.value;
-    console.log('PanValue', this.panValue);
     this.isPanDisabled = this.panValue === '1PANTYPE' ? false : true;
-    console.log('ispandisabled', this.isPanDisabled);
     if (this.isPanDisabled) {
       this.coApplicantForm.controls['pan'].disable();
     } else {
@@ -75,10 +72,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   constructor(
     private labelsData: LabelsService,
     private lovData: LovDataService,
-    private CommomLovService: CommomLovService,
+    private commomLovService: CommomLovService,
     private leadStoreService: LeadStoreService,
     private activatedRoute: ActivatedRoute,
-    // private saveUpdateApplicant: SaveUpdateApplicantService,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private utilityService: UtilityService,
@@ -92,46 +88,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   getLeadId() {
-    //   const currentUrl = this.location.path().split('/');
-    //   let id;
-    //   currentUrl.find((value) => {
-
-    //     if(Number(value)) {
-    //         id =  Number(value);
-    //     }
-    // });
-    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-    console.log('Id inside getLead ID');
-    return leadSectioData.leadId;
+    const leadSectionData: any = this.createLeadDataService.getLeadSectionData();
+    return leadSectionData.leadId;
   }
   ngOnInit() {
     this.leadId = this.getLeadId();
     this.initForm();
-    this.coApplicantForm.patchValue({ entity : 'Non-individual'})
+    this.coApplicantForm.patchValue({ entity: 'Non-individual' });
     this.getLOV();
     this.lovData.getLovData().subscribe((res: any) => {
-      console.log(res, 'res');
       this.values = res[0].addApplicant[0];
-      console.log(this.values, 'values');
-      // this.values.entity= res[0].addApplicant[0].entity
-      // this.setFormValue();
     });
     this.activatedRoute.params.subscribe((value) => {
-      console.log('params value', value);
-      // const applicantId = value ? value.id : null;
-      // if (applicantId !== null && applicantId !== undefined) {
-      //   this.selectedApplicant = Number(applicantId);
-      //   const selectedApplicant: Applicant = this.leadStoreService.getSelectedApplicant(
-      //     Number(applicantId)
-      //   );
-      //   this.setFormValue(selectedApplicant);
-      //   console.log('selectedApplicant', selectedApplicant);
-      // }
       if (!value || !value.id) {
         return;
       }
       this.applicantId = Number(value.id);
-      console.log('selectedApplicant', this.applicantId);
       this.getApplicantDetails();
     });
   }
@@ -150,7 +122,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       state: address.state,
       country: address.country,
       landlineNumber: address.landlineNumber,
-    }
+    };
   }
   getApplicantDetails() {
     const data = {
@@ -163,27 +135,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       };
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
-      console.log('applicantDetailsfromService--', this.applicant);
       this.applicantType = this.applicant.applicantDetails.entityTypeKey;
-      console.log('Entity TYPE IN APPLICANT DETAILS CALL', this.applicantType);
-      //this.setBasicData();
       setTimeout(() => {
         this.setFormValue(this.applicant);
       });
     });
   }
   getLOV() {
-    this.CommomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('ADD/UPDATE APPLICANT ---', this.LOV);
+    this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
   }
 
   initForm() {
     this.coApplicantForm = new FormGroup({
-      // entity: new FormControl(''),
       loanApplicationRelation: new FormControl(''),
-      // firstName: new FormControl(''),
-      // middleName: new FormControl(''),
-      // lastName: new FormControl(''),
       entityType: new FormControl(''),
       name1: new FormControl(''),
       name2: new FormControl(''),
@@ -200,61 +164,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       form60: new FormControl(''),
       panType: new FormControl(''),
       pan: new FormControl(''),
-      // drivinglicense: new FormControl(''),
       passportNumber: new FormControl(''),
       identityNumber: new FormControl(''),
       identity_copy: new FormControl(''),
-      permentAddress: new FormGroup({
-        addressLineOne: new FormControl(''),
-        addressLineTwo: new FormControl(''),
-        addressLineThree: new FormControl(''),
-        pincode: new FormControl(''),
-        city: new FormControl(''),
-        district: new FormControl(''),
-        state: new FormControl(''),
-        country: new FormControl(''),
-        landlineNumber: new FormControl(''),
-      }),
-      communicationAddress: new FormGroup({
-        addressLineOne: new FormControl(''),
-        addressLineTwo: new FormControl(''),
-        addressLineThree: new FormControl(''),
-        pincode: new FormControl(''),
-        city: new FormControl(''),
-        district: new FormControl(''),
-        state: new FormControl(''),
-        country: new FormControl(''),
-        landlineNumber: new FormControl(''),
-      }),
-      registeredAddress: new FormGroup({
-        addressLineOne: new FormControl(''),
-        addressLineTwo: new FormControl(''),
-        addressLineThree: new FormControl(''),
-        pincode: new FormControl(''),
-        city: new FormControl(''),
-        district: new FormControl(''),
-        state: new FormControl(''),
-        country: new FormControl(''),
-        landlineNumber: new FormControl(''),
-      }),
-      // line1: new FormControl(''),
-      // line2: new FormControl(''),
-      // line3: new FormControl(''),
-      // current_pincode: new FormControl(''),
-      // current_address_city: new FormControl(''),
-      // current_address_district: new FormControl(''),
-      // current_address_state: new FormControl(''),
-      // current_address_country: new FormControl(''),
-      // current_landline: new FormControl(''),
-      // registered_line1: new FormControl(''),
-      // registered_line2: new FormControl(''),
-      // registered_line3: new FormControl(''),
-      // registered_pincode: new FormControl(''),
-      // registered_address_city: new FormControl(''),
-      // registered_address_district: new FormControl(''),
-      // registered_address_state: new FormControl(''),
-      // registered_address_country: new FormControl(''),
-      // reg_mobile: new FormControl(''),
+      permentAddress: new FormGroup(this.getAddressFormControls()),
+      communicationAddress: new FormGroup(this.getAddressFormControls()),
+      registeredAddress: new FormGroup(this.getAddressFormControls()),
       drivingLicenseNumber: new FormControl(''),
       drivingLicenseIssueDate: new FormControl(''),
       drivingLicenseExpiryDate: new FormControl(''),
@@ -272,6 +187,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     );
   }
 
+  getAddressFormControls() {
+    return {
+      addressLineOne: new FormControl(''),
+      addressLineTwo: new FormControl(''),
+      addressLineThree: new FormControl(''),
+      pincode: new FormControl(''),
+      city: new FormControl(''),
+      district: new FormControl(''),
+      state: new FormControl(''),
+      country: new FormControl(''),
+      landlineNumber: new FormControl(''),
+    };
+  }
+
   getFormateDate(date: string) {
     if (!date) {
       return '';
@@ -280,9 +209,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return date;
   }
   getDetails() {
-    // let pan,aadhar,mobile,dob,dateOfIncorporation;
     const details: any = {};
-    if (this.applicantType === 'INDIVENTTYP') {
+    if (this.applicantType === Constant.ENTITY_INDIVIDUAL_TYPE) {
       console.log(
         'Entity TYPE IN APPLICANT Get DETAILS CALL',
         this.applicantType
@@ -298,10 +226,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.mobile = aboutIndivProspectDetails.mobilePhone;
       details.panType = indivIdentityInfoDetails.panType;
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
-      // const DOB = this.applicant.aboutIndivProspectDetails.dob;
       details.dob = this.getFormateDate(aboutIndivProspectDetails.dob);
       console.log('PantYPE Format While patching pancard', details.panType);
-      //details.dob = this.applicant.aboutIndivProspectDetails.dob;
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
       details.passportIssueDate = this.getFormateDate(
         indivIdentityInfoDetails.passportIssueDate
@@ -363,9 +289,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         name1: applicantValue.applicantDetails.name1 || '',
         name2: applicantValue.applicantDetails.name2 || '',
         name3: applicantValue.applicantDetails.name3 || '',
-        // company_name1: applicantValue.company_name1 || '',
-        // company_name2: applicantValue.company_name2 || '',
-        // company_name3: applicantValue.company_name3 || '',
         mobilePhone: details.mobile || '',
         dob: details.dob || '',
         dateOfIncorporation: details.dateOfIncorporation || '',
@@ -373,9 +296,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         panType: details.panType,
         aadhar: details.aadhar || '',
         voterIdNumber: details.voterIdNumber,
-        //panform: details.form60 || '',
         pan: details.pan || '',
-        // drivinglicense: applicantValue.drivinglicense || '',
         drivingLicenseNumber: details.drivingLicenseNumber || '',
         drivingLicenseIssueDate: details.drivingLicenseIssueDate || '',
         drivingLicenseExpiryDate: details.drivingLicenseExpiryDate || '',
@@ -411,55 +332,45 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           applicantValue.registered_address_country || '',
       });
 
-      if(this.applicant.applicantDetails.entityTypeKey=='INDIVENTTYP'){
+      if (
+        this.applicant.applicantDetails.entityTypeKey ===
+        Constant.ENTITY_INDIVIDUAL_TYPE
+      ) {
         const permentAddress = this.coApplicantForm.get('permentAddress');
         const cummunicationAddress = this.coApplicantForm.get(
-        'communicationAddress'
-      );
-      
-      // const result = format(new Date(details.passportIssueDate), 'yyyy-MM-dd');
-        console.log('Permsnt Address in', permentAddress);
-      //const addressObj = this.getAddressObj();
-      // console.log('addressObj', addressObj)
-     // const address = this.applicant.addressDetails;
-      // const addressType = this.applicant.addressDetails[0].addressType;
-      // console.log('Address Type is', addressType);
-      // const permenantAddressObj = address ? address[0] : {};
-      // const cummunicationAddressObj = address ? address[1] : {};
+          'communicationAddress'
+        );
         const addressObj = this.getAddressObj();
-        console.log('Address Obj', addressObj);
-        const permenantAddressObj = addressObj['PERMADDADDTYP'];
-     
-        permentAddress.patchValue(this.createAddressObject(permenantAddressObj));
-       
-        const cummunicationAddressObj = addressObj['COMMADDADDTYP'];
-       
-        cummunicationAddress.patchValue(this.createAddressObject(cummunicationAddressObj));
-      
-
+        const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
+        permentAddress.patchValue(
+          this.createAddressObject(permenantAddressObj)
+        );
+        const cummunicationAddressObj =
+          addressObj[Constant.COMMUNICATION_ADDRESS];
+        cummunicationAddress.patchValue(
+          this.createAddressObject(cummunicationAddressObj)
+        );
       } else {
         const addressObj = this.getAddressObj();
         const registeredAddress = this.coApplicantForm.get('registeredAddress');
-        const registeredAddressObj = addressObj['REGADDADDTYP'];
-        registeredAddress.patchValue(this.createAddressObject(registeredAddressObj));
+        const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
+        registeredAddress.patchValue(
+          this.createAddressObject(registeredAddressObj)
+        );
       }
-      
-
-     
     }
-    console.log('this.coApplicantForm', this.coApplicantForm.value);
   }
   getAddressObj() {
     const address = this.applicant.addressDetails;
     const addressObj = {};
     if (address) {
       address.forEach((value) => {
-        if (value.addressType === 'PERMADDADDTYP') {
-          addressObj['PERMADDADDTYP'] = value;
-        } else if (value.addressType === 'COMMADDADDTYP') {
-          addressObj['COMMADDADDTYP'] = value;
-        } else if (value.addressType === 'REGADDADDTYP') {
-          addressObj['REGADDADDTYP'] = value;
+        if (value.addressType === Constant.PERMANENT_ADDRESS) {
+          addressObj[Constant.PERMANENT_ADDRESS] = value;
+        } else if (value.addressType === Constant.COMMUNICATION_ADDRESS) {
+          addressObj[Constant.COMMUNICATION_ADDRESS] = value;
+        } else if (value.addressType === Constant.REGISTER_ADDRESS) {
+          addressObj[Constant.REGISTER_ADDRESS] = value;
         }
       });
     }
@@ -482,22 +393,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.aboutIndivProspectDetails = {
       dob: this.formatGivenDate(coApplicantModel.dob),
       mobilePhone: coApplicantModel.mobilePhone,
-      // isSeniorCitizen: '1',
-      // isMinor: '1',
-      // minorGuardianName: 'Kumar',
-      // minorGuardianUcic: 600700,
-      // spouseName: 'Rani',
-      // fatherName: 'Raja',
-      // motherMaidenName: 'Kumari',
-      // nationality: 'INDNATIONALITY',
-      // occupation: 'DOCPTION',
-      // emailId: 'test@test.com',
-      // alternateEmailId: 'test1@test.com',
-      // preferredLanguage: 'ENGPRFLAN',
-      // designation: 'PRODMNGDESIGNATION',
-      // currentEmpYears: '10 Years',
-      // employeeCode: 100200,
-      // department: 'department'
     };
 
     this.indivIdentityInfoDetails = {
@@ -520,45 +415,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         coApplicantModel.drivingLicenseExpiryDate
       ),
       voterIdNumber: coApplicantModel.voterIdNumber,
-      // voterIdIssueDate: '21-Mar-2020',
-      // voterIdExpiryDate: '21-Mar-2021'
     };
 
-    this.addressDetails = [
-      {
-        addressType: 'PERMADDADDTYP',
-        addressLineOne: coApplicantModel.permentAddress.addressLineOne,
-        addressLineTwo: coApplicantModel.permentAddress.addressLineTwo,
-        addressLineThree: coApplicantModel.permentAddress.addressLineThree,
-        pincode: Number(coApplicantModel.permentAddress.pincode),
-        city: Number(coApplicantModel.permentAddress.city),
-        district: Number(coApplicantModel.permentAddress.district),
-        state: Number(coApplicantModel.permentAddress.state),
-        country: 'IN',
-        landlineNumber: coApplicantModel.permentAddress.landlineNumber,
-        // mobileNumber: '9988776655',
-        // accommodationType: '1ADDACCTYP',
-        // periodOfCurrentStay: 10,
-        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-      },
-      {
-        addressType: 'COMMADDADDTYP',
-        addressLineOne: coApplicantModel.communicationAddress.addressLineOne,
-        addressLineTwo: coApplicantModel.communicationAddress.addressLineTwo,
-        addressLineThree:
-          coApplicantModel.communicationAddress.addressLineThree,
-        pincode: Number(coApplicantModel.communicationAddress.pincode),
-        city: Number(coApplicantModel.communicationAddress.city),
-        district: Number(coApplicantModel.communicationAddress.district),
-        state: Number(coApplicantModel.communicationAddress.state),
-        country: 'IN',
-        landlineNumber: coApplicantModel.communicationAddress.landlineNumber,
-        // mobileNumber: '9988776655',
-        // accommodationType: '1ADDACCTYP',
-        // periodOfCurrentStay: 10,
-        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-      },
-    ];
+    this.addressDetails = [];
+    const permanentAddress = coApplicantModel.permentAddress;
+    if (permanentAddress) {
+      const addressObject = this.createAddressObject(permanentAddress);
+      this.addressDetails.push({
+        ...addressObject,
+        addressType: Constant.PERMANENT_ADDRESS,
+      });
+    }
+    const communicationAddress = coApplicantModel.communicationAddress;
+    if (communicationAddress) {
+      const addressObject = this.createAddressObject(communicationAddress);
+      this.addressDetails.push({
+        ...addressObject,
+        addressType: Constant.COMMUNICATION_ADDRESS,
+      });
+    }
   }
 
   storeNonIndividualValueInService(coApplicantModel) {
@@ -566,28 +441,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dateOfIncorporation: this.formatGivenDate(
         coApplicantModel.dateOfIncorporation
       ),
-      // countryOfCorporation: 'IND',
-      // companyEmailId: 'appiyo@appiyo.com',
-      // alternateEmailId: 'inswit@appiyo.com',
-      // preferredLanguageCommunication: 'ENGPRFLAN',
-      // numberOfDirectors: 10,
-      // directorName: 'test',
-      // directorIdentificationNumber: '123456',
-      // contactPerson: 'test',
-      // contactPersonDesignation: 'Manager',
-      // contactPersonMobile: '9988776655',
-      // ratingIssuerName: 'test',
-      // externalRatingAssigned: 'test',
-      // externalRatingIssueDate: '22-Mar-2020',
-      // externalRatingExpiryDate: '31-Mar-2020',
-      // foreignCurrencyDealing: 'test',
-      // exposureBankingSystem: 'test',
-      // creditRiskScore: 'test',
-      // tinNumber: 'tin1234',
-      // corporateIdentificationNumber: '44455566',
-      // gstNumber: 'GST123',
       panNumber: coApplicantModel.pan,
-      // aadhar: '123456786666',
       passportNumber: coApplicantModel.passportNumber,
       passportIssueDate: this.formatGivenDate(
         coApplicantModel.passportIssueDate
@@ -603,34 +457,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         coApplicantModel.drivingLicenseExpiryDate
       ),
       voterIdNumber: coApplicantModel.voterIdNumber,
-      // voterIdIssueDate: '21-Mar-2020',
-      // voterIdExpiryDate: '21-Mar-2021',
       companyPhoneNumber: coApplicantModel.mobilePhone,
       panType: coApplicantModel.panType,
     };
 
-    this.addressDetails = [
-      {
-        addressType: 'REGADDADDTYP',
-        addressLineOne: coApplicantModel.registeredAddress.addressLineOne,
-        addressLineTwo: coApplicantModel.registeredAddress.addressLineTwo,
-        addressLineThree: coApplicantModel.registeredAddress.addressLineThree,
-        pincode: Number(coApplicantModel.registeredAddress.pincode),
-        city: Number(coApplicantModel.registeredAddress.city),
-        district: Number(coApplicantModel.registeredAddress.district),
-        state: Number(coApplicantModel.registeredAddress.state),
-        country: 'IN',
-        landlineNumber: coApplicantModel.registeredAddress.landlineNumber,
-        // mobileNumber: '9988776655',
-        // accommodationType: '1ADDACCTYP',
-        // periodOfCurrentStay: 10,
-        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-      },
-    ];
+    const registerAddress = coApplicantModel.registeredAddress;
+    if (registerAddress) {
+      this.addressDetails = [
+        {
+          ...registerAddress,
+          addressType: Constant.REGISTER_ADDRESS,
+        },
+      ];
+    }
   }
   onFormSubmit() {
     const formValue = this.coApplicantForm.value;
-    console.log('formModel', formValue);
     const coApplicantModel = {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
@@ -644,9 +486,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.applicantDataService.setIndividualProspectDetails(null);
       this.applicantDataService.setIndivIdentityInfoDetails(null);
     }
-
-    console.log('CoApplicant form', coApplicantModel);
-
     if (this.selectedApplicant !== undefined) {
       this.leadStoreService.updateApplicant(
         this.selectedApplicant,
@@ -656,7 +495,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
-    // this.router.navigate(['/pages/lead-section/product-details']);
     this.applicantDetails = {
       entityType: coApplicantModel.entityType,
       name1: coApplicantModel.name1,
@@ -666,16 +504,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       customerCategory: 'SALCUSTCAT',
       title: 'MRSALUTATION',
     };
-
-    // this.applicantDetails = {
-    //   entityType: 'INDIVENTTYP',
-    //   name1: 'Kalpesh',
-    //   name2: 'Madhukar',
-    //   name3: 'Mahajan',
-    //   loanApplicationRelation: 'APPAPPREL',
-    //   title: 'MRSALUTATION',
-    //   customerCategory: 'SALCUSTCAT'
-    // };
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dob);
     console.log('Formatted DOB', DOB);
 
@@ -684,31 +512,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       employerName: 'Appiyo Technologies',
       workplaceAddress: 'test',
     };
-
-    console.log(
-      'Drving Licanse Issue Date',
-      coApplicantModel.dateOfIncorporation
-    );
-    
-
-    // this.addressDetails = [{
-    //   addressType: 'PERMADDADDTYP',
-    //   addressLineOne: 'test',
-    //   addressLineTwo: 'test',
-    //   addressLineThree: 'test',
-    //   pincode: 123456,
-    //   city: 1,
-    //   district: 1,
-    //   state: 1,
-    //   country: 'IN',
-    //   landlineNumber: '044202020',
-    //   mobileNumber: '9988776655',
-    //   accommodationType: '1ADDACCTYP',
-    //   periodOfCurrentStay: 10,
-    //   isCurrAddSameAsPermAdd: '1'
-    // }];
-
-    console.log('adress Details', this.addressDetails);
     const data = {
       applicantDetails: this.applicantDetails,
       aboutIndivProspectDetails: this.aboutIndivProspectDetails,
@@ -722,7 +525,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
-      if (response.Error == 0) {
+      if (response.Error === '0') {
         const message = response.ProcessVariables.error.message;
         console.log('Success Message', message);
       }
@@ -733,26 +536,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onAddress(event) {
-    console.log('Checkbox ' + event.target.checked);
-    const eventclicked = event.target.checked;
-    const formValue = this.coApplicantForm.value.permentAddress;
-    console.log('Permant Address', formValue);
-    this.isCurrAddSameAsPermAdd = eventclicked === true ? 1 : 0;
-    console.log('isCurrAddSameAsPermAdd', this.isCurrAddSameAsPermAdd);
-
+    const eventClicked = event.target.checked;
+    const formValue: AddressDetails = this.coApplicantForm.value.permentAddress;
+    this.isCurrAddSameAsPermAdd = eventClicked === true ? 1 : 0;
     const communicationAddress = this.coApplicantForm.get(
       'communicationAddress'
     );
-    communicationAddress.patchValue({
-      addressLineOne: formValue.addressLineOne,
-      addressLineTwo: formValue.addressLineTwo,
-      addressLineThree: formValue.addressLineThree,
-      pincode: formValue.pincode,
-      city: formValue.city,
-      district: formValue.district,
-      state: formValue.state,
-      country: formValue.country,
-      landlineNumber: formValue.landlineNumber,
-    });
+    communicationAddress.patchValue(this.createAddressObject(formValue));
   }
 }
