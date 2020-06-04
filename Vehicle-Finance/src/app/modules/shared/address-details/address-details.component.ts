@@ -391,12 +391,12 @@ export class AddressDetailsComponent implements OnInit {
     const isChecked = event.target.checked;
     console.log('event', isChecked);
     this.getPermanentAddressValue();
-    this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
+    // this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     this.getRegisteredAddressValue();
-    this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
+    // this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
   }
 
   getPermanentAddressValue() {
@@ -537,7 +537,7 @@ export class AddressDetailsComponent implements OnInit {
     permenantAdress.district = 1;
 
     permenantAdress.landlineNumber = permanantAddressObject.landlineNumber;
-    permenantAdress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    permenantAdress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(permenantAdress);
 
@@ -566,7 +566,7 @@ export class AddressDetailsComponent implements OnInit {
     );
     currentAddress.landlineNumber = currentAddressObject.landlineNumber;
     currentAddress.mobileNumber = currentAddressObject.mobileNumber;
-    currentAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    currentAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(currentAddress);
 
@@ -594,7 +594,7 @@ export class AddressDetailsComponent implements OnInit {
     );
     officeAddress.landlineNumber = officeAddressObject.landlineNumber;
     officeAddress.mobileNumber = officeAddressObject.mobileNumber;
-    officeAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    officeAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(officeAddress);
     console.log('addressDetailsDataArray', this.addressDetailsDataArray);
@@ -629,7 +629,7 @@ export class AddressDetailsComponent implements OnInit {
 
     registeredAddress.landlineNumber = registeredAddressObject.landlineNumber;
     registeredAddress.mobileNumber = registeredAddressObject.mobileNumber;
-    registeredAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    registeredAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(registeredAddress);
 
@@ -656,7 +656,7 @@ export class AddressDetailsComponent implements OnInit {
 
     communicationAddress.landlineNumber =
       communicationAddressObject.landlineNumber;
-    communicationAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
+    communicationAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(communicationAddress);
     console.log('addressDetailsDataArray', this.addressDetailsDataArray);
