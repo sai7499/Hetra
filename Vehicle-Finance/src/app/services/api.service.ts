@@ -76,6 +76,16 @@ export class ApiService {
             workflowId: 'ba3c5529a7211eabdcff2fa9bec3d63',
             processId: 'ba6290a49a7211eabdcff2fa9bec3d63',
             projectId: environment.projectIds.salesProjectId
+          },
+          saveUpadtePslData: {
+            workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
+            processId: '2fe93e9e98ee11eabdcff2fa9bec3d63',
+            projectId: environment.projectIds.salesProjectId
+          },
+          getPslData: {
+            workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
+            processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
+            projectId: environment.projectIds.salesProjectId
           }
     };
 }
