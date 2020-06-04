@@ -66,25 +66,35 @@ export class AuthInterceptor implements HttpInterceptor {
       //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
     });
     return next.handle(authReq).pipe(
-      map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-            if (event.headers.get("content-type") == "text/plain") {
-                event = event.clone({ body: JSON.parse(this.encrytionService.decryptResponse(event)) });
-            } else{
-                let res;
-                if (event.headers.get("content-type") != "text/plain" && typeof(event.body) != "object") {
-                     res = JSON.parse(event.body);
-                  }
-                if (res && res['login_required']) {
-                      this.utilityService.logOut();
-                  }
+      map(
+        (event: HttpEvent<any>) => {
+          let res;
+          if (event instanceof HttpResponse) {
+            if (event.headers.get('content-type') == 'text/plain') {
+              event = event.clone({
+                body: JSON.parse(this.encrytionService.decryptResponse(event)),
+              });
+            } else {
+              if (
+                event.headers.get('content-type') != 'text/plain' &&
+                typeof event.body != 'object'
+              ) {
+                res = JSON.parse(event.body);
+              }
+              if (res && res['login_required']) {
+                this.utilityService.logOut();
+              }
             }
-            console.log("after Encryption: ", event.body);
+            console.log('after Encryption: ', event.body);
+            if (res['Error'] === '1') {
+              alert(res['ErrorMessage']);
+            }
             this.ngxUiLoaderService.stop();
+
             return event;
-        } else {
+          } else {
             this.ngxUiLoaderService.stop();
-        }
+          }
         },
         (err: any) => {
           console.log('err', err);
