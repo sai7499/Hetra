@@ -1,0 +1,163 @@
+<!-- <div class="content"> -->
+<form class="multisteps-form__form" method="post" style="height: 400px;">
+  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <div class="container controlWidth">
+      <div class="btn-sec clear-both row">
+        <div class="col-sm-5">
+          <h4 class="title">Applicant Details</h4>
+        </div>
+        <div class="col-sm-7 text-right">
+          <button
+            *ngIf="showAddApplicant"
+            class="btn btn-primary mar-right8"
+            type="button"
+            routerLink="/pages/add-applicant"
+          >
+            Add Applicant
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-responsive application" id="applicantTable">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg">
+              <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.dateOfBirth }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of applicantList
+                  | paginate: { itemsPerPage: 5, currentPage: p };
+                let i = index
+              "
+            >
+              <td>{{ item.ucic ? item.ucic : '-' }}</td>
+              <td>{{ item.fullName ? item.fullName : '-' }}</td>
+              <ng-container *ngIf="item.entityTypeKey !=='NONINDIVENTTYP'">
+              <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td> 
+              <td>{{ item.dob ? item.dob : '-' }}</td>
+              </ng-container> 
+              <ng-container *ngIf="item.entityTypeKey =='NONINDIVENTTYP'">
+                <td>{{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}</td> 
+                <td>{{ item.doi ? item.doi : '-' }}</td>
+                </ng-container> 
+              <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
+              <td>
+                <i
+                  class="fa fa-pencil"
+                  aria-hidden="true"
+                  [routerLink]="[applicantUrl, item.applicantId]"
+                ></i>
+                &nbsp;&nbsp;<a
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  (click)="softDeleteApplicant(i, item.applicantId)"
+                  ><i class="fa fa-trash" aria-hidden="true"></i
+                ></a>
+              </td>
+              
+            </tr>
+            <!-- <tr>
+              <td>-</td>
+              <td><a href="#">Monica Geller</a></td>
+              <td>7894561230</td>
+              <td>09-08-1967</td>
+              <td>Co-Applicant</td>
+              <td onclick="add_applicant();">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </td>
+            </tr>
+            <tr>
+              <td>97912</td>
+              <td><a href="#">Joey Tribbiani</a></td>
+              <td>7894561230</td>
+              <td>09-08-1967</td>
+              <td>Co-Applicant</td>
+              <td onclick="add_applicant();">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+        <div class="btn-sec clear-both">
+          <div class="records col-sm-6">
+            <select class="form-control input-sm">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+            <nav class="col-sm-12 col-md-12 col-lg-12 page">
+              <pagination-controls
+                nextLabel=""
+                previousLabel=""
+                maxSize="5"
+                (pageChange)="p = $event"
+              ></pagination-controls>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- </div> -->
+
+<div class="btn-sec clear-both row cst_btm_btns">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button
+      class="btn btn-primary mar-right8"
+      type="button"
+      [routerLink]="['../lead-details']"
+    >
+      Back
+    </button>
+    <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
+    <button
+      class="btn btn-primary js-btn-next"
+      type="button"
+      routerLink="../vehicle-list"
+    >
+      Next
+    </button>
+  </div>
+</div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+
+          
+          <div class="modal-header">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="close"
+                  data-dismiss="modal">&times;</button>
+          </div>
+
+          
+          <div class="modal-body">
+              Are you Sure Want to Delete?
+          </div>
+
+          
+          <div class="modal-footer text-center">
+              <button type="button" class="btn btn-success" data-dismiss="modal"
+              (click)="callDeleteApplicant()">Yes</button>
+              <button type="button" class="btn btn-danger"
+                  data-dismiss="modal">Cancel</button>
+          </div>
+
+      </div>
+  </div>
+</div>
+

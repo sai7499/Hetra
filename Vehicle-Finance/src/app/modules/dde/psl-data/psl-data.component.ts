@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { LabelsService } from "@services/labels.service";
 import { CommomLovService } from "@services/commom-lov-service";
 import { DdeStoreService } from "@services/dde-store.service";
-import { PslDataService } from "./psl-data.service";
+import { PslDataService } from "../services/psl-data.service";
 
 @Component({
   selector: "app-psl-data",
@@ -775,7 +775,7 @@ isGoosManufactured: boolean;
     this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
       const response = res;
       console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
-      console.log("DATA------------------------", data);
+      // console.log("DATA", data);
           
     });
   }

@@ -14,7 +14,6 @@ export class CreateLeadDataService {
             loanLeadDetails,
             applicantDetails
         };
-        console.log('leadService', this.leadData);
     }
 
     getLeadData() {

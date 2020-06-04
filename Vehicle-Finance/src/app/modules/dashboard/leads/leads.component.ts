@@ -13,17 +13,11 @@ export class LeadsComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private loginService: LoginService) {
-}
+  }
 
-ngOnInit() {
-//   this.dashboardService.isCreditShow.subscribe(value => {
-//     this.isCredit = value;
-//     console.log(this.isCredit, value);
-
-//  });
-  this.isCredit = localStorage.getItem('role');
-
-}
+  ngOnInit() {
+    this.isCredit = localStorage.getItem('roleType');
+  }
 
 }
 

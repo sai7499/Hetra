@@ -20,10 +20,10 @@ export class ValuationComponent implements OnInit {
   public errorMsg;
   public getLabels;
 
-  constructor(private labelsData: LabelsService, 
-              private lovDataService:LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService) {}
+  constructor(private labelsData: LabelsService,
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService) { }
 
   ngOnInit() {
     this.initForm();
@@ -35,10 +35,9 @@ export class ValuationComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-      
+
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.vhValLov = value ? value[0].vehicleVal[0] : {};
-      console.log('vhValLov', this.vhValLov);
       this.setFormValue();
     });
 
@@ -96,61 +95,59 @@ export class ValuationComponent implements OnInit {
 
   setFormValue() {
     const vehicleValModel = this.ddeStoreService.getVehicleValuation() || {};
-    // console.log('Vehicle Valuation Model', vehicleValModel);
 
     this.vehicleValForm.patchValue({
-      valuatorType: vehicleValModel.valuatorType  || '',
-      valuatorCode: vehicleValModel.valuatorCode  || '',
-      valuatorName: vehicleValModel.valuatorName  || '',
-      valuationAmount: vehicleValModel.valuationAmount  || '',
-      valuationDate: vehicleValModel.valuationDate  || '',
-      idv: vehicleValModel.idv  || '',
-      idvValidityDate: vehicleValModel.idvValidityDate  || '',
-      vhAvailInGrid: vehicleValModel.vhAvailInGrid  || '',
-      gridAmount: vehicleValModel.gridAmount  || '',
-      assetManufacturer: vehicleValModel.assetManufacturer  || '',
-      assetModel: vehicleValModel.assetModel  || '',
-      newUsedAsset: vehicleValModel.newUsedAsset  || '',
-      vechicleNoPrefix: vehicleValModel.vechicleNoPrefix  || '',
-      vechicleNumber: vehicleValModel.vechicleNumber  || '',
-      chassisNumber: vehicleValModel.chassisNumber  || '',
-      engineNumber: vehicleValModel.engineNumber  || '',
-      yearRegOfAsset: vehicleValModel.yearRegOfAsset  || '',
-      monthRegOfAsset: vehicleValModel.monthRegOfAsset  || '',
-      ageOfAsset: vehicleValModel.ageOfAsset  || '',
-      sellerShortDescr: vehicleValModel.sellerShortDescr  || '',
-      secondAsset: vehicleValModel.secondAsset  || '',
-      secondVechicleNoPrefix: vehicleValModel.secondVechicleNoPrefix  || '',
-      secondVechicleNo: vehicleValModel.secondVechicleNo  || '',
-      secondChassisNumber: vehicleValModel.secondChassisNumber  || '',
-      agricultureProof: vehicleValModel.agricultureProof  || '',
-      fcExpiryDate: vehicleValModel.fcExpiryDate  || '',
-      vehicleRegDate: vehicleValModel.vehicleRegDate  || '',
-      gvw: vehicleValModel.gvw  || '',
-      reRegisteredVechicle: vehicleValModel.reRegisteredVechicle  || '',
-      interStateVehicle: vehicleValModel.interStateVehicle  || '',
-      duplicateRC: vehicleValModel.duplicateRC  || '',
-      cubicCapacity: vehicleValModel.cubicCapacity  || '',
-      seatingCapacity: vehicleValModel.seatingCapacity  || '',
-      existingVechicleOwned: vehicleValModel.existingVechicleOwned  || '',
-      noOfVehicles: vehicleValModel.noOfVehicles  || '',
-      existingSelfCostAsset: vehicleValModel.existingSelfCostAsset  || '',
-      total: vehicleValModel.total  || '',
-      make: vehicleValModel.make  || '',
-      model: vehicleValModel.model  || '',
-      year: vehicleValModel.year  || '',
-      registeredOwner: vehicleValModel.registeredOwner  || '',
-      registeredOwnerName: vehicleValModel.registeredOwnerName  || '',
-      vhNoPrefix: vehicleValModel.vhNoPrefix  || '',
-      vhNumber: vehicleValModel.vhNoPrefix  || '',
-      costOfVehicle: vehicleValModel.costOfVehicle  || ''
+      valuatorType: vehicleValModel.valuatorType || '',
+      valuatorCode: vehicleValModel.valuatorCode || '',
+      valuatorName: vehicleValModel.valuatorName || '',
+      valuationAmount: vehicleValModel.valuationAmount || '',
+      valuationDate: vehicleValModel.valuationDate || '',
+      idv: vehicleValModel.idv || '',
+      idvValidityDate: vehicleValModel.idvValidityDate || '',
+      vhAvailInGrid: vehicleValModel.vhAvailInGrid || '',
+      gridAmount: vehicleValModel.gridAmount || '',
+      assetManufacturer: vehicleValModel.assetManufacturer || '',
+      assetModel: vehicleValModel.assetModel || '',
+      newUsedAsset: vehicleValModel.newUsedAsset || '',
+      vechicleNoPrefix: vehicleValModel.vechicleNoPrefix || '',
+      vechicleNumber: vehicleValModel.vechicleNumber || '',
+      chassisNumber: vehicleValModel.chassisNumber || '',
+      engineNumber: vehicleValModel.engineNumber || '',
+      yearRegOfAsset: vehicleValModel.yearRegOfAsset || '',
+      monthRegOfAsset: vehicleValModel.monthRegOfAsset || '',
+      ageOfAsset: vehicleValModel.ageOfAsset || '',
+      sellerShortDescr: vehicleValModel.sellerShortDescr || '',
+      secondAsset: vehicleValModel.secondAsset || '',
+      secondVechicleNoPrefix: vehicleValModel.secondVechicleNoPrefix || '',
+      secondVechicleNo: vehicleValModel.secondVechicleNo || '',
+      secondChassisNumber: vehicleValModel.secondChassisNumber || '',
+      agricultureProof: vehicleValModel.agricultureProof || '',
+      fcExpiryDate: vehicleValModel.fcExpiryDate || '',
+      vehicleRegDate: vehicleValModel.vehicleRegDate || '',
+      gvw: vehicleValModel.gvw || '',
+      reRegisteredVechicle: vehicleValModel.reRegisteredVechicle || '',
+      interStateVehicle: vehicleValModel.interStateVehicle || '',
+      duplicateRC: vehicleValModel.duplicateRC || '',
+      cubicCapacity: vehicleValModel.cubicCapacity || '',
+      seatingCapacity: vehicleValModel.seatingCapacity || '',
+      existingVechicleOwned: vehicleValModel.existingVechicleOwned || '',
+      noOfVehicles: vehicleValModel.noOfVehicles || '',
+      existingSelfCostAsset: vehicleValModel.existingSelfCostAsset || '',
+      total: vehicleValModel.total || '',
+      make: vehicleValModel.make || '',
+      model: vehicleValModel.model || '',
+      year: vehicleValModel.year || '',
+      registeredOwner: vehicleValModel.registeredOwner || '',
+      registeredOwnerName: vehicleValModel.registeredOwnerName || '',
+      vhNoPrefix: vehicleValModel.vhNoPrefix || '',
+      vhNumber: vehicleValModel.vhNoPrefix || '',
+      costOfVehicle: vehicleValModel.costOfVehicle || ''
     });
   }
 
   onFormSubmit() {
     const formModel = this.vehicleValForm.value;
-    const vhValModel = {...formModel};
-    // this.ddeStoreService.setVehicleValuation(vhValModel);
+    const vhValModel = { ...formModel };
     this.router.navigate(['/pages/dde/vehicle-valuation']);
   }
 
