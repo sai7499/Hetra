@@ -21,8 +21,6 @@ export class TrackVehicleComponent implements OnInit {
   loanEmiDate:any;
   noOfEmi: any;
   public trackVehicleForm: FormGroup;
-  // public trackVehicleTable : FormGroup;
-
 
   constructor(
     private trackVechileService: TrackVechileService,
@@ -38,19 +36,14 @@ export class TrackVehicleComponent implements OnInit {
        this.getFleetRtr()
 
     this.lovData.getLovData().subscribe((res: any) => {
-
       this.values = res[0].trackVehicle[0];
-      // console.log(this.values);
     });
 
     this.labelsData.getLabelsFleetData().subscribe(
 
       data => {
         this.labels = data;
-        // console.log('labels', this.labels)
-      },
-
-      error => {
+      }, error => {
         console.log(error);
 
       });
@@ -219,9 +212,8 @@ export class TrackVehicleComponent implements OnInit {
 
   getFleetRtr() {
     this.trackVechileService.getFleetRtr().subscribe((res) => {
-      console.log(res);
+
       if (res['Status'] == "Execution Completed") {
-        console.log('test')
         const installments = res['ProcessVariables'].installment;
         this.fleetRtrDetails = res['ProcessVariables'].installment;
         let noOfEmi = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value)
@@ -402,7 +394,6 @@ export class TrackVehicleComponent implements OnInit {
     this.trackVehicleForm.value['avgDelay'] = parseInt(this.trackVehicleForm.controls['avgDelay'].value);
     this.trackVehicleForm.value['trackStatus'] = parseInt(this.trackVehicleForm.controls['trackStatus'].value);
     this.trackVehicleForm.value['totalAmtPaid'] = parseInt(this.trackVehicleForm.controls['totalAmtPaid'].value);
-    // this.router.navigate(['/pages/dde/fleet-details']);
     for (let i = 0; i < this.formArr.length; i++) {
       this.trackVehicleForm.value['installment'][i]['receivedAmt'] = parseInt(this.formArr.controls[i]['controls']['receivedAmt'].value);
       this.trackVehicleForm.value['installment'][i]['installmentAmt'] = parseInt(this.formArr.controls[i]['controls']['installmentAmt'].value);
@@ -411,7 +402,6 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.value['installment'][i]['delayDays'] = parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
       this.trackVehicleForm.value['installment'][i]['paymentExcess'] = parseInt(this.formArr.controls[i]['controls']['paymentExcess'].value);
     }
-    // console.log(this.formArr);
     this.trackVechileService.saveUpdateFleetRtr(this.trackVehicleForm.value, this.trackVehicleForm.value['installment']).subscribe((res: any) => {
       console.log(res);
       if (res['Status'] == "Execution Completed") {
