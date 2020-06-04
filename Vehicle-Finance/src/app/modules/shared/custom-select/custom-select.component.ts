@@ -30,7 +30,6 @@ export class CustomSelectComponent
     value: '-- select one --',
   };
   @Input() isDisabled: boolean;
-  // tslint:disable-next-line:no-input-rename
   @Input('selectedOption') val: any;
   @Input() values: any[];
 
@@ -38,10 +37,6 @@ export class CustomSelectComponent
 
   onChange: any = () => { };
   onTouch: any = () => { };
-
-  // onValueChange(event) {
-  //   console.log('event', event);
-  // }
 
   set selectedOption(val) {
     this.val = val;
@@ -51,7 +46,6 @@ export class CustomSelectComponent
   }
 
   getSelectedObject() {
-    // console.log('this.values',this.values);
     return (this.values && Array.isArray(this.values))
       ? this.values.find((value) => String(value.key) === this.selectedOption)
       : {};

@@ -1,14 +1,12 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
-import { VehicleDetailService } from '../../lead-section/services/vehicle-detail.service';
-import { VehicleDataService } from '../../lead-section/services/vehicle-data.service';
+import { VehicleDetailService } from '../../../services/vehicle-detail.service';
+import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
 import { LovDataService } from '@services/lov-data.service';
 import { ArrayType } from '@angular/compiler';
-import { UtilityService } from '@services/utility.service';
-
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -16,8 +14,9 @@ import { UtilityService } from '@services/utility.service';
   styleUrls: ['./shared-basic-vehicle-details.component.css']
 })
 
-
 export class SharedBasicVehicleDetailsComponent implements OnInit {
+
+  @Input() id: any;
 
   @Output() formDataOutput = new EventEmitter<ArrayType>();
 
@@ -25,16 +24,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public vehicleLov: any = {};
   roleId: any;
   roleName: any;
+  roleType: any;
   roles: any = [];
   LOV: any = [];
   public label: any = {};
   public select_main_button_value: string = 'New CV';
   public vehicleFormData: any = [];
   mockLov: any = {};
-  univDate: any = [];
-
-  //  declared mockLov for storing mock lov values from lov service regarding asset make and .....
-
+  regionDataArray = [];
+  public vehicleRegionLov: any = {};
 
   constructor(
     private _fb: FormBuilder,
@@ -42,41 +40,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private commonLovService: CommomLovService,
     private vehicleDetailService: VehicleDetailService,
-    private vehicleDataService: VehicleDataService,
-    private lovDataService: LovDataService,
-    private utilityService: UtilityService) { }
+    private vehicleDataService: VehicleDataStoreService,
+    private lovDataService: LovDataService) { }
 
   ngOnInit() {
-
 
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
     })
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    console.log("dataFromLoginStore", roleAndUserDetails)
     this.roles = roleAndUserDetails.roles;
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    console.log("user role", this.roleName)
+    this.roleType = this.roles[0].roleType;
+
+    if (this.id) {
+      this.setFormValue();
+    }
 
     this.initForms();
-
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
-      },
-        error => {
-          console.log('error')
-        });
-
-
-    // date picker
-
+      }, error => {
+        console.log('error', error)
+      });
   }
-
-
 
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -85,69 +76,163 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
-  //  method for getting lovs from common lov service
-
   getLov() {
-
     this.commonLovService.getLovData().subscribe((value: any) => {
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
-      this.vehicleLov.vechicleUsage = value.LOVS.vehicleUsage;
+      this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
-      // console.log(this.vehicleLov)
-
-
     });
+  }
 
-    //  mock method for getting lovs for assetMake and so on ....
+  setFormValue() {
 
-    this.lovDataService.getLovData().subscribe((value: any) => {
-
-      this.mockLov = value ? value[0].vehicleDetails[0] : {};
-      // console.log('vehicleLov', this.mockLov);
-      this.vehicleLov.assetMake = value[0].vehicleDetails[0].assetMake;
-      this.vehicleLov.assetModel = value[0].vehicleDetails[0].assetModel
-      // this.vehicleLov.vehicleType = value[0].vehicleDetails[0].vehicleType
-      this.vehicleLov.assetBodyType = value[0].vehicleDetails[0].assetBodyType
-      // this.vehicleLov.region = value[0].vehicleDetails[0].region
-      this.vehicleLov.assetVariant = value[0].vehicleDetails[0].assetVariant
-      this.vehicleLov.assetSubVariant = value[0].vehicleDetails[0].assetSubVariant
-      // this.vehicleLov.vechicalUsage = value[0].vehicleDetails[0].vechicalUsage
-
-
-
-    });
-    // <= mock method ends =>
+    this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
+      const VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({
+        vehicleType: VehicleDetail.vehicleTypeCode || '',
+        region: VehicleDetail.region || '',
+        registrationNumber: VehicleDetail.registrationNo || '',
+        assetMake: VehicleDetail.vehicleMfrCode || '',
+        assetModel: VehicleDetail.vehicleModelCode || '',
+        assetBodyType: VehicleDetail.assetBodyType || '',
+        assetVariant: [''],
+        assetSubVariant: [''],
+        monthManufacturing: [''],
+        yrManufacturing: [''],
+        yearAndMonthManufacturing: VehicleDetail.manuFacMonthYear || '',
+        ageOfAsset: VehicleDetail.ageOfAsset || '',
+        vechicleUsage: VehicleDetail.vehicleUsage || '',
+        vehicleCategory: [''],
+        orpFunding: VehicleDetail.isOrpFunding || '',
+        oneTimeTax: VehicleDetail.oneTimeTax || '',
+        pac: VehicleDetail.pac || '',
+        vas: VehicleDetail.vas || '',
+        emiProtect: VehicleDetail.emiProtect || '',
+        fastTag: VehicleDetail.fastTag || '',
+        others: VehicleDetail.others || '',
+        discount: VehicleDetail.discount || '',
+        finalAssetCost: VehicleDetail.finalAssetCost || '',
+        idv: VehicleDetail.idv || '',
+        insuranceValidity: VehicleDetail.insuranceValidity || '',
+        insuranceCopy: [''],
+        permitType: VehicleDetail.typeOfPermit || '',
+        expiryDate: [''],
+        permitCopy: [''],
+        permitOthers: VehicleDetail.typeOfPermitOthers || '',
+        frsdRequired: VehicleDetail.fsrdFundingReq || '',
+        frsdAmount: VehicleDetail.fsrdPremiumAmount || '',
+        fitnessDate: VehicleDetail.fitnessDate || '',
+        fitnessCopy: [''],
+        noOfVehicles: [''],
+        vehicleId: VehicleDetail.vehicleId || '',
+        vehicleCode: VehicleDetail.vehicleCode || '',
+      })
+      // this.onVehicleRegionSales(VehicleDetail.region)
+      this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
+    })
 
   }
 
   // event emitter for giving output to parent add vehicle component
 
-  formDataOutputMethod() {
-
-
+  formDataOutputMethod(value) {
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
-
   }
-
 
   //  method to get vehicle master data from region 
 
   onVehicleRegionSales(value: any) {
-
-    console.log(value, 'region')
     const region = value ? value : '';
+    const assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
-      // console.log(data, 'data')
 
-      // console.log("form data ", this.basicVehicleForm.value.vehicleFormArray[0])
+      this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
+
+      if (this.regionDataArray.length > 0) {
+        this.regionDataArray.map((data, i) => {
+          assetMakeArray.push({
+            key: i,
+            value: data['mfrCode']
+          })
+        })
+      }
+      this.vehicleLov.assetMake = assetMakeArray;
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({
+        assetMake: '',
+      })
+
     })
-
+    // this.onChangeSalesAssetMake(0)
   }
 
+  onChangeSalesAssetMake(value) {
+    const vehiclTypeArray = [];
+    if (value) {
+      const assetMake = this.vehicleLov.assetMake[value];
 
+      this.regionDataArray.filter((data, i) => {
 
+        if (assetMake.value === data.mfrCode) {
+          vehiclTypeArray.push({
+            key: i,
+            value: data['vehicleTypeUniqueCode']
+          })
+        }
+        this.vehicleLov.vehicleType = vehiclTypeArray;
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          vehicleType: '',
+        })
+      })
+    }
+  }
+
+  onChangeSalesVehicleType(value) {
+    const assetBodyArray = [];
+    if (value) {
+      const vehicleType = this.vehicleLov.vehicleType[value];
+      this.regionDataArray.filter((data, i) => {
+
+        if (vehicleType.value === data.vehicleTypeUniqueCode) {
+          assetBodyArray.push({
+            key: i,
+            value: data['uniqueSegmentCode']
+          })
+        }
+        this.vehicleLov.assetBodyType = assetBodyArray;
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          assetBodyType: '',
+        })
+      })
+    }
+  }
+
+  onChangeSalesAssetBodyType(value) {
+    const assetModelArray = [];
+    if (value) {
+      const assetModelBodyType = this.vehicleLov.assetBodyType[value];
+      this.regionDataArray.filter((data, i) => {
+        if (assetModelBodyType.value === data.uniqueSegmentCode) {
+          assetModelArray.push({
+            key: i,
+            value: data['vehicleModelCode']
+          })
+        }
+        this.vehicleLov.assetModel = assetModelArray;
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          assetModel: '',
+          assetVariant: '',
+          assetSubVariant: ''
+        })
+      })
+    }
+  }
 
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -186,7 +271,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       frsdAmount: [''],
       fitnessDate: [''],
       fitnessCopy: [''],
-      noOfVehicles: ['']
+      noOfVehicles: [''],
+      vehicleId: 0,
+      vehicleCode: 0,
     });
     formArray.push(controls);
     this.onVehicleRegionSales('APASTRGN')
@@ -249,7 +336,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   addNewcarFormControls() {
-
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
 
@@ -367,6 +453,5 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
     creditFormArray.push(controls);
   }
-
 
 }

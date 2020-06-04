@@ -26,38 +26,38 @@ export class AddressDetailsComponent implements OnInit {
 
     addIndividualFormControls() {
         const controls = new FormGroup({
-        address1: new FormControl(null),
-        address2: new FormControl(null),
-        address3: new FormControl(null),
-        pinCode: new FormControl(null),
-        city: new FormControl(''),
-        district: new FormControl(''),
-        state: new FormControl(''),
-        country: new FormControl(''),
-        landLine: new FormControl(null),
-        currentLine1: new FormControl(null),
-        currentLine2: new FormControl(null),
-        currentLine3: new FormControl(null),
-        currentPinCode: new FormControl(null),
-        currentCity: new FormControl(''),
-        currentDistrict: new FormControl(''),
-        currentState: new FormControl(''),
-        currentCountry: new FormControl(''),
-        currentAccommodation: new FormControl(null),
-        currentMobile: new FormControl(null),
-        currentLandLine: new FormControl(''),
-        officeLine1: new FormControl(null),
-        officeLine2: new FormControl(null),
-        officeLine3: new FormControl(null),
-        officePinCode: new FormControl(null),
-        officeCity: new FormControl(''),
-        officeDistrict: new FormControl(''),
-        officeState: new FormControl(''),
-        officeCountry: new FormControl(''),
-        officeAccommodation: new FormControl(null),
-        officePeriod: new FormControl(null),
-        officeMobile: new FormControl(null),
-        officeLandLine: new FormControl(null),
+            address1: new FormControl(null),
+            address2: new FormControl(null),
+            address3: new FormControl(null),
+            pinCode: new FormControl(null),
+            city: new FormControl(''),
+            district: new FormControl(''),
+            state: new FormControl(''),
+            country: new FormControl(''),
+            landLine: new FormControl(null),
+            currentLine1: new FormControl(null),
+            currentLine2: new FormControl(null),
+            currentLine3: new FormControl(null),
+            currentPinCode: new FormControl(null),
+            currentCity: new FormControl(''),
+            currentDistrict: new FormControl(''),
+            currentState: new FormControl(''),
+            currentCountry: new FormControl(''),
+            currentAccommodation: new FormControl(null),
+            currentMobile: new FormControl(null),
+            currentLandLine: new FormControl(''),
+            officeLine1: new FormControl(null),
+            officeLine2: new FormControl(null),
+            officeLine3: new FormControl(null),
+            officePinCode: new FormControl(null),
+            officeCity: new FormControl(''),
+            officeDistrict: new FormControl(''),
+            officeState: new FormControl(''),
+            officeCountry: new FormControl(''),
+            officeAccommodation: new FormControl(null),
+            officePeriod: new FormControl(null),
+            officeMobile: new FormControl(null),
+            officeLandLine: new FormControl(null),
         });
         (this.addressForm.get('details') as FormArray).push(controls);
     }
@@ -80,34 +80,32 @@ export class AddressDetailsComponent implements OnInit {
 
     isSameAddress(event) {
         const isChecked = event.target.checked;
-        console.log('event', isChecked);
         this.getPermanentAddressValue();
     }
 
     getPermanentAddressValue() {
-      const formArray = this.addressForm.get('details') as FormArray;
-      const formValue = formArray.at(0).value;
-      console.log('formValue', formValue);
-      const currentLine1 =  formValue.address1;
-      const currentLine2 =  formValue.address2;
-      const currentLine3 =  formValue.address3;
-      const currentPinCode =  formValue.pinCode;
-      const currentCity =  formValue.city;
-      const currentDistrict =  formValue.district;
-      const currentState =  formValue.state;
-      const currentCountry =  formValue.country;
-      const currentLandLine =  formValue.landLine;
-      formArray.at(0).patchValue({
-          currentLine1,
-          currentLine2,
-          currentLine3,
-          currentPinCode,
-          currentCity,
-          currentDistrict,
-          currentState,
-          currentCountry,
-          currentLandLine
-      });
+        const formArray = this.addressForm.get('details') as FormArray;
+        const formValue = formArray.at(0).value;
+        const currentLine1 = formValue.address1;
+        const currentLine2 = formValue.address2;
+        const currentLine3 = formValue.address3;
+        const currentPinCode = formValue.pinCode;
+        const currentCity = formValue.city;
+        const currentDistrict = formValue.district;
+        const currentState = formValue.state;
+        const currentCountry = formValue.country;
+        const currentLandLine = formValue.landLine;
+        formArray.at(0).patchValue({
+            currentLine1,
+            currentLine2,
+            currentLine3,
+            currentPinCode,
+            currentCity,
+            currentDistrict,
+            currentState,
+            currentCountry,
+            currentLandLine
+        });
 
     }
 }

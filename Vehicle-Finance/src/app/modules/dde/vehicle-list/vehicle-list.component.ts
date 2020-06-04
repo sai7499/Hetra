@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     templateUrl: './vehicle-list.component.html',
@@ -8,16 +9,27 @@ import { LabelsService } from '@services/labels.service';
 export class VehicleListComponent {
     public labels: any = {};
 
-    constructor(private labelsData: LabelsService) { }
+    public colleteralArray = [
+        {
+            colleteralType: 'Colleteral Type-1',
+            column2: '',
+            column3: ''
+        },
+        {
+            colleteralType: 'Colleteral Type-2',
+            column2: '',
+            column3: ''
+        }
+    ]
+
+    constructor(private labelsData: LabelsService, private _fb: FormBuilder) { }
 
     ngOnInit() {
-        this.labelsData.getLabelsOfDDEData().subscribe(
-            data => {
+        this.labelsData.getLabelsOfDDEData()
+            .subscribe(data => {
                 this.labels = data.vehicleDetailsTable[0];
-            },
-            error => {
-                console.log(error);
-            }
-        );
+            }, error => {
+                console.log('error')
+            });
     }
 }

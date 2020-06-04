@@ -74,7 +74,6 @@ export const environment = {
   //   }
 
   // },
-
   host: 'http://128.199.164.250/appiyo/',
 
   // tslint:disable-next-line: max-line-length

@@ -22,7 +22,6 @@ export class ExposureDetailsComponent implements OnInit {
     });
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
-      console.log('res in exposure', res);
     });
   }
   public getProposedLoan() {
@@ -55,12 +54,7 @@ export class ExposureDetailsComponent implements OnInit {
     const control = this.exposureLiveLoan.controls.loanTable as FormArray;
     control.push(this.getLiveLoan());
   }
-  // get formArr() {
-  //   return this.exposureLiveLoan.get("loanTable") as FormArray;
-  // }
-  // get formArrProposed() {
-  //   return this.exposureLiveLoan.get("proposedTable") as FormArray;
-  // }
+
   removeIndex(i?: any) {
     const control = this.exposureLiveLoan.controls.loanTable as FormArray;
     console.log(control.controls.length);
@@ -76,13 +70,13 @@ export class ExposureDetailsComponent implements OnInit {
   }
   removeProposedIndex(i?: any) {
     const control = this.exposureProposedLoan.controls.proposedTable as FormArray;
-    // console.log(control.controls.length);
     if (control.controls.length > 1) {
       control.removeAt(i);
     } else {
       alert('Atleast One Row Required');
     }
   }
+
   onSubmit() {
     console.log(this.exposureLiveLoan.value);
   }

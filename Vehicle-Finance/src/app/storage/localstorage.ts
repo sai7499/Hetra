@@ -1,10 +1,10 @@
 export const storage = {
 
     getToken() {
-        let token = localStorage.getItem('token')
+        let userId = localStorage.getItem('token')
             ? localStorage.getItem('token')
-            : ''
-        return token;
+            : '';
+        return userId;
     },
 
     setToken(token) {
@@ -46,6 +46,17 @@ export const storage = {
         else{
             return false
         }
+    },
+    
+    getRoleType() {
+        let role = localStorage.getItem('role')
+            ? localStorage.getItem('role')
+            : ''
+        return role;
+    },
+
+    removeRoleType() {
+        localStorage.removeItem('role');
     }
 
 }

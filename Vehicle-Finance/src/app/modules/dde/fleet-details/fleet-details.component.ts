@@ -3,8 +3,8 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
-import { FleetDetailsService } from '../services/fleet-details.service';
-import { CommomLovService } from '@services/commom-lov-service';
+import { FleetDetailsService } from '../services/fleet-details.service'
+import { CommomLovService } from '@services/commom-lov-service'
 
 @Component({
   selector: 'app-fleet-details',
@@ -34,28 +34,22 @@ export class FleetDetailsComponent implements OnInit {
 
     this.getLov();
 
-
-
     this.fleetForm = this.fb.group(
       {
         Rows: this.fb.array([this.initRows()])
       }
     );
 
-
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].fleetDetails[0];
-      // console.log(this.values.relation = this.values);
     });
 
     this.labelsData.getLabelsFleetData().subscribe(
       data => {
         this.labels = data;
-        // console.log('labels', this.labels);
       },
       error => {
         console.log(error);
-
       });
 
   }
@@ -84,19 +78,12 @@ export class FleetDetailsComponent implements OnInit {
     });
   }
 
-  //  method for getting Lovs 
-
   getLov() {
 
     this.commonLovService.getLovData().subscribe((value: any) => {
-
       this.fleetLov.applicantRelationshipWithLead = value.LOVS.applicantRelationshipWithLead;
       this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
       this.fleetLov.vehicleManufacturer = value.LOVS.vehicleManufacturer;
-
-
-      console.log('vehicle lov  => ', this.fleetLov)
-
     });
 
   }
@@ -104,15 +91,16 @@ export class FleetDetailsComponent implements OnInit {
 
   // method for saving and updating fleet details
 
-  // saveOrUpdateFleetDetails() {
-  //   this.fleetDetailsService.saveOrUpdateFleetDetails(this.leadId, this.userId, this.fleetDetails).subscribe((value: any) => {
-
-  //     this.fleetDetails = value;
-  //     console.log("fleet details response", this.fleetDetails.ProcessVariables.fleets)
-
-  //   });
-  // }
-
+  saveOrUpdateFleetDetails() {
+    const data = {
+      leadId: this.leadId,
+      userId: this.userId,
+      fleetDetails: this.fleetDetails
+    }
+    this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((value: any) => {
+      this.fleetDetails = value;
+    });
+  }
 
   addNewRow() {
     this.formArr.push(this.initRows());
@@ -123,8 +111,7 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    // this.saveOrUpdateFleetDetails();
-    console.log('form values ', this.fleetForm.value.Rows)
+    this.saveOrUpdateFleetDetails();
   }
 }
 
