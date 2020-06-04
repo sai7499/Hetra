@@ -5,10 +5,10 @@ import { BasicVehicleDetailsComponent } from './basic-vehicle-details/basic-vehi
 import { VehicleDetailsRoutingModule } from './vehicle-details-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DdeSharedModule } from '../shared/shared.module';
-import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 import { SharedModule } from '@shared/shared.module';
+import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
 
 @NgModule({
   declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent, InsuranceDetailsComponent, ViabilityDetailsComponent],

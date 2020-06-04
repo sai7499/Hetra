@@ -9,21 +9,19 @@ import { Router } from '@angular/router';
 
 export class BankListComponent {
     bankDetails: any;
-    constructor( private bankService: BankTransactionsService, private route: Router) {}
+    constructor(private bankService: BankTransactionsService, private route: Router) { }
     // tslint:disable-next-line: use-lifecycle-interface
     ngOnInit() {
-        this.bankService.getBankList({leadId: 3}).subscribe((res: any) => {
+        this.bankService.getBankList({ leadId: 3 }).subscribe((res: any) => {
             this.bankDetails = res.ProcessVariables.applicantBankDetails;
-            console.log(this.bankDetails);
         });
     }
     routeDetails(data: any) {
         const id = {
-            applicantId : Number(data),
+            applicantId: Number(data),
             formType: 'edit'
         };
-        this.route.navigate(['pages/applicant-details/bank-details'], {queryParams: id, skipLocationChange: true, });
-        console.log(id);
+        this.route.navigate(['pages/applicant-details/bank-details'], { queryParams: id, skipLocationChange: true, });
     }
 
 }

@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map, tap, first, catchError } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { UtilityService } from './utility.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private encrytionService: EncryptService,
-    private ngxUiLoaderService: NgxUiLoaderService
+    private ngxUiLoaderService: NgxUiLoaderService,
+    private utilityService: UtilityService
   ) {}
 
   intercept(
@@ -64,25 +66,25 @@ export class AuthInterceptor implements HttpInterceptor {
       //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
     });
     return next.handle(authReq).pipe(
-      map(
-        (event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse) {
-            if (event.headers.get('content-type') == 'text/plain') {
-              event = event.clone({
-                body: JSON.parse(this.encrytionService.decryptResponse(event)),
-              });
-              console.log('after Encryption: ', event.body);
+      map((event: HttpEvent<any>) => {
+        if (event instanceof HttpResponse) {
+            if (event.headers.get("content-type") == "text/plain") {
+                event = event.clone({ body: JSON.parse(this.encrytionService.decryptResponse(event)) });
+            } else{
+                let res;
+                if (event.headers.get("content-type") != "text/plain" && typeof(event.body) != "object") {
+                     res = JSON.parse(event.body);
+                  }
+                if (res && res['login_required']) {
+                      this.utilityService.logOut();
+                  }
             }
-            this.apiCount--;
-            if (this.apiCount === 0) {
-              this.ngxUiLoaderService.stop();
-            }
+            console.log("after Encryption: ", event.body);
+            this.ngxUiLoaderService.stop();
             return event;
-          } else {
-            if (this.apiCount === 0) {
-              this.ngxUiLoaderService.stop();
-            }
-          }
+        } else {
+            this.ngxUiLoaderService.stop();
+        }
         },
         (err: any) => {
           console.log('err', err);

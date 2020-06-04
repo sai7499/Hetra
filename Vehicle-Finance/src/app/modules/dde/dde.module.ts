@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
@@ -22,11 +21,11 @@ import { CamComponent } from './cam/cam.component';
 
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
-
 import { ScoreCardComponent } from './score-card/score-card.component';
-
 import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
+import { ViabilityListComponent } from './viability-list/viability-list.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +33,8 @@ import { DeviationsComponent } from './deviations/deviations.component';
     FlReportComponent,
     PdReportComponent,
     VehicleValuationComponent,
+    ViabilityListComponent,
+    InsuranceDetailsComponent,
     PslDataComponent,
     SourcingDdeComponent,
     ExposureDetailsComponent,
@@ -41,6 +42,7 @@ import { DeviationsComponent } from './deviations/deviations.component';
     VehicleListComponent,
     FleetDetailsComponent,
     TrackVehicleComponent,
+    InsuranceDetailsComponent,
     TvrDetailsComponent,
     CamComponent,
     ScoreCardComponent,

@@ -53,6 +53,10 @@ export class ApplicantDataStoreService {
     this.applicant.aboutIndivProspectDetails = newDetails;
   }
 
+  setindivProspectProfileDetails(value) {
+    // this.applicant.corporateProspectDetails = value;
+  }
+
   setCorporateProspectDetails(value: CorporateProspectDetails) {
     const details = this.applicant.corporateProspectDetails;
     this.applicant.corporateProspectDetails = {
@@ -71,7 +75,6 @@ export class ApplicantDataStoreService {
   }
 
   setAddressDetails(value: AddressDetails[]) {
-    console.log('setAddressDetails', value);
     this.applicant.addressDetails = value;
   }
 
