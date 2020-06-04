@@ -774,7 +774,9 @@ isGoosManufactured: boolean;
     const data = this.pslData;
     this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
       const response = res;
-      console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);      
+      console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
+      console.log("DATA------------------------", data);
+          
     });
   }
 
