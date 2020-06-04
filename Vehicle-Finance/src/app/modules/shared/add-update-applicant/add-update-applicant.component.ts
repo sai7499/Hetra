@@ -136,6 +136,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
   }
 
+  createAddressObject(address: AddressDetails) {
+    if (!address) {
+      return;
+    }
+    return {
+      addressLineOne: address.addressLineOne,
+      addressLineTwo: address.addressLineTwo,
+      addressLineThree: address.addressLineThree,
+      pincode: address.pincode,
+      city: address.city,
+      district: address.district,
+      state: address.state,
+      country: address.country,
+      landlineNumber: address.landlineNumber,
+    }
+  }
   getApplicantDetails() {
     const data = {
       applicantId: this.applicantId,
@@ -414,48 +430,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log('Address Obj', addressObj);
         const permenantAddressObj = addressObj['PERMADDADDTYP'];
      
-        permentAddress.patchValue({
-          addressLineOne: permenantAddressObj.addressLineOne,
-          addressLineTwo: permenantAddressObj.addressLineTwo,
-          addressLineThree: permenantAddressObj.addressLineThree,
-          pincode: permenantAddressObj.pincode,
-          city: permenantAddressObj.city,
-          district: permenantAddressObj.district,
-          state: permenantAddressObj.state,
-          country: permenantAddressObj.country,
-          landlineNumber: permenantAddressObj.landlineNumber,
-        });
+        permentAddress.patchValue(this.createAddressObject(permenantAddressObj));
        
         const cummunicationAddressObj = addressObj['COMMADDADDTYP'];
        
-        cummunicationAddress.patchValue({
-          addressLineOne: cummunicationAddressObj.addressLineOne,
-          addressLineTwo: cummunicationAddressObj.addressLineTwo,
-          addressLineThree: cummunicationAddressObj.addressLineThree,
-          pincode: cummunicationAddressObj.pincode,
-          city: cummunicationAddressObj.city,
-          district: cummunicationAddressObj.district,
-          state: cummunicationAddressObj.state,
-          country: cummunicationAddressObj.country,
-          landlineNumber: cummunicationAddressObj.landlineNumber,
-        });
+        cummunicationAddress.patchValue(this.createAddressObject(cummunicationAddressObj));
       
 
       } else {
         const addressObj = this.getAddressObj();
         const registeredAddress = this.coApplicantForm.get('registeredAddress');
         const registeredAddressObj = addressObj['REGADDADDTYP'];
-        registeredAddress.patchValue({
-          addressLineOne: registeredAddressObj.addressLineOne,
-          addressLineTwo: registeredAddressObj.addressLineTwo,
-          addressLineThree: registeredAddressObj.addressLineThree,
-          pincode: registeredAddressObj.pincode,
-          city: registeredAddressObj.city,
-          district: registeredAddressObj.district,
-          state: registeredAddressObj.state,
-          country: registeredAddressObj.country,
-          landlineNumber: registeredAddressObj.landlineNumber,
-        });
+        registeredAddress.patchValue(this.createAddressObject(registeredAddressObj));
       }
       
 
