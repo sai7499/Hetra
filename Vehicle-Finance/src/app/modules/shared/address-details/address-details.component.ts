@@ -325,7 +325,6 @@ export class AddressDetailsComponent implements OnInit {
     });
     // }
 
-
     console.log('details', details);
   }
 
@@ -424,7 +423,6 @@ export class AddressDetailsComponent implements OnInit {
       country: formValue.country,
       landlineNumber: formValue.landlineNumber,
     });
-
   }
 
   getRegisteredAddressValue() {
@@ -443,7 +441,6 @@ export class AddressDetailsComponent implements OnInit {
       country: formValue.country,
       landlineNumber: formValue.landlineNumber,
     });
-
   }
 
   hasRoute() {
@@ -467,6 +464,13 @@ export class AddressDetailsComponent implements OnInit {
       ...applicantData,
     };
     this.applicantService.saveApplicant(data).subscribe((res) => {
+      const leadId = this.leadStoreService.getLeadId();
+      this.applicantService.saveApplicant(data).subscribe((res) => {
+        this.router.navigate([
+          `/pages/sales-applicant-details/${leadId}/document-upload`,
+          this.applicantId,
+        ]);
+      });
     });
   }
 
