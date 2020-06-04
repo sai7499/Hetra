@@ -474,6 +474,7 @@ export class AddressDetailsComponent implements OnInit {
         ]);
       });
     });
+  console.log('addressdetailsArray', this.addressDetailsDataArray)
   }
 
   storeIndividualValueInService(value) {
@@ -488,7 +489,7 @@ export class AddressDetailsComponent implements OnInit {
     permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
     permenantAdress.addressLineTwo = permanantAddressObject.addressLineTwo;
     permenantAdress.addressLineThree = permanantAddressObject.addressLineThree;
-    permenantAdress.pincode= permanantAddressObject.pinCode;
+    permenantAdress.pincode=Number(permanantAddressObject.pincode);
     // permenantAdress.city= permanantAddressObject.city;
     // permenantAdress.state= permanantAddressObject.state;
     // permenantAdress.country= permanantAddressObject.country;
@@ -510,7 +511,7 @@ export class AddressDetailsComponent implements OnInit {
     currentAddress.addressLineOne = currentAddressObject.addressLineOne;
     currentAddress.addressLineTwo = currentAddressObject.addressLineTwo;
     currentAddress.addressLineThree = currentAddressObject.addressLineThree;
-    currentAddress.pincode = currentAddressObject.pinCode;
+    currentAddress.pincode = Number(currentAddressObject.pincode);
 
     // currentAddress.pincode = 1;
     currentAddress.city = 1;
@@ -534,7 +535,7 @@ export class AddressDetailsComponent implements OnInit {
     officeAddress.addressLineOne = officeAddressObject.addressLineOne;
     officeAddress.addressLineTwo = officeAddressObject.addressLineTwo;
     officeAddress.addressLineThree = officeAddressObject.addressLineThree;
-    officeAddress.pincode= officeAddressObject.pinCode;
+    officeAddress.pincode= Number(officeAddressObject.pincode);
     //  officeAddress.city= officeAddressObject.city;
     //  officeAddress.state= officeAddressObject.state;
     //  officeAddress.country= officeAddressObject.country;
@@ -570,7 +571,7 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
     registeredAddress.addressLineThree =
       registeredAddressObject.addressLineThree;
-    registeredAddress.pincode= registeredAddressObject.pinCode;
+    registeredAddress.pincode= Number(registeredAddressObject.pincode);
     // registeredAddress.city= registeredAddressObject.city;
     // registeredAddress.state= registeredAddressObject.state;
     // registeredAddress.country= registeredAddressObject.country;
@@ -597,7 +598,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddressObject.addressLineTwo;
     communicationAddress.addressLineThree =
       communicationAddressObject.addressLineThree;
-     communicationAddress.pincode= communicationAddressObject.pinCode;
+     communicationAddress.pincode= Number(communicationAddressObject.pincode);
     // communicationAddress.city= communicationAddressObject.city;
     // communicationAddress.state= communicationAddressObject.state;
     // communicationAddress.country= communicationAddressObject.country;

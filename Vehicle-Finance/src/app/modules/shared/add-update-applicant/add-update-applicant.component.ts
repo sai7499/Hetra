@@ -107,6 +107,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   ngOnInit() {
     this.leadId = this.getLeadId();
     this.initForm();
+    this.coApplicantForm.patchValue({ entity : 'Non-individual'})
     this.getLOV();
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
