@@ -9,6 +9,7 @@ import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
+import { UtilityService } from '@services/utility.service';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -76,8 +77,9 @@ export class LeadCreationComponent implements OnInit {
     private createLeadService: CreateLeadService,
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
-    private createLeadDataService: CreateLeadDataService
-  ) { };
+    private createLeadDataService: CreateLeadDataService,
+    private utilityService: UtilityService
+  ) { }
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -106,6 +108,10 @@ export class LeadCreationComponent implements OnInit {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
+      dealerCode: new FormControl(''),
+      rcLimit: new FormControl(''),
+      rcUtilizedLimit: new FormControl(''),
+      rcUnutilizedLimit: new FormControl(''),
       spokeCodeLocation: new FormControl({ value: '', disabled: !this.isSpoke }),
       loanBranch: new FormControl({ value: this.loanAccountBranch, disabled: true }),
       leadHandeledBy: new FormControl({ value: this.leadHandeledBy, disabled: true }),
@@ -168,45 +174,10 @@ export class LeadCreationComponent implements OnInit {
   getProductCategory(event) {
     this.bizDivId = (this.isBusinessDivisionEnable) ? event : event.target.value;
     this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
-
-      let localArray = [];
-      const product = res.ProcessVariables.productCategoryDetails;
-
-      this.productCategoryData = this.getValueFromJSON(product, "productCatCode", "prodcutCatName");
-
-      // product.map(data => {
-      //   if (data) {
-      //     const val = {
-      //       key: data.productCatCode,
-      //       value: data.prodcutCatName
-      //     };
-          // if(this.productCategoryData.indexOf(val) === -1) {
-          // this.productCategoryData.push(val);
-          // }
-
-
-          // if (localArray.indexOf(val.key) === -1) {
-          // this.productCategoryData.push(val);
-          //   localArray.push(val.key);
-          // }
-
-        // }
-
-      // });
-      // this.productCategoryData.forEach((data) => {
-      //   if (!this.obj[data.key]) {
-      //     this.test.push(data);
-      //     this.obj[data.key] = true;
-      //   }
-      // })
-      console.log('local', localArray);
-      this.productCategoryData = this.getUiquJson(this.productCategoryData, "value")
+      const productCategory = res.ProcessVariables.productCategoryDetails;
+      // this.productCategoryData = this.utilityService.getValueFromJSON(productCategory, 'prodCatCode', 'prodCatName');
     });
-    console.log('new arry', this.test);
-    console.log('pcato', this.productCategoryData);
-
   }
-
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
@@ -349,46 +320,4 @@ export class LeadCreationComponent implements OnInit {
     },
       err => { alert(err); });
   }
-
-  getUiquJson(jsonAry: Array<any>, keyValue) {
-    let dataJosn : Array<any> = jsonAry;
-    const key = keyValue;
-    const arrayUniqueByKey = [...new Map(dataJosn.map(item =>
-      [item[key], item])).values()];
-    console.log("ddd", arrayUniqueByKey);
-    return arrayUniqueByKey;
-  }
-
-  getValueFromJSON(JsonObj: Array<any>, key1, value1) {
-    let arrayList=[];
-
-    // let keyValue = key1;
-    JsonObj.map(data => {
-      if (data) {
-        const val = {
-          key: data[key1],
-          value: data[value1]
-        };
-        // if(this.productCategoryData.indexOf(val) === -1) {
-        // this.productCategoryData.push(val);
-        // }
-
-
-        // if (localArray.indexOf(val.key) === -1) {
-        arrayList.push(val);
-        //   localArray.push(val.key);
-        // }
-
-      }
-      return this.getUiquJson(arrayList, "key");
-
-
-    });
-
-
-
-  }
-
-
-
 }
