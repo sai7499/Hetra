@@ -21,11 +21,11 @@ import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':leadId',
     component: DdeComponent,
     children: [
       {
-        path: ':id',
+        path: '',
         component: SourcingDdeComponent,
       },
       {
