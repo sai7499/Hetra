@@ -476,6 +476,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       voterIdNumber: coApplicantModel.voterIdNumber,
       companyPhoneNumber: coApplicantModel.mobilePhone,
       panType: coApplicantModel.panType,
+
+      
     };
 
     const registerAddress = coApplicantModel.registeredAddress;
@@ -535,6 +537,65 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       employerName: 'Appiyo Technologies',
       workplaceAddress: 'test',
     };
+
+    console.log(
+      'Drving Licanse Issue Date',
+      coApplicantModel.dateOfIncorporation
+    );
+    this.addressDetails = [
+      {
+        addressType: 'PERMADDADDTYP',
+        addressLineOne: coApplicantModel.permentAddress.addressLineOne,
+        addressLineTwo: coApplicantModel.permentAddress.addressLineTwo,
+        addressLineThree: coApplicantModel.permentAddress.addressLineThree,
+        pincode: Number(coApplicantModel.permentAddress.pincode),
+        city: Number(coApplicantModel.permentAddress.city),
+        district: Number(coApplicantModel.permentAddress.district),
+        state: Number(coApplicantModel.permentAddress.state),
+        country: 'IND',
+        landlineNumber: coApplicantModel.permentAddress.landlineNumber,
+        // mobileNumber: '9988776655',
+        // accommodationType: '1ADDACCTYP',
+        // periodOfCurrentStay: 10,
+        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+      },
+      {
+        addressType: 'COMMADDADDTYP',
+        addressLineOne: coApplicantModel.communicationAddress.addressLineOne,
+        addressLineTwo: coApplicantModel.communicationAddress.addressLineTwo,
+        addressLineThree:
+          coApplicantModel.communicationAddress.addressLineThree,
+        pincode: Number(coApplicantModel.communicationAddress.pincode),
+        city: Number(coApplicantModel.communicationAddress.city),
+        district: Number(coApplicantModel.communicationAddress.district),
+        state: Number(coApplicantModel.communicationAddress.state),
+        country: 'IND',
+        landlineNumber: coApplicantModel.communicationAddress.landlineNumber,
+        // mobileNumber: '9988776655',
+        // accommodationType: '1ADDACCTYP',
+        // periodOfCurrentStay: 10,
+        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+      },
+    ];
+
+    // this.addressDetails = [{
+    //   addressType: 'PERMADDADDTYP',
+    //   addressLineOne: 'test',
+    //   addressLineTwo: 'test',
+    //   addressLineThree: 'test',
+    //   pincode: 123456,
+    //   city: 1,
+    //   district: 1,
+    //   state: 1,
+    //   country: 'IN',
+    //   landlineNumber: '044202020',
+    //   mobileNumber: '9988776655',
+    //   accommodationType: '1ADDACCTYP',
+    //   periodOfCurrentStay: 10,
+    //   isCurrAddSameAsPermAdd: '1'
+    // }];
+
+    console.log('adress Details', this.addressDetails);
     const data = {
       applicantDetails: this.applicantDetails,
       aboutIndivProspectDetails: this.aboutIndivProspectDetails,
