@@ -18,6 +18,11 @@ import {ApplicantListComponent} from './applicant-list/applicant-list.component'
 import { SharedBasicVehicleDetailsComponent } from './shared-basic-vehicle-details/shared-basic-vehicle-details.component';
 import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-vehicle-details.component';
 
+import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { setTheme } from 'ngx-bootstrap/utils';
+
+setTheme('bs4'); 
+
 @NgModule({
   declarations: [
     CustomSelectComponent,
@@ -34,10 +39,11 @@ import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-v
   imports: [
     CommonModule,
     FormsModule,
+    BsDatepickerModule.forRoot(),
     RouterModule,
     ReactiveFormsModule,
     DdeSharedModule,
-    NgxPaginationModule,
+    NgxPaginationModule
   ],
   exports: [
     CustomSelectComponent,

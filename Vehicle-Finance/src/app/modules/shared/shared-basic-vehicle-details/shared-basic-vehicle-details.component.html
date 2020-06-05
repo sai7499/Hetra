@@ -1,5 +1,5 @@
 <!-- <form class="multisteps-form__form" [formGroup]="basicVehicleForm"> -->
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event.target.value)">
+<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event)">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -12,11 +12,12 @@
                     <input formControlName="registrationNumber" type="text" class="form-control mandatory"
                         id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="!isHidden">
+
+                <!-- <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="!isHidden">
                     <label for="registartion_number"></label>
                     <input type="button" class="form-control btn-primary" id="check_dedupe" name="registartion_number"
                         value="Check Dedupe" data-toggle="modal" data-target="#myModal" />
-                </div>
+                </div> -->
             </div>
 
             <div class="row">
@@ -25,7 +26,7 @@
                     <label for="vechical_region"> {{ label.vechicalRegion }} </label>
 
                     <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                        (change)="onVehicleRegionSales($event.target.value)">
+                        (change)="onVehicleRegion($event.target.value)">
                     </app-vf-custom-select>
                 </div>
 
@@ -33,7 +34,7 @@
                     <label for="asset_make"> {{ label.assetMake }} </label>
 
                     <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                        (change)="onChangeSalesAssetMake($event.target.value)">
+                        (change)="onAssetMake($event.target.value)">
                     </app-vf-custom-select>
                 </div>
 
@@ -41,7 +42,7 @@
                     <label for="vechical_type"> {{ label.vechicalType }} </label>
 
                     <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                        (change)="onChangeSalesVehicleType($event.target.value)">
+                        (change)="onVehicleType($event.target.value)">
                     </app-vf-custom-select>
 
                 </div>
@@ -53,13 +54,14 @@
                     <label for="asset_body_type"> {{ label.assetBodyType }} </label>
 
                     <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                        (change)="onChangeSalesAssetBodyType($event.target.value)">
+                        (change)="onAssetBodyType($event.target.value)">
                     </app-vf-custom-select>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="asset_model"> {{ label.assetModel }} </label>
-                    <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel">
+                    <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
+                        (change)="onAssetModel($event.target.value)">
                     </app-vf-custom-select>
                 </div>
 
@@ -82,9 +84,9 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
                     <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
-                    <input formControlName="yearAndMonthManufacturing" type="date" class="form-control mandatory"
-                        id="year_month_manufacturing" placeholder="Month of Manufacturing"
-                        name="year_month_manufacturing" data-date-format="mm-yyyy" data-date="02-2012">
+                    <input formControlName="yearAndMonthManufacturing" autocomplete="off" class="form-control"
+                        name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}"
+                        (onShown)="onOpenCalendar($event)" placeholder="Year And Month Manufactueing">
 
                 </div>
 
@@ -119,10 +121,9 @@
             </div>
 
             <!-- Modal -->
-            <div id="myModal" class="modal fade" role="dialog">
+            <!-- <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
-                    <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -234,7 +235,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> -->
             <!-- Modal End    -->
 
             <div class="alert alert-success alert-dismissible" id="alert" [hidden]="!isAlert">

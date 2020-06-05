@@ -22,6 +22,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   vehicleArray = [];
   public leadId: number;
   public leadData: any = {};
+  public userId: number;
 
   public vehicleListArray = [
     {
@@ -46,6 +47,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
+    this.userId = roleAndUserDetails.userDetails.userId;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
@@ -68,19 +70,21 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
-      if (res.ProcessVariables && res.ProcessVariables.error.code === 0) {
-        this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
-      } else if (res.ProcessVariables.error.code !== 0 && res.ProcessVariables.error.code === 1) {
-        alert('' +  res.ProcessVariables.error.message)
-      }
+      this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
+    }, error => {
+      console.log(error, 'error')
     })
   }
 
-  removeOtherIndex(i, vehicleArray: any) {
-    if (vehicleArray.length > 1) {
-      vehicleArray.splice(i, 1)
-    } else {
-      alert("Atleast One Row Required");
+  DeleteVehicleDetails(vehicle: any) {
+    console.log(vehicle, 'vehoc;e')
+    if (vehicle) {
+      this.vehicleDetailsService.getDeleteVehicleDetails(vehicle.collateralId, this.userId).subscribe((res:any) => {
+        console.log(res, 'res')
+      }, error => {
+        console.log('error', error)
+      }
+      )
     }
   }
 }

@@ -62,6 +62,11 @@ export class ApiService {
       processId: '3bed6af898f311eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    getDeleteVehicleDetails: {
+      workflowId: '385f090a957e11eabdcff2fa9bec3d63',
+      processId: '69029740a71a11eabfb4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveUpdateFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '0620e32c998511eabdcff2fa9bec3d63',

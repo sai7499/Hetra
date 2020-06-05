@@ -26,8 +26,6 @@ export class VehicleDetailComponent implements OnInit {
   public vehicleDetails: any;
   public isAlert = true;
 
-  public varVehicle = [];
-
   constructor(
     private labelsData: LabelsService,
     private lovDataService: LovDataService,

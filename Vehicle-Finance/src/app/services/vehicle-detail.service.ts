@@ -151,6 +151,31 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
+  getDeleteVehicleDetails(id, userId) {
+
+    const processId = this.apiService.api.getVehicleMasterFromRegion.processId;
+    const workflowId = this.apiService.api.getVehicleMasterFromRegion.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: {
+
+        "id": id,
+
+        "userId": userId
+
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
 
 
 

@@ -11,6 +11,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
+    "downlevelIteration": true,
     "paths": {
       "@model/*": ["src/app/model/*"],
       "@services/*": ["src/app/services/*"],

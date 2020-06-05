@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { LabelsService } from '@services/labels.service';
-import { LeadStoreService } from '@services/lead-store.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
-import { CommomLovService } from '@services/commom-lov-service';
-import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
-import { LeadDataResolverService } from '../services/leadDataResolver.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
@@ -47,9 +42,7 @@ export class AddvehicleComponent implements OnInit {
   constructor(
 
     private labelsData: LabelsService,
-    private commonLovService: CommomLovService,
     private router: Router,
-    private leadData: LeadDataResolverService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private vehicleDetailService: VehicleDetailService,
@@ -95,19 +88,9 @@ export class AddvehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
-    // const formModel = this.vehicleForm.value;
-    // const vehicleModel = { ...formModel };
-    // this.isAlert = true
-    // if (this.routerId !== undefined && this.routerId !== 0) {
-    //   this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, 121, 100, 1).subscribe((res: any) => {
-    //   })
-    //   return;
-    // }
-    // this.leadStoreService.setVehicleDetails(vehicleModel);
 
+    console.log(this.vehicleDetails, 'Outpit')
     this.saveVehicleCollaterals();
-
-    this.router.navigateByUrl['/pages/lead-section/' + this.leadId + '/vehicle-details']
   }
 
 
@@ -135,10 +118,16 @@ export class AddvehicleComponent implements OnInit {
   }
 
   saveVehicleCollaterals() {
-    this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, this.leadId, this.vehicleId, this.userId).subscribe((res: any) => {
-      console.log(res, 'res')
-      this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
-    });
+    if (this.vehicleDetails.length > 0) {
+      this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, this.leadId, this.vehicleId, this.userId).subscribe((res: any) => {
+        const message = res.ProcessVariables.error.message;
+        alert(message);
+        this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+      });
+    } else {
+      alert('Please Select any one of the Value')
+    }
+
   }
 
   getcategory(category, value, formcontrolName) {

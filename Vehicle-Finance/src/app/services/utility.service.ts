@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Router } from '@angular/router';
-
+import * as moment from 'moment';
 
 @Injectable()
 export class UtilityService {
@@ -35,5 +35,40 @@ export class UtilityService {
         const formattedDate = year + '-' + month1 + '-' + day;
         // const formattedDate = day + '-' + month1 + '-' + year;
         return formattedDate;
-      }
+    }
+
+    public ageFromAsset(dateOfBirth: any): number {
+        return moment().diff(dateOfBirth, 'months');
+    }
+
+    getCommonUniqueValue(array, value: any) {
+        let distinctThings = array.filter((thing, i, arr) => {
+            return arr.indexOf(arr.find(t => t[value] === thing[value])) === i;
+        });
+        return distinctThings;
+    }
+
+
+    getUiquJson(jsonAry: Array<any>, keyValue) {
+        let dataJosn: Array<any> = jsonAry;
+        const key = keyValue;
+        const arrayUniqueByKey = [...new Map(dataJosn.map(data =>
+            [data[key], data])).values()];
+        return arrayUniqueByKey;
+    }
+
+    getValueFromJSON(JsonObj, key1, value1) {
+        let arrayList = [];
+
+        JsonObj.map(data => {
+            if (data) {
+                const val = {
+                    key: data[key1] ? data[key1] : 0,
+                    value: data[value1]
+                };
+                arrayList.push(val);
+            }
+        });
+        return this.getUiquJson(arrayList, "key");
+    }
 }
