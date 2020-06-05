@@ -25,11 +25,10 @@ export class ApplicantListComponent implements OnInit {
     private labelsData: LabelsService,
     private location: Location,
     private applicantService: ApplicantService,
-    private activatedRoute: ActivatedRoute,
-    private leadStoreService: LeadStoreService
+    private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const currentUrl = this.location.path();
 
     this.isShowAddaApplicant(currentUrl);
@@ -43,18 +42,27 @@ export class ApplicantListComponent implements OnInit {
       }
     );
 
-    this.activatedRoute.params.subscribe((value: any) => {
-      console.log('params', value);
-      if (value.leadId) {
-        this.leadStoreService.setLeadId(Number(value.leadId));
-      }
-      this.leadId = this.leadStoreService.getLeadId();
-      if (currentUrl.includes('sales')) {
-        this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
-      } else {
-        this.applicantUrl = '/pages/applicant-details/basic-data';
-      }
-      this.getApplicantList();
+    // this.activatedRoute.parent.params.subscribe((value) => {
+    //   console.log('parent params', value);
+    // });
+
+    this.leadId = (await this.getLeadId()) as number;
+    if (currentUrl.includes('sales')) {
+      this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
+    } else {
+      this.applicantUrl = '/pages/applicant-details/basic-data';
+    }
+    this.getApplicantList();
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 
