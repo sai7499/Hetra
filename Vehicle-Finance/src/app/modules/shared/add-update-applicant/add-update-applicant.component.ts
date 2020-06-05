@@ -101,6 +101,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
     this.activatedRoute.params.subscribe((value) => {
       if (!value || !value.id) {
+        this.applicantDataService.setApplicant({});
         return;
       }
       this.applicantId = Number(value.id);
@@ -112,15 +113,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (!address) {
       return;
     }
+    const city = address.city ? Number(address.city) : null;
+    const district = address.district ? Number(address.district) : null;
+    const state = address.state ? Number(address.state) : null;
+    const pincode = address.pincode ? Number(address.pincode) : null;
     return {
+      // pincode,
+      // city,
+      // district,
+      // state,
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
-      pincode: address.pincode,
-      city: address.city,
-      district: address.district,
-      state: address.state,
-      country: address.country,
+      // country: address.country,
       landlineNumber: address.landlineNumber,
     };
   }
@@ -424,6 +429,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.addressDetails.push({
         ...addressObject,
         addressType: Constant.PERMANENT_ADDRESS,
+        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+        pincode : 600002,
+        city : 114100,
+        state : 40,
+        country : 'IND',
+        district : 127
       });
     }
     const communicationAddress = coApplicantModel.communicationAddress;
@@ -432,6 +443,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.addressDetails.push({
         ...addressObject,
         addressType: Constant.COMMUNICATION_ADDRESS,
+        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+        pincode : 600002,
+        city : 114100,
+        state : 40,
+        country : 'IND',
+        district : 127
       });
     }
   }
@@ -467,6 +484,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         {
           ...registerAddress,
           addressType: Constant.REGISTER_ADDRESS,
+          isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+          pincode : 600002,
+          city : 114100,
+          state : 40,
+          country : 'IND',
+          district : 127
         },
       ];
     }
