@@ -69,12 +69,15 @@ export class AddressDetailsComponent implements OnInit {
   getPincodeResult(pincode: number) {
     this.applicantService
       .getGeoMasterValue({
-        pincode: 624003,
+        pincode: pincode,
       })
       .pipe(
         map((value: any) => {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
+          if(value.Error !=="0"){
+            return null;
+          }
           const first = addressList[0];
           const obj = {
             state: [
@@ -115,7 +118,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.getPincodeResult(624003);
+    //this.getPincodeResult(624003);
     this.initForm();
     this.getLabels();
     this.getLOV();
@@ -368,6 +371,14 @@ export class AddressDetailsComponent implements OnInit {
     )
       ? 'credit'
       : 'sales';
+  }
+
+  inputPincode(event){
+    const pincode = event.target.value;
+    //console.log('pincode change ', pincode)
+    if(pincode.length == 6){
+      this.getPincodeResult(Number(pincode))
+    }
   }
 
   onSubmit() {
