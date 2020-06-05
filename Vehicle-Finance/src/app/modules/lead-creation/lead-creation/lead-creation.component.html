@@ -22,9 +22,7 @@
             >
             </app-vf-custom-select>
           </div>
-        </div>
 
-        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type"
               >{{ labels.productCategory }}
@@ -33,6 +31,20 @@
             <app-vf-custom-select
               [values]="productCategoryData"
               formControlName="productCategory"
+            >
+            </app-vf-custom-select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type"
+              >{{ labels.product }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              [values]="productData"
+              formControlName="product"
             >
             </app-vf-custom-select>
           </div>
