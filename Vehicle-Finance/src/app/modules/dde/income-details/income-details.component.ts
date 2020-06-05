@@ -56,7 +56,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     });
 
-    this.getResponse();
+    // this.getResponse();
     // console.log('getting form data resp',this.getResponse);
     this.getAllIncome();
     console.log(this.applicantDetails)
@@ -222,7 +222,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
   addObligationUnit(data?: any) {
     const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
-    console.log(data.length,'obligation length');
+
     if (data && data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         control.push(this.getObligationDetails(data[i]));
@@ -245,25 +245,25 @@ export class IncomeDetailsComponent implements OnInit {
       alert("Atleast One Row Required");
     }
   }
-  getResponse() {
-    this.incomeDetailsService.setAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any) => {
-      // console.log(res);
-      this.formData = res;
-      // console.log(this.formData ,'form daata');
-      // this.addIncomeUnit(this.formData.ProcessVariables.businessIncomeList);
-      this.addOtherUnit(this.formData.ProcessVariables.otherIncomeList);
-      // this.addObligationUnit(this.formData.ProcessVariables.obligationsList);
+  // getResponse() {
+  //   this.incomeDetailsService.setAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any) => {
+  //     // console.log(res);
+  //     this.formData = res;
+  //     // console.log(this.formData ,'form daata');
+  //     // this.addIncomeUnit(this.formData.ProcessVariables.businessIncomeList);
+  //     this.addOtherUnit(this.formData.ProcessVariables.otherIncomeList);
+  //     // this.addObligationUnit(this.formData.ProcessVariables.obligationsList);
 
-    })
-  }
+  //   })
+  // }
   
   getAllIncome() {
     
-    this.incomeDetailsService.getAllIncomeDetails({ leadId: 61 }).subscribe((res: any, ) => {
+    this.incomeDetailsService.getAllIncomeDetails({ leadId: 1 }).subscribe((res: any, ) => {
       // console.log(res.ProcessVariables.otherIncomeList, 'get other income details');
-      // this.addIncomeUnit(res.ProcessVariables.businessIncomeList);
+      this.addIncomeUnit(res.ProcessVariables.businessIncomeList);
       this.addOtherUnit(res.ProcessVariables.otherIncomeList);
-      // this.addObligationUnit(res.ProcessVariables.obligationsList);
+      this.addObligationUnit(res.ProcessVariables.obligationsList);
       
     });
 

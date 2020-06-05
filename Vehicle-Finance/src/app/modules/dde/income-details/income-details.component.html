@@ -123,8 +123,8 @@
                       name="applicantTypeValue" class="form-control text-center" formControlName="applicantTypeValue" />
                   </td> -->
                   <td data-title="Applicant Name" >
-                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId" >
-                      <option *ngFor="let applicants of applicantDetails ; let i = index" [ngValue]= "applicants.applicantId" >{{applicants.applicantName}}</option>
+                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId" (change)="onApplicantChange($event, i)">
+                      <option *ngFor="let applicants of applicantDetails ; let i = index" [value]= "applicants.applicantId" >{{applicants.applicantName}}</option>
                    </select>
                   </td>
                   <td data-title="Applicant Type">
