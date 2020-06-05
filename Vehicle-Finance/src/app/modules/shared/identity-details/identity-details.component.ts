@@ -57,7 +57,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -73,16 +73,26 @@ export class IdentityDetailsComponent implements OnInit {
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
+    this.leadId = (await this.getLeadId()) as number;
     this.identityForm.patchValue({ entity: Constant.ENTITY_INDIVIDUAL_TYPE });
     this.activatedRoute.params.subscribe((value) => {
-      this.leadId = value.leadId;
-      this.leadId = this.leadStoreService.getLeadId();
       if (!value && !value.applicantId) {
         return;
       }
       this.applicantId = Number(value.applicantId);
       this.getApplicantDetails();
       this.setApplicantDetails();
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 

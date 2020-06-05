@@ -227,7 +227,7 @@ export class BasicDetailsComponent implements OnInit {
       : this.addNonIndividualFormControls();
   }
 
-  onSave() {
+  async onSave() {
     const rawValue = this.basicForm.getRawValue();
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
@@ -237,17 +237,31 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setIndividualProspectDetails(null);
     }
     const applicantData = this.applicantDataService.getApplicant();
+    const leadId = (await this.getLeadId()) as number;
+
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
+      leadId,
     };
     console.log('leadId', this.leadStoreService.getLeadId());
-    const leadId = this.leadStoreService.getLeadId();
+
     this.applicantService.saveApplicant(data).subscribe((res) => {
       this.router.navigate([
         `/pages/sales-applicant-details/${leadId}/identity-details`,
         this.applicantId,
       ]);
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 

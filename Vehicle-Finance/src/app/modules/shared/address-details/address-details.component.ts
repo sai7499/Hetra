@@ -15,6 +15,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '@assets/constants/constant';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-address-details',
@@ -33,6 +34,13 @@ export class AddressDetailsComponent implements OnInit {
   address: Applicant;
   applicantId: number;
   leadId: number;
+
+  pincodeResult: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
 
   isCurrAddSameAsPermAdd: any = '0';
   permenantAddressDetails: AddressDetails[];
@@ -58,14 +66,62 @@ export class AddressDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
   }
 
-  ngOnInit() {
+  getPincodeResult(pincode: number) {
+    this.applicantService
+      .getGeoMasterValue({
+        pincode: 624003,
+      })
+      .pipe(
+        map((value: any) => {
+          const processVariables = value.ProcessVariables;
+          const addressList: any[] = processVariables.GeoMasterView;
+          const first = addressList[0];
+          const obj = {
+            state: [
+              {
+                key: first.stateId,
+                value: first.stateName,
+              },
+            ],
+            district: [
+              {
+                key: first.districtId,
+                value: first.districtName,
+              },
+            ],
+            country: [
+              {
+                key: first.countryId,
+                value: first.country,
+              },
+            ],
+          };
+          const city = addressList.map((val) => {
+            return {
+              key: val.cityId,
+              value: val.cityName,
+            };
+          });
+          return {
+            ...obj,
+            city,
+          };
+        })
+      )
+      .subscribe((value) => {
+        this.pincodeResult = value;
+        console.log('this.pincodeResult', this.pincodeResult);
+      });
+  }
+
+  async ngOnInit() {
+    this.getPincodeResult(624003);
     this.initForm();
     this.getLabels();
     this.getLOV();
     this.hasRoute();
+    this.leadId = (await this.getLeadId()) as number;
     this.activatedRoute.params.subscribe((value) => {
-      this.leadId = Number(this.leadId);
-      this.leadId = this.leadStoreService.getLeadId();
       if (!value && !value.applicantId) {
         return;
       }
@@ -77,6 +133,17 @@ export class AddressDetailsComponent implements OnInit {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
   initForm() {
