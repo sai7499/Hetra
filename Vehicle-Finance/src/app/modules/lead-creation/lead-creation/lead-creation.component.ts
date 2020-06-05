@@ -39,9 +39,13 @@ export class LeadCreationComponent implements OnInit {
 
   LOV: any = [];
 
-  productCategoryData = [];
+  productCategoryData;
   productData = [];
   sourchingType: string;
+
+  obj = {};
+
+  test = [];
 
   loanLeadDetails: {
     bizDivision: string,
@@ -164,17 +168,43 @@ export class LeadCreationComponent implements OnInit {
   getProductCategory(event) {
     this.bizDivId = (this.isBusinessDivisionEnable) ? event : event.target.value;
     this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
+
+      let localArray = [];
       const product = res.ProcessVariables.productCategoryDetails;
-      product.map(data => {
-        if (data) {
-          const val = {
-            key: data.assetProdcutCode,
-            value: data.prodcutCatName
-          };
-          this.productCategoryData.push(val);
-        }
-      });
+
+      this.productCategoryData = this.getValueFromJSON(product, "productCatCode", "prodcutCatName");
+
+      // product.map(data => {
+      //   if (data) {
+      //     const val = {
+      //       key: data.productCatCode,
+      //       value: data.prodcutCatName
+      //     };
+          // if(this.productCategoryData.indexOf(val) === -1) {
+          // this.productCategoryData.push(val);
+          // }
+
+
+          // if (localArray.indexOf(val.key) === -1) {
+          // this.productCategoryData.push(val);
+          //   localArray.push(val.key);
+          // }
+
+        // }
+
+      // });
+      // this.productCategoryData.forEach((data) => {
+      //   if (!this.obj[data.key]) {
+      //     this.test.push(data);
+      //     this.obj[data.key] = true;
+      //   }
+      // })
+      console.log('local', localArray);
+      this.productCategoryData = this.getUiquJson(this.productCategoryData, "value")
     });
+    console.log('new arry', this.test);
+    console.log('pcato', this.productCategoryData);
+
   }
 
 
@@ -319,5 +349,46 @@ export class LeadCreationComponent implements OnInit {
     },
       err => { alert(err); });
   }
+
+  getUiquJson(jsonAry: Array<any>, keyValue) {
+    let dataJosn : Array<any> = jsonAry;
+    const key = keyValue;
+    const arrayUniqueByKey = [...new Map(dataJosn.map(item =>
+      [item[key], item])).values()];
+    console.log("ddd", arrayUniqueByKey);
+    return arrayUniqueByKey;
+  }
+
+  getValueFromJSON(JsonObj: Array<any>, key1, value1) {
+    let arrayList=[];
+
+    // let keyValue = key1;
+    JsonObj.map(data => {
+      if (data) {
+        const val = {
+          key: data[key1],
+          value: data[value1]
+        };
+        // if(this.productCategoryData.indexOf(val) === -1) {
+        // this.productCategoryData.push(val);
+        // }
+
+
+        // if (localArray.indexOf(val.key) === -1) {
+        arrayList.push(val);
+        //   localArray.push(val.key);
+        // }
+
+      }
+      return this.getUiquJson(arrayList, "key");
+
+
+    });
+
+
+
+  }
+
+
 
 }
