@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonDataService } from './common-data.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +27,6 @@ export class LoginStoreService {
 
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
-
     }
 
     setEmailId(email) {

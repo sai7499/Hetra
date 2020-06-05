@@ -40,6 +40,7 @@ export class LeadCreationComponent implements OnInit {
   LOV: any = [];
 
   productCategoryData = [];
+  productData = [];
   sourchingType: string;
 
   loanLeadDetails: {
@@ -95,6 +96,7 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm = new FormGroup({
       bizDivision: new FormControl(''),
       productCategory: new FormControl(''),
+      product: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
       sourcingChannel: new FormControl(''),
@@ -113,7 +115,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   getLOV() {
-    this.commonLovService.getLovData().subscribe((lov: any) => this.LOV = lov)
+    this.commonLovService.getLovData().subscribe((lov: any) => this.LOV = lov);
   }
 
   getUserDetailsData() {
@@ -197,8 +199,16 @@ export class LeadCreationComponent implements OnInit {
         this.sourchingTypeValues.push(data);
       }
     });
+    this.createLeadForm.patchValue({ sourcingType: '' });
+    if (this.sourchingTypeValues.length === 1) {
+      const sourcingTypeData = this.sourchingTypeValues[0].key;
+      this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
+      return;
+    }
     if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
+      this.sourchingTypeValues.push({ key: null, value: 'Not Applicable' });
+      const sourcingTypeData = this.sourchingTypeValues[0].key;
+      this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
     }
   }
 
