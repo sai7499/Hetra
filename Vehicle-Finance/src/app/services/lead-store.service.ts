@@ -13,6 +13,7 @@ export class LeadStoreService {
     applicantList = [];
     vehicleList = [];
     leadDedupeData: any;
+    creditlead: any;
 
     constructor() { }
 
@@ -93,10 +94,16 @@ export class LeadStoreService {
         return this.applicantList;
     }
 
-    setDedupeData(leadDedupeData){
+    setDedupeData(leadDedupeData) {
         this.leadDedupeData =  leadDedupeData;
     }
-    getDedupeData(){
-        return this.leadDedupeData; 
+    getDedupeData() {
+        return this.leadDedupeData;
+    }
+    setCreditLead(lead: any) {
+    this.creditlead = lead;
+    }
+    getCreditLead() {
+        return this.creditlead;
     }
 }
