@@ -20,6 +20,7 @@ import {
   CorporateProspectDetails,
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
+import { Constant } from '@assets/constants/constant';
 
 @Component({
   selector: 'app-identity-details',
@@ -72,7 +73,7 @@ export class IdentityDetailsComponent implements OnInit {
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
-    this.identityForm.patchValue({ entity: 'INDIVENTTYP' });
+    this.identityForm.patchValue({ entity: Constant.ENTITY_INDIVIDUAL_TYPE });
     this.activatedRoute.params.subscribe((value) => {
       this.leadId = value.leadId;
       this.leadId = this.leadStoreService.getLeadId();
@@ -87,7 +88,8 @@ export class IdentityDetailsComponent implements OnInit {
 
   setApplicantDetails() {
     this.isIndividual =
-      this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
+      this.applicant.applicantDetails.entityTypeKey ===
+      Constant.ENTITY_INDIVIDUAL_TYPE;
     if (this.isIndividual) {
       this.indivIdentityInfoDetails = this.getIndivIdentityInfoDetails();
 
@@ -102,7 +104,7 @@ export class IdentityDetailsComponent implements OnInit {
 
   getApplicantDetails() {
     this.applicant = this.applicantDataService.getApplicant();
-    console.log('COMINGVALUES', this.applicant)
+    console.log('COMINGVALUES', this.applicant);
   }
 
   getIndivIdentityInfoDetails() {
@@ -154,7 +156,7 @@ export class IdentityDetailsComponent implements OnInit {
 
   onIndividualChange(event) {
     const value = event.target.value;
-    this.isIndividual = value === 'INDIVENTTYP';
+    this.isIndividual = value === Constant.ENTITY_INDIVIDUAL_TYPE;
     const formArray = this.identityForm.get('details') as FormArray;
     formArray.clear();
     this.isIndividual ? this.addIndividualForm() : this.addNonIndividualForm();
