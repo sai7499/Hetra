@@ -1,17 +1,17 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DdeComponent } from './dde.component';
 import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
-import { SourcingDdeComponent } from "./sourcing-dde/sourcing-dde.component";
-import { IncomeDetailsComponent } from "./income-details/income-details.component";
-import { ExposureDetailsComponent } from "./exposure-details/exposure-details.component";
-import { VehicleValuationComponent } from "./vehicle-valuation/vehicle-valuation.component";
-import { PslDataComponent } from "./psl-data/psl-data.component";
-import { FlReportComponent } from "./fl-report/fl-report.component";
-import { PdReportComponent } from "./pd-report/pd-report.component";
+import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
+import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
+import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
+import { PslDataComponent } from './psl-data/psl-data.component';
+import { FlReportComponent } from './fl-report/fl-report.component';
+import { PdReportComponent } from './pd-report/pd-report.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
@@ -24,10 +24,10 @@ const routes: Routes = [
     path: '',
     component: DdeComponent,
     children: [
-      {
-        path: ':id',
-        component: SourcingDdeComponent,
-      },
+      // {
+      //   path: ':id',
+      //   component: SourcingDdeComponent,
+      // },
       {
         path: 'applicant-list',
         component: ApplicantListComponent,

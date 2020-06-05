@@ -33,14 +33,14 @@
                     {{i+1}}
                    </td>
                    <td data-title="Applicant Name" >
-                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId" (change)="onApplicantChange($event, i)">
-                      <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId" >{{applicants.applicantName}}</option>
+                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId"  [(ngModel)]="ngApplicantId" #applicantId>
+                      <option *ngFor="let applicants of applicantDetails" [ngValue]= "applicants.applicantId" >{{applicants.applicantName}}</option>
                       <!-- <option value="2">Arun</option> -->
                    </select>
                   </td>
                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value={{applicantType[i]}} class="no_border" class="input_value" readonly="true"
-                      name="applicantType" class="form-control text-center" [formControlName]="applicantType" />
+                    <input type="text" id="latbox" value="{{applicantType[i]}}" class="no_border" class="input_value" readonly="true"
+                      name="applicantType" class="form-control text-center" formControlName="applicantType" />
                   </td>
                   <!-- <td data-title="Applicant Name">
                     <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId">
@@ -187,15 +187,21 @@
                 <tr *ngFor="let item of incomeDetailsForm.get('obligationDetails')['controls']; let i = index"
                   [formGroupName]="i" >
                   <td data-title="S.No">{{ i + 1 }}</td>
-                  <td data-title="Borrower Name">
-                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId">
-                      <option value="1">Kumar</option>
-                      <option value="2">Arun</option>
+                  <td data-title="Applicant Name"  >
+                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId"  [(ngModel)]="ngApplicantId" #applicantId>
+                      <option *ngFor="let applicants of applicantDetails" [ngValue]= "applicants.applicantId" >{{applicants.applicantName}}</option>
+                      <!-- <option value="2">Arun</option> -->
                    </select>
                   </td>
+                  <!-- <td data-title="Applicant Name" *ngIf="setPath" >
+                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId" (change)="onApplicantChange(i)" [(ngModel)]="ngApplicantId" #applicantId>
+                      <option *ngFor="let applicants of applicantDetails" [ngValue]= "applicants.applicantId" >{{applicants.applicantName}}</option>
+                     
+                   </select>
+                  </td> -->
                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value" readonly="true"
-                      name="applicantTypeValue" class="form-control text-center" formControlName="applicantTypeValue" />
+                    <input type="text" id="latbox" value="{{applicantType[i]}}" class="no_border" class="input_value" readonly="true"
+                      name="applicantType" class="form-control text-center" formControlName="applicantType" />
                   </td>
                   <td data-title="Type of Loan">
                     <!-- <input type="text" id="latbox" value="Business Loan" class="no_border" class="input_value"
