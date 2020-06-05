@@ -32,7 +32,7 @@ export class AddressDetailsComponent implements OnInit {
   applicantId: number;
   leadId: number;
 
-  isCurrAddSameAsPermAdd: any = 0;
+  isCurrAddSameAsPermAdd: any = "0";
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
 
@@ -284,26 +284,26 @@ export class AddressDetailsComponent implements OnInit {
       landlineNumber: permenantAddressObj.landlineNumber,
     });
     // }
-    const currentaddressObj = addressObj['CURRADDADDTYP'];
-    console.log('objectCurrentAddress--', currentaddressObj);
-    // if(currentaddressObj){
-    const currentAddress = details.get('currentAddress');
-    if (currentAddress) {
-      currentAddress.patchValue({
-        addressLineOne: currentaddressObj.addressLineOne,
-        addressLineTwo: currentaddressObj.addressLineTwo,
-        addressLineThree: currentaddressObj.addressLineThree,
-        pincode: currentaddressObj.pincode,
-        city: currentaddressObj.city,
-        district: currentaddressObj.district,
-        state: currentaddressObj.state,
-        country: currentaddressObj.country,
-        landlineNumber: currentaddressObj.landlineNumber,
-        accommodationType: currentaddressObj.accommodationType,
-        periodOfCurrentStay: currentaddressObj.periodOfCurrentStay,
-        mobileNumber: currentaddressObj.mobileNumber,
-      });
-    }
+    // const currentaddressObj = addressObj['CURRADDADDTYP'];
+    // console.log('objectCurrentAddress--', currentaddressObj);
+    // // if(currentaddressObj){
+    // const currentAddress = details.get('currentAddress');
+    // if (currentAddress) {
+    //   currentAddress.patchValue({
+    //     addressLineOne: currentaddressObj.addressLineOne,
+    //     addressLineTwo: currentaddressObj.addressLineTwo,
+    //     addressLineThree: currentaddressObj.addressLineThree,
+    //     pincode: currentaddressObj.pincode,
+    //     city: currentaddressObj.city,
+    //     district: currentaddressObj.district,
+    //     state: currentaddressObj.state,
+    //     country: currentaddressObj.country,
+    //     landlineNumber: currentaddressObj.landlineNumber,
+    //     accommodationType: currentaddressObj.accommodationType,
+    //     periodOfCurrentStay: currentaddressObj.periodOfCurrentStay,
+    //     mobileNumber: currentaddressObj.mobileNumber,
+    //   });
+    // }
 
     // }
     const officeAddressObj = addressObj['OFFADDADDTYP'];
@@ -353,6 +353,7 @@ export class AddressDetailsComponent implements OnInit {
     });
     // }
     const communicationAddressObj = addressObj['COMMADDADDTYP'];
+    console.log('communicationAddressObj',communicationAddressObj)
     // if(communicationAddressObj){
     const communicationAddress = details.get('communicationAddress');
     communicationAddress.patchValue({
@@ -401,12 +402,12 @@ export class AddressDetailsComponent implements OnInit {
   isSameAddress(event) {
     const isChecked = event.target.checked;
     this.getPermanentAddressValue();
-    // this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
+    this.isCurrAddSameAsPermAdd = isChecked === true ? "1" : "0";
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     this.getRegisteredAddressValue();
-    // this.isCurrAddSameAsPermAdd = isChecked === true ? 1 : 0;
+    this.isCurrAddSameAsPermAdd = isChecked === true ? "1" : "0";
   }
 
   getPermanentAddressValue() {
@@ -489,45 +490,45 @@ export class AddressDetailsComponent implements OnInit {
     permenantAdress.addressLineOne = permanantAddressObject.addressLineOne;
     permenantAdress.addressLineTwo = permanantAddressObject.addressLineTwo;
     permenantAdress.addressLineThree = permanantAddressObject.addressLineThree;
-    permenantAdress.pincode=Number(permanantAddressObject.pincode);
+    // permenantAdress.pincode=Number(permanantAddressObject.pincode);
     // permenantAdress.city= permanantAddressObject.city;
     // permenantAdress.state= permanantAddressObject.state;
     // permenantAdress.country= permanantAddressObject.country;
     // permenantAdress.district= permanantAddressObject.district;
-    // permenantAdress.pincode = 1;
-    permenantAdress.city = 1;
-    permenantAdress.state = 1;
-    permenantAdress.country = 'IN';
-    permenantAdress.district = 1;
+    permenantAdress.pincode = 600002;
+    permenantAdress.city = 114100;
+    permenantAdress.state = 40;
+    permenantAdress.country = 'IND';
+    permenantAdress.district = 127;
 
     permenantAdress.landlineNumber = permanantAddressObject.landlineNumber;
-    permenantAdress.isCurrAddSameAsPermAdd = "1";
+    permenantAdress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd ;
 
     this.addressDetailsDataArray.push(permenantAdress);
 
-    const currentAddress: AddressDetails = {};
-    const currentAddressObject = value.details[0].currentAddress;
-    currentAddress.addressType = 'CURRADDADDTYP';
-    currentAddress.addressLineOne = currentAddressObject.addressLineOne;
-    currentAddress.addressLineTwo = currentAddressObject.addressLineTwo;
-    currentAddress.addressLineThree = currentAddressObject.addressLineThree;
-    currentAddress.pincode = Number(currentAddressObject.pincode);
+    // const currentAddress: AddressDetails = {};
+    // const currentAddressObject = value.details[0].currentAddress;
+    // currentAddress.addressType = 'CURRADDADDTYP';
+    // currentAddress.addressLineOne = currentAddressObject.addressLineOne;
+    // currentAddress.addressLineTwo = currentAddressObject.addressLineTwo;
+    // currentAddress.addressLineThree = currentAddressObject.addressLineThree;
+    // currentAddress.pincode = Number(currentAddressObject.pincode);
 
-    // currentAddress.pincode = 1;
-    currentAddress.city = 1;
-    currentAddress.state = 1;
-    currentAddress.country = 'IN';
-    currentAddress.district = 1;
+    
+    // currentAddress.city = 1;
+    // currentAddress.state = 1;
+    // currentAddress.country = 'IN';
+    // currentAddress.district = 1;
 
-    currentAddress.accommodationType = currentAddressObject.accommodationType;
-    currentAddress.periodOfCurrentStay = Number(
-      currentAddressObject.periodOfCurrentStay
-    );
-    currentAddress.landlineNumber = currentAddressObject.landlineNumber;
-    currentAddress.mobileNumber = currentAddressObject.mobileNumber;
-    currentAddress.isCurrAddSameAsPermAdd = "1";
+    // currentAddress.accommodationType = currentAddressObject.accommodationType;
+    // currentAddress.periodOfCurrentStay = Number(
+    //   currentAddressObject.periodOfCurrentStay
+    // );
+    // currentAddress.landlineNumber = currentAddressObject.landlineNumber;
+    // currentAddress.mobileNumber = currentAddressObject.mobileNumber;
+    // currentAddress.isCurrAddSameAsPermAdd = "1";
 
-    this.addressDetailsDataArray.push(currentAddress);
+    // this.addressDetailsDataArray.push(currentAddress);
 
     const officeAddress: AddressDetails = {};
     const officeAddressObject = value.details[0].officeAddress;
@@ -535,16 +536,16 @@ export class AddressDetailsComponent implements OnInit {
     officeAddress.addressLineOne = officeAddressObject.addressLineOne;
     officeAddress.addressLineTwo = officeAddressObject.addressLineTwo;
     officeAddress.addressLineThree = officeAddressObject.addressLineThree;
-    officeAddress.pincode= Number(officeAddressObject.pincode);
+    //officeAddress.pincode= Number(officeAddressObject.pincode);
     //  officeAddress.city= officeAddressObject.city;
     //  officeAddress.state= officeAddressObject.state;
     //  officeAddress.country= officeAddressObject.country;
     //  officeAddress.district= officeAddressObject.district;
-    // officeAddress.pincode = 1;
-    officeAddress.city = 1;
-    officeAddress.state = 1;
-    officeAddress.country = 'IN';
-    officeAddress.district = 1;
+    officeAddress.pincode = 600002;
+    officeAddress.city = 114100;
+    officeAddress.state = 40;
+    officeAddress.country = 'IND';
+    officeAddress.district = 127;
 
     officeAddress.accommodationType = officeAddressObject.accommodationType;
     officeAddress.periodOfCurrentStay = Number(
@@ -552,7 +553,7 @@ export class AddressDetailsComponent implements OnInit {
     );
     officeAddress.landlineNumber = officeAddressObject.landlineNumber;
     officeAddress.mobileNumber = officeAddressObject.mobileNumber;
-    officeAddress.isCurrAddSameAsPermAdd = "1";
+    // officeAddress.isCurrAddSameAsPermAdd = "1";
 
     this.addressDetailsDataArray.push(officeAddress);
 
@@ -571,49 +572,49 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.addressLineTwo = registeredAddressObject.addressLineTwo;
     registeredAddress.addressLineThree =
       registeredAddressObject.addressLineThree;
-    registeredAddress.pincode= Number(registeredAddressObject.pincode);
+    //registeredAddress.pincode= Number(registeredAddressObject.pincode);
     // registeredAddress.city= registeredAddressObject.city;
     // registeredAddress.state= registeredAddressObject.state;
     // registeredAddress.country= registeredAddressObject.country;
     // registeredAddress.district= registeredAddressObject.district;
 
-    // registeredAddress.pincode = 1;
-    registeredAddress.city = 1;
-    registeredAddress.state = 1;
+    registeredAddress.pincode = 600002;
+    registeredAddress.city = 114100;
+    registeredAddress.state = 40;
     registeredAddress.country = 'IND';
-    registeredAddress.district = 1;
+    registeredAddress.district = 127;
 
     registeredAddress.landlineNumber = registeredAddressObject.landlineNumber;
     registeredAddress.mobileNumber = registeredAddressObject.mobileNumber;
-    registeredAddress.isCurrAddSameAsPermAdd = "1";
+    registeredAddress.isCurrAddSameAsPermAdd = this.isCurrAddSameAsPermAdd;
 
     this.addressDetailsDataArray.push(registeredAddress);
 
-    const communicationAddress: AddressDetails = {};
-    const communicationAddressObject = value.details[0].communicationAddress;
-    communicationAddress.addressType = 'COMMADDADDTYP';
-    communicationAddress.addressLineOne =
-      communicationAddressObject.addressLineOne;
-    communicationAddress.addressLineTwo =
-      communicationAddressObject.addressLineTwo;
-    communicationAddress.addressLineThree =
-      communicationAddressObject.addressLineThree;
-     communicationAddress.pincode= Number(communicationAddressObject.pincode);
-    // communicationAddress.city= communicationAddressObject.city;
-    // communicationAddress.state= communicationAddressObject.state;
-    // communicationAddress.country= communicationAddressObject.country;
-    // communicationAddress.district= communicationAddressObject.district;
-    // communicationAddress.pincode = 1;
-    communicationAddress.city = 1;
-    communicationAddress.state = 1;
-    communicationAddress.country = 'IND';
-    communicationAddress.district = 1;
+    // const communicationAddress: AddressDetails = {};
+    // const communicationAddressObject = value.details[0].communicationAddress;
+    // communicationAddress.addressType = 'COMMADDADDTYP';
+    // communicationAddress.addressLineOne =
+    //   communicationAddressObject.addressLineOne;
+    // communicationAddress.addressLineTwo =
+    //   communicationAddressObject.addressLineTwo;
+    // communicationAddress.addressLineThree =
+    //   communicationAddressObject.addressLineThree;
+    //  communicationAddress.pincode= Number(communicationAddressObject.pincode);
+    // // communicationAddress.city= communicationAddressObject.city;
+    // // communicationAddress.state= communicationAddressObject.state;
+    // // communicationAddress.country= communicationAddressObject.country;
+    // // communicationAddress.district= communicationAddressObject.district;
+    // // communicationAddress.pincode = 1;
+    // communicationAddress.city = 1;
+    // communicationAddress.state = 1;
+    // communicationAddress.country = 'IND';
+    // communicationAddress.district = 1;
 
-    communicationAddress.landlineNumber =
-      communicationAddressObject.landlineNumber;
-    communicationAddress.isCurrAddSameAsPermAdd = "1";
+    // communicationAddress.landlineNumber =
+    //   communicationAddressObject.landlineNumber;
+    // // communicationAddress.isCurrAddSameAsPermAdd = "1";
 
-    this.addressDetailsDataArray.push(communicationAddress);
+    // this.addressDetailsDataArray.push(communicationAddress);
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }

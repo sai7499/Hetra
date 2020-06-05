@@ -543,6 +543,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // voterIdExpiryDate: '21-Mar-2021',
       companyPhoneNumber: coApplicantModel.mobilePhone,
       panType: coApplicantModel.panType,
+
+      
     };
   }
   onFormSubmit() {
@@ -616,7 +618,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         city: Number(coApplicantModel.permentAddress.city),
         district: Number(coApplicantModel.permentAddress.district),
         state: Number(coApplicantModel.permentAddress.state),
-        country: 'IN',
+        country: 'IND',
         landlineNumber: coApplicantModel.permentAddress.landlineNumber,
         // mobileNumber: '9988776655',
         // accommodationType: '1ADDACCTYP',
@@ -633,7 +635,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         city: Number(coApplicantModel.communicationAddress.city),
         district: Number(coApplicantModel.communicationAddress.district),
         state: Number(coApplicantModel.communicationAddress.state),
-        country: 'IN',
+        country: 'IND',
         landlineNumber: coApplicantModel.communicationAddress.landlineNumber,
         // mobileNumber: '9988776655',
         // accommodationType: '1ADDACCTYP',
