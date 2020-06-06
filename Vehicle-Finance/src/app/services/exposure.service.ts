@@ -14,10 +14,57 @@ export class ExposureService {
 
   setExposureDetails(data) {
     const processData = data;
-    console.log(processData , 'process data in exposure service');
     const processId = this.apiService.api.saveExposure.processId;
     const workflowId = this.apiService.api.saveExposure.workflowId;
     const projectId = this.apiService.api.saveExposure.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId,
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url =
+      environment.host +
+      'd/workflows/' +
+      workflowId +
+      '/' +
+      environment.apiVersion.api +
+      'execute?projectId=' +
+      projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+  getExposureDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getExposure.processId;
+    const workflowId = this.apiService.api.getExposure.workflowId;
+    const projectId = this.apiService.api.getExposure.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId,
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url =
+      environment.host +
+      'd/workflows/' +
+      workflowId +
+      '/' +
+      environment.apiVersion.api +
+      'execute?projectId=' +
+      projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+  deleteExposureDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.deleteExposure.processId;
+    const workflowId = this.apiService.api.deleteExposure.workflowId;
+    const projectId = this.apiService.api.deleteExposure.projectId;
 
     const requestEntity: RequestEntity = {
       processId,

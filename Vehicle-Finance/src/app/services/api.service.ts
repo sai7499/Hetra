@@ -176,7 +176,7 @@ export class ApiService {
     },
     deleteExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
-      processId: '520bd7a6975511eabdcff2fa9bec3d63',
+      processId: 'e9ceec0e975511eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
      geoMasterService: {

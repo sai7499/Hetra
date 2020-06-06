@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BankTransactionsService } from '@services/bank-transactions.service';
-import { Router } from '@angular/router';
+import { Router ,ActivatedRoute} from '@angular/router';
 
 @Component({
     templateUrl: './bank-list.component.html',
@@ -9,19 +9,49 @@ import { Router } from '@angular/router';
 
 export class BankListComponent {
     bankDetails: any;
-    constructor(private bankService: BankTransactionsService, private route: Router) { }
+    applicantId: number;
+    leadId: number;
+    constructor(private bankService: BankTransactionsService, private route: Router, private activatedRoute: ActivatedRoute) { }
     // tslint:disable-next-line: use-lifecycle-interface
-    ngOnInit() {
-        this.bankService.getBankList({ leadId: 3 }).subscribe((res: any) => {
+   async  ngOnInit() {
+        this.leadId = (await this.getLeadId()) as number;
+        this.applicantId = (await this.getApplicantId()) as number;
+        this.bankService.getBankList({ leadId: this.leadId }).subscribe((res: any) => {
             this.bankDetails = res.ProcessVariables.applicantBankDetails;
         });
+
     }
+    getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  getApplicantId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.firstChild.params.subscribe((value) => {
+        const applicantId = value.applicantId;
+        if (applicantId) {
+          resolve(Number(applicantId));
+        }
+        resolve(null);
+      });
+    });
+  }
     routeDetails(data: any) {
         const id = {
-            applicantId: Number(data),
+            applicantId: this.applicantId,
             formType: 'edit'
         };
-        this.route.navigate(['pages/applicant-details/bank-details'], { queryParams: id, skipLocationChange: true, });
+        this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`], { queryParams: id,  });
     }
+    bankDetail() {
+            this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}` );
+    }
+
 
 }
