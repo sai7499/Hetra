@@ -80,7 +80,7 @@ export class AddressDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
     private location: Location
-  ) {}
+  ) { }
 
   onBack() {
     this.location.back();
@@ -279,6 +279,7 @@ export class AddressDetailsComponent implements OnInit {
 
   getAddressDetails() {
     this.address = this.applicantDataService.getApplicant();
+    console.log('COMING ADDRES VALUES',this.address )
     this.setAddressData();
   }
 
@@ -311,10 +312,13 @@ export class AddressDetailsComponent implements OnInit {
       city,
       district,
       state,
+      country: address.country,
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
       landlineNumber: address.landlineNumber,
+    
+      
     };
   }
 
@@ -323,19 +327,109 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
-    if (permanentAddressObj) {
-      const permenantAddress = details.get('permanantAddress');
-      permenantAddress.patchValue({
-        ...permanentAddressObj,
-      });
+    console.log('permanentAddressObj', permanentAddressObj)
+    this.permanantPincode = {
+      city: [{
+        key: permanentAddressObj.city,
+        value: permanentAddressObj.cityValue
+      }],
+      district: [{
+        key: permanentAddressObj.district,
+        value: permanentAddressObj.districtValue
+      }],
+      state: [{
+        key: permanentAddressObj.state,
+        value: permanentAddressObj.stateValue
+      }],
+      country: [{
+        key: permanentAddressObj.country,
+        value: permanentAddressObj.countryValue
+      }]
+
     }
+    const permenantAddress = details.get('permanantAddress');
+    permenantAddress.patchValue(
+      this.setAddressValues(permanentAddressObj)
+    );
+
+   const valueCheckbox = this.getAddressObj()
+   const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS]
+   if (isCurAsPer.isCurrAddSameAsPermAdd=='1'){
+     const currentAddressObj= isCurAsPer
+     this.currentPincode = {
+      city: [{
+        key: currentAddressObj.city,
+        value: currentAddressObj.cityValue
+      }],
+      district: [{
+        key: currentAddressObj.district,
+        value: currentAddressObj.districtValue
+      }],
+      state: [{
+        key: currentAddressObj.state,
+        value: currentAddressObj.stateValue
+      }],
+      country: [{
+        key: currentAddressObj.country,
+        value: currentAddressObj.countryValue
+      }]
+    }
+    const currentAddress = details.get('currentAddress');
+    currentAddress.patchValue(
+      this.setAddressValues(currentAddressObj)
+    )
+
+   } else{
+    const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS]
+    this.currentPincode = {
+      city: [{
+        key: currentAddressObj.city,
+        value: currentAddressObj.cityValue
+      }],
+      district: [{
+        key: currentAddressObj.district,
+        value: currentAddressObj.districtValue
+      }],
+      state: [{
+        key: currentAddressObj.state,
+        value: currentAddressObj.stateValue
+      }],
+      country: [{
+        key: currentAddressObj.country,
+        value: currentAddressObj.countryValue
+      }]
+    }
+    const currentAddress = details.get('currentAddress');
+    currentAddress.patchValue(
+      this.setAddressValues(currentAddressObj)
+    )
+    
+   }
+
     const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
-    if (officeAddressObj) {
-      const officeAddress = details.get('officeAddress');
-      officeAddress.patchValue({
-        ...officeAddressObj,
-      });
+    this.officePincode = {
+      city: [{
+        key: officeAddressObj.city,
+        value: officeAddressObj.cityValue
+      }],
+      district: [{
+        key: officeAddressObj.district,
+        value: officeAddressObj.districtValue
+      }],
+      state: [{
+        key: officeAddressObj.state,
+        value: officeAddressObj.stateValue
+      }],
+      country: [{
+        key: officeAddressObj.country,
+        value: officeAddressObj.countryValue
+      }]
     }
+    const officeAddress = details.get('officeAddress');
+    officeAddress.patchValue(
+      this.setAddressValues(officeAddressObj)
+    );
+
   }
 
   setValuesForNonIndividual() {
@@ -343,19 +437,55 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
-    if (registeredAddressObj) {
-      const registeredAddress = details.get('registeredAddress');
-      registeredAddress.patchValue({
-        ...registeredAddressObj,
-      });
+    this.registeredPincode = {
+      city: [{
+        key: registeredAddressObj.city,
+        value: registeredAddressObj.cityValue
+      }],
+      district: [{
+        key: registeredAddressObj.district,
+        value: registeredAddressObj.districtValue
+      }],
+      state: [{
+        key: registeredAddressObj.state,
+        value: registeredAddressObj.stateValue
+      }],
+      country: [{
+        key: registeredAddressObj.country,
+        value: registeredAddressObj.countryValue
+      }]
     }
+
+    const registeredAddress = details.get('registeredAddress');
+    registeredAddress.patchValue(
+      this.setAddressValues(registeredAddressObj)
+    );
+
     const communicationAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
-    if (communicationAddressObj) {
-      const communicationAddress = details.get('communicationAddress');
-      communicationAddress.patchValue({
-        ...communicationAddressObj,
-      });
+    this.registeredPincode = {
+      city: [{
+        key: communicationAddressObj.city,
+        value: communicationAddressObj.cityValue
+      }],
+      district: [{
+        key: communicationAddressObj.district,
+        value: communicationAddressObj.districtValue
+      }],
+      state: [{
+        key: communicationAddressObj.state,
+        value: communicationAddressObj.stateValue
+      }],
+      country: [{
+        key: communicationAddressObj.country,
+        value: communicationAddressObj.countryValue
+      }]
     }
+
+    const communicationAddress = details.get('communicationAddress');
+    communicationAddress.patchValue(
+      this.setAddressValues(communicationAddressObj)
+    );
+
 
     // }
   }
@@ -388,10 +518,10 @@ export class AddressDetailsComponent implements OnInit {
 
   isSameAddress(event) {
     const isChecked = event.target.checked;
-    console.log('permanantPincode',this.permanantPincode)
-    if(isChecked){
-      this.currentPincode= this.permanantPincode
-      console.log('currentPincode',this.currentPincode)
+    console.log('permanantPincode', this.permanantPincode)
+    if (isChecked) {
+      this.currentPincode = this.permanantPincode
+      console.log('currentPincode', this.currentPincode)
     }
     this.getPermanentAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -498,8 +628,20 @@ export class AddressDetailsComponent implements OnInit {
       accommodationType: officeAddressObject.accommodationType,
       periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
       mobileNumber: officeAddressObject.mobileNumber,
-      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-    });
+      //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+      });
+      if (this.isCurrAddSameAsPermAdd == '0'){
+        const currentAddressObject = value.details[0].currentAddress
+        this.addressDetailsDataArray.push({
+          ...this.getAddressFormValues(currentAddressObject),
+          addressType: Constant.CURRENT_ADDRESS,
+        accommodationType: officeAddressObject.accommodationType,
+        periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
+        mobileNumber: officeAddressObject.mobileNumber,
+        })
+      }
+
+
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
