@@ -102,7 +102,7 @@
                             <td><input type="number" class="form-control input_value height"
                                     formControlName="gridValue">
                             </td>
-                            <td><u><a class="a_tag" [routerLink]="['../track-vehicle']">RTR</a></u></td>
+                            <td><u><a class="a_tag" (click)="getRtr(itemrow.value.id)">RTR</a></u></td>
                             <!-- <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
                                             (click)="addNewRow()"></i> &nbsp;
                                         <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
@@ -129,8 +129,7 @@
 
     </div>
     <div class="col-sm-7 text-right ">
-        <button class="btn btn-primary mar-right8" type="button" routerLink="['../collaterals']">Back
-        </button>&nbsp;
+        <button class="btn btn-primary mar-right8" type="button" (click)="toCollaterals()">Back</button>&nbsp;
         <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>&nbsp;
         <button class="btn btn-primary js-btn-next" type="button" routerLink="../exposure"> Next </button>
     </div>

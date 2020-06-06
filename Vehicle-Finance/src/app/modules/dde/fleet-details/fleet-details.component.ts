@@ -191,7 +191,7 @@ export class FleetDetailsComponent implements OnInit {
         this.formArr.push(this.initRows(null));
       }
 
-      // console.log("get fleet response", res.ProcessVariables.fleets)
+      console.log("get fleet response", res.ProcessVariables.fleets)
     })
   }
 
@@ -204,6 +204,16 @@ export class FleetDetailsComponent implements OnInit {
     console.log("in delete row ", item)
     // this.formArr.removeAt(index);
   }
+
+  getRtr(id: number) {
+    console.log("in getRtr", id)
+    this.router.navigate(['pages/dde/' + this.leadId + '/fleet-details/' + id])
+  }
+
+  toCollaterals() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list'])
+  }
+
 
   onFormSubmit() {
 
