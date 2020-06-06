@@ -483,7 +483,7 @@ export class AddressDetailsComponent implements OnInit {
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS]
     if(isCommAsReg.isCurrAddSameAsPermAdd=='1'){
       const communicationAddressObj = isCommAsReg
-      this.registeredPincode = {
+      this.communicationPincode = {
         city: [{
           key: communicationAddressObj.city,
           value: communicationAddressObj.cityValue
@@ -509,7 +509,7 @@ export class AddressDetailsComponent implements OnInit {
   
     } else{
       const communicationAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
-      this.registeredPincode = {
+      this.communicationPincode = {
         city: [{
           key: communicationAddressObj.city,
           value: communicationAddressObj.cityValue
