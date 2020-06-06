@@ -351,6 +351,7 @@ export class AddressDetailsComponent implements OnInit {
     permenantAddress.patchValue(
       this.setAddressValues(permanentAddressObj)
     );
+    
 
    const valueCheckbox = this.getAddressObj()
    const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS]
@@ -378,6 +379,11 @@ export class AddressDetailsComponent implements OnInit {
     currentAddress.patchValue(
       this.setAddressValues(currentAddressObj)
     )
+    currentAddress.patchValue({
+      accommodationType : currentAddressObj.accommodationType,
+      periodOfCurrentStay : currentAddressObj.periodOfCurrentStay,
+      mobileNumber : currentAddressObj.mobileNumber
+    })
 
    } else{
     const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS]
@@ -403,6 +409,11 @@ export class AddressDetailsComponent implements OnInit {
     currentAddress.patchValue(
       this.setAddressValues(currentAddressObj)
     )
+    currentAddress.patchValue({
+      accommodationType : currentAddressObj.accommodationType,
+      periodOfCurrentStay : currentAddressObj.periodOfCurrentStay,
+      mobileNumber : currentAddressObj.mobileNumber
+    })
     
    }
 
@@ -429,6 +440,11 @@ export class AddressDetailsComponent implements OnInit {
     officeAddress.patchValue(
       this.setAddressValues(officeAddressObj)
     );
+    officeAddress.patchValue({
+      accommodationType : officeAddressObj.accommodationType,
+      periodOfCurrentStay : officeAddressObj.periodOfCurrentStay,
+      mobileNumber : officeAddressObj.mobileNumber
+    })
 
   }
 
@@ -460,31 +476,64 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.patchValue(
       this.setAddressValues(registeredAddressObj)
     );
-
-    const communicationAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
-    this.registeredPincode = {
-      city: [{
-        key: communicationAddressObj.city,
-        value: communicationAddressObj.cityValue
-      }],
-      district: [{
-        key: communicationAddressObj.district,
-        value: communicationAddressObj.districtValue
-      }],
-      state: [{
-        key: communicationAddressObj.state,
-        value: communicationAddressObj.stateValue
-      }],
-      country: [{
-        key: communicationAddressObj.country,
-        value: communicationAddressObj.countryValue
-      }]
+    registeredAddress.patchValue({
+      mobileNumber: registeredAddressObj.mobileNumber
+    })
+    const valueCheckbox = this.getAddressObj()
+    const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS]
+    if(isCommAsReg.isCurrAddSameAsPermAdd=='1'){
+      const communicationAddressObj = isCommAsReg
+      this.registeredPincode = {
+        city: [{
+          key: communicationAddressObj.city,
+          value: communicationAddressObj.cityValue
+        }],
+        district: [{
+          key: communicationAddressObj.district,
+          value: communicationAddressObj.districtValue
+        }],
+        state: [{
+          key: communicationAddressObj.state,
+          value: communicationAddressObj.stateValue
+        }],
+        country: [{
+          key: communicationAddressObj.country,
+          value: communicationAddressObj.countryValue
+        }]
+      }
+  
+      const communicationAddress = details.get('communicationAddress');
+      communicationAddress.patchValue(
+        this.setAddressValues(communicationAddressObj)
+      );
+  
+    } else{
+      const communicationAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
+      this.registeredPincode = {
+        city: [{
+          key: communicationAddressObj.city,
+          value: communicationAddressObj.cityValue
+        }],
+        district: [{
+          key: communicationAddressObj.district,
+          value: communicationAddressObj.districtValue
+        }],
+        state: [{
+          key: communicationAddressObj.state,
+          value: communicationAddressObj.stateValue
+        }],
+        country: [{
+          key: communicationAddressObj.country,
+          value: communicationAddressObj.countryValue
+        }]
+      }
+  
+      const communicationAddress = details.get('communicationAddress');
+      communicationAddress.patchValue(
+        this.setAddressValues(communicationAddressObj)
+      );
     }
-
-    const communicationAddress = details.get('communicationAddress');
-    communicationAddress.patchValue(
-      this.setAddressValues(communicationAddressObj)
-    );
+    
 
 
     // }
@@ -659,6 +708,16 @@ export class AddressDetailsComponent implements OnInit {
       mobileNumber: registeredAddressObject.mobileNumber,
       isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
+    if (this.isCurrAddSameAsPermAdd == '0'){
+      const communicationAddressObject = value.details[0].communicationAddress
+      this.addressDetailsDataArray.push({
+        ...this.getAddressFormValues(communicationAddressObject),
+        addressType: Constant.COMMUNICATION_ADDRESS,
+      accommodationType: communicationAddressObject.accommodationType,
+      periodOfCurrentStay: Number(communicationAddressObject.periodOfCurrentStay),
+      mobileNumber: communicationAddressObject.mobileNumber,
+      })
+    }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
 }
