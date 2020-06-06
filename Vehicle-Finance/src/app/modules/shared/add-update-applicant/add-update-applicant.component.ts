@@ -21,6 +21,7 @@ import {
   IndividualProspectDetails,
 } from '@model/applicant.model';
 import { Constant } from '@assets/constants/constant';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-update-applicant',
@@ -32,16 +33,41 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   labels: any = {};
   LOV: any = [];
   coApplicantForm: FormGroup;
-  isCurrAddSameAsPermAdd: any = 0;
+  isCurrAddSameAsPermAdd: any = '0';
   applicantId: number;
   applicant: Applicant;
   selectedApplicant: number;
+
+  pincodeResult: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
 
   applicantType = Constant.ENTITY_INDIVIDUAL_TYPE;
 
   panValue = '1PANTYPE';
   leadId: number;
   applicantDetails: ApplicantDetails;
+  permanentPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
+  currentPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
+  registerPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
 
   aboutIndivProspectDetails: IndividualProspectDetails;
 
@@ -87,6 +113,73 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.location.back();
   }
 
+  getPincode(pincode) {
+    const id = pincode.id;
+    const pincodeValue = pincode.value;
+    console.log('Pincode', pincodeValue);
+    if (pincodeValue.length === 6) {
+        const pincodeNumber = Number(pincodeValue);
+        this.getPincodeResult(pincodeNumber, id);
+    }
+  }
+
+  getPincodeResult(pincodeNumber: number, id: string) {
+    this.applicantService
+      .getGeoMasterValue({
+        pincode: pincodeNumber,
+      })
+      .pipe(
+        map((value: any) => {
+          const processVariables = value.ProcessVariables;
+          const addressList: any[] = processVariables.GeoMasterView;
+          const first = addressList[0];
+          const obj = {
+            state: [
+              {
+                key: first.stateId,
+                value: first.stateName,
+              },
+            ],
+            district: [
+              {
+                key: first.districtId,
+                value: first.districtName,
+              },
+            ],
+            country: [
+              {
+                key: first.threeAlphaCode,
+                value: first.country,
+              },
+            ],
+          };
+          const city = addressList.map((val) => {
+            return {
+              key: val.cityId,
+              value: val.cityName,
+            };
+          });
+          return {
+            ...obj,
+            city,
+          };
+        })
+      )
+      .subscribe((value) => {
+        if (id === 'permanentPincode') {
+          this.permanentPincode = value;
+          return;
+        }
+        if (id === 'currentPincode') {
+          this.currentPincode = value;
+          return;
+        }
+        if (id === 'registerPincode') {
+          this.registerPincode = value;
+        }
+      });
+  }
+
   getLeadId() {
     const leadSectionData: any = this.createLeadDataService.getLeadSectionData();
     return leadSectionData.leadId;
@@ -118,14 +211,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const state = address.state ? Number(address.state) : null;
     const pincode = address.pincode ? Number(address.pincode) : null;
     return {
-      // pincode,
-      // city,
-      // district,
-      // state,
+      pincode,
+      city,
+      district,
+      state,
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
-      // country: address.country,
+      country: address.country,
       landlineNumber: address.landlineNumber,
     };
   }
@@ -341,17 +434,36 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.applicant.applicantDetails.entityTypeKey ===
         Constant.ENTITY_INDIVIDUAL_TYPE
       ) {
+
         const permentAddress = this.coApplicantForm.get('permentAddress');
-        const cummunicationAddress = this.coApplicantForm.get(
-          'communicationAddress'
-        );
+        const cummunicationAddress = this.coApplicantForm.get('communicationAddress');
         const addressObj = this.getAddressObj();
         const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
+        this.permanentPincode = {
+          city: [{key: permenantAddressObj.city,
+                value: permenantAddressObj.cityValue}],
+          district: [{key: permenantAddressObj.district,
+                value: permenantAddressObj.districtValue}],
+          state: [{key: permenantAddressObj.state,
+                  value: permenantAddressObj.stateValue}],
+          country: [{key: permenantAddressObj.country,
+                  value: permenantAddressObj.countryValue}]
+              };
         permentAddress.patchValue(
           this.createAddressObject(permenantAddressObj)
         );
         const cummunicationAddressObj =
           addressObj[Constant.COMMUNICATION_ADDRESS];
+        this.currentPincode = {
+            city: [{key: cummunicationAddressObj.city,
+                  value: cummunicationAddressObj.cityValue}],
+            district: [{key: cummunicationAddressObj.district,
+                  value: cummunicationAddressObj.districtValue}],
+            state: [{key: cummunicationAddressObj.state,
+                    value: cummunicationAddressObj.stateValue}],
+            country: [{key: cummunicationAddressObj.country,
+                    value: cummunicationAddressObj.countryValue}]
+                };
         cummunicationAddress.patchValue(
           this.createAddressObject(cummunicationAddressObj)
         );
@@ -359,6 +471,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         const addressObj = this.getAddressObj();
         const registeredAddress = this.coApplicantForm.get('registeredAddress');
         const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
+        this.registerPincode = {
+          city: [{key: registeredAddressObj.city,
+            value: registeredAddressObj.cityValue}],
+          district: [{key: registeredAddressObj.district,
+                    value: registeredAddressObj.districtValue}],
+          state: [{key: registeredAddressObj.state,
+                  value: registeredAddressObj.stateValue}],
+          country: [{key: registeredAddressObj.country,
+                    value: registeredAddressObj.countryValue}]
+        };
         registeredAddress.patchValue(
           this.createAddressObject(registeredAddressObj)
         );
@@ -426,29 +548,31 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const permanentAddress = coApplicantModel.permentAddress;
     if (permanentAddress) {
       const addressObject = this.createAddressObject(permanentAddress);
+      console.log('permanant Address', addressObject);
       this.addressDetails.push({
         ...addressObject,
         addressType: Constant.PERMANENT_ADDRESS,
         isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-        pincode : 600002,
-        city : 114100,
-        state : 40,
-        country : 'IND',
-        district : 127
+        // pincode : 600002,
+        // city : 114100,
+        // state : 40,
+        // country : 'IND',
+        // district : 127
       });
     }
     const communicationAddress = coApplicantModel.communicationAddress;
     if (communicationAddress) {
       const addressObject = this.createAddressObject(communicationAddress);
+      console.log('Communication Address', addressObject);
       this.addressDetails.push({
         ...addressObject,
         addressType: Constant.COMMUNICATION_ADDRESS,
         isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-        pincode : 600002,
-        city : 114100,
-        state : 40,
-        country : 'IND',
-        district : 127
+        // pincode : 600002,
+        // city : 114100,
+        // state : 40,
+        // country : 'IND',
+        // district : 127
       });
     }
   }
@@ -482,16 +606,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     const registerAddress = coApplicantModel.registeredAddress;
     if (registerAddress) {
+      this.addressDetails = [];
+      const addressObject = this.createAddressObject(registerAddress);
+      console.log('Registred Address', addressObject);
       this.addressDetails = [
         {
-          ...registerAddress,
+          ...addressObject,
           addressType: Constant.REGISTER_ADDRESS,
           isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-          pincode : 600002,
-          city : 114100,
-          state : 40,
-          country : 'IND',
-          district : 127
+          // pincode : 600002,
+          // city : 114100,
+          // state : 40,
+          // country : 'IND',
+          // district : 127
         },
       ];
     }
@@ -542,41 +669,41 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       'Drving Licanse Issue Date',
       coApplicantModel.dateOfIncorporation
     );
-    this.addressDetails = [
-      {
-        addressType: 'PERMADDADDTYP',
-        addressLineOne: coApplicantModel.permentAddress.addressLineOne,
-        addressLineTwo: coApplicantModel.permentAddress.addressLineTwo,
-        addressLineThree: coApplicantModel.permentAddress.addressLineThree,
-        pincode: Number(coApplicantModel.permentAddress.pincode),
-        city: Number(coApplicantModel.permentAddress.city),
-        district: Number(coApplicantModel.permentAddress.district),
-        state: Number(coApplicantModel.permentAddress.state),
-        country: 'IND',
-        landlineNumber: coApplicantModel.permentAddress.landlineNumber,
-        // mobileNumber: '9988776655',
-        // accommodationType: '1ADDACCTYP',
-        // periodOfCurrentStay: 10,
-        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-      },
-      {
-        addressType: 'COMMADDADDTYP',
-        addressLineOne: coApplicantModel.communicationAddress.addressLineOne,
-        addressLineTwo: coApplicantModel.communicationAddress.addressLineTwo,
-        addressLineThree:
-          coApplicantModel.communicationAddress.addressLineThree,
-        pincode: Number(coApplicantModel.communicationAddress.pincode),
-        city: Number(coApplicantModel.communicationAddress.city),
-        district: Number(coApplicantModel.communicationAddress.district),
-        state: Number(coApplicantModel.communicationAddress.state),
-        country: 'IND',
-        landlineNumber: coApplicantModel.communicationAddress.landlineNumber,
-        // mobileNumber: '9988776655',
-        // accommodationType: '1ADDACCTYP',
-        // periodOfCurrentStay: 10,
-        isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
-      },
-    ];
+    // this.addressDetails = [
+    //   {
+    //     addressType: 'PERMADDADDTYP',
+    //     addressLineOne: coApplicantModel.permentAddress.addressLineOne,
+    //     addressLineTwo: coApplicantModel.permentAddress.addressLineTwo,
+    //     addressLineThree: coApplicantModel.permentAddress.addressLineThree,
+    //     pincode: Number(coApplicantModel.permentAddress.pincode),
+    //     city: Number(coApplicantModel.permentAddress.city),
+    //     district: Number(coApplicantModel.permentAddress.district),
+    //     state: Number(coApplicantModel.permentAddress.state),
+    //     country: 'IND',
+    //     landlineNumber: coApplicantModel.permentAddress.landlineNumber,
+    //     // mobileNumber: '9988776655',
+    //     // accommodationType: '1ADDACCTYP',
+    //     // periodOfCurrentStay: 10,
+    //     isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+    //   },
+    //   {
+    //     addressType: 'COMMADDADDTYP',
+    //     addressLineOne: coApplicantModel.communicationAddress.addressLineOne,
+    //     addressLineTwo: coApplicantModel.communicationAddress.addressLineTwo,
+    //     addressLineThree:
+    //       coApplicantModel.communicationAddress.addressLineThree,
+    //     pincode: Number(coApplicantModel.communicationAddress.pincode),
+    //     city: Number(coApplicantModel.communicationAddress.city),
+    //     district: Number(coApplicantModel.communicationAddress.district),
+    //     state: Number(coApplicantModel.communicationAddress.state),
+    //     country: 'IND',
+    //     landlineNumber: coApplicantModel.communicationAddress.landlineNumber,
+    //     // mobileNumber: '9988776655',
+    //     // accommodationType: '1ADDACCTYP',
+    //     // periodOfCurrentStay: 10,
+    //     isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+    //   },
+    // ];
 
     // this.addressDetails = [{
     //   addressType: 'PERMADDADDTYP',
@@ -604,6 +731,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       corporateProspectDetails: this.corporateProspectDetails,
       addressDetails: this.addressDetails,
       applicantId: this.applicantId,
+      leadId : this.leadId,
     };
     console.log(this.applicantDetails);
 
@@ -614,7 +742,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log('Success Message', message);
       }
       this.router.navigateByUrl(
-        `pages/lead-section/${this.leadId}/exact-match`
+        `pages/lead-section/${this.leadId}/applicant-details`
       );
     });
   }
@@ -622,7 +750,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onAddress(event) {
     const eventClicked = event.target.checked;
     const formValue: AddressDetails = this.coApplicantForm.value.permentAddress;
-    this.isCurrAddSameAsPermAdd = eventClicked === true ? 1 : 0;
+    this.isCurrAddSameAsPermAdd = eventClicked === true ? '1' : '0';
+    if (eventClicked) {
+      this.currentPincode = this.permanentPincode;
+    }
     const communicationAddress = this.coApplicantForm.get(
       'communicationAddress'
     );

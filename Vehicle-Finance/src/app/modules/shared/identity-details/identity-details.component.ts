@@ -20,7 +20,7 @@ import {
   CorporateProspectDetails,
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
-import { Constant } from '@assets/constants/constant';
+import { Constant } from '../../../../assets/constants/constant';
 
 @Component({
   selector: 'app-identity-details',
@@ -57,7 +57,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -73,16 +73,26 @@ export class IdentityDetailsComponent implements OnInit {
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
+    this.leadId = (await this.getLeadId()) as number;
     this.identityForm.patchValue({ entity: Constant.ENTITY_INDIVIDUAL_TYPE });
     this.activatedRoute.params.subscribe((value) => {
-      this.leadId = value.leadId;
-      this.leadId = this.leadStoreService.getLeadId();
       if (!value && !value.applicantId) {
         return;
       }
       this.applicantId = Number(value.applicantId);
       this.getApplicantDetails();
       this.setApplicantDetails();
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 
@@ -284,16 +294,27 @@ export class IdentityDetailsComponent implements OnInit {
 
     const applicant = this.applicantDataService.getApplicant();
     const data = {
-      applicantId: this.applicantId,
       ...applicant,
+      leadId: this.leadId,
+      applicantId: this.applicantId,
     };
-    console.log('leadId', this.leadStoreService.getLeadId());
     const leadId = this.leadStoreService.getLeadId();
-    this.applicantService.saveApplicant(data).subscribe((res) => {
-      this.router.navigate([
-        `/pages/sales-applicant-details/${leadId}/address-details`,
-        this.applicantId,
-      ]);
+    this.applicantService.saveApplicant(data).subscribe((res: any) => {
+      if (res.Error !== '0') {
+        return;
+      }
+      const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.router.navigate([
+          `/pages/sales-applicant-details/${leadId}/address-details`,
+          this.applicantId,
+        ]);
+      } else {
+        this.router.navigate([
+          `/pages/applicant-details/${leadId}/address-details`,
+          this.applicantId,
+        ]);
+      }
     });
   }
 }
