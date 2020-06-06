@@ -64,5 +64,6 @@
     "recdDate": "Recd. Date",
     "rcptAmount": "Rcpt Amount",
     "delayDays": "Delay Days",
-    "paymentsExcess": "Payments excess/short"
+    "paymentsExcess": "Payments excess/short",    
+    "emiAmount": "Emi Amount"
 }
