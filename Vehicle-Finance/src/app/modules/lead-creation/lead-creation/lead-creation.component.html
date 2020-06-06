@@ -34,9 +34,7 @@
             >
             </app-vf-custom-select>
           </div>
-        </div>
 
-        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type"
               >{{ labels.product }}
@@ -48,17 +46,9 @@
             >
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="priority">{{ labels.priority }}</label>
-            <app-vf-custom-select
-              [values]="[
-                { key: '1', value: 'Yes' },
-                { key: '0', value: 'No' }
-              ]"
-              formControlName="priority"
-            >
-            </app-vf-custom-select>
-          </div>
+        </div>
+
+        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fundingProgram"
               >{{ labels.fundingProgram }}
@@ -70,6 +60,19 @@
             >
             </app-vf-custom-select>
           </div>
+          
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="priority">{{ labels.priority }}</label>
+            <app-vf-custom-select
+              [values]="[
+                { key: '1', value: 'Yes' },
+                { key: '0', value: 'No' }
+              ]"
+              formControlName="priority"
+            >
+            </app-vf-custom-select>
+          </div>
+         
         </div>
 
         <div class="row">
@@ -109,6 +112,69 @@
               id="sourcingCode"
               [placeholder]="sourcingCodePlaceholder"
               name="sourcingCode"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="sourcing_code">Dealer Code
+              <sub class="star_blue_col">*</sub>
+            </label>
+            <input
+              formControlName="dealerCode"
+              type="text"
+              class="form-control mandatory select2"
+              id="sourcingCode"
+              placeholder="Dealer Code"
+              name="dealerCode"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="sourcing_code">RC Limit
+              <sub class="star_red_col">*</sub>
+            </label>
+            <input
+              disabled 
+              formControlName="rcLimit"
+              type="text"
+              class="form-control mandatory select2"
+              id="rcLimit"
+              placeholder="RC Limit"
+              name="rcLimit"
+            />
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="sourcing_code">RC Utilized Limit
+              <sub class="star_red_col">*</sub>
+            </label>
+            <input
+              disabled 
+              formControlName="rcUtilizedLimit"
+              type="text"
+              class="form-control mandatory select2"
+              id="rcUtilizedLimit"
+              placeholder="RC Utilized Limit"
+              name="rcUtilizedLimit"
+            />
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="sourcing_code">RC Unutilized Limit
+              <sub class="star_red_col">*</sub>
+            </label>
+            <input
+              disabled 
+              formControlName="rcUnutilizedLimit"
+              type="text"
+              class="form-control mandatory select2"
+              id="rcUnutilizedLimit"
+              placeholder="RC Utilized Limit"
+              name="rcUnutilizedLimit"
             />
           </div>
         </div>
