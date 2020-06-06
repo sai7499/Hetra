@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+
 import {
   Applicant,
   ApplicantDetails,
@@ -40,8 +41,10 @@ export class BasicDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private applicantService: ApplicantService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+   
   ) { }
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -59,13 +62,14 @@ export class BasicDetailsComponent implements OnInit {
       title: new FormControl(''),
       details: new FormArray([]),
     });
-    this.addIndividualFormControls();
+    this.addNonIndividualFormControls();
     this.getLOV();
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
       }
       this.applicantId = Number(value.applicantId);
+      this.applicantDataService.setApplicantId(this.applicantId);
       this.getApplicantDetails();
     });
   }
@@ -87,7 +91,7 @@ export class BasicDetailsComponent implements OnInit {
 
   setBasicData() {
     this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
-    this.clearFormArray();
+    // this.clearFormArray();
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead:
@@ -96,6 +100,7 @@ export class BasicDetailsComponent implements OnInit {
     });
 
     if (this.isIndividual) {
+      this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
     } else {
@@ -109,12 +114,14 @@ export class BasicDetailsComponent implements OnInit {
         name1: applicantDetails.name1,
         name2: applicantDetails.name2,
         name3: applicantDetails.name3,
+        customerCategory: applicantDetails.customerCategory,
       });
     }
   }
 
   setValuesForIndividual() {
-    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
+       ? this.applicant.aboutIndivProspectDetails : {};
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
@@ -137,7 +144,7 @@ export class BasicDetailsComponent implements OnInit {
       currentEmpYears: aboutIndivProspectDetails.currentEmpYears,
       department: aboutIndivProspectDetails.department,
 
-      // employerType : aboutIndivProspectDetails.employerType,
+      //employerType : aboutIndivProspectDetails.employerType,
     });
   }
 
@@ -252,6 +259,7 @@ export class BasicDetailsComponent implements OnInit {
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('LOvs', this.LOV)
   }
   clearFormArray() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -295,20 +303,40 @@ export class BasicDetailsComponent implements OnInit {
       : this.addNonIndividualFormControls();
   }
 
-  onSubmit() {
+  async onSubmit() {
     const value = this.basicForm.getRawValue();
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
       return;
+    } else {
+      this.storeNonIndividualValueInService(value);
     }
-    this.storeNonIndividualValueInService(value);
+    
     // this.applicantDataService.setCorporateProspectDetails(this.getValue());
     const applicantData = this.applicantDataService.getApplicant();
+    const leadId = (await this.getLeadId()) as number;
+    console.log('LEADID', leadId)
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
+         leadId,
     };
+    
     this.applicantService.saveApplicant(data).subscribe((response) => {
+      this.router.navigate([
+        `/pages/applicant-details/${leadId}/identity-details`, this.applicantId
+      ]);
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 
@@ -353,7 +381,7 @@ export class BasicDetailsComponent implements OnInit {
   storeIndividualValueInService(value) {
     const prospectDetails: IndividualProspectDetails = {};
     const applicantDetails: ApplicantDetails = {};
-    const ProspectProfileDetails: IndividualProspectDetails = {};
+    const indivProspectProfileDetails : IndivProspectProfileDetails= {}
     const formValue = value.details[0];
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2;
@@ -361,13 +389,14 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
+    applicantDetails.title= value.title;
     applicantDetails.customerCategory = value.customerCategory;
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const aboutIndivProspectDetails = formValue;
     prospectDetails.dob = formValue.dob;
     prospectDetails.mobilePhone = aboutIndivProspectDetails.mobilePhone;
-    prospectDetails.isSeniorCitizen = aboutIndivProspectDetails.isSeniorCitizen;
+    prospectDetails.isSeniorCitizen = "1"
     prospectDetails.minorGuardianName =
       aboutIndivProspectDetails.minorGuardianName;
     prospectDetails.minorGuardianUcic =
@@ -386,13 +415,16 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.designation = aboutIndivProspectDetails.designation;
     prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears;
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
-    prospectDetails.department = aboutIndivProspectDetails.department;
+    prospectDetails.department = "department";
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
-    this.applicantDataService.setIndividualProspectDetails(
-      ProspectProfileDetails
-    );
+    // this.applicantDataService.setIndividualProspectDetails(
+    //   ProspectProfileDetails
+    // );
+
+    indivProspectProfileDetails.employerType= formValue.employerType;
+    this.applicantDataService.setindivProspectProfileDetails(indivProspectProfileDetails)
   }
 
   storeNonIndividualValueInService(value) {
@@ -407,6 +439,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
+    applicantDetails.title = value.title
     applicantDetails.customerCategory = value.customerCategory;
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
@@ -417,16 +450,16 @@ export class BasicDetailsComponent implements OnInit {
 
     prospectDetails.alternateEmailId =
       corporateProspectDetails.alternateEmailId;
-    prospectDetails.companyPhoneNumber = '8888888888';
-    // prospectDetails.companyPhoneNumber = corporateProspectDetails.mobilePhone;
+    // prospectDetails.companyPhoneNumber = '8888888888';
+    prospectDetails.companyPhoneNumber = corporateProspectDetails.mobilePhone;
     prospectDetails.contactPerson = corporateProspectDetails.contactPerson;
     prospectDetails.contactPersonMobile =
       corporateProspectDetails.contactPersonMobile;
-    prospectDetails.contactPersonDesignation = 'contact';
-    // corporateProspectDetails.contactPersonDesignation;
+    prospectDetails.contactPersonDesignation 
+    corporateProspectDetails.contactPersonDesignation;
     prospectDetails.creditRiskScore = corporateProspectDetails.creditRiskScore;
-    prospectDetails.dateOfIncorporation = '22-Mar-2020';
-    // corporateProspectDetails.dateOfIncorporation;
+    prospectDetails.dateOfIncorporation =
+     corporateProspectDetails.dateOfIncorporation;
     prospectDetails.directorIdentificationNumber =
       corporateProspectDetails.directorIdentificationNumber;
     prospectDetails.directorName = corporateProspectDetails.directorName;
@@ -434,10 +467,12 @@ export class BasicDetailsComponent implements OnInit {
       corporateProspectDetails.exposureBankingSystem;
     prospectDetails.externalRatingAssigned =
       corporateProspectDetails.externalRatingAssigned;
-    prospectDetails.externalRatingExpiryDate = '22-Mar-2020';
-    // corporateProspectDetails.externalRatingExpiryDate;
-    prospectDetails.externalRatingIssueDate = '22-Mar-2020';
-    //  corporateProspectDetails.externalRatingIssueDate;
+    // prospectDetails.externalRatingExpiryDate = '22-Mar-2020';
+    prospectDetails.externalRatingExpiryDate = 
+    corporateProspectDetails.externalRatingExpiryDate;
+    // prospectDetails.externalRatingIssueDate = '22-Mar-2020';
+    prospectDetails.externalRatingIssueDate =
+      corporateProspectDetails.externalRatingIssueDate;
     prospectDetails.foreignCurrencyDealing =
       corporateProspectDetails.foreignCurrencyDealing;
     prospectDetails.numberOfDirectors = Number(

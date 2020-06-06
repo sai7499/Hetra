@@ -12,7 +12,7 @@ import { BankListComponent } from './bank-list/bank-list.component';
 
 const routes: Routes = [
     {
-        path: ':id',
+        path: ':leadId',
         component: ApplicantDetailsComponent,
         children: [
             {

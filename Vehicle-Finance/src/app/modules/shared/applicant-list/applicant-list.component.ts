@@ -50,7 +50,7 @@ export class ApplicantListComponent implements OnInit {
     if (currentUrl.includes('sales')) {
       this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
     } else {
-      this.applicantUrl = '/pages/applicant-details/basic-data';
+      this.applicantUrl = `/pages/applicant-details/${this.leadId}/basic-data`;
     }
     this.getApplicantList();
   }
