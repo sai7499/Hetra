@@ -3,8 +3,10 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
-import { FleetDetailsService } from '../services/fleet-details.service'
-import { CommomLovService } from '@services/commom-lov-service'
+import { CommomLovService } from '@services/commom-lov-service';
+import { FleetDetailsService } from '../services/fleet-details.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -16,8 +18,8 @@ export class FleetDetailsComponent implements OnInit {
   public fleetForm: FormGroup;
   labels: any = {};
   values: any = [];
-  leadId: number = 21;
-  userId: number = 1001;
+  leadId: number = 601;
+  userId: number;
   fleetDetails: any = [];
   fleetLov: any = [];
 
@@ -27,18 +29,31 @@ export class FleetDetailsComponent implements OnInit {
     private fb: FormBuilder,
     private lovData: LovDataService,
     private fleetDetailsService: FleetDetailsService,
-    private commonLovService: CommomLovService) { }
+    private commonLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private createLeadDataService: CreateLeadDataService, ) { }
 
 
   ngOnInit() {
 
+    // method for getting all vehicle details related to a lead
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    const leadData = this.createLeadDataService.getLeadSectionData();
+
+    // this.leadId = leadData['leadId']
+
+    console.log("user id ==>", this.userId)
+
     this.getLov();
+    this.getFleetDetails();
 
     this.fleetForm = this.fb.group(
       {
-        Rows: this.fb.array([this.initRows()])
+        Rows: this.fb.array([])
       }
     );
+
 
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].fleetDetails[0];
@@ -59,8 +74,31 @@ export class FleetDetailsComponent implements OnInit {
       FormArray;
   }
 
-  initRows() {
-    return this.fb.group({
+  initRows(rowData) {
+    if (rowData) {
+      return this.fb.group({
+        regdNo: [rowData.regdNo],
+        regdOwner: [rowData.regdOwner],
+        relation: [rowData.relation],
+        make: [rowData.make],
+        yom: [rowData.yom],
+        financier: [rowData.financier],
+        loanNo: [rowData.loanNo],
+        purchaseDate: [rowData.purchaseDate],
+        tenure: [rowData.tenure],
+        paid: [rowData.paid],
+        seasoning: [rowData.seasoning],
+        // ad: [{ value: rowData.ad, disabled: true }],
+        ad: [rowData.ad],
+        // pd: [{ value: rowData.pd, disabled: true }],
+        pd: [rowData.pd],
+        // gridValue: [{ value: rowData.gridValue, disabled: true }],
+        gridValue: [rowData.gridValue],
+        id: [rowData.id]
+      })
+    }
+    else return this.fb.group({
+      // id: [],
       regdNo: [''],
       regdOwner: [],
       relation: [''],
@@ -69,12 +107,15 @@ export class FleetDetailsComponent implements OnInit {
       financier: [''],
       loanNo: [''],
       purchaseDate: [''],
-      tenure: [''],
-      paid: [''],
+      tenure: [],
+      paid: [],
       seasoning: [''],
-      ad: [{ value: "", disabled: true }],
-      pd: [{ value: "", disabled: true }],
-      gridValue: [{ value: "", disabled: true }]
+      // ad: [{ value: "", disabled: true }],
+      ad: [],
+      // pd: [{ value: "", disabled: true }],
+      pd: [],
+      // gridValue: [{ value: "", disabled: true }]
+      gridValue: [],
     });
   }
 
@@ -95,22 +136,53 @@ export class FleetDetailsComponent implements OnInit {
     const data = {
       leadId: this.leadId,
       userId: this.userId,
-      fleetDetails: this.fleetDetails
+      fleets: this.fleetDetails,
     }
-    this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((value: any) => {
-      this.fleetDetails = value;
+    // console.log("in save fleet", this.fleetDetails)
+    this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
+      console.log("saveFleetDetailsResponse", res)
     });
   }
 
-  addNewRow() {
-    this.formArr.push(this.initRows());
+  //  method for getting fleet Details
+
+  getFleetDetails() {
+    const data = {
+      leadId: this.leadId
+    }
+    this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
+      if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
+        const fleets = res['ProcessVariables'].fleets;
+        for (let i = 0; i < fleets.length; i++) {
+          if (i == 0) {
+            this.formArr.push(this.initRows(fleets[i]))
+          }
+          else {
+            this.addNewRow(fleets[i]);
+          }
+        }
+      } else {
+        this.formArr.push(this.initRows(null));
+      }
+
+      // console.log("get fleet response", res.ProcessVariables.fleets)
+    })
   }
 
-  deleteRow(index: number) {
-    this.formArr.removeAt(index);
+
+  addNewRow(rowData) {
+    this.formArr.push(this.initRows(rowData));
+  }
+
+  deleteRow(index: number, item) {
+    console.log("in delete row ", item)
+    // this.formArr.removeAt(index);
   }
 
   onFormSubmit() {
+
+    this.fleetDetails = this.fleetForm.value.Rows
+    console.log(this.fleetDetails)
     this.saveOrUpdateFleetDetails();
   }
 }

@@ -34,18 +34,16 @@
                             [formGroupName]="i">
 
                             <td>{{i+1}}</td>
-                            <td><input type="text" class="form-control input_value height" value="TN01AA1234"
-                                    formControlName="regdNo">
+                            <td><input type="text" class="form-control input_value height" formControlName="regdNo">
                             </td>
-                            <td><input type="text" class="form-control input_value height" value="KUMAR"
-                                    formControlName="regdOwner">
+                            <td><input type="text" class="form-control input_value height" formControlName="regdOwner">
                             </td>
                             <td>
                                 <!-- <select class="form-control input_value height" formControlName="relation">
-                                    <option>{{labels.applicant}}</option>
-                                    <option>{{labels.coApplicant}}</option>
-                                    <option>{{labels.guarantor}}</option>
-                                </select> -->
+                                        <option>{{labels.applicant}}</option>
+                                        <option>{{labels.coApplicant}}</option>
+                                        <option>{{labels.guarantor}}</option>
+                                    </select> -->
 
                                 <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
                                     formControlName="relation">
@@ -53,34 +51,33 @@
                             </td>
                             <td>
                                 <!-- <select class="form-control input_value height" formControlName="make">
-                                    <option>{{labels.tatamotors}}</option>
-                                    <option>{{labels.eicher}}</option>
-
-                                </select> -->
+                                        <option>{{labels.tatamotors}}</option>
+                                        <option>{{labels.eicher}}</option>
+    
+                                    </select> -->
 
                                 <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make">
                                 </app-vf-custom-select>
                             </td>
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
-                            <td><input type="text" class="form-control input_value height" value="2015"
-                                    formControlName="yom"></td>
+                            <td><input type="text" class="form-control input_value height" formControlName="yom"></td>
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td>
                                 <!-- <select class="form-control input_value height" id="asset_make"
-                                    formControlName="financier">
-                                    <option>{{labels.bajaj}}</option>
-                                    <option>{{labels.icici}}</option>
-                                    <option>{{labels.chola}}</option>
-
-                                </select> -->
+                                        formControlName="financier">
+                                        <option>{{labels.bajaj}}</option>
+                                        <option>{{labels.icici}}</option>
+                                        <option>{{labels.chola}}</option>
+    
+                                    </select> -->
 
                                 <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers"
                                     formControlName="financier">
                                 </app-vf-custom-select>
 
                             </td>
-                            <td><input type="text" class="form-control input_value height" value="4587"
-                                    formControlName="loanNo"></td>
+                            <td><input type="number" class="form-control input_value height" formControlName="loanNo">
+                            </td>
                             <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
                             <td>
                                 <div class="form-group">
@@ -88,28 +85,28 @@
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input type='text' class="form-control" value="12-05-2007"
-                                            formControlName="purchaseDate">
+                                        <input type='text' class="form-control" formControlName="purchaseDate">
                                     </div>
                                 </div>
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="tenure">
+                            <td><input type="number" class="form-control input_value height" formControlName="tenure">
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="paid">
+                            <td><input type="number" class="form-control input_value height" formControlName="paid">
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="seasoning">
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="ad">
+                            <td><input type="number" class="form-control input_value height" formControlName="ad">
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="pd">
+                            <td><input type="number" class="form-control input_value height" formControlName="pd">
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="gridValue">
+                            <td><input type="number" class="form-control input_value height"
+                                    formControlName="gridValue">
                             </td>
                             <td><u><a class="a_tag" [routerLink]="['../track-vehicle']">RTR</a></u></td>
                             <!-- <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
-                                        (click)="addNewRow()"></i> &nbsp;
-                                    <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
-                                        (click)="deleteRow(i)"></i></td> -->
+                                            (click)="addNewRow()"></i> &nbsp;
+                                        <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
+                                            (click)="deleteRow(i)"></i></td> -->
                             <td>
                                 <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                                     (click)="addNewRow()"></i>&nbsp;<i type="button" class="fa fa-minus"
@@ -132,17 +129,18 @@
 
     </div>
     <div class="col-sm-7 text-right ">
-        <button class="btn btn-primary mar-right8" type="button" routerLink="['../collaterals']">Back </button>&nbsp;
+        <button class="btn btn-primary mar-right8" type="button" routerLink="['../collaterals']">Back
+        </button>&nbsp;
         <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>&nbsp;
         <button class="btn btn-primary js-btn-next" type="button" routerLink="../exposure"> Next </button>
     </div>
 </div>
 
 <!-- 
-<div class="btn-sec clear-both row text-right">
-    <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button">Back</button>
-        <p class="btn btn-primary save cus-btn-sty"> Save </p>
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="showFormValues()">Next</button>
-    </div>
-</div> -->
+    <div class="btn-sec clear-both row text-right">
+        <div class="col-sm-12">
+            <button class="btn btn-primary cus-btn-sty" type="button">Back</button>
+            <p class="btn btn-primary save cus-btn-sty"> Save </p>
+            <button class="btn btn-primary cus-btn-sty" type="button" (click)="showFormValues()">Next</button>
+        </div>
+    </div> -->
