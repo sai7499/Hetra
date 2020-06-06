@@ -77,9 +77,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   DeleteVehicleDetails(vehicle: any) {
-    console.log(vehicle, 'vehoc;e')
     if (vehicle) {
-      this.vehicleDetailsService.getDeleteVehicleDetails(vehicle.collateralId, this.userId).subscribe((res:any) => {
+      this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res:any) => {
         console.log(res, 'res')
       }, error => {
         console.log('error', error)

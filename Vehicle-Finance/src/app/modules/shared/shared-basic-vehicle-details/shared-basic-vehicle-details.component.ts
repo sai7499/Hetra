@@ -82,9 +82,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onOpenCalendar(container) {
 
     container.monthSelectHandler = (event: any): void => {
+      let selectDate = new Date(event.date);
+      selectDate.toString();
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
-        ageOfAsset: this.utilityService.ageFromAsset(event.date)
+        ageOfAsset: this.utilityService.ageFromAsset(event.date),
+        yearAndMonthManufacturing: selectDate
       })
 
       container._store.dispatch(container._actions.select(event.date));
@@ -218,7 +221,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const array = this.utilityService.getCommonUniqueValue(this.assetVarient, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.controls[0].patchValue({
-      vehicleCode: array.legth > 0 ? array[0].vehicleCode : 0
+      vehicleCode: array.length > 0 ? array[0].vehicleCode : 0
     })
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVarient,
       0, "vehicleVariant")

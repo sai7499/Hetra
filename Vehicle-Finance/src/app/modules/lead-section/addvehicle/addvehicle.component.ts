@@ -119,6 +119,8 @@ export class AddvehicleComponent implements OnInit {
 
   saveVehicleCollaterals() {
     if (this.vehicleDetails.length > 0) {
+
+      console.log(this.vehicleDetails)
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, this.leadId, this.vehicleId, this.userId).subscribe((res: any) => {
         const message = res.ProcessVariables.error.message;
         alert(message);
