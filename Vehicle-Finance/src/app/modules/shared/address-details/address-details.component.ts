@@ -387,8 +387,10 @@ export class AddressDetailsComponent implements OnInit {
 
   isSameAddress(event) {
     const isChecked = event.target.checked;
+    console.log('permanantPincode',this.permanantPincode)
     if(isChecked){
       this.currentPincode= this.permanantPincode
+      console.log('currentPincode',this.currentPincode)
     }
     this.getPermanentAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -405,6 +407,7 @@ export class AddressDetailsComponent implements OnInit {
   getPermanentAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
     const formValue = formArray.at(0).value.permanantAddress;
+    console.log('PERAM VALUE', formValue)
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
     currentAddress.patchValue({
@@ -415,6 +418,7 @@ export class AddressDetailsComponent implements OnInit {
   getRegisteredAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
     const formValue = formArray.at(0).value.registeredAddress;
+    console.log('REG VALUE', formValue)
     const details = formArray.at(0);
     const communicationAddress = details.get('communicationAddress');
     communicationAddress.patchValue({
@@ -434,6 +438,7 @@ export class AddressDetailsComponent implements OnInit {
 
   onSubmit() {
     const value = this.addressForm.value;
+    console.log('TOTAL FORM VALUE', value)
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
     } else {

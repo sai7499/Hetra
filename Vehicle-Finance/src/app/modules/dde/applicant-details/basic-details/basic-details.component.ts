@@ -89,6 +89,7 @@ export class BasicDetailsComponent implements OnInit {
       };
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
+      console.log('DDE COMING APPLICANT DATAS ', this.applicant)
       this.setBasicData();
     });
   }
@@ -122,6 +123,7 @@ export class BasicDetailsComponent implements OnInit {
       name1: applicantDetails.name1,
       name2: applicantDetails.name2,
       name3: applicantDetails.name3,
+      title: applicantDetails.title,
       customerCategory: applicantDetails.customerCategory,
       emailId: aboutIndivProspectDetails.emailId,
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId,
@@ -153,6 +155,11 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
+      name1: applicantDetails.name1,
+      name2: applicantDetails.name2,
+      name3: applicantDetails.name3,
+      title : applicantDetails.title,
+      companyPhoneNumber : corporateProspectDetails.companyPhoneNumber,
       companyEmailId: corporateProspectDetails.companyEmailId,
       alternateEmailId: corporateProspectDetails.alternateEmailId,
       numberOfDirectors: corporateProspectDetails.numberOfDirectors,
@@ -228,7 +235,7 @@ export class BasicDetailsComponent implements OnInit {
       name1: new FormControl(null),
       name2: new FormControl(null),
       name3: new FormControl(null),
-      mobilePhone: new FormControl(null),
+      companyPhoneNumber: new FormControl(null),
       dateOfIncorporation: new FormControl(null),
       // occupation: new FormControl(''),
       customerCategory: new FormControl(null),
@@ -304,6 +311,7 @@ export class BasicDetailsComponent implements OnInit {
 
   async onSubmit() {
     const value = this.basicForm.getRawValue();
+    console.log('GETRAWVALUE', value)
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
     } else {
@@ -320,6 +328,7 @@ export class BasicDetailsComponent implements OnInit {
     };
 
     this.applicantService.saveApplicant(data).subscribe((response) => {
+      console.log('RESPONSE', response)
       this.router.navigate([
         `/pages/applicant-details/${leadId}/identity-details`,
         this.applicantId,
@@ -418,7 +427,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.contactPerson = corporateProspectDetails.contactPerson;
     prospectDetails.contactPersonMobile =
       corporateProspectDetails.contactPersonMobile;
-    prospectDetails.contactPersonDesignation;
+    prospectDetails.contactPersonDesignation=
     corporateProspectDetails.contactPersonDesignation;
     prospectDetails.creditRiskScore = corporateProspectDetails.creditRiskScore;
     prospectDetails.dateOfIncorporation =
