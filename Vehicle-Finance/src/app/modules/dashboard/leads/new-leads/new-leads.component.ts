@@ -20,6 +20,8 @@ export class NewLeadsComponent implements OnInit {
   lovData: any;
   count: any;
   currentPage: any;
+  limit;
+  pageNumber;
 
   constructor(
     private labelsData: LabelsService,
@@ -65,6 +67,8 @@ export class NewLeadsComponent implements OnInit {
     // ];
   }
 
+  
+
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -95,12 +99,21 @@ export class NewLeadsComponent implements OnInit {
     this.dashboardService.myLeads().subscribe((res: any) => {
       const response = res.ProcessVariables.loanLead;
       this.newArray = response;
+      this.limit = res.ProcessVariables.perPage;
+      this.pageNumber = res.ProcessVariables.from;
       this.count = res.ProcessVariables.count;
-      console.log(this.count);
+      // console.log(this.count);
       this.currentPage = res.ProcessVariables.currentPage;
-      console.log(this.currentPage);
+      // console.log(this.currentPage);
 
     });
   }
+
+  // setPage({offset: pageNo, limit}) {
+  //   const offset = limit * pageNo;
+  //   const params = {
+  //     limit, offset
+  //   };
+  // }
 
 }
