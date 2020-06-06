@@ -6,7 +6,8 @@ export const environment = {
   },
 
   projectIds: {
-    salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+    // salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+    salesProjectId: '74c36bec6da211eabdc2f2fa9bec3d63'
   },
   // host: '/appiyo',
   host: 'http://128.199.164.250/appiyo/',
