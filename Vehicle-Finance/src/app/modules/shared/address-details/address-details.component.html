@@ -67,7 +67,8 @@
                 formControlName="pincode"
                 type="text"
                 class="form-control"
-                id="pincode"
+                id="permanantPincode"
+                (keyup)="inputPincode($event)"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -79,7 +80,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="city"
-                [values]="values.city"
+                [values]="permanantPincode?.city"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -91,7 +92,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="district"
-                [values]="values.district"
+                [values]="permanantPincode?.district"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -103,7 +104,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="state"
-                [values]="values.state"
+                [values]="permanantPincode?.state"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -115,7 +116,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="country"
-                [values]="values.country"
+                [values]="permanantPincode?.country"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -177,7 +178,8 @@
                 formControlName="pincode"
                 type="text"
                 class="form-control"
-                id="current_pincode"
+                id="currentPincode"
+                (keyup)="inputPincode($event)"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -189,7 +191,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="city"
-                [values]="values.city"
+                [values]="currentPincode?.city"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -201,7 +203,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="district"
-                [values]="values.district"
+                [values]="currentPincode?.district"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -213,7 +215,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="state"
-                [values]="values.state"
+                [values]="currentPincode?.state"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -225,7 +227,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="country"
-                [values]="values.country"
+                [values]="currentPincode?.country"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -313,7 +315,8 @@
                 formControlName="pincode"
                 type="text"
                 class="form-control"
-                id="current_pincode"
+                id="officePincode"
+                (keyup)="inputPincode($event)"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -325,7 +328,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="city"
-                [values]="values.city"
+                [values]="officePincode?.city"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -337,7 +340,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="district"
-                [values]="values.district"
+                [values]="officePincode?.district"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -349,7 +352,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="state"
-                [values]="values.state"
+                [values]="officePincode?.state"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -361,7 +364,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="country"
-                [values]="values.country"
+                [values]="officePincode?.country"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -462,7 +465,8 @@
                 formControlName="pincode"
                 type="text"
                 class="form-control"
-                id="line3"
+                id="registeredPincode"
+                (keyup)="inputPincode($event)"
               />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -474,7 +478,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="city"
-                [values]="values.city"
+                [values]="registeredPincode?.city"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -486,7 +490,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="district"
-                [values]="values.district"
+                [values]="registeredPincode?.district"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -498,7 +502,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="state"
-                [values]="values.state"
+                [values]="registeredPincode?.state"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -510,7 +514,7 @@
                                 </select> -->
               <app-vf-custom-select
                 formControlName="country"
-                [values]="values.country"
+                [values]="registeredPincode?.country"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -585,7 +589,8 @@
                   formControlName="pincode"
                   type="text"
                   class="form-control"
-                  id="line3"
+                  id="communicationPincode"
+                  (keyup)="inputPincode($event)"
                 />
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -593,7 +598,7 @@
 
                 <app-vf-custom-select
                   formControlName="city"
-                  [values]="values.city"
+                  [values]="communicationPincode?.city"
                 ></app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -605,7 +610,7 @@
                                 </select> -->
                 <app-vf-custom-select
                   formControlName="district"
-                  [values]="values.district"
+                  [values]="communicationPincode?.district"
                 ></app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -613,7 +618,7 @@
 
                 <app-vf-custom-select
                   formControlName="state"
-                  [values]="values.state"
+                  [values]="communicationPincode?.state"
                 ></app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -621,7 +626,7 @@
 
                 <app-vf-custom-select
                   formControlName="country"
-                  [values]="values.country"
+                  [values]="communicationPincode?.country"
                 ></app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">

@@ -25,6 +25,11 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   };
+  private geoMasterService: {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  };
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -35,6 +40,7 @@ export class ApplicantService {
     this.applicantDetail = this.apiService.api.getApplicantDetail;
     this.saveUpdateApplicant = this.apiService.api.saveUpdateApplicant;
     this.softDeleteDetail = this.apiService.api.softDeleteApplicant;
+    this.geoMasterService = this.apiService.api.geoMasterService;
   }
 
   getApplicantList(data) {
@@ -83,18 +89,13 @@ export class ApplicantService {
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
-    const leadDetails: any = this.createLeadDataService.getLeadSectionData();
-    let leadId = leadDetails.leadId;
-
-    leadId = leadId ? leadId : this.leadStoreService.getLeadId();
-
+    
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
         userId,
-        leadId,
         ...data,
       },
     };
@@ -117,6 +118,22 @@ export class ApplicantService {
       projectId,
       ProcessVariables: {
         userId,
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  getGeoMasterValue(data) {
+    const projectId = this.geoMasterService.projectId;
+    const processId = this.geoMasterService.processId;
+    const workflowId = this.geoMasterService.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
         ...data,
       },
     };

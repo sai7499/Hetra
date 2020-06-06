@@ -17,6 +17,7 @@
           type="button"
           id="credit_sourcing_details"
           [routerLink]="['./lead-details']"
+          [ngClass]="{ 'js-active': locationIndex >= 0 }"
         >
           Lead Details
         </button>
@@ -25,6 +26,7 @@
           type="button"
           id="credit_application_details"
           [routerLink]="['./applicant-list']"
+          [ngClass]="{ 'js-active': locationIndex >= 1 }"
         >
           Applicants
         </button>
@@ -33,6 +35,7 @@
           type="button"
           id="credit_vehicle_details"
           [routerLink]="['./vehicle-list']"
+          [ngClass]="{ 'js-active': locationIndex >= 2 }"
         >
           Collaterals
         </button>
@@ -41,6 +44,7 @@
           type="button"
           id="credit_fleet_details"
           [routerLink]="['./fleet-details']"
+          [ngClass]="{ 'js-active': locationIndex >= 3 }"
         >
           Fleet
         </button>
@@ -49,6 +53,7 @@
           type="button"
           id="credit_liveloan"
           [routerLink]="['./exposure']"
+          [ngClass]="{ 'js-active': locationIndex >= 4 }"
         >
           Exposure
         </button>
@@ -57,6 +62,7 @@
           type="button"
           id="credit_income_details"
           [routerLink]="['./income-details']"
+          [ngClass]="{ 'js-active': locationIndex >= 5 }"
         >
           Income Details
         </button>
@@ -65,6 +71,7 @@
           type="button"
           id="credit_psl_data"
           [routerLink]="['./psl-data']"
+          [ngClass]="{ 'js-active': locationIndex >= 6 }"
         >
           PSL Data
         </button>
