@@ -132,16 +132,17 @@
                         <label for="applicant_type">{{labels?.applicantType}}</label>
                         <input formControlName="applicantType" type="text" class="form-control" id="applicant_type" name="applicant_type">
                     </div> -->
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 senior-citizen">
               <label for="senior_citizen">{{ labels?.seniorCitizen }}</label>
               <!-- <select class="form-control" id="senior_citizen" name="senior_citizen">
                                     <option>Yes</option>
                                     <option>No</option>
                                 </select> -->
-              <app-vf-custom-select
+              <!-- <app-vf-custom-select
                 formControlName="isSeniorCitizen"
                 [values]=""
-              ></app-vf-custom-select>
+              ></app-vf-custom-select> -->
+              <input type="checkbox" formControlName="isSeniorCitizen" />
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="guardian_name">{{
@@ -353,16 +354,14 @@
                 [values]="LOV.LOVS.applicantEmployerTpe"
               ></app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="department">{{ labels?.department }}</label>
-              <!-- <select class="form-control" id="department" name="department">
-                            <option value="">Select</option>
-                        </select> -->
+             
               <app-vf-custom-select
                 formControlName="department"
                 [values]=""
               ></app-vf-custom-select>
-            </div>
+            </div> -->
             <!-- <div
               class="form-group col-sm-6 col-md-4 col-lg-3"
               id="type_of_business_div"
