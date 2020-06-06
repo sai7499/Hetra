@@ -14,7 +14,7 @@ import {
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
-import { Constant } from '@assets/constants/constant';
+import { Constant } from '../../../../assets/constants/constant';
 
 @Component({
   selector: 'app-address-details',

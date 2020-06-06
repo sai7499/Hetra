@@ -20,7 +20,7 @@ import {
   CorporateProspectDetails,
   IndividualProspectDetails,
 } from '@model/applicant.model';
-import { Constant } from '@assets/constants/constant';
+import { Constant } from '../../../../assets/constants/constant';
 
 @Component({
   selector: 'app-add-update-applicant',

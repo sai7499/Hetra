@@ -20,7 +20,7 @@ import {
   CorporateProspectDetails,
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
-import { Constant } from '@assets/constants/constant';
+import { Constant } from '../../../../assets/constants/constant';
 
 @Component({
   selector: 'app-identity-details',
