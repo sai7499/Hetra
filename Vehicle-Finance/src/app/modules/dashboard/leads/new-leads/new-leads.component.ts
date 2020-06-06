@@ -17,6 +17,10 @@ export class NewLeadsComponent implements OnInit {
   q;
   isCredit;
   lovData: any;
+  count: any;
+  currentPage: any;
+  limit;
+  pageNumber;
 
   constructor(
     private labelsData: LabelsService,
@@ -90,8 +94,15 @@ export class NewLeadsComponent implements OnInit {
   getMyLeads() {
     this.dashboardService.myLeads().subscribe((res: any) => {
       const response = res.ProcessVariables.loanLead;
-      console.log(response,'response')
+      console.log(response, 'response')
       this.newArray = response;
+      this.limit = res.ProcessVariables.perPage;
+      this.pageNumber = res.ProcessVariables.from;
+      this.count = res.ProcessVariables.count;
+      // console.log(this.count);
+      this.currentPage = res.ProcessVariables.currentPage;
+      // console.log(this.currentPage);
+
     });
   }
 

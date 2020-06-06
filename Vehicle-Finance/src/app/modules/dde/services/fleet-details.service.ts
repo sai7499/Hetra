@@ -24,7 +24,7 @@ export class FleetDetailsService {
     const workflowId = this.apiService.api.saveUpdateFleetDetails.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const email = localStorage.getItem('email');
+
 
     const body: RequestEntity = {
       processId: processId,
@@ -46,7 +46,25 @@ export class FleetDetailsService {
     const workflowId = this.apiService.api.getFleetDetails.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const email = localStorage.getItem('email');
+
+
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  deleteFleetDetails(data) {
+
+    const processData = data;
+    const processId = this.apiService.api.deleteFleetDetails.processId;
+    const workflowId = this.apiService.api.deleteFleetDetails.workflowId;
+    const projectId = this.apiService.api.deleteFleetDetails.projectId;
+
 
     const body: RequestEntity = {
       processId: processId,
