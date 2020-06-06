@@ -327,12 +327,14 @@ export class BasicDetailsComponent implements OnInit {
       leadId,
     };
 
-    this.applicantService.saveApplicant(data).subscribe((response) => {
-      console.log('RESPONSE', response);
-      this.router.navigate([
-        `/pages/applicant-details/${leadId}/identity-details`,
-        this.applicantId,
-      ]);
+    this.applicantService.saveApplicant(data).subscribe((response: any) => {
+      if (response.Error === '0') {
+        console.log('RESPONSE', response);
+        this.router.navigate([
+          `/pages/applicant-details/${leadId}/identity-details`,
+          this.applicantId,
+        ]);
+      }
     });
   }
 

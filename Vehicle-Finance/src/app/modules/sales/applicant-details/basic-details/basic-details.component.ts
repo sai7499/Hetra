@@ -246,11 +246,13 @@ export class BasicDetailsComponent implements OnInit {
     };
     console.log('leadId', this.leadStoreService.getLeadId());
 
-    this.applicantService.saveApplicant(data).subscribe((res) => {
-      this.router.navigate([
-        `/pages/sales-applicant-details/${leadId}/identity-details`,
-        this.applicantId,
-      ]);
+    this.applicantService.saveApplicant(data).subscribe((res: any) => {
+      if (res.Error === '0') {
+        this.router.navigate([
+          `/pages/sales-applicant-details/${leadId}/identity-details`,
+          this.applicantId,
+        ]);
+      }
     });
   }
 

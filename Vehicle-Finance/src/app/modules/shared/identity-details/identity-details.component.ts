@@ -299,7 +299,10 @@ export class IdentityDetailsComponent implements OnInit {
       applicantId: this.applicantId,
     };
     const leadId = this.leadStoreService.getLeadId();
-    this.applicantService.saveApplicant(data).subscribe((res) => {
+    this.applicantService.saveApplicant(data).subscribe((res: any) => {
+      if (res.Error !== '0') {
+        return;
+      }
       const currentUrl = this.location.path();
       if (currentUrl.includes('sales')) {
         this.router.navigate([
