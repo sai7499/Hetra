@@ -89,18 +89,13 @@ export class ApplicantService {
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
-    const leadDetails: any = this.createLeadDataService.getLeadSectionData();
-    let leadId = leadDetails.leadId;
-
-    leadId = leadId ? leadId : this.leadStoreService.getLeadId();
-
+    
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
         userId,
-        leadId,
         ...data,
       },
     };

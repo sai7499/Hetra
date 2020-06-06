@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { ApplicantService } from '@services/applicant.service';
@@ -25,7 +25,8 @@ export class ApplicantListComponent implements OnInit {
     private labelsData: LabelsService,
     private location: Location,
     private applicantService: ApplicantService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -50,7 +51,7 @@ export class ApplicantListComponent implements OnInit {
     if (currentUrl.includes('sales')) {
       this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
     } else {
-      this.applicantUrl = '/pages/applicant-details/basic-data';
+      this.applicantUrl = `/pages/applicant-details/${this.leadId}/basic-data`;
     }
     this.getApplicantList();
   }
@@ -64,6 +65,15 @@ export class ApplicantListComponent implements OnInit {
         resolve(null);
       });
     });
+  }
+
+  navigatePage(applicantId: string) {
+    console.log(
+      'applicantId',
+      applicantId,
+      `${this.applicantUrl}/${applicantId}`
+    );
+    this.router.navigate([`${this.applicantUrl}/${applicantId}`]);
   }
 
   getApplicantList() {

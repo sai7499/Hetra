@@ -294,16 +294,24 @@ export class IdentityDetailsComponent implements OnInit {
 
     const applicant = this.applicantDataService.getApplicant();
     const data = {
-      applicantId: this.applicantId,
       ...applicant,
+      leadId: this.leadId,
+      applicantId: this.applicantId,
     };
-    console.log('leadId', this.leadStoreService.getLeadId());
     const leadId = this.leadStoreService.getLeadId();
     this.applicantService.saveApplicant(data).subscribe((res) => {
-      this.router.navigate([
-        `/pages/sales-applicant-details/${leadId}/address-details`,
-        this.applicantId,
-      ]);
+      const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.router.navigate([
+          `/pages/sales-applicant-details/${leadId}/address-details`,
+          this.applicantId,
+        ]);
+      } else {
+        this.router.navigate([
+          `/pages/applicant-details/${leadId}/address-details`,
+          this.applicantId,
+        ]);
+      }
     });
   }
 }
