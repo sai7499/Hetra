@@ -4,7 +4,7 @@
     <div class="text-right" id="add_vehicle_details_btn">
         <button class="btn mar-right8" [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'"
             type="button"
-            [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle'] : ['/vehicle-details']">{{label.addVehicle}}</button>
+            [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle'] : ['/pages/' + leadId + '/vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">

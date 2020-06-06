@@ -1,3 +1,13 @@
-<p>
-  vehicle-details works!
-</p>
+<div class="content">
+  <app-shared-vehicle-details></app-shared-vehicle-details>
+</div>
+
+<div class="btn-sec clear-both row" id="clickButton">
+  <div class="col-sm-5"> </div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary js-btn-prev" [routerLink]="['./applicant-list']" type="button"> Back
+    </button> &nbsp;
+    <button class="btn btn-primary js-btn-next" type="button">Next</button>
+    <!-- [routerLink]="['../credit-score']" -->
+  </div>
+</div>

@@ -9,8 +9,12 @@
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                     <label for="registartion_number"> {{ label.registartionNumber }} </label>
-                    <input formControlName="registrationNumber" type="text" class="form-control mandatory"
-                        id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
+
+
+                    <input formControlName="registrationNumber" type="text" class="form-control mandatory input-upper"
+                        id="registartion_number" placeholder="Vechical Registration No" name="registartion_number"
+                        (keyup)="onChangeUppercase($event)">
+
                 </div>
 
                 <!-- <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="!isHidden">
@@ -84,9 +88,9 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
                     <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
-                    <input formControlName="manuFacMonthYear" autocomplete="off" class="form-control"
-                        name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}"
-                        (onShown)="onOpenCalendar($event)" placeholder="Year And Month Manufactueing">
+                    <input formControlName="manuFacMonthYear" autocomplete="off" class="form-control" name="date"
+                        bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)"
+                        placeholder="Year And Month Manufactueing">
 
                 </div>
 
@@ -109,7 +113,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                     <label for="vechical_usage"> {{ label.vechicleUsage }} </label>
 
-                    <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vechicleUsage">
+                    <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
                     </app-vf-custom-select>
                 </div>
 

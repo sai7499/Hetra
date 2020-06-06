@@ -74,11 +74,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    if (this.id) {
-      this.setFormValue();
-    }
-
     this.initForms();
+    this.getLov();
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
@@ -86,28 +83,26 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         console.log('error', error)
       });
 
+    if (this.id) {
+      this.setFormValue();
+    }
+
   }
 
   onOpenCalendar(container) {
     container.monthSelectHandler = (event: any): void => {
-     let date = event.date;
-      let selectDate = new Date(date);
-      selectDate.toString();
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
-        ageOfAsset: this.utilityService.ageFromAsset(date),
-        manuFacMonthYear: selectDate
+        ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
       })
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
-
   }
 
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
-    this.getLov();
     this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
@@ -124,23 +119,46 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
-      const VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+      let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+
+      this.vehicleLov.assetMake = [{
+        key: VehicleDetail.vehicleMfrUniqueCode,
+        value: VehicleDetail.vehicleMfrCode
+      }]
+
+      this.vehicleLov.assetBodyType = [{
+        key: VehicleDetail.vehicleSegmentUniqueCode,
+        value: VehicleDetail.vehicleSegmentCode
+      }]
+
+      this.vehicleLov.assetModel = [
+        {
+          key: VehicleDetail.vehicleModelCode,
+          value: VehicleDetail.vehicleModel
+        }
+      ]
+
+      this.vehicleLov.assetVariant = [{
+        key: 0,
+        value: VehicleDetail.assetVarient
+      }]
+
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
         vehicleType: VehicleDetail.vehicleTypeCode || '',
         region: VehicleDetail.region || '',
         registrationNumber: VehicleDetail.registrationNo || '',
-        assetMake: VehicleDetail.vehicleMfrCode || '',
+        assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
         assetModel: VehicleDetail.vehicleModelCode || '',
         assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
-        assetVariant: [''],
-        assetSubVariant: [''],
-        monthManufacturing: [''],
-        yrManufacturing: [''],
-        manuFacMonthYear: VehicleDetail.manuFacMonthYear || '',
+        assetVariant: VehicleDetail.assetVariant,
+        assetSubVariant: VehicleDetail.assetVarient,
+        monthManufacturing: '',
+        yrManufacturing: '',
+        manuFacMonthYear: this.utilityService.convertDateTimeTOUTC(VehicleDetail.manuFacMonthYear) || '',
         ageOfAsset: VehicleDetail.ageOfAsset || '',
-        vechicleUsage: VehicleDetail.vehicleUsage || '',
-        vehicleCategory: [''],
+        vehicleUsage: VehicleDetail.vehicleUsage || '',
+        vehicleCategory: '',
         orpFunding: VehicleDetail.isOrpFunding || '',
         oneTimeTax: VehicleDetail.oneTimeTax || '',
         pac: VehicleDetail.pac || '',
@@ -152,21 +170,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         finalAssetCost: VehicleDetail.finalAssetCost || '',
         idv: VehicleDetail.idv || '',
         insuranceValidity: VehicleDetail.insuranceValidity || '',
-        insuranceCopy: [''],
+        insuranceCopy: '',
         permitType: VehicleDetail.typeOfPermit || '',
-        expiryDate: [''],
-        permitCopy: [''],
+        expiryDate: '',
+        permitCopy: '',
         permitOthers: VehicleDetail.typeOfPermitOthers || '',
         frsdRequired: VehicleDetail.fsrdFundingReq || '',
         frsdAmount: VehicleDetail.fsrdPremiumAmount || '',
         fitnessDate: VehicleDetail.fitnessDate || '',
-        fitnessCopy: [''],
-        noOfVehicles: [''],
+        fitnessCopy: '',
+        noOfVehicles: VehicleDetail.noOfVehicles,
         vehicleId: VehicleDetail.vehicleId || '',
-        vehicleCode: VehicleDetail.vehicleCode || '',
+        collateralId: VehicleDetail.collateralId || '',
         leadId: this.leadId,
         userId: this.userId
       })
+
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -175,11 +194,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
-    console.log(event, 'event')
-    console.log(this.basicVehicleForm, 'Form')
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
+  onChangeUppercase(event) {
+  }
   //  method to get vehicle master data from region 
 
   onVehicleRegion(value: any) {
@@ -187,8 +206,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
-      this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'mfrCode')
-      assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "mfrCode", "uniqueMFRCode") : []
+      this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'uniqueMFRCode')
+      assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "uniqueMFRCode", "mfrCode") : []
       this.vehicleLov.assetMake = assetMakeArray;
     }, error => {
       console.log(error, 'error')
@@ -198,12 +217,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onAssetMake(value) {
     if (value) {
-      this.vehicleType = this.regionDataArray.filter(data => data.mfrCode === value)
+      this.vehicleType = this.regionDataArray.filter(data => data.uniqueMFRCode === value)
 
-      let vehicleTypeArray = this.assetMake.filter(data => data.mfrCode === value)
-
-      console.log(this.vehicleType, 'Ass')
-      console.log(vehicleTypeArray, 'Reg')
+      let vehicleTypeArray = this.assetMake.filter(data => data.uniqueMFRCode === value)
 
       this.vehicleLov.vehicleType = this.utilityService.getValueFromJSON(this.vehicleType,
         "vehicleTypeUniqueCode", "vehicleTypeDescription");
@@ -239,43 +255,43 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleType: [''],
-      region: [''],
-      registrationNumber: [''],
-      assetMake: [''],
-      assetModel: [''],
-      assetBodyType: [''],
-      assetVariant: [''],
-      assetSubVariant: [''],
-      monthManufacturing: [''],
-      yrManufacturing: [''],
-      manuFacMonthYear: [''],
-      ageOfAsset: [''],
-      vechicleUsage: [''],
-      vehicleCategory: [''],
-      orpFunding: [''],
-      oneTimeTax: [''],
-      pac: [''],
-      vas: [''],
-      emiProtect: [''],
-      fastTag: [''],
-      others: [''],
-      discount: [''],
-      finalAssetCost: [''],
-      idv: [''],
-      insuranceValidity: [''],
-      insuranceCopy: [''],
-      permitType: [''],
-      expiryDate: [''],
-      permitCopy: [''],
-      permitOthers: [''],
-      frsdRequired: [''],
-      frsdAmount: [''],
-      fitnessDate: [''],
-      fitnessCopy: [''],
-      noOfVehicles: [''],
+      vehicleType: '',
+      region: '',
+      registrationNumber: '',
+      assetMake: '',
+      assetModel: '',
+      assetBodyType: '',
+      assetVariant: '',
+      assetSubVariant: '',
+      monthManufacturing: '',
+      yrManufacturing: '',
+      manuFacMonthYear: '',
+      ageOfAsset: '',
+      vehicleUsage: '',
+      vehicleCategory: '',
+      orpFunding: '',
+      oneTimeTax: '',
+      pac: '',
+      vas: '',
+      emiProtect: '',
+      fastTag: '',
+      others: '',
+      discount: '',
+      finalAssetCost: '',
+      idv: '',
+      insuranceValidity: '',
+      insuranceCopy: '',
+      permitType: '',
+      expiryDate: '',
+      permitCopy: '',
+      permitOthers: '',
+      frsdRequired: '',
+      frsdAmount: '',
+      fitnessDate: '',
+      fitnessCopy: '',
+      noOfVehicles: '',
       vehicleId: 0,
-      vehicleCode: 0,
+      collateralId: 0,
       leadId: this.leadId,
       userId: this.userId
     });

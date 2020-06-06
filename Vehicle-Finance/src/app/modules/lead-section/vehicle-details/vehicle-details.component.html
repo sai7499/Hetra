@@ -1,5 +1,4 @@
 <div class="content">
-    <!-- <form class="multisteps-form__form" method="post" [formGroup]="vehicleForm" style="height: 380px;"> -->
     <app-shared-vehicle-details></app-shared-vehicle-details>
 </div>
 
@@ -8,8 +7,6 @@
     <div class="col-sm-7 text-right">
         <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> Back
         </button> &nbsp;
-        <!-- <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{label.save}}</button> &nbsp; -->
-        <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/'+ leadId + '/credit-score']"
-            type="button">Next</button>
+        <button class="btn btn-primary js-btn-next" [routerLink]="['../credit-score']" type="button">Next</button>
     </div>
 </div>

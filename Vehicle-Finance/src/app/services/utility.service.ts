@@ -37,8 +37,16 @@ export class UtilityService {
         return formattedDate;
     }
 
-    public ageFromAsset(dateOfBirth: any): number {
+    ageFromAsset(dateOfBirth: any): number {
         return moment().diff(dateOfBirth, 'months');
+    }
+
+    convertDateTimeTOUTC(date) {
+        return moment.utc(date).local().format('DD-MM-YYYY')
+    }
+
+    converDateToUTC(date) {
+        return moment.utc(date).format('YYYY-MM-DD HH:MM')
     }
 
     getCommonUniqueValue(array, value: any) {

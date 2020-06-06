@@ -55,7 +55,7 @@ export interface ProductDetails {
 
 export interface VehicleDetails {
   DealerSubventionPartIRR?: string;
-  ageOfAsset?: string;
+  ageOfAsset?: number;
   assetBodyType?: string;
   assetCost?: string;
   assetCostCarTrade?: string;
@@ -146,7 +146,7 @@ export interface IndivVehicleInfoDetails {
   assetSubVariant?: number;
   monthManufacturing?: string;
   yrManufacturing?: string;
-  ageOfAsset?: string;
+  ageOfAsset?: number;
   vechicalUsage?: number;
   vehicleCategory?: number;
   orpFunding?: boolean;

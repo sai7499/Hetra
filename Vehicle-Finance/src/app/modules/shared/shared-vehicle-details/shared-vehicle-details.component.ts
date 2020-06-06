@@ -4,7 +4,6 @@ import { LabelsService } from '@services/labels.service';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { Router } from '@angular/router';
-import { LeadDataResolverService } from '../../lead-section/services/leadDataResolver.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
@@ -23,6 +22,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public leadId: number;
   public leadData: any = {};
   public userId: number;
+  public routerId: number;
 
   public vehicleListArray = [
     {
@@ -78,8 +78,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   DeleteVehicleDetails(vehicle: any) {
     if (vehicle) {
-      this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res:any) => {
-        console.log(res, 'res')
+      this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res: any) => {
         this.getVehicleDetails(this.leadId)
       }, error => {
         console.log('error', error)

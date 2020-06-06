@@ -5,6 +5,7 @@ import { LabelsService } from '@services/labels.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -44,7 +45,8 @@ export class AddvehicleComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private vehicleDetailService: VehicleDetailService,
-    private loginStoreService: LoginStoreService) { }
+    private loginStoreService: LoginStoreService,
+    private utilityService: UtilityService) { }
 
   ngOnInit() {
 
@@ -84,8 +86,6 @@ export class AddvehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
-
-    console.log(this.vehicleDetails, 'Outpit')
     this.saveVehicleCollaterals();
   }
 
@@ -97,15 +97,19 @@ export class AddvehicleComponent implements OnInit {
 
       const data = this.vehicleDetails[0];
 
-      let selectDate = new Date(data.manuFacMonthYear);
-      selectDate.toString();
+      data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
 
-      data.manuFacMonthYear = selectDate;
+      // let selectDate = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear);
+      // selectDate.toString();
+
+      // data.manuFacMonthYear = selectDate;
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        const message = res.Error;
-        alert(message);
+        // const message = res.Error;
+        // alert(message);
         this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+      }, error => {
+        console.log(error, 'error')
       })
     } else {
       alert('Please Select any one of the Value')
