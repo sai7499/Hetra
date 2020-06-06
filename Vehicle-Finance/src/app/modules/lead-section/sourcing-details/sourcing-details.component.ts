@@ -271,9 +271,20 @@ export class SourcingDetailsComponent implements OnInit {
         this.sourchingTypeValues.push(data);
       }
     });
-    console.log('this.sourchingTypeValues', this.sourchingTypeValues);
+    // console.log('this.sourchingTypeValues', this.sourchingTypeValues);
+    // if (this.sourchingTypeValues.length === 0) {
+    //   this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
+    // }
+    this.sourcingDetailsForm.patchValue({ sourcingType: '' });
+    if (this.sourchingTypeValues.length === 1) {
+      const sourcingTypeData = this.sourchingTypeValues[0].key;
+      this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
+      return;
+    }
     if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
+      this.sourchingTypeValues.push({ key: null, value: 'Not Applicable' });
+      const sourcingTypeData = this.sourchingTypeValues[0].key;
+      this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
     }
   }
 

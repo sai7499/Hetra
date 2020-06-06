@@ -367,3 +367,10 @@ label.col-form-label-two {
 .table > thead > tr > td {
   border-right: 1px solid #ddd !important;
 }
+.row.bottom_common.m-0 {
+  background-color: #ddd;
+  padding: 5px;
+}
+.dash_href {
+  margin: 5px;
+}
