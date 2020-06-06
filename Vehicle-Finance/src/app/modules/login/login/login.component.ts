@@ -103,6 +103,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  enter(event) {
+    if (event.keyCode === 13) {
+      this.login();
+    }
+  }
+
   login() {
     this.loginData = this.loginForm.value;
     this.loginService.getLogin(this.loginData).subscribe(
@@ -114,9 +120,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', token);
           this.loginStoreService.setEmailId(this.loginData.email);
 
-          // tslint:disable-next-line: no-shadowed-variable
           this.loginService.getUserDetails().subscribe((res: any) => {
-            // tslint:disable-next-line: no-shadowed-variable
             const response = res;
             if (response.Error === '0') {
               const roles = response.ProcessVariables.roles;

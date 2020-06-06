@@ -67,7 +67,16 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanStartDate}}</label>
-                <input type="text" class="form-control" id="loan_start_date" formControlName="loanStartDate">
+                <div class="form-group date">
+                    <div class='input-group date' id='loan_start_date'>
+                        <span class="input-group-addon"><span
+                                class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input type='date' class="form-control" value="05-01-2018"
+                            formControlName="loanStartDate" (change)="loanStartDate($event)" />
+                    </div>
+                </div>
+               
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanMaturityDate}}</label>
@@ -86,7 +95,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.noOfEmisPaid}}</label>
-                <input type="text" class="form-control" id="no_of_emis_paid" formControlName="noOfEmisPaid">
+                <input type="text" class="form-control" id="no_of_emis_paid" formControlName="noOfEmisPaid" (change)="noOfPaidEmis($event)">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.balanceTenor}}</label>
@@ -111,6 +120,10 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
                 <input type="text" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid">
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.emiAmount}}</label>
+                <input type="text" class="form-control" id="emiAmount" formControlName="emiAmount" (change)="emaiAmount($event)">
             </div>
         </div>
 
@@ -148,7 +161,7 @@
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input type='text' class="form-control" value="01-01-2018"
+                                        <input type='date' class="form-control" value="01-01-2018"
                                             formControlName="dueDate" />
                                     </div>
                                 </div>
@@ -161,13 +174,13 @@
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input type='text' class="form-control" value="05-01-2018"
-                                            formControlName="receivedDate" />
+                                        <input type='date' class="form-control" value="05-01-2018"
+                                            formControlName="receivedDate" (change)="delayDays($event ,i , itemrow)" />
                                     </div>
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value" value="10000"
-                                    formControlName="receivedAmt"></td>
+                                    formControlName="receivedAmt" (change)="paymentExcessOrShort($event ,i)"></td>
                             <td><input type="text" class="form-control input_value auto_cal"
                                     formControlName="delayDays"></td>
                             <td><input type="text" class="form-control input_value auto_cal"

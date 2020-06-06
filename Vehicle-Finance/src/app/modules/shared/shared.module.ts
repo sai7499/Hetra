@@ -17,6 +17,7 @@ import { DdeSharedModule } from '../dde/shared/shared.module';
 import {ApplicantListComponent} from './applicant-list/applicant-list.component'
 import { SharedBasicVehicleDetailsComponent } from './shared-basic-vehicle-details/shared-basic-vehicle-details.component';
 import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-vehicle-details.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { setTheme } from 'ngx-bootstrap/utils';
@@ -34,7 +35,8 @@ setTheme('bs4');
     AddOrUpdateApplicantComponent,
     ApplicantListComponent,
     SharedBasicVehicleDetailsComponent,
-    SharedVehicleDetailsComponent
+    SharedVehicleDetailsComponent,
+    SearchBarComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +56,8 @@ setTheme('bs4');
     IdentityDetailsComponent,
     AddOrUpdateApplicantComponent,
     SharedBasicVehicleDetailsComponent,
-    SharedVehicleDetailsComponent
+    SharedVehicleDetailsComponent,
+    SearchBarComponent
   ],
 })
 export class SharedModule { }

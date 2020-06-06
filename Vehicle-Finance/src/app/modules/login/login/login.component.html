@@ -38,7 +38,8 @@
                                     class="form-control" 
                                     id="pswd" 
                                     placeholder="AD Password" 
-                                    formControlName="password">
+                                    formControlName="password"
+                                    (keyup)="enter($event)">
                             </div>
                         </div>
                         <button (click)="login()" [disabled]="loginForm.invalid" class="btn btn-primary">Sign In</button>

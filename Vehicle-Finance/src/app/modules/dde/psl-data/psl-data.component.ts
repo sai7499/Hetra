@@ -1,288 +1,805 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnChanges } from "@angular/core";
+import { FormGroup, FormControl, FormArray, FormBuilder } from "@angular/forms";
+import { Router } from "@angular/router";
 
-import { LabelsService } from '@services/labels.service';
-import { LovDataService } from '@services/lov-data.service';
-import { DdeStoreService } from '@services/dde-store.service';
+import { LabelsService } from "@services/labels.service";
+import { CommomLovService } from "@services/commom-lov-service";
+import { DdeStoreService } from "@services/dde-store.service";
+import { PslDataService } from "../services/psl-data.service";
 
 @Component({
-  selector: 'app-psl-data',
-  templateUrl: './psl-data.component.html',
-  styleUrls: ['./psl-data.component.css']
+  selector: "app-psl-data",
+  templateUrl: "./psl-data.component.html",
+  styleUrls: ["./psl-data.component.css"],
 })
-export class PslDataComponent implements OnInit {
+export class PslDataComponent implements OnInit, OnChanges {
+  pslDataForm: FormGroup;
 
-  public pslDataForm: FormGroup;
+  labels: any = {};
+  LOV: any = [];
+  test: any;
 
-  public pslDataLov: any = {};
-  public labels: any = {};
-  public errorMsg;
-  public getLabels;
+  pslData: any = [];
+  pslDataObj: any= {};
+  
+  activityChange: string = "";
+  detailActivityChange: string;
+  proofOfInvestmentChange: string = "";
 
-  public show: boolean = false;
-  public showOption: boolean = false;
-  public showAct: boolean = false;
-  public showMs: boolean = false;
-  public showHs: boolean = false;
-  public showLoan: boolean = false;
-  public show3: boolean = false;
-  public show4: boolean = false;
-  public show5: boolean = false;
+  pslDependentLOVSData: any = [];
+  detailActivityValues: any = [];
+  detailActivityChangeValues: any = [];
+  endUseValues: any = [];
+  typeOfService: any = [];
 
-  public detailActivity: any = [];
-  public purposeLoan: any = [];
-  public purLoanMs: any;
-  public typeService: any = [];
+  pslCategoryValues: any = [];
+  pslSubCategoryValues: any = [];
+  pslCategoryChange: string;
 
-  constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
+  pslSubCategoryChange: string;
+  pslCertificateValues: any = [];
+  weakerSectionValues: any = [];
+
+  landAreaInAcresValueMap: number = 0;
+  landAreaInAcresValue: number = 0;
+  pslSubCategoryValueMap: any = [];
+
+  pslLandHoldingChange: string;
+  farmerTypeValues: any = [];
+  isLandHoldingYes: boolean;
+  landProofValues: any = [];
+
+  showInputFieldsCA: boolean;
+  showInputFieldsInvestments: boolean;
+  isInvestmentInEquipment: boolean;
+  isInvestmentInPlantMachinery: boolean;
+  isGoosManufactured: boolean;
+  
+  investmentInEquipmentValue: number;
+  investmentInEquipmentValueMap: any = [];
+  investmentInPlantMachineryValue: number;
+  investmentInPlantMachineryMap: any = [];
+
+  caCertifiedAmount: number;
+  otherInvestmentCost: number;
+  totalInvestmentCost: number;
+
+  pslLandHolding: any = [
+    { key: 1, value: "Yes" },
+    { key: 2, value: "No" },
+  ];
+
+  constructor(
+    private _fb: FormBuilder,
+    private labelsData: LabelsService,
+    private commomLovService: CommomLovService,
+    private pslDataService: PslDataService,
     private ddeStoreService: DdeStoreService,
-    private router: Router) { }
+    private router: Router
+  ) {}
+
+  ngOnChanges() {
+    console.log(this.test);
+  }
 
   ngOnInit() {
+    this.getDependentDropdownLOV();
+    this.getPslData();
+    this.getLabels();
+    this.getLOV();
     this.initForm();
+  }
 
-    this.getLabels = this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      },
-      error => {
-        this.errorMsg = error;
-      });
+  getLabels() {
+    this.labelsData.getLabelsData().subscribe(
+      (data) => (this.labels = data),
+      (error) => console.log("PSL_DATA Label Error", error)
+    );
+  }
 
-    this.lovDataService.getLovData().subscribe((value: any) => {
-      this.pslDataLov = value ? value[0].pslData[0] : {};
-      this.setFormValue();
-    });
-    this.detailActivity = [];
+  getLOV() {
+    this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log("PSL DATA LOV  ---", this.LOV);
   }
 
   initForm() {
-    this.pslDataForm = new FormGroup({
-      activity: new FormControl(''),
-      propertyType: new FormControl(''),
-      detailActivity: new FormControl(''),
-      goodsManufactured: new FormControl(''),
-      typeOfService: new FormControl(''),
-      purposeOfLoanAg: new FormControl(''),
-      purposeOfLoanMsme: new FormControl(''),
-      businessActivity: new FormControl(''),
-      landHolding: new FormControl(''),
-      landOwner: new FormControl(''),
-      relWithLandowner: new FormControl(''),
-      farmerType: new FormControl(''),
-      landAreaInAcres: new FormControl(''),
-      landProof: new FormControl(''),
-      landProofUpload: new FormControl(''),
-      loanAmount: new FormControl(''),
-      proofOfInvest: new FormControl(''),
-      investProofUpload: new FormControl(''),
-      nameOfCa: new FormControl(''),
-      nameOfCaFirm: new FormControl(''),
-      caRegisterNo: new FormControl(''),
-      udinNo: new FormControl(''),
-      caCertifiedAmount: new FormControl(''),
-      otherInvestmentCost: new FormControl(''),
-      totalInvestmentCost: new FormControl(''),
-      investInEquipment: new FormControl(''),
-      investPlantMachinery: new FormControl(''),
-      cityTier: new FormControl(''),
-      investmentSocialInfra: new FormControl(''),
-      investmentOtherBank: new FormControl(''),
-      totalInvestment: new FormControl(''),
-      propertyLocatedCity: new FormControl(''),
-      propertyLocation: new FormControl(''),
-      propertyPincode: new FormControl(''),
-      landAmount: new FormControl(''),
-      landCost: new FormControl(''),
-      constructionCost: new FormControl(''),
-      totalPropertyCost: new FormControl(''),
-      registrationCost: new FormControl(''),
-      pslConsiderCost: new FormControl(''),
-      pslCategoryAg: new FormControl(''),
-      pslCategoryMsme: new FormControl(''),
-      pslCategoryHos: new FormControl(''),
-      pslSubCategoryAg: new FormControl(''),
-      pslSubCategoryMsme: new FormControl(''),
-      pslCertificateAg: new FormControl(''),
-      pslCertificateMsme: new FormControl(''),
-      pslCertificateHos: new FormControl(''),
-      weakerSectionAg: new FormControl(''),
-      weakerSectionMsme: new FormControl('')
+    this.pslDataForm = this._fb.group({
+      activity: [""],
+      agriculture: this._fb.group({
+        detailActivity: [""],
+        purposeOfLoanAg: [""],
+        landHolding: [""],
+        landOwner: [""],
+        relWithLandowner: [""],
+        farmerType: [""],
+        landAreaInAcres: [""],
+        landProof: [""],
+        landProofUpload: [""],
+        pslCategoryAg: [""],
+        pslSubCategoryAg: [""],
+        pslCertificateAg: [""],
+        weakerSectionAg: [""],
+      }),
+      microSmallAndMediumEnterprises: this._fb.group({
+        detailActivity: [""],
+        goodsManufactured: [""],
+        typeOfService: [""],
+        purposeOfLoanMsme: [""],
+        businessActivity: [""],
+        loanAmount: [""],
+        proofOfInvestment: [""],
+        proofOfInvestmentUpload: [""],
+        nameOfCa: [""],
+        nameOfCaFirm: [""],
+        caRegistrationNo: [""],
+        udinNo: [""],
+        caCertifiedAmount: [""],
+        otherInvestmentCost: [""],
+        totalInvestmentCost: [""],
+        investInEquipment: [""],
+        investmentInPlantMachinery: [""],
+        pslCategoryMsme: [""],
+        pslSubCategoryMsme: [""],
+        pslCertificateMsme: [""],
+        weakerSectionMsme: [""],
+      }),
+      housing: this._fb.group({
+        propertyType: [""],
+        detailActivity: [""],
+        propertyLocatedCity: [""],
+        propertyLocation: [""],
+        propertyPincode: [""],
+        landAmount: [""],
+        landCost: [""],
+        constructionCost: [""],
+        totalPropertyCost: [""],
+        registrationCost: [""],
+        pslConsiderationCost: [""],
+        pslCategoryHouse: [""],
+        pslCertificateHouse: [""],
+      }),
+      // socialInfrastructure: this._fb.group({
+      //   detailActivity: [""],
+      //   goodsManufactured: [""],
+      //   typeOfService: [""],
+      //   purposeOfLoanAg: [""],
+      //   purposeOfLoanMsme: [""],
+      //   businessActivity: [""],
+      //   landHolding: [""],
+      //   landOwner: [""],
+      //   relWithLandowner: [""],
+      //   farmerType: [""],
+      //   landAreaInAcres: [""],
+      //   landProof: [""],
+      //   landProofUpload: [""],
+      //   loanAmount: [""],
+      //   proofOfInvestment: [""],
+      //   proofOfInvestmentUpload: [""],
+      //   nameOfCa: [""],
+      //   nameOfCaFirm: [""],
+      //   caRegistrationNo: [""],
+      //   udinNo: [""],
+      //   caCertifiedAmount: [""],
+      //   otherInvestmentCost: [""],
+      //   totalInvestmentCost: [""],
+      //   investInEquipment: [""],
+      //   investmentInPlantMachinery: [""],
+      //   pslCategoryAg: [""],
+      //   pslCategoryMsme: [""],
+      //   pslSubCategoryAg: [""],
+      //   pslSubCategoryMsme: [""],
+      //   pslCertificateAg: [""],
+      //   pslCertificateMsme: [""],
+      //   weakerSectionAg: [""],
+      //   weakerSectionMsme: [""],
+      // }),
+      otherOption: this._fb.group({
+        propertyType: [""],
+        detailActivity: [""],
+        goodsManufactured: [""],
+        typeOfService: [""],
+        purposeOfLoanAg: [""],
+        purposeOfLoanMsme: [""],
+        businessActivity: [""],
+        landHolding: [""],
+        landOwner: [""],
+        relWithLandowner: [""],
+        farmerType: [""],
+        landAreaInAcres: [""],
+        landProof: [""],
+        landProofUpload: [""],
+        loanAmount: [""],
+        proofOfInvestment: [""],
+        proofOfInvestmentUpload: [""],
+        nameOfCa: [""],
+        nameOfCaFirm: [""],
+        caRegistrationNo: [""],
+        udinNo: [""],
+        caCertifiedAmount: [""],
+        otherInvestmentCost: [""],
+        totalInvestmentCost: [""],
+        investInEquipment: [""],
+        investmentInPlantMachinery: [""],
+        totalInvestment: [""],
+        propertyLocatedCity: [""],
+        propertyLocation: [""],
+        propertyPincode: [""],
+        landAmount: [""],
+        landCost: [""],
+        constructionCost: [""],
+        totalPropertyCost: [""],
+        registrationCost: [""],
+        pslConsiderCost: [""],
+        pslCategoryAg: [""],
+        pslCategoryMsme: [""],
+        pslCategoryHos: [""],
+        pslSubCategoryAg: [""],
+        pslSubCategoryMsme: [""],
+        pslCertificateAg: [""],
+        pslCertificateMsme: [""],
+        pslCertificateHos: [""],
+        weakerSectionAg: [""],
+        weakerSectionMsme: [""],
+      }),
     });
   }
 
-  setFormValue() {
-    const pslDataModel = this.ddeStoreService.getPslData() || {};
-
-    this.pslDataForm.patchValue({
-      activity: pslDataModel.activity || '',
-      propertyType: pslDataModel.propertyType || '',
-      detailActivity: pslDataModel.detailActivity || '',
-      goodsManufactured: pslDataModel.goodsManufactured || '',
-      typeOfService: pslDataModel.typeOfService || '',
-      purposeOfLoanAg: pslDataModel.purposeOfLoanAg || '',
-      purposeOfLoanMsme: pslDataModel.purposeOfLoanMsme || '',
-      businessActivity: pslDataModel.businessActivity || '',
-      landHolding: pslDataModel.landHolding || '',
-      landOwner: pslDataModel.landOwner || '',
-      relWithLandowner: pslDataModel.relWithLandowner || '',
-      farmerType: pslDataModel.farmerType || '',
-      landAreaInAcres: pslDataModel.landAreaInAcres || '',
-      landProof: pslDataModel.landProof || '',
-      landProofUpload: pslDataModel.landProofUpload || '',
-      loanAmount: pslDataModel.loanAmount || '',
-      proofOfInvest: pslDataModel.proofOfInvest || '',
-      investProofUpload: pslDataModel.investProofUpload || '',
-      nameOfCa: pslDataModel.nameOfCa || '',
-      nameOfCaFirm: pslDataModel.nameOfCaFirm || '',
-      caRegisterNo: pslDataModel.caRegisterNo || '',
-      udinNo: pslDataModel.udinNo || '',
-      caCertifiedAmount: pslDataModel.caCertifiedAmount || '',
-      otherInvestmentCost: pslDataModel.otherInvestmentCost || '',
-      totalInvestmentCost: pslDataModel.totalInvestmentCost || '',
-      investInEquipment: pslDataModel.investInEquipment || '',
-      investPlantMachinery: pslDataModel.investPlantMachinery || '',
-      cityTier: pslDataModel.cityTier || '',
-      investmentSocialInfra: pslDataModel.investmentSocialInfra || '',
-      investmentOtherBank: pslDataModel.investmentOtherBank || '',
-      totalInvestment: pslDataModel.totalInvestment || '',
-      propertyLocatedCity: pslDataModel.propertyLocatedCity || '',
-      propertyLocation: pslDataModel.propertyLocation || '',
-      propertyPincode: pslDataModel.propertyPincode || '',
-      landAmount: pslDataModel.landAmount || '',
-      landCost: pslDataModel.landCost || '',
-      constructionCost: pslDataModel.constructionCost || '',
-      totalPropertyCost: pslDataModel.totalPropertyCost || '',
-      registrationCost: pslDataModel.registrationCost || '',
-      pslConsiderCost: pslDataModel.pslConsiderCost || '',
-      pslCategoryAg: pslDataModel.pslCategoryAg || '',
-      pslCategoryMsme: pslDataModel.pslCategoryMsme || '',
-      pslCategoryHos: pslDataModel.pslCategoryHos || '',
-      pslSubCategoryAg: pslDataModel.pslSubCategoryAg || '',
-      pslSubCategoryMsme: pslDataModel.pslSubCategoryMsme || '',
-      pslCertificateAg: pslDataModel.pslCertificateAg || '',
-      pslCertificateMsme: pslDataModel.pslCertificateMsme || '',
-      pslCertificateHos: pslDataModel.pslCertificateHos || '',
-      weakerSectionAg: pslDataModel.weakerSectionAg || '',
-      weakerSectionMsme: pslDataModel.weakerSectionMsme || ''
+  getDependentDropdownLOV() {
+    this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
+      console.log("RESPONSE FROM APPIYO_SERVER_PSLDATA_Dependent_LOVS_API_RESPONSE", res);
+      const response = res.ProcessVariables.pslDataLovObj;
+      console.log("PSLDATA_Dependent_LOVS_API", response);
+      this.pslDependentLOVSData = response;
     });
   }
 
-  onChangeActivity(event) {
-    if (event.target.value === "1") {
-      this.show = true;
-      this.showAct = false;
-      this.showOption = true;
-      this.showMs = false;
-      this.showHs = false;
-      this.showLoan = true;
-      this.show3 = false;
-      this.show4 = false;
-      this.detailActivity = this.pslDataLov.detailActivity[0].value;
+  getPslData() {
+    this.pslDataService.getPslData().subscribe((res: any) => {
+      console.log("RESPONSE FROM APPIYO_SERVER_GET_PSL_DATA_API", res);
+      const response = res.ProcessVariables.pslData;
+      console.log("GET_PSL_DATA_API", response);
+      this.pslDataObj = response;
+    });    
+  }
+
+  onActivityChange(event: any) {
+    this.detailActivityValues = [];
+    this.activityChange = event.target.value;
+    console.log("ACTIVITY_CHANGE----", this.activityChange);
+
+    this.pslDependentLOVSData.map((element) => {
+      if (element.activityId === this.activityChange) {
+        // console.log("RELATED_DETAILACTIVITY_NAME----", element.dltActivityName);
+        const data = {
+          key: element.dltActivityId,
+          value: element.dltActivityName,
+        };
+        this.detailActivityValues.push(data);
+      }
+      // console.log("DETAIL_ACTIVITY_VALUES---", this.detailActivityValues);
+
+      //To filter unique value in Array
+      let detailActivityObject = {};
+      const detailActivityData = [];
+      this.detailActivityValues.forEach((element) => {
+        if (!detailActivityObject[element.key]) {
+          detailActivityObject[element.key] = true;
+          detailActivityData.push(element);
+        }
+      });
+      console.log("DETAILACTIVITY_DATA", detailActivityData);
+      this.detailActivityChangeValues = detailActivityData;
+    });
+
+    if (this.detailActivityValues.length === 0) {
+      this.detailActivityValues = [{ key: null, value: "Not Applicable" }];
     }
-    else if (event.target.value === "2") {
-      this.show = false;
-      this.showAct = true;
-      this.show3 = true;
-      this.showOption = true;
-      this.showMs = true;
-      this.showHs = false;
-      this.showLoan = false;
-      this.show4 = false;
-      this.detailActivity = this.pslDataLov.detailActivity[1].value;
-      this.purLoanMs = this.pslDataLov.purposeLoan[4].value;
+    //SHOW ALL OPTIONS_MSME
+    this.showInputFieldsCA = true;
+    this.showInputFieldsInvestments = true;
+
+    this.isInvestmentInEquipment = true;
+    this.isInvestmentInPlantMachinery = true;
+
+    this.isLandHoldingYes = true;
+    this.isGoosManufactured = true;
+  }
+  onChangeDetailActivity(event: any) {
+    this.endUseValues = [];
+    this.detailActivityChange = event.target.value;
+    console.log("DETAILACTIVITY_CHANGE ----", this.detailActivityChange);
+
+    this.pslDependentLOVSData.map((element) => {
+      if (element.dltActivityId === this.detailActivityChange) {
+        console.log("RELATED_ENDUSE_NAME --", element.endUseName);
+        const data = {
+          key: element.endUseId,
+          value: element.endUseName,
+        };
+        this.endUseValues.push(data);
+      }
+      //If selected as MSME service
+      if (this.detailActivityChange === "6PSLDTLACTVTY") {
+        const data = this.LOV.LOVS.typeOfService;
+        this.typeOfService = data;
+        this.isGoosManufactured = false;
+      } else {
+        this.typeOfService = [{ key: null, value: 'Not Applicable'}];
+        this.isGoosManufactured = true;
+      }
+    });
+
+    if (this.detailActivityChange === "2PSLDTLACTVTY") {
+      this.pslLandHolding = [{ key: 2, value: "No" }];
+      // this.isLandHoldingYes = false;   //When selected "Allied Activities" in Detail_Activity
+      const data = [
+        {
+          key: this.LOV.LOVS.pslSubCategory[2].key,
+          value: this.LOV.LOVS.pslSubCategory[2].value,
+        },
+      ];
+      this.pslSubCategoryValues = data;
+    } else if (this.detailActivityChange === "1PSLDTLACTVTY") {
+      this.pslLandHolding = [
+        { key: 1, value: "Yes" },
+        { key: 2, value: "No" },
+      ];
+      // const data = [
+      //   {
+      //     key: this.LOV.LOVS.pslSubCategory[0].key,
+      //     value: this.LOV.LOVS.pslSubCategory[0].value,
+      //   },
+      //   {
+      //     key: this.LOV.LOVS.pslSubCategory[1].key,
+      //     value: this.LOV.LOVS.pslSubCategory[1].value,
+      //   },
+      //   {
+      //     key: this.LOV.LOVS.pslSubCategory[2].key,
+      //     value: this.LOV.LOVS.pslSubCategory[2].value,
+      //   },
+      // ];
+      // this.pslSubCategoryValues = data;
     }
-    else if (event.target.value === "3") {
-      this.show = true;
-      this.showAct = true;
-      this.showOption = true;
-      this.showMs = false;
-      this.showHs = true;
-      this.showLoan = false;
-      this.show3 = false;
-      this.show4 = false;
-      this.detailActivity = this.pslDataLov.detailActivity[2].value;
+
+    //For DETAIL_ACTIVITY--AGRICULTURE OR ALLIED>>>>>
+    if (
+      this.detailActivityChange === "1PSLDTLACTVTY" ||
+      this.detailActivityChange === "2PSLDTLACTVTY"
+    ) {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCategory[0].key,
+          value: this.LOV.LOVS.pslCategory[0].value,
+        },
+      ];
+      this.pslCategoryValues = data;
     }
-    else if (event.target.value === "4") {
-      this.show = false;
-      this.showAct = false;
-      this.show3 = true;
-      this.showOption = true;
-      this.showMs = true;
-      this.showHs = false;
-      this.showLoan = true;
-      this.show4 = true;
-      this.detailActivity = this.pslDataLov.detailActivity[0].value;
-      this.purLoanMs = this.pslDataLov.purposeLoan[4].value;
+
+    //For ACTIVITY--MSME>>>>> Detail Activity SERVICE AND MANUFACTURING
+    if (this.detailActivityChange === "5PSLDTLACTVTY") {
+      this.isInvestmentInPlantMachinery = true;
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCategory[2].key,
+          value: this.LOV.LOVS.pslCategory[2].value,
+        },
+      ];
+      this.pslCategoryValues = data;
+    } else {
+      this.isInvestmentInPlantMachinery = false;
     }
-    else if (event.target.value === "5" || event.target.value === "6" || event.target.value === "7" || event.target.value === "8") {
-      this.show = false;
-      this.showAct = false;
-      this.show3 = true;
-      this.showOption = true;
-      this.showMs = true;
-      this.showHs = false;
-      this.showLoan = true;
-      this.show4 = true;
-      this.detailActivity = this.pslDataLov.detailActivity[0].value;
-      this.purLoanMs = this.pslDataLov.purposeLoan[4].value;
-    }
-    else {
-      this.show = false;
-      this.showAct = false;
-      this.showOption = false;
-      this.showMs = true;
-      this.showHs = true;
-      this.showLoan = true;
-      this.show3 = true;
-      this.show4 = true;
-      // this.detailActivity = this.pslDataLov.detailActivity[3].value;
-      this.detailActivity = [];
+
+    if (this.detailActivityChange === "6PSLDTLACTVTY") {
+      this.isInvestmentInEquipment = true;
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCategory[1].key,
+          value: this.LOV.LOVS.pslCategory[1].value,
+        },
+      ];
+      this.pslCategoryValues = data;
+    } else {
+      this.isInvestmentInEquipment = false;
     }
   }
 
-  onChangeDetailActivity(event) {
+  // onChangePslCategory(event: any) {
+  //   this.pslCategoryChange = event.target.value;
+  //   console.log("PSL_CATEGORY_ID", this.pslCategoryChange);
+  //   if (this.pslCategoryChange === "1PSLCAT") {
+  //     const data = [
+  //       {
+  //         key: this.LOV.LOVS.pslSubCategory[0].key,
+  //         value: this.LOV.LOVS.pslSubCategory[0].value,
+  //       },
+  //       {
+  //         key: this.LOV.LOVS.pslSubCategory[1].key,
+  //         value: this.LOV.LOVS.pslSubCategory[1].value,
+  //       },
+  //       {
+  //         key: this.LOV.LOVS.pslSubCategory[2].key,
+  //         value: this.LOV.LOVS.pslSubCategory[2].value,
+  //       },
+  //     ];
+  //     this.pslSubCategoryValues = data;
+  //   }
+  // }
 
-    if (event.target.value === "Agriculture") {
-      this.showOption = true;
-      this.purposeLoan = this.pslDataLov.purposeLoan[0].value;
+  onChangePslSubCategory(event: any) {
+    this.pslSubCategoryChange = event.target.value;
+    console.log("PSL_SUBCATEGORY_ID", this.pslSubCategoryChange);
+    if (this.pslSubCategoryChange === "2PSLSUBCAT") {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCertificate[0].key,
+          value: this.LOV.LOVS.pslCertificate[0].value,
+        },
+      ];
+      this.pslCertificateValues = data;
+    } else if (this.pslSubCategoryChange === "1PSLSUBCAT") {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCertificate[1].key,
+          value: this.LOV.LOVS.pslCertificate[1].value,
+        },
+      ];
+      this.pslCertificateValues = data;
+    } else if (this.pslSubCategoryChange === "3PSLSUBCAT") {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCertificate[2].key,
+          value: this.LOV.LOVS.pslCertificate[2].value,
+        },
+      ];
+      this.pslCertificateValues = data;
     }
-    else if (event.target.value === "Allied Activities") {
-      this.showOption = true;
-      this.purposeLoan = this.pslDataLov.purposeLoan[1].value;
+    //FOR PSL_SUBCATEGORY AS MICRO
+    else if (
+      this.pslSubCategoryChange === "7PSLSUBCAT" ||
+      this.pslSubCategoryChange === "4PSLSUBCAT"
+    ) {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCertificate[3].key,
+          value: this.LOV.LOVS.pslCertificate[3].value,
+        },
+      ];
+      this.pslCertificateValues = data;
+    } else {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslCertificate[4].key,
+          value: this.LOV.LOVS.pslCertificate[4].value,
+        },
+      ];
+      this.pslCertificateValues = data;
     }
-    else if (event.target.value === "Agriculture Infrastructure") {
-      this.showOption = true;
-      this.purposeLoan = this.pslDataLov.purposeLoan[2].value;
+
+    //FOR AGRICULTURE
+    if (
+      this.pslSubCategoryChange === "1PSLSUBCAT" ||
+      this.pslSubCategoryChange === "2PSLSUBCAT"
+    ) {
+      const data = [
+        {
+          key: this.LOV.LOVS.weakerSection[0].key,
+          value: this.LOV.LOVS.weakerSection[0].value,
+        },
+      ];
+      this.weakerSectionValues = data;
+    } else if (this.pslSubCategoryChange === "3PSLSUBCAT") {
+      const data = [
+        {
+          key: this.LOV.LOVS.weakerSection[1].key,
+          value: this.LOV.LOVS.weakerSection[1].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[2].key,
+          value: this.LOV.LOVS.weakerSection[2].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[3].key,
+          value: this.LOV.LOVS.weakerSection[3].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[4].key,
+          value: this.LOV.LOVS.weakerSection[4].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[5].key,
+          value: this.LOV.LOVS.weakerSection[5].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[6].key,
+          value: this.LOV.LOVS.weakerSection[6].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[7].key,
+          value: this.LOV.LOVS.weakerSection[7].value,
+        },
+        {
+          key: this.LOV.LOVS.weakerSection[8].key,
+          value: this.LOV.LOVS.weakerSection[8].value,
+        },
+      ];
+      this.weakerSectionValues = data;
+    } else {
+      this.weakerSectionValues = [{ key: null, value: "Not Applicable" }];
     }
-    else if (event.target.value === "Ancilary activities") {
-      this.showOption = true;
-      this.purposeLoan = this.pslDataLov.purposeLoan[3].value;
+  }
+
+  // onChangePslCertificate (event:any) {
+  //   let pslCerticateChange = event.target.value;
+  //   console.log("PSL_CERTIFICATE_CHANGE_ID--", pslCerticateChange);
+  //   if (this.pslSubCategoryChange === "1PSLSUBCAT" || this.pslSubCategoryChange === "2PSLSUBCAT") {
+  //     const data = [
+  //       {
+  //         key: this.LOV.LOVS.weakerSection[0].key,
+  //         value: this.LOV.LOVS.weakerSection[0].value,
+  //       }
+  //     ];
+  //     this.weakerSectionValues = data;
+  //   }
+
+  // }
+
+  // Chnage in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN LANDAREAINACRES
+  onLandAreaChange(event: any) {
+    let landAreaChange = event.target.value;
+    this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
+    this.landAreaInAcresValueMap = this.pslSubCategoryValueMap.filter(
+      (element) => {
+        if (this.landAreaInAcresValue <= 2.5) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[0].key,
+              value: this.LOV.LOVS.pslSubCategory[0].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        }
+        // console.log("ELEMENT--------------------", element);
+        else if (
+          this.landAreaInAcresValue > 2.5 &&
+          this.landAreaInAcresValue <= 5
+        ) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[1].key,
+              value: this.LOV.LOVS.pslSubCategory[1].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        } else {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[2].key,
+              value: this.LOV.LOVS.pslSubCategory[2].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        }
+      }
+    );
+  }
+
+  onChangeInvestmentInEquipment(event: any) {
+    let investmentInEquipmentChange = event.target.value;
+    this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
+    // this.totalInvestmentCost = this.investmentInEquipmentValue;
+    this.investmentInEquipmentValueMap = this.pslSubCategoryValueMap.filter(
+      (element) => {
+        this.investmentInEquipmentValue = this.totalInvestmentCost;
+        console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
+        
+        if (this.investmentInEquipmentValue <= 1000000) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[3].key,
+              value: this.LOV.LOVS.pslSubCategory[3].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        }
+        // console.log("ELEMENT--------------------", element);
+        else if (
+          this.investmentInEquipmentValue > 1000000 &&
+          this.investmentInEquipmentValue <= 20000000
+        ) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[4].key,
+              value: this.LOV.LOVS.pslSubCategory[4].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        } else if (
+          this.investmentInEquipmentValue > 20000000 &&
+          this.investmentInEquipmentValue <= 50000000
+        ) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[5].key,
+              value: this.LOV.LOVS.pslSubCategory[5].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        }
+      }
+    );
+  }
+
+  onChangeInvestmentInPlantAndMachinery(event: any) {
+    let investmentInPlantMachineryChange = event.target.value;
+    this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
+
+    this.investmentInPlantMachineryMap = this.pslSubCategoryValueMap.filter(
+      (element) => {
+        this.investmentInPlantMachineryValue = this.totalInvestmentCost;
+        console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
+        
+        if (this.investmentInPlantMachineryValue <= 2500000) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[6].key,
+              value: this.LOV.LOVS.pslSubCategory[6].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        }
+        // console.log("ELEMENT--------------------", element);
+        else if (
+          this.investmentInPlantMachineryValue > 2500000 &&
+          this.investmentInPlantMachineryValue <= 50000000
+        ) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[8].key,
+              value: this.LOV.LOVS.pslSubCategory[8].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        } else if (
+          this.investmentInPlantMachineryValue > 50000000 &&
+          this.investmentInPlantMachineryValue <= 100000000
+        ) {
+          const data = [
+            {
+              key: this.LOV.LOVS.pslSubCategory[7].key,
+              value: this.LOV.LOVS.pslSubCategory[7].value,
+            },
+          ];
+          this.pslSubCategoryValues = data;
+        }
+      }
+    );
+  }
+
+  onChangeProofOfInvestment(event: any) {
+    this.proofOfInvestmentChange = event.target.value;
+    console.log("ProofOfInvestment_ID", this.proofOfInvestmentChange);
+
+    if (this.proofOfInvestmentChange === "1PSLINVSTPRF") {
+      this.showInputFieldsCA = true;
+    } else {
+      this.showInputFieldsCA = false;
     }
-    else if (event.target.value === "Manufacturing") {
-      this.showOption = true;
-      this.typeService = this.pslDataLov.typeService[0].value;
-      this.purposeLoan = this.pslDataLov.purposeLoan[5].value;
+
+    if (
+      this.proofOfInvestmentChange === "2PSLINVSTPRF" ||
+      this.proofOfInvestmentChange === "3PSLINVSTPRF" ||
+      this.proofOfInvestmentChange === "4PSLINVSTPRF"
+    ) {
+      this.showInputFieldsInvestments = true;
+    } else {
+      this.showInputFieldsInvestments = false;
     }
-    else if (event.target.value === "Service") {
-      this.showOption = true;
-      this.typeService = this.pslDataLov.typeService[0].value;
-      this.purposeLoan = this.pslDataLov.purposeLoan[4].value;
+  }
+
+  onChangePslLandHolding(event: any) {
+    this.pslLandHoldingChange = event.target.value;
+    console.log("PSL_LANDHOLDING_CHANGE_ID-----", this.pslLandHoldingChange);
+    if (this.pslLandHoldingChange === "1") {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslFarmerType[0].key,
+          value: this.LOV.LOVS.pslFarmerType[0].value,
+        },
+        {
+          key: this.LOV.LOVS.pslFarmerType[1].key,
+          value: this.LOV.LOVS.pslFarmerType[1].value,
+        },
+        {
+          key: this.LOV.LOVS.pslFarmerType[2].key,
+          value: this.LOV.LOVS.pslFarmerType[2].value,
+        },
+        {
+          key: this.LOV.LOVS.pslFarmerType[3].key,
+          value: this.LOV.LOVS.pslFarmerType[3].value,
+        },
+      ];
+      this.farmerTypeValues = data;
+      this.isLandHoldingYes = true;
+    } else if (this.pslLandHoldingChange === "2") {
+      const data = [
+        {
+          key: this.LOV.LOVS.pslFarmerType[4].key,
+          value: this.LOV.LOVS.pslFarmerType[4].value,
+        },
+        {
+          key: this.LOV.LOVS.pslFarmerType[5].key,
+          value: this.LOV.LOVS.pslFarmerType[5].value,
+        },
+      ];
+      this.farmerTypeValues = data;
+      this.isLandHoldingYes = false;
+    }
+    console.log("FARMER_TYPE_VALUES---", this.farmerTypeValues);
+  }
+
+  onChangeCaCertifiedAmount(event:any) {
+    let key = event.target.value;
+    // this.otherInvestmentCost = 0;
+    if(this.caCertifiedAmount && this.otherInvestmentCost) {
+      this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+      console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+    }
+    else  if( this.caCertifiedAmount) {
+      this.otherInvestmentCost = 0;
+      this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+      console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
     }
     else {
-      this.purposeLoan = [];
-      this.showMs = false;
-      this.typeService = [];
+      this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
     }
+    console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+  }
+
+  onChangeOtherInvestmentCost(event:any) {
+    let key = event.target.value;
+      // this.caCertifiedAmount = 0;
+      if(this.caCertifiedAmount && this.otherInvestmentCost) {
+        this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+        console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+      }
+      else if(this.otherInvestmentCost) {
+        this.caCertifiedAmount = 0;
+        this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+        console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+      }
+    else {
+      this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+    }
+    console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+  }
+
+  // autoSumTotalInvestment(value1, value2) {
+  //   if(this.caCertifiedAmount===0 || this.otherInvestmentCost===0) {
+  //     this.totalInvestmentCost = 0;
+  //     console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+  //   } else {
+  //     this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+  //   }
+  // }
+
+  saveOrUpdatePslData() {
+    const data = this.pslData;
+    
+    this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
+      const response = res;
+      console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
+      // console.log("DATA", data);
+          
+    });
   }
 
   onFormSubmit() {
+    this.saveOrUpdatePslData();
     const formModel = this.pslDataForm.value;
-    const pslDataModel = { ...formModel };
-    // this.ddeStoreService.setPslData(pslDataModel);
-    this.router.navigate(['/pages/dde/vehicle-valuation']);
+    const pslDataFormModel = { ...formModel };
+    console.log("PSL_DATA_FORM", pslDataFormModel);
+   
+    // this.ddeStoreService.setPslData(pslDataFormModel);
+    this.router.navigate(["/pages/dde/vehicle-valuation"]);
   }
-
 }

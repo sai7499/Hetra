@@ -9,6 +9,7 @@ import { CreateLeadService } from '../service/creatLead.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
+import { UtilityService } from '@services/utility.service';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -39,8 +40,13 @@ export class LeadCreationComponent implements OnInit {
 
   LOV: any = [];
 
-  productCategoryData = [];
+  productCategoryData;
+  productData = [];
   sourchingType: string;
+
+  obj = {};
+
+  test = [];
 
   loanLeadDetails: {
     bizDivision: string,
@@ -71,8 +77,9 @@ export class LeadCreationComponent implements OnInit {
     private createLeadService: CreateLeadService,
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
-    private createLeadDataService: CreateLeadDataService
-  ) { };
+    private createLeadDataService: CreateLeadDataService,
+    private utilityService: UtilityService
+  ) { }
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -95,11 +102,16 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm = new FormGroup({
       bizDivision: new FormControl(''),
       productCategory: new FormControl(''),
+      product: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
+      dealerCode: new FormControl(''),
+      rcLimit: new FormControl(''),
+      rcUtilizedLimit: new FormControl(''),
+      rcUnutilizedLimit: new FormControl(''),
       spokeCodeLocation: new FormControl({ value: '', disabled: !this.isSpoke }),
       loanBranch: new FormControl({ value: this.loanAccountBranch, disabled: true }),
       leadHandeledBy: new FormControl({ value: this.leadHandeledBy, disabled: true }),
@@ -113,7 +125,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   getLOV() {
-    this.commonLovService.getLovData().subscribe((lov: any) => this.LOV = lov)
+    this.commonLovService.getLovData().subscribe((lov: any) => this.LOV = lov);
   }
 
   getUserDetailsData() {
@@ -162,19 +174,10 @@ export class LeadCreationComponent implements OnInit {
   getProductCategory(event) {
     this.bizDivId = (this.isBusinessDivisionEnable) ? event : event.target.value;
     this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
-      const product = res.ProcessVariables.productCategoryDetails;
-      product.map(data => {
-        if (data) {
-          const val = {
-            key: data.assetProdcutCode,
-            value: data.prodcutCatName
-          };
-          this.productCategoryData.push(val);
-        }
-      });
+      const productCategory = res.ProcessVariables.productCategoryDetails;
+      // this.productCategoryData = this.utilityService.getValueFromJSON(productCategory, 'prodCatCode', 'prodCatName');
     });
   }
-
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
@@ -197,8 +200,16 @@ export class LeadCreationComponent implements OnInit {
         this.sourchingTypeValues.push(data);
       }
     });
+    this.createLeadForm.patchValue({ sourcingType: '' });
+    if (this.sourchingTypeValues.length === 1) {
+      const sourcingTypeData = this.sourchingTypeValues[0].key;
+      this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
+      return;
+    }
     if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
+      this.sourchingTypeValues.push({ key: null, value: 'Not Applicable' });
+      const sourcingTypeData = this.sourchingTypeValues[0].key;
+      this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
     }
   }
 
@@ -309,5 +320,4 @@ export class LeadCreationComponent implements OnInit {
     },
       err => { alert(err); });
   }
-
 }
