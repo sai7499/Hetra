@@ -1,34 +1,63 @@
 <main class="mar-top90">
-    <div class="container overflow-hidden">
-        <h3>Application - #1000002 </h3>
-        <app-dde-header></app-dde-header>
-        <div class="multisteps-form">
-            <div class="multisteps-form__progress">
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 0}"
-                    type="button" id="applicant_basic_details" routerLink="/pages/applicant-details/basic-data">Basic
-                    Data</button>
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}"
-                    type="button" id="applicant_identity_details"
-                    routerLink="/pages/applicant-details/identity-details">Identity Details</button>
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
-                    type="button" id="applicant_address_details"
-                    routerLink="/pages/applicant-details/address-details">Address Details</button>
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}"
-                        type="button" id="applicant_bank_details" routerLink="/pages/applicant-details/bank-list">Bank
-                        Details</button>
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
-                    type="button" id="applicant_employment_details"
-                    routerLink="/pages/applicant-details/employment-details">Employment Details</button>
-                <!-- <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
+  <div class="container overflow-hidden">
+    <h3>Application - #1000002</h3>
+    <app-dde-header></app-dde-header>
+    <div class="multisteps-form">
+      <div class="multisteps-form__progress">
+        <button
+          class="multisteps-form__progress-btn"
+          [ngClass]="{ 'js-active': locationIndex >= 0 }"
+          type="button"
+          id="applicant_basic_details"
+          (click)="navigatePage('basic-data')"
+        >
+          Basic Data
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          [ngClass]="{ 'js-active': locationIndex >= 1 }"
+          type="button"
+          id="applicant_identity_details"
+          (click)="navigatePage('identity-details')"
+        >
+          Identity Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          [ngClass]="{ 'js-active': locationIndex >= 2 }"
+          type="button"
+          id="applicant_address_details"
+          (click)="navigatePage('address-details')"
+        >
+          Address Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          [ngClass]="{ 'js-active': locationIndex >= 3 }"
+          type="button"
+          id="applicant_bank_details"
+          routerLink="/pages/applicant-details/bank-list"
+        >
+          Bank Details
+        </button>
+        <button
+          class="multisteps-form__progress-btn"
+          [ngClass]="{ 'js-active': locationIndex >= 4 }"
+          type="button"
+          id="applicant_employment_details"
+          routerLink="/pages/applicant-details/employment-details"
+        >
+          Employment Details
+        </button>
+        <!-- <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
                     type="button" id="applicant_document_details"
                     routerLink="/pages/applicant-details/document-upload">Document Upload</button> -->
-            </div>
+      </div>
 
-
-            <router-outlet></router-outlet>
-        </div>
+      <router-outlet></router-outlet>
     </div>
-    <!-- <div class="row">
+  </div>
+  <!-- <div class="row">
 
         <div class="col-sm-5">
             <button class="btn btn-primary dash_href "> <a href="credit_application_details.html">Back To Applicant

@@ -11,45 +11,44 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
 import { BankListComponent } from './bank-list/bank-list.component';
 
 const routes: Routes = [
-    {
-        path: ':leadId',
-        component: ApplicantDetailsComponent,
-        children: [
-            {
-                path: 'basic-data/:applicantId',
-                component: BasicDetailsComponent
-            },
-            {
-                path: 'bank-list',
-                component: BankListComponent
-            },
-            {
-                path: 'bank-details',
-                component: BankDetailsComponent
-            },
-            {
-                path: 'identity-details',
-                component: IdentityDetailsComponent
-            },
-            {
-                path: 'address-details',
-                component: AddressDetailsComponent
-            },
-            {
-                path: 'employment-details',
-                component: EmploymentDetailsComponent
-
-            },
-            {
-                path: 'document-upload',
-                component: DocumentUploadComponent
-            }
-        ]
-    }
+  {
+    path: ':leadId',
+    component: ApplicantDetailsComponent,
+    children: [
+      {
+        path: 'basic-data/:applicantId',
+        component: BasicDetailsComponent,
+      },
+      {
+        path: 'bank-list',
+        component: BankListComponent,
+      },
+      {
+        path: 'bank-details',
+        component: BankDetailsComponent,
+      },
+      {
+        path: 'identity-details/:applicantId',
+        component: IdentityDetailsComponent,
+      },
+      {
+        path: 'address-details/:applicantId',
+        component: AddressDetailsComponent,
+      },
+      {
+        path: 'employment-details',
+        component: EmploymentDetailsComponent,
+      },
+      {
+        path: 'document-upload',
+        component: DocumentUploadComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class ApplicantRouterModule { }
+export class ApplicantRouterModule {}
