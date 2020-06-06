@@ -447,14 +447,22 @@ export class AddressDetailsComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
+      leadId: this.leadId,
     };
     this.applicantService.saveApplicant(data).subscribe((res) => {
       const leadId = this.leadStoreService.getLeadId();
       this.applicantService.saveApplicant(data).subscribe((res) => {
-        this.router.navigate([
-          `/pages/sales-applicant-details/${leadId}/document-upload`,
-          this.applicantId,
-        ]);
+        const currentUrl = this.location.path();
+        if (currentUrl.includes('sales')) {
+          this.router.navigate([
+            `/pages/sales-applicant-details/${this.leadId}/document-upload`,
+            this.applicantId,
+          ]);
+        } else {
+          this.router.navigate([
+            `/pages/applicant-details/${this.leadId}/bank-details`,
+          ]);
+        }
       });
     });
     console.log('addressdetailsArray', this.addressDetailsDataArray);
