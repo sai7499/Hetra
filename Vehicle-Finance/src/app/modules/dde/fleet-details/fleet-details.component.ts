@@ -19,7 +19,7 @@ export class FleetDetailsComponent implements OnInit {
   public fleetForm: FormGroup;
   labels: any = {};
   values: any = [];
-  leadId: number = 601;
+  leadId: number;
   userId: number;
   fleetDetails: any = [];
   fleetLov: any = [];
@@ -37,12 +37,15 @@ export class FleetDetailsComponent implements OnInit {
     public router: Router) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
 
     // accessing lead if from route
 
+    this.leadId = (await this.getLeadId()) as number;
+    console.log("leadID =>", this.leadId)
 
     // method for getting all vehicle details related to a lead
+
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -74,12 +77,24 @@ export class FleetDetailsComponent implements OnInit {
       });
 
 
-    // console.log("act route", this.activatedRoute.snapshot);
 
-    // console.log(this.router.url.slice())
+
 
   }
 
+  getLeadId() {
+    // console.log("in getleadID")
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          // console.log("in if", value.leadId)
+          resolve(Number(value.leadId));
+          // console.log("after resolve", value.leadId)
+        }
+        resolve(null);
+      });
+    });
+  }
   get formArr() {
     return this.fleetForm.get('Rows') as
       FormArray;
