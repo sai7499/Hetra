@@ -41,21 +41,21 @@
             >
               <td>{{ item.ucic ? item.ucic : '-' }}</td>
               <td>{{ item.fullName ? item.fullName : '-' }}</td>
-              <ng-container *ngIf="item.entityTypeKey !=='NONINDIVENTTYP'">
-              <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td> 
-              <td>{{ item.dob ? item.dob : '-' }}</td>
-              </ng-container> 
-              <ng-container *ngIf="item.entityTypeKey =='NONINDIVENTTYP'">
-                <td>{{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}</td> 
+              <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
+                <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
+                <td>{{ item.dob ? item.dob : '-' }}</td>
+              </ng-container>
+              <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
+                <td>
+                  {{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}
+                </td>
                 <td>{{ item.doi ? item.doi : '-' }}</td>
-                </ng-container> 
+              </ng-container>
               <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td>
-                <i
-                  class="fa fa-pencil"
-                  aria-hidden="true"
-                  [routerLink]="[applicantUrl, item.applicantId]"
-                ></i>
+                <a (click)="navigatePage(item.applicantId)"
+                  ><i class="fa fa-pencil" aria-hidden="true"></i
+                ></a>
                 &nbsp;&nbsp;<a
                   data-toggle="modal"
                   data-target="#myModal"
@@ -63,7 +63,6 @@
                   ><i class="fa fa-trash" aria-hidden="true"></i
                 ></a>
               </td>
-              
             </tr>
             <!-- <tr>
               <td>-</td>
@@ -135,29 +134,31 @@
 
 <div class="modal" id="myModal">
   <div class="modal-dialog">
-      <div class="modal-content">
-
-          
-          <div class="modal-header">
-              <h4 class="modal-title"></h4>
-              <button type="button" class="close"
-                  data-dismiss="modal">&times;</button>
-          </div>
-
-          
-          <div class="modal-body">
-              Are you Sure Want to Delete?
-          </div>
-
-          
-          <div class="modal-footer text-center">
-              <button type="button" class="btn btn-success" data-dismiss="modal"
-              (click)="callDeleteApplicant()">Yes</button>
-              <button type="button" class="btn btn-danger"
-                  data-dismiss="modal">Cancel</button>
-          </div>
-
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
       </div>
+
+      <div class="modal-body">
+        Are you Sure Want to Delete?
+      </div>
+
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          (click)="callDeleteApplicant()"
+        >
+          Yes
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
   </div>
 </div>
-

@@ -90,16 +90,16 @@ export class AddressDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
   }
 
-  inputPincode(event){
+  inputPincode(event) {
     const value = event.target.value;
     const id = event.target.id;
     //console.log('pincode change ', pincode)
-    if(value.length == 6){
-      this.getPincodeResult(Number(value), id)
+    if (value.length == 6) {
+      this.getPincodeResult(Number(value), id);
     }
   }
 
-  getPincodeResult(pincode: number, id : string) {
+  getPincodeResult(pincode: number, id: string) {
     this.applicantService
       .getGeoMasterValue({
         pincode: pincode,
@@ -108,7 +108,7 @@ export class AddressDetailsComponent implements OnInit {
         map((value: any) => {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
-          if(value.Error !=="0"){
+          if (value.Error !== '0') {
             return null;
           }
           const first = addressList[0];
@@ -145,25 +145,25 @@ export class AddressDetailsComponent implements OnInit {
         })
       )
       .subscribe((value) => {
-        if(id=='permanantPincode'){
-         this.permanantPincode= value;
-         return;
+        if (id == 'permanantPincode') {
+          this.permanantPincode = value;
+          return;
         }
-        if(id=='currentPincode'){
-          this.currentPincode= value;
-         return;
+        if (id == 'currentPincode') {
+          this.currentPincode = value;
+          return;
         }
-        if(id=='officePincode'){
-          this.officePincode= value;
-         return;
+        if (id == 'officePincode') {
+          this.officePincode = value;
+          return;
         }
-        if(id=='registeredPincode'){
-          this.registeredPincode= value;
-         return;
+        if (id == 'registeredPincode') {
+          this.registeredPincode = value;
+          return;
         }
-        if(id=='communicationPincode'){
-          this.communicationPincode= value;
-         return;
+        if (id == 'communicationPincode') {
+          this.communicationPincode = value;
+          return;
         }
       });
   }
@@ -284,7 +284,7 @@ export class AddressDetailsComponent implements OnInit {
 
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
-    this.clearFormArray();
+    // this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
     });
@@ -292,6 +292,7 @@ export class AddressDetailsComponent implements OnInit {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
     } else {
+      this.clearFormArray();
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
     }
@@ -397,8 +398,8 @@ export class AddressDetailsComponent implements OnInit {
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
-    if(isChecked){
-      this.communicationPincode= this.registeredPincode
+    if (isChecked) {
+      this.communicationPincode = this.registeredPincode;
     }
     this.getRegisteredAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -433,8 +434,6 @@ export class AddressDetailsComponent implements OnInit {
       ? 'credit'
       : 'sales';
   }
-
-  
 
   onSubmit() {
     const value = this.addressForm.value;
@@ -478,7 +477,7 @@ export class AddressDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const permanentAddressObject = value.details[0].permanantAddress;
-    console.log('permanant address object', permanentAddressObject)
+    console.log('permanant address object', permanentAddressObject);
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(permanentAddressObject),
       addressType: Constant.PERMANENT_ADDRESS,
