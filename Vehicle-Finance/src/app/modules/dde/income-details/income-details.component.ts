@@ -27,6 +27,8 @@ export class IncomeDetailsComponent implements OnInit {
   applicantResponse: any;
   applicantBusinessType = [];
   applicantObligayionType = [];
+  businessApplicantId: number;
+  otherId:number;
   // applicantId: any;
   constructor(private route: Router, private labelsData: LabelsService,
     private formBuilder: FormBuilder, private incomeDetailsService: IncomeDetailsService) { }
@@ -71,7 +73,7 @@ export class IncomeDetailsComponent implements OnInit {
     if (data === undefined) {
       return this.formBuilder.group({
 
-        applicantId: 301,
+        applicantId: 1557,
         businessEnterpriseName: ['' || 'ABC Enterprises'],
         depreciation: Number(12),
         directorSalary: Number(3534),
@@ -86,6 +88,7 @@ export class IncomeDetailsComponent implements OnInit {
         id: data.id ? data.id : 0,
         applicantId: data.applicantId ? data.applicantId : null,
         applicantType: data.applicantType ? data.applicantType : '',
+        applicantTypeValue: data.applicantTypeValue ? data.applicantTypeValue : '',
         businessEnterpriseName: data.businessEnterpriseName ? data.businessEnterpriseName : 'Abc Enterprises',
         depreciation: Number(data.depreciation ? data.depreciation : ''),
         directorSalary: Number(data.directorSalary ? data.directorSalary : ''),
@@ -126,7 +129,7 @@ export class IncomeDetailsComponent implements OnInit {
     if (data === undefined) {
       return this.formBuilder.group({
 
-        applicantId: 901,
+        applicantId: 1557,
         // applicantTypeValue: ["" || "Applicant"],
         loanType: ['' || 'Business Loan'],
         financier: ['' || 'muthoot'],
@@ -144,8 +147,9 @@ export class IncomeDetailsComponent implements OnInit {
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : null,
-        applicantId: 901,
-        // applicantTypeValue: ["" || "Applicant"],
+        applicantId: Number(data.applicantId ? data.applicantId : ''),
+        applicantType: data.applicantType ? data.applicantType : '',
+        applicantTypeValue: data.applicantTypeValue ? data.applicantTypeValue : '',
         loanType: data.loanType ? data.loanType : 'salary',
         financier: data.financier ? data.financier : 'financiar',
         loanAmount: Number(data.loanAmount ? data.loanAmount : ''),
@@ -178,7 +182,11 @@ export class IncomeDetailsComponent implements OnInit {
   removeIncomeIndex(i?: any) {
     const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
     if (control.controls.length > 1) {
-      this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
+      const body = {
+        userId:"1001",
+        aBusinessIncomeDetail:{"id":30763}
+      };
+      this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
         control.removeAt(i);
         // console.log(res);
 
@@ -191,7 +199,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   addOtherUnit(data?: any) {
     const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    // console.log(data.length,'other length');
+    console.log(data);
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
@@ -203,15 +211,35 @@ export class IncomeDetailsComponent implements OnInit {
     }
     //  control.push(this.getOtherIncomeDetails());
   }
-  removeOtherIndex(i?: any) {
+  removeOtherIndex(i?: any) 
+  {
+ 
 
     const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    // console.log(control.controls.length);
-    if (control.controls.length > 1) {
-      this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
-        control.removeAt(i);
-        // console.log(res);
-      });
+    console.log(control);
+    
+    console.log(control.value.length);
+    if (control.value.length > 1) {
+      for (let i = control.value.length; i < control.value.length; --i) {
+        this.otherId = control.value[i].id
+        const body = {
+          userId:"1001",
+          
+          otherIncomeDetail:{"id":this.otherId}
+        };
+        control.removeAt(i)
+
+        this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
+          console.log(res);
+  
+        });
+      }
+     
+      // this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
+      //   console.log(res);
+
+      //   control.removeAt(i);
+      // });
     } else {
       alert('Atleast One Row Required');
     }
@@ -222,7 +250,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getObligationDetails(data[i]));
-        this.onObligationChange(data[i].applicantObligayionType, i)
+        this.onObligationChange(data[i].applicantType, i)
 
       }
     } else {
@@ -230,11 +258,18 @@ export class IncomeDetailsComponent implements OnInit {
     }
     // control.push(this.getObligationDetails());
   }
-  removeObligationIndex(i?: any) {
+  removeObligationIndex(i?: any,data?: any) {
+    console.log(data);
+    console.log(this.applicantResponse.obligationsList);
+    
     const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
     // console.log(control.controls.length);
     if (control.controls.length > 1) {
-      this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
+      const body = {
+        userId:"1001",
+        obligationDetail:{"id":this.applicantResponse.obligationsList.applicantId}
+      };
+      this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
         control.removeAt(i);
         // console.log(res);
       });
@@ -253,12 +288,23 @@ export class IncomeDetailsComponent implements OnInit {
       this.addIncomeUnit(res.ProcessVariables.businessIncomeList);
       this.addOtherUnit(res.ProcessVariables.otherIncomeList);
       this.addObligationUnit(res.ProcessVariables.obligationsList);
+      this.removeIncomeIndex( res.ProcessVariables.businessIncomeList);  
+this.removeObligationIndex(res.ProcessVariables.obligationsList);
+this.removeOtherIndex(res.ProcessVariables.otherIncomeList);
 
 
     });
 
   }
   onBusinessChange(event, i?: number) {
+    console.log(event);
+    console.log(this.applicantResponse.businessIncomeList);
+    // let businessApplicanList = this.applicantResponse.businessIncomeList;
+    // let applicantType = this.applicantDetails.filter((res) => res.applicantId == event)[0]['applicantTypeValue'];
+    // console.log(applicantType, "applicant Id");
+    // const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+    // console.log("getting value for control ",control );
+    // control.at(i).get("applicantType").setValue(applicantType)
     console.log(event);
     console.log(this.applicantResponse.businessIncomeList);
 
@@ -300,7 +346,7 @@ export class IncomeDetailsComponent implements OnInit {
     console.log(event);
     console.log(this.applicantResponse.businessIncomeList);
 
-    let applicantId = this.applicantResponse.businessIncomeList.find((res) => res.applicantType === event).applicantTypeValue
+    let applicantId = this.applicantResponse.otherIncomeList.find((res) => res.applicantType === event).applicantTypeValue
     console.log(applicantId, "applicant Id");
 
 
