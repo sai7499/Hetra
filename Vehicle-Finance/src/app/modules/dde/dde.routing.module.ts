@@ -21,13 +21,13 @@ import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':leadId',
     component: DdeComponent,
     children: [
-      // {
-      //   path: ':id',
-      //   component: SourcingDdeComponent,
-      // },
+      {
+        path: '',
+        component: SourcingDdeComponent,
+      },
       {
         path: 'applicant-list',
         component: ApplicantListComponent,
@@ -62,7 +62,7 @@ const routes: Routes = [
       },
       {
         path: 'insurance-details',
-        component: InsuranceDetailsComponent
+        component: InsuranceDetailsComponent,
       },
       {
         path: 'pd-report',
@@ -94,16 +94,14 @@ const routes: Routes = [
       },
       {
         path: 'credit-conditions',
-        component: CreditConditionsComponent
-
+        component: CreditConditionsComponent,
       },
       {
         path: 'deviations',
-        component: DeviationsComponent
-
-      }
-    ]
-  }
+        component: DeviationsComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
