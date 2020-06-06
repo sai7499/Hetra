@@ -18,11 +18,13 @@ import { ScoreCardComponent } from './score-card/score-card.component';
 import { CreditConditionsComponent } from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: DdeComponent,
+    resolve: { leadData: LeadDataResolverService },
     children: [
       {
         path: '',

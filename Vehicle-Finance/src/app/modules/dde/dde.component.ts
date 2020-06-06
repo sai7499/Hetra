@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { LeadStoreService } from '@services/lead-store.service';
 
 @Component({
   templateUrl: './dde.component.html',
@@ -8,13 +10,30 @@ import { Location } from '@angular/common';
 })
 export class DdeComponent implements OnInit {
   locationIndex: number;
-  constructor(public router: Router, private location: Location) {}
+  leadId: number;
+  constructor(
+    public router: Router,
+    private location: Location,
+    private route: ActivatedRoute,
+    private createLeadDataService: CreateLeadDataService,
+    private leadStoreService: LeadStoreService
+  ) {
+    this.leadId = this.route.snapshot.params['leadId'];
+  }
 
   hasRoute(route: string) {
     return this.router.url.includes(route);
   }
 
   ngOnInit() {
+    if (this.leadId) {
+      const gotLeadData = this.route.snapshot.data.leadData;
+      if (gotLeadData.Error === '0') {
+        const leadData = gotLeadData.ProcessVariables;
+        this.createLeadDataService.setLeadSectionData(leadData);
+        this.leadStoreService.setLeadCreation(leadData);
+      }
+    }
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {

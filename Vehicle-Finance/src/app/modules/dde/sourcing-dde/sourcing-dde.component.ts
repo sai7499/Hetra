@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -8,7 +10,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 @Component({
   selector: 'app-sourcing-dde',
   templateUrl: './sourcing-dde.component.html',
-  styleUrls: ['./sourcing-dde.component.css']
+  styleUrls: ['./sourcing-dde.component.css'],
 })
 export class SourcingDdeComponent implements OnInit {
   values: any = [];
@@ -20,15 +22,16 @@ export class SourcingDdeComponent implements OnInit {
   id: any;
   leadId;
 
-
   constructor(
     private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
     private router: Router,
     private labelsData: LabelsService,
-    private route: ActivatedRoute) {
-      this.leadId = this.route.snapshot.params['leadId'];
-     }
+    private route: ActivatedRoute,
+    private location: Location
+  ) {
+    this.leadId = this.route.snapshot.params['leadId'];
+  }
 
   ngOnInit() {
     this.initForm();
@@ -39,35 +42,42 @@ export class SourcingDdeComponent implements OnInit {
       this.values.priority = res[0].leadCreation[0].priority;
       this.values.leadHandledBY = res[0].leadCreation[0].leadHandledBY;
       this.values.soucringChannel = res[0].leadCreation[0].soucringChannel;
-      this.values.spokenCodeLocation = res[0].leadCreation[0].spokenCodeLocation;
+      this.values.spokenCodeLocation =
+        res[0].leadCreation[0].spokenCodeLocation;
       this.values.schemePromotion = res[0].leadCreation[0].schemePromotion;
       this.getdata();
     });
   }
 
   sourcingChannelChange(event: any) {
-
     this.SourcingChange = event.target.value;
 
     if (Number(this.SourcingChange) === 61) {
-      this.ProfessionList = [{ key: 1, value: 'DSA' }, { key: 2, value: 'Dealers' },
-      { key: 3, value: 'Connectors' }, { key: 4, value: 'Direct/Employee/DSE' }, { key: 5, value: 'Manufacturers' }];
+      this.ProfessionList = [
+        { key: 1, value: 'DSA' },
+        { key: 2, value: 'Dealers' },
+        { key: 3, value: 'Connectors' },
+        { key: 4, value: 'Direct/Employee/DSE' },
+        { key: 5, value: 'Manufacturers' },
+      ];
       this.text = 'Employee Code';
     } else if (Number(this.SourcingChange) === 62) {
       this.ProfessionList = [{ key: 1, value: 'Liability Branch Code' }];
       this.text = 'Employee Code';
     } else if (Number(this.SourcingChange) === 63) {
-      this.ProfessionList = [{ key: 1, value: 'Corporate Website' }, { key: 2, value: 'Internet Banking' }, { key: 3, value: 'Mobile Banking' }];
+      this.ProfessionList = [
+        { key: 1, value: 'Corporate Website' },
+        { key: 2, value: 'Internet Banking' },
+        { key: 3, value: 'Mobile Banking' },
+      ];
       this.text = 'Employee Code';
     } else if (Number(this.SourcingChange) === 64) {
       this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
       this.text = 'Campaign Code';
-
     } else {
       this.ProfessionList = [{ key: 1, value: 'Not Applicable' }];
       this.text = 'Employee Code';
     }
-
   }
 
   initForm() {
@@ -86,48 +96,118 @@ export class SourcingDdeComponent implements OnInit {
       loanAccountBranch: new FormControl({ value: '', disabled: true }),
       schemePromotion: new FormControl(''),
       requestedAmount: new FormControl(''),
-      requestedTenor: new FormControl('')
+      requestedTenor: new FormControl(''),
     });
 
     this.labelsData.getLabelsData().subscribe(
-      data => {
+      (data) => {
         this.labels = data;
       },
-      error => {
+      (error) => {
         console.log(error);
-      });
-
+      }
+    );
   }
 
   getdata() {
     this.id = this.leadStoreService.getLeadCreation();
 
-    this.getCategory(this.values.productCategory, this.id.productCategory, 'product');
+    const leadDetails = this.id.leadDetails;
+
+    if (leadDetails) {
+      this.sourcingDetailsForm.patchValue({
+        leadNumber: this.id.leadId,
+        leadCreatedDate: leadDetails.leadCreatedOn,
+        leadCreatedBy: leadDetails.leadCreatedBy,
+        leadHandledBy: leadDetails.leadHandledBy,
+        priority: leadDetails.priority,
+        product: leadDetails.productId,
+        businessDivision: leadDetails.bizDivision,
+        sourcingChannel: leadDetails.sourcingChannel,
+        sourcingType: leadDetails.sourcingType,
+        sourcingCode: leadDetails.sourcingCode,
+        spokeCodeLocation: leadDetails.spokesId,
+        loanAccountBranch: leadDetails.branchId,
+        schemePromotion: leadDetails.scheme,
+        requestedAmount: leadDetails.reqLoanAmt,
+        requestedTenor: leadDetails.reqTenure,
+      });
+    }
+
+    this.getCategory(
+      this.values.productCategory,
+      this.id.productCategory,
+      'product'
+    );
     this.getCategory(this.values.priority, this.id.priority, 'priority');
-    this.getCategory(this.values.businessDivision, this.id.businessDivision, 'businessDivision');
-    this.getCategory(this.values.spokenCodeLocation, this.id.spokeCodeLocation, 'spokeCodeLocation');
-    this.getCategory(this.values.loanAccountBranch, this.id.loanAccountBranch, 'loanAccountBranch');
-    this.getCategory(this.values.leadHandledBY, this.id.leadHandledBy, 'leadHandledBy');
-    this.getCategory(this.values.soucringChannel, this.id.sourcingChannel, 'sourcingChannel');
-    this.getCategory(this.values.schemePromotion, this.id.schemePromotion, 'scheme-promotion');
+    this.getCategory(
+      this.values.businessDivision,
+      this.id.businessDivision,
+      'businessDivision'
+    );
+    this.getCategory(
+      this.values.spokenCodeLocation,
+      this.id.spokeCodeLocation,
+      'spokeCodeLocation'
+    );
+    this.getCategory(
+      this.values.loanAccountBranch,
+      this.id.loanAccountBranch,
+      'loanAccountBranch'
+    );
+    this.getCategory(
+      this.values.leadHandledBY,
+      this.id.leadHandledBy,
+      'leadHandledBy'
+    );
+    this.getCategory(
+      this.values.soucringChannel,
+      this.id.sourcingChannel,
+      'sourcingChannel'
+    );
+    this.getCategory(
+      this.values.schemePromotion,
+      this.id.schemePromotion,
+      'scheme-promotion'
+    );
   }
 
   getCategory(categoryArray, value, formControlName) {
-    categoryArray.forEach(element => {
+    categoryArray.forEach((element) => {
       if (parseInt(value) === element.key) {
-        this.sourcingDetailsForm.controls[formControlName].setValue(element.key);
+        this.sourcingDetailsForm.controls[formControlName].setValue(
+          element.key
+        );
       }
     });
   }
 
-  onFormSubmit() {
-    this.router.navigate(['/pages/lead-section/applicant-details']);
+  async onFormSubmit() {
+    const currentUrl = this.location.path();
+
+    const leadId = (await this.getLeadId()) as number;
+
+    if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`pages/dde/${leadId}/applicant-list`);
+    } else {
+      this.router.navigate([`pages/lead-section/${leadId}`]);
+    }
 
     // this.router.navigate(['/pages/dde/', this.leadId,'/applicant-details']);
 
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = { ...formValue };
     this.leadStoreService.setSourcingDetails(sourcingModel);
+  }
 
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
   }
 }
