@@ -7,6 +7,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { FleetDetailsService } from '../services/fleet-details.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-fleet-details',
@@ -31,10 +32,15 @@ export class FleetDetailsComponent implements OnInit {
     private fleetDetailsService: FleetDetailsService,
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
-    private createLeadDataService: CreateLeadDataService, ) { }
+    private createLeadDataService: CreateLeadDataService,
+    public activatedRoute: ActivatedRoute,
+    public router: Router) { }
 
 
   ngOnInit() {
+
+    // accessing lead if from route
+
 
     // method for getting all vehicle details related to a lead
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -66,6 +72,11 @@ export class FleetDetailsComponent implements OnInit {
       error => {
         console.log(error);
       });
+
+
+    // console.log("act route", this.activatedRoute.snapshot);
+
+    // console.log(this.router.url.slice())
 
   }
 
