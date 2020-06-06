@@ -130,6 +130,26 @@ export class ApiService {
       workflowId: 'b4e6e94c6db611eabdc2f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getAllIncomeDetails: {
+      workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+      processId: 'eabfa04c96ae11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    setAllIncomeDetails:{
+      workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+      processId: '658c979e967811eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteIncomeDetails:{
+      workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+      processId: '0e6aecde972e11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getAllAplicantDetails:{
+      workflowId: '37a82fe4973d11eabdcff2fa9bec3d63',
+      processId: '37c6c08a973d11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     pslLOVsDropdown: {
       workflowId: 'ba3c5529a7211eabdcff2fa9bec3d63',
       processId: 'ba6290a49a7211eabdcff2fa9bec3d63',
@@ -145,7 +165,8 @@ export class ApiService {
       processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     }
-};
+  };
+    
 
     // api = {
     //     getUserDetails: {
