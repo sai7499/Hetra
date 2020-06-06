@@ -24,10 +24,10 @@ const routes: Routes = [
     path: '',
     component: DdeComponent,
     children: [
-      {
-        path: ':id',
-        component: SourcingDdeComponent,
-      },
+      // {
+      //   path: ':id',
+      //   component: SourcingDdeComponent,
+      // },
       {
         path: 'applicant-list',
         component: ApplicantListComponent,

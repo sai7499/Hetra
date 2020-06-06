@@ -518,13 +518,13 @@
         <label for="ca_certified_amount">{{labels.caCertifiedAmount}}</label>
         <input type="number" formControlName="caCertifiedAmount" class="form-control" name="ca_certified_amount"
             id="ca_certified_amount" required="required" [(ngModel)]="caCertifiedAmount"
-            (keyup)="onChangeCaCertifiedAmount($event)" />
+            (change)="onChangeCaCertifiedAmount($event)" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsInvestments">
         <label for="other_investment_cost">{{labels.otherInvestmentCost}}</label>
         <input type="number" formControlName="otherInvestmentCost" class="form-control"
             name="other_investment_cost" id="other_investment_cost" required="required" 
-            [(ngModel)]="otherInvestmentCost" (keyup)="onChangeOtherInvestmentCost($event)" />
+            [(ngModel)]="otherInvestmentCost" (change)="onChangeOtherInvestmentCost($event)" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="total_investment_cost">{{labels.totalInvestmentCost}}</label>
@@ -538,13 +538,14 @@
             name="investment_in_equipment" id="investment_in_equipment" required="required" 
             Placeholder="" [(ngModel)]="investmentInEquipmentValue"
             (change)="onChangeInvestmentInEquipment($event)" />
+        <!-- <span style="color: red; font-size: x-small;">*Investmest in Equipment Amount must be equal to Total Investment Amount</span>     -->
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInPlantMachinery">
         <label for="investment_plant_machinery">{{labels.investPlantMachinery}}</label>
         <input type="number" formControlName="investmentInPlantMachinery" class="form-control"
             name="investment_plant_machinery" id="investment_plant_machinery" required="required"
-            Placeholder="" [(ngModel)]="investmentInEquipmentMachineryValue"
-            (change)="onChangeInvestmentInEquipmentAndMachinery($event)" />
+            Placeholder="" [(ngModel)]="investmentInPlantMachineryValue"
+            (change)="onChangeInvestmentInPlantAndMachinery($event)" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="psl_category_msme">{{labels.pslCategory}}</label>

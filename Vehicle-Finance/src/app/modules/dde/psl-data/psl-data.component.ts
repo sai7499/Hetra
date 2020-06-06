@@ -53,11 +53,12 @@ export class PslDataComponent implements OnInit, OnChanges {
   showInputFieldsInvestments: boolean;
   isInvestmentInEquipment: boolean;
   isInvestmentInPlantMachinery: boolean;
-
+  isGoosManufactured: boolean;
+  
   investmentInEquipmentValue: number;
   investmentInEquipmentValueMap: any = [];
-  investmentInEquipmentMachineryValue: number;
-  investmentInEquipmentMachineryMap: any = [];
+  investmentInPlantMachineryValue: number;
+  investmentInPlantMachineryMap: any = [];
 
   caCertifiedAmount: number;
   otherInvestmentCost: number;
@@ -303,7 +304,6 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.isLandHoldingYes = true;
     this.isGoosManufactured = true;
   }
-isGoosManufactured: boolean;
   onChangeDetailActivity(event: any) {
     this.endUseValues = [];
     this.detailActivityChange = event.target.value;
@@ -586,9 +586,12 @@ isGoosManufactured: boolean;
   onChangeInvestmentInEquipment(event: any) {
     let investmentInEquipmentChange = event.target.value;
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
-
+    // this.totalInvestmentCost = this.investmentInEquipmentValue;
     this.investmentInEquipmentValueMap = this.pslSubCategoryValueMap.filter(
       (element) => {
+        this.investmentInEquipmentValue = this.totalInvestmentCost;
+        console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
+        
         if (this.investmentInEquipmentValue <= 1000000) {
           const data = [
             {
@@ -626,13 +629,16 @@ isGoosManufactured: boolean;
     );
   }
 
-  onChangeInvestmentInEquipmentAndMachinery(event: any) {
-    let investmentInEquipmentMachineryChange = event.target.value;
+  onChangeInvestmentInPlantAndMachinery(event: any) {
+    let investmentInPlantMachineryChange = event.target.value;
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
 
-    this.investmentInEquipmentMachineryMap = this.pslSubCategoryValueMap.filter(
+    this.investmentInPlantMachineryMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        if (this.investmentInEquipmentMachineryValue <= 2500000) {
+        this.investmentInPlantMachineryValue = this.totalInvestmentCost;
+        console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
+        
+        if (this.investmentInPlantMachineryValue <= 2500000) {
           const data = [
             {
               key: this.LOV.LOVS.pslSubCategory[6].key,
@@ -643,8 +649,8 @@ isGoosManufactured: boolean;
         }
         // console.log("ELEMENT--------------------", element);
         else if (
-          this.investmentInEquipmentMachineryValue > 2500000 &&
-          this.investmentInEquipmentMachineryValue <= 50000000
+          this.investmentInPlantMachineryValue > 2500000 &&
+          this.investmentInPlantMachineryValue <= 50000000
         ) {
           const data = [
             {
@@ -654,8 +660,8 @@ isGoosManufactured: boolean;
           ];
           this.pslSubCategoryValues = data;
         } else if (
-          this.investmentInEquipmentMachineryValue > 50000000 &&
-          this.investmentInEquipmentMachineryValue <= 100000000
+          this.investmentInPlantMachineryValue > 50000000 &&
+          this.investmentInPlantMachineryValue <= 100000000
         ) {
           const data = [
             {
@@ -733,13 +739,16 @@ isGoosManufactured: boolean;
 
   onChangeCaCertifiedAmount(event:any) {
     let key = event.target.value;
-    if(this.caCertifiedAmount===0 || this.otherInvestmentCost===0) {
-      this.totalInvestmentCost = 0;
+    // this.otherInvestmentCost = 0;
+    if(this.caCertifiedAmount && this.otherInvestmentCost) {
+      this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
       console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    } 
-    else if(this.caCertifiedAmount===0) {
-      this.totalInvestmentCost = 0;
-    } 
+    }
+    else  if( this.caCertifiedAmount) {
+      this.otherInvestmentCost = 0;
+      this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+      console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+    }
     else {
       this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
     }
@@ -748,13 +757,16 @@ isGoosManufactured: boolean;
 
   onChangeOtherInvestmentCost(event:any) {
     let key = event.target.value;
-    if(this.caCertifiedAmount===0 || this.otherInvestmentCost===0) {
-      this.totalInvestmentCost = 0;
-      // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    }   else if(this.otherInvestmentCost===0 && this.caCertifiedAmount===0) {
-      this.totalInvestmentCost = 0;
-      console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    }
+      // this.caCertifiedAmount = 0;
+      if(this.caCertifiedAmount && this.otherInvestmentCost) {
+        this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+        console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+      }
+      else if(this.otherInvestmentCost) {
+        this.caCertifiedAmount = 0;
+        this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
+        console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+      }
     else {
       this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
     }
@@ -772,6 +784,7 @@ isGoosManufactured: boolean;
 
   saveOrUpdatePslData() {
     const data = this.pslData;
+    
     this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
       const response = res;
       console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
@@ -785,7 +798,7 @@ isGoosManufactured: boolean;
     const formModel = this.pslDataForm.value;
     const pslDataFormModel = { ...formModel };
     console.log("PSL_DATA_FORM", pslDataFormModel);
-    
+   
     // this.ddeStoreService.setPslData(pslDataFormModel);
     this.router.navigate(["/pages/dde/vehicle-valuation"]);
   }

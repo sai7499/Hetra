@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../../../environments/environment';
-import { ApiService } from '../../../services/api.service';
-import RequestEntity from '../../../model/request.entity';
-import { HttpService } from '../../../services/http.service';
+import { ApiService } from '@services/api.service';
+import RequestEntity from '@model/request.entity';
+import { HttpService } from '@services/http.service';
 
 @Injectable({
   providedIn: 'root'
