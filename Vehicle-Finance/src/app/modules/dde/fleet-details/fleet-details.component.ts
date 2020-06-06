@@ -23,6 +23,7 @@ export class FleetDetailsComponent implements OnInit {
   userId: number;
   fleetDetails: any = [];
   fleetLov: any = [];
+  fleetArray = [];
 
   constructor(
 
@@ -200,9 +201,14 @@ export class FleetDetailsComponent implements OnInit {
     this.formArr.push(this.initRows(rowData));
   }
 
-  deleteRow(index: number, item) {
-    console.log("in delete row ", item)
-    // this.formArr.removeAt(index);
+  deleteRow(index: number) {
+    // console.log("in delete row ", fleets)
+    this.formArr.removeAt(index);
+    // if (fleets.length > 1) {
+    //   fleets.splice(i, 1)
+    // } else {
+    //   alert("Atleast One Row Required");
+
   }
 
   getRtr(id: number) {
