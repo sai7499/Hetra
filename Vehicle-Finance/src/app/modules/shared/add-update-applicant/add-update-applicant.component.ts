@@ -731,6 +731,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       corporateProspectDetails: this.corporateProspectDetails,
       addressDetails: this.addressDetails,
       applicantId: this.applicantId,
+      leadId : this.leadId,
     };
     console.log(this.applicantDetails);
 
@@ -741,7 +742,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log('Success Message', message);
       }
       this.router.navigateByUrl(
-        `pages/lead-section/${this.leadId}/exact-match`
+        `pages/lead-section/${this.leadId}/applicant-details`
       );
     });
   }
