@@ -240,13 +240,15 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="transactionType" class="asset_type">{{labels.transactionType}}</label>
-                            <select class="form-control" id="transactionType" name="senior_citizen">
+                            <!-- <select class="form-control" id="transactionType" name="senior_citizen">
                             <option>New vechicle</option>
                             <option>purchase</option>
                             <option>Used Re-purchase</option>
                             <option>Re-Finanace</option>
                             <option>Top-UP</option>
-                        </select>
+                        </select> -->
+                            <app-vf-custom-select [values]="tvrLov?.tvrTranscationType" formControlName="transactionType"> </app-vf-custom-select>
+
 
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
