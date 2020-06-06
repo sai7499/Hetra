@@ -35,10 +35,10 @@ export class IncomeDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        // // console.log(this.labels)
+        // console.log(this.labels)
       },
       (error) => {
-        // // console.log(error);
+        // console.log(error);
       }
     );
     // this.getApplicantDetails();
@@ -47,9 +47,9 @@ export class IncomeDetailsComponent implements OnInit {
       leadId: 606
     };
     this.incomeDetailsService.getAllAplicantDetails(body).subscribe((res: any) => {
-      // console.log(res);
+      console.log(res);
       this.applicantDetails = res.ProcessVariables.applicantInfoObj;
-      // console.log(this.applicantDetails, 'getting form data resp');
+      console.log(this.applicantDetails, 'getting form data resp');
     });
     this.incomeDetailsForm = this.formBuilder.group({
       // // businessIncomeDetails: this.formBuilder.array([this.getBusinessIncomeDetails()]),
@@ -62,12 +62,12 @@ export class IncomeDetailsComponent implements OnInit {
     });
 
     // this.getResponse();
-    // // console.log('getting form data resp',this.getResponse);
+    // console.log('getting form data resp',this.getResponse);
     this.getAllIncome();
 
   }
   private getBusinessIncomeDetails(data?: any) {
-    // // console.log('data in side  function', data);
+    // console.log('data in side  function', data);
     if (data === undefined) {
       return this.formBuilder.group({
 
@@ -97,7 +97,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   }
   private getOtherIncomeDetails(data?: any) {
-    //  // // console.log('data in side  function', data);
+    //  // console.log('data in side  function', data);
 
     if (data === undefined) {
       return this.formBuilder.group({
@@ -160,7 +160,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
   addIncomeUnit(data?: any) {
     const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
-    // // console.log(data?.length,'income length');
+    // console.log(data?.length,'income length');
     if (data && data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         control.push(this.getBusinessIncomeDetails(data[i]));
@@ -180,7 +180,7 @@ export class IncomeDetailsComponent implements OnInit {
     if (control.controls.length > 1) {
       this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
         control.removeAt(i);
-        // // console.log(res);
+        // console.log(res);
 
 
       });
@@ -191,7 +191,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   addOtherUnit(data?: any) {
     const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    // // console.log(data.length,'other length');
+    // console.log(data.length,'other length');
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
@@ -206,11 +206,11 @@ export class IncomeDetailsComponent implements OnInit {
   removeOtherIndex(i?: any) {
 
     const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    // // console.log(control.controls.length);
+    // console.log(control.controls.length);
     if (control.controls.length > 1) {
       this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
         control.removeAt(i);
-        // // console.log(res);
+        // console.log(res);
       });
     } else {
       alert('Atleast One Row Required');
@@ -232,11 +232,11 @@ export class IncomeDetailsComponent implements OnInit {
   }
   removeObligationIndex(i?: any) {
     const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
-    // // console.log(control.controls.length);
+    // console.log(control.controls.length);
     if (control.controls.length > 1) {
       this.incomeDetailsService.softDeleteIncomeDetails(control.value).subscribe((res: any, ) => {
         control.removeAt(i);
-        // // console.log(res);
+        // console.log(res);
       });
     } else {
       alert('Atleast One Row Required');
@@ -249,7 +249,7 @@ export class IncomeDetailsComponent implements OnInit {
     };
     this.incomeDetailsService.getAllIncomeDetails(body).subscribe((res: any, ) => {
       this.applicantResponse = res.ProcessVariables;
-      // // console.log(res.ProcessVariables.otherIncomeList, 'get other income details');
+      // console.log(res.ProcessVariables.otherIncomeList, 'get other income details');
       this.addIncomeUnit(res.ProcessVariables.businessIncomeList);
       this.addOtherUnit(res.ProcessVariables.otherIncomeList);
       this.addObligationUnit(res.ProcessVariables.obligationsList);
@@ -259,70 +259,70 @@ export class IncomeDetailsComponent implements OnInit {
 
   }
   onBusinessChange(event, i?: number) {
-    // console.log(event);
-    // console.log(this.applicantResponse.businessIncomeList);
+    console.log(event);
+    console.log(this.applicantResponse.businessIncomeList);
 
     let applicantId = this.applicantResponse.businessIncomeList.find((res) => res.applicantType === event).applicantTypeValue
-    // console.log(applicantId, "applicant Id");
+    console.log(applicantId, "applicant Id");
 
 
     if (this.applicantBusinessType && this.applicantBusinessType[i] !== null || 'undefined') {
       this.applicantBusinessType[i] = applicantId;
-      // console.log(this.applicantBusinessType[i]);
+      console.log(this.applicantBusinessType[i]);
     } else {
       this.applicantBusinessType.push(applicantId);
     }
-    // console.log(applicantId);
+    console.log(applicantId);
 
-    // console.log(this.applicantType, ' applicant array')
+    console.log(this.applicantType, ' applicant array')
   }
 
   onApplicantChange(event, i?: number) {
 
-    // console.log(event)
-    // console.log(this.applicantDetails)
+    console.log(event)
+    console.log(this.applicantDetails)
     let applicantId = this.applicantResponse.otherIncomeList.find((res) => res.applicantType === event).applicantTypeValue
-    // console.log(applicantId, "applicant Id");
+    console.log(applicantId, "applicant Id");
 
     if (this.applicantType && this.applicantType[i] !== null || 'undefined') {
       this.applicantType[i] = applicantId;
-      // console.log(this.applicantType[i]);
+      console.log(this.applicantType[i]);
     } else {
       this.applicantType.push(applicantId);
-    }
-    // // console.log(applicantId);
-
-    // // console.log(this.applicantType, ' applicant array')
-
-  }
-
-  onObligationChange(event, i?: number) {
-    // console.log(event);
-    // console.log(this.applicantResponse.businessIncomeList);
-
-    let applicantId = this.applicantResponse.businessIncomeList.find((res) => res.applicantType === event).applicantTypeValue
-    // console.log(applicantId, "applicant Id");
-
-
-    if (this.applicantObligayionType && this.applicantObligayionType[i] !== null || 'undefined') {
-      this.applicantObligayionType[i] = applicantId;
-      // console.log(this.applicantObligayionType[i]);
-    } else {
-      this.applicantObligayionType.push(applicantId);
     }
     // console.log(applicantId);
 
     // console.log(this.applicantType, ' applicant array')
+
+  }
+
+  onObligationChange(event, i?: number) {
+    console.log(event);
+    console.log(this.applicantResponse.businessIncomeList);
+
+    let applicantId = this.applicantResponse.businessIncomeList.find((res) => res.applicantType === event).applicantTypeValue
+    console.log(applicantId, "applicant Id");
+
+
+    if (this.applicantObligayionType && this.applicantObligayionType[i] !== null || 'undefined') {
+      this.applicantObligayionType[i] = applicantId;
+      console.log(this.applicantObligayionType[i]);
+    } else {
+      this.applicantObligayionType.push(applicantId);
+    }
+    console.log(applicantId);
+
+    console.log(this.applicantType, ' applicant array')
   }
 
   onSubmit() {
 
-    // console.log(this.incomeDetailsForm.value);
-    // // console.log(this.formData)
-    // // console.log(this.incomeDetailsForm.value.businessIncomeDetails.length);
+    console.log(this.incomeDetailsForm.value);
+    // console.log(this.formData)
+    // console.log(this.incomeDetailsForm.value.businessIncomeDetails.length);
     this.incomeDetailsService.setAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any, ) => {
-      // // console.log(res.ProcessVariables.businessIncomeIds, 'businessIncomeIds');
-      // console.log(res);
+      // console.log(res.ProcessVariables.businessIncomeIds, 'businessIncomeIds');
+      console.log(res);
     });
 
   }
