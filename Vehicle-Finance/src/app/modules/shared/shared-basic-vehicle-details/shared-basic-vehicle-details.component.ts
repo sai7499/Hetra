@@ -8,6 +8,7 @@ import { VehicleDataStoreService } from '../../../services/vehicle-data-store.se
 import { ArrayType } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { error } from 'protractor';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -42,6 +43,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public assetBodyType: any = [];
   public assetModelType: any = [];
   public assetVarient: any = [];
+  public userId: number;
+  public leadId: number;
 
   constructor(
     private _fb: FormBuilder,
@@ -50,7 +53,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private commonLovService: CommomLovService,
     private vehicleDetailService: VehicleDetailService,
     private vehicleDataService: VehicleDataStoreService,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   ngOnInit() {
 
@@ -60,6 +64,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
+
+    this.userId = roleAndUserDetails.userDetails.userId;
+    const leadData = this.createLeadDataService.getLeadSectionData();
+
+    this.leadId = leadData['leadId']
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
@@ -80,16 +89,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onOpenCalendar(container) {
-
     container.monthSelectHandler = (event: any): void => {
-      let selectDate = new Date(event.date);
+     let date = event.date;
+      let selectDate = new Date(date);
       selectDate.toString();
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
-        ageOfAsset: this.utilityService.ageFromAsset(event.date),
-        yearAndMonthManufacturing: selectDate
+        ageOfAsset: this.utilityService.ageFromAsset(date),
+        manuFacMonthYear: selectDate
       })
-
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
@@ -124,12 +132,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         registrationNumber: VehicleDetail.registrationNo || '',
         assetMake: VehicleDetail.vehicleMfrCode || '',
         assetModel: VehicleDetail.vehicleModelCode || '',
-        assetBodyType: VehicleDetail.assetBodyType || '',
+        assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
         assetVariant: [''],
         assetSubVariant: [''],
         monthManufacturing: [''],
         yrManufacturing: [''],
-        yearAndMonthManufacturing: VehicleDetail.manuFacMonthYear || '',
+        manuFacMonthYear: VehicleDetail.manuFacMonthYear || '',
         ageOfAsset: VehicleDetail.ageOfAsset || '',
         vechicleUsage: VehicleDetail.vehicleUsage || '',
         vehicleCategory: [''],
@@ -156,8 +164,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         noOfVehicles: [''],
         vehicleId: VehicleDetail.vehicleId || '',
         vehicleCode: VehicleDetail.vehicleCode || '',
+        leadId: this.leadId,
+        userId: this.userId
       })
-      // this.onVehicleRegion(VehicleDetail.region)
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -221,7 +230,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const array = this.utilityService.getCommonUniqueValue(this.assetVarient, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.controls[0].patchValue({
-      vehicleCode: array.length > 0 ? array[0].vehicleCode : 0
+      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
     })
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVarient,
       0, "vehicleVariant")
@@ -240,7 +249,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: [''],
       monthManufacturing: [''],
       yrManufacturing: [''],
-      yearAndMonthManufacturing: [''],
+      manuFacMonthYear: [''],
       ageOfAsset: [''],
       vechicleUsage: [''],
       vehicleCategory: [''],
@@ -267,6 +276,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       noOfVehicles: [''],
       vehicleId: 0,
       vehicleCode: 0,
+      leadId: this.leadId,
+      userId: this.userId
     });
     formArray.push(controls);
     this.onVehicleRegion('APASTRGN')

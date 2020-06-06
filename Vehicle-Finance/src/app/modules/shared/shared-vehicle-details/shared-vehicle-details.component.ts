@@ -80,6 +80,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
     if (vehicle) {
       this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res:any) => {
         console.log(res, 'res')
+        this.getVehicleDetails(this.leadId)
       }, error => {
         console.log('error', error)
       }

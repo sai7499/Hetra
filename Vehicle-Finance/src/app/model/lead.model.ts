@@ -79,7 +79,7 @@ export interface VehicleDetails {
   exShowRoomCost?: string;
   fastTag?: string;
   fastTagAmount?: number;
-  finalAssetCost?: string;
+  finalAssetCost?: number;
   fitnessDate?: string;
   fsrdFundingReq?: string;
   fsrdPremiumAmount?: number;
@@ -185,6 +185,8 @@ export interface VehicleList {
   regNo?: string;
   segmentCode?: string;
   collateralId?: number;
+  variant?: string;
+  finalAssetCost?: string;
 }
 
 export interface CoApplicant {

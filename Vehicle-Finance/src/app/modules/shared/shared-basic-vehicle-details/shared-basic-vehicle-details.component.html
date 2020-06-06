@@ -84,7 +84,7 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
                     <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
-                    <input formControlName="yearAndMonthManufacturing" autocomplete="off" class="form-control"
+                    <input formControlName="manuFacMonthYear" autocomplete="off" class="form-control"
                         name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}"
                         (onShown)="onOpenCalendar($event)" placeholder="Year And Month Manufactueing">
 
@@ -101,7 +101,7 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
-                    <input formControlName="finalAssetCost" type="text" class="form-control mandatory"
+                    <input formControlName="finalAssetCost" type="number" class="form-control mandatory"
                         id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
                 </div>
 
@@ -316,7 +316,7 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="final_asset_cost">{{label.finalAssetCost}}</label>
-                        <input type="text" class="form-control mandatory " id="final_asset_cost"
+                        <input type="number" class="form-control mandatory " id="final_asset_cost"
                             placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost">
                     </div>
 
@@ -497,7 +497,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="final_asset_cost">{{label.finalAssetCost}}</label>
-                        <input type="text" class="form-control mandatory " id="final_asset_cost"
+                        <input type="number" class="form-control mandatory " id="final_asset_cost"
                             placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">

@@ -15,7 +15,6 @@ export class AddvehicleComponent implements OnInit {
 
   vehicleForm: FormGroup;
   private vehicleDetails: any = [];
-  public vehicleLov: any = {};
   public label: any = {};
   public errorMsg;
   public getAllFieldLabel;
@@ -38,7 +37,6 @@ export class AddvehicleComponent implements OnInit {
 
   formDataFromChild: any = {};
 
-
   constructor(
 
     private labelsData: LabelsService,
@@ -56,8 +54,6 @@ export class AddvehicleComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
 
     this.leadId = leadData['leadId']
-
-    this.getVehicleDetails();
 
     // method for getting labels 
 
@@ -94,63 +90,28 @@ export class AddvehicleComponent implements OnInit {
   }
 
 
-  onCheck() {
-    this.formVehicle = this.vehicleForm.value;
-    this.getcategory(this.vehicleLov.assetMake, this.formVehicle.assetMake, "assetMake")
-    this.getcategory(this.vehicleLov.assetModel, this.formVehicle.assetModel, "assetModel")
-    this.getcategory(this.vehicleLov.assetVariant, this.formVehicle.assetVariant, "assetVariant")
-    this.getcategory(this.vehicleLov.assetSubVariant, this.formVehicle.assetSubVariant, "assetSubVariant")
-    this.getcategory(this.vehicleLov.assetBodyType, this.formVehicle.assetBodyType, "assetBodyType")
-    this.getcategory(this.vehicleLov.vehicleType, this.formVehicle.vehicleType, "vehicleType")
-    this.getcategory(this.vehicleLov.region, this.formVehicle.region, "region")
-    this.getcategory(this.vehicleLov.vechicalUsage, this.formVehicle.vechicalUsage, "vechicalUsage")
-
-    this.vehicleForm.controls["finalAssetCost"].setValue(this.formVehicle.finalAssetCost);
-    this.vehicleForm.controls["noOfVehicle"].setValue(this.formVehicle.noOfVehicle)
-
-  }
-
-  getVehicleDetails() {
-    this.vehicleDetailService.getAllVehicleCollateralDetails(this.leadId).subscribe((res: any) => {
-      this.vehicleArray = res.ProcessVariables;
-    })
-
-  }
-
   saveVehicleCollaterals() {
     if (this.vehicleDetails.length > 0) {
 
-      console.log(this.vehicleDetails)
-      this.vehicleDetailService.saveOrUpdateVehcicleDetails(this.vehicleDetails, this.leadId, this.vehicleId, this.userId).subscribe((res: any) => {
-        const message = res.ProcessVariables.error.message;
+      // this.vehicleDetails, this.leadId, this.vehicleId, this.userId
+
+      const data = this.vehicleDetails[0];
+
+      let selectDate = new Date(data.manuFacMonthYear);
+      selectDate.toString();
+
+      data.manuFacMonthYear = selectDate;
+
+      this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+        const message = res.Error;
         alert(message);
         this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
-      });
+      })
     } else {
       alert('Please Select any one of the Value')
     }
 
   }
 
-  getcategory(category, value, formcontrolName) {
-    category.forEach(element => {
-      if (parseInt(value) == element.key) {
-        this.vehicleForm.controls[formcontrolName].setValue(element.key)
-      }
-    });
-  }
-
-  ngOnChanges() {
-
-  }
-
-  //To show and hide lov--select "Open" in Vehicle dependency
-  onShow(event) {
-    if (event.target.value === "1") {
-      this.show = true;
-    } else {
-      this.show = false;
-    }
-  }
 
 }
