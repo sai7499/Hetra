@@ -8,7 +8,7 @@ import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-de
 
 const routes: Routes = [
   {
-    path: ":id",
+    path: ":leadId",
     component: VehicleDetailsComponent,
     children: [
       {

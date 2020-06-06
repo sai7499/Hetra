@@ -17,9 +17,14 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
-                <td *ngIf="isCredit == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td class="text-underline" *ngIf="isCredit == '1'"><a [routerLink]="['/pages/lead-section', item.leadId]">{{item.leadId}}</a></td>
-                <td class="text-underline" *ngIf="isCredit == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']">{{item.leadId}}</a></td>
+                <td *ngIf="isCredit == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal"
+                        data-target="#releaseModal" /></td>
+                <td class="text-underline" *ngIf="isCredit == '1'"><a
+                        [routerLink]="['/pages/lead-section', item.leadId]"
+                        (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td>
+                <td class="text-underline" *ngIf="isCredit == '2'"><a
+                        [routerLink]="['/pages/dde', item.leadId, 'lead-details']"
+                        (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
                 <td>{{item.name ? item.name : '--'}}</td>
@@ -29,7 +34,8 @@
                 <td>{{item.promoCode ? item.promoCode : '--'}}</td>
                 <td>{{item.status ? item.status : '--'}}</td>
                 <td>
-                    <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
+                    <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i
+                            class="fa fa-history"></i></a>
                 </td>
             </tr>
         </tbody>
@@ -43,12 +49,13 @@
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
-                    </select>
+                </select>
             </div>
 
         </div>
         <nav class="col-xs-9 col-sm-4 text-center">
-            <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls>
+            <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="q = $event">
+            </pagination-controls>
         </nav>
     </div>
 </div>

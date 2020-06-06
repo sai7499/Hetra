@@ -9,6 +9,7 @@ import { SharedModule } from '@shared/shared.module';
 
 import { LeadSectionModule } from '../lead-section/lead-section.module';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { LeadDetailsComponent } from './lead-details/lead-details.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
     SharedModule,
     LeadSectionModule,
   ],
-  declarations: [SalesComponent, VehicleDetailsComponent],
+  declarations: [SalesComponent, VehicleDetailsComponent, LeadDetailsComponent],
 })
 export class SalesModule {}

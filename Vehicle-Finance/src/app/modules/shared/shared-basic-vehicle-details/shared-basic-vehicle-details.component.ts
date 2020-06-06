@@ -108,11 +108,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
+      console.log(value.Lovs)
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      this.vehicleLov.YesORNoValue = [
+        {
+          key: "1",
+          value: "Yes"
+        },
+        {
+          key: "0",
+          value: "NO"
+        }
+      ]
     });
   }
 
@@ -322,27 +333,27 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
 
     const controls = this._fb.group({
-      assetMake: ['1', Validators.required],
-      assetModel: ['1', Validators.required],
-      assetVariant: ['1', Validators.required],
-      assetSubVariant: ['1', Validators.required],
-      assetOther: ['', Validators.required],
-      assetBodyType: ['1', Validators.required],
+      assetMake: '',
+      assetModel: '',
+      assetVariant: '',
+      assetSubVariant: '',
+      assetOther: '',
+      assetBodyType: '',
       vehicleType: ['LCVVEHTYP', Validators.required],
-      exShowroomCost: ['', Validators.required],
-      finalAssetCost: ['', Validators.required],
-      dealerSubventionApplicable: ['1', Validators.required],
+      exShowroomCost: '',
+      finalAssetCost: '',
+      dealerSubventionApplicable: ['1'],
       dealerSubventionAmount: [''],
       dealerSubventionIRR: [''],
       dealerSubventionFinance: [''],
-      manufacturerSubventionApplicable: ['1', Validators.required],
+      manufacturerSubventionApplicable: ['1'],
       manufacturerSubventionAmount: [''],
       manufacturerSubventionIRR: [''],
       manufacturerSubventionFinance: [''],
       proformaInvoiceNo: [''],
       proformaInvoiceDate: [''],
       proformaInvoiceAmount: [''],
-      orpFunding: ['1', Validators.required],
+      orpFunding: ['1'],
       insurance: [''],
       oneTimeTax: [''],
       pac: ['1'],
@@ -360,26 +371,26 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
 
     const controls = this._fb.group({
-      assetMake: ['1', Validators.required],
-      assetModel: ['1', Validators.required],
-      assetVariant: ['1', Validators.required],
-      assetSubVariant: ['1', Validators.required],
-      assetOther: ['', Validators.required],
+      assetMake: '',
+      assetModel: '',
+      assetVariant: '',
+      assetSubVariant: '',
+      assetOther: '',
       vehicleType: ['LCVVEHTYP', Validators.required],
-      exShowroomCost: ['', Validators.required],
-      finalAssetCost: ['', Validators.required],
-      dealerSubventionApplicable: ['1', Validators.required],
+      exShowroomCost: '',
+      finalAssetCost: '',
+      dealerSubventionApplicable: ['1'],
       dealerSubventionAmount: [''],
       dealerSubventionIRR: [''],
       dealerSubventionFinance: [''],
-      manufacturerSubventionApplicable: ['1', Validators.required],
+      manufacturerSubventionApplicable: ['1'],
       manufacturerSubventionAmount: [''],
       manufacturerSubventionIRR: [''],
       manufacturerSubventionFinance: [''],
       proformaInvoiceNo: [''],
       proformaInvoiceDate: [''],
       proformaInvoiceAmount: [''],
-      orpFunding: ['1', Validators.required],
+      orpFunding: ['1'],
       insurance: [''],
       oneTimeTax: [''],
       pac: ['1'],
@@ -397,38 +408,38 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
 
     const controls = this._fb.group({
-      registartionNumber: ['', Validators.required],
-      assetMake: ['1', Validators.required],
-      assetModel: ['1', Validators.required],
-      assetVariant: ['1', Validators.required],
-      assetSubVariant: ['1', Validators.required],
-      assetOther: ['', Validators.required],
-      assetBodyType: ['1', Validators.required],
+      registartionNumber: '',
+      assetMake: '',
+      assetModel: '',
+      assetVariant: '',
+      assetSubVariant: '',
+      assetOther: '',
+      assetBodyType: '',
       vehicleType: ['LCVVEHTYP', Validators.required],
       vechicalRegion: ['APASTRGN', Validators.required],
-      monthYear: ['', Validators.required],
-      ageVehicle: ['', Validators.required],
-      exShowroomCost: ['', Validators.required],
-      fitnessDate: ['', Validators.required],
-      permitType: ['1', Validators.required],
+      monthYear: '',
+      ageVehicle: '',
+      exShowroomCost: '',
+      fitnessDate: '',
+      permitType: '',
       permitOther: [''],
-      permitExpireDate: ['', Validators.required],
+      permitExpireDate: '',
       permitUpload: [''],
       chassisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnership: [''],
       rcOwnerName: [''],
-      vehicleRegistrationDate: ['', Validators.required],
-      reRegisteredVehicle: ['1', Validators.required],
-      interStateVehicle: ['1', Validators.required],
-      duplicateRC: ['1', Validators.required],
+      vehicleRegistrationDate: '',
+      reRegisteredVehicle: ['1'],
+      interStateVehicle: ['1'],
+      duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
-      insuranceValidity: ['', Validators.required],
-      idv: ['', Validators.required],
+      insuranceValidity: '',
+      idv: '',
       insuranceCopy: [''],
-      frsdRequired: ['', Validators.required],
+      frsdRequired: '',
       frsdAmount: ['']
     })
     creditFormArray.push(controls);
@@ -439,36 +450,36 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
 
     const controls = this._fb.group({
-      registartionNumber: ['', Validators.required],
-      assetMake: ['1', Validators.required],
-      assetModel: ['1', Validators.required],
-      assetVariant: ['1', Validators.required],
-      assetSubVariant: ['1', Validators.required],
-      assetOther: ['', Validators.required],
+      registartionNumber: '',
+      assetMake: '',
+      assetModel: '',
+      assetVariant: '',
+      assetSubVariant: '',
+      assetOther: '',
       vechicalUsage: ['PVEHUSG', Validators.required],
       vehicleCategory: ['CATAVEHCAT', Validators.required],
-      monthYear: ['', Validators.required],
-      ageVehicle: ['', Validators.required],
-      assetCostIndian: ['', Validators.required],
-      assetCostCar: ['', Validators.required],
-      assetCostLeast: ['', Validators.required],
-      exShowroomCost: ['', Validators.required],
+      monthYear: '',
+      ageVehicle: '',
+      assetCostIndian: '',
+      assetCostCar: '',
+      assetCostLeast: '',
+      exShowroomCost: '',
       chassisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnership: [''],
       rcOwnerName: [''],
-      vehicleRegistrationDate: ['', Validators.required],
+      vehicleRegistrationDate: '',
       grossVehicleWeight: [''],
-      reRegisteredVehicle: ['1', Validators.required],
-      interStateVehicle: ['1', Validators.required],
-      duplicateRC: ['1', Validators.required],
+      reRegisteredVehicle: ['1'],
+      interStateVehicle: ['1'],
+      duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
-      insuranceValidity: ['', Validators.required],
-      idv: ['', Validators.required],
+      insuranceValidity: '',
+      idv: '',
       insuranceCopy: [''],
-      frsdRequired: ['', Validators.required],
+      frsdRequired: '',
       frsdAmount: ['']
     })
     creditFormArray.push(controls);

@@ -3,8 +3,9 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -22,7 +23,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public leadId: number;
   public leadData: any = {};
   public userId: number;
-  public routerId: number;
+  public routerId: number = 601;
 
   public vehicleListArray = [
     {
@@ -42,7 +43,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private vehicleDetailsService: VehicleDetailService,
     private router: Router,
-    public createLeadDataService: CreateLeadDataService) { }
+    public vehicleDataStoreService: VehicleDataStoreService,
+    public createLeadDataService: CreateLeadDataService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -51,6 +54,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
+
+    this.routerId = this.vehicleDataStoreService.getCreditLeadId();
+
+    console.log('RouterId', this.routerId)
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;

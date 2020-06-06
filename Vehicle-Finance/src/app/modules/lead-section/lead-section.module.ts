@@ -38,7 +38,6 @@ import { VehicleDetailComponent } from './vehicle-details/vehicle-details.compon
     SharedModule,
     NgxPaginationModule,
   ],
-
-  exports: [VehicleDetailComponent],
+  exports: [VehicleDetailComponent, SourcingDetailsComponent],
 })
 export class LeadSectionModule {}

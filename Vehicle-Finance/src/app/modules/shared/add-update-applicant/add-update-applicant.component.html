@@ -330,8 +330,9 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="pincode"
+                      id="permanentPincode"
                       formControlName="pincode"
+                      (keyup)= "getPincode($event.target)"
                     />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -339,7 +340,7 @@
                       labels?.city
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.city"
+                      [values]="permanentPincode?.city"
                       formControlName="city"
                     >
                     </app-vf-custom-select>
@@ -349,7 +350,7 @@
                       labels?.district
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.district"
+                      [values]="permanentPincode?.district"
                       formControlName="district"
                     >
                     </app-vf-custom-select>
@@ -359,7 +360,7 @@
                       labels?.state
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.state"
+                      [values]="permanentPincode?.state"
                       formControlName="state"
                     >
                     </app-vf-custom-select>
@@ -369,7 +370,7 @@
                       labels.country
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.country"
+                      [values]="permanentPincode?.country"
                       formControlName="country"
                     >
                     </app-vf-custom-select>
@@ -434,14 +435,15 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="current_pincode"
+                      id="currentPincode"
                       formControlName="pincode"
+                      (keyup)= "getPincode($event.target)"
                     />
                   </div>
                   <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_city">{{ labels?.city }}</label>
                     <app-vf-custom-select
-                      [values]="values?.city"
+                      [values]="currentPincode?.city"
                       formControlName="city"
                     >
                     </app-vf-custom-select>
@@ -451,7 +453,7 @@
                       labels?.district
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.district"
+                      [values]="currentPincode?.district"
                       formControlName="district"
                     >
                     </app-vf-custom-select>
@@ -461,7 +463,7 @@
                       labels?.state
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.state"
+                      [values]="currentPincode?.state"
                       formControlName="state"
                     >
                     </app-vf-custom-select>
@@ -471,7 +473,7 @@
                       labels?.country
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.country"
+                      [values]="currentPincode?.country"
                       formControlName="country"
                     >
                     </app-vf-custom-select>
@@ -532,8 +534,9 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="registered_pincode"
+                      id="registerPincode"
                       formControlName="pincode"
+                      (keyup)= "getPincode($event.target)"
                     />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -541,7 +544,7 @@
                       labels?.registeredAddressCity
                     }}</label>
                     <app-vf-custom-select
-                      [values]="values?.city"
+                      [values]="registerPincode?.city"
                       formControlName="city"
                     >
                     </app-vf-custom-select>
@@ -556,7 +559,7 @@
                       <option>District 3</option>
                     </select> -->
                     <app-vf-custom-select
-                      [values]="values?.district"
+                      [values]="registerPincode?.district"
                       formControlName="district"
                     >
                     </app-vf-custom-select>
@@ -571,7 +574,7 @@
                       <option>State 3</option>
                     </select> -->
                     <app-vf-custom-select
-                      [values]="values?.state"
+                      [values]="registerPincode?.state"
                       formControlName="state"
                     >
                     </app-vf-custom-select>
@@ -586,7 +589,7 @@
                       <option>Country 3</option>
                     </select> -->
                     <app-vf-custom-select
-                      [values]="values?.country"
+                      [values]="registerPincode?.country"
                       formControlName="country"
                     >
                     </app-vf-custom-select>

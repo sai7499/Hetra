@@ -73,7 +73,6 @@ export class AddvehicleComponent implements OnInit {
         this.isHidden = true;
         this.selectedVehicle = Number(this.routerId);
       }
-
     })
 
   }
