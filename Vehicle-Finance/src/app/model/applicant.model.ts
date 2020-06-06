@@ -68,6 +68,7 @@ export interface IndividualProspectDetails {
   designation?: string;
   currentEmpYears?: string;
   employeeCode?: number;
+  employerType?: string;
   department?: string;
 }
 

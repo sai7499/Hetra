@@ -79,7 +79,9 @@ export class VehicleDetailService {
 
   // 2.method for save or update vehicle details
 
-  saveOrUpdateVehcicleDetails(vehicleDetails, leadId, vehicleId, userId) {
+  saveOrUpdateVehcicleDetails(data) {
+
+    console.log(data, 'data')
 
     const processId = this.apiService.api.saveOrUpdateVehicleCollateralDetails.processId;
     const workflowId = this.apiService.api.saveOrUpdateVehicleCollateralDetails.workflowId;
@@ -88,16 +90,12 @@ export class VehicleDetailService {
     const body: RequestEntity = {
 
       processId: processId,
-      ProcessVariables: {
-
-        "vehicleDetails": vehicleDetails,
-        "leadId": leadId,
-        "vehicleId": vehicleId,
-        "userId": userId
-      },
+      ProcessVariables: data,
       workflowId: workflowId,
       projectId: projectId
     };
+
+    console.log(JSON.stringify(body), 'Body')
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
@@ -149,6 +147,31 @@ export class VehicleDetailService {
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
+  }
+
+  getDeleteVehicleDetails(id, userId) {
+
+    const processId = this.apiService.api.getDeleteVehicleDetails.processId;
+    const workflowId = this.apiService.api.getDeleteVehicleDetails.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: {
+
+        "id": id,
+
+        "userId": userId
+
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
   }
 
 

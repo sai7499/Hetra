@@ -7,6 +7,7 @@ import {
   IndividualProspectDetails,
   AddressDetails,
   IndivIdentityInfoDetails,
+  IndivProspectProfileDetails
 } from '@model/applicant.model';
 
 @Injectable({
@@ -31,12 +32,16 @@ export class ApplicantDataStoreService {
     const indivIdentityInfoDetails = applicant.indivIdentityInfoDetails
       ? applicant.indivIdentityInfoDetails
       : {};
+    const indivProspectProfileDetails = applicant.indivProspectProfileDetails
+      ? applicant.indivProspectProfileDetails 
+      : {};
     this.applicant = {
       aboutIndivProspectDetails,
       addressDetails,
       applicantDetails,
       corporateProspectDetails,
       indivIdentityInfoDetails,
+      indivProspectProfileDetails
     };
   }
 
@@ -55,6 +60,12 @@ export class ApplicantDataStoreService {
 
   setindivProspectProfileDetails(value) {
     // this.applicant.corporateProspectDetails = value;
+    const details = this.applicant.indivIdentityInfoDetails;
+    const newDetails = {
+      ...details,
+      ...value
+    };
+    this.applicant.indivProspectProfileDetails= newDetails;
   }
 
   setCorporateProspectDetails(value: CorporateProspectDetails) {
