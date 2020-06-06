@@ -645,10 +645,12 @@ export class AddressDetailsComponent implements OnInit {
 
   hasRoute() {
     this.isSalesOrCredit = this.router.url.includes(
-      'pages/applicant-details/address-details'
+      'sales'
     )
-      ? 'credit'
-      : 'sales';
+      ? 'sales'
+      : 'credit';
+
+      console.log('isSalesOrCredit',this.isSalesOrCredit)
   }
 
   onSubmit() {
