@@ -14,7 +14,8 @@ import {
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
-import { Constant } from '../../../../assets/constants/constant';
+import { Constant } from '@assets/constants/constant';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-address-details',
@@ -33,6 +34,37 @@ export class AddressDetailsComponent implements OnInit {
   address: Applicant;
   applicantId: number;
   leadId: number;
+
+  permanantPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
+  currentPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
+  officePincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
+  registeredPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
+  communicationPincode: {
+    state?: any[];
+    country?: any[];
+    district?: any[];
+    city?: any[];
+  };
 
   isCurrAddSameAsPermAdd: any = '0';
   permenantAddressDetails: AddressDetails[];
@@ -58,14 +90,92 @@ export class AddressDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
   }
 
-  ngOnInit() {
+  inputPincode(event) {
+    const value = event.target.value;
+    const id = event.target.id;
+    //console.log('pincode change ', pincode)
+    if (value.length == 6) {
+      this.getPincodeResult(Number(value), id);
+    }
+  }
+
+  getPincodeResult(pincode: number, id: string) {
+    this.applicantService
+      .getGeoMasterValue({
+        pincode: pincode,
+      })
+      .pipe(
+        map((value: any) => {
+          const processVariables = value.ProcessVariables;
+          const addressList: any[] = processVariables.GeoMasterView;
+          if (value.Error !== '0') {
+            return null;
+          }
+          const first = addressList[0];
+          const obj = {
+            state: [
+              {
+                key: first.stateId,
+                value: first.stateName,
+              },
+            ],
+            district: [
+              {
+                key: first.districtId,
+                value: first.districtName,
+              },
+            ],
+            country: [
+              {
+                key: first.countryId,
+                value: first.country,
+              },
+            ],
+          };
+          const city = addressList.map((val) => {
+            return {
+              key: val.cityId,
+              value: val.cityName,
+            };
+          });
+          return {
+            ...obj,
+            city,
+          };
+        })
+      )
+      .subscribe((value) => {
+        if (id == 'permanantPincode') {
+          this.permanantPincode = value;
+          return;
+        }
+        if (id == 'currentPincode') {
+          this.currentPincode = value;
+          return;
+        }
+        if (id == 'officePincode') {
+          this.officePincode = value;
+          return;
+        }
+        if (id == 'registeredPincode') {
+          this.registeredPincode = value;
+          return;
+        }
+        if (id == 'communicationPincode') {
+          this.communicationPincode = value;
+          return;
+        }
+      });
+  }
+
+  async ngOnInit() {
+    //this.getPincodeResult(624003);
     this.initForm();
     this.getLabels();
     this.getLOV();
     this.hasRoute();
+    this.leadId = (await this.getLeadId()) as number;
     this.activatedRoute.params.subscribe((value) => {
-      this.leadId = Number(this.leadId);
-      this.leadId = this.leadStoreService.getLeadId();
       if (!value && !value.applicantId) {
         return;
       }
@@ -77,6 +187,17 @@ export class AddressDetailsComponent implements OnInit {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
   initForm() {
@@ -158,12 +279,13 @@ export class AddressDetailsComponent implements OnInit {
 
   getAddressDetails() {
     this.address = this.applicantDataService.getApplicant();
+    console.log('COMING ADDRES VALUES', this.address);
     this.setAddressData();
   }
 
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
-    this.clearFormArray();
+    // this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
     });
@@ -171,6 +293,7 @@ export class AddressDetailsComponent implements OnInit {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
     } else {
+      this.clearFormArray();
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
     }
@@ -189,6 +312,7 @@ export class AddressDetailsComponent implements OnInit {
       city,
       district,
       state,
+      country: address.country,
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
@@ -201,19 +325,144 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
-    if (permanentAddressObj) {
-      const permenantAddress = details.get('permanantAddress');
-      permenantAddress.patchValue({
-        ...permanentAddressObj,
+    console.log('permanentAddressObj', permanentAddressObj);
+    this.permanantPincode = {
+      city: [
+        {
+          key: permanentAddressObj.city,
+          value: permanentAddressObj.cityValue,
+        },
+      ],
+      district: [
+        {
+          key: permanentAddressObj.district,
+          value: permanentAddressObj.districtValue,
+        },
+      ],
+      state: [
+        {
+          key: permanentAddressObj.state,
+          value: permanentAddressObj.stateValue,
+        },
+      ],
+      country: [
+        {
+          key: permanentAddressObj.country,
+          value: permanentAddressObj.countryValue,
+        },
+      ],
+    };
+    const permenantAddress = details.get('permanantAddress');
+    permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
+
+    const valueCheckbox = this.getAddressObj();
+    const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
+    if (isCurAsPer.isCurrAddSameAsPermAdd == '1') {
+      const currentAddressObj = isCurAsPer;
+      this.currentPincode = {
+        city: [
+          {
+            key: currentAddressObj.city,
+            value: currentAddressObj.cityValue,
+          },
+        ],
+        district: [
+          {
+            key: currentAddressObj.district,
+            value: currentAddressObj.districtValue,
+          },
+        ],
+        state: [
+          {
+            key: currentAddressObj.state,
+            value: currentAddressObj.stateValue,
+          },
+        ],
+        country: [
+          {
+            key: currentAddressObj.country,
+            value: currentAddressObj.countryValue,
+          },
+        ],
+      };
+      const currentAddress = details.get('currentAddress');
+      currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+      currentAddress.patchValue({
+        accommodationType: currentAddressObj.accommodationType,
+        periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
+        mobileNumber: currentAddressObj.mobileNumber,
+      });
+    } else {
+      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
+      this.currentPincode = {
+        city: [
+          {
+            key: currentAddressObj.city,
+            value: currentAddressObj.cityValue,
+          },
+        ],
+        district: [
+          {
+            key: currentAddressObj.district,
+            value: currentAddressObj.districtValue,
+          },
+        ],
+        state: [
+          {
+            key: currentAddressObj.state,
+            value: currentAddressObj.stateValue,
+          },
+        ],
+        country: [
+          {
+            key: currentAddressObj.country,
+            value: currentAddressObj.countryValue,
+          },
+        ],
+      };
+      const currentAddress = details.get('currentAddress');
+      currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+      currentAddress.patchValue({
+        accommodationType: currentAddressObj.accommodationType,
+        periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
+        mobileNumber: currentAddressObj.mobileNumber,
       });
     }
+
     const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
-    if (officeAddressObj) {
-      const officeAddress = details.get('officeAddress');
-      officeAddress.patchValue({
-        ...officeAddressObj,
-      });
-    }
+    this.officePincode = {
+      city: [
+        {
+          key: officeAddressObj.city,
+          value: officeAddressObj.cityValue,
+        },
+      ],
+      district: [
+        {
+          key: officeAddressObj.district,
+          value: officeAddressObj.districtValue,
+        },
+      ],
+      state: [
+        {
+          key: officeAddressObj.state,
+          value: officeAddressObj.stateValue,
+        },
+      ],
+      country: [
+        {
+          key: officeAddressObj.country,
+          value: officeAddressObj.countryValue,
+        },
+      ],
+    };
+    const officeAddress = details.get('officeAddress');
+    officeAddress.patchValue(this.setAddressValues(officeAddressObj));
+    officeAddress.patchValue({
+      accommodationType: officeAddressObj.accommodationType,
+      periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
+      mobileNumber: officeAddressObj.mobileNumber,
+    });
   }
 
   setValuesForNonIndividual() {
@@ -221,18 +470,107 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
-    if (registeredAddressObj) {
-      const registeredAddress = details.get('registeredAddress');
-      registeredAddress.patchValue({
-        ...registeredAddressObj,
-      });
-    }
-    const communicationAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
-    if (communicationAddressObj) {
+    this.registeredPincode = {
+      city: [
+        {
+          key: registeredAddressObj.city,
+          value: registeredAddressObj.cityValue,
+        },
+      ],
+      district: [
+        {
+          key: registeredAddressObj.district,
+          value: registeredAddressObj.districtValue,
+        },
+      ],
+      state: [
+        {
+          key: registeredAddressObj.state,
+          value: registeredAddressObj.stateValue,
+        },
+      ],
+      country: [
+        {
+          key: registeredAddressObj.country,
+          value: registeredAddressObj.countryValue,
+        },
+      ],
+    };
+
+    const registeredAddress = details.get('registeredAddress');
+    registeredAddress.patchValue(this.setAddressValues(registeredAddressObj));
+    registeredAddress.patchValue({
+      mobileNumber: registeredAddressObj.mobileNumber,
+    });
+    const valueCheckbox = this.getAddressObj();
+    const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
+    if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
+      const communicationAddressObj = isCommAsReg;
+      this.communicationPincode = {
+        city: [
+          {
+            key: communicationAddressObj.city,
+            value: communicationAddressObj.cityValue,
+          },
+        ],
+        district: [
+          {
+            key: communicationAddressObj.district,
+            value: communicationAddressObj.districtValue,
+          },
+        ],
+        state: [
+          {
+            key: communicationAddressObj.state,
+            value: communicationAddressObj.stateValue,
+          },
+        ],
+        country: [
+          {
+            key: communicationAddressObj.country,
+            value: communicationAddressObj.countryValue,
+          },
+        ],
+      };
+
       const communicationAddress = details.get('communicationAddress');
-      communicationAddress.patchValue({
-        ...communicationAddressObj,
-      });
+      communicationAddress.patchValue(
+        this.setAddressValues(communicationAddressObj)
+      );
+    } else {
+      const communicationAddressObj =
+        addressObj[Constant.COMMUNICATION_ADDRESS];
+      this.communicationPincode = {
+        city: [
+          {
+            key: communicationAddressObj.city,
+            value: communicationAddressObj.cityValue,
+          },
+        ],
+        district: [
+          {
+            key: communicationAddressObj.district,
+            value: communicationAddressObj.districtValue,
+          },
+        ],
+        state: [
+          {
+            key: communicationAddressObj.state,
+            value: communicationAddressObj.stateValue,
+          },
+        ],
+        country: [
+          {
+            key: communicationAddressObj.country,
+            value: communicationAddressObj.countryValue,
+          },
+        ],
+      };
+
+      const communicationAddress = details.get('communicationAddress');
+      communicationAddress.patchValue(
+        this.setAddressValues(communicationAddressObj)
+      );
     }
 
     // }
@@ -266,11 +604,19 @@ export class AddressDetailsComponent implements OnInit {
 
   isSameAddress(event) {
     const isChecked = event.target.checked;
+    console.log('permanantPincode', this.permanantPincode);
+    if (isChecked) {
+      this.currentPincode = this.permanantPincode;
+      console.log('currentPincode', this.currentPincode);
+    }
     this.getPermanentAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
+    if (isChecked) {
+      this.communicationPincode = this.registeredPincode;
+    }
     this.getRegisteredAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
   }
@@ -278,6 +624,7 @@ export class AddressDetailsComponent implements OnInit {
   getPermanentAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
     const formValue = formArray.at(0).value.permanantAddress;
+    console.log('PERAM VALUE', formValue);
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
     currentAddress.patchValue({
@@ -288,6 +635,7 @@ export class AddressDetailsComponent implements OnInit {
   getRegisteredAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
     const formValue = formArray.at(0).value.registeredAddress;
+    console.log('REG VALUE', formValue);
     const details = formArray.at(0);
     const communicationAddress = details.get('communicationAddress');
     communicationAddress.patchValue({
@@ -297,14 +645,17 @@ export class AddressDetailsComponent implements OnInit {
 
   hasRoute() {
     this.isSalesOrCredit = this.router.url.includes(
-      'pages/applicant-details/address-details'
+      'sales'
     )
-      ? 'credit'
-      : 'sales';
+      ? 'sales'
+      : 'credit';
+
+      console.log('isSalesOrCredit',this.isSalesOrCredit)
   }
 
   onSubmit() {
     const value = this.addressForm.value;
+    console.log('TOTAL FORM VALUE', value);
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
     } else {
@@ -314,14 +665,25 @@ export class AddressDetailsComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
+      leadId: this.leadId,
     };
-    this.applicantService.saveApplicant(data).subscribe((res) => {
+    this.applicantService.saveApplicant(data).subscribe((res: any) => {
+      if (res.Error !== '0') {
+        return;
+      }
       const leadId = this.leadStoreService.getLeadId();
       this.applicantService.saveApplicant(data).subscribe((res) => {
-        this.router.navigate([
-          `/pages/sales-applicant-details/${leadId}/document-upload`,
-          this.applicantId,
-        ]);
+        const currentUrl = this.location.path();
+        if (currentUrl.includes('sales')) {
+          this.router.navigate([
+            `/pages/sales-applicant-details/${this.leadId}/document-upload`,
+            this.applicantId,
+          ]);
+        } else {
+          this.router.navigate([
+            `/pages/applicant-details/${this.leadId}/bank-details`,
+          ]);
+        }
       });
     });
     console.log('addressdetailsArray', this.addressDetailsDataArray);
@@ -344,6 +706,7 @@ export class AddressDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const permanentAddressObject = value.details[0].permanantAddress;
+    console.log('permanant address object', permanentAddressObject);
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(permanentAddressObject),
       addressType: Constant.PERMANENT_ADDRESS,
@@ -356,8 +719,18 @@ export class AddressDetailsComponent implements OnInit {
       accommodationType: officeAddressObject.accommodationType,
       periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
       mobileNumber: officeAddressObject.mobileNumber,
-      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+      //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
+    if (this.isCurrAddSameAsPermAdd == '0') {
+      const currentAddressObject = value.details[0].currentAddress;
+      this.addressDetailsDataArray.push({
+        ...this.getAddressFormValues(currentAddressObject),
+        addressType: Constant.CURRENT_ADDRESS,
+        accommodationType: officeAddressObject.accommodationType,
+        periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
+        mobileNumber: officeAddressObject.mobileNumber,
+      });
+    }
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
@@ -375,6 +748,18 @@ export class AddressDetailsComponent implements OnInit {
       mobileNumber: registeredAddressObject.mobileNumber,
       isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
+    if (this.isCurrAddSameAsPermAdd == '0') {
+      const communicationAddressObject = value.details[0].communicationAddress;
+      this.addressDetailsDataArray.push({
+        ...this.getAddressFormValues(communicationAddressObject),
+        addressType: Constant.COMMUNICATION_ADDRESS,
+        accommodationType: communicationAddressObject.accommodationType,
+        periodOfCurrentStay: Number(
+          communicationAddressObject.periodOfCurrentStay
+        ),
+        mobileNumber: communicationAddressObject.mobileNumber,
+      });
+    }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
 }
