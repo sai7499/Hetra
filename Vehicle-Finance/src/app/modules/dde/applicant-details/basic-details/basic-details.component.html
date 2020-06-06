@@ -492,7 +492,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="mobile_number">{{ labels?.mobileNumber }}</label>
               <input
-                formControlName="mobilePhone"
+                formControlName="companyPhoneNumber"
                 type="text"
                 class="form-control"
                 id="mobile_number"
@@ -523,12 +523,10 @@
               <label for="customer_category">{{
                 labels?.customerCategory
               }}</label>
-              <input
+              <app-vf-custom-select
                 formControlName="customerCategory"
-                type="text"
-                class="form-control"
-                id="amount"
-              />
+                [values]="LOV.LOVS.customerCategory"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">{{ labels?.emailID }}</label>
