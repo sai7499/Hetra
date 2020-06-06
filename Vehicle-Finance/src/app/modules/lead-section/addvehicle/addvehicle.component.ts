@@ -91,21 +91,11 @@ export class AddvehicleComponent implements OnInit {
 
   saveVehicleCollaterals() {
     if (this.vehicleDetails.length > 0) {
-
-      // this.vehicleDetails, this.leadId, this.vehicleId, this.userId
-
       const data = this.vehicleDetails[0];
 
       data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
 
-      // let selectDate = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear);
-      // selectDate.toString();
-
-      // data.manuFacMonthYear = selectDate;
-
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        // const message = res.Error;
-        // alert(message);
         this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
       }, error => {
         console.log(error, 'error')
@@ -113,8 +103,6 @@ export class AddvehicleComponent implements OnInit {
     } else {
       alert('Please Select any one of the Value')
     }
-
   }
-
 
 }

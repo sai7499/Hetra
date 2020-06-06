@@ -290,7 +290,8 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetSubVariantCV" formControlName="assetSubVariant">
+                        <app-vf-custom-select [values]="vehicleLov?.assetSubVariantCV"
+                            formControlName="assetSubVariant">
                         </app-vf-custom-select>
                     </div>
 
@@ -526,6 +527,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
                         <input type="text" class="form-control" id="dealer_subvention_finance"
+                            placeholder="Dealer Subvention Part of Finance Charges"
                             formControlName="dealerSubventionFinance">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -630,20 +632,22 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="registartion_number">{{label.registartionNumber}}</label>
-                        <input type="text" class="form-control mandatory" id="registartion_number"
+                        <input type="text" class="form-control mandatory input-upper" id="registartion_number"
                             placeholder="Vechical Registration No" name="registartion_number"
                             formControlName="registartionNumber">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_make">{{label.assetMake}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake">
+                        <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
+                            (change)="onAssetMake($event.target.value)">
                         </app-vf-custom-select>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_model">{{label.assetModel}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel">
+                        <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
+                            (change)="onAssetModel($event.target.value)">
                         </app-vf-custom-select>
 
                     </div>
@@ -668,14 +672,16 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_body_type">{{label.assetBodyType}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType">
+                        <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
+                            (change)="onAssetBodyType($event.target.value)">
                         </app-vf-custom-select>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vehicle_type">{{label.vehicleType}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType">
+                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
+                            (change)="onVehicleType($event.target.value)">
                         </app-vf-custom-select>
                     </div>
 
@@ -728,12 +734,12 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                         <label for="chassis_number">{{label.chassisNumber}}</label>
-                        <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                        <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
                             name="chassis_number" formControlName="chassisNumber">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                         <label for="engine_number">{{label.engineNumber}}</label>
-                        <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
+                        <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
                             name="engine_number" formControlName="engineNumber">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -763,14 +769,12 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                            formControlName="reRegisteredVehicle">
+                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegisteredVehicle">
                         </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                            formControlName="interStateVehicle">
+                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="interStateVehicle">
                         </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -822,7 +826,7 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="registartion_number">{{label.registartionNumber}}</label>
-                        <input type="text" class="form-control mandatory" id="registartion_number"
+                        <input type="text" class="form-control mandatory input-upper" id="registartion_number"
                             placeholder="Vechical Registration No" name="registartion_number"
                             formControlName="registartionNumber">
                     </div>
@@ -911,13 +915,13 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                         <label for="chassis_number">{{label.chassisNumber}}</label>
-                        <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                        <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
                             name="chassis_number" formControlName="chassisNumber">
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                         <label for="engine_number">{{label.engineNumber}}</label>
-                        <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
+                        <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
                             name="engine_number" formControlName="engineNumber">
                     </div>
 
@@ -957,16 +961,14 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                            formControlName="reRegisteredVehicle">
+                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegisteredVehicle">
                         </app-vf-custom-select>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                            formControlName="interStateVehicle">
+                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="interStateVehicle">
                         </app-vf-custom-select>
 
                     </div>
