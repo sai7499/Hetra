@@ -14,7 +14,7 @@ import { UtilityService } from '@services/utility.service';
 @Component({
   selector: 'app-lead-creation',
   templateUrl: './lead-creation.component.html',
-  styleUrls: ['./lead-creation.component.css']
+  styleUrls: ['./lead-creation.component.css'],
 })
 export class LeadCreationComponent implements OnInit {
   // qde: Qde;
@@ -49,25 +49,25 @@ export class LeadCreationComponent implements OnInit {
   test = [];
 
   loanLeadDetails: {
-    bizDivision: string,
-    productCategory: number,
-    priority: string,
-    fundingProgram: string,
-    sourcingChannel: string,
-    sourcingType: string,
-    sourcingCode: string,
-    spokeCode: number,
-    loanBranch: number,
-    leadHandeledBy: number
+    bizDivision: string;
+    productCategory: number;
+    priority: string;
+    fundingProgram: string;
+    sourcingChannel: string;
+    sourcingType: string;
+    sourcingCode: string;
+    spokeCode: number;
+    loanBranch: number;
+    leadHandeledBy: number;
   };
 
   applicantDetails: {
-    entity: string
-    nameOne: string,
-    nameTwo: string,
-    nameThree: string,
-    mobileNumber: string,
-    dobOrDoc: string
+    entity: string;
+    nameOne: string;
+    nameTwo: string;
+    nameThree: string;
+    mobileNumber: string;
+    dobOrDoc: string;
   };
 
   constructor(
@@ -79,7 +79,7 @@ export class LeadCreationComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -94,8 +94,9 @@ export class LeadCreationComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      data => this.labels = data,
-      error => console.log('Lead Creation Label Error', error));
+      (data) => (this.labels = data),
+      (error) => console.log('Lead Creation Label Error', error)
+    );
   }
 
   initForm() {
@@ -112,20 +113,31 @@ export class LeadCreationComponent implements OnInit {
       rcLimit: new FormControl(''),
       rcUtilizedLimit: new FormControl(''),
       rcUnutilizedLimit: new FormControl(''),
-      spokeCodeLocation: new FormControl({ value: '', disabled: !this.isSpoke }),
-      loanBranch: new FormControl({ value: this.loanAccountBranch, disabled: true }),
-      leadHandeledBy: new FormControl({ value: this.leadHandeledBy, disabled: true }),
+      spokeCodeLocation: new FormControl({
+        value: '',
+        disabled: !this.isSpoke,
+      }),
+      loanBranch: new FormControl({
+        value: this.loanAccountBranch,
+        disabled: true,
+      }),
+      leadHandeledBy: new FormControl({
+        value: this.leadHandeledBy,
+        disabled: true,
+      }),
       entity: new FormControl(''),
       nameOne: new FormControl(''),
       nameTwo: new FormControl(''),
       nameThree: new FormControl(''),
       mobile: new FormControl(''),
-      dateOfBirth: new FormControl('')
+      dateOfBirth: new FormControl(''),
     });
   }
 
   getLOV() {
-    this.commonLovService.getLovData().subscribe((lov: any) => this.LOV = lov);
+    this.commonLovService
+      .getLovData()
+      .subscribe((lov: any) => (this.LOV = lov));
   }
 
   getUserDetailsData() {
@@ -144,19 +156,21 @@ export class LeadCreationComponent implements OnInit {
     this.leadHandeledBy = `${this.userId}-${userName}`;
 
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
-    this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
+    this.spokesCodeLocation = this.isSpoke
+      ? roleAndUserDetails.userDetails.parentBranch
+      : null;
   }
 
   getBusinessDivision(roleAndUserDetails) {
     const businessDivision = roleAndUserDetails.businessDivisionList;
     this.bizDivId = businessDivision[0].bizDivId;
     const lov = this.LOV.LOVS.businessDivision;
-    lov.map(data => {
-      businessDivision.map(ele => {
+    lov.map((data) => {
+      businessDivision.map((ele) => {
         if (ele.bizDivId === data.key) {
           const val = {
             key: ele.bizDivId,
-            value: data.value
+            value: data.value,
           };
           this.businessDivision.push(val);
         }
@@ -172,11 +186,17 @@ export class LeadCreationComponent implements OnInit {
   }
 
   getProductCategory(event) {
-    this.bizDivId = (this.isBusinessDivisionEnable) ? event : event.target.value;
-    this.createLeadService.getProductCategory(this.bizDivId).subscribe((res: any) => {
-      const productCategory = res.ProcessVariables.productCategoryDetails;
-      // this.productCategoryData = this.utilityService.getValueFromJSON(productCategory, 'prodCatCode', 'prodCatName');
-    });
+    this.bizDivId = this.isBusinessDivisionEnable ? event : event.target.value;
+    this.createLeadService
+      .getProductCategory(this.bizDivId)
+      .subscribe((res: any) => {
+        const productCategory = res.ProcessVariables.productCategoryDetails;
+        this.productCategoryData = this.utilityService.getValueFromJSON(
+          productCategory,
+          'prodCatCode',
+          'prodCatName'
+        );
+      });
   }
 
   getSourcingChannel() {
@@ -189,13 +209,14 @@ export class LeadCreationComponent implements OnInit {
   sourcingChannelChange(event: any) {
     this.sourchingTypeValues = [];
     this.sourcingChange = event.target.value;
-    this.sourcingCodePlaceholder = (this.sourcingChange === '4SOURCHAN') ? 'Campaign Code' : 'Employee Code';
+    this.sourcingCodePlaceholder =
+      this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
 
-    this.sourchingTypeData.map(element => {
+    this.sourchingTypeData.map((element) => {
       if (element.sourcingChannelId === this.sourcingChange) {
         const data = {
           key: element.sourcingTypeId,
-          value: element.sourcingTypeDesc
+          value: element.sourcingTypeDesc,
         };
         this.sourchingTypeValues.push(data);
       }
@@ -219,15 +240,13 @@ export class LeadCreationComponent implements OnInit {
 
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
-      this.labelsData.getLanguageLabelData().subscribe(
-        data => {
-          this.labels = data[0];
-        });
+      this.labelsData.getLanguageLabelData().subscribe((data) => {
+        this.labels = data[0];
+      });
     } else {
-      this.labelsData.getLabelsData().subscribe(
-        data => {
-          this.labels = data;
-        });
+      this.labelsData.getLabelsData().subscribe((data) => {
+        this.labels = data;
+      });
     }
   }
 
@@ -247,7 +266,7 @@ export class LeadCreationComponent implements OnInit {
       // spokeCode: Number(leadModel.spokeCode),
       spokeCode: 1,
       loanBranch: Number(this.branchId),
-      leadHandeledBy: Number(this.userId)
+      leadHandeledBy: Number(this.userId),
     };
 
     this.applicantDetails = {
@@ -256,35 +275,26 @@ export class LeadCreationComponent implements OnInit {
       nameTwo: leadModel.nameTwo,
       nameThree: leadModel.nameThree,
       mobileNumber: leadModel.mobile,
-      dobOrDoc: leadModel.dateOfBirth
+      dobOrDoc: leadModel.dateOfBirth,
     };
 
-    this.createLeadDataService.setLeadData(this.loanLeadDetails, this.applicantDetails);
-    this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails, false).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-
-      if (appiyoError === '0' && apiError === '0') {
-        const message = response.ProcessVariables.error.message;
-        const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
-        const leadSectionData = response.ProcessVariables;
-        const leadId = leadSectionData.leadId;
-
-        if (isDedupeAvailable) {
-          const leadDedupeData = response.ProcessVariables.leadDedupeResults;
-          this.leadStoreService.setDedupeData(leadDedupeData);
-          this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
-          return;
-        }
-
-        this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+    this.createLeadDataService.setLeadData(
+      this.loanLeadDetails,
+      this.applicantDetails
+    );
+    this.createLeadService
+      .createLead(this.loanLeadDetails, this.applicantDetails, false)
+      .subscribe(
+        (res: any) => {
           const response = res;
           const appiyoError = response.Error;
           const apiError = response.ProcessVariables.error.code;
-          const leadSectionData = response.ProcessVariables;
 
           if (appiyoError === '0' && apiError === '0') {
+            const message = response.ProcessVariables.error.message;
+            const isDedupeAvailable =
+              response.ProcessVariables.isDedupeAvailable;
+            const leadSectionData = response.ProcessVariables;
             const leadId = leadSectionData.leadId;
 
             if (isDedupeAvailable) {
@@ -302,22 +312,46 @@ export class LeadCreationComponent implements OnInit {
               const leadSectionData = response.ProcessVariables;
 
               if (appiyoError === '0' && apiError === '0') {
-                console.log('leadSectionData', leadSectionData);
                 const leadId = leadSectionData.leadId;
-                this.createLeadDataService.setLeadSectionData(leadSectionData);
-                this.router.navigateByUrl(`pages/lead-section/${leadId}`);
+
+                if (isDedupeAvailable) {
+                  const leadDedupeData =
+                    response.ProcessVariables.leadDedupeResults;
+                  this.leadStoreService.setDedupeData(leadDedupeData);
+                  this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
+                  return;
+                }
+
+                this.createLeadService
+                  .getLeadById(leadId)
+                  .subscribe((res: any) => {
+                    const response = res;
+                    const appiyoError = response.Error;
+                    const apiError = response.ProcessVariables.error.code;
+                    const leadSectionData = response.ProcessVariables;
+
+                    if (appiyoError === '0' && apiError === '0') {
+                      console.log('leadSectionData', leadSectionData);
+                      const leadId = leadSectionData.leadId;
+                      this.createLeadDataService.setLeadSectionData(
+                        leadSectionData
+                      );
+                      this.router.navigateByUrl(`pages/lead-section/${leadId}`);
+                    }
+                  });
+              } else {
+                const message = response.ProcessVariables.error.message;
+                alert(message);
               }
             });
           } else {
             const message = response.ProcessVariables.error.message;
             alert(message);
           }
-        });
-      } else {
-        const message = response.ProcessVariables.error.message;
-        alert(message);
-      }
-    },
-      err => { alert(err); });
+        },
+        (err) => {
+          alert(err);
+        }
+      );
   }
 }

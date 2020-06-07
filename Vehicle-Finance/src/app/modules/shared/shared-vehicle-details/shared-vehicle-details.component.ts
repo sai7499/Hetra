@@ -3,9 +3,9 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
-import { Router } from '@angular/router';
-import { LeadDataResolverService } from '../../lead-section/services/leadDataResolver.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -22,6 +22,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   vehicleArray = [];
   public leadId: number;
   public leadData: any = {};
+  public userId: number;
+  public routerId: number = 601;
 
   public vehicleListArray = [
     {
@@ -41,17 +43,24 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private vehicleDetailsService: VehicleDetailService,
     private router: Router,
-    public createLeadDataService: CreateLeadDataService) { }
+    public vehicleDataStoreService: VehicleDataStoreService,
+    public createLeadDataService: CreateLeadDataService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
+    this.userId = roleAndUserDetails.userDetails.userId;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
+    this.routerId = this.vehicleDataStoreService.getCreditLeadId();
+
+    console.log('RouterId', this.routerId)
+
     this.leadData = this.createLeadDataService.getLeadSectionData();
-    this.leadId = this.leadData.leadId;
+    this.leadId = this.roleName === 'Sales Officer' ? this.leadData.leadId : this.routerId;
     this.getVehicleDetails(this.leadId)
 
     this.labelsData.getLabelsData().subscribe(data => {
@@ -68,19 +77,20 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
-      if (res.ProcessVariables && res.ProcessVariables.error.code === 0) {
-        this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
-      } else if (res.ProcessVariables.error.code !== 0 && res.ProcessVariables.error.code === 1) {
-        alert('' +  res.ProcessVariables.error.message)
-      }
+      this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
+    }, error => {
+      console.log(error, 'error')
     })
   }
 
-  removeOtherIndex(i, vehicleArray: any) {
-    if (vehicleArray.length > 1) {
-      vehicleArray.splice(i, 1)
-    } else {
-      alert("Atleast One Row Required");
+  DeleteVehicleDetails(vehicle: any) {
+    if (vehicle) {
+      this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res: any) => {
+        this.getVehicleDetails(this.leadId)
+      }, error => {
+        console.log('error', error)
+      }
+      )
     }
   }
 }
