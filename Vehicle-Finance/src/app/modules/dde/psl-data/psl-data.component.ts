@@ -85,7 +85,7 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.getPslData();
     this.getLabels();
     this.getLOV();
-    this.initForm();
+    this.initForm();    
   }
 
   getLabels() {
@@ -102,8 +102,9 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   initForm() {
     this.pslDataForm = this.formBuilder.group({
-      activity: [""],
+      activity: [this.LOV.LOVS.pslActivity],
       agriculture: this.formBuilder.group({
+        activity: [this.LOV.LOVS.pslActivity[1].key],
         detailActivity: [""],
         purposeOfLoanAg: [""],
         landHolding: [""],
@@ -119,6 +120,7 @@ export class PslDataComponent implements OnInit, OnChanges {
         weakerSectionAg: [""],
       }),
       microSmallAndMediumEnterprises: this.formBuilder.group({
+        activity: [this.LOV.LOVS.pslActivity[0].key],
         detailActivity: [""],
         goodsManufactured: [""],
         typeOfService: [""],
@@ -142,6 +144,7 @@ export class PslDataComponent implements OnInit, OnChanges {
         weakerSectionMsme: [""],
       }),
       housing: this.formBuilder.group({
+        activity: [this.LOV.LOVS.pslActivity[2].key],
         propertyType: [""],
         detailActivity: [""],
         propertyLocatedCity: [""],
@@ -193,6 +196,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       // }),
       otherOption: this.formBuilder.group({
         propertyType: [""],
+        activity: [""],
         detailActivity: [""],
         goodsManufactured: [""],
         typeOfService: [""],
@@ -240,6 +244,12 @@ export class PslDataComponent implements OnInit, OnChanges {
         weakerSectionMsme: [""],
       }),
     });
+  }
+
+  getActivityControl() {
+    return {
+      activity: this.LOV.LOVS.pslActivity[0].key
+    }
   }
 
   getDependentDropdownLOV() {
@@ -791,12 +801,25 @@ export class PslDataComponent implements OnInit, OnChanges {
   // }
 
   saveOrUpdatePslData() {
-    const data = this.pslDataForm.getRawValue();
-    this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
-      const response = res;
-      console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
-      // console.log("DATA", data);
-    });
+    // const agriculture = this.pslDataForm.get('agriculture');
+    // const microSmallAndMediumEnterprises = this.pslDataForm.get('microSmallAndMediumEnterprises');
+    if(this.activityChange==='1PSLACTVTY') {
+      const data = this.pslDataForm.get('agriculture').value;
+      this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
+        const response = res;
+        console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
+        // console.log("DATA", data);
+      }); 
+    } 
+  else if(this.activityChange==='2PSLACTVTY') {
+      const data = this.pslDataForm.get('microSmallAndMediumEnterprises').value;
+      this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
+        const response = res;
+        console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
+        // console.log("DATA", data);
+      });
+    } 
+
   }
 
   onFormSubmit() {
