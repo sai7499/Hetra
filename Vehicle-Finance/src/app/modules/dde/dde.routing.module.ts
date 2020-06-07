@@ -19,6 +19,7 @@ import { CreditConditionsComponent } from './credit-conditions/credit-conditions
 import { DeviationsComponent } from './deviations/deviations.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+import { SourcingDetailsComponent } from '@modules/lead-section/sourcing-details/sourcing-details.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: SourcingDdeComponent,
+        // component: SourcingDdeComponent,
+        component: SourcingDetailsComponent,
       },
       {
         path: 'applicant-list',
@@ -48,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'lead-details',
-        component: SourcingDdeComponent,
+        component: SourcingDetailsComponent,
       },
       {
         path: 'income-details',

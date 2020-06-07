@@ -23,7 +23,7 @@
                         [routerLink]="['/pages/lead-section', item.leadId]"
                         (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td>
                 <td class="text-underline" *ngIf="isCredit == '2'"><a
-                        [routerLink]="['/pages/dde', item.leadId, 'lead-details']"
+                        [routerLink]="['/pages/dde/', item.leadId, 'lead-details']"
                         (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
