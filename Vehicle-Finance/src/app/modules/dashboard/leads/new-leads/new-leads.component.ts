@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { DashboardService } from '@services/dashboard/dashboard.service';
-import { CommomLovService } from '@services/commom-lov-service';
-import { LoginService } from 'src/app/modules/login/login/login.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-new-leads',
@@ -18,12 +17,15 @@ export class NewLeadsComponent implements OnInit {
   q;
   isCredit;
   lovData: any;
+  count: any;
+  currentPage: any;
+  limit;
+  pageNumber;
 
   constructor(
     private labelsData: LabelsService,
     private dashboardService: DashboardService,
-    private commonLovService: CommomLovService,
-    private loginService: LoginService
+    private VehicleDataStoreService: VehicleDataStoreService
   ) {
     // this.newLeads =  [
     //   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
@@ -92,8 +94,25 @@ export class NewLeadsComponent implements OnInit {
   getMyLeads() {
     this.dashboardService.myLeads().subscribe((res: any) => {
       const response = res.ProcessVariables.loanLead;
+      console.log(response, 'response')
       this.newArray = response;
+      this.limit = res.ProcessVariables.perPage;
+      this.pageNumber = res.ProcessVariables.from;
+      this.count = res.ProcessVariables.count;
+      // console.log(this.count);
+      this.currentPage = res.ProcessVariables.currentPage;
+      // console.log(this.currentPage);
+
     });
+  }
+
+  getLeadIdSales(Id) {
+    this.VehicleDataStoreService.setSalesLeadID(Id)
+  }
+
+  getLeadId(id) {
+    console.log(id, 'Id')
+    this.VehicleDataStoreService.setCreditLeadId(id)
   }
 
 }
