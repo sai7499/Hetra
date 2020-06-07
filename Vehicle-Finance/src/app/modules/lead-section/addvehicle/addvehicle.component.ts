@@ -93,7 +93,7 @@ export class AddvehicleComponent implements OnInit {
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
-      // data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
+      data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
