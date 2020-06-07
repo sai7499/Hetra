@@ -45,7 +45,7 @@ const routes: Routes = [
         component: FleetDetailsComponent,
       },
       {
-        path: 'track-vehicle',
+        path: 'track-vehicle/:id',
         component: TrackVehicleComponent,
       },
       {
