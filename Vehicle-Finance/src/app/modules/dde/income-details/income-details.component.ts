@@ -195,6 +195,8 @@ export class IncomeDetailsComponent implements OnInit {
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
           control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
+
         });
     } else {
       alert("Atleast One Row Required");
@@ -223,11 +225,13 @@ export class IncomeDetailsComponent implements OnInit {
 
         otherIncomeDetail: { id: id },
       };
-      control.removeAt(i);
 
       this.incomeDetailsService
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
+      control.removeAt(i);
+      alert(res.ProcessVariables.error.message);
+
         });
     } else {
       alert("Atleast One Row Required");
@@ -258,6 +262,8 @@ export class IncomeDetailsComponent implements OnInit {
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
           control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
+
         });
     } else {
       alert("Atleast One Row Required");

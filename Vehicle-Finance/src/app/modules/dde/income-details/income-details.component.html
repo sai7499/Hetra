@@ -192,13 +192,13 @@
                   <td>
                     <select class="form-control mandatory select2" id="" name="applicantId"
                         class="form-control text-center" formControlName="applicantId"
-                        (change)="onObligationChange($event.target.value, i)">
+                        (change)="onObligationApplicantChange($event.target.value, i)">
                         <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
                           {{ applicants.applicantName }}</option>
                       </select>
                     </td>
                      <td data-title="Applicant Type">
-                      <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
+                      <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value" 
                         readonly="true"
                         name="applicant" class="form-control text-center"  />
                     </td>
