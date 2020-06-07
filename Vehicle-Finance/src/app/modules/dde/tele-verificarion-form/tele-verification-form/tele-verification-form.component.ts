@@ -36,6 +36,7 @@ export class TeleVerificationFormComponent implements OnInit {
     );
     this.initForm();
     this.getLOV();
+    this.setFormValue();
   }
 
   getLOV() {
@@ -97,6 +98,7 @@ export class TeleVerificationFormComponent implements OnInit {
       designation: [''],
       industryType: [''],
       yearsInEmPBussiness: [''],
+      ifBusiness: [''],
       employees: [''],
       spokenTo2: [''],
       relation: [''],
@@ -110,6 +112,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   setFormValue() {
     const tvrModel = this.ddeStoreService.trackvehicle() || {};
+    console.log(tvrModel);
     this.teleVerificationForm.patchValue({
       leadNumber: tvrModel.leadNumber || '',
       applicantName: tvrModel.applicantName || '',
@@ -120,7 +123,49 @@ export class TeleVerificationFormComponent implements OnInit {
       sourceOfProposal: tvrModel.sourceOfProposal || '',
       product: tvrModel.product || '',
       emi: tvrModel.emi || '',
-
+      needForProposedVehicle: tvrModel.needForProposedVehicle || '',
+      routeOfOperation: tvrModel.routeOfOperation || '',
+      contractDetails: tvrModel.contractDetails || '',
+      typeofGoodsCarried: tvrModel.typeofGoodsCarried || '',
+      fundingAmountRequested: tvrModel.fundingAmountRequested || '',
+      endUseFunds: tvrModel.endUseFunds || '',
+      tenureRequested: tvrModel.tenureRequested || '',
+      residence: tvrModel.residence || '',
+      otherVehicles: tvrModel.otherVehicles,
+      phoneNo: tvrModel.phoneNo,
+      address: tvrModel.address,
+      anyOtherLoansAsset: tvrModel.anyOtherLoansAsset,
+      teleVerificationEmi: tvrModel.teleVerificationEmi,
+      noOfYears: tvrModel.noOfYears,
+      teleVerificationCC: tvrModel.teleVerificationCC,
+      status: tvrModel.status,
+      dob: tvrModel.dob,
+      spokenTo: tvrModel.spokenTo,
+      familyMembers: tvrModel.familyMembers,
+      relationWithApplicant: tvrModel.relationWithApplicant,
+      date: tvrModel.date,
+      time: tvrModel.time,
+      tvrDoneByName: tvrModel.tvrDoneByName,
+      eCode: tvrModel.eCode,
+      office: tvrModel.office,
+      workExperience: tvrModel.workExperience,
+      phoneNo2: tvrModel.phoneNo2,
+      extn: tvrModel.extn,
+      workStability: tvrModel.workStability,
+      natureOfBusiness: tvrModel.natureOfBusiness,
+      transactionType: tvrModel.transactionType,
+      businessStability: tvrModel.businessStability,
+      coNameAndAddress: tvrModel.coNameAndAddress,
+      designation: tvrModel.designation,
+      industryType: tvrModel.industryType,
+      yearsInEmPBussiness: tvrModel.yearsInEmPBussiness,
+      ifBusiness: tvrModel.ifBusiness,
+      employees: tvrModel.employees,
+      spokenTo2: tvrModel.spokenTo2,
+      relation: tvrModel.relation,
+      monthlySalaryGross: tvrModel.monthlySalaryGross,
+      otherSourcesofIncome: tvrModel.otherSourcesofIncome,
+      decision: tvrModel.decision
     });
   }
 
