@@ -58,9 +58,11 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.routerId = this.vehicleDataStoreService.getCreditLeadId();
 
     console.log('RouterId', this.routerId)
-
+    
     this.leadData = this.createLeadDataService.getLeadSectionData();
+    
     this.leadId = this.roleName === 'Sales Officer' ? this.leadData.leadId : this.routerId;
+    this.activatedRoute.parent.params.subscribe((value:any) => this.leadId = Number(value.leadId));
     this.getVehicleDetails(this.leadId)
 
     this.labelsData.getLabelsData().subscribe(data => {
