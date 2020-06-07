@@ -55,9 +55,9 @@
                     <td data-title="Model">
                         {{item.model}}
                     </td>
-                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                            [routerLink]="['/pages/vehicle-details']"></i>&nbsp;<i class="fa fa-minus"
-                            aria-hidden="true" id="remove_item_applicant" (click)="DeleteVehicleDetails(item)"></i>
+                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true" (click)="onEditVehicleDetails(item.collateralId)"></i>&nbsp;<i
+                            class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
+                            (click)="DeleteVehicleDetails(item)"></i>
                     </td>
                 </tr>
             </tbody>
