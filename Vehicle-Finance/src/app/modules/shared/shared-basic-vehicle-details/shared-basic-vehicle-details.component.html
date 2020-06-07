@@ -11,7 +11,7 @@
                     <label for="registartion_number"> {{ label.registartionNumber }} </label>
 
 
-                    <input formControlName="registrationNo" type="text" class="form-control mandatory input-upper"
+                    <input formControlName="vehicleRegNo" type="text" class="form-control mandatory input-upper"
                         id="registartion_number" placeholder="Vechical Registration No" name="registartion_number"
                         (keyup)="onChangeUppercase($event)">
 
@@ -251,24 +251,9 @@
 
         <div id="credit_section_start" *ngIf="roleName === 'Credit Officer'" [formGroupName]="0">
 
-            <div class="btn-sec clear-both row">
-                <div class="col-sm-5">
-                    <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
-                        <option value="New CV">New CV</option>
-                        <option value="New Car">New Car</option>
-                        <option value="Used CV">Used CV</option>
-                        <option value="Used Car">Used Car</option>
-                    </select>
-                    <!-- <app-vf-custom-select class="dropdown_individual"  [values]="vehicleLov?.selectMainButton"
-                    formControlName="selectMainButton"
-                      (change)="select_main_button($event)">
-                    </app-vf-custom-select> -->
-                </div>
-            </div>
-
             <ng-container formArrayName="creditFormArray">
 
-                <div class="" id="new_cv_show" [formGroupName]="0" *ngIf="select_main_button_value === 'New CV'">
+                <div class="" id="new_cv_show" [formGroupName]="0" *ngIf="product_value === 'New Commercial Vehicle'">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vechical_region"> {{ label.vechicalRegion }} </label>
@@ -288,7 +273,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vehicle_type">{{label.vehicleType}}</label>
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                            (change)="onVehicleType($event.target.type)">
+                            (change)="onVehicleType($event.target.value)">
                         </app-vf-custom-select>
                     </div>
 
@@ -466,7 +451,7 @@
 
                 </div>
 
-                <div class="" id="new_car_show" [formGroupName]="0" *ngIf="select_main_button_value === 'New Car'">
+                <div class="" id="new_car_show" [formGroupName]="0" *ngIf="product_value === 'New Car'">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vechical_region"> {{ label.vechicalRegion }} </label>
@@ -486,7 +471,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vehicle_type">{{label.vehicleType}}</label>
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                            (change)="onVehicleType($event.target.type)">
+                            (change)="onVehicleType($event.target.value)">
                         </app-vf-custom-select>
                     </div>
 
@@ -680,13 +665,13 @@
 
                 </div>
 
-                <div class="" id="used_cv_show" [formGroupName]="0" *ngIf="select_main_button_value === 'Used CV'">
+                <div class="" id="used_cv_show" [formGroupName]="0" *ngIf="product_value === 'Used Commercial Vehicle'">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="registartion_number">{{label.registartionNumber}}</label>
                         <input type="text" class="form-control mandatory input-upper" id="registartion_number"
                             placeholder="Vechical Registration No" name="registartion_number"
-                            formControlName="registrationNo">
+                            formControlName="vehicleRegNo">
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -707,7 +692,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vehicle_type">{{label.vehicleType}}</label>
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                            (change)="onVehicleType($event.target.type)">
+                            (change)="onVehicleType($event.target.value)">
                         </app-vf-custom-select>
                     </div>
 
@@ -908,19 +893,19 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="frsd_amount">{{label.frsdAmount}}</label>
-                        <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                        <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
                             name="frsd_amount" formControlName="fsrdPremiumAmount">
                     </div>
 
                 </div>
 
-                <div class="" id="used_car_show" [formGroupName]="0" *ngIf="select_main_button_value === 'Used Car'">
+                <div class="" id="used_car_show" [formGroupName]="0" *ngIf="product_value === 'Used Car'">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="registartion_number">{{label.registartionNumber}}</label>
                         <input type="text" class="form-control mandatory input-upper" id="registartion_number"
                             placeholder="Vechical Registration No" name="registartion_number"
-                            formControlName="registrationNo">
+                            formControlName="vehicleRegNo">
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -941,7 +926,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vehicle_type">{{label.vehicleType}}</label>
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                            (change)="onVehicleType($event.target.type)">
+                            (change)="onVehicleType($event.target.value)">
                         </app-vf-custom-select>
                     </div>
 
@@ -1148,7 +1133,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="frsd_amount">{{label.frsdAmount}}</label>
-                        <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                        <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
                             name="frsd_amount" formControlName="fsrdPremiumAmount">
                     </div>
                 </div>

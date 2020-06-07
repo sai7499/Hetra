@@ -8,7 +8,7 @@ import { VehicleDataStoreService } from '../../../services/vehicle-data-store.se
 import { ArrayType } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../shared-service/shared-service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -30,7 +30,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
-  public select_main_button_value: string = 'New CV';
+  public product_value: string = 'New Commercial Vehicle';
   public vehicleFormData: any = [];
   mockLov: any = {};
   regionDataArray = [];
@@ -45,7 +45,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public assetVariant: any = [];
   public userId: number;
   public leadId: number;
-  routerId: number;
 
   constructor(
     private _fb: FormBuilder,
@@ -56,7 +55,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService,
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
-    private activatedRoute: ActivatedRoute) { }
+    public sharedService: SharedService) { }
 
   async ngOnInit() {
 
@@ -72,13 +71,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.leadId = leadData['leadId'];
 
-    let leadId = (await this.getLeadId()) as number;
-
-    this.routerId = this.id ? this.id : leadId;
-
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
+
+    this.sharedService.leadData$.subscribe((value: string) => {
+      this.product_value = value;
+    })
 
     this.initForms();
     this.getLov();
@@ -88,30 +87,30 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       }, error => {
         console.log('error', error)
       });
+
     if (this.id) {
       this.setFormValue();
-    }
+    };
 
-  }
-
-  getLeadId() {
-    return new Promise((resolve, reject) => {
-      this.activatedRoute.params.subscribe((value) => {
-        const leadId = value.leadId;
-        if (leadId) {
-          resolve(Number(leadId));
-        }
-        resolve(null);
-      });
-    });
   }
 
   onOpenCalendar(container) {
     container.monthSelectHandler = (event: any): void => {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      formArray.controls[0].patchValue({
-        ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
-      })
+
+      if (this.roleName === 'Sales Officer') {
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        formArray.controls[0].patchValue({
+          ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
+        })
+      } else {
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
+        console.log('CreditFormArray', creditFormArray.controls[0])
+        creditFormArray.controls[0].patchValue({
+          ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
+        })
+      }
+
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
@@ -125,7 +124,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      console.log(value.Lovs)
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
@@ -174,12 +172,31 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (this.roleName === 'Sales Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-        this.onPatchArrayValue(formArray, VehicleDetail, this.leadId)
+        formArray.controls[0].patchValue({
+          registrationNo: VehicleDetail.registrationNo || '',
+          region: VehicleDetail.region || '',
+          assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
+          vehicleType: VehicleDetail.vehicleTypeCode || '',
+          assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
+          assetModel: VehicleDetail.vehicleModelCode || '',
+          assetVariant: VehicleDetail.assetVarient === 'Petrol' ? 0 : '',
+          assetSubVariant: VehicleDetail.assetSubVariant || '',
+          manuFacMonthYear: this.utilityService.converDateToUTC(VehicleDetail.manuFacMonthYear) || '',
+          ageOfAsset: VehicleDetail.ageOfAsset || null,
+          finalAssetCost: VehicleDetail.finalAssetCost || '',
+          vehicleUsage: VehicleDetail.vehicleUsage || '',
+          noOfVehicles: VehicleDetail.noOfVehicles || '',
+          usage: VehicleDetail.usage || '',
+          vehicleId: VehicleDetail.vehicleId || '',
+          collateralId: VehicleDetail.collateralId || '',
+          leadId: this.leadId,
+          userId: this.userId
+        })
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-        console.log(creditFormArray, 'CreditFormArray')
-        this.onPatchArrayValue(creditFormArray, VehicleDetail, this.routerId)
+        // console.log(creditFormArray, 'CreditFormArray')
+        this.onPatchArrayValue(creditFormArray, VehicleDetail)
       }
 
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
@@ -187,10 +204,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
-  onPatchArrayValue(formArray, VehicleDetail, leadId) {
+  onPatchArrayValue(formArray, VehicleDetail) {
     formArray.controls[0].patchValue({
       dealerSubventionPartIRR: VehicleDetail.DealerSubventionPartIRR || '',
-      ageOfAsset: VehicleDetail.ageOfAsset,
+      ageOfAsset: VehicleDetail.ageOfAsset || null,
       assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
       assetCost: VehicleDetail.assetCost || null,
       assetCostCarTrade: VehicleDetail.assetCostCarTrade,
@@ -200,6 +217,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
       assetModel: VehicleDetail.vehicleModelCode || '',
       assetVariant: VehicleDetail.assetVarient === 'Petrol' ? 0 : '',
+      assetSubVariant: VehicleDetail.assetSubVariant || '',
       category: VehicleDetail.category || '',
       chasisNumber: VehicleDetail.chasisNumber || null,
       collateralId: VehicleDetail.collateralId || null,
@@ -231,9 +249,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       invoiceDate: VehicleDetail.invoiceDate || '',
       invoiceNumber: VehicleDetail.invoiceNumber || '',
       isOrpFunding: VehicleDetail.isOrpFunding || '',
-      leadId: Number(VehicleDetail.leadId),
+      leadId: Number(this.leadId),
       lmsCollateralId: null,
-      manuFacMonthYear: VehicleDetail.fitnessDate || '',
+      manuFacMonthYear: this.utilityService.converDateToUTC(VehicleDetail.manuFacMonthYear),
       manuFactureSubventionPartIRR: VehicleDetail.manuFactureSubventionPartIRR || '',
       manuFatureSubventionPartFinCharge: VehicleDetail.manuFatureSubventionPartFinCharge || '',
       manufacSubventionApplicable: VehicleDetail.manufacSubventionApplicable || '',
@@ -245,7 +263,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       others: VehicleDetail.others || '',
       pac: VehicleDetail.pac || '',
       pacAmount: null,
-      permitExpiryDate: null,
+      permitExpiryDate: VehicleDetail.permitExpiryDate || '',
       processtionType: null,
       productCatCode: "UCV",
       rcOwnerName: VehicleDetail.rcOwnerName || '',
@@ -267,7 +285,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleRegDate: VehicleDetail.vehicleRegDate || null,
       vehicleRegNo: null,
       vehicleType: VehicleDetail.vehicleTypeCode || '',
-      vehicleUsage: VehicleDetail.vehicleUsage
+      vehicleUsage: VehicleDetail.vehicleUsage,
+      userId: this.userId
     })
   }
 
@@ -304,11 +323,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vehicleType = this.utilityService.getValueFromJSON(this.vehicleType,
         "vehicleTypeUniqueCode", "vehicleTypeDescription");
     }
+
   }
 
   onVehicleType(value) {
 
-    this.assetBodyType = this.vehicleType.filter((data) => data.vehicleTypeUniqueCode === value)
+    this.assetBodyType = this.vehicleType.filter(data => data.vehicleTypeUniqueCode === value)
 
     this.vehicleLov.assetBodyType = this.utilityService.getValueFromJSON(this.assetBodyType,
       "uniqueSegmentCode", "segmentCode");
@@ -339,53 +359,33 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       0, "vehicleVariant")
+    console.log(this.assetVariant, 'Variemy')
+
   }
 
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleType: '',
-      region: '',
       registrationNo: '',
+      region: '',
       assetMake: '',
-      assetModel: '',
+      vehicleType: '',
       assetBodyType: '',
+      assetModel: '',
       assetVariant: '',
       assetSubVariant: '',
-      monthManufacturing: '',
-      yrManufacturing: '',
       manuFacMonthYear: '',
       ageOfAsset: '',
-      vehicleUsage: '',
-      category: '',
-      isOrpFunding: '',
-      oneTimeTax: '',
-      pac: '',
-      vas: '',
-      emiProtect: '',
-      fastTag: '',
-      others: '',
-      discount: '',
       finalAssetCost: '',
-      idv: '',
-      insuranceValidity: '',
-      insuranceCopy: '',
-      typeOfPermit: '',
-      expiryDate: '',
-      permitCopy: '',
-      permitOthers: '',
-      fsrdFundingReq: '',
-      fsrdPremiumAmount: '',
-      fitnessDate: '',
-      fitnessCopy: '',
+      vehicleUsage: '',
       noOfVehicles: '',
+      usage: '',
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
       userId: this.userId
     });
     formArray.push(controls);
-    // this.onVehicleRegion('APASTRGN')
   }
 
   addCreditFormControls() {
@@ -394,16 +394,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       creditFormArray: this._fb.array([])
     })
     formArray.push(controls);
-    this.addNewCVFormControls();
-  }
-
-  select_main_button(event) {
-    this.select_main_button_value = event.target.value;
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-    creditFormArray.clear();
-    this.select_main_button_value === 'New CV' ? this.addNewCVFormControls() : this.select_main_button_value === 'New Car' ? this.addNewcarFormControls() :
-      this.select_main_button_value === 'Used CV' ? this.addUserCVFormControls() : this.addUserCarFormControls();
+    this.product_value === 'New Commercial Vehicle' ? this.addNewCVFormControls() : this.product_value === 'New Car' ? this.addNewcarFormControls :
+      this.product_value === 'Used Commercial Vehicle' ? this.addUserCVFormControls() : this.addUserCarFormControls();
   }
 
   addNewCVFormControls() {
@@ -443,7 +435,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       discount: [''],
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.routerId,
+      leadId: this.leadId,
       userId: this.userId
     });
     creditFormArray.push(controls);
@@ -485,7 +477,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       discount: [''],
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.routerId,
+      leadId: this.leadId,
       userId: this.userId
     })
     creditFormArray.push(controls);
@@ -503,7 +495,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: '',
       assetOther: '',
       assetBodyType: '',
-      vehicleType: ['LCVVEHTYP', Validators.required],
+      vehicleType: '',
       region: [''],
       manuFacMonthYear: '',
       ageOfAsset: '',
@@ -520,7 +512,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       rcOwnerName: [''],
       vehicleRegDate: '',
       reRegVehicle: ['1'],
-      interStateVehicle: ['1'],
+      interStateVehicle: [1],
       duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
@@ -528,10 +520,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       idv: '',
       insuranceCopy: [''],
       fsrdFundingReq: '',
-      fsrdPremiumAmount: [''],
+      fsrdPremiumAmount: null,
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.routerId,
+      leadId: this.leadId,
       userId: this.userId
     })
     creditFormArray.push(controls);
@@ -573,10 +565,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       idv: '',
       insuranceCopy: [''],
       fsrdFundingReq: '',
-      fsrdPremiumAmount: [''],
+      fsrdPremiumAmount: null,
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.routerId,
+      leadId: this.leadId,
       userId: this.userId
     })
     creditFormArray.push(controls);

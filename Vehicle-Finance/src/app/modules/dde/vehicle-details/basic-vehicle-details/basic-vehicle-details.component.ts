@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -13,33 +15,25 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   public formDataFromChild: any = {};
   public vehicleDetails: any = [];
-  public routerId: number = 0;
+  public leadData: any;
   public leadId: number;
+  public routerId: number;
 
-  constructor(private activatedRoute: ActivatedRoute, public vehicleDataStoreService: VehicleDataStoreService,
-    private vehicleDetailService: VehicleDetailService, private router: Router) { }
+  constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService,
+    private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
-  async ngOnInit() {
+  ngOnInit() {
 
-    this.routerId = this.vehicleDataStoreService.getCreditLeadId();
+    this.leadData = this.createLeadDataService.getLeadSectionData();
+    this.leadId = this.leadData.leadId;
 
-    let leadId = (await this.getLeadId()) as number;
 
-    this.leadId = this.routerId ? this.vehicleDataStoreService.getCreditLeadId() :leadId;
+    this.activatedRoute.params.subscribe((value) => {
+      this.routerId = value ? value.vehicleId : null;
+    })
 
   }
 
-  getLeadId() {
-    return new Promise((resolve, reject) => {
-      this.activatedRoute.params.subscribe((value) => {
-        const leadId = value.leadId;
-        if (leadId) {
-          resolve(Number(leadId));
-        }
-        resolve(null);
-      });
-    });
-  }
 
   FormDataParentMethod(value: any) {
     this.formDataFromChild = value;
@@ -53,9 +47,13 @@ export class BasicVehicleDetailsComponent implements OnInit {
       const data = this.vehicleDetails[0];
 
       data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
+      data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate) : null;
+      data.permitExpireDate = data.permitExpireDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpireDate) : null;
+      data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate) : null;
+      data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity) : null;
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        // this.router.navigate(['pages/dde/' + this.routerId + '/vehicle-details']);
+        this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
       }, error => {
         console.log(error, 'error')
       })

@@ -166,7 +166,7 @@ export interface IndivVehicleInfoDetails {
   permitCopy?: string;
   permitOthers?: string;
   frsdRequired?: string;
-  frsdAmount?: string;
+  fsrdPremiumAmount?: number;
   fitnessDate?: string;
   fitnessCopy?: string;
   noOfVehicle?: string;

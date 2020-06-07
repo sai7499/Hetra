@@ -23,7 +23,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public leadId: number;
   public leadData: any = {};
   public userId: number;
-  public routerId: number = 601;
 
   public vehicleListArray = [
     {
@@ -55,14 +54,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.routerId = this.vehicleDataStoreService.getCreditLeadId();
-
-    console.log('RouterId', this.routerId)
-    
     this.leadData = this.createLeadDataService.getLeadSectionData();
-    
-    this.leadId = this.roleName === 'Sales Officer' ? this.leadData.leadId : this.routerId;
-    this.activatedRoute.parent.params.subscribe((value:any) => this.leadId = Number(value.leadId));
+    this.leadId = this.leadData.leadId;
     this.getVehicleDetails(this.leadId)
 
     this.labelsData.getLabelsData().subscribe(data => {
@@ -77,8 +70,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.router.navigate(['pages/lead-section/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
   }
 
+  onEditVehicleDetails(collateralId: number) {
+    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId }]);
+  }
+
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
+      console.log(res)
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
     }, error => {
       console.log(error, 'error')
