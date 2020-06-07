@@ -250,7 +250,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isOrpFunding: VehicleDetail.isOrpFunding || '',
       leadId: Number(this.leadId),
       lmsCollateralId: null,
-      manuFacMonthYear: VehicleDetail.fitnessDate || '',
+      manuFacMonthYear: this.utilityService.converDateToUTC(VehicleDetail.manuFacMonthYear),
       manuFactureSubventionPartIRR: VehicleDetail.manuFactureSubventionPartIRR || '',
       manuFatureSubventionPartFinCharge: VehicleDetail.manuFatureSubventionPartFinCharge || '',
       manufacSubventionApplicable: VehicleDetail.manufacSubventionApplicable || '',
