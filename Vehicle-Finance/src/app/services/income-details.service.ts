@@ -60,8 +60,8 @@ setAllIncomeDetails(data)
 }
 softDeleteIncomeDetails(data){
   const processData = data;
-  const processId = this.apiService.api.setAllIncomeDetails.processId;
-  const workflowId = this.apiService.api.setAllIncomeDetails.workflowId;
+  const processId = this.apiService.api.softDeleteIncomeDetails.processId;
+  const workflowId = this.apiService.api.softDeleteIncomeDetails.workflowId;
   const projectId = this.apiService.api.bankTransaction.projectId;
   const userId = localStorage.getItem('userId');
   console.log('userid in service', userId);

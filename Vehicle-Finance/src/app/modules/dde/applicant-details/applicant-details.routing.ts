@@ -20,11 +20,11 @@ const routes: Routes = [
         component: BasicDetailsComponent,
       },
       {
-        path: 'bank-list',
+        path: 'bank-list/:applicantId',
         component: BankListComponent,
       },
       {
-        path: 'bank-details',
+        path: 'bank-details/:applicantId',
         component: BankDetailsComponent,
       },
       {
