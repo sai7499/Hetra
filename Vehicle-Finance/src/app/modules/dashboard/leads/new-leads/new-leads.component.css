@@ -1,27 +1,27 @@
-:host ::ng-deep .ngx-pagination .current {
-    padding: 5px 11px !important;
-    background: #272264 !important;
-    color: #fefefe;
-    cursor: default;
-    border: 1px solid #e6e6e6;
-}
-
-:host ::ng-deep .ngx-pagination .disabled {
-    padding: 6px 8px !important;
-    color: #cacaca;
-    cursor: default;
-}
-
-:host ::ng-deep .ngx-pagination li {
-    padding: 4px 3px !important;
-    border: 1px solid #e6e6e6 !important;
-    /* color: #333 !important; */
-}
-
-.marBottom-45 {
-    margin-bottom: 45px;
-}
-
-.text-underline {
-    text-decoration: underline;
-}
+     :host ::ng-deep .ngx-pagination .current {
+        padding: 5px 11px !important;
+        background: #272264 !important;
+        color: #fefefe;
+        cursor: default;
+        border: 1px solid #e6e6e6;
+    }
+    
+    :host ::ng-deep .ngx-pagination .disabled {
+        padding: 6px 8px !important;
+        color: #cacaca;
+        cursor: default;
+    }
+    
+    :host ::ng-deep .ngx-pagination li {
+        padding: 4px 3px !important;
+        border: 1px solid #e6e6e6 !important;
+        /* color: #333 !important; */
+    }
+    
+    .marBottom-45 {
+        margin-bottom: 45px;
+    }
+    
+    .text-underline {
+        text-decoration: underline;
+    }
