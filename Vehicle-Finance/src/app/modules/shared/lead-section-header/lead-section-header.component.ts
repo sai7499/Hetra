@@ -43,19 +43,15 @@ export class LeadSectionHeaderComponent implements OnInit {
   }
 
   getUserDetails() {
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userName = roleAndUserDetails.userDetails.firstName;
-
-    const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    this.leadId = (leadSectionData as any).leadId;
+    // const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    // this.userName = roleAndUserDetails.userDetails.firstName;
+    const data = this.createLeadDataService.getLeadSectionData();
+    const leadSectionData = (data as any);
+    this.leadId = leadSectionData.leadId;
+    this.userName = leadSectionData.applicantDetails[0].fullName;
 
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });
-
-
-
-
   }
-
 }
