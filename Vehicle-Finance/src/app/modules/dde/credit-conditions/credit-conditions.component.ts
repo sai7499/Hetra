@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '../../../services/labels.service';
 import { FormBuilder, FormArray, FormGroup ,Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-credit-conditions',
@@ -13,7 +14,8 @@ export class CreditConditionsComponent implements OnInit {
   userType: string = "credit";
   constructor(
     public labelsService: LabelsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { }
   addOtherUnit() {
     const control = this.creditConditionForm.controls.creditConditionControls as FormArray;
@@ -61,5 +63,5 @@ export class CreditConditionsComponent implements OnInit {
       creditConditionControls: this.formBuilder.array([this.getcreditConditionControls()])
     });
   }
-
+  
 }

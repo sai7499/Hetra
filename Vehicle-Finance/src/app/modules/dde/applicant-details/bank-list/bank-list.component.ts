@@ -33,7 +33,7 @@ export class BankListComponent {
   }
   getApplicantId() {
     return new Promise((resolve, reject) => {
-      this.activatedRoute.firstChild.params.subscribe((value) => {
+      this.activatedRoute.params.subscribe((value) => {
         const applicantId = value.applicantId;
         if (applicantId) {
           resolve(Number(applicantId));
