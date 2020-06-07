@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
-
+import { Location } from '@angular/common'
 import {
   Applicant,
   ApplicantDetails,
@@ -43,7 +43,8 @@ export class BasicDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicantService: ApplicantService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+    private location: Location
   ) {}
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -458,5 +459,8 @@ export class BasicDetailsComponent implements OnInit {
       corporateProspectDetails.ratingIssuerName;
 
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
+  }
+  onBack(){
+    this.location.back()
   }
 }
