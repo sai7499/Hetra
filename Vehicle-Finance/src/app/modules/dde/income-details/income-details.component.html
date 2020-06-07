@@ -52,12 +52,12 @@
                   </td>
                 
                   <td data-title="Business Entity Name">
-                    <input type="text" id="latbox" value="ABC Enterprises" class="no_border" class="input_value"
+                    <input type="text" id="latbox"  class="no_border" class="input_value"
                       name="businessEnterpriseName" class="form-control text-center"
                       formControlName="businessEnterpriseName" />
                   </td>
                   <td data-title="Net Profit">
-                    <input type="number" id="latbox" value="254000" class="no_border" class="input_value"
+                    <input type="number" id="latbox"  class="no_border" class="input_value"
                       name="netProfit" class="form-control text-center" formControlName="netProfit" />
                   </td>
                   <td data-title="Depreciation">
@@ -137,7 +137,7 @@
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Gross Income">
-                    <input type="number" id="latbox" value="254000" class="no_border" class="input_value"
+                    <input type="number" id="latbox"  class="no_border" class="input_value"
                       name="grossIncome" class="form-control text-center" formControlName="grossIncome" />
                   </td>
                   <td data-title="Factoring %">
@@ -192,13 +192,13 @@
                   <td>
                     <select class="form-control mandatory select2" id="" name="applicantId"
                         class="form-control text-center" formControlName="applicantId"
-                        (change)="onObligationChange($event.target.value, i)">
+                        (change)="onObligationApplicantChange($event.target.value, i)">
                         <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
                           {{ applicants.applicantName }}</option>
                       </select>
                     </td>
                      <td data-title="Applicant Type">
-                      <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
+                      <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value" 
                         readonly="true"
                         name="applicant" class="form-control text-center"  />
                     </td>
@@ -207,31 +207,31 @@
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Financier">
-                    <app-vf-custom-select [values]="incomeLov?.bankMaster" formControlName="financier">
+                    <app-vf-custom-select [values]="incomeLov?.vehicleFinanciers" formControlName="financier">
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Loan Amount">
-                    <input type="number" id="latbox" value="150000" class="input_value" name="loanAmount"
+                    <input type="number" id="latbox"  class="input_value" name="loanAmount"
                       class="form-control text-center" formControlName="loanAmount" />
                   </td>
                   <td data-title="Tenor(In Months)">
-                    <input type="number" id="" value="24" class="input_value" name="tenure"
+                    <input type="number" id=""  class="input_value" name="tenure"
                       class="form-control text-center" formControlName="tenure" />
                   </td>
                   <td data-title="MOB">
-                    <input type="number" id="" value="10" class="input_value" name="mob"
+                    <input type="number" id=""  class="input_value" name="mob"
                       class="form-control text-center" formControlName="mob" />
                   </td>
                   <td data-title="EMI">
-                    <input type="number" id="latbox" value="7931" class="input_value" name="emi"
+                    <input type="number" id="latbox"  class="input_value" name="emi"
                       class="form-control text-center" formControlName="emi" />
                   </td>
                   <td data-title="Balance Tenor">
-                    <input type="number" id="" value="14" class="input_value" name="balanceTenure" readonly="true"
+                    <input type="number" id=""  class="input_value" name="balanceTenure" readonly="true"
                       class="form-control text-center" formControlName="balanceTenure" />
                   </td>
                   <td data-title="Obligation Amount">
-                    <input type="number" id="" value="7931" class="input_value" name="obligationAmount"
+                    <input type="number" id=""  class="input_value" name="obligationAmount"
                       readonly="true" class="form-control text-center" formControlName="obligationAmount" />
                   </td>
                   <td data-title="Actions">

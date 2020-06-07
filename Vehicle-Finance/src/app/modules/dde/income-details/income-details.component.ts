@@ -70,9 +70,10 @@ export class IncomeDetailsComponent implements OnInit {
   }
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
+      
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
-      this.incomeLov.bankMaster = value.LOVS.bankMaster;
+      this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
 
     });
   }
@@ -80,13 +81,13 @@ export class IncomeDetailsComponent implements OnInit {
     if (data === undefined) {
       return this.formBuilder.group({
         applicantId: Number(null),
-        applicantType: ["" || ""],
-        businessEnterpriseName: ["" || "ABC Enterprises"],
-        depreciation: Number(12),
-        directorSalary: Number(3534),
-        grossDerivedIncome: Number(33535),
-        grossMonthlyIncome: Number(4543),
-        netProfit: Number(45435),
+        applicantType: [""],
+        businessEnterpriseName: [""],
+        depreciation: Number(null),
+        directorSalary: Number(null),
+        grossDerivedIncome: Number(null),
+        grossMonthlyIncome: Number(null),
+        netProfit: Number(null),
       });
     } else {
       return this.formBuilder.group({
@@ -115,11 +116,11 @@ export class IncomeDetailsComponent implements OnInit {
     if (data === undefined) {
       return this.formBuilder.group({
         applicantId: Number(null),
-        applicantType: ["" || ""],
-        incomeType: ["" || "salary"],
-        grossIncome: Number(52000),
-        factoring: Number(25),
-        factoredIncome: Number(25000),
+        applicantType: [""],
+        incomeType: [""],
+        grossIncome: Number(null),
+        factoring: Number(null),
+        factoredIncome: Number(null),
       });
     } else {
       return this.formBuilder.group({
@@ -129,7 +130,7 @@ export class IncomeDetailsComponent implements OnInit {
         applicantTypeValue: data.applicantTypeValue
           ? data.applicantTypeValue
           : "",
-        incomeType: data.incomeType ? data.incomeType : "salaryType",
+        incomeType: data.incomeType ? data.incomeType : "",
         grossIncome: Number(data.grossIncome ? data.grossIncome : ""),
         factoring: Number(data.factoring ? data.factoring : ""),
         factoredIncome: Number(data.factoredIncome ? data.factoredIncome : ""),
@@ -140,15 +141,15 @@ export class IncomeDetailsComponent implements OnInit {
     if (data === undefined) {
       return this.formBuilder.group({
         applicantId: Number(null),
-        applicantType: ["" || ""],
-        loanType: ["" || "Business Loan"],
-        financier: ["" || ""],
-        loanAmount: Number(25000),
-        tenure: Number(12),
-        mob: Number(32434),
-        emi: Number(2344),
-        balanceTenure: Number(234343),
-        obligationAmount: Number(23456),
+        applicantType: [""],
+        loanType: [""],
+        financier: [""],
+        loanAmount: Number(null),
+        tenure: Number(null),
+        mob: Number(null),
+        emi: Number(null),
+        balanceTenure: Number(null),
+        obligationAmount: Number(null),
       });
     } else {
       return this.formBuilder.group({
@@ -195,6 +196,8 @@ export class IncomeDetailsComponent implements OnInit {
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
           control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
+
         });
     } else {
       alert("Atleast One Row Required");
@@ -223,11 +226,13 @@ export class IncomeDetailsComponent implements OnInit {
 
         otherIncomeDetail: { id: id },
       };
-      control.removeAt(i);
 
       this.incomeDetailsService
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
+      control.removeAt(i);
+      alert(res.ProcessVariables.error.message);
+
         });
     } else {
       alert("Atleast One Row Required");
@@ -258,6 +263,8 @@ export class IncomeDetailsComponent implements OnInit {
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
           control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
+
         });
     } else {
       alert("Atleast One Row Required");
