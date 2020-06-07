@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router ,ActivatedRoute} from "@angular/router";
 import { FormBuilder, FormArray, FormGroup } from "@angular/forms";
 
 import { LabelsService } from "src/app/services/labels.service";
@@ -18,7 +18,7 @@ export class IncomeDetailsComponent implements OnInit {
   formData: any;
   getBuisinessIncomeId: any;
   otherApplicantType = [];
-  leadId: 61;
+  leadId: number;
   userId: "1002";
   applicantDetails: any;
   ngApplicantId: any;
@@ -38,7 +38,9 @@ export class IncomeDetailsComponent implements OnInit {
     private labelsData: LabelsService,
     private formBuilder: FormBuilder,
     private incomeDetailsService: IncomeDetailsService,
-    private commonLovService: CommomLovService
+    private commonLovService: CommomLovService,
+    private activatedRoute: ActivatedRoute,
+
   ) { }
 
   ngOnInit() {
@@ -54,6 +56,7 @@ export class IncomeDetailsComponent implements OnInit {
       leadId: 606,
     };
     this.getLov();
+    this.getLeadId();
     this.incomeDetailsService
       .getAllAplicantDetails(body)
       .subscribe((res: any) => {
@@ -63,10 +66,11 @@ export class IncomeDetailsComponent implements OnInit {
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
-      leadId: 601,
+      leadId: this.leadId,
       userId: "1002",
     });
     this.getAllIncome();
+
   }
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -75,6 +79,19 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
 
+    });
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+          this.leadId = Number(value.leadId)
+          
+        }
+        resolve(null);
+      });
     });
   }
   private getBusinessIncomeDetails(data?: any) {
@@ -273,7 +290,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   getAllIncome() {
     const body = {
-      leadId: 601,
+      leadId: this.leadId,
     };
     this.incomeDetailsService
       .getAllIncomeDetails(body)
