@@ -8,6 +8,7 @@ import { VehicleDataStoreService } from '../../../services/vehicle-data-store.se
 import { ArrayType } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -44,6 +45,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public assetVarient: any = [];
   public userId: number;
   public leadId: number;
+  routerId: number;
 
   constructor(
     private _fb: FormBuilder,
@@ -53,9 +55,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService,
     private vehicleDataService: VehicleDataStoreService,
     private utilityService: UtilityService,
-    private createLeadDataService: CreateLeadDataService) { }
+    private createLeadDataService: CreateLeadDataService,
+    private activatedRoute: ActivatedRoute) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
@@ -67,7 +70,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
-    this.leadId = leadData['leadId']
+    this.leadId = leadData['leadId'];
+
+    let leadId = (await this.getLeadId()) as number;
+
+    this.routerId = this.id ? this.id : leadId;
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
@@ -81,11 +88,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       }, error => {
         console.log('error', error)
       });
-    console.log(this.id, 'oidg')
     if (this.id) {
       this.setFormValue();
     }
 
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.params.subscribe((value) => {
+        const leadId = value.leadId;
+        if (leadId) {
+          resolve(Number(leadId));
+        }
+        resolve(null);
+      });
+    });
   }
 
   onOpenCalendar(container) {
@@ -159,9 +177,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-
         console.log(creditFormArray, 'CreditFormArray')
-        this.onPatchArrayValue(creditFormArray, VehicleDetail, this.id)
+        this.onPatchArrayValue(creditFormArray, VehicleDetail, this.routerId)
       }
 
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
@@ -265,10 +282,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onAssetModel(value) {
     this.assetVarient = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVarient, 'vehicleVariant')
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    formArray.controls[0].patchValue({
-      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
-    })
+    if (this.roleName === 'Sales Officer') {
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({
+        vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
+      })
+    } else {
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
+      console.log('CreditFormArray', creditFormArray.controls[0])
+      creditFormArray.controls[0].patchValue({
+        vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
+      })
+    }
+
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVarient,
       0, "vehicleVariant")
   }
@@ -350,7 +377,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetOther: '',
       assetBodyType: '',
       vehicleType: ['LCVVEHTYP'],
-      exShowroomCost: '',
+      exShowroomCost: null,
       finalAssetCost: '',
       dealerSubventionApplicable: ['1'],
       dealerSubventionAmount: [''],
@@ -374,7 +401,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       discount: [''],
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.leadId,
+      leadId: this.routerId,
       userId: this.userId
     });
     creditFormArray.push(controls);
@@ -391,7 +418,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: '',
       assetOther: '',
       vehicleType: ['LCVVEHTYP'],
-      exShowroomCost: '',
+      exShowroomCost: null,
       finalAssetCost: '',
       dealerSubventionApplicable: ['1'],
       dealerSubventionAmount: [''],
@@ -415,7 +442,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       discount: [''],
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.leadId,
+      leadId: this.routerId,
       userId: this.userId
     })
     creditFormArray.push(controls);
@@ -424,8 +451,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   addUserCVFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-
-    console.log(creditFormArray, 'dgsdj')
 
     const controls = this._fb.group({
       registartionNumber: '',
@@ -439,7 +464,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       region: [''],
       monthYear: '',
       ageVehicle: '',
-      exShowroomCost: '',
+      exShowroomCost: null,
       fitnessDate: '',
       permitType: '',
       permitOther: [''],
@@ -463,7 +488,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       frsdAmount: [''],
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.leadId,
+      leadId: this.routerId,
       userId: this.userId
     })
     creditFormArray.push(controls);
@@ -487,7 +512,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIndian: '',
       assetCostCar: '',
       assetCostLeast: '',
-      exShowroomCost: '',
+      exShowroomCost: null,
       chassisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
@@ -507,7 +532,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       frsdAmount: [''],
       vehicleId: 0,
       collateralId: 0,
-      leadId: this.leadId,
+      leadId: this.routerId,
       userId: this.userId
     })
     creditFormArray.push(controls);

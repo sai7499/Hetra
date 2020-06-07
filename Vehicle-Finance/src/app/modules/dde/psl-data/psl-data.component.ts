@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from "@angular/core";
-import { FormGroup, FormControl, FormArray, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, NgControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { LabelsService } from "@services/labels.service";
@@ -40,8 +40,8 @@ export class PslDataComponent implements OnInit, OnChanges {
   pslCertificateValues: any = [];
   weakerSectionValues: any = [];
 
-  landAreaInAcresValueMap: number = 0;
-  landAreaInAcresValue: number = 0;
+  landAreaInAcresValueMap: number;
+  landAreaInAcresValue: number;
   pslSubCategoryValueMap: any = [];
 
   pslLandHoldingChange: string;
@@ -64,13 +64,11 @@ export class PslDataComponent implements OnInit, OnChanges {
   otherInvestmentCost: number;
   totalInvestmentCost: number;
 
-  pslLandHolding: any = [
-    { key: 1, value: "Yes" },
-    { key: 2, value: "No" },
-  ];
+  pslLandHolding: any = [{ key: 1, value: "Yes" },{ key: 2, value: "No" }];
+  businessActivity: any = [{ key: null, value: "Not Applicable" }];
 
   constructor(
-    private _fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
     private pslDataService: PslDataService,
@@ -87,7 +85,7 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.getPslData();
     this.getLabels();
     this.getLOV();
-    this.initForm();
+    this.initForm();    
   }
 
   getLabels() {
@@ -99,13 +97,14 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log("PSL DATA LOV  ---", this.LOV);
+    console.log("PSL DATA LOV  --->", this.LOV);
   }
 
   initForm() {
-    this.pslDataForm = this._fb.group({
-      activity: [""],
-      agriculture: this._fb.group({
+    this.pslDataForm = this.formBuilder.group({
+      activity: [this.LOV.LOVS.pslActivity],
+      agriculture: this.formBuilder.group({
+        activity: [this.LOV.LOVS.pslActivity[1].key],
         detailActivity: [""],
         purposeOfLoanAg: [""],
         landHolding: [""],
@@ -120,7 +119,8 @@ export class PslDataComponent implements OnInit, OnChanges {
         pslCertificateAg: [""],
         weakerSectionAg: [""],
       }),
-      microSmallAndMediumEnterprises: this._fb.group({
+      microSmallAndMediumEnterprises: this.formBuilder.group({
+        activity: [this.LOV.LOVS.pslActivity[0].key],
         detailActivity: [""],
         goodsManufactured: [""],
         typeOfService: [""],
@@ -143,7 +143,8 @@ export class PslDataComponent implements OnInit, OnChanges {
         pslCertificateMsme: [""],
         weakerSectionMsme: [""],
       }),
-      housing: this._fb.group({
+      housing: this.formBuilder.group({
+        activity: [this.LOV.LOVS.pslActivity[2].key],
         propertyType: [""],
         detailActivity: [""],
         propertyLocatedCity: [""],
@@ -158,7 +159,7 @@ export class PslDataComponent implements OnInit, OnChanges {
         pslCategoryHouse: [""],
         pslCertificateHouse: [""],
       }),
-      // socialInfrastructure: this._fb.group({
+      // socialInfrastructure: this.formBuilder.group({
       //   detailActivity: [""],
       //   goodsManufactured: [""],
       //   typeOfService: [""],
@@ -193,8 +194,9 @@ export class PslDataComponent implements OnInit, OnChanges {
       //   weakerSectionAg: [""],
       //   weakerSectionMsme: [""],
       // }),
-      otherOption: this._fb.group({
+      otherOption: this.formBuilder.group({
         propertyType: [""],
+        activity: [""],
         detailActivity: [""],
         goodsManufactured: [""],
         typeOfService: [""],
@@ -242,6 +244,12 @@ export class PslDataComponent implements OnInit, OnChanges {
         weakerSectionMsme: [""],
       }),
     });
+  }
+
+  getActivityControl() {
+    return {
+      activity: this.LOV.LOVS.pslActivity[0].key
+    }
   }
 
   getDependentDropdownLOV() {
@@ -304,6 +312,7 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.isLandHoldingYes = true;
     this.isGoosManufactured = true;
   }
+
   onChangeDetailActivity(event: any) {
     this.endUseValues = [];
     this.detailActivityChange = event.target.value;
@@ -549,7 +558,7 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
     this.landAreaInAcresValueMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        if (this.landAreaInAcresValue <= 2.5) {
+       if (this.landAreaInAcresValue <= 2.5 ) {
           const data = [
             {
               key: this.LOV.LOVS.pslSubCategory[0].key,
@@ -733,8 +742,17 @@ export class PslDataComponent implements OnInit, OnChanges {
       ];
       this.farmerTypeValues = data;
       this.isLandHoldingYes = false;
-    }
-    console.log("FARMER_TYPE_VALUES---", this.farmerTypeValues);
+      //IF DETAIL_ACTIVITY AS AGRICULTURE AND PSL_LANDHOLDING AS "NO"
+      this.landAreaInAcresValue = 0;
+      const pslSubCatData = [
+        {
+          key: this.LOV.LOVS.pslSubCategory[0].key,
+          value: this.LOV.LOVS.pslSubCategory[0].value,
+        }
+      ];
+      this.pslSubCategoryValues = pslSubCatData;
+    } 
+    // console.log("FARMER_TYPE_VALUES---", this.farmerTypeValues);    
   }
 
   onChangeCaCertifiedAmount(event:any) {
@@ -783,14 +801,25 @@ export class PslDataComponent implements OnInit, OnChanges {
   // }
 
   saveOrUpdatePslData() {
-    const data = this.pslData;
-    
-    this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
-      const response = res;
-      console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
-      // console.log("DATA", data);
-          
-    });
+    // const agriculture = this.pslDataForm.get('agriculture');
+    // const microSmallAndMediumEnterprises = this.pslDataForm.get('microSmallAndMediumEnterprises');
+    if(this.activityChange==='1PSLACTVTY') {
+      const data = this.pslDataForm.get('agriculture').value;
+      this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
+        const response = res;
+        console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
+        // console.log("DATA", data);
+      }); 
+    } 
+  else if(this.activityChange==='2PSLACTVTY') {
+      const data = this.pslDataForm.get('microSmallAndMediumEnterprises').value;
+      this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
+        const response = res;
+        console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
+        // console.log("DATA", data);
+      });
+    } 
+
   }
 
   onFormSubmit() {
@@ -798,7 +827,6 @@ export class PslDataComponent implements OnInit, OnChanges {
     const formModel = this.pslDataForm.value;
     const pslDataFormModel = { ...formModel };
     console.log("PSL_DATA_FORM", pslDataFormModel);
-   
     // this.ddeStoreService.setPslData(pslDataFormModel);
     this.router.navigate(["/pages/dde/vehicle-valuation"]);
   }
