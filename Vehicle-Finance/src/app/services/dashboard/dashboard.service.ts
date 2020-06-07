@@ -35,7 +35,7 @@ export class DashboardService {
 
     const body: RequestEntity = {
       processId : processId,
-      ProcessVariables: {userId: Number(storage.getUserId())},
+      ProcessVariables: {userId: Number(storage.getUserId()), perPage: 10},
       workflowId : workflowId,
       projectId : projectId
     };
