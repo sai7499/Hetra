@@ -11,7 +11,7 @@ import { ApiService } from './api.service';
 export class BankTransactionsService {
 
   constructor(private httpService: HttpService,
-    private apiService: ApiService) { }
+              private apiService: ApiService) { }
   setTransactionDetails(data) {
     const processData = data;
     const processId = this.apiService.api.bankTransaction.processId;

@@ -230,7 +230,7 @@ export class SourcingDetailsComponent implements OnInit {
           }
         });
         this.productCategoryArray.map((val) => {
-          if (val.key == this.productCategoryFromLead) {
+          if (val.key === this.productCategoryFromLead) {
             this.sharedService.leadDataToHeader(val.value);
           }
         });
@@ -360,6 +360,10 @@ export class SourcingDetailsComponent implements OnInit {
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
       return;
     }
     this.router.navigateByUrl(

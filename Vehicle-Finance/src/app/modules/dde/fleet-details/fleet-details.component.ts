@@ -211,9 +211,10 @@ export class FleetDetailsComponent implements OnInit {
 
   }
 
-  getRtr(id: number) {
-    console.log("in getRtr", id)
-    this.router.navigate(['pages/dde/' + this.leadId + '/fleet-details/' + id])
+  getRtr(fleetid: number) {
+    console.log("in getRtr", fleetid)
+    // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
+   this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + fleetid])
   }
 
   toCollaterals() {
