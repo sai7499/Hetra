@@ -76,7 +76,7 @@ export interface VehicleDetails {
   emiProtect?: string;
   emiProtectAmount?: number;
   engineNumber?: number;
-  exShowRoomCost?: string;
+  exShowRoomCost?: number;
   fastTag?: string;
   fastTagAmount?: number;
   finalAssetCost?: number;
