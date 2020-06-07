@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { FormBuilder, FormArray, FormGroup } from "@angular/forms";
 
-import { LabelsService } from 'src/app/services/labels.service';
-import { IncomeDetailsService } from '@services/income-details.service';
-import { CommomLovService } from '@services/commom-lov-service';
+import { LabelsService } from "src/app/services/labels.service";
+import { IncomeDetailsService } from "@services/income-details.service";
+import { CommomLovService } from "@services/commom-lov-service";
 
 @Component({
-  selector: 'app-income-details',
-  templateUrl: './income-details.component.html',
-  styleUrls: ['./income-details.component.css']
+  selector: "app-income-details",
+  templateUrl: "./income-details.component.html",
+  styleUrls: ["./income-details.component.css"],
 })
 export class IncomeDetailsComponent implements OnInit {
-
   labels: any = {};
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
@@ -20,7 +19,7 @@ export class IncomeDetailsComponent implements OnInit {
   getBuisinessIncomeId: any;
   otherApplicantType = [];
   leadId: 61;
-  userId: '1002';
+  userId: "1002";
   applicantDetails: any;
   ngApplicantId: any;
   patchPath = false;
@@ -31,330 +30,285 @@ export class IncomeDetailsComponent implements OnInit {
   businessApplicantId: number;
   otherId: number;
   incomeLov: any = [];
-
-  constructor(private route: Router, private labelsData: LabelsService,
-    private formBuilder: FormBuilder, private incomeDetailsService: IncomeDetailsService,
-    private commonLovService: CommomLovService) { }
+  array = [];
+  applicantType: any;
+  applicantId: number;
+  constructor(
+    private route: Router,
+    private labelsData: LabelsService,
+    private formBuilder: FormBuilder,
+    private incomeDetailsService: IncomeDetailsService,
+    private commonLovService: CommomLovService
+  ) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
       },
-      (error) => {
-      });
+      (error) => { }
+    );
 
     const body = {
-      name: 'S',
-      leadId: 606
+      name: "S",
+      leadId: 606,
     };
     this.getLov();
-    this.incomeDetailsService.getAllAplicantDetails(body).subscribe((res: any) => {
-      // console.log(res);
-      this.applicantDetails = res.ProcessVariables.applicantInfoObj;
-      // console.log(this.applicantDetails, 'getting form data resp');
-    });
+    this.incomeDetailsService
+      .getAllAplicantDetails(body)
+      .subscribe((res: any) => {
+        this.applicantDetails = res.ProcessVariables.applicantInfoObj;
+      });
     this.incomeDetailsForm = this.formBuilder.group({
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
       leadId: 601,
-      userId: '1002'
-
+      userId: "1002",
     });
     this.getAllIncome();
-
   }
   getLov() {
-
     this.commonLovService.getLovData().subscribe((value: any) => {
-      console.log(value);
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
+      this.incomeLov.bankMaster = value.LOVS.bankMaster;
 
     });
-
   }
   private getBusinessIncomeDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-
-        applicantId: 1557,
-        businessEnterpriseName: ['' || 'ABC Enterprises'],
+        applicantId: Number(null),
+        applicantType: ["" || ""],
+        businessEnterpriseName: ["" || "ABC Enterprises"],
         depreciation: Number(12),
         directorSalary: Number(3534),
         grossDerivedIncome: Number(33535),
         grossMonthlyIncome: Number(4543),
         netProfit: Number(45435),
-
       });
-
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : 0,
-        applicantId: data.applicantId ? data.applicantId : null,
-        applicantType: data.applicantType ? data.applicantType : '',
-        applicantTypeValue: data.applicantTypeValue ? data.applicantTypeValue : '',
-        businessEnterpriseName: data.businessEnterpriseName ? data.businessEnterpriseName : 'Abc Enterprises',
-        depreciation: Number(data.depreciation ? data.depreciation : ''),
-        directorSalary: Number(data.directorSalary ? data.directorSalary : ''),
-        grossDerivedIncome: Number(data.grossDerivedIncome ? data.grossDerivedIncome : ''),
-        grossMonthlyIncome: Number(data.grossMonthlyIncome ? data.grossMonthlyIncome : ''),
-        netProfit: Number(data.netProfit ? data.netProfit : ''),
+        applicantId: Number(data.applicantId ? data.applicantId : null),
+        applicantType: data.applicantTypeValue ? data.applicantTypeValue : "",
+        applicantTypeValue: data.applicantTypeValue
+          ? data.applicantTypeValue
+          : "",
+        businessEnterpriseName: data.businessEnterpriseName
+          ? data.businessEnterpriseName
+          : "Abc Enterprises",
+        depreciation: Number(data.depreciation ? data.depreciation : ""),
+        directorSalary: Number(data.directorSalary ? data.directorSalary : ""),
+        grossDerivedIncome: Number(
+          data.grossDerivedIncome ? data.grossDerivedIncome : ""
+        ),
+        grossMonthlyIncome: Number(
+          data.grossMonthlyIncome ? data.grossMonthlyIncome : ""
+        ),
+        netProfit: Number(data.netProfit ? data.netProfit : ""),
       });
     }
-
   }
   private getOtherIncomeDetails(data?: any) {
-    //  // // console.log('data in side  function', data);
-
     if (data === undefined) {
       return this.formBuilder.group({
-        applicantId: 902,
-        incomeType: ['' || 'salary'],
+        applicantId: Number(null),
+        applicantType: ["" || ""],
+        incomeType: ["" || "salary"],
         grossIncome: Number(52000),
         factoring: Number(25),
-        factoredIncome: Number(25000)
-
+        factoredIncome: Number(25000),
       });
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : 0,
-        applicantId: Number(data.applicantId ? data.applicantId : ''),
-        applicantType: data.applicantType ? data.applicantType : '',
-        incomeType: data.incomeType ? data.incomeType : 'salaryType',
-        grossIncome: Number(data.grossIncome ? data.grossIncome : ''),
-        factoring: Number(data.factoring ? data.factoring : ''),
-        factoredIncome: Number(data.factoredIncome ? data.factoredIncome : ''),
-
+        applicantId: Number(data.applicantId ? data.applicantId : ""),
+        applicantType: data.applicantTypeValue ? data.applicantTypeValue : "",
+        applicantTypeValue: data.applicantTypeValue
+          ? data.applicantTypeValue
+          : "",
+        incomeType: data.incomeType ? data.incomeType : "salaryType",
+        grossIncome: Number(data.grossIncome ? data.grossIncome : ""),
+        factoring: Number(data.factoring ? data.factoring : ""),
+        factoredIncome: Number(data.factoredIncome ? data.factoredIncome : ""),
       });
     }
   }
   private getObligationDetails(data?: any) {
-
     if (data === undefined) {
       return this.formBuilder.group({
-
-        applicantId: 1557,
-        // applicantTypeValue: ["" || "Applicant"],
-        loanType: ['' || 'Business Loan'],
-        financier: ['' || 'muthoot'],
+        applicantId: Number(null),
+        applicantType: ["" || ""],
+        loanType: ["" || "Business Loan"],
+        financier: ["" || ""],
         loanAmount: Number(25000),
         tenure: Number(12),
         mob: Number(32434),
         emi: Number(2344),
         balanceTenure: Number(234343),
         obligationAmount: Number(23456),
-
-
       });
-
-
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : null,
-        applicantId: Number(data.applicantId ? data.applicantId : ''),
-        applicantType: data.applicantType ? data.applicantType : '',
-        applicantTypeValue: data.applicantTypeValue ? data.applicantTypeValue : '',
-        loanType: data.loanType ? data.loanType : 'salary',
-        financier: data.financier ? data.financier : 'financiar',
-        loanAmount: Number(data.loanAmount ? data.loanAmount : ''),
-        tenure: Number(data.tenure ? data.tenure : ''),
-        mob: Number(data.mob ? data.mob : ''),
-        emi: Number(data.emi ? data.emi : ''),
-        balanceTenure: Number(data.balanceTenure ? data.balanceTenure : ''),
-        obligationAmount: Number(data.obligationAmount ? data.obligationAmount : ''),
+        applicantId: Number(data.applicantId ? data.applicantId : ""),
+        applicantType: data.applicantTypeValue ? data.applicantTypeValue : "",
+        applicantTypeValue: data.applicantTypeValue
+          ? data.applicantTypeValue
+          : "",
+        loanType: data.loanType ? data.loanType : "",
+        financier: data.financier ? data.financier : "",
 
+        loanAmount: Number(data.loanAmount ? data.loanAmount : ""),
+        tenure: Number(data.tenure ? data.tenure : ""),
+        mob: Number(data.mob ? data.mob : ""),
+        emi: Number(data.emi ? data.emi : ""),
+        balanceTenure: Number(data.balanceTenure ? data.balanceTenure : ""),
+        obligationAmount: Number(
+          data.obligationAmount ? data.obligationAmount : ""
+        ),
       });
     }
   }
   addBusinessIncomeUnit(data?: any) {
-    const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
-    // // console.log(data?.length,'income length');
+    const control = this.incomeDetailsForm.controls
+      .businessIncomeDetails as FormArray;
     if (data && data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         control.push(this.getBusinessIncomeDetails(data[i]));
-        this.onBusinessApplicantChange(data[i].applicantType, i)
-
-
       }
     } else {
       control.push(this.getBusinessIncomeDetails());
     }
-    // control.push(this.getBusinessIncomeDetails());
-
-
   }
   removeBusinessIncomeIndex(i?: any) {
     const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+    let id = control.at(i).value.id
     if (control.controls.length > 1) {
       const body = {
         userId: "1002",
-        aBusinessIncomeDetail: { "id": i }
+        aBusinessIncomeDetail: { id: id },
       };
-      this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
-        control.removeAt(i);
-      });
+      this.incomeDetailsService
+        .softDeleteIncomeDetails(body)
+        .subscribe((res: any) => {
+          control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
+
+        });
     } else {
-      alert('Atleast One Row Required');
+      alert("Atleast One Row Required");
     }
   }
 
   addOtherIncomeUnit(data?: any) {
-    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-    // console.log(data);
+    const control = this.incomeDetailsForm.controls
+      .otherIncomeDetails as FormArray;
     if (data && data.length > 0) {
-      // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getOtherIncomeDetails(data[i]));
-        this.onOtherApplicantChange(data[i].applicantType, i)
       }
     } else {
       control.push(this.getOtherIncomeDetails());
     }
-    //  control.push(this.getOtherIncomeDetails());
   }
   removeOtherIncomeIndex(i?: any) {
-
-    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
+    const control = this.incomeDetailsForm.controls
+      .otherIncomeDetails as FormArray;
+    let id = control.at(i).value.id
 
     if (control.controls.length > 1) {
       const body = {
         userId: "1002",
 
-        otherIncomeDetail: { "id": i }
+        otherIncomeDetail: { id: id },
       };
+
+      this.incomeDetailsService
+        .softDeleteIncomeDetails(body)
+        .subscribe((res: any) => {
       control.removeAt(i);
+      alert(res.ProcessVariables.error.message);
 
-      this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
-        // console.log(res);
-
-      });
+        });
     } else {
-      alert('Atleast One Row Required');
+      alert("Atleast One Row Required");
     }
   }
   addObligationUnit(data?: any) {
-    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
+    const control = this.incomeDetailsForm.controls
+      .obligationDetails as FormArray;
     if (data && data.length > 0) {
-      // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getObligationDetails(data[i]));
-        this.onObligationApplicantChange(data[i].applicantType, i)
-
       }
     } else {
       control.push(this.getObligationDetails());
     }
-    // control.push(this.getObligationDetails());
   }
   removeObligationIndex(i?: any) {
-    // console.log(this.applicantResponse.obligationsList);
+    const control = this.incomeDetailsForm.controls
+      .obligationDetails as FormArray;
+    let id = control.at(i).value.id
 
-    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
-    // // console.log(control.controls.length);
     if (control.controls.length > 1) {
       const body = {
         userId: "1001",
-        obligationDetail: { "id": i }
+        obligationDetail: { id: id },
       };
-      this.incomeDetailsService.softDeleteIncomeDetails(body).subscribe((res: any, ) => {
-        control.removeAt(i);
-        // // console.log(res);
-      });
+      this.incomeDetailsService
+        .softDeleteIncomeDetails(body)
+        .subscribe((res: any) => {
+          control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
+
+        });
     } else {
-      alert('Atleast One Row Required');
+      alert("Atleast One Row Required");
     }
   }
 
   getAllIncome() {
     const body = {
-      leadId: 601
+      leadId: 601,
     };
-    this.incomeDetailsService.getAllIncomeDetails(body).subscribe((res: any, ) => {
-      this.applicantResponse = res.ProcessVariables;
-      // // console.log(res.ProcessVariables.otherIncomeList, 'get other income details');
-      this.addBusinessIncomeUnit(res.ProcessVariables.businessIncomeList);
-      this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
-      this.addObligationUnit(res.ProcessVariables.obligationsList);
-
-    });
-
+    this.incomeDetailsService
+      .getAllIncomeDetails(body)
+      .subscribe((res: any) => {
+        this.applicantResponse = res.ProcessVariables;
+        this.addBusinessIncomeUnit(res.ProcessVariables.businessIncomeList);
+        this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
+        this.addObligationUnit(res.ProcessVariables.obligationsList);
+      });
   }
-  onBusinessApplicantChange(event, i?: number) {
-    // console.log(event);
-    // console.log(this.applicantResponse.businessIncomeList);
-    // let businessApplicanList = this.applicantResponse.businessIncomeList;
-    // let applicantType = this.applicantDetails.filter((res) => res.applicantId == event)[0]['applicantTypeValue'];
-    // // console.log(applicantType, "applicant Id");
-    // const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
-    // // console.log("getting value for control ",control );
-    // control.at(i).get("applicantType").setValue(applicantType)
-    // console.log(event);
-    // console.log(this.applicantResponse.businessIncomeList);
+  onBusinessApplicantChange(event?: any, i?: number) {
 
-    let applicantType = this.applicantResponse.businessIncomeList.find((res) => res.applicantType === event).applicantTypeValue
-    // console.log(applicantId, "applicant Id");
+    let applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType
+    const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+    control.at(i).get("applicantType").setValue(applicantType)
 
-
-    if (this.applicantBusinessType && this.applicantBusinessType[i] !== null || 'undefined') {
-      this.applicantBusinessType[i] = applicantType;
-      // console.log(this.applicantBusinessType[i]);
-    } else {
-      this.applicantBusinessType.push(applicantType);
-    }
-    // console.log(applicantId);
-
-    // console.log(this.applicantType, ' applicant array')
   }
 
   onOtherApplicantChange(event, i?: number) {
-
-    // console.log(event)
-    // console.log(this.applicantDetails)
-    let applicantType = this.applicantResponse.otherIncomeList.find((res) => res.applicantType === event).applicantTypeValue
-    // console.log(applicantId, "applicant Id");
-
-    if (this.otherApplicantType && this.otherApplicantType[i] !== null || 'undefined') {
-      this.otherApplicantType[i] = applicantType;
-      // console.log(this.applicantType[i]);
-    } else {
-      this.otherApplicantType.push(applicantType);
-    }
-    // // console.log(applicantId);
-
-    // // console.log(this.applicantType, ' applicant array')
-
+    let applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType
+    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
+    control.at(i).get("applicantType").setValue(applicantType)
   }
 
   onObligationApplicantChange(event, i?: number) {
-    // console.log(event);
-    // console.log(this.applicantResponse.businessIncomeList);
-
-    let applicantType = this.applicantResponse.otherIncomeList.find((res) => res.applicantType === event).applicantTypeValue
-    // console.log(applicantId, "applicant Id");
-
-
-    if (this.applicantObligayionType && this.applicantObligayionType[i] !== null || 'undefined') {
-      this.applicantObligayionType[i] = applicantType;
-      // console.log(this.applicantObligayionType[i]);
-    } else {
-      this.applicantObligayionType.push(applicantType);
-    }
-    // console.log(applicantId);
-
-    // console.log(this.applicantType, ' applicant array')
+    let applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType
+    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
+    control.at(i).get("applicantType").setValue(applicantType)
   }
 
   onSubmit() {
 
-    // console.log(this.incomeDetailsForm.value);
-    // // console.log(this.formData)
-    // // console.log(this.incomeDetailsForm.value.businessIncomeDetails.length);
-    this.incomeDetailsService.setAllIncomeDetails(this.incomeDetailsForm.value).subscribe((res: any, ) => {
-      // // console.log(res.ProcessVariables.businessIncomeIds, 'businessIncomeIds');
-      // console.log(res);
-    });
+    this.incomeDetailsService
+      .setAllIncomeDetails(this.incomeDetailsForm.value)
+      .subscribe((res: any) => {
 
+      });
   }
 }

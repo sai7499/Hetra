@@ -37,30 +37,20 @@
                   <td data-title="S.No">
                     {{ i + 1 }}
                   </td>
-                  <td data-title="Applicant Name">
+                 <td data-title="Applicant Name">
                     <select class="form-control mandatory select2" id="" name="applicantId"
-                      class="form-control text-center" formControlName="applicantType"
+                      class="form-control text-center" formControlName="applicantId"
                       (change)="onBusinessApplicantChange($event.target.value, i)">
-                      <option *ngFor="let applicants of applicantDetails" value="{{ applicants.applicantType }}">
+                      <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
                         {{ applicants.applicantName }}</option>
                     </select>
                   </td>
-                  <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="{{ applicantBusinessType[i] }}" class="no_border"
-                      class="input_value" readonly="true" name="applicantType" class="form-control text-center" />
-                  </td>
-                  <!-- <td data-title="Applicant Name" >
-                    <select class="form-control mandatory select2" id=""  name="applicant" class="form-control text-center"
-                       formControlName="applicantId" (change)="onBusinessChange($event.target.value, i)" >
-                      <option *ngFor="let applicants of applicantDetails " value= "{{applicants.applicantId}}" >
-                        {{applicants.applicantName }}</option>
-                   </select>
-                  </td>
-                  <td data-title="Applicant Type">
-                    <input type="text" id="latbox"  formControlName="applicantType" class="no_border" class="input_value" 
+                   <td data-title="Applicant Type">
+                    <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
                       readonly="true"
                       name="applicant" class="form-control text-center"  />
-                  </td> -->
+                  </td>
+                
                   <td data-title="Business Entity Name">
                     <input type="text" id="latbox" value="ABC Enterprises" class="no_border" class="input_value"
                       name="businessEnterpriseName" class="form-control text-center"
@@ -75,7 +65,7 @@
                       class="form-control text-center" formControlName="depreciation" />
                   </td>
                   <td data-title="Directors salary/Interest to partners + Interest">
-                    <input type="number" id="lngbox" readonly="true" class="input_value" name="directorSalary"
+                    <input type="number" id="" readonly="true" class="input_value" name="directorSalary"
                       class="form-control text-center" formControlName="directorSalary" />
                   </td>
                   <td data-title="Gross derived Income">
@@ -83,12 +73,12 @@
                       class="form-control text-center" formControlName="grossDerivedIncome" />
                   </td>
                   <td data-title="Gross monthly income">
-                    <input type="number" id="lngbox" readonly="true" class="input_value" name="grossMonthlyIncome"
+                    <input type="number" id="" readonly="true" class="input_value" name="grossMonthlyIncome"
                       class="form-control text-center" formControlName="grossMonthlyIncome" />
                   </td>
                   <td data-title="Actions">
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      (click)="addBusinessIncomeUnit()"></i>&nbsp;
+                      (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       (click)="removeBusinessIncomeIndex(i)"></i>
                   </td>
@@ -129,45 +119,20 @@
                     let i = index
                   " [formGroupName]="i">
                   <td data-title="S.no">{{ i + 1 }}</td>
-                  <!-- <td data-title="Borrower Name">
-                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId">
-                      <option value="1">Kumar</option>
-                      <option value="2">Arun</option>
-                   </select>
-                  </td> -->
-                  <!-- <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="Applicant" class="no_border" class="input_value" readonly="true"
-                      name="applicantTypeValue" class="form-control text-center" formControlName="applicantTypeValue" />
-                  </td> -->
-                  <!-- <td data-title="Applicant Name" >
-                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId" (change)="onApplicantChange($event, i)">
-                      <option *ngFor="let applicants of applicantDetails ; let i = index" [value]= "applicants.applicantId" >{{applicants.applicantName}}</option>
-                   </select>
-                  </td>
-                  <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value={{applicantType[i]}} class="no_border" class="input_value" readonly="true"
-                      name="applicantType" class="form-control text-center" [formControlName]="applicantType" />
-                  </td> -->
-
-                  <td data-title="Applicant Name">
-                    <select class="form-control mandatory select2" id="" name="applicantId"
-                      class="form-control text-center" formControlName="applicantType"
+                  <td>
+                  <select class="form-control mandatory select2" id="" name="applicantId"
+                      class="form-control text-center" formControlName="applicantId"
                       (change)="onOtherApplicantChange($event.target.value, i)">
-                      <option *ngFor="let applicants of applicantDetails" value="{{ applicants.applicantType }}">
+                      <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
                         {{ applicants.applicantName }}</option>
                     </select>
                   </td>
-                  <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="{{ otherApplicantType[i] }}" class="no_border" class="input_value"
-                      readonly="true" name="applicantType" class="form-control text-center" />
+                   <td data-title="Applicant Type">
+                    <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
+                      readonly="true"
+                      name="applicant" class="form-control text-center"  />
                   </td>
                   <td data-title="Income Type">
-                    <!-- <select class="form-control mandatory select2" id=""  name="incomeType" class="form-control text-center" formControlName="incomeType">
-                      <option value="1">Salary</option>
-                                          <option value="2">Rental</option>
-                                          <option value="3">Pension</option>
-                                          <option value="4">Agri Income</option>
-                   </select> -->
                     <app-vf-custom-select [values]="incomeLov?.incomeType" formControlName="incomeType">
                     </app-vf-custom-select>
                   </td>
@@ -180,7 +145,7 @@
                       class="form-control text-center" readonly="true" formControlName="factoring" />
                   </td>
                   <td data-title="Factored Income">
-                    <input type="number" id="lngbox" readonly="true" class="input_value" name="factoredIncome"
+                    <input type="number" id="" readonly="true" class="input_value" name="factoredIncome"
                       class="form-control text-center" formControlName="factoredIncome" />
                   </td>
                   <td data-title="Actions">
@@ -224,55 +189,37 @@
                     let i = index
                   " [formGroupName]="i">
                   <td data-title="S.No">{{ i + 1 }}</td>
-                  <td data-title="Applicant Name">
+                  <td>
                     <select class="form-control mandatory select2" id="" name="applicantId"
-                      class="form-control text-center" formControlName="applicantType"
-                      (change)="onObligationChange($event.target.value, i)">
-                      <option *ngFor="let applicants of applicantDetails" value="{{ applicants.applicantType }}">
-                        {{ applicants.applicantName }}</option>
-                    </select>
-                  </td>
-                  <td data-title="Applicant Type">
-                    <input type="text" id="latbox" value="{{ applicantObligayionType[i] }}" class="no_border"
-                      class="input_value" readonly="true" name="applicantType" class="form-control text-center" />
-                  </td>
-                  <!-- <td data-title="Applicant Name" *ngIf="setPath" >
-                    <select class="form-control mandatory select2" id=""  name="applicantId" class="form-control text-center" formControlName="applicantId" (change)="onApplicantChange(i)" [(ngModel)]="ngApplicantId" #applicantId>
-                      <option *ngFor="let applicants of applicantDetails" [ngValue]= "applicants.applicantId" >{{applicants.applicantName}}</option>
-                     
-                   </select>
-                  </td> -->
-
+                        class="form-control text-center" formControlName="applicantId"
+                        (change)="onObligationApplicantChange($event.target.value, i)">
+                        <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
+                          {{ applicants.applicantName }}</option>
+                      </select>
+                    </td>
+                     <td data-title="Applicant Type">
+                      <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value" 
+                        readonly="true"
+                        name="applicant" class="form-control text-center"  />
+                    </td>
                   <td data-title="Type of Loan">
-                    <!-- <input type="text" id="latbox" value="Business Loan" class="no_border" class="input_value"
-                      name="businessLoan" class="form-control text-center" formControlName="businessLoan" /> -->
-                    <select id="latbox" class="no_border" class="input_value" name="loanType"
-                      class="form-control text-center" formControlName="loanType">
-                      <option value="0">Business Laon</option>
-                      <option value="1">Home Loan</option>
-                      <option value="2">LAP</option>
-                      <option value="2">Agri Loan</option>
-                      <option value="2">Personal Loan</option>
-                    </select>
+                    <app-vf-custom-select [values]="incomeLov?.typeOfLoan" formControlName="loanType" id="latbox">
+                    </app-vf-custom-select>
                   </td>
                   <td data-title="Financier">
-                    <select id="latbox" class="no_border" class="input_value" name="financier"
-                      class="form-control text-center" formControlName="financier">
-                      <option value="Eicher">Muthoot</option>
-                      <option value="Tata Motors">IDFC</option>
-                      <option value="Eicher">Chola</option>
-                    </select>
+                    <app-vf-custom-select [values]="incomeLov?.bankMaster" formControlName="financier">
+                    </app-vf-custom-select>
                   </td>
                   <td data-title="Loan Amount">
                     <input type="number" id="latbox" value="150000" class="input_value" name="loanAmount"
                       class="form-control text-center" formControlName="loanAmount" />
                   </td>
                   <td data-title="Tenor(In Months)">
-                    <input type="number" id="lngbox" value="24" class="input_value" name="tenure"
+                    <input type="number" id="" value="24" class="input_value" name="tenure"
                       class="form-control text-center" formControlName="tenure" />
                   </td>
                   <td data-title="MOB">
-                    <input type="number" id="lngbox" value="10" class="input_value" name="mob"
+                    <input type="number" id="" value="10" class="input_value" name="mob"
                       class="form-control text-center" formControlName="mob" />
                   </td>
                   <td data-title="EMI">
@@ -280,16 +227,16 @@
                       class="form-control text-center" formControlName="emi" />
                   </td>
                   <td data-title="Balance Tenor">
-                    <input type="number" id="lngbox" value="14" class="input_value" name="balanceTenure" readonly="true"
+                    <input type="number" id="" value="14" class="input_value" name="balanceTenure" readonly="true"
                       class="form-control text-center" formControlName="balanceTenure" />
                   </td>
                   <td data-title="Obligation Amount">
-                    <input type="number" id="lngbox" value="7931" class="input_value" name="obligationAmount"
+                    <input type="number" id="" value="7931" class="input_value" name="obligationAmount"
                       readonly="true" class="form-control text-center" formControlName="obligationAmount" />
                   </td>
                   <td data-title="Actions">
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      (click)="addObligationUnit()"></i>&nbsp;
+                      (click)="addObligationUnit(null)"></i>&nbsp;
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       (click)="removeObligationIndex(i)"></i>
                   </td>

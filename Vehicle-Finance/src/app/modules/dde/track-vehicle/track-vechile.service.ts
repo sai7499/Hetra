@@ -40,14 +40,14 @@ userId;
         let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
-    getFleetRtr(){
+    getFleetRtr(fleetId){
         const processId = this.apiService.api.getFleetRtr.processId;
         const workflowId = this.apiService.api.getFleetRtr.workflowId;
         const projectId = this.apiService.api.getFleetRtr.projectId ;
         const body: RequestEntity = {
             processId: processId,          
             ProcessVariables: {
-                "fleetId" : 82
+                "fleetId" : fleetId
             },
             workflowId: workflowId,
             projectId: projectId
