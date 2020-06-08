@@ -1,5 +1,7 @@
-<main>
-  <div class="container-fluid" style="margin-top: 90px;">
+<main class="mar-top90">
+  <app-lead-section-header></app-lead-section-header>
+
+  <div class="container-fluid">
     <h3 class="margin_zero">{{ labels?.addApplicantTitle }}</h3>
     <form [formGroup]="coApplicantForm">
       <div class="content">
@@ -27,12 +29,18 @@
               </div>
             </div>
 
-            <div
-              class="row individual_section_leadco"
-            >
+            <div class="row individual_section_leadco">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.firstName }}</label>
-                <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }} </label>
+                <label
+                  for="first_name"
+                  *ngIf="applicantType == 'INDIVENTTYP'"
+                  >{{ labels?.firstName }}</label
+                >
+                <label
+                  for="first_name"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                  >{{ labels.companyName1 }}
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -41,8 +49,16 @@
                 />
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.middleName }}</label>
-                <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }} </label>
+                <label
+                  for="first_name"
+                  *ngIf="applicantType == 'INDIVENTTYP'"
+                  >{{ labels?.middleName }}</label
+                >
+                <label
+                  for="first_name"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                  >{{ labels.companyName2 }}
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -51,8 +67,16 @@
                 />
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.lastName }}</label>
-                <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }} </label>
+                <label
+                  for="first_name"
+                  *ngIf="applicantType == 'INDIVENTTYP'"
+                  >{{ labels?.lastName }}</label
+                >
+                <label
+                  for="first_name"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                  >{{ labels.companyName3 }}
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -148,7 +172,8 @@
             </div>
             <div class="row">
               <div
-                class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco" *ngIf="applicantType == 'INDIVENTTYP'"
+                class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                *ngIf="applicantType == 'INDIVENTTYP'"
               >
                 <label for="aadharnumber">{{ labels?.aadharnumber }}</label>
                 <div class="input-group input-medium">
@@ -182,7 +207,7 @@
                   class="form-control"
                   id="pannumber"
                   formControlName="pan"
-                  [disabled] = isPanDisabled
+                  [disabled]="isPanDisabled"
                 />
               </div>
             </div>
@@ -297,7 +322,7 @@
                 *ngIf="applicantType == 'INDIVENTTYP'"
               >
                 <h3 class="title">Permanent Address</h3>
-                <div class="row" formGroupName= "permentAddress">
+                <div class="row" formGroupName="permentAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address1">{{ labels?.addressline1 }}</label>
                     <input
@@ -332,7 +357,7 @@
                       class="form-control"
                       id="permanentPincode"
                       formControlName="pincode"
-                      (keyup)= "getPincode($event.target)"
+                      (keyup)="getPincode($event.target)"
                     />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -437,7 +462,7 @@
                       class="form-control"
                       id="currentPincode"
                       formControlName="pincode"
-                      (keyup)= "getPincode($event.target)"
+                      (keyup)="getPincode($event.target)"
                     />
                   </div>
                   <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
@@ -481,7 +506,7 @@
 
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_landline">{{
-                      labels?.registeredAddressLandlineNumber
+                      labels?.landlineNumber
                     }}</label>
                     <input
                       type="text"
@@ -499,7 +524,7 @@
                 *ngIf="applicantType == 'NONINDIVENTTYP'"
               >
                 <h3 class="title">Registered Address</h3>
-                <div class="row" formGroupName= "registeredAddress">
+                <div class="row" formGroupName="registeredAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1">{{ labels?.line1 }}</label>
                     <input
@@ -536,7 +561,7 @@
                       class="form-control"
                       id="registerPincode"
                       formControlName="pincode"
-                      (keyup)= "getPincode($event.target)"
+                      (keyup)="getPincode($event.target)"
                     />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -621,11 +646,7 @@
       >
         <a class="back_color" (click)="onBack()">Back</a></button
       >&nbsp;
-      <button
-        type="button"
-        (click)="onFormSubmit()"
-        class="btn btn-primary"
-      >
+      <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
         <a class="back_color">Save</a>
       </button>
     </div>

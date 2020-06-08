@@ -5,17 +5,16 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { LovDataService } from '@services/lov-data.service';
 import { element } from 'protractor';
-import {ApplicantService} from '@services/applicant.service';
-import {ApplicantList} from '@model/applicant.model';
-import{ CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { ApplicantService } from '@services/applicant.service';
+import { ApplicantList } from '@model/applicant.model';
+import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-applicant-details',
   templateUrl: './applicant-details.component.html',
-  styleUrls: ['./applicant-details.component.css']
+  styleUrls: ['./applicant-details.component.css'],
 })
 export class ApplicantDetailsComponent implements OnInit {
-
   labels: any = {};
   applicantDetails = [];
   isAlert: boolean = true;
@@ -24,58 +23,58 @@ export class ApplicantDetailsComponent implements OnInit {
   p = 1;
   selectedApplicant: number;
   index: number;
-  leadId:number;
+  leadId: number;
 
   constructor(
     private route: Router,
     private location: Location,
     private labelsData: LabelsService,
-    private leadStoreService: LeadStoreService, private lovData: LovDataService,
+    private leadStoreService: LeadStoreService,
+    private lovData: LovDataService,
     private applicantService: ApplicantService,
     private activatedRoute: ActivatedRoute,
-    private createLeadDataService: CreateLeadDataService) { }
+    private createLeadDataService: CreateLeadDataService
+  ) {}
 
   getLeadId() {
-  //   const currentUrl = this.location.path().split('/');
-  //   let id;
-  //   currentUrl.find((value) => {
+    //   const currentUrl = this.location.path().split('/');
+    //   let id;
+    //   currentUrl.find((value) => {
 
-  //     if(Number(value)) {
-  //         id =  Number(value);
-  //     }
-  // });
-  const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-  return leadSectioData.leadId;
-  console.log('Id inside getLead ID',leadSectioData.leadId );
+    //     if(Number(value)) {
+    //         id =  Number(value);
+    //     }
+    // });
+    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+    return leadSectioData.leadId;
+    console.log('Id inside getLead ID', leadSectioData.leadId);
   }
   ngOnInit() {
     this.leadId = this.getLeadId();
-    
+
     const currentUrl = this.location.path();
 
     console.log('currentUrl', currentUrl);
 
-    
     // this.activatedRoute.params.subscribe((value) => {
     //  console.log(this.activatedRoute.snapshot.params['leadId']);
     // });
 
-
     this.labelsData.getLabelsData().subscribe(
-      data => {
+      (data) => {
         this.labels = data;
         console.log('test', this.labels);
       },
-      error => {
+      (error) => {
         console.log(error);
-      });
+      }
+    );
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
       this.values.entity = res[0].addApplicant[0].entity;
       console.log('value Entity', this.values.entity);
-
     });
     // this.getData();
     this.getApplicantList();
@@ -120,7 +119,9 @@ export class ApplicantDetailsComponent implements OnInit {
 
   editApplicant(index: number) {
     console.log(index);
-    this.route.navigate(['pages/lead-section/co-applicant', { id: index }]);
+    this.route.navigateByUrl(
+      `pages/lead-section/${this.leadId}/co-applicant/${index}`
+    );
   }
 
   deleteApplicant(index: number) {
@@ -144,5 +145,7 @@ export class ApplicantDetailsComponent implements OnInit {
     });
   }
 
+  onBack() {
+    this.location.back();
+  }
 }
-
