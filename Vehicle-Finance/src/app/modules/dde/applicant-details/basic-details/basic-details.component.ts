@@ -64,13 +64,13 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.addNonIndividualFormControls();
     this.getLOV();
-    // this.activatedRoute.params.subscribe((value) => {
-    //   if (!value && !value.applicantId) {
-    //     return;
-    //   }
-    //   this.applicantId = Number(value.applicantId);
-    //   this.applicantDataService.setApplicantId(this.applicantId);
-    // });
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      this.applicantDataService.setApplicantId(this.applicantId);
+    });
   }
 
   getApplicantDetails() {
@@ -267,6 +267,7 @@ export class BasicDetailsComponent implements OnInit {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
       // this.getApplicantDetails();
+
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
       this.setBasicData();
