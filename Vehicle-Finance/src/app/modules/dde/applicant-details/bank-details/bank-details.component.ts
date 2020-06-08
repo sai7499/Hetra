@@ -159,7 +159,7 @@ export class BankDetailsComponent implements OnInit {
         ? data.ProcessVariables.accountTypeId
         : null,
       fromDate: data.ProcessVariables.fromDate
-        ? data.ProcessVariables.fromDate
+        ? this.utilityService.getDateFormat(data.ProcessVariables.fromDate)
         : '',
       toDate: data.ProcessVariables.toDate
         ? this.utilityService.getDateFormat(data.ProcessVariables.toDate)
@@ -203,6 +203,7 @@ export class BankDetailsComponent implements OnInit {
   getMonths() {
     // this.changeDateFormat();
     // this.changeToDateFormat();
+    this.listArray.controls = [];
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
