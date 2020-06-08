@@ -24,7 +24,7 @@ export class FleetDetailsComponent implements OnInit {
   fleetDetails: any = [];
   fleetLov: any = [];
   fleetArray = [];
-
+  // vehicleId: any;
   constructor(
 
     private labelsData: LabelsService,
@@ -102,6 +102,28 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   initRows(rowData) {
+    // if (rowData) {
+    //   return this.fb.group({
+    //     regdNo: [rowData.regdNo],
+    //     regdOwner: [rowData.regdOwner],
+    //     relation: [rowData.relation],
+    //     make: [rowData.make],
+    //     yom: [rowData.yom],
+    //     financier: [rowData.financier],
+    //     loanNo: [rowData.loanNo],
+    //     purchaseDate: [rowData.purchaseDate ? this.dateDbFormat(rowData.purchaseDate) : ""],
+    //     tenure: [rowData.tenure],
+    //     paid: [rowData.paid],
+    //     seasoning: [rowData.seasoning],
+    //     // ad: [{ value: rowData.ad, disabled: true }],
+    //     ad: [rowData.ad],
+    //     // pd: [{ value: rowData.pd, disabled: true }],
+    //     pd: [rowData.pd],
+    //     // gridValue: [{ value: rowData.gridValue, disabled: true }],
+    //     gridValue: [rowData.gridValue],
+    //     id: [rowData.id]
+    //   })
+    // }
     if (rowData) {
       return this.fb.group({
         regdNo: [rowData.regdNo],
@@ -111,7 +133,7 @@ export class FleetDetailsComponent implements OnInit {
         yom: [rowData.yom],
         financier: [rowData.financier],
         loanNo: [rowData.loanNo],
-        purchaseDate: [rowData.purchaseDate],
+        purchaseDate: [rowData.purchaseDate ? this.dateDbFormat(rowData.purchaseDate) : ""],
         tenure: [rowData.tenure],
         paid: [rowData.paid],
         seasoning: [rowData.seasoning],
@@ -156,16 +178,62 @@ export class FleetDetailsComponent implements OnInit {
 
   }
 
+  getDateFormat(date) {
+    var datePart = date.match(/\d+/g);
+    var month = datePart[1];
+    var day = datePart[0];
+    var year = datePart[2];
+    const dateFormat: Date = new Date(month + '/' + day + '/' + year);
+    year = dateFormat.getFullYear();
+    month = Number(dateFormat.getMonth()) + 1;
+    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    //   const formattedDate = day + '-' + month1 + '-' + year;
+    return formattedDate;
+  }
+
+  dateDbFormat(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    // const formattedDate = day + '-' + month1 + '-' + year;
+    return formattedDate;
+  }
+
+  sendDate(date) {
+    const dateFormat: Date = new Date(date);
+    let year = dateFormat.getFullYear();
+    let month = Number(dateFormat.getMonth()) + 1;
+    let day = dateFormat.getDate().toString();
+    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+
+    const formattedDate = day + "/" + month1 + "/" + year;
+    return formattedDate;
+
+  }
 
   // method for saving and updating fleet details
 
   saveOrUpdateFleetDetails() {
+    console.log(this.fleetDetails);
+    for (let i = 0; i < this.fleetDetails.length; i++) {
+      this.fleetDetails[i]['purchaseDate'] = this.sendDate(this.fleetDetails[i]['purchaseDate'])
+    }
+    //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
     const data = {
       leadId: this.leadId,
       userId: this.userId,
       fleets: this.fleetDetails,
     }
-    // console.log("in save fleet", this.fleetDetails)
+    console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
       console.log("saveFleetDetailsResponse", res)
     });
@@ -191,7 +259,7 @@ export class FleetDetailsComponent implements OnInit {
       } else {
         this.formArr.push(this.initRows(null));
       }
-
+      console.log("in get fleets", res.ProcessVariables.fleets)
       console.log("get fleet response", res.ProcessVariables.fleets)
     })
   }
@@ -201,19 +269,36 @@ export class FleetDetailsComponent implements OnInit {
     this.formArr.push(this.initRows(rowData));
   }
 
-  deleteRow(index: number) {
-    // console.log("in delete row ", fleets)
+  deleteRow(index: number, fleets: any) {
+    console.log("in delete row fn ", fleets, index)
     this.formArr.removeAt(index);
-    // if (fleets.length > 1) {
-    //   fleets.splice(i, 1)
-    // } else {
-    //   alert("Atleast One Row Required");
+    if (fleets.length > 1) {
+      console.log("inside del fun", fleets)
 
+      console.log("vehicleId", fleets[index].id)
+
+      const data = {
+        id: fleets[index].id,
+        leadId: this.leadId
+      }
+
+      this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
+
+        console.log("response from delete api", res.ProcessVariables)
+      });
+
+      fleets.splice(index, 1)
+
+    } else {
+      alert("Atleast One Row Required");
+
+    }
   }
 
-  getRtr(id: number) {
-    console.log("in getRtr", id)
-    this.router.navigate(['pages/dde/' + this.leadId + '/fleet-details/' + id])
+  getRtr(fleetid: number) {
+    console.log("in getRtr", fleetid)
+    // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
+    this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + fleetid])
   }
 
   toCollaterals() {
