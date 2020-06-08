@@ -28,6 +28,7 @@ export interface ApplicantDetails {
   name2?: string;
   name3?: string;
   title?: string;
+  titleValue?: string;
   loanApplicationRelation?: string;
   entityType?: string;
   entity?: string;
@@ -69,6 +70,7 @@ export interface IndividualProspectDetails {
   currentEmpYears?: string;
   employeeCode?: number;
   employerType?: string;
+  employerName? : string;
   department?: string;
 }
 
