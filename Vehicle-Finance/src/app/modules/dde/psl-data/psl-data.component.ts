@@ -1,11 +1,12 @@
 import { Component, OnInit, OnChanges } from "@angular/core";
 import { FormGroup, FormBuilder, NgControl } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 import { LabelsService } from "@services/labels.service";
 import { CommomLovService } from "@services/commom-lov-service";
 import { DdeStoreService } from "@services/dde-store.service";
 import { PslDataService } from "../services/psl-data.service";
+import { Location } from '@angular/common';
 
 @Component({
   selector: "app-psl-data",
@@ -66,14 +67,16 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   pslLandHolding: any = [{ key: 1, value: "Yes" },{ key: 2, value: "No" }];
   businessActivity: any = [{ key: null, value: "Not Applicable" }];
-
+  leadId;
   constructor(
     private formBuilder: FormBuilder,
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
     private pslDataService: PslDataService,
     private ddeStoreService: DdeStoreService,
-    private router: Router
+    private router: Router,
+    private aRoute: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnChanges() {
@@ -85,7 +88,9 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.getPslData();
     this.getLabels();
     this.getLOV();
-    this.initForm();    
+    this.initForm();   
+    this.aRoute.parent.params.subscribe((val) => this.leadId = Number(val.leadId));
+    
   }
 
   getLabels() {
@@ -804,11 +809,19 @@ export class PslDataComponent implements OnInit, OnChanges {
     // const agriculture = this.pslDataForm.get('agriculture');
     // const microSmallAndMediumEnterprises = this.pslDataForm.get('microSmallAndMediumEnterprises');
     if(this.activityChange==='1PSLACTVTY') {
-      const data = this.pslDataForm.get('agriculture').value;
+      const data ={
+        userId: localStorage.getItem("userId"),
+        leadId: this.leadId,
+        ...this.pslDataForm.get('agriculture').value
+      }
+       
       this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
         const response = res;
         console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
         // console.log("DATA", data);
+        if(response["Error"]== 0){
+          this.navigateNext();
+        }
       }); 
     } 
   else if(this.activityChange==='2PSLACTVTY') {
@@ -817,6 +830,9 @@ export class PslDataComponent implements OnInit, OnChanges {
         const response = res;
         console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
         // console.log("DATA", data);
+        if(response["Error"]== 0){
+          this.navigateNext();
+        }
       });
     } 
 
@@ -828,6 +844,12 @@ export class PslDataComponent implements OnInit, OnChanges {
     const pslDataFormModel = { ...formModel };
     console.log("PSL_DATA_FORM", pslDataFormModel);
     // this.ddeStoreService.setPslData(pslDataFormModel);
-    this.router.navigate(["/pages/dde/vehicle-valuation"]);
+    // this.router.navigate([`pages/dde/${this.leadId}/vehicle-valuation`]);
+  }
+  navigateNext(){
+    this.router.navigate([`pages/dde/${this.leadId}/vehicle-valuation`]);
+  }
+  onBack(){
+    this.location.back();
   }
 }

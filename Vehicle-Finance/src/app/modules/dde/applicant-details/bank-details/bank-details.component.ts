@@ -10,6 +10,7 @@ import { BankTransactionsService } from '@services/bank-transactions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './bank-details.component.html',
@@ -25,33 +26,20 @@ export class BankDetailsComponent implements OnInit {
   monthArray: any;
   assignedArray = [];
   listArray: FormArray;
-
+  leadId;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
     private lovService: CommomLovService,
     private route: ActivatedRoute,
     private router: Router,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private location: Location
   ) {
     this.listArray = this.fb.array([]);
   }
   ngOnInit() {
-    this.bankForm = this.fb.group({
-      userId: 1,
-      applicantId: 41,
-      accountHolderName: [''],
-      bankId: [''],
-      accountNumber: [''],
-      accountType: [''],
-      fromDate: [''],
-      toDate: [''],
-      period: [''],
-      limit: [''],
-      id: 8,
-      // transactionDetails: this.fb.array([]),
-      transactionDetails: this.listArray,
-    });
+   
     this.monthArray = [
       'Jan',
       'Feb',
@@ -70,8 +58,24 @@ export class BankDetailsComponent implements OnInit {
       this.lovData = res.LOVS;
     });
     this.applicantId = Number(this.route.snapshot.queryParams.applicantId);
+    this.route.params.subscribe((val:any) => this.leadId = Number(val.leadId));
+    
     this.formType = this.route.snapshot.queryParams.formType;
-
+    this.bankForm = this.fb.group({
+      userId: localStorage.getItem("userId"),
+      applicantId: this.applicantId,
+      accountHolderName: [''],
+      bankId: [''],
+      accountNumber: [''],
+      accountType: [''],
+      fromDate: [''],
+      toDate: [''],
+      period: [''],
+      limit: [''],
+      id: 8,
+      // transactionDetails: this.fb.array([]),
+      transactionDetails: this.listArray,
+    });
     if (this.formType) {
       this.getBankDetails();
     } else {
@@ -117,7 +121,7 @@ export class BankDetailsComponent implements OnInit {
         this.populateData(res);
       });
   }
-  public populateData(data: any) {
+  public populateData(data?: any) {
     this.bankForm.patchValue({
       accountHolderName: data.ProcessVariables.accountHolderName
         ? data.ProcessVariables.accountHolderName
@@ -157,7 +161,9 @@ export class BankDetailsComponent implements OnInit {
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
         alert(JSON.stringify(res));
-        this.router.navigateByUrl('pages/dde/applicant-list//bank-list');
+        if(res["Error"] == 0 ){
+        this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
+        }
       });
   }
 
@@ -210,6 +216,9 @@ export class BankDetailsComponent implements OnInit {
         this.listArray.push(this.initRows());
       }
     }
+  }
+  onBack(){
+    this.location.back();
   }
   // log(this.assignedArray);
 }

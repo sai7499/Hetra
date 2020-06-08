@@ -40,10 +40,10 @@
                             </td>
                             <td>
                                 <!-- <select class="form-control input_value height" formControlName="relation">
-                                        <option>{{labels.applicant}}</option>
-                                        <option>{{labels.coApplicant}}</option>
-                                        <option>{{labels.guarantor}}</option>
-                                    </select> -->
+                                            <option>{{labels.applicant}}</option>
+                                            <option>{{labels.coApplicant}}</option>
+                                            <option>{{labels.guarantor}}</option>
+                                        </select> -->
 
                                 <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
                                     formControlName="relation">
@@ -51,10 +51,10 @@
                             </td>
                             <td>
                                 <!-- <select class="form-control input_value height" formControlName="make">
-                                        <option>{{labels.tatamotors}}</option>
-                                        <option>{{labels.eicher}}</option>
-    
-                                    </select> -->
+                                            <option>{{labels.tatamotors}}</option>
+                                            <option>{{labels.eicher}}</option>
+        
+                                        </select> -->
 
                                 <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make">
                                 </app-vf-custom-select>
@@ -64,12 +64,12 @@
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td>
                                 <!-- <select class="form-control input_value height" id="asset_make"
-                                        formControlName="financier">
-                                        <option>{{labels.bajaj}}</option>
-                                        <option>{{labels.icici}}</option>
-                                        <option>{{labels.chola}}</option>
-    
-                                    </select> -->
+                                            formControlName="financier">
+                                            <option>{{labels.bajaj}}</option>
+                                            <option>{{labels.icici}}</option>
+                                            <option>{{labels.chola}}</option>
+        
+                                        </select> -->
 
                                 <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers"
                                     formControlName="financier">
@@ -80,7 +80,7 @@
                             </td>
                             <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
                             <td>
-                                <div class="form-group">
+                                <div class="form-group date">
                                     <div class='input-group date' id='datetimepicker1'>
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
@@ -104,13 +104,14 @@
                             </td>
                             <td><u><button class="a_tag" (click)="getRtr(itemrow.value.id)">RTR</button></u></td>
                             <!-- <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
-                                            (click)="addNewRow()"></i> &nbsp;
-                                        <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
-                                            (click)="deleteRow(i)"></i></td> -->
+                                                (click)="addNewRow()"></i> &nbsp;
+                                            <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
+                                                (click)="deleteRow(i)"></i></td> -->
                             <td>
                                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                                     (click)="addNewRow()"></button>&nbsp;<button type="button" class="fa fa-minus"
-                                    aria-hidden="true" id="delPOIbutton" value="Delete" (click)="deleteRow(i)"></button>
+                                    aria-hidden="true" id="delPOIbutton" value="Delete"
+                                    (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
                         </tr>
                     </tbody>
@@ -136,10 +137,10 @@
 </div>
 
 <!-- 
-    <div class="btn-sec clear-both row text-right">
-        <div class="col-sm-12">
-            <button class="btn btn-primary cus-btn-sty" type="button">Back</button>
-            <p class="btn btn-primary save cus-btn-sty"> Save </p>
-            <button class="btn btn-primary cus-btn-sty" type="button" (click)="showFormValues()">Next</button>
-        </div>
-    </div> -->
+        <div class="btn-sec clear-both row text-right">
+            <div class="col-sm-12">
+                <button class="btn btn-primary cus-btn-sty" type="button">Back</button>
+                <p class="btn btn-primary save cus-btn-sty"> Save </p>
+                <button class="btn btn-primary cus-btn-sty" type="button" (click)="showFormValues()">Next</button>
+            </div>
+        </div> -->
