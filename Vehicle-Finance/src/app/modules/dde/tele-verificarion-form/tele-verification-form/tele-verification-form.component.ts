@@ -3,7 +3,9 @@ import { LabelsService } from '@services/labels.service';
 import { FormGroup, FormBuilder, FormControl, Form, Validators } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
 import { DdeStoreService } from '@services/dde-store.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -15,16 +17,24 @@ export class TeleVerificationFormComponent implements OnInit {
   labels: any = {};
   LOV: any = [];
   tvrLov: any = [];
+  leadId;
+  tvrDetails;
 
   constructor(
     private fb: FormBuilder,
     private labelDetails: LabelsService,
     private commomLovService: CommomLovService,
-    private ddeStoreService: DdeStoreService
+    private ddeStoreService: DdeStoreService,
+    private route: ActivatedRoute,
+    private location: Location,
+    private router: Router,
+    private tvrService: TvrDetailsService
 
-    ) { }
-
-    
+    ) { 
+     this.leadId =  this.route.snapshot.params['leadId'];
+     console.log(this.leadId);
+     
+    }
 
     get teleVerificationFormControls() { return this.teleVerificationForm.controls; }
 
@@ -36,7 +46,9 @@ export class TeleVerificationFormComponent implements OnInit {
     );
     this.initForm();
     this.getLOV();
-    this.setFormValue();
+    // this.setFormValue();
+    this.getTvrDetails();
+    this.saveOrUpdateTvrDetails();
   }
 
   getLOV() {
@@ -110,67 +122,150 @@ export class TeleVerificationFormComponent implements OnInit {
     });
   }
 
-  setFormValue() {
-    const tvrModel = this.ddeStoreService.trackvehicle() || {};
-    console.log(tvrModel);
-    this.teleVerificationForm.patchValue({
-      leadNumber: tvrModel.leadNumber || '',
-      applicantName: tvrModel.applicantName || '',
-      soName: tvrModel.soName || '',
-      assetCost: tvrModel.assetCost || '',
-      financeAmount: tvrModel.financeAmount || '',
-      tenureInMonths: tvrModel.tenureInMonths || '',
-      sourceOfProposal: tvrModel.sourceOfProposal || '',
-      product: tvrModel.product || '',
-      emi: tvrModel.emi || '',
-      needForProposedVehicle: tvrModel.needForProposedVehicle || '',
-      routeOfOperation: tvrModel.routeOfOperation || '',
-      contractDetails: tvrModel.contractDetails || '',
-      typeofGoodsCarried: tvrModel.typeofGoodsCarried || '',
-      fundingAmountRequested: tvrModel.fundingAmountRequested || '',
-      endUseFunds: tvrModel.endUseFunds || '',
-      tenureRequested: tvrModel.tenureRequested || '',
-      residence: tvrModel.residence || '',
-      otherVehicles: tvrModel.otherVehicles,
-      phoneNo: tvrModel.phoneNo,
-      address: tvrModel.address,
-      anyOtherLoansAsset: tvrModel.anyOtherLoansAsset,
-      teleVerificationEmi: tvrModel.teleVerificationEmi,
-      noOfYears: tvrModel.noOfYears,
-      teleVerificationCC: tvrModel.teleVerificationCC,
-      status: tvrModel.status,
-      dob: tvrModel.dob,
-      spokenTo: tvrModel.spokenTo,
-      familyMembers: tvrModel.familyMembers,
-      relationWithApplicant: tvrModel.relationWithApplicant,
-      date: tvrModel.date,
-      time: tvrModel.time,
-      tvrDoneByName: tvrModel.tvrDoneByName,
-      eCode: tvrModel.eCode,
-      office: tvrModel.office,
-      workExperience: tvrModel.workExperience,
-      phoneNo2: tvrModel.phoneNo2,
-      extn: tvrModel.extn,
-      workStability: tvrModel.workStability,
-      natureOfBusiness: tvrModel.natureOfBusiness,
-      transactionType: tvrModel.transactionType,
-      businessStability: tvrModel.businessStability,
-      coNameAndAddress: tvrModel.coNameAndAddress,
-      designation: tvrModel.designation,
-      industryType: tvrModel.industryType,
-      yearsInEmPBussiness: tvrModel.yearsInEmPBussiness,
-      ifBusiness: tvrModel.ifBusiness,
-      employees: tvrModel.employees,
-      spokenTo2: tvrModel.spokenTo2,
-      relation: tvrModel.relation,
-      monthlySalaryGross: tvrModel.monthlySalaryGross,
-      otherSourcesofIncome: tvrModel.otherSourcesofIncome,
-      decision: tvrModel.decision
+  // setFormValue() {
+  //   const tvrModel = this.ddeStoreService.trackvehicle() || {};
+  //   console.log(tvrModel);
+  //   this.teleVerificationForm.patchValue({
+  //     leadNumber: tvrModel.leadNumber || '',
+  //     applicantName: tvrModel.applicantName || '',
+  //     soName: tvrModel.soName || '',
+  //     assetCost: tvrModel.assetCost || '',
+  //     financeAmount: tvrModel.financeAmount || '',
+  //     tenureInMonths: tvrModel.tenureInMonths || '',
+  //     sourceOfProposal: tvrModel.sourceOfProposal || '',
+  //     product: tvrModel.product || '',
+  //     emi: tvrModel.emi || '',
+  //     needForProposedVehicle: tvrModel.needForProposedVehicle || '',
+  //     routeOfOperation: tvrModel.routeOfOperation || '',
+  //     contractDetails: tvrModel.contractDetails || '',
+  //     typeofGoodsCarried: tvrModel.typeofGoodsCarried || '',
+  //     fundingAmountRequested: tvrModel.fundingAmountRequested || '',
+  //     endUseFunds: tvrModel.endUseFunds || '',
+  //     tenureRequested: tvrModel.tenureRequested || '',
+  //     residence: tvrModel.residence || '',
+  //     otherVehicles: tvrModel.otherVehicles,
+  //     phoneNo: tvrModel.phoneNo,
+  //     address: tvrModel.address,
+  //     anyOtherLoansAsset: tvrModel.anyOtherLoansAsset,
+  //     teleVerificationEmi: tvrModel.teleVerificationEmi,
+  //     noOfYears: tvrModel.noOfYears,
+  //     teleVerificationCC: tvrModel.teleVerificationCC,
+  //     status: tvrModel.status,
+  //     dob: tvrModel.dob,
+  //     spokenTo: tvrModel.spokenTo,
+  //     familyMembers: tvrModel.familyMembers,
+  //     relationWithApplicant: tvrModel.relationWithApplicant,
+  //     date: tvrModel.date,
+  //     time: tvrModel.time,
+  //     tvrDoneByName: tvrModel.tvrDoneByName,
+  //     eCode: tvrModel.eCode,
+  //     office: tvrModel.office,
+  //     workExperience: tvrModel.workExperience,
+  //     phoneNo2: tvrModel.phoneNo2,
+  //     extn: tvrModel.extn,
+  //     workStability: tvrModel.workStability,
+  //     natureOfBusiness: tvrModel.natureOfBusiness,
+  //     transactionType: tvrModel.transactionType,
+  //     businessStability: tvrModel.businessStability,
+  //     coNameAndAddress: tvrModel.coNameAndAddress,
+  //     designation: tvrModel.designation,
+  //     industryType: tvrModel.industryType,
+  //     yearsInEmPBussiness: tvrModel.yearsInEmPBussiness,
+  //     ifBusiness: tvrModel.ifBusiness,
+  //     employees: tvrModel.employees,
+  //     spokenTo2: tvrModel.spokenTo2,
+  //     relation: tvrModel.relation,
+  //     monthlySalaryGross: tvrModel.monthlySalaryGross,
+  //     otherSourcesofIncome: tvrModel.otherSourcesofIncome,
+  //     decision: tvrModel.decision
+  //   });
+  // }
+
+  getTvrDetails() {
+    // const data = {
+    //   applicantId: 43
+    // };
+    this.tvrService.getTvrDetails().subscribe((res: any) => {
+      const response = res.ProcessVariables;
+      console.log('tvrResponse', response);
     });
   }
 
-  onSave() {
-    console.log('on save', this.teleVerificationForm.value);
+  saveOrUpdateTvrDetails() {
+    // const tvrModel = this.tvrService.getTvrDetails();
+    // console.log(tvrModel);
+    const data = {
+      userId: localStorage.getItem('userId'),
+      applicantId: 43,
+      tvrDetails: this.tvrDetails
+    }
+    this.tvrService.setTvrDetails(data).subscribe((res: any) => {
+      console.log('saveUpdateTvrDetails', res);
+    })
+    // this.teleVerificationForm.patchValue({
+    //   leadNumber: tvrModel.leadNumber || '',
+    //   applicantName: tvrModel.applicantName || '',
+    //   soName: tvrModel.soName || '',
+    //   assetCost: tvrModel.assetCost || '',
+    //   financeAmount: tvrModel.financeAmount || '',
+    //   tenureInMonths: tvrModel.tenureInMonths || '',
+    //   sourceOfProposal: tvrModel.sourceOfProposal || '',
+    //   product: tvrModel.product || '',
+    //   emi: tvrModel.emi || '',
+    //   needForProposedVehicle: tvrModel.needForProposedVehicle || '',
+    //   routeOfOperation: tvrModel.routeOfOperation || '',
+    //   contractDetails: tvrModel.contractDetails || '',
+    //   typeofGoodsCarried: tvrModel.typeofGoodsCarried || '',
+    //   fundingAmountRequested: tvrModel.fundingAmountRequested || '',
+    //   endUseFunds: tvrModel.endUseFunds || '',
+    //   tenureRequested: tvrModel.tenureRequested || '',
+    //   residence: tvrModel.residence || '',
+    //   otherVehicles: tvrModel.otherVehicles,
+    //   phoneNo: tvrModel.phoneNo,
+    //   address: tvrModel.address,
+    //   anyOtherLoansAsset: tvrModel.anyOtherLoansAsset,
+    //   teleVerificationEmi: tvrModel.teleVerificationEmi,
+    //   noOfYears: tvrModel.noOfYears,
+    //   teleVerificationCC: tvrModel.teleVerificationCC,
+    //   status: tvrModel.status,
+    //   dob: tvrModel.dob,
+    //   spokenTo: tvrModel.spokenTo,
+    //   familyMembers: tvrModel.familyMembers,
+    //   relationWithApplicant: tvrModel.relationWithApplicant,
+    //   date: tvrModel.date,
+    //   time: tvrModel.time,
+    //   tvrDoneByName: tvrModel.tvrDoneByName,
+    //   eCode: tvrModel.eCode,
+    //   office: tvrModel.office,
+    //   workExperience: tvrModel.workExperience,
+    //   phoneNo2: tvrModel.phoneNo2,
+    //   extn: tvrModel.extn,
+    //   workStability: tvrModel.workStability,
+    //   natureOfBusiness: tvrModel.natureOfBusiness,
+    //   transactionType: tvrModel.transactionType,
+    //   businessStability: tvrModel.businessStability,
+    //   coNameAndAddress: tvrModel.coNameAndAddress,
+    //   designation: tvrModel.designation,
+    //   industryType: tvrModel.industryType,
+    //   yearsInEmPBussiness: tvrModel.yearsInEmPBussiness,
+    //   ifBusiness: tvrModel.ifBusiness,
+    //   employees: tvrModel.employees,
+    //   spokenTo2: tvrModel.spokenTo2,
+    //   relation: tvrModel.relation,
+    //   monthlySalaryGross: tvrModel.monthlySalaryGross,
+    //   otherSourcesofIncome: tvrModel.otherSourcesofIncome,
+    //   decision: tvrModel.decision
+    // });
   }
+
+  async onSave() {
+    // console.log('on save', this.teleVerificationForm.value);
+    this.tvrDetails = this.teleVerificationForm.value;
+    console.log(this.tvrDetails);
+    this.saveOrUpdateTvrDetails();
+
+    this.router.navigateByUrl(`pages/dde/${this.leadId}/tvr-details`);
+  }
+
 
 }

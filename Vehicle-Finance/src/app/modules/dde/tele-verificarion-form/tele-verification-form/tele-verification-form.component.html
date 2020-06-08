@@ -247,7 +247,7 @@
                             <option>Re-Finanace</option>
                             <option>Top-UP</option>
                         </select> -->
-                            <app-vf-custom-select [values]="tvrLov?.tvrTranscationType" formControlName="transactionType"> </app-vf-custom-select>
+                            <app-vf-custom-select [values]="LOV.LOVS.tvrTranscationType" formControlName="transactionType"> </app-vf-custom-select>
 
 
                         </div>
@@ -281,7 +281,7 @@
                             <option>Company Provided</option>
                             <option>Others</option>
                         </select> -->
-                            <app-vf-custom-select [values]="tvrLov?.tvrBusiness" formControlName="ifBusiness"> </app-vf-custom-select>
+                            <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness"> </app-vf-custom-select>
 
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -387,7 +387,9 @@
                 <div class="col-sm-7 padding-10 text-right">
                     <button type="submit" class="btn btn-primary" (click)="onSave()"> Save </button>
                     <button class="btn btn-primary dash_href" type="button"><a
-                           [routerLink]="['/pages/dde/tvr-details']" >Next</a></button>
+                          (click)="onSave()"
+                           
+                            >Next</a></button>
                 </div>
             </div>
         </div>
