@@ -400,75 +400,79 @@ export class AddressDetailsComponent implements OnInit {
       });
     } else {
       const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
-      this.currentPincode = {
+      if (currentAddressObj) {
+        this.currentPincode = {
+          city: [
+            {
+              key: currentAddressObj.city,
+              value: currentAddressObj.cityValue,
+            },
+          ],
+          district: [
+            {
+              key: currentAddressObj.district,
+              value: currentAddressObj.districtValue,
+            },
+          ],
+          state: [
+            {
+              key: currentAddressObj.state,
+              value: currentAddressObj.stateValue,
+            },
+          ],
+          country: [
+            {
+              key: currentAddressObj.country,
+              value: currentAddressObj.countryValue,
+            },
+          ],
+        };
+        const currentAddress = details.get('currentAddress');
+        currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+        currentAddress.patchValue({
+          accommodationType: currentAddressObj.accommodationType,
+          periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
+          mobileNumber: currentAddressObj.mobileNumber,
+        });
+      }
+    }
+
+    const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
+    if (officeAddressObj) {
+      this.officePincode = {
         city: [
           {
-            key: currentAddressObj.city,
-            value: currentAddressObj.cityValue,
+            key: officeAddressObj.city,
+            value: officeAddressObj.cityValue,
           },
         ],
         district: [
           {
-            key: currentAddressObj.district,
-            value: currentAddressObj.districtValue,
+            key: officeAddressObj.district,
+            value: officeAddressObj.districtValue,
           },
         ],
         state: [
           {
-            key: currentAddressObj.state,
-            value: currentAddressObj.stateValue,
+            key: officeAddressObj.state,
+            value: officeAddressObj.stateValue,
           },
         ],
         country: [
           {
-            key: currentAddressObj.country,
-            value: currentAddressObj.countryValue,
+            key: officeAddressObj.country,
+            value: officeAddressObj.countryValue,
           },
         ],
       };
-      const currentAddress = details.get('currentAddress');
-      currentAddress.patchValue(this.setAddressValues(currentAddressObj));
-      currentAddress.patchValue({
-        accommodationType: currentAddressObj.accommodationType,
-        periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
-        mobileNumber: currentAddressObj.mobileNumber,
+      const officeAddress = details.get('officeAddress');
+      officeAddress.patchValue(this.setAddressValues(officeAddressObj));
+      officeAddress.patchValue({
+        accommodationType: officeAddressObj.accommodationType,
+        periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
+        mobileNumber: officeAddressObj.mobileNumber,
       });
     }
-
-    const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
-    this.officePincode = {
-      city: [
-        {
-          key: officeAddressObj.city,
-          value: officeAddressObj.cityValue,
-        },
-      ],
-      district: [
-        {
-          key: officeAddressObj.district,
-          value: officeAddressObj.districtValue,
-        },
-      ],
-      state: [
-        {
-          key: officeAddressObj.state,
-          value: officeAddressObj.stateValue,
-        },
-      ],
-      country: [
-        {
-          key: officeAddressObj.country,
-          value: officeAddressObj.countryValue,
-        },
-      ],
-    };
-    const officeAddress = details.get('officeAddress');
-    officeAddress.patchValue(this.setAddressValues(officeAddressObj));
-    officeAddress.patchValue({
-      accommodationType: officeAddressObj.accommodationType,
-      periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
-      mobileNumber: officeAddressObj.mobileNumber,
-    });
   }
 
   setValuesForNonIndividual() {
