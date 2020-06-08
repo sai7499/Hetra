@@ -33,12 +33,6 @@ export class ApplicantResolveService implements Resolve<boolean> {
     if (isNaN(leadId) || isNaN(applicantId)) {
       return;
     }
-    if (
-      this.previousApplicantId !== undefined ||
-      this.previousApplicantId === applicantId
-    ) {
-      return;
-    }
     this.previousApplicantId = applicantId;
     const data = {
       applicantId,

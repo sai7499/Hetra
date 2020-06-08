@@ -183,18 +183,18 @@ export class AddressDetailsComponent implements OnInit {
     this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.getAddressDetails();
-    });
 
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.getAddressDetails();
+      });
     });
   }
 

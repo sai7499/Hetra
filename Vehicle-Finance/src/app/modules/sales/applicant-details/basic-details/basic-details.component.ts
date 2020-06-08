@@ -68,14 +68,7 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.addNonIndividualFormControls();
     this.getLovData();
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.applicantDataService.setApplicantId(this.applicantId);
-      this.getApplicantDetails();
-    });
+
     // setTimeout(() => {
     // this.clearFormArray();
     // });
@@ -173,6 +166,14 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.applicantDataService.setApplicantId(this.applicantId);
+        this.getApplicantDetails();
+      });
     });
   }
 
