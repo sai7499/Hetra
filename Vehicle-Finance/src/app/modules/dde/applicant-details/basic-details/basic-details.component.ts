@@ -26,6 +26,7 @@ export class BasicDetailsComponent implements OnInit {
   LOV: any = [];
   applicantId: number;
   applicant: Applicant;
+  leadId :  number
 
   designation = [
     {
@@ -46,7 +47,7 @@ export class BasicDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private location: Location
   ) {}
-  ngOnInit() {
+ async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -71,6 +72,8 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantId = Number(value.applicantId);
       this.applicantDataService.setApplicantId(this.applicantId);
     });
+    this.leadId = (await this.getLeadId()) as number;
+    console.log('leadId', this.leadId);
   }
 
   getApplicantDetails() {
@@ -116,6 +119,7 @@ export class BasicDetailsComponent implements OnInit {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
+      console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     const applicantDetails = this.applicant.applicantDetails;
@@ -144,6 +148,9 @@ export class BasicDetailsComponent implements OnInit {
 
       currentEmpYears: aboutIndivProspectDetails.currentEmpYears,
       department: aboutIndivProspectDetails.department,
+      employerName : aboutIndivProspectDetails.employerName
+      
+      
 
       //employerType : aboutIndivProspectDetails.employerType,
     });
@@ -212,7 +219,7 @@ export class BasicDetailsComponent implements OnInit {
       // branchAddress: new FormControl(null),
       // spokeAddress: new FormControl(null),
       designation: new FormControl(''),
-      officeName: new FormControl(null),
+      employerName: new FormControl(null),
       currentEmpYears: new FormControl(null),
       employeeCode: new FormControl(null),
       employerType: new FormControl(''),
@@ -326,6 +333,7 @@ export class BasicDetailsComponent implements OnInit {
     }
 
     const applicantData = this.applicantDataService.getApplicant();
+    console.log('applicantData',applicantData)
     const leadId = (await this.getLeadId()) as number;
     console.log('LEADID', leadId);
     const data = {
@@ -361,6 +369,7 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails: ApplicantDetails = {};
     const indivProspectProfileDetails: IndivProspectProfileDetails = {};
     const formValue = value.details[0];
+    console.log('formValue',formValue)
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2;
     applicantDetails.name3 = formValue.name3;
@@ -394,7 +403,9 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.designation = aboutIndivProspectDetails.designation;
     prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears;
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
-    prospectDetails.department = 'department';
+    
+    // prospectDetails.department = 'department';
+    
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
@@ -403,6 +414,8 @@ export class BasicDetailsComponent implements OnInit {
     // );
 
     indivProspectProfileDetails.employerType = formValue.employerType;
+    indivProspectProfileDetails.employerName = formValue.employerName;
+    console.log('indivProspectProfileDetails',indivProspectProfileDetails)
     this.applicantDataService.setindivProspectProfileDetails(
       indivProspectProfileDetails
     );
@@ -468,5 +481,9 @@ export class BasicDetailsComponent implements OnInit {
   }
   onBack() {
     this.location.back();
+  }
+
+  onBackToApplicant(){
+     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
   }
 }
