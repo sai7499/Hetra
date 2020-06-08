@@ -7,10 +7,13 @@ import { IdentityDetailsComponent } from './identity-details/identity-details.co
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 
+import { ApplicantResolveService } from '@services/applicant.resolve.service';
+
 const routes: Routes = [
   {
     path: ':leadId',
     component: ApplicantDetailsComponent,
+    resolve: { applicantDetails: ApplicantResolveService },
     children: [
       {
         path: 'basic-details',
