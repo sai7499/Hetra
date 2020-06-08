@@ -50,7 +50,12 @@ export class IdentityDetailsComponent implements OnInit {
   ) {}
 
   navigateToApplicantList() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
   onBack() {
@@ -73,16 +78,6 @@ export class IdentityDetailsComponent implements OnInit {
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
-    this.leadId = (await this.getLeadId()) as number;
-    this.identityForm.patchValue({ entity: Constant.ENTITY_INDIVIDUAL_TYPE });
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.getApplicantDetails();
-      this.setApplicantDetails();
-    });
   }
 
   getLeadId() {
@@ -132,8 +127,18 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   getLov() {
-    this.commomLovservice.getLovData().subscribe((lov) => {
+    this.commomLovservice.getLovData().subscribe(async (lov) => {
       this.lov = lov;
+      this.leadId = (await this.getLeadId()) as number;
+      this.identityForm.patchValue({ entity: Constant.ENTITY_INDIVIDUAL_TYPE });
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.getApplicantDetails();
+        this.setApplicantDetails();
+      });
     });
   }
   addIndividualFormControls() {

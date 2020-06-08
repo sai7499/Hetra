@@ -11,7 +11,11 @@
             *ngIf="showAddApplicant"
             class="btn btn-primary mar-right8"
             type="button"
-            routerLink="/pages/add-applicant"
+            [routerLink]="[
+              '/pages/sales-applicant-details',
+              leadId,
+              'add-applicant'
+            ]"
           >
             Add Applicant
           </button>
