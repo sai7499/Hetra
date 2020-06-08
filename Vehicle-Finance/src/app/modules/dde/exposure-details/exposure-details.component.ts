@@ -4,6 +4,8 @@ import { LabelsService } from '@services/labels.service';
 import { ExposureService } from '@services/exposure.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-exposure-details',
@@ -16,11 +18,13 @@ export class ExposureDetailsComponent implements OnInit {
   getExposureDetails: any;
   liveloanArray = [];
   proposedArray = [];
+  isAlert: boolean;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
               private route: Router,
-              private activatedRoute: ActivatedRoute ) { }
+              private activatedRoute: ActivatedRoute,
+              private location: Location ) { }
   exposureLiveLoan: FormGroup;
   exposureProposedLoan: FormGroup;
   labels: any = {};
@@ -242,6 +246,20 @@ onSubmit() {
     };
     this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
       console.log(res, ' response in exposure');
+      if(res["Error"] == 0){
+        this.isAlert = true;
+        setTimeout(() => {
+          this.isAlert = true;
+        }, 4000);
+      }
+
     });
+  }
+
+  onBack(){
+  this.location.back();
+  }
+  onNext(){
+    this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`)
   }
 }

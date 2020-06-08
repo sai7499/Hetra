@@ -14,7 +14,11 @@ import { LeadDataResolverService } from './services/leadDataResolver.service';
 
 const routes: Routes = [
   {
-    path: 'co-applicant',
+    path: ':leadId/co-applicant/:applicantId',
+    component: CoApplicantComponent,
+  },
+  {
+    path: ':leadId/co-applicant',
     component: CoApplicantComponent,
   },
   {
@@ -37,13 +41,13 @@ const routes: Routes = [
         component: ApplicantDetailsComponent,
       },
 
+      // {
+      //   path: 'co-applicant',
+      //   component: CoApplicantComponent,
+      // },
       {
-        path: 'co-applicant',
-        component: CoApplicantComponent,
-      },
-      {
-        path: "add-vehicle",
-        component: AddvehicleComponent
+        path: 'add-vehicle',
+        component: AddvehicleComponent,
       },
       {
         path: 'credit-score',
@@ -65,4 +69,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LeadCreationRouterModule { }
+export class LeadCreationRouterModule {}

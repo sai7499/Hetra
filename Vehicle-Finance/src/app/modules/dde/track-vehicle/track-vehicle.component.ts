@@ -7,6 +7,8 @@ import { DdeStoreService } from '@services/dde-store.service';
 import { TrackVechileService } from "./track-vechile.service";
 import { UtilityService } from '@services/utility.service';
 //import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-track-vehicle',
@@ -22,6 +24,7 @@ export class TrackVehicleComponent implements OnInit {
   emiAmount: any;
   loanEmiDate:any;
   noOfEmi: any;
+  fleetId: number;
   public trackVehicleForm: FormGroup;
 
   constructor(
@@ -31,11 +34,19 @@ export class TrackVehicleComponent implements OnInit {
     private lovData: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private location:Location,
+    private actRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
-       this.getFleetRtr()
+   let state = this.location.getState();
+   this.fleetId = parseInt(this.actRoute.snapshot.params.id);
+   console.log(this.actRoute);
+   if(this.fleetId !=null && this.fleetId!= undefined){
+    this.getFleetRtr(this.fleetId)
+   }
+       
 
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].trackVehicle[0];
@@ -212,14 +223,16 @@ export class TrackVehicleComponent implements OnInit {
       FormArray;
   }
 
-  getFleetRtr() {
-    this.trackVechileService.getFleetRtr().subscribe((res) => {
+  getFleetRtr(fleetId) {
+    this.trackVechileService.getFleetRtr(fleetId).subscribe((res) => {
 
       if (res['Status'] == "Execution Completed") {
         const installments = res['ProcessVariables'].installment;
         this.fleetRtrDetails = res['ProcessVariables'].installment;
         let noOfEmi = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value)
+       if(installments){
         for (let i = 0; i < noOfEmi; i++) {
+
           if(i < installments.length ){
             if (i == 0) {
               this.formArr.push(this.initRows(installments[i]));
@@ -235,6 +248,9 @@ export class TrackVehicleComponent implements OnInit {
               this.formArr.push(this.initRows(rowData));
           }
         }
+       } else {
+        this.formArr.push(this.initRows(null));
+      }       
       } else {
         this.formArr.push(this.initRows(null));
       }

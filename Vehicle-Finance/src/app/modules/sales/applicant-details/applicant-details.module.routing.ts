@@ -6,11 +6,18 @@ import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { IdentityDetailsComponent } from './identity-details/identity-details.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
+import { AddOrUpdateApplicantComponent } from '@shared/add-update-applicant/add-update-applicant.component';
+import { ApplicantResolveService } from '@services/applicant.resolve.service';
 
 const routes: Routes = [
   {
+    path: ':leadId/add-applicant',
+    component: AddOrUpdateApplicantComponent,
+  },
+  {
     path: ':leadId',
     component: ApplicantDetailsComponent,
+    resolve: { applicantDetails: ApplicantResolveService },
     children: [
       {
         path: 'basic-details',

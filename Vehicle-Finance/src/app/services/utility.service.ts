@@ -26,8 +26,9 @@ export class UtilityService {
     const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    const formattedDate = year + '-' + month1 + '-' + day;
-    // const formattedDate = day + '-' + month1 + '-' + year;
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    const formattedDate = day + '/' + month1 + '/' + year;
+    console.log("return Date",formattedDate)
     return formattedDate;
   }
 
