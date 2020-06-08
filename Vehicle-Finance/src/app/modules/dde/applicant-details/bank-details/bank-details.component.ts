@@ -141,7 +141,13 @@ export class BankDetailsComponent implements OnInit {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
         console.log(this.bankDetailsNew, ' bank details new');
+        // if (res.error === null) {
+        for (let i = 0 ; i < this.bankDetailsNew.length; i++ ) {
+          this.assignedArray.push(this.bankDetailsNew[i].month);
+          }
+          console.log(this.assignedArray, ' on init')
         this.populateData(res);
+        // }
       });
   }
   public populateData(data?: any) {
@@ -153,7 +159,7 @@ export class BankDetailsComponent implements OnInit {
         ? data.ProcessVariables.bankId
         : null,
       accountNumber: data.ProcessVariables.accountNumber
-        ? data.ProcessVariables.accountNumber
+        ? Number(data.ProcessVariables.accountNumber)
         : null,
       accountType: data.ProcessVariables.accountTypeId
         ? data.ProcessVariables.accountTypeId
@@ -167,7 +173,7 @@ export class BankDetailsComponent implements OnInit {
       period: data.ProcessVariables.period
         ? data.ProcessVariables.period
         : null,
-      limit: data.ProcessVariables.limit ? data.ProcessVariables.limit : null,
+      limit: data.ProcessVariables.limit ? Number(data.ProcessVariables.limit) : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -186,8 +192,10 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
     console.log(this.bankForm.value.transactionDetails);
+    let newArray : {} = this.assignedArray;
+    console.log(newArray);
     for (let i = 0; i < this.bankForm.value.transactionDetails.length; i++) {
-      this.bankForm.value.transactionDetails[i].month = this.assignedArray[0][i];
+      this.bankForm.value.transactionDetails[i].month = newArray[i][i];
     }
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
@@ -203,7 +211,6 @@ export class BankDetailsComponent implements OnInit {
   getMonths() {
     // this.changeDateFormat();
     // this.changeToDateFormat();
-    this.listArray.controls = [];
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
@@ -229,6 +236,7 @@ export class BankDetailsComponent implements OnInit {
       });
       const startMonth = fromDate.getMonth();
       const endMonth = toDate.getMonth();
+      this.assignedArray = [];
       for (let i = numberOfMonths + 3 ; i >= 0; i--) {
         // if ( i > 11) {
         //   // tslint:disable-next-line: prefer-const
@@ -242,7 +250,7 @@ export class BankDetailsComponent implements OnInit {
         let count = i % 12;
         const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
-        this.assignedArray = this.assignedArray.reverse();
+        // this.assignedArray = this.assignedArray.reverse();
         // }
       }
 

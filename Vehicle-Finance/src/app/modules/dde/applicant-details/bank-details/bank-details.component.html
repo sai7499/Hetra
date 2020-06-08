@@ -105,12 +105,12 @@
               <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index" [formGroupName]="i">
                   <!-- <td><input type='checkbox' name='record'></td> -->
                   <!-- <td>1</td> -->
-                  <td *ngIf= "!formType" >
-                      <!-- <p formControlName="month" value="Jan">Jan</p> -->
+                  <!-- <td *ngIf= "!formType" >
+                     
                      <input  class = "form-control" formControlName = "month" value="{{assignedArray[i][0]}}" disabled> 
-                  </td>
-                  <td *ngIf = "formType">
-                      <input class="form-control" formControlName = "month" value="{{bankDetailsNew[i].month}}" disabled > 
+                  </td> -->
+                  <td >
+                      <input class="form-control" formControlName = "month" value="{{assignedArray[i]}}" disabled > 
                   </td>
                   <td>
                       <input type="number" class="form-control input_value"  formControlName="inflow">

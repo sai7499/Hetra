@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BankTransactionsService } from '@services/bank-transactions.service';
 import { Router ,ActivatedRoute} from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     templateUrl: './bank-list.component.html',
@@ -11,7 +12,9 @@ export class BankListComponent {
     bankDetails: any;
     applicantId: number;
     leadId: number;
-    constructor(private bankService: BankTransactionsService, private route: Router, private activatedRoute: ActivatedRoute) { }
+    constructor(private bankService: BankTransactionsService,
+                private route: Router, private activatedRoute: ActivatedRoute,
+                private location: Location) { }
     // tslint:disable-next-line: use-lifecycle-interface
    async  ngOnInit() {
         this.leadId = (await this.getLeadId()) as number;
@@ -47,11 +50,14 @@ export class BankListComponent {
             applicantId: this.applicantId,
             formType: 'edit'
         };
-        this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`], { queryParams: id,  });
+        this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`],
+         { queryParams: id, skipLocationChange: true  });
     }
     bankDetail() {
             this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}` );
     }
-
+    onBack() {
+      this.location.back();
+    }
 
 }
