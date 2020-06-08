@@ -18,7 +18,7 @@ const routes: Routes = [
     component: CoApplicantComponent,
   },
   {
-    path: ':leadId/co-appilcant',
+    path: ':leadId/co-applicant',
     component: CoApplicantComponent,
   },
   {
@@ -41,10 +41,10 @@ const routes: Routes = [
         component: ApplicantDetailsComponent,
       },
 
-      {
-        path: 'co-applicant',
-        component: CoApplicantComponent,
-      },
+      // {
+      //   path: 'co-applicant',
+      //   component: CoApplicantComponent,
+      // },
       {
         path: 'add-vehicle',
         component: AddvehicleComponent,
