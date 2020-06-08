@@ -306,12 +306,12 @@ export class IdentityDetailsComponent implements OnInit {
       const currentUrl = this.location.path();
       if (currentUrl.includes('sales')) {
         this.router.navigate([
-          `/pages/sales-applicant-details/${leadId}/address-details`,
+          `/pages/sales-applicant-details/${this.leadId}/address-details`,
           this.applicantId,
         ]);
       } else {
         this.router.navigate([
-          `/pages/applicant-details/${leadId}/address-details`,
+          `/pages/applicant-details/${this.leadId}/address-details`,
           this.applicantId,
         ]);
       }

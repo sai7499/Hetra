@@ -12,15 +12,17 @@ export class NewLeadsComponent implements OnInit {
 
   newArray;
   newLeads;
-  itemsPerPage = 5;
+  itemsPerPage = '5';
+  totalItems;
   labels: any = {};
-  q;
+  // q;
   isCredit;
   lovData: any;
   count: any;
   currentPage: any;
   limit;
   pageNumber;
+  from;
 
   constructor(
     private labelsData: LabelsService,
@@ -65,6 +67,34 @@ export class NewLeadsComponent implements OnInit {
     // ];
   }
 
+  getMyLeads(perPageCount, pageNumber?) {
+
+    const data = {
+      userId: localStorage.getItem('userId'),
+      perPage: parseInt(perPageCount),
+      currentPage: parseInt(pageNumber)
+    };
+
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      const response = res.ProcessVariables.loanLead;
+      console.log(response, 'response');
+      this.newArray = response;
+      this.limit = res.ProcessVariables.perPage;
+      this.pageNumber = res.ProcessVariables.from;
+      this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+
+      this.currentPage = res.ProcessVariables.currentPage;
+      this.totalItems = res.ProcessVariables.totalPages;
+      this.from = res.ProcessVariables.from;
+
+    });
+  }
+
+  setPage(event) {
+    this.getMyLeads(this.itemsPerPage, event);
+
+  }
+
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -72,38 +102,15 @@ export class NewLeadsComponent implements OnInit {
       }
     );
 
-    // this.dashboardService.isCreditShow.subscribe(value => {
-    //   this.isCredit = value;
-    // if (this.isCredit === 'Credit Officer') {
-    //   this.getMyLeads();
-    // } else {
-    //   this.newArray = this.newLeads;
-    // }
-    // });
     this.isCredit = localStorage.getItem('roleType');
     // if (this.isCredit === '2') {
     //   this.getMyLeads();
     // } else {
     //   this.newArray = this.newLeads;
     // }
-    this.getMyLeads();
+    this.getMyLeads(this.itemsPerPage);
 
 
-  }
-
-  getMyLeads() {
-    this.dashboardService.myLeads().subscribe((res: any) => {
-      const response = res.ProcessVariables.loanLead;
-      console.log(response, 'response')
-      this.newArray = response;
-      this.limit = res.ProcessVariables.perPage;
-      this.pageNumber = res.ProcessVariables.from;
-      this.count = res.ProcessVariables.count;
-      // console.log(this.count);
-      this.currentPage = res.ProcessVariables.currentPage;
-      // console.log(this.currentPage);
-
-    });
   }
 
   getLeadIdSales(Id) {
