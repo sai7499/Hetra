@@ -19,7 +19,7 @@ export class IncomeDetailsComponent implements OnInit {
   getBuisinessIncomeId: any;
   otherApplicantType = [];
   leadId: number;
-  userId: "1002";
+  userId: string;
   applicantDetails: any;
   ngApplicantId: any;
   patchPath = false;
@@ -57,6 +57,8 @@ export class IncomeDetailsComponent implements OnInit {
     };
     this.getLov();
     this.getLeadId();
+    this.userId = localStorage.getItem('userId');
+    console.log(this.userId);
     this.incomeDetailsService
       .getAllAplicantDetails(body)
       .subscribe((res: any) => {
@@ -67,7 +69,7 @@ export class IncomeDetailsComponent implements OnInit {
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
       leadId: this.leadId,
-      userId: "1002",
+      userId: this.userId,
     });
     this.getAllIncome();
 
@@ -206,7 +208,7 @@ export class IncomeDetailsComponent implements OnInit {
     let id = control.at(i).value.id
     if (control.controls.length > 1) {
       const body = {
-        userId: "1002",
+        userId: this.userId,
         aBusinessIncomeDetail: { id: id },
       };
       this.incomeDetailsService
@@ -239,7 +241,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     if (control.controls.length > 1) {
       const body = {
-        userId: "1002",
+        userId: this.userId,
 
         otherIncomeDetail: { id: id },
       };
@@ -273,7 +275,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     if (control.controls.length > 1) {
       const body = {
-        userId: "1001",
+        userId: this.userId,
         obligationDetail: { id: id },
       };
       this.incomeDetailsService
