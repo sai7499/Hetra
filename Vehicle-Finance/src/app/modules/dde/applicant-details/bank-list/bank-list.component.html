@@ -115,13 +115,13 @@
     <div class="row">
 
         <div class="col-sm-5">
-            <button class="btn btn-primary dash_href "> Back To Applicant
+            <button class="btn btn-primary dash_href " (click)=loadAppplicant()> Back To Applicant
                     Details </button>
         </div>
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
-            <button class="btn btn-primary" (click)="onSave()"> Save </button>
-            <button class="btn btn-primary dash_href " type="button" (click)="onSave()" >Next</button>
+            <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
+            <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button>
         </div>
     
     </div>

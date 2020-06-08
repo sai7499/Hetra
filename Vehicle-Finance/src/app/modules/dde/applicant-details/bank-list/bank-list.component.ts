@@ -59,5 +59,11 @@ export class BankListComponent {
     onBack() {
       this.location.back();
     }
+    onNext() {
+      this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/employment-details/${this.applicantId}` );
+    }
+    loadAppplicant() {
+      this.route.navigateByUrl(`pages/dde/${this.leadId}/applicant-details`);
+    }
 
 }
