@@ -266,7 +266,10 @@ export class BasicDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
-      this.getApplicantDetails();
+      // this.getApplicantDetails();
+      this.applicant = this.applicantDataService.getApplicant();
+      console.log('DDE COMING APPLICANT DATAS ', this.applicant);
+      this.setBasicData();
     });
     console.log('LOvs', this.LOV);
   }
