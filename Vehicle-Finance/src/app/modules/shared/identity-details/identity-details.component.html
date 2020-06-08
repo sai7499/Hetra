@@ -448,7 +448,7 @@
   <div class="col-sm-5">
     <button
       class="btn btn-primary dash_href"
-      routerLink="/pages/sales/applicant-list"
+      (click)="navigateToApplicantList()"
     >
       <a>Back To Applicant Details</a>
     </button>
@@ -468,7 +468,9 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button"  (click)="onSubmit()">Next</button></a
+      ><button class="btn btn-primary" type="button" (click)="onSubmit()">
+        Next
+      </button></a
     >
     <br />
     <br />

@@ -50,7 +50,14 @@ export class IdentityDetailsComponent implements OnInit {
   ) {}
 
   navigateToApplicantList() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/applicant-list`
+    );
   }
 
   onBack() {
@@ -316,5 +323,19 @@ export class IdentityDetailsComponent implements OnInit {
         ]);
       }
     });
+  }
+
+  onNext() {
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(
+        `pages/sales-applicant-details/${this.leadId}/address-details/${this.applicantId}`
+      );
+      return;
+    }
+
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`
+    );
   }
 }

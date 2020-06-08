@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
@@ -9,7 +9,7 @@ import { LeadStoreService } from '../services/lead.store.service';
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css'],
 })
-export class ApplicantDetailsComponent implements OnInit {
+export class ApplicantDetailsComponent implements OnInit, OnDestroy {
   locationIndex: number;
   applicantId = '';
   leadId: number;
@@ -41,10 +41,12 @@ export class ApplicantDetailsComponent implements OnInit {
         this.createLeadDataService.getLeadData()
       );
     });
+    this.activatedRoute.firstChild.params.subscribe((value: any) => {
+      this.applicantId = value.applicantId;
+    });
   }
 
   onNavigate(url: string) {
-    this.applicantId = this.applicantDataStoreservice.getApplicantId();
     this.router.navigate([
       `/pages/sales-applicant-details/${this.leadId}/${url}`,
       this.applicantId,
@@ -61,5 +63,9 @@ export class ApplicantDetailsComponent implements OnInit {
     } else if (url.includes('document-upload')) {
       return 3;
     }
+  }
+
+  ngOnDestroy() {
+    console.log('applicant details destroy');
   }
 }

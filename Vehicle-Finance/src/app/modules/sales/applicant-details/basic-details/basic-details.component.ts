@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -45,7 +46,8 @@ export class BasicDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private router: Router,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -80,20 +82,20 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   getApplicantDetails() {
-    const data = {
-      applicantId: this.applicantId,
-    };
-    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      const applicant: Applicant = {
-        ...processVariables,
-      };
-      this.applicantDataService.setApplicant(applicant);
-      this.applicant = this.applicantDataService.getApplicant();
-      console.log('applicant', applicant);
+    // const data = {
+    //   applicantId: this.applicantId,
+    // };
+    // this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+    //   const processVariables = res.ProcessVariables;
+    //   const applicant: Applicant = {
+    //     ...processVariables,
+    //   };
+    //   this.applicantDataService.setApplicant(applicant);
+    this.applicant = this.applicantDataService.getApplicant();
+    // console.log('applicant', applicant);
 
-      this.setBasicData();
-    });
+    this.setBasicData();
+    // });
   }
 
   setBasicData() {
@@ -319,5 +321,9 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.preferredLanguageCommunication =
       formValue.preferredLanguageCommunication;
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
+  }
+
+  onBack() {
+    this.location.back();
   }
 }

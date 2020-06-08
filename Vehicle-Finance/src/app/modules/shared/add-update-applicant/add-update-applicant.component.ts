@@ -118,8 +118,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const pincodeValue = pincode.value;
     console.log('Pincode', pincodeValue);
     if (pincodeValue.length === 6) {
-        const pincodeNumber = Number(pincodeValue);
-        this.getPincodeResult(pincodeNumber, id);
+      const pincodeNumber = Number(pincodeValue);
+      this.getPincodeResult(pincodeNumber, id);
     }
   }
 
@@ -181,25 +181,65 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   getLeadId() {
-    const leadSectionData: any = this.createLeadDataService.getLeadSectionData();
-    return leadSectionData.leadId;
+    return new Promise((resolve) => {
+      this.activatedRoute.parent.params.subscribe((value: any) => {
+        if (!value.leadId) {
+          resolve(null);
+        }
+        resolve(Number(value.leadId));
+      });
+    });
   }
-  ngOnInit() {
-    this.leadId = this.getLeadId();
+
+  getLeadIdAndApplicantId() {
+    return new Promise((resolve) => {
+      this.activatedRoute.params.subscribe((value: any) => {
+        console.log('getLeadId', value);
+        resolve({
+          leadId: Number(value.leadId),
+          applicantId: Number(value.applicantId),
+        });
+      });
+    });
+  }
+  async ngOnInit() {
     this.initForm();
     this.coApplicantForm.patchValue({ entity: 'Non-individual' });
     this.getLOV();
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].addApplicant[0];
     });
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value || !value.id) {
-        this.applicantDataService.setApplicant({});
-        return;
+    // this.activatedRoute.parent.params.subscribe((value) => {
+    //   console.log('parent params', value);
+    // });
+    // this.activatedRoute.params.subscribe((value) => {
+    //   console.log('params', value);
+    //   // if (!value || !value.id) {
+    //   //   this.applicantDataService.setApplicant({});
+    //   //   return;
+    //   // }
+    //   // this.applicantId = Number(value.id);
+    //   // this.getApplicantDetails();
+    //   if (value && value.leadId) {
+    //     this.leadId = Number(value.leadId);
+    //   }
+    //   if (value && value.applicantId) {
+    //     this.applicantId = Number(value.applicantId);
+    //     this.getApplicantDetails();
+    //   }
+    // });
+    this.leadId = (await this.getLeadId()) as number;
+    if (!this.leadId) {
+      const id: any = await this.getLeadIdAndApplicantId();
+      this.leadId = id.leadId;
+      this.applicantId = id.applicantId;
+      if (isNaN(this.applicantId)) {
+        this.applicantId = null;
       }
-      this.applicantId = Number(value.id);
-      this.getApplicantDetails();
-    });
+      if (this.applicantId) {
+        this.getApplicantDetails();
+      }
+    }
   }
 
   createAddressObject(address: AddressDetails) {
@@ -434,36 +474,69 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.applicant.applicantDetails.entityTypeKey ===
         Constant.ENTITY_INDIVIDUAL_TYPE
       ) {
-
         const permentAddress = this.coApplicantForm.get('permentAddress');
-        const cummunicationAddress = this.coApplicantForm.get('communicationAddress');
+        const cummunicationAddress = this.coApplicantForm.get(
+          'communicationAddress'
+        );
         const addressObj = this.getAddressObj();
         const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
         this.permanentPincode = {
-          city: [{key: permenantAddressObj.city,
-                value: permenantAddressObj.cityValue}],
-          district: [{key: permenantAddressObj.district,
-                value: permenantAddressObj.districtValue}],
-          state: [{key: permenantAddressObj.state,
-                  value: permenantAddressObj.stateValue}],
-          country: [{key: permenantAddressObj.country,
-                  value: permenantAddressObj.countryValue}]
-              };
+          city: [
+            {
+              key: permenantAddressObj.city,
+              value: permenantAddressObj.cityValue,
+            },
+          ],
+          district: [
+            {
+              key: permenantAddressObj.district,
+              value: permenantAddressObj.districtValue,
+            },
+          ],
+          state: [
+            {
+              key: permenantAddressObj.state,
+              value: permenantAddressObj.stateValue,
+            },
+          ],
+          country: [
+            {
+              key: permenantAddressObj.country,
+              value: permenantAddressObj.countryValue,
+            },
+          ],
+        };
         permentAddress.patchValue(
           this.createAddressObject(permenantAddressObj)
         );
         const cummunicationAddressObj =
           addressObj[Constant.COMMUNICATION_ADDRESS];
         this.currentPincode = {
-            city: [{key: cummunicationAddressObj.city,
-                  value: cummunicationAddressObj.cityValue}],
-            district: [{key: cummunicationAddressObj.district,
-                  value: cummunicationAddressObj.districtValue}],
-            state: [{key: cummunicationAddressObj.state,
-                    value: cummunicationAddressObj.stateValue}],
-            country: [{key: cummunicationAddressObj.country,
-                    value: cummunicationAddressObj.countryValue}]
-                };
+          city: [
+            {
+              key: cummunicationAddressObj.city,
+              value: cummunicationAddressObj.cityValue,
+            },
+          ],
+          district: [
+            {
+              key: cummunicationAddressObj.district,
+              value: cummunicationAddressObj.districtValue,
+            },
+          ],
+          state: [
+            {
+              key: cummunicationAddressObj.state,
+              value: cummunicationAddressObj.stateValue,
+            },
+          ],
+          country: [
+            {
+              key: cummunicationAddressObj.country,
+              value: cummunicationAddressObj.countryValue,
+            },
+          ],
+        };
         cummunicationAddress.patchValue(
           this.createAddressObject(cummunicationAddressObj)
         );
@@ -472,14 +545,30 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         const registeredAddress = this.coApplicantForm.get('registeredAddress');
         const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
         this.registerPincode = {
-          city: [{key: registeredAddressObj.city,
-            value: registeredAddressObj.cityValue}],
-          district: [{key: registeredAddressObj.district,
-                    value: registeredAddressObj.districtValue}],
-          state: [{key: registeredAddressObj.state,
-                  value: registeredAddressObj.stateValue}],
-          country: [{key: registeredAddressObj.country,
-                    value: registeredAddressObj.countryValue}]
+          city: [
+            {
+              key: registeredAddressObj.city,
+              value: registeredAddressObj.cityValue,
+            },
+          ],
+          district: [
+            {
+              key: registeredAddressObj.district,
+              value: registeredAddressObj.districtValue,
+            },
+          ],
+          state: [
+            {
+              key: registeredAddressObj.state,
+              value: registeredAddressObj.stateValue,
+            },
+          ],
+          country: [
+            {
+              key: registeredAddressObj.country,
+              value: registeredAddressObj.countryValue,
+            },
+          ],
         };
         registeredAddress.patchValue(
           this.createAddressObject(registeredAddressObj)
@@ -600,8 +689,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       voterIdNumber: coApplicantModel.voterIdNumber,
       companyPhoneNumber: coApplicantModel.mobilePhone,
       panType: coApplicantModel.panType,
-
-      
     };
 
     const registerAddress = coApplicantModel.registeredAddress;
@@ -731,7 +818,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       corporateProspectDetails: this.corporateProspectDetails,
       addressDetails: this.addressDetails,
       applicantId: this.applicantId,
-      leadId : this.leadId,
+      leadId: this.leadId,
     };
     console.log(this.applicantDetails);
 
@@ -740,6 +827,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (response.Error === '0') {
         const message = response.ProcessVariables.error.message;
         console.log('Success Message', message);
+      }
+      const url = this.location.path();
+
+      if (url.includes('sales')) {
+        this.router.navigateByUrl(`pages/sales/${this.leadId}/applicant-list`);
+        return;
       }
       this.router.navigateByUrl(
         `pages/lead-section/${this.leadId}/applicant-details`
