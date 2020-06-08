@@ -221,6 +221,12 @@ export class BankDetailsComponent implements OnInit {
     this.location.back();
   }
   // log(this.assignedArray);
+
+  onBackToApplicant(){
+    
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+    
+  }
 }
 
 // }

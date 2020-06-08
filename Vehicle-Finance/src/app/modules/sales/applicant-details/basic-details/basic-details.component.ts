@@ -15,6 +15,7 @@ import {
   IndividualProspectDetails,
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../services/lead.store.service';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -45,7 +46,8 @@ export class BasicDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private router: Router,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -320,4 +322,9 @@ export class BasicDetailsComponent implements OnInit {
       formValue.preferredLanguageCommunication;
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
+
+  onBack(){
+    this.location.back()
+  }
+
 }

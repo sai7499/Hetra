@@ -317,4 +317,13 @@ export class IdentityDetailsComponent implements OnInit {
       }
     });
   }
+
+  onBackToApplicant(){
+    const url = this.location.path();      
+    if(url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
+    } else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+    }
+  }
 }

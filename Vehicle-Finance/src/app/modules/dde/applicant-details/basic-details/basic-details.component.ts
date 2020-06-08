@@ -37,6 +37,8 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+
+  leadId;
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -46,7 +48,7 @@ export class BasicDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private location: Location
   ) {}
-  ngOnInit() {
+  async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -72,6 +74,7 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setApplicantId(this.applicantId);
       this.getApplicantDetails();
     });
+    this.leadId = (await this.getLeadId()) as number;
   }
 
   getApplicantDetails() {
@@ -320,19 +323,19 @@ export class BasicDetailsComponent implements OnInit {
     }
 
     const applicantData = this.applicantDataService.getApplicant();
-    const leadId = (await this.getLeadId()) as number;
-    console.log('LEADID', leadId);
+    
+    console.log('LEADID', this.leadId);
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
-      leadId,
+      leadId: this.leadId,
     };
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.Error === '0') {
         console.log('RESPONSE', response);
         this.router.navigate([
-          `/pages/applicant-details/${leadId}/identity-details`,
+          `/pages/applicant-details/${this.leadId}/identity-details`,
           this.applicantId,
         ]);
       }
@@ -463,4 +466,8 @@ export class BasicDetailsComponent implements OnInit {
   onBack(){
     this.location.back()
   }
+onBackToApplicant(){
+  this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+}
+
 }

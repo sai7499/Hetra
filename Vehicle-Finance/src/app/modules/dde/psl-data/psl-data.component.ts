@@ -812,9 +812,9 @@ export class PslDataComponent implements OnInit, OnChanges {
       const data ={
         userId: localStorage.getItem("userId"),
         leadId: this.leadId,
-        ...this.pslDataForm.get('agriculture').value
+        ...this.pslDataForm.get('agriculture').value        
       }
-       
+       this.pslDataForm.get('agriculture').value;
       this.pslDataService.saveOrUpadtePslData(data).subscribe((res:any) => {
         const response = res;
         console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);  
