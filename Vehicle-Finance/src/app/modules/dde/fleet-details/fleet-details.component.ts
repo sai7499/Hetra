@@ -133,7 +133,7 @@ export class FleetDetailsComponent implements OnInit {
         yom: [rowData.yom],
         financier: [rowData.financier],
         loanNo: [rowData.loanNo],
-        purchaseDate: [rowData.purchaseDate ? this.dateDbFormat(rowData.purchaseDate) : ""],
+        purchaseDate: [rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : ""],
         tenure: [rowData.tenure],
         paid: [rowData.paid],
         seasoning: [rowData.seasoning],
@@ -179,6 +179,9 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   getDateFormat(date) {
+
+    console.log("in getDateFormat", date)
+
     var datePart = date.match(/\d+/g);
     var month = datePart[1];
     var day = datePart[0];
@@ -191,10 +194,12 @@ export class FleetDetailsComponent implements OnInit {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = year + '-' + month1 + '-' + day;
     //   const formattedDate = day + '-' + month1 + '-' + year;
+    console.log("formattedDate", formattedDate)
     return formattedDate;
   }
 
   dateDbFormat(date) {
+    // console.log("in dataDbFormat", date)
     const dateFormat: Date = new Date(date);
     const year = dateFormat.getFullYear();
     const month = Number(dateFormat.getMonth()) + 1;
@@ -203,6 +208,7 @@ export class FleetDetailsComponent implements OnInit {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = year + '-' + month1 + '-' + day;
     // const formattedDate = day + '-' + month1 + '-' + year;
+    // console.log("res", formattedDate)
     return formattedDate;
   }
 
