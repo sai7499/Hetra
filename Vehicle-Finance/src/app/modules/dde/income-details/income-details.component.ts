@@ -51,14 +51,15 @@ export class IncomeDetailsComponent implements OnInit {
       (error) => { }
     );
 
-    const body = {
-      name: "S",
-      leadId: 606,
-    };
+    
     this.getLov();
     this.getLeadId();
     this.userId = localStorage.getItem('userId');
     console.log(this.userId);
+    const body = {
+      name: "K",
+      leadId: this.leadId,
+    };
     this.incomeDetailsService
       .getAllAplicantDetails(body)
       .subscribe((res: any) => {
