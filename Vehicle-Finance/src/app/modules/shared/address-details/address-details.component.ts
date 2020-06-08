@@ -87,7 +87,14 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   navigateToApplicantList() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/applicant-list`
+    );
   }
 
   inputPincode(event) {
@@ -175,19 +182,19 @@ export class AddressDetailsComponent implements OnInit {
     this.getLOV();
     this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
-    console.log("leadId",this.leadId)
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.getAddressDetails();
-    });
+    console.log('leadId', this.leadId);
 
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.getAddressDetails();
+      });
     });
   }
 
@@ -645,13 +652,11 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   hasRoute() {
-    this.isSalesOrCredit = this.router.url.includes(
-      'sales'
-    )
+    this.isSalesOrCredit = this.router.url.includes('sales')
       ? 'sales'
       : 'credit';
 
-      console.log('isSalesOrCredit',this.isSalesOrCredit)
+    console.log('isSalesOrCredit', this.isSalesOrCredit);
   }
 
   onSubmit() {
@@ -763,5 +768,17 @@ export class AddressDetailsComponent implements OnInit {
     }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
- 
+
+  onNext() {
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(
+        `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`
+      );
+      return;
+    }
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
+    );
+  }
 }

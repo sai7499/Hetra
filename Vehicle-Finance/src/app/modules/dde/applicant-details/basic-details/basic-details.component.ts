@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
-import { Location } from '@angular/common'
+import { Location } from '@angular/common';
 import {
   Applicant,
   ApplicantDetails,
@@ -70,7 +70,6 @@ export class BasicDetailsComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       this.applicantDataService.setApplicantId(this.applicantId);
-      this.getApplicantDetails();
     });
   }
 
@@ -265,7 +264,14 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   getLOV() {
-    this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    this.commomLovService.getLovData().subscribe((lov) => {
+      this.LOV = lov;
+      // this.getApplicantDetails();
+
+      this.applicant = this.applicantDataService.getApplicant();
+      console.log('DDE COMING APPLICANT DATAS ', this.applicant);
+      this.setBasicData();
+    });
     console.log('LOvs', this.LOV);
   }
   clearFormArray() {
@@ -460,7 +466,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
-  onBack(){
-    this.location.back()
+  onBack() {
+    this.location.back();
   }
 }
