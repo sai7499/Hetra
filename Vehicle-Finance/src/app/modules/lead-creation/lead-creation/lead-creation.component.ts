@@ -43,6 +43,8 @@ export class LeadCreationComponent implements OnInit {
   productCategoryData;
   productData = [];
   sourchingType: string;
+  productCategorySelectedList = [];
+  productCategoryList = [];
 
   obj = {};
 
@@ -50,7 +52,7 @@ export class LeadCreationComponent implements OnInit {
 
   loanLeadDetails: {
     bizDivision: string;
-    productCategory: number;
+    product: string;
     priority: string;
     fundingProgram: string;
     sourcingChannel: string;
@@ -79,7 +81,7 @@ export class LeadCreationComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -102,7 +104,6 @@ export class LeadCreationComponent implements OnInit {
   initForm() {
     this.createLeadForm = new FormGroup({
       bizDivision: new FormControl(''),
-      productCategory: new FormControl(''),
       product: new FormControl(''),
       fundingProgram: new FormControl(''),
       priority: new FormControl(''),
@@ -190,13 +191,20 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadService
       .getProductCategory(this.bizDivId)
       .subscribe((res: any) => {
-        const productCategory = res.ProcessVariables.productCategoryDetails;
+        this.productCategoryList = res.ProcessVariables.productCategoryDetails;
         this.productCategoryData = this.utilityService.getValueFromJSON(
-          productCategory,
-          'prodCatCode',
-          'prodCatName'
+          this.productCategoryList,
+          'productCatCode',
+          'prodcutCatName'
         );
       });
+  }
+
+  productCategoryChange(event) {
+    const productCategorySelected = event.target.value;
+    this.productCategorySelectedList = this.utilityService.getValueFromJSON(
+      this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
+      'assetProdcutCode', 'assetProdutName');
   }
 
   getSourcingChannel() {
@@ -257,7 +265,7 @@ export class LeadCreationComponent implements OnInit {
 
     this.loanLeadDetails = {
       bizDivision: leadModel.bizDivision,
-      productCategory: Number(leadModel.productCategory),
+      product: leadModel.product,
       priority: leadModel.priority,
       fundingProgram: leadModel.fundingProgram,
       sourcingChannel: leadModel.sourcingChannel,

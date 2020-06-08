@@ -61,6 +61,11 @@ export class ApiService {
       processId: '3bed6af898f311eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getDeleteVehicleDetails: {
+      workflowId: '385f090a957e11eabdcff2fa9bec3d63',
+      processId: '69029740a71a11eabfb4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveUpdateFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '0620e32c998511eabdcff2fa9bec3d63',
@@ -162,7 +167,22 @@ export class ApiService {
     getPslData: {
       workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
       processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId,
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveExposure: {
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      processId: 'b007bcd8968511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getExposure: {
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      processId: '520bd7a6975511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    deleteExposure: {
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      processId: 'e9ceec0e975511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
     },
     geoMasterService: {
       processId: '676c8318a56311eabed3f2fa9bec3d63',
@@ -170,90 +190,5 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId,
     },
   };
-};
 
-
-    // api = {
-    //     getUserDetails: {
-    //         workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
-    //         processId: '8000bb2e82ea11eabdc2f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //     createLead: {
-    //         workflowId: 'f000e040845a11eabdc2f2fa9bec3d63',
-    //         processId: 'f0269e8e845a11eabdc2f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //     getLOVs: {
-    //         workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
-    //         processId: '674941a2904e11eabdc4f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //     getAssetProductCategory: {
-    //         workflowId: 'b0a9ef02939d11eabdc6f2fa9bec3d63',
-    //         processId: 'b0c8aa96939d11eabdc6f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //     getSourcingChannel: {
-    //         workflowId: '99e9c24294e711eabdcdf2fa9bec3d63',
-    //         processId: '4e4033dc96a211eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //     getLeadById: {
-    //         workflowId: '8b7c681c95c411eabdcff2fa9bec3d63',
-    //         processId: '8b9b2a2295c411eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //       getMyLeads: {
-    //         workflowId: 'a8cc3836959a11eabdcff2fa9bec3d63',
-    //         processId: 'a8f86a64959a11eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //       saveUpdateFleetRtr: {
-    //         processId : 'be7ff35699c911eabdcff2fa9bec3d63',
-    //         workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //     },
-    //       getFleetRtr : {
-    //         processId : '7e26a5b29aae11eabdd1f2fa9bec3d63',
-    //         workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       deleteFleetRtr : {
-    //         processId : '4f83a45c9b3111eabdd3f2fa9bec3d63',
-    //         workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       getBankTransaction: {
-    //         workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
-    //         processId: '18e0f1d28f8f11eabdc4f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       getBankAccountList: {
-    //         workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
-    //         processId: '6ee060e68f8911eabdc4f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       bankTransaction: {
-    //         workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-    //         processId: 'bbc390e48f5811eabdc4f2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       pslLOVsDropdown: {
-    //         workflowId: 'ba3c5529a7211eabdcff2fa9bec3d63',
-    //         processId: 'ba6290a49a7211eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       saveUpadtePslData: {
-    //         workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
-    //         processId: '2fe93e9e98ee11eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       },
-    //       getPslData: {
-    //         workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
-    //         processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
-    //         projectId: environment.projectIds.salesProjectId
-    //       }
-    // };
-
-
+}

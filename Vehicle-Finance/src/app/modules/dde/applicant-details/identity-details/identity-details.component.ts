@@ -6,7 +6,7 @@ import {
     FormControl,
     FormArray
 } from '@angular/forms';
-import { LabelsService } from "src/app/services/labels.service";
+import { LabelsService } from 'src/app/services/labels.service';
 
 @Component({
     templateUrl: './identity-details.component.html',

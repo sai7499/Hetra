@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(private httpService: HttpService, private router: Router) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
-      (res) => {},
-      (error) => {}
+      (res) => { },
+      (error) => { }
     );
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
@@ -25,9 +26,29 @@ export class UtilityService {
     const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    const formattedDate = year + '-' + month1 + '-' + day;
-    // const formattedDate = day + '-' + month1 + '-' + year;
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    const formattedDate = day + '/' + month1 + '/' + year;
+    console.log("return Date",formattedDate)
     return formattedDate;
+  }
+
+  ageFromAsset(dateOfBirth: any): number {
+    return moment().diff(dateOfBirth, 'months');
+  }
+
+  convertDateTimeTOUTC(date) {
+    return moment.utc(date).local().format('DD-MM-YYYY')
+  }
+
+  converDateToUTC(date) {
+    return moment.utc(date).format('YYYY-MM-DD HH:MM')
+  }
+
+  getCommonUniqueValue(array, value: any) {
+    let distinctThings = array.filter((thing, i, arr) => {
+      return arr.indexOf(arr.find(t => t[value] === thing[value])) === i;
+    });
+    return distinctThings;
   }
 
   getUiquJson(jsonAry: Array<any>, keyValue) {

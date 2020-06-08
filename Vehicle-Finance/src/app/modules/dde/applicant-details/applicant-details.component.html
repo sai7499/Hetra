@@ -36,7 +36,7 @@
           [ngClass]="{ 'js-active': locationIndex >= 3 }"
           type="button"
           id="applicant_bank_details"
-          routerLink="/pages/applicant-details/bank-list"
+          (click)="navigatePage('bank-list')"
         >
           Bank Details
         </button>

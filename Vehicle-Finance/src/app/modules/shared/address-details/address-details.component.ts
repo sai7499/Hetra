@@ -175,6 +175,7 @@ export class AddressDetailsComponent implements OnInit {
     this.getLOV();
     this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
+    console.log("leadId",this.leadId)
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
@@ -681,7 +682,7 @@ export class AddressDetailsComponent implements OnInit {
           ]);
         } else {
           this.router.navigate([
-            `/pages/applicant-details/${this.leadId}/bank-details`,
+            `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,
           ]);
         }
       });
@@ -762,4 +763,5 @@ export class AddressDetailsComponent implements OnInit {
     }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
+ 
 }
