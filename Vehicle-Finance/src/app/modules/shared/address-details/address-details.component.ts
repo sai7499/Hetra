@@ -92,9 +92,7 @@ export class AddressDetailsComponent implements OnInit {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
       return;
     }
-    this.router.navigateByUrl(
-      `/pages/applicant-details/${this.leadId}/applicant-list`
-    );
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
   inputPincode(event) {
