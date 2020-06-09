@@ -201,6 +201,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   productCategoryChange(event) {
+    console.log('productCategoryChange',event.target.value)
     const productCategorySelected = event.target.value;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
       this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
@@ -236,7 +237,7 @@ export class LeadCreationComponent implements OnInit {
       return;
     }
     if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues.push({ key: null, value: 'Not Applicable' });
+      this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
     }

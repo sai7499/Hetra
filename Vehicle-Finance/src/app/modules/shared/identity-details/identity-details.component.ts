@@ -285,6 +285,7 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.identityForm.value);
     if (this.isIndividual) {
       this.storeIndividualValueInService();
       this.applicantDataService.setCorporateProspectDetails(null);
