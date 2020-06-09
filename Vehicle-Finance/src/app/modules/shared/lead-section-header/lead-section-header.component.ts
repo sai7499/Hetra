@@ -27,12 +27,7 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.getLabels();
-    this.sharedService.leadData$.subscribe(value => {
-      this.productId = value;
-    });
-
     this.getUserDetails();
-
   }
 
   getLabels() {
@@ -46,9 +41,9 @@ export class LeadSectionHeaderComponent implements OnInit {
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (data as any);
     this.leadId = leadSectionData.leadId;
+    
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });
   }
-
 }

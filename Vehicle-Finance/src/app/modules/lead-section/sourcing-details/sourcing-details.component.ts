@@ -13,6 +13,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LeadDetails } from '../services/sourcingLeadDetails.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { BehaviorSubject } from 'rxjs';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -50,7 +51,10 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
   productCategoryFromLead: string;
   leadCreatedDateFromLead: string;
   isBusinessDivisionEnable: boolean;
+  productCategoryList = [];
+  productCategoryData: any;
   alertTimeOut: any;
+  isProductCategory: boolean;
   leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   saveUpdate: {
@@ -83,7 +87,8 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     private leadDetail: LeadDetails,
     private sharedService: SharedService,
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private utilityService: UtilityService
   ) { }
 
   ngOnInit() {
@@ -149,7 +154,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
     this.bizDivId = businessDivisionFromLead;
 
-    const productCategory = data.loanLeadDetails.productCategory;
+    const productCategory = data.leadDetails.productCatCode;
     this.productCategoryFromLead = productCategory;
 
     const priorityFromLead = data.loanLeadDetails.priority;
@@ -161,18 +166,13 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
 
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
-
-    this.sourcingDetailsForm.patchValue({
-      requestedAmount: requiredLoanAmount,
-    });
+    this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount, });
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
-    this.sourcingDetailsForm.patchValue({
-      leadCreatedDate: this.leadCreatedDateFromLead,
-    });
+    this.sourcingDetailsForm.patchValue({ leadCreatedDate: this.leadCreatedDateFromLead });
   }
 
   patchSourcingDetails() {
@@ -217,27 +217,28 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     this.createLeadService
       .getProductCategory(this.bizDivId)
       .subscribe((res: any) => {
-        const product = res.ProcessVariables.productCategoryDetails;
-        product.map((data) => {
-          if (data) {
-            const val = {
-              key: data.assetProdcutCode,
-              value: data.prodcutCatName,
-            };
-            this.productCategoryArray.push(val);
-            this.sourcingDetailsForm.patchValue({
-              productCategory: this.productCategoryFromLead,
-            });
-          }
-        });
-        this.productCategoryArray.map((val) => {
-          if (val.key === this.productCategoryFromLead) {
-            this.sharedService.leadDataToHeader(val.value);
-          }
-        });
+        this.productCategoryList = res.ProcessVariables.productCategoryDetails;
+        this.productCategoryData = this.utilityService.getValueFromJSON(
+          this.productCategoryList,
+          'productCatCode',
+          'prodcutCatName'
+        );
+        this.productCategory(this.productCategoryFromLead, false);
       });
-    console.log('this.productCategoryData', this.productCategoryArray);
+    this.sourcingDetailsForm.patchValue({ productCategory: this.productCategoryFromLead });
   }
+
+  productCategory(event, isBool) {
+    const productCat = isBool ? event.target.value : event;
+    if (productCat) {
+      this.productCategoryData.map(data => {
+        if (data.key === productCat) {
+          this.sharedService.leadDataToHeader(data.value);
+        }
+      })
+    }
+  }
+
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
@@ -304,6 +305,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
+      dealerCode: new FormControl(''),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
       requestedAmount: new FormControl(''),
