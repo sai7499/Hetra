@@ -204,6 +204,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
         // console.log(creditFormArray, 'CreditFormArray')
         this.onPatchArrayValue(creditFormArray, VehicleDetail)
+        this.formDataOutput.emit(creditFormArray.value)
       }
 
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
@@ -258,7 +259,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isOrpFunding: VehicleDetail.isOrpFunding || '',
       leadId: Number(this.leadId),
       lmsCollateralId: null,
-      manuFacMonthYear: this.utilityService.converDateToUTC(VehicleDetail.manuFacMonthYear),
+      manuFacMonthYear: new Date(VehicleDetail.manuFacMonthYear),
       manuFactureSubventionPartIRR: VehicleDetail.manuFactureSubventionPartIRR || '',
       manuFatureSubventionPartFinCharge: VehicleDetail.manuFatureSubventionPartFinCharge || '',
       manufacSubventionApplicable: VehicleDetail.manufacSubventionApplicable || '',
@@ -295,7 +296,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: VehicleDetail.vehicleUsage,
       userId: this.userId
     })
-    this.formDataOutput.emit(formArray.value)
+    
   }
 
   // event emitter for giving output to parent add vehicle component

@@ -60,7 +60,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
         this.isHidden = true;
         this.errorMsg = res.ProcessVariables.error.message;
 
-        this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+        this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
       }, error => {
         console.log(error, 'error')
       })
