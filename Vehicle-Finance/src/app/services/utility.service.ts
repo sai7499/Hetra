@@ -28,7 +28,7 @@ export class UtilityService {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     // const formattedDate = year + '-' + month1 + '-' + day;
     const formattedDate = day + '/' + month1 + '/' + year;
-    console.log("return Date",formattedDate)
+    console.log('return Date', formattedDate);
     return formattedDate;
   }
 
@@ -37,11 +37,11 @@ export class UtilityService {
   }
 
   convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD-MM-YYYY')
+    return moment.utc(date).local().format('DD-MM-YYYY');
   }
 
   converDateToUTC(date) {
-    return moment.utc(date).format('YYYY-MM-DD HH:MM')
+    return moment.utc(date).format('YYYY-MM-DD HH:MM');
   }
 
   getCommonUniqueValue(array, value: any) {
@@ -63,7 +63,9 @@ export class UtilityService {
 
   getValueFromJSON(JsonObj, key1, value1) {
     let arrayList = [];
-
+    console.log('JsonObj', JsonObj);
+    console.log('key1', key1);
+    console.log('value1', value1);
     JsonObj.map((data) => {
       if (data) {
         const val = {

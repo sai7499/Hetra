@@ -17,6 +17,7 @@ import {
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../services/lead.store.service';
 
+
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
@@ -324,7 +325,8 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
 
-  onBack() {
-    this.location.back();
+  onBack(){
+    this.location.back()
   }
+
 }
