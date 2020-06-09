@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LabelsService } from "src/app/services/labels.service";
 import { Routes, RouterModule, Router } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
@@ -50,4 +50,5 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = value;
     });
   }
+
 }
