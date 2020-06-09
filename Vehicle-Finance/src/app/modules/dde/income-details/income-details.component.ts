@@ -366,13 +366,9 @@ onSubmit() {
     this.incomeDetailsService
       .setAllIncomeDetails(this.incomeDetailsForm.value)
       .subscribe((res: any) => {
-<<<<<<< HEAD
-        alert(res.ProcessVariables.error.message);
-=======
         if(res["Error"] && res["Error"]==0){
         alert("saved Success")
         }
->>>>>>> ddc5c44b07291617f5e86b30ffb4c5683c364cae
 
       });
   }
