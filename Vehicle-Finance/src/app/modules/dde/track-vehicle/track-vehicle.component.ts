@@ -6,6 +6,7 @@ import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { TrackVechileService } from "./track-vechile.service";
 import { UtilityService } from '@services/utility.service';
+import { CommomLovService } from '@services/commom-lov-service';
 //import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -20,33 +21,120 @@ export class TrackVehicleComponent implements OnInit {
   labels: any = {};
   values: any = [];
   totalExcesssOrShort: number = 0;
-  fleetRtrDetails: any = {};
+  fleetRtrDetails: any = [];
+  fleetDetails: any = {};
   emiAmount: any;
-  loanEmiDate:any;
+  loanEmiDate: any;
   noOfEmi: any;
   fleetId: number;
+  fleetRtrLov: any = {};
+  totalDelayDays: number;
   public trackVehicleForm: FormGroup;
-
+  leadId: number;
   constructor(
     private trackVechileService: TrackVechileService,
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
     private router: Router,
+    private commonLovService: CommomLovService,
     private ddeStoreService: DdeStoreService,
     private utilityService: UtilityService,
-    private location:Location,
+    private location: Location,
     private actRoute: ActivatedRoute
   ) { }
+  async getId() {
+    this.leadId = (await this.getLeadId()) as number;
 
-  ngOnInit() {
-   let state = this.location.getState();
-   this.fleetId = parseInt(this.actRoute.snapshot.params.id);
-   console.log(this.actRoute);
-   if(this.fleetId !=null && this.fleetId!= undefined){
-    this.getFleetRtr(this.fleetId)
-   }
-       
+  }
+
+  getLov() {
+
+    this.commonLovService.getLovData().subscribe((value: any) => {
+      console.log(value);
+      this.fleetRtrLov.fleetRepaymentMode = value.LOVS.fleetRepaymentMode;
+      this.fleetRtrLov.typesOfFinance = value.LOVS.typesOfFinance;
+      this.fleetRtrLov.accountStatus = value.LOVS.accountStatus;
+    });
+
+  }
+
+  fleetRtrForm(fleetRtr) {
+    if (fleetRtr) {
+      this.trackVehicleForm = this.fb.group({
+        clientName: new FormControl(fleetRtr.clientName),
+        financierName: new FormControl(fleetRtr.financierName),
+        assetFinancied: new FormControl(fleetRtr.assetFinancied),
+        repaymentMode: new FormControl(fleetRtr.repaymentMode),
+        financeAmount: new FormControl({ value: '200000', disabled: true }),
+        financeCharges: new FormControl(fleetRtr.financeCharges),
+        contractValue: new FormControl(fleetRtr.contractValue),
+        contNo: new FormControl(fleetRtr.contNo),
+        vehicleNo: new FormControl(fleetRtr.vehicleNo),
+        financeType: new FormControl(fleetRtr.financeType),
+        accountStatus: new FormControl(fleetRtr.accountStatus),
+        loanStartDate: new FormControl(this.getDateFormat(fleetRtr.loanStartDate)),
+        loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate)),
+        count30: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : '0', disabled: true }),
+        count90: new FormControl({ value: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : '0', disabled: true }),
+        totalEmi: new FormControl(fleetRtr.noOfEmi),
+        noOfEmisPaid: new FormControl(fleetRtr.emisPaid),
+        balanceTenor: new FormControl({ value: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : '0', disabled: true }),
+        totalDelay: new FormControl({ value: fleetRtr.totalDelay ? fleetRtr.totalDelay : '0', disabled: true }),
+        peakDelay: new FormControl({ value: fleetRtr.peakDelay ? fleetRtr.peakDelay : '0', disabled: true }),
+        avgDelay: new FormControl({ value: fleetRtr.avgDelay ? fleetRtr.avgDelay : '0', disabled: true }),
+        trackStatus: new FormControl({ value: fleetRtr.trackStatus ? fleetRtr.trackStatus : '0', disabled: true }),
+        totalAmtPaid: new FormControl({ value: fleetRtr.totalAmtPaid ? fleetRtr.totalAmtPaid : '0', disabled: true }),
+        emiPaid: new FormControl(fleetRtr.emiPaid),
+        // emiAmount: new FormControl(1000),
+        installment: this.fb.array([])
+      });
+      this.noOfEmi = this.trackVehicleForm.controls['noOfEmisPaid'].value;
+
+    } else {
+      this.trackVehicleForm = this.fb.group({
+        clientName: new FormControl(''),
+        financierName: new FormControl(''),
+        assetFinancied: new FormControl(''),
+        repaymentMode: new FormControl(''),
+        financeAmount: new FormControl({ value: '200000', disabled: true }),
+        financeCharges: new FormControl(''),
+        contractValue: new FormControl(''),
+        contNo: new FormControl(''),
+        vehicleNo: new FormControl(''),
+        financeType: new FormControl(''),
+        accountStatus: new FormControl(''),
+        loanStartDate: new FormControl(''),
+        loanMaturityDate: new FormControl('' || ''),
+        count30: new FormControl({ value: '' || '0', disabled: true }),
+        count90: new FormControl({ value: '' || '0', disabled: true }),
+        totalEmi: new FormControl(''),
+        noOfEmisPaid: new FormControl(''),
+        balanceTenor: new FormControl({ value: '0', disabled: true }),
+        totalDelay: new FormControl({value : '', disabled: true }),
+        peakDelay: new FormControl({value : '', disabled: true }),
+        avgDelay: new FormControl({ value : '', disabled: true }),
+        trackStatus: new FormControl({ value: '4.00', disabled: true }),
+        totalAmtPaid: new FormControl({ value: '20000', disabled: true }),
+        emiPaid: new FormControl(3254),
+        // emiAmount: new FormControl(''),
+        installment: this.fb.array([])
+      });
+    }
+
+
+  }
+  async ngOnInit() {
+    this.getLov();
+    let state = this.location.getState();
+    this.getId();
+    console.log("leadID =>", this.leadId)
+    this.fleetId = parseInt(this.actRoute.snapshot.params.id);
+    console.log(this.actRoute);
+    if (this.fleetId != null && this.fleetId != undefined) {
+      this.getFleetRtr(this.fleetId)
+    }
+    this.fleetRtrForm(null);
 
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].trackVehicle[0];
@@ -60,164 +148,162 @@ export class TrackVehicleComponent implements OnInit {
         console.log(error);
 
       });
-    this.trackVehicleForm = this.fb.group({
-      clientName: new FormControl('' || 'Deepika'),
-      financierName: new FormControl('' || 'Bajaj'),
-      assetFinancied: new FormControl('' || 'TATA ACE M100'),
-      repaymentMode: new FormControl(''),
-      financeAmount: new FormControl({ value: '200000', disabled: true }),
-      financeCharges: new FormControl('' || '40000'),
-      contractValue: new FormControl(''),
-      contNo: new FormControl(''),
-      vehicleNo: new FormControl('' || 'TN011234'),
-      financeType: new FormControl(''),
-      accountStatus: new FormControl(''),
-      loanStartDate: new FormControl(this.getDateFormat('3-05-2018')),
-      loanMaturityDate: new FormControl('' || ''),
-      count30: new FormControl({ value: '' || '0', disabled: true }),
-      count90: new FormControl({ value: '' || '0', disabled: true }),
-      totalEmi: new FormControl('' || '12'),
-      noOfEmisPaid: new FormControl('' || '22'),
-      balanceTenor: new FormControl({ value: '0', disabled: true }),
-      totalDelay: new FormControl({ value: '4.00', disabled: true }),
-      peakDelay: new FormControl({ value: '4.00', disabled: true }),
-      avgDelay: new FormControl({ value: '4.00', disabled: true }),
-      trackStatus: new FormControl({ value: '4.00', disabled: true }),
-      totalAmtPaid: new FormControl({ value: '20000', disabled: true }),
-      emiPaid: new FormControl(3254),
-      emiAmount: new FormControl('' || '1000'),
-      installment: this.fb.array([])
-      // Rows: this.fb.array([this.fb.group({
-
-
-      //   installmentNo: [''],
-      //   installmentAmt: [''],
-      //   dueDate: [''],
-      //   rcptNo: [''],
-      //   recdDate: [''],
-      //   rcptAmount: [''],
-      //   delayDays: [{ value: '', disabled: true }],
-      //   paymentsExcess: [{ value: '', disabled: true }]
-      // })])
-    });
-    this.addRows(null);
-    console.log()
-    this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
+  //  this.addRows(null);
+    //  this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
     this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['noOfEmisPaid'].value;
   }
   addMonth(date, n) {
-   // console.log('in date conversion ' + date);
+    // console.log('in date conversion ' + date);
     const dateFormat: Date = new Date(date);
     let year = Number(dateFormat.getFullYear());
     let month = Number(dateFormat.getMonth()) + 1;
     let fullmonth = month + n;
-    if(Math.floor(fullmonth/12) >=1  && fullmonth % 12 != 0){
-      year = year + Math.floor(fullmonth/12);
+    if (Math.floor(fullmonth / 12) >= 1 && fullmonth % 12 != 0) {
+      year = year + Math.floor(fullmonth / 12);
     }
-    if(fullmonth >0 && fullmonth <= 12){
+    if (fullmonth > 0 && fullmonth <= 12) {
       month = fullmonth;
-    }else if (fullmonth > 12 && fullmonth % 12 != 1 && fullmonth % 12 != 0) {
+    } else if (fullmonth > 12 && fullmonth % 12 != 1 && fullmonth % 12 != 0) {
       month = 0 + (fullmonth % 12);
-    }else if(fullmonth >= 12 && fullmonth % 12 == 1){
+    } else if (fullmonth >= 12 && fullmonth % 12 == 1) {
       month = 1;
-    } 
-     if(fullmonth >= 12 && fullmonth % 12 == 0){
-     // year = year + Math.floor(month/12);
+    }
+    if (fullmonth >= 12 && fullmonth % 12 == 0) {
+      // year = year + Math.floor(month/12);
       month = 12;
     }
-    if(month == 12){
-      year = (year + Math.floor(fullmonth/12)) - 1;
+    if (month == 12) {
+      year = (year + Math.floor(fullmonth / 12)) - 1;
     }
     const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = year + '-' + month1 + '-' + day;
-    // console.log('final Value ' + formattedDate);
-    // console.log('month' + month);
-    // console.log('year' + year);
     return formattedDate;
   }
-  loanStartDate(event){
-    const confirmed = confirm("Are you sure to change EMI amount");
-    if(confirmed){
-      this.loanEmiDate = this.getDateFormat(event.target.value)
+  loanStartDate(event) {
+    const confirmed = confirm("Are you sure to loan start date");
+    if (confirmed) {
+      this.loanEmiDate = this.dateDbFormat(event.target.value)
       this.formArr.controls = [];
-      let addDueDate = this.getDateFormat(event.target.value);
-      for (let i = 0; i < this.noOfEmi; i++) {
-        if(i < this.fleetRtrDetails.length ){
-          if (i == 0) {
-            this.fleetRtrDetails[i].dueDate = addDueDate;
-            this.fleetRtrDetails[i].delayDays =  this.dateDiff(this.fleetRtrDetails[i].dueDate ,this.fleetRtrDetails[i]['receivedDate']);
-            this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
+      let addDueDate = this.dateDbFormat(event.target.value);
+      if (this.fleetRtrDetails && this.fleetRtrDetails.length != 0) {
+        for (let i = 0; i < this.fleetRtrDetails.length; i++) {
+          if (i < this.fleetRtrDetails.length) {
+            if (i == 0) {
+              this.fleetRtrDetails[i].dueDate = addDueDate;
+              if (this.fleetRtrDetails[i]['receivedDate'] != "") {
+                this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+              }
+              this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
+            }
+            else {
+              let addDueDate2 = this.addMonth(addDueDate, i)
+              this.fleetRtrDetails[i].dueDate = addDueDate2;
+              this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+              this.addNewRow(this.fleetRtrDetails[i]);
+            }
+          } else {
+            let dueDate1 = this.dateDbFormat(this.trackVehicleForm.value['loanStartDate'])
+
+            let rowData = {
+              //   installmentAmt: this.trackVehicleForm.value['emiAmount'],
+              dueDate: this.dateDbFormat(this.trackVehicleForm.value['loanStartDate'])
+            }
+            if (this.fleetRtrDetails.length == 0) {
+              this.fleetRtrDetails.push({
+                //  installmentAmt: this.trackVehicleForm.value['emiAmount'],
+                dueDate: dueDate1
+              })
+            } else {
+
+              let addDueDate2 = this.addMonth(dueDate1, i)
+              this.fleetRtrDetails.push({
+                //   installmentAmt: this.trackVehicleForm.value['emiAmount'],
+                dueDate: addDueDate2
+              })
+              rowData = {
+                // installmentAmt: this.trackVehicleForm.value['emiAmount'],
+                dueDate: addDueDate2
+              }
+            }
+
+            this.formArr.push(this.initRows(rowData));
           }
-          else {
-           let addDueDate2 = this.addMonth(addDueDate, i)
-            this.fleetRtrDetails[i].dueDate = addDueDate2;
-            this.fleetRtrDetails[i].delayDays =  this.dateDiff(this.fleetRtrDetails[i].dueDate ,this.fleetRtrDetails[i]['receivedDate']);
-            this.addNewRow(this.fleetRtrDetails[i]);
-          }
-        } else{
-          let rowData = {
-            installmentAmt: this.trackVehicleForm.value['emiAmount'],
-            dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
-                }
-          this.formArr.push(this.initRows(rowData));
-        }    
+        }
+      } else {
+
+        let rowData = {
+          // installmentAmt: this.trackVehicleForm.value['emiAmount'],
+          dueDate: this.dateDbFormat(this.trackVehicleForm.value['loanStartDate'])
+        }
+        this.fleetRtrDetails.push({
+          //  installmentAmt: this.trackVehicleForm.value['emiAmount'],
+          dueDate: this.dateDbFormat(this.trackVehicleForm.value['loanStartDate'])
+        })
+        this.formArr.push(this.initRows(rowData));
       }
-    }else{
+
+    } else {
       this.trackVehicleForm.controls['loanStartDate'].setValue(this.loanEmiDate);
     }
- 
-  }
-  emaiAmount(event){
-    console.log(event);
-    const confirmed = confirm("Are you sure to change EMI amount");
-    if(confirmed){
-      this.emiAmount = event.target.value;
-      this.formArr.controls = [];
-      let emiAmount = event.target.value;
-      for (let i = 0; i < this.noOfEmi; i++) {  
-        if(i < this.fleetRtrDetails.length ){
-          this.fleetRtrDetails[i].installmentAmt = emiAmount;
-        }else{
 
-        }
-      }
-      this.paymentExcessOrShort(null , 0)
-    }else{
-      this.trackVehicleForm.controls['emiAmount'].setValue(this.emiAmount);
-
-    }
-   
   }
-  noOfPaidEmis(event){
-    console.log(event);
-    const confirmed = confirm("Are you sure to change EMI amount");
-    if(confirmed){
-      this.formArr.controls = [];
-      this.noOfEmi = parseInt(event.target.value);
-      for (let i = 0; i < this.noOfEmi; i++) {
-        if(i < this.fleetRtrDetails.length ){
-          if (i == 0) {
-            this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
-          }
-          else {
-            this.addNewRow(this.fleetRtrDetails[i]);
-          }
-        }else{
-          let rowData = {
-              installmentAmt: this.trackVehicleForm.value['emiAmount'],
-              dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
-                  }
-            this.formArr.push(this.initRows(rowData));
-        }
-      }
-    }else{
-      this.trackVehicleForm.controls['noOfEmisPaid'].setValue(this.noOfEmi);
+  // changeEmiAmount(event) {
+  //   console.log(event);
+  //   const confirmed = confirm("Are you sure to change EMI amount");
+  //   if (confirmed) {
+  //     this.emiAmount = event.target.value;
+  //     this.formArr.controls = [];
+  //     let emiAmount = event.target.value;
+  //     for (let i = 0; i < this.noOfEmi; i++) {
+  //       if (i < this.fleetRtrDetails.length) {
+  //         this.fleetRtrDetails[i].installmentAmt = emiAmount;
+  //       } else {
 
-    }
-  }
+  //       }
+  //     }
+  //     this.paymentExcessOrShort(null, 0)
+  //   } else {
+  //     this.trackVehicleForm.controls['emiAmount'].setValue(this.emiAmount);
+
+  //   }
+
+  // }
+  // noOfPaidEmis(event) {
+  //   console.log(event);
+  //   const confirmed = confirm("Are you sure to change EMI amount");
+  //   if (confirmed) {
+  //     this.formArr.controls = [];
+  //     this.noOfEmi = parseInt(event.target.value)
+  //     let data = {};
+  //     data['target'] ={
+  //       value: this.trackVehicleForm.controls['loanStartDate'].value
+  //     } 
+  //     this.loanStartDate(data)
+  //     // this.noOfEmi = parseInt(event.target.value);
+  //     // for (let i = 0; i < this.noOfEmi; i++) {
+  //     //   if (i < this.fleetRtrDetails.length) {
+  //     //     if (i == 0) {
+  //     //       this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
+  //     //     }
+  //     //     else {
+  //     //       this.addNewRow(this.fleetRtrDetails[i]);
+  //     //     }
+  //     //   } else {
+  //     //     let rowData = {
+  //     //       installmentAmt: this.trackVehicleForm.value['emiAmount'],
+  //     //       dueDate: this.dateDbFormat(this.trackVehicleForm.value['loanStartDate'])
+  //     //     }
+  //     //     this.formArr.push(this.initRows(rowData));
+  //     //   }
+  //     // }
+  //   } else {
+  //     this.trackVehicleForm.controls['noOfEmisPaid'].setValue(this.noOfEmi);
+
+  //   }
+  // }
   get formArr() {
     return this.trackVehicleForm.get('installment') as
       FormArray;
@@ -228,68 +314,83 @@ export class TrackVehicleComponent implements OnInit {
 
       if (res['Status'] == "Execution Completed") {
         const installments = res['ProcessVariables'].installment;
-        this.fleetRtrDetails = res['ProcessVariables'].installment;
         let noOfEmi = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value)
-       if(installments){
-        for (let i = 0; i < noOfEmi; i++) {
-
-          if(i < installments.length ){
-            if (i == 0) {
-              this.formArr.push(this.initRows(installments[i]));
-            }
-            else {
-              this.addNewRow(installments[i]);
-            }
-          }else{
-            let rowData = {
-                installmentAmt: this.trackVehicleForm.value['emiAmount'],
-                dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
-                    }
-              this.formArr.push(this.initRows(rowData));
-          }
+        const fleetRtr = res['ProcessVariables'].fleetRtr;
+        if (fleetRtr) {
+          this.fleetRtrForm(fleetRtr)
+          this.loanEmiDate = this.getDateFormat(fleetRtr['loanStartDate'])
+          this.fleetDetails = fleetRtr;
         }
-       } else {
-        this.formArr.push(this.initRows(null));
-      }       
+        if (installments) {
+          noOfEmi = installments.length;
+          this.fleetRtrDetails = res['ProcessVariables'].installment;
+          for (let i = 0; i < this.fleetRtrDetails.length; i++) {
+
+            if (i < installments.length) {
+              if (i == 0) {
+                installments[i]['dueDate'] = this.getDateFormat(installments[i]['dueDate'])
+                installments[i]['receivedDate'] = this.getDateFormat(installments[i]['receivedDate'])
+
+                this.formArr.push(this.initRows(installments[i]));
+              }
+              else {
+                installments[i]['dueDate'] = this.getDateFormat(installments[i]['dueDate'])
+                installments[i]['receivedDate'] = this.getDateFormat(installments[i]['receivedDate'])
+                this.addNewRow(installments[i]);
+              }
+            } else {
+              let rowData = {
+                //   installmentAmt: this.trackVehicleForm.value['emiAmount'],
+                dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
+              }
+              this.formArr.push(this.initRows(rowData));
+            }
+          }
+        } else {
+          this.formArr.push(this.initRows(null));
+        }
       } else {
         this.formArr.push(this.initRows(null));
       }
     })
   }
   addRows(Data) {
-  //   const noOfRows = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value);
-  // if(Data != null ){
-  //   if (noOfRows) {
-  //     for (let i = 0; i < noOfRows; i++) {
-  //       let addDueDate = this.getDateFormat(this.trackVehicleForm.value['loanStartDate']);
-  //       if (i > 0) {
-  //         addDueDate = this.addMonth(addDueDate, i)
-  //       }
-  //       let rowData = {
-  //         installmentAmt: this.trackVehicleForm.value['emiAmount'],
-  //         dueDate: addDueDate
-  //       }
-  //       this.formArr.push(this.initRows(rowData));
-  //     }
+    //   const noOfRows = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value);
+    // if(Data != null ){
+    //   if (noOfRows) {
+    //     for (let i = 0; i < noOfRows; i++) {
+    //       let addDueDate = this.getDateFormat(this.trackVehicleForm.value['loanStartDate']);
+    //       if (i > 0) {
+    //         addDueDate = this.addMonth(addDueDate, i)
+    //       }
+    //       let rowData = {
+    //         installmentAmt: this.trackVehicleForm.value['emiAmount'],
+    //         dueDate: addDueDate
+    //       }
+    //       this.formArr.push(this.initRows(rowData));
+    //     }
 
-  //   }
-  // } else {
-  //   if (noOfRows) {
-  //     for (let i = 0; i < noOfRows; i++) {
-  //       let addDueDate = this.getDateFormat(this.trackVehicleForm.value['loanStartDate']);
-  //       if (i > 0) {
-  //         addDueDate = this.addMonth(addDueDate, i)
-  //       }
-  //       let rowData = {
-  //         installmentAmt: this.trackVehicleForm.value['emiAmount'],
-  //         dueDate: addDueDate
-  //       }
-  //       this.formArr.push(this.initRows(rowData));
-  //     }
+    //   }
+    // } else {
+    //   if (noOfRows) {
+    //     for (let i = 0; i < noOfRows; i++) {
+    //       let addDueDate = this.getDateFormat(this.trackVehicleForm.value['loanStartDate']);
+    //       if (i > 0) {
+    //         addDueDate = this.addMonth(addDueDate, i)
+    //       }
+    //       let rowData = {
+    //         installmentAmt: this.trackVehicleForm.value['emiAmount'],
+    //         dueDate: addDueDate
+    //       }
+    //       this.formArr.push(this.initRows(rowData));
+    //     }
 
-  //   }
- // }
- 
+    //   }
+    // }
+
+  }
+  receiptNumber(event, i) {
+    this.fleetRtrDetails[i] = { 'receiptNo': event.target.value };
   }
   delayDays(event, i, rowData) {
     console.log(event);
@@ -297,11 +398,37 @@ export class TrackVehicleComponent implements OnInit {
     const recDate = new Date(event.target.value);
     let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
     this.trackVehicleForm.value['installment'][i]['delayDays'] = delayedDays;
-    rowData.value['paymentExcess'] = this.formArr.controls[i]['controls']['paymentExcess'].value
+    rowData.value['payment'] = this.formArr.controls[i]['controls']['payment'].value
+    rowData.value['dueDate'] = this.formArr.controls[i]['controls']['dueDate'].value
+
     rowData.value['delayDays'] = delayedDays;
+
+    this.fleetRtrDetails[i] = {
+      'receivedDate': this.dateDbFormat(event.target.value),
+      "delayDays": delayedDays
+    }
+    //  this.fleetRtrDetails[i]['delayDays'] = delayedDays
+
     this.formArr['controls'].splice(i, 1, this.initRows(rowData.value))
+    // totaldelay days
+    this.totalDelayDays = 0;
+    let allDelayDays = []
+    for (let i = 0; i < this.formArr.length; i++) {
+      this.totalDelayDays = this.totalDelayDays + parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
+      allDelayDays.push(parseInt(this.formArr.controls[i]['controls']['delayDays'].value))
+    }
+    let avgDelay = this.totalDelayDays / this.formArr.length;
+    let peakDelay = Math.max(...allDelayDays);
+    this.fleetDetails['avgDelay'] = avgDelay;
+    this.fleetDetails['peakDelay'] = peakDelay;
+    this.fleetDetails['totalDelay'] = this.totalDelayDays;
+    //  this.trackVehicleForm.get('totalDelay').setValue(this.totalDelayDays);
+    this.trackVehicleForm.get("peakDelay").setValue(peakDelay)
+    this.trackVehicleForm.get("avgDelay").setValue(avgDelay)
+    this.trackVehicleForm.get("totalDelay").setValue(this.totalDelayDays)
+    //  this.fleetRtrForm(this.fleetDetails);
   }
-  dateDiff(d1,d2){
+  dateDiff(d1, d2) {
     const dueDate = new Date(d1);
     const recDate = new Date(d2);
     return (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
@@ -310,90 +437,114 @@ export class TrackVehicleComponent implements OnInit {
     let toalExcess = 0;
     let installmentAmount = 0;
     let receivedAmt = 0;
-    if(event != null && index < this.fleetRtrDetails.length ){
-      this.fleetRtrDetails[index].receivedAmt = parseInt(event.target['value']);
-    }else if(event != null && index >= this.fleetRtrDetails.length){
-      this.fleetRtrDetails.push({'receivedAmt' : parseInt(event.target['value']),
-                                  'installmentAmt' : parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value)})
+    if (this.fleetRtrDetails) {
+      if (event != null && index < this.fleetRtrDetails.length) {
+        this.fleetRtrDetails[index].installmentAmt = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value);
+        this.fleetRtrDetails[index].dueDate = this.dateDbFormat(this.formArr.controls[index]['controls']['dueDate'].value)
+        this.fleetRtrDetails[index].receiptNo = this.formArr.controls[index]['controls']['receiptNo'].value
+        this.fleetRtrDetails[index].receivedAmt = parseInt(event.target['value']);
+      } else if (event != null && index >= this.fleetRtrDetails.length) {
+        this.fleetRtrDetails.push({
+          'receivedAmt': parseInt(event.target['value']),
+          'installmentAmt': parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value),
+        })
+      }
+    } else {
+      receivedAmt = parseInt(this.formArr.controls[index]['controls']['receivedAmt'].value);
+      installmentAmount = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value)
+      this.fleetRtrDetails.push({
+        'receivedAmt': parseInt(this.formArr.controls[0].value['receivedAmt']),
+        'installmentAmt': parseInt(this.formArr.controls[0].value['installmentAmt']),
+        'receiptNo': parseInt(this.formArr.controls[0].value['receiptNo']),
+        'dueDate': this.formArr.controls[0].value['dueDate'],
+        'receivedDate': this.formArr.controls[0].value['receivedDate'],
+        'payment': receivedAmt - installmentAmount
+      });
+      //     this.fleetRtrDetails[0]['paymentExcess'] = receivedAmt - installmentAmount;
+      this.formArr.push(this.initRows(this.fleetRtrDetails[0]));
     }
+
+
     this.formArr.controls = [];
-    for (let i = 0; i < this.noOfEmi; i++) {
-      if(i < this.fleetRtrDetails.length ){
-        installmentAmount = installmentAmount +parseInt(this.fleetRtrDetails[i].installmentAmt);
-        receivedAmt= receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
-        toalExcess = receivedAmt - installmentAmount;  
+    for (let i = 0; i < this.fleetRtrDetails.length; i++) {
+      if (i < this.fleetRtrDetails.length) {
+        installmentAmount = installmentAmount + parseInt(this.fleetRtrDetails[i].installmentAmt);
+        if (this.fleetRtrDetails[i].receivedAmt) {
+          receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
+          toalExcess = receivedAmt - installmentAmount;
+          this.fleetRtrDetails[i].payment = toalExcess;
+        }
+
         if (i == 0) {
-          this.fleetRtrDetails[i].paymentExcess = toalExcess;
+
           this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
         }
         else {
-          this.fleetRtrDetails[i].paymentExcess = toalExcess;
-        this.addNewRow(this.fleetRtrDetails[i]);
+          this.addNewRow(this.fleetRtrDetails[i]);
         }
-      } else{
+      } else {
         let rowData = {
-          installmentAmt: this.trackVehicleForm.value['emiAmount'],
+          // installmentAmt: this.trackVehicleForm.value['emiAmount'],
           dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
-              }
+        }
         this.formArr.push(this.initRows(rowData));
       }
-     
+
     }
-}
-getDateFormat(date){
-  var datePart = date.match(/\d+/g);
- var month = datePart[1];
- var day = datePart[0];
- var year = datePart[2];
- const dateFormat: Date = new Date(month+'/'+day+'/'+year);
-  year = dateFormat.getFullYear();
-  month = Number(dateFormat.getMonth()) + 1;
- let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-  day = dateFormat.getDate().toString();
- day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
- const formattedDate = year + '-' + month1 + '-' + day;
- // const formattedDate = day + '-' + month1 + '-' + year;
- return formattedDate;
-}
+  }
+  getDateFormat(date) {
+    var datePart = date.match(/\d+/g);
+    var month = datePart[1];
+    var day = datePart[0];
+    var year = datePart[2];
+    const dateFormat: Date = new Date(month + '/' + day + '/' + year);
+    year = dateFormat.getFullYear();
+    month = Number(dateFormat.getMonth()) + 1;
+    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    //   const formattedDate = day + '-' + month1 + '-' + year;
+    return formattedDate;
+  }
 
-sendDate(date){
-  const dateFormat: Date = new Date(date);
- let year = dateFormat.getFullYear();
- let month = Number(dateFormat.getMonth()) + 1;
- let day = dateFormat.getDate().toString();
- let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+  dateDbFormat(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    // const formattedDate = day + '-' + month1 + '-' + year;
+    return formattedDate;
+  }
 
- day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+  sendDate(date) {
+    const dateFormat: Date = new Date(date);
+    let year = dateFormat.getFullYear();
+    let month = Number(dateFormat.getMonth()) + 1;
+    let day = dateFormat.getDate().toString();
+    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
 
- const formattedDate = day+"/"+month1+"/"+year;
- return formattedDate;
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
 
-}
-  
-  // paymentExcessCalc(installmentAmount , rcptAmount ){
-  //   let balance =  rcptAmount - installmentAmount
-  //   if(balance < 0){
-  //       this.totalExcesssOrShort = this.totalExcesssOrShort + balance 
-  //   }else{
-  //     if(this.totalExcesssOrShort >= 0){    
-  //       this.totalExcesssOrShort = balance + this.totalExcesssOrShort
-  //     }else{
-  //       this.totalExcesssOrShort = balance +  this.totalExcesssOrShort
-  //     }
-  //   }
-  //   return this.totalExcesssOrShort;
-  // }
+    const formattedDate = day + "/" + month1 + "/" + year;
+    return formattedDate;
+
+  }
   initRows(rowData) {
+    console.log(rowData);
     if (rowData) {
       return this.fb.group({
         id: [rowData.id],
         installmentAmt: [rowData.installmentAmt],
-        dueDate: [rowData.dueDate ? this.getDateFormat(rowData.dueDate) : ''],
+        dueDate: [rowData.dueDate ? rowData.dueDate : ''],
         receiptNo: [rowData.receiptNo ? rowData.receiptNo : ''],
-        receivedDate: [rowData.receivedDate ? this.getDateFormat(rowData.receivedDate) : ''],
-        receivedAmt: [rowData.receivedAmt ],
-        delayDays: [{ value: rowData.delayDays , disabled: true }],
-        paymentExcess: [{ value: rowData.paymentExcess , disabled: true }]
+        receivedDate: [rowData.receivedDate ? this.dateDbFormat(rowData.receivedDate) : ''],
+        receivedAmt: [rowData.receivedAmt],
+        delayDays: [{ value: rowData.delayDays, disabled: true }],
+        payment: [{ value: rowData.payment, disabled: true }]
 
       });
     } else {
@@ -405,14 +556,24 @@ sendDate(date){
         receivedDate: [''],
         receivedAmt: [''],
         delayDays: [{ value: '', disabled: true }],
-        paymentExcess: [{ value: '', disabled: true }]
+        payment: [{ value: '', disabled: true }]
 
       });
     }
   }
 
   addNewRow(rowData) {
-    this.formArr.push(this.initRows(rowData));
+    if(rowData){
+      this.formArr.push(this.initRows(rowData));
+    }else{
+     let intialDate =this.dateDbFormat(this.trackVehicleForm.controls['loanStartDate'].value);
+      let duedate = this.addMonth(intialDate , this.formArr.length);
+      rowData = {
+        'dueDate' : duedate
+      }
+      this.formArr.push(this.initRows(rowData));
+
+    }
   }
 
   deleteRow(index: number, item) {
@@ -431,9 +592,10 @@ sendDate(date){
     this.trackVehicleForm.value['financeAmount'] = parseInt(this.trackVehicleForm.controls['financeAmount'].value)
     this.trackVehicleForm.value['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
     this.trackVehicleForm.value['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
-    this.trackVehicleForm.value['totalEmi'] = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
+    this.trackVehicleForm.value['noOfEmi'] = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
     this.trackVehicleForm.value['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
     this.trackVehicleForm.value['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
+    this.trackVehicleForm.value['emisPaid'] = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value);
 
     this.trackVehicleForm.value['thirtyDpdCount'] = parseInt(this.trackVehicleForm.controls['count30'].value);
     this.trackVehicleForm.value['ninetyDpdCount'] = parseInt(this.trackVehicleForm.controls['count90'].value);
@@ -451,15 +613,25 @@ sendDate(date){
 
       this.trackVehicleForm.value['installment'][i]['receiptNo'] = parseInt(this.formArr.controls[i]['controls']['receiptNo'].value);
       this.trackVehicleForm.value['installment'][i]['delayDays'] = parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
-      this.trackVehicleForm.value['installment'][i]['paymentExcess'] = parseInt(this.formArr.controls[i]['controls']['paymentExcess'].value);
+      this.trackVehicleForm.value['installment'][i]['payment'] = parseInt(this.formArr.controls[i]['controls']['payment'].value);
     }
-    this.trackVechileService.saveUpdateFleetRtr(this.trackVehicleForm.value, this.trackVehicleForm.value['installment']).subscribe((res: any) => {
+    this.trackVechileService.saveUpdateFleetRtr(this.trackVehicleForm.value, this.trackVehicleForm.value['installment'], this.fleetId, this.leadId).subscribe((res: any) => {
       console.log(res);
       if (res['Error'] == "0") {
         alert("Saved Success");
-        this.router.navigate(['/pages/dde/track-vehicle/fleet-details']);
-
+        this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
+    });
+  }
+  getLeadId() {
+    // console.log("in getleadID")
+    return new Promise((resolve, reject) => {
+      this.actRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 }

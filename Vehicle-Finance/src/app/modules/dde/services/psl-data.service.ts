@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { ApiService } from '@services/api.service';
 import RequestEntity from '@model/request.entity';
 import { HttpService } from '@services/http.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,8 @@ export class PslDataService {
   }
 
   saveOrUpadtePslData(data) {
+    const processData = data;
+
     const processId = this.apiService.api.saveUpadtePslData.processId;
     const workflowId = this.apiService.api.saveUpadtePslData.workflowId;
     const projectId = this.apiService.api.saveUpadtePslData.projectId;
@@ -44,11 +47,7 @@ export class PslDataService {
 
     const body: RequestEntity = {
         processId: processId,
-        ProcessVariables: {
-          "leadId": 565,
-          "userId": 1002,
-          ...data
-        },
+        ProcessVariables: processData,
         workflowId: workflowId,
         projectId: projectId
     };
@@ -57,18 +56,21 @@ export class PslDataService {
     return this.httpService.post(url, body);
   }
 
-  getPslData() {
+  getPslData(data) {
+    const processData = data;
+    // console.log("PROCESSDATA>>>>>", data);
+    
     const processId = this.apiService.api.getPslData.processId;
     const workflowId = this.apiService.api.getPslData.workflowId;
     const projectId = this.apiService.api.getPslData.projectId;
 
     const email = localStorage.getItem('email');
-    
+    const userId = localStorage.getItem('userId')
+
     const body: RequestEntity = {
         processId: processId,
-        ProcessVariables: {
-          "pslId": 81,
-          "userId": 1002,
+        ProcessVariables:{
+          leadId: processData
         },
         workflowId: workflowId,
         projectId: projectId

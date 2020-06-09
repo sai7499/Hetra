@@ -19,7 +19,7 @@ userId;
             this.userId =localStorage.getItem('userId');
          }
         
-    saveUpdateFleetRtr(fleetRtrDetails,installmentDetails){
+    saveUpdateFleetRtr(fleetRtrDetails,installmentDetails , fletId ,leadId){
         const processId = this.apiService.api.saveUpdateFleetRtr.processId;
         const workflowId = this.apiService.api.saveUpdateFleetRtr.workflowId;
         const projectId = this.apiService.api.saveUpdateFleetRtr.projectId ;
@@ -28,9 +28,9 @@ userId;
             ProcessVariables: {
                 "fleetRtr": fleetRtrDetails,
                 "installment": installmentDetails,
-                "fleetId" : 82 , 
+                "fleetId" : fletId , 
                 "userId": this.userId, 
-                leadId:21,
+                leadId:leadId,
             },
             workflowId: workflowId,
             projectId: projectId
