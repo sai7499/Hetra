@@ -189,6 +189,16 @@ export class ApiService {
       workflowId: '66d15a96a56311eabed3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    saveTvrDetails: {
+      processId: '04e204a89a8611eabdcff2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getTvrDetails: {
+      processId: 'fe6319ac9b5011eabdd3f2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    }
   };
 
 }

@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="leadNumber">{{labels.leadNumber}}</label>
-                        <input type="text" class="form-control" id="leadNumber" name="leadNumber" formControlName="leadNumber" value="">
+                        <input type="text" class="form-control" id="leadNumber" name="leadNumber" formControlName="leadId" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="applicantName">{{labels.applicantName}}</label>
@@ -25,15 +25,15 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="financeAmount">{{labels.financeAmount}}</label>
-                        <input type="text" class="form-control" id="financeAmount" name="financeAmount" formControlName="financeAmount" value="">
+                        <input type="text" class="form-control" id="financeAmount" name="financeAmount" formControlName="financeAmt" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="tenureInMonths">{{labels.tenureInMonths}}</label>
-                        <input type="text" class="form-control" id="tenureInMonths" name="tenureInMonths" formControlName="tenureInMonths" value="">
+                        <input type="text" class="form-control" id="tenureInMonths" name="tenureInMonths" formControlName="tenureInMonth" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="sourceOfProposal" class="ellipsify">{{labels.sourceOfProposal}}</label>
-                        <input type="text" class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="sourceOfProposal" value="">
+                        <input type="text" class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal" value="">
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="sourcing_code" class="ellipsify">{{labels.knowAboutEquitasBank}}</label>
@@ -52,10 +52,10 @@
 
                         <div>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">{{labels.new}}
+                                <input type="radio" name="assetType" formControlName="assetType" value="new">New
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio">{{labels.used}}
+                                <input type="radio" name="assetType" formControlName="assetType" value="used">Used
                             </label>
                         </div>
                     </div>
@@ -66,19 +66,17 @@
                 </div>
 
 
-
-
-                <div formGroupName="vehicleLoanRelated">
-                    <!-- Vehicle and loan related fields -->
+                <!-- Vehicle and loan related fields -->
+                <div>
                     <h3 class="dashboard text-center text-underline m-3">Vehicle and Loan related Fields</h3>
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="needForProposedVehicle" class="ellipsify">{{labels.needForProposedVehicle}}</label>
-                            <input type="text" class="form-control" id="needForProposedVehicle" name="needForProposedVehicle" formControlName="needForProposedVehicle" value="">
+                            <input type="text" class="form-control" id="needForProposedVehicle" name="needForProposedVehicle" formControlName="ndForProposedVehicle" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="routeOfOperation" class="ellipsify">{{labels.routeOfOperation}}</label>
-                            <input type="text" class="form-control mar-top19" id="routeOfOperation" name="routeOfOperation" formControlName="routeOfOperation" value="">
+                            <input type="text" class="form-control mar-top19" id="routeOfOperation" name="routeOfOperation" formControlName="route" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
@@ -86,15 +84,15 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="typeofGoodsCarried" class="ellipsify">{{labels.typeofGoodsCarried}}</label>
-                            <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried" formControlName="typeofGoodsCarried" value="">
+                            <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried" formControlName="typeOfGoods" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="fundingAmountRequested" class="ellipsify">{{labels.fundingAmountRequested}}</label>
-                            <input type="text" class="form-control" id="fundingAmountRequested" name="fundingAmountRequested" formControlName="fundingAmountRequested" value="">
+                            <input type="text" class="form-control" id="fundingAmountRequested" name="fundingAmountRequested" formControlName="amountRequested" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="endUseFunds" class="ellipsify">{{labels.endUseFunds}}</label>
-                            <input type="text" class="form-control" id="endUseFunds" name="endUseFunds" formControlName="endUseFunds" value="">
+                            <input type="text" class="form-control" id="endUseFunds" name="endUseFunds" formControlName="fundEndUse" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="tenureRequested">{{labels.tenureRequested}}</label>
@@ -106,42 +104,42 @@
 
 
 
+                <!-- Tele Verification -->
+                <div>
 
-                <div formGroupName="teleVerification">
-                    <!-- Tele Verification -->
                     <h3 class="dashboard text-center text-underline m-3">Tele Verification</h3>
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="residence" class="">{{labels.residence}}</label>
-                            <input type="text" class="form-control" id="residence" name="residence" formControlName="residence" value="">
+                            <input type="text" class="form-control" id="residence" name="residence" formControlName="residentType" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="otherVehicles">{{labels.otherVehicles}}</label>
-                            <input type="text" class="form-control" id="otherVehicles" name="otherVehicles" formControlName="otherVehicles" value="">
+                            <input type="text" class="form-control" id="otherVehicles" name="otherVehicles" formControlName="otherVehiclesOwned" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="phoneNo">{{labels.phoneNo}}</label>
-                            <input type="text" class="form-control" id="phoneNo" name="phoneNo" formControlName="phoneNo" value="">
+                            <input type="text" class="form-control" id="phoneNo" name="phoneNo" formControlName="residentPhnNo" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="address" class="">{{labels.address}}</label>
-                            <input type="text" class="form-control" id="address" name="address" formControlName="address" value="">
+                            <input type="text" class="form-control" id="address" name="address" formControlName="residentAddress" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="anyOtherLoansAsset">{{labels.anyOtherLoansAsset}}</label>
-                            <input type="text" class="form-control" id="anyOtherLoansAsset" name="anyOtherLoansAsset" formControlName="anyOtherLoansAsset" value="">
+                            <input type="text" class="form-control" id="anyOtherLoansAsset" name="anyOtherLoansAsset" formControlName="otherLoans" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="teleVerification-emi">{{labels.emi}}</label>
-                            <input type="text" class="form-control" id="teleVerification-emi" name="teleVerification-emi" formControlName="teleVerificationEmi" value="">
+                            <input type="text" class="form-control" id="teleVerification-emi" name="teleVerification-emi" formControlName="otherLoans" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="noOfYears">{{labels.noOfYears}}</label>
-                            <input type="text" class="form-control" id="noOfYears" name="noOfYears" formControlName="noOfYears" value="">
+                            <input type="text" class="form-control" id="noOfYears" name="noOfYears" formControlName="residentNoOfYrs" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="teleVerification-CC">{{labels.cc}}</label>
-                            <input type="text" class="form-control" id="teleVerification-CC" name="teleVerification-CC" formControlName="teleVerificationCC" value="">
+                            <input type="text" class="form-control" id="teleVerification-CC" name="teleVerification-CC" formControlName="cc" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="status">{{labels.status}}</label>
@@ -149,7 +147,15 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="dob">{{labels.dob}}</label>
-                            <input type="text" class="form-control" id="dob" name="dob" formControlName="dob" value="">
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default">
+                                    <i class="fa fa-calendar"></i>
+                                  </button>
+                                </span>
+                                <input type="date" class="form-control" id="dob" name="dob" formControlName="dob" value="" />
+                            </div>
+                            <!-- <input type="text" class="form-control" id="dob" name="dob" formControlName="dob" value=""> -->
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="spokenTo">{{labels.spokenTo}}</label>
@@ -161,40 +167,48 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="relationWithApplicant">{{labels.relationWithApplicant}}</label>
-                            <input type="text" class="form-control" id="relationWithApplicant" name="relationWithApplicant" formControlName="relationWithApplicant" value="">
+                            <input type="text" class="form-control" id="relationWithApplicant" name="relationWithApplicant" formControlName="relation" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="lead_created_date">{{labels.date}}</label>
-                            <input type="text" class="form-control" id="lead_created_date" name="lead_created_date" formControlName="date" value="">
+                            <div class="input-group input-medium">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default">
+                                    <i class="fa fa-calendar"></i>
+                                  </button>
+                                </span>
+                                <input type="date" class="form-control" id="tvrDate" formControlName="tvrDate" value="" />
+                            </div>
+                            <!-- <input type="date" class="form-control" id="lead_created_date" name="lead_created_date" formControlName="tvrDate" value=""> -->
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="lead_created_time"> {{labels.time}}</label>
-                            <input type="text" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="time" value="">
+                            <input type="text" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
                             <div>
                                 <label class="radio-inline">
-                                <input type="radio" name="optradio">{{labels.yes}}
+                                <input type="radio" name="radioAddress" formControlName="radioAddress" value="1">Yes
                             </label>
                                 <label class="radio-inline">
-                                <input type="radio" name="optradio">{{labels.no}}
+                                <input type="radio" name="radioAddress" formControlName="radioAddress" value="0">No
                             </label>
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
-                            <input type="text" class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneByName" value="">
+                            <input type="text" class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="sourcing_type" class="asset_type">{{labels.residenceStability}}</label>
                             <div>
                                 <label class="radio-inline">
-                                <input type="radio" name="optradio">{{labels.yes}}
+                                <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes
                             </label>
                                 <label class="radio-inline">
-                                <input type="radio" name="optradio">{{labels.no}}
+                                <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="0">No
                             </label>
                             </div>
                         </div>
@@ -203,10 +217,10 @@
                             <label for="sourcing_type" class="asset_type">{{labels.customerAvailability}}</label>
                             <div>
                                 <label class="radio-inline">
-                            <input type="radio" name="optradio">{{labels.yes}}
+                            <input type="radio" name="customerAvailabilty"formControlName="customerAvailabilty" value="1">Yes
                         </label>
                                 <label class="radio-inline">
-                            <input type="radio" name="optradio">{{labels.no}}
+                            <input type="radio" name="customerAvailabilty"formControlName="customerAvailabilty" value="0">No
                         </label>
                             </div>
                         </div>
@@ -220,11 +234,11 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="workExperience">{{labels.workExperience}}</label>
-                            <input type="text" class="form-control" id="workExperience" name="workExperience" formControlName="workExperience" value="">
+                            <input type="text" class="form-control" id="workExperience" name="workExperience" formControlName="wrkExperience" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="phoneNo2">{{labels.phoneNo}}</label>
-                            <input type="text" class="form-control" id="phoneNo2" name="phoneNo2" formControlName="phoneNo2" value="">
+                            <input type="text" class="form-control" id="phoneNo2" name="phoneNo2" formControlName="officePhnNo" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="extn">{{labels.extn}}</label>
@@ -232,7 +246,7 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="workStability">{{labels.workStability}}</label>
-                            <input type="text" class="form-control" id="workStability" name="workStability" formControlName="workStability" value="">
+                            <input type="text" class="form-control" id="workStability" name="workStability" formControlName="wrkStability" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="natureOfBusiness">{{labels.natureOfBusiness}}</label>
@@ -247,7 +261,7 @@
                             <option>Re-Finanace</option>
                             <option>Top-UP</option>
                         </select> -->
-                            <app-vf-custom-select [values]="tvrLov?.tvrTranscationType" formControlName="transactionType"> </app-vf-custom-select>
+                            <app-vf-custom-select [values]="LOV.LOVS.tvrTranscationType" formControlName="typeOfTransaction"> </app-vf-custom-select>
 
 
                         </div>
@@ -257,7 +271,7 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="coNameAndAddress">{{labels.coNameAndAddress}}</label>
-                            <input type="text" class="form-control" id="coNameAndAddress" name="coNameAndAddress" formControlName="coNameAndAddress" value="">
+                            <input type="text" class="form-control" id="coNameAndAddress" name="coNameAndAddress" formControlName="compNameAddress" value="">
                         </div>
                         <!-- <div class="clearfix"></div> -->
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -270,17 +284,19 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="yearsInEmP/Bussiness">{{labels.yearsInEmpBusiness}}</label>
-                            <input type="text" class="form-control" id="yearsInEmP/Bussiness" name="yearsInEmP/Bussiness" formControlName="yearsInEmPBussiness" value="">
+                            <input type="text" class="form-control" id="yearsInEmP/Bussiness" name="yearsInEmP/Bussiness" formControlName="yrsInEmployment" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="sourcing_type" class="asset_type">{{labels.ifBusiness}}</label>
-                            <select class="form-control" id="ifBusiness" name="senior_citizen">
+                            <!-- <select class="form-control" id="ifBusiness" name="senior_citizen">
                             <option>Owned</option>
                             <option>Rented</option>
                             <option>Lease</option>
                             <option>Company Provided</option>
                             <option>Others</option>
-                        </select>
+                        </select> -->
+                            <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness"> </app-vf-custom-select>
+
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="employees">{{labels.employees}}</label>
@@ -296,11 +312,11 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="monthlySalaryGross">{{labels.monthlySalaryGross}}</label>
-                            <input type="text" class="form-control" id="monthlySalaryGross" name="monthlySalaryGross" formControlName="monthlySalaryGross" value="">
+                            <input type="text" class="form-control" id="monthlySalaryGross" name="monthlySalaryGross" formControlName="monthlyGrossSalary" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="otherSourcesofIncome">{{labels.otherSourcesofIncome}}</label>
-                            <input type="text" class="form-control" id="otherSourcesofIncome" name="otherSourcesofIncome" formControlName="otherSourcesofIncome" value="">
+                            <input type="text" class="form-control" id="otherSourcesofIncome" name="otherSourcesofIncome" formControlName="otherIncome" value="">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="decision">{{labels.decision}}</label>
@@ -365,17 +381,17 @@
                 </div>
                 <div class="row">
                     <h3 class="dashboard text-center text-underline m-3">Remarks</h3>
-                    <textarea type="text" class="form-control text_area" id="" name="" value=""></textarea>
+                    <textarea type="text" class="form-control text_area" formControlName="remarks" id="" name="" value=""></textarea>
                 </div>
                 <div class="row">
                     <h3 class="dashboard text-center text-underline m-3">CIBIL Remarks</h3>
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <h5>1. Cibil Overdue</h5>
-                        <textarea type="text" class="form-control" id="cibilOverdur" name="" value=""></textarea>
+                        <textarea type="text" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name="" value=""></textarea>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <h5>2. Clarification on recent enquiries in CIBIL report</h5>
-                        <textarea type="text" class="form-control" id="cibilReport" name="" value=""></textarea>
+                        <textarea type="text" class="form-control" formControlName="cibilClarification" id="cibilReport" name="" value=""></textarea>
                     </div>
                 </div>
 
@@ -385,10 +401,17 @@
                 <div class="col-sm-7 padding-10 text-right">
                     <button type="submit" class="btn btn-primary" (click)="onSave()"> Save </button>
                     <button class="btn btn-primary dash_href" type="button"><a
-                           [routerLink]="['/pages/dde/tvr-details']" >Next</a></button>
+                          (click)="onSave()"
+                           
+                            >Next</a></button>
                 </div>
             </div>
         </div>
 
     </div>
+    <div class="alert alert-success alert-dismissible fixed" id="alert" *ngIf="isAlert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button
+        >Saved!
+      </div>
 </main>
