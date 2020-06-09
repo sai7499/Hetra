@@ -38,13 +38,17 @@
                     {{ i + 1 }}
                   </td>
                  <td data-title="Applicant Name">
-                    <select class="form-control mandatory select2" id="" name="applicantId"
-                      class="form-control text-center" formControlName="applicantId"
-                      (change)="onBusinessApplicantChange($event.target.value, i)">
-                      <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
-                        {{ applicants.applicantName }}</option>
-                    </select>
+                    <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted  }"
+                    class="form-control text-center" formControlName="applicantId"
+                    (change)="onBusinessApplicantChange($event.target.value, i)">
+                    <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
+                      {{ applicants.applicantName }}</option>
+                  </select>
+                  <div *ngIf="submitted" >
+                </div>
+                    
                   </td>
+                
                    <td data-title="Applicant Type">
                     <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
                       readonly="true"
@@ -120,12 +124,14 @@
                   " [formGroupName]="i">
                   <td data-title="S.no">{{ i + 1 }}</td>
                   <td>
-                  <select class="form-control mandatory select2" id="" name="applicantId"
-                      class="form-control text-center" formControlName="applicantId"
-                      (change)="onOtherApplicantChange($event.target.value, i)">
-                      <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
-                        {{ applicants.applicantName }}</option>
-                    </select>
+                  <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted  }"
+                    class="form-control text-center" formControlName="applicantId"
+                    (change)="onOtherApplicantChange($event.target.value, i)">
+                    <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
+                      {{ applicants.applicantName }}</option>
+                  </select>
+                  <div *ngIf="submitted" >
+                </div>
                   </td>
                    <td data-title="Applicant Type">
                     <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
@@ -190,12 +196,14 @@
                   " [formGroupName]="i">
                   <td data-title="S.No">{{ i + 1 }}</td>
                   <td>
-                    <select class="form-control mandatory select2" id="" name="applicantId"
+                    <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted  }"
                         class="form-control text-center" formControlName="applicantId"
                         (change)="onObligationApplicantChange($event.target.value, i)">
                         <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
                           {{ applicants.applicantName }}</option>
                       </select>
+                      <div *ngIf="submitted" >
+                    </div>
                     </td>
                      <td data-title="Applicant Type">
                       <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value" 
