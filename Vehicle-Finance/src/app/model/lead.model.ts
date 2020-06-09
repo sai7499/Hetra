@@ -55,7 +55,7 @@ export interface ProductDetails {
 
 export interface VehicleDetails {
   DealerSubventionPartIRR?: string;
-  ageOfAsset?: string;
+  ageOfAsset?: number;
   assetBodyType?: string;
   assetCost?: string;
   assetCostCarTrade?: string;
@@ -76,10 +76,10 @@ export interface VehicleDetails {
   emiProtect?: string;
   emiProtectAmount?: number;
   engineNumber?: number;
-  exShowRoomCost?: string;
+  exShowRoomCost?: number;
   fastTag?: string;
   fastTagAmount?: number;
-  finalAssetCost?: string;
+  finalAssetCost?: number;
   fitnessDate?: string;
   fsrdFundingReq?: string;
   fsrdPremiumAmount?: number;
@@ -146,7 +146,7 @@ export interface IndivVehicleInfoDetails {
   assetSubVariant?: number;
   monthManufacturing?: string;
   yrManufacturing?: string;
-  ageOfAsset?: string;
+  ageOfAsset?: number;
   vechicalUsage?: number;
   vehicleCategory?: number;
   orpFunding?: boolean;
@@ -166,7 +166,7 @@ export interface IndivVehicleInfoDetails {
   permitCopy?: string;
   permitOthers?: string;
   frsdRequired?: string;
-  frsdAmount?: string;
+  fsrdPremiumAmount?: number;
   fitnessDate?: string;
   fitnessCopy?: string;
   noOfVehicle?: string;
@@ -185,6 +185,8 @@ export interface VehicleList {
   regNo?: string;
   segmentCode?: string;
   collateralId?: number;
+  variant?: string;
+  finalAssetCost?: string;
 }
 
 export interface CoApplicant {

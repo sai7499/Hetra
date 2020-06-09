@@ -99,7 +99,7 @@
                                     <option value="form60">Form 60</option>
                                 </select> -->
               <app-vf-custom-select
-                formControlName="form60"
+                formControlName="panType"
                 [values]="lov?.LOVS?.applicantPanType"
               ></app-vf-custom-select>
             </div>
@@ -448,9 +448,8 @@
   <div class="col-sm-5">
     <button
       class="btn btn-primary dash_href"
-      routerLink="/pages/sales/applicant-list"
-    >
-      <a>Back To Applicant Details</a>
+      (click)="onBackToApplicant()" >
+      Back To Applicant Details
     </button>
   </div>
   <div class="col-sm-7 text-right">
@@ -468,7 +467,9 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button">Next</button></a
+      ><button class="btn btn-primary" type="button" (click)="onSubmit()">
+        Next
+      </button></a
     >
     <br />
     <br />

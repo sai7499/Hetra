@@ -16,13 +16,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
+            <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems } let i = index">
                 <td *ngIf="isCredit == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td *ngIf="isCredit == '1'"><a [routerLink]="['/pages/lead-section', item.leadId]">{{item.leadId}}</a></td>
-                <td *ngIf="isCredit == '2'"><a [routerLink]="['/pages/dde', item.leadId]">{{item.leadId}}</a></td>
+                <td class="text-underline" *ngIf="isCredit == '1'"><a [routerLink]="['/pages/lead-section', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td>
+                <td class="text-underline" *ngIf="isCredit == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
-                <td>{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                <td>{{item.applicants ? item.applicants : '--'}}</td>
+                <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
+                <td>{{item.name ? item.name : '--'}}</td>
                 <td>{{item.createdOn ? item.createdOn : '--'}}</td>
                 <td>{{item.createdBy ? item.createdBy : '--'}}</td>
                 <td>{{item.priority ? item.priority : '--'}}</td>
@@ -38,17 +38,18 @@
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>
-                <select class="form-control  input-sm" [(ngModel)]="itemsPerPage">
+                <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
-                    </select>
+                </select>
             </div>
 
         </div>
         <nav class="col-xs-9 col-sm-4 text-center">
-            <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls>
+            <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
+            <!-- <pagination-controls class="" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls> -->
         </nav>
     </div>
 </div>

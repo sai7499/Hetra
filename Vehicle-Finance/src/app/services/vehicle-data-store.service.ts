@@ -11,11 +11,30 @@ export class VehicleDataStoreService {
   vehicleData: any = {};
   basicVehicleDetails = {};
   collateralId: number;
+  CreditLeadId: number;
+  SalesLeadId: number;
 
   constructor() { }
 
   setVehicleDetails(vehicleDetails: VehicleList) {
     this.vehicleList.push(vehicleDetails);
+  }
+
+  setCreditLeadId(id: number) {
+    console.log(id, 'kdgkdb')
+    this.CreditLeadId = id;
+  }
+
+  setSalesLeadID(id: number) {
+    this.SalesLeadId = id;
+  }
+
+  getSalesLeadId() {
+    return this.SalesLeadId;
+  }
+
+  getCreditLeadId() {
+    return this.CreditLeadId;
   }
 
   getVehicleDetails() {

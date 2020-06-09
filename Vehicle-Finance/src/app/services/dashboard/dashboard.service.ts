@@ -27,17 +27,17 @@ export class DashboardService {
     this.dashboardLeadsAction.next(value);
   }
 
-  myLeads() {
+  myLeads(data) {
     const processId = this.apiService.api.getMyLeads.processId;
     const workflowId = this.apiService.api.getMyLeads.workflowId;
     const projectId = this.apiService.api.getMyLeads.projectId;
 
 
     const body: RequestEntity = {
-      processId : processId,
-      ProcessVariables: {userId: Number(storage.getUserId())},
-      workflowId : workflowId,
-      projectId : projectId
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
 

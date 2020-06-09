@@ -23,7 +23,7 @@
                     <option>{{labels.cash}}</option>
                     <option>{{labels.others}}</option>
                 </select> -->
-                <app-vf-custom-select [values]="values?.repaymentMode" formControlName="repaymentMode">
+                <app-vf-custom-select [values]="fleetRtrLov?.fleetRepaymentMode" formControlName="repaymentMode">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -53,7 +53,7 @@
                     <option>{{labels.refinance}}</option>
                     <option>{{labels.used}}</option>
                 </select> -->
-                <app-vf-custom-select [values]="values?.typesOfFinance" formControlName="financeType">
+                <app-vf-custom-select [values]="fleetRtrLov?.typesOfFinance" formControlName="financeType">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -62,16 +62,25 @@
                     <option>{{labels.matured}}</option>
                     <option>{{labels.running}}</option>
                 </select> -->
-                <app-vf-custom-select [values]="values?.accountStatus" formControlName="accountStatus">
+                <app-vf-custom-select [values]="fleetRtrLov?.accountStatus" formControlName="accountStatus">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanStartDate}}</label>
-                <input type="text" class="form-control" id="loan_start_date" formControlName="loanStartDate">
+                <div class="form-group date">
+                    <div class='input-group date' id='loan_start_date'>
+                        <span class="input-group-addon"><span
+                                class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input type='date' class="form-control" value="05-01-2018"
+                            formControlName="loanStartDate" (change)="loanStartDate($event)" />
+                    </div>
+                </div>
+               
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanMaturityDate}}</label>
-                <input type="text" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate">
+                <input type="date" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.count}}</label>
@@ -112,6 +121,10 @@
                 <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
                 <input type="text" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid">
             </div>
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.emiAmount}}</label>
+                <input type="text" class="form-control" id="emiAmount" formControlName="emiAmount" (change)="changeEmiAmount($event)">
+            </div> -->
         </div>
 
 
@@ -148,30 +161,30 @@
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input type='text' class="form-control" value="01-01-2018"
+                                        <input type='date' class="form-control" value="01-01-2018"
                                             formControlName="dueDate" />
                                     </div>
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value" value="1001"
-                                    formControlName="receiptNo"></td>
+                                    formControlName="receiptNo" (change)="receiptNumber($event ,i)"></td>
                             <td>
                                 <div class="form-group date">
-                                    <div class='input-group date' id='datetimepicker1'>
+                                    <div class='input-group date'>
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input type='text' class="form-control" value="05-01-2018"
-                                            formControlName="receivedDate" />
+                                        <input type='date' class="form-control"  data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09"
+                                            formControlName="receivedDate" (change)="delayDays($event ,i , itemrow)" />
                                     </div>
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value" value="10000"
-                                    formControlName="receivedAmt"></td>
+                                    formControlName="receivedAmt" (change)="paymentExcessOrShort($event ,i)"></td>
                             <td><input type="text" class="form-control input_value auto_cal"
                                     formControlName="delayDays"></td>
                             <td><input type="text" class="form-control input_value auto_cal"
-                                    formControlName="paymentExcess"></td>
+                                    formControlName="payment"></td>
                             <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                                     (click)="addNewRow()"></i>&nbsp;
                                 <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -193,9 +206,9 @@
 
         </div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary mar-right8" type="button" routerLink="../fleet-details">Back </button>
+            <button class="btn btn-primary mar-right8" type="button" routerLink="/pages/dde/{{leadId}}/fleet-details">Back </button>
             <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>
-            <button class="btn btn-primary js-btn-next" type="button" routerLink="../fleet-details"> Next </button>
+            <button class="btn btn-primary js-btn-next" type="button" (click)="nextToFleet()"> Next </button>
         </div>
     </div>
 

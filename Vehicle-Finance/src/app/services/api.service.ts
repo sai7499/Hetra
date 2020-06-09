@@ -44,38 +44,42 @@ export class ApiService {
     getAnVehicleCollateralDetails: {
       workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
       processId: '5ded0268971711eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveOrUpdateVehicleCollateralDetails: {
       workflowId: 'b0a9ef02939d11eabdc6f2fa9bec3d63',
       processId: '387d901e957e11eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getAllVehicleCollateralDetails: {
       workflowId: 'bd15880c904911eabdc4f2fa9bec3d63',
       processId: 'cd9ac3ba979a11eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
-
+      projectId: environment.projectIds.salesProjectId,
     },
     getVehicleMasterFromRegion: {
       workflowId: '385f090a957e11eabdcff2fa9bec3d63',
       processId: '3bed6af898f311eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getDeleteVehicleDetails: {
+      workflowId: '385f090a957e11eabdcff2fa9bec3d63',
+      processId: '69029740a71a11eabfb4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
     saveUpdateFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '0620e32c998511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: 'd6f39fda99b211eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     deleteFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '8a5ad9369b3811eabdd3f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveUpdateFleetRtr: {
       processId: 'be7ff35699c911eabdcff2fa9bec3d63',
@@ -130,5 +134,76 @@ export class ApiService {
       workflowId: 'b4e6e94c6db611eabdc2f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getAllIncomeDetails: {
+      workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+      processId: 'eabfa04c96ae11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    setAllIncomeDetails: {
+      workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+      processId: '658c979e967811eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    softDeleteIncomeDetails: {
+      workflowId: '6569c7e6967811eabdcff2fa9bec3d63',
+      processId: '0e6aecde972e11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getAllAplicantDetails: {
+      workflowId: '37a82fe4973d11eabdcff2fa9bec3d63',
+      processId: '37c6c08a973d11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    pslLOVsDropdown: {
+      workflowId: 'ba3c5529a7211eabdcff2fa9bec3d63',
+      processId: 'ba6290a49a7211eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveUpadtePslData: {
+      workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
+      processId: '2fe93e9e98ee11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getPslData: {
+      workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
+      processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveExposure: {
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      processId: 'b007bcd8968511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getExposure: {
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      processId: '520bd7a6975511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    deleteExposure: {
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      processId: 'e9ceec0e975511eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    geoMasterService: {
+      processId: '676c8318a56311eabed3f2fa9bec3d63',
+      workflowId: '66d15a96a56311eabed3f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    deleteBankList : {
+      processId: '6a957184a9ab11ea824ff2fa9bec3d63',
+      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveTvrDetails: {
+      processId: '04e204a89a8611eabdcff2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getTvrDetails: {
+      processId: 'fe6319ac9b5011eabdd3f2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    }
   };
+
 }

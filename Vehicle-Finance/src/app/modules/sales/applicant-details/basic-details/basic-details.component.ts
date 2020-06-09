@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -15,6 +16,7 @@ import {
   IndividualProspectDetails,
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../services/lead.store.service';
+
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -45,7 +47,8 @@ export class BasicDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private router: Router,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -66,34 +69,27 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.addNonIndividualFormControls();
     this.getLovData();
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.applicantDataService.setApplicantId(this.applicantId);
-      this.getApplicantDetails();
-    });
+
     // setTimeout(() => {
     // this.clearFormArray();
     // });
   }
 
   getApplicantDetails() {
-    const data = {
-      applicantId: this.applicantId,
-    };
-    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      const applicant: Applicant = {
-        ...processVariables,
-      };
-      this.applicantDataService.setApplicant(applicant);
-      this.applicant = this.applicantDataService.getApplicant();
-      console.log('applicant', applicant);
+    // const data = {
+    //   applicantId: this.applicantId,
+    // };
+    // this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+    //   const processVariables = res.ProcessVariables;
+    //   const applicant: Applicant = {
+    //     ...processVariables,
+    //   };
+    //   this.applicantDataService.setApplicant(applicant);
+    this.applicant = this.applicantDataService.getApplicant();
+    // console.log('applicant', applicant);
 
-      this.setBasicData();
-    });
+    this.setBasicData();
+    // });
   }
 
   setBasicData() {
@@ -171,6 +167,14 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.applicantDataService.setApplicantId(this.applicantId);
+        this.getApplicantDetails();
+      });
     });
   }
 
@@ -227,7 +231,7 @@ export class BasicDetailsComponent implements OnInit {
       : this.addNonIndividualFormControls();
   }
 
-  onSave() {
+  async onSave() {
     const rawValue = this.basicForm.getRawValue();
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
@@ -237,17 +241,33 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setIndividualProspectDetails(null);
     }
     const applicantData = this.applicantDataService.getApplicant();
+    const leadId = (await this.getLeadId()) as number;
+
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
+      leadId,
     };
     console.log('leadId', this.leadStoreService.getLeadId());
-    const leadId = this.leadStoreService.getLeadId();
-    this.applicantService.saveApplicant(data).subscribe((res) => {
-      this.router.navigate([
-        `/pages/sales-applicant-details/${leadId}/identity-details`,
-        this.applicantId,
-      ]);
+
+    this.applicantService.saveApplicant(data).subscribe((res: any) => {
+      if (res.Error === '0') {
+        this.router.navigate([
+          `/pages/sales-applicant-details/${leadId}/identity-details`,
+          this.applicantId,
+        ]);
+      }
+    });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 
@@ -304,4 +324,9 @@ export class BasicDetailsComponent implements OnInit {
       formValue.preferredLanguageCommunication;
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
+
+  onBack(){
+    this.location.back()
+  }
+
 }

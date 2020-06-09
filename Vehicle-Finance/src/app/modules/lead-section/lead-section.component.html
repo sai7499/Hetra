@@ -54,23 +54,18 @@
       </div>
       
     </div> -->
-    <h3 *ngIf="hasRoute('credit-score')">Credit Bureau Results </h3>
-    <app-lead-section-header></app-lead-section-header>
-    <!--progress bar-->
-    <div class="multisteps-form">
-      <div class="multisteps-form__progress" *ngIf="!hideElement" > 
-        <!-- <div class="multisteps-form__progress  "*ngIf ="router.url!='/pages/lead-section/credit-score'"> -->
-          <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['/pages/lead-section']"
-          [ngClass]="{ 'js-active': currentPage >= 0 }"
-          (click)="currentPage = 0"
-        >
-          <!-- Sourcing Details -->
-          Lead Details
-        </button>
-        <!-- <button
+  <h3 *ngIf="hasRoute('credit-score')">Credit Bureau Results </h3>
+  <app-lead-section-header></app-lead-section-header>
+  <!--progress bar-->
+  <div class="multisteps-form">
+    <div class="multisteps-form__progress" *ngIf="!hideElement">
+      <!-- <div class="multisteps-form__progress  "*ngIf ="router.url!='/pages/lead-section/credit-score'"> -->
+      <button class="multisteps-form__progress-btn" type="button" [routerLink]="['/pages/lead-section/', leadId]"
+        [ngClass]="{ 'js-active': currentPage >= 0 }" (click)="currentPage = 0">
+        <!-- Sourcing Details -->
+        Lead Details
+      </button>
+      <!-- <button
           class="multisteps-form__progress-btn"
           type="button"
           [routerLink]="['./product-details']"
@@ -79,25 +74,15 @@
         >
           Product Details
         </button> -->
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['./applicant-details']"
-          [ngClass]="{ 'js-active': currentPage >= 1 }"
-          (click)="currentPage = 1"
-        >
-          Applicant Details
-        </button>
-        <button
-          class="multisteps-form__progress-btn"
-          type="button"
-          [routerLink]="['./vehicle-details']"
-          [ngClass]="{ 'js-active': currentPage >= 2 }"
-          (click)="currentPage = 2"
-        >
-          Vechicle Details
-        </button>
-        <!-- <button
+      <button class="multisteps-form__progress-btn" type="button" [routerLink]="['./applicant-details']"
+        [ngClass]="{ 'js-active': currentPage >= 1 }" (click)="currentPage = 1">
+        Applicant Details
+      </button>
+      <button class="multisteps-form__progress-btn" type="button" [routerLink]="['./vehicle-details']"
+        [ngClass]="{ 'js-active': currentPage >= 2 }" (click)="currentPage = 2">
+        Vechicle Details
+      </button>
+      <!-- <button
           class="multisteps-form__progress-btn"
           type="button"
           [routerLink]="['./loan-details']"
@@ -106,11 +91,11 @@
         >
           Loan Details
         </button> -->
-        <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
-      
-        </div>
-        
-      <router-outlet></router-outlet>
+      <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
+
+    </div>
+
+    <router-outlet></router-outlet>
     <!-- </div> -->
   </div>
   <!-- </div> -->

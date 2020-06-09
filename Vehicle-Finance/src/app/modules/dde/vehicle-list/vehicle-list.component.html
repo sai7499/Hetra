@@ -2,60 +2,12 @@
 <form class="multisteps-form__form">
     <div class="container cus-wid-sty">
         <app-shared-vehicle-details></app-shared-vehicle-details>
-        <!-- <div class="btn-sec clear-both row">
 
-            <div class="col-sm-12 text-right">
-                <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
-                    {{labels.addVehicle}}
-                </button>
-            </div>
-        </div> -->
-        <!-- <div class="row">
-            <div class="table-responsive application" id="applicantTable">
+        <!--  <div class="btn-sec clear-both row">
 
-                <table class="table">
-                    <thead>
-                        <tr class="table-head-bg">
-                            <th>{{labels?.registrationNum}} </th>
-                            <th>{{labels?.make}} </th>
-                            <th>{{labels?.model}} </th>
-                            <th>{{labels?.action}} </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleListArray; let i = index">
-                            <td data-title="Registration Number">
-                                {{item.registrationNum}}
-                            </td>
-                            <td data-title="Make">
-                                {{item.make}}
-                            </td>
-                            <td data-title="Model">
-                                {{item.model}}
-                            </td>
-                            <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant" (click)="removeOtherIndex(i, vehicleListArray)"></i>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </div> -->
-
-        <div class="btn-sec clear-both row">
-            <!-- <div class="col-sm-5">
-                    <h4 class="title">Vehicle Details</h4> 
-                </div> -->
             <div class="col-sm-12 text-right">
                 <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
                     {{labels.addAdditionalCollaterals}}</button>
-                <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
             </div>
         </div>
         <div class="row">
@@ -91,16 +43,15 @@
 
             </div>
 
-        </div>
+        </div> -->
     </div>
 </form>
 <!-- </div> -->
-
-
 
 <div class="btn-sec clear-both text-right cus-btn-cls">
     <!-- <div class="col-sm-12"> -->
     <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">{{labels.back}}</button>&nbsp;
     <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{labels.next}}</button>&nbsp;
+    
     <!-- </div> -->
 </div>

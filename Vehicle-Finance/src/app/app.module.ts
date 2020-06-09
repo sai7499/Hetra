@@ -4,7 +4,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
@@ -33,6 +33,8 @@ import { AgmDirectionModule } from 'agm-direction'; // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { DdeSharedModule } from './modules/dde/shared/shared.module';
+import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+
 import {
   NgxUiLoaderModule,
   NgxUiLoaderConfig,
@@ -41,6 +43,10 @@ import {
   PB_DIRECTION,
 } from 'ngx-ui-loader';
 import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
+
+import { setTheme } from 'ngx-bootstrap/utils';
+
+setTheme('bs4'); 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
@@ -61,7 +67,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     SharedModule,
+    // BsDatepickerModule.forRoot(),
     LoginModule,
     AgmCoreModule.forRoot({
       // @agm/core
@@ -81,7 +89,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     CollapseModule,
-    BrowserAnimationsModule,
     CommonModule,
     LovResolverService,
     LeadDataResolverService,

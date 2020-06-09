@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
@@ -26,13 +27,13 @@ import {CreditConditionsComponent} from './credit-conditions/credit-conditions.c
 import { DeviationsComponent } from './deviations/deviations.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
+import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
 
 @NgModule({
   declarations: [
     DdeComponent,
     FlReportComponent,
     PdReportComponent,
-    VehicleValuationComponent,
     ViabilityListComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
@@ -47,7 +48,8 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     CamComponent,
     ScoreCardComponent,
     CreditConditionsComponent,
-    DeviationsComponent
+    DeviationsComponent,
+    VehicleValuationComponent,
 
   ],
   imports: [
@@ -58,6 +60,8 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     ReactiveFormsModule,
     SharedModule,
     DdeSharedModule,
+    LeadSectionModule,
+    TypeaheadModule.forRoot()
   ],
 })
 export class DdeModule {}

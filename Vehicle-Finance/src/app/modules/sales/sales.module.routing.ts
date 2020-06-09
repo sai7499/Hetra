@@ -2,18 +2,24 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SalesComponent } from './sales.component';
+import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.component';
-import { VehicleDetailComponent } from '../lead-section/vehicle-details/vehicle-details.component';
-import { LeadDataResolverService } from '../lead-section/services/leadDataResolver.service';
+import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+import { DocumentUploadComponent } from './applicant-details/document-upload/document-upload.component';
+
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: SalesComponent,
+    resolve: {
+      LeadDataResolverService,
+    },
     children: [
       {
-        path: '',
-        component: ApplicantListComponent,
+        path: 'lead-details',
+        component: LeadDetailsComponent,
       },
       {
         path: 'applicant-list',
@@ -21,8 +27,12 @@ const routes: Routes = [
       },
       {
         path: 'vehicle-details',
-        component: VehicleDetailComponent
-      }
+        component: VehicleDetailsComponent,
+      },
+      // {
+      //   path: 'documentupload',
+      //   component: DocumentUploadComponent,
+      // },
     ],
   },
 ];

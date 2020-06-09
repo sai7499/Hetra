@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -18,13 +19,18 @@ export class SourcingDdeComponent implements OnInit {
   ProfessionList = [];
   text: any;
   id: any;
+  leadId;
 
 
   constructor(
     private lovData: LovDataService,
     private leadStoreService: LeadStoreService,
     private router: Router,
-    private labelsData: LabelsService) { }
+    private labelsData: LabelsService,
+    private route: ActivatedRoute,
+    private location: Location) {
+      this.leadId = this.route.snapshot.params['leadId'];
+     }
 
   ngOnInit() {
     this.initForm();
@@ -118,8 +124,12 @@ export class SourcingDdeComponent implements OnInit {
 
   onFormSubmit() {
     this.router.navigate(['/pages/lead-section/applicant-details']);
+
+    // this.router.navigate(['/pages/dde/', this.leadId,'/applicant-details']);
+
     const formValue = this.sourcingDetailsForm.value;
     const sourcingModel = { ...formValue };
     this.leadStoreService.setSourcingDetails(sourcingModel);
+
   }
 }

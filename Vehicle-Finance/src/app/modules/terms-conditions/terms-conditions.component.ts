@@ -38,6 +38,6 @@ export class TermsConditionsComponent implements OnInit {
   }
 
   navigateToSales() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}`);
+    this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
   }
 }
