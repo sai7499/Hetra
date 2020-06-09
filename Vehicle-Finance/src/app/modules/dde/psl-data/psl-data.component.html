@@ -49,24 +49,24 @@
                 <label for="purpose_of_loan_ag">{{labels.purposeOfLoan}}</label>
                 <app-vf-custom-select 
                     [values]="endUseValues" 
-                    formControlName="purposeOfLoanAg" 
-                    name="purposeOfLoanAg"> 
+                    formControlName="purposeOfLoan" 
+                    name="purposeOfLoan"> 
                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                 <label for="purpose_of_loan_msme">{{labels.purposeOfLoan}}</label>
                 <app-vf-custom-select 
                     [values]="endUseValues" 
-                    formControlName="purposeOfLoanMsme" 
-                    name="purposeOfLoanMsme"> 
+                    formControlName="purposeOfLoan" 
+                    name="purposeOfLoan"> 
                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                 <label for="business_activity">{{labels.businessActivity}}</label>
                 <app-vf-custom-select 
                 [values]="LOV.LOVS.businessActivity" 
-                formControlName="purposeOfLoanMsme" 
-                name="purposeOfLoanMsme"> 
+                formControlName="businessActivity" 
+                name="businessActivity"> 
            </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
@@ -89,7 +89,7 @@
                 <label for="relationship_with_landowner">{{labels.relWithLandowner}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.relationship" 
-                    formControlName="relWithLandowner"
+                    formControlName="relationshipWithLandOwner"
                     name="relWithLandowner">
                 </app-vf-custom-select>
             </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="land_area_in_acres">{{labels.landAreaInAcres}}</label>
-                <input type="text" formControlName="landAreaInAcres" class="form-control" name="land_area_in_acres"
+                <input type="text" formControlName="landArea" class="form-control" name="land_area_in_acres"
                     id="land_area_in_acres" required="required" />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
@@ -150,7 +150,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="ca_registration_number">{{labels.caRegisterNo}}</label>
-                <input type="text" formControlName="caRegistrationNo" class="form-control" name="ca_registration_number"
+                <input type="text" formControlName="caRegistrationNumber" class="form-control" name="ca_registration_number"
                     id="ca_registration_number" required="required" />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
@@ -175,7 +175,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="investment_in_equipment">{{labels.investInEquipment}}</label>
-                <input type="text" formControlName="investInEquipment" class="form-control"
+                <input type="text" formControlName="investmentInEquipment" class="form-control"
                     name="investment_in_equipment" id="investment_in_equipment" required="required" Placeholder="" />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
@@ -241,87 +241,87 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="psl_consideration_cost">{{labels.pslConsiderCost}}</label>
-                <input type="text" formControlName="pslConsiderCost" class="form-control" name="psl_consideration_cost"
+                <input type="text" formControlName="pslConsiderationCost" class="form-control" name="psl_consideration_cost"
                     id="psl_consideration_cost" required="required" placeholder="" />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_category_ag">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCategoryAg" 
-                    formControlName="pslCategoryAg"
-                    name="pslCategoryAg">
+                    [values]="LOV.LOVS.pslCategory" 
+                    formControlName="pslCategory"
+                    name="pslCategory">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="psl_category_msme">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCategoryMsme" 
-                    formControlName="pslCategoryMsme"
-                    name="pslCategoryMsme">
+                    [values]="LOV.LOVS.pslCategory" 
+                    formControlName="pslCategory"
+                    name="pslCategory">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="psl_category_hos">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCategoryHos" 
-                    formControlName="pslCategoryHos"
-                    name="pslCategoryHos">
+                    [values]="LOV.LOVS.pslCategory" 
+                    formControlName="pslCategory"
+                    name="pslCategory">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_sub_category_ag">{{labels.pslSubCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslSubCategoryAg" 
-                    formControlName="pslSubCategoryAg"
-                    name="pslSubCategoryAg">
+                    [values]="LOV.LOVS.pslSubCategory" 
+                    formControlName="pslSubCategory"
+                    name="pslSubCategory">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="psl_sub_category_msme">{{labels.pslSubCategory}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.pslSubCategoryMsme" 
-                    formControlName="pslSubCategoryMsme"
-                    name="pslSubCategoryMsme">
+                    formControlName="pslSubCategory"
+                    name="pslSubCategory">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_certificate_ag">{{labels.pslCertificateAg}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.pslCertificate" 
-                    formControlName="pslCertificateAg"
-                    name="pslCertificate">
+                    formControlName="pslCCertificate"
+                    name="pslCCertificate">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="psl_certificate_msme">{{labels.pslCertificateMsme}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.pslCertificate" 
-                    formControlName="pslCertificateMsme"
-                    name="pslCertificateMsme">
+                    formControlName="pslCCertificate"
+                    name="pslCCertificate">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="psl_certificate_hou">{{labels.pslCertificateHos}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.pslCertificateHos" 
-                    formControlName="pslCertificateHos"
-                    name="pslCertificateHos">
+                    formControlName="pslCCertificate"
+                    name="pslCCertificate">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="weaker_section_ag">{{labels.weakerSection}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.wEAKERSECTION" 
-                    formControlName="weakerSectionAg"
-                    name="weakerSectionAg">
+                    formControlName="weakerSection"
+                    name="weakerSection">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
                 <label for="weaker_section_msme">{{labels.weakerSection}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.wEAKERSECTION" 
-                    formControlName="weakerSectionMsme"
-                    name="weakerSectionMsme">
+                    formControlName="weakerSection"
+                    name="weakerSection">
                 </app-vf-custom-select>
             </div>
         </div>
@@ -342,8 +342,8 @@
                 <label for="purpose_of_loan_ag">{{labels.purposeOfLoan}}</label>
                 <app-vf-custom-select 
                     [values]="endUseValues" 
-                    formControlName="purposeOfLoanAg" 
-                    name="purposeOfLoanAg"> 
+                    formControlName="purposeOfLoan" 
+                    name="purposeOfLoan"> 
                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
@@ -360,15 +360,15 @@
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.applicantRelationshipWithLead" 
                     formControlName="landOwner"
-                    name="landOwner">
+                    name="landOwnerApplicant">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="relationship_with_landowner">{{labels.relWithLandowner}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.relationship" 
-                    formControlName="relWithLandowner"
-                    name="relWithLandowner">
+                    formControlName="relationshipWithLandOwner"
+                    name="relationshipWithLandOwner">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
@@ -381,7 +381,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                 <label for="land_area_in_acres">{{labels.landAreaInAcres}}</label>
-                <input type="number" formControlName="landAreaInAcres" class="form-control" name="land_area_in_acres"
+                <input type="number" formControlName="landArea" class="form-control" name="land_area_in_acres"
                     id="land_area_in_acres" required="required" [(ngModel)]="landAreaInAcresValue"
                     (change)="onLandAreaChange($event)"  />
             </div>
@@ -402,18 +402,17 @@
                 <label for="psl_category_ag">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
                     [values]="pslCategoryValues" 
-                    formControlName="pslCategoryAg"
-                    
-                    name="pslCategoryAg">
+                    formControlName="pslCategory"
+                    name="pslCategory">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_sub_category_ag">{{labels.pslSubCategory}}</label>
                 <app-vf-custom-select 
                     [values]="pslSubCategoryValues" 
-                    formControlName="pslSubCategoryAg"
+                    formControlName="pslSubCategory"
                     (change)="onChangePslSubCategory($event)"
-                    name="pslSubCategoryAg">
+                    name="pslSubCategory">
                 </app-vf-custom-select>
 
             </div>
@@ -421,16 +420,16 @@
                 <label for="psl_certificate_ag">{{labels.pslCertificateAg}}</label>
                 <app-vf-custom-select 
                     [values]="pslCertificateValues" 
-                    formControlName="pslCertificateAg"
-                    name="pslCertificate">
+                    formControlName="pslCCertificate"
+                    name="pslCCertificate">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="weaker_section_ag">{{labels.weakerSection}}</label>
                 <app-vf-custom-select 
                     [values]="weakerSectionValues" 
-                    formControlName="weakerSectionAg"
-                    name="weakerSectionAg">
+                    formControlName="weakerSection"
+                    name="weakerSection">
                 </app-vf-custom-select>
             </div>
         </div>
@@ -451,8 +450,8 @@
         <label for="purpose_of_loan_msme">{{labels.purposeOfLoan}}</label>
         <app-vf-custom-select 
             [values]="endUseValues" 
-            formControlName="purposeOfLoanMsme" 
-            name="purposeOfLoanMsme"> 
+            formControlName="purposeOfLoan" 
+            name="purposeOfLoan"> 
        </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isGoosManufactured">
@@ -472,8 +471,8 @@
         <label for="business_activity">{{labels.businessActivity}}</label>
         <app-vf-custom-select 
         [values]="businessActivity" 
-        formControlName="purposeOfLoanMsme" 
-        name="purposeOfLoanMsme" > 
+        formControlName="businessActivity" 
+        name="businessActivity" > 
    </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
@@ -498,17 +497,17 @@
 
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA" >
         <label for="name_of_ca">{{labels.nameOfCa}}</label>
-        <input type="text" formControlName="nameOfCa" class="form-control" name="name_of_ca" id="name_of_ca"
+        <input type="text" formControlName="nameOfCA" class="form-control" name="name_of_ca" id="name_of_ca"
             required="required" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="name_of_ca_firm">{{labels.nameOfCaFirm}}</label>
-        <input type="text" formControlName="nameOfCaFirm" class="form-control" name="name_of_ca_firm"
+        <input type="text" formControlName="nameOfCAFirm" class="form-control" name="name_of_ca_firm"
             id="name_of_ca_firm" required="required" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="ca_registration_number">{{labels.caRegisterNo}}</label>
-        <input type="text" formControlName="caRegistrationNo" class="form-control" name="ca_registration_number"
+        <input type="text" formControlName="caRegistrationNumber" class="form-control" name="ca_registration_number"
             id="ca_registration_number" required="required" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
@@ -536,7 +535,7 @@
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInEquipment" >
         <label for="investment_in_equipment">{{labels.investInEquipment}}</label>
-        <input type="number" formControlName="investInEquipment" class="form-control"
+        <input type="number" formControlName="investmentInEquipment" class="form-control"
             name="investment_in_equipment" id="investment_in_equipment" required="required" 
             Placeholder="" [(ngModel)]="investmentInEquipmentValue"
             (change)="onChangeInvestmentInEquipment($event)" />
@@ -544,7 +543,7 @@
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInPlantMachinery">
         <label for="investment_plant_machinery">{{labels.investPlantMachinery}}</label>
-        <input type="number" formControlName="investmentInPlantMachinery" class="form-control"
+        <input type="number" formControlName="investmentInPlantAndMachinery" class="form-control"
             name="investment_plant_machinery" id="investment_plant_machinery" required="required"
             Placeholder="" [(ngModel)]="investmentInPlantMachineryValue"
             (change)="onChangeInvestmentInPlantAndMachinery($event)" />
@@ -553,7 +552,7 @@
         <label for="psl_category_msme">{{labels.pslCategory}}</label>
         <app-vf-custom-select 
             [values]="pslCategoryValues" 
-            formControlName="pslCategoryMsme"
+            formControlName="pslCategory"
             name="pslCategoryMsme">
         </app-vf-custom-select>
     </div>
@@ -561,25 +560,25 @@
         <label for="psl_sub_category_msme">{{labels.pslSubCategory}}</label>
         <app-vf-custom-select 
             [values]="pslSubCategoryValues" 
-            formControlName="pslSubCategoryMsme"
+            formControlName="pslSubCategory"
             (change) = "onChangePslSubCategory($event)"
-            name="pslSubCategoryMsme">
+            name="pslSubCategory">
         </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="psl_certificate_msme">{{labels.pslCertificateMsme}}</label>
         <app-vf-custom-select 
             [values]="pslCertificateValues" 
-            formControlName="pslCertificateMsme"
-            name="pslCertificateMsme">
+            formControlName="pslCCertificate"
+            name="pslCCertificate">
         </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
         <label for="weaker_section_msme">{{labels.weakerSection}}</label>
         <app-vf-custom-select 
             [values]="weakerSectionValues" 
-            formControlName="weakerSectionMsme"
-            name="weakerSectionMsme">
+            formControlName="weakerSection"
+            name="weakerSection">
         </app-vf-custom-select>
     </div>
 </div>
@@ -662,16 +661,16 @@
         <label for="psl_category_hos">{{labels.pslCategory}}</label>
         <app-vf-custom-select 
             [values]="LOV.LOVS.pslCategory" 
-            formControlName="pslCategoryHouse"
-            name="pslCategoryHouse">
+            formControlName="pslCategory"
+            name="pslCategory">
         </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
         <label for="psl_certificate_hou">{{labels.pslCertificateHos}}</label>
         <app-vf-custom-select 
             [values]="LOV.LOVS.pslCertificate" 
-            formControlName="pslCertificateHouse"
-            name="pslCertificateHouse">
+            formControlName="pslCCertificate"
+            name="pslCCertificate">
         </app-vf-custom-select>
     </div>
 </div>
