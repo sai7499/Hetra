@@ -27,6 +27,8 @@ export class BankDetailsComponent implements OnInit {
   assignedArray = [];
   listArray: FormArray;
   leadId;
+  bsDatepickerConfig: any;
+  toDate;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -34,13 +36,29 @@ export class BankDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
-    private location: Location
+    private location: Location ,
   ) {
     this.listArray = this.fb.array([]);
   }
-  ngOnInit() {
-   
-    this.monthArray = [
+  async ngOnInit() {
+  const date = new Date();
+  console.log(date);
+  this.bankForm = this.fb.group({
+    userId: localStorage.getItem('userId'),
+    applicantId: this.applicantId,
+    accountHolderName: ['test'],
+    bankId: [''],
+    accountNumber: [''],
+    accountType: [''],
+    fromDate: ['' ],
+    toDate: [''],
+    period: [''],
+    limit: [''],
+    id: this.leadId,
+    // transactionDetails: this.fb.array([]),
+    transactionDetails: this.listArray,
+  });
+  this.monthArray = [
       'Jan',
       'Feb',
       'Mar',
@@ -54,37 +72,42 @@ export class BankDetailsComponent implements OnInit {
       'Nov',
       'Dec',
     ];
-    this.lovService.getLovData().subscribe((res: any) => {
+  this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
     });
-    this.applicantId = Number(this.route.snapshot.queryParams.applicantId);
-    this.route.params.subscribe((val:any) => this.leadId = Number(val.leadId));
-    
-    this.formType = this.route.snapshot.queryParams.formType;
-    this.bankForm = this.fb.group({
-      userId: localStorage.getItem("userId"),
-      applicantId: this.applicantId,
-      accountHolderName: [''],
-      bankId: [''],
-      accountNumber: [''],
-      accountType: [''],
-      fromDate: [''],
-      toDate: [''],
-      period: [''],
-      limit: [''],
-      id: 8,
-      // transactionDetails: this.fb.array([]),
-      transactionDetails: this.listArray,
-    });
-    if (this.formType) {
+  this.applicantId = (await this.getApplicantId()) as number;
+  this.leadId = (await this.getLeadId()) as number;
+
+  this.formType = this.route.snapshot.queryParams.formType;
+  if (this.formType) {
       this.getBankDetails();
     } else {
     }
   }
-
+  getApplicantId() {
+    return new Promise((resolve, reject) => {
+      this.route.params.subscribe((value) => {
+        const applicantId = value.applicantId;
+        if (applicantId) {
+          resolve(Number(applicantId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
   public initRows( data?: any) {
     return this.fb.group({
-      month: ['jan'],
+      month: [''],
       year: [2020],
       inflow: [''],
       outflow: [''],
@@ -113,12 +136,18 @@ export class BankDetailsComponent implements OnInit {
   }
   getBankDetails() {
     this.bankTransaction
-      .getBankDetails({ applicantId: 41 })
+      .getBankDetails({ applicantId: this.applicantId })
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
         console.log(this.bankDetailsNew, ' bank details new');
+        // if (res.error === null) {
+        for (let i = 0 ; i < this.bankDetailsNew.length; i++ ) {
+          this.assignedArray.push(this.bankDetailsNew[i].month);
+          }
+          console.log(this.assignedArray, ' on init')
         this.populateData(res);
+        // }
       });
   }
   public populateData(data?: any) {
@@ -130,23 +159,24 @@ export class BankDetailsComponent implements OnInit {
         ? data.ProcessVariables.bankId
         : null,
       accountNumber: data.ProcessVariables.accountNumber
-        ? data.ProcessVariables.accountNumber
+        ? Number(data.ProcessVariables.accountNumber)
         : null,
       accountType: data.ProcessVariables.accountTypeId
         ? data.ProcessVariables.accountTypeId
         : null,
       fromDate: data.ProcessVariables.fromDate
         ? this.utilityService.getDateFormat(data.ProcessVariables.fromDate)
-        : null,
+        : '',
       toDate: data.ProcessVariables.toDate
         ? this.utilityService.getDateFormat(data.ProcessVariables.toDate)
-        : null,
+        : '',
       period: data.ProcessVariables.period
         ? data.ProcessVariables.period
         : null,
-      limit: data.ProcessVariables.limit ? data.ProcessVariables.limit : null,
+      limit: data.ProcessVariables.limit ? Number(data.ProcessVariables.limit) : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < transactionDetailsList.length; i++) {
       this.addProposedUnit(transactionDetailsList[i]);
     }
@@ -157,17 +187,30 @@ export class BankDetailsComponent implements OnInit {
     control.push(this.populateTransaction(data));
   }
   onSave() {
+    this.bankForm.value.fromDate = this.utilityService.getDateFormat(this.bankForm.value.fromDate);
+    this.bankForm.value.toDate = this.utilityService.getDateFormat(this.bankForm.value.toDate);
+    this.bankForm.value.applicantId = this.applicantId;
+    this.bankForm.value.id = 7;
+    console.log(this.bankForm.value.transactionDetails);
+    let newArray : {} = this.assignedArray;
+    console.log(newArray);
+    for (let i = 0; i < this.bankForm.value.transactionDetails.length; i++) {
+      this.bankForm.value.transactionDetails[i].month = newArray[i][i];
+    }
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
         alert(JSON.stringify(res));
-        if(res["Error"] == 0 ){
+        if (res.Error === 0 ) {
         this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
         }
       });
+    console.log(this.bankForm.value);
   }
 
   getMonths() {
+    // this.changeDateFormat();
+    // this.changeToDateFormat();
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
@@ -193,7 +236,8 @@ export class BankDetailsComponent implements OnInit {
       });
       const startMonth = fromDate.getMonth();
       const endMonth = toDate.getMonth();
-      for (let i = numberOfMonths + 2 ; i >= 0; i--) {
+      this.assignedArray = [];
+      for (let i = numberOfMonths + 3 ; i >= 0; i--) {
         // if ( i > 11) {
         //   // tslint:disable-next-line: prefer-const
         //   let diff1 = numberOfMonths - 11;
@@ -206,10 +250,9 @@ export class BankDetailsComponent implements OnInit {
         let count = i % 12;
         const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
+        // this.assignedArray = this.assignedArray.reverse();
         // }
       }
-      console.log(this.assignedArray, 'assigned');
-      console.log(numberOfMonths);
 
       this.listArray.controls = [];
       for (let i = 0; i <= numberOfMonths - 1; i++) {
@@ -217,7 +260,7 @@ export class BankDetailsComponent implements OnInit {
       }
     }
   }
-  onBack(){
+  onBack() {
     this.location.back();
   }
   // log(this.assignedArray);
@@ -229,4 +272,4 @@ export class BankDetailsComponent implements OnInit {
   }
 }
 
-// }
+
