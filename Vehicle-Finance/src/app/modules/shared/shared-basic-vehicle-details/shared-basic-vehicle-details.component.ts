@@ -198,11 +198,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-        // console.log(creditFormArray, 'CreditFormArray')
         this.onPatchArrayValue(creditFormArray, VehicleDetail)
-        console.log(creditFormArray, 'FormArray')
         this.formDataOutput.emit(creditFormArray.value)
-        console.log(this.formDataOutput.emit(creditFormArray.value), 'Afrer')
       }
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })

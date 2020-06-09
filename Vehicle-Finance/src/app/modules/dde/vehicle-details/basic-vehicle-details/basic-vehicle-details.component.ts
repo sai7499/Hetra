@@ -47,7 +47,6 @@ export class BasicVehicleDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.vehicleDetails, 'value')
 
     this.isHidden = false;
     if (this.vehicleDetails.length > 0) {
