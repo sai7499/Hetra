@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LabelsService } from "src/app/services/labels.service";
 import { Routes, RouterModule, Router } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
@@ -43,15 +43,12 @@ export class LeadSectionHeaderComponent implements OnInit {
   }
 
   getUserDetails() {
-    // const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    // this.userName = roleAndUserDetails.userDetails.firstName;
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (data as any);
     this.leadId = leadSectionData.leadId;
-    // this.userName = leadSectionData.applicantDetails[0].fullName;
-
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });
   }
+
 }

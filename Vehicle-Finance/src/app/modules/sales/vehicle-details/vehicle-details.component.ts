@@ -12,4 +12,8 @@ export class VehicleDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+  onBack(){
+    
+  }
+
 }

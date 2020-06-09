@@ -38,6 +38,8 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+
+  
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -339,14 +341,14 @@ export class BasicDetailsComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
-      leadId,
+      leadId: this.leadId,
     };
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.Error === '0') {
         console.log('RESPONSE', response);
         this.router.navigate([
-          `/pages/applicant-details/${leadId}/identity-details`,
+          `/pages/applicant-details/${this.leadId}/identity-details`,
           this.applicantId,
         ]);
       }
@@ -483,7 +485,9 @@ export class BasicDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  onBackToApplicant(){
-     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
-  }
+ 
+onBackToApplicant(){
+  this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+}
+
 }

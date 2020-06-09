@@ -73,6 +73,8 @@ export class NewLeadsComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       perPage: parseInt(perPageCount),
       currentPage: parseInt(pageNumber)
+      // perPage: perPageCount,
+      // currentPage: pageNumber
     };
 
     this.dashboardService.myLeads(data).subscribe((res: any) => {

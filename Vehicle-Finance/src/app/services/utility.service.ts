@@ -74,7 +74,9 @@ export class UtilityService {
 
   getValueFromJSON(JsonObj, key1, value1) {
     let arrayList = [];
-
+    console.log('JsonObj', JsonObj);
+    console.log('key1', key1);
+    console.log('value1', value1);
     JsonObj.map((data) => {
       if (data) {
         const val = {
