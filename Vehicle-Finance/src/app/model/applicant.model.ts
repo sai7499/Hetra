@@ -70,6 +70,7 @@ export interface IndividualProspectDetails {
   currentEmpYears?: string;
   employeeCode?: number;
   employerType?: string;
+  employerName? : string;
   department?: string;
 }
 

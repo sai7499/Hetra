@@ -93,7 +93,7 @@ export class AddressDetailsComponent implements OnInit {
       return;
     }
     this.router.navigateByUrl(
-      `/pages/applicant-details/${this.leadId}/applicant-list`
+      `/pages/dde/${this.leadId}/applicant-list`
     );
   }
 

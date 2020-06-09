@@ -145,6 +145,7 @@ export class BasicDetailsComponent implements OnInit {
 
       currentEmpYears: aboutIndivProspectDetails.currentEmpYears,
       department: aboutIndivProspectDetails.department,
+      employerName : aboutIndivProspectDetails.employerName
       
       
 
@@ -478,4 +479,6 @@ export class BasicDetailsComponent implements OnInit {
   onBack() {
     this.location.back();
   }
+
+  
 }
