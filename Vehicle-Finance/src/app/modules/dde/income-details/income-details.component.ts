@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router ,ActivatedRoute} from "@angular/router";
-import { FormBuilder, FormArray, FormGroup } from "@angular/forms";
+import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
+import { TypeaheadMatch } from "ngx-bootstrap/typeahead/public_api";
 
 import { LabelsService } from "src/app/services/labels.service";
 import { IncomeDetailsService } from "@services/income-details.service";
@@ -19,7 +20,7 @@ export class IncomeDetailsComponent implements OnInit {
   getBuisinessIncomeId: any;
   otherApplicantType = [];
   leadId: number;
-  userId: "1002";
+  userId: string;
   applicantDetails: any;
   ngApplicantId: any;
   patchPath = false;
@@ -32,7 +33,11 @@ export class IncomeDetailsComponent implements OnInit {
   incomeLov: any = [];
   array = [];
   applicantType: any;
-  applicantId: number;
+  applicantId: any;
+  selectedOption: any;
+  typeaheadNoResults: boolean;
+  formValue: any;
+  submitted = false;
   constructor(
     private route: Router,
     private labelsData: LabelsService,
@@ -51,25 +56,35 @@ export class IncomeDetailsComponent implements OnInit {
       (error) => { }
     );
 
-    const body = {
-      name: "S",
-      leadId: 606,
-    };
+    
     this.getLov();
     this.getLeadId();
+    this.userId = localStorage.getItem('userId');
+    console.log(this.userId);
+    const body = {
+      name: "K",
+      leadId: this.leadId,
+    };
     this.incomeDetailsService
       .getAllAplicantDetails(body)
       .subscribe((res: any) => {
         this.applicantDetails = res.ProcessVariables.applicantInfoObj;
+        console.log(this.applicantDetails);
+        
       });
     this.incomeDetailsForm = this.formBuilder.group({
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
       leadId: this.leadId,
-      userId: "1002",
+      userId: this.userId,
     });
     this.getAllIncome();
+
+  }
+  
+  changeTypeaheadNoResults(e) {
+    this.typeaheadNoResults = e;
 
   }
   getLov() {
@@ -97,7 +112,7 @@ export class IncomeDetailsComponent implements OnInit {
   private getBusinessIncomeDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        applicantId: Number(null),
+        applicantId: ['',Validators.required],
         applicantType: [""],
         businessEnterpriseName: [""],
         depreciation: Number(null),
@@ -109,7 +124,7 @@ export class IncomeDetailsComponent implements OnInit {
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : 0,
-        applicantId: Number(data.applicantId ? data.applicantId : null),
+        applicantId: Number(data.applicantId ? data.applicantId : ""),
         applicantType: data.applicantTypeValue ? data.applicantTypeValue : "",
         applicantTypeValue: data.applicantTypeValue
           ? data.applicantTypeValue
@@ -132,7 +147,7 @@ export class IncomeDetailsComponent implements OnInit {
   private getOtherIncomeDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        applicantId: Number(null),
+        applicantId: ['',Validators.required],
         applicantType: [""],
         incomeType: [""],
         grossIncome: Number(null),
@@ -157,7 +172,7 @@ export class IncomeDetailsComponent implements OnInit {
   private getObligationDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        applicantId: Number(null),
+        applicantId: ['',Validators.required],
         applicantType: [""],
         loanType: [""],
         financier: [""],
@@ -205,8 +220,13 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
     let id = control.at(i).value.id
     if (control.controls.length > 1) {
+      if(id == undefined ){
+        control.removeAt(i);
+
+      }
+else{
       const body = {
-        userId: "1002",
+        userId: this.userId,
         aBusinessIncomeDetail: { id: id },
       };
       this.incomeDetailsService
@@ -216,6 +236,8 @@ export class IncomeDetailsComponent implements OnInit {
         alert(res.ProcessVariables.error.message);
 
         });
+      }
+     
     } else {
       alert("Atleast One Row Required");
     }
@@ -238,19 +260,24 @@ export class IncomeDetailsComponent implements OnInit {
     let id = control.at(i).value.id
 
     if (control.controls.length > 1) {
-      const body = {
-        userId: "1002",
+      if(id == undefined ){
+        control.removeAt(i);
 
+      }
+else{
+      const body = {
+        userId: this.userId,
         otherIncomeDetail: { id: id },
       };
-
       this.incomeDetailsService
         .softDeleteIncomeDetails(body)
         .subscribe((res: any) => {
-      control.removeAt(i);
-      alert(res.ProcessVariables.error.message);
+          control.removeAt(i);
+        alert(res.ProcessVariables.error.message);
 
         });
+      }
+      
     } else {
       alert("Atleast One Row Required");
     }
@@ -270,10 +297,14 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     let id = control.at(i).value.id
-
     if (control.controls.length > 1) {
+      if(id == undefined ){
+        control.removeAt(i);
+
+      }
+else{
       const body = {
-        userId: "1001",
+        userId: this.userId,
         obligationDetail: { id: id },
       };
       this.incomeDetailsService
@@ -283,6 +314,7 @@ export class IncomeDetailsComponent implements OnInit {
         alert(res.ProcessVariables.error.message);
 
         });
+      }
     } else {
       alert("Atleast One Row Required");
     }
@@ -301,6 +333,7 @@ export class IncomeDetailsComponent implements OnInit {
         this.addObligationUnit(res.ProcessVariables.obligationsList);
       });
   }
+
   onBusinessApplicantChange(event?: any, i?: number) {
 
     let applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType
@@ -321,12 +354,29 @@ export class IncomeDetailsComponent implements OnInit {
     control.at(i).get("applicantType").setValue(applicantType)
   }
 
-  onSubmit() {
 
+onSubmit() {
+  this.submitted = true;
+
+  // stop here if form is invalid
+  if (this.incomeDetailsForm.invalid) {
+      // return;
+      alert('Select Applicant')
+  }else{
     this.incomeDetailsService
       .setAllIncomeDetails(this.incomeDetailsForm.value)
       .subscribe((res: any) => {
+<<<<<<< HEAD
+        alert(res.ProcessVariables.error.message);
+=======
+        if(res["Error"] && res["Error"]==0){
+        alert("saved Success")
+        }
+>>>>>>> ddc5c44b07291617f5e86b30ffb4c5683c364cae
 
       });
   }
+
+  
+}
 }
