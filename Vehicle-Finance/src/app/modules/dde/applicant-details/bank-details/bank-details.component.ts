@@ -200,8 +200,9 @@ export class BankDetailsComponent implements OnInit {
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
-        alert(JSON.stringify(res));
-        if (res.Error === 0 ) {
+        // alert(JSON.stringify(res));
+        if (res.Error == 0 ) {
+          alert("Bank Detail Saved")
         this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
         }
       });

@@ -329,6 +329,9 @@ export class IncomeDetailsComponent implements OnInit {
     this.incomeDetailsService
       .setAllIncomeDetails(this.incomeDetailsForm.value)
       .subscribe((res: any) => {
+        if(res["Error"] && res["Error"]==0){
+        alert("saved Success")
+        }
 
       });
   }

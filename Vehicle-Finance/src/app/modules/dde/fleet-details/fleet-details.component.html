@@ -12,10 +12,10 @@
                             <td role="columnheader">{{labels.sNo}} </td>
                             <td role="columnheader">{{labels.regdNo}} </td>
                             <td role="columnheader">{{labels.regdOwner}}</td>
-                            <td role="columnheader">{{labels.relation}}</td>
-                            <td role="columnheader">{{labels.make}} </td>
+                            <td role="columnheader" style="min-width: 165px;">{{labels.relation}}</td>
+                            <td role="columnheader" style="min-width: 200px;">{{labels.make}} </td>
                             <td role="columnheader">{{labels.yom}} </td>
-                            <td role="columnheader">{{labels.financier}} </td>
+                            <td role="columnheader" style="min-width: 120px;">{{labels.financier}} </td>
                             <td role="columnheader">{{labels.loanNo}} </td>
                             <td role="columnheader">{{labels.purchaseDate}} </td>
                             <td role="columnheader">{{labels.tenure}} </td>
@@ -38,7 +38,7 @@
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="regdOwner">
                             </td>
-                            <td>
+                            <td style="min-width: 165px;">
                                 <!-- <select class="form-control input_value height" formControlName="relation">
                                             <option>{{labels.applicant}}</option>
                                             <option>{{labels.coApplicant}}</option>
@@ -49,7 +49,7 @@
                                     formControlName="relation">
                                 </app-vf-custom-select>
                             </td>
-                            <td>
+                            <td style="min-width: 200px;">
                                 <!-- <select class="form-control input_value height" formControlName="make">
                                             <option>{{labels.tatamotors}}</option>
                                             <option>{{labels.eicher}}</option>
@@ -62,7 +62,7 @@
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
                             <td><input type="text" class="form-control input_value height" formControlName="yom"></td>
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
-                            <td>
+                            <td style="min-width: 120px;">
                                 <!-- <select class="form-control input_value height" id="asset_make"
                                             formControlName="financier">
                                             <option>{{labels.bajaj}}</option>

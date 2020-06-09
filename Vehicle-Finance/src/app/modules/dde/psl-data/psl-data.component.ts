@@ -335,9 +335,10 @@ export class PslDataComponent implements OnInit, OnChanges {
       this.setValueForPslSubCategory();
 
       setTimeout(() => {
-                
-      this.caCertifiedAmount = this.pslData.caCertifiedAmount;
-      this.setValueForCaCertifiedAmount();
+        this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
+        this.setValueForProofOfInvetment();
+        this.caCertifiedAmount = this.pslData.caCertifiedAmount;
+        this.setValueForCaCertifiedAmount();
         this.otherInvestmentCost = this.pslData.otherInvestmentCost;
         this.setValueForOtherInvestmentCost();
         this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
@@ -872,10 +873,14 @@ export class PslDataComponent implements OnInit, OnChanges {
   onChangeProofOfInvestment(event: any) {
     this.proofOfInvestmentChange = event.target.value;
     console.log("ProofOfInvestment_ID", this.proofOfInvestmentChange);
+    this.setValueForProofOfInvetment();
+  }
 
+  setValueForProofOfInvetment() {
     if (this.proofOfInvestmentChange === "1PSLINVSTPRF") {
       this.showInputFieldsCA = true;
-    } else {
+    } 
+    else {
       this.showInputFieldsCA = false;
     }
 
