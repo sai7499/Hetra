@@ -40,7 +40,7 @@ export class TvrDetailsService {
     const requestEntity: RequestEntity = {
       processId,
       // ProcessVariables: processData,
-      ProcessVariables: {},
+      ProcessVariables: {applicantId: 43},
       workflowId,
       projectId,
     };
