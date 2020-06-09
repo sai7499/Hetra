@@ -4,7 +4,7 @@ import { TermsConditionsComponent } from "./terms-conditions.component";
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":leadId",
     component: TermsConditionsComponent
   }
 ];

@@ -6,6 +6,7 @@ import { LabelsService } from "@services/labels.service";
 import { CommomLovService } from "@services/commom-lov-service";
 import { DdeStoreService } from "@services/dde-store.service";
 import { PslDataService } from "../services/psl-data.service";
+import { Location } from '@angular/common';
 
 @Component({
   selector: "app-psl-data",
@@ -489,7 +490,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       }
     });
 
-    if (this.detailActivityChange === "2PSLDTLACTVTY" && this.pslLandHoldingChange === '0') {
+    if (this.detailActivityChange === "2PSLDTLACTVTY") {
       this.pslLandHolding = [{ key: 0, value: "No" }];
       // this.isLandHoldingYes = false;   //When selected "Allied Activities" in Detail_Activity
       const data = [
