@@ -19,6 +19,9 @@ export class BasicVehicleDetailsComponent implements OnInit {
   public leadId: number;
   public routerId: number;
 
+  public isHidden: boolean = false;
+  public errorMsg: string;
+
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -36,30 +39,39 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
 
   FormDataParentMethod(value: any) {
+    console.log(this.formDataFromChild, 'value')
+
     this.formDataFromChild = value;
     this.vehicleDetails = value[0].creditFormArray;
+
   }
 
   onSubmit() {
     console.log(this.vehicleDetails, 'value')
 
+    this.isHidden = false;
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
+      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear)
       data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate) : null;
       data.permitExpireDate = data.permitExpireDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpireDate) : null;
       data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate) : null;
       data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity) : null;
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+        this.isHidden = true;
+        this.errorMsg = res.ProcessVariables.error.message;
+
         this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
       }, error => {
         console.log(error, 'error')
       })
     } else {
-      alert('Please Select any one of the Value')
+      this.isHidden = true;
+      this.errorMsg = 'Please select one of the any vehicle details'
+      // alert('Please Select any one of the Veh')
     }
   }
-
 }
+
