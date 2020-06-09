@@ -27,7 +27,7 @@ export class ApplicantListComponent implements OnInit {
     private applicantService: ApplicantService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   async ngOnInit() {
     const currentUrl = this.location.path();
@@ -90,7 +90,7 @@ export class ApplicantListComponent implements OnInit {
   isShowAddaApplicant(currentUrl: string) {
     this.showAddApplicant = !currentUrl.includes('dde');
   }
-  onApplicantClick(item) { }
+  onApplicantClick(item) {}
 
   softDeleteApplicant(index: number, applicantId: number) {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
