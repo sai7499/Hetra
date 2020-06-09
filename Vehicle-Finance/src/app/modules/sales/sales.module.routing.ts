@@ -11,7 +11,9 @@ const routes: Routes = [
   {
     path: ':leadId',
     component: SalesComponent,
-    resolve: { LeadDataResolverService },
+    resolve: {
+      LeadDataResolverService,
+    },
     children: [
       {
         path: 'lead-details',
@@ -23,8 +25,8 @@ const routes: Routes = [
       },
       {
         path: 'vehicle-details',
-        component: VehicleDetailsComponent
-      }
+        component: VehicleDetailsComponent,
+      },
     ],
   },
 ];
@@ -33,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SalesRoutingModule { }
+export class SalesRoutingModule {}

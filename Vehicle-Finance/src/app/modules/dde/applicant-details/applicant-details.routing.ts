@@ -9,11 +9,13 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
 import { EmploymentDetailsComponent } from './employment-details/employment-details.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { BankListComponent } from './bank-list/bank-list.component';
+import { ApplicantResolveService } from '@services/applicant.resolve.service';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: ApplicantDetailsComponent,
+    resolve: { applicantDetails: ApplicantResolveService },
     children: [
       {
         path: 'basic-data/:applicantId',
@@ -36,7 +38,7 @@ const routes: Routes = [
         component: AddressDetailsComponent,
       },
       {
-        path: 'employment-details',
+        path: 'employment-details/:applicantId',
         component: EmploymentDetailsComponent,
       },
       {
