@@ -236,7 +236,7 @@ export class LeadCreationComponent implements OnInit {
       return;
     }
     if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues.push({ key: 'NA', value: 'Not Applicable' });
+      this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
     }
