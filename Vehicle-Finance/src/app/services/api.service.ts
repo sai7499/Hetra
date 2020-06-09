@@ -189,6 +189,11 @@ export class ApiService {
       workflowId: '66d15a96a56311eabed3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    deleteBankList : {
+      processId: '6a957184a9ab11ea824ff2fa9bec3d63',
+      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    }
   };
 
 }

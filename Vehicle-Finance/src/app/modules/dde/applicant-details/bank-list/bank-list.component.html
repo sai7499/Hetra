@@ -43,7 +43,7 @@
                                     <td class="text-left">{{item.period}}</td>
                                     <td class="text-left"><i class="fa fa-pencil" (click)="routeDetails(item.applicantId);"
                                             aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true"
-                                            id="remove_item_applicant"></i></td>
+                                            id="remove_item_applicant" (click)="onDelete()"></i></td>
                                 </tr>
                                 <!-- <tr id="applicant_2_row">
                                         

@@ -62,4 +62,20 @@ export class BankTransactionsService {
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }
+  deleteBankList(data) {
+    const processData = data;
+    const processId = this.apiService.api.deleteBankList.processId;
+    const workflowId = this.apiService.api.deleteBankList.workflowId;
+    const projectId = this.apiService.api.deleteBankList.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    // tslint:disable-next-line: prefer-const
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 }

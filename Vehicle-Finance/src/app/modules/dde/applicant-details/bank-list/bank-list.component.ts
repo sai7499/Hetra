@@ -12,11 +12,13 @@ export class BankListComponent {
     bankDetails: any;
     applicantId: number;
     leadId: number;
+  userId: string;
     constructor(private bankService: BankTransactionsService,
                 private route: Router, private activatedRoute: ActivatedRoute,
                 private location: Location) { }
     // tslint:disable-next-line: use-lifecycle-interface
    async  ngOnInit() {
+        this.userId = localStorage.getItem('userId');
         this.leadId = (await this.getLeadId()) as number;
         this.applicantId = (await this.getApplicantId()) as number;
         this.bankService.getBankList({ leadId: this.leadId }).subscribe((res: any) => {
@@ -64,6 +66,13 @@ export class BankListComponent {
     }
     loadAppplicant() {
       this.route.navigateByUrl(`pages/dde/${this.leadId}/applicant-details`);
+    }
+    onDelete() {
+    const body = {
+     applicantId : this.applicantId,
+      userId : this.userId
+    };
+    this.bankService.deleteBankList(body).subscribe((res: any) => { console.log(res); });
     }
 
 }
