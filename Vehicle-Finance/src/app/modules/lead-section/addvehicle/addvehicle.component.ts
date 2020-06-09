@@ -17,7 +17,7 @@ export class AddvehicleComponent implements OnInit {
   vehicleForm: FormGroup;
   private vehicleDetails: any = [];
   public label: any = {};
-  public errorMsg;
+  public errorMsg: string;
   public getAllFieldLabel;
   public show: boolean = false;
   public formVehicle: any;
@@ -70,7 +70,7 @@ export class AddvehicleComponent implements OnInit {
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
       if (this.routerId !== null && this.routerId !== undefined) {
-        this.isHidden = true;
+        // this.isHidden = true;
         this.selectedVehicle = Number(this.routerId);
       }
     })
@@ -90,19 +90,23 @@ export class AddvehicleComponent implements OnInit {
 
 
   saveVehicleCollaterals() {
+    this.isHidden = false;
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = data.manuFacMonthYear === 'Invalid Date' ? null : data.manuFacMonthYear
+      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear)
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+        this.isHidden = true;
+        this.errorMsg = res.ProcessVariables.error.message;
         this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
       }, error => {
         console.log(error, 'error')
       })
     } else {
-      alert('Please Select any one of the Value')
+      this.isHidden = true;
+      this.errorMsg = 'Please select one of the any vehicle details'
+      // alert('Please Select any one of the Veh')
     }
   }
-
 }

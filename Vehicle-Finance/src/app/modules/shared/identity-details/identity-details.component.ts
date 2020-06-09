@@ -324,17 +324,12 @@ export class IdentityDetailsComponent implements OnInit {
     });
   }
 
-  onNext() {
-    const url = this.location.path();
-    if (url.includes('sales')) {
-      this.router.navigateByUrl(
-        `pages/sales-applicant-details/${this.leadId}/address-details/${this.applicantId}`
-      );
-      return;
+  onBackToApplicant(){
+    const url = this.location.path();      
+    if(url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
+    } else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
     }
-
-    this.router.navigateByUrl(
-      `/pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`
-    );
   }
 }
