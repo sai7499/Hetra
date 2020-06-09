@@ -26,6 +26,7 @@ export class BasicDetailsComponent implements OnInit {
   LOV: any = [];
   applicantId: number;
   applicant: Applicant;
+  leadId :  number
 
   designation = [
     {
@@ -46,7 +47,7 @@ export class BasicDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private location: Location
   ) {}
-  ngOnInit() {
+ async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -71,6 +72,8 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantId = Number(value.applicantId);
       this.applicantDataService.setApplicantId(this.applicantId);
     });
+    this.leadId = (await this.getLeadId()) as number;
+    console.log('leadId', this.leadId);
   }
 
   getApplicantDetails() {
@@ -480,5 +483,7 @@ export class BasicDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  
+  onBackToApplicant(){
+     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+  }
 }
