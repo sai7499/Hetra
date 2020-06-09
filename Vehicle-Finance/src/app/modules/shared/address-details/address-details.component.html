@@ -650,7 +650,7 @@
   <div class="col-sm-5">
     <button
       class="btn btn-primary dash_href"
-      (click)="onBackToApplicant()"
+      (click)="navigateToApplicantList()"
     >
       <a>Back To Applicant Details</a>
     </button>
@@ -658,7 +658,9 @@
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
     <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)= "onBack()">Back</button></a
+      ><button class="btn btn-primary" type="button" (click)="onBack()">
+        Back
+      </button></a
     >
     <p
       class="btn btn-primary save"
@@ -668,7 +670,9 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onNext()" >Next</button></a
+      ><button class="btn btn-primary" type="button" (click)="onNext()">
+        Next
+      </button></a
     >
     <br />
     <br />

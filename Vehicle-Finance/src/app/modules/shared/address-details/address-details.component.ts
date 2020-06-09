@@ -770,12 +770,17 @@ export class AddressDetailsComponent implements OnInit {
     }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
-  onBackToApplicant(){
-    const url = this.location.path();      
-    if(url.includes('sales')) {
-      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
-    } else {
-      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+
+  onNext() {
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(
+        `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`
+      );
+      return;
     }
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
+    );
   }
 }
