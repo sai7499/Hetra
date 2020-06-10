@@ -11,6 +11,7 @@ import { LeadSectionModule } from '../lead-section/lead-section.module';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+import { DocumentUploadComponent } from './document-upload/document-upload.component';
 
 @NgModule({
   imports: [
@@ -20,9 +21,14 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
     ReactiveFormsModule,
     CommonModule,
     SharedModule,
-    LeadSectionModule    
+    LeadSectionModule,
   ],
-  providers:[LeadDataResolverService],
-  declarations: [SalesComponent, VehicleDetailsComponent, LeadDetailsComponent],
+  providers: [LeadDataResolverService],
+  declarations: [
+    SalesComponent,
+    VehicleDetailsComponent,
+    LeadDetailsComponent,
+    DocumentUploadComponent,
+  ],
 })
 export class SalesModule {}

@@ -6,8 +6,7 @@ import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-import { DocumentUploadComponent } from './applicant-details/document-upload/document-upload.component';
-
+import { DocumentUploadComponent } from './document-upload/document-upload.component';
 
 const routes: Routes = [
   {
@@ -29,10 +28,10 @@ const routes: Routes = [
         path: 'vehicle-details',
         component: VehicleDetailsComponent,
       },
-      // {
-      //   path: 'documentupload',
-      //   component: DocumentUploadComponent,
-      // },
+      {
+        path: 'document-upload',
+        component: DocumentUploadComponent,
+      },
     ],
   },
 ];
