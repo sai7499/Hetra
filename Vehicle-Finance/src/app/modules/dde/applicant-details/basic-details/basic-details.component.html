@@ -312,7 +312,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="office_name">{{ labels?.officeName }}</label>
               <input
-                formControlName="officeName"
+                formControlName="employerName"
                 type="text"
                 class="form-control"
                 name="office_name"
@@ -764,8 +764,8 @@
   </form>
   <div class="row">
     <div class="col-sm-5">
-      <button class="btn btn-primary dash_href">
-        <a href="credit_application_details.html">Back To Applicant Details</a>
+      <button class="btn btn-primary dash_href" (click)="onBackToApplicant()">
+        Back To Applicant Details
       </button>
     </div>
     <div class="col-sm-7 text-right">

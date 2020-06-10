@@ -9,6 +9,7 @@ import { ArrayType } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { SharedService } from '../shared-service/shared-service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -55,7 +56,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService,
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
-    public sharedService: SharedService) { }
+    public sharedService: SharedService,
+    private uiLoader: NgxUiLoaderService) { }
 
   async ngOnInit() {
 
@@ -174,6 +176,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (this.roleName === 'Sales Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
+        let date = new Date(VehicleDetail.manuFacMonthYear)
+
         formArray.controls[0].patchValue({
           vehicleRegNo: VehicleDetail.vehicleRegNo || '',
           region: VehicleDetail.region || '',
@@ -183,7 +187,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           assetModel: VehicleDetail.vehicleModelCode || '',
           assetVariant: VehicleDetail.assetVarient === 'Petrol' ? 0 : '',
           assetSubVariant: VehicleDetail.assetSubVariant || '',
-          manuFacMonthYear: VehicleDetail.manuFacMonthYear ? new Date(VehicleDetail.manuFacMonthYear) : '',
+          manuFacMonthYear: VehicleDetail.manuFacMonthYear ? date : '',
           ageOfAsset: VehicleDetail.ageOfAsset || null,
           finalAssetCost: VehicleDetail.finalAssetCost || '',
           vehicleUsage: VehicleDetail.vehicleUsage || '',
@@ -291,6 +295,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: VehicleDetail.vehicleUsage,
       userId: this.userId
     })
+
   }
 
   // event emitter for giving output to parent add vehicle component
@@ -305,12 +310,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const region = value ? value : '';
     let assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
+      this.uiLoader.start();
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
       this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'uniqueMFRCode')
       assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "uniqueMFRCode", "mfrCode") : []
       this.vehicleLov.assetMake = assetMakeArray;
+      this.uiLoader.stop();
     }, error => {
       console.log(error, 'error')
+      this.uiLoader.stop();
     })
   }
 

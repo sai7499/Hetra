@@ -6,12 +6,16 @@ import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+import { DocumentUploadComponent } from './applicant-details/document-upload/document-upload.component';
+
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: SalesComponent,
-    resolve: { LeadDataResolverService },
+    resolve: {
+      LeadDataResolverService,
+    },
     children: [
       {
         path: 'lead-details',
@@ -23,8 +27,12 @@ const routes: Routes = [
       },
       {
         path: 'vehicle-details',
-        component: VehicleDetailsComponent
-      }
+        component: VehicleDetailsComponent,
+      },
+      // {
+      //   path: 'documentupload',
+      //   component: DocumentUploadComponent,
+      // },
     ],
   },
 ];
@@ -33,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SalesRoutingModule { }
+export class SalesRoutingModule {}

@@ -28,21 +28,32 @@ export class UtilityService {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     // const formattedDate = year + '-' + month1 + '-' + day;
     const formattedDate = day + '/' + month1 + '/' + year;
-    console.log("return Date",formattedDate)
+    console.log('return Date', formattedDate);
     return formattedDate;
   }
-
+  getNewDateFormat(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    // const formattedDate = day + '/' + month1 + '/' + year;
+    console.log('return Date', formattedDate);
+    return formattedDate;
+  }
   ageFromAsset(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'months');
   }
 
   convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD-MM-YYYY')
+    return moment.utc(date).local().format('DD/MM/YYYY');
   }
 
   converDateToUTC(date) {
     // console.log('Outpur date', moment.utc(date).format('DD-MM-YYYYT00:00:00.000Z'))
-    return moment.utc(date).format('EEE MM-DD-YYYY T00:00:00.000Z')
+    return moment.utc(date).format('EEE MM/DD/YYYY T00:00:00.000Z')
     // var d = new Date( date + 'T00:00:00.000Z');
     // console.log('D', d)
     // return moment.utc(date).format('YYYY-MM-DD HH:MM')
@@ -67,7 +78,9 @@ export class UtilityService {
 
   getValueFromJSON(JsonObj, key1, value1) {
     let arrayList = [];
-
+    console.log('JsonObj', JsonObj);
+    console.log('key1', key1);
+    console.log('value1', value1);
     JsonObj.map((data) => {
       if (data) {
         const val = {

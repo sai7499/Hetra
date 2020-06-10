@@ -87,7 +87,12 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   navigateToApplicantList() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
   inputPincode(event) {
@@ -175,19 +180,19 @@ export class AddressDetailsComponent implements OnInit {
     this.getLOV();
     this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
-    console.log("leadId",this.leadId)
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.getAddressDetails();
-    });
+    console.log('leadId', this.leadId);
 
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
       console.log(this.values, 'values');
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.getAddressDetails();
+      });
     });
   }
 
@@ -395,75 +400,79 @@ export class AddressDetailsComponent implements OnInit {
       });
     } else {
       const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
-      this.currentPincode = {
+      if (currentAddressObj) {
+        this.currentPincode = {
+          city: [
+            {
+              key: currentAddressObj.city,
+              value: currentAddressObj.cityValue,
+            },
+          ],
+          district: [
+            {
+              key: currentAddressObj.district,
+              value: currentAddressObj.districtValue,
+            },
+          ],
+          state: [
+            {
+              key: currentAddressObj.state,
+              value: currentAddressObj.stateValue,
+            },
+          ],
+          country: [
+            {
+              key: currentAddressObj.country,
+              value: currentAddressObj.countryValue,
+            },
+          ],
+        };
+        const currentAddress = details.get('currentAddress');
+        currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+        currentAddress.patchValue({
+          accommodationType: currentAddressObj.accommodationType,
+          periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
+          mobileNumber: currentAddressObj.mobileNumber,
+        });
+      }
+    }
+
+    const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
+    if (officeAddressObj) {
+      this.officePincode = {
         city: [
           {
-            key: currentAddressObj.city,
-            value: currentAddressObj.cityValue,
+            key: officeAddressObj.city,
+            value: officeAddressObj.cityValue,
           },
         ],
         district: [
           {
-            key: currentAddressObj.district,
-            value: currentAddressObj.districtValue,
+            key: officeAddressObj.district,
+            value: officeAddressObj.districtValue,
           },
         ],
         state: [
           {
-            key: currentAddressObj.state,
-            value: currentAddressObj.stateValue,
+            key: officeAddressObj.state,
+            value: officeAddressObj.stateValue,
           },
         ],
         country: [
           {
-            key: currentAddressObj.country,
-            value: currentAddressObj.countryValue,
+            key: officeAddressObj.country,
+            value: officeAddressObj.countryValue,
           },
         ],
       };
-      const currentAddress = details.get('currentAddress');
-      currentAddress.patchValue(this.setAddressValues(currentAddressObj));
-      currentAddress.patchValue({
-        accommodationType: currentAddressObj.accommodationType,
-        periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
-        mobileNumber: currentAddressObj.mobileNumber,
+      const officeAddress = details.get('officeAddress');
+      officeAddress.patchValue(this.setAddressValues(officeAddressObj));
+      officeAddress.patchValue({
+        accommodationType: officeAddressObj.accommodationType,
+        periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
+        mobileNumber: officeAddressObj.mobileNumber,
       });
     }
-
-    const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
-    this.officePincode = {
-      city: [
-        {
-          key: officeAddressObj.city,
-          value: officeAddressObj.cityValue,
-        },
-      ],
-      district: [
-        {
-          key: officeAddressObj.district,
-          value: officeAddressObj.districtValue,
-        },
-      ],
-      state: [
-        {
-          key: officeAddressObj.state,
-          value: officeAddressObj.stateValue,
-        },
-      ],
-      country: [
-        {
-          key: officeAddressObj.country,
-          value: officeAddressObj.countryValue,
-        },
-      ],
-    };
-    const officeAddress = details.get('officeAddress');
-    officeAddress.patchValue(this.setAddressValues(officeAddressObj));
-    officeAddress.patchValue({
-      accommodationType: officeAddressObj.accommodationType,
-      periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
-      mobileNumber: officeAddressObj.mobileNumber,
-    });
   }
 
   setValuesForNonIndividual() {
@@ -645,13 +654,11 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   hasRoute() {
-    this.isSalesOrCredit = this.router.url.includes(
-      'sales'
-    )
+    this.isSalesOrCredit = this.router.url.includes('sales')
       ? 'sales'
       : 'credit';
 
-      console.log('isSalesOrCredit',this.isSalesOrCredit)
+    console.log('isSalesOrCredit', this.isSalesOrCredit);
   }
 
   onSubmit() {
@@ -763,5 +770,12 @@ export class AddressDetailsComponent implements OnInit {
     }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
- 
+  onBackToApplicant(){
+    const url = this.location.path();      
+    if(url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
+    } else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+    }
+  }
 }
