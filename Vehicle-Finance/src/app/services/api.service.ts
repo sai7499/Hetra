@@ -203,6 +203,11 @@ export class ApiService {
       processId: 'fe6319ac9b5011eabdd3f2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
+    },
+    getTvrList: {
+      processId: 'e0b687beaa2711ea825df2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     }
   };
 

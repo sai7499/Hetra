@@ -27,7 +27,7 @@ export class NewLeadsComponent implements OnInit {
   constructor(
     private labelsData: LabelsService,
     private dashboardService: DashboardService,
-    private VehicleDataStoreService: VehicleDataStoreService
+    private vehicleDataStoreService: VehicleDataStoreService
   ) {
     // this.newLeads =  [
     //   {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
@@ -73,8 +73,6 @@ export class NewLeadsComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       perPage: parseInt(perPageCount),
       currentPage: parseInt(pageNumber)
-      // perPage: perPageCount,
-      // currentPage: pageNumber
     };
 
     this.dashboardService.myLeads(data).subscribe((res: any) => {
@@ -116,12 +114,11 @@ export class NewLeadsComponent implements OnInit {
   }
 
   getLeadIdSales(Id) {
-    this.VehicleDataStoreService.setSalesLeadID(Id)
+    this.vehicleDataStoreService.setSalesLeadID(Id);
   }
 
   getLeadId(id) {
-    console.log(id, 'Id')
-    this.VehicleDataStoreService.setCreditLeadId(id)
+    this.vehicleDataStoreService.setCreditLeadId(id);
   }
 
 }
