@@ -41,12 +41,18 @@
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                   >{{ labels.companyName1 }}
                 </label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="first_name"
                   formControlName="name1"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="name1"
+                [patternCheck]="namePattern"
+                [isRequired]="'First Name is required'"
+                [maxlength] = "Maxlength30"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label
@@ -59,12 +65,17 @@
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                   >{{ labels.companyName2 }}
                 </label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="middle_name"
                   formControlName="name2"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="name2"
+                [patternCheck]="namePattern"
+                [maxlength] = "Maxlength30"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label
@@ -77,12 +88,17 @@
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                   >{{ labels.companyName3 }}
                 </label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="last_name"
                   formControlName="name3"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="name3"
+                [patternCheck]="namePattern"
+                [maxlength] = "Maxlength30"
+              ></app-custom-input>
               </div>
             </div>
 
@@ -122,12 +138,18 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.mobile }}</label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="mobile"
                   formControlName="mobilePhone"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="mobilePhone"
+                [patternCheck]="mobileNumberPattern"
+                [isRequired]="'Mobile number is required'"
+                [maxLength] = "Maxlength10"
+              ></app-custom-input>
               </div>
 
               <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
@@ -177,13 +199,19 @@
               >
                 <label for="aadharnumber">{{ labels?.aadharnumber }}</label>
                 <div class="input-group input-medium">
-                  <input
+                  <!-- <input
                     type="text"
                     class="form-control date_caps"
                     id="aadhar_number"
                     name="aadhar_number"
                     formControlName="aadhar"
-                  />
+                  /> -->
+                  <app-custom-input
+                formControlName="aadhar"
+                [patternCheck]="adharNumberPattern"
+                [isRequired]="'Adhar number is required'"
+                [maxLength] = "Maxlength12"
+              ></app-custom-input>
                   <span class="input-group-btn">
                     <button class="btn btn-default">
                       <i class="fa fa-credit-card"></i>
@@ -220,12 +248,17 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="pannumber"
                   formControlName="drivingLicenseNumber"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="drivingLicenseNumber"
+                [patternCheck]="drivingLicensePattern"
+                (change)="drvingLisenseValidation($event)"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{
@@ -242,7 +275,14 @@
                     class="form-control"
                     id="date_of_birth"
                     formControlName="drivingLicenseIssueDate"
+                    [required]="Licensemessage"
                   />
+                  <!-- <app-custom-input
+                formControlName="drivingLicenseNumber"
+                
+                [isRequired]="Licensemessage"
+               
+              ></app-custom-input> -->
                 </div>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -267,12 +307,17 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportNumber }}</label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="pannumber"
                   formControlName="passportNumber"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="passportNumber"
+                [patternCheck]="passportPattern"
+                (change)="drvingLisenseValidation($event)"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportIssueDate }}</label>
@@ -310,12 +355,16 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.voterIdNumber }}</label>
-                <input
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="voterIdNumber"
                   formControlName="voterIdNumber"
-                />
+                /> -->
+                <app-custom-input
+                formControlName="voterIdNumber"
+                [patternCheck]="voterIdPattern"
+              ></app-custom-input>
               </div>
             </div>
             <div
@@ -331,40 +380,59 @@
                 <div class="row" formGroupName="permentAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address1">{{ labels?.addressline1 }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="address1"
                       formControlName="addressLineOne"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="addressLineOne"
+                [isRequired]="'Address is Required'"
+                [maxlength] = "Maxlength40"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address2">{{ labels?.addressline2 }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="address2"
                       formControlName="addressLineTwo"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="addressLineTwo"
+                [maxlength] = "Maxlength40"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address3">{{ labels?.addressline3 }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="address3"
                       formControlName="addressLineThree"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="addressLineThree"
+                [maxlength] = "Maxlength40"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="pincode">{{ labels?.code }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="permanentPincode"
                       formControlName="pincode"
                       (keyup)="getPincode($event.target)"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="pincode"
+                [maxlength] = "Maxlength40"
+                [patternCheck]="pincodePattern"
+                (keyup)="getPincode($event.target)"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_city">{{
