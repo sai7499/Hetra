@@ -13,9 +13,10 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 export class LeadSectionHeaderComponent implements OnInit {
   labels: any = {};
   userName: string;
-  leadId: any;
+  leadId: number;
   productId: any;
   productIdFromLead: any;
+  applicantName: string;
 
   constructor(
     private labelsData: LabelsService,
@@ -40,8 +41,9 @@ export class LeadSectionHeaderComponent implements OnInit {
   getUserDetails() {
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (data as any);
+    console.log('leadSectionData',leadSectionData);
     this.leadId = leadSectionData.leadId;
-    
+    this.applicantName = leadSectionData.applicantDetails[0].fullName;
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });

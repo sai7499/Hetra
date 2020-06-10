@@ -59,7 +59,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
 
   saveUpdate: {
     bizDivision: string;
-    productCategory: number;
+    productCategory: string;
     priority: number;
     sourcingChannel: string;
     sourcingType: string;
@@ -134,7 +134,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       : null;
     this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
     this.sourcingDetailsForm.patchValue({ leadCreatedBy: this.leadHandeledBy });
-    this.sourcingDetailsForm.patchValue({ leadHandeledBy: userName });
+    this.sourcingDetailsForm.patchValue({ leadHandeledBy: this.leadHandeledBy });
   }
 
   async getLeadSectionData() {
@@ -322,7 +322,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       userId: Number(this.userId),
       leadId: Number(this.leadId),
       bizDivision: saveAndUpdate.bizDivision,
-      productCategory: Number(saveAndUpdate.productCategory),
+      productCategory: saveAndUpdate.productCategory,
       priority: Number(saveAndUpdate.priority),
       sourcingChannel: saveAndUpdate.sourcingChannel,
       sourcingType: saveAndUpdate.sourcingType,
@@ -346,7 +346,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
 
       if (appiyoError === '0' && apiError === '0') {
         this.isAlert = true;
-        this.alertTimeOut = setTimeout(() => { this.isAlert = false; }, 4000);
+        this.alertTimeOut = setTimeout(() => { this.isAlert = false; }, 10000);
       }
     });
   }
