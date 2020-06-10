@@ -690,5 +690,8 @@
     "referText4": "Text area to input recommendation (max 2000 characters)",
     "more": "More",
     "eCode": "E code",
-    "date": "Date"
+    "date": "Date",
+    "more1": "More",
+    "eCode1": "E code",
+    "date1": "Date"
 }
