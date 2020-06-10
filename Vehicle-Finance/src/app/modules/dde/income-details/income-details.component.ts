@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router , ActivatedRoute} from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/public_api';
 
@@ -55,6 +55,7 @@ export class IncomeDetailsComponent implements OnInit {
       (error) => {}
     );
 
+
     this.getLov();
     this.getLeadId();
     this.userId = localStorage.getItem('userId');
@@ -68,6 +69,7 @@ export class IncomeDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         this.applicantDetails = res.ProcessVariables.applicantInfoObj;
         console.log(this.applicantDetails);
+
       });
     this.incomeDetailsForm = this.formBuilder.group({
       businessIncomeDetails: this.formBuilder.array([]),
@@ -84,6 +86,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
+
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
@@ -95,6 +98,7 @@ export class IncomeDetailsComponent implements OnInit {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
           this.leadId = Number(value.leadId);
+
         }
         resolve(null);
       });
@@ -208,24 +212,26 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   removeBusinessIncomeIndex(i?: any) {
-    const control = this.incomeDetailsForm.controls
-      .businessIncomeDetails as FormArray;
+    const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
     const id = control.at(i).value.id;
     if (control.controls.length > 1) {
-      if (id == undefined) {
+      if (id == undefined ) {
         control.removeAt(i);
+
       } else {
-        const body = {
-          userId: this.userId,
-          aBusinessIncomeDetail: { id },
-        };
-        this.incomeDetailsService
-          .softDeleteIncomeDetails(body)
-          .subscribe((res: any) => {
-            control.removeAt(i);
-            alert(res.ProcessVariables.error.message);
-          });
+      const body = {
+        userId: this.userId,
+        aBusinessIncomeDetail: { id },
+      };
+      this.incomeDetailsService
+        .softDeleteIncomeDetails(body)
+        .subscribe((res: any) => {
+          control.removeAt(i);
+          alert(res.ProcessVariables.error.message);
+
+        });
       }
+
     } else {
       alert('Atleast One Row Required');
     }
@@ -248,20 +254,23 @@ export class IncomeDetailsComponent implements OnInit {
     const id = control.at(i).value.id;
 
     if (control.controls.length > 1) {
-      if (id == undefined) {
+      if (id == undefined ) {
         control.removeAt(i);
+
       } else {
-        const body = {
-          userId: this.userId,
-          otherIncomeDetail: { id },
-        };
-        this.incomeDetailsService
-          .softDeleteIncomeDetails(body)
-          .subscribe((res: any) => {
-            control.removeAt(i);
-            alert(res.ProcessVariables.error.message);
-          });
+      const body = {
+        userId: this.userId,
+        otherIncomeDetail: { id },
+      };
+      this.incomeDetailsService
+        .softDeleteIncomeDetails(body)
+        .subscribe((res: any) => {
+          control.removeAt(i);
+          alert(res.ProcessVariables.error.message);
+
+        });
       }
+
     } else {
       alert('Atleast One Row Required');
     }
@@ -282,19 +291,21 @@ export class IncomeDetailsComponent implements OnInit {
       .obligationDetails as FormArray;
     const id = control.at(i).value.id;
     if (control.controls.length > 1) {
-      if (id == undefined) {
+      if (id == undefined ) {
         control.removeAt(i);
+
       } else {
-        const body = {
-          userId: this.userId,
-          obligationDetail: { id },
-        };
-        this.incomeDetailsService
-          .softDeleteIncomeDetails(body)
-          .subscribe((res: any) => {
-            control.removeAt(i);
-            alert(res.ProcessVariables.error.message);
-          });
+      const body = {
+        userId: this.userId,
+        obligationDetail: { id },
+      };
+      this.incomeDetailsService
+        .softDeleteIncomeDetails(body)
+        .subscribe((res: any) => {
+          control.removeAt(i);
+          alert(res.ProcessVariables.error.message);
+
+        });
       }
     } else {
       alert('Atleast One Row Required');
@@ -316,29 +327,22 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   onBusinessApplicantChange(event?: any, i?: number) {
-    const applicantType = this.applicantDetails.find(
-      (res) => res.applicantId == event
-    ).applicantType;
-    const control = this.incomeDetailsForm.controls
-      .businessIncomeDetails as FormArray;
+
+    const applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType;
+    const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
+
   }
 
   onOtherApplicantChange(event, i?: number) {
-    const applicantType = this.applicantDetails.find(
-      (res) => res.applicantId == event
-    ).applicantType;
-    const control = this.incomeDetailsForm.controls
-      .otherIncomeDetails as FormArray;
+    const applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType;
+    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
   }
 
   onObligationApplicantChange(event, i?: number) {
-    const applicantType = this.applicantDetails.find(
-      (res) => res.applicantId == event
-    ).applicantType;
-    const control = this.incomeDetailsForm.controls
-      .obligationDetails as FormArray;
+    const applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType;
+    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
   }
 
@@ -349,14 +353,16 @@ export class IncomeDetailsComponent implements OnInit {
     if (this.incomeDetailsForm.invalid) {
       // return;
       alert('Select Applicant');
-    } else {
-      this.incomeDetailsService
-        .setAllIncomeDetails(this.incomeDetailsForm.value)
-        .subscribe((res: any) => {
-          if (res.Error && res.Error == 0) {
-            alert('saved Success');
-          }
-        });
-    }
+   } else {
+    this.incomeDetailsService
+      .setAllIncomeDetails(this.incomeDetailsForm.value)
+      .subscribe((res: any) => {
+        if (res.Error && res.Error == 0) {
+        alert('saved Success');
+        }
+
+      });
   }
+
+
 }
