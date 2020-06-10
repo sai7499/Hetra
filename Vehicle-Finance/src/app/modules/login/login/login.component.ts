@@ -23,6 +23,7 @@ import { CommonDataService } from '@services/common-data.service';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 import { GpsService } from 'src/app/services/gps.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -111,6 +112,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginData = this.loginForm.value;
+    if (environment.hostingEnvironment === 'Production') {
+      this.loginData.email = `${this.loginData.email}@equitasbank.in`;
+    } else {
+      this.loginData.email = `${this.loginData.email}@esfbuat.in`;
+    }
     this.loginService.getLogin(this.loginData).subscribe(
       (res: any) => {
         const response = res;

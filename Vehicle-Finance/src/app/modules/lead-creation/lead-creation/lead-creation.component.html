@@ -241,63 +241,50 @@
               >{{ labels.companyName1 }}
               <sub class="star_red_col">*</sub>
             </label>
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="first_name"
-              name="first_name"
+            <app-custom-input
               formControlName="nameOne"
-            />
+              [className]="'form-control mandatory'"
+              [placeholder]="'First Name'"
+              [maxLength]="regexPattern.nameLength"
+              >
+            </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name" *ngIf="applicantType == 'INDIVENTTYP'">{{
-              labels.middleName
-            }}</label>
-            <label
-              for="middle_name"
-              *ngIf="applicantType == 'NONINDIVENTTYP'"
-              >{{ labels.companyName2 }}</label
-            >
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="middle_name"
-              name="middle_name"
+            <label for="middle_name" *ngIf="applicantType == 'INDIVENTTYP'">{{labels.middleName}}</label>
+            <label for="middle_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}</label>
+            <app-custom-input
               formControlName="nameTwo"
-            />
+              [className]="'form-control mandatory'"
+              [placeholder]="'Middle Name'"
+              [maxLength]="regexPattern.nameLength"
+              >
+            </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'"
-              >{{ labels.lastName }}
-            </label>
-            <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{
-              labels.companyName3
-            }}</label>
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="last_name"
-              name="last_name"
+            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }}</label>
+            <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}</label>
+            <app-custom-input
               formControlName="nameThree"
-            />
+              [className]="'form-control mandatory'"
+              [placeholder]="'Last Name'"
+              [maxLength]="regexPattern.nameLength"
+              [patternCheck]="regexPattern.name">
+            </app-custom-input>
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="mobile"
-              >{{ labels.mobile }} <sub class="star_red_col">*</sub></label
-            >
-            <input
-              type="text"
-              class="form-control mandatory"
-              id="mobile"
-              placeholder="Mobile"
-              name="mobile"
+            <label for="mobile">{{ labels.mobile }} <sub class="star_red_col">*</sub></label>
+            <app-custom-input
               formControlName="mobile"
-            />
+              [className]="'form-control mandatory'"
+              [placeholder]="'Mobile'"
+              [maxLength]="regexPattern.maxLength"
+              [patternCheck]="regexPattern.mobile">
+            </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -342,3 +329,5 @@
     <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>
 </footer>
+
+

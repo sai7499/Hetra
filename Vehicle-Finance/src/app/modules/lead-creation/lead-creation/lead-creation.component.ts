@@ -50,6 +50,26 @@ export class LeadCreationComponent implements OnInit {
 
   test = [];
 
+  regexPattern = {
+    maxLength: {
+      rule: '10',
+      msg: 'Maximum Length 10 digits'
+    },
+    nameLength: {
+      rule: '30',
+      msg: ''
+    },
+    name: {
+      rule: "^[a-zA-Z]+(?:[-' ][a-zA-Z]+)*$",
+      msg: 'Special characters are not allowed !'
+    },
+    mobile: {
+      rule: "^[1-9][0-9]*$",
+      msg: "Numbers only allowed !"
+    }
+  }
+
+
   loanLeadDetails: {
     bizDivision: string;
     product: string;
@@ -201,7 +221,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   productCategoryChange(event) {
-    console.log('productCategoryChange',event.target.value)
+    console.log('productCategoryChange', event.target.value)
     const productCategorySelected = event.target.value;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
       this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
@@ -283,7 +303,7 @@ export class LeadCreationComponent implements OnInit {
       nameOne: leadModel.nameOne,
       nameTwo: leadModel.nameTwo,
       nameThree: leadModel.nameThree,
-      mobileNumber: leadModel.mobile,
+      mobileNumber: `91${leadModel.mobile}`,
       dobOrDoc: leadModel.dateOfBirth,
     };
 

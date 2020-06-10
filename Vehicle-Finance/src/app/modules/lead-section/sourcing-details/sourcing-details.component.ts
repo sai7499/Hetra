@@ -59,7 +59,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
 
   saveUpdate: {
     bizDivision: string;
-    productCategory: string;
+    productCategory: number;
     priority: number;
     sourcingChannel: string;
     sourcingType: string;
@@ -322,7 +322,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       userId: Number(this.userId),
       leadId: Number(this.leadId),
       bizDivision: saveAndUpdate.bizDivision,
-      productCategory: saveAndUpdate.productCategory,
+      productCategory: Number(saveAndUpdate.productCategory),
       priority: Number(saveAndUpdate.priority),
       sourcingChannel: saveAndUpdate.sourcingChannel,
       sourcingType: saveAndUpdate.sourcingType,
