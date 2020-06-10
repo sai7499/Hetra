@@ -683,10 +683,11 @@ export class AddressDetailsComponent implements OnInit {
       this.applicantService.saveApplicant(data).subscribe((res) => {
         const currentUrl = this.location.path();
         if (currentUrl.includes('sales')) {
-          this.router.navigate([
-            `/pages/sales-applicant-details/${this.leadId}/document-upload`,
-            this.applicantId,
-          ]);
+          // this.router.navigate([
+          //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
+          //   this.applicantId,
+          // ]);
+          alert("saved successfully")
         } else {
           this.router.navigate([
             `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,

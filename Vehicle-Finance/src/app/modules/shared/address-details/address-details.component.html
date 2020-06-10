@@ -670,7 +670,7 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onNext()">
+      ><button class="btn btn-primary" type="button" (click)="onNext()" [disabled]="isSalesOrCredit == 'sales'" >
         Next
       </button></a
     >
