@@ -397,14 +397,20 @@
 </div>
 
 <div class="btn-sec clear-both row">
-    <div class="col-sm-5">
-        <button class="btn btn-primary dash_href" (click)="onBackToApplicant()">
+  <div class="col-sm-5">
+    <button
+      class="btn btn-primary dash_href"
+      (click)="navigateToApplicantList()"
+    >
       <a>Back To Applicant Details</a>
     </button>
-    </div>
-    <div class="col-sm-7 text-right">
-        <span id="edit_vehicle_details_replace"></span>
-        <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)= "onBack()">Back</button></a
+  </div>
+  <div class="col-sm-7 text-right">
+    <span id="edit_vehicle_details_replace"></span>
+    <a id="back_vehicle_details"
+      ><button class="btn btn-primary" type="button" (click)="onBack()">
+        Back
+      </button></a
     >
     <p
       class="btn btn-primary save"
@@ -414,7 +420,9 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" >Next</button></a
+      ><button class="btn btn-primary" type="button" (click)="onNext()">
+        Next
+      </button></a
     >
     <br />
     <br />

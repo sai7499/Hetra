@@ -293,7 +293,13 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onSave()">Next</button></a
+      ><button
+        class="btn btn-primary"
+        type="button"
+        [routerLink]="['../../identity-details', applicantId]"
+      >
+        Next
+      </button></a
     >
     <br />
     <br />

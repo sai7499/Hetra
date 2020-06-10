@@ -1,0 +1,845 @@
+<div class="content">
+  <form
+    class="multisteps-form__form basic_scroll"
+    method="POST"
+    style="height: 400px;"
+  >
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+      <h4 class="title">Document upload</h4>
+      <div class="panel-group" id="accordion">
+        <!---<div class="panel panel-default active">
+                    <div class="panel-heading" id="headingOne">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          <i class="fa fa-image"></i> &nbsp; Photo <i class="fa fa-angle-down"></i>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="photo">
+                                <img src="images/user.jpg" alt="[Image: Photo]" width="100">
+                            </div>
+                            <-- <div class="form-group col-sm-6 col-md-3">
+                                <label for="file">Upload photo</label>
+                                <input type="file" id="file">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading" id="headingTwo">
+                      <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            <i class="fa fa-image"></i>&nbsp; Signature <i class="fa fa-angle-down"></i>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group col-sm-6 col-md-3">
+                                <label for="file">Upload signature</label>
+                                <input type="file" id="file">
+                            </div>
+                        </div>
+                    </div>
+                  </div> ----->
+        <!---- <div class="panel panel-default">
+                    <div class="panel-heading" id="headingThree">
+                      <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" >
+                            <i class="fa fa-address-card"></i>&nbsp; ID Proof <i class="fa fa-angle-down"></i>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                      <div class="panel-body">
+                            <div class="form-group col-sm-6 col-md-3">
+                                <label for="document">Document Name</label>
+                                <select class="form-control">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3">
+                                <label for="documentnumber">Document Number</label>
+                                <input type="text" class="form-control" id="amount">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3">
+                                <label for="idate">Issues Date</label>
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="text" class="form-control" id="date">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3">
+                                <label for="edate">Expiry Date</label>
+                                <div class="input-group input-medium">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                    </span>
+                                    <input type="text" class="form-control" id="date">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3">
+                                <label for="file">Attachment</label>
+                                <input type="file" id="file">
+                             </div>
+                        </div>
+                    </div>
+                </div> ---->
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingTwo1">
+            <h4 class="panel-title">
+              <a
+                class="collapsed"
+                data-toggle="collapse"
+                data-parent="#accordion"
+                href="#collapseTwo1"
+              >
+                <i class="fa fa-plus-circle"></i>&nbsp; Additional Document
+                <i class="fa fa-angle-down"></i>
+              </a>
+            </h4>
+          </div>
+          <div
+            id="collapseTwo1"
+            class="panel-collapse collapse in"
+            aria-expanded="true"
+          >
+            <div class="panel-body" id="show_1st_div">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload1"
+                    ></i></label
+                  >&nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents1"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove1"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_2st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files1"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files1"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload2"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents2"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove2"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_3st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files2"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files2"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload3"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents3"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove3"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_4st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files3"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files3"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload4"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents4"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove4"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_5st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files4"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files4"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload5"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents5"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove5"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_6st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files5"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files5"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload6"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents6"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove6"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_7st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files6"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files6"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload7"
+                    ></i></label
+                  >&nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents7"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove7"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_8st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files7"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files7"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload8"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents8"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove8"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_9st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files8"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files8"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload9"
+                    ></i></label
+                  >&nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents9"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove9"
+                  ></i>
+                </p>
+              </div>
+            </div>
+            <div class="panel-body" id="show_10st_div" style="display: none;">
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="document">Document Name</label>
+                <select class="form-control">
+                  <option>Select</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="documentnumber">Document Number</label>
+                <input type="text" class="form-control" id="amount" />
+              </div>
+
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="idate">Issues Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label for="edate">Expiry Date</label>
+                <div class="input-group input-medium">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control" id="date" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Attachment</label>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  multiple=""
+                  id="upload_files9"
+                  name="filename"
+                />
+              </div>
+              <div class="form-group col-sm-3 col-md-2">
+                <label>Actions </label>
+                <p>
+                  <label for="upload_files9"
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload10"
+                    ></i
+                  ></label>
+                  &nbsp;
+                  <i
+                    class="fa fa-plus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents10"
+                  ></i>
+                  &nbsp;
+                  <i
+                    class="fa fa-minus fa-3"
+                    aria-hidden="true"
+                    id="add_more_documents_remove10"
+                  ></i>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!---- <p class="btn btn-primary" id="add_more_documents" >Add More Additional Documents</p> ----->
+        <br />
+      </div>
+
+      <!--mobile view start
+            <div class="col-xs-12 visible-xs">
+                <div class="box active" data-toggle="modal" data-target="#photo">
+                    <div><i class="fa fa-image"></i></div>
+                    <div> Photo </div>
+                </div>
+                <div class="box">
+                    <div><i class="fa fa-image"></i></div>
+                    <div> Signature </div>
+                </div>
+                <div class="box" data-toggle="modal" data-target="#Id_proof">
+                    <div><i class="fa fa-address-card"></i></div>
+                    <div> ID Proof </div>
+                </div>
+                <div class="box">
+                    <div><i class="fa fa-plus-circle"></i></div>
+                    <div> Additional </div>
+                </div>
+            </div>
+            <!--mobile view end-->
+    </div>
+  </form>
+  <div class="btn-sec clear-both row">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right">
+      <a href="sales_vechicle_details.html"></a
+      ><button class="btn btn-primary dash_href" type="button">
+        <a href="sales_vechicle_details.html">Back</a>
+      </button>
+      <button class="btn btn-primary" id="submit">Save</button>
+      <button
+        class="btn btn-primary dash_href"
+        type="button"
+        data-toggle="modal"
+        data-target="#myModal"
+      >
+        Submit To Credit
+      </button>
+    </div>
+  </div>
+</div>
