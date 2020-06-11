@@ -45,10 +45,35 @@ export class LeadCreationComponent implements OnInit {
   sourchingType: string;
   productCategorySelectedList = [];
   productCategoryList = [];
+  sourcingChannelData = [];
+  sourcingData = [];
+  socuringTypeData = [];
+  placeholder = [];
+  dealerCodeData = [];
+
 
   obj = {};
-
   test = [];
+
+  regexPattern = {
+    maxLength: {
+      rule: '10',
+      msg: 'Maximum Length 10 digits'
+    },
+    nameLength: {
+      rule: '30',
+      msg: ''
+    },
+    name: {
+      rule: "^[a-zA-Z]+(?:[-' ][a-zA-Z]+)*$",
+      msg: 'Special characters are not allowed !'
+    },
+    mobile: {
+      rule: "^[1-9][0-9]*$",
+      msg: "Numbers only allowed !"
+    }
+  }
+
 
   loanLeadDetails: {
     bizDivision: string;
@@ -202,7 +227,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   productCategoryChange(event) {
-    console.log('productCategoryChange',event.target.value)
+    console.log('productCategoryChange', event.target.value)
     const productCategorySelected = event.target.value;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
       this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
@@ -212,25 +237,18 @@ export class LeadCreationComponent implements OnInit {
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
       const response = res.ProcessVariables.sourcingChannelObj;
-      this.sourchingTypeData = response;
+      this.sourcingData = response;
+      this.sourcingChannelData = this.utilityService.getValueFromJSON(
+        this.sourcingData, 'sourcingChannelId', 'sourcingChannelDesc');
     });
   }
 
   sourcingChannelChange(event: any) {
     this.sourchingTypeValues = [];
     this.sourcingChange = event.target.value;
-    this.sourcingCodePlaceholder =
-      this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
 
-    this.sourchingTypeData.map((element) => {
-      if (element.sourcingChannelId === this.sourcingChange) {
-        const data = {
-          key: element.sourcingTypeId,
-          value: element.sourcingTypeDesc,
-        };
-        this.sourchingTypeValues.push(data);
-      }
-    });
+    this.sourchingTypeValues = this.utilityService.getValueFromJSON(
+      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange), 'sourcingTypeId', 'sourcingTypeDesc');
     this.createLeadForm.patchValue({ sourcingType: '' });
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
@@ -244,6 +262,35 @@ export class LeadCreationComponent implements OnInit {
     }
   }
 
+  sourchingTypeChange(event) {
+    const sourchingTypeId = event.target.value;
+
+    this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
+    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
+    console.log('placeholder', this.placeholder);
+    this.sourcingCodePlaceholder = this.placeholder[0].value;
+  }
+
+  onChangeSearch(event) {
+    let inputString = event;
+    let dealerCode = [];
+
+    if (String(inputString).length >= 1) {
+      console.log('code', event);
+
+      dealerCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
+      console.log('dealerCode', dealerCode);
+      let one: string = dealerCode[0].sourcingCodeType;
+      let two: string = dealerCode[0].sourcingSubCodeType;
+
+      this.createLeadService.sourcingCode(one, two, inputString).subscribe((res: any) => {
+        console.log('dealer code res', res);
+        this.dealerCodeData = res.ProcessVariables.codeList;
+      })
+    }
+  }
+  onFocused($event){}
+  selectEvent($event){}
   selectApplicantType(event: any) {
     this.applicantType = event.target.value;
   }
@@ -284,8 +331,8 @@ export class LeadCreationComponent implements OnInit {
       nameOne: leadModel.nameOne,
       nameTwo: leadModel.nameTwo,
       nameThree: leadModel.nameThree,
-      mobileNumber: leadModel.mobile,
-      dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
+      mobileNumber: `91${leadModel.mobile}`,
+      dobOrDoc: leadModel.dateOfBirth,
     };
 
     this.createLeadDataService.setLeadData(

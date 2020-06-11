@@ -63,6 +63,8 @@ export class CustomInputComponent
 
   @Input() dynamicDataBinding: boolean;
 
+  @Input() placeholder: string;
+
   htmlInputElement: any;
 
   @ViewChild('customInput', { static: false }) customInput: ElementRef;
