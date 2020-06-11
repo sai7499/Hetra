@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-otp-section',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OtpSectionComponent implements OnInit {
 
-  constructor() { }
+  public otpForm: FormGroup;
+
+  constructor(private _fb: FormBuilder) { }
 
   ngOnInit() {
+    this.otpForm = this._fb.group({
+      otp: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(6),Validators.pattern('[0-9]*'), Validators.required])]
+    })
   }
 
 }

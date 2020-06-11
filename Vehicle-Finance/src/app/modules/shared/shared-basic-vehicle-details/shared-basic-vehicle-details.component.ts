@@ -113,7 +113,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
         })
       }
-
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
@@ -306,6 +305,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       this.utilityService.validateAllFormFields(this.basicVehicleForm)
     }
+    // this.formDataOutput.emit(this.basicVehicleForm.value)
   }
 
   //  method to get vehicle master data from region 
@@ -384,9 +384,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetBodyType: ['', Validators.required],
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
-      assetSubVariant: ['', Validators.required],
+      assetSubVariant: [''],
       manuFacMonthYear: ['', Validators.required],
-      ageOfAsset: ['', Validators.required],
+      ageOfAsset: [{ value: '', disabled: true }, Validators.required],
       // finalAssetCost: ['', Validators.compose([Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$'), Validators.required])],
       finalAssetCost: ['', Validators.compose([
         Validators.required,
@@ -401,7 +401,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
     formArray.push(controls);
-    console.log(this.basicVehicleForm.get('vehicleFormArray')['controls'][0].get('region'), 'Valid')
+    console.log(this.basicVehicleForm.get('vehicleFormArray')['controls'][0].get('region'))
   }
 
   addCreditFormControls() {

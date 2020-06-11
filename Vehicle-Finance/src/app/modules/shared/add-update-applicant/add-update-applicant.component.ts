@@ -100,6 +100,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
   }
 
+  checkDrivingLicense(event) {
+    console.log(event, 'event')
+    const value = event.target.value;
+    console.log(this.coApplicantForm.get('drivingLicenseNumber').status)
+    if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
+      this.coApplicantForm.patchValue({
+        drivingLicenseIssueDate: ['', Validators.required],
+        drivingLicenseExpiryDate: ['', Validators.required],
+       });
+    }
+    // this.coApplicantForm.patchValue({ entity: 'Non-individual' });
+  }
+
   constructor(
     private labelsData: LabelsService,
     private lovData: LovDataService,

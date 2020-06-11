@@ -80,6 +80,7 @@ export class AddvehicleComponent implements OnInit {
   // parent method to call the child method to access form data
 
   FormDataParentMethod(value: any) {
+    console.log(value, 'valie')
     this.formDataFromChild = value;
     this.vehicleDetails = value;
   }
@@ -91,6 +92,7 @@ export class AddvehicleComponent implements OnInit {
 
   saveVehicleCollaterals() {
     this.isHidden = false;
+    console.log(this.vehicleDetails, 'Details')
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
