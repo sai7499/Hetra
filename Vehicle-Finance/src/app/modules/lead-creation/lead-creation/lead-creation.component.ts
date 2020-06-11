@@ -45,9 +45,11 @@ export class LeadCreationComponent implements OnInit {
   sourchingType: string;
   productCategorySelectedList = [];
   productCategoryList = [];
+  sourcingChannelData = [];
+  sourcingData = [];
+
 
   obj = {};
-
   test = [];
 
   regexPattern = {
@@ -231,25 +233,29 @@ export class LeadCreationComponent implements OnInit {
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
       const response = res.ProcessVariables.sourcingChannelObj;
-      this.sourchingTypeData = response;
+      this.sourcingData = response;
+      this.sourcingChannelData = this.utilityService.getValueFromJSON(
+        this.sourcingData, 'sourcingChannelId', 'sourcingChannelDesc');
     });
   }
 
   sourcingChannelChange(event: any) {
     this.sourchingTypeValues = [];
     this.sourcingChange = event.target.value;
-    this.sourcingCodePlaceholder =
-      this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
 
-    this.sourchingTypeData.map((element) => {
-      if (element.sourcingChannelId === this.sourcingChange) {
-        const data = {
-          key: element.sourcingTypeId,
-          value: element.sourcingTypeDesc,
-        };
-        this.sourchingTypeValues.push(data);
-      }
-    });
+    this.sourchingTypeValues = this.utilityService.getValueFromJSON(
+      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange), 'sourcingTypeId', 'sourcingTypeDesc');
+    // this.sourcingCodePlaceholder = this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
+
+    // this.sourchingTypeData.map((element) => {
+    //   if (element.sourcingChannelId === this.sourcingChange) {
+    //     const data = {
+    //       key: element.sourcingTypeId,
+    //       value: element.sourcingTypeDesc,
+    //     };
+    //     this.sourchingTypeValues.push(data);
+    //   }
+    // });
     this.createLeadForm.patchValue({ sourcingType: '' });
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
@@ -261,6 +267,15 @@ export class LeadCreationComponent implements OnInit {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
     }
+  }
+
+  sourchingTypeChange(event) {
+    const sourchingTypeId = event.target.value;
+    let placeholder = [];
+    placeholder = this.utilityService.getValueFromJSON(
+      this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId), 'sourcingCodeType', 'sourcingCode');
+    console.log('placeholder', placeholder);
+    this.sourcingCodePlaceholder = placeholder[0].value;
   }
 
   selectApplicantType(event: any) {

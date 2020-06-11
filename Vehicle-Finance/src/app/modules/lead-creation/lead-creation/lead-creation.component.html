@@ -82,7 +82,7 @@
               <sub class="star_red_col">*</sub></label
             >
             <app-vf-custom-select
-              [values]="LOV.LOVS.sourcingChannel"
+              [values]="sourcingChannelData"
               formControlName="sourcingChannel"
               (change)="sourcingChannelChange($event)"
               name="sourcingChannel"
@@ -97,6 +97,7 @@
             <app-vf-custom-select
               [values]="sourchingTypeValues"
               formControlName="sourcingType"
+              (change)="sourchingTypeChange($event) "
             >
             </app-vf-custom-select>
           </div>
@@ -303,6 +304,10 @@
               name="dob"
               formControlName="dateOfBirth"
             />
+            <!-- <kendo-datepicker
+                formControlName="dateOfBirth"
+                
+            ></kendo-datepicker> -->
           </div>
 
           <div class="btn-sec clear-both">

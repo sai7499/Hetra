@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,18 +14,16 @@ import { LeadDetails } from '../services/sourcingLeadDetails.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { BehaviorSubject } from 'rxjs';
 import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-sourcing-details',
   templateUrl: './sourcing-details.component.html',
   styleUrls: ['./sourcing-details.component.css'],
 })
-export class SourcingDetailsComponent implements OnInit, OnDestroy {
-  // values: any = [];
+export class SourcingDetailsComponent implements OnInit {
   labels: any = {};
   sourcingDetailsForm: FormGroup;
-  // text: any;
-  // id: any;
   LOV: any;
   isAlert: boolean;
 
@@ -88,7 +86,8 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
@@ -345,8 +344,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       const apiError = response.ProcessVariables.error.code;
 
       if (appiyoError === '0' && apiError === '0') {
-        this.isAlert = true;
-        this.alertTimeOut = setTimeout(() => { this.isAlert = false; }, 10000);
+        this.toasterService.showSuccess('Lead Updated Successfully !', '');
       }
     });
   }
@@ -379,9 +377,5 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
         resolve(null);
       });
     });
-  }
-
-  ngOnDestroy() {
-    clearTimeout(this.alertTimeOut);
   }
 }
