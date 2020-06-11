@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -19,7 +19,7 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './sourcing-details.component.html',
   styleUrls: ['./sourcing-details.component.css'],
 })
-export class SourcingDetailsComponent implements OnInit {
+export class SourcingDetailsComponent implements OnInit, OnDestroy {
   // values: any = [];
   labels: any = {};
   sourcingDetailsForm: FormGroup;
@@ -50,6 +50,7 @@ export class SourcingDetailsComponent implements OnInit {
   productCategoryFromLead: string;
   leadCreatedDateFromLead: string;
   isBusinessDivisionEnable: boolean;
+  alertTimeOut: any;
   leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   saveUpdate: {
@@ -83,7 +84,7 @@ export class SourcingDetailsComponent implements OnInit {
     private sharedService: SharedService,
     private activatedRoute: ActivatedRoute,
     private location: Location
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -271,10 +272,6 @@ export class SourcingDetailsComponent implements OnInit {
         this.sourchingTypeValues.push(data);
       }
     });
-    // console.log('this.sourchingTypeValues', this.sourchingTypeValues);
-    // if (this.sourchingTypeValues.length === 0) {
-    //   this.sourchingTypeValues = [{ key: null, value: 'Not Applicable' }];
-    // }
     this.sourcingDetailsForm.patchValue({ sourcingType: '' });
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
@@ -282,7 +279,7 @@ export class SourcingDetailsComponent implements OnInit {
       return;
     }
     if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues.push({ key: null, value: 'Not Applicable' });
+      this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
     }
@@ -346,8 +343,8 @@ export class SourcingDetailsComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
 
       if (appiyoError === '0' && apiError === '0') {
-        // alert(response.ProcessVariables.error.message);
         this.isAlert = true;
+        this.alertTimeOut = setTimeout(() => { this.isAlert = false; }, 4000);
       }
     });
   }
@@ -380,5 +377,9 @@ export class SourcingDetailsComponent implements OnInit {
         resolve(null);
       });
     });
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.alertTimeOut);
   }
 }

@@ -4,14 +4,16 @@
           <div class="row">
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_holder_name">Account Holder Name</label>
-                <input formControlName="accountHolderName" type="text" class="form-control" name="account_holder_name" id="account_holder_name" required="required">
+                <input formControlName="accountHolderName" type="text" class="form-control"
+                     name="account_holder_name" id="account_holder_name" required="required">
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="bank_name">Bank Name</label>
                 <!-- <app-vf-custom-select formControlName="bankId" [values]="bankMaster"></app-vf-custom-select> -->
                 
             <!-- <input formControlName="bankName" type="text" class="form-control" name="bank_name" id="bank_name" required="required"> -->
-            <select class="form-control" id="account_type" name="account_type" required="required" formControlName="bankId" >
+            <select class="form-control" id="account_type" name="account_type" required="required"
+                 formControlName="bankId" >
                 <option disabled>--Select One--</option>
                 <option value="{{item.key}}" *ngFor="let item of lovData.bankMaster">{{item.value}}</option>
                 
@@ -19,11 +21,13 @@
         </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_number">Account Number</label>
-                <input formControlName="accountNumber" type="text" class="form-control" name="account_number" id="account_number" required="required">
+                <input formControlName="accountNumber" type="number" class="form-control" name="account_number" 
+                    id="account_number" required="required">
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_type">Account Type</label>
-                <select class="form-control" id="account_type" name="account_type" required="required" formControlName="accountType" >
+                <select class="form-control" id="account_type" name="account_type" required="required" 
+                    formControlName="accountType" >
                     <option disabled>--Select One--</option>
                     <option value="{{item.key}}" *ngFor="let item of lovData.bankAccountType">{{item.value}}</option> 
                 </select>
@@ -35,7 +39,7 @@
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input formControlName="fromDate" type="date" class="form-control"  data-date-format="dd-MM-yy" (input)= "getMonths()" >
+                      <input formControlName="fromDate"  date-format= 'dd/MM/yyyy' type="date" class="form-control "   (input)= "getMonths()" >
                    </div>
                 </div>
              </div>
@@ -45,13 +49,15 @@
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input  formControlName="toDate" type="date" class="form-control" value="01-06-2020" (input)="getMonths()">
+                      <input  formControlName="toDate"    type="date" 
+                        class="form-control date datepicker" 
+                         disabled>
                    </div>
                 </div>
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="period">Period</label>
-                <input formControlName="period" type="number" class="form-control" name="period" id="period" required="required">
+                <input formControlName="period" type="number" class="form-control" name="period" id="period" required="required" disabled>
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="limit">Limit</label>
@@ -99,12 +105,12 @@
               <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index" [formGroupName]="i">
                   <!-- <td><input type='checkbox' name='record'></td> -->
                   <!-- <td>1</td> -->
-                  <td *ngIf= "!formType" >
-                      <!-- <p formControlName="month" value="Jan">Jan</p> -->
-                     <p >{{ i + assignedArray[i][0]}} </p> 
-                  </td>
-                  <td *ngIf = "formType">
-                      {{bankDetailsNew[i].month}}
+                  <!-- <td *ngIf= "!formType" >
+                     
+                     <input  class = "form-control" formControlName = "month" value="{{assignedArray[i][0]}}" disabled> 
+                  </td> -->
+                  <td >
+                      <input class="form-control" formControlName = "month" value="{{assignedArray[i] ? assignedArray[i] : assignedArray[i].month[0]}}" disabled > 
                   </td>
                   <td>
                       <input type="number" class="form-control input_value"  formControlName="inflow">
@@ -143,8 +149,8 @@
    <div class="row">
 
     <div class="col-sm-5">
-        <button class="btn btn-primary dash_href "> Back To Applicant
-                Details </button>
+        <button  class="btn btn-primary dash_href" 
+        (click)="onBackToApplicant()"> Back To Applicant Details </button>
     </div>
     <div class="col-sm-7 text-right">
         <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
