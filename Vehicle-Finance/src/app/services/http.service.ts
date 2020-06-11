@@ -66,7 +66,10 @@ export class HttpService {
     //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     // }
     if (this.isMobile) {
-      return this.postMWithoutEncryption(url, requestEntity);
+      console.log("url", url);
+      console.log("body", requestEntity);
+      const body = JSON.stringify(requestEntity);
+      return this.postM(url, body);
     } else {
       if (headers) {
         return this.http.post(url, requestEntity, {
