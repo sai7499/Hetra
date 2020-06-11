@@ -45,6 +45,8 @@ import {
 import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
 
 import { setTheme } from 'ngx-bootstrap/utils';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+
 
 setTheme('bs4'); 
 
@@ -78,6 +80,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AgmDirectionModule, // agm-direction
     DdeSharedModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    DateInputsModule,
   ],
   providers: [
     HTTP,

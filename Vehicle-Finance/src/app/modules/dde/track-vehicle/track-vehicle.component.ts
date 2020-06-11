@@ -104,8 +104,8 @@ export class TrackVehicleComponent implements OnInit {
         vehicleNo: new FormControl(''),
         financeType: new FormControl(''),
         accountStatus: new FormControl(''),
-        loanStartDate: new FormControl(''),
-        loanMaturityDate: new FormControl('' || ''),
+        loanStartDate: new FormControl(),
+        loanMaturityDate: new FormControl(),
         count30: new FormControl({ value: '' || '0', disabled: true }),
         count90: new FormControl({ value: '' || '0', disabled: true }),
         totalEmi: new FormControl(''),
@@ -179,15 +179,15 @@ export class TrackVehicleComponent implements OnInit {
     const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    const formattedDate = year + '-' + month1 + '-' + day;
+    const formattedDate = new Date( year + '/' + month1 + '/' + day);
     return formattedDate;
   }
   loanStartDate(event) {
     const confirmed = confirm("Are you sure to loan start date");
     if (confirmed) {
-      this.loanEmiDate = this.dateDbFormat(event.target.value)
+      this.loanEmiDate = this.dateDbFormat(event)
       this.formArr.controls = [];
-      let addDueDate = this.dateDbFormat(event.target.value);
+      let addDueDate = this.dateDbFormat(event);
       if (this.fleetRtrDetails && this.fleetRtrDetails.length != 0) {
         for (let i = 0; i < this.fleetRtrDetails.length; i++) {
           if (i < this.fleetRtrDetails.length) {
@@ -225,7 +225,7 @@ export class TrackVehicleComponent implements OnInit {
               })
               rowData = {
                 // installmentAmt: this.trackVehicleForm.value['emiAmount'],
-                dueDate: addDueDate2
+                'dueDate': addDueDate2
               }
             }
 
@@ -354,48 +354,14 @@ export class TrackVehicleComponent implements OnInit {
       }
     })
   }
-  addRows(Data) {
-    //   const noOfRows = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value);
-    // if(Data != null ){
-    //   if (noOfRows) {
-    //     for (let i = 0; i < noOfRows; i++) {
-    //       let addDueDate = this.getDateFormat(this.trackVehicleForm.value['loanStartDate']);
-    //       if (i > 0) {
-    //         addDueDate = this.addMonth(addDueDate, i)
-    //       }
-    //       let rowData = {
-    //         installmentAmt: this.trackVehicleForm.value['emiAmount'],
-    //         dueDate: addDueDate
-    //       }
-    //       this.formArr.push(this.initRows(rowData));
-    //     }
-
-    //   }
-    // } else {
-    //   if (noOfRows) {
-    //     for (let i = 0; i < noOfRows; i++) {
-    //       let addDueDate = this.getDateFormat(this.trackVehicleForm.value['loanStartDate']);
-    //       if (i > 0) {
-    //         addDueDate = this.addMonth(addDueDate, i)
-    //       }
-    //       let rowData = {
-    //         installmentAmt: this.trackVehicleForm.value['emiAmount'],
-    //         dueDate: addDueDate
-    //       }
-    //       this.formArr.push(this.initRows(rowData));
-    //     }
-
-    //   }
-    // }
-
-  }
+ 
   receiptNumber(event, i) {
     this.fleetRtrDetails[i] = { 'receiptNo': event.target.value };
   }
   delayDays(event, i, rowData) {
     console.log(event);
     const dueDate = new Date(this.trackVehicleForm.value['installment'][i]['dueDate']);
-    const recDate = new Date(event.target.value);
+    const recDate = new Date(event);
     let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
     this.trackVehicleForm.value['installment'][i]['delayDays'] = delayedDays;
     rowData.value['payment'] = this.formArr.controls[i]['controls']['payment'].value
@@ -404,7 +370,7 @@ export class TrackVehicleComponent implements OnInit {
     rowData.value['delayDays'] = delayedDays;
 
     this.fleetRtrDetails[i] = {
-      'receivedDate': this.dateDbFormat(event.target.value),
+      'receivedDate': this.dateDbFormat(event),
       "delayDays": delayedDays
     }
     //  this.fleetRtrDetails[i]['delayDays'] = delayedDays
@@ -419,9 +385,6 @@ export class TrackVehicleComponent implements OnInit {
     }
     let avgDelay = this.totalDelayDays / this.formArr.length;
     let peakDelay = Math.max(...allDelayDays);
-    this.fleetDetails['avgDelay'] = avgDelay;
-    this.fleetDetails['peakDelay'] = peakDelay;
-    this.fleetDetails['totalDelay'] = this.totalDelayDays;
     //  this.trackVehicleForm.get('totalDelay').setValue(this.totalDelayDays);
     this.trackVehicleForm.get("peakDelay").setValue(peakDelay)
     this.trackVehicleForm.get("avgDelay").setValue(avgDelay)
@@ -464,8 +427,8 @@ export class TrackVehicleComponent implements OnInit {
       this.formArr.push(this.initRows(this.fleetRtrDetails[0]));
     }
 
-
     this.formArr.controls = [];
+    let totalAmount = 0;
     for (let i = 0; i < this.fleetRtrDetails.length; i++) {
       if (i < this.fleetRtrDetails.length) {
         installmentAmount = installmentAmount + parseInt(this.fleetRtrDetails[i].installmentAmt);
@@ -473,10 +436,9 @@ export class TrackVehicleComponent implements OnInit {
           receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
           toalExcess = receivedAmt - installmentAmount;
           this.fleetRtrDetails[i].payment = toalExcess;
+          totalAmount = totalAmount + receivedAmt;
         }
-
         if (i == 0) {
-
           this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
         }
         else {
@@ -491,33 +453,27 @@ export class TrackVehicleComponent implements OnInit {
       }
 
     }
+    this.trackVehicleForm.get('totalAmtPaid').setValue(totalAmount)
   }
   getDateFormat(date) {
     var datePart = date.match(/\d+/g);
     var month = datePart[1];
     var day = datePart[0];
     var year = datePart[2];
-    const dateFormat: Date = new Date(month + '/' + day + '/' + year);
-    year = dateFormat.getFullYear();
-    month = Number(dateFormat.getMonth()) + 1;
-    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-    day = dateFormat.getDate().toString();
-    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    const formattedDate = year + '-' + month1 + '-' + day;
-    //   const formattedDate = day + '-' + month1 + '-' + year;
-    return formattedDate;
+    const dateFormat: Date = new Date( year + '/' + month  + '/' + day);
+  //   year = dateFormat.getFullYear();
+  //   month = Number(dateFormat.getMonth()) + 1;
+  //   let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+  //   day = dateFormat.getDate().toString();
+  //   day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+  //  // const formattedDate = year + '-' + month1 + '-' + day;
+  //     const formattedDate = day + '/' + month1 + '/' + year;
+    return dateFormat;
   }
 
   dateDbFormat(date) {
     const dateFormat: Date = new Date(date);
-    const year = dateFormat.getFullYear();
-    const month = Number(dateFormat.getMonth()) + 1;
-    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-    let day = dateFormat.getDate().toString();
-    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    const formattedDate = year + '-' + month1 + '-' + day;
-    // const formattedDate = day + '-' + month1 + '-' + year;
-    return formattedDate;
+    return dateFormat;
   }
 
   sendDate(date) {
@@ -541,7 +497,7 @@ export class TrackVehicleComponent implements OnInit {
         installmentAmt: [rowData.installmentAmt],
         dueDate: [rowData.dueDate ? rowData.dueDate : ''],
         receiptNo: [rowData.receiptNo ? rowData.receiptNo : ''],
-        receivedDate: [rowData.receivedDate ? this.dateDbFormat(rowData.receivedDate) : ''],
+        receivedDate: [rowData.receivedDate ? rowData.receivedDate : ''],
         receivedAmt: [rowData.receivedAmt],
         delayDays: [{ value: rowData.delayDays, disabled: true }],
         payment: [{ value: rowData.payment, disabled: true }]
@@ -566,7 +522,7 @@ export class TrackVehicleComponent implements OnInit {
     if(rowData){
       this.formArr.push(this.initRows(rowData));
     }else{
-     let intialDate =this.dateDbFormat(this.trackVehicleForm.controls['loanStartDate'].value);
+     let intialDate = this.dateDbFormat(this.trackVehicleForm.controls['loanStartDate'].value);
       let duedate = this.addMonth(intialDate , this.formArr.length);
       rowData = {
         'dueDate' : duedate
@@ -596,7 +552,6 @@ export class TrackVehicleComponent implements OnInit {
     this.trackVehicleForm.value['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
     this.trackVehicleForm.value['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
     this.trackVehicleForm.value['emisPaid'] = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value);
-
     this.trackVehicleForm.value['thirtyDpdCount'] = parseInt(this.trackVehicleForm.controls['count30'].value);
     this.trackVehicleForm.value['ninetyDpdCount'] = parseInt(this.trackVehicleForm.controls['count90'].value);
     this.trackVehicleForm.value['balanceTenor'] = parseInt(this.trackVehicleForm.controls['balanceTenor'].value);
@@ -610,7 +565,6 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.value['installment'][i]['installmentAmt'] = parseInt(this.formArr.controls[i]['controls']['installmentAmt'].value);
       this.trackVehicleForm.value['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
       this.trackVehicleForm.value['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);
-
       this.trackVehicleForm.value['installment'][i]['receiptNo'] = parseInt(this.formArr.controls[i]['controls']['receiptNo'].value);
       this.trackVehicleForm.value['installment'][i]['delayDays'] = parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
       this.trackVehicleForm.value['installment'][i]['payment'] = parseInt(this.formArr.controls[i]['controls']['payment'].value);
