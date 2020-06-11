@@ -69,12 +69,12 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
-    this.getVehicleDetails(this.leadId)
+    this.getVehicleDetails(this.leadId);
 
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
     }, error => {
-      console.log('error', error)
+      console.log('error', error);
     });
 
   }
@@ -101,8 +101,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
     }, error => {
-      console.log(error, 'error')
-    })
+      console.log(error, 'error');
+    });
   }
 
   DeleteVehicleDetails(vehicle: any) {
@@ -117,9 +117,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
         }
         this.getVehicleDetails(this.leadId)
       }, error => {
-        console.log('error', error)
+        console.log('error', error);
       }
-      )
+      );
     }
   }
 }
