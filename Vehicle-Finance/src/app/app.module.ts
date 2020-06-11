@@ -48,6 +48,7 @@ import { LeadDataResolverService } from './modules/lead-section/services/leadDat
 import { setTheme } from 'ngx-bootstrap/utils';
 import { ToastrModule } from 'ngx-toastr';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 
 setTheme('bs4'); 
@@ -84,6 +85,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     ToastrModule.forRoot(),
     DateInputsModule,
+    AutocompleteLibModule,
   ],
   providers: [
     HTTP,

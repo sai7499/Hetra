@@ -106,14 +106,25 @@
               >{{ labels.sourcingCode }}
               <sub class="star_blue_col">*</sub></label
             >
-            <input
-              formControlName="sourcingCode"
-              type="text"
-              class="form-control mandatory select2"
-              id="sourcingCode"
-              [placeholder]="sourcingCodePlaceholder"
-              name="sourcingCode"
-            />
+            <div class="ng-autocomplete" style="width:100%">
+              <ng-autocomplete 
+                [data]="dealerCodeData"
+                [searchKeyword]="keyword"
+                (selected)='selectEvent($event)'
+                (inputChanged)='onChangeSearch($event)'
+                (inputFocused)='onFocused($event)'
+                [itemTemplate]="itemTemplate"
+                [notFoundTemplate]="notFoundTemplate"
+                formControlName="sourcingCode"
+                [placeHolder]="sourcingCodePlaceholder">                                 
+              </ng-autocomplete>               
+              <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.name"></a>
+              </ng-template>               
+              <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+              </ng-template>
+              </div>
           </div>
         </div>
 

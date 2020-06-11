@@ -47,6 +47,9 @@ export class LeadCreationComponent implements OnInit {
   productCategoryList = [];
   sourcingChannelData = [];
   sourcingData = [];
+  socuringTypeData = [];
+  placeholder = [];
+  dealerCodeData = [];
 
 
   obj = {};
@@ -245,17 +248,6 @@ export class LeadCreationComponent implements OnInit {
 
     this.sourchingTypeValues = this.utilityService.getValueFromJSON(
       this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange), 'sourcingTypeId', 'sourcingTypeDesc');
-    // this.sourcingCodePlaceholder = this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
-
-    // this.sourchingTypeData.map((element) => {
-    //   if (element.sourcingChannelId === this.sourcingChange) {
-    //     const data = {
-    //       key: element.sourcingTypeId,
-    //       value: element.sourcingTypeDesc,
-    //     };
-    //     this.sourchingTypeValues.push(data);
-    //   }
-    // });
     this.createLeadForm.patchValue({ sourcingType: '' });
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
@@ -271,13 +263,33 @@ export class LeadCreationComponent implements OnInit {
 
   sourchingTypeChange(event) {
     const sourchingTypeId = event.target.value;
-    let placeholder = [];
-    placeholder = this.utilityService.getValueFromJSON(
-      this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId), 'sourcingCodeType', 'sourcingCode');
-    console.log('placeholder', placeholder);
-    this.sourcingCodePlaceholder = placeholder[0].value;
+
+    this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
+    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
+    console.log('placeholder', this.placeholder);
+    this.sourcingCodePlaceholder = this.placeholder[0].value;
   }
 
+  onChangeSearch(event) {
+    let inputString = event;
+    let dealerCode = [];
+
+    if (String(inputString).length >= 1) {
+      console.log('code', event);
+
+      dealerCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
+      console.log('dealerCode', dealerCode);
+      let one: string = dealerCode[0].sourcingCodeType;
+      let two: string = dealerCode[0].sourcingSubCodeType;
+
+      this.createLeadService.sourcingCode(one, two, inputString).subscribe((res: any) => {
+        console.log('dealer code res', res);
+        this.dealerCodeData = res.ProcessVariables.codeList;
+      })
+    }
+  }
+  onFocused($event){}
+  selectEvent($event){}
   selectApplicantType(event: any) {
     this.applicantType = event.target.value;
   }
