@@ -23,6 +23,7 @@ import { CommonDataService } from '@services/common-data.service';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 import { GpsService } from 'src/app/services/gps.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-login',
@@ -64,7 +65,8 @@ export class LoginComponent implements OnInit {
     private gmapsApi: GoogleMapsAPIWrapper,
     private gpsService: GpsService,
     private deviceService: DeviceDetectorService,
-    private camera: Camera
+    private camera: Camera,
+    private dashboardService: DashboardService
   ) {
     this.isMobile = this.deviceService.isMobile();
   }
@@ -134,6 +136,9 @@ export class LoginComponent implements OnInit {
               const roleType = response.ProcessVariables.roles[0].roleType;
               localStorage.setItem('role', role);
               localStorage.setItem('roleType', roleType);
+              const branchId = response.ProcessVariables.userDetails.branchId;
+              const  roleId = response.ProcessVariables.roles[0].roleId;
+              this.dashboardService.creditDashboardMethod({branchId, roleId, roleType});
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,

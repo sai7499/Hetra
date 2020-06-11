@@ -14,11 +14,12 @@
             <tbody>
                 <tr *ngFor="let item of tvrList">
                     <td>{{item.ucic ? item.ucic : '--'}}</td>
-                    <td><a href="#">{{item.applicantName ? item.applicantName : '--'}}</a></td>
+                    <td>{{item.applicantName ? item.applicantName : '--'}}</td>
                     <td>{{item.mobileNumber ? item.mobileNumber : '--'}}</td>
                     <td>{{item.applicantType ? item.applicantType : '--'}}</td>
-                    <td>{{item.tvrStatus ? item.tvrStatus : '--'}}</td>
-                    <td style="cursor: pointer; text-decoration: underline;" (click)="onViewClick()"><a>View</a></td>
+                    <td>{{item.tvrStatus ? "Completed" : "Pending"}}</td>
+                    <td *ngIf="item.tvrStatus == '0'" style="cursor: pointer; text-decoration: underline;" (click)="onViewClick()"><a>Start</a></td>
+                    <td *ngIf="item.tvrStatus == '1'" style="cursor: pointer; text-decoration: underline;" (click)="onViewClick()"><a>View</a></td>
                 </tr>
             </tbody>
         </table>
