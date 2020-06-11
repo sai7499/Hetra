@@ -38,22 +38,6 @@
     <platform name="android">
 
         <config-file target="AndroidManifest.xml" parent="/*">
-
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-            <uses-permission android:name="android.permission.BLUETOOTH" />
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-            <uses-permission android:name="android.permission.INTERNET" >
-            </uses-permission>
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <uses-feature
-                android:name="android.hardware.bluetooth"
-                android:required="true" />
-
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-            <uses-feature android:name="android.hardware.location.gps" />
-
         </config-file>
 
         <config-file target="res/xml/config.xml" parent="/*">
@@ -62,7 +46,7 @@
             </feature>
         </config-file>
 
-        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
+   <!--     <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:name="org.apache.cordova.device.evolute.lilygendemoapp.GlobalPool"/>
 
             <activity 
@@ -72,11 +56,11 @@
                 android:screenOrientation="portrait"
                 android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             />
-        </edit-config>
+        </edit-config>-->
 
 
         <source-file src="src/android/Device.java" target-dir="src/org/apache/cordova/device" />
-        <source-file src="src/android/SetupModel.java" target-dir="src/org/apache/cordova/device" />
+     <!--   <source-file src="src/android/SetupModel.java" target-dir="src/org/apache/cordova/device" />
         <source-file src="src/android/SetupProwess.java" target-dir="src/org/apache/cordova/device" />
         <source-file src="src/android/evolute/bluetooth/BluetoothComm.java" target-dir="src/org/apache/cordova/device/evolute/bluetooth" />
         <source-file src="src/android/evolute/bluetooth/BluetoothPair.java" target-dir="src/org/apache/cordova/device/evolute/bluetooth" />
@@ -95,7 +79,7 @@
         <source-file src="src/android/drawable/bt2.png" target-dir="res/drawable"/>
         <source-file src="src/android/drawable/hetra_logo.png" target-dir="res/drawable"/>
 
-        <lib-file src="src/android/libs/ProwessLilyGenSdk-V0.04.jar" target-dir="libs" />
+        <lib-file src="src/android/libs/ProwessLilyGenSdk-V0.04.jar" target-dir="libs" />-->
     </platform>
 
     <!-- ios -->

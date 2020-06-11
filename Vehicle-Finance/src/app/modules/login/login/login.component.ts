@@ -24,6 +24,9 @@ import { GoogleMapsAPIWrapper } from '@agm/core';
 import { GpsService } from 'src/app/services/gps.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
+declare var device:any;
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -54,6 +57,8 @@ export class LoginComponent implements OnInit {
   };
 
   isMobile: any;
+  base64Data: any;
+
 
   constructor(
     private loginService: LoginService,
@@ -207,4 +212,20 @@ export class LoginComponent implements OnInit {
       console.log('Camera Image', this.cameraImage);
     });
   }
+
+  initIdenti5(){
+    // let dInfo = new device();
+    // console.log(dInfo.model);
+    var that = this;
+    this.base64Data = "";
+    device.getInfo(function(result){
+      console.log("Result&&&&"+ result);
+      that.base64Data = result["model"];
+      console.log("base64Data"+ that.base64Data);
+    },function(error){
+      console.log("Result&&&&"+ error);
+    });
+  
+  }
 }
+

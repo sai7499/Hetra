@@ -108,14 +108,17 @@ export class HttpService {
     return obs;
   }
 
+ 
   postM(url?: string, params?: any) {
     let that = this;
     let reqEntity;
 
+    console.log('parmas', params);
+
     reqEntity = params;
 
-    if (this.activeRequests === 0) {
-      this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
+    if(this.activeRequests === 0){
+      // this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     }
     this.activeRequests++;
 
@@ -123,6 +126,8 @@ export class HttpService {
       let data;
 
       this.httpIonic.setServerTrustMode('nocheck');
+
+      console.log('post requestEntity********', reqEntity);
 
       let encryption = this.encrytionService.encrypt(
         reqEntity,
@@ -141,9 +146,14 @@ export class HttpService {
         responseType: 'text'
       };
 
+      console.log('req post', this.ionicOption);
+
+      console.log('post url********', url);
+
       this.httpIonic
         .sendRequest(url, this.ionicOption)
         .then(result => {
+          console.log('result', result);
 
           if (
             result['headers']['content-type'] != 'text/plain' &&
@@ -154,7 +164,10 @@ export class HttpService {
             let decritedData = that.encrytionService.decryptMobileResponse(
               result
             );
+            console.log('decritedData', decritedData);
+
             data = JSON.parse(decritedData);
+            console.log('~~~***Response***~~~', data);
           }
 
           if (
@@ -167,6 +180,7 @@ export class HttpService {
             data['ProcessVariables']['errorCode'] == '' &&
             data['ProcessVariables']['errorCode'] != undefined
           ) {
+            // console.log("There are no Errors");
           } else if (
             data['Error'] == '0' &&
             data['Error'] != undefined &&
@@ -183,11 +197,13 @@ export class HttpService {
               data['ProcessVariables']['errorMessage'] != undefined &&
               data['ProcessVariables']['errroMessage'] != ''
             ) {
+              // this.cds.setErrorData(true, cdsData, msg);  
               this.errorListenerService.setError({
                 msg,
                 errorCode: cdsData
               })
             } else {
+              // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
                 errorCode: cdsData
               })
@@ -202,6 +218,7 @@ export class HttpService {
           ) {
             if (data['ProcessName'] != 'Required documents' && data['ProcessName'] != 'Authenticate User Login') {
               let data = 'DEF';
+              // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
                 errorCode: data
               })
@@ -211,6 +228,7 @@ export class HttpService {
             (data['status'] === false && data['status'] != undefined)
           ) {
             let data = 'APP001';
+            // this.cds.setErrorData(true, data);
             this.errorListenerService.setError({
               errorCode: data
             })
@@ -220,26 +238,37 @@ export class HttpService {
           observer.complete();
 
           if (data && data['login_required']) {
+            // storage.removeToken();
+            // storage.removeToken();
+            // storage.removeToken();
+            // this.utilService.clearCredentials();
             this.errorListenerService.setError({
               errorCode: 'SESSION_EXPIRED'
             })
             storage.removeToken();
+            // storage.removeRoles();
             storage.removeUserId();
+            // storage.removeBootData();
+            // storage.removeBranchData();
             this.router.navigate(['/login']);
 
           }
 
           this.activeRequests--;
           if (this.activeRequests === 0) {
-            this.ngxService.stop();
+          // this.ngxService.stop();
           }
         })
         .catch(error => {
+          console.log('~~~***Response error***~~~', error);
 
           if (error['headers']['content-type'] == 'text/plain') {
+            console.log('text/plain');
             let decritedData = that.encrytionService.decryptMobileResponse(
               error
             );
+            console.log('decritedData', decritedData);
+
             data = JSON.parse(decritedData);
           }
 
@@ -254,7 +283,7 @@ export class HttpService {
           observer.complete();
           this.activeRequests--;
           if (this.activeRequests === 0) {
-            this.ngxService.stop();
+          // this.ngxService.stop();
           }
         });
     });
