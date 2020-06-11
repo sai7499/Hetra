@@ -58,6 +58,9 @@ export class LeadCreationComponent implements OnInit {
   obj = {};
   test = [];
 
+  public dateValue: Date = new Date(2000, 2, 10);
+  public toDayDate: Date = new Date();
+
   regexPattern = {
     maxLength: {
       rule: '10',
@@ -213,8 +216,7 @@ export class LeadCreationComponent implements OnInit {
       this.isBusinessDivisionEnable = false;
     }
   }
-  public dateValue: Date = new Date(2000, 2, 10);
-  public toDayDate: Date = new Date();
+
   getProductCategory(event) {
     this.bizDivId = this.isBusinessDivisionEnable ? event : event.target.value;
     this.createLeadService
@@ -236,6 +238,7 @@ export class LeadCreationComponent implements OnInit {
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
       this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
       'assetProdcutCode', 'assetProdutName');
+    this.createLeadForm.patchValue({ product: '' });
   }
 
   productChange(event) {

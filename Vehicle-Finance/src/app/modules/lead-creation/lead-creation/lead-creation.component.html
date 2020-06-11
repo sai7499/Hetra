@@ -130,7 +130,7 @@
                   [placeHolder]="'Dealer Code'">                                 
                 </ng-autocomplete>               
                 <ng-template #itemTemplate let-item>
-                <a [innerHTML]="item.value"></a>
+                <a [innerHTML]="item.dealorCode"></a>
                 </ng-template>               
                 <ng-template #notFoundTemplate let-notFound>
                 <div [innerHTML]="notFound"></div>
