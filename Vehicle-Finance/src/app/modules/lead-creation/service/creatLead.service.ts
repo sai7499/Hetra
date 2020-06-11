@@ -107,4 +107,23 @@ export class CreateLeadService {
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
+
+    sourcingCode(sourcingCodeType, sourcingCodeSubType, code) {
+        const processId = this.apiService.api.sourcingCode.processId;
+        const workflowId = this.apiService.api.sourcingCode.workflowId;
+        const projectId = this.apiService.api.sourcingCode.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                'sourcingCodeType':sourcingCodeType,
+                'sourcingCodeSubType':sourcingCodeSubType,
+                'code':code
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
 }

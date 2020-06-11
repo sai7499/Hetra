@@ -35,6 +35,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { DdeSharedModule } from './modules/dde/shared/shared.module';
 import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
+
 import {
   NgxUiLoaderModule,
   NgxUiLoaderConfig,
@@ -45,7 +46,9 @@ import {
 import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
 
 import { setTheme } from 'ngx-bootstrap/utils';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { ToastrModule } from 'ngx-toastr';
+import { DateInputsModule, DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 
 setTheme('bs4'); 
@@ -80,7 +83,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AgmDirectionModule, // agm-direction
     DdeSharedModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    ToastrModule.forRoot(),
     DateInputsModule,
+    AutocompleteLibModule,
+    // DateInputsModule,
+    DatePickerModule
   ],
   providers: [
     HTTP,
