@@ -11,6 +11,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { LeadCreationRouterModule } from "./lead-creation.router";
 import { LeadDedupeComponent } from "./lead-dedupe/lead-dedupe.component";
 import { LeadComponent } from "./lead.component";
+import { DateInputModule, DatePickerModule } from '@progress/kendo-angular-dateinputs';
 
 
 @NgModule({
