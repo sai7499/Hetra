@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LeadCreationRouterModule } from "./lead-creation.router";
 import { LeadDedupeComponent } from "./lead-dedupe/lead-dedupe.component";
 import { LeadComponent } from "./lead.component";
+import { DateInputModule, DatePickerModule } from '@progress/kendo-angular-dateinputs';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { LeadComponent } from "./lead.component";
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    // DateInputModule,
+    DatePickerModule
   ]
 })
 export class LeadCreationModule { }

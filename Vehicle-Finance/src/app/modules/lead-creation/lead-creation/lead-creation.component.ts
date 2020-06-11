@@ -185,7 +185,8 @@ export class LeadCreationComponent implements OnInit {
       this.isBusinessDivisionEnable = false;
     }
   }
-
+  public dateValue: Date = new Date(2000, 2, 10);
+  public toDayDate: Date = new Date();
   getProductCategory(event) {
     this.bizDivId = this.isBusinessDivisionEnable ? event : event.target.value;
     this.createLeadService
@@ -284,7 +285,7 @@ export class LeadCreationComponent implements OnInit {
       nameTwo: leadModel.nameTwo,
       nameThree: leadModel.nameThree,
       mobileNumber: leadModel.mobile,
-      dobOrDoc: leadModel.dateOfBirth,
+      dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
     };
 
     this.createLeadDataService.setLeadData(
