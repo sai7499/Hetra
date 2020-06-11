@@ -47,7 +47,7 @@
             <tbody *ngIf="roleName === 'Credit Officer'">
                 <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleArray; let i = index">
                     <td data-title="Registration Number">
-                        {{item.regNo | uppercase}}
+                        {{item.regNo  | uppercase}}
                     </td>
                     <td data-title="Make">
                         {{item.make}}
@@ -65,7 +65,6 @@
     </div>
 
 </div>
-
 
 <!-- <div class="btn-sec clear-both row">
     <div class="col-sm-5">

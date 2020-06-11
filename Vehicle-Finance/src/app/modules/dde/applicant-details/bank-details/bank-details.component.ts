@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 
 @Component({
   templateUrl: './bank-details.component.html',

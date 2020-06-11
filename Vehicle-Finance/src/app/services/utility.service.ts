@@ -48,11 +48,15 @@ export class UtilityService {
   }
 
   convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD-MM-YYYY');
+    return moment.utc(date).local().format('DD/MM/YYYY');
   }
 
   converDateToUTC(date) {
-    return moment.utc(date).format('YYYY-MM-DD HH:MM');
+    // console.log('Outpur date', moment.utc(date).format('DD-MM-YYYYT00:00:00.000Z'))
+    return moment.utc(date).format('EEE MM/DD/YYYY T00:00:00.000Z')
+    // var d = new Date( date + 'T00:00:00.000Z');
+    // console.log('D', d)
+    // return moment.utc(date).format('YYYY-MM-DD HH:MM')
   }
 
   getCommonUniqueValue(array, value: any) {

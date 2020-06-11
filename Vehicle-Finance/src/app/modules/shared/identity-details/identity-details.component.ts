@@ -285,7 +285,6 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.identityForm.value);
     if (this.isIndividual) {
       this.storeIndividualValueInService();
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -324,12 +323,17 @@ export class IdentityDetailsComponent implements OnInit {
     });
   }
 
-  onBackToApplicant(){
-    const url = this.location.path();      
-    if(url.includes('sales')) {
-      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
-    } else {
-      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+  onNext() {
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(
+        `pages/sales-applicant-details/${this.leadId}/address-details/${this.applicantId}`
+      );
+      return;
     }
+
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`
+    );
   }
 }
