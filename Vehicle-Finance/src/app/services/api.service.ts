@@ -203,6 +203,11 @@ export class ApiService {
       processId: 'fe6319ac9b5011eabdd3f2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
+    },
+    creditBureau: {
+      processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
+      workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
+      projectId: environment.projectIds.salesCreditScore,
     }
   };
 
