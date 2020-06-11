@@ -30,8 +30,72 @@ import { map } from 'rxjs/operators';
 })
 export class AddOrUpdateApplicantComponent implements OnInit {
   panPattern = {
+    // rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    // msg: 'Invalid Pan',
+  };
+  panFormPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
     msg: 'Invalid Pan',
+  };
+  namePattern = {
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Name'
+  };
+  Maxlength30 = {
+    rule: 30,
+    msg: ''
+  };
+
+  drivingLicensePattern = {
+    rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}' ,
+    msg: 'Invalid'
+  };
+
+  
+
+  mobileNumberPattern = {
+    rule: '^[1-9][0-9]*$' ,
+    msg: 'Invalid Mobile'
+  };
+
+  Maxlength10 = {
+    rule: 10,
+    msg: ''
+  };
+
+  adharNumberPattern = {
+    rule: '^[0-9]{12}' ,
+    msg: 'Invalid Adhar Number'
+  };
+
+  Maxlength12 = {
+    rule: 12,
+    msg: ''
+  };
+
+  passportPattern = {
+    rule: '[A-Z]{1}[0-9]{7}' ,
+    msg: 'Invalid Passport Number'
+  };
+
+  voterIdPattern = {
+    rule: '[A-Z]{3}[0-9]{6}' ,
+    msg: 'Invalid VoterId Number'
+  };
+
+  // addressLineOnePattern = {
+  //   rule: '^[0-9A-Za-z, _&*#/\\-]{0,99}$' ,
+  //   msg: 'Invalid Address'
+  // };
+
+  Maxlength40 = {
+    rule: 40,
+    msg: ''
+  };
+
+  pincodePattern = {
+    rule: '^[1-9][0-9]{6}$' ,
+    msg: 'Invalid pincode Number'
   };
 
   values: any = [];
@@ -84,7 +148,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   addressDetails: AddressDetails[];
   isPanDisabled: boolean;
-
+  Licensemessage: string;
   selectApplicantType(event: any) {
     console.log(this.applicantType);
     this.applicantType = event.target.value;
@@ -95,8 +159,27 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isPanDisabled = this.panValue === '1PANTYPE' ? false : true;
     if (this.isPanDisabled) {
       this.coApplicantForm.controls['pan'].disable();
+      this.panPattern = {};
     } else {
       this.coApplicantForm.controls['pan'].enable();
+      this.panPattern = this.panFormPattern;
+
+    }
+  }
+
+  drvingLisenseValidation(event) {
+    const licenseNumber = event.target.value;
+    if (licenseNumber) {
+      console.log('licenseNumber', licenseNumber);
+      // const drivingLicenseIssuePattern = {
+      //   //  rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}' ,
+      //   msg: 'Mandatory Field'
+      // };
+      // const drivingLicenseExpiryPattern = {
+      //   //  rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}' ,
+      //   msg: 'Mandatory Field'
+      // };
+      this.Licensemessage = 'fields Are mandatory';
     }
   }
 
@@ -208,6 +291,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
   }
   async ngOnInit() {
+    if(this.panValue = '1PANTYPE') {
+
+    }
     this.initForm();
     this.coApplicantForm.patchValue({ entity: 'Non-individual' });
     this.getLOV();
@@ -364,6 +450,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
         ? this.applicant.aboutIndivProspectDetails
         : {};
+      if (indivIdentityInfoDetails.panType === '1PANTYPE') {
+          this.panPattern = this.panFormPattern;
+       }
       details.pan = indivIdentityInfoDetails.pan;
       details.aadhar = indivIdentityInfoDetails.aadhar;
       details.mobile = aboutIndivProspectDetails.mobilePhone;
