@@ -110,7 +110,7 @@ export class AddvehicleComponent implements OnInit {
         } else {
           this.toasterService.showError(apiError, '')
         }
-        this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+        this.router.navigate(['pages/sales/' + this.leadId + '/vehicle-details']);
       }, error => {
         console.log(error, 'error')
       })

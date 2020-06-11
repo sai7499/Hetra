@@ -289,7 +289,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleOwnerShipNumber: VehicleDetail.vehicleOwnerShipNumber || null,
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate || null,
-      vehicleRegNo: VehicleDetail.vehicleRegNo,
+      vehicleRegNo: VehicleDetail.vehicleRegNo || '',
       vehicleType: VehicleDetail.vehicleTypeCode || '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       userId: this.userId
@@ -300,12 +300,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
-    if (this.basicVehicleForm.valid) {
-      this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
-    } else {
-      this.utilityService.validateAllFormFields(this.basicVehicleForm)
-    }
-    // this.formDataOutput.emit(this.basicVehicleForm.value)
+    // if (this.basicVehicleForm.valid) {
+    //   this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+    // } else {
+    //   this.utilityService.validateAllFormFields(this.basicVehicleForm)
+    // }
+    this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
   //  method to get vehicle master data from region 
