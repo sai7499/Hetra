@@ -17,6 +17,10 @@
             (valueChange)="onIndividualChange($event)"
             formControlName="entity"
           ></app-vf-custom-select>
+          <span class="text-danger"
+                *ngIf="basicFormcontrols.entity.touched && basicFormcontrols.entity.errors?.required">
+                      Name is required
+          </span>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="Vechical Type">Relationship with Lead</label>
@@ -42,6 +46,12 @@
                 id="first_name"
                 formControlName="name1"
               />
+              <!-- <app-custom-input
+                  formControlName="name1  "
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'First Name is required'"
+                ></app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Middle Name</label>
@@ -51,6 +61,11 @@
                 id="middle_name"
                 formControlName="name2"
               />
+              <!-- <app-custom-input
+                  formControlName="name2"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                ></app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="last_name">Last Name</label>
@@ -60,6 +75,11 @@
                 id="last_name"
                 formControlName="name3"
               />
+              <!-- <app-custom-input
+                  formControlName="name3"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                ></app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="mobile_number">Mobile Number</label>
@@ -72,6 +92,12 @@
                 readonly=""
                 formControlName="mobilePhone"
               />
+              <!-- <app-custom-input
+                  formControlName="mobilePhone  "
+                  [patternCheck]="mobilePattern"
+                  [isRequired]="'Mobile Number is required'"
+                 [maxLength]='mobileLenght30'
+                ></app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="date_of_birth">DOB</label>
@@ -109,33 +135,51 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="father_name">Father Name</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="father_name"
                 name="father_name"
                 formControlName="fatherName"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="fatherName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'Father Name is Mandatory'"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="spouse_name">Spouse Name</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="spouse_name"
                 name="spouse_name"
                 formControlName="spouseName"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="spouseName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'spouse Name is Mandatory'"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="maiden_name">Mother's Maiden Name</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="maiden_name"
                 name="maiden_name"
                 formControlName="motherMaidenName"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="motherMaidenName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'Mother Name is Mandatory'"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="occupation">Occupation</label>
@@ -160,23 +204,33 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="email_id">Email ID</label>
-              <input
+              <!-- <input
                 type="email"
                 class="form-control"
                 id="email_id"
                 name="email_id"
                 formControlName="emailId"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="emailId"
+                  [patternCheck]="emailPattern"
+                  
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="alternate_email_id">Alternate email ID</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="alternate_email_id"
                 name="alternate_email_id"
                 formControlName="alternateEmailId"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="alternateEmailId"
+                  [patternCheck]="emailPattern"
+
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="preffered_language"
@@ -211,19 +265,27 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">Email ID</label>
-              <input
+              <!-- <input
                 type="text"
                 formControlName="companyEmailId"
                 class="form-control"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="companyEmailId"
+                  [patternCheck]="emailPattern"
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created By">Alternate Email ID</label>
-              <input
+              <!-- <input
                 formControlName="alternateEmailId"
                 type="text"
                 class="form-control"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="alternateEmailId"
+                  [patternCheck]="emailPattern"  
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">Preferred Language for Communication</label>
@@ -234,15 +296,34 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="channel">Company 1</label>
-              <input formControlName="name1" type="text" class="form-control" />
+              <!-- <input formControlName="name1" type="text" class="form-control" /> -->
+              <app-custom-input
+                  formControlName="name1"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'Company Name is required'"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing type">Company 2</label>
-              <input formControlName="name2" type="text" class="form-control" />
+              <!-- <input formControlName="name2" type="text" class="form-control" /> -->
+              <app-custom-input
+                  formControlName="name2"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  
+      
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing code">Company 3</label>
-              <input formControlName="name3" type="text" class="form-control" />
+              <!-- <input formControlName="name3" type="text" class="form-control" /> -->
+              <app-custom-input
+                  formControlName="name3"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                 
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="entity">Date Of Incorporation</label>
@@ -262,7 +343,7 @@
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="title">Number Of Directions</label>
+              <label for="title">Number Of Directors</label>
               <input
                 formControlName="numberOfDirectors"
                 type="text"

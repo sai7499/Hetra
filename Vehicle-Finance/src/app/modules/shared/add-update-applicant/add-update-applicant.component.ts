@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl} from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';

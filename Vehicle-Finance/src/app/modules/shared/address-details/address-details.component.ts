@@ -70,6 +70,11 @@ export class AddressDetailsComponent implements OnInit {
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
 
+  addressPattern = {
+    rule: '',
+    msg: 'Invalid address',
+  };
+
   constructor(
     private lovData: LovDataService,
     private labelsData: LabelsService,

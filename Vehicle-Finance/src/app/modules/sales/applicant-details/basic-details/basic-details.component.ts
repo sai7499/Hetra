@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -16,6 +16,7 @@ import {
   IndividualProspectDetails,
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../services/lead.store.service';
+
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -39,6 +40,25 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+  nameLength30={
+    rule: 30,
+  }
+  mobileLenght30={
+    rule: 10,
+  }
+  namePattern = {
+    rule: '',
+    msg: 'Invalid Name',
+  };
+
+  mobilePattern={
+    rule: '',
+    msg: 'Invalid Mobile Number',
+  }
+  emailPattern={
+    rule : '^\\w+([\.-]?\\w+)@\\w+([\.-]?\\w+)(\\.\\w{2,10})+$',
+    msg : 'Invalid email'
+  }
   constructor(
     private labelsData: LabelsService,
     private lovService: CommomLovService,
@@ -62,7 +82,7 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
-      entity: new FormControl(''),
+      entity: new FormControl('',Validators.required),
       applicantRelationshipWithLead: new FormControl(''),
       details: new FormArray([]),
     });
@@ -72,6 +92,10 @@ export class BasicDetailsComponent implements OnInit {
     // setTimeout(() => {
     // this.clearFormArray();
     // });
+  }
+
+  get basicFormcontrols(){
+    return this.basicForm.controls
   }
 
   getApplicantDetails() {

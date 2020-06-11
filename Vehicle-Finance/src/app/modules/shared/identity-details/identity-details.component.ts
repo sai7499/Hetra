@@ -38,6 +38,11 @@ export class IdentityDetailsComponent implements OnInit {
   isIndividual = true;
   identityForm: FormGroup;
 
+  panPattern = {
+    rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    msg: 'Invalid Pan',
+  };
+
   constructor(
     private labelsData: LabelsService,
     private commomLovservice: CommomLovService,
