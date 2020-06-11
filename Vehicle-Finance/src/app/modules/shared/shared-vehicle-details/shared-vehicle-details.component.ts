@@ -6,6 +6,7 @@ import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { CreditScoreService } from '@services/credit-score.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -44,7 +45,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private router: Router,
     public vehicleDataStoreService: VehicleDataStoreService,
     public createLeadDataService: CreateLeadDataService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private creditService: CreditScoreService ) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -56,12 +58,12 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
-    this.getVehicleDetails(this.leadId)
+    this.getVehicleDetails(this.leadId);
 
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
     }, error => {
-      console.log('error', error)
+      console.log('error', error);
     });
 
   }
@@ -76,21 +78,21 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
-      console.log(res)
+      console.log(res);
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
     }, error => {
-      console.log(error, 'error')
-    })
+      console.log(error, 'error');
+    });
   }
 
   DeleteVehicleDetails(vehicle: any) {
     if (vehicle) {
       this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res: any) => {
-        this.getVehicleDetails(this.leadId)
+        this.getVehicleDetails(this.leadId);
       }, error => {
-        console.log('error', error)
+        console.log('error', error);
       }
-      )
+      );
     }
   }
 }

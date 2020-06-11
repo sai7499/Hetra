@@ -7,6 +7,7 @@
     <div class="col-sm-7 text-right">
         <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> Back
         </button> &nbsp;
-        <button class="btn btn-primary js-btn-next" [routerLink]="['../credit-score']" type="button">Next</button>
+        <button class="btn btn-primary js-btn-next" (click)="onCredit()" type="button">Next</button>
+
     </div>
 </div>
