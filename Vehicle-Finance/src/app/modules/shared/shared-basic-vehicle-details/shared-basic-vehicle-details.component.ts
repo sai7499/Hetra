@@ -301,7 +301,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
-    this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+    if (this.basicVehicleForm.valid) {
+      this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+    } else {
+      this.utilityService.validateAllFormFields(this.basicVehicleForm)
+    }
   }
 
   //  method to get vehicle master data from region 
@@ -383,7 +387,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
       ageOfAsset: ['', Validators.required],
-      finalAssetCost: ['', Validators.compose([Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$'), Validators.required])],
+      // finalAssetCost: ['', Validators.compose([Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$'), Validators.required])],
+      finalAssetCost: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
+      ])],
       vehicleUsage: ['', Validators.required],
       noOfVehicles: ['', Validators.required],
       usage: ['', Validators.required],
@@ -393,6 +401,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
     formArray.push(controls);
+    console.log(this.basicVehicleForm.get('vehicleFormArray')['controls'][0].get('region'), 'Valid')
   }
 
   addCreditFormControls() {

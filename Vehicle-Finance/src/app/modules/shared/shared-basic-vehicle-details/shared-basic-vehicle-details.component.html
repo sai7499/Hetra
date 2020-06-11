@@ -13,7 +13,12 @@
                     <input formControlName="vehicleRegNo" type="text" class="form-control mandatory input-upper"
                         id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
 
-                    <!-- <div *ngIf="vehicleRegNo.errors?.required">enter alpha only</div> -->
+                    <div class="cus-mandatory-field"
+                        *ngIf="basicVehicleForm.get('vehicleFormArray').controls[0].get('vehicleRegNo').errors?.touched || !basicVehicleForm.get('vehicleFormArray').controls[0].get('vehicleRegNo').errors?.required">
+                        Enter
+                        Vehicle Registration Number</div>
+
+                    <!--  -->
 
                 </div>
 
@@ -32,6 +37,11 @@
                     <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
                         (change)="onVehicleRegion($event.target.value)">
                     </app-vf-custom-select>
+
+                    <div class="cus-mandatory-field"
+                        *ngIf="basicVehicleForm.get('vehicleFormArray').controls[0].get('region').errors?.touched || basicVehicleForm.get('vehicleFormArray').controls[0].get('region').errors?.value !== ''">
+                        Please Select Vehicle Region</div>
+
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -40,6 +50,10 @@
                     <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
                         (change)="onAssetMake($event.target.value)">
                     </app-vf-custom-select>
+
+                    <div class="cus-mandatory-field"
+                        *ngIf="basicVehicleForm.get('vehicleFormArray').controls[0].get('assetMake').required || basicVehicleForm.get('vehicleFormArray').controls[0].get('assetMake').errors?.value === ''">
+                        Please Select Asset Make</div>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -48,6 +62,12 @@
                     <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
                         (change)="onVehicleType($event.target.value)">
                     </app-vf-custom-select>
+
+                    <div class="cus-mandatory-field"
+                        *ngIf="basicVehicleForm.get('vehicleFormArray').controls[0].get('vehicleType').errors?.value === ''">
+                        Please Select Vehicle Type</div>
+
+                        <!-- basicVehicleForm.get('vehicleFormArray').controls[0].get('vehicleType').required &&  -->
 
                 </div>
 
@@ -60,6 +80,11 @@
                     <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
                         (change)="onAssetBodyType($event.target.value)">
                     </app-vf-custom-select>
+
+                    <div class="cus-mandatory-field"
+                        *ngIf="basicVehicleForm.get('vehicleFormArray').controls[0].get('assetBodyType').required || basicVehicleForm.get('vehicleFormArray').controls[0].get('assetBodyType').errors?.value === ''">
+                        Please Select Asset Body Type</div>
+
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -105,7 +130,7 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
-                    <input formControlName="finalAssetCost" type="number" class="form-control mandatory"
+                    <input formControlName="finalAssetCost" type="text" class="form-control mandatory"
                         id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost">
                 </div>
 
