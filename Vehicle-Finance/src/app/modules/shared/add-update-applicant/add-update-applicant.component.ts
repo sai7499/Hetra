@@ -519,10 +519,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       permentAddress: new FormGroup(this.getAddressFormControls()),
       communicationAddress: new FormGroup(this.getAddressFormControls()),
       registeredAddress: new FormGroup(this.getAddressFormControls()),
-      drivingLicenseNumber: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}')
-      ])),
+      drivingLicenseNumber: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}'),
+        ])
+      ),
       drivingLicenseIssueDate: new FormControl(''),
       drivingLicenseExpiryDate: new FormControl(''),
       passportIssueDate: new FormControl(''),
@@ -607,7 +610,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.aadhar = corporateProspectDetails.aadhar;
       details.mobile = corporateProspectDetails.companyPhoneNumber;
       details.panType = corporateProspectDetails.panType;
-      details.dateOfIncorporation = this.getFormateDate(
+      details.dateOfIncorporation = new Date(
         corporateProspectDetails.dateOfIncorporation
       );
       details.passportNumber = corporateProspectDetails.passportNumber;
