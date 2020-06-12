@@ -351,13 +351,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           leadId: this.leadId,
           userId: this.userId
         })
-        this.formDataOutput.emit(formArray.value)
+        this.formDataOutput.emit(formArray.value);
+        console.log('form array', formArray.value[0])
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
         this.onPatchArrayValue(creditFormArray, VehicleDetail)
         this.formDataOutput.emit(creditFormArray.value)
       }
+     
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
