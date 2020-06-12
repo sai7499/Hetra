@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { OtpServiceService } from '../services/otp-details.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
-
 
 @Component({
   selector: 'app-otp-section',

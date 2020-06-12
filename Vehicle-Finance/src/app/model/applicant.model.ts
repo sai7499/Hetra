@@ -70,7 +70,7 @@ export interface IndividualProspectDetails {
   currentEmpYears?: string;
   employeeCode?: number;
   employerType?: string;
-  employerName? : string;
+  employerName?: string;
   department?: string;
 }
 
@@ -150,4 +150,30 @@ export interface IndivProspectProfileDetails {
   employerType?: string;
   employerName?: string;
   workplaceAddress?: string;
+}
+
+export interface ApplicantDedupe {
+  IDProof?: string;
+  aadhar?: string;
+  dob?: string;
+  documentCkycNumber?: string;
+  documentDrivingLicense?: string;
+  documentForeignerPassport?: string;
+  documentIDProof?: string;
+  documentPassport?: string;
+  documentVoterID?: string;
+  foreignerPassport?: string;
+  fullName?: string;
+  isExactMatch?: boolean;
+  isProbableMatch?: true;
+  matchedCriteria?: string;
+  mobile?: string;
+  pan?: string;
+  passport: null;
+  prospectCkycNumber?: string;
+  prospectDrivingLicense?: string;
+  prospectPassport?: string;
+  prospectVoterID?: string;
+  ucic?: string;
+  voterID?: string;
 }
