@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { CreateLeadDataService } from '../lead-creation/service/createLead-data.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-terms-conditions',
@@ -39,5 +40,7 @@ export class TermsConditionsComponent implements OnInit {
 
   navigateToSales() {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+    // this.router.navigate(['/pages/dashboard/leads-section/leads']);
+    // this.router.navigate([`/pages/sales/${this.leadId}/lead-details`]);
   }
 }

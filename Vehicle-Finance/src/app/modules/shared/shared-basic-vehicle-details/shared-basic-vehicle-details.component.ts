@@ -113,7 +113,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
         })
       }
-
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
@@ -202,17 +201,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-        // console.log(creditFormArray, 'CreditFormArray')
         this.onPatchArrayValue(creditFormArray, VehicleDetail)
         this.formDataOutput.emit(creditFormArray.value)
       }
-
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
   }
 
   onPatchArrayValue(formArray, VehicleDetail) {
+
     formArray.controls[0].patchValue({
       dealerSubventionPartIRR: VehicleDetail.DealerSubventionPartIRR || '',
       ageOfAsset: VehicleDetail.ageOfAsset || null,
@@ -291,17 +289,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleOwnerShipNumber: VehicleDetail.vehicleOwnerShipNumber || null,
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate || null,
-      vehicleRegNo: VehicleDetail.vehicleRegNo,
+      vehicleRegNo: VehicleDetail.vehicleRegNo || '',
       vehicleType: VehicleDetail.vehicleTypeCode || '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       userId: this.userId
     })
-    
+
   }
 
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
+    // if (this.basicVehicleForm.valid) {
+    //   this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+    // } else {
+    //   this.utilityService.validateAllFormFields(this.basicVehicleForm)
+    // }
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
@@ -316,10 +319,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'uniqueMFRCode')
       assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "uniqueMFRCode", "mfrCode") : []
       this.vehicleLov.assetMake = assetMakeArray;
-      this.basicVehicleForm.patchValue({
-        isValidField: true
-      })
-	this.uiLoader.stop();
+      this.uiLoader.stop();
     }, error => {
       console.log(error, 'error')
       this.uiLoader.stop();
@@ -377,26 +377,31 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleRegNo: '',
-      region: '',
-      assetMake: '',
-      vehicleType: '',
-      assetBodyType: '',
-      assetModel: '',
-      assetVariant: '',
-      assetSubVariant: '',
-      manuFacMonthYear: '',
-      ageOfAsset: '',
-      finalAssetCost: '',
-      vehicleUsage: '',
-      noOfVehicles: '',
-      usage: '',
+      vehicleRegNo: ['', Validators.required],
+      region: ['', Validators.required],
+      assetMake: ['', Validators.required],
+      vehicleType: ['', Validators.required],
+      assetBodyType: ['', Validators.required],
+      assetModel: ['', Validators.required],
+      assetVariant: ['', Validators.required],
+      assetSubVariant: [''],
+      manuFacMonthYear: ['', Validators.required],
+      ageOfAsset: [{ value: '', disabled: true }, Validators.required],
+      // finalAssetCost: ['', Validators.compose([Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$'), Validators.required])],
+      finalAssetCost: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
+      ])],
+      vehicleUsage: ['', Validators.required],
+      noOfVehicles: ['', Validators.required],
+      usage: ['', Validators.required],
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
       userId: this.userId
     });
     formArray.push(controls);
+    console.log(this.basicVehicleForm.get('vehicleFormArray')['controls'][0].get('region'))
   }
 
   addCreditFormControls() {
