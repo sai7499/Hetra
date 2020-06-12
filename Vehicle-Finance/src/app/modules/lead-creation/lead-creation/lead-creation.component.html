@@ -96,12 +96,13 @@
                 [searchKeyword]="keyword"
                 (selected)='selectEvent($event)'
                 (inputChanged)='onSourcingCodeSearch($event)'
-                [itemTemplate]="itemTemplate"
+                [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
-                [placeHolder]="sourcingCodePlaceholder">                                 
+                [placeHolder]="sourcingCodePlaceholder"
+                [disabled]="isSourcingType">                                 
               </ng-autocomplete>               
-              <ng-template #itemTemplate let-item>
+              <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
               </ng-template>               
               <ng-template #notFoundTemplate let-notFound>
@@ -122,14 +123,14 @@
                 <ng-autocomplete 
                   [data]="dealerCodeData"
                   [searchKeyword]="keyword"
-                  (selected)='selectEvent($event)'
+                  (selected)='selectRCevent($event)'
                   (inputChanged)='onDealerCodeSearch($event)'
-                  [itemTemplate]="itemTemplate"
+                  [itemTemplate]="dealerCodeTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'">                                 
                 </ng-autocomplete>               
-                <ng-template #itemTemplate let-item>
+                <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorCode"></a>
                 </ng-template>               
                 <ng-template #notFoundTemplate let-notFound>

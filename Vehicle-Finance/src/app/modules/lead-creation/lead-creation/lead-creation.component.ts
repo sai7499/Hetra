@@ -53,6 +53,7 @@ export class LeadCreationComponent implements OnInit {
   dealerCodeData: Array<any> = [];
   fundingProgramData = [];
   keyword: string;
+  isSourcingType: boolean;
 
 
   obj = {};
@@ -263,6 +264,7 @@ export class LeadCreationComponent implements OnInit {
         }
       }
     });
+    this.createLeadForm.patchValue({ fundingProgram: '' });
   }
 
   getSourcingChannel() {
@@ -338,11 +340,19 @@ export class LeadCreationComponent implements OnInit {
         if (appiyoError === '0' && apiError === '0') {
           this.dealerCodeData = response.ProcessVariables.dealorDetails;
           this.keyword = 'dealorCode';
-          console.log('this.dealerCodeData', this.dealerCodeData);
+          console.log('this.dealerCodeData', this.dealerCodeData);         
         }
       });
     }
   }
+
+  selectRCevent(event) {
+    const rcData = event;
+    this.createLeadForm.patchValue({ rcLimit: rcData.rcLimit });
+    this.createLeadForm.patchValue({ rcUtilizedLimit: rcData.rcUtilized });
+    this.createLeadForm.patchValue({ rcUnutilizedLimit: rcData.rcUnutilized });
+  }
+  
   onFocused($event) { }
   selectEvent($event) { }
   selectApplicantType(event: any) {
