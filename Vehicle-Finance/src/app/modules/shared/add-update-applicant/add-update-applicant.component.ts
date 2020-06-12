@@ -30,6 +30,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./add-update-applicant.component.css'],
 })
 export class AddOrUpdateApplicantComponent implements OnInit {
+  firstName: string;
+  mobile: string;
+  aadhar: string;
+  drivingLicenseNumber: string;
+  passportNumber: string;
+  pan: string;
+
   isDedupeFound: boolean;
   isValueChanged: boolean;
   showDedupeModal: boolean;
@@ -332,6 +339,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isDedupeFound = true;
         this.isValueChanged = true;
         this.getApplicantDetails();
+        this.listenerForUnique();
       }
     }
   }
@@ -517,6 +525,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       console.log('applicant 2', applicantValue);
       const details = this.getDetails();
+      this.firstName = applicantValue.applicantDetails.name1 || '';
+      this.aadhar = details.aadhar || '';
+      this.drivingLicenseNumber = details.drivingLicenseNumber || '';
+      this.passportNumber = details.passportNumber || '';
+      this.pan = details.pan || '';
+
       this.coApplicantForm.patchValue({
         entityType: applicantValue.applicantDetails.entityTypeKey || '',
         loanApplicationRelation:
@@ -815,7 +829,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     };
 
     console.log('coApplicantModel', coApplicantModel);
-    return;
     const rawValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       this.storeIndividualValueInService(coApplicantModel);
@@ -955,6 +968,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   checkDedupe() {
     const applicantDetails = this.coApplicantForm.value;
+    let mobileNumber = applicantDetails.mobilePhone;
+
+    if (!mobileNumber) {
+      return;
+    }
+
+    mobileNumber = '91' + mobileNumber;
 
     const data = {
       leadId: this.leadId,
@@ -963,7 +983,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       firstName: applicantDetails.name1,
       middleName: applicantDetails.name2,
       lastName: applicantDetails.name3,
-      mobileNumber: applicantDetails.mobilePhone,
+      mobileNumber,
       dob: applicantDetails.dob,
       pan: applicantDetails.pan,
       voterId: applicantDetails.voterIdNumber,
@@ -995,5 +1015,42 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
     );
+  }
+
+  listenerForUnique() {
+    this.coApplicantForm.get('name1').valueChanges.subscribe((value) => {
+      if (value !== this.firstName) {
+        return (this.isValueChanged = false);
+      }
+      this.isValueChanged = true;
+    });
+    this.coApplicantForm.get('pan').valueChanges.subscribe((value) => {
+      if (value !== this.pan) {
+        return (this.isValueChanged = false);
+      }
+      this.isValueChanged = true;
+    });
+    this.coApplicantForm.get('aadhar').valueChanges.subscribe((value) => {
+      if (value !== this.aadhar) {
+        return (this.isValueChanged = false);
+      }
+      this.isValueChanged = true;
+    });
+    this.coApplicantForm
+      .get('passportNumber')
+      .valueChanges.subscribe((value) => {
+        if (value !== this.passportNumber) {
+          return (this.isValueChanged = false);
+        }
+        this.isValueChanged = true;
+      });
+    this.coApplicantForm
+      .get('drivingLicenseNumber')
+      .valueChanges.subscribe((value) => {
+        if (value !== this.drivingLicenseNumber) {
+          return (this.isValueChanged = false);
+        }
+        this.isValueChanged = true;
+      });
   }
 }

@@ -78,9 +78,18 @@ export class SalesExactMatchComponent implements OnInit {
       ignoreProbablematch: true,
     };
 
-    this.applicantService.checkSalesApplicantDedupe(data).subscribe((value) => {
-      console.log('callApiForNewApplicant', value);
-    });
+    this.applicantService
+      .checkSalesApplicantDedupe(data)
+      .subscribe((value: any) => {
+        console.log('callApiForNewApplicant', value);
+        const leadId = this.dedupeParameter.leadId;
+        if (value.Error === '0') {
+          const processVariables = value.ProcessVariables;
+          this.router.navigateByUrl(
+            `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
+          );
+        }
+      });
   }
 
   callApiForSelectedUcic() {

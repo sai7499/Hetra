@@ -242,6 +242,7 @@
                   [patternCheck]="panPattern"
                   [disabled]="isPanDisabled"
                   [isRequired]="'Pan number is required'"
+                  [inputClass]="'text-uppercase'"
                 ></app-custom-input>
               </div>
             </div>
@@ -390,7 +391,7 @@
             <div
               class="multisteps-form__panel basic_scroll"
               data-animation="scaleIn"
-              *ngIf="isDedupeFound"
+              *ngIf="isDedupeFound || isValueChanged"
             >
               <div
                 id="individual_section_address"
@@ -759,7 +760,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <p id="">Dedupe not found</p>
+        <p id="">Customer dedupe not found, continuing as new applicant.</p>
       </div>
 
       <!-- Modal footer -->
@@ -771,11 +772,11 @@
           id="reject_dlead"
           (click)="navgiateToSamePage()"
         >
-          Yes
+          OKAY
         </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
           Cancel
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
