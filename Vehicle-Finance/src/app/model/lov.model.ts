@@ -14,4 +14,5 @@ export interface LOVS {
   occupation?: Item[];
   nationality?: Item[];
   preferredLanguage?: Item[];
+  salutaion?: Item[];
 }
