@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginService } from '../../login/login/login.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,16 +10,17 @@ import { LoginService } from '../../login/login/login.service';
 })
 export class DashboardComponent implements OnInit {
   showFilter;
-  isCredit;
-  constructor(private dashboardService: DashboardService, private loginService: LoginService) { 
-    // this.loginService.getUserDetails().subscribe((res: any) => {
-    //   const response = res.ProcessVariables.roles[0].name;
-    //   this.dashboardService.leadsChange(response);
-    //   this.isCredit = response;
-    // });
-    this.isCredit = localStorage.getItem('roleType');
-  }
+  roleType;
+  constructor(
+    private dashboardService: DashboardService,
+    private loginService: LoginService,
+    private loginStoreService: LoginStoreService
+     ) { }
 
-  ngOnInit() {  }
+  ngOnInit() {
+     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+      });
+  }
 
 }
