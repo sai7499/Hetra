@@ -15,8 +15,8 @@ export const environment = {
   // hostingEnvironment: 'UAT',
   hostingEnvironment: 'Production',
 
-  //host: '/appiyo/',
-  host: 'http://128.199.164.250/appiyo/',
+  host: '/appiyo/',
+  // host: 'http://128.199.164.250/appiyo/',
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey:
