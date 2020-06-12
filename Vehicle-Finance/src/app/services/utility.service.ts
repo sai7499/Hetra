@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Injectable()
 export class UtilityService {
@@ -31,17 +32,32 @@ export class UtilityService {
     console.log('return Date', formattedDate);
     return formattedDate;
   }
-
+  getNewDateFormat(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    // const formattedDate = day + '/' + month1 + '/' + year;
+    console.log('return Date', formattedDate);
+    return formattedDate;
+  }
   ageFromAsset(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'months');
   }
 
   convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD-MM-YYYY');
+    return moment.utc(date).local().format('DD/MM/YYYY');
   }
 
   converDateToUTC(date) {
-    return moment.utc(date).format('YYYY-MM-DD HH:MM');
+    // console.log('Outpur date', moment.utc(date).format('DD-MM-YYYYT00:00:00.000Z'))
+    return moment.utc(date).format('EEE MM/DD/YYYY T00:00:00.000Z')
+    // var d = new Date( date + 'T00:00:00.000Z');
+    // console.log('D', d)
+    // return moment.utc(date).format('YYYY-MM-DD HH:MM')
   }
 
   getCommonUniqueValue(array, value: any) {
@@ -49,6 +65,32 @@ export class UtilityService {
       return arr.indexOf(arr.find(t => t[value] === thing[value])) === i;
     });
     return distinctThings;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field)
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true })
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control)
+      } else if (control instanceof FormArray) {
+        this.validateFormArray(control)
+      }
+    })
+  }
+
+  validateFormArray(formArray) {
+
+    for (const control of formArray.controls) {
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true })
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control)
+      } else if (control instanceof FormArray) {
+        this.validateFormArray(control)
+      }
+    }
   }
 
   getUiquJson(jsonAry: Array<any>, keyValue) {

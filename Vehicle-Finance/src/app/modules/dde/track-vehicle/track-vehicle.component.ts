@@ -634,4 +634,9 @@ export class TrackVehicleComponent implements OnInit {
       });
     });
   }
+
+  nextToFleet(){
+  this.router.navigate(['/pages/dde/'+this.leadId +'/fleet-details']);
+}
+
 }

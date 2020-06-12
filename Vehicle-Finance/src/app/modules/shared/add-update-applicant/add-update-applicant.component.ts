@@ -29,6 +29,11 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./add-update-applicant.component.css'],
 })
 export class AddOrUpdateApplicantComponent implements OnInit {
+  panPattern = {
+    rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    msg: 'Invalid Pan',
+  };
+
   values: any = [];
   labels: any = {};
   LOV: any = [];
@@ -107,7 +112,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private router: Router,
     private createLeadDataService: CreateLeadDataService,
     private location: Location
-  ) {}
+  ) { }
 
   onBack() {
     this.location.back();
@@ -716,6 +721,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
     };
+
+    console.log('coApplicantModel', coApplicantModel);
+    
     const rawValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       this.storeIndividualValueInService(coApplicantModel);

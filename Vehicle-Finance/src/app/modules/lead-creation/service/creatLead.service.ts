@@ -107,4 +107,57 @@ export class CreateLeadService {
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
+
+    sourcingCode(sourcingCodeType, sourcingCodeSubType, code) {
+        const processId = this.apiService.api.sourcingCode.processId;
+        const workflowId = this.apiService.api.sourcingCode.workflowId;
+        const projectId = this.apiService.api.sourcingCode.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                'sourcingCodeType': sourcingCodeType,
+                'sourcingCodeSubType': sourcingCodeSubType,
+                'code': code
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    fundingPrograming(productCode) {
+        const processId = this.apiService.api.fundingProgram.processId;
+        const workflowId = this.apiService.api.fundingProgram.workflowId;
+        const projectId = this.apiService.api.fundingProgram.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                "productCode": productCode
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    dealerCode(code) {
+        const processId = this.apiService.api.dealerCode.processId;
+        const workflowId = this.apiService.api.dealerCode.workflowId;
+        const projectId = this.apiService.api.dealerCode.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                "code": code
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
 }

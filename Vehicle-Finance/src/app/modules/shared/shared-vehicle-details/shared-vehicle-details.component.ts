@@ -3,9 +3,11 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { ToasterService } from '@services/toaster.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -37,6 +39,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     }
   ];
 
+  locationIndex: any;
+
   constructor(
     private loginStoreService: LoginStoreService,
     private labelsData: LabelsService,
@@ -44,7 +48,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private router: Router,
     public vehicleDataStoreService: VehicleDataStoreService,
     public createLeadDataService: CreateLeadDataService,
-    private activatedRoute: ActivatedRoute) { }
+    private toasterService: ToasterService,
+    private location: Location) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -54,20 +59,38 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
+    const currentUrl = this.location.path();
+    this.locationIndex = this.getLocationIndex(currentUrl);
+
+    this.location.onUrlChange((url: string) => {
+      console.log(url, 'any')
+      this.locationIndex = this.getLocationIndex(url);
+    });
+
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
-    this.getVehicleDetails(this.leadId)
+    this.getVehicleDetails(this.leadId);
 
     this.labelsData.getLabelsData().subscribe(data => {
       this.label = data;
     }, error => {
-      console.log('error', error)
+      console.log('error', error);
     });
 
   }
 
+  getLocationIndex(url) {
+    console.log(url, 'any')
+    if (url.includes('lead-section')) {
+      return 'lead-section';
+    } else  if (url.includes('sales')) {
+      return 'sales';
+    } 
+    // return url;
+  }
   editVehicle(collateralId: number) {
-    this.router.navigate(['pages/lead-section/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
+    console.log('Location Index', this.locationIndex)
+    this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
   }
 
   onEditVehicleDetails(collateralId: number) {
@@ -76,21 +99,28 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
-      console.log(res)
+      console.log(res);
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
     }, error => {
-      console.log(error, 'error')
-    })
+      console.log(error, 'error');
+    });
   }
 
   DeleteVehicleDetails(vehicle: any) {
     if (vehicle) {
       this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res: any) => {
+        const apiError = res.ProcessVariables.error.message;
+
+        if (res.Error === '0' && res.Error === '0') {
+          this.toasterService.showSuccess(apiError, '');
+        } else {
+          this.toasterService.showError(apiError, '')
+        }
         this.getVehicleDetails(this.leadId)
       }, error => {
-        console.log('error', error)
+        console.log('error', error);
       }
-      )
+      );
     }
   }
 }
