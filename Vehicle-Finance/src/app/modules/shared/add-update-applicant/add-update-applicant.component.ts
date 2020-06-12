@@ -69,6 +69,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     rule: 30,
     msg: '',
   };
+  Maxlength9 = {
+    rule: 9,
+    msg: '',
+  };
 
   drivingLicensePattern = {
     rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}',
@@ -131,6 +135,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     rule: 15,
     msg: '',
   };
+  Maxlength8 = {
+    rule: 8,
+    msg: '',
+  };
+
 
   values: any = [];
   labels: any = {};
@@ -1173,6 +1182,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   navgiateToSamePage() {
+    this.showDedupeModal = false;
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
     );

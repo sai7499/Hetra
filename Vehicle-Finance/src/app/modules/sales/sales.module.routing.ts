@@ -26,7 +26,7 @@ const routes: Routes = [
         component: ApplicantListComponent,
       },
       {
-        path: 'vehicle-details',
+        path: 'vehicle-list',
         component: VehicleDetailsComponent,
       },
       {
