@@ -9,6 +9,7 @@ export interface Lead {
   productDetails?: ProductDetails;
   loanDetails?: LoanDetails;
   vehicleDetails?: Array<VehicleDetails>;
+  cibilData?: CibilData;
 }
 
 export interface LoanLeadDetails {
@@ -244,4 +245,17 @@ export interface BasicVehicleDetails {
   fast_tag?: string,
   others?: string,
   discount?: string,
+}
+export interface CibilData {
+  ageOfAsset?: number;
+// applicantList: [ApplicantDetails]
+customerSegment?: string;
+eligibleAmount?: number;
+leadId?: string;
+loanAmount?: number;
+loanTenure?: number;
+productCategoryCode?: string;
+productCategoryName?: string;
+productId?: string;
+totalAmount?: number;
 }
