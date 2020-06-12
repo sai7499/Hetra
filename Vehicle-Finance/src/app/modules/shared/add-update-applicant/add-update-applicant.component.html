@@ -48,11 +48,11 @@
                   formControlName="name1"
                 /> -->
                 <app-custom-input
-                formControlName="name1"
-                [patternCheck]="namePattern"
-                [isRequired]="'First Name is required'"
-                [maxlength] = "Maxlength30"
-              ></app-custom-input>
+                  formControlName="name1"
+                  [patternCheck]="namePattern"
+                  [isRequired]="'First Name is required'"
+                  [maxlength]="Maxlength30"
+                ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label
@@ -72,10 +72,10 @@
                   formControlName="name2"
                 /> -->
                 <app-custom-input
-                formControlName="name2"
-                [patternCheck]="namePattern"
-                [maxlength] = "Maxlength30"
-              ></app-custom-input>
+                  formControlName="name2"
+                  [patternCheck]="namePattern"
+                  [maxlength]="Maxlength30"
+                ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label
@@ -95,10 +95,10 @@
                   formControlName="name3"
                 /> -->
                 <app-custom-input
-                formControlName="name3"
-                [patternCheck]="namePattern"
-                [maxlength] = "Maxlength30"
-              ></app-custom-input>
+                  formControlName="name3"
+                  [patternCheck]="namePattern"
+                  [maxlength]="Maxlength30"
+                ></app-custom-input>
               </div>
             </div>
 
@@ -145,11 +145,11 @@
                   formControlName="mobilePhone"
                 /> -->
                 <app-custom-input
-                formControlName="mobilePhone"
-                [patternCheck]="mobileNumberPattern"
-                [isRequired]="'Mobile number is required'"
-                [maxLength] = "Maxlength10"
-              ></app-custom-input>
+                  formControlName="mobilePhone"
+                  [patternCheck]="mobileNumberPattern"
+                  [isRequired]="'Mobile number is required'"
+                  [maxLength]="{ rule: 12 }"
+                ></app-custom-input>
               </div>
 
               <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
@@ -207,11 +207,11 @@
                     formControlName="aadhar"
                   /> -->
                   <app-custom-input
-                formControlName="aadhar"
-                [patternCheck]="adharNumberPattern"
-                [isRequired]="'Adhar number is required'"
-                [maxLength] = "Maxlength12"
-              ></app-custom-input>
+                    formControlName="aadhar"
+                    [patternCheck]="adharNumberPattern"
+                    [isRequired]="'Adhar number is required'"
+                    [maxLength]="Maxlength12"
+                  ></app-custom-input>
                   <span class="input-group-btn">
                     <button class="btn btn-default">
                       <i class="fa fa-credit-card"></i>
@@ -255,10 +255,10 @@
                   formControlName="drivingLicenseNumber"
                 /> -->
                 <app-custom-input
-                formControlName="drivingLicenseNumber"
-                [patternCheck]="drivingLicensePattern"
-                (change)="drvingLisenseValidation($event)"
-              ></app-custom-input>
+                  formControlName="drivingLicenseNumber"
+                  [patternCheck]="drivingLicensePattern"
+                  (change)="drvingLisenseValidation($event)"
+                ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{
@@ -314,10 +314,10 @@
                   formControlName="passportNumber"
                 /> -->
                 <app-custom-input
-                formControlName="passportNumber"
-                [patternCheck]="passportPattern"
-                (change)="drvingLisenseValidation($event)"
-              ></app-custom-input>
+                  formControlName="passportNumber"
+                  [patternCheck]="passportPattern"
+                  (change)="drvingLisenseValidation($event)"
+                ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportIssueDate }}</label>
@@ -362,14 +362,35 @@
                   formControlName="voterIdNumber"
                 /> -->
                 <app-custom-input
-                formControlName="voterIdNumber"
-                [patternCheck]="voterIdPattern"
-              ></app-custom-input>
+                  formControlName="voterIdNumber"
+                  [patternCheck]="voterIdPattern"
+                ></app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <!-- <button
+                  class="btn btn-primary mar-right8"
+                  type="button"
+                  (click)="checkDedupe()"
+                  [disabled]="isValueChanged"
+                >
+                  <a class="back_color">Check Dedupe</a>
+                </button> -->
+              </div>
+              <div class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20">
+                <button
+                  class="btn btn-primary mar-right8"
+                  type="button"
+                  (click)="checkDedupe()"
+                  [disabled]="isValueChanged"
+                >
+                  <a class="back_color">Check Dedupe</a>
+                </button>
               </div>
             </div>
             <div
               class="multisteps-form__panel basic_scroll"
               data-animation="scaleIn"
+              *ngIf="isDedupeFound"
             >
               <div
                 id="individual_section_address"
@@ -387,10 +408,10 @@
                       formControlName="addressLineOne"
                     /> -->
                     <app-custom-input
-                formControlName="addressLineOne"
-                [isRequired]="'Address is Required'"
-                [maxlength] = "Maxlength40"
-              ></app-custom-input>
+                      formControlName="addressLineOne"
+                      [isRequired]="'Address is Required'"
+                      [maxlength]="Maxlength40"
+                    ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address2">{{ labels?.addressline2 }}</label>
@@ -401,9 +422,9 @@
                       formControlName="addressLineTwo"
                     /> -->
                     <app-custom-input
-                formControlName="addressLineTwo"
-                [maxlength] = "Maxlength40"
-              ></app-custom-input>
+                      formControlName="addressLineTwo"
+                      [maxlength]="Maxlength40"
+                    ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address3">{{ labels?.addressline3 }}</label>
@@ -414,9 +435,9 @@
                       formControlName="addressLineThree"
                     /> -->
                     <app-custom-input
-                formControlName="addressLineThree"
-                [maxlength] = "Maxlength40"
-              ></app-custom-input>
+                      formControlName="addressLineThree"
+                      [maxlength]="Maxlength40"
+                    ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="pincode">{{ labels?.code }}</label>
@@ -428,11 +449,11 @@
                       (keyup)="getPincode($event.target)"
                     /> -->
                     <app-custom-input
-                formControlName="pincode"
-                [maxlength] = "Maxlength40"
-                [patternCheck]="pincodePattern"
-                (keyup)="getPincode($event.target)"
-              ></app-custom-input>
+                      formControlName="pincode"
+                      [maxlength]="Maxlength40"
+                      [patternCheck]="pincodePattern"
+                      (keyup)="getPincode($event.target)"
+                    ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_city">{{
@@ -710,7 +731,7 @@
       </div>
     </form>
   </div>
-  <div class="btn-sec clear-both">
+  <div class="btn-sec clear-both" *ngIf="isDedupeFound">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right" id="clickButton">
       <button
@@ -726,6 +747,39 @@
     </div>
   </div>
 </main>
+
+<div class="modal" id="myModal" [ngClass]="{ 'dis-block': showDedupeModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Decision on Dedupe Results</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">Dedupe not found</p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="reject_dlead"
+          (click)="navgiateToSamePage()"
+        >
+          Yes
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Footer -->
 <!-- <footer class="footer pf">

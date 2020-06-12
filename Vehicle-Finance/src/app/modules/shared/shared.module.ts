@@ -19,6 +19,7 @@ import { SharedBasicVehicleDetailsComponent } from './shared-basic-vehicle-detai
 import { SharedVehicleDetailsComponent } from './shared-vehicle-details/shared-vehicle-details.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { CustomInputComponent } from './custom-input/custom-input.component';
+import { SalesExactMatchComponent } from './sales-exact-match/sales-exact-match.component';
 
 import {
   BsDatepickerModule,
@@ -42,6 +43,7 @@ setTheme('bs4');
     SharedVehicleDetailsComponent,
     SearchBarComponent,
     CustomInputComponent,
+    SalesExactMatchComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ setTheme('bs4');
     SharedVehicleDetailsComponent,
     SearchBarComponent,
     CustomInputComponent,
+    SalesExactMatchComponent,
   ],
 })
 export class SharedModule {}

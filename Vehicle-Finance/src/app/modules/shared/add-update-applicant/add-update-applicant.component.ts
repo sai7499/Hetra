@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { SalesDedupeService } from '@services/sales-dedupe.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
@@ -29,6 +30,9 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./add-update-applicant.component.css'],
 })
 export class AddOrUpdateApplicantComponent implements OnInit {
+  isDedupeFound: boolean;
+  isValueChanged: boolean;
+  showDedupeModal: boolean;
   panPattern = {
     // rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
     // msg: 'Invalid Pan',
@@ -39,48 +43,46 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   };
   namePattern = {
     rule: '^[A-Z]*[a-z]*$',
-    msg: 'Invalid Name'
+    msg: 'Invalid Name',
   };
   Maxlength30 = {
     rule: 30,
-    msg: ''
+    msg: '',
   };
 
   drivingLicensePattern = {
-    rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}' ,
-    msg: 'Invalid'
+    rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}',
+    msg: 'Invalid',
   };
 
-  
-
   mobileNumberPattern = {
-    rule: '^[1-9][0-9]*$' ,
-    msg: 'Invalid Mobile'
+    rule: '^[1-9][0-9]*$',
+    msg: 'Invalid Mobile',
   };
 
   Maxlength10 = {
     rule: 10,
-    msg: ''
+    msg: '',
   };
 
   adharNumberPattern = {
-    rule: '^[0-9]{12}' ,
-    msg: 'Invalid Adhar Number'
+    rule: '^[0-9]{12}',
+    msg: 'Invalid Adhar Number',
   };
 
   Maxlength12 = {
     rule: 12,
-    msg: ''
+    msg: '',
   };
 
   passportPattern = {
-    rule: '[A-Z]{1}[0-9]{7}' ,
-    msg: 'Invalid Passport Number'
+    rule: '[A-Z]{1}[0-9]{7}',
+    msg: 'Invalid Passport Number',
   };
 
   voterIdPattern = {
-    rule: '[A-Z]{3}[0-9]{6}' ,
-    msg: 'Invalid VoterId Number'
+    rule: '[A-Z]{3}[0-9]{6}',
+    msg: 'Invalid VoterId Number',
   };
 
   // addressLineOnePattern = {
@@ -90,12 +92,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   Maxlength40 = {
     rule: 40,
-    msg: ''
+    msg: '',
   };
 
   pincodePattern = {
-    rule: '^[1-9][0-9]{6}$' ,
-    msg: 'Invalid pincode Number'
+    rule: '^[1-9][0-9]{6}$',
+    msg: 'Invalid pincode Number',
   };
 
   values: any = [];
@@ -163,7 +165,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.coApplicantForm.controls['pan'].enable();
       this.panPattern = this.panFormPattern;
-
     }
   }
 
@@ -194,7 +195,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private utilityService: UtilityService,
     private router: Router,
     private createLeadDataService: CreateLeadDataService,
-    private location: Location
+    private location: Location,
+    private salesDedupeService: SalesDedupeService
   ) {}
 
   onBack() {
@@ -291,8 +293,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
   }
   async ngOnInit() {
-    if(this.panValue = '1PANTYPE') {
-
+    if ((this.panValue = '1PANTYPE')) {
     }
     this.initForm();
     this.coApplicantForm.patchValue({ entity: 'Non-individual' });
@@ -328,6 +329,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.applicantId = null;
       }
       if (this.applicantId) {
+        this.isDedupeFound = true;
+        this.isValueChanged = true;
         this.getApplicantDetails();
       }
     }
@@ -451,8 +454,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ? this.applicant.aboutIndivProspectDetails
         : {};
       if (indivIdentityInfoDetails.panType === '1PANTYPE') {
-          this.panPattern = this.panFormPattern;
-       }
+        this.panPattern = this.panFormPattern;
+      }
       details.pan = indivIdentityInfoDetails.pan;
       details.aadhar = indivIdentityInfoDetails.aadhar;
       details.mobile = aboutIndivProspectDetails.mobilePhone;
@@ -948,5 +951,49 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       'communicationAddress'
     );
     communicationAddress.patchValue(this.createAddressObject(formValue));
+  }
+
+  checkDedupe() {
+    const applicantDetails = this.coApplicantForm.value;
+
+    const data = {
+      leadId: this.leadId,
+      entityType: applicantDetails.entityType,
+      ignoreProbablematch: 'false',
+      firstName: applicantDetails.name1,
+      middleName: applicantDetails.name2,
+      lastName: applicantDetails.name3,
+      mobileNumber: applicantDetails.mobilePhone,
+      dob: applicantDetails.dob,
+      pan: applicantDetails.pan,
+      voterId: applicantDetails.voterIdNumber,
+      drivingLicense: applicantDetails.drivingLicenseNumber,
+      passport: applicantDetails.passportNumber,
+    };
+    this.applicantService
+      .checkSalesApplicantDedupe(data)
+      .subscribe((value: any) => {
+        console.log('checkSalesApplicantDedupe', value);
+        if (value.Error === '0') {
+          const processVariables = value.ProcessVariables;
+          if (!processVariables.dedupeFound) {
+            this.applicantId = processVariables.applicantId;
+            this.isDedupeFound = true;
+            this.showDedupeModal = true;
+            return;
+          }
+          this.salesDedupeService.setDedupeParameter(data);
+          this.salesDedupeService.setDedupeDetails(value.ProcessVariables);
+          this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/sales-exact-match`
+          );
+        }
+      });
+  }
+
+  navgiateToSamePage() {
+    this.router.navigateByUrl(
+      `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    );
   }
 }

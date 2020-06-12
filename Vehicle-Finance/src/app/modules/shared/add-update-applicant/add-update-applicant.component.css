@@ -230,6 +230,14 @@ select#select_main_button_match {
   margin-top: 16px;
 }
 
-.footer{
+.footer {
   position: fixed !important;
+}
+
+.dis-block {
+  display: block;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
 }
