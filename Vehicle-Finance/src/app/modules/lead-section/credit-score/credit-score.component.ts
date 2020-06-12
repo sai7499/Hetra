@@ -3,26 +3,44 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { CreditScoreService } from '@services/credit-score.service';
 import { TermAcceptanceService } from '@services/term-acceptance.service';
-
+import { Lead } from '@model/lead.model';
+interface CibilData {
+  ageOfAsset?: number;
+// applicantList: [ApplicantDetails]
+customerSegment: string;
+eligibleAmount: number;
+leadId?: string;
+loanAmount: number;
+loanTenure: number;
+productCategoryCode: string;
+productCategoryName?: string;
+productId?: string;
+totalAmount: number;
+}
 @Component({
   selector: 'app-credit-score',
   templateUrl: './credit-score.component.html',
   styleUrls: ['./credit-score.component.css'],
 })
+
+
 export class CreditScoreComponent implements OnInit {
   leadId;
   labels: any;
   creditScore: any;
   applicantList: any;
-  variable: any;
+  leadData: any;
+  variable: CibilData;
   userId: any;
+  
   constructor(
     private aRoute: ActivatedRoute,
     private router: Router,
     private labelService: LabelsService,
     private creditService: CreditScoreService,
     private termsService: TermAcceptanceService
-  ) {}
+  ) {
+  }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
@@ -32,7 +50,8 @@ export class CreditScoreComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
 
-    this.getCreditFromService(this.leadId);
+    this.leadData = this.getCreditFromService(this.leadId);
+   console.log(this.leadData);
   }
   getCreditFromService(data: any) {
     const body = { leadId: data.toString() };
@@ -51,6 +70,7 @@ export class CreditScoreComponent implements OnInit {
           `pages/lead-section/${this.leadId}/vehicle-details`,
         ]);
       }
+      return res;
     });
   }
   getLeadId() {

@@ -165,7 +165,8 @@ export class OtpSectionComponent implements OnInit {
         this.router.navigate(['pages/lead-section/' + this.leadId + '/applicant-details']);
       }
       else {
-        alert(res.ProcessVariables.error.message);
+        // alert(res.ProcessVariables.error.message);
+        this.toasterService.showError("Invalid OTP !", '');
 
       }
     });

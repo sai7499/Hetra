@@ -54,27 +54,27 @@
             <div class="col-lg-4">
               <p id="">
                 <span id="">Product Offered</span
-                ><span id="credit_score_tag1">{{processData.productCategoryCode}}</span>
+                ><span id="credit_score_tag1">{{processData?.productCategoryCode}}</span>
               </p>
               <p id="">
                 <span id="">Customer Segment</span
-                ><span id="credit_score_tag2">{{processData.customerSegment}}</span>
+                ><span id="credit_score_tag2">{{processData?.customerSegment}}</span>
               </p>
             </div>
             <div class="col-lg-4">
               <p id="">
                 <span id="">Requested Loan Amount</span
-                ><span id="credit_score_tag4">{{processData.loanAmount}}</span>
+                ><span id="credit_score_tag4">{{processData?.loanAmount}}</span>
               </p>
             </div>
             <div class="col-lg-4">
               <p id="">
                 <span id="">Loan Tenor</span
-                ><span id="credit_score_tag3">{{processData.loanTenure}}Months</span>
+                ><span id="credit_score_tag3">{{processData?.loanTenure}}Months</span>
               </p>
               <p id="">
                 <span id="">Age of the car at the end of tenor</span
-                ><span id="credit_score_tag5"> {{processData.ageOfAsset}} Months</span>
+                ><span id="credit_score_tag5"> {{processData?.ageOfAsset}} Months</span>
               </p>
             </div>
 
@@ -96,7 +96,7 @@
           </div>
 
           <p class="text-center" id="credit_score_tag10">
-            Eligible Loan Amount : {{processData.eligibleAmount}}
+            Eligible Loan Amount : {{processData?.eligibleAmount}}
           </p>
           <hr />
 
