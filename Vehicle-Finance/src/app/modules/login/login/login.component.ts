@@ -26,7 +26,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 
-declare var device:any;
+declare var device: any;
 
 
 @Component({
@@ -217,18 +217,21 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  initIdenti5(){
+  initIdenti5() {
     // let dInfo = new device();
     // console.log(dInfo.model);
+    // tslint:disable-next-line: no-var-keyword
     var that = this;
-    this.base64Data = "";
-    device.getInfo(function(result){
-      console.log("Result&&&&"+ result);
-      that.base64Data = result["model"];
-      console.log("base64Data"+ that.base64Data);
-    },function(error){
-      console.log("Result&&&&"+ error);
+    this.base64Data = '';
+    // tslint:disable-next-line: only-arrow-functions
+    device.getInfo(function(result) {
+      console.log('Result&&&&' + result);
+      // tslint:disable-next-line: no-string-literal
+      that.base64Data = result['model'];
+      console.log('base64Data' + that.base64Data);
+    // tslint:disable-next-line: only-arrow-functions
+    }, function(error) {
+      console.log('Result&&&&' + error);
     });
-  
   }
 }
