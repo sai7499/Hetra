@@ -297,7 +297,7 @@ export class BankDetailsComponent implements OnInit {
 //
         // tslint:disable-next-line: prefer-const
         // console.log(i, 'checking index');
-        let count = i % 12;
+        const count = i % 12;
         const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
         // }
@@ -316,10 +316,10 @@ onBack() {
   }
   // log(this.assignedArray);
 
-  onBackToApplicant(){
-    
-      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
-    
+  onBackToApplicant() {
+
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+
   }
 }
 

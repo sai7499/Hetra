@@ -1,7 +1,16 @@
-.content{
+.content {
     margin-top: 20px;
 }
 
-#otp_button{
+#otp_button {
     width: 33%;
 }
+
+.btn-primary {
+    padding: 6px 75px;
+}
+
+
+/* .button {
+    padding-left: -100px;
+} */

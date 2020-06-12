@@ -216,6 +216,11 @@ export class ApiService {
       projectId: environment.projectIds.otpProjectId,
       // projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     },
+    creditBureau: {
+      processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
+      workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
+      projectId: environment.projectIds.salesCreditScore,
+    },
     sourcingCode: {
       processId: 'f02ef8fca6e411eabf7ff2fa9bec3d63',
       workflowId: 'efd8c3c4a6e411eabf7ff2fa9bec3d63',
@@ -237,5 +242,5 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId,
     }
 
-  }
+  };
 }
