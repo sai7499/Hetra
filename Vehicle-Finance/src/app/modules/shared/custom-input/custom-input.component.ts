@@ -63,7 +63,7 @@ export class CustomInputComponent
 
   @Input() dynamicDataBinding: boolean;
 
-  @Input() placeholder: string;
+  @Input() placeholder = '';
 
   htmlInputElement: any;
 
