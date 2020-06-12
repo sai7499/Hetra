@@ -60,11 +60,25 @@ export class TermsConditionsComponent implements OnInit {
   navigateToSales() {
     const body = {
       leadId : this.leadId,
-      userId:  this.userId
+      userId:  this.userId,
+      statusType : 'accept'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       console.log(res);
-      if ( res && res.ProcessVariables.error === null) {
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      }
+    });
+  }
+  declineOffer() {
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject'
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      console.log(res);
+      if ( res && res.ProcessVariables.error.code === '0') {
         this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
       }
     });

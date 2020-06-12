@@ -263,7 +263,7 @@
                 class="btn btn-danger"
                 id="ok_co_applicant"
                 data-dismiss="modal"
-                [routerLink]="['/activity-search']"
+                (click)="declineOffer()"
               >
                 Reject
               </button>
