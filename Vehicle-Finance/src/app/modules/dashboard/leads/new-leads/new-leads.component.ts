@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-new-leads',
@@ -30,7 +31,8 @@ export class NewLeadsComponent implements OnInit {
   constructor(
     private labelsData: LabelsService,
     private dashboardService: DashboardService,
-    private vehicleDataStoreService: VehicleDataStoreService
+    private vehicleDataStoreService: VehicleDataStoreService,
+    private loginStoreService: LoginStoreService
   ) { }
 
   getMyLeads(perPageCount, pageNumber?) {
@@ -81,7 +83,7 @@ export class NewLeadsComponent implements OnInit {
       }
     );
 
-    this.dashboardService.isCreditDashboard.subscribe((value: any) => {
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
       this.roleType = value.roleType;

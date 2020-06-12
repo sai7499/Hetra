@@ -5,6 +5,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { CreateLeadDataService } from '../lead-creation/service/createLead-data.service';
 import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { CreditScoreService } from '@services/credit-score.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-terms-conditions',

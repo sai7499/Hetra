@@ -142,9 +142,9 @@ export class LoginComponent implements OnInit {
               const roleType = response.ProcessVariables.roles[0].roleType;
               localStorage.setItem('role', role);
               localStorage.setItem('roleType', roleType);
-              const branchId = response.ProcessVariables.userDetails.branchId;
-              const  roleId = response.ProcessVariables.roles[0].roleId;
-              this.dashboardService.creditDashboardMethod({branchId, roleId, roleType});
+              // const branchId = response.ProcessVariables.userDetails.branchId;
+              // const  roleId = response.ProcessVariables.roles[0].roleId;
+              // this.dashboardService.creditDashboardMethod({branchId, roleId, roleType});
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,
