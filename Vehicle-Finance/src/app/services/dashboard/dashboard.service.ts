@@ -17,8 +17,8 @@ export class DashboardService {
   dashboardLeadsAction: Subject<object> = new Subject<object>();
   isCreditShow: Observable<object> = this.dashboardLeadsAction.asObservable();
 
-  creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({branchId: '', roleId: '', roleType: ''});
-  isCreditDashboard = this.creditDashboard.asObservable();
+  
+
   constructor(
     private httpService: HttpService,
     private commonLovService: CommomLovService,
@@ -31,9 +31,7 @@ export class DashboardService {
 
   }
 
-  creditDashboardMethod(value: object) {
-    this.creditDashboard.next(value);
-  }
+  
 
   myLeads(data) {
     const processId = this.apiService.api.getMyLeads.processId;

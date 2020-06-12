@@ -7,13 +7,13 @@ export const environment = {
 
   projectIds: {
     salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
-    salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63'
   },
 
-   // hostingEnvironment: 'UAT',
-   hostingEnvironment: 'Production',
-   
+  // hostingEnvironment: 'UAT',
+  hostingEnvironment: 'Production',
+
   host: '/appiyo/',
   // host: 'http://128.199.164.250/appiyo/',
 

@@ -238,6 +238,11 @@ export class ApiService {
       workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    termsAcceptance: {
+      processId: 'cde7ca74abc811ea832af2fa9bec3d63' ,
+      workflowId: 'cda49f10abc811ea832af2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     fundingProgram: {
       processId: 'b6856476ab3811ea82f6f2fa9bec3d63',
       workflowId: 'b64abaa6ab3811ea82f6f2fa9bec3d63',

@@ -326,6 +326,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
+    // if (this.basicVehicleForm.valid) {
+    //   this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+    // } else {
+    //   this.utilityService.validateAllFormFields(this.basicVehicleForm)
+    // }
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
@@ -431,6 +436,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
     formArray.push(controls);
+    console.log(this.basicVehicleForm.get('vehicleFormArray')['controls'][0].get('region'))
   }
 
   addCreditFormControls() {

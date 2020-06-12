@@ -258,18 +258,19 @@
             <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{
               labels.dateOfIncorporation
             }}</label>
-             <input
+             <!-- <input
               type="date"
               class="form-control mandatory"
               id="dob"
               placeholder="Date of birth"
               name="dob"
               formControlName="dateOfBirth"
-            />
-            <!-- <kendo-datepicker
-                formControlName="dateOfBirth"
-                
-            ></kendo-datepicker> -->
+            /> --> 
+            <kendo-datepicker class="form-control mandatory" 
+              formControlName="dateOfBirth" [format]="'dd/MM/yyyy'"
+              [max]="toDayDate" 
+              placeholder="Date of birth"
+              [activeView]="'decade'"></kendo-datepicker>          
           </div>
 
           <div class="btn-sec clear-both">

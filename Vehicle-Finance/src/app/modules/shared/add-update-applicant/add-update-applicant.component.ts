@@ -125,7 +125,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private router: Router,
     private createLeadDataService: CreateLeadDataService,
     private location: Location
-  ) {}
+  ) { }
 
   onBack() {
     this.location.back();
@@ -739,7 +739,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     };
 
     console.log('coApplicantModel', coApplicantModel);
-    return;
+    
     const rawValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       this.storeIndividualValueInService(coApplicantModel);

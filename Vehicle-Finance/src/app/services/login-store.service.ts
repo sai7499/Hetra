@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CommonDataService } from './common-data.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { DashboardService } from './dashboard/dashboard.service';
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +9,8 @@ import { Observable, of } from 'rxjs';
 
 export class LoginStoreService {
 
-    constructor(private cds: CommonDataService) { }
+    constructor(private cds: CommonDataService,
+                private dashBoardService: DashboardService) { }
 
     roleAndUserDetails;
     emailId: string;
@@ -23,6 +25,10 @@ export class LoginStoreService {
             activityList
         }
         this.cds.changeCdsStatus(true);
+        this.creditDashboardMethod({
+            branchId:userDetails["branchId"],
+            roleId:roles[0].roleId,
+            roleType:roles[0].roleType});
     }
 
     getRolesAndUserDetails() {
@@ -37,4 +43,9 @@ export class LoginStoreService {
         return this.emailId;
     }
 
+    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({branchId: '', roleId: '', roleType: ''});
+    isCreditDashboard = this.creditDashboard.asObservable();
+    creditDashboardMethod(value: object) {
+        this.creditDashboard.next(value);
+      }
 }

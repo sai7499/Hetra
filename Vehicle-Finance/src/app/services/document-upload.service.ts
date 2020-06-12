@@ -7,7 +7,7 @@ import { HttpService } from './http.service';
   providedIn: 'root'
 })
 export class DocumentUploadService {
-  private saveToCredit:{
+  private saveToCredit: {
     projectId?: string;
     processId?: string;
     workflowId?: string;
@@ -15,11 +15,11 @@ export class DocumentUploadService {
 
 
   constructor(private apiService: ApiService,
-              private httpService: HttpService) { 
+    private httpService: HttpService) {
     this.saveToCredit = this.apiService.api.submitToCredit;
   }
 
-  public submitToCredit(data){
+  public submitToCredit(data) {
     const projectId = this.saveToCredit.projectId;
     const processId = this.saveToCredit.processId;
     const workflowId = this.saveToCredit.workflowId;
@@ -34,5 +34,5 @@ export class DocumentUploadService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  
+
 }
