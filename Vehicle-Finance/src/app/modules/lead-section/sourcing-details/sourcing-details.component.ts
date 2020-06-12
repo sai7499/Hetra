@@ -412,7 +412,7 @@ export class SourcingDetailsComponent implements OnInit {
       priority: Number(saveAndUpdate.priority),
       sourcingChannel: saveAndUpdate.sourcingChannel,
       sourcingType: saveAndUpdate.sourcingType,
-      sourcingCode: saveAndUpdate.sourcingCode,
+      sourcingCode: saveAndUpdate.sourcingCode.key,
       dealorCode: saveAndUpdate.dealerCode.dealorCode,
       // spokeCode: Number(saveAndUpdate.spokeCode),
       spokeCode: 1,
