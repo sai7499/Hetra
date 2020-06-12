@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -180,7 +180,7 @@ export class BasicDetailsComponent implements OnInit {
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl({ value: '', disabled: true }),
+      name1: new FormControl({ value: '', disabled: true }, Validators.required),
       name2: new FormControl({ value: '', disabled: true }),
       name3: new FormControl({ value: '', disabled: true }),
       mobilePhone: new FormControl(null),
@@ -190,7 +190,7 @@ export class BasicDetailsComponent implements OnInit {
       fatherName: new FormControl(null),
       spouseName: new FormControl(null),
       motherMaidenName: new FormControl(null),
-      occupation: new FormControl(''),
+      occupation: new FormControl({value: ''}, Validators.required),
       nationality: new FormControl(''),
       customerCategory: new FormControl(''),
       emailId: new FormControl(''),
