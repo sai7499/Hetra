@@ -66,7 +66,10 @@ export class HttpService {
     //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     // }
     if (this.isMobile) {
-      return this.postMWithoutEncryption(url, requestEntity);
+      console.log("url", url);
+      console.log("body", requestEntity);
+      const body = JSON.stringify(requestEntity);
+      return this.postM(url, body);
     } else {
       if (headers) {
         return this.http.post(url, requestEntity, {
@@ -164,6 +167,7 @@ export class HttpService {
             data['ProcessVariables']['errorCode'] == '' &&
             data['ProcessVariables']['errorCode'] != undefined
           ) {
+            // console.log("There are no Errors");
           } else if (
             data['Error'] == '0' &&
             data['Error'] != undefined &&
@@ -180,11 +184,13 @@ export class HttpService {
               data['ProcessVariables']['errorMessage'] != undefined &&
               data['ProcessVariables']['errroMessage'] != ''
             ) {
+              // this.cds.setErrorData(true, cdsData, msg);  
               this.errorListenerService.setError({
                 msg,
                 errorCode: cdsData
               })
             } else {
+              // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
                 errorCode: cdsData
               })
@@ -199,6 +205,7 @@ export class HttpService {
           ) {
             if (data['ProcessName'] != 'Required documents' && data['ProcessName'] != 'Authenticate User Login') {
               let data = 'DEF';
+              // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
                 errorCode: data
               })
@@ -208,6 +215,7 @@ export class HttpService {
             (data['status'] === false && data['status'] != undefined)
           ) {
             let data = 'APP001';
+            // this.cds.setErrorData(true, data);
             this.errorListenerService.setError({
               errorCode: data
             })
@@ -217,11 +225,18 @@ export class HttpService {
           observer.complete();
 
           if (data && data['login_required']) {
+            // storage.removeToken();
+            // storage.removeToken();
+            // storage.removeToken();
+            // this.utilService.clearCredentials();
             this.errorListenerService.setError({
               errorCode: 'SESSION_EXPIRED'
             })
             storage.removeToken();
+            // storage.removeRoles();
             storage.removeUserId();
+            // storage.removeBootData();
+            // storage.removeBranchData();
             this.router.navigate(['/login']);
 
           }
@@ -232,11 +247,15 @@ export class HttpService {
           }
         })
         .catch(error => {
+          console.log('~~~***Response error***~~~', error);
 
           if (error['headers']['content-type'] == 'text/plain') {
+            console.log('text/plain');
             let decritedData = that.encrytionService.decryptMobileResponse(
               error
             );
+            console.log('decritedData', decritedData);
+
             data = JSON.parse(decritedData);
           }
 

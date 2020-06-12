@@ -21,6 +21,7 @@ export class LeadCreationComponent implements OnInit {
   createLeadForm: FormGroup;
   lovLabels: any = [];
   labels: any = {};
+  keyword: any;
 
   applicantType = 'INDIVENTTYP';
   sourcingChange: any;
@@ -52,8 +53,6 @@ export class LeadCreationComponent implements OnInit {
   sourcingCodeData: Array<{ key: string, value: string }> = [];
   dealerCodeData: Array<any> = [];
   fundingProgramData = [];
-  keyword: string;
-
 
   obj = {};
   test = [];
@@ -383,7 +382,7 @@ export class LeadCreationComponent implements OnInit {
       nameTwo: leadModel.nameTwo,
       nameThree: leadModel.nameThree,
       mobileNumber: `91${leadModel.mobile}`,
-      dobOrDoc: leadModel.dateOfBirth,
+      dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
     };
 
     this.createLeadDataService.setLeadData(

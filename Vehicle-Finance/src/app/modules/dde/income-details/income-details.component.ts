@@ -353,8 +353,17 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeDetailsService
         .setAllIncomeDetails(this.incomeDetailsForm.value)
         .subscribe((res: any) => {
-          if (res.Error && res.Error == 0) {
+          if (res && res.ProcessVariables.error.code == '0') {
+            console.log(this.incomeDetailsForm);
+            // tslint:disable-next-line: prefer-const
+            let businessControls =  this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+            businessControls.controls = [];
+            const otherIncomeDetailsControls =  this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
+            otherIncomeDetailsControls.controls = [];
+            const obligationDetailsControls =  this.incomeDetailsForm.controls.obligationDetails as FormArray;
+            obligationDetailsControls.controls = [];
             alert('saved Success');
+            this.getAllIncome();
           }
         });
     }

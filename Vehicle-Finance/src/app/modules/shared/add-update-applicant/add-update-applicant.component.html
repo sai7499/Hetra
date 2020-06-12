@@ -29,25 +29,16 @@
                 <label for="Vechical Type">{{
                   labels.relationshipwithloanapplicant
                 }}</label>
-                <app-vf-custom-select
-                  [values]="LOV.LOVS.applicantRelationshipWithLead"
-                  formControlName="loanApplicationRelation"
-                >
+                <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead"
+                  formControlName="loanApplicationRelation">
                 </app-vf-custom-select>
               </div>
             </div>
 
             <div class="row individual_section_leadco">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'INDIVENTTYP'"
-                  >{{ labels?.firstName }}</label
-                >
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                  >{{ labels.companyName1 }}
+                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.firstName }}</label>
+                <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }}
                 </label>
                 <!-- <input
                   type="text"
@@ -63,15 +54,8 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'INDIVENTTYP'"
-                  >{{ labels?.middleName }}</label
-                >
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                  >{{ labels.companyName2 }}
+                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.middleName }}</label>
+                <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}
                 </label>
                 <!-- <input
                   type="text"
@@ -86,15 +70,8 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'INDIVENTTYP'"
-                  >{{ labels?.lastName }}</label
-                >
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                  >{{ labels.companyName3 }}
+                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.lastName }}</label>
+                <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
                 </label>
                 <!-- <input
                   type="text"
@@ -220,10 +197,8 @@
               </div>
             </div>
             <div class="row">
-              <div
-                class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                *ngIf="applicantType == 'INDIVENTTYP'"
-              >
+              <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                 <label for="aadharnumber">{{ labels?.aadharnumber }}</label>
                 <div class="input-group input-medium">
                   <!-- <input
@@ -248,11 +223,8 @@
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="identity_number">{{ labels?.panform }}</label>
-                <app-vf-custom-select
-                  [values]="LOV.LOVS?.applicantPanType"
-                  formControlName="panType"
-                  (change)="getPanValue($event)"
-                >
+                <app-vf-custom-select [values]="LOV.LOVS?.applicantPanType" formControlName="panType"
+                  (change)="getPanValue($event)">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -288,6 +260,11 @@
                   (change)="onDrvingLisenseChange($event)"
                 ></app-custom-input>
               </div>
+
+
+              <!-- 
+              -->
+
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{
                   labels?.drivingLicenceIssueDate
@@ -536,40 +513,28 @@
                     <label for="permanent_address_city">{{
                       labels?.city
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="permanentPincode?.city"
-                      formControlName="city"
-                    >
+                    <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_district">{{
                       labels?.district
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="permanentPincode?.district"
-                      formControlName="district"
-                    >
+                    <app-vf-custom-select [values]="permanentPincode?.district" formControlName="district">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_state">{{
                       labels?.state
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="permanentPincode?.state"
-                      formControlName="state"
-                    >
+                    <app-vf-custom-select [values]="permanentPincode?.state" formControlName="state">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_country">{{
                       labels.country
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="permanentPincode?.country"
-                      formControlName="country"
-                    >
+                    <app-vf-custom-select [values]="permanentPincode?.country" formControlName="country">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -594,13 +559,8 @@
                     <h3 class="title">Current/Communication Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
-                    <input
-                      type="checkbox"
-                      id="address_section_checkbox"
-                      (click)="onAddress($event)"
-                    />
-                    <span id="address_section_checkbox_text"
-                      >Check If It Is Same As Permanent Address?
+                    <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)" />
+                    <span id="address_section_checkbox_text">Check If It Is Same As Permanent Address?
                     </span>
                   </div>
                 </div>
@@ -665,40 +625,28 @@
                   </div>
                   <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_city">{{ labels?.city }}</label>
-                    <app-vf-custom-select
-                      [values]="currentPincode?.city"
-                      formControlName="city"
-                    >
+                    <app-vf-custom-select [values]="currentPincode?.city" formControlName="city">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_district">{{
                       labels?.district
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="currentPincode?.district"
-                      formControlName="district"
-                    >
+                    <app-vf-custom-select [values]="currentPincode?.district" formControlName="district">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state">{{
                       labels?.state
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="currentPincode?.state"
-                      formControlName="state"
-                    >
+                    <app-vf-custom-select [values]="currentPincode?.state" formControlName="state">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_country">{{
                       labels?.country
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="currentPincode?.country"
-                      formControlName="country"
-                    >
+                    <app-vf-custom-select [values]="currentPincode?.country" formControlName="country">
                     </app-vf-custom-select>
                   </div>
 
@@ -721,60 +669,34 @@
                 </div>
               </div>
 
-              <div
-                id="non_individual_section_address"
-                class="non_individual_section_leadco"
-                *ngIf="applicantType == 'NONINDIVENTTYP'"
-              >
+              <div id="non_individual_section_address" class="non_individual_section_leadco"
+                *ngIf="applicantType == 'NONINDIVENTTYP'">
                 <h3 class="title">Registered Address</h3>
                 <div class="row" formGroupName="registeredAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1">{{ labels?.line1 }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="registered_line1"
-                      formControlName="addressLineOne"
-                    />
+                    <input type="text" class="form-control" id="registered_line1" formControlName="addressLineOne" />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line2">{{ labels?.line2 }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="registered_line2"
-                      formControlName="addressLineTwo"
-                    />
+                    <input type="text" class="form-control" id="registered_line2" formControlName="addressLineTwo" />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.line3 }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="registered_line3"
-                      formControlName="addressLineThree"
-                    />
+                    <input type="text" class="form-control" id="registered_line3" formControlName="addressLineThree" />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_pincode">{{
                       labels?.registeredAddressPinCode
                     }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="registerPincode"
-                      formControlName="pincode"
-                      (keyup)="getPincode($event.target)"
-                    />
+                    <input type="text" class="form-control" id="registerPincode" formControlName="pincode"
+                      (keyup)="getPincode($event.target)" />
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_address_city">{{
                       labels?.registeredAddressCity
                     }}</label>
-                    <app-vf-custom-select
-                      [values]="registerPincode?.city"
-                      formControlName="city"
-                    >
+                    <app-vf-custom-select [values]="registerPincode?.city" formControlName="city">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -786,10 +708,7 @@
                       <option>District 2</option>
                       <option>District 3</option>
                     </select> -->
-                    <app-vf-custom-select
-                      [values]="registerPincode?.district"
-                      formControlName="district"
-                    >
+                    <app-vf-custom-select [values]="registerPincode?.district" formControlName="district">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -801,10 +720,7 @@
                       <option>State 2</option>
                       <option>State 3</option>
                     </select> -->
-                    <app-vf-custom-select
-                      [values]="registerPincode?.state"
-                      formControlName="state"
-                    >
+                    <app-vf-custom-select [values]="registerPincode?.state" formControlName="state">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -816,20 +732,12 @@
                       <option>Country 2</option>
                       <option>Country 3</option>
                     </select> -->
-                    <app-vf-custom-select
-                      [values]="registerPincode?.country"
-                      formControlName="country"
-                    >
+                    <app-vf-custom-select [values]="registerPincode?.country" formControlName="country">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="reg_mobile">{{ labels?.landlineNumber }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="reg_mobile"
-                      formControlName="landlineNumber"
-                    />
+                    <input type="text" class="form-control" id="reg_mobile" formControlName="landlineNumber" />
                   </div>
                 </div>
               </div>
@@ -842,13 +750,8 @@
   <div class="btn-sec clear-both" *ngIf="isDedupeFound">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right" id="clickButton">
-      <button
-        class="btn btn-primary mar-right8"
-        type="button"
-        [routerLink]="['../applicant-details']"
-      >
-        <a class="back_color" (click)="onBack()">Back</a></button
-      >&nbsp;
+      <button class="btn btn-primary mar-right8" type="button" [routerLink]="['../applicant-details']">
+        <a class="back_color" (click)="onBack()">Back</a></button>&nbsp;
       <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
         <a class="back_color">Save</a>
       </button>
