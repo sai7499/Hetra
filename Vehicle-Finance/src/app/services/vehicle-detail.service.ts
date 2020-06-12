@@ -180,7 +180,6 @@ export class VehicleDetailService {
     const projectId = environment.projectIds.salesProjectId;
 
     const body: RequestEntity = {
-
       processId: processId,
       ProcessVariables: data,
       workflowId: workflowId,
@@ -188,6 +187,9 @@ export class VehicleDetailService {
     };
 
     console.log(JSON.stringify(body), 'Body')
+
+    console.log(body, 'body')
+
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
