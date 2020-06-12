@@ -14,7 +14,7 @@
     "spokeCodeLocation": "Spoke Code Location",
     "loanAccountBranch": "Loan Account Branch",
     "leadHandledBy": "Lead Handled By",
-    "entity": "ENTITY",
+    "entity": "Entity",
     "relationshipwithloanapplicant": "Relationship with Lead",
     "title": "Title",
     "firstName": "First Name",
@@ -181,8 +181,8 @@
     "registeredAddressCountry": "Registered Address Country",
     "registeredAddressLandlineNumber": "Registered Address Landline Number (Residence Phone)",
     "loanDetailsTitle": "Loan Details",
-    "requestedAmount": "Requested Amount",
-    "requestedTenor": "Requested Tenor",
+    "requestedAmount": "Requested Loan Amount",
+    "requestedTenor": "Requested Loan Tenor",
     "creditBureauTitle": "Credit Bureau",
     "productOffered": "Product Offered",
     "customerSegment": "Customer Segment",
@@ -690,5 +690,10 @@
     "referText4": "Text area to input recommendation (max 2000 characters)",
     "more": "More",
     "eCode": "E code",
-    "date": "Date"
+    "date": "Date",
+    "requestedLoanAmount" : "Requested Loan Amount",
+    "ageOfCarEndOfTenor": "Age of the car at the end of tenor ",
+    "bureauScore": "Bureau Score",
+    "eligibleAmount": "Eligible Loan Amount ",
+    "creditBureauCIBIL" : "Credit Bureau (CIBIL)"
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -13,18 +13,17 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LeadDetails } from '../services/sourcingLeadDetails.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { BehaviorSubject } from 'rxjs';
+import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-sourcing-details',
   templateUrl: './sourcing-details.component.html',
   styleUrls: ['./sourcing-details.component.css'],
 })
-export class SourcingDetailsComponent implements OnInit, OnDestroy {
-  // values: any = [];
+export class SourcingDetailsComponent implements OnInit {
   labels: any = {};
   sourcingDetailsForm: FormGroup;
-  // text: any;
-  // id: any;
   LOV: any;
   isAlert: boolean;
 
@@ -50,7 +49,10 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
   productCategoryFromLead: string;
   leadCreatedDateFromLead: string;
   isBusinessDivisionEnable: boolean;
+  productCategoryList = [];
+  productCategoryData: any;
   alertTimeOut: any;
+  isProductCategory: boolean;
   leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   saveUpdate: {
@@ -83,7 +85,9 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     private leadDetail: LeadDetails,
     private sharedService: SharedService,
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private utilityService: UtilityService,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
@@ -129,7 +133,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       : null;
     this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
     this.sourcingDetailsForm.patchValue({ leadCreatedBy: this.leadHandeledBy });
-    this.sourcingDetailsForm.patchValue({ leadHandeledBy: userName });
+    this.sourcingDetailsForm.patchValue({ leadHandeledBy: this.leadHandeledBy });
   }
 
   async getLeadSectionData() {
@@ -149,7 +153,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
     this.bizDivId = businessDivisionFromLead;
 
-    const productCategory = data.loanLeadDetails.productCategory;
+    const productCategory = data.leadDetails.productCatCode;
     this.productCategoryFromLead = productCategory;
 
     const priorityFromLead = data.loanLeadDetails.priority;
@@ -161,18 +165,13 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
 
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
-
-    this.sourcingDetailsForm.patchValue({
-      requestedAmount: requiredLoanAmount,
-    });
+    this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount, });
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
-    this.sourcingDetailsForm.patchValue({
-      leadCreatedDate: this.leadCreatedDateFromLead,
-    });
+    this.sourcingDetailsForm.patchValue({ leadCreatedDate: this.leadCreatedDateFromLead });
   }
 
   patchSourcingDetails() {
@@ -217,27 +216,28 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
     this.createLeadService
       .getProductCategory(this.bizDivId)
       .subscribe((res: any) => {
-        const product = res.ProcessVariables.productCategoryDetails;
-        product.map((data) => {
-          if (data) {
-            const val = {
-              key: data.assetProdcutCode,
-              value: data.prodcutCatName,
-            };
-            this.productCategoryArray.push(val);
-            this.sourcingDetailsForm.patchValue({
-              productCategory: this.productCategoryFromLead,
-            });
-          }
-        });
-        this.productCategoryArray.map((val) => {
-          if (val.key === this.productCategoryFromLead) {
-            this.sharedService.leadDataToHeader(val.value);
-          }
-        });
+        this.productCategoryList = res.ProcessVariables.productCategoryDetails;
+        this.productCategoryData = this.utilityService.getValueFromJSON(
+          this.productCategoryList,
+          'productCatCode',
+          'prodcutCatName'
+        );
+        this.productCategory(this.productCategoryFromLead, false);
       });
-    console.log('this.productCategoryData', this.productCategoryArray);
+    this.sourcingDetailsForm.patchValue({ productCategory: this.productCategoryFromLead });
   }
+
+  productCategory(event, isBool) {
+    const productCat = isBool ? event.target.value : event;
+    if (productCat) {
+      this.productCategoryData.map(data => {
+        if (data.key === productCat) {
+          this.sharedService.leadDataToHeader(data.value);
+        }
+      })
+    }
+  }
+
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
@@ -304,6 +304,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       sourcingChannel: new FormControl(''),
       sourcingType: new FormControl(''),
       sourcingCode: new FormControl(''),
+      dealerCode: new FormControl(''),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
       requestedAmount: new FormControl(''),
@@ -343,8 +344,7 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
       const apiError = response.ProcessVariables.error.code;
 
       if (appiyoError === '0' && apiError === '0') {
-        this.isAlert = true;
-        this.alertTimeOut = setTimeout(() => { this.isAlert = false; }, 4000);
+        this.toasterService.showSuccess('Lead Updated Successfully !', '');
       }
     });
   }
@@ -377,9 +377,5 @@ export class SourcingDetailsComponent implements OnInit, OnDestroy {
         resolve(null);
       });
     });
-  }
-
-  ngOnDestroy() {
-    clearTimeout(this.alertTimeOut);
   }
 }
