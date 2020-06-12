@@ -14,8 +14,12 @@
                   [values]="LOV.LOVS?.entityType"
                   formControlName="entityType"
                   (change)="selectApplicantType($event)"
+                  required
                 >
                 </app-vf-custom-select>
+                <div *ngIf="this.coApplicantForm.get('entityType').errors?.value==''">
+                    Entity is Required
+                </div>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{
@@ -48,11 +52,11 @@
                   formControlName="name1"
                 /> -->
                 <app-custom-input
-                  formControlName="name1"
-                  [patternCheck]="namePattern"
-                  [isRequired]="'First Name is required'"
-                  [maxlength]="Maxlength30"
-                ></app-custom-input>
+                formControlName="name1"
+                [patternCheck]="namePattern"
+                [isRequired]="'Name is required'"
+                [maxlength] = "Maxlength30"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label
@@ -155,19 +159,24 @@
               <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="date_of_birth">{{ labels?.dateOfBirth }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
                       </button>
-                    </span>
-                    <input
+                    </span> -->
+                    <!-- <input
                       type="date"
                       class="form-control"
                       id="date_of_birth"
                       formControlName="dob"
-                    />
-                  </div>
+                      required
+                    /> -->
+                    <kendo-datepicker class="form-control mandatory" 
+                      formControlName="dob" [format]="'dd/MM/yyyy'"
+                      [max]="toDayDate" [activeView]="'decade'" placeholder="Date of birth">
+                    </kendo-datepicker>
+                  <!-- </div> -->
                 </div>
               </div>
               <div class="row" *ngIf="applicantType == 'NONINDIVENTTYP'">
@@ -175,7 +184,7 @@
                   <label for="date_of_incorporation">{{
                     labels?.dateOfIncorporation
                   }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -188,7 +197,11 @@
                       formControlName="dateOfIncorporation"
                       data-date-format="DD MMMM YYYY"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker class="form-control mandatory" 
+                  formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
+                  [max]="toDayDate" [activeView]="'decade'" placeholder="Date of Incorporation">
+                </kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -256,10 +269,10 @@
                   formControlName="drivingLicenseNumber"
                 /> -->
                 <app-custom-input
-                  formControlName="drivingLicenseNumber"
-                  [patternCheck]="drivingLicensePattern"
-                  (change)="drvingLisenseValidation($event)"
-                ></app-custom-input>
+                formControlName="drivingLicenseNumber"
+                [patternCheck]="drivingLicensePattern"
+                (change)="onDrvingLisenseChange($event)"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{
@@ -272,18 +285,26 @@
                     </button>
                   </span>
                   <input
+                    name="drivingLicenseIssueDate"
                     type="date"
                     class="form-control"
                     id="date_of_birth"
                     formControlName="drivingLicenseIssueDate"
-                    [required]="Licensemessage"
+                    [required]="mandatory['drivingLicenseIssueDate']"
+                    [(ngModel)]="drivingLicenseIssueDate" 
+                    (ngModelChange)="dateSelected()"
                   />
+                 
+                
                   <!-- <app-custom-input
                 formControlName="drivingLicenseNumber"
                 
                 [isRequired]="Licensemessage"
                
               ></app-custom-input> -->
+                </div>
+                <div class="ShowError" *ngIf="mandatory['drivingLicenseIssueDate'] && (coApplicantForm.get('drivingLicenseIssueDate').dirty || coApplicantForm.get('drivingLicenseIssueDate').touched)">
+                  Select Date
                 </div>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -300,8 +321,16 @@
                     type="date"
                     class="form-control"
                     id="date_of_birth"
+                    name="drivingLicenseExpiryDate"
                     formControlName="drivingLicenseExpiryDate"
+                    [required]="mandatory['drivingLicenseExpiryDate']"
+                    [(ngModel)]="drivingLicenseExpiryDate" 
+                    (ngModelChange)="expiryDateSelected()"
                   />
+                  
+                </div>
+                <div class="ShowError" *ngIf="mandatory['drivingLicenseExpiryDate'] && (coApplicantForm.get('drivingLicenseExpiryDate').dirty || coApplicantForm.get('drivingLicenseExpiryDate').touched)">
+                  Select date
                 </div>
               </div>
             </div>
@@ -315,10 +344,10 @@
                   formControlName="passportNumber"
                 /> -->
                 <app-custom-input
-                  formControlName="passportNumber"
-                  [patternCheck]="passportPattern"
-                  (change)="drvingLisenseValidation($event)"
-                ></app-custom-input>
+                formControlName="passportNumber"
+                [patternCheck]="passportPattern"
+                (change)="onPassportNumberChange($event)"
+              ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportIssueDate }}</label>
@@ -333,9 +362,16 @@
                     class="form-control"
                     id="date_of_birth"
                     formControlName="passportIssueDate"
+                    [required]="passportMandatory['passportIssueDate']"
+                    [(ngModel)]="passportIssueDate" 
+                    (ngModelChange)="passportDateSelected()"
                   />
                 </div>
+                <div class="ShowError" *ngIf="passportMandatory['passportIssueDate'] && (coApplicantForm.get('passportIssueDate').dirty || coApplicantForm.get('passportIssueDate').touched)">
+                  Select Date
+                </div>
               </div>
+              
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                 <div class="input-group input-medium">
@@ -349,7 +385,13 @@
                     class="form-control"
                     id="date_of_birth"
                     formControlName="passportExpiryDate"
+                    [required]="passportMandatory['passportExpiryDate']"
+                    [(ngModel)]="passportExpiryDate"
+                    (ngModelChange)="passportExpiryDateSelected()"
                   />
+                </div>
+                <div class="ShowError" *ngIf="passportMandatory['passportExpiryDate'] && (coApplicantForm.get('passportExpiryDate').dirty || coApplicantForm.get('passportExpiryDate').touched)">
+                  Select Date
                 </div>
               </div>
             </div>
@@ -450,11 +492,13 @@
                       (keyup)="getPincode($event.target)"
                     /> -->
                     <app-custom-input
-                      formControlName="pincode"
-                      [maxlength]="Maxlength40"
-                      [patternCheck]="pincodePattern"
-                      (keyup)="getPincode($event.target)"
-                    ></app-custom-input>
+                formControlName="pincode"
+                [maxlength] = "Maxlength40"
+                [patternCheck]="pincodePattern"
+                (keyup)="getPincode($event.target)"
+                [id]="'permanentPincode'"
+                [isRequired]="'Pincode is required'"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_city">{{
@@ -500,12 +544,17 @@
                     <label for="landline">{{
                       labels?.permanentAddressLandline
                     }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="landline"
                       formControlName="landlineNumber"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="landlineNumber"
+                [patternCheck]="landlLinePattern"
+                [maxLength]="Maxlength15"
+              ></app-custom-input>
                   </div>
                 </div>
                 <div class="btn-sec clear-both row">
@@ -526,40 +575,61 @@
                 <div class="row" formGroupName="communicationAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="line1">{{ labels?.addressline1 }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="line1"
                       formControlName="addressLineOne"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="addressLineOne"
+                [isRequired]="'Address is Required'"
+                [maxlength] = "Maxlength40"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="line2">{{ labels?.addressline2 }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="line2"
                       formControlName="addressLineTwo"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="addressLineTwo"
+                [maxlength] = "Maxlength40"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="line3">{{ labels?.addressline3 }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="line3"
                       formControlName="addressLineThree"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="addressLineThree"
+                [maxlength] = "Maxlength40"
+              ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_pincode">{{ labels?.code }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="currentPincode"
                       formControlName="pincode"
                       (keyup)="getPincode($event.target)"
-                    />
+                    /> -->
+                    <app-custom-input
+                    formControlName="pincode"
+                    [maxlength] = "Maxlength40"
+                    [patternCheck]="pincodePattern"
+                    (keyup)="getPincode($event.target)"
+                    [id]="'currentPincode'"
+                    [isRequired]="'Pincode is required'"
+                  ></app-custom-input>
                   </div>
                   <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_city">{{ labels?.city }}</label>
@@ -604,12 +674,17 @@
                     <label for="current_landline">{{
                       labels?.landlineNumber
                     }}</label>
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       id="current_landline"
                       formControlName="landlineNumber"
-                    />
+                    /> -->
+                    <app-custom-input
+                formControlName="landlineNumber"
+                [patternCheck]="landlLinePattern"
+                [maxLength]="Maxlength15"
+              ></app-custom-input>
                   </div>
                 </div>
               </div>
