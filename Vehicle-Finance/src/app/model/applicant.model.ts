@@ -33,6 +33,7 @@ export interface ApplicantDetails {
   entityType?: string;
   entity?: string;
   customerCategory?: string;
+  custSegment? : string;
   applicantTypeKey?: string;
   entityTypeKey?: string;
 }
@@ -72,6 +73,12 @@ export interface IndividualProspectDetails {
   employerType?: string;
   employerName?: string;
   department?: string;
+
+  age?: number;
+  gender? : string;
+  minorGuardianRelation? : string;
+  alternateMobileNumber? : string;
+  politicallyExposedPerson? : string;
 }
 
 export interface AddressDetails {
