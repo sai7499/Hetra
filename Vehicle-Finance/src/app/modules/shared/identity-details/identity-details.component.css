@@ -47,3 +47,9 @@ input#add_banks {
 .upload_down {
     margin-top: 30px;
 }
+#datetimepicker1{
+    width: 100%!important;
+}
+kendo-datepicker{
+    width: 100%!important;
+}
