@@ -5,7 +5,6 @@ import { Location } from '@angular/common';
 
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { LabelsService } from 'src/app/services/labels.service';
-import { LeadStoreService } from '@services/lead-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { CreateLeadService } from '../../lead-creation/service/creatLead.service';
@@ -15,6 +14,7 @@ import { SharedService } from '@shared/shared-service/shared-service';
 import { BehaviorSubject } from 'rxjs';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -75,7 +75,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   constructor(
     private leadSectionService: VehicleDetailService,
-    private leadStoreService: LeadStoreService,
+    private vehicleDataStore: VehicleDataStoreService,
     private router: Router,
     private createLeadService: CreateLeadService,
     private labelsData: LabelsService,
@@ -95,6 +95,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
+    this.vehicleDataStore.setLoanTenour(this.sourcingDetailsForm.getRawValue())
   }
 
   getLabels() {
@@ -138,7 +139,6 @@ export class SourcingDetailsComponent implements OnInit {
 
   async getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    console.log('leadSection----sour', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
 
@@ -159,7 +159,6 @@ export class SourcingDetailsComponent implements OnInit {
     const priorityFromLead = data.loanLeadDetails.priority;
     this.leadId = data.leadId;
 
-    // const loanBranchFromLead = data.loanLeadDetails.loanBranch;
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
@@ -242,7 +241,6 @@ export class SourcingDetailsComponent implements OnInit {
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
       const response = res.ProcessVariables.sourcingChannelObj;
-      console.log('sourching', response);
       this.sourchingTypeData = response;
       if (this.sourchingTypeData) {
         if (this.leadData.loanLeadDetails) {
@@ -260,11 +258,9 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingChange = fromLead ? event.target.value : event;
     this.sourcingCodePlaceholder =
       this.sourcingChange === '4SOURCHAN' ? 'Campaign Code' : 'Employee Code';
-    console.log('SourcingChange --', this.sourcingChange);
 
     this.sourchingTypeData.map((element) => {
       if (element.sourcingChannelId === this.sourcingChange) {
-        console.log('Sourching Type --', element.sourcingTypeDesc);
         const data = {
           key: element.sourcingTypeId,
           value: element.sourcingTypeDesc,
@@ -286,9 +282,6 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   setPatchData(data) {
-    console.log('data', data);
-    console.log('bizLov', this.LOV.LOVS.businessDivision);
-    console.log('this.sourcingDetailsForm', this.sourcingDetailsForm);
     this.sourcingDetailsForm.patchValue({ bizDivision: 'EBBIZDIV' });
   }
 
@@ -315,7 +308,8 @@ export class SourcingDetailsComponent implements OnInit {
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     const saveAndUpdate: any = { ...formValue };
-    console.log('Lead Save', saveAndUpdate);
+
+    console.log(formValue, 'FormValue')
 
     this.saveUpdate = {
       userId: Number(this.userId),
@@ -326,7 +320,6 @@ export class SourcingDetailsComponent implements OnInit {
       sourcingChannel: saveAndUpdate.sourcingChannel,
       sourcingType: saveAndUpdate.sourcingType,
       sourcingCode: saveAndUpdate.sourcingCode,
-      // spokeCode: Number(saveAndUpdate.spokeCode),
       spokeCode: 1,
       loanBranch: Number(this.branchId),
       leadHandeledBy: Number(this.userId),
@@ -335,11 +328,12 @@ export class SourcingDetailsComponent implements OnInit {
       requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
       requestedLoanTenor: Number(saveAndUpdate.requestedTenor),
     };
-    console.log('this.saveUpdate', this.saveUpdate);
 
     this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
       const response = res;
       console.log('saveUpdate', response);
+      this.vehicleDataStore.setLoanTenour(response)
+      
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
 
@@ -351,6 +345,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   onNext() {
     this.leadSectionService.setCurrentPage(1);
+    
   }
 
   nextToApplicant() {

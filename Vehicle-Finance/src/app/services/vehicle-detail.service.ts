@@ -174,6 +174,25 @@ export class VehicleDetailService {
 
   }
 
+  getVehicleGridValue(data) {
+    const processId = this.apiService.api.getVehicleGridValue.processId;
+    const workflowId = this.apiService.api.getVehicleGridValue.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    console.log(JSON.stringify(body), 'Body')
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 
 
 

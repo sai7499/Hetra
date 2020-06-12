@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
@@ -48,7 +47,6 @@ export class BasicVehicleDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.vehicleDetails, 'value')
 
     this.isHidden = false;
     if (this.vehicleDetails.length > 0) {
@@ -81,5 +79,5 @@ export class BasicVehicleDetailsComponent implements OnInit {
       // alert('Please Select any one of the Veh')
     }
   }
-
 }
+
