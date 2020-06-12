@@ -15,17 +15,9 @@
     <div class="container">
         <div class="vertical-middle text-center">
             <img src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class="logo">
-            <!-- <div class="search">
-                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (keyup)="getvalue($event.target.value)">
-                <div class="dropdown-content" *ngIf="dropDown">
-                    <div *ngFor="let item of searchLead">
-                        <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
-                    </div>
-                </div>
-                <span class="search-icon-left"></span>
-                <button class="microphone-icon" title="Search by voice" (click)="navigateToModule()">GO</button>
-            </div> -->
             <app-search-bar></app-search-bar>
         </div>
     </div>
+    <button (click)="initIdenti5()"> Identi5</button>
+    <div class="base_data" >{{base64Data}}</div>
 </main>

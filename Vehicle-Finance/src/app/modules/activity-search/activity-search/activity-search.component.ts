@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { commonRoutingUrl } from '../../shared/routing.constant';
 
+declare var device:any;
 
 
 @Component({
@@ -28,6 +29,10 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   routingId: string;
   activityList = [];
   routingModule: string;
+
+  isMobile: any;
+  base64Data: any;
+
 
   bodyClickEvent = event => {
     if (event.target.id === 'profileDropDown') {
@@ -89,6 +94,24 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     document
       .querySelector('body')
       .removeEventListener('click', this.bodyClickEvent);
+  }
+
+
+  initIdenti5(){
+    // let dInfo = new device();
+    // console.log(dInfo.model);
+    var that = this;
+    this.base64Data = "";
+    device.getInfo(function(result){
+      console.log("Result&&&&"+ result);
+      that.base64Data = result["model"];
+      console.log("base64Data"+ that.base64Data);
+      alert(that.base64Data);
+    },function(error){
+      console.log("Result&&&&"+ error);
+      alert("error"+error);
+    });
+  
   }
 
 }

@@ -108,17 +108,14 @@ export class HttpService {
     return obs;
   }
 
- 
   postM(url?: string, params?: any) {
     let that = this;
     let reqEntity;
 
-    console.log('parmas', params);
-
     reqEntity = params;
 
-    if(this.activeRequests === 0){
-      // this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
+    if (this.activeRequests === 0) {
+      this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     }
     this.activeRequests++;
 
@@ -126,8 +123,6 @@ export class HttpService {
       let data;
 
       this.httpIonic.setServerTrustMode('nocheck');
-
-      console.log('post requestEntity********', reqEntity);
 
       let encryption = this.encrytionService.encrypt(
         reqEntity,
@@ -146,14 +141,9 @@ export class HttpService {
         responseType: 'text'
       };
 
-      console.log('req post', this.ionicOption);
-
-      console.log('post url********', url);
-
       this.httpIonic
         .sendRequest(url, this.ionicOption)
         .then(result => {
-          console.log('result', result);
 
           if (
             result['headers']['content-type'] != 'text/plain' &&
@@ -164,10 +154,7 @@ export class HttpService {
             let decritedData = that.encrytionService.decryptMobileResponse(
               result
             );
-            console.log('decritedData', decritedData);
-
             data = JSON.parse(decritedData);
-            console.log('~~~***Response***~~~', data);
           }
 
           if (
@@ -256,7 +243,7 @@ export class HttpService {
 
           this.activeRequests--;
           if (this.activeRequests === 0) {
-          // this.ngxService.stop();
+            this.ngxService.stop();
           }
         })
         .catch(error => {
@@ -283,7 +270,7 @@ export class HttpService {
           observer.complete();
           this.activeRequests--;
           if (this.activeRequests === 0) {
-          // this.ngxService.stop();
+            this.ngxService.stop();
           }
         });
     });

@@ -189,7 +189,7 @@ export class ApiService {
       workflowId: '66d15a96a56311eabed3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
-    deleteBankList : {
+    deleteBankList: {
       processId: '6a957184a9ab11ea824ff2fa9bec3d63',
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
@@ -203,7 +203,42 @@ export class ApiService {
       processId: 'fe6319ac9b5011eabdd3f2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
+    },
+    creditBureau: {
+      processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
+      workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
+      projectId: environment.projectIds.salesCreditScore,
+    },
+    sourcingCode: {
+      processId: 'f02ef8fca6e411eabf7ff2fa9bec3d63',
+      workflowId: 'efd8c3c4a6e411eabf7ff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getTvrList: {
+      processId: 'e0b687beaa2711ea825df2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    creditDashboard: {
+      processId: '70fd392aaa1011ea825bf2fa9bec3d63',
+      workflowId: '70838c9caa1011ea825bf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    submitToCredit: {
+      processId: 'fa99b43aa9a011ea823df2fa9bec3d63',
+      workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    fundingProgram: {
+      processId: 'b6856476ab3811ea82f6f2fa9bec3d63',
+      workflowId: 'b64abaa6ab3811ea82f6f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    dealerCode: {
+      processId: '2faf3348ab4011ea82f7f2fa9bec3d63',
+      workflowId: '2f8408d0ab4011ea82f7f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     }
-  };
 
+  };
 }

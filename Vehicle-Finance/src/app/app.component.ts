@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({
@@ -6,6 +6,23 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+
+export class AppComponent implements OnInit{
   title = 'vehicle-finance';
+
+  ngOnInit() {
+    document.addEventListener('backbutton', () => {
+      navigator['app'].exitApp();
+    });
+  
+    document.addEventListener(
+      'offline',
+      () => {
+        alert('No internet connection');
+      },
+      false
+    );
+  }
+
+  
 }
