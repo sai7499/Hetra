@@ -723,11 +723,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     };
 
     console.log('coApplicantModel', coApplicantModel);
-
-    // directly routing to otp-section from add applicant
-    // this.router.navigate(['/pages/dde/' + this.leadId + '/otp-section/' + this.applicantId]);
-    //  
-    return;
+    
     const rawValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       this.storeIndividualValueInService(coApplicantModel);
