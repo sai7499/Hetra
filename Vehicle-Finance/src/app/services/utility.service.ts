@@ -48,8 +48,8 @@ export class UtilityService {
     return moment().diff(dateOfBirth, 'months');
   }
 
-  convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD/MM/YYYY');
+  convertDateTimeTOUTC(date, format) {
+    return moment.utc(date).local().format(format);
   }
 
   converDateToUTC(date) {
