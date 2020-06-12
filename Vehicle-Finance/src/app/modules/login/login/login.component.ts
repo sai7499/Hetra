@@ -26,6 +26,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 
+declare var device: any;
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -56,6 +59,8 @@ export class LoginComponent implements OnInit {
   };
 
   isMobile: any;
+  base64Data: any;
+
 
   constructor(
     private loginService: LoginService,
@@ -138,13 +143,6 @@ export class LoginComponent implements OnInit {
               const activityList = response.ProcessVariables.activityList;
               const userId = response.ProcessVariables.userId;
               localStorage.setItem('userId', userId);
-              const role = response.ProcessVariables.roles[0].name;
-              const roleType = response.ProcessVariables.roles[0].roleType;
-              localStorage.setItem('role', role);
-              localStorage.setItem('roleType', roleType);
-              const branchId = response.ProcessVariables.userDetails.branchId;
-              const  roleId = response.ProcessVariables.roles[0].roleId;
-              this.dashboardService.creditDashboardMethod({branchId, roleId, roleType});
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,
@@ -216,6 +214,24 @@ export class LoginComponent implements OnInit {
         .split('cache/')[1];
 
       console.log('Camera Image', this.cameraImage);
+    });
+  }
+
+  initIdenti5() {
+    // let dInfo = new device();
+    // console.log(dInfo.model);
+    // tslint:disable-next-line: no-var-keyword
+    var that = this;
+    this.base64Data = '';
+    // tslint:disable-next-line: only-arrow-functions
+    device.getInfo(function(result) {
+      console.log('Result&&&&' + result);
+      // tslint:disable-next-line: no-string-literal
+      that.base64Data = result['model'];
+      console.log('base64Data' + that.base64Data);
+    // tslint:disable-next-line: only-arrow-functions
+    }, function(error) {
+      console.log('Result&&&&' + error);
     });
   }
 }

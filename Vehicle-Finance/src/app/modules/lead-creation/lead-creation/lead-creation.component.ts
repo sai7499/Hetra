@@ -22,6 +22,7 @@ export class LeadCreationComponent implements OnInit {
   createLeadForm: FormGroup;
   lovLabels: any = [];
   labels: any = {};
+  keyword: any;
 
   applicantType: string;
   sourcingChange: any;
@@ -53,7 +54,6 @@ export class LeadCreationComponent implements OnInit {
   sourcingCodeData: Array<{ key: string, value: string }> = [];
   dealerCodeData: Array<any> = [];
   fundingProgramData = [];
-  keyword: string;
   isSourcingType: boolean;
 
 

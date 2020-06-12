@@ -16,15 +16,15 @@
             <div class="row" id="sales_credit_score_sec">
 
                 <div class="col-lg-4">
-                    <p id=""><span id="">Product Offered</span><span id="credit_score_tag1">{{variable.productCategoryCode}}</span></p>
-                    <p id=""><span id="">customerSegment</span><span id="credit_score_tag2">{{variable.productCategoryName}}</span></p>
+                    <p id=""><span id="">Product Offered</span><span id="credit_score_tag1">{{variable?.productCategoryCode}}</span></p>
+                    <p id=""><span id="">Customer Segment</span><span id="credit_score_tag2">{{variable?.customerSegment}}</span></p>
                 </div>
                 <div class="col-lg-4">
-                    <p id=""><span id="">Requested Tenor</span><span id="credit_score_tag4">{{variable.loanTenure}} Months</span></p>
+                    <p id=""><span id="">Requested Tenor</span><span id="credit_score_tag4">{{variable?.loanAmount}} </span></p>
                 </div>
                 <div class="col-lg-4">
-                    <p id=""><span id="">Loan Tenor</span><span id="credit_score_tag3">{{variable.loanTenure}}</span></p>
-                    <p id=""><span id="">Age of the car at the end of tenor</span><span id="credit_score_tag5"> {{variable.ageOfAsset }} Months</span></p>
+                    <p id=""><span id="">Loan Tenor</span><span id="credit_score_tag3">{{variable?.loanTenure}} Months</span></p>
+                    <p id=""><span id="">Age of the car at the end of tenor</span><span id="credit_score_tag5"> {{variable?.ageOfAsset }} Months</span></p>
                 </div>
 
 
@@ -77,7 +77,7 @@
 
                 </table>
             </div>
-            <p class="text-center" id="credit_score_tag10">Eligible Loan Amount : {{variable.eligibleAmount}}</p>
+            <p class="text-center" id="credit_score_tag10">Eligible Loan Amount : {{variable?.eligibleAmount}}</p>
             <div class="text-center" id="">
                 <button type="button " class="btn btn-primary ok_button proceed_button mar-right8" id="proceed_button "
                     (click)="navigateUrl()">Proceed</button>
@@ -110,7 +110,7 @@
             <!-- Modal footer -->
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
-                    value="Yes">Yes</button>
+                    value="Yes" (click)="declineOffer()">Yes</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
 

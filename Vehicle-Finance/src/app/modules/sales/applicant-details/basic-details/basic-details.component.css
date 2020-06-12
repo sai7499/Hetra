@@ -1,0 +1,36 @@
+.star_red_col
+{
+    color: #da3939;
+    font-size: 25px;
+    margin-left: 4px;
+   
+}
+.star_blue_col
+{
+    color:#0000FF;
+    font-size: 25px;
+    margin-left: 4px;
+}
+.showErrorMessage{
+    font-size: 1.0vw;
+    font-family: zurich-bold;
+    letter-spacing: 0.5px;
+    color: red;
+    padding-top: 0.5vw;
+}
+#align_this_checkbox{
+    margin-top: 16px;
+    font-weight: 600;
+}
+.senior_minor{
+    margin-top: 15px;
+}
+.is_senior{
+    padding-left: 10px ;
+}
+#date_of_birth{
+    width: 100%!important;
+}
+kendo-datepicker{
+    width: 100%!important;
+}

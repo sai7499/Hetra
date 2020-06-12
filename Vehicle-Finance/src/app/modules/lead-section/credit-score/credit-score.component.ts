@@ -2,67 +2,78 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { CreditScoreService } from '@services/credit-score.service';
-import { promise } from 'protractor';
-import { resolve } from 'url';
-
+import { TermAcceptanceService } from '@services/term-acceptance.service';
+import { Lead } from '@model/lead.model';
+interface CibilData {
+  ageOfAsset?: number;
+// applicantList: [ApplicantDetails]
+customerSegment: string;
+eligibleAmount: number;
+leadId?: string;
+loanAmount: number;
+loanTenure: number;
+productCategoryCode: string;
+productCategoryName?: string;
+productId?: string;
+totalAmount: number;
+}
 @Component({
   selector: 'app-credit-score',
   templateUrl: './credit-score.component.html',
-  styleUrls: ['./credit-score.component.css']
+  styleUrls: ['./credit-score.component.css'],
 })
+
+
 export class CreditScoreComponent implements OnInit {
-leadId;
-labels: any;
-creditScore: any;
+  leadId;
+  labels: any;
+  creditScore: any;
   applicantList: any;
-  variable: any;
-  constructor(private aRoute: ActivatedRoute,
-              private router: Router,
-              private labelService: LabelsService,
-              private creditService: CreditScoreService) { }
+  leadData: any;
+  variable: CibilData;
+  userId: any;
+  
+  constructor(
+    private aRoute: ActivatedRoute,
+    private router: Router,
+    private labelService: LabelsService,
+    private creditService: CreditScoreService,
+    private termsService: TermAcceptanceService
+  ) {
+  }
 
   async ngOnInit() {
-    console.log('labels api start');
+    this.userId = localStorage.getItem('userId');
     this.labelService.getLabelsData().subscribe((res: any) => {
       console.log(res);
       this.labels = res;
     });
-    console.log('labels api end');
     this.leadId = (await this.getLeadId()) as number;
-    // this.aRoute.parent.params.
-    // subscribe((val: any) => {
-    //                 this.leadId = Number(val.leadId);
-    //                 console.log('leadId', this.leadId); });
-    // tslint:disable-next-line: radix
-    // this.creditScore = this.creditService.getResponseForCibil();
-    // if (this.creditScore) {
-    //     this.applicantList = this.creditScore.ProcessVariables.applicantList;
-    //     this.variable = this.creditScore.ProcessVariables;
-    //     console.log(this.creditScore);
-    //   } else {
-    //     this.router.navigate([`pages/lead-section/${this.leadId}/vehicle-details`]);
-    //   }
-    //  });
-    this.getCreditFromService(this.leadId);
 
-    console.log('test credit', this.creditScore);
+    this.leadData = this.getCreditFromService(this.leadId);
+   console.log(this.leadData);
   }
-getCreditFromService(data: any) {
-    const body = { leadId : data.toString() };  console.log(body);
+  getCreditFromService(data: any) {
+    const body = { leadId: data.toString() };
+    console.log(body);
     this.creditService.getCreditScore(body).subscribe((res: any) => {
       this.creditScore = res;
-      if (this.creditScore && this.creditScore.ProcessVariables.error.code === '0') {
+      if (
+        this.creditScore &&
+        this.creditScore.ProcessVariables.error.code === '0'
+      ) {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
         console.log(this.creditScore);
       } else {
-        this.router.navigate([`pages/lead-section/${this.leadId}/vehicle-details`]);
+        this.router.navigate([
+          `pages/lead-section/${this.leadId}/vehicle-details`,
+        ]);
       }
+      return res;
     });
-
-
   }
-getLeadId() {
+  getLeadId() {
     // tslint:disable-next-line: no-shadowed-variable
     return new Promise((resolve, reject) => {
       this.aRoute.parent.params.subscribe((value) => {
@@ -73,8 +84,23 @@ getLeadId() {
       });
     });
   }
-navigateUrl() {
+  navigateUrl() {
     this.router.navigateByUrl(`/pages/terms-condition/${this.leadId}`);
   }
-
+  backToLeads() {
+    this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
+  }
+  declineOffer() {
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject'
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      console.log(res);
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      }
+    });
+  }
 }

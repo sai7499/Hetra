@@ -30,6 +30,16 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   };
+  private applicantDedupe: {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  };
+  private applicantUcic: {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  };
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -41,6 +51,8 @@ export class ApplicantService {
     this.saveUpdateApplicant = this.apiService.api.saveUpdateApplicant;
     this.softDeleteDetail = this.apiService.api.softDeleteApplicant;
     this.geoMasterService = this.apiService.api.geoMasterService;
+    this.applicantDedupe = this.apiService.api.salesApplicantDedupe;
+    this.applicantUcic = this.apiService.api.salesApplicantUcic;
   }
 
   getApplicantList(data) {
@@ -89,7 +101,7 @@ export class ApplicantService {
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
-    
+
     const body = {
       processId,
       workflowId,
@@ -135,6 +147,42 @@ export class ApplicantService {
       projectId,
       ProcessVariables: {
         ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  checkSalesApplicantDedupe(data) {
+    const projectId = this.applicantDedupe.projectId;
+    const processId = this.applicantDedupe.processId;
+    const workflowId = this.applicantDedupe.workflowId;
+    const userId = localStorage.getItem('userId');
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+        userId,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  checkSalesApplicantUcic(data) {
+    const projectId = this.applicantUcic.projectId;
+    const processId = this.applicantUcic.processId;
+    const workflowId = this.applicantUcic.workflowId;
+    const userId = localStorage.getItem('userId');
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+        userId,
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
