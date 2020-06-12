@@ -66,6 +66,11 @@ export class ApiService {
       processId: '69029740a71a11eabfb4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    getVehicleGridValue: {
+      workflowId: 'c7df01d6ac8811ea83def2fa9bec3d63',
+      processId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveUpdateFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '0620e32c998511eabdcff2fa9bec3d63',

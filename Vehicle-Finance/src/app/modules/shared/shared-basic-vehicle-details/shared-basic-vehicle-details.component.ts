@@ -133,6 +133,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         formArray.controls[0].patchValue({
           ageOfVehicle: Number(this.loanTenor) + formArray.value[0].ageOfAsset
         })
+        this.getVehicleGridValue(formArray)
       } else {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
@@ -143,6 +144,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
+  }
+
+  getVehicleGridValue(formArray: any) {
+    
   }
 
   initForms() {
@@ -425,9 +430,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: ['', Validators.required],
       category: [''],
       nameOfVehicleOwner: [''],
-      mobileNumberOfVehicle: [''],
-      vehicleAddress: [''],
-      vehiclePinCode: [''],
+      mobileNumberOfVehicle: ['', Validators.pattern('^[1-9][0-9]*$')],
+      vehicleAddress: ['', Validators.maxLength(140)],
+      vehiclePinCode: ['', Validators.maxLength(6)],
       noOfVehicles: ['', Validators.required],
       usage: ['', Validators.required],
       vehicleId: 0,
