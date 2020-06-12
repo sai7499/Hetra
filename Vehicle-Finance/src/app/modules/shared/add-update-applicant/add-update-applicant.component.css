@@ -233,3 +233,11 @@ select#select_main_button_match {
 .footer{
   position: fixed !important;
 }
+
+.ShowError{
+  font-size: 1.2vw;
+  font-family: zurich-bold;
+  letter-spacing: 0.5px;
+  color: red;
+  padding-top: 0.5vw;
+}

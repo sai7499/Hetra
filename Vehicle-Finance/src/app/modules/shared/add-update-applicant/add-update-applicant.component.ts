@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -38,8 +38,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     msg: 'Invalid Pan',
   };
   namePattern = {
+    // rule: '^[A-Z]*[a-z]*$',
+    // msg: 'Invalid Name'
+  };
+  namePatternIdv = {
     rule: '^[A-Z]*[a-z]*$',
-    msg: 'Invalid Name'
+    msg: 'Invalid Indv Name'
+  };
+  namePatternNonIdv = {
+    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
+    msg: 'Invalid Non Indv Name'
   };
   Maxlength30 = {
     rule: 30,
@@ -51,7 +59,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     msg: 'Invalid'
   };
 
-  
 
   mobileNumberPattern = {
     rule: '^[1-9][0-9]*$' ,
@@ -94,8 +101,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   };
 
   pincodePattern = {
-    rule: '^[1-9][0-9]{6}$' ,
+    rule: '[1-9]{1}[0-9]{5}' ,
     msg: 'Invalid pincode Number'
+  };
+
+  landlLinePattern = {
+    // rule: '^[0-9]\d{2,4}-\d{6,8}$' ,
+    // msg: 'Invalid Landline Number'
+    rule: '^[0-9]{6,15}' ,
+    msg: 'Invalid Landline Number'
+  };
+
+  Maxlength15 = {
+    rule: 15,
+    msg: ''
   };
 
   values: any = [];
@@ -106,7 +125,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   applicantId: number;
   applicant: Applicant;
   selectedApplicant: number;
-
+  isMandatory: boolean;
   pincodeResult: {
     state?: any[];
     country?: any[];
@@ -152,6 +171,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   selectApplicantType(event: any) {
     console.log(this.applicantType);
     this.applicantType = event.target.value;
+    if (this.applicantType !== 'INDIVENTTYP') {
+      this.namePattern = this.namePatternNonIdv;
+    } else {
+      this.namePattern = this.namePatternIdv;
+    }
   }
 
   getPanValue(event: any) {
@@ -166,21 +190,85 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     }
   }
+  
+public toDayDate: Date = new Date();
+
+mandatory:any = {}
+expiryMandatory:any = {}
+onDrvingLisenseChange(formCtrl) {
+  console.log(formCtrl);
+  //debugger
+  if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
+    this.mandatory['drivingLicenseIssueDate'] = true;
+    this.mandatory['drivingLicenseExpiryDate'] = true;
+    console.log('Mandatory Value', this.mandatory['drivingLicenseIssueDate']);
+    console.log('Mandatory Expiry Value', this.mandatory['drivingLicenseExpiryDate']);
+  } else {
+    this.mandatory['drivingLicenseIssueDate'] = false;
+    this.mandatory['drivingLicenseExpiryDate'] = false;
+  }
+}
+
+dateSelected() {
+  this.mandatory['drivingLicenseIssueDate'] = false;
+}
+
+expiryDateSelected() {
+  this.mandatory['drivingLicenseExpiryDate'] = false;
+}
+
+passportMandatory:any = {}
+onPassportNumberChange($formCtrl) {
+  if (this.coApplicantForm.get('passportNumber').status === 'VALID') {
+    this.passportMandatory['passportIssueDate'] = true;
+    this.passportMandatory['passportExpiryDate'] = true;
+    console.log('Mandatory Value', this.passportMandatory['passportIssueDate']);
+    console.log('Mandatory Value to Expiry', this.passportMandatory['passportExpiryDate']);
+  } else {
+    this.passportMandatory['passportIssueDate'] = false;
+  }
+}
+
+passportDateSelected() {
+  this.passportMandatory['passportIssueDate'] = false;
+  console.log('Mandatory Value to Expiry', this.passportMandatory['passportIssueDate']);
+}
+
+passportExpiryDateSelected() {
+  this.passportMandatory['passportExpiryDate'] = false;
+  console.log('Mandatory Value to Expiry', this.passportMandatory['passportExpiryDate']);
+}
 
   drvingLisenseValidation(event) {
+    // if (event.valid) {
+    //   this.coApplicantForm.get('drivingLicenseIssueDate').setValidators([Validators.required]);
+    // }
     const licenseNumber = event.target.value;
-    if (licenseNumber) {
-      console.log('licenseNumber', licenseNumber);
-      // const drivingLicenseIssuePattern = {
-      //   //  rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}' ,
-      //   msg: 'Mandatory Field'
-      // };
-      // const drivingLicenseExpiryPattern = {
-      //   //  rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}' ,
-      //   msg: 'Mandatory Field'
-      // };
-      this.Licensemessage = 'fields Are mandatory';
+    // if (licenseNumber) {
+    //   console.log('licenseNumber', licenseNumber);
+    //   this.coApplicantForm.get('drivingLicenseNumber').valueChanges
+    //   .subscribe(value => {
+    //     if (value) {
+    //       this.coApplicantForm.get('drivingLicenseIssueDate').setValidators([Validators.required]);
+    //     } else {
+    //       this.coApplicantForm.get('drivingLicenseIssueDate').clearValidators();
+    //     }
+    //   });
+    //   this.coApplicantForm.get('drivingLicenseIssueDate').setValidators(Validators.required);
+    //   this.Licensemessage = 'fields Are mandatory';
+    // }
+     console.log(event, 'event');
+    const value = event.target.value;
+    console.log(this.coApplicantForm.get('drivingLicenseNumber').status);
+    if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
+      this.isMandatory = true;
+      console.log(this.isMandatory, 'After Status');
+      // this.coApplicantForm.patchValue({
+      //   // drivingLicenseIssueDate: ['', Validators.required],
+      //   // drivingLicenseExpiryDate: ['', Validators.required],
+      //  });
     }
+    // this.Licensemessage = 'fields Are mandatory';
   }
 
   constructor(
@@ -194,7 +282,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private utilityService: UtilityService,
     private router: Router,
     private createLeadDataService: CreateLeadDataService,
-    private location: Location
+    private location: Location,
+    // private utilityService: UtilityService
   ) {}
 
   onBack() {
@@ -458,7 +547,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.mobile = aboutIndivProspectDetails.mobilePhone;
       details.panType = indivIdentityInfoDetails.panType;
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
-      details.dob = this.getFormateDate(aboutIndivProspectDetails.dob);
+      details.dob = new Date(aboutIndivProspectDetails.dob);
+      console.log('PantYPE Format While patching pancard', details.dob);
       console.log('PantYPE Format While patching pancard', details.panType);
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
       details.passportIssueDate = this.getFormateDate(
@@ -708,23 +798,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.indivIdentityInfoDetails = {
       form60: coApplicantModel.form60,
       panType: coApplicantModel.panType,
-      pan: coApplicantModel.pan,
+      pan: String(coApplicantModel.pan).toUpperCase(),
       aadhar: coApplicantModel.aadhar,
-      passportNumber: coApplicantModel.passportNumber,
+      passportNumber: String(coApplicantModel.passportNumber).toUpperCase(),
       passportIssueDate: this.formatGivenDate(
         coApplicantModel.passportIssueDate
       ),
       passportExpiryDate: this.formatGivenDate(
         coApplicantModel.passportExpiryDate
       ),
-      drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
+      drivingLicenseNumber: String(coApplicantModel.drivingLicenseNumber).toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseExpiryDate
       ),
-      voterIdNumber: coApplicantModel.voterIdNumber,
+      voterIdNumber: (coApplicantModel.voterIdNumber),
     };
 
     this.addressDetails = [];
@@ -766,21 +856,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         coApplicantModel.dateOfIncorporation
       ),
       panNumber: coApplicantModel.pan,
-      passportNumber: coApplicantModel.passportNumber,
+      passportNumber: String(coApplicantModel.passportNumber).toUpperCase(),
       passportIssueDate: this.formatGivenDate(
         coApplicantModel.passportIssueDate
       ),
       passportExpiryDate: this.formatGivenDate(
         coApplicantModel.passportExpiryDate
       ),
-      drivingLicenseNumber: coApplicantModel.drivingLicenseNumber,
+      drivingLicenseNumber: String(coApplicantModel.drivingLicenseNumber).toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseExpiryDate
       ),
-      voterIdNumber: coApplicantModel.voterIdNumber,
+      voterIdNumber: String(coApplicantModel.voterIdNumber).toUpperCase(),
       companyPhoneNumber: coApplicantModel.mobilePhone,
       panType: coApplicantModel.panType,
     };
@@ -812,7 +902,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     };
 
     console.log('coApplicantModel', coApplicantModel);
-    return;
+    
     const rawValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       this.storeIndividualValueInService(coApplicantModel);
