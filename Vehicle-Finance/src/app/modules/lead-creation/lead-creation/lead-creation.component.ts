@@ -50,7 +50,10 @@ export class LeadCreationComponent implements OnInit {
   sourcingData = [];
   socuringTypeData = [];
   placeholder = [];
-  dealerCodeData = [];
+  sourcingCodeData: Array<{ key: string, value: string }> = [];
+  dealerCodeData: Array<any> = [];
+  fundingProgramData = [];
+  keyword: string;
 
 
   obj = {};
@@ -228,11 +231,36 @@ export class LeadCreationComponent implements OnInit {
   }
 
   productCategoryChange(event) {
+    this.productCategorySelectedList = [];
     console.log('productCategoryChange', event.target.value)
     const productCategorySelected = event.target.value;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
       this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
       'assetProdcutCode', 'assetProdutName');
+  }
+
+  productChange(event) {
+    this.fundingProgramData = [];
+    console.log('productChange', event.target.value)
+    const productChange = event.target.value;
+    this.createLeadService.fundingPrograming(productChange).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+
+      if (appiyoError === '0' && apiError === '0') {
+        const data = response.ProcessVariables.fpList;
+        if (data) {
+          data.map(ele => {
+            const datas = {
+              key: ele.fpId,
+              value: ele.fpDescription
+            }
+            this.fundingProgramData.push(datas);
+          });
+        }
+      }
+    });
   }
 
   getSourcingChannel() {
@@ -272,26 +300,49 @@ export class LeadCreationComponent implements OnInit {
     this.sourcingCodePlaceholder = this.placeholder[0].value;
   }
 
-  onChangeSearch(event) {
+  onSourcingCodeSearch(event) {
+    let inputString = event;
+    let sourcingCode = [];
+
+    if (String(inputString).length >= 2) {
+      console.log('code', event);
+
+      sourcingCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
+      console.log('sourcingCode', sourcingCode);
+      let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
+      let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
+      this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString).subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.sourcingCodeData = response.ProcessVariables.codeList;
+          this.keyword = 'value';
+        }
+      });
+    }
+  }
+
+  onDealerCodeSearch(event) {
     let inputString = event;
     let dealerCode = [];
 
-    if (String(inputString).length >= 1) {
+    if (String(inputString).length >= 2) {
       console.log('code', event);
-
-      dealerCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
-      console.log('dealerCode', dealerCode);
-      let one: string = dealerCode[0].sourcingCodeType;
-      let two: string = dealerCode[0].sourcingSubCodeType;
-
-      this.createLeadService.sourcingCode(one, two, inputString).subscribe((res: any) => {
-        console.log('dealer code res', res);
-        this.dealerCodeData = res.ProcessVariables.codeList;
-      })
+      this.createLeadService.dealerCode(inputString).subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.dealerCodeData = response.ProcessVariables.dealorDetails;
+          this.keyword = 'dealorCode';
+          console.log('this.dealerCodeData', this.dealerCodeData);
+        }
+      });
     }
   }
-  onFocused($event){}
-  selectEvent($event){}
+  onFocused($event) { }
+  selectEvent($event) { }
   selectApplicantType(event: any) {
     this.applicantType = event.target.value;
   }
@@ -320,7 +371,7 @@ export class LeadCreationComponent implements OnInit {
       fundingProgram: leadModel.fundingProgram,
       sourcingChannel: leadModel.sourcingChannel,
       sourcingType: leadModel.sourcingType,
-      sourcingCode: leadModel.sourcingCode,
+      sourcingCode: leadModel.sourcingCode.key,
       // spokeCode: Number(leadModel.spokeCode),
       spokeCode: 1,
       loanBranch: Number(this.branchId),
