@@ -240,6 +240,16 @@ export class ApiService {
       processId: 'fa99b43aa9a011ea823df2fa9bec3d63',
       workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
+    },
+    fundingProgram: {
+      processId: 'b6856476ab3811ea82f6f2fa9bec3d63',
+      workflowId: 'b64abaa6ab3811ea82f6f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    dealerCode: {
+      processId: '2faf3348ab4011ea82f7f2fa9bec3d63',
+      workflowId: '2f8408d0ab4011ea82f7f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     }
 
   };
