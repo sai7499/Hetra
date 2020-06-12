@@ -4,6 +4,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { OtpServiceService } from '../services/otp-details.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-otp-section',
@@ -29,6 +30,7 @@ export class OtpSectionComponent implements OnInit {
     private otpService: OtpServiceService,
     private applicantService: ApplicantService,
     private router: Router,
+    private toasterService: ToasterService,
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -158,7 +160,8 @@ export class OtpSectionComponent implements OnInit {
 
       if (res['ProcessVariables']['error']['code'] == "0") {
         console.log(res.ProcessVariables.error);
-        alert("otp verified successfully")
+        this.toasterService.showSuccess('OTP Verified Successfully !', '');
+        // alert("otp verified successfully")
         this.router.navigate(['pages/lead-section/' + this.leadId + '/applicant-details']);
       }
       else {
