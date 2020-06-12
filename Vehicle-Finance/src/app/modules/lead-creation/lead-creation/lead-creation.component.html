@@ -193,7 +193,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity"
-              (change)="selectApplicantType($event)">
+              (change)="selectApplicantType($event, false)">
             </app-vf-custom-select>
           </div>
         </div>
@@ -211,6 +211,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'First Name'"
               [maxLength]="regexPattern.nameLength"
+              [patternCheck]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -223,6 +224,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Middle Name'"
               [maxLength]="regexPattern.nameLength"
+              [patternCheck]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -235,7 +237,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Last Name'"
               [maxLength]="regexPattern.nameLength"
-              [patternCheck]="regexPattern.name">
+              [patternCheck]="namePattern">
             </app-custom-input>
           </div>
         </div>
@@ -259,18 +261,20 @@
             <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{
               labels.dateOfIncorporation
             }}</label>
-             <input
+             <!-- <input
               type="date"
               class="form-control mandatory"
               id="dob"
               placeholder="Date of birth"
               name="dob"
               formControlName="dateOfBirth"
-            />
-            <!-- <kendo-datepicker
-                formControlName="dateOfBirth"
-                
-            ></kendo-datepicker> -->
+            /> -->
+            <kendo-datepicker class="form-control mandatory" 
+              formControlName="dateOfBirth" 
+              [format]="'dd/MM/yyyy'"
+              [max]="toDayDate" 
+              placeholder="Date of birth"
+              [activeView]="'decade'"></kendo-datepicker>  
           </div>
 
           <div class="btn-sec clear-both">
