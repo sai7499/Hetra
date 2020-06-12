@@ -31,11 +31,16 @@ import { map } from 'rxjs/operators';
 })
 export class AddOrUpdateApplicantComponent implements OnInit {
   firstName: string;
+  mobileNumber: string;
   mobile: string;
   aadhar: string;
   drivingLicenseNumber: string;
   passportNumber: string;
   pan: string;
+  drivingLicenseIssueDate: string;
+  drivingLicenseExpiryDate: string;
+  passportIssueDate: string;
+  passportExpiryDate: string;
 
   isDedupeFound: boolean;
   isValueChanged: boolean;
@@ -54,11 +59,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   };
   namePatternIdv = {
     rule: '^[A-Z]*[a-z]*$',
-    msg: 'Invalid Indv Name'
+    msg: 'Invalid Indv Name',
   };
   namePatternNonIdv = {
     rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-    msg: 'Invalid Non Indv Name'
+    msg: 'Invalid Non Indv Name',
   };
   Maxlength30 = {
     rule: 30,
@@ -69,7 +74,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}',
     msg: 'Invalid',
   };
-
 
   mobileNumberPattern = {
     rule: '^[1-9][0-9]*$',
@@ -112,20 +116,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   };
 
   pincodePattern = {
-    rule: '[1-9]{1}[0-9]{5}' ,
-    msg: 'Invalid pincode Number'
+    rule: '[1-9]{1}[0-9]{5}',
+    msg: 'Invalid pincode Number',
   };
 
   landlLinePattern = {
     // rule: '^[0-9]\d{2,4}-\d{6,8}$' ,
     // msg: 'Invalid Landline Number'
-    rule: '^[0-9]{6,15}' ,
-    msg: 'Invalid Landline Number'
+    rule: '^[0-9]{6,15}',
+    msg: 'Invalid Landline Number',
   };
 
   Maxlength15 = {
     rule: 15,
-    msg: ''
+    msg: '',
   };
 
   values: any = [];
@@ -200,54 +204,69 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.panPattern = this.panFormPattern;
     }
   }
-  
-public toDayDate: Date = new Date();
 
-mandatory:any = {}
-expiryMandatory:any = {}
-onDrvingLisenseChange(formCtrl) {
-  console.log(formCtrl);
-  //debugger
-  if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
-    this.mandatory['drivingLicenseIssueDate'] = true;
-    this.mandatory['drivingLicenseExpiryDate'] = true;
-    console.log('Mandatory Value', this.mandatory['drivingLicenseIssueDate']);
-    console.log('Mandatory Expiry Value', this.mandatory['drivingLicenseExpiryDate']);
-  } else {
+  public toDayDate: Date = new Date();
+
+  mandatory: any = {};
+  expiryMandatory: any = {};
+  onDrvingLisenseChange(formCtrl) {
+    console.log(formCtrl);
+    //debugger
+    if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
+      this.mandatory['drivingLicenseIssueDate'] = true;
+      this.mandatory['drivingLicenseExpiryDate'] = true;
+      console.log('Mandatory Value', this.mandatory['drivingLicenseIssueDate']);
+      console.log(
+        'Mandatory Expiry Value',
+        this.mandatory['drivingLicenseExpiryDate']
+      );
+    } else {
+      this.mandatory['drivingLicenseIssueDate'] = false;
+      this.mandatory['drivingLicenseExpiryDate'] = false;
+    }
+  }
+
+  dateSelected() {
     this.mandatory['drivingLicenseIssueDate'] = false;
+  }
+
+  expiryDateSelected() {
     this.mandatory['drivingLicenseExpiryDate'] = false;
   }
-}
 
-dateSelected() {
-  this.mandatory['drivingLicenseIssueDate'] = false;
-}
-
-expiryDateSelected() {
-  this.mandatory['drivingLicenseExpiryDate'] = false;
-}
-
-passportMandatory:any = {}
-onPassportNumberChange($formCtrl) {
-  if (this.coApplicantForm.get('passportNumber').status === 'VALID') {
-    this.passportMandatory['passportIssueDate'] = true;
-    this.passportMandatory['passportExpiryDate'] = true;
-    console.log('Mandatory Value', this.passportMandatory['passportIssueDate']);
-    console.log('Mandatory Value to Expiry', this.passportMandatory['passportExpiryDate']);
-  } else {
-    this.passportMandatory['passportIssueDate'] = false;
+  passportMandatory: any = {};
+  onPassportNumberChange($formCtrl) {
+    if (this.coApplicantForm.get('passportNumber').status === 'VALID') {
+      this.passportMandatory['passportIssueDate'] = true;
+      this.passportMandatory['passportExpiryDate'] = true;
+      console.log(
+        'Mandatory Value',
+        this.passportMandatory['passportIssueDate']
+      );
+      console.log(
+        'Mandatory Value to Expiry',
+        this.passportMandatory['passportExpiryDate']
+      );
+    } else {
+      this.passportMandatory['passportIssueDate'] = false;
+    }
   }
-}
 
-passportDateSelected() {
-  this.passportMandatory['passportIssueDate'] = false;
-  console.log('Mandatory Value to Expiry', this.passportMandatory['passportIssueDate']);
-}
+  passportDateSelected() {
+    this.passportMandatory['passportIssueDate'] = false;
+    console.log(
+      'Mandatory Value to Expiry',
+      this.passportMandatory['passportIssueDate']
+    );
+  }
 
-passportExpiryDateSelected() {
-  this.passportMandatory['passportExpiryDate'] = false;
-  console.log('Mandatory Value to Expiry', this.passportMandatory['passportExpiryDate']);
-}
+  passportExpiryDateSelected() {
+    this.passportMandatory['passportExpiryDate'] = false;
+    console.log(
+      'Mandatory Value to Expiry',
+      this.passportMandatory['passportExpiryDate']
+    );
+  }
 
   drvingLisenseValidation(event) {
     // if (event.valid) {
@@ -267,7 +286,7 @@ passportExpiryDateSelected() {
     //   this.coApplicantForm.get('drivingLicenseIssueDate').setValidators(Validators.required);
     //   this.Licensemessage = 'fields Are mandatory';
     // }
-     console.log(event, 'event');
+    console.log(event, 'event');
     const value = event.target.value;
     console.log(this.coApplicantForm.get('drivingLicenseNumber').status);
     if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
@@ -622,6 +641,17 @@ passportExpiryDateSelected() {
       this.passportNumber = details.passportNumber || '';
       this.pan = details.pan || '';
 
+      if (details.dob) {
+        this.coApplicantForm.patchValue({
+          dob: details.dob || '',
+        });
+      }
+      let mobile = details.mobile;
+      if (mobile.length === 12) {
+        mobile = mobile.slice(2, 12);
+      }
+      this.mobileNumber = mobile;
+
       this.coApplicantForm.patchValue({
         entityType: applicantValue.applicantDetails.entityTypeKey || '',
         loanApplicationRelation:
@@ -629,8 +659,7 @@ passportExpiryDateSelected() {
         name1: applicantValue.applicantDetails.name1 || '',
         name2: applicantValue.applicantDetails.name2 || '',
         name3: applicantValue.applicantDetails.name3 || '',
-        mobilePhone: details.mobile || '',
-        dob: details.dob || '',
+        mobilePhone: mobile || '',
         dateOfIncorporation: details.dateOfIncorporation || '',
         identity_type: applicantValue.identity_type || '',
         panType: details.panType,
@@ -682,66 +711,71 @@ passportExpiryDateSelected() {
         );
         const addressObj = this.getAddressObj();
         const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
-        this.permanentPincode = {
-          city: [
-            {
-              key: permenantAddressObj.city,
-              value: permenantAddressObj.cityValue,
-            },
-          ],
-          district: [
-            {
-              key: permenantAddressObj.district,
-              value: permenantAddressObj.districtValue,
-            },
-          ],
-          state: [
-            {
-              key: permenantAddressObj.state,
-              value: permenantAddressObj.stateValue,
-            },
-          ],
-          country: [
-            {
-              key: permenantAddressObj.country,
-              value: permenantAddressObj.countryValue,
-            },
-          ],
-        };
-        permentAddress.patchValue(
-          this.createAddressObject(permenantAddressObj)
-        );
+        if (permenantAddressObj) {
+          this.permanentPincode = {
+            city: [
+              {
+                key: permenantAddressObj.city,
+                value: permenantAddressObj.cityValue,
+              },
+            ],
+            district: [
+              {
+                key: permenantAddressObj.district,
+                value: permenantAddressObj.districtValue,
+              },
+            ],
+            state: [
+              {
+                key: permenantAddressObj.state,
+                value: permenantAddressObj.stateValue,
+              },
+            ],
+            country: [
+              {
+                key: permenantAddressObj.country,
+                value: permenantAddressObj.countryValue,
+              },
+            ],
+          };
+          permentAddress.patchValue(
+            this.createAddressObject(permenantAddressObj)
+          );
+        }
+
         const cummunicationAddressObj =
           addressObj[Constant.COMMUNICATION_ADDRESS];
-        this.currentPincode = {
-          city: [
-            {
-              key: cummunicationAddressObj.city,
-              value: cummunicationAddressObj.cityValue,
-            },
-          ],
-          district: [
-            {
-              key: cummunicationAddressObj.district,
-              value: cummunicationAddressObj.districtValue,
-            },
-          ],
-          state: [
-            {
-              key: cummunicationAddressObj.state,
-              value: cummunicationAddressObj.stateValue,
-            },
-          ],
-          country: [
-            {
-              key: cummunicationAddressObj.country,
-              value: cummunicationAddressObj.countryValue,
-            },
-          ],
-        };
-        cummunicationAddress.patchValue(
-          this.createAddressObject(cummunicationAddressObj)
-        );
+        if (cummunicationAddressObj) {
+          this.currentPincode = {
+            city: [
+              {
+                key: cummunicationAddressObj.city,
+                value: cummunicationAddressObj.cityValue,
+              },
+            ],
+            district: [
+              {
+                key: cummunicationAddressObj.district,
+                value: cummunicationAddressObj.districtValue,
+              },
+            ],
+            state: [
+              {
+                key: cummunicationAddressObj.state,
+                value: cummunicationAddressObj.stateValue,
+              },
+            ],
+            country: [
+              {
+                key: cummunicationAddressObj.country,
+                value: cummunicationAddressObj.countryValue,
+              },
+            ],
+          };
+          cummunicationAddress.patchValue(
+            this.createAddressObject(cummunicationAddressObj)
+          );
+        }
       } else {
         const addressObj = this.getAddressObj();
         const registeredAddress = this.coApplicantForm.get('registeredAddress');
@@ -808,9 +842,20 @@ passportExpiryDateSelected() {
     return date ? formatDate(date, 'dd/MM/yyyy', 'en-us') : '';
   }
   storeIndividualValueInService(coApplicantModel) {
+    if (coApplicantModel.dob) {
+      const date = new Date(coApplicantModel.dob);
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDay();
+      coApplicantModel.dob = `${day}/${month}/${year}`;
+    }
+    let mobileNumber = coApplicantModel.mobilePhone;
+    if (mobileNumber.length === 12) {
+      mobileNumber = mobileNumber.slice(2, 12);
+    }
     this.aboutIndivProspectDetails = {
-      dob: this.formatGivenDate(coApplicantModel.dob),
-      mobilePhone: coApplicantModel.mobilePhone,
+      dob: coApplicantModel.dob,
+      mobilePhone: mobileNumber,
     };
 
     this.indivIdentityInfoDetails = {
@@ -825,14 +870,16 @@ passportExpiryDateSelected() {
       passportExpiryDate: this.formatGivenDate(
         coApplicantModel.passportExpiryDate
       ),
-      drivingLicenseNumber: String(coApplicantModel.drivingLicenseNumber).toUpperCase(),
+      drivingLicenseNumber: String(
+        coApplicantModel.drivingLicenseNumber
+      ).toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseExpiryDate
       ),
-      voterIdNumber: (coApplicantModel.voterIdNumber),
+      voterIdNumber: coApplicantModel.voterIdNumber,
     };
 
     this.addressDetails = [];
@@ -881,7 +928,9 @@ passportExpiryDateSelected() {
       passportExpiryDate: this.formatGivenDate(
         coApplicantModel.passportExpiryDate
       ),
-      drivingLicenseNumber: String(coApplicantModel.drivingLicenseNumber).toUpperCase(),
+      drivingLicenseNumber: String(
+        coApplicantModel.drivingLicenseNumber
+      ).toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
         coApplicantModel.drivingLicenseIssueDate
       ),
@@ -1065,7 +1114,17 @@ passportExpiryDateSelected() {
       return;
     }
 
-    mobileNumber = '91' + mobileNumber;
+    if (mobileNumber.length === 10) {
+      mobileNumber = '91' + mobileNumber;
+    }
+
+    if (applicantDetails.dob) {
+      const date = new Date(applicantDetails.dob);
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDay();
+      applicantDetails.dob = `${day}/${month}/${year}`;
+    }
 
     const data = {
       leadId: this.leadId,
@@ -1109,6 +1168,12 @@ passportExpiryDateSelected() {
   }
 
   listenerForUnique() {
+    this.coApplicantForm.get('mobilePhone').valueChanges.subscribe((value) => {
+      if (value !== this.mobileNumber) {
+        return (this.isValueChanged = false);
+      }
+      this.isValueChanged = true;
+    });
     this.coApplicantForm.get('name1').valueChanges.subscribe((value) => {
       if (value !== this.firstName) {
         return (this.isValueChanged = false);
