@@ -58,7 +58,7 @@ const routes: Routes = [
         component: ExactMatchComponent,
       },
       {
-        path: 'otp-section',
+        path: 'otp-section/:id',
         component: OtpSectionComponent,
       },
     ],
@@ -69,4 +69,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LeadCreationRouterModule {}
+export class LeadCreationRouterModule { }
