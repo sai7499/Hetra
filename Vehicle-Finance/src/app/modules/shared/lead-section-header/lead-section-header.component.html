@@ -1,5 +1,6 @@
 <div class="row top_bar">
   <div class="col-lg-10 col-md-10 col-sm-10">
+    <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-12">
       <div class="form-group mb-0">
         <label class="col-form-label" for="lead_created_by">{{labels?.leadID}} </label>
@@ -15,9 +16,11 @@
     <div class="col-lg-4 col-md-4 col-sm-12">
       <div class="form-group mb-0">
         <label class="col-form-label" for="customer_name_label">{{labels?.loanAmount}}</label>
-        <label for="customer_name" class="col-form-label-two">500000</label>
+        <label for="customer_name" class="col-form-label-two">{{loanAmount}}</label>
       </div>
     </div>
+  </div>
+  <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-12">
       <div class="form-group mb-0">
         <label class="col-form-label" for="roi">{{labels?.applicant}}</label>
@@ -35,6 +38,7 @@
         <label class="col-form-label" for="lead_handled_by">{{labels?.queue}}</label>
         <label for="lead_handled_by_name" class="col-form-label-two">New Lead &nbsp;&nbsp;<a *ngIf="router.url == '/pages/lead-section'" data-toggle="tooltip" data-placement="bottom" title="Click to View Lead Journey" > <span class="fa fa-history" ></span></a></label>
       </div>
+    </div>
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-2" style="padding-top: 8px;">
