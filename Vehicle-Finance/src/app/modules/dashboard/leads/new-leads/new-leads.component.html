@@ -6,7 +6,7 @@
                 <th>{{labels.leadID}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.product}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.loanAmount}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.applicant}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels.applicants}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.createdOn}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.createdBy}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.priority}}<i class="fa fa-sort"></i> </th>
@@ -26,12 +26,14 @@
                 <td class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                <td>{{item.name ? item.name : '--'}}</td>
+                <td>{{item.applicants ? item.applicants : '--'}}</td>
                 <td>{{item.createdOn ? item.createdOn : '--'}}</td>
                 <td>{{item.createdBy ? item.createdBy : '--'}}</td>
-                <td>{{item.priority ? "Yes" : "No"}}</td>
+                <td *ngIf="item.priority == '1'">Yes</td>
+                <td *ngIf="item.priority == '0' || item.priority == null">No</td>
                 <td>{{item.promoCode ? item.promoCode : '--'}}</td>
-                <td>{{item.status ? item.status : '--'}}</td>
+                <td *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
+                <td *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
