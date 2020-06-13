@@ -1,4 +1,4 @@
-import { Component, OnInit, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { OtpServiceService } from '../services/otp-details.service';
@@ -69,7 +69,7 @@ export class OtpSectionComponent implements OnInit {
     // await this.getApplicantList()
 
     this.otpForm = this._fb.group({
-      otp: ['', [Validators.required]]
+      otp: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(6), Validators.pattern('[0-9]*'), Validators.required])]
     })
 
   }
@@ -89,39 +89,39 @@ export class OtpSectionComponent implements OnInit {
     });
   }
 
-  getApplicantList() {
-    const data = {
-      leadId: this.leadId,
-    };
-    this.applicantService.getApplicantList(data).subscribe((value: any) => {
-      // console.log('Applicantlist', value);
-      const processVariables = value.ProcessVariables;
-      // console.log('ProcessVariables', processVariables);
-      this.applicantList = processVariables.applicantListForLead;
-      console.log(this.applicantList)
-      for (const index in this.applicantList) {
-        console.log("in for")
-        console.log(this.applicantId, "current appid")
-        console.log((this.applicantList[index]['applicantId']));
+  // getApplicantList() {
+  //   const data = {
+  //     leadId: this.leadId,
+  //   };
+  //   this.applicantService.getApplicantList(data).subscribe((value: any) => {
+  //     // console.log('Applicantlist', value);
+  //     const processVariables = value.ProcessVariables;
+  //     // console.log('ProcessVariables', processVariables);
+  //     this.applicantList = processVariables.applicantListForLead;
+  //     console.log(this.applicantList)
+  //     for (const index in this.applicantList) {
+  //       console.log("in for")
+  //       console.log(this.applicantId, "current appid")
+  //       console.log((this.applicantList[index]['applicantId']));
 
-        if (Number(this.applicantId) == this.applicantList[index]['applicantId']) {
+  //       if (Number(this.applicantId) == this.applicantList[index]['applicantId']) {
 
-          console.log("in if")
-          this.mobileNo = this.applicantList[index]['mobileNumber']
-          console.log("this applicant mobile number", this.mobileNo)
-        }
-        else {
-          alert("applicant for respective lead not found")
-          console.log("applicant id mismatched")
-        }
+  //         console.log("in if")
+  //         this.mobileNo = this.applicantList[index]['mobileNumber']
+  //         console.log("this applicant mobile number", this.mobileNo)
+  //       }
+  //       else {
+  //         alert("applicant for respective lead not found")
+  //         console.log("applicant id mismatched")
+  //       }
 
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
 
   sendOtp() {
-    this.getApplicantList()
-    console.log("mob no", this.mobileNo)
+    // this.getApplicantList()
+    // console.log("mob no", this.mobileNo)
     const data = {
       applicantId: this.applicantId,
       userId: this.userId
@@ -140,8 +140,9 @@ export class OtpSectionComponent implements OnInit {
       }
       else {
         alert(res.ProcessVariables.error.message);
+
       }
-    })
+    });
   }
 
 
