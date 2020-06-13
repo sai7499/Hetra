@@ -28,63 +28,131 @@
                 </tr>
               </thead>
               <tbody formArrayName="businessIncomeDetails">
-                <tr class="text-center" id="applicant_1_row" *ngFor="
+                <tr
+                  class="text-center"
+                  id="applicant_1_row"
+                  *ngFor="
                     let item of incomeDetailsForm.get('businessIncomeDetails')[
                       'controls'
                     ];
                     let i = index
-                  " [formGroupName]="i">
+                  "
+                  [formGroupName]="i"
+                >
                   <td data-title="S.No">
                     {{ i + 1 }}
                   </td>
-                 <td data-title="Applicant Name">
+                  <td data-title="Applicant Name">
                     <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted  }"
                     class="form-control text-center" formControlName="applicantId"
                     (change)="onBusinessApplicantChange($event.target.value, i)">
                     <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
-                      {{ applicants.applicantName }}</option>
+                      {{ applicants.fullName }}</option>
                   </select>
                   <div *ngIf="submitted" >
                 </div>
-                    
+                   
                   </td>
-                
-                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
+                 
+
+                  <td data-title="Applicant Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      formControlName="applicantType"
+                      class="no_border"
+                      class="input_value"
                       readonly="true"
-                      name="applicant" class="form-control text-center"  />
+                      name="applicant"
+                      class="form-control text-center"
+                    />
                   </td>
-                
+
                   <td data-title="Business Entity Name">
-                    <input type="text" id="latbox"  class="no_border" class="input_value"
-                      name="businessEnterpriseName" class="form-control text-center"
-                      formControlName="businessEnterpriseName" />
+                    <input
+                      type="text"
+                      id="latbox"
+                      class="no_border"
+                      class="input_value"
+                      name="businessEnterpriseName"
+                      class="form-control text-center"
+                      formControlName="businessEnterpriseName"
+                    />
                   </td>
                   <td data-title="Net Profit">
-                    <input type="number" id="latbox"  class="no_border" class="input_value"
-                      name="netProfit" class="form-control text-center" formControlName="netProfit" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="no_border"
+                      class="input_value"
+                      name="netProfit"
+                      class="form-control text-center"
+                      formControlName="netProfit"
+                    />
                   </td>
                   <td data-title="Depreciation">
-                    <input type="number" id="latbox" class="input_value" name="depreciation"
-                      class="form-control text-center" formControlName="depreciation" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="input_value"
+                      name="depreciation"
+                      class="form-control text-center"
+                      formControlName="depreciation"
+                    />
                   </td>
-                  <td data-title="Directors salary/Interest to partners + Interest">
-                    <input type="number" id="" readonly="true" class="input_value" name="directorSalary"
-                      class="form-control text-center" formControlName="directorSalary" />
+                  <td
+                    data-title="Directors salary/Interest to partners + Interest"
+                  >
+                    <input
+                      type="number"
+                      id=""
+                      readonly="true"
+                      class="input_value"
+                      name="directorSalary"
+                      class="form-control text-center"
+                      formControlName="directorSalary"
+                    />
                   </td>
                   <td data-title="Gross derived Income">
-                    <input type="number" id="latbox" class="input_value" name="grossDerivedIncome" readonly="true"
-                      class="form-control text-center" formControlName="grossDerivedIncome" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="input_value"
+                      name="grossDerivedIncome"
+                      readonly="true"
+                      class="form-control text-center"
+                      formControlName="grossDerivedIncome"
+                    />
                   </td>
                   <td data-title="Gross monthly income">
-                    <input type="number" id="" readonly="true" class="input_value" name="grossMonthlyIncome"
-                      class="form-control text-center" formControlName="grossMonthlyIncome" />
+                    <input
+                      type="number"
+                      id=""
+                      readonly="true"
+                      class="input_value"
+                      name="grossMonthlyIncome"
+                      class="form-control text-center"
+                      formControlName="grossMonthlyIncome"
+                    />
                   </td>
                   <td data-title="Actions">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
-                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                      (click)="removeBusinessIncomeIndex(i)"></i>
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      (click)="addBusinessIncomeUnit(null)"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      (click)="removeBusinessIncomeIndex(i)"
+                    ></i>
                   </td>
                 </tr>
               </tbody>
@@ -116,49 +184,105 @@
                 </tr>
               </thead>
               <tbody formArrayName="otherIncomeDetails">
-                <tr *ngFor="
+                <tr
+                  *ngFor="
                     let item of incomeDetailsForm.get('otherIncomeDetails')[
                       'controls'
                     ];
                     let i = index
-                  " [formGroupName]="i">
+                  "
+                  [formGroupName]="i"
+                >
                   <td data-title="S.no">{{ i + 1 }}</td>
                   <td>
-                  <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted  }"
-                    class="form-control text-center" formControlName="applicantId"
-                    (change)="onOtherApplicantChange($event.target.value, i)">
-                    <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
-                      {{ applicants.applicantName }}</option>
-                  </select>
-                  <div *ngIf="submitted" >
-                </div>
+                    <select
+                      class="form-control mandatory select2"
+                      id=""
+                      name="applicantId"
+                      [ngClass]="{ 'is-invalid': submitted }"
+                      class="form-control text-center"
+                      formControlName="applicantId"
+                      (change)="onOtherApplicantChange($event.target.value, i)"
+                    >
+                      <option
+                        *ngFor="let applicants of applicantDetails"
+                        [value]="applicants.applicantId"
+                      >
+                        {{ applicants.fullName }}</option
+                      >
+                    </select>
+                    <div *ngIf="submitted"></div>
                   </td>
-                   <td data-title="Applicant Type">
-                    <input type="text" id="latbox"   formControlName="applicantType" class="no_border" class="input_value" 
+                  <td data-title="Applicant Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      formControlName="applicantType"
+                      class="no_border"
+                      class="input_value"
                       readonly="true"
-                      name="applicant" class="form-control text-center"  />
+                      name="applicant"
+                      class="form-control text-center"
+                    />
                   </td>
                   <td data-title="Income Type">
-                    <app-vf-custom-select [values]="incomeLov?.incomeType" formControlName="incomeType">
+                    <app-vf-custom-select
+                      [values]="incomeLov?.incomeType"
+                      formControlName="incomeType"
+                    >
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Gross Income">
-                    <input type="number" id="latbox"  class="no_border" class="input_value"
-                      name="grossIncome" class="form-control text-center" formControlName="grossIncome" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="no_border"
+                      class="input_value"
+                      name="grossIncome"
+                      class="form-control text-center"
+                      formControlName="grossIncome"
+                    />
                   </td>
                   <td data-title="Factoring %">
-                    <input type="number" id="latbox" class="input_value" name="factoring"
-                      class="form-control text-center" readonly="true" formControlName="factoring" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="input_value"
+                      name="factoring"
+                      class="form-control text-center"
+                      readonly="true"
+                      formControlName="factoring"
+                    />
                   </td>
                   <td data-title="Factored Income">
-                    <input type="number" id="" readonly="true" class="input_value" name="factoredIncome"
-                      class="form-control text-center" formControlName="factoredIncome" />
+                    <input
+                      type="number"
+                      id=""
+                      readonly="true"
+                      class="input_value"
+                      name="factoredIncome"
+                      class="form-control text-center"
+                      formControlName="factoredIncome"
+                    />
                   </td>
                   <td data-title="Actions">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      (click)="addOtherIncomeUnit(null)"></i>&nbsp;
-                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                      (click)="removeOtherIncomeIndex(i)"></i>
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      (click)="addOtherIncomeUnit(null)"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      (click)="removeOtherIncomeIndex(i)"
+                    ></i>
                   </td>
                 </tr>
               </tbody>
@@ -188,65 +312,144 @@
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
-                <tr *ngFor="
+                <tr
+                  *ngFor="
                     let item of incomeDetailsForm.get('obligationDetails')[
                       'controls'
                     ];
                     let i = index
-                  " [formGroupName]="i">
+                  "
+                  [formGroupName]="i"
+                >
                   <td data-title="S.No">{{ i + 1 }}</td>
                   <td>
-                    <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted  }"
-                        class="form-control text-center" formControlName="applicantId"
-                        (change)="onObligationApplicantChange($event.target.value, i)">
-                        <option *ngFor="let applicants of applicantDetails" [value]= "applicants.applicantId">
-                          {{ applicants.applicantName }}</option>
-                      </select>
-                      <div *ngIf="submitted" >
-                    </div>
-                    </td>
-                     <td data-title="Applicant Type">
-                      <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value" 
-                        readonly="true"
-                        name="applicant" class="form-control text-center"  />
-                    </td>
+                    <select
+                      class="form-control mandatory select2"
+                      id=""
+                      name="applicantId"
+                      [ngClass]="{ 'is-invalid': submitted }"
+                      class="form-control text-center"
+                      formControlName="applicantId"
+                      (change)="
+                        onObligationApplicantChange($event.target.value, i)
+                      "
+                    >
+                      <option
+                        *ngFor="let applicants of applicantDetails"
+                        [value]="applicants.applicantId"
+                      >
+                        {{ applicants.fullName }}</option
+                      >
+                    </select>
+                    <div *ngIf="submitted"></div>
+                  </td>
+                  <td data-title="Applicant Type">
+                    <input
+                      type="text"
+                      id="latbox"
+                      formControlName="applicantType"
+                      class="no_border"
+                      class="input_value"
+                      readonly="true"
+                      name="applicant"
+                      class="form-control text-center"
+                    />
+                  </td>
                   <td data-title="Type of Loan">
-                    <app-vf-custom-select [values]="incomeLov?.typeOfLoan" formControlName="loanType" id="latbox">
+                    <app-vf-custom-select
+                      [values]="incomeLov?.typeOfLoan"
+                      formControlName="loanType"
+                      id="latbox"
+                    >
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Financier">
-                    <app-vf-custom-select [values]="incomeLov?.vehicleFinanciers" formControlName="financier">
+                    <app-vf-custom-select
+                      [values]="incomeLov?.vehicleFinanciers"
+                      formControlName="financier"
+                    >
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Loan Amount">
-                    <input type="number" id="latbox"  class="input_value" name="loanAmount"
-                      class="form-control text-center" formControlName="loanAmount" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="input_value"
+                      name="loanAmount"
+                      class="form-control text-center"
+                      formControlName="loanAmount"
+                    />
                   </td>
                   <td data-title="Tenor(In Months)">
-                    <input type="number" id=""  class="input_value" name="tenure"
-                      class="form-control text-center" formControlName="tenure" />
+                    <input
+                      type="number"
+                      id=""
+                      class="input_value"
+                      name="tenure"
+                      class="form-control text-center"
+                      formControlName="tenure"
+                    />
                   </td>
                   <td data-title="MOB">
-                    <input type="number" id=""  class="input_value" name="mob"
-                      class="form-control text-center" formControlName="mob" />
+                    <input
+                      type="number"
+                      id=""
+                      class="input_value"
+                      name="mob"
+                      class="form-control text-center"
+                      formControlName="mob"
+                    />
                   </td>
                   <td data-title="EMI">
-                    <input type="number" id="latbox"  class="input_value" name="emi"
-                      class="form-control text-center" formControlName="emi" />
+                    <input
+                      type="number"
+                      id="latbox"
+                      class="input_value"
+                      name="emi"
+                      class="form-control text-center"
+                      formControlName="emi"
+                    />
                   </td>
                   <td data-title="Balance Tenor">
-                    <input type="number" id=""  class="input_value" name="balanceTenure" readonly="true"
-                      class="form-control text-center" formControlName="balanceTenure" />
+                    <input
+                      type="number"
+                      id=""
+                      class="input_value"
+                      name="balanceTenure"
+                      readonly="true"
+                      class="form-control text-center"
+                      formControlName="balanceTenure"
+                    />
                   </td>
                   <td data-title="Obligation Amount">
-                    <input type="number" id=""  class="input_value" name="obligationAmount"
-                      readonly="true" class="form-control text-center" formControlName="obligationAmount" />
+                    <input
+                      type="number"
+                      id=""
+                      class="input_value"
+                      name="obligationAmount"
+                      readonly="true"
+                      class="form-control text-center"
+                      formControlName="obligationAmount"
+                    />
                   </td>
                   <td data-title="Actions">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      (click)="addObligationUnit(null)"></i>&nbsp;
-                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                      (click)="removeObligationIndex(i)"></i>
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      (click)="addObligationUnit(null)"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      (click)="removeObligationIndex(i)"
+                    ></i>
                   </td>
                 </tr>
               </tbody>
@@ -322,13 +525,25 @@
   <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
+      <button
+        class="btn btn-primary dash_href"
+        type="button"
+        routerLink="../exposure"
+      >
         Back
       </button>
-      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
+      <button
+        class="btn btn-primary mar-right8"
+        type="button"
+        (click)="onSubmit()"
+      >
         Save
       </button>
-      <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
+      <button
+        class="btn btn-primary dash_href"
+        type="button"
+        routerLink="../psl-data"
+      >
         Next
       </button>
     </div>
