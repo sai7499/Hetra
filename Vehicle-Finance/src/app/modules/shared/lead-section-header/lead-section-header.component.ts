@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LabelsService } from "src/app/services/labels.service";
-import { Routes, RouterModule, Router } from '@angular/router';
+import { Routes, RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { LeadStoreService } from '@services/lead-store.service';
+
 
 @Component({
   selector: 'app-lead-section-header',
@@ -23,11 +25,25 @@ export class LeadSectionHeaderComponent implements OnInit {
     public router: Router,
     private loginStoreService: LoginStoreService,
     private sharedService: SharedService,
-    private createLeadDataService: CreateLeadDataService
-  ) { }
+    private createLeadDataService: CreateLeadDataService,
+    private aRoute: ActivatedRoute,
+    private leadStoreService: LeadStoreService
+  ) {
+    // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
+      this.leadId = this.aRoute.snapshot.params["leadId"];
+   }
 
-  ngOnInit() {
+   ngOnInit() {
+    // this.leadId = (await this.getLeadId()) as number;
     this.getLabels();
+    if (this.leadId) {
+      const gotLeadData = this.aRoute.snapshot.data.leadData;
+      if (gotLeadData.Error === '0') {
+        const leadData = gotLeadData.ProcessVariables;
+        this.createLeadDataService.setLeadSectionData(leadData);
+        this.leadStoreService.setLeadCreation(leadData);
+      }
+    }
     this.getUserDetails();
   }
 
@@ -51,5 +67,15 @@ export class LeadSectionHeaderComponent implements OnInit {
     });
     this.sharedService.loanAmount$.subscribe(value => 
         this.loanAmount = value)
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.aRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
   }
 }

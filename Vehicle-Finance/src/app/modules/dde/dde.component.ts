@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
+import { CommonDataService } from '@services/common-data.service';
 declare var jquery:any;
 declare var $ :any;
 
@@ -18,7 +19,8 @@ export class DdeComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,
+    private cds: CommonDataService
   ) {
     $(document).ready(function(){
       $(".second-row").css("display", "none");

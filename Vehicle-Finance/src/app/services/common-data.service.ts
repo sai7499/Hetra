@@ -11,4 +11,9 @@ export class CommonDataService {
     changeCdsStatus(value: boolean) {
         this.cdsStatus$.next(value);
     }
+    leadDataStatus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public leadDataStatus = this.leadDataStatus$.asObservable();
+    changeleadDataStatus(value: boolean) {
+        this.leadDataStatus$.next(value);
+    }
 }
