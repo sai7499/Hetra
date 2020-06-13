@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxCarouselModule } from 'ngx-carousel';
-import 'hammerjs';
 import { NgxPaginationModule } from 'ngx-pagination';
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
@@ -64,9 +60,7 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     SharedModule,
     DdeSharedModule,
     LeadSectionModule,
-    NgxCarouselModule,
-    AutocompleteLibModule,
-    TypeaheadModule.forRoot()
+    
   ],
 })
 export class DdeModule {}
