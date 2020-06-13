@@ -23,6 +23,7 @@ export class LeadCreationComponent implements OnInit {
   lovLabels: any = [];
   labels: any = {};
   keyword: any;
+  leadId: number;
 
   applicantType: string;
   sourcingChange: any;
@@ -55,6 +56,8 @@ export class LeadCreationComponent implements OnInit {
   dealerCodeData: Array<any> = [];
   fundingProgramData = [];
   isSourcingType: boolean;
+  showModal: boolean;
+  modalMessage: string;
 
 
   obj = {};
@@ -250,7 +253,7 @@ export class LeadCreationComponent implements OnInit {
 
   productChange(event) {
     this.fundingProgramData = [];
-    console.log('productChange', event.target.value)
+    console.log('productChange', event.target.value);
     const productChange = event.target.value;
     this.createLeadService.fundingPrograming(productChange).subscribe((res: any) => {
       const response = res;
@@ -310,49 +313,43 @@ export class LeadCreationComponent implements OnInit {
     this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
     this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
     console.log('placeholder', this.placeholder);
+    this.createLeadForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
   }
 
   onSourcingCodeSearch(event) {
     let inputString = event;
     let sourcingCode = [];
-
-    if (String(inputString).length >= 2) {
-      console.log('code', event);
-
-      sourcingCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
-      console.log('sourcingCode', sourcingCode);
-      let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
-      let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-      this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString).subscribe((res: any) => {
-        const response = res;
-        const appiyoError = response.Error;
-        const apiError = response.ProcessVariables.error.code;
-        if (appiyoError === '0' && apiError === '0') {
-          this.sourcingCodeData = response.ProcessVariables.codeList;
-          this.keyword = 'value';
-        }
-      });
-    }
+    console.log('code', event);
+    sourcingCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
+    console.log('sourcingCode', sourcingCode);
+    let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
+    let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
+    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.sourcingCodeData = response.ProcessVariables.codeList;
+        this.keyword = 'value';
+      }
+    });
   }
 
   onDealerCodeSearch(event) {
     let inputString = event;
     let dealerCode = [];
-
-    if (String(inputString).length >= 2) {
-      console.log('code', event);
-      this.createLeadService.dealerCode(inputString).subscribe((res: any) => {
-        const response = res;
-        const appiyoError = response.Error;
-        const apiError = response.ProcessVariables.error.code;
-        if (appiyoError === '0' && apiError === '0') {
-          this.dealerCodeData = response.ProcessVariables.dealorDetails;
-          this.keyword = 'dealorCode';
-          console.log('this.dealerCodeData', this.dealerCodeData);
-        }
-      });
-    }
+    console.log('code', event);
+    this.createLeadService.dealerCode(inputString).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.dealerCodeData = response.ProcessVariables.dealorDetails;
+        this.keyword = 'dealorName';
+        console.log('this.dealerCodeData', this.dealerCodeData);
+      }
+    });
   }
 
   selectRCevent(event) {
@@ -437,7 +434,7 @@ export class LeadCreationComponent implements OnInit {
           const message = response.ProcessVariables.error.message;
           const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
           const leadSectionData = response.ProcessVariables;
-          const leadId = leadSectionData.leadId;
+          this.leadId = leadSectionData.leadId;
 
           if (isDedupeAvailable) {
             const leadDedupeData = response.ProcessVariables.leadDedupeResults;
@@ -446,14 +443,14 @@ export class LeadCreationComponent implements OnInit {
             return;
           }
 
-          this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
+          this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
             const response = res;
             const appiyoError = response.Error;
             const apiError = response.ProcessVariables.error.code;
             const leadSectionData = response.ProcessVariables;
 
             if (appiyoError === '0' && apiError === '0') {
-              const leadId = leadSectionData.leadId;
+              this.leadId = leadSectionData.leadId;
 
               if (isDedupeAvailable) {
                 const leadDedupeData = response.ProcessVariables.leadDedupeResults;
@@ -462,23 +459,7 @@ export class LeadCreationComponent implements OnInit {
                 return;
               }
               this.createLeadDataService.setLeadSectionData(leadSectionData);
-              this.router.navigateByUrl(`pages/lead-section/${leadId}`);
-
-              // this.createLeadService.getLeadById(leadId).subscribe((res: any) => {
-              //     const response = res;
-              //     const appiyoError = response.Error;
-              //     const apiError = response.ProcessVariables.error.code;
-              //     const leadSectionData = response.ProcessVariables;
-
-              //     if (appiyoError === '0' && apiError === '0') {
-              //       console.log('leadSectionData', leadSectionData);
-              //       const leadId = leadSectionData.leadId;
-              //       this.createLeadDataService.setLeadSectionData(
-              //         leadSectionData
-              //       );
-              //       this.router.navigateByUrl(`pages/lead-section/${leadId}`);
-              //     }
-              //   });
+              this.showModal = true;
             } else {
               const message = response.ProcessVariables.error.message;
               this.toasterService.error(message, 'Lead Creation');
@@ -493,5 +474,10 @@ export class LeadCreationComponent implements OnInit {
         alert(err);
       }
     );
+  }
+
+  navgiateToNextPage() {
+    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`);
+
   }
 }

@@ -24,7 +24,7 @@
           <app-vf-custom-select
             [values]="productCategoryData"
             formControlName="productCategory"
-            (click)="productCategory($event, true)"
+            (change)="productCategory($event, true)"
           >
           </app-vf-custom-select>
         </div>
@@ -153,7 +153,7 @@
             name="sourcing_code"
           /> -->
           <div class="ng-autocomplete" style="width:100%">
-            <ng-autocomplete 
+            <ng-autocomplete #autocomplete
               [data]="sourcingCodeData"
               [searchKeyword]="keyword"
               (selected)='selectEvent($event)'
@@ -162,7 +162,7 @@
               [notFoundTemplate]="notFoundTemplate"
               formControlName="sourcingCode"
               [placeHolder]="sourcingCodePlaceholder"
-              [disabled]="isSourcingType">                                 
+              [minQueryLength]="2">                                 
             </ng-autocomplete>               
             <ng-template #sourcingCodeTemplate let-item>
             <a [innerHTML]="item.value"></a>
@@ -195,7 +195,8 @@
               [itemTemplate]="dealerCodeTemplate"
               [notFoundTemplate]="notFoundTemplate"
               formControlName="dealerCode"
-              [placeHolder]="'Dealer Code'">                                 
+              [placeHolder]="'Dealer Code'"
+              [minQueryLength]="2">                                 
             </ng-autocomplete>               
             <ng-template #dealerCodeTemplate let-item>
             <a [innerHTML]="item.dealorCode"></a>
