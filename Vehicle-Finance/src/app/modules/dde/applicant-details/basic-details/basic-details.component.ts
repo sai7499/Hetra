@@ -485,6 +485,13 @@ export class BasicDetailsComponent implements OnInit {
     this.location.back();
   }
 
+  onNext(){
+    this.router.navigate([
+      `/pages/applicant-details/${this.leadId}/identity-details`,
+      this.applicantId,
+    ]);
+  }
+
  
 onBackToApplicant(){
   this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
