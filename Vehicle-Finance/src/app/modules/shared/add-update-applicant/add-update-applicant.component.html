@@ -198,8 +198,8 @@
                   formControlName="pan"
                   [disabled]="isPanDisabled"
                 /> -->
-                                <app-custom-input formControlName="pan" [patternCheck]="panPattern" [disabled]="isPanDisabled" [isRequired]="'Pan number is required'" [inputClass]="'text-uppercase'" [maxLength]="Maxlength10">
-                                </app-custom-input>
+                                <app-custom-input formControlName="pan" [disabled]="isPanDisabled" [isRequired]="panRequired" [inputClass]="'text-uppercase'" [maxLength]="Maxlength10"></app-custom-input>
+                                <!-- [patternCheck]="panPattern" -->
                             </div>
                         </div>
                         <div class="row">
