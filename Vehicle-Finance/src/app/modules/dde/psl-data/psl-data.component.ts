@@ -339,6 +339,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       setTimeout(() => {
         this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
         this.setValueForProofOfInvetment();
+        this.caRegistrationNumber = this.pslData.caRegistrationNumber;
         this.caCertifiedAmount = this.pslData.caCertifiedAmount;
         this.setValueForCaCertifiedAmount();
         this.otherInvestmentCost = this.pslData.otherInvestmentCost;
@@ -724,17 +725,16 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   onChangeInvestmentInEquipment(event: any) {
     let investmentInEquipmentChange = event.target.value;
+    this.investmentInEquipmentValue = this.totalInvestmentCost;
+    // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
    this.setValueForPslSubCategoryByInvestmentInEquipment();
   }
 
   setValueForPslSubCategoryByInvestmentInEquipment() {
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
-    this.totalInvestmentCost = this.investmentInEquipmentValue;
     this.investmentInEquipmentValueMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        this.investmentInEquipmentValue = this.totalInvestmentCost;
-        // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
-        
+               
         if (this.investmentInEquipmentValue <= 1000000) {
           const data = [
             {
@@ -777,6 +777,8 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   onChangeInvestmentInPlantAndMachinery(event: any) {
     let investmentInPlantMachineryChange = event.target.value;
+    this.investmentInPlantMachineryValue = this.totalInvestmentCost;
+    // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
     this.setValueForPslSubCategoryByInvestmentInPlantANdMacinery()
   }
 
@@ -785,9 +787,6 @@ export class PslDataComponent implements OnInit, OnChanges {
 
     this.investmentInPlantMachineryMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        this.investmentInPlantMachineryValue = this.totalInvestmentCost;
-        // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
-        
         if (this.investmentInPlantMachineryValue <= 2500000) {
           const data = [
             {
@@ -909,9 +908,9 @@ export class PslDataComponent implements OnInit, OnChanges {
   }
 
   onChangeCaCertifiedAmount(event:any) {
-    let key = event.target.value;
+    let caCertifiedAmountChange = event.target.value;
     this.setValueForCaCertifiedAmount();
-    console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+    // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
   }
 
   setValueForCaCertifiedAmount() {
@@ -931,8 +930,8 @@ export class PslDataComponent implements OnInit, OnChanges {
   }
 
   onChangeOtherInvestmentCost(event:any) {
-    let key = event.target.value;
-      this.setValueForOtherInvestmentCost();
+    let otherInvestmentChange = event.target.value;
+    this.setValueForOtherInvestmentCost();
   }
 
   setValueForOtherInvestmentCost() {
@@ -960,6 +959,17 @@ export class PslDataComponent implements OnInit, OnChanges {
   //     this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
   //   }
   // }
+  onChangeTotalInvestmentCost(event) {
+    let totalInvestmentChange = event.target.value;
+    if(this.caCertifiedAmount) {
+      this.totalInvestmentCost = this.caCertifiedAmount;
+    } 
+    else if(this.otherInvestmentCost) {
+      this.totalInvestmentCost = this.otherInvestmentCost;
+    } else {
+      this.totalInvestmentCost = 0;
+    }
+  }
 
   saveOrUpdatePslData() {
     // const agriculture = this.pslDataForm.get('agriculture');
