@@ -379,30 +379,12 @@ onSubmit() {
   // stop here if form is invalid
   if (this.incomeDetailsForm.invalid) {
       // return;
-<<<<<<< HEAD
-      alert('Select Applicant')
-  }else{
-    this.incomeDetailsService
-      .setAllIncomeDetails(this.incomeDetailsForm.value)
-      .subscribe((res: any) => {
-        alert(res.ProcessVariables.error.message);
-         const businessControls =  this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
-              businessControls.controls = [];
-              const otherIncomeDetailsControls =  this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
-              otherIncomeDetailsControls.controls = [];
-              const obligationDetailsControls =  this.incomeDetailsForm.controls.obligationDetails as FormArray;
-              obligationDetailsControls.controls = [];
-          this.getAllIncome();
-          
-      });
-=======
       alert('Select Applicant');
     } else {
       this.incomeDetailsService
         .setAllIncomeDetails(this.incomeDetailsForm.value)
         .subscribe((res: any) => {
           if (res && res.ProcessVariables.error.code == '0') {
-            console.log(this.incomeDetailsForm);
             // tslint:disable-next-line: prefer-const
             let businessControls =  this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
             businessControls.controls = [];
@@ -415,9 +397,8 @@ onSubmit() {
           }
         });
     }
->>>>>>> e593fb0c43af5d6df27b5b00011211168057f5ce
   }
   
 }
 
-}
+

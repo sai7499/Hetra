@@ -28,8 +28,6 @@
     "@ionic-native/geolocation": "^5.26.0",
     "@ionic-native/http": "^5.25.0",
     "@ionic-native/location-accuracy": "^5.26.0",
-<<<<<<< HEAD
-=======
     "@progress/kendo-angular-common": "^1.0.0",
     "@progress/kendo-angular-dateinputs": "^4.3.0",
     "@progress/kendo-angular-intl": "^2.0.0",
@@ -37,7 +35,6 @@
     "@progress/kendo-angular-popup": "^3.0.0",
     "@progress/kendo-theme-default": "latest",
     "@types/jquery": "^3.3.38",
->>>>>>> e593fb0c43af5d6df27b5b00011211168057f5ce
     "agm-direction": "^0.7.9",
     "angular-ng-autocomplete": "^2.0.1",
     "bootstrap": "^4.3.1",
