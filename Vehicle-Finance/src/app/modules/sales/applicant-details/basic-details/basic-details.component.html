@@ -362,13 +362,9 @@
             
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="preffered_language"
-                >Preferred Language for Communication</label
-              >
-              <app-vf-custom-select
-                formControlName="preferredLanguage"
-                [values]="applicantLov?.preferredLanguage"
-              ></app-vf-custom-select>
+              <label for="preffered_language">Preferred Language for Communication</label>
+              <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage">
+              </app-vf-custom-select>
             </div>
           </div>
           <div class="row">
@@ -413,25 +409,17 @@
 
           </div>
         </div>
-        <div
-          id="non_individual_section_start"
-          *ngIf="!isIndividual"
-          [formGroupName]="0"
-        >
+        <div id="non_individual_section_start" *ngIf="!isIndividual" [formGroupName]="0">
           <div class="row">
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="non_occupation">Occupation</label>
-              <app-vf-custom-select
-                [values]="applicantLov?.occupation"
-                formControlName="occupation"
-              ></app-vf-custom-select>
+              <app-vf-custom-select [values]="applicantLov?.occupation" formControlName="occupation">
+              </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category">Customer Category</label>
-              <app-vf-custom-select
-                [values]="applicantLov?.customerCategory"
-                formControlName="customerCategory"
-              ></app-vf-custom-select>
+              <app-vf-custom-select [values]="applicantLov?.customerCategory" formControlName="customerCategory">
+              </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">Email ID</label>
@@ -500,13 +488,7 @@
                     <i class="fa fa-calendar"></i>
                   </button>
                 </span>
-                <input
-                  formControlName="dateOfIncorporation"
-                  type="text"
-                  class="form-control"
-                  id="date"
-                  disabled=""
-                />
+                <input formControlName="dateOfIncorporation" type="text" class="form-control" id="date" disabled="" />
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -528,27 +510,16 @@
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onBack()">
+    <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
-      </button></a
-    >
-    <p
-      class="btn btn-primary save"
-      id="save_vehicle_details"
-      (click)="onSave()"
-    >
+      </button></a>
+    <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSave()">
       Save
     </p>
-    <a id="next_vehicle_details"
-      ><button
-        class="btn btn-primary"
-        type="button"
-        [routerLink]="['../../identity-details', applicantId]"
-      >
+    <a id="next_vehicle_details"><button class="btn btn-primary" type="button"
+        [routerLink]="['../../identity-details', applicantId]">
         Next
-      </button></a
-    >
+      </button></a>
     <br />
     <br />
     <br />

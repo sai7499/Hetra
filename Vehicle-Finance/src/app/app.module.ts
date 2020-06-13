@@ -47,6 +47,9 @@ import { LeadDataResolverService } from './modules/lead-section/services/leadDat
 
 import { setTheme } from 'ngx-bootstrap/utils';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+//import { ToastrModule } from 'ngx-toastr';
+import { DateInputsModule} from '@progress/kendo-angular-dateinputs';
+//import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 
 setTheme('bs4'); 
@@ -82,6 +85,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DdeSharedModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     DatePickerModule,
+    //ToastrModule.forRoot(),
+    DateInputsModule,
+    //AutocompleteLibModule,
+    // DateInputsModule,
+    DatePickerModule
   ],
   providers: [
     HTTP,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Injectable()
 export class UtilityService {
@@ -68,6 +69,32 @@ export class UtilityService {
       return arr.indexOf(arr.find(t => t[value] === thing[value])) === i;
     });
     return distinctThings;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field)
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true })
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control)
+      } else if (control instanceof FormArray) {
+        this.validateFormArray(control)
+      }
+    })
+  }
+
+  validateFormArray(formArray) {
+
+    for (const control of formArray.controls) {
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true })
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control)
+      } else if (control instanceof FormArray) {
+        this.validateFormArray(control)
+      }
+    }
   }
 
   getUiquJson(jsonAry: Array<any>, keyValue) {

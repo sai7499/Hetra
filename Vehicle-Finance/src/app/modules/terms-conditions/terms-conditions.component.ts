@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { CreateLeadDataService } from '../lead-creation/service/createLead-data.service';
+import { TermAcceptanceService } from '@services/term-acceptance.service';
+import { CreditScoreService } from '@services/credit-score.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-terms-conditions',
@@ -11,15 +14,21 @@ import { CreateLeadDataService } from '../lead-creation/service/createLead-data.
 })
 export class TermsConditionsComponent implements OnInit {
   labels: any = {};
-  leadId: number;
+  leadId: any;
+  userId: any;
+  processData: any;
 
   constructor(
     private labelsData: LabelsService,
     private createLeadDataService: CreateLeadDataService,
-    private router: Router
+    private router: Router,
+    private termsService: TermAcceptanceService,
+    private aRoute: ActivatedRoute,
+    private creditService: CreditScoreService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.userId = localStorage.getItem('userId');
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -29,15 +38,68 @@ export class TermsConditionsComponent implements OnInit {
         console.log(error);
       }
     );
-    this.leadId = this.getLeadId();
+    this.leadId = (await this.getLeadId()) as string;
+    console.log(this.leadId);
+    this.getCreditFromService(this.leadId);
   }
 
+  // getLeadId() {
+  //   const leadSectionData: any = this.createLeadDataService.getLeadSectionData();
+  //   return leadSectionData.leadId;
+  // }
   getLeadId() {
-    const leadSectionData: any = this.createLeadDataService.getLeadSectionData();
-    return leadSectionData.leadId;
+    // tslint:disable-next-line: no-shadowed-variable
+    return new Promise((resolve, reject) => {
+      this.aRoute.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
   }
-
   navigateToSales() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'accept'
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      console.log(res);
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      }
+    });
+  }
+  declineOffer() {
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject'
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      console.log(res);
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      }
+    });
+  }
+  getCreditFromService(data: any) {
+    const body = { leadId: data.toString() };
+    console.log(body);
+    this.creditService.getCreditScore(body).subscribe((res: any) => {
+      // this.processData = res;
+      if (
+        res &&
+       res.ProcessVariables.error.code === '0'
+      ) {
+        this.processData = res.ProcessVariables;
+      }
+      //  else {
+      //   this.router.navigate([
+      //     `pages/lead-section/${this.leadId}/vehicle-details`,
+      //   ]);
+      // }
+    });
   }
 }

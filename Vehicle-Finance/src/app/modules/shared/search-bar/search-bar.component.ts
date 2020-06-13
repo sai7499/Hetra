@@ -25,6 +25,7 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.activityList = roleAndUserDetails.activityList;
+    this.searchLead = this.activityList;
   }
 
   getvalue(enteredValue: string) {
@@ -55,6 +56,11 @@ export class SearchBarComponent implements OnInit {
         this.route.navigateByUrl(element.routeUrl);
       }
     });
+  }
+
+  mouseEnter(){
+    this.dropDown = true;
+    console.log('dropdown', this.dropDown);
   }
 
 }

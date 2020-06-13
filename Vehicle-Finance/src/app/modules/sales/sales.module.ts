@@ -13,6 +13,7 @@ import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { DatePickerModule} from '@progress/kendo-angular-dateinputs'
+import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { DatePickerModule} from '@progress/kendo-angular-dateinputs'
     VehicleDetailsComponent,
     LeadDetailsComponent,
     DocumentUploadComponent,
+    AddvehicleComponent
   ],
 })
 export class SalesModule {}

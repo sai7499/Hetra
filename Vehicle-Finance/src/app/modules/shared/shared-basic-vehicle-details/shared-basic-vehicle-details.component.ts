@@ -38,6 +38,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public vehicleRegionLov: any = {};
   public remainingArray = [];
 
+  public productCatoryCode: string;
+  public leadDetails: any = {};
+  public loanTenor: number = 0;
+  public productCatoryId: any;
+
   // LovData
   public assetMake: any = [];
   public vehicleType: any = [];
@@ -71,7 +76,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
+    this.leadDetails = leadData['leadDetails']
+
+    console.log(this.leadDetails, 'Product')
+
     this.leadId = leadData['leadId'];
+    // this.productCatoryCode = this.leadDetails['productCatName'];
 
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
@@ -94,29 +104,50 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.setFormValue();
     };
 
+    const data = this.vehicleDataService.getLeadDataforLoan();
+
+    if (data) {
+      console.log(data, 'data')
+      // this.loanTenor = data.requestedTenor ? data.requestedTenor : data.reqTenure ? data.reqTenure : 0;
+      if (data.requestedTenor) {
+        this.loanTenor = data.requestedTenor;
+      } else if (data.reqTenure) {
+        this.loanTenor = data.reqTenure;
+      }
+    }
+
+    console.log(this.loanTenor, 'data')
+
   }
 
   onOpenCalendar(container) {
     container.monthSelectHandler = (event: any): void => {
 
-      console.log(event, 'event')
       if (this.roleName === 'Sales Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         formArray.controls[0].patchValue({
           ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
         })
+        console.log(formArray.value[0].ageOfAsset)
+        console.log(this.loanTenor, 'Loan')
+        formArray.controls[0].patchValue({
+          ageOfVehicle: Number(this.loanTenor) + formArray.value[0].ageOfAsset
+        })
+        this.getVehicleGridValue(formArray)
       } else {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-        console.log('CreditFormArray', creditFormArray.controls[0])
         creditFormArray.controls[0].patchValue({
           ageOfAsset: Number(this.utilityService.ageFromAsset(event.date))
         })
       }
-
       container._store.dispatch(container._actions.select(event.date));
     };
     container.setViewMode('month');
+  }
+
+  getVehicleGridValue(formArray: any) {
+    
   }
 
   initForms() {
@@ -127,7 +158,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      console.log(value, 'lovs')
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
@@ -202,17 +232,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
-        // console.log(creditFormArray, 'CreditFormArray')
         this.onPatchArrayValue(creditFormArray, VehicleDetail)
         this.formDataOutput.emit(creditFormArray.value)
       }
-
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
   }
 
   onPatchArrayValue(formArray, VehicleDetail) {
+
     formArray.controls[0].patchValue({
       dealerSubventionPartIRR: VehicleDetail.DealerSubventionPartIRR || '',
       ageOfAsset: VehicleDetail.ageOfAsset || null,
@@ -291,17 +320,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleOwnerShipNumber: VehicleDetail.vehicleOwnerShipNumber || null,
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate || null,
-      vehicleRegNo: VehicleDetail.vehicleRegNo,
+      vehicleRegNo: VehicleDetail.vehicleRegNo || '',
       vehicleType: VehicleDetail.vehicleTypeCode || '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       userId: this.userId
     })
-    
+
   }
 
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
+    // if (this.basicVehicleForm.valid) {
+    //   this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
+    // } else {
+    //   this.utilityService.validateAllFormFields(this.basicVehicleForm)
+    // }
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
 
@@ -316,10 +350,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'uniqueMFRCode')
       assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "uniqueMFRCode", "mfrCode") : []
       this.vehicleLov.assetMake = assetMakeArray;
-      this.basicVehicleForm.patchValue({
-        isValidField: true
-      })
-	this.uiLoader.stop();
+      this.uiLoader.stop();
     }, error => {
       console.log(error, 'error')
       this.uiLoader.stop();
@@ -377,26 +408,40 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = this._fb.group({
-      vehicleRegNo: '',
-      region: '',
-      assetMake: '',
-      vehicleType: '',
-      assetBodyType: '',
-      assetModel: '',
-      assetVariant: '',
-      assetSubVariant: '',
-      manuFacMonthYear: '',
-      ageOfAsset: '',
-      finalAssetCost: '',
-      vehicleUsage: '',
-      noOfVehicles: '',
-      usage: '',
+      vehicleRegNo: ['', Validators.required],
+      region: ['', Validators.required],
+      assetMake: ['', Validators.required],
+      vehicleType: ['', Validators.required],
+      assetBodyType: ['', Validators.required],
+      assetModel: ['', Validators.required],
+      assetVariant: ['', Validators.required],
+      assetSubVariant: [''],
+      manuFacMonthYear: ['', Validators.required],
+      ageOfAsset: ['', Validators.required],
+      ageOfVehicle: ['', Validators.required],
+      assetCostGrid: [''],
+      assetCostIndian: ['', Validators.maxLength(10)],
+      assetCostCarwale: ['', Validators.maxLength(10)],
+      exShowroomPrice: ['', Validators.maxLength(10)],
+      finalAssetCost: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
+      ])],
+      vehicleUsage: ['', Validators.required],
+      category: [''],
+      nameOfVehicleOwner: [''],
+      mobileNumberOfVehicle: ['', Validators.pattern('^[1-9][0-9]*$')],
+      vehicleAddress: ['', Validators.maxLength(140)],
+      vehiclePinCode: ['', Validators.maxLength(6)],
+      noOfVehicles: ['', Validators.required],
+      usage: ['', Validators.required],
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
       userId: this.userId
     });
     formArray.push(controls);
+    console.log(this.basicVehicleForm.get('vehicleFormArray')['controls'][0].get('region'))
   }
 
   addCreditFormControls() {
