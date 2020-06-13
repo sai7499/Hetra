@@ -4,10 +4,10 @@
     "reportVersion": 1,
     "event": "Allocation failed - JavaScript heap out of memory",
     "trigger": "FatalError",
-    "filename": "report.20200612.183923.12618.0.001.json",
-    "dumpEventTime": "2020-06-12T18:39:23Z",
-    "dumpEventTimeStamp": "1591967363045",
-    "processId": 12618,
+    "filename": "report.20200613.134534.2263.0.001.json",
+    "dumpEventTime": "2020-06-13T13:45:34Z",
+    "dumpEventTimeStamp": "1592036134964",
+    "processId": 2263,
     "cwd": "/Users/arun/Projects/Hetra/Vehicle-Finance",
     "commandLine": [
       "node",
@@ -51,37 +51,37 @@
       {
         "model": "Intel(R) Core(TM) i5-5350U CPU @ 1.80GHz",
         "speed": 1800,
-        "user": 22955240,
+        "user": 4849120,
         "nice": 0,
-        "sys": 10242410,
-        "idle": 58183890,
+        "sys": 1793730,
+        "idle": 6580520,
         "irq": 0
       },
       {
         "model": "Intel(R) Core(TM) i5-5350U CPU @ 1.80GHz",
         "speed": 1800,
-        "user": 6261070,
+        "user": 1429610,
         "nice": 0,
-        "sys": 3119310,
-        "idle": 81997850,
+        "sys": 593200,
+        "idle": 11199770,
         "irq": 0
       },
       {
         "model": "Intel(R) Core(TM) i5-5350U CPU @ 1.80GHz",
         "speed": 1800,
-        "user": 23354790,
+        "user": 4837740,
         "nice": 0,
-        "sys": 9397150,
-        "idle": 58626310,
+        "sys": 1767700,
+        "idle": 6617140,
         "irq": 0
       },
       {
         "model": "Intel(R) Core(TM) i5-5350U CPU @ 1.80GHz",
         "speed": 1800,
-        "user": 5426880,
+        "user": 1167690,
         "nice": 0,
-        "sys": 2789230,
-        "idle": 83162130,
+        "sys": 533110,
+        "idle": 11521780,
         "irq": 0
       }
     ],
@@ -116,7 +116,7 @@
         "name": "en0",
         "internal": false,
         "mac": "64:c7:53:e6:99:7a",
-        "address": "fe80::189a:811:ad3f:c4d8",
+        "address": "fe80::1c15:ac1f:9be2:13b5",
         "netmask": "ffff:ffff:ffff:ffff::",
         "family": "IPv6",
         "scopeid": 5
@@ -132,8 +132,8 @@
       {
         "name": "awdl0",
         "internal": false,
-        "mac": "66:b4:25:7a:03:2a",
-        "address": "fe80::64b4:25ff:fe7a:32a",
+        "mac": "12:ac:87:e6:6e:ed",
+        "address": "fe80::10ac:87ff:fee6:6eed",
         "netmask": "ffff:ffff:ffff:ffff::",
         "family": "IPv6",
         "scopeid": 7
@@ -142,7 +142,7 @@
         "name": "utun0",
         "internal": false,
         "mac": "00:00:00:00:00:00",
-        "address": "fe80::9f52:ac4d:72bd:db2c",
+        "address": "fe80::a33d:a8c0:3801:4cbd",
         "netmask": "ffff:ffff:ffff:ffff::",
         "family": "IPv6",
         "scopeid": 10
@@ -151,7 +151,7 @@
         "name": "utun1",
         "internal": false,
         "mac": "00:00:00:00:00:00",
-        "address": "fe80::bd79:6999:5e1b:6bcc",
+        "address": "fe80::d48b:45fe:2aec:4a64",
         "netmask": "ffff:ffff:ffff:ffff::",
         "family": "IPv6",
         "scopeid": 11
@@ -220,10 +220,10 @@
     }
   ],
   "javascriptHeap": {
-    "totalMemory": 2185535488,
-    "totalCommittedMemory": 2178636408,
-    "usedMemory": 2095581208,
-    "availableMemory": 81215072,
+    "totalMemory": 2187788288,
+    "totalCommittedMemory": 2181943424,
+    "usedMemory": 2102801048,
+    "availableMemory": 65683152,
     "memoryLimit": 2197815296,
     "heapSpaces": {
       "read_only_space": {
@@ -235,37 +235,37 @@
       },
       "new_space": {
         "memorySize": 33554432,
-        "committedMemory": 28794392,
+        "committedMemory": 29592448,
         "capacity": 16759296,
-        "used": 4230392,
-        "available": 12528904
+        "used": 4537904,
+        "available": 12221392
       },
       "old_space": {
-        "memorySize": 2028879872,
-        "committedMemory": 2027120752,
-        "capacity": 2024954600,
-        "used": 1985307536,
-        "available": 39647064
+        "memorySize": 2035957760,
+        "committedMemory": 2034644216,
+        "capacity": 2032240832,
+        "used": 2005565376,
+        "available": 26675456
       },
       "code_space": {
-        "memorySize": 3575808,
-        "committedMemory": 3428096,
-        "capacity": 3104224,
-        "used": 3104224,
+        "memorySize": 3837952,
+        "committedMemory": 3500320,
+        "capacity": 3211104,
+        "used": 3211104,
         "available": 0
       },
       "map_space": {
-        "memorySize": 33820672,
-        "committedMemory": 33817520,
-        "capacity": 17873920,
-        "used": 17873920,
+        "memorySize": 28315648,
+        "committedMemory": 28313000,
+        "capacity": 4010880,
+        "used": 4010880,
         "available": 0
       },
       "large_object_space": {
-        "memorySize": 84819968,
-        "committedMemory": 84819968,
-        "capacity": 84487784,
-        "used": 84487784,
+        "memorySize": 85237760,
+        "committedMemory": 85237760,
+        "capacity": 84898432,
+        "used": 84898432,
         "available": 0
       },
       "code_large_object_space": {
@@ -285,13 +285,13 @@
     }
   },
   "resourceUsage": {
-    "userCpuSeconds": 180.361,
-    "kernelCpuSeconds": 10.04,
-    "cpuConsumptionPercent": 81.0219,
-    "maxRss": 2328996347904,
+    "userCpuSeconds": 278.863,
+    "kernelCpuSeconds": 15.7062,
+    "cpuConsumptionPercent": 17.2869,
+    "maxRss": 2324298727424,
     "pageFaults": {
-      "IORequired": 50,
-      "IONotRequired": 1339827
+      "IORequired": 35,
+      "IONotRequired": 1697638
     },
     "fsActivity": {
       "reads": 0,
@@ -305,10 +305,11 @@
     "TERM": "xterm-256color",
     "SHELL": "/bin/bash",
     "TMPDIR": "/var/folders/qy/9mq7nrss4l33h0nk8_6b26gc0000gn/T/",
-    "Apple_PubSub_Socket_Render": "/private/tmp/com.apple.launchd.DJw1ONT7nu/Render",
-    "TERM_PROGRAM_VERSION": "1.45.1",
+    "Apple_PubSub_Socket_Render": "/private/tmp/com.apple.launchd.8geinQteT3/Render",
+    "TERM_PROGRAM_VERSION": "1.46.0",
+    "ORIGINAL_XDG_CURRENT_DESKTOP": "undefined",
     "USER": "arun",
-    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.jXffG0io48/Listeners",
+    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.aoAtFayqPa/Listeners",
     "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
     "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
     "PWD": "/Users/arun/Projects/Hetra/Vehicle-Finance",

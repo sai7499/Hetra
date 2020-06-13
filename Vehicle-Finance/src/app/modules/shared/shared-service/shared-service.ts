@@ -18,6 +18,8 @@ export class SharedService {
         this.loanAmount$.next(amount)
     }
 
-
-
+    vaildateForm$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getFormValidation(form){
+        this.vaildateForm$.next(form)
+    }
 }

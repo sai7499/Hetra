@@ -21,3 +21,7 @@
     font-size: 25px;
     margin-left: 4px;
 }
+
+kendo-datepicker{
+    width: 100%!important;
+}

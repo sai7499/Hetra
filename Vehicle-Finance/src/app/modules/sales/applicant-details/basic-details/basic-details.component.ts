@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators,AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location, formatDate } from '@angular/common';
@@ -32,12 +32,19 @@ export class BasicDetailsComponent implements OnInit {
   applicantLov: any= [];
   applicantId: number | string = '';
   applicant: Applicant;
-  showAge : number=0
+  initialAge : number;
+  showAge : number
   messageOfSeniorcitizen : string = '';
   messageOfMinor : string = '';
   isSeniorCitizen : any ="0"
   isMinor : any = "0"
   gaurdianNamemandatory : any= {};
+  senior : boolean;
+  minor : boolean;
+  checkingMinor : boolean
+ checkingSenior : boolean
+ @ViewChild('fatherName', {static : true}) fatherName : string;
+  //imMinor : boolean= true
   designation = [
     {
       key: 1,
@@ -111,11 +118,14 @@ export class BasicDetailsComponent implements OnInit {
      
       details: new FormArray([]),
     });
-    this.addNonIndividualFormControls();
-    this.getLovData();
-   
     
-
+    //this.addNonIndividualFormControls();
+    this.getLovData();
+    const formArray=this.basicForm.get('details') as FormArray;
+   const details = formArray.at(0)
+   details.patchValue({preferredLanguage: 'ENGPRFLAN'})
+   console.log('fatherName', this.fatherName)
+   
     // setTimeout(() => {
     // this.clearFormArray();
     // });
@@ -140,93 +150,97 @@ export class BasicDetailsComponent implements OnInit {
     //   };
     //   this.applicantDataService.setApplicant(applicant);
     this.applicant = this.applicantDataService.getApplicant();
-    // console.log('applicant', applicant);
+    console.log('applicant', this.applicant);
+    const dob= this.applicant.aboutIndivProspectDetails.dob ;
+    console.log('dob', dob)
+    if(dob !==null){
+      this.initiallayAgecal(dob)
+    }
 
     this.setBasicData();
-    // });
+  
+  }
+  initiallayAgecal(dob){
+    const convertDate = new Date(this.utilityService.getDateFromString(dob))
+    const convertAge = new Date(convertDate);
+      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+      this.initialAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+      console.log('initially age', this.initialAge)
+      if(this.initialAge<18){
+        this.checkingMinor= true
+      }
+      if(this.initialAge>70)
+      this.checkingMinor= this.initialAge< 18 ? true : false
+      this.checkingSenior= this.initialAge> 70 ? true : false
+
+      this.isMinor = this.checkingMinor == true ? '1': '0'
+      console.log('isminor', this.isMinor)
+      this.isSeniorCitizen= this.checkingSenior ==true ? '1': '0'
+      console.log('issenior', this.isSeniorCitizen)
+
+      if(this.initialAge<70 ){
+        this.senior = true
+       
+      }
+      else if(this.initialAge>18 ){
+        this.minor= true;
+      
+      }
+
+      
   }
 
   ageCalculation(event){
     console.log('event', event)
     const value = event;
-    const convertDate = new Date(this.utilityService.getDateFormat(value))
+    
+    const convertDate = new Date(this.utilityService.getNewDateFormat(value))
     const convertAge = new Date(convertDate);
       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
       this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
       console.log('showAge', this.showAge);
 
-    if(this.showAge< 18){
-      console.log('mandatory show age', this.showAge)
-      this.gaurdianNamemandatory['minorGuardianName']= 'select';
-    }
-    else{
-      this.gaurdianNamemandatory['minorGuardianName']= '';
+
+    this.checkingMinor = this.showAge< 18 ? true : false
+    this.checkingSenior= this.showAge>70 ? true : false
+    
+    this.validation.get('minorGuardianName').setValue(this.validation.get('minorGuardianName').value)
+    this.checkMinorOrSenior(this.showAge) 
+
+    this.isSeniorCitizen= this.checkingSenior==true ? '1': '0'
+    this.isMinor = this.checkingMinor  == true ? '1' : '0'
+  }
+  checkMinorOrSenior(showAge){
+    if(showAge < 70){
+      this.senior = true
      
     }
-    this.validation.get('minorGuardianName').setValue(this.validation.get('minorGuardianName').value)
+    else if(showAge > 18){
+      this.minor= true;
     
-    
-  }
-
-
-  getFormateDate(date: string) {
-    if (!date) {
-      return '';
     }
-    date = date.split('/').reverse().join('-');
-    return date;
-  }
 
-  getConvertDate( date : string){
-    const dateFormat: Date = new Date(date);
-    const year = dateFormat.getFullYear();
-    const month = Number(dateFormat.getMonth()) + 1;
-    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-    let day = dateFormat.getDate().toString();
-    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    
-    const formattedDate = day + '/' + month1 + '/' + year;
-    console.log('return Date', formattedDate);
-    return formattedDate;
   }
+  // onGender(){
+  //   if(this.validation.get('gender').status !=='VALID'){
+
+  //   }
+  // }
+
+
+  
   checkSenior(event){
-   
-     if(event.target.checked && this.showAge < 70){
+     if(event.target.checked && (this.showAge < 70 || this.initialAge< 70)){
        event.target.checked= false;
-       this.messageOfSeniorcitizen='You are not a Senior citizen '
-       setTimeout(() => {
-        this.messageOfSeniorcitizen = '';
-      }, 4000);
-     }
-     else{
-       event.target.checked = true;
-       this.messageOfSeniorcitizen= ''
-     }
-
-     const isChecked = event.target.checked;
-     console.log('isChecked', isChecked)
-     this.isSeniorCitizen = isChecked=== true? '1' : '0';
-   
+      }
+     else{event.target.checked = true;}
   }
 
   checkMinor(event){
-   
-      if(event.target.checked && this.showAge > 18){
+      if(event.target.checked && (this.showAge>18||this.initialAge>18)){
         event.target.checked= false;
-        this.messageOfMinor='You are not a Minor '
-        setTimeout(() => {
-          this.messageOfMinor = '';
-        }, 4000);
       }
-      else{
-        event.target.checked = true;
-        this.messageOfMinor= ''
-      }
-      const isChecked = event.target.checked;
-     console.log('isChecked', isChecked)
-     this.isMinor = isChecked=== true? '1' : '0';
-    
-    
+      else{event.target.checked = true;} 
   }
 
   setBasicData() {
@@ -260,6 +274,9 @@ export class BasicDetailsComponent implements OnInit {
       custSegment : applicantDetails.custSegment || ''
     });
   }
+  
+  
+
 
   setValuesForIndividual() {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
@@ -283,10 +300,10 @@ export class BasicDetailsComponent implements OnInit {
       occupation: aboutIndivProspectDetails.occupation || '',
       nationality: aboutIndivProspectDetails.nationality || '',
       age : this.showAge,
-      gender : aboutIndivProspectDetails.gender,
-      politicallyExposedPerson : aboutIndivProspectDetails.politicallyExposedPerson,
+      gender : aboutIndivProspectDetails.gender || '',
+      politicallyExposedPerson : aboutIndivProspectDetails.politicallyExposedPerson || '',
       alternateMobileNumber : aboutIndivProspectDetails.alternateMobileNumber,
-      minorGuardianRelation : aboutIndivProspectDetails.minorGuardianRelation,
+      minorGuardianRelation : aboutIndivProspectDetails.minorGuardianRelation || '',
       
     });
     console.log('dob', aboutIndivProspectDetails.dob) 
@@ -306,7 +323,7 @@ export class BasicDetailsComponent implements OnInit {
       companyEmailId: corporateProspectDetails.companyEmailId ||'',
       alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
-      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation || '',
+      dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
       // occupation: '',
       // nationality: '',
       preferredLanguageCommunication:
@@ -408,6 +425,8 @@ export class BasicDetailsComponent implements OnInit {
       this.storeNonIndividualValueInService(rawValue);
       this.applicantDataService.setIndividualProspectDetails(null);
     }
+
+  //  if(this.basicForm.valid){
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
 
@@ -419,13 +438,17 @@ export class BasicDetailsComponent implements OnInit {
     console.log('leadId', this.leadStoreService.getLeadId());
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
-      if (res.Error === '0') {
-        this.router.navigate([
-          `/pages/sales-applicant-details/${leadId}/identity-details`,
-          this.applicantId,
-        ]);
-      }
-    });
+    
+        if(res.Error === '0'){
+          this.router.navigate([
+            `/pages/sales-applicant-details/${leadId}/identity-details`,
+            this.applicantId,
+          ]);
+        }
+      });
+    // }else{
+    //   this.utilityService.validateAllFormFields(this.basicForm)
+    // }
   }
 
   getLeadId() {
@@ -501,7 +524,7 @@ export class BasicDetailsComponent implements OnInit {
 
     prospectDetails.alternateEmailId = formValue.alternateEmailId;
     // prospectDetails.occupation = formValue.occupation;
-    prospectDetails.dateOfIncorporation = formValue.dateOfIncorporation;
+    prospectDetails.dateOfIncorporation = this.utilityService.getDateFormat(formValue.dateOfIncorporation);
     prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
     prospectDetails.preferredLanguageCommunication =
       formValue.preferredLanguageCommunication;

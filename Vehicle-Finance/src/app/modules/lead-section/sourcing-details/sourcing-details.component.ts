@@ -137,7 +137,6 @@ export class SourcingDetailsComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
-    this.vehicleDataStore.setLoanTenour(this.sourcingDetailsForm.getRawValue())
   }
 
   getLabels() {

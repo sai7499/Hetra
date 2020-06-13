@@ -13,7 +13,6 @@ export class VehicleDataStoreService {
   collateralId: number;
   CreditLeadId: number;
   SalesLeadId: number;
-  public getLeadData: any = {};
 
   constructor() { }
 
@@ -52,14 +51,6 @@ export class VehicleDataStoreService {
 
   getSelectedVehicle(index: number) {
     return this.vehicleList[index];
-  }
-
-  setLoanTenour(data) {
-    this.getLeadData = data;
-  }
-
-  getLeadDataforLoan() {
-   return this.getLeadData
   }
 
   updateVehicle(index: number, vehicleDetails) {
