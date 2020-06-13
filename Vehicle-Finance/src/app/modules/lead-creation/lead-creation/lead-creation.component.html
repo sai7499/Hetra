@@ -96,12 +96,13 @@
                 [searchKeyword]="keyword"
                 (selected)='selectEvent($event)'
                 (inputChanged)='onSourcingCodeSearch($event)'
-                [itemTemplate]="itemTemplate"
+                [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
-                [placeHolder]="sourcingCodePlaceholder">                                 
+                [placeHolder]="sourcingCodePlaceholder"
+                [disabled]="isSourcingType">                                 
               </ng-autocomplete>               
-              <ng-template #itemTemplate let-item>
+              <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
               </ng-template>               
               <ng-template #notFoundTemplate let-notFound>
@@ -122,15 +123,15 @@
                 <ng-autocomplete 
                   [data]="dealerCodeData"
                   [searchKeyword]="keyword"
-                  (selected)='selectEvent($event)'
+                  (selected)='selectRCevent($event)'
                   (inputChanged)='onDealerCodeSearch($event)'
-                  [itemTemplate]="itemTemplate"
+                  [itemTemplate]="dealerCodeTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'">                                 
                 </ng-autocomplete>               
-                <ng-template #itemTemplate let-item>
-                <a [innerHTML]="item.value"></a>
+                <ng-template #dealerCodeTemplate let-item>
+                <a [innerHTML]="item.dealorCode"></a>
                 </ng-template>               
                 <ng-template #notFoundTemplate let-notFound>
                 <div [innerHTML]="notFound"></div>
@@ -192,7 +193,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity"
-              (change)="selectApplicantType($event)">
+              (change)="selectApplicantType($event, false)">
             </app-vf-custom-select>
           </div>
         </div>
@@ -210,6 +211,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'First Name'"
               [maxLength]="regexPattern.nameLength"
+              [patternCheck]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -222,6 +224,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Middle Name'"
               [maxLength]="regexPattern.nameLength"
+              [patternCheck]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -234,7 +237,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Last Name'"
               [maxLength]="regexPattern.nameLength"
-              [patternCheck]="regexPattern.name">
+              [patternCheck]="namePattern">
             </app-custom-input>
           </div>
         </div>
@@ -265,12 +268,13 @@
               placeholder="Date of birth"
               name="dob"
               formControlName="dateOfBirth"
-            /> --> 
+            /> -->
             <kendo-datepicker class="form-control mandatory" 
-              formControlName="dateOfBirth" [format]="'dd/MM/yyyy'"
+              formControlName="dateOfBirth" 
+              [format]="'dd/MM/yyyy'"
               [max]="toDayDate" 
               placeholder="Date of birth"
-              [activeView]="'decade'"></kendo-datepicker>          
+              [activeView]="'decade'"></kendo-datepicker>  
           </div>
 
           <div class="btn-sec clear-both">
