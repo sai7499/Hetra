@@ -11,6 +11,7 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
 
 import { DdeSharedModule } from '../../dde/shared/shared.module';
 import { SharedModule } from '@shared/shared.module';
+import { DatePickerModule} from '@progress/kendo-angular-dateinputs'
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { SharedModule } from '@shared/shared.module';
     ApplicantDetailsRoutingModule,
     DdeSharedModule,
     SharedModule,
+    DatePickerModule
   ],
   declarations: [
     ApplicantDetailsComponent,

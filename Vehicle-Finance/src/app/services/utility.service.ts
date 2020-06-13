@@ -48,8 +48,12 @@ export class UtilityService {
     return moment().diff(dateOfBirth, 'months');
   }
 
-  convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD/MM/YYYY');
+  ageCalculation(dob) {
+    return moment().diff(dob, 'years')
+  }
+
+  convertDateTimeTOUTC(date, format) {
+    return moment.utc(date).local().format(format);
   }
 
   converDateToUTC(date) {
@@ -118,5 +122,11 @@ export class UtilityService {
       }
     });
     return this.getUiquJson(arrayList, 'key');
+  }
+  getDateFromString(date) {
+    let dateArray = date.split("/");
+    let getDate = new Date(dateArray[1] + "-" + dateArray[0] + "-" + dateArray[2])
+    console.log("return Date", getDate)
+    return getDate;
   }
 }

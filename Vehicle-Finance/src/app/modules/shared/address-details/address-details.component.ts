@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -69,6 +69,32 @@ export class AddressDetailsComponent implements OnInit {
   isCurrAddSameAsPermAdd: any = '0';
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
+
+  maxLenght40 = {
+    rule : 40
+  };
+  pincodePattern = {
+    rule: '^[1-9][0-9]{5}$' ,
+    msg: 'pincode Number is required'
+  };
+  pincodeLength ={
+    rule: 6,
+    msg : 'Should be 6 digit'
+  }
+  mobilePattern={
+    rule: '^[1-9][0-9]*$',
+    msg: 'Invalid Mobile Number',
+  }
+  mobileLength10={
+    rule: 10,
+  }
+  landlinePattern={
+    rule : '^[0-9]{6,15}',
+    msg : "Invalid Number"
+  }
+  landlineLength15={
+    rule: 15,
+  }
 
   constructor(
     private lovData: LovDataService,
@@ -281,6 +307,12 @@ export class AddressDetailsComponent implements OnInit {
     });
 
     (this.addressForm.get('details') as FormArray).push(nonIndividual);
+  }
+
+  get addressValidations(){
+    const formArray=this.addressForm.get('details') as FormArray;
+   const details = formArray.at(0)
+   return details;
   }
 
   getAddressDetails() {
@@ -683,10 +715,11 @@ export class AddressDetailsComponent implements OnInit {
       this.applicantService.saveApplicant(data).subscribe((res) => {
         const currentUrl = this.location.path();
         if (currentUrl.includes('sales')) {
-          this.router.navigate([
-            `/pages/sales-applicant-details/${this.leadId}/document-upload`,
-            this.applicantId,
-          ]);
+          // this.router.navigate([
+          //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
+          //   this.applicantId,
+          // ]);
+          alert("saved successfully")
         } else {
           this.router.navigate([
             `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,

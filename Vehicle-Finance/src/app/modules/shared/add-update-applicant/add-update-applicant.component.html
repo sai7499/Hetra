@@ -13,17 +13,16 @@
                 <app-vf-custom-select
                   [values]="LOV.LOVS?.entityType"
                   formControlName="entityType"
-                  (change)="selectApplicantType($event)"
-                  required
-                >
+                  (change)="selectApplicantType($event)">
                 </app-vf-custom-select>
-                <div
-                  *ngIf="
-                    this.coApplicantForm.get('entityType').errors?.value == ''
-                  "
-                >
-                  Entity is Required
-                </div>
+                <!-- <div 
+                *ngIf="coApplicantForm.get('entityType').value === null ">
+                  Entity is required
+                </div> -->
+                <!-- <span
+              *ngIf="(applicantType !== 'INDIVENTTYP' && !'NONINDIVENTTYP') && applicantDetailsControls.entityType.untouched " >
+                Requierd</span> -->
+                 
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{
@@ -235,10 +234,12 @@
                   /> -->
                   <app-custom-input
                     formControlName="aadhar"
-                    [patternCheck]="adharNumberPattern"
-                    [isRequired]="'Adhar number is required'"
+                   
+                    
                     [maxLength]="Maxlength12"
                   ></app-custom-input>
+                  <!-- [patternCheck]="adharNumberPattern" -->
+                  <!-- [isRequired]="'Adhar number is required'" -->
                   <span class="input-group-btn">
                     <button class="btn btn-default">
                       <i class="fa fa-credit-card"></i>
@@ -270,6 +271,7 @@
                   [disabled]="isPanDisabled"
                   [isRequired]="'Pan number is required'"
                   [inputClass]="'text-uppercase'"
+                  [maxLength]="Maxlength10"
                 ></app-custom-input>
               </div>
             </div>
@@ -285,6 +287,7 @@
                 <app-custom-input
                   formControlName="drivingLicenseNumber"
                   [patternCheck]="drivingLicensePattern"
+                  [maxLength]="Maxlength15"
                   (change)="onDrvingLisenseChange($event)"
                   [inputClass]="'text-uppercase'"
                 ></app-custom-input>
@@ -379,6 +382,7 @@
                   [patternCheck]="passportPattern"
                   (change)="onPassportNumberChange($event)"
                   [inputClass]="'text-uppercase'"
+                  [maxLength]="Maxlength8"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">

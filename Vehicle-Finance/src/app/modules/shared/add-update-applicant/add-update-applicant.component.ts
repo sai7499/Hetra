@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { SalesDedupeService } from '@services/sales-dedupe.service';
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -69,6 +69,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     rule: 30,
     msg: '',
   };
+  Maxlength9 = {
+    rule: 9,
+    msg: '',
+  };
 
   drivingLicensePattern = {
     rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}',
@@ -131,6 +135,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     rule: 15,
     msg: '',
   };
+  Maxlength8 = {
+    rule: 8,
+    msg: '',
+  };
+
 
   values: any = [];
   labels: any = {};
@@ -315,6 +324,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private salesDedupeService: SalesDedupeService
   ) {}
 
+  
+
   onBack() {
     this.location.back();
   }
@@ -408,6 +419,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       });
     });
   }
+
+ 
+
   async ngOnInit() {
     if ((this.panValue = '1PANTYPE')) {
     }
@@ -497,7 +511,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   initForm() {
     this.coApplicantForm = new FormGroup({
       loanApplicationRelation: new FormControl(''),
-      entityType: new FormControl(''),
+      entityType: new FormControl('', Validators.required),
       name1: new FormControl(''),
       name2: new FormControl(''),
       name3: new FormControl(''),
@@ -1168,6 +1182,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   navgiateToSamePage() {
+    this.showDedupeModal = false;
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
     );

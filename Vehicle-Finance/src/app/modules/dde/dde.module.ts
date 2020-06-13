@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
@@ -61,7 +60,7 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     SharedModule,
     DdeSharedModule,
     LeadSectionModule,
-    TypeaheadModule.forRoot()
+    
   ],
 })
 export class DdeModule {}
