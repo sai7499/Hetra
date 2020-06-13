@@ -4,7 +4,6 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
@@ -46,8 +45,9 @@ import {
 import { LeadDataResolverService } from './modules/lead-section/services/leadDataResolver.service';
 
 import { setTheme } from 'ngx-bootstrap/utils';
+import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { ToastrModule } from 'ngx-toastr';
-import { DateInputsModule, DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { DateInputsModule} from '@progress/kendo-angular-dateinputs';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 
@@ -83,6 +83,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AgmDirectionModule, // agm-direction
     DdeSharedModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    DatePickerModule,
     ToastrModule.forRoot(),
     DateInputsModule,
     AutocompleteLibModule,

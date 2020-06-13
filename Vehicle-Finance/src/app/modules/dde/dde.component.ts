@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
+declare var jquery:any;
+declare var $ :any;
 
 @Component({
   templateUrl: './dde.component.html',
@@ -18,7 +20,21 @@ export class DdeComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private leadStoreService: LeadStoreService
   ) {
+    $(document).ready(function(){
+      $(".second-row").css("display", "none");
+      $(".prev-first-data").click(function(){
+          $(".first-row").css({"display":"block"});
+          $(".second-row").css({"display":"none"});
+
+      });
+      $(".next-second-data").click(function(){
+          $(".first-row").css({"display":"none"});
+          $(".second-row").css({"display":"block"});
+
+      });
+    });
     this.leadId = this.route.snapshot.params['leadId'];
+
   }
 
   hasRoute(route: string) {
@@ -56,6 +72,28 @@ export class DdeComponent implements OnInit {
       return 5;
     } else if (url.includes('psl-data')) {
       return 6;
+    }else if (url.includes('vehicle-valuation')) {
+      return 7;
+    }else if (url.includes('tvr-details')) {
+      return 8;
+    }else if (url.includes('fl-report')) {
+      return 9;
+    }else if (url.includes('pd-report')) {
+      return 10;
+    }else if (url.includes('viability-details')) {
+      return 11;
+    }else if (url.includes('score-card')) {
+      return 12;
+    }else if (url.includes('cam')) {
+      return 13;
+    }else if (url.includes('deviations')) {
+        return 14;
+    }else if (url.includes('insurance-details')) {
+      return 15;
+    }else if (url.includes('credit_conditions')) {
+      return 16;
+    }else if (url.includes('term-sheets')) {
+      return 17;
     }
   }
 }

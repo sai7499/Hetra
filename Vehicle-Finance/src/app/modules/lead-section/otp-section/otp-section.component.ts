@@ -4,6 +4,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { OtpServiceService } from '../services/otp-details.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-otp-section',
@@ -29,6 +30,7 @@ export class OtpSectionComponent implements OnInit {
     private otpService: OtpServiceService,
     private applicantService: ApplicantService,
     private router: Router,
+    private toasterService: ToasterService,
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -133,6 +135,7 @@ export class OtpSectionComponent implements OnInit {
         this.mobileNo = res.ProcessVariables.mobileNo
         console.log("reference number ==>", this.referenceNo)
         console.log("mobile number ==>", this.mobileNo)
+        this.toasterService.showSuccess('OTP sent successfully !', '');
 
       }
       else {
@@ -158,11 +161,13 @@ export class OtpSectionComponent implements OnInit {
 
       if (res['ProcessVariables']['error']['code'] == "0") {
         console.log(res.ProcessVariables.error);
-        alert("otp verified successfully")
+        this.toasterService.showSuccess('OTP Verified Successfully !', '');
+        // alert("otp verified successfully")
         this.router.navigate(['pages/lead-section/' + this.leadId + '/applicant-details']);
       }
       else {
-        alert(res.ProcessVariables.error.message);
+        // alert(res.ProcessVariables.error.message);
+        this.toasterService.showError("Invalid OTP !", '');
 
       }
     });

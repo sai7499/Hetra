@@ -64,11 +64,11 @@ export class ApiService {
     getDeleteVehicleDetails: {
       workflowId: '385f090a957e11eabdcff2fa9bec3d63',
       processId: '69029740a71a11eabfb4f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getVehicleGridValue: {
-      workflowId: 'c7df01d6ac8811ea83def2fa9bec3d63',
-      processId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      processId: 'c7df01d6ac8811ea83def2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
     saveUpdateFleetDetails: {
@@ -186,32 +186,42 @@ export class ApiService {
     getPslData: {
       workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
       processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       processId: 'b007bcd8968511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       processId: '520bd7a6975511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     deleteExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       processId: 'e9ceec0e975511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     geoMasterService: {
       processId: '676c8318a56311eabed3f2fa9bec3d63',
       workflowId: '66d15a96a56311eabed3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    salesApplicantDedupe: {
+      processId: 'c39b5872a5b711eabf11f2fa9bec3d63',
+      workflowId: 'b527cab2945211eabdcaf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    salesApplicantUcic: {
+      processId: '02d4332495d711eabdcff2fa9bec3d63',
+      workflowId: '02c225f895d711eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
     deleteBankList: {
       processId: '6a957184a9ab11ea824ff2fa9bec3d63',
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveTvrDetails: {
       processId: '04e204a89a8611eabdcff2fa9bec3d63',
