@@ -107,69 +107,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const data = this.vehicleDataService.getLeadDataforLoan();
 
     if (data) {
-      console.log(data, 'data')
-      // this.loanTenor = data.requestedTenor ? data.requestedTenor : data.reqTenure ? data.reqTenure : 0;
       if (data.requestedTenor) {
         this.loanTenor = data.requestedTenor;
       } else if (data.reqTenure) {
         this.loanTenor = data.reqTenure;
       }
     }
-
-    if (this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const controls = formArray.at(0) as FormGroup;
-
-      // controls.removeControl('vehicleRegNo');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('exShowroomCost');
-
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-      controls.addControl('exShowroomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-
-    } else if (this.productCatoryCode === 'UCV') {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const controls = formArray.at(0) as FormGroup;
-
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('vehicleRegNo');
-
-      controls.addControl('assetCostGrid', new FormControl('', Validators.required));
-      controls.addControl('rcOwnerName', new FormControl('', Validators.required));
-      controls.addControl('ownerMobileNo', new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[1-9][0-9]*$')])));
-      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(140)])));
-      controls.addControl('pincode', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(6)])));
-
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('exShowroomCost');
-
-    } else if (this.productCatoryCode === 'UC') {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const controls = formArray.at(0) as FormGroup;
-      controls.addControl('assetCostIBB', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-      controls.addControl('assetCostCarTrade', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('category');
-      controls.removeControl('vehicleUsage');
-
-      controls.removeControl('exShowroomCost');
-      controls.removeControl('assetCostGrid');
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-      controls.addControl('category', new FormControl('', Validators.required));
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-
-    }
-
   }
 
   onOpenCalendar(container) {
@@ -341,7 +284,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           assetCostGrid: VehicleDetail.assetCostGrid || null,
           assetCostCarTrade: VehicleDetail.assetCostCarTrade || null,
           assetCostIBB: VehicleDetail.assetCostIBB || null,
-          exShowRoomCost: VehicleDetail.exShowRoomCost || null,
+          exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
           rcOwnerName: VehicleDetail.rcOwnerName || '',
           collateralId: VehicleDetail.collateralId || '',
           ownerMobileNo: VehicleDetail.ownerMobileNo || null,
@@ -567,6 +510,66 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
     formArray.push(controls);
+  }
+
+  changeSalesForm() {
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    const controls = formArray.at(0) as FormGroup;
+    console.log(controls, 'controls')
+    // if (this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
+    //   const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    //   const controls = formArray.at(0) as FormGroup;
+
+    //   // controls.removeControl('vehicleRegNo');
+    //   controls.removeControl('vehicleUsage');
+    //   controls.removeControl('exShowroomCost');
+
+    //   controls.removeControl('assetCostGrid');
+    //   controls.removeControl('assetCostIBB');
+    //   controls.removeControl('assetCostCarTrade');
+
+    //   controls.addControl('vehicleUsage', new FormControl('', Validators.required));
+    //   controls.addControl('exShowroomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+
+    // } else if (this.productCatoryCode === 'UCV') {
+    //   const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    //   const controls = formArray.at(0) as FormGroup;
+
+    //   controls.removeControl('rcOwnerName');
+    //   controls.removeControl('ownerMobileNo');
+    //   controls.removeControl('address');
+    //   controls.removeControl('pincode');
+    //   controls.removeControl('vehicleRegNo');
+
+    //   controls.addControl('assetCostGrid', new FormControl('', Validators.required));
+    //   controls.addControl('rcOwnerName', new FormControl('', Validators.required));
+    //   controls.addControl('ownerMobileNo', new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[1-9][0-9]*$')])));
+    //   controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(140)])));
+    //   controls.addControl('pincode', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(6)])));
+
+    //   controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
+
+    //   controls.removeControl('assetCostIBB');
+    //   controls.removeControl('assetCostCarTrade');
+    //   controls.removeControl('exShowroomCost');
+
+    // } else if (this.productCatoryCode === 'UC') {
+    //   const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    //   const controls = formArray.at(0) as FormGroup;
+    //   controls.addControl('assetCostIBB', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+    //   controls.addControl('assetCostCarTrade', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+    //   controls.removeControl('vehicleRegNo');
+    //   controls.removeControl('category');
+    //   controls.removeControl('vehicleUsage');
+
+    //   controls.removeControl('exShowroomCost');
+    //   controls.removeControl('assetCostGrid');
+    //   controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
+    //   controls.addControl('category', new FormControl('', Validators.required));
+    //   controls.addControl('vehicleUsage', new FormControl('', Validators.required));
+
+    // }
+
   }
 
   addCreditFormControls() {
