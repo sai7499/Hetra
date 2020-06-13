@@ -24,6 +24,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Output() formDataOutput = new EventEmitter<ArrayType>();
 
+  maxDate = new Date()
+
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
   roleId: any;
@@ -65,7 +67,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     public sharedService: SharedService, private toasterService: ToasterService,
     private uiLoader: NgxUiLoaderService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
 
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
@@ -73,19 +75,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
 
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
     this.leadDetails = leadData['leadDetails']
-
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.productCatoryId = this.leadDetails['productId'];
-
-    this.roleId = this.roles[0].roleId;
-    this.roleName = this.roles[0].name;
-    this.roleType = this.roles[0].roleType;
+    this.loanTenor = this.leadDetails['reqTenure'];
 
     this.sharedService.leadData$.subscribe((value: string) => {
       this.product_value = value;
@@ -103,77 +104,31 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.id) {
       this.setFormValue();
     };
+  }
 
-    const data = this.vehicleDataService.getLeadDataforLoan();
+  onGetDateValue(event) {
+    console.log('event', event)
+    if (this.roleName === 'Sales Officer') {
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({
+        ageOfAsset: Number(this.utilityService.ageFromAsset(event))
+      })
 
-    if (data) {
-      console.log(data, 'data')
-      // this.loanTenor = data.requestedTenor ? data.requestedTenor : data.reqTenure ? data.reqTenure : 0;
-      if (data.requestedTenor) {
-        this.loanTenor = data.requestedTenor;
-      } else if (data.reqTenure) {
-        this.loanTenor = data.reqTenure;
+      formArray.controls[0].patchValue({
+        ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
+      })
+
+      if (this.productCatoryCode === 'UCV') {
+        this.getVehicleGridValue(formArray)
       }
+      console.log(formArray.value[0])
     }
-
-    if (this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const controls = formArray.at(0) as FormGroup;
-
-      // controls.removeControl('vehicleRegNo');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('exShowroomCost');
-
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-      controls.addControl('exShowroomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-
-    } else if (this.productCatoryCode === 'UCV') {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const controls = formArray.at(0) as FormGroup;
-
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('vehicleRegNo');
-
-      controls.addControl('assetCostGrid', new FormControl('', Validators.required));
-      controls.addControl('rcOwnerName', new FormControl('', Validators.required));
-      controls.addControl('ownerMobileNo', new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[1-9][0-9]*$')])));
-      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(140)])));
-      controls.addControl('pincode', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(6)])));
-
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('exShowroomCost');
-
-    } else if (this.productCatoryCode === 'UC') {
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const controls = formArray.at(0) as FormGroup;
-      controls.addControl('assetCostIBB', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-      controls.addControl('assetCostCarTrade', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('category');
-      controls.removeControl('vehicleUsage');
-
-      controls.removeControl('exShowroomCost');
-      controls.removeControl('assetCostGrid');
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-      controls.addControl('category', new FormControl('', Validators.required));
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-
-    }
-
   }
 
   onOpenCalendar(container) {
     container.monthSelectHandler = (event: any): void => {
+
+      console.log('Date', event.date)
 
       if (this.roleName === 'Sales Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -216,12 +171,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           assetCostGrid: res.ProcessVariables.vehicleCost,
           finalAssetCost: res.ProcessVariables.vehicleCost
         })
-
-        if (res.Error === '0' && res.Error === '0') {
-          this.toasterService.showSuccess(apiError, '');
-        } else {
-          this.toasterService.showError(apiError, '')
-        }
       }, err => {
         console.log('err', err)
       })
@@ -260,8 +209,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         finalAssetCost: formArray.value[0].assetCostIBB
       })
     }
-
-    console.log(formArray.value[0].finalAssetCost)
   }
 
   initForms() {
@@ -320,8 +267,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (this.roleName === 'Sales Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-        let date = new Date(VehicleDetail.manuFacMonthYear)
-
         formArray.controls[0].patchValue({
           vehicleRegNo: VehicleDetail.vehicleRegNo || '',
           region: VehicleDetail.region || '',
@@ -331,9 +276,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           assetModel: VehicleDetail.vehicleModelCode || '',
           assetVariant: VehicleDetail.assetVarient === 'Petrol' ? 0 : '',
           assetSubVariant: VehicleDetail.assetSubVariant || '',
-          manuFacMonthYear: VehicleDetail.manuFacMonthYear ? date : '',
+          manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
           ageOfAsset: VehicleDetail.ageOfAsset || null,
           finalAssetCost: VehicleDetail.finalAssetCost || '',
+          exShowRoomCost: VehicleDetail.exShowRoomCost,
           vehicleUsage: VehicleDetail.vehicleUsage || '',
           noOfVehicles: VehicleDetail.noOfVehicles || '',
           usage: VehicleDetail.usage || '',
@@ -341,7 +287,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           assetCostGrid: VehicleDetail.assetCostGrid || null,
           assetCostCarTrade: VehicleDetail.assetCostCarTrade || null,
           assetCostIBB: VehicleDetail.assetCostIBB || null,
-          exShowRoomCost: VehicleDetail.exShowRoomCost || null,
           rcOwnerName: VehicleDetail.rcOwnerName || '',
           collateralId: VehicleDetail.collateralId || '',
           ownerMobileNo: VehicleDetail.ownerMobileNo || null,
@@ -352,14 +297,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           userId: this.userId
         })
         this.formDataOutput.emit(formArray.value);
-        console.log('form array', formArray.value[0])
+        this.sharedService.getFormValidation(this.basicVehicleForm)
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
         this.onPatchArrayValue(creditFormArray, VehicleDetail)
         this.formDataOutput.emit(creditFormArray.value)
       }
-     
+
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -413,7 +358,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isOrpFunding: VehicleDetail.isOrpFunding || '',
       leadId: Number(this.leadId),
       lmsCollateralId: VehicleDetail.lmsCollateralId || null,
-      manuFacMonthYear: new Date(VehicleDetail.manuFacMonthYear) || '',
+      manuFacMonthYear: this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) || '',
       manuFactureSubventionPartIRR: VehicleDetail.manuFactureSubventionPartIRR || '',
       manuFatureSubventionPartFinCharge: VehicleDetail.manuFatureSubventionPartFinCharge || '',
       manufacSubventionApplicable: VehicleDetail.manufacSubventionApplicable || '',
@@ -460,15 +405,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   // event emitter for giving output to parent add vehicle component
 
   formDataOutputMethod(event) {
-    // if (this.basicVehicleForm.valid) {
-    //   this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
-    // } else {
-    //   this.utilityService.validateAllFormFields(this.basicVehicleForm)
-    // }
+    this.sharedService.getFormValidation(this.basicVehicleForm)
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
   }
-
-  //  method to get vehicle master data from region 
 
   onVehicleRegion(value: any) {
     const region = value ? value : '';
@@ -549,15 +488,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ageOfAsset: ['', Validators.required],
       ageAfterTenure: ['', Validators.required],
       assetCostGrid: [''],
-      assetCostIBB: ['', Validators.maxLength(10)],
-      assetCostCarTrade: ['', Validators.maxLength(10)],
-      exShowroomCost: ['', Validators.maxLength(10)],
+      assetCostIBB: [''],
+      assetCostCarTrade: [''],
+      exShowRoomCost: [''],
       finalAssetCost: ['', Validators.compose([
         Validators.required,
         Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
       ])],
       vehicleUsage: [''],
-      category: [''],
+      category: ['', Validators.required],
       rcOwnerName: [''],
       ownerMobileNo: ['', Validators.pattern('^[1-9][0-9]*$')],
       address: ['', Validators.maxLength(140)],
@@ -569,6 +508,78 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
     formArray.push(controls);
+    this.changeSalesForm()
+  }
+
+  changeSalesForm() {
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    const controls = formArray.at(0) as FormGroup;
+    console.log(controls, 'controls')
+
+    if (this.productCatoryCode === 'NCV') {
+      controls.removeControl('vehicleRegNo');
+      controls.removeControl('assetCostGrid');
+      controls.removeControl('assetCostIBB');
+      controls.removeControl('assetCostCarTrade');
+      controls.removeControl('vehicleUsage');
+      controls.removeControl('rcOwnerName');
+      controls.removeControl('ownerMobileNo');
+      controls.removeControl('address');
+      controls.removeControl('pincode');
+      controls.removeControl('exShowRoomCost');
+
+      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+    } else if (this.productCatoryCode === 'NC') {
+      controls.removeControl('vehicleRegNo');
+      controls.removeControl('assetCostGrid');
+      controls.removeControl('assetCostIBB');
+      controls.removeControl('assetCostCarTrade');
+      controls.removeControl('vehicleUsage');
+      controls.removeControl('rcOwnerName');
+      controls.removeControl('ownerMobileNo');
+      controls.removeControl('address');
+      controls.removeControl('pincode');
+      controls.removeControl('exShowRoomCost');
+
+      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
+      controls.addControl('exShowRoomCost', new FormControl('', Validators.required));
+    } else if (this.productCatoryCode === 'UC') {
+
+      controls.removeControl('vehicleRegNo');
+      controls.removeControl('assetCostGrid');
+      controls.removeControl('assetCostIBB');
+      controls.removeControl('assetCostCarTrade');
+      controls.removeControl('vehicleUsage');
+      controls.removeControl('rcOwnerName');
+      controls.removeControl('ownerMobileNo');
+      controls.removeControl('address');
+      controls.removeControl('pincode');
+      controls.removeControl('exShowRoomCost');
+
+      controls.addControl('assetCostIBB', new FormControl('', Validators.required));
+      controls.addControl('assetCostCarTrade', new FormControl('', Validators.required));
+      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
+      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
+    } else if (this.productCatoryCode === 'UCV') {
+
+
+      controls.removeControl('vehicleRegNo');
+      controls.removeControl('assetCostGrid');
+      controls.removeControl('vehicleUsage');
+      controls.removeControl('rcOwnerName');
+      controls.removeControl('ownerMobileNo');
+      controls.removeControl('address');
+      controls.removeControl('pincode');
+      controls.removeControl('exShowRoomCost');
+
+      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
+      controls.addControl('assetCostGrid', new FormControl('', Validators.required));
+      controls.addControl('rcOwnerName', new FormControl('', Validators.required));
+      controls.addControl('ownerMobileNo', new FormControl('', Validators.required));
+      controls.addControl('address', new FormControl('', Validators.required));
+      controls.addControl('pincode', new FormControl('', Validators.required));
+    }
+    this.sharedService.getFormValidation(this.basicVehicleForm)
   }
 
   addCreditFormControls() {
@@ -594,7 +605,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetOther: '',
       assetBodyType: '',
       vehicleType: ['LCVVEHTYP'],
-      exShowroomCost: null,
+      exShowRoomCost: null,
       finalAssetCost: '',
       dealerSuventionApproval: ['1'],
       dealerSubventionAmount: [''],
@@ -636,7 +647,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: '',
       assetOther: '',
       vehicleType: ['LCVVEHTYP'],
-      exShowroomCost: null,
+      exShowRoomCost: null,
       finalAssetCost: '',
       dealerSuventionApproval: ['1'],
       dealerSubventionAmount: [''],
@@ -682,7 +693,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       region: [''],
       manuFacMonthYear: '',
       ageOfAsset: '',
-      exShowroomCost: null,
+      exShowRoomCost: null,
       fitnessDate: '',
       typeOfPermit: '',
       typeOfPermitOthers: [''],
@@ -731,7 +742,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: '',
       assetCostCarTrade: '',
       assetCostLeast: '',
-      exShowroomCost: null,
+      exShowRoomCost: null,
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
