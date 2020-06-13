@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { SalesDedupeService } from '@services/sales-dedupe.service';
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -81,9 +81,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   mobileNumberPattern = {
     rule: '^[1-9][0-9]*$',
-    msg: 'Invalid Mobile',
+    msg: 'Invalid Mobile Number',
   };
-
   Maxlength10 = {
     rule: 10,
     msg: '',
@@ -91,7 +90,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   adharNumberPattern = {
     rule: '^[0-9]{12}',
-    msg: 'Invalid Adhar Number',
+    msg: 'Invalid Aadhar Number',
   };
 
   Maxlength12 = {
@@ -322,9 +321,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private location: Location,
     private salesDedupeService: SalesDedupeService
-  ) {}
+  ) { }
 
-  
+
 
   onBack() {
     this.location.back();
@@ -420,7 +419,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
   }
 
- 
+
 
   async ngOnInit() {
     if ((this.panValue = '1PANTYPE')) {

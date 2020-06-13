@@ -71,28 +71,28 @@ export class AddressDetailsComponent implements OnInit {
   currentAddressDetails: AddressDetails[];
 
   maxLenght40 = {
-    rule : 40
+    rule: 40
   };
   pincodePattern = {
-    rule: '^[1-9][0-9]{5}$' ,
+    rule: '^[1-9][0-9]{5}$',
     msg: 'pincode Number is required'
   };
-  pincodeLength ={
+  pincodeLength = {
     rule: 6,
-    msg : 'Should be 6 digit'
+    msg: 'Should be 6 digit'
   }
-  mobilePattern={
+  mobilePattern = {
     rule: '^[1-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   }
-  mobileLength10={
+  mobileLength10 = {
     rule: 10,
   }
-  landlinePattern={
-    rule : '^[0-9]{6,15}',
-    msg : "Invalid Number"
+  landlinePattern = {
+    rule: '^[0-9]{6,15}',
+    msg: "Invalid Number"
   }
-  landlineLength15={
+  landlineLength15 = {
     rule: 15,
   }
 
@@ -106,7 +106,7 @@ export class AddressDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
     private location: Location
-  ) {}
+  ) { }
 
   onBack() {
     this.location.back();
@@ -268,11 +268,11 @@ export class AddressDetailsComponent implements OnInit {
       addressLineOne: new FormControl(null),
       addressLineTwo: new FormControl(null),
       addressLineThree: new FormControl(null),
-      pincode: new FormControl(null),
-      city: new FormControl(''),
-      district: new FormControl(''),
-      state: new FormControl(''),
-      country: new FormControl(''),
+      pincode: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      district: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(null),
     };
   }
@@ -309,10 +309,10 @@ export class AddressDetailsComponent implements OnInit {
     (this.addressForm.get('details') as FormArray).push(nonIndividual);
   }
 
-  get addressValidations(){
-    const formArray=this.addressForm.get('details') as FormArray;
-   const details = formArray.at(0)
-   return details;
+  get addressValidations() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    return details;
   }
 
   getAddressDetails() {
@@ -817,3 +817,14 @@ export class AddressDetailsComponent implements OnInit {
     );
   }
 }
+
+
+// onSubmit() {
+//   this.isSubmitted = true;
+//   if (!this.registrationForm.valid) {
+//     return false;
+//   } else {
+//     alert(JSON.stringify(this.registrationForm.value))
+//   }
+
+// }
