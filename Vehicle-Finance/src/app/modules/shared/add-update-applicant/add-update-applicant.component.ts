@@ -446,6 +446,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disablePermanentAddress();
         this.disableRegisteredAddress();
         this.disableCommunicationAddress();
+      }else{
+        this.isValueChanged = false;
       }
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
@@ -1235,12 +1237,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
       this.isValueChanged = true;
     });
-    this.coApplicantForm.get('pan').valueChanges.subscribe((value) => {
-      if (value !== this.pan) {
-        return (this.isValueChanged = false);
-      }
-      this.isValueChanged = true;
-    });
+    // this.coApplicantForm.get('pan').valueChanges.subscribe((value) => {
+    //   if (value !== this.pan) {
+    //     return (this.isValueChanged = false);
+    //   }
+    //   this.isValueChanged = true;
+    // });
     this.coApplicantForm.get('aadhar').valueChanges.subscribe((value) => {
       if (value !== this.aadhar) {
         return (this.isValueChanged = false);
