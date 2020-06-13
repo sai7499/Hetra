@@ -32,7 +32,7 @@ export class CreditScoreComponent implements OnInit {
   leadData: any;
   variable: CibilData;
   userId: any;
-  
+
   constructor(
     private aRoute: ActivatedRoute,
     private router: Router,
@@ -51,7 +51,6 @@ export class CreditScoreComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
 
     this.leadData = this.getCreditFromService(this.leadId);
-   console.log(this.leadData);
   }
   getCreditFromService(data: any) {
     const body = { leadId: data.toString() };
