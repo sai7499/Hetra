@@ -727,6 +727,7 @@ export class AddressDetailsComponent implements OnInit {
         }
       });
     });
+    
     console.log('addressdetailsArray', this.addressDetailsDataArray);
   }
 
