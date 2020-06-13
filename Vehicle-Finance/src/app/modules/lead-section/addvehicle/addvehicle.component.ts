@@ -6,6 +6,7 @@ import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -46,7 +47,8 @@ export class AddvehicleComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private vehicleDetailService: VehicleDetailService,
     private loginStoreService: LoginStoreService,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService,
+    private toasterService: ToasterService) { }
 
   ngOnInit() {
 
@@ -80,6 +82,7 @@ export class AddvehicleComponent implements OnInit {
   // parent method to call the child method to access form data
 
   FormDataParentMethod(value: any) {
+    console.log(value, 'valie')
     this.formDataFromChild = value;
     this.vehicleDetails = value;
   }
@@ -91,14 +94,22 @@ export class AddvehicleComponent implements OnInit {
 
   saveVehicleCollaterals() {
     this.isHidden = false;
+    console.log(this.vehicleDetails, 'Details')
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear)
+      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        this.isHidden = true;
-        this.errorMsg = res.ProcessVariables.error.message;
+        // this.isHidden = true;
+        // this.errorMsg = res.ProcessVariables.error.message;
+        const apiError = res.ProcessVariables.error.message;
+
+        if (res.Error === '0' && res.Error === '0') {
+          this.toasterService.showSuccess(apiError, '');
+        } else {
+          this.toasterService.showError(apiError, '')
+        }
         this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
       }, error => {
         console.log(error, 'error')

@@ -30,7 +30,7 @@ export class LeadDetails {
         leadHandledBy: leadDetails.leadHandeledBy,
         leadCreatedBy: leadDetails.leadCreatedBy,
         leadCreatedOn: leadDetails.leadCreatedOn,
-
+        dealorCode: leadDetails.dealorCode,
         priority: leadDetails.priority,
         spokesId: leadDetails.spokeCode,
         sourcingChannel: leadDetails.sourcingChannel,

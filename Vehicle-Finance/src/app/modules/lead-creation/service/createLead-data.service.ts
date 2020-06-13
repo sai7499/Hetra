@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Injectable({
     providedIn: 'root'
@@ -8,6 +9,9 @@ export class CreateLeadDataService {
     leadSectionData = {};
     proceedAsNewLeadData = {};
     proceedWithSelectedLead = {};
+    constructor(private sharedService: SharedService){
+
+    }
 
     setLeadData(loanLeadDetails, applicantDetails) {
         this.leadData = {
@@ -22,7 +26,10 @@ export class CreateLeadDataService {
 
     setLeadSectionData(data) {
         this.leadSectionData = data;
-    }
+        const requestAmount = this.leadSectionData['leadDetails']['reqLoanAmt']?
+                                this.leadSectionData['leadDetails']['reqLoanAmt']: 0;
+        this.sharedService.changeLoanAmount(Number( requestAmount))
+      }
 
     getLeadSectionData() {
         return this.leadSectionData;

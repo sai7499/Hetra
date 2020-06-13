@@ -13,10 +13,11 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 export class LeadSectionHeaderComponent implements OnInit {
   labels: any = {};
   userName: string;
-  leadId: any;
+  leadId: number;
   productId: any;
   productIdFromLead: any;
-
+  applicantName: string;
+  loanAmount: Number;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -27,12 +28,7 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.getLabels();
-    this.sharedService.leadData$.subscribe(value => {
-      this.productId = value;
-    });
-
     this.getUserDetails();
-
   }
 
   getLabels() {
@@ -45,10 +41,15 @@ export class LeadSectionHeaderComponent implements OnInit {
   getUserDetails() {
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (data as any);
+    console.log('leadSectionData',leadSectionData);
     this.leadId = leadSectionData.leadId;
+    // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
+                      // leadSectionData.leadDetails.reqLoanAmt : 0;
+    this.applicantName = leadSectionData.applicantDetails[0].fullName;
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });
+    this.sharedService.loanAmount$.subscribe(value => 
+        this.loanAmount = value)
   }
-
 }

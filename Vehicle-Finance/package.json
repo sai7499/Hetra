@@ -12,7 +12,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^1.1.0",
-    "@angular/animations": "~8.0.0",
+    "@angular/animations": "^8.0.3",
     "@angular/common": "~8.0.0",
     "@angular/compiler": "~8.0.0",
     "@angular/core": "~8.0.0",
@@ -28,6 +28,16 @@
     "@ionic-native/geolocation": "^5.26.0",
     "@ionic-native/http": "^5.25.0",
     "@ionic-native/location-accuracy": "^5.26.0",
+<<<<<<< HEAD
+=======
+    "@progress/kendo-angular-common": "^1.0.0",
+    "@progress/kendo-angular-dateinputs": "^4.3.0",
+    "@progress/kendo-angular-intl": "^2.0.0",
+    "@progress/kendo-angular-l10n": "^2.0.0",
+    "@progress/kendo-angular-popup": "^3.0.0",
+    "@progress/kendo-theme-default": "latest",
+    "@types/jquery": "^3.3.38",
+>>>>>>> e593fb0c43af5d6df27b5b00011211168057f5ce
     "agm-direction": "^0.7.9",
     "angular-ng-autocomplete": "^2.0.1",
     "bootstrap": "^4.3.1",
@@ -36,6 +46,7 @@
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-identi5": "file:custom_plugin/cordova-plugin-identi5",
     "cordova-plugin-request-location-accuracy": "^2.3.0",
     "crypto": "^1.0.1",
     "crypto-js": "^3.1.9-1",
@@ -46,6 +57,7 @@
     "ngx-carousel": "^1.2.0",
     "ngx-device-detector": "^1.4.2",
     "ngx-pagination": "^5.0.0",
+    "ngx-toastr": "^10.0.4",
     "ngx-ui-loader": "^8.0.0",
     "rxjs": "~6.4.0",
     "sjcl": "^1.0.8",

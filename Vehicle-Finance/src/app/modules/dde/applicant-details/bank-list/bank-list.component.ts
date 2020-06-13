@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BankTransactionsService } from '@services/bank-transactions.service';
-import { Router ,ActivatedRoute} from '@angular/router';
+import { Router , ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
