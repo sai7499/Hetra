@@ -215,19 +215,19 @@ export class IdentityDetailsComponent implements OnInit {
     identityDetails.pan = formValue.pan;
     identityDetails.panType = formValue.panType;
     identityDetails.passportNumber = formValue.passportNumber;
-    identityDetails.passportIssueDate = this.formatGivenDate(
+    identityDetails.passportIssueDate = this.utilityService.getDateFormat(
       formValue.passportIssueDate
     );
-    identityDetails.passportExpiryDate =this.utilityService.getDateFormat( this.formatGivenDate(
+    identityDetails.passportExpiryDate =this.utilityService.getDateFormat( 
       formValue.passportExpiryDate
-    ));
+    );
     identityDetails.drivingLicenseNumber = formValue.drivingLicenseNumber;
-    identityDetails.drivingLicenseIssueDate =this.utilityService.getDateFormat( this.formatGivenDate(
+    identityDetails.drivingLicenseIssueDate =this.utilityService.getDateFormat( 
       formValue.drivingLicenseIssueDate
-    ));
-    identityDetails.drivingLicenseExpiryDate = this.utilityService.getDateFormat(this.formatGivenDate(
+    );
+    identityDetails.drivingLicenseExpiryDate = this.utilityService.getDateFormat(
       formValue.drivingLicenseExpiryDate
-    ));
+    );
     identityDetails.voterIdNumber = formValue.voterIdNumber;
     identityDetails.voterIdIssueDate = this.formatGivenDate(
       formValue.voterIdIssueDate
@@ -259,14 +259,14 @@ export class IdentityDetailsComponent implements OnInit {
     const value = this.indivIdentityInfoDetails;
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const passportExpiryDate = this.utilityService.getDateFromString(this.getFormateDate(value.passportExpiryDate)) || '';
-    const passportIssueDate = this.utilityService.getDateFromString(this.getFormateDate(value.passportIssueDate));
-    const drivingLicenseIssueDate = this.utilityService.getDateFromString(this.getFormateDate(
+    const passportExpiryDate = this.utilityService.getDateFromString(value.passportExpiryDate) || '';
+    const passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
+    const drivingLicenseIssueDate = this.utilityService.getDateFromString(
       value.drivingLicenseIssueDate)
-    );
-    const drivingLicenseExpiryDate = this.utilityService.getDateFromString(this.getFormateDate(
+    ;
+    const drivingLicenseExpiryDate = this.utilityService.getDateFromString(
       value.drivingLicenseExpiryDate)
-    );
+    ;
     const voterIdIssueDate = this.getFormateDate(value.voterIdIssueDate);
     const voterIdExpiryDate = this.getFormateDate(value.voterIdExpiryDate);
     details.patchValue({
