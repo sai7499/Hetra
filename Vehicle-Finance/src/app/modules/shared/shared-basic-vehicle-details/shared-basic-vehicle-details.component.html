@@ -386,7 +386,9 @@
                         <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                         </label>
                         <input formControlName="pincode" type="text" class="form-control mandatory" id="vehicle_pincode"
-                            placeholder="Vehicle Address PINCODE" name="vehicle_pincode">
+                            placeholder="Vehicle Address PINCODE"
+                            maxlength="6"
+                            name="vehicle_pincode">
 
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['pincode'].touched && !obj.controls['pincode'].vaild">
