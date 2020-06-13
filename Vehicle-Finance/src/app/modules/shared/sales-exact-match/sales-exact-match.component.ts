@@ -97,6 +97,7 @@ export class SalesExactMatchComponent implements OnInit {
     const data = {
       ucic: Number(this.selectedDetails.ucic),
       leadId,
+      applicantId: this.dedupeParameter.applicantId,
     };
 
     this.applicantService
@@ -110,5 +111,9 @@ export class SalesExactMatchComponent implements OnInit {
           );
         }
       });
+  }
+
+  onCancel() {
+    this.modalName = '';
   }
 }

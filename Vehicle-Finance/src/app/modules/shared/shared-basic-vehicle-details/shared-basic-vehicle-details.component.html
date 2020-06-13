@@ -14,17 +14,22 @@
 
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
-                        <label for="registartion_number"> {{ label.registartionNumber }} </label>
+                        <label for="registartion_number"> {{ label.registartionNumber }}
+                            <sub class="star_blue_col">*</sub>
+                        </label>
 
                         <input formControlName="vehicleRegNo" type="text" class="form-control mandatory input-upper"
                             id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
 
+                        <!-- <div *ngIf="productCatoryCode !== 'UCV' || productCatoryCode !== 'UC'"> -->
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
                                 Enter Vehicle Registration Number
                             </div>
                         </div>
+                        <!-- </div> -->
+
                     </div>
 
                     <!-- <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="!isHidden">
@@ -37,26 +42,25 @@
                 <div class="row">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_region"> {{ label.vechicalRegion }} </label>
+                        <label for="vechical_region"> {{ label.vechicalRegion }}
+                            <sub class="star_red_col">*</sub>
+                        </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
                             (change)="onVehicleRegion($event.target.value)">
                         </app-vf-custom-select>
 
                         <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild && obj.controls['region'].value === ''">
-                            Please Select Vehicle Region
-
-                            <!-- <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleRegNo'].hasError('required') || obj.controls['region'].value === ''">
+                            *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
                                 Please Select Vehicle Region
-                            </div> -->
+                            </div>
                         </div>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_make"> {{ label.assetMake }} </label>
+                        <label for="asset_make"> {{ label.assetMake }} <sub class="star_red_col">*</sub> </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
                             (change)="onAssetMake($event.target.value)">
@@ -71,7 +75,7 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_type"> {{ label.vechicalType }} </label>
+                        <label for="vechical_type"> {{ label.vechicalType }} <sub class="star_red_col">*</sub> </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
                             (change)="onVehicleType($event.target.value)">
@@ -91,7 +95,8 @@
                 <div class="row">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
-                        <label for="asset_body_type"> {{ label.assetSegement }} </label>
+                        <label for="asset_body_type"> {{ label.assetSegement }} <sub class="star_red_col">*</sub>
+                        </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
                             (change)="onAssetBodyType($event.target.value)">
@@ -99,16 +104,18 @@
 
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetBodyType'].hasError('required') && obj.controls['assetBodyType'].value === ''">
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
                                 Please Select Asset Body Type
                             </div>
                         </div>
 
+                        <!-- obj.controls['assetBodyType'].hasError('required') &&  -->
+
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_model"> {{ label.assetModel }} </label>
+                        <label for="asset_model"> {{ label.assetModel }} <sub class="star_red_col">*</sub>
+                        </label>
                         <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
                             (change)="onAssetModel($event.target.value)">
                         </app-vf-custom-select>
@@ -117,15 +124,17 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetModel'].hasError('required') && obj.controls['assetModel'].value === ''">
+                                *ngIf="obj.controls['assetModel'].value === ''">
                                 Please Select Asset Model
                             </div>
+                            <!-- obj.controls['assetModel'].hasError('required') &&  -->
                         </div>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_variant"> {{ label.assetVariant }} </label>
+                        <label for="asset_variant"> {{ label.assetVariant }} <sub class="star_red_col">*</sub>
+                        </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
                         </app-vf-custom-select>
@@ -133,9 +142,10 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetVariant'].hasError('required') && obj.controls['assetVariant'].value === ''">
+                                *ngIf="obj.controls['assetVariant'].value === ''">
                                 Please Select Asset Variant
                             </div>
+                            <!-- obj.controls['assetVariant'].hasError('required') &&  -->
                         </div>
 
                     </div>
@@ -152,7 +162,9 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
-                        <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} </label>
+                        <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
+                                class="star_blue_col">*</sub>
+                        </label>
                         <input formControlName="manuFacMonthYear" autocomplete="off" class="form-control" name="date"
                             bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)"
                             placeholder="Year And Month Manufactueing">
@@ -168,7 +180,7 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                        <label for="age_of_asset"> {{ label.ageOfAsset }} </label>
+                        <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_blue_col">*</sub> </label>
                         <input formControlName="ageOfAsset" type="text" class="form-control mandatory" id="age_of_asset"
                             placeholder="Age of Asset" name="age_of_asset" disabled>
                     </div>
@@ -177,57 +189,84 @@
 
                 <div class="row">
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                        <label for="age_of_vehicle"> {{ label.ageOfVehicle }} </label>
-                        <input formControlName="ageOfVehicle" type="text" class="form-control mandatory"
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
+                        </label>
+                        <input formControlName="ageAfterTenure" type="text" class="form-control mandatory"
                             id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor" name="age_of_vehicle"
                             disabled>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                        <label for="asset_cost_basis"> {{ label.assetCostGrid }} </label>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
+                        *ngIf="productCatoryCode === 'UCV'">
+                        <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_blue_col">*</sub>
+                        </label>
                         <input formControlName="assetCostGrid" type="text" class="form-control mandatory"
                             id="asset_cost_basis" placeholder="Asset cost basis Grid" name="asset_cost_basis" disabled>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                        <label for="asset_cost_indian"> {{ label.assetCostIndian }} </label>
-                        <input formControlName="assetCostIndian" type="text" class="form-control mandatory"
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_indian"
+                        *ngIf="productCatoryCode === 'UC'">
+                        <label for="asset_cost_indian"> {{ label.assetCostIndian }} <sub class="star_blue_col">*</sub>
+                        </label>
+                        <input formControlName="assetCostIBB" type="num" class="form-control mandatory"
                             id="asset_cost_indian" placeholder="Asset Cost basis Indian Bluebook"
-                            name="asset_cost_indian">
-                    </div>
+                            name="asset_cost_indian" (keyup)="onCompareFinalAssetCode($event.target.value)">
 
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
+                            <!-- Please Select Vehicle Region -->
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('required')">
+                                Enter Asset Cost Basis Indian Bluebook
+                            </div>
+                        </div>
                     </div>
+                </div>
 
                 <div class="row">
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                        <label for="asset_cost_car"> {{ label.assetCostCarwale }} </label>
-                        <input formControlName="assetCostCarwale" type="text" class="form-control mandatory"
-                            id="asset_cost_car" placeholder="Asset Cost basis Carwale" name="asset_cost_car">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_car"
+                        *ngIf="productCatoryCode === 'UC'">
+                        <label for="asset_cost_car"> {{ label.assetCostCarwale }} <sub class="star_blue_col">*</sub>
+                        </label>
+                        <input formControlName="assetCostCarTrade" type="number" class="form-control mandatory"
+                            id="asset_cost_car" placeholder="Asset Cost basis Carwale" name="asset_cost_car"
+                            (keyup)="onCompareFinalAssetCode($event.target.value)">
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['assetCostCarTrade'].touched && !obj.controls['assetCostCarTrade'].vaild">
+                            <!-- Please Select Vehicle Region -->
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetCostCarTrade'].hasError('required')">
+                                Enter Asset Cost Basis Carwale
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                        <label for="ex_showroom_price"> {{ label.exShowroomPrice }} </label>
-                        <input formControlName="exShowroomPrice" type="text" class="form-control mandatory"
-                            id="ex_showroom_price" placeholder="Ex-showroom price" name="ex_showroom_price">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
+                        *ngIf="productCatoryCode === 'NC' || productCatoryCode === 'NCV'">
+                        <label for="ex_showroom_price"> {{ label.exShowroomPrice }} <sub class="star_blue_col">*</sub>
+                        </label>
+                        <input formControlName="exShowroomCost" type="number" class="form-control mandatory"
+                            id="ex_showroom_price" placeholder="Ex-showroom price" name="ex_showroom_price"
+                            (keyup)="onPatchFinalAssetCost($event.target.value)">
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['exShowroomCost'].touched && !obj.controls['exShowroomCost'].vaild">
+                            <!-- Please Select Vehicle Region -->
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['exShowroomCost'].hasError('required')">
+                                Enter Ex Showroom Price
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
+                        <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
+                        </label>
                         <input formControlName="finalAssetCost" type="number" class="form-control mandatory"
                             id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost" disabled>
-
-                        <!-- <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['finalAssetCost'].touched && !obj.controls['finalAssetCost'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['finalAssetCost'].hasError('required')">
-                                Enter Final Asset Cost
-                            </div>
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['finalAssetCost'].hasError('pattern')">
-                                Final Asset Cost should ne Number
-                            </div>
-                        </div> -->
 
                     </div>
 
@@ -236,7 +275,8 @@
                 <div class="row">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
-                        <label for="vechical_usage"> {{ label.vechicleUsage }} </label>
+                        <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
+                        </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
                         </app-vf-custom-select>
@@ -250,18 +290,34 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category"
+                        *ngIf="productCatoryCode === 'UC'">
                         <label for="vechical_usage">{{ label.vehicleCategory }}</label>
 
                         <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" formControlName="category">
                         </app-vf-custom-select>
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['category'].touched && !obj.controls['category'].vaild">
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['category'].hasError('required')">
+                                Select Vehicle Category
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="name_vehicle_owner">
-                        <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} </label>
-                        <input formControlName="nameOfVehicleOwner" type="text" class="form-control mandatory"
+                        <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} <sub
+                                class="star_blue_col">*</sub> </label>
+                        <input formControlName="rcOwnerName" type="text" class="form-control mandatory"
                             id="name_vehicle_owner" placeholder="Name of Vehicle Owner/Dealer"
                             name="name_vehicle_owner">
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['rcOwnerName'].touched && !obj.controls['rcOwnerName'].vaild">
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('required')">
+                                Enter Name of Vehicle Owner/Dealer
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -270,37 +326,67 @@
 
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
-                        <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} </label>
-                        <input formControlName="mobileNumberOfVehicle" type="text" class="form-control mandatory"
+                        <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
+                                class="star_blue_col">*</sub> </label>
+                        <input formControlName="ownerMobileNo" type="text" class="form-control mandatory"
                             id="mobile_vehicle_owner" placeholder="Mobile Number of Vehicle Owner/Dealer"
-                            name="mobile_vehicle_owner">
+                            name="mobile_vehicle_owner" maxlength="10">
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['ownerMobileNo'].touched && !obj.controls['ownerMobileNo'].vaild">
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['ownerMobileNo'].hasError('required') && obj.controls['ownerMobileNo'].hasError('pattern')">
+                                Enter Vaild Mobile No
+                            </div>
+                        </div>
                     </div>
 
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
-                        <label for="vehicle_address"> {{ label.vehicleAddress }} </label>
-                        <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address" cols="5"
-                            rows="5" placeholder="Vehicle Address Line" formControlName="vehicleAddress"></textarea>
-                        <!-- <input formControlName="mobileNumberOfVehicle" type="text" class="form-control mandatory"
-                            id="vehicle_address" placeholder="Mobile Number of Vehicle Owner/Dealer"
-                            name="vehicle_address"> -->
+                        <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_blue_col">*</sub>
+                        </label>
+                        <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address" cols="1"
+                            rows="3" placeholder="Vehicle Address Line" formControlName="address"
+                            style="resize: none;"></textarea>
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['address'].touched && !obj.controls['address'].vaild">
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['address'].hasError('required')">
+                                Enter Vaild Mobile No
+                            </div>
+                        </div>
+
                     </div>
 
 
                 </div>
 
                 <div class="row">
-                    
+
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode">
-                        <label for="vehicle_pincode"> {{ label.vehiclePinCode }} </label>
-                        <input formControlName="vehiclePinCode" type="text" class="form-control mandatory"
-                            id="vehicle_pincode" placeholder="Vehicle Address PINCODE"
-                            name="vehicle_pincode">
+                        <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_blue_col">*</sub>
+                        </label>
+                        <input formControlName="pincode" type="text" class="form-control mandatory" id="vehicle_pincode"
+                            placeholder="Vehicle Address PINCODE" name="vehicle_pincode">
+
+                        <div class="cus-mandatory-field"
+                            *ngIf="obj.controls['pincode'].touched && !obj.controls['pincode'].vaild">
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('required')">
+                                The Max Length Should be 6
+                            </div>
+
+                        </div>
+
+                        <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].maxlength">
+                            The Max Length Should be 6
+                        </div>
+
                     </div>
 
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
-                        <label for="no_vehicle"> {{ label.noVehicle }} </label>
+                        <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
                         <input formControlName="noOfVehicles" type="number" class="form-control mandatory"
                             id="no_vehicle" placeholder="No of vehicles" name="no_vehicle">
 
@@ -435,11 +521,11 @@
            
             </div>
         
-           <div class="alert alert-success alert-dismissible" id="alert" >
+           <!-- <div class="alert alert-success alert-dismissible" id="alert" >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button> Vehicle Details saved Successfully.
-            </div>-->
-                <!-- Modal End    -->
+            </div>
+                Modal End    -->
 
 
             </div>

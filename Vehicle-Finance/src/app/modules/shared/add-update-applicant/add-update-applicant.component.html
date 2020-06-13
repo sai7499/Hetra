@@ -9,11 +9,14 @@
           <div id="individual_section_leadco">
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{ labels?.entity }}</label>
+                <label for="Vechical Type"
+                  >{{ labels?.entity }}<sub class="star_red_col">*</sub></label
+                >
                 <app-vf-custom-select
                   [values]="LOV.LOVS?.entityType"
                   formControlName="entityType"
-                  (change)="selectApplicantType($event)">
+                  (change)="selectApplicantType($event)"
+                >
                 </app-vf-custom-select>
                 <!-- <div 
                 *ngIf="coApplicantForm.get('entityType').value === null ">
@@ -22,7 +25,6 @@
                 <!-- <span
               *ngIf="(applicantType !== 'INDIVENTTYP' && !'NONINDIVENTTYP') && applicantDetailsControls.entityType.untouched " >
                 Requierd</span> -->
-                 
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{
@@ -38,15 +40,15 @@
 
             <div class="row individual_section_leadco">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label
-                  for="first_name"
-                  *ngIf="applicantType == 'INDIVENTTYP'"
-                  >{{ labels?.firstName }}</label
+                <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'"
+                  >{{ labels?.firstName }}
+                  <sub class="star_red_col">*</sub></label
                 >
                 <label
                   for="first_name"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                   >{{ labels.companyName1 }}
+                  <sub class="star_red_col">*</sub>
                 </label>
                 <!-- <input
                   type="text"
@@ -144,7 +146,9 @@
 
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="mobile">{{ labels?.mobile }}</label>
+                <label for="mobile"
+                  >{{ labels?.mobile }} <sub class="star_red_col">*</sub></label
+                >
                 <!-- <input
                   type="text"
                   class="form-control"
@@ -155,13 +159,16 @@
                   formControlName="mobilePhone"
                   [patternCheck]="mobileNumberPattern"
                   [isRequired]="'Mobile number is required'"
-                  [maxLength]="{ rule: 12 }"
+                  [maxLength]="{ rule: 10 }"
                 ></app-custom-input>
               </div>
 
               <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="date_of_birth">{{ labels?.dateOfBirth }}</label>
+                  <label for="date_of_birth"
+                    >{{ labels?.dateOfBirth }}
+                    <sub class="star_red_col">*</sub></label
+                  >
                   <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
@@ -189,9 +196,10 @@
               </div>
               <div class="row" *ngIf="applicantType == 'NONINDIVENTTYP'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="date_of_incorporation">{{
-                    labels?.dateOfIncorporation
-                  }}</label>
+                  <label for="date_of_incorporation"
+                    >{{ labels?.dateOfIncorporation }}
+                    <sub class="star_red_col">*</sub></label
+                  >
                   <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
@@ -223,7 +231,10 @@
                 class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
                 *ngIf="applicantType == 'INDIVENTTYP'"
               >
-                <label for="aadharnumber">{{ labels?.aadharnumber }}</label>
+                <label for="aadharnumber"
+                  >{{ labels?.aadharnumber }}
+                  <sub class="star_red_col">*</sub></label
+                >
                 <div class="input-group input-medium">
                   <!-- <input
                     type="text"
@@ -234,10 +245,10 @@
                   /> -->
                   <app-custom-input
                     formControlName="aadhar"
-                    [patternCheck]="adharNumberPattern"
-                    [isRequired]="'Adhar number is required'"
                     [maxLength]="Maxlength12"
                   ></app-custom-input>
+                  <!-- [patternCheck]="adharNumberPattern" -->
+                  <!-- [isRequired]="'Adhar number is required'" -->
                   <span class="input-group-btn">
                     <button class="btn btn-default">
                       <i class="fa fa-credit-card"></i>
@@ -269,6 +280,7 @@
                   [disabled]="isPanDisabled"
                   [isRequired]="'Pan number is required'"
                   [inputClass]="'text-uppercase'"
+                  [maxLength]="Maxlength10"
                 ></app-custom-input>
               </div>
             </div>
@@ -284,6 +296,7 @@
                 <app-custom-input
                   formControlName="drivingLicenseNumber"
                   [patternCheck]="drivingLicensePattern"
+                  [maxLength]="Maxlength15"
                   (change)="onDrvingLisenseChange($event)"
                   [inputClass]="'text-uppercase'"
                 ></app-custom-input>
@@ -378,6 +391,7 @@
                   [patternCheck]="passportPattern"
                   (change)="onPassportNumberChange($event)"
                   [inputClass]="'text-uppercase'"
+                  [maxLength]="Maxlength8"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -469,7 +483,7 @@
               </div>
             </div>
             <div
-              class="multisteps-form__panel basic_scroll"
+              class="multisteps-form__panel"
               data-animation="scaleIn"
               *ngIf="isDedupeFound && isValueChanged"
             >
@@ -845,15 +859,15 @@
       </div>
     </form>
   </div>
-  <div class="btn-sec clear-both" *ngIf="isDedupeFound">
+  <div class="btn-sec clear-both" *ngIf="isDedupeFound && isValueChanged">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right" id="clickButton">
       <button
         class="btn btn-primary mar-right8"
         type="button"
-        [routerLink]="['../applicant-details']"
+        (click)="navigateToApplicantList()"
       >
-        <a class="back_color" (click)="onBack()">Back</a></button
+        <a class="back_color">Back</a></button
       >&nbsp;
       <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
         <a class="back_color">Save</a>

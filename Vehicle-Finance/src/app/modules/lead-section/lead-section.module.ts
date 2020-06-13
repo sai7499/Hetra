@@ -15,6 +15,7 @@ import { CreditScoreComponent } from './credit-score/credit-score.component';
 import { ExactMatchComponent } from './exact-match/exact-match.component';
 import { OtpSectionComponent } from './otp-section/otp-section.component';
 import { VehicleDetailComponent } from './vehicle-details/vehicle-details.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { VehicleDetailComponent } from './vehicle-details/vehicle-details.compon
     ReactiveFormsModule,
     SharedModule,
     NgxPaginationModule,
+    AutocompleteLibModule,
   ],
   exports: [VehicleDetailComponent, SourcingDetailsComponent],
 })
