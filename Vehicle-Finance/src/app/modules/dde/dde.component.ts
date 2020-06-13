@@ -21,7 +21,7 @@ export class DdeComponent implements OnInit {
     private leadStoreService: LeadStoreService
   ) {
     $(document).ready(function(){
-      $(".first-row").css("display", "none");
+      $(".second-row").css("display", "none");
       $(".prev-first-data").click(function(){
           $(".first-row").css({"display":"block"});
           $(".second-row").css({"display":"none"});
