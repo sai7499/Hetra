@@ -135,6 +135,7 @@ export class OtpSectionComponent implements OnInit {
         this.mobileNo = res.ProcessVariables.mobileNo
         console.log("reference number ==>", this.referenceNo)
         console.log("mobile number ==>", this.mobileNo)
+        this.toasterService.showSuccess('OTP sent successfully !', '');
 
       }
       else {

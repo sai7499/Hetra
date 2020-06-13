@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class VehicleDetailComponent implements OnInit {
   leadId: any;
+  isModelShow = false;
+  errorMessage: any;
+
   constructor(private creditService: CreditScoreService,
               private activatedRoute: ActivatedRoute,
               private route: Router) {}
@@ -26,7 +29,9 @@ export class VehicleDetailComponent implements OnInit {
             this.creditService.setResponseForCibil(bodyRes);
             this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
           } else {
-            alert(res.ProcessVariables.error.message);
+            // alert(res.ProcessVariables.error.message);
+            this.errorMessage = res.ProcessVariables.error.message;
+            this.isModelShow = true;
           }
     });
 
