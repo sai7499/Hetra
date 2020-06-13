@@ -276,12 +276,12 @@
                 /> -->
                 <app-custom-input
                   formControlName="pan"
-                  [patternCheck]="panPattern"
                   [disabled]="isPanDisabled"
-                  [isRequired]="'Pan number is required'"
+                  [isRequired]="panRequired"
                   [inputClass]="'text-uppercase'"
                   [maxLength]="Maxlength10"
                 ></app-custom-input>
+                <!-- [patternCheck]="panPattern" -->
               </div>
             </div>
             <div class="row">
