@@ -36,7 +36,7 @@ export class DdeComponent implements OnInit {
       });
     });
     this.leadId = this.route.snapshot.params['leadId'];
-
+    
   }
 
   hasRoute(route: string) {

@@ -62,9 +62,14 @@ export class LeadSectionHeaderComponent implements OnInit {
     // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
                       // leadSectionData.leadDetails.reqLoanAmt : 0;
     this.applicantName = leadSectionData.applicantDetails[0].fullName;
+    this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt'];
+    
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });
+    if (!this.productId){
+      this.productId = leadSectionData['leadDetails']['productCatName'];
+    }
     this.sharedService.loanAmount$.subscribe(value => 
         this.loanAmount = value)
   }

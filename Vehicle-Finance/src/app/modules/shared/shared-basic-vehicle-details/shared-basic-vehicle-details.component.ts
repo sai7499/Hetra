@@ -294,7 +294,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           ageAfterTenure: VehicleDetail.ageAfterTenure || null,
           pincode: VehicleDetail.pincode || null,
           leadId: this.leadId,
-          userId: this.userId
+          userId: this.userId,
+          category: VehicleDetail.category || ''
         })
         this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
