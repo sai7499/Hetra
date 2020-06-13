@@ -107,7 +107,7 @@
     "finalAssetCost": "Final Asset Cost",
     "nameOfVehicleOwner": "Name of Vehicle Owner/Dealer",
     "mobileNumberOfVehicle": "Mobile Number of Vehicle Owner/Dealer",
-    "vehicleAddress": "Vehicle Address Line",
+    "vehicleAddress": "Vehicle Address",
     "vehiclePinCode": "Vehicle Address PINCODE",
     "idv": "IDV",
     "insuranceValidity": "Insurance Validity",
@@ -704,5 +704,6 @@
     "ageOfCarEndOfTenor": "Age of the car at the end of tenor ",
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
-    "creditBureauCIBIL": "Credit Bureau (CIBIL)"
+    "creditBureauCIBIL": "Credit Bureau (CIBIL)",
+    "applicant":"Applicant"
 }
