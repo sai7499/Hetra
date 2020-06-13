@@ -1,11 +1,10 @@
 <div class="content">
   <form
-    class="multisteps-form__form"
-    style="height: 400px;"
+    
     [formGroup]="identityForm"
   >
     <div
-      class="multisteps-form__panel js-active basic_scroll"
+      class="multisteps-form__panel js-active"
       data-animation="scaleIn"
     >
       <div class="btn-sec clear-both row">
@@ -174,7 +173,7 @@
               <label for="passport_expiry_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -183,7 +182,14 @@
                     formControlName="passportIssueDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -191,7 +197,7 @@
               <label for="issuance_date">Expiry Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -200,7 +206,14 @@
                     formControlName="passportExpiryDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -256,7 +269,7 @@
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -265,7 +278,15 @@
                     formControlName="drivingLicenseIssueDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="drivingLicenseIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
+                  
                 </div>
               </div>
             </div>
@@ -275,7 +296,7 @@
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -284,7 +305,14 @@
                     formControlName="drivingLicenseExpiryDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -335,7 +363,7 @@
               <label for="issuance_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -344,7 +372,14 @@
                     formControlName="voterIdIssueDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="voterIdIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -352,7 +387,7 @@
               <label for="expiry_date">Expiry Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -361,7 +396,14 @@
                     formControlName="voterIdExpiryDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="voterIdExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>

@@ -21,6 +21,7 @@ import {
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '../../../../assets/constants/constant';
+import { UtilityService } from '@services/utility.service'
 
 @Component({
   selector: 'app-identity-details',
@@ -42,6 +43,7 @@ export class IdentityDetailsComponent implements OnInit {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
     msg: 'Invalid Pan',
   };
+  public toDayDate: Date = new Date();
 
   constructor(
     private labelsData: LabelsService,
@@ -51,7 +53,8 @@ export class IdentityDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private leadStoreService: LeadStoreService,
-    private location: Location
+    private location: Location,
+    private utilityService : UtilityService
   ) {}
 
   navigateToApplicantList() {
@@ -215,16 +218,16 @@ export class IdentityDetailsComponent implements OnInit {
     identityDetails.passportIssueDate = this.formatGivenDate(
       formValue.passportIssueDate
     );
-    identityDetails.passportExpiryDate = this.formatGivenDate(
+    identityDetails.passportExpiryDate =this.utilityService.getDateFormat( this.formatGivenDate(
       formValue.passportExpiryDate
-    );
+    ));
     identityDetails.drivingLicenseNumber = formValue.drivingLicenseNumber;
-    identityDetails.drivingLicenseIssueDate = this.formatGivenDate(
+    identityDetails.drivingLicenseIssueDate =this.utilityService.getDateFormat( this.formatGivenDate(
       formValue.drivingLicenseIssueDate
-    );
-    identityDetails.drivingLicenseExpiryDate = this.formatGivenDate(
+    ));
+    identityDetails.drivingLicenseExpiryDate = this.utilityService.getDateFormat(this.formatGivenDate(
       formValue.drivingLicenseExpiryDate
-    );
+    ));
     identityDetails.voterIdNumber = formValue.voterIdNumber;
     identityDetails.voterIdIssueDate = this.formatGivenDate(
       formValue.voterIdIssueDate
@@ -256,13 +259,13 @@ export class IdentityDetailsComponent implements OnInit {
     const value = this.indivIdentityInfoDetails;
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const passportExpiryDate = this.getFormateDate(value.passportExpiryDate);
-    const passportIssueDate = this.getFormateDate(value.passportIssueDate);
-    const drivingLicenseIssueDate = this.getFormateDate(
-      value.drivingLicenseIssueDate
+    const passportExpiryDate = this.utilityService.getDateFromString(this.getFormateDate(value.passportExpiryDate)) || '';
+    const passportIssueDate = this.utilityService.getDateFromString(this.getFormateDate(value.passportIssueDate));
+    const drivingLicenseIssueDate = this.utilityService.getDateFromString(this.getFormateDate(
+      value.drivingLicenseIssueDate)
     );
-    const drivingLicenseExpiryDate = this.getFormateDate(
-      value.drivingLicenseExpiryDate
+    const drivingLicenseExpiryDate = this.utilityService.getDateFromString(this.getFormateDate(
+      value.drivingLicenseExpiryDate)
     );
     const voterIdIssueDate = this.getFormateDate(value.voterIdIssueDate);
     const voterIdExpiryDate = this.getFormateDate(value.voterIdExpiryDate);

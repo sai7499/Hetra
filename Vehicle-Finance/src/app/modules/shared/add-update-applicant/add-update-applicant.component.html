@@ -13,10 +13,12 @@
                 <app-vf-custom-select
                   [values]="LOV.LOVS?.entityType"
                   formControlName="entityType"
-                  (change)="selectApplicantType($event)"
-              
-                >
+                  (change)="selectApplicantType($event)">
                 </app-vf-custom-select>
+                <!-- <div 
+                *ngIf="coApplicantForm.get('entityType').value === null ">
+                  Entity is required
+                </div> -->
                 <!-- <span
               *ngIf="(applicantType !== 'INDIVENTTYP' && !'NONINDIVENTTYP') && applicantDetailsControls.entityType.untouched " >
                 Requierd</span> -->
@@ -160,7 +162,7 @@
               <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="date_of_birth">{{ labels?.dateOfBirth }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -172,7 +174,12 @@
                       id="date_of_birth"
                       formControlName="dob"
                     />
-                  </div>
+                    
+                  </div> -->
+                  <kendo-datepicker class="form-control mandatory" 
+              formControlName="dob" [format]="'dd/MM/yyyy'"
+              [max]="toDayDate" placeholder="Date of birth"
+              [activeView]="'decade'"></kendo-datepicker>
                 </div>
               </div>
               <div class="row" *ngIf="applicantType == 'NONINDIVENTTYP'">

@@ -2,139 +2,233 @@
   <form
     class="multisteps-form__form"
     method="POST"
-    style="height: 400px;"
     [formGroup]="basicForm"
   >
     <div
-      class="multisteps-form__panel js-active basic_scroll js-active"
+      class="multisteps-form__panel js-active js-active"
+      id="form-class"
       data-animation="scaleIn"
     >
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="Vechical Type">Entity</label>
+          <label for="Vechical Type">Entity <sub class="star_red_col">*</sub></label>
           <app-vf-custom-select
             [values]="applicantLov?.entityType"
             (valueChange)="onIndividualChange($event)"
             formControlName="entity"
           ></app-vf-custom-select>
-          <span class="text-danger"
-                *ngIf="basicFormcontrols.entity.touched && basicFormcontrols.entity.errors?.required">
-                      Name is required
-          </span>
+          
+          
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="Vechical Type">Relationship with Lead</label>
+          <label for="Vechical Type">Relationship with Lead  <sub class="star_red_col">*</sub></label>
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
             [values]="applicantLov?.applicantRelationshipWithLead"
           ></app-vf-custom-select>
+          
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="entity">Title</label>
+                        <app-vf-custom-select
+                        formControlName="title"
+                        [values]="applicantLov?.salutation"
+                      ></app-vf-custom-select>
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
       <ng-container formArrayName="details">
-        <div
+        <div 
           id="individual_section_start"
           [formGroupName]="0"
           *ngIf="isIndividual"
         >
-          <div class="row">
+          <div class="row" *ngFor="let obj of basicForm.get('details')['controls']; let i =index; let l= last"
+          >
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="first_name">First Name</label>
-              <input
+              <label for="first_name">First Name <sub class="star_red_col">*</sub></label>
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="first_name"
                 formControlName="name1"
-              />
-              <!-- <app-custom-input
-                  formControlName="name1  "
+              /> -->
+              <app-custom-input
+                  formControlName="name1"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'First Name is required'"
-                ></app-custom-input> -->
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Middle Name</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="middle_name"
                 formControlName="name2"
-              />
-              <!-- <app-custom-input
+              /> -->
+              <app-custom-input
                   formControlName="name2"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                ></app-custom-input> -->
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="last_name">Last Name</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="last_name"
                 formControlName="name3"
-              />
-              <!-- <app-custom-input
+              /> -->
+              <app-custom-input
                   formControlName="name3"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                ></app-custom-input> -->
+                ></app-custom-input>
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">Mobile Number</label>
-              <input
+              <label for="mobile_number">Mobile Number <sub class="star_red_col">*</sub></label>
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="mobile_number"
                 name="mobile_number"
                 value="8974563210"
-                readonly=""
+                
                 formControlName="mobilePhone"
-              />
-              <!-- <app-custom-input
-                  formControlName="mobilePhone  "
+              /> -->
+              <app-custom-input
+                  formControlName="mobilePhone"
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
-                 [maxLength]='mobileLenght30'
-                ></app-custom-input> -->
+                 [maxLength]='mobileLenght10'
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="date_of_birth">DOB</label>
+              <label for="date_of_birth">DOB <sub class="star_red_col">*</sub></label>
               <div
-                class="input-group input-medium"
+                class="input-group input-medium "
+
                 id="date_of_birth"
                 name="date_of_birth"
               >
-                <span class="input-group-btn">
+                <!-- <span class="input-group-btn">
                   <button class="btn btn-default">
                     <i class="fa fa-calendar" id="datepicker"></i>
                   </button>
-                </span>
-                <input
+                </span> -->
+                <!-- <input
                   type="text"
                   class="form-control"
                   id="datepicker"
                   value="27-05-1974"
-                  readonly=""
+                  (change)="ageCalculation($event)"
                   formControlName="dob"
-                />
+                /> -->
+                <kendo-datepicker class="form-control" 
+                formControlName="dob" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                (valueChange)="ageCalculation($event)"
+                ></kendo-datepicker>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="entity">Age <sub class="star_red_col">*</sub></label>
+              <!-- <select class="form-control" id="entity">                                                  
+                               
+                                <option value="Mrs" selected>Mrs</option>                                                   
+                            </select>  -->
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="age"
+                            name="age"
+                            [value]="showAge !==0? showAge : ''"
+                            formControlName="age"
+                            
+                           
+                          />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Gender <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="gender"
+                [values]="applicantLov?.gender"
+              ></app-vf-custom-select>
+              
+            </div>
+
+            
+             
+              
+              <!-- <input type="checkbox" formControlName="isSeniorCitizen"
+                (click)="checkSenior($event)" />
+                <label for="senior_citizen">Is Senior Citizen? <sub class="star_red_col">*</sub></label> -->
+
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+                  <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
+                  (click)="checkSenior($event)"> 
+                  <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
+              
+                <div class="showErrorMessage">
+                     {{messageOfSeniorcitizen}}
+                </div>
+              </div>
+
+            
+
+            <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+              
+              
+              <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
+                  (click)="checkSenior($event)"> 
+                  <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
+             <div class="showErrorMessage">
+               {{messageOfMinor}}
+             </div> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="guardian_name"
-                >Guardian Name(applicable for minor applicant)</label
+                >Guardian Name <sub class="star_blue_col">*</sub></label
               >
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="guardian_name"
                 name="guardian_name"
                 formControlName="minorGuardianName"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="minorGuardianName"
+                  [isRequired]="gaurdianNamemandatory['minorGuardianName']"
+                  ></app-custom-input>
+                
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="father_name">Father Name</label>
+              <label for="entity">Guardian's Relationship with Minor <sub class="star_blue_col">*</sub></label>
+              <!-- <select class="form-control" id="entity">                                                  
+                               
+                                <option value="Mrs" selected>Mrs</option>                                                   
+                            </select>  -->
+                            <app-vf-custom-select
+                            formControlName="minorGuardianRelation"
+                            [values]="applicantLov.relationship"
+                          ></app-vf-custom-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="father_name">Father Name <sub class="star_red_col">*</sub></label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -166,7 +260,7 @@
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="maiden_name">Mother's Maiden Name</label>
+              <label for="maiden_name">Mother's Maiden Name <sub class="star_red_col">*</sub></label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -181,26 +275,25 @@
                   [isRequired]="'Mother Name is Mandatory'"
                 ></app-custom-input>
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="occupation">Occupation</label>
-              <app-vf-custom-select
-                formControlName="occupation"
-                [values]="applicantLov?.occupation"
-              ></app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="nationality">Nationality</label>
-              <app-vf-custom-select
-                formControlName="nationality"
-                [values]="applicantLov?.nationality"
-              ></app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Customer Category</label>
-              <app-vf-custom-select
-                formControlName="customerCategory"
-                [values]="applicantLov?.customerCategory"
-              ></app-vf-custom-select>
+              <label for="mobile_number">Alternate contact Number </label>
+              <!-- <input
+                type="text"
+                class="form-control"
+                id="mobile_number"
+                name="mobile_number"
+                value="8974563210"
+                
+                formControlName="mobilePhone"
+              /> -->
+              <app-custom-input
+                  formControlName="alternateMobileNumber"
+                  [patternCheck]="landlinePattern"
+                  
+                 [maxLength]='landlineLength15'
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="email_id">Email ID</label>
@@ -232,6 +325,42 @@
 
                 ></app-custom-input> 
             </div>
+          </div>
+          <div class="rows">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="occupation">Occupation <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="occupation"
+                [values]="applicantLov?.occupation"
+              ></app-vf-custom-select>
+              <!-- <span class="showErrorMessage" 
+              *ngIf="validation.get('occupation').errors?.value !== '' 
+              && validation.get('occupation').errors?.required" >                  
+                    Select Occupation
+              </span> -->
+              <!-- <div class="showErrorMessage"
+              *ngIf="obj.controls['occupation'].touched && !obj.controls['occupation'].valid">
+                  <div class="showErrorMessage" *ngIf="obj.controls['occupation'].value==''">
+                       select occupation
+                   </div>
+              </div> -->
+              
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="nationality">Nationality <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="nationality"
+                [values]="applicantLov?.nationality"
+              ></app-vf-custom-select>
+
+              <!-- <span class="showErrorMessage" 
+              *ngIf="validation.get('nationality').errors?.value !== '' 
+              && validation.get('nationality').errors?.required">                  
+                Select Nationality
+            </span> -->
+            
+            
+            </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="preffered_language"
                 >Preferred Language for Communication</label
@@ -242,6 +371,47 @@
               ></app-vf-custom-select>
             </div>
           </div>
+          <div class="row">
+            
+            
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Politically Exposed Person [PEP] <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="politicallyExposedPerson"
+                [values]="applicantLov?.politicallyExposed"
+              ></app-vf-custom-select>
+              <!-- <span class="showErrorMessage"  
+              *ngIf="validation.get('customerCategory').errors?.value !== ''
+               && validation.get('customerCategory').errors?.required">                  
+                Select customer category
+            </span> -->
+            
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer Segment <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="custSegment"
+                [values]="applicantLov?.customerSegment"
+              ></app-vf-custom-select>
+              <!-- <span class="showErrorMessage"  
+              *ngIf="validation.get('customerCategory').errors?.value !== ''
+               && validation.get('customerCategory').errors?.required">                  
+                Select customer category
+            </span> -->
+            
+            </div>
+            
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer category <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="customerCategory"
+                [values]="applicantLov?.customerCategory"
+              ></app-vf-custom-select>
+              
+            </div>
+    
+
+          </div>
         </div>
         <div
           id="non_individual_section_start"
@@ -249,7 +419,7 @@
           [formGroupName]="0"
         >
           <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="non_occupation">Occupation</label>
               <app-vf-custom-select
                 [values]="applicantLov?.occupation"
@@ -265,41 +435,41 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">Email ID</label>
-              <!-- <input
-                type="text"
+              <!-- <input -->
+                <!-- type="text"
                 formControlName="companyEmailId"
                 class="form-control"
               /> -->
-              <app-custom-input
+              <!-- <app-custom-input
                   formControlName="companyEmailId"
                   [patternCheck]="emailPattern"
-                ></app-custom-input> 
-            </div>
+                ></app-custom-input>  -->
+            <!-- </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="Lead Created By">Alternate Email ID</label>
+              <label for="Lead Created By">Alternate Email ID</label> --> 
               <!-- <input
                 formControlName="alternateEmailId"
                 type="text"
                 class="form-control"
               /> -->
-              <app-custom-input
+              <!-- <app-custom-input
                   formControlName="alternateEmailId"
                   [patternCheck]="emailPattern"  
-                ></app-custom-input> 
-            </div>
+                ></app-custom-input>  -->
+            <!-- </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">Preferred Language for Communication</label>
               <app-vf-custom-select
                 formControlName="preferredLanguageCommunication"
                 [values]="applicantLov?.preferredLanguage"
               ></app-vf-custom-select>
-            </div>
+            </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="channel">Company 1</label>
+              <label for="channel">Company 1 <sub class="star_red_col">*</sub></label>
               <!-- <input formControlName="name1" type="text" class="form-control" /> -->
               <app-custom-input
                   formControlName="name1"
-                  [patternCheck]="namePattern"
+                  
                   [maxLength]="nameLength30"
                   [isRequired]="'Company Name is required'"
                 ></app-custom-input>
@@ -308,19 +478,16 @@
               <label for="sourcing type">Company 2</label>
               <!-- <input formControlName="name2" type="text" class="form-control" /> -->
               <app-custom-input
-                  formControlName="name2"
-                  [patternCheck]="namePattern"
-                  [maxLength]="nameLength30"
-                  
-      
-                ></app-custom-input>
+              formControlName="name2"
+              [maxLength]="nameLength30"
+             
+            ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing code">Company 3</label>
               <!-- <input formControlName="name3" type="text" class="form-control" /> -->
               <app-custom-input
                   formControlName="name3"
-                  [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                  
                 ></app-custom-input>

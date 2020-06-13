@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormControl} from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -197,6 +197,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private location: Location
   ) {}
 
+  public toDayDate: Date = new Date();
+
   onBack() {
     this.location.back();
   }
@@ -290,6 +292,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       });
     });
   }
+
+ 
+
   async ngOnInit() {
     if(this.panValue = '1PANTYPE') {
 
@@ -377,7 +382,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   initForm() {
     this.coApplicantForm = new FormGroup({
       loanApplicationRelation: new FormControl(''),
-      entityType: new FormControl(''),
+      entityType: new FormControl('', Validators.required),
       name1: new FormControl(''),
       name2: new FormControl(''),
       name3: new FormControl(''),

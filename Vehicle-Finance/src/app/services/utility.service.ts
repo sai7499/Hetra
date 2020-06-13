@@ -47,6 +47,10 @@ export class UtilityService {
     return moment().diff(dateOfBirth, 'months');
   }
 
+  ageCalculation(dob){
+    return moment().diff(dob, 'years')
+  }
+
   convertDateTimeTOUTC(date) {
     return moment.utc(date).local().format('DD/MM/YYYY');
   }
@@ -91,5 +95,11 @@ export class UtilityService {
       }
     });
     return this.getUiquJson(arrayList, 'key');
+  }
+  getDateFromString(date){
+    let dateArray = date.split("/");
+                let getDate = new Date(dateArray[1] + "-" + dateArray[0] + "-" + dateArray[2])
+                console.log ("return Date",getDate)
+                return getDate;
   }
 }
