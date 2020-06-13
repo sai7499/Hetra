@@ -451,7 +451,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
       const response = res;
       console.log('saveUpdate', response);
-      this.vehicleDataStore.setLoanTenour(response);
+      // this.vehicleDataStore.setLoanTenour(response);
 
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
