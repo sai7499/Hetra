@@ -160,11 +160,16 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category">Gender <sub class="star_red_col">*</sub></label>
-              <!-- <app-vf-custom-select
+              <app-vf-custom-select
                 formControlName="gender"
-                [values]="applicantLov?.gender"
+                [values]="applicantLov?.gender "
                 
-              ></app-vf-custom-select> -->
+              ></app-vf-custom-select>
+
+
+              <!-- <div  class="cus-mandatory-field" *ngIf="obj.controls['gender'].valid">
+                select gender
+              </div> -->
 
 
               <!-- <div class="cus-mandatory-field"
@@ -174,7 +179,8 @@
                   select gender
                 </div>
               </div> -->
-              <select class="form-control" formControlName="gender">
+
+              <!-- <select class="form-control" formControlName="gender">
                 <option>-- select one --</option>
                 <option *ngFor ="let gender of applicantLov.gender" [value]="gender.key"> 
                   {{gender.value}}
@@ -184,7 +190,7 @@
               <div class="invalid-feedback"
               *ngIf="validation.get('gender').errors && (validation.get('gender').touched || validation.get('gender').invalid)">
                   select gender
-              </div>
+              </div> -->
 
              
               
@@ -266,7 +272,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'Father Name is Mandatory'"
-                  
+                  #fatherName
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
