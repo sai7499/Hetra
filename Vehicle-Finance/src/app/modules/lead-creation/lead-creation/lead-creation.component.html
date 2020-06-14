@@ -14,7 +14,7 @@
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
             </label>
             <app-vf-custom-select [isDisabled]="isBusinessDivisionEnable" [values]="businessDivision"
-              formControlName="bizDivision" (change)="getProductCategory($event)">
+              formControlName="bizDivision" (change)="getProductCategory($event)" [isRequired]="'true'">
             </app-vf-custom-select>
           </div>
 
@@ -23,7 +23,8 @@
               <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
               [values]="productCategoryData" 
-              (change)="productCategoryChange($event)">
+              (change)="productCategoryChange($event)"
+              [isRequired]="'true'">
             </app-vf-custom-select>
           </div>
 
@@ -33,7 +34,8 @@
             <app-vf-custom-select 
               [values]="productCategorySelectedList" 
               formControlName="product"
-              (change)="productChange($event)">
+              (change)="productChange($event)"
+              [isRequired]="'true'">
             </app-vf-custom-select>
           </div>
         </div>
@@ -44,7 +46,8 @@
               <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
               [values]="fundingProgramData" 
-              formControlName="fundingProgram">
+              formControlName="fundingProgram"
+              [isRequired]="'true'">
             </app-vf-custom-select>
           </div>
 
@@ -70,6 +73,7 @@
               formControlName="sourcingChannel"
               (change)="sourcingChannelChange($event)"
               name="sourcingChannel"
+              [isRequired]="'true'"
             >
             </app-vf-custom-select>
           </div>
@@ -82,6 +86,7 @@
               [values]="sourchingTypeValues"
               formControlName="sourcingType"
               (change)="sourchingTypeChange($event) "
+              [isRequired]="'true'"
             >
             </app-vf-custom-select>
           </div>
@@ -123,7 +128,7 @@
                 <ng-autocomplete 
                   [data]="dealerCodeData"
                   [searchKeyword]="keyword"
-                  (selected)='selectRCevent($event)'
+                  (selected)='selectDealerEvent($event)'
                   (inputChanged)='onDealerCodeSearch($event)'
                   [itemTemplate]="dealerCodeTemplate"
                   [notFoundTemplate]="notFoundTemplate"
@@ -168,7 +173,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="spoken_code">{{ labels.spokeCodeLocation }}
               <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="spokesCodeLocation" formControlName="spokeCodeLocation">
+            <app-vf-custom-select [values]="spokesCodeLocation" formControlName="spokeCodeLocation" [isRequired]="'true'">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -178,7 +183,7 @@
               [values]="lovLabels?.loanAccountBranch" 
               formControlName="loanBranch">
             </app-vf-custom-select> -->
-            <input type="text" class="form-control mandatory" formControlName="loanBranch" />
+            <input type="text" class="form-control mandatory" formControlName="loanBranch" required />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="lead_handled">{{ labels.leadHandledBy }}</label>
@@ -186,14 +191,14 @@
               [values]="lovLabels?.leadHandledBY" 
               formControlName="leadHandeledBy">
             </app-vf-custom-select> -->
-            <input type="text" class="form-control mandatory" formControlName="leadHandeledBy" />
+            <input type="text" class="form-control mandatory" formControlName="leadHandeledBy" required />
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity"
+            <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity" [isRequired]="'true'"
               (change)="selectApplicantType($event, false)">
             </app-vf-custom-select>
           </div>
@@ -213,6 +218,7 @@
               [placeholder]="'First Name'"
               [maxLength]="regexPattern.nameLength"
               [patternCheck]="namePattern"
+              [isRequired]="'true'"
               >
             </app-custom-input>
           </div>
@@ -251,7 +257,8 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Mobile'"
               [maxLength]="regexPattern.maxLength"
-              [patternCheck]="regexPattern.mobile">
+              [patternCheck]="regexPattern.mobile"
+              [isRequired]="'true'">
             </app-custom-input>
           </div>
 
