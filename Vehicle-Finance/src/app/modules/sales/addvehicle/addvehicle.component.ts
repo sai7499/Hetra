@@ -98,7 +98,7 @@ export class AddvehicleComponent implements OnInit {
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear)
+      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         // this.isHidden = true;

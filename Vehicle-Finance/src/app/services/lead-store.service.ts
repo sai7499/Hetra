@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Lead, SourcingDetails, ProductDetails, LoanDetails, VehicleDetails, BasicVehicleDetails } from '../model/lead.model';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,10 +16,10 @@ export class LeadStoreService {
     leadDedupeData: any;
     creditlead: any;
 
-    constructor() { }
+    constructor(private sharedService: SharedService) { }
 
     setLeadCreation(lead: any) {
-        this.leadCreation = lead;
+        this.leadCreation = lead;        
     }
 
     getLeadCreation() {

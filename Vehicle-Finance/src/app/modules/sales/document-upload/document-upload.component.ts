@@ -6,38 +6,38 @@ import { DocumentUploadService } from '@services/document-upload.service';
   templateUrl: './document-upload.component.html',
   styleUrls: ['./document-upload.component.css'],
 })
-export class DocumentUploadComponent implements OnInit{
+export class DocumentUploadComponent implements OnInit {
 
   constructor(private aRoute: ActivatedRoute,
               private router: Router,
-              private doucmentUploadService: DocumentUploadService){
+              private doucmentUploadService: DocumentUploadService) {
 
   }
   leadId;
-  isModelShow:boolean = false;
+  isModelShow = false;
   errorMessage: string;
-  ngOnInit(){
-    this.aRoute.parent.params.subscribe(val => this.leadId = val.leadId)
+  ngOnInit() {
+    this.aRoute.parent.params.subscribe(val => this.leadId = val.leadId);
   }
-  
-  submitToCredit(){
-    let data ={
-      userId: localStorage.getItem("userId"),
+
+  submitToCredit() {
+    const data = {
+      userId: localStorage.getItem('userId'),
       leadId: Number(this.leadId)
-    }
-    console.log("submit call") 
+    };
+    console.log('submit call');
     this.doucmentUploadService.submitToCredit(data).subscribe(
       response => {
-        if(response["Error"] && response["Error"] == 0 
-          && response["ProcessVariables"].error["code"] == 0){         
-          this.errorMessage = "Submit to Credit Sucessful"
+        if (response['Error'] && response['Error'] == 0
+          && response['ProcessVariables'].error['code'] == 0) {
+          this.errorMessage = 'Submit to Credit Sucessful';
           this.isModelShow = true;
         }
       }
     );
   }
 
-  navigateToDashBoard(){
+  navigateToDashBoard() {
     this.isModelShow = false;
     this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
 
