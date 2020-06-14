@@ -29,7 +29,7 @@
           
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="entity">Title</label>
+          <label for="entity">Title <sub class="star_red_col">*</sub></label>
                         <app-vf-custom-select
                         formControlName="title"
                         [values]="applicantLov?.salutation"
@@ -37,13 +37,14 @@
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
-      <ng-container formArrayName="details">
+      <ng-container formArrayName="details"
+      *ngFor="let obj of basicForm.get('details')['controls']; let i =index; let l= last">
         <div 
           id="individual_section_start"
           [formGroupName]="0"
           *ngIf="isIndividual"
         >
-          <div class="row" *ngFor="let obj of basicForm.get('details')['controls']; let i =index; let l= last"
+          <div class="row" 
           >
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="first_name">First Name <sub class="star_red_col">*</sub></label>
@@ -149,7 +150,7 @@
                             class="form-control"
                             id="age"
                             name="age"
-                            [value]="showAge !==0? showAge : ''"
+                            [value]="showAge ? showAge : initialAge"
                             formControlName="age"
                             
                            
@@ -159,10 +160,34 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category">Gender <sub class="star_red_col">*</sub></label>
-              <app-vf-custom-select
+              <!-- <app-vf-custom-select
                 formControlName="gender"
                 [values]="applicantLov?.gender"
-              ></app-vf-custom-select>
+                
+              ></app-vf-custom-select> -->
+
+
+              <!-- <div class="cus-mandatory-field"
+              *ngIf="obj.controls['gender'].touched && !obj.controls['gender'].valid">
+                <div class="cus-mandatory-field"
+                *ngIf="obj.controls['gender'].value===''">
+                  select gender
+                </div>
+              </div> -->
+              <select class="form-control" formControlName="gender">
+                <option>-- select one --</option>
+                <option *ngFor ="let gender of applicantLov.gender" [value]="gender.key"> 
+                  {{gender.value}}
+                </option>
+              </select>
+
+              <div class="invalid-feedback"
+              *ngIf="validation.get('gender').errors && (validation.get('gender').touched || validation.get('gender').invalid)">
+                  select gender
+              </div>
+
+             
+              
               
             </div>
 
@@ -175,12 +200,12 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
                   <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
-                  (click)="checkSenior($event)"> 
+                  (click)="checkSenior($event)" [disabled]="senior" [checked]="checkingSenior"> 
                   <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
               
-                <div class="showErrorMessage">
+                <!-- <div class="showErrorMessage">
                      {{messageOfSeniorcitizen}}
-                </div>
+                </div> -->
               </div>
 
             
@@ -189,14 +214,14 @@
               
               
               <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
-                  (click)="checkMinor($event)"> 
+                  (click)="checkMinor($event)" [disabled]="minor" [checked]="checkingMinor"> 
                   <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
-             <div class="showErrorMessage">
+             <!-- <div class="showErrorMessage">
                {{messageOfMinor}}
-             </div> 
+             </div>  -->
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="checkingMinor">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="guardian_name"
                 >Guardian Name <sub class="star_blue_col">*</sub></label
@@ -210,7 +235,7 @@
               /> -->
               <app-custom-input
                   formControlName="minorGuardianName"
-                  [isRequired]="gaurdianNamemandatory['minorGuardianName']"
+                  [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
                   ></app-custom-input>
                 
             </div>
@@ -241,6 +266,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'Father Name is Mandatory'"
+                  
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -256,7 +282,7 @@
                   formControlName="spouseName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  [isRequired]="'spouse Name is Mandatory'"
+        
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -272,7 +298,7 @@
                   formControlName="motherMaidenName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  [isRequired]="'Mother Name is Mandatory'"
+                  
                 ></app-custom-input>
             </div>
           </div>
@@ -326,7 +352,7 @@
                 ></app-custom-input> 
             </div>
           </div>
-          <div class="rows">
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="occupation">Occupation <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
@@ -482,13 +508,20 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="entity">Date Of Incorporation</label>
-              <div class="input-group input-medium">
-                <span class="input-group-btn">
+              <div class="input-group input-medium"
+              id="date_of_birth">
+                <!-- <span class="input-group-btn">
                   <button class="btn btn-default" disabled="">
                     <i class="fa fa-calendar"></i>
                   </button>
                 </span>
-                <input formControlName="dateOfIncorporation" type="text" class="form-control" id="date" disabled="" />
+                <input formControlName="dateOfIncorporation" type="text" class="form-control" id="date" disabled="" /> -->
+                <kendo-datepicker class="form-control" 
+                formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                ></kendo-datepicker>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -503,6 +536,10 @@
         </div>
       </ng-container>
     </div>
+
+
+
+    
   </form>
 </div>
 
