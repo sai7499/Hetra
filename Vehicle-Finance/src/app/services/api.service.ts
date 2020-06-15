@@ -64,12 +64,32 @@ export class ApiService {
     getDeleteVehicleDetails: {
       workflowId: '385f090a957e11eabdcff2fa9bec3d63',
       processId: '69029740a71a11eabfb4f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getVehicleGridValue: {
+      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      processId: 'c7df01d6ac8811ea83def2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     },
     saveUpdateFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '0620e32c998511eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
+    },
+    creditBureau: {
+      processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
+      workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
+      projectId: environment.projectIds.salesCreditScore,
+    },
+    validateOtp: {
+      processId: '3e2e4f5caad811ea82aef2fa9bec3d63',
+      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    },
+    sendOtp: {
+      processId: '3dec693eaad811ea82aef2fa9bec3d63',
+      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
+      projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     },
     getFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
@@ -96,7 +116,6 @@ export class ApiService {
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
-
     getBankTransaction: {
       workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
       processId: '18e0f1d28f8f11eabdc4f2fa9bec3d63',
@@ -167,32 +186,42 @@ export class ApiService {
     getPslData: {
       workflowId: '2f9ef7f898ee11eabdcff2fa9bec3d63',
       processId: '23d5a6ea98f011eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       processId: 'b007bcd8968511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       processId: '520bd7a6975511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     deleteExposure: {
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       processId: 'e9ceec0e975511eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     geoMasterService: {
       processId: '676c8318a56311eabed3f2fa9bec3d63',
       workflowId: '66d15a96a56311eabed3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    salesApplicantDedupe: {
+      processId: 'c39b5872a5b711eabf11f2fa9bec3d63',
+      workflowId: 'b527cab2945211eabdcaf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    salesApplicantUcic: {
+      processId: '02d4332495d711eabdcff2fa9bec3d63',
+      workflowId: '02c225f895d711eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
     deleteBankList: {
       processId: '6a957184a9ab11ea824ff2fa9bec3d63',
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveTvrDetails: {
       processId: '04e204a89a8611eabdcff2fa9bec3d63',
@@ -203,23 +232,6 @@ export class ApiService {
       processId: 'fe6319ac9b5011eabdd3f2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
-    },
-    sendOtp: {
-      processId: '3dec693eaad811ea82aef2fa9bec3d63',
-      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-      projectId: environment.projectIds.otpProjectId
-      // projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    },
-    validateOtp: {
-      processId: '3e2e4f5caad811ea82aef2fa9bec3d63',
-      workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-      projectId: environment.projectIds.otpProjectId,
-      // projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    },
-    creditBureau: {
-      processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
-      workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
-      projectId: environment.projectIds.salesCreditScore,
     },
     sourcingCode: {
       processId: 'f02ef8fca6e411eabf7ff2fa9bec3d63',
@@ -255,7 +267,6 @@ export class ApiService {
       processId: '2faf3348ab4011ea82f7f2fa9bec3d63',
       workflowId: '2f8408d0ab4011ea82f7f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
-    }
-
+    },
   };
 }

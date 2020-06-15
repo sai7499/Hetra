@@ -14,7 +14,7 @@ const routes: Routes = [
     path: ':leadId',
     component: SalesComponent,
     resolve: {
-      LeadDataResolverService,
+      leadData:LeadDataResolverService,
     },
     children: [
       {
@@ -26,7 +26,7 @@ const routes: Routes = [
         component: ApplicantListComponent,
       },
       {
-        path: 'vehicle-details',
+        path: 'vehicle-list',
         component: VehicleDetailsComponent,
       },
       {

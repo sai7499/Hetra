@@ -1,0 +1,421 @@
+<main class="mar-top90">
+  <div class="container">
+    <app-lead-section-header></app-lead-section-header>
+    <br />
+    <h3 class="margin_zero">Customer Dedupe and Negatile List Scrub Results</h3>
+
+    <!-- <h3 class="title"></h3>
+    <p id="exact_macth_title1">Negative List Results</p>
+    <div id="nagative_list_results">
+      <div class="row">
+        <div class="col-lg-5 col-sm-4 col-md-4">
+          <p id="nagative_list_results_tag">
+            <span>Found in NL?</span>
+            <input
+              type="text"
+              value="Yes"
+              name="found_in_nl"
+              id="found_in_nl"
+              disabled="disabled"
+            />
+          </p>
+        </div>
+        <div class="col-lg-7 col-sm-6 col-md-6">
+          <span id="nagative_list_results_tag01">NL Match Criteria? </span
+          >&nbsp;&nbsp;<input
+            type="text"
+            class=""
+            name="nl_match_criteria"
+            id="nl_match_criteria"
+            readonly=""
+            value="PAN matches exactly under YRAYAPUFILE, in negative list VIDE UID #2"
+            style="width: 60%;"
+          />
+        </div>
+      </div>
+
+      <p id="nagative_list_results_tag1">
+        <span>Found in TR NL?</span
+        ><input
+          type="text"
+          value="No"
+          name="found_in_trnl"
+          id="found_in_trnl"
+          disabled="disabled"
+        />
+      </p>
+    </div> -->
+
+    <p class="title" id="exact_macth_title2">Dedupe Parameters</p>
+    <form action="" method="POST">
+      <div class="table-responsive" id="exact_macth_title2_sec">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg">
+              <td>Name</td>
+              <td>DOB</td>
+              <td>Mother Maiden Name</td>
+              <td>Mobile Number</td>
+              <td>PAN</td>
+              <td>Adhaar</td>
+              <td>Passport</td>
+              <td>Voter ID</td>
+              <td>Driving License</td>
+              <td>CKYC Number</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ dedupeParameter?.firstName }}</td>
+              <td>{{ dedupeParameter?.dob }}</td>
+              <td></td>
+              <td>{{ dedupeParameter?.mobileNumber }}</td>
+              <td>{{ dedupeParameter?.pan }}</td>
+              <td></td>
+              <td>{{ dedupeParameter?.passport }}</td>
+              <td>{{ dedupeParameter?.voterId }}</td>
+              <td>{{ dedupeParameter?.drivingLicense }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+    <p id="exact_macth_title3">Exact Matches</p>
+    <div class="table-responsive">
+      <table class="table table-responsive" id="exact_macth_title3_sec">
+        <thead>
+          <tr class="table-head-bg">
+            <td>Select</td>
+            <td>UCIC</td>
+            <td>Name</td>
+            <td>Matched Criteria</td>
+            <td>DOB</td>
+            <td>Mother Maiden Name</td>
+            <td>Mobile Number</td>
+            <td>PAN</td>
+            <td>Adhaar</td>
+            <td>Passport</td>
+            <td>Voter ID</td>
+            <td>Driving License</td>
+            <td>CKYC Number</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let exactMatch of dedupeDetails?.deduIndExctMatch;
+              let i = index
+            "
+          >
+            <td>
+              <input
+                type="radio"
+                value=""
+                name="exact_matches"
+                (change)="onExactChange(exactMatch)"
+                [value]="exactMatch.ucic"
+                [(ngModel)]="selectedApplicant"
+              />
+            </td>
+            <td>{{ exactMatch.ucic }}</td>
+            <td>{{ exactMatch.fullName }}</td>
+            <td>{{ exactMatch.matchedCriteria }}</td>
+            <td>{{ exactMatch.dob }}</td>
+            <td></td>
+            <td>{{ exactMatch.mobile }}</td>
+            <td>{{ exactMatch.pan }}</td>
+            <td>{{ exactMatch.aadhar }}</td>
+            <td>{{ exactMatch.passport }}</td>
+            <td>{{ exactMatch.voterID }}</td>
+            <td>{{ exactMatch.prospectDrivingLicense }}</td>
+            <td>{{ exactMatch.prospectCkycNumber }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <form action="" method="POST">
+      <div class="table-responsive">
+        <p id="probale_title4">Probable Matches</p>
+
+        <table class="table" id="exact_macth_title4_sec">
+          <thead>
+            <tr class="table-head-bg">
+              <td>Select</td>
+              <td>UCIC</td>
+              <td>Name</td>
+              <td>Matched Criteria</td>
+              <td>DOB</td>
+              <td>Mother Maiden Name</td>
+              <td>Mobile Number</td>
+              <td>PAN</td>
+              <td>Adhaar</td>
+              <td>Passport</td>
+              <td>Voter ID</td>
+              <td>Driving License</td>
+              <td>CKYC Number</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let probable of dedupeDetails?.deduIndProbMatch;
+                let i = index
+              "
+            >
+              <td>
+                <input
+                  type="radio"
+                  value=""
+                  name="exact_matches"
+                  (click)="onProbableChange($event, probable)"
+                  [value]="probable.ucic"
+                  [(ngModel)]="selectedApplicant"
+                />
+              </td>
+              <td>{{ probable.ucic }}</td>
+              <td>{{ probable.fullName }}</td>
+              <td>{{ probable.matchedCriteria }}</td>
+              <td>{{ probable.dob }}</td>
+              <td></td>
+              <td>{{ probable.mobile }}</td>
+              <td>{{ probable.pan }}</td>
+              <td>{{ probable.aadhar }}</td>
+              <td>{{ probable.passport }}</td>
+              <td>{{ probable.voterID }}</td>
+              <td>{{ probable.prospectDrivingLicense }}</td>
+              <td>{{ probable.prospectCkycNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+    <!-- <div class="text-right">
+    <a href="#">
+      <button
+        class="btn btn-primary js-btn-prev"
+        type="button"
+        data-toggle="modal"
+        data-target="#myModal"
+      >
+        Reject Lead
+      </button></a
+    >
+    <button
+      class="btn btn-primary mar-right8"
+      id="proceed_without_sumbit"
+      data-toggle="modal"
+      data-target="#newLeadModal"
+    >
+      Continue as new applicant
+    </button>
+     <a href="sales_application_details.html" ><button class="btn btn-primary mar-right8 probable_table" id="proceed_without_sumbit" > Continue as new applicant </button></a> 
+    <button
+      class="btn btn-primary"
+      type="button"
+      id="proceed_new_button"
+      data-toggle="modal"
+      data-target="#ucicModel"
+      disabled=""
+    >
+      Continue with selected UCIC
+    </button>
+  </div>-->
+  </div>
+</main>
+
+<div class="btn-sec clear-both row">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <span id="edit_vehicle_details_replace"></span>
+    <!-- <a id="back_vehicle_details"
+      ><button class="btn btn-primary" type="button" (click)="rejectLead()">
+        Reject Lead
+      </button></a
+    > -->
+    <button
+      class="btn btn-primary save"
+      id="save_vehicle_details"
+      (click)="continueAsNewApplicant()"
+      [disabled]="isExactAvailable || isNewApplicant"
+    >
+      Continue as new applicant
+    </button>
+    <a id="next_vehicle_details"
+      ><button
+        class="btn btn-primary"
+        type="button"
+        [disabled]="isSelectedUcic"
+        (click)="continueWithSelectedUCIC()"
+      >
+        Continue with selected UCIC
+      </button></a
+    >
+    <br />
+    <br />
+    <br />
+  </div>
+</div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Decision on Dedupe Results</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">Are you sure you want to reject lead #xxxxxx?</p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="reject_dlead"
+        >
+          Yes
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="ucicModel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Warning! NL Match Found</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          You have chosen to ignore NL results. This will go for an approval and
+          lead may get rejected if not approved!
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          data-toggle="modal"
+          data-target="#ucicModel2"
+        >
+          OK
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': modalName === 'ucicModal2' }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Customer Dedupe Match Found</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          You have selected "{{ selectedDetails?.ucic }} -
+          {{ selectedDetails?.fullName }}" as an applicant for this lead. Please
+          confirm.
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="ucic_lead"
+          (click)="callApiForSelectedUcic()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal in"
+  id="newLeadModal"
+  [ngClass]="{ 'dis-block': modalName === 'newLeadModal' }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Customer Dedupe Match Found</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          You have chosen to ignore Dedupe results. This will go for Credit
+          review.
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="cnew_lead"
+          (click)="callApiForNewApplicant()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-addvehicle',
@@ -24,7 +25,7 @@ export class AddvehicleComponent implements OnInit {
   public formVehicle: any;
   public isAlert: boolean = false;
   selectedVehicle: number;
-  isHidden: boolean = false;
+  formValue: any;
 
   vehicleArray = [];
   routerId = 0;
@@ -48,7 +49,8 @@ export class AddvehicleComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService,
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
-    private toasterService: ToasterService) { }
+    private toasterService: ToasterService,
+    private sharedService: SharedService) { }
 
   ngOnInit() {
 
@@ -72,9 +74,12 @@ export class AddvehicleComponent implements OnInit {
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
       if (this.routerId !== null && this.routerId !== undefined) {
-        // this.isHidden = true;
         this.selectedVehicle = Number(this.routerId);
       }
+    })
+
+    this.sharedService.vaildateForm$.subscribe((value) => {
+      this.formValue = value;
     })
 
   }
@@ -82,7 +87,6 @@ export class AddvehicleComponent implements OnInit {
   // parent method to call the child method to access form data
 
   FormDataParentMethod(value: any) {
-    console.log(value, 'valie')
     this.formDataFromChild = value;
     this.vehicleDetails = value;
   }
@@ -93,16 +97,12 @@ export class AddvehicleComponent implements OnInit {
 
 
   saveVehicleCollaterals() {
-    this.isHidden = false;
-    console.log(this.vehicleDetails, 'Details')
-    if (this.vehicleDetails.length > 0) {
+    if (this.formValue.valid === true) {
       const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear)
+      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        // this.isHidden = true;
-        // this.errorMsg = res.ProcessVariables.error.message;
         const apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.Error === '0') {
@@ -115,9 +115,8 @@ export class AddvehicleComponent implements OnInit {
         console.log(error, 'error')
       })
     } else {
-      this.isHidden = true;
-      this.errorMsg = 'Please select one of the any vehicle details'
-      // alert('Please Select any one of the Veh')
+      console.log(this.vehicleDetails, 'Error')
+      this.utilityService.validateAllFormFields(this.formValue)
     }
   }
 }

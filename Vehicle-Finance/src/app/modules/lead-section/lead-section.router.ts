@@ -11,15 +11,23 @@ import { CreditScoreComponent } from './credit-score/credit-score.component';
 import { ExactMatchComponent } from './exact-match/exact-match.component';
 import { OtpSectionComponent } from './otp-section/otp-section.component';
 import { LeadDataResolverService } from './services/leadDataResolver.service';
+import { SalesExactMatchComponent } from '@shared/sales-exact-match/sales-exact-match.component';
 
 const routes: Routes = [
   {
     path: ':leadId/co-applicant/:applicantId',
     component: CoApplicantComponent,
+    resolve: { leadData: LeadDataResolverService },
   },
   {
     path: ':leadId/co-applicant',
     component: CoApplicantComponent,
+    resolve: { leadData: LeadDataResolverService },
+  },
+  {
+    path: ':leadId/sales-exact-match',
+    component: SalesExactMatchComponent,
+    resolve: { leadData: LeadDataResolverService },
   },
   {
     path: ':leadId',
@@ -69,4 +77,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LeadCreationRouterModule { }
+export class LeadCreationRouterModule {}

@@ -9,6 +9,7 @@ export interface Lead {
   productDetails?: ProductDetails;
   loanDetails?: LoanDetails;
   vehicleDetails?: Array<VehicleDetails>;
+  cibilData?: CibilData;
 }
 
 export interface LoanLeadDetails {
@@ -64,7 +65,7 @@ export interface VehicleDetails {
   assetCostRef?: string;
   category?: string;
   chasisNumber?: number;
-  collateralId?: number
+  collateralId?: number;
   collateralType?: string;
   cubicCapacity?: string;
   dealerSubventionAmount?: number;
@@ -122,7 +123,7 @@ export interface VehicleDetails {
   usage?: string;
   vas?: string;
   vasAmount?: number;
-  vehicleId?: number
+  vehicleId?: number;
   vehicleMfrCode?: number;
   vehicleModel?: string;
   vehicleModelCode?: string;
@@ -215,33 +216,46 @@ export interface Address {
 }
 
 export interface BasicVehicleDetails {
-  asset_make?: string,
-  asset_model?: string,
-  asset_variant?: string,
-  asset_sub_variant?: string,
-  asset_other?: string,
-  asset_body_type?: string,
-  vehicle_type?: string,
-  ex_showroom_cost?: string,
-  final_asset_cost?: string,
-  dealer_subvention_applicable?: string,
-  dealer_subvention_amount?: string,
-  dealer_subvention_irr?: string,
-  dealer_subvention_finance?: string,
-  manufacturer_subvention_applicable?: string,
-  manufacturer_subvention_amount?: string,
-  manufacturer_subvention_irr?: string,
-  manufacturer_subvention_finance?: string,
-  proforma_invoice_no?: string,
-  proforma_invoice_date?: string,
-  proforma_invoice_amount?: string,
-  orp_funding?: string,
-  insurance?: string,
-  one_time_tax?: string,
-  pac?: string,
-  vas?: string,
-  emi_protect?: string,
-  fast_tag?: string,
-  others?: string,
-  discount?: string,
+  asset_make?: string;
+  asset_model?: string;
+  asset_variant?: string;
+  asset_sub_variant?: string;
+  asset_other?: string;
+  asset_body_type?: string;
+  vehicle_type?: string;
+  ex_showroom_cost?: string;
+  final_asset_cost?: string;
+  dealer_subvention_applicable?: string;
+  dealer_subvention_amount?: string;
+  dealer_subvention_irr?: string;
+  dealer_subvention_finance?: string;
+  manufacturer_subvention_applicable?: string;
+  manufacturer_subvention_amount?: string;
+  manufacturer_subvention_irr?: string;
+  manufacturer_subvention_finance?: string;
+  proforma_invoice_no?: string;
+  proforma_invoice_date?: string;
+  proforma_invoice_amount?: string;
+  orp_funding?: string;
+  insurance?: string;
+  one_time_tax?: string;
+  pac?: string;
+  vas?: string;
+  emi_protect?: string;
+  fast_tag?: string;
+  others?: string;
+  discount?: string;
+}
+export interface CibilData {
+  ageOfAsset?: number;
+// applicantList: [ApplicantDetails]
+customerSegment?: string;
+eligibleAmount?: number;
+leadId?: string;
+loanAmount?: number;
+loanTenure?: number;
+productCategoryCode?: string;
+productCategoryName?: string;
+productId?: string;
+totalAmount?: number;
 }

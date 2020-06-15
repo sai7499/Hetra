@@ -63,7 +63,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.locationIndex = this.getLocationIndex(currentUrl);
 
     this.location.onUrlChange((url: string) => {
-      console.log(url, 'any')
       this.locationIndex = this.getLocationIndex(url);
     });
 
@@ -80,7 +79,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   getLocationIndex(url) {
-    console.log(url, 'any')
     if (url.includes('lead-section')) {
       return 'lead-section';
     } else  if (url.includes('sales')) {
@@ -89,7 +87,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
     // return url;
   }
   editVehicle(collateralId: number) {
-    console.log('Location Index', this.locationIndex)
     this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
   }
 
@@ -99,7 +96,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
-      console.log(res);
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
     }, error => {
       console.log(error, 'error');

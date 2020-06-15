@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginService } from '../../login/login/login.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-leads',
@@ -8,15 +9,18 @@ import { LoginService } from '../../login/login/login.service';
   styleUrls: ['./leads.component.css']
 })
 export class LeadsComponent implements OnInit {
-  isCredit;
+  roleType;
 
   constructor(
     private dashboardService: DashboardService,
-    private loginService: LoginService) {
-  }
+    private loginService: LoginService,
+    private loginStoreService: LoginStoreService
+    ) { }
 
   ngOnInit() {
-    this.isCredit = localStorage.getItem('roleType');
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+      });
   }
 
 }

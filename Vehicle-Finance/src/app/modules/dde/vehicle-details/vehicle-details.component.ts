@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -10,7 +9,7 @@ import { Location } from '@angular/common';
 export class VehicleDetailsComponent implements OnInit {
 
   locationIndex = 0;
-  constructor(private router: Router, private location: Location, private route: ActivatedRoute) { }
+  constructor(private location: Location) { }
 
   ngOnInit() {
     const currentUrl = this.location.path();

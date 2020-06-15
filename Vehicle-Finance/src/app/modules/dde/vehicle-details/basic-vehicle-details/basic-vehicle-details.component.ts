@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
@@ -48,17 +47,16 @@ export class BasicVehicleDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.vehicleDetails, 'value')
 
     this.isHidden = false;
     if (this.vehicleDetails.length > 0) {
       const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear)
-      data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate) : null;
-      data.permitExpireDate = data.permitExpireDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpireDate) : null;
-      data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate) : null;
-      data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity) : null;
+      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+      data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
+      data.permitExpireDate = data.permitExpireDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpireDate, 'DD/MM/YYYY') : null;
+      data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
+      data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         // this.isHidden = true;
@@ -81,5 +79,5 @@ export class BasicVehicleDetailsComponent implements OnInit {
       // alert('Please Select any one of the Veh')
     }
   }
-
 }
+

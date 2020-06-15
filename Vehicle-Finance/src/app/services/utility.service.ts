@@ -48,16 +48,16 @@ export class UtilityService {
     return moment().diff(dateOfBirth, 'months');
   }
 
-  convertDateTimeTOUTC(date) {
-    return moment.utc(date).local().format('DD/MM/YYYY');
+  ageCalculation(dob) {
+    return moment().diff(dob, 'years')
+  }
+
+  convertDateTimeTOUTC(date, format) {
+    return moment.utc(date).local().format(format);
   }
 
   converDateToUTC(date) {
-    // console.log('Outpur date', moment.utc(date).format('DD-MM-YYYYT00:00:00.000Z'))
-    return moment.utc(date).format('EEE MM/DD/YYYY T00:00:00.000Z')
-    // var d = new Date( date + 'T00:00:00.000Z');
-    // console.log('D', d)
-    // return moment.utc(date).format('YYYY-MM-DD HH:MM')
+    return moment.utc(date).format('YYYY-MM-DD HH:MM')
   }
 
   getCommonUniqueValue(array, value: any) {
@@ -118,5 +118,11 @@ export class UtilityService {
       }
     });
     return this.getUiquJson(arrayList, 'key');
+  }
+  getDateFromString(date) {
+    let dateArray = date.split("/");
+    let getDate = new Date(dateArray[1] + "-" + dateArray[0] + "-" + dateArray[2])
+    console.log("return Date", getDate)
+    return getDate;
   }
 }
