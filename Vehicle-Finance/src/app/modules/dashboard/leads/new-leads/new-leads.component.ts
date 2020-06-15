@@ -98,12 +98,12 @@ export class NewLeadsComponent implements OnInit {
 
     }
 
-  getLeadIdSales(Id,stageCode?) {
+  getLeadIdSales(Id, stageCode?) {
     this.vehicleDataStoreService.setSalesLeadID(Id);
-    
-    if(stageCode == '10'){
+
+    if (stageCode == '10') {
       this.router.navigateByUrl(`/pages/lead-section/${Id}`);
-    } else if(stageCode == '20'){
+    } else if (stageCode == '20') {
       this.router.navigateByUrl(`/pages/sales/${Id}/lead-details`);
     }
 
