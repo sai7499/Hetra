@@ -604,7 +604,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.aadhar = corporateProspectDetails.aadhar;
       details.mobile = corporateProspectDetails.companyPhoneNumber;
       details.panType = corporateProspectDetails.panType;
-      details.dateOfIncorporation = this.getFormateDate(
+      details.dateOfIncorporation = new Date(
         corporateProspectDetails.dateOfIncorporation
       );
       details.passportNumber = corporateProspectDetails.passportNumber;
