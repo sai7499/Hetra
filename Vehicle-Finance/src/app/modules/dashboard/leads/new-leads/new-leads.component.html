@@ -6,7 +6,7 @@
                 <th>{{labels.leadID}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.product}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.loanAmount}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.applicants}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels.applicant+'s'}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.createdOn}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.createdBy}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.priority}}<i class="fa fa-sort"></i> </th>
@@ -18,7 +18,7 @@
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td *ngIf="roleType == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td class="text-underline" *ngIf="roleType == '1'"><a [routerLink]="['/pages/lead-section', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td>
+                <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode)" style="cursor: pointer;">{{item.leadId}}</td>
                 <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 10"><a [routerLink]="['/pages/sales-applicant-details', item.leadId, 'basic-details', ???]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
                 <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 20"><a [routerLink]="['/pages/sales', item.leadId, 'applicant-list']" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
                 <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 30"><a [routerLink]="['/pages/sales', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->

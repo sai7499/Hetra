@@ -24,7 +24,7 @@ export class LeadDetails {
         leadId: leadDetails.leadId,
         sourcingCode: leadDetails.sourcingCode,
         branchId: leadDetails.loanBranch,
-        productId: leadDetails.productCategory,
+        productId: leadDetails.product,
         reqLoanAmt: leadDetails.requestedLoanAmount,
         reqTenure: leadDetails.requestedLoanTenor,
         leadHandledBy: leadDetails.leadHandeledBy,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators,AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location, formatDate } from '@angular/common';
@@ -43,7 +43,7 @@ export class BasicDetailsComponent implements OnInit {
   minor : boolean;
   checkingMinor : boolean
  checkingSenior : boolean
-
+ @ViewChild('fatherName', {static : true}) fatherName : string;
   //imMinor : boolean= true
   designation = [
     {
@@ -124,6 +124,7 @@ export class BasicDetailsComponent implements OnInit {
     const formArray=this.basicForm.get('details') as FormArray;
    const details = formArray.at(0)
    details.patchValue({preferredLanguage: 'ENGPRFLAN'})
+   console.log('fatherName', this.fatherName)
    
     // setTimeout(() => {
     // this.clearFormArray();
@@ -299,10 +300,10 @@ export class BasicDetailsComponent implements OnInit {
       occupation: aboutIndivProspectDetails.occupation || '',
       nationality: aboutIndivProspectDetails.nationality || '',
       age : this.showAge,
-      gender : aboutIndivProspectDetails.gender,
-      politicallyExposedPerson : aboutIndivProspectDetails.politicallyExposedPerson,
+      gender : aboutIndivProspectDetails.gender || '',
+      politicallyExposedPerson : aboutIndivProspectDetails.politicallyExposedPerson || '',
       alternateMobileNumber : aboutIndivProspectDetails.alternateMobileNumber,
-      minorGuardianRelation : aboutIndivProspectDetails.minorGuardianRelation,
+      minorGuardianRelation : aboutIndivProspectDetails.minorGuardianRelation || '',
       
     });
     console.log('dob', aboutIndivProspectDetails.dob) 
