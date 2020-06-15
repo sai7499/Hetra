@@ -32,6 +32,7 @@ export class CustomSelectComponent
   @Input() isDisabled: boolean;
   @Input('selectedOption') val: any;
   @Input() values: any[];
+  @Input() isRequired: string;
 
   @Output() valueChange = new EventEmitter();
 
