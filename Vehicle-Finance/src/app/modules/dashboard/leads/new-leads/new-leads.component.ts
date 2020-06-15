@@ -3,6 +3,7 @@ import { LabelsService } from '@services/labels.service';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-leads',
@@ -14,7 +15,7 @@ export class NewLeadsComponent implements OnInit {
   newArray;
   salesLeads;
   creditLeads;
-  itemsPerPage = '5';
+  itemsPerPage = '25';
   totalItems;
   labels: any = {};
   lovData: any;
@@ -32,7 +33,8 @@ export class NewLeadsComponent implements OnInit {
     private labelsData: LabelsService,
     private dashboardService: DashboardService,
     private vehicleDataStoreService: VehicleDataStoreService,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private router: Router
   ) { }
 
   getMyLeads(perPageCount, pageNumber?) {
@@ -96,8 +98,16 @@ export class NewLeadsComponent implements OnInit {
 
     }
 
-  getLeadIdSales(Id) {
+  getLeadIdSales(Id,stageCode?) {
     this.vehicleDataStoreService.setSalesLeadID(Id);
+    
+    if(stageCode == '10'){
+      this.router.navigateByUrl(`/pages/lead-section/${Id}`);
+    } else if(stageCode == '20'){
+      this.router.navigateByUrl(`/pages/sales/${Id}/lead-details`);
+    }
+
+
   }
 
   getLeadId(id) {

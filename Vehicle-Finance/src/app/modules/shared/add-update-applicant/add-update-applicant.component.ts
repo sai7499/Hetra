@@ -31,6 +31,7 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ['./add-update-applicant.component.css'],
 })
 export class AddOrUpdateApplicantComponent implements OnInit {
+  isMobileChanged = false;
   firstName: string;
   mobileNumber: string;
   mobile: string;
@@ -80,7 +81,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     msg: 'Invalid',
   };
 
-  panRequired = 'Pan number is required';
+  panRequired = '';
 
   mobileNumberPattern = {
     rule: '^[1-9][0-9]*$',
@@ -445,6 +446,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disablePermanentAddress();
         this.disableRegisteredAddress();
         this.disableCommunicationAddress();
+      }else{
+        this.isValueChanged = false;
       }
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
@@ -815,7 +818,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onNext() {
-    // this.leadSectionService.setCurrentPage(1);
+    if (this.isMobileChanged || !this.applicant.otpVerified) {
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+      );
+    } else {
+      this.navigateToApplicantList();
+    }
   }
 
   getEntityObject(key: string) {
@@ -1045,7 +1054,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       addressDetails: this.addressDetails,
       applicantId: this.applicantId,
       leadId: this.leadId,
+      isMobileNumberChanged: this.isMobileChanged,
     };
+    // if (this.applicantId) {
+    //   const finalMobileNumber = this.coApplicantForm.get('mobilePhone').value;
+    //   if (finalMobileNumber !== this.mobileNumber) {
+    //     this.isMobileChanged = true;
+    //     data.isMobileNumberChanged = true;
+    //   }
+    // }
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
@@ -1201,9 +1218,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   listenerForUnique() {
     this.coApplicantForm.get('mobilePhone').valueChanges.subscribe((value) => {
+      if (!this.coApplicantForm.get('mobilePhone').invalid) {
+        if (value !== this.mobileNumber) {
+          this.isMobileChanged = true;
+        } else {
+          this.isMobileChanged = false;
+        }
+      }
       if (value !== this.mobileNumber) {
         return (this.isValueChanged = false);
       }
+
       this.isValueChanged = true;
     });
     this.coApplicantForm.get('name1').valueChanges.subscribe((value) => {
@@ -1212,12 +1237,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
       this.isValueChanged = true;
     });
-    this.coApplicantForm.get('pan').valueChanges.subscribe((value) => {
-      if (value !== this.pan) {
-        return (this.isValueChanged = false);
-      }
-      this.isValueChanged = true;
-    });
+    // this.coApplicantForm.get('pan').valueChanges.subscribe((value) => {
+    //   if (value !== this.pan) {
+    //     return (this.isValueChanged = false);
+    //   }
+    //   this.isValueChanged = true;
+    // });
     this.coApplicantForm.get('aadhar').valueChanges.subscribe((value) => {
       if (value !== this.aadhar) {
         return (this.isValueChanged = false);

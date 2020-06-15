@@ -42,6 +42,7 @@ export class ApplicantDataStoreService {
       corporateProspectDetails,
       indivIdentityInfoDetails,
       indivProspectProfileDetails,
+      otpVerified: applicant.otpVerified,
     };
   }
 
@@ -66,7 +67,10 @@ export class ApplicantDataStoreService {
       ...value,
     };
     this.applicant.indivProspectProfileDetails = newDetails;
-    console.log(' this.applicant.indivProspectProfileDetails', this.applicant.indivProspectProfileDetails)
+    console.log(
+      ' this.applicant.indivProspectProfileDetails',
+      this.applicant.indivProspectProfileDetails
+    );
   }
 
   setCorporateProspectDetails(value: CorporateProspectDetails) {

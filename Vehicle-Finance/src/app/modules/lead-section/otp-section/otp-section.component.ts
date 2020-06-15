@@ -9,10 +9,9 @@ import { ToasterService } from '@services/toaster.service';
 @Component({
   selector: 'app-otp-section',
   templateUrl: './otp-section.component.html',
-  styleUrls: ['./otp-section.component.css']
+  styleUrls: ['./otp-section.component.css'],
 })
 export class OtpSectionComponent implements OnInit {
-
   public otpForm: FormGroup;
   applicantId: String;
   leadId: number;
@@ -22,7 +21,6 @@ export class OtpSectionComponent implements OnInit {
   otp: number;
   applicantList: any;
 
-
   constructor(
     private _fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -30,8 +28,8 @@ export class OtpSectionComponent implements OnInit {
     private otpService: OtpServiceService,
     private applicantService: ApplicantService,
     private router: Router,
-    private toasterService: ToasterService,
-  ) { }
+    private toasterService: ToasterService
+  ) {}
 
   getLeadIdAndApplicantId() {
     return new Promise((resolve) => {
@@ -45,19 +43,11 @@ export class OtpSectionComponent implements OnInit {
     });
   }
 
-
-
-
-
   async ngOnInit() {
-
-
-
-
     // accessing applicant id if from route
 
-    this.applicantId = await this.getLeadIdAndApplicantId() as string;
-    console.log(this.applicantId)
+    this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
+    console.log(this.applicantId);
     this.leadId = (await this.getLeadId()) as number;
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -65,15 +55,21 @@ export class OtpSectionComponent implements OnInit {
 
     // / calling send otp method
 
-    this.sendOtp()
     // await this.getApplicantList()
 
     this.otpForm = this._fb.group({
-      otp: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(6), Validators.pattern('[0-9]*'), Validators.required])]
-    })
-
+      otp: [
+        '',
+        Validators.compose([
+          Validators.minLength(6),
+          Validators.maxLength(6),
+          Validators.pattern('[0-9]*'),
+          Validators.required,
+        ]),
+      ],
+    });
+    this.sendOtp();
   }
-
 
   getLeadId() {
     // console.log("in getleadID")
@@ -120,59 +116,62 @@ export class OtpSectionComponent implements OnInit {
   // }
 
   sendOtp() {
+    this.otpForm.patchValue({
+      otp: '',
+    });
     // this.getApplicantList()
     // console.log("mob no", this.mobileNo)
     const data = {
       applicantId: this.applicantId,
-      userId: this.userId
-    }
+      userId: this.userId,
+    };
 
     this.otpService.sendOtp(data).subscribe((res: any) => {
-      console.log("in sendotp", res)
-      if (res['ProcessVariables']['error']['code'] == "0" && res['ProcessVariables'].referenceNo != "") {
+      console.log('in sendotp', res);
+      if (
+        res['ProcessVariables']['error']['code'] == '0' &&
+        res['ProcessVariables'].referenceNo != ''
+      ) {
         console.log(res.ProcessVariables);
-        this.referenceNo = res.ProcessVariables.referenceNo
-        this.mobileNo = res.ProcessVariables.mobileNo
-        console.log("reference number ==>", this.referenceNo)
-        console.log("mobile number ==>", this.mobileNo)
+        this.referenceNo = res.ProcessVariables.referenceNo;
+        this.mobileNo = res.ProcessVariables.mobileNo;
+        console.log('reference number ==>', this.referenceNo);
+        console.log('mobile number ==>', this.mobileNo);
         this.toasterService.showSuccess('OTP sent successfully !', '');
-
-      }
-      else {
-        alert("invalid customer mobile number")
+      } else {
+        alert('invalid customer mobile number');
       }
     });
   }
 
-
   validateOtp() {
-
-    console.log("in validate otp fn", this.otpForm.value.otp, this.referenceNo)
+    console.log('in validate otp fn', this.otpForm.value.otp, this.referenceNo);
 
     const data = {
-
       applicantId: this.applicantId,
       referenceNo: this.referenceNo,
       otp: this.otpForm.value.otp,
-
-    }
+    };
 
     this.otpService.validateOtp(data).subscribe((res: any) => {
-
-      if (res['ProcessVariables']['error']['code'] == "0") {
+      if (res['ProcessVariables']['error']['code'] == '0') {
         console.log(res.ProcessVariables.error);
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         // alert("otp verified successfully")
-        this.router.navigate(['pages/lead-section/' + this.leadId + '/applicant-details']);
-      }
-      else {
-        // alert(res.ProcessVariables.error.message);
-        this.toasterService.showError("Invalid OTP !", '');
 
+        if (res.ProcessVariables.leadStage == '20'){
+          this.router.navigate([
+            'pages/sales/' + this.leadId + '/applicant-list',
+          ]);
+        }else{
+          this.router.navigate([
+            'pages/lead-section/' + this.leadId + '/applicant-details',
+          ]);
+        }
+      } else {
+        // alert(res.ProcessVariables.error.message);
+        this.toasterService.showError('Invalid OTP !', '');
       }
     });
   }
-
-
-
 }

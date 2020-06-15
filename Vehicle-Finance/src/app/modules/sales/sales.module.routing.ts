@@ -14,7 +14,7 @@ const routes: Routes = [
     path: ':leadId',
     component: SalesComponent,
     resolve: {
-      LeadDataResolverService,
+      leadData:LeadDataResolverService,
     },
     children: [
       {
