@@ -725,16 +725,15 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   onChangeInvestmentInEquipment(event: any) {
     let investmentInEquipmentChange = event.target.value;
-    this.investmentInEquipmentValue = this.totalInvestmentCost;
-    // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
-   this.setValueForPslSubCategoryByInvestmentInEquipment();
+      this.investmentInEquipmentValue = this.totalInvestmentCost;
+      // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
+      this.setValueForPslSubCategoryByInvestmentInEquipment();
   }
 
   setValueForPslSubCategoryByInvestmentInEquipment() {
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
     this.investmentInEquipmentValueMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-               
         if (this.investmentInEquipmentValue <= 1000000) {
           const data = [
             {
