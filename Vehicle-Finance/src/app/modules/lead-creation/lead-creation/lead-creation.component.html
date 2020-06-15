@@ -95,7 +95,7 @@
               >{{ labels.sourcingCode }}
               <sub class="star_blue_col">*</sub></label
             >
-            <div class="ng-autocomplete" style="width:100%">
+            <div class="ng-autocomplete" style="width:100%" >
               <ng-autocomplete 
                 [data]="sourcingCodeData"
                 [searchKeyword]="keyword"
@@ -105,7 +105,8 @@
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
                 [placeHolder]="sourcingCodePlaceholder"
-                [minQueryLength]="2">                                 
+                [minQueryLength]="2"
+                [disabled]="isSourchingCode">                                 
               </ng-autocomplete>               
               <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
@@ -198,7 +199,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity" [isRequired]="'true'"
+            <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity" [isRequired]="'Entity Required'"
               (change)="selectApplicantType($event, false)">
             </app-vf-custom-select>
           </div>
@@ -218,7 +219,7 @@
               [placeholder]="'First Name'"
               [maxLength]="regexPattern.nameLength"
               [patternCheck]="namePattern"
-              [isRequired]="'true'"
+              [isRequired]="'First Name is mandatory'"
               >
             </app-custom-input>
           </div>
@@ -258,7 +259,7 @@
               [placeholder]="'Mobile'"
               [maxLength]="regexPattern.maxLength"
               [patternCheck]="regexPattern.mobile"
-              [isRequired]="'true'">
+              [isRequired]="'Contact Number mandatory'">
             </app-custom-input>
           </div>
 

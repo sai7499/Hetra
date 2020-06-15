@@ -58,8 +58,10 @@ export class LeadCreationComponent implements OnInit {
   isSourcingType: boolean;
   showModal: boolean;
   modalMessage: string;
-  isNgAutoCompleteSourcing: boolean;
-  isNgAutoCompleteDealer: boolean;
+  isNgAutoCompleteSourcing: any;
+  isNgAutoCompleteDealer: any;
+  isMobile: any;
+  isSourchingCode: boolean;
 
 
 
@@ -153,7 +155,7 @@ export class LeadCreationComponent implements OnInit {
       priority: new FormControl(''),
       sourcingChannel: new FormControl('', Validators.required),
       sourcingType: new FormControl('', Validators.required),
-      sourcingCode: new FormControl('', Validators.required),
+      sourcingCode: new FormControl(''),
       dealerCode: new FormControl('', Validators.required),
       rcLimit: new FormControl('', Validators.required),
       rcUtilizedLimit: new FormControl('', Validators.required),
@@ -283,11 +285,20 @@ export class LeadCreationComponent implements OnInit {
     this.sourcingChange = event.target.value;
 
     this.sourchingTypeValues = this.utilityService.getValueFromJSON(
-      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange), 'sourcingTypeId', 'sourcingTypeDesc');
+      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange),
+      'sourcingTypeId',
+      'sourcingTypeDesc');
     this.createLeadForm.patchValue({ sourcingType: '' });
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
+      if (sourcingTypeData === '11SOURTYP') {
+        this.isSourchingCode = true;
+        this.sourcingCodePlaceholder = 'Not Applicable';
+      } else {
+        this.isSourchingCode = false;
+        this.sourcingCodePlaceholder = 'Sourcing Code';
+      }
       return;
     }
     if (this.sourchingTypeValues.length === 0) {
@@ -307,6 +318,11 @@ export class LeadCreationComponent implements OnInit {
     console.log('placeholder', this.placeholder);
     this.createLeadForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
+    if (this.sourcingCodePlaceholder === 'Not Applicable') {
+      this.isSourchingCode = true;
+    } else {
+      this.isSourchingCode = false;
+    }
   }
 
   onSourcingCodeSearch(event) {
@@ -315,7 +331,7 @@ export class LeadCreationComponent implements OnInit {
     console.log('inputStringSorc', event);
     sourcingCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
     console.log('sourcingCode', sourcingCode);
-    if(sourcingCode.length === 0){
+    if (sourcingCode.length === 0) {
       return;
     }
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
@@ -393,12 +409,17 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log('isNgAutoCompleteDealer',this. isNgAutoCompleteDealer);
-    console.log('isNgAutoCompleteSourcing',this. isNgAutoCompleteDealer);
+    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
+    console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
+
+    this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
+    this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
+    this.isMobile = this.createLeadForm.controls.mobile.value;
 
     if (this.createLeadForm.valid === true
-      && this.isNgAutoCompleteDealer === true
-      && this.isNgAutoCompleteSourcing === true) {
+      && this.isNgAutoCompleteDealer !== ''
+      && this.isNgAutoCompleteSourcing !== ''
+      && this.isMobile !== '') {
       const leadModel: any = { ...formValue };
       this.leadStoreService.setLeadCreation(leadModel);
 
