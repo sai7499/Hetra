@@ -16,6 +16,8 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '@assets/constants/constant';
 import { map } from 'rxjs/operators';
+import { UtilityService} from '@services/utility.service'
+import { constants } from 'os';
 
 @Component({
   selector: 'app-address-details',
@@ -69,7 +71,9 @@ export class AddressDetailsComponent implements OnInit {
   isCurrAddSameAsPermAdd: any = '0';
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
-
+  onPerAsCurChecked: boolean;
+  onRegAsCommChecked: boolean;
+  addressObj : any;
   maxLenght40 = {
     rule : 40
   };
@@ -105,7 +109,8 @@ export class AddressDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
-    private location: Location
+    private location: Location,
+    private utilityService : UtilityService
   ) {}
 
   onBack() {
@@ -220,6 +225,10 @@ export class AddressDetailsComponent implements OnInit {
         this.getAddressDetails();
       });
     });
+    // this.addressObj= this.getAddressObj()
+    // if(this.addressObj[Constant.PERMANENT_ADDRESS] !== this.addressObj[Constant.CURRENT_ADDRESS]){
+    //   this.onPerAsCurChecked = false
+    // }
   }
 
   getLeadId() {
@@ -237,7 +246,7 @@ export class AddressDetailsComponent implements OnInit {
       entity: new FormControl(''),
       details: new FormArray([]),
     });
-    this.addIndividualFormControls();
+    //this.addIndividualFormControls();
   }
 
   getLabels() {
@@ -396,6 +405,7 @@ export class AddressDetailsComponent implements OnInit {
     const valueCheckbox = this.getAddressObj();
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
     if (isCurAsPer.isCurrAddSameAsPermAdd == '1') {
+      this.onPerAsCurChecked= true
       const currentAddressObj = isCurAsPer;
       this.currentPincode = {
         city: [
@@ -431,6 +441,7 @@ export class AddressDetailsComponent implements OnInit {
         mobileNumber: currentAddressObj.mobileNumber,
       });
     } else {
+      this.onPerAsCurChecked= false
       const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
       if (currentAddressObj) {
         this.currentPincode = {
@@ -505,6 +516,7 @@ export class AddressDetailsComponent implements OnInit {
         mobileNumber: officeAddressObj.mobileNumber,
       });
     }
+   
   }
 
   setValuesForNonIndividual() {
@@ -547,6 +559,7 @@ export class AddressDetailsComponent implements OnInit {
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
+        this.onRegAsCommChecked= true
       const communicationAddressObj = isCommAsReg;
       this.communicationPincode = {
         city: [
@@ -580,6 +593,7 @@ export class AddressDetailsComponent implements OnInit {
         this.setAddressValues(communicationAddressObj)
       );
     } else {
+      this.onRegAsCommChecked= false
       const communicationAddressObj =
         addressObj[Constant.COMMUNICATION_ADDRESS];
       this.communicationPincode = {
@@ -701,6 +715,7 @@ export class AddressDetailsComponent implements OnInit {
     } else {
       this.storeNonIndividualValueInService(value);
     }
+    // if(this.addressForm.valid){
     const applicantData = this.applicantDataService.getApplicant();
     const data = {
       applicantId: this.applicantId,
@@ -727,19 +742,40 @@ export class AddressDetailsComponent implements OnInit {
         }
       });
     });
+  // }else {
+  //   this.utilityService.validateAllFormFields(this.addressForm)
+  // }
     
     console.log('addressdetailsArray', this.addressDetailsDataArray);
   }
 
   getAddressFormValues(address: AddressDetails) {
+    // return {
+    //   ...address,
+    //   pincode: 600002,
+    //   city: 114100,
+    //   state: 40,
+    //   country: 'IND',
+    //   district: 127,
+    // };
+    if (!address) {
+      return;
+    }
+    const city = address.city ? Number(address.city) : null;
+    const district = address.district ? Number(address.district) : null;
+    const state = address.state ? Number(address.state) : null;
+    const pincode = address.pincode ? Number(address.pincode) : null;
     return {
-      ...address,
-      pincode: 600002,
-      city: 114100,
-      state: 40,
-      country: 'IND',
-      district: 127,
-    };
+      pincode,
+      city,
+      district,
+      state,
+      addressLineOne: address.addressLineOne,
+      addressLineTwo: address.addressLineTwo,
+      addressLineThree: address.addressLineThree,
+      country: address.country,
+      landlineNumber: address.landlineNumber,
+    }
   }
 
   storeIndividualValueInService(value) {
@@ -817,4 +853,6 @@ export class AddressDetailsComponent implements OnInit {
       `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
     );
   }
+
+  
 }

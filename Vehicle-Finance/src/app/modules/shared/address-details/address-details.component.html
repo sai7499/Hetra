@@ -15,11 +15,11 @@
                 <div class="col-sm-7 text-right"></div>
             </div>
 
-            <ng-container formArrayName="details">
-                <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0">
+            <ng-container formArrayName="details" *ngFor="let obj of addressForm.get('details')['controls']">
+                <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0" >
                     <!-- <h4 class="title">individual</h4> -->
                     <h4 class="title">Permanent Address</h4>
-                    <div  formGroupName="permanantAddress">
+                    <div  formGroupName="permanantAddress" >
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="pan">{{ labels.addressline1 }}</label>
@@ -70,6 +70,11 @@
                                     </select> -->
                                 <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city">
                                 </app-vf-custom-select>
+
+                                <div class="cus-mandatory-field" 
+                                *ngIf="obj.get('permanantAddress').controls['city'].touched && obj.get('permanantAddress').controls['city'].value==''">
+                                    City is Required
+                                </div>
                                 
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -121,12 +126,12 @@
                             <h4 class="title">Current Address</h4>
                         </div>
                         <div class="col-sm-7" id="align_this_texbox">
-                            <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)" />
+                            <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"  [checked]="onPerAsCurChecked"/>
                             <span id="address_section_checkbox_text">Is it same as your permanent Address?
                             </span>
                         </div>
                     </div>
-                    <div formGroupName="currentAddress">
+                    <div formGroupName="currentAddress" >
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="pan">{{ labels.addressline1 }}</label>
@@ -511,7 +516,7 @@
                             </div>
                             <div class="col-sm-7" id="align_this_texbox">
                                 <input type="checkbox" id="address_section_checkbox"
-                                    (change)="onSameRegistered($event)" />
+                                    (change)="onSameRegistered($event)"  [checked]="onRegAsCommChecked"/>
                                 <span id="address_section_checkbox_text">Is it same as your Registered Address?
                                 </span>
                             </div>

@@ -43,7 +43,7 @@ export class BasicDetailsComponent implements OnInit {
   minor : boolean;
   checkingMinor : boolean
  checkingSenior : boolean
- @ViewChild('fatherName', {static : true}) fatherName : string;
+ 
   //imMinor : boolean= true
   designation = [
     {
@@ -124,17 +124,20 @@ export class BasicDetailsComponent implements OnInit {
     const formArray=this.basicForm.get('details') as FormArray;
    const details = formArray.at(0)
    details.patchValue({preferredLanguage: 'ENGPRFLAN'})
-   console.log('fatherName', this.fatherName)
+  
    
-    // setTimeout(() => {
+    // setTimeout(() => { 
     // this.clearFormArray();
     // });
+   console.log('validation', this.validation)
   }
 
   get validation(){
   const formArray=this.basicForm.get('details') as FormArray;
    const details = formArray.at(0)
+
    return details;
+   console.log('details', details)
   }
 
  
@@ -249,7 +252,7 @@ export class BasicDetailsComponent implements OnInit {
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead: this.applicant.applicantDetails
-        .applicantTypeKey,
+        .applicantTypeKey || '',
         title: this.applicant.applicantDetails.title || '',
     });
     if (this.isIndividual) {
@@ -426,7 +429,7 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setIndividualProspectDetails(null);
     }
 
-  //  if(this.basicForm.valid){
+   if(this.basicForm.valid){
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
 
@@ -446,9 +449,10 @@ export class BasicDetailsComponent implements OnInit {
           ]);
         }
       });
-    // }else{
-    //   this.utilityService.validateAllFormFields(this.basicForm)
-    // }
+     }else{
+     this.utilityService.validateAllFormFields(this.basicForm)
+     console.log('utilityservice', this.basicForm.get('details')['controls'])
+     }
   }
 
   getLeadId() {

@@ -81,6 +81,7 @@ export class CustomInputComponent
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
+    console.log('inputError', this.customInput)
   }
 
   // this is the initial value set to the component
