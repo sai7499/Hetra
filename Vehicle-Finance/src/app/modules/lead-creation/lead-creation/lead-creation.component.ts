@@ -64,7 +64,6 @@ export class LeadCreationComponent implements OnInit {
   isSourchingCode: boolean;
 
 
-
   obj = {};
   test = [];
 
@@ -362,10 +361,6 @@ export class LeadCreationComponent implements OnInit {
     });
   }
 
-  selectSourcingEvent(event) {
-    this.isNgAutoCompleteSourcing = event ? true : false;
-  }
-
   selectDealerEvent(event) {
     this.isNgAutoCompleteDealer = event ? true : false;
     const rcData = event;
@@ -389,7 +384,7 @@ export class LeadCreationComponent implements OnInit {
       this.namePattern = {
         // rule: "^[0-9A-Za-z, _&*#' /\\-@]{ 0, 49 } $",
         rule: '',
-        msg: 'org'
+        msg: 'Invalid organization name'
       }
     }
   }
