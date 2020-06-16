@@ -79,31 +79,6 @@
   </div>
 </main>
 
-<!-- <div class="modal fade" id="proceedModal_without" [ngClass]="{ in: isModal, showModal: isModal }">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header box_shadow">
-        <button type="button" (click)="isModal = false" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body box_shadow">
-        <h4 class="modal-title modal_title ">LOS - Lead Creation</h4>
-        <div class="content">
-          <div class="row text-center">
-            <div class="col-12 p-0">
-              <div class="form-group">
-                <h4>Are you sure you want to create a new lead?</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class=" ok_footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]="'/pages/lead-section'">OK</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 
 <div class="modal fade" [id]="showModal">
   <div class="modal-dialog modal-dialog-centered">
@@ -131,32 +106,5 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="modal fade" id="rejectModal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header ">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center ">Decision on Dedupe Results</h4>
-      </div>
-      <div class="modal-body ">
-        <div class="">
-          <div class="row text-center">
-            <div class="col-12 p-0">
-              <div class="form-group">
-                <p>Are you sure you want to reject lead - #xxxxxx ?</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class=" ok_footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal"
-          [routerLink]="['/activity-search']">Yes</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div class="modal-backdrop fade" *ngIf="isModal" [ngClass]="{ in: isModal }"></div>

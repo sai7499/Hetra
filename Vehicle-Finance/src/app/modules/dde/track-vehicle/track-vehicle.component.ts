@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./track-vehicle.component.css']
 })
 export class TrackVehicleComponent implements OnInit {
-
+  submitted = false;
   labels: any = {};
   values: any = [];
   totalExcesssOrShort: number = 0;
@@ -62,11 +62,11 @@ export class TrackVehicleComponent implements OnInit {
   fleetRtrForm(fleetRtr) {
     if (fleetRtr) {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl(fleetRtr.clientName),
+        clientName: new FormControl(fleetRtr.clientName , Validators.pattern('[A-Za-z]')),
         financierName: new FormControl(fleetRtr.financierName),
         assetFinancied: new FormControl(fleetRtr.assetFinancied),
         repaymentMode: new FormControl(fleetRtr.repaymentMode),
-        financeAmount: new FormControl({ value: '200000', disabled: true }),
+        financeAmount: new FormControl({ value: 200000, disabled: true }),
         financeCharges: new FormControl(fleetRtr.financeCharges),
         contractValue: new FormControl(fleetRtr.contractValue),
         contNo: new FormControl(fleetRtr.contNo),
@@ -75,47 +75,47 @@ export class TrackVehicleComponent implements OnInit {
         accountStatus: new FormControl(fleetRtr.accountStatus),
         loanStartDate: new FormControl(this.getDateFormat(fleetRtr.loanStartDate)),
         loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate)),
-        count30: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : '0', disabled: true }),
-        count90: new FormControl({ value: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : '0', disabled: true }),
-        totalEmi: new FormControl(fleetRtr.noOfEmi),
-        noOfEmisPaid: new FormControl(fleetRtr.emisPaid),
-        balanceTenor: new FormControl({ value: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : '0', disabled: true }),
-        totalDelay: new FormControl({ value: fleetRtr.totalDelay ? fleetRtr.totalDelay : '0', disabled: true }),
-        peakDelay: new FormControl({ value: fleetRtr.peakDelay ? fleetRtr.peakDelay : '0', disabled: true }),
-        avgDelay: new FormControl({ value: fleetRtr.avgDelay ? fleetRtr.avgDelay : '0', disabled: true }),
-        trackStatus: new FormControl({ value: fleetRtr.trackStatus ? fleetRtr.trackStatus : '0', disabled: true }),
-        totalAmtPaid: new FormControl({ value: fleetRtr.totalAmtPaid ? fleetRtr.totalAmtPaid : '0', disabled: true }),
+        thirtyDpdCount: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : 0, disabled: true }),
+        ninetyDpdCount: new FormControl({ value: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : 0, disabled: true }),
+        noOfEmi: new FormControl(fleetRtr.noOfEmi),
+        emisPaid: new FormControl(fleetRtr.emisPaid),
+        balanceTenor: new FormControl({ value: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : 0, disabled: true }),
+        totalDelay: new FormControl({ value: fleetRtr.totalDelay ? fleetRtr.totalDelay : 0, disabled: true }),
+        peakDelay: new FormControl({ value: fleetRtr.peakDelay ? fleetRtr.peakDelay : 0, disabled: true }),
+        avgDelay: new FormControl({ value: fleetRtr.avgDelay ? fleetRtr.avgDelay : 0, disabled: true }),
+        trackStatus: new FormControl({ value: fleetRtr.trackStatus ? fleetRtr.trackStatus : 0, disabled: true }),
+        totalAmtPaid: new FormControl({ value: fleetRtr.totalAmtPaid ? fleetRtr.totalAmtPaid : 0, disabled: true }),
         emiPaid: new FormControl(fleetRtr.emiPaid),
         // emiAmount: new FormControl(1000),
         installment: this.fb.array([])
       });
-      this.noOfEmi = this.trackVehicleForm.controls['noOfEmisPaid'].value;
+      this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
     } else {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl(''),
+        clientName: new FormControl('' , Validators.pattern('[A-Za-z]') ),
         financierName: new FormControl(''),
         assetFinancied: new FormControl(''),
         repaymentMode: new FormControl(''),
-        financeAmount: new FormControl({ value: '200000', disabled: true }),
-        financeCharges: new FormControl(''),
-        contractValue: new FormControl(''),
-        contNo: new FormControl(''),
+        financeAmount: new FormControl({ value: 200000, disabled: true }),
+        financeCharges: new FormControl(),
+        contractValue: new FormControl(),
+        contNo: new FormControl(),
         vehicleNo: new FormControl(''),
         financeType: new FormControl(''),
         accountStatus: new FormControl(''),
         loanStartDate: new FormControl(),
         loanMaturityDate: new FormControl(),
-        count30: new FormControl({ value: '' || '0', disabled: true }),
-        count90: new FormControl({ value: '' || '0', disabled: true }),
-        totalEmi: new FormControl(''),
-        noOfEmisPaid: new FormControl(''),
-        balanceTenor: new FormControl({ value: '0', disabled: true }),
-        totalDelay: new FormControl({value : '', disabled: true }),
-        peakDelay: new FormControl({value : '', disabled: true }),
-        avgDelay: new FormControl({ value : '', disabled: true }),
-        trackStatus: new FormControl({ value: '4.00', disabled: true }),
-        totalAmtPaid: new FormControl({ value: '20000', disabled: true }),
+        thirtyDpdCount: new FormControl({ value:0, disabled: true }),
+        ninetyDpdCount: new FormControl({ value:0, disabled: true }),
+        noOfEmi: new FormControl(''),
+        emisPaid: new FormControl(),
+        balanceTenor: new FormControl({ value: 0, disabled: true }),
+        totalDelay: new FormControl({  value: 0 ,disabled: true }),
+        peakDelay: new FormControl({ value:0, disabled: true }),
+        avgDelay: new FormControl({  value: 0, disabled: true }),
+        trackStatus: new FormControl({ value: 0, disabled: true }),
+        totalAmtPaid: new FormControl({ value: 0, disabled: true }),
         emiPaid: new FormControl(3254),
         // emiAmount: new FormControl(''),
         installment: this.fb.array([])
@@ -151,7 +151,7 @@ export class TrackVehicleComponent implements OnInit {
   //  this.addRows(null);
     //  this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
     this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
-    this.noOfEmi = this.trackVehicleForm.controls['noOfEmisPaid'].value;
+    this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
   }
   addMonth(date, n) {
     // console.log('in date conversion ' + date);
@@ -308,13 +308,14 @@ export class TrackVehicleComponent implements OnInit {
     return this.trackVehicleForm.get('installment') as
       FormArray;
   }
+  get f() { return this.trackVehicleForm.controls; }
 
   getFleetRtr(fleetId) {
     this.trackVechileService.getFleetRtr(fleetId).subscribe((res) => {
 
       if (res['Status'] == "Execution Completed") {
         const installments = res['ProcessVariables'].installment;
-        let noOfEmi = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value)
+        let noOfEmi = parseInt(this.trackVehicleForm.controls['emisPaid'].value)
         const fleetRtr = res['ProcessVariables'].fleetRtr;
         if (fleetRtr) {
           this.fleetRtrForm(fleetRtr)
@@ -461,13 +462,6 @@ export class TrackVehicleComponent implements OnInit {
     var day = datePart[0];
     var year = datePart[2];
     const dateFormat: Date = new Date( year + '/' + month  + '/' + day);
-  //   year = dateFormat.getFullYear();
-  //   month = Number(dateFormat.getMonth()) + 1;
-  //   let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-  //   day = dateFormat.getDate().toString();
-  //   day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-  //  // const formattedDate = year + '-' + month1 + '-' + day;
-  //     const formattedDate = day + '/' + month1 + '/' + year;
     return dateFormat;
   }
 
@@ -506,13 +500,13 @@ export class TrackVehicleComponent implements OnInit {
     } else {
       return this.fb.group({
         id: [],
-        installmentAmt: [''],
+        installmentAmt: [],
         dueDate: [''],
         receiptNo: [''],
         receivedDate: [''],
-        receivedAmt: [''],
-        delayDays: [{ value: '', disabled: true }],
-        payment: [{ value: '', disabled: true }]
+        receivedAmt: [],
+        delayDays: [{  disabled: true }],
+        payment: [{ disabled: true }]
 
       });
     }
@@ -545,37 +539,28 @@ export class TrackVehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.trackVehicleForm.value['financeAmount'] = parseInt(this.trackVehicleForm.controls['financeAmount'].value)
-    this.trackVehicleForm.value['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
-    this.trackVehicleForm.value['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
-    this.trackVehicleForm.value['noOfEmi'] = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
-    this.trackVehicleForm.value['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
-    this.trackVehicleForm.value['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
-    this.trackVehicleForm.value['emisPaid'] = parseInt(this.trackVehicleForm.controls['noOfEmisPaid'].value);
-    this.trackVehicleForm.value['thirtyDpdCount'] = parseInt(this.trackVehicleForm.controls['count30'].value);
-    this.trackVehicleForm.value['ninetyDpdCount'] = parseInt(this.trackVehicleForm.controls['count90'].value);
-    this.trackVehicleForm.value['balanceTenor'] = parseInt(this.trackVehicleForm.controls['balanceTenor'].value);
-    this.trackVehicleForm.value['totalDelay'] = parseInt(this.trackVehicleForm.controls['totalDelay'].value);
-    this.trackVehicleForm.value['peakDelay'] = parseInt(this.trackVehicleForm.controls['peakDelay'].value);
-    this.trackVehicleForm.value['avgDelay'] = parseInt(this.trackVehicleForm.controls['avgDelay'].value);
-    this.trackVehicleForm.value['trackStatus'] = parseInt(this.trackVehicleForm.controls['trackStatus'].value);
-    this.trackVehicleForm.value['totalAmtPaid'] = parseInt(this.trackVehicleForm.controls['totalAmtPaid'].value);
-    for (let i = 0; i < this.formArr.length; i++) {
-      this.trackVehicleForm.value['installment'][i]['receivedAmt'] = parseInt(this.formArr.controls[i]['controls']['receivedAmt'].value);
-      this.trackVehicleForm.value['installment'][i]['installmentAmt'] = parseInt(this.formArr.controls[i]['controls']['installmentAmt'].value);
-      this.trackVehicleForm.value['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
-      this.trackVehicleForm.value['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);
-      this.trackVehicleForm.value['installment'][i]['receiptNo'] = parseInt(this.formArr.controls[i]['controls']['receiptNo'].value);
-      this.trackVehicleForm.value['installment'][i]['delayDays'] = parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
-      this.trackVehicleForm.value['installment'][i]['payment'] = parseInt(this.formArr.controls[i]['controls']['payment'].value);
-    }
-    this.trackVechileService.saveUpdateFleetRtr(this.trackVehicleForm.value, this.trackVehicleForm.value['installment'], this.fleetId, this.leadId).subscribe((res: any) => {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.trackVehicleForm.invalid) {
+        return;
+    }else{
+   console.log(this.trackVehicleForm.getRawValue()) ;
+   let formDetails = this.trackVehicleForm.getRawValue();
+   formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
+   formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
+   for (let i = 0; i < this.formArr.length; i++) {
+      formDetails['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
+      formDetails['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);
+      }
+    this.trackVechileService.saveUpdateFleetRtr(formDetails, this.fleetId, this.leadId).subscribe((res: any) => {
       console.log(res);
       if (res['Error'] == "0") {
         alert("Saved Success");
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
     });
+  }
   }
   getLeadId() {
     // console.log("in getleadID")

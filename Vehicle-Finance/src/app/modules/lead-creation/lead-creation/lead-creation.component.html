@@ -21,14 +21,19 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{ labels.productCategory }}
               <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="productCategoryData" (change)="productCategoryChange($event)">
+            <app-vf-custom-select 
+              [values]="productCategoryData" 
+              (change)="productCategoryChange($event)">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{ labels.product }}
               <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="productCategorySelectedList" formControlName="product">
+            <app-vf-custom-select 
+              [values]="productCategorySelectedList" 
+              formControlName="product"
+              (change)="productChange($event)">
             </app-vf-custom-select>
           </div>
         </div>
@@ -37,7 +42,9 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fundingProgram">{{ labels.fundingProgram }}
               <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="LOV.LOVS.fundingProgram" formControlName="fundingProgram">
+            <app-vf-custom-select 
+              [values]="fundingProgramData" 
+              formControlName="fundingProgram">
             </app-vf-custom-select>
           </div>
 
@@ -85,23 +92,23 @@
             >
             <div class="ng-autocomplete" style="width:100%">
               <ng-autocomplete 
-                [data]="dealerCodeData"
+                [data]="sourcingCodeData"
                 [searchKeyword]="keyword"
                 (selected)='selectEvent($event)'
-                (inputChanged)='onChangeSearch($event)'
-                (inputFocused)='onFocused($event)'
-                [itemTemplate]="itemTemplate"
+                (inputChanged)='onSourcingCodeSearch($event)'
+                [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
-                [placeHolder]="sourcingCodePlaceholder">                                 
+                [placeHolder]="sourcingCodePlaceholder"
+                [minQueryLength]="2">                                 
               </ng-autocomplete>               
-              <ng-template #itemTemplate let-item>
-              <a [innerHTML]="item.name"></a>
+              <ng-template #sourcingCodeTemplate let-item>
+              <a [innerHTML]="item.value"></a>
               </ng-template>               
               <ng-template #notFoundTemplate let-notFound>
               <div [innerHTML]="notFound"></div>
               </ng-template>
-              </div>
+            </div>
           </div>
         </div>
 
@@ -110,8 +117,27 @@
             <label for="sourcing_code">Dealer Code
               <sub class="star_blue_col">*</sub>
             </label>
-            <input formControlName="dealerCode" type="text" class="form-control mandatory select2" id="sourcingCode"
-              placeholder="Dealer Code" name="dealerCode" />
+            <!-- <input formControlName="dealerCode" type="text" class="form-control mandatory select2" id="sourcingCode"
+              placeholder="Dealer Code" name="dealerCode" /> -->
+              <div class="ng-autocomplete" style="width:100%">
+                <ng-autocomplete 
+                  [data]="dealerCodeData"
+                  [searchKeyword]="keyword"
+                  (selected)='selectRCevent($event)'
+                  (inputChanged)='onDealerCodeSearch($event)'
+                  [itemTemplate]="dealerCodeTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                  formControlName="dealerCode"
+                  [placeHolder]="'Dealer Code'"
+                  [minQueryLength]="2">                                 
+                </ng-autocomplete>               
+                <ng-template #dealerCodeTemplate let-item>
+                <a [innerHTML]="item.dealorName"></a>
+                </ng-template>               
+                <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+                </ng-template>
+              </div>
           </div>
         </div>
 
@@ -168,7 +194,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity"
-              (change)="selectApplicantType($event)">
+              (change)="selectApplicantType($event, false)">
             </app-vf-custom-select>
           </div>
         </div>
@@ -186,6 +212,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'First Name'"
               [maxLength]="regexPattern.nameLength"
+              [patternCheck]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -198,6 +225,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Middle Name'"
               [maxLength]="regexPattern.nameLength"
+              [patternCheck]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -210,7 +238,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Last Name'"
               [maxLength]="regexPattern.nameLength"
-              [patternCheck]="regexPattern.name">
+              [patternCheck]="namePattern">
             </app-custom-input>
           </div>
         </div>
@@ -234,18 +262,20 @@
             <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{
               labels.dateOfIncorporation
             }}</label>
-             <input
+             <!-- <input
               type="date"
               class="form-control mandatory"
               id="dob"
               placeholder="Date of birth"
               name="dob"
               formControlName="dateOfBirth"
-            />
-            <!-- <kendo-datepicker
-                formControlName="dateOfBirth"
-                
-            ></kendo-datepicker> -->
+            /> -->
+            <kendo-datepicker class="form-control mandatory" 
+              formControlName="dateOfBirth" 
+              [format]="'dd/MM/yyyy'"
+              [max]="toDayDate" 
+              placeholder="Date of birth"
+              [activeView]="'decade'"></kendo-datepicker>  
           </div>
 
           <div class="btn-sec clear-both">
@@ -260,6 +290,35 @@
     </div>
   </div>
 </main>
+
+<div class="modal" id="modal" [ngClass]="{ 'dis-block': showModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Lead Creation</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
+      </div>
+      <div class="modal-body">
+        <p id="">Lead created successfully ! <strong>Lead ID:</strong> {{leadId}}</p>
+      </div> 
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="reject_dlead"
+          (click)="navgiateToNextPage()"
+        >
+          OK
+        </button>
+        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Footer -->
 <footer class="footer pf">

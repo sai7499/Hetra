@@ -5,7 +5,10 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheClient}}</label>
                 <input type="text" class="form-control" id="client_name" formControlName="clientName">
-            </div>
+                <span *ngIf="submitted && f.clientName.errors"style= "color:red;" class="invalid-feedback">
+                    <span *ngIf="f.clientName.errors.pattern">Numbers and Special Characters not allowed</span>
+                </span>
+             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheFinancier}}</label>
                 <input type="text" class="form-control" id="financier_name" formControlName="financierName">
@@ -14,6 +17,8 @@
                 <label for="Vechical Type">{{labels.assetFinanced}}</label>
                 <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
             </div>
+        </div>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.repaymentMode}}</label>
                 <!-- <select class="form-control" formControlName="repaymentMode">
@@ -32,15 +37,15 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.financeCharges}}</label>
-                <input type="text" class="form-control" id="finance_charges" formControlName="financeCharges">
+                <input type="number" class="form-control" id="finance_charges" formControlName="financeCharges">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.contractValue}}</label>
-                <input type="text" class="form-control" id="contract_value" formControlName="contractValue">
+                <input type="number" class="form-control" id="contract_value" formControlName="contractValue">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.contNo}}</label>
-                <input type="text" class="form-control" id="cont_no" formControlName="contNo">
+                <input type="number" class="form-control" id="cont_no" formControlName="contNo">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.vehicleNo}}</label>
@@ -92,41 +97,41 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.count}}</label>
                 <div class="row twos">
-                    <input type="text" class="form-control w-50" id="count_30" formControlName="count30">
-                    <input type="text" class="form-control w-50" id="count_90" formControlName="count90">
+                    <input type="number" class="form-control w-50" id="count_30" formControlName="thirtyDpdCount">
+                    <input type="number" class="form-control w-50" id="count_90" formControlName="ninetyDpdCount">
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalNoOfEmis}}</label>
-                <input type="text" class="form-control" id="no_of_emis" formControlName="totalEmi">
+                <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.noOfEmisPaid}}</label>
-                <input type="text" class="form-control" id="no_of_emis_paid" formControlName="noOfEmisPaid">
+                <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.balanceTenor}}</label>
-                <input type="text" class="form-control" id="balance_tenor" formControlName="balanceTenor">
+                <input type="number" class="form-control" id="balance_tenor" formControlName="balanceTenor">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalDelay}}</label>
-                <input type="text" class="form-control" id="total_delay" formControlName="totalDelay">
+                <input type="number" class="form-control" id="total_delay" formControlName="totalDelay">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.peakDelay}}</label>
-                <input type="text" class="form-control" id="peak_delay" formControlName="peakDelay">
+                <input type="number" class="form-control" id="peak_delay" formControlName="peakDelay">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.avgDelay}}</label>
-                <input type="text" class="form-control" id="avg_delay" formControlName="avgDelay">
+                <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.trackStatus}}</label>
-                <input type="text" class="form-control" id="track_status" formControlName="trackStatus">
+                <input type="number" class="form-control" id="track_status" formControlName="trackStatus">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
-                <input type="text" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid">
+                <input type="number" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid">
             </div>
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.emiAmount}}</label>
@@ -160,7 +165,7 @@
                             *ngFor="let itemrow of trackVehicleForm.get('installment')['controls']; let i=index;let l=last"
                             [formGroupName]="i">
                             <td>{{i+1}}</td>
-                            <td><input type="text" class="form-control input_value" value="10000"
+                            <td><input type="number" class="form-control input_value" value="10000"
                                     formControlName="installmentAmt"></td>
                             <td>
                                 <div class="form-group date">
@@ -187,11 +192,11 @@
                                     </div>
                                 </div>
                             </td>
-                            <td><input type="text" class="form-control input_value" value="10000"
+                            <td><input type="number" class="form-control input_value" value="10000"
                                     formControlName="receivedAmt" (change)="paymentExcessOrShort($event ,i)"></td>
-                            <td><input type="text" class="form-control input_value auto_cal"
+                            <td><input type="number" class="form-control input_value auto_cal"
                                     formControlName="delayDays"></td>
-                            <td><input type="text" class="form-control input_value auto_cal" formControlName="payment">
+                            <td><input type="number" class="form-control input_value auto_cal" formControlName="payment">
                             </td>
                             <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                                     (click)="addNewRow()"></i>&nbsp;

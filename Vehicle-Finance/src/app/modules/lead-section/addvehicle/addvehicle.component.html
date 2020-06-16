@@ -9,11 +9,8 @@
         <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['../vehicle-details']">
             {{ label.back }}
         </button> &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{ label.save }} </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()" >
+            {{ label.save }} </button>
+        &nbsp;
     </div>
-</div>
-
-<div class="alert alert-success alert-dismissible fixed" id="alert" *ngIf="isHidden">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button> {{errorMsg}}
 </div>

@@ -1,7 +1,17 @@
-.content{
+.content {
     margin-top: 20px;
 }
 
-#otp_button{
+#resendotp_button {
+    width: 24%;
+    padding-right: 30px;
+}
+
+#validateOtp_button {
+    margin-left: 135px;
     width: 33%;
+}
+
+.btn-primary {
+    padding: 6px 9px;
 }

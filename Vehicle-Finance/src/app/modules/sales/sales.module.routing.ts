@@ -7,13 +7,14 @@ import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.co
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
+import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: SalesComponent,
     resolve: {
-      LeadDataResolverService,
+      leadData:LeadDataResolverService,
     },
     children: [
       {
@@ -25,13 +26,17 @@ const routes: Routes = [
         component: ApplicantListComponent,
       },
       {
-        path: 'vehicle-details',
+        path: 'vehicle-list',
         component: VehicleDetailsComponent,
       },
       {
         path: 'document-upload',
         component: DocumentUploadComponent,
       },
+      {
+        path: 'add-vehicle',
+        component: AddvehicleComponent
+      }
     ],
   },
 ];
