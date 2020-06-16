@@ -99,7 +99,6 @@
               <ng-autocomplete 
                 [data]="sourcingCodeData"
                 [searchKeyword]="keyword"
-                (selected)='selectEvent($event)'
                 (inputChanged)='onSourcingCodeSearch($event)'
                 [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
