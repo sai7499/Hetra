@@ -21,27 +21,27 @@
                             <thead>
                                 <tr class="table-head-bg">
 
-                                    <td>Account Holder Name </td>
-                                    <td>Bank Name </td>
-                                    <td>A/C Number </td>
-                                    <td>A/C Type</td>
-                                    <td>From Date</td>
-                                    <td>To Date</td>
-                                    <td>Period</td>
-                                    <td>Action</td>
+                                    <td class="text-center">Account Holder Name </td>
+                                    <td class="text-center">Bank Name </td>
+                                    <td class="text-center">A/C Number </td>
+                                    <td class="text-center">A/C Type</td>
+                                    <td class="text-center">From Date</td>
+                                    <td class="text-center">To Date</td>
+                                    <td class="text-center">Period</td>
+                                    <td class="text-center">Action</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr  id="" *ngFor="let item of bankDetails">
 
-                                    <td class="text-left">{{item.accountHolderName}}</td>
-                                    <td class="text-left">{{item.bankName}}</td>
-                                    <td class="text-left">{{item.accountNumber}}</td>
-                                    <td class="text-left">{{item.accountType}}</td>
-                                    <td class="text-left">{{item.fromDate | date:'dd-MM-yyyy'}}</td>
-                                    <td class="text-left">{{item.toDate | date:'dd-MM-yyyy'}}</td>
-                                    <td class="text-left">{{item.period}}</td>
-                                    <td class="text-left"><i class="fa fa-pencil" (click)="routeDetails(item.applicantId);"
+                                    <td class="text-center">{{item.accountHolderName}}</td>
+                                    <td class="text-center">{{item.bankName}}</td>
+                                    <td class="text-center">{{item.accountNumber}}</td>
+                                    <td class="text-center">{{item.accountType}}</td>
+                                    <td class="text-center">{{item.fromDate }}</td>
+                                    <td class="text-center">{{item.toDate }}</td>
+                                    <td class="text-center">{{item.period}}</td>
+                                    <td class="text-center"><i class="fa fa-pencil" (click)="routeDetails(item.applicantId);"
                                             aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true"
                                             id="remove_item_applicant" (click)="onDelete()"></i></td>
                                 </tr>

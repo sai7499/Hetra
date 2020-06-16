@@ -254,8 +254,6 @@ export class BankDetailsComponent implements OnInit {
   }
 
   getMonths() {
-    // this.changeDateFormat();
-    // this.changeToDateFormat();
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
@@ -280,35 +278,32 @@ export class BankDetailsComponent implements OnInit {
       //   (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
       //   (toDate.getMonth() - fromDate.getMonth()) +
       //   1;
-      this.bankForm.patchValue({
-        period: numberOfMonths,
-      });
-      const startMonth = fromDate.getMonth();
-      const endMonth = toDate.getMonth();
+      if (numberOfMonths >= 1) {
+        this.bankForm.patchValue({
+          period: numberOfMonths,
+        });
+      } else {
+        alert('Invalid Date Selection');
+        this.bankForm.value.period = '';
+        return false;
+      }
+
+      this.listArray.controls = [];
+      for (let i = 0; i <= numberOfMonths - 1; i++) {
+          this.listArray.push(this.initRows());
+        }
+      // const startMonth = fromDate.getMonth();
+      // const endMonth = toDate.getMonth();
       this.assignedArray = [];
-      for (let i = numberOfMonths + 3  ; i >= 0; i--) {
-        // if ( i > 11) {
-        //   // tslint:disable-next-line: prefer-const
-        //   let diff1 = numberOfMonths - 11;
-        //   console.log('diff of months', diff1);
-        // } else {
-        // tslint:disable-next-line: prefer-const
-        // this.assignedArray = [];
-//
-        // tslint:disable-next-line: prefer-const
-        // console.log(i, 'checking index');
+      for (let i = numberOfMonths + 3   ; i >= 0; i--) {
         const count = i % 12;
         const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
-        // }
 
-        this.assignedArray = this.assignedArray.reverse();
+        //
         }
+      this.assignedArray = this.assignedArray.reverse();
       console.log(this.assignedArray, ' assigned Array');
-      }
-    this.listArray.controls = [];
-    for (let i = 0; i <= numberOfMonths - 1; i++) {
-        this.listArray.push(this.initRows());
       }
   }
 onBack() {
