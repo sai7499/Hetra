@@ -17,14 +17,17 @@ const routes: Routes = [
   {
     path: ':leadId/co-applicant/:applicantId',
     component: CoApplicantComponent,
+    resolve: { leadData: LeadDataResolverService },
   },
   {
     path: ':leadId/co-applicant',
     component: CoApplicantComponent,
+    resolve: { leadData: LeadDataResolverService },
   },
   {
     path: ':leadId/sales-exact-match',
     component: SalesExactMatchComponent,
+    resolve: { leadData: LeadDataResolverService },
   },
   {
     path: ':leadId',
@@ -63,7 +66,7 @@ const routes: Routes = [
         component: ExactMatchComponent,
       },
       {
-        path: 'otp-section',
+        path: 'otp-section/:id',
         component: OtpSectionComponent,
       },
     ],

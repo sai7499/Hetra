@@ -12,6 +12,8 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
+import { DatePickerModule} from '@progress/kendo-angular-dateinputs'
+import { AddvehicleComponent } from './addvehicle/addvehicle.component';
 
 @NgModule({
   imports: [
@@ -22,6 +24,7 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
     CommonModule,
     SharedModule,
     LeadSectionModule,
+    DatePickerModule
   ],
   providers: [LeadDataResolverService],
   declarations: [
@@ -29,6 +32,7 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
     VehicleDetailsComponent,
     LeadDetailsComponent,
     DocumentUploadComponent,
+    AddvehicleComponent
   ],
 })
 export class SalesModule {}

@@ -8,16 +8,19 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { AddOrUpdateApplicantComponent } from '@shared/add-update-applicant/add-update-applicant.component';
 import { ApplicantResolveService } from '@services/applicant.resolve.service';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
     path: ':leadId/add-applicant',
     component: AddOrUpdateApplicantComponent,
+    resolve: {leadData: LeadDataResolverService}
   },
   {
     path: ':leadId',
     component: ApplicantDetailsComponent,
-    resolve: { applicantDetails: ApplicantResolveService },
+    resolve: { applicantDetails: ApplicantResolveService,
+      leadData: LeadDataResolverService },
     children: [
       {
         path: 'basic-details',

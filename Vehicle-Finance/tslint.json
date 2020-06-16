@@ -9,6 +9,8 @@
     "component-class-suffix": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,
+    "noUnusedLocals": true,
+        "noUnusedParameters": true,
     "directive-selector": [
       true,
       "attribute",

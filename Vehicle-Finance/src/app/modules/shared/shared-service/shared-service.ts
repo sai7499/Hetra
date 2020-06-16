@@ -13,7 +13,13 @@ export class SharedService {
         console.log('prd',data)
         this.leadData$.next(data);
     }
+    loanAmount$: BehaviorSubject<number> = new BehaviorSubject(0);
+    changeLoanAmount(amount:number){
+        this.loanAmount$.next(amount)
+    }
 
-
-
+    vaildateForm$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getFormValidation(form){
+        this.vaildateForm$.next(form)
+    }
 }

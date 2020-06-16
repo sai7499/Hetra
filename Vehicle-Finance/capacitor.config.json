@@ -1,0 +1,13 @@
+{
+  "appId": "com.vehicle.finance",
+  "appName": "vehicle-finance",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

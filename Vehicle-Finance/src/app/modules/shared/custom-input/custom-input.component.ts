@@ -74,6 +74,11 @@ export class CustomInputComponent
   isDisabled: boolean;
   private data: any;
 
+  @Input() set isDirty(value) {
+    if (value) {
+      this.checkValidation(this.data);
+    }
+  }
   private checkIsFirst = true;
   private propagateChange = (event) => {
     // this.change.emit(event);
