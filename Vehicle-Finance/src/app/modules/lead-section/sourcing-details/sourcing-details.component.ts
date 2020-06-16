@@ -74,6 +74,8 @@ export class SourcingDetailsComponent implements OnInit {
   dealorCodeKey: string;
   dealorCodeValue: string;
 
+  isSourchingCode:boolean;
+
   sourcingCodeObject: {
     key: string;
     value: string;
@@ -333,13 +335,22 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
-      return;
+      if (sourcingTypeData === '11SOURTYP') {
+        this.isSourchingCode = true;
+        this.sourcingCodePlaceholder = 'Not Applicable';
+      } else {
+        this.isSourchingCode = false;
+        this.sourcingCodePlaceholder = 'Sourcing Code';
+      }
+      this.sourchingTypeChange(sourcingTypeData);
+    } else {
+      this.sourcingCodePlaceholder = 'Sourcing Code';
     }
-    if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
-      const sourcingTypeData = this.sourchingTypeValues[0].key;
-      this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
-    }
+    // if (this.sourchingTypeValues.length === 0) {
+    //   this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
+    //   const sourcingTypeData = this.sourchingTypeValues[0].key;
+    //   this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
+    // }
   }
 
   sourchingTypeChange(event) {
@@ -353,7 +364,6 @@ export class SourcingDetailsComponent implements OnInit {
       return;
     }
     this.sourcingCodePlaceholder = this.placeholder[0].value;
-
   }
 
   onSourcingCodeSearch(event) {
