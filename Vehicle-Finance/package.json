@@ -47,7 +47,7 @@
     "ngx-bootstrap": "^5.1.1",
     "ngx-device-detector": "^1.4.2",
     "ngx-pagination": "^5.0.0",
-    "ngx-toastr": "^10.0.4",
+    "ngx-toastr": "^10.2.0",
     "ngx-ui-loader": "^8.0.0",
     "rxjs": "~6.4.0",
     "sjcl": "^1.0.8",

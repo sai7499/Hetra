@@ -5,9 +5,9 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheClient}}</label>
                 <input type="text" class="form-control" id="client_name" formControlName="clientName">
-                <span *ngIf="submitted && f.clientName.errors"style= "color:red;" class="invalid-feedback">
+                <!-- <span *ngIf="submitted && f.clientName.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.clientName.errors.pattern">Numbers and Special Characters not allowed</span>
-                </span>
+                </span> -->
              </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheFinancier}}</label>
@@ -77,7 +77,7 @@
                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
                         <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanStartDate"
-                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
+                        [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy"
                         (valueChange)="loanStartDate($event)"></kendo-datepicker>
                   
                         <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
@@ -89,7 +89,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanMaturityDate}}</label>
                 <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanMaturityDate"
-                [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
+                [format]="'dd/MM/yyyy'"  placeholder="dd/mm/yyyy"
               ></kendo-datepicker>
           
                 <!-- <input type="date" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate"> -->

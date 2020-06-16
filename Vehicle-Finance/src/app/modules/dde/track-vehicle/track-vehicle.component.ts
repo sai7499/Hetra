@@ -62,7 +62,7 @@ export class TrackVehicleComponent implements OnInit {
   fleetRtrForm(fleetRtr) {
     if (fleetRtr) {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl(fleetRtr.clientName , Validators.pattern('[A-Za-z]')),
+        clientName: new FormControl(fleetRtr.clientName),
         financierName: new FormControl(fleetRtr.financierName),
         assetFinancied: new FormControl(fleetRtr.assetFinancied),
         repaymentMode: new FormControl(fleetRtr.repaymentMode),
@@ -93,7 +93,7 @@ export class TrackVehicleComponent implements OnInit {
 
     } else {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl('' , Validators.pattern('[A-Za-z]') ),
+        clientName: new FormControl('' ),
         financierName: new FormControl(''),
         assetFinancied: new FormControl(''),
         repaymentMode: new FormControl(''),
@@ -542,9 +542,9 @@ export class TrackVehicleComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.trackVehicleForm.invalid) {
-        return;
-    }else{
+    // if (this.trackVehicleForm.invalid) {
+    //     return;
+    // }else{
    console.log(this.trackVehicleForm.getRawValue()) ;
    let formDetails = this.trackVehicleForm.getRawValue();
    formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
@@ -560,7 +560,7 @@ export class TrackVehicleComponent implements OnInit {
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
     });
-  }
+  // }
   }
   getLeadId() {
     // console.log("in getleadID")
