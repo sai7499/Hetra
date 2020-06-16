@@ -26,6 +26,9 @@
             formControlName="applicantRelationshipWithLead"
             [values]="applicantLov?.applicantRelationshipWithLead"
           ></app-vf-custom-select>
+          <div  class="cus-mandatory-field" *ngIf="basicForm.controls['applicantRelationshipWithLead'].touched && basicForm.controls['applicantRelationshipWithLead'].value==''">
+            Relationship Lead Is Required
+    </div> 
           
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -34,6 +37,10 @@
                         formControlName="title"
                         [values]="applicantLov?.salutation"
                       ></app-vf-custom-select>
+                <div  class="cus-mandatory-field" *ngIf="basicForm.controls['title'].touched && basicForm.controls['title'].value==''">
+                        Title Is Required
+                </div>
+
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
@@ -59,6 +66,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'First Name is required'"
+                  [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -107,6 +115,7 @@
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
                  [maxLength]='mobileLenght10'
+                 [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -152,8 +161,7 @@
                             name="age"
                             [value]="showAge ? showAge : initialAge"
                             formControlName="age"
-                            
-                           
+                            disabled
                           />
             </div>
           </div>
@@ -166,10 +174,10 @@
                 
               ></app-vf-custom-select>
 
-
-              <!-- <div  class="cus-mandatory-field" *ngIf="obj.controls['gender'].valid">
+           
+              <div  class="cus-mandatory-field" *ngIf="obj.controls['gender'].touched && obj.controls['gender'].value==''">
                 select gender
-              </div> -->
+              </div>
 
 
               <!-- <div class="cus-mandatory-field"
@@ -241,7 +249,10 @@
               /> -->
               <app-custom-input
                   formControlName="minorGuardianName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
                   [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
+                  [isDirty]="isDirty"
                   ></app-custom-input>
                 
             </div>
@@ -271,9 +282,12 @@
                   formControlName="fatherName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  [isRequired]="'Father Name is Mandatory'"
-                  #fatherName
+                  [isDirty]="isDirty"
+                  [isRequired]="'father Name is Required'"
+                  
+            
                 ></app-custom-input>
+                
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="spouse_name">Spouse Name</label>
@@ -304,6 +318,7 @@
                   formControlName="motherMaidenName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
+                  [isDirty]="isDirty"
                   
                 ></app-custom-input>
             </div>
@@ -365,17 +380,9 @@
                 formControlName="occupation"
                 [values]="applicantLov?.occupation"
               ></app-vf-custom-select>
-              <!-- <span class="showErrorMessage" 
-              *ngIf="validation.get('occupation').errors?.value !== '' 
-              && validation.get('occupation').errors?.required" >                  
-                    Select Occupation
-              </span> -->
-              <!-- <div class="showErrorMessage"
-              *ngIf="obj.controls['occupation'].touched && !obj.controls['occupation'].valid">
-                  <div class="showErrorMessage" *ngIf="obj.controls['occupation'].value==''">
-                       select occupation
-                   </div>
-              </div> -->
+              <div  class="cus-mandatory-field" *ngIf="obj.controls['occupation'].touched && obj.controls['occupation'].value==''">
+                Select Occupation
+              </div>
               
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -384,6 +391,9 @@
                 formControlName="nationality"
                 [values]="applicantLov?.nationality"
               ></app-vf-custom-select>
+              <div  class="cus-mandatory-field" *ngIf="obj.controls['nationality'].touched && obj.controls['nationality'].value==''">
+                Select Nationality
+              </div>
 
               <!-- <span class="showErrorMessage" 
               *ngIf="validation.get('nationality').errors?.value !== '' 
@@ -403,7 +413,7 @@
             
             
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Politically Exposed Person [PEP] <sub class="star_red_col">*</sub></label>
+              <label for="customer_category">Politically Exposed Person [PEP] </label>
               <app-vf-custom-select
                 formControlName="politicallyExposedPerson"
                 [values]="applicantLov?.politicallyExposed"
@@ -421,11 +431,10 @@
                 formControlName="custSegment"
                 [values]="applicantLov?.customerSegment"
               ></app-vf-custom-select>
-              <!-- <span class="showErrorMessage"  
-              *ngIf="validation.get('customerCategory').errors?.value !== ''
-               && validation.get('customerCategory').errors?.required">                  
-                Select customer category
-            </span> -->
+              <div  class="cus-mandatory-field" *ngIf="obj.controls['custSegment'].touched && obj.controls['custSegment'].value==''">
+                Customer Segment is Required
+              </div>
+              
             
             </div>
             
@@ -435,6 +444,9 @@
                 formControlName="customerCategory"
                 [values]="applicantLov?.customerCategory"
               ></app-vf-custom-select>
+              <div  class="cus-mandatory-field" *ngIf="obj.controls['customerCategory'].touched && obj.controls['customerCategory'].value==''">
+                Customer category is Required
+              </div>
               
             </div>
     
@@ -489,7 +501,7 @@
               <!-- <input formControlName="name1" type="text" class="form-control" /> -->
               <app-custom-input
                   formControlName="name1"
-                  
+                  [isDirty]="isDirty"
                   [maxLength]="nameLength30"
                   [isRequired]="'Company Name is required'"
                 ></app-custom-input>
@@ -556,9 +568,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
       </button></a>
-    <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSave()">
+    <a  id="save_vehicle_details"  ><button class="btn btn-primary" type="button" (click)="onSave()" >
       Save
-    </p>
+    </button>
+      
+    </a>
     <a id="next_vehicle_details"><button class="btn btn-primary" type="button"
         [routerLink]="['../../identity-details', applicantId]">
         Next
