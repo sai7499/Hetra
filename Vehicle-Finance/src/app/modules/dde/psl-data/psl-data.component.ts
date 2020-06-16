@@ -346,7 +346,9 @@ export class PslDataComponent implements OnInit, OnChanges {
         this.setValueForOtherInvestmentCost();
         this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
         this.setValueForPslSubCategoryByInvestmentInEquipment();
-
+        this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
+        this.setValueForPslSubCategoryByInvestmentInPlantANdMacinery();
+        
         this.pslDataForm.patchValue({
           activity: this.pslData.activity,
           microSmallAndMediumEnterprises :{
