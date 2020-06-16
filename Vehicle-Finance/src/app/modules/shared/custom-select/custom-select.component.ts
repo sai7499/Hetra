@@ -24,6 +24,19 @@ import { LovDataService } from 'src/app/services/lov-data.service';
 })
 export class CustomSelectComponent
   implements OnInit, OnChanges, ControlValueAccessor {
+
+  set selectedOption(val) {
+    this.val = val;
+    this.onChange(this.val);
+    const selectedValue = this.getSelectedObject();
+    this.valueChange.emit(selectedValue);
+  }
+
+  get selectedOption() {
+    return this.val;
+  }
+
+  constructor(private lovDataService: LovDataService) {}
   @Input() className = 'form-control mandatory';
   @Input() defaultOption = {
     key: '',
@@ -35,28 +48,17 @@ export class CustomSelectComponent
   @Input() isRequired: string;
 
   @Output() valueChange = new EventEmitter();
-
-  onChange: any = () => {};
+  ifError = false;
+  errorMsg: any;
+  onChange: any = () => {
+  };
   onTouch: any = () => {};
-
-  set selectedOption(val) {
-    this.val = val;
-    this.onChange(this.val);
-    const selectedValue = this.getSelectedObject();
-    this.valueChange.emit(selectedValue);
-  }
 
   getSelectedObject() {
     return this.values && Array.isArray(this.values)
       ? this.values.find((value) => String(value.key) === this.selectedOption)
       : {};
   }
-
-  get selectedOption() {
-    return this.val;
-  }
-
-  constructor(private lovDataService: LovDataService) {}
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;
@@ -81,5 +83,16 @@ export class CustomSelectComponent
   }
   setDisabledState(state: boolean) {
     this.isDisabled = state;
+  }
+  onBlurChange(event: any) {
+    // alert(event);
+    if (!event) {
+      this.errorMsg = this.isRequired;
+      this.ifError = true;
+    } else {
+      this.ifError = false;
+      return;
+    }
+
   }
 }
