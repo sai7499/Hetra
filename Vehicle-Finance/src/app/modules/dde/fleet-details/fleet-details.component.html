@@ -29,9 +29,7 @@
                         </tr>
                     </thead>
                     <tbody formArrayName="Rows">
-                        <tr id="applicant_1_row"
-                            *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
-                            [formGroupName]="i">
+                        <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i">
 
                             <td>{{i+1}}</td>
                             <td><input type="text" class="form-control input_value height" formControlName="regdNo">
@@ -45,8 +43,7 @@
                                             <option>{{labels.guarantor}}</option>
                                         </select> -->
 
-                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
-                                    formControlName="relation">
+                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead" formControlName="relation">
                                 </app-vf-custom-select>
                             </td>
                             <td style="min-width: 200px;">
@@ -71,8 +68,7 @@
         
                                         </select> -->
 
-                                <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers"
-                                    formControlName="financier">
+                                <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers" formControlName="financier">
                                 </app-vf-custom-select>
 
                             </td>
@@ -99,8 +95,7 @@
                             </td>
                             <td><input type="number" class="form-control input_value height" formControlName="pd">
                             </td>
-                            <td><input type="number" class="form-control input_value height"
-                                    formControlName="gridValue">
+                            <td><input type="number" class="form-control input_value height" formControlName="gridValue">
                             </td>
                             <td><u><button class="a_tag" (click)="getRtr(itemrow.value.id)">RTR</button></u></td>
                             <!-- <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
@@ -108,10 +103,7 @@
                                             <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
                                                 (click)="deleteRow(i)"></i></td> -->
                             <td>
-                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                                    (click)="addNewRow()"></button>&nbsp;<button type="button" class="fa fa-minus"
-                                    aria-hidden="true" id="delPOIbutton" value="Delete"
-                                    (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" (click)="addNewRow()"></button>&nbsp;<button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
                         </tr>
                     </tbody>
