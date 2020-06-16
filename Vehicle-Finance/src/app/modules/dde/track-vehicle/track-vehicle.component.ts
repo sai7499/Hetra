@@ -62,23 +62,23 @@ export class TrackVehicleComponent implements OnInit {
   fleetRtrForm(fleetRtr) {
     if (fleetRtr) {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl(fleetRtr.clientName),
-        financierName: new FormControl(fleetRtr.financierName),
-        assetFinancied: new FormControl(fleetRtr.assetFinancied),
-        repaymentMode: new FormControl(fleetRtr.repaymentMode),
+        clientName: new FormControl(fleetRtr.clientName ,[Validators.required , Validators.pattern(/^[a-zA-Z ]*$/)]),
+        financierName: new FormControl(fleetRtr.financierName ,Validators.required ),
+        assetFinancied: new FormControl(fleetRtr.assetFinancied ,Validators.required ),
+        repaymentMode: new FormControl(fleetRtr.repaymentMode ,Validators.required ),
         financeAmount: new FormControl({ value: 200000, disabled: true }),
-        financeCharges: new FormControl(fleetRtr.financeCharges),
-        contractValue: new FormControl(fleetRtr.contractValue),
-        contNo: new FormControl(fleetRtr.contNo),
-        vehicleNo: new FormControl(fleetRtr.vehicleNo),
-        financeType: new FormControl(fleetRtr.financeType),
-        accountStatus: new FormControl(fleetRtr.accountStatus),
-        loanStartDate: new FormControl(this.getDateFormat(fleetRtr.loanStartDate)),
-        loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate)),
+        financeCharges: new FormControl(fleetRtr.financeCharges,Validators.required ),
+        contractValue: new FormControl(fleetRtr.contractValue,Validators.required ),
+        contNo: new FormControl(fleetRtr.contNo,Validators.required ),
+        vehicleNo: new FormControl(fleetRtr.vehicleNo,Validators.required ),
+        financeType: new FormControl(fleetRtr.financeType,Validators.required ),
+        accountStatus: new FormControl(fleetRtr.accountStatus,Validators.required ),
+        loanStartDate: new FormControl(this.getDateFormat(fleetRtr.loanStartDate),Validators.required ),
+        loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate),Validators.required ),
         thirtyDpdCount: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : 0, disabled: true }),
         ninetyDpdCount: new FormControl({ value: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : 0, disabled: true }),
-        noOfEmi: new FormControl(fleetRtr.noOfEmi),
-        emisPaid: new FormControl(fleetRtr.emisPaid),
+        noOfEmi: new FormControl(fleetRtr.noOfEmi,Validators.required ),
+        emisPaid: new FormControl(fleetRtr.emisPaid,Validators.required ),
         balanceTenor: new FormControl({ value: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : 0, disabled: true }),
         totalDelay: new FormControl({ value: fleetRtr.totalDelay ? fleetRtr.totalDelay : 0, disabled: true }),
         peakDelay: new FormControl({ value: fleetRtr.peakDelay ? fleetRtr.peakDelay : 0, disabled: true }),
@@ -93,23 +93,23 @@ export class TrackVehicleComponent implements OnInit {
 
     } else {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl('' ),
-        financierName: new FormControl(''),
-        assetFinancied: new FormControl(''),
-        repaymentMode: new FormControl(''),
+        clientName: new FormControl('' , [Validators.required ,Validators.pattern(/^[a-zA-Z ]*$/)] ),
+        financierName: new FormControl('',Validators.required ),
+        assetFinancied: new FormControl('',Validators.required ),
+        repaymentMode: new FormControl('',Validators.required ),
         financeAmount: new FormControl({ value: 200000, disabled: true }),
-        financeCharges: new FormControl(),
-        contractValue: new FormControl(),
-        contNo: new FormControl(),
-        vehicleNo: new FormControl(''),
-        financeType: new FormControl(''),
-        accountStatus: new FormControl(''),
-        loanStartDate: new FormControl(),
-        loanMaturityDate: new FormControl(),
+        financeCharges: new FormControl('' , Validators.required ),
+        contractValue: new FormControl('',Validators.required ),
+        contNo: new FormControl('', Validators.required ),
+        vehicleNo: new FormControl('',Validators.required ),
+        financeType: new FormControl('',Validators.required ),
+        accountStatus: new FormControl('',Validators.required ),
+        loanStartDate: new FormControl('' , Validators.required ),
+        loanMaturityDate: new FormControl('', Validators.required ),
         thirtyDpdCount: new FormControl({ value:0, disabled: true }),
         ninetyDpdCount: new FormControl({ value:0, disabled: true }),
-        noOfEmi: new FormControl(''),
-        emisPaid: new FormControl(),
+        noOfEmi: new FormControl('', Validators.required ),
+        emisPaid: new FormControl('', Validators.required ),
         balanceTenor: new FormControl({ value: 0, disabled: true }),
         totalDelay: new FormControl({  value: 0 ,disabled: true }),
         peakDelay: new FormControl({ value:0, disabled: true }),
@@ -542,13 +542,14 @@ export class TrackVehicleComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    // if (this.trackVehicleForm.invalid) {
-    //     return;
-    // }else{
+    if (this.trackVehicleForm.invalid) {
+        return;
+    }else{
    console.log(this.trackVehicleForm.getRawValue()) ;
    let formDetails = this.trackVehicleForm.getRawValue();
    formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
    formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
+   formDetails['contNo'] =this.trackVehicleForm.controls['contNo'].value.toString();
    for (let i = 0; i < this.formArr.length; i++) {
       formDetails['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
       formDetails['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);
@@ -560,7 +561,7 @@ export class TrackVehicleComponent implements OnInit {
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
     });
-  // }
+  }
   }
   getLeadId() {
     // console.log("in getleadID")
