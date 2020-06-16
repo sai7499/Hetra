@@ -36,6 +36,7 @@ export class AddressDetailsComponent implements OnInit {
   address: Applicant;
   applicantId: number;
   leadId: number;
+  isDirty : boolean
 
   permanantPincode: {
     state?: any[];

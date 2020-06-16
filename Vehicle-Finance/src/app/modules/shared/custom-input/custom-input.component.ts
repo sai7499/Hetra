@@ -73,6 +73,11 @@ export class CustomInputComponent
   inputError = false;
   isDisabled: boolean;
   private data: any;
+  @Input() set isDirty(value){
+    if(value){
+      this.checkValidation(this.data)
+    }
+  }
 
   private checkIsFirst = true;
   private propagateChange = (event) => {
@@ -81,7 +86,7 @@ export class CustomInputComponent
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
-    console.log('inputError', this.customInput)
+   // console.log('inputError', this.customInput)
   }
 
   // this is the initial value set to the component

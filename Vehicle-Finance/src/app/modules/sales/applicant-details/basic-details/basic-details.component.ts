@@ -43,6 +43,7 @@ export class BasicDetailsComponent implements OnInit {
   minor : boolean;
   checkingMinor : boolean
  checkingSenior : boolean
+ isDirty : boolean
  
   //imMinor : boolean= true
   designation = [
@@ -419,8 +420,11 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   async onSave() {
+    if(this.basicForm.invalid){
+      return this.isDirty= true
+    }
     const rawValue = this.basicForm.getRawValue();
-    console.log('FormValue', rawValue)
+    //console.log('FormValue', rawValue)
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -428,8 +432,10 @@ export class BasicDetailsComponent implements OnInit {
       this.storeNonIndividualValueInService(rawValue);
       this.applicantDataService.setIndividualProspectDetails(null);
     }
+    
 
-   if(this.basicForm.valid){
+  //  if(){
+     
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
 
@@ -449,10 +455,10 @@ export class BasicDetailsComponent implements OnInit {
           ]);
         }
       });
-     }else{
-     this.utilityService.validateAllFormFields(this.basicForm)
-     console.log('utilityservice', this.basicForm.get('details')['controls'])
-     }
+    //  }else{
+    //  this.utilityService.validateAllFormFields(this.basicForm)
+    //  console.log('utilityservice', this.basicForm.get('details')['controls'])
+    //  }
   }
 
   getLeadId() {

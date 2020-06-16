@@ -28,6 +28,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -57,6 +58,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='permanantPincode'
                                ></app-custom-input>
@@ -140,6 +142,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -168,6 +171,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='currentPincode'
                                ></app-custom-input>
@@ -274,6 +278,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -302,6 +307,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='officePincode'
                                ></app-custom-input>
@@ -406,6 +412,7 @@
                                 formControlName="addressLineOne" 
                                 [maxLength]="maxLenght40"
                                 [isRequired]="'Address 1 is required'">
+                                [isDirty]="isDirty"
                             </app-custom-input>
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -439,6 +446,7 @@
                               [patternCheck]="pincodePattern"
                               [maxLength]="pincodeLength"
                               [isRequired]="'Pincode is required'"
+                              [isDirty]="isDirty"
                               (keyup)="inputPincode($event)"
                               id='registeredPincode'
                            ></app-custom-input>
@@ -530,6 +538,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -559,6 +568,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='communicationPincode'
                                ></app-custom-input>

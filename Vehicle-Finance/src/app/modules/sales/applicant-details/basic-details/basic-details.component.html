@@ -66,6 +66,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'First Name is required'"
+                  [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -114,6 +115,7 @@
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
                  [maxLength]='mobileLenght10'
+                 [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -250,6 +252,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
+                  [isDirty]="isDirty"
                   ></app-custom-input>
                 
             </div>
@@ -279,9 +282,12 @@
                   formControlName="fatherName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  [isRequired]="'Father Name is Mandatory'"
+                  [isDirty]="isDirty"
+                  [isRequired]="'father Name is Required'"
+                  
             
                 ></app-custom-input>
+                
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="spouse_name">Spouse Name</label>
@@ -312,6 +318,7 @@
                   formControlName="motherMaidenName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
+                  [isDirty]="isDirty"
                   
                 ></app-custom-input>
             </div>
@@ -494,7 +501,7 @@
               <!-- <input formControlName="name1" type="text" class="form-control" /> -->
               <app-custom-input
                   formControlName="name1"
-                  
+                  [isDirty]="isDirty"
                   [maxLength]="nameLength30"
                   [isRequired]="'Company Name is required'"
                 ></app-custom-input>
@@ -561,9 +568,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
       </button></a>
-    <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSave()">
+    <a  id="save_vehicle_details"  ><button class="btn btn-primary" type="button" (click)="onSave()" >
       Save
-    </p>
+    </button>
+      
+    </a>
     <a id="next_vehicle_details"><button class="btn btn-primary" type="button"
         [routerLink]="['../../identity-details', applicantId]">
         Next
