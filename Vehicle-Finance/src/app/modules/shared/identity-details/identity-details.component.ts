@@ -21,6 +21,7 @@ import {
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '../../../../assets/constants/constant';
+import { UtilityService } from '@services/utility.service'
 
 @Component({
   selector: 'app-identity-details',
@@ -38,6 +39,12 @@ export class IdentityDetailsComponent implements OnInit {
   isIndividual = true;
   identityForm: FormGroup;
 
+  panPattern = {
+    rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    msg: 'Invalid Pan',
+  };
+  public toDayDate: Date = new Date();
+
   constructor(
     private labelsData: LabelsService,
     private commomLovservice: CommomLovService,
@@ -46,7 +53,8 @@ export class IdentityDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private leadStoreService: LeadStoreService,
-    private location: Location
+    private location: Location,
+    private utilityService : UtilityService
   ) {}
 
   navigateToApplicantList() {
@@ -207,17 +215,17 @@ export class IdentityDetailsComponent implements OnInit {
     identityDetails.pan = formValue.pan;
     identityDetails.panType = formValue.panType;
     identityDetails.passportNumber = formValue.passportNumber;
-    identityDetails.passportIssueDate = this.formatGivenDate(
+    identityDetails.passportIssueDate = this.utilityService.getDateFormat(
       formValue.passportIssueDate
     );
-    identityDetails.passportExpiryDate = this.formatGivenDate(
+    identityDetails.passportExpiryDate =this.utilityService.getDateFormat( 
       formValue.passportExpiryDate
     );
     identityDetails.drivingLicenseNumber = formValue.drivingLicenseNumber;
-    identityDetails.drivingLicenseIssueDate = this.formatGivenDate(
+    identityDetails.drivingLicenseIssueDate =this.utilityService.getDateFormat( 
       formValue.drivingLicenseIssueDate
     );
-    identityDetails.drivingLicenseExpiryDate = this.formatGivenDate(
+    identityDetails.drivingLicenseExpiryDate = this.utilityService.getDateFormat(
       formValue.drivingLicenseExpiryDate
     );
     identityDetails.voterIdNumber = formValue.voterIdNumber;
@@ -251,14 +259,14 @@ export class IdentityDetailsComponent implements OnInit {
     const value = this.indivIdentityInfoDetails;
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const passportExpiryDate = this.getFormateDate(value.passportExpiryDate);
-    const passportIssueDate = this.getFormateDate(value.passportIssueDate);
-    const drivingLicenseIssueDate = this.getFormateDate(
-      value.drivingLicenseIssueDate
-    );
-    const drivingLicenseExpiryDate = this.getFormateDate(
-      value.drivingLicenseExpiryDate
-    );
+    const passportExpiryDate = this.utilityService.getDateFromString(value.passportExpiryDate) || '';
+    const passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
+    const drivingLicenseIssueDate = this.utilityService.getDateFromString(
+      value.drivingLicenseIssueDate)
+    ;
+    const drivingLicenseExpiryDate = this.utilityService.getDateFromString(
+      value.drivingLicenseExpiryDate)
+    ;
     const voterIdIssueDate = this.getFormateDate(value.voterIdIssueDate);
     const voterIdExpiryDate = this.getFormateDate(value.voterIdExpiryDate);
     details.patchValue({
@@ -285,7 +293,6 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.identityForm.value);
     if (this.isIndividual) {
       this.storeIndividualValueInService();
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -324,12 +331,17 @@ export class IdentityDetailsComponent implements OnInit {
     });
   }
 
-  onBackToApplicant(){
-    const url = this.location.path();      
-    if(url.includes('sales')) {
-      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
-    } else {
-      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+  onNext() {
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(
+        `pages/sales-applicant-details/${this.leadId}/address-details/${this.applicantId}`
+      );
+      return;
     }
+
+    this.router.navigateByUrl(
+      `/pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`
+    );
   }
 }

@@ -1,0 +1,34 @@
+<!-- <div
+  class="form-group"
+  [ngClass]="{ 'typ-optional': optional, focused: isNonEmpty }"
+  [class]="className"
+> -->
+<input
+  #customInput
+  name="input"
+  [type]="type"
+  class="form-control"
+  [(ngModel)]="inputValue"
+  [ngClass]="inputClass"
+  appFiledFill
+  appPreventAction
+  [id]="id"
+  (blur)="onBlurMethod($event)"
+  [minLength]="minLength?.rule"
+  [maxlength]="maxLength?.rule"
+  (ngModelChange)="updateChanges()"
+  autocomplete="off"
+  [disabled]="isDisabled"
+  autocomplete="off"
+  autocorrect="off"
+  autocapitalize="off"
+  spellcheck="false"
+  [placeholder]="placeholder"
+/>
+<div class="invalid-feedback" *ngIf="inputError">
+  <div>
+    {{ errorMsg }}
+  </div>
+</div>
+<!-- <ng-content></ng-content>
+</div> -->

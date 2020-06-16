@@ -1,11 +1,10 @@
 <div class="content">
   <form
-    class="multisteps-form__form"
-    style="height: 400px;"
+    
     [formGroup]="identityForm"
   >
     <div
-      class="multisteps-form__panel js-active basic_scroll"
+      class="multisteps-form__panel js-active"
       data-animation="scaleIn"
     >
       <div class="btn-sec clear-both row">
@@ -61,13 +60,13 @@
               <label for="pan_number">PAN Number</label>
               <input type="text" class="form-control m-50" />
             </div>
-            <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <a href="#"
-                ><label for="upload_aadhaar" class="upload_down"
+            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
+              <a href="#">
+                <label for="upload_aadhaar" class="upload_down"
                   >AA_1098
                 </label></a
               >
-            </div>
+            </div> -->
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <div class="image-upload">
                 <label style="cursor: pointer;" for="file_upload">
@@ -114,6 +113,11 @@
                 value="ECCAA4865C"
                 disabled=""
               />
+              <!-- <app-custom-input
+                  formControlName="pan"
+                  [patternCheck]="panPattern"
+                  [isRequired]="'Pan number is required'"
+                ></app-custom-input> -->
             </div>
             <div
               class="form-group col-sm-12 col-md-3 col-lg-3 third_width"
@@ -123,13 +127,13 @@
               <input type="text" class="form-control m-50" />
             </div>
 
-            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
                   >PAN_1219</label
                 ></a
               >
-            </div>
+            </div> -->
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <div class="image-upload">
                 <label style="cursor: pointer;" for="file_upload">
@@ -169,7 +173,7 @@
               <label for="passport_expiry_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -178,7 +182,14 @@
                     formControlName="passportIssueDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -186,7 +197,7 @@
               <label for="issuance_date">Expiry Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -195,18 +206,25 @@
                     formControlName="passportExpiryDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
 
-            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
                   >PP_1089</label
                 ></a
               >
-            </div>
+            </div> -->
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <div class="image-upload">
                 <label style="cursor: pointer;" for="file_upload">
@@ -251,7 +269,7 @@
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -260,7 +278,15 @@
                     formControlName="drivingLicenseIssueDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="drivingLicenseIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
+                  
                 </div>
               </div>
             </div>
@@ -270,7 +296,7 @@
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -279,17 +305,24 @@
                     formControlName="drivingLicenseExpiryDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
                   >DL_3467</label
                 ></a
               >
-            </div>
+            </div> -->
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <div class="image-upload">
                 <label style="cursor: pointer;" for="file_upload">
@@ -330,7 +363,7 @@
               <label for="issuance_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -339,7 +372,14 @@
                     formControlName="voterIdIssueDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="voterIdIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
@@ -347,7 +387,7 @@
               <label for="expiry_date">Expiry Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <span class="input-group-addon"
+                  <!-- <span class="input-group-addon"
                     ><span
                       class="glyphicon glyphicon-calendar fa fa-calendar"
                     ></span>
@@ -356,17 +396,24 @@
                     formControlName="voterIdExpiryDate"
                     type="date"
                     class="form-control"
-                  />
+                  /> -->
+                  <kendo-datepicker class="form-control" 
+                formControlName="voterIdExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                
+                ></kendo-datepicker>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-1 col-md-1 col-lg-1">
+            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
                   >VOTE_8321</label
                 ></a
               >
-            </div>
+            </div> -->
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <div class="image-upload">
                 <label style="cursor: pointer;" for="file_upload">
@@ -415,11 +462,18 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="adhar">Company PAN Number</label>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 formControlName="panNumber"
-              />
+              /> -->
+               <app-custom-input
+                  formControlName="panNumber"
+                  [patternCheck]="panPattern"
+               
+                  [isRequired]="'Pan Number is required'"
+                ></app-custom-input>
+              
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="adhar">CIN Number</label>
@@ -448,8 +502,9 @@
   <div class="col-sm-5">
     <button
       class="btn btn-primary dash_href"
-      (click)="onBackToApplicant()" >
-      Back To Applicant Details
+      (click)="navigateToApplicantList()"
+    >
+      <a>Back To Applicant Details</a>
     </button>
   </div>
   <div class="col-sm-7 text-right">

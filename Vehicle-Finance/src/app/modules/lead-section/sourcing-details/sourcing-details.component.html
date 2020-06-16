@@ -15,15 +15,28 @@
             (change)="getProductCategory($event)"
           >
           </app-vf-custom-select>
-        </div>
+        </div>        
+      </div>
+
+      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="product_type">{{ labels.productCategory }}</label>
           <app-vf-custom-select
-            [values]="productCategoryArray"
+            [values]="productCategoryData"
             formControlName="productCategory"
+            (change)="productCategory($event, true)"
           >
           </app-vf-custom-select>
         </div>
+
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="product_type">{{ labels.product }}</label>
+          <app-vf-custom-select 
+            [values]="productCategorySelectedList" 
+            formControlName="product">
+          </app-vf-custom-select>
+        </div>
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="scheme_type">{{ labels.priority }}</label>
           <app-vf-custom-select
@@ -35,6 +48,7 @@
           >
           </app-vf-custom-select>
         </div>
+
       </div>
 
       <div class="row">
@@ -81,46 +95,12 @@
                   [values]="values?.leadHandledBY" 
                   formControlName="leadHandledBy"></app-vf-custom-select> -->
           <input
+            disabled ="true"
             type="text"
             class="form-control mandatory"
             formControlName="leadHandeledBy"
           />
         </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-          <app-vf-custom-select
-            [values]="LOV.LOVS.sourcingChannel"
-            formControlName="sourcingChannel"
-            (change)="sourcingChannelChange($event, true)"
-            name="sourcingChannel"
-          >
-          </app-vf-custom-select>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="sourcing_type">{{ labels.sourcingType }}</label>
-          <app-vf-custom-select
-            [values]="sourchingTypeValues"
-            formControlName="sourcingType"
-          >
-          </app-vf-custom-select>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="sourcing_code">{{ labels.sourcingCode }}</label>
-          <input
-            type="text"
-            formControlName="sourcingCode"
-            class="form-control mandatory"
-            id="sourcing_code"
-            [placeholder]="sourcingCodePlaceholder"
-            name="sourcing_code"
-          />
-        </div>
-      </div>
-
-      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="spoken_code">{{ labels.spokeCodeLocation }}</label>
           <app-vf-custom-select
@@ -144,45 +124,135 @@
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
+          <app-vf-custom-select
+            [values]="sourcingChannelData"
+            formControlName="sourcingChannel"
+            (change)="sourcingChannelChange($event, true)"
+            name="sourcingChannel"
+          >
+          </app-vf-custom-select>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="sourcing_type">{{ labels.sourcingType }}</label>
+          <app-vf-custom-select
+            [values]="sourchingTypeValues"
+            formControlName="sourcingType"
+            (change)="sourchingTypeChange($event)"
+          >
+          </app-vf-custom-select>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="sourcing_code">{{ labels.sourcingCode }}</label>
+          <!-- <input
+            type="text"
+            formControlName="sourcingCode"
+            class="form-control mandatory"
+            id="sourcing_code"
+            [placeholder]="sourcingCodePlaceholder"
+            name="sourcing_code"
+          /> -->
+          <div class="ng-autocomplete" style="width:100%">
+            <ng-autocomplete #autocomplete
+              [data]="sourcingCodeData"
+              [searchKeyword]="keyword"
+              (selected)='selectEvent($event)'
+              (inputChanged)='onSourcingCodeSearch($event)'
+              [itemTemplate]="sourcingCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate"
+              formControlName="sourcingCode"
+              [placeHolder]="sourcingCodePlaceholder"
+              [minQueryLength]="2">                                 
+            </ng-autocomplete>               
+            <ng-template #sourcingCodeTemplate let-item>
+            <a [innerHTML]="item.value"></a>
+            </ng-template>               
+            <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="sourcing_code">Dealer Code
+            <sub class="star_blue_col">*</sub>
+          </label>
+          <!-- <input
+            formControlName="dealerCode"
+            type="text"
+            class="form-control mandatory select2"
+            id="sourcingCode"
+            placeholder="Dealer Code"
+            name="dealerCode"
+          /> -->
+          <div class="ng-autocomplete" style="width:100%">
+            <ng-autocomplete 
+              [data]="dealerCodeData"
+              [searchKeyword]="keyword"
+              (inputChanged)='onDealerCodeSearch($event)'
+              [itemTemplate]="dealerCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate"
+              formControlName="dealerCode"
+              [placeHolder]="'Dealer Code'"
+              [minQueryLength]="2">                                 
+            </ng-autocomplete>               
+            <ng-template #dealerCodeTemplate let-item>
+            <a [innerHTML]="item.dealorCode"></a>
+            </ng-template>               
+            <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="spoken_code">{{ labels.requestedAmount }}</label>
-          <input
+          <sub class="star_red_col">*</sub>
+          <!-- <input
             type="text"
             formControlName="requestedAmount"
             class="form-control mandatory"
             id="requested_amount"
             placeholder="Requested Amount"
             name="requested_amount"
+            pattern="^[0-9]*[.][0-9]*$"
           />
+          <div *ngIf="requested_amount.errors.pattern"> testt</div> -->
+          <app-custom-input
+              formControlName="requestedAmount"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Requested Amount'"
+              [maxLength]="regexPattern.nameLength"
+              [isRequired]="'Required Amount is mandatory'"
+              [patternCheck]="regexPattern.amount"
+              >
+            </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.requestedTenor }}</label>
-          <!-- <app-vf-custom-select 
-                  [values]="values?.requestedTenor" 
-                  formControlName="requestedTenor">
-              </app-vf-custom-select> -->
-          <input
+          <sub class="star_red_col">*</sub>
+          <app-custom-input
+              formControlName="requestedTenor"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Requested Tenor'"
+              [maxLength]="regexPattern.nameLength"
+              [isRequired]="'Required Tenor is mandatory'"
+              [patternCheck]="regexPattern.amount"
+              >
+            </app-custom-input>
+          <!-- <input
             type="text"
             formControlName="requestedTenor"
             class="form-control mandatory"
             id="requested_tenor"
             placeholder="Requested Tenor"
             name="requested_tenor"
-          />
+          /> -->
         </div>
-      </div>
-      <div
-        class="alert alert-success alert-dismissible fixed"
-        id="alert"
-        *ngIf="isAlert"
-      >
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span></button
-        >Saved!
       </div>
     </div>
   </form>

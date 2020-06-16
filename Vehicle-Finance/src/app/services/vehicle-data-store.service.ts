@@ -21,7 +21,6 @@ export class VehicleDataStoreService {
   }
 
   setCreditLeadId(id: number) {
-    console.log(id, 'kdgkdb')
     this.CreditLeadId = id;
   }
 

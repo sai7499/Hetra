@@ -32,11 +32,12 @@ export class CustomSelectComponent
   @Input() isDisabled: boolean;
   @Input('selectedOption') val: any;
   @Input() values: any[];
+  @Input() isRequired: string;
 
   @Output() valueChange = new EventEmitter();
 
-  onChange: any = () => { };
-  onTouch: any = () => { };
+  onChange: any = () => {};
+  onTouch: any = () => {};
 
   set selectedOption(val) {
     this.val = val;
@@ -46,7 +47,7 @@ export class CustomSelectComponent
   }
 
   getSelectedObject() {
-    return (this.values && Array.isArray(this.values))
+    return this.values && Array.isArray(this.values)
       ? this.values.find((value) => String(value.key) === this.selectedOption)
       : {};
   }
@@ -55,7 +56,7 @@ export class CustomSelectComponent
     return this.val;
   }
 
-  constructor(private lovDataService: LovDataService) { }
+  constructor(private lovDataService: LovDataService) {}
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;

@@ -2,11 +2,11 @@
     <table class="table">
         <thead>
             <tr class="table-head-bg">
-                <th *ngIf="isCredit == '2'">{{labels.action}}<i class="fa fa-sort"></i></th>
+                <th *ngIf="roleType == '2'">{{labels.action}}<i class="fa fa-sort"></i></th>
                 <th>{{labels.leadID}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.product}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.loanAmount}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.applicant}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels.applicant+'s'}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.createdOn}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.createdBy}}<i class="fa fa-sort"></i> </th>
                 <th>{{labels.priority}}<i class="fa fa-sort"></i> </th>
@@ -16,18 +16,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems } let i = index">
-                <td *ngIf="isCredit == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td class="text-underline" *ngIf="isCredit == '1'"><a [routerLink]="['/pages/lead-section', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td>
-                <td class="text-underline" *ngIf="isCredit == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
+            <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                <td *ngIf="roleType == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
+                <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode)" style="cursor: pointer;">{{item.leadId}}</td>
+                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 10"><a [routerLink]="['/pages/sales-applicant-details', item.leadId, 'basic-details', ???]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
+                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 20"><a [routerLink]="['/pages/sales', item.leadId, 'applicant-list']" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
+                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 30"><a [routerLink]="['/pages/sales', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
+                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 40"><a [routerLink]="['/pages/sales', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
+                <td class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                <td>{{item.name ? item.name : '--'}}</td>
+                <td>{{item.applicants ? item.applicants : '--'}}</td>
                 <td>{{item.createdOn ? item.createdOn : '--'}}</td>
                 <td>{{item.createdBy ? item.createdBy : '--'}}</td>
-                <td>{{item.priority ? item.priority : '--'}}</td>
+                <td *ngIf="item.priority == '1'">Yes</td>
+                <td *ngIf="item.priority == '0' || item.priority == null">No</td>
                 <td>{{item.promoCode ? item.promoCode : '--'}}</td>
-                <td>{{item.status ? item.status : '--'}}</td>
+                <td *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
+                <td *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
@@ -49,7 +55,6 @@
         </div>
         <nav class="col-xs-9 col-sm-4 text-center">
             <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
-            <!-- <pagination-controls class="" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls> -->
         </nav>
     </div>
 </div>

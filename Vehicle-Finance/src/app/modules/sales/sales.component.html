@@ -6,29 +6,47 @@
     <!--progress bar-->
     <div class="multisteps-form">
       <div class="multisteps-form__progress">
-        <button class="multisteps-form__progress-btn js-active" 
-        id="sales_sourcinginfo" type="button" 
-        [routerLink]="['./lead-details']" 
-        [ngClass]="{ 'js-active': locationIndex >= 0 }">
+        <button
+          class="multisteps-form__progress-btn js-active"
+          id="sales_sourcinginfo"
+          type="button"
+          [routerLink]="['./lead-details']"
+          [ngClass]="{ 'js-active': locationIndex >= 0 }"
+        >
           Lead Details
         </button>
         <!---- <button class="multisteps-form__progress-btn" id="sales_qde_product_details" type="button">Product Details</button> --->
-        <button class="multisteps-form__progress-btn" id="sales_applicant_details" type="button"
-          [routerLink]="['./applicant-list']" [ngClass]="{ 'js-active': locationIndex >= 1 }">
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_applicant_details"
+          type="button"
+          [routerLink]="['./applicant-list']"
+          [ngClass]="{ 'js-active': locationIndex >= 1 }"
+        >
           Applicant Details
         </button>
-        <button class="multisteps-form__progress-btn" id="sales_vechicle_details" type="button"
-          [routerLink]="['./vehicle-details']" [ngClass]="{ 'js-active': locationIndex >= 2 }">
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_vechicle_details"
+          type="button"
+          [routerLink]="['./vehicle-list']"
+          [ngClass]="{ 'js-active': locationIndex >= 2 }"
+        >
           Vechical Details
         </button>
         <!--- <button class="multisteps-form__progress-btn" id="sales_loan_details" type="button">Loan Details</button> ---->
-        <button class="multisteps-form__progress-btn" id="sales_upload_documents" type="button">
+        <button
+          class="multisteps-form__progress-btn"
+          id="sales_upload_documents"
+          type="button"
+          [routerLink]="['./document-upload']"
+          [ngClass]="{ 'js-active': locationIndex >= 3 }"
+        >
           Document Upload
         </button>
       </div>
 
       <router-outlet></router-outlet>
-
     </div>
   </div>
 </main>
