@@ -16,6 +16,8 @@
             [values]="applicantLov?.entityType"
             (valueChange)="onIndividualChange($event)"
             formControlName="entity"
+            [isRequired]="'Please select one'"
+           [isDirty]="isDirty"
           ></app-vf-custom-select>
           
           
@@ -25,10 +27,10 @@
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
             [values]="applicantLov?.applicantRelationshipWithLead"
+            [isRequired]="'Please select one'"
+                        [isDirty]="isDirty"
           ></app-vf-custom-select>
-          <div  class="cus-mandatory-field" *ngIf="basicForm.controls['applicantRelationshipWithLead'].touched && basicForm.controls['applicantRelationshipWithLead'].value==''">
-            Relationship Lead Is Required
-    </div> 
+           
           
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -36,16 +38,15 @@
                         <app-vf-custom-select
                         formControlName="title"
                         [values]="applicantLov?.salutation"
+                        [isRequired]="'Please select one'"
+                        [isDirty]="isDirty"
                       ></app-vf-custom-select>
-                <div  class="cus-mandatory-field" *ngIf="basicForm.controls['title'].touched && basicForm.controls['title'].value==''">
-                        Title Is Required
-                </div>
+                
 
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
-      <ng-container formArrayName="details"
-      *ngFor="let obj of basicForm.get('details')['controls']; let i =index; let l= last">
+      <ng-container formArrayName="details">
         <div 
           id="individual_section_start"
           [formGroupName]="0"
@@ -149,7 +150,7 @@
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">Age <sub class="star_red_col">*</sub></label>
+              <label for="entity">Age </label>
               <!-- <select class="form-control" id="entity">                                                  
                                
                                 <option value="Mrs" selected>Mrs</option>                                                   
@@ -171,13 +172,10 @@
               <app-vf-custom-select
                 formControlName="gender"
                 [values]="applicantLov?.gender "
-                
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
 
-           
-              <div  class="cus-mandatory-field" *ngIf="obj.controls['gender'].touched && obj.controls['gender'].value==''">
-                select gender
-              </div>
 
 
               <!-- <div class="cus-mandatory-field"
@@ -265,6 +263,8 @@
                             <app-vf-custom-select
                             formControlName="minorGuardianRelation"
                             [values]="applicantLov.relationship"
+                            [isRequired]="'Please select one'"
+                            [isDirty]="isDirty"
                           ></app-vf-custom-select>
             </div>
           </div>
@@ -318,7 +318,8 @@
                   formControlName="motherMaidenName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  
+                  [isDirty]="isDirty"
+                  [isRequired]="'Mother name is Required'"
                   
                 ></app-custom-input>
             </div>
@@ -379,10 +380,10 @@
               <app-vf-custom-select
                 formControlName="occupation"
                 [values]="applicantLov?.occupation"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <div  class="cus-mandatory-field" *ngIf="obj.controls['occupation'].touched && obj.controls['occupation'].value==''">
-                Select Occupation
-              </div>
+              
               
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -390,10 +391,10 @@
               <app-vf-custom-select
                 formControlName="nationality"
                 [values]="applicantLov?.nationality"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <div  class="cus-mandatory-field" *ngIf="obj.controls['nationality'].touched && obj.controls['nationality'].value==''">
-                Select Nationality
-              </div>
+              
 
               <!-- <span class="showErrorMessage" 
               *ngIf="validation.get('nationality').errors?.value !== '' 
@@ -405,7 +406,9 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="preffered_language">Preferred Language for Communication</label>
-              <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage">
+              <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage"
+              [isRequired]="'Please select one'"
+              [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
           </div>
@@ -430,10 +433,10 @@
               <app-vf-custom-select
                 formControlName="custSegment"
                 [values]="applicantLov?.customerSegment"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <div  class="cus-mandatory-field" *ngIf="obj.controls['custSegment'].touched && obj.controls['custSegment'].value==''">
-                Customer Segment is Required
-              </div>
+              
               
             
             </div>
@@ -443,10 +446,10 @@
               <app-vf-custom-select
                 formControlName="customerCategory"
                 [values]="applicantLov?.customerCategory"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <div  class="cus-mandatory-field" *ngIf="obj.controls['customerCategory'].touched && obj.controls['customerCategory'].value==''">
-                Customer category is Required
-              </div>
+              
               
             </div>
     

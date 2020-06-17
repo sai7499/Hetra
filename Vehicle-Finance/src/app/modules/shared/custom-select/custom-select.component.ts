@@ -121,4 +121,16 @@ export class CustomSelectComponent
           },
         };
   }
+  onBlurMethod(event) {
+    const newValue = event.target.value;
+
+    if (!newValue && this.isRequired) {
+      this.displayError(this.isRequired);
+      return;
+    }
+  }
+  displayError(msg: string) {
+    this.isRequired = msg;
+    this.inputError = true;
+  }
 }

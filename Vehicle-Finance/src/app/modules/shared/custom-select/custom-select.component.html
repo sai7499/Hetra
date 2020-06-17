@@ -2,6 +2,7 @@
   [class]="className"
   [(ngModel)]="selectedOption"
   [disabled]="isDisabled"
+  (blur)="onBlurMethod($event)"
 >
   <option value="{{ defaultOption.key }}" disabled>{{
     defaultOption.value

@@ -75,6 +75,7 @@ export class AddressDetailsComponent implements OnInit {
   onPerAsCurChecked: boolean;
   onRegAsCommChecked: boolean;
   addressObj : any;
+
   maxLenght40 = {
     rule : 40
   };
@@ -713,6 +714,10 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isDirty= true;
+    if(this.addressForm.invalid){
+      return
+    }
     const value = this.addressForm.value;
     console.log('TOTAL FORM VALUE', value);
     if (this.isIndividual) {

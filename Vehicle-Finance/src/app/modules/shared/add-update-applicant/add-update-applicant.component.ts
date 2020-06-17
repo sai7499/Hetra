@@ -1041,12 +1041,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     this.isDirty = true;
     if (dedupe.invalid) {
-      return;
+      return ;
     }
 
     console.log('dedupe', dedupe);
 
-    return;
+  
     const applicantDetails = dedupe.value;
     let mobileNumber = applicantDetails.mobilePhone;
     if (mobileNumber.length === 10) {

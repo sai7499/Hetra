@@ -366,32 +366,35 @@ export class BasicDetailsComponent implements OnInit {
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null),
-      name2: new FormControl(null),
-      name3: new FormControl(null),
-      mobilePhone: new FormControl(null),
-      dob: new FormControl(this.toDayDate),
-      age: new FormControl(null),
-      gender: new FormControl(null),
-      isSeniorCitizen : new FormControl(null),
-      isMinor: new FormControl(null),
-      minorGuardianRelation: new FormControl(null),
-      alternateMobileNumber: new FormControl(null),
-     
-      applicantType: new FormControl(null),
-      minorGuardianName: new FormControl(null),
-      fatherName: new FormControl(null),
-      spouseName: new FormControl(null),
-      motherMaidenName: new FormControl(null),
+      name1: new FormControl('', Validators.required),
+      name2: new FormControl(''),
+      name3: new FormControl(''),
+      mobilePhone: new FormControl('', Validators.required),
+      dob: new FormControl('', Validators.required),
+      age: new FormControl(''),
+      gender: new FormControl('', Validators.required),
+      isSeniorCitizen : new FormControl(''),
+      isMinor: new FormControl(''),
+
+
+      minorGuardianName: new FormControl('', Validators.required),
+      minorGuardianRelation: new FormControl('', Validators.required),
+
+
+      alternateMobileNumber: new FormControl(''),
+      applicantType: new FormControl(''),
+      fatherName: new FormControl('', Validators.required),
+      spouseName: new FormControl(''),
+      motherMaidenName: new FormControl(''),
       occupation: new FormControl({value: ''}, Validators.required),
-      nationality: new FormControl(''),
+      nationality: new FormControl('', Validators.required),
      
       emailId: new FormControl(''),
       alternateEmailId: new FormControl(''),
-      preferredLanguage: new FormControl(''),
+      preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null),
-      customerCategory: new FormControl(''),
-      custSegment : new FormControl(''),
+      customerCategory: new FormControl('', Validators.required),
+      custSegment : new FormControl('', Validators.required),
     });
     formArray.push(controls);
   }
@@ -427,9 +430,12 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   async onSave() {
+    this.isDirty= true
     if(this.basicForm.invalid){
-      return this.isDirty= true
+      
+      return 
     }
+    console.log('basicForm')
     const rawValue = this.basicForm.getRawValue();
     //console.log('FormValue', rawValue)
     if (this.isIndividual) {
