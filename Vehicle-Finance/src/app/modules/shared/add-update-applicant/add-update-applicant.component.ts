@@ -78,7 +78,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   adharNumberPattern = {
     rule: '^[0-9]{12}',
-    msg: 'Invalid Aadhar Number',
+    msg: 'Invalid Aadhaar Number',
   };
 
   maxlength12 = {
@@ -299,7 +299,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDrvingLisenseChange(formCtrl) {
-    if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
+    if (
+      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
+      'VALID'
+    ) {
       this.mandatory['drivingLicenseIssueDate'] = true;
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
@@ -318,7 +321,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   passportMandatory: any = {};
   onPassportNumberChange($formCtrl) {
-    if (this.coApplicantForm.get('passportNumber').status === 'VALID') {
+    if (
+      this.coApplicantForm.get('dedupe').get('passportNumber').status ===
+      'VALID'
+    ) {
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
@@ -337,7 +343,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   drvingLisenseValidation(event) {
     const licenseNumber = event.target.value;
     const value = event.target.value;
-    if (this.coApplicantForm.get('drivingLicenseNumber').status === 'VALID') {
+    if (
+      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
+      'VALID'
+    ) {
       this.isMandatory = true;
     }
   }
@@ -576,18 +585,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         details.dob = new Date(details.dob);
       }
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
-      details.passportIssueDate = this.getFormateDate(
+      details.passportIssueDate = this.utilityService.getDateFromString(
         indivIdentityInfoDetails.passportIssueDate
       );
-      details.passportExpiryDate = this.getFormateDate(
+      details.passportExpiryDate = this.utilityService.getDateFromString(
         indivIdentityInfoDetails.passportExpiryDate
       );
       details.drivingLicenseNumber =
         indivIdentityInfoDetails.drivingLicenseNumber;
-      details.drivingLicenseIssueDate = this.getFormateDate(
+      details.drivingLicenseIssueDate = this.utilityService.getDateFromString(
         indivIdentityInfoDetails.drivingLicenseIssueDate
       );
-      details.drivingLicenseExpiryDate = this.getFormateDate(
+      details.drivingLicenseExpiryDate = this.utilityService.getDateFromString(
         indivIdentityInfoDetails.drivingLicenseExpiryDate
       );
     } else {
@@ -832,45 +841,38 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return date ? formatDate(date, 'dd/MM/yyyy', 'en-us') : '';
   }
   storeIndividualValueInService(coApplicantModel) {
-    if (coApplicantModel.dob) {
-      const date = new Date(coApplicantModel.dob);
+    const dedupe = coApplicantModel.dedupe;
+    if (dedupe.dob) {
+      const date = new Date(dedupe.dob);
       const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDay();
-      coApplicantModel.dob = this.utilityService.getDateFormat(
-        coApplicantModel.dob
-      );
+      dedupe.dob = this.utilityService.getDateFormat(dedupe.dob);
     }
-    let mobileNumber = coApplicantModel.mobilePhone;
+    let mobileNumber = dedupe.mobilePhone;
     if (mobileNumber.length === 12) {
       mobileNumber = mobileNumber.slice(2, 12);
     }
     this.aboutIndivProspectDetails = {
-      dob: coApplicantModel.dob,
+      dob: dedupe.dob,
       mobilePhone: mobileNumber,
     };
 
     this.indivIdentityInfoDetails = {
-      panType: coApplicantModel.panType,
-      pan: String(coApplicantModel.pan).toUpperCase(),
-      aadhar: coApplicantModel.aadhar,
-      passportNumber: String(coApplicantModel.passportNumber).toUpperCase(),
-      passportIssueDate: this.formatGivenDate(
-        coApplicantModel.passportIssueDate
-      ),
-      passportExpiryDate: this.formatGivenDate(
-        coApplicantModel.passportExpiryDate
-      ),
-      drivingLicenseNumber: String(
-        coApplicantModel.drivingLicenseNumber
-      ).toUpperCase(),
+      panType: dedupe.panType,
+      pan: String(dedupe.pan).toUpperCase(),
+      aadhar: dedupe.aadhar,
+      passportNumber: String(dedupe.passportNumber).toUpperCase(),
+      passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
+      passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
+      drivingLicenseNumber: String(dedupe.drivingLicenseNumber).toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
-        coApplicantModel.drivingLicenseIssueDate
+        dedupe.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
-        coApplicantModel.drivingLicenseExpiryDate
+        dedupe.drivingLicenseExpiryDate
       ),
-      voterIdNumber: coApplicantModel.voterIdNumber,
+      voterIdNumber: dedupe.voterIdNumber,
     };
 
     this.addressDetails = [];
@@ -895,30 +897,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   storeNonIndividualValueInService(coApplicantModel) {
+    const dedupe = coApplicantModel.dedupe;
     this.corporateProspectDetails = {
-      dateOfIncorporation: this.formatGivenDate(
-        coApplicantModel.dateOfIncorporation
-      ),
-      panNumber: coApplicantModel.pan,
-      passportNumber: String(coApplicantModel.passportNumber).toUpperCase(),
-      passportIssueDate: this.formatGivenDate(
-        coApplicantModel.passportIssueDate
-      ),
-      passportExpiryDate: this.formatGivenDate(
-        coApplicantModel.passportExpiryDate
-      ),
-      drivingLicenseNumber: String(
-        coApplicantModel.drivingLicenseNumber
-      ).toUpperCase(),
+      dateOfIncorporation: this.formatGivenDate(dedupe.dateOfIncorporation),
+      panNumber: dedupe.pan,
+      passportNumber: String(dedupe.passportNumber).toUpperCase(),
+      passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
+      passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
+      drivingLicenseNumber: String(dedupe.drivingLicenseNumber).toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
-        coApplicantModel.drivingLicenseIssueDate
+        dedupe.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
-        coApplicantModel.drivingLicenseExpiryDate
+        dedupe.drivingLicenseExpiryDate
       ),
-      voterIdNumber: String(coApplicantModel.voterIdNumber).toUpperCase(),
-      companyPhoneNumber: coApplicantModel.mobilePhone,
-      panType: coApplicantModel.panType,
+      voterIdNumber: String(dedupe.voterIdNumber).toUpperCase(),
+      companyPhoneNumber: dedupe.mobilePhone,
+      panType: dedupe.panType,
     };
 
     const registerAddress = coApplicantModel.registeredAddress;
@@ -960,21 +955,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
     this.applicantDetails = {
-      entityType: coApplicantModel.entityType,
-      name1: coApplicantModel.name1,
-      name2: coApplicantModel.name2,
-      name3: coApplicantModel.name3,
-      loanApplicationRelation: coApplicantModel.loanApplicationRelation,
+      entityType: coApplicantModel.dedupe.entityType,
+      name1: coApplicantModel.dedupe.name1,
+      name2: coApplicantModel.dedupe.name2,
+      name3: coApplicantModel.dedupe.name3,
+      loanApplicationRelation: coApplicantModel.dedupe.loanApplicationRelation,
       customerCategory: 'SALCUSTCAT',
       title: 'MRSALUTATION',
     };
-    const DOB = this.utilityService.getDateFormat(coApplicantModel.dob);
+    const DOB = this.utilityService.getDateFormat(coApplicantModel.dedupe.dob);
 
-    this.indivProspectProfileDetails = {
-      employerType: 'test',
-      employerName: 'Appiyo Technologies',
-      workplaceAddress: 'test',
-    };
+    // this.indivProspectProfileDetails = {
+    //   employerType: 'test',
+    //   employerName: 'Appiyo Technologies',
+    //   workplaceAddress: 'test',
+    // };
     const data = {
       applicantDetails: this.applicantDetails,
       aboutIndivProspectDetails: this.aboutIndivProspectDetails,
@@ -1043,12 +1038,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     this.isDirty = true;
     if (dedupe.invalid) {
-      return ;
+      return;
     }
 
     console.log('dedupe', dedupe);
 
-  
     const applicantDetails = dedupe.value;
     let mobileNumber = applicantDetails.mobilePhone;
     if (mobileNumber.length === 10) {
@@ -1073,21 +1067,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanApplicationRelation: applicantDetails.loanApplicationRelation,
       aadhar: applicantDetails.aadhar,
       dob: applicantDetails.dob,
-      pan: applicantDetails.pan,
+      pan: String(applicantDetails.pan).toUpperCase(),
       panType: applicantDetails.panType,
-      voterIdNumber: applicantDetails.voterIdNumber,
-      drivingLicenseNumber: applicantDetails.drivingLicenseNumber,
-      drivingLicenseIssueDate: this.formatGivenDate(
+      voterIdNumber: String(applicantDetails.voterIdNumber).toUpperCase(),
+      drivingLicenseNumber: String(
+        applicantDetails.drivingLicenseNumber
+      ).toUpperCase(),
+      drivingLicenseIssueDate: this.utilityService.getDateFormat(
         applicantDetails.drivingLicenseIssueDate
       ),
-      drivingLicenseExpiryDate: this.formatGivenDate(
+      drivingLicenseExpiryDate: this.utilityService.getDateFormat(
         applicantDetails.drivingLicenseExpiryDate
       ),
-      passportNumber: applicantDetails.passportNumber,
-      passportIssueDate: this.formatGivenDate(
+      passportNumber: String(applicantDetails.passportNumber).toUpperCase(),
+      passportIssueDate: this.utilityService.getDateFormat(
         applicantDetails.passportIssueDate
       ),
-      passportExpiryDate: this.formatGivenDate(
+      passportExpiryDate: this.utilityService.getDateFormat(
         applicantDetails.passportExpiryDate
       ),
       applicantId: 0,

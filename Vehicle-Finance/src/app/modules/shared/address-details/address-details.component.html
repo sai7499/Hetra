@@ -16,10 +16,12 @@
             </div>
 
             <ng-container formArrayName="details" >
-                <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0" >
+                <div id="individual_section_start" *ngIf="isIndividual" [formGroupName]="0">
                     <!-- <h4 class="title">individual</h4> -->
                     <h4 class="title">Permanent Address</h4>
                     <div  formGroupName="permanantAddress" >
+
+
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="pan">{{ labels.addressline1 }}</label>
@@ -87,7 +89,7 @@
                                     </select> -->
                                 <app-vf-custom-select formControlName="district" [values]="permanantPincode?.district"
                                 [isRequired]="'Please select one'"
-                        [isDirty]="isDirty">
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                         </div>
@@ -100,7 +102,7 @@
                                         <option>State 3</option>
                                     </select> -->
                                 <app-vf-custom-select formControlName="state" [values]="permanantPincode?.state"
-                                [isRequired]="'Please select one'"
+                                    [isRequired]="'Please select one'"
                                     [isDirty]="isDirty">
                                     
                                 </app-vf-custom-select>

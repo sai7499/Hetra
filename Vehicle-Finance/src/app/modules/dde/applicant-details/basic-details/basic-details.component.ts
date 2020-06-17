@@ -470,7 +470,7 @@ export class BasicDetailsComponent implements OnInit {
 
     const aboutIndivProspectDetails = formValue;
     prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
-    prospectDetails.mobilePhone = aboutIndivProspectDetails.mobilePhone;
+    prospectDetails.mobilePhone = `91${aboutIndivProspectDetails.mobilePhone}`;
     prospectDetails.isSeniorCitizen = '1';
     prospectDetails.minorGuardianName =
       aboutIndivProspectDetails.minorGuardianName;
