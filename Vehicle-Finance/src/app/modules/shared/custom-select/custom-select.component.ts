@@ -7,7 +7,11 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import {
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+  Validator,
+} from '@angular/forms';
 import { LovDataService } from 'src/app/services/lov-data.service';
 
 @Component({
@@ -23,7 +27,7 @@ import { LovDataService } from 'src/app/services/lov-data.service';
   ],
 })
 export class CustomSelectComponent
-  implements OnInit, OnChanges, ControlValueAccessor {
+  implements OnInit, OnChanges, ControlValueAccessor, Validator {
   @Input() className = 'form-control mandatory';
   @Input() defaultOption = {
     key: '',
@@ -35,14 +39,28 @@ export class CustomSelectComponent
 
   @Output() valueChange = new EventEmitter();
 
+  @Input() isRequired = '';
+
+  inputError: boolean;
+
   onChange: any = () => {};
   onTouch: any = () => {};
 
+  @Input() set isDirty(val) {
+    if (val) {
+      this.checkValidation();
+    }
+  }
+
   set selectedOption(val) {
+    if (!val) {
+      return;
+    }
     this.val = val;
     this.onChange(this.val);
     const selectedValue = this.getSelectedObject();
     this.valueChange.emit(selectedValue);
+    this.checkValidation();
   }
 
   getSelectedObject() {
@@ -59,6 +77,18 @@ export class CustomSelectComponent
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;
+  }
+
+  checkValidation() {
+    if (this.val) {
+      this.inputError = false;
+      return;
+    }
+    if (this.isRequired) {
+      this.inputError = true;
+    } else {
+      this.inputError = false;
+    }
   }
 
   ngOnChanges() {
@@ -80,5 +110,15 @@ export class CustomSelectComponent
   }
   setDisabledState(state: boolean) {
     this.isDisabled = state;
+  }
+
+  validate(c) {
+    return !this.inputError
+      ? null
+      : {
+          customError: {
+            valid: false,
+          },
+        };
   }
 }

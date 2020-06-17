@@ -47,10 +47,8 @@ export class CustomInputComponent
   @Input() type = 'text';
   @Input() labelName: string;
   @Input() id: string;
-  @Input() patternCheck: {
-    rule?: string;
-    msg?: string;
-  };
+
+  @Input() patternCheck;
   @Input() custom: {
     rule?: Function;
     msg?: string;
@@ -73,15 +71,11 @@ export class CustomInputComponent
   inputError = false;
   isDisabled: boolean;
   private data: any;
-  @Input() set isDirty(value){
-    if(value){
-      this.checkValidation(this.data)
-    }
-  }
-
   @Input() set isDirty(value) {
     if (value) {
+      this.checkIsFirst = false;
       this.checkValidation(this.data);
+      this.propagateChange(this.data);
     }
   }
   private checkIsFirst = true;
@@ -91,13 +85,16 @@ export class CustomInputComponent
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
-   // console.log('inputError', this.customInput)
+    // console.log('inputError', this.customInput)
   }
 
   // this is the initial value set to the component
   writeValue(obj: any) {
     if (this.dynamicDataBinding) {
       // this.checkIsFirst = false;
+    }
+    if (obj === '') {
+      return;
     }
     this.data = obj;
     this.inputValue = this.data;
