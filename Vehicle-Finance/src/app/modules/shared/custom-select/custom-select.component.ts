@@ -40,8 +40,6 @@ export class CustomSelectComponent
 
   @Output() valueChange = new EventEmitter();
 
-  @Input() isRequired = '';
-
   inputError: boolean;
 
   onChange: any = () => {};
