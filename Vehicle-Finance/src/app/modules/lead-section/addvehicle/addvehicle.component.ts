@@ -115,7 +115,6 @@ export class AddvehicleComponent implements OnInit {
         console.log(error, 'error')
       })
     } else {
-      console.log(this.vehicleDetails, 'Error')
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }

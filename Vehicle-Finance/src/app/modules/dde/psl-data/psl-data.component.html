@@ -508,7 +508,8 @@
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="ca_registration_number">{{labels.caRegisterNo}}</label>
         <input type="text" formControlName="caRegistrationNumber" class="form-control" name="ca_registration_number"
-            id="ca_registration_number" required="required" />
+            id="ca_registration_number" required="required" [ngModel]="caRegistrationNumber"
+            (ngModelChange)="caRegistrationNumber=$event.toUpperCase()"/>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="udin_no">{{labels.udinNo}}</label>
@@ -531,14 +532,14 @@
         <label for="total_investment_cost">{{labels.totalInvestmentCost}}</label>
         <input type="number" formControlName="totalInvestmentCost" class="form-control"
             name="total_investment_cost" id="total_investment_cost" required="required" Placeholder="" 
-            [(ngModel)]="totalInvestmentCost"   />
+            [(ngModel)]="totalInvestmentCost" (change)="onChangeTotalInvestmentCost($event)"/>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInEquipment" >
         <label for="investment_in_equipment">{{labels.investInEquipment}}</label>
         <input type="number" formControlName="investmentInEquipment" class="form-control"
             name="investment_in_equipment" id="investment_in_equipment" required="required" 
-            Placeholder="" [(ngModel)]="investmentInEquipmentValue"
-            (change)="onChangeInvestmentInEquipment($event)" />
+            Placeholder="" [(ngModel)]="investmentInEquipmentValue" 
+            (keyup)="onChangeInvestmentInEquipment($event)"/>
         <!-- <span style="color: red; font-size: x-small;">*Investmest in Equipment Amount must be equal to Total Investment Amount</span>     -->
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInPlantMachinery">
@@ -546,7 +547,7 @@
         <input type="number" formControlName="investmentInPlantAndMachinery" class="form-control"
             name="investment_plant_machinery" id="investment_plant_machinery" required="required"
             Placeholder="" [(ngModel)]="investmentInPlantMachineryValue"
-            (change)="onChangeInvestmentInPlantAndMachinery($event)" />
+            (keyup)="onChangeInvestmentInPlantAndMachinery($event)"/>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="psl_category_msme">{{labels.pslCategory}}</label>

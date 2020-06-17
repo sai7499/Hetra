@@ -477,6 +477,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disablePermanentAddress();
         this.disableRegisteredAddress();
         this.disableCommunicationAddress();
+      }else{
+        this.isValueChanged = false;
       }
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
