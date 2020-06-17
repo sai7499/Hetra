@@ -39,11 +39,10 @@ export class BasicDetailsComponent implements OnInit {
   isSeniorCitizen : any ="0"
   isMinor : any = "0"
   gaurdianNamemandatory : any= {};
-  senior : boolean;
-  minor : boolean;
   checkingMinor : boolean
  checkingSenior : boolean
- isDirty : boolean
+ isDirty : boolean;
+ mobilePhone : any
  
   //imMinor : boolean= true
   designation = [
@@ -56,6 +55,10 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+  numberPattern={
+    rule : '^[0-9]',
+    msg : 'Invalid'
+  }
   nameLength30={
     rule: 30,
   }
@@ -170,10 +173,10 @@ export class BasicDetailsComponent implements OnInit {
       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
       this.initialAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
       console.log('initially age', this.initialAge)
-      if(this.initialAge<18){
-        this.checkingMinor= true
-      }
-      if(this.initialAge>70)
+      // if(this.initialAge<18){
+      //   this.checkingMinor= true
+      // }
+      // if(this.initialAge>70)
       this.checkingMinor= this.initialAge< 18 ? true : false
       this.checkingSenior= this.initialAge> 70 ? true : false
 
@@ -182,14 +185,14 @@ export class BasicDetailsComponent implements OnInit {
       this.isSeniorCitizen= this.checkingSenior ==true ? '1': '0'
       console.log('issenior', this.isSeniorCitizen)
 
-      if(this.initialAge<70 ){
-        this.senior = true
+      // if(this.initialAge<70 ){
+      //   this.senior = true
        
-      }
-      else if(this.initialAge>18 ){
-        this.minor= true;
+      // }
+      // else if(this.initialAge>18 ){
+      //   this.minor= true;
       
-      }
+      // }
 
       
   }
@@ -209,22 +212,22 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingSenior= this.showAge>70 ? true : false
     
     this.validation.get('minorGuardianName').setValue(this.validation.get('minorGuardianName').value)
-    this.checkMinorOrSenior(this.showAge) 
+    //this.checkMinorOrSenior(this.showAge) 
 
     this.isSeniorCitizen= this.checkingSenior==true ? '1': '0'
     this.isMinor = this.checkingMinor  == true ? '1' : '0'
   }
-  checkMinorOrSenior(showAge){
-    if(showAge < 70){
-      this.senior = true
+  // checkMinorOrSenior(showAge){
+  //   if(showAge < 70){
+  //     this.senior = true
      
-    }
-    else if(showAge > 18){
-      this.minor= true;
+  //   }
+  //   else if(showAge > 18){
+  //     this.minor= true;
     
-    }
+  //   }
 
-  }
+  // }
   // onGender(){
   //   if(this.validation.get('gender').status !=='VALID'){
 
@@ -287,6 +290,10 @@ export class BasicDetailsComponent implements OnInit {
       ? this.applicant.aboutIndivProspectDetails
       : {};
       this.showAge= aboutIndivProspectDetails.age;
+      const mobile = aboutIndivProspectDetails.mobilePhone;
+      if( mobile && mobile.length== 12){
+       this.mobilePhone = mobile.slice(2, 12);
+      }
       // this.toDayDate = new Date(aboutIndivProspectDetails.dob)
       //console.log('dob changes',new Date(this.utilityService.getDateFromString(aboutIndivProspectDetails.dob)));
     const formArray = this.basicForm.get('details') as FormArray;
@@ -294,7 +301,7 @@ export class BasicDetailsComponent implements OnInit {
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
-      mobilePhone: aboutIndivProspectDetails.mobilePhone || '',
+      mobilePhone: this.mobilePhone || '',
       dob: this.utilityService.getDateFromString(aboutIndivProspectDetails.dob) || new Date() ,
       minorGuardianName: aboutIndivProspectDetails.minorGuardianName || '',
       fatherName: aboutIndivProspectDetails.fatherName || '',

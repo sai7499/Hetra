@@ -665,6 +665,8 @@ export class AddressDetailsComponent implements OnInit {
     if (isChecked) {
       this.currentPincode = this.permanantPincode;
       console.log('currentPincode', this.currentPincode);
+    }else{
+      return
     }
     this.getPermanentAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -673,6 +675,8 @@ export class AddressDetailsComponent implements OnInit {
     const isChecked = event.target.checked;
     if (isChecked) {
       this.communicationPincode = this.registeredPincode;
+    }else{
+      return
     }
     this.getRegisteredAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';

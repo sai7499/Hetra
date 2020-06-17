@@ -214,7 +214,7 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
                   <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
-                  (click)="checkSenior($event)" [disabled]="senior" [checked]="checkingSenior"> 
+                  (click)="checkSenior($event)" [disabled]="checkingSenior" [checked]="checkingSenior"> 
                   <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
               
                 <!-- <div class="showErrorMessage">
@@ -228,7 +228,7 @@
               
               
               <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
-                  (click)="checkMinor($event)" [disabled]="minor" [checked]="checkingMinor"> 
+                  (click)="checkMinor($event)" [disabled]="checkingMinor" [checked]="checkingMinor"> 
                   <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
              <!-- <div class="showErrorMessage">
                {{messageOfMinor}}
@@ -318,7 +318,7 @@
                   formControlName="motherMaidenName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  [isDirty]="isDirty"
+                  
                   
                 ></app-custom-input>
             </div>
@@ -544,11 +544,15 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">Number Of Directors</label>
-              <input
+              <!-- <input
                 formControlName="numberOfDirectors"
                 type="text"
                 class="form-control"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="minorGuardianUcic"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
           </div>
         </div>

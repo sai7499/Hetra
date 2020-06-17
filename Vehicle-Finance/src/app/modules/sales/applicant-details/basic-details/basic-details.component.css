@@ -11,13 +11,13 @@
     font-size: 25px;
     margin-left: 4px;
 }
-.showErrorMessage{
+/* .showErrorMessage{
     font-size: 1.0vw;
     font-family: zurich-bold;
     letter-spacing: 0.5px;
     color: red;
     padding-top: 0.5vw;
-}
+} */
 #align_this_checkbox{
     margin-top: 16px;
     font-weight: 600;
