@@ -16,7 +16,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '@assets/constants/constant';
 import { map } from 'rxjs/operators';
-import { UtilityService} from '@services/utility.service'
+import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
 
 @Component({
@@ -36,7 +36,7 @@ export class AddressDetailsComponent implements OnInit {
   address: Applicant;
   applicantId: number;
   leadId: number;
-  isDirty : boolean
+  isDirty: boolean;
 
   permanantPincode: {
     state?: any[];
@@ -74,33 +74,33 @@ export class AddressDetailsComponent implements OnInit {
   currentAddressDetails: AddressDetails[];
   onPerAsCurChecked: boolean;
   onRegAsCommChecked: boolean;
-  addressObj : any;
+  addressObj: any;
 
   maxLenght40 = {
-    rule : 40
+    rule: 40,
   };
   pincodePattern = {
-    rule: '^[1-9][0-9]{5}$' ,
-    msg: 'pincode Number is required'
+    rule: '^[1-9][0-9]{5}$',
+    msg: 'pincode Number is required',
   };
-  pincodeLength ={
+  pincodeLength = {
     rule: 6,
-    msg : 'Should be 6 digit'
-  }
-  mobilePattern={
+    msg: 'Should be 6 digit',
+  };
+  mobilePattern = {
     rule: '^[1-9][0-9]*$',
     msg: 'Invalid Mobile Number',
-  }
-  mobileLength10={
+  };
+  mobileLength10 = {
     rule: 10,
-  }
-  landlinePattern={
-    rule : '^[0-9]{6,15}',
-    msg : "Invalid Number"
-  }
-  landlineLength15={
+  };
+  landlinePattern = {
+    rule: '^[0-9]{6,15}',
+    msg: 'Invalid Number',
+  };
+  landlineLength15 = {
     rule: 15,
-  }
+  };
 
   constructor(
     private lovData: LovDataService,
@@ -112,7 +112,7 @@ export class AddressDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private utilityService : UtilityService
+    private utilityService: UtilityService
   ) {}
 
   onBack() {
@@ -148,6 +148,9 @@ export class AddressDetailsComponent implements OnInit {
           const addressList: any[] = processVariables.GeoMasterView;
           if (value.Error !== '0') {
             return null;
+          }
+          if (!addressList) {
+            return;
           }
           const first = addressList[0];
           const obj = {
@@ -320,10 +323,10 @@ export class AddressDetailsComponent implements OnInit {
     (this.addressForm.get('details') as FormArray).push(nonIndividual);
   }
 
-  get addressValidations(){
-    const formArray=this.addressForm.get('details') as FormArray;
-   const details = formArray.at(0)
-   return details;
+  get addressValidations() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    return details;
   }
 
   getAddressDetails() {
@@ -375,39 +378,42 @@ export class AddressDetailsComponent implements OnInit {
     const details = formArray.at(0);
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
     console.log('permanentAddressObj', permanentAddressObj);
-    this.permanantPincode = {
-      city: [
-        {
-          key: permanentAddressObj.city,
-          value: permanentAddressObj.cityValue,
-        },
-      ],
-      district: [
-        {
-          key: permanentAddressObj.district,
-          value: permanentAddressObj.districtValue,
-        },
-      ],
-      state: [
-        {
-          key: permanentAddressObj.state,
-          value: permanentAddressObj.stateValue,
-        },
-      ],
-      country: [
-        {
-          key: permanentAddressObj.country,
-          value: permanentAddressObj.countryValue,
-        },
-      ],
-    };
-    const permenantAddress = details.get('permanantAddress');
-    permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
+
+    if (permanentAddressObj) {
+      this.permanantPincode = {
+        city: [
+          {
+            key: permanentAddressObj.city,
+            value: permanentAddressObj.cityValue,
+          },
+        ],
+        district: [
+          {
+            key: permanentAddressObj.district,
+            value: permanentAddressObj.districtValue,
+          },
+        ],
+        state: [
+          {
+            key: permanentAddressObj.state,
+            value: permanentAddressObj.stateValue,
+          },
+        ],
+        country: [
+          {
+            key: permanentAddressObj.country,
+            value: permanentAddressObj.countryValue,
+          },
+        ],
+      };
+      const permenantAddress = details.get('permanantAddress');
+      permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
+    }
 
     const valueCheckbox = this.getAddressObj();
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
     if (isCurAsPer.isCurrAddSameAsPermAdd == '1') {
-      this.onPerAsCurChecked= true
+      this.onPerAsCurChecked = true;
       const currentAddressObj = isCurAsPer;
       this.currentPincode = {
         city: [
@@ -443,7 +449,7 @@ export class AddressDetailsComponent implements OnInit {
         mobileNumber: currentAddressObj.mobileNumber,
       });
     } else {
-      this.onPerAsCurChecked= false
+      this.onPerAsCurChecked = false;
       const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
       if (currentAddressObj) {
         this.currentPincode = {
@@ -518,7 +524,6 @@ export class AddressDetailsComponent implements OnInit {
         mobileNumber: officeAddressObj.mobileNumber,
       });
     }
-   
   }
 
   setValuesForNonIndividual() {
@@ -561,7 +566,7 @@ export class AddressDetailsComponent implements OnInit {
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
-        this.onRegAsCommChecked= true
+      this.onRegAsCommChecked = true;
       const communicationAddressObj = isCommAsReg;
       this.communicationPincode = {
         city: [
@@ -595,7 +600,7 @@ export class AddressDetailsComponent implements OnInit {
         this.setAddressValues(communicationAddressObj)
       );
     } else {
-      this.onRegAsCommChecked= false
+      this.onRegAsCommChecked = false;
       const communicationAddressObj =
         addressObj[Constant.COMMUNICATION_ADDRESS];
       this.communicationPincode = {
@@ -666,8 +671,8 @@ export class AddressDetailsComponent implements OnInit {
     if (isChecked) {
       this.currentPincode = this.permanantPincode;
       console.log('currentPincode', this.currentPincode);
-    }else{
-      return
+    } else {
+      return;
     }
     this.getPermanentAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -676,8 +681,8 @@ export class AddressDetailsComponent implements OnInit {
     const isChecked = event.target.checked;
     if (isChecked) {
       this.communicationPincode = this.registeredPincode;
-    }else{
-      return
+    } else {
+      return;
     }
     this.getRegisteredAddressValue();
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -714,9 +719,9 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isDirty= true;
-    if(this.addressForm.invalid){
-      return
+    this.isDirty = true;
+    if (this.addressForm.invalid) {
+      return;
     }
     const value = this.addressForm.value;
     console.log('TOTAL FORM VALUE', value);
@@ -744,7 +749,7 @@ export class AddressDetailsComponent implements OnInit {
           //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
           //   this.applicantId,
           // ]);
-          alert("saved successfully")
+          alert('saved successfully');
         } else {
           this.router.navigate([
             `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,
@@ -752,10 +757,10 @@ export class AddressDetailsComponent implements OnInit {
         }
       });
     });
-  // }else {
-  //   this.utilityService.validateAllFormFields(this.addressForm)
-  // }
-    
+    // }else {
+    //   this.utilityService.validateAllFormFields(this.addressForm)
+    // }
+
     console.log('addressdetailsArray', this.addressDetailsDataArray);
   }
 
@@ -785,7 +790,7 @@ export class AddressDetailsComponent implements OnInit {
       addressLineThree: address.addressLineThree,
       country: address.country,
       landlineNumber: address.landlineNumber,
-    }
+    };
   }
 
   storeIndividualValueInService(value) {
@@ -863,6 +868,4 @@ export class AddressDetailsComponent implements OnInit {
       `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
     );
   }
-
-  
 }
