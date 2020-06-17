@@ -522,11 +522,11 @@
                             </app-vf-custom-select>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_other">{{label.assetOther}}</label>
                             <input type="text" class="form-control mandatory " id="asset_other"
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
@@ -547,16 +547,15 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
                             <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
                                 id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
-
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
@@ -583,10 +582,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
                             </label>
@@ -594,6 +589,10 @@
                                 placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost"
                                 disabled>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
@@ -609,16 +608,17 @@
                                 formControlName="dealerSubventionAmount" min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
                             <input type="text" class="form-control" id="dealer_subvention_irr"
                                 placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
                                 formControlName="dealerSubventionPartIRR">
                         </div>
+
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
@@ -635,16 +635,16 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                             <input type="number" class="form-control" id="manufacturer_subvention_amount"
                                 placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
                                 formControlName="manufactureSubventionAmount" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
@@ -663,16 +663,16 @@
                                 formControlName="manuFatureSubventionPartFinCharge" min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <input type="number" class="form-control" id="proforma_invoice_no"
                                 placeholder="Proforma Invoice No" name="proforma_invoice_no"
                                 formControlName="invoiceNumber" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
@@ -689,15 +689,15 @@
                                 formControlName="invoiceAmount" min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="isOrpFunding">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
@@ -711,15 +711,15 @@
                                 name="one_time_tax" formControlName="oneTimeTax">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="pac">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="vas">{{label.vas}} </label>
@@ -732,15 +732,16 @@
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="fastTag">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
@@ -867,11 +868,11 @@
                             </app-vf-custom-select>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_other">{{label.assetOther}}</label>
                             <input type="text" class="form-control mandatory " id="asset_other"
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
@@ -892,16 +893,15 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
                             <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
                                 id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
-
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
@@ -928,10 +928,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
                             </label>
@@ -939,6 +935,10 @@
                                 placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost"
                                 disabled>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
@@ -963,16 +963,16 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
                             <input type="number" class="form-control" id="dealer_subvention_amount"
                                 placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
                                 formControlName="dealerSubventionAmount" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
@@ -988,10 +988,6 @@
                                 formControlName="dealerSubventionPartFinCharge" min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
                                 for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
@@ -999,6 +995,10 @@
                                 formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
@@ -1015,10 +1015,6 @@
                                 min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
                             <input type="number" class="form-control" id="manufacturer_subvention_finance"
@@ -1026,6 +1022,10 @@
                                 name="manufacturer_subvention_finance"
                                 formControlName="manuFatureSubventionPartFinCharge" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
@@ -1042,16 +1042,16 @@
                             </kendo-datepicker>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                             <input type="number" class="form-control" id="proforma_invoice_amount"
                                 placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
                                 formControlName="invoiceAmount" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
@@ -1065,15 +1065,15 @@
                                 name="insurance" formControlName="insurance">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
                                 name="one_time_tax" formControlName="oneTimeTax">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
@@ -1087,15 +1087,15 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
@@ -1109,9 +1109,6 @@
                                 formControlName="others">
                         </div>
 
-                    </div>
-
-                    <div class="row">
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
                             <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
@@ -1243,15 +1240,11 @@
                             </app-vf-custom-select>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_other">{{label.assetOther}}</label>
                             <input type="text" class="form-control mandatory " id="asset_other"
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div>
-
-                    </div>
-
-                    <div class="row">
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="month_year">{{label.monthYear}} <sub class="star_red_col">*</sub></label>
@@ -1269,6 +1262,10 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="age_vehicle">{{label.ageVehicle}} <sub class="star_red_col">*</sub> </label>
                             <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
@@ -1284,10 +1281,6 @@
                                 name="age_of_vehicle" min="0" disabled>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis">
                             <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
                             </label>
@@ -1295,6 +1288,10 @@
                                 id="asset_cost_basis" placeholder="Asset cost basis Grid" name="asset_cost_basis"
                                 min="0" disabled>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
@@ -1317,12 +1314,7 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner"
-                            *ngIf="productCatoryCode === 'UCV'">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
                             <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                     class="star_red_col">*</sub> </label>
                             <input formControlName="ownerMobileNo" type="number" class="form-control mandatory"
@@ -1344,8 +1336,11 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address"
-                            *ngIf="productCatoryCode === 'UCV'">
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
                             <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
                             </label>
                             <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address"
@@ -1361,8 +1356,7 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode"
-                            *ngIf="productCatoryCode === 'UCV'">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode">
                             <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                             </label>
                             <input formControlName="pincode" type="text" class="form-control mandatory"
@@ -1382,10 +1376,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="fitness_date">{{label.fitnessDate}} </label>
 
@@ -1395,6 +1385,10 @@
                             </kendo-datepicker>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_type">{{label.permitType}} </label>
@@ -1408,10 +1402,6 @@
                                 name="permit_other" formControlName="typeOfPermitOthers">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_expire_date">{{label.permitExpireDate}}
                             </label>
@@ -1421,6 +1411,10 @@
                                 placeholder="Permit Expire Date">
                             </kendo-datepicker>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_upload">{{label.permitUpload}} </label>
@@ -1440,16 +1434,16 @@
                                 name="engine_number" formControlName="engineNumber" min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
                             <input type="number" class="form-control" id="vehicle_purchased_cost"
                                 placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
                                 formControlName="vehiclePurchasedCost" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
@@ -1467,15 +1461,16 @@
                             </kendo-datepicker>
 
                         </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="inter_state_vehicle">{{label.interStateVehicle}} </label>
@@ -1490,15 +1485,15 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}} </label>
                             <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
                                 name="cubic_capacity" formControlName="cubicCapacity">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
@@ -1515,15 +1510,15 @@
                             </kendo-datepicker>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}} </label>
                             <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
                                 formControlName="idv">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance_copy">{{label.uploadInsuranceCopy}} </label>
@@ -1536,7 +1531,8 @@
                             <!-- <input type="text" class="form-control mandatory" id="frsd_required"
                                 placeholder="FRSD Funding Required" name="frsd_required"
                                 formControlName="fsrdFundingReq"> -->
-                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq" (click)="onChangeFRSD($event)" />
+                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq"
+                                (click)="onChangeFRSD($event)" />
 
                         </div>
 
@@ -1673,15 +1669,11 @@
                             </app-vf-custom-select>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_other">{{label.assetOther}}</label>
                             <input type="text" class="form-control mandatory " id="asset_other"
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div>
-
-                    </div>
-
-                    <div class="row">
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
@@ -1696,8 +1688,11 @@
                                     You must select vehicle usage
                                 </div>
                             </div>
-
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category">
                             <label for="vechical_usage">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
@@ -1731,15 +1726,15 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
                             <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
                                 id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
@@ -1754,7 +1749,7 @@
                             <input formControlName="assetCostIBB" type="number" class="form-control mandatory"
                                 id="asset_cost_indian" placeholder="Asset Cost basis Indian Bluebook"
                                 name="asset_cost_indian" (keyup)="onCompareFinalAssetCode($event.target.value)" min="0"
-                                maxlength="10">
+                                maxlength="10" (change)="onCompareFinalAssetCode($event.target.value)">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
@@ -1764,10 +1759,6 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="asset_cost_car">{{label.assetCostCar}}</label>
@@ -1784,6 +1775,10 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
                             </label>
@@ -1798,15 +1793,15 @@
                                 min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
                             <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
                                 name="chassis_number" formControlName="chasisNumber" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}}</label>
@@ -1821,16 +1816,16 @@
                                 formControlName="vehiclePurchasedCost" min="0">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
                             <input type="number" class="form-control" id="vehicle_ownership"
                                 placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
                                 formControlName="vehicleOwnerShipNumber" min="0">
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}}</label>
@@ -1847,9 +1842,6 @@
                             </kendo-datepicker>
 
                         </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
@@ -1858,11 +1850,14 @@
                                 formControlName="gorssVehicleWeight">
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
                             </app-vf-custom-select>
-
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1870,19 +1865,17 @@
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 formControlName="interStateVehicle">
                             </app-vf-custom-select>
-
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="duplicateRC">
                             </app-vf-custom-select>
-
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}}</label>
@@ -1896,10 +1889,6 @@
                                 name="seating_capacity" formControlName="seatingCapacity">
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
@@ -1908,6 +1897,10 @@
                                 placeholder="insurance_validity">
                             </kendo-datepicker>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}}</label>
@@ -1923,18 +1916,15 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="frsd_required">{{label.frsdRequired}}</label>
-                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq" (click)="onChangeFRSD($event)" />
+                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq"
+                                (click)="onChangeFRSD($event)" />
 
                             <!-- <input type="text" class="form-control mandatory" id="frsd_required"
                                 placeholder="FRSD Funding Required" name="frsd_required"
                                 formControlName="fsrdFundingReq"> -->
                         </div>
 
-                    </div>
-
-                    <div class="row" *ngIf="obj.controls['fsrdFundingReq'].value === true">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
                             <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
                                 name="frsd_amount" formControlName="fsrdPremiumAmount" min="0">
@@ -1948,13 +1938,11 @@
 
                     </div>
 
-
                 </div>
 
             </div>
 
         </div>
-
 
     </ng-container>
 
