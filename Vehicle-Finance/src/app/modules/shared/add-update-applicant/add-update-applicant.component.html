@@ -458,7 +458,8 @@
                 *ngIf="applicantType == 'INDIVENTTYP'"
               >
                 <h3 class="title">Permanent Address</h3>
-                <div class="row" formGroupName="permentAddress">
+                <div class="row container" formGroupName="permentAddress">
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address1">{{ labels?.addressline1 }}</label>
                     <app-custom-input
@@ -482,6 +483,8 @@
                       [maxLength]="maxlength40"
                     ></app-custom-input>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="pincode">{{ labels?.code }}</label>
                     <app-custom-input
@@ -514,6 +517,8 @@
                     >
                     </app-vf-custom-select>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_state">{{
                       labels?.state
@@ -544,6 +549,7 @@
                       [maxLength]="maxlength15"
                     ></app-custom-input>
                   </div>
+                  </div>
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
@@ -561,7 +567,8 @@
                     </span>
                   </div>
                 </div>
-                <div class="row" formGroupName="communicationAddress">
+                <div class="row container" formGroupName="communicationAddress">
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="line1">{{ labels?.addressline1 }}</label>
                     <app-custom-input
@@ -585,6 +592,8 @@
                       [maxLength]="maxlength40"
                     ></app-custom-input>
                   </div>
+                  </div>
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_pincode">{{ labels?.code }}</label>
                     <app-custom-input
@@ -615,6 +624,8 @@
                     >
                     </app-vf-custom-select>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state">{{
                       labels?.state
@@ -645,6 +656,7 @@
                       [patternCheck]="landlLinePattern"
                       [maxLength]="maxlength15"
                     ></app-custom-input>
+                  </div>
                   </div>
                 </div>
               </div>
