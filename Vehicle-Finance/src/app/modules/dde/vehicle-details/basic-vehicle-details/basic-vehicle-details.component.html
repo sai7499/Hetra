@@ -1,6 +1,5 @@
 <div class="content">
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn" >
-        <!-- id="scroll_starts_here" -->
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <app-shared-basic-vehicle-details [id]="routerId" (formDataOutput)="FormDataParentMethod($event)">
         </app-shared-basic-vehicle-details>
     </div>
@@ -14,9 +13,4 @@
         </div>
 
     </div>
-</div>
-
-<div class="alert alert-success alert-dismissible fixed" id="alert" *ngIf="isHidden">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button> {{errorMsg}}
 </div>

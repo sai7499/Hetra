@@ -251,7 +251,7 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ex_showroom_price"
                         *ngIf="productCatoryCode === 'NC' || productCatoryCode === 'NCV'">
                         <label for="ex_showroom_price"> {{ label.exShowroomPrice }} <sub class="star_red_col">*</sub>
                         </label>
@@ -300,7 +300,8 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category"
+                        *ngIf="productCatoryCode === 'UC'">
                         <label for="vechical_usage">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
                         </label>
 
@@ -528,6 +529,44 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
+                                    class="star_red_col">*</sub>
+                            </label>
+
+                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
+                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                                placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
+                            </kendo-datepicker>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    You must select year and month manufacturing
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
+                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
+                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                            <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
+                            </label>
+                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
+                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
+                                name="age_of_vehicle" min="0" disabled>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
                             <input type="number" class="form-control mandatory " id="ex_showroom_cost"
@@ -543,6 +582,7 @@
                             </div>
 
                         </div>
+
                     </div>
 
                     <div class="row">
@@ -556,36 +596,17 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}} <sub
-                                    class="star_red_col">*</sub></label>
+                            <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 formControlName="dealerSuventionApproval">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSuventionApproval'].touched && !obj.controls['dealerSuventionApproval'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSuventionApproval'].value === ''">
-                                    You must select dealer subvention applicable
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}} <sub
-                                    class="star_red_col">*</sub></label>
+                            <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
                             <input type="number" class="form-control" id="dealer_subvention_amount"
                                 placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
                                 formControlName="dealerSubventionAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionAmount'].touched && !obj.controls['dealerSubventionAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSubventionAmount'].hasError('required')">
-                                    You must enter dealer subvention amount
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -593,50 +614,25 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
                             <input type="text" class="form-control" id="dealer_subvention_irr"
                                 placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
                                 formControlName="dealerSubventionPartIRR">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartIRR'].touched && !obj.controls['dealerSubventionPartIRR'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('required')">
-                                    You must enter dealer subvention part of operating IRR
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
                             <input type="number" class="form-control" id="dealer_subvention_finance"
                                 placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
                                 formControlName="dealerSubventionPartFinCharge" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartFinCharge'].touched && !obj.controls['dealerSubventionPartFinCharge'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSubventionPartFinCharge'].hasError('required')">
-                                    You must enter dealer subvention part of finance charges
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}
-                                <sub class="star_red_col">*</sub> </label>
+                            <label
+                                for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacSubventionApplicable'].touched && !obj.controls['manufacSubventionApplicable'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manufacSubventionApplicable'].value === ''">
-                                    You must select manufacturer subvention applicable
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -644,54 +640,27 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                             <input type="number" class="form-control" id="manufacturer_subvention_amount"
                                 placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
                                 formControlName="manufactureSubventionAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufactureSubventionAmount'].touched && !obj.controls['manufactureSubventionAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manufactureSubventionAmount'].hasError('required')">
-                                    You must enter manuFature subvention amount
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
                             <input type="number" class="form-control" id="manufacturer_subvention_irr"
                                 placeholder="Manufacturer Subvention Part of Operating IRR"
                                 name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
                                 min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFactureSubventionPartIRR'].touched && !obj.controls['manuFactureSubventionPartIRR'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('required')">
-                                    You must enter manuFature subvention part of operating IRR
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}
+                            </label>
                             <input type="number" class="form-control" id="manufacturer_subvention_finance"
                                 placeholder="Manufacturer Subvention Part of Finance Charges"
                                 name="manufacturer_subvention_finance"
                                 formControlName="manuFatureSubventionPartFinCharge" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].touched && !obj.controls['manuFatureSubventionPartFinCharge'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].hasError('required')">
-                                    You must enter manuFature subvention part of finance charges
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -699,56 +668,25 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_no">{{label.proformaInvoiceNo}} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
+                            <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <input type="number" class="form-control" id="proforma_invoice_no"
                                 placeholder="Proforma Invoice No" name="proforma_invoice_no"
                                 formControlName="invoiceNumber" min="0">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['invoiceNumber'].touched && !obj.controls['invoiceNumber'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['invoiceNumber'].hasError('required')">
-                                    You must enter proforma invoice number
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <!-- <input type="text" class="form-control" id="proforma_invoice_date"
-                                placeholder="Proforma Invoice Date" name="proforma_invoice_date"
-                                formControlName="invoiceDate"> -->
+                            <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['invoiceDate'].touched && !obj.controls['invoiceDate'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['invoiceDate'].hasError('required')">
-                                    You must select proforma invoice date
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                             <input type="number" class="form-control" id="proforma_invoice_amount"
                                 placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
                                 formControlName="invoiceAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['invoiceAmount'].touched && !obj.controls['invoiceAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['invoiceAmount'].hasError('required')">
-                                    You must enter proforma invoice amount
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -756,41 +694,21 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                            <label for="orp_funding">{{label.orpFunding}} <sub class="star_red_col">*</sub> </label>
+                            <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="isOrpFunding">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['isOrpFunding'].touched && !obj.controls['isOrpFunding'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['isOrpFunding'].value === ''">
-                                    You must select ORP funding
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance">{{label.insurance}} <sub class="star_red_col">*</sub> </label>
+                            <label for="insurance">{{label.insurance}} </label>
                             <input type="text" class="form-control" id="insurance" placeholder="Insurance"
                                 name="insurance" formControlName="insurance">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['insurance'].touched && !obj.controls['insurance'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('required')">
-                                    You must enter insurance
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_red_col">*</sub> </label>
+                            <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
                                 name="one_time_tax" formControlName="oneTimeTax">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['oneTimeTax'].touched && !obj.controls['oneTimeTax'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['oneTimeTax'].hasError('required')">
-                                    You must enter one time tax
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -798,78 +716,42 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="pac">{{label.pac}} <sub class="star_red_col">*</sub> </label>
+                            <label for="pac">{{label.pac}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="pac">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['pac'].touched && !obj.controls['pac'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['pac'].value === ''">
-                                    You must select pac
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="vas">{{label.vas}} <sub class="star_red_col">*</sub> </label>
+                            <label for="vas">{{label.vas}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="vas">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vas'].touched && !obj.controls['vas'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vas'].value === ''">
-                                    You must select vas
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="emi_protect">{{label.emiProtect}} <sub class="star_red_col">*</sub> </label>
+                            <label for="emi_protect">{{label.emiProtect}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['emiProtect'].touched && !obj.controls['emiProtect'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['emiProtect'].value === ''">
-                                    You must select emi protect
-                                </div>
-                            </div>
                         </div>
                     </div>
 
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                            <label for="fast_tag">{{label.fastTag}} <sub class="star_red_col">*</sub> </label>
+                            <label for="fast_tag">{{label.fastTag}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="fastTag">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fastTag'].touched && !obj.controls['fastTag'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['fastTag'].value === ''">
-                                    You must select fast tag
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} <sub class="star_red_col">*</sub> </label>
+                            <label for="others">{{label.others}} </label>
                             <input type="text" class="form-control" id="others" placeholder="Others" name="others"
                                 formControlName="others">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['others'].touched && !obj.controls['others'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['others'].hasError('required')">
-                                    You must enter others
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} <sub class="star_red_col">*</sub> </label>
+                            <label for="discount">{{label.discount}} </label>
                             <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
                                 formControlName="discount">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['discount'].touched && !obj.controls['discount'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['discount'].hasError('required')">
-                                    You must enter discount
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -992,6 +874,44 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
+                                    class="star_red_col">*</sub>
+                            </label>
+
+                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
+                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                                placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
+                            </kendo-datepicker>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    You must select year and month manufacturing
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
+                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
+                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                            <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
+                            </label>
+                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
+                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
+                                name="age_of_vehicle" min="0" disabled>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
                             <input type="number" class="form-control mandatory " id="ex_showroom_cost"
@@ -1007,6 +927,7 @@
                             </div>
 
                         </div>
+
                     </div>
 
                     <div class="row">
@@ -1019,325 +940,7 @@
                                 disabled>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}} <sub
-                                    class="star_red_col">*</sub></label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                                formControlName="dealerSuventionApproval">
-                            </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSuventionApproval'].touched && !obj.controls['dealerSuventionApproval'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSuventionApproval'].value === ''">
-                                    You must select dealer subvention applicable
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}} <sub
-                                    class="star_red_col">*</sub></label>
-                            <input type="number" class="form-control" id="dealer_subvention_amount"
-                                placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                                formControlName="dealerSubventionAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionAmount'].touched && !obj.controls['dealerSubventionAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSubventionAmount'].hasError('required')">
-                                    You must enter dealer subvention amount
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="dealer_subvention_irr"
-                                placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionPartIRR">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartIRR'].touched && !obj.controls['dealerSubventionPartIRR'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('required')">
-                                    You must enter dealer subvention part of operating IRR
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="dealer_subvention_finance"
-                                placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
-                                formControlName="dealerSubventionPartFinCharge" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartFinCharge'].touched && !obj.controls['dealerSubventionPartFinCharge'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['dealerSubventionPartFinCharge'].hasError('required')">
-                                    You must enter dealer subvention part of finance charges
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}
-                                <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                                formControlName="manufacSubventionApplicable">
-                            </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacSubventionApplicable'].touched && !obj.controls['manufacSubventionApplicable'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manufacSubventionApplicable'].value === ''">
-                                    You must select manufacturer subvention applicable
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_amount"
-                                placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufactureSubventionAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufactureSubventionAmount'].touched && !obj.controls['manufactureSubventionAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manufactureSubventionAmount'].hasError('required')">
-                                    You must enter manuFature subvention amount
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_irr"
-                                placeholder="Manufacturer Subvention Part of Operating IRR"
-                                name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
-                                min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFactureSubventionPartIRR'].touched && !obj.controls['manuFactureSubventionPartIRR'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('required')">
-                                    You must enter manuFature subvention part of operating IRR
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_finance"
-                                placeholder="Manufacturer Subvention Part of Finance Charges"
-                                name="manufacturer_subvention_finance"
-                                formControlName="manuFatureSubventionPartFinCharge" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].touched && !obj.controls['manuFatureSubventionPartFinCharge'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].hasError('required')">
-                                    You must enter manuFature subvention part of finance charges
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_no">{{label.proformaInvoiceNo}} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
-                            <input type="number" class="form-control" id="proforma_invoice_no"
-                                placeholder="Proforma Invoice No" name="proforma_invoice_no"
-                                formControlName="invoiceNumber" min="0">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['invoiceNumber'].touched && !obj.controls['invoiceNumber'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['invoiceNumber'].hasError('required')">
-                                    You must enter proforma invoice number
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} <sub
-                                    class="star_red_col">*</sub> </label>
-
-                            <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                                placeholder="Proforma Invoice Date">
-                            </kendo-datepicker>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['invoiceDate'].touched && !obj.controls['invoiceDate'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['invoiceDate'].hasError('required')">
-                                    You must select proforma invoice date
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="proforma_invoice_amount"
-                                placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                                formControlName="invoiceAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['invoiceAmount'].touched && !obj.controls['invoiceAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['invoiceAmount'].hasError('required')">
-                                    You must enter proforma invoice amount
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                            <label for="orp_funding">{{label.orpFunding}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="isOrpFunding">
-                            </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['isOrpFunding'].touched && !obj.controls['isOrpFunding'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['isOrpFunding'].value === ''">
-                                    You must select ORP funding
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance">{{label.insurance}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['insurance'].touched && !obj.controls['insurance'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('required')">
-                                    You must enter insurance
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                                name="one_time_tax" formControlName="oneTimeTax">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['oneTimeTax'].touched && !obj.controls['oneTimeTax'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['oneTimeTax'].hasError('required')">
-                                    You must enter one time tax
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="pac">{{label.pac}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="pac">
-                            </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['pac'].touched && !obj.controls['pac'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['pac'].value === ''">
-                                    You must select pac
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="vas">{{label.vas}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="vas">
-                            </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vas'].touched && !obj.controls['vas'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vas'].value === ''">
-                                    You must select vas
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="emi_protect">{{label.emiProtect}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
-                            </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['emiProtect'].touched && !obj.controls['emiProtect'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['emiProtect'].value === ''">
-                                    You must select emi protect
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                            <label for="fast_tag">{{label.fastTag}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="fastTag">
-                            </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fastTag'].touched && !obj.controls['fastTag'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['fastTag'].value === ''">
-                                    You must select fast tag
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="others" placeholder="Others" name="others"
-                                formControlName="others">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['others'].touched && !obj.controls['others'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['others'].hasError('required')">
-                                    You must enter others
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
-                                formControlName="discount">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['discount'].touched && !obj.controls['discount'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['discount'].hasError('required')">
-                                    You must enter discount
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use"
-                            *ngIf="productCatoryCode === 'NC' || productCatoryCode === 'UC'">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
                             </label>
 
@@ -1351,6 +954,168 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
+                                formControlName="dealerSuventionApproval">
+                            </app-vf-custom-select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
+                            <input type="number" class="form-control" id="dealer_subvention_amount"
+                                placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
+                                formControlName="dealerSubventionAmount" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
+                            <input type="text" class="form-control" id="dealer_subvention_irr"
+                                placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
+                                formControlName="dealerSubventionPartIRR">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
+                            <input type="number" class="form-control" id="dealer_subvention_finance"
+                                placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
+                                formControlName="dealerSubventionPartFinCharge" min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label
+                                for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
+                                formControlName="manufacSubventionApplicable">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
+                            <input type="number" class="form-control" id="manufacturer_subvention_amount"
+                                placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
+                                formControlName="manufactureSubventionAmount" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
+                            <input type="number" class="form-control" id="manufacturer_subvention_irr"
+                                placeholder="Manufacturer Subvention Part of Operating IRR"
+                                name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
+                                min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
+                            <input type="number" class="form-control" id="manufacturer_subvention_finance"
+                                placeholder="Manufacturer Subvention Part of Finance Charges"
+                                name="manufacturer_subvention_finance"
+                                formControlName="manuFatureSubventionPartFinCharge" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
+                            <input type="number" class="form-control" id="proforma_invoice_no"
+                                placeholder="Proforma Invoice No" name="proforma_invoice_no"
+                                formControlName="invoiceNumber" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
+                            <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
+                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                placeholder="Proforma Invoice Date">
+                            </kendo-datepicker>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
+                            <input type="number" class="form-control" id="proforma_invoice_amount"
+                                placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
+                                formControlName="invoiceAmount" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
+                            <label for="orp_funding">{{label.orpFunding}} </label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="isOrpFunding">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="insurance">{{label.insurance}} </label>
+                            <input type="text" class="form-control" id="insurance" placeholder="Insurance"
+                                name="insurance" formControlName="insurance">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                            <label for="one_time_tax">{{label.oneTimeTax}} </label>
+                            <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
+                                name="one_time_tax" formControlName="oneTimeTax">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                            <label for="pac">{{label.pac}} </label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="pac">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                            <label for="vas">{{label.vas}} </label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="vas">
+                            </app-vf-custom-select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
+                            <label for="emi_protect">{{label.emiProtect}} </label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                            <label for="fast_tag">{{label.fastTag}} </label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="fastTag">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="others">{{label.others}} </label>
+                            <input type="text" class="form-control" id="others" placeholder="Others" name="others"
+                                formControlName="others">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                            <label for="discount">{{label.discount}} </label>
+                            <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
+                                formControlName="discount">
                         </div>
                     </div>
 
@@ -1509,13 +1274,6 @@
                             <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
                                 id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
 
-                            <!-- <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['ageOfAsset'].touched && !obj.controls['ageOfAsset'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['ageOfAsset'].hasError('required')">
-                                    You must enter age of asset
-                                </div>
-                            </div> -->
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
@@ -1524,14 +1282,6 @@
                             <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
                                 id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
                                 name="age_of_vehicle" min="0" disabled>
-
-                            <!-- <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['ageAfterTenure'].touched && !obj.controls['ageAfterTenure'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['ageAfterTenure'].hasError('required')">
-                                    You must enter age of vehicle
-                                </div>
-                            </div> -->
                         </div>
 
                     </div>
@@ -1544,15 +1294,6 @@
                             <input formControlName="assetCostGrid" type="number" class="form-control mandatory"
                                 id="asset_cost_basis" placeholder="Asset cost basis Grid" name="asset_cost_basis"
                                 min="0" disabled>
-
-                            <!-- <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetCostGrid'].touched && !obj.controls['assetCostGrid'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['assetCostGrid'].hasError('required')">
-                                    You must enter asset cost
-                                </div>
-                            </div> -->
-
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1560,148 +1301,6 @@
                             </label>
                             <input formControlName="finalAssetCost" type="number" class="form-control mandatory" min="0"
                                 id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost" disabled>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="fitness_date">{{label.fitnessDate}} <sub class="star_red_col">*</sub> </label>
-
-                            <kendo-datepicker class="form-control mandatory" formControlName="fitnessDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                                placeholder="Fitness Date">
-                            </kendo-datepicker>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fitnessDate'].touched && !obj.controls['fitnessDate'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['fitnessDate'].hasError('required')">
-                                    You must select fitness date
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="permit_type">{{label.permitType}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.permitType" formControlName="typeOfPermit">
-                            </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['typeOfPermit'].touched && !obj.controls['typeOfPermit'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['typeOfPermit'].value === ''">
-                                    You must select type of permit
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="permit_other">{{label.permitOthers}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="permit_other" placeholder="Type of Permit Other"
-                                name="permit_other" formControlName="typeOfPermitOthers">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['typeOfPermitOthers'].touched && !obj.controls['typeOfPermitOthers'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['typeOfPermitOthers'].hasError('required')">
-                                    You must enter type of permit others
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="permit_expire_date">{{label.permitExpireDate}} <sub class="star_red_col">*</sub>
-                            </label>
-
-                            <kendo-datepicker class="form-control mandatory" formControlName="permitExpireDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                                placeholder="Permit Expire Date">
-                            </kendo-datepicker>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['permitExpireDate'].touched && !obj.controls['permitExpireDate'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['permitExpireDate'].hasError('required')">
-                                    You must select permit expire date
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="permit_upload">{{label.permitUpload}} </label>
-                            <input id="permit_upload" type="file" multiple formControlName="permitUpload">
-                            <div id="permit_upload_perview"></div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                                name="chassis_number" formControlName="chasisNumber" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['chasisNumber'].touched && !obj.controls['chasisNumber'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['chasisNumber'].hasError('required')">
-                                    You must enter chassis number
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
-                                name="engine_number" formControlName="engineNumber" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['engineNumber'].touched && !obj.controls['engineNumber'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['engineNumber'].hasError('required')">
-                                    You must enter engine number
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} <sub
-                                    class="star_red_col">*</sub> </label>
-                            <input type="number" class="form-control" id="vehicle_purchased_cost"
-                                placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                                formControlName="vehiclePurchasedCost" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehiclePurchasedCost'].touched && !obj.controls['vehiclePurchasedCost'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['vehiclePurchasedCost'].hasError('required')">
-                                    You must enter vehicle purchased cost
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="vehicle_ownership">{{label.vehicleOwnership}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <input type="number" class="form-control" id="vehicle_ownership"
-                                placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                                formControlName="vehicleOwnerShipNumber" min="0">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleOwnerShipNumber'].touched && !obj.controls['vehicleOwnerShipNumber'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['vehicleOwnerShipNumber'].hasError('required')">
-                                    You must enter vehicle ownership number
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1775,7 +1374,6 @@
                                 <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('required')">
                                     You must enter the pincode
                                 </div>
-
                             </div>
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].maxlength">
@@ -1789,145 +1387,132 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="fitness_date">{{label.fitnessDate}} </label>
+
+                            <kendo-datepicker class="form-control mandatory" formControlName="fitnessDate"
+                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                placeholder="Fitness Date">
+                            </kendo-datepicker>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="permit_type">{{label.permitType}} </label>
+                            <app-vf-custom-select [values]="vehicleLov?.permitType" formControlName="typeOfPermit">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="permit_other">{{label.permitOthers}} </label>
+                            <input type="text" class="form-control" id="permit_other" placeholder="Type of Permit Other"
+                                name="permit_other" formControlName="typeOfPermitOthers">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="permit_expire_date">{{label.permitExpireDate}}
+                            </label>
+
+                            <kendo-datepicker class="form-control mandatory" formControlName="permitExpiryDate"
+                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                placeholder="Permit Expire Date">
+                            </kendo-datepicker>
+                        </div>
+
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="permit_upload">{{label.permitUpload}} </label>
+                            <input id="permit_upload" type="file" multiple formControlName="permitUpload">
+                            <div id="permit_upload_perview"></div>
+                        </div> -->
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="chassis_number">{{label.chassisNumber}}</label>
+                            <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                                name="chassis_number" formControlName="chasisNumber" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="engine_number">{{label.engineNumber}} </label>
+                            <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
+                                name="engine_number" formControlName="engineNumber" min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
+                            <input type="number" class="form-control" id="vehicle_purchased_cost"
+                                placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
+                                formControlName="vehiclePurchasedCost" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
+                            <input type="number" class="form-control" id="vehicle_ownership"
+                                placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
+                                formControlName="vehicleOwnerShipNumber" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="vehicleRegDate"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleRegDate'].touched && !obj.controls['vehicleRegDate'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['vehicleRegDate'].hasError('required')">
-                                    You must select vehicle registration date
-                                </div>
-                            </div>
-
                         </div>
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['reRegVehicle'].touched && !obj.controls['reRegVehicle'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['reRegVehicle'].value === ''">
-                                    You must select re-registered vehicle
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="inter_state_vehicle">{{label.interStateVehicle}} <sub
-                                    class="star_red_col">*</sub> </label>
+                            <label for="inter_state_vehicle">{{label.interStateVehicle}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 formControlName="interStateVehicle">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['interStateVehicle'].touched && !obj.controls['interStateVehicle'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['interStateVehicle'].value === ''">
-                                    You must select inter state vehicle
-                                </div>
-                            </div>
-
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="duplicate_rc">{{label.duplicateRC}} <sub class="star_red_col">*</sub> </label>
+                            <label for="duplicate_rc">{{label.duplicateRC}} </label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="duplicateRC">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['duplicateRC'].touched && !obj.controls['duplicateRC'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['duplicateRC'].value === ''">
-                                    You must select duplicate RC
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="cubic_capacity">{{label.cubicCapacity}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                                name="cubic_capacity" formControlName="cubicCapacity">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['cubicCapacity'].touched && !obj.controls['cubicCapacity'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['cubicCapacity'].hasError('required')">
-                                    You must enter cubic capacity
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="seating_capacity">{{label.seatingCapacity}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                                name="seating_capacity" formControlName="seatingCapacity">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['seatingCapacity'].touched && !obj.controls['seatingCapacity'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['seatingCapacity'].hasError('required')">
-                                    You must enter seating capacity
-                                </div>
-                            </div>
                         </div>
 
                     </div>
 
                     <div class="row">
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="cubic_capacity">{{label.cubicCapacity}} </label>
+                            <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
+                                name="cubic_capacity" formControlName="cubicCapacity">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="seating_capacity">{{label.seatingCapacity}}</label>
+                            <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
+                                name="seating_capacity" formControlName="seatingCapacity">
+                        </div>
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance_validity">{{label.insuranceValidity}} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
+                            <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
                                 placeholder="insurance_validity">
                             </kendo-datepicker>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['insuranceValidity'].touched && !obj.controls['insuranceValidity'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['insuranceValidity'].hasError('required')">
-                                    You must select insurance validity
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="idv">{{label.idv}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                                formControlName="idv">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['idv'].touched && !obj.controls['idv'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['idv'].hasError('required')">
-                                    You must enter idv
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance_copy">{{label.uploadInsuranceCopy}} </label>
-                            <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
-                            <div id="insurance_preview"></div>
                         </div>
 
                     </div>
@@ -1935,32 +1520,31 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="frsd_required">{{label.frsdRequired}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control mandatory" id="frsd_required"
-                                placeholder="FRSD Funding Required" name="frsd_required"
-                                formControlName="fsrdFundingReq">
+                            <label for="idv">{{label.idv}} </label>
+                            <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
+                                formControlName="idv">
+                        </div>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fsrdFundingReq'].touched && !obj.controls['fsrdFundingReq'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['fsrdFundingReq'].hasError('required')">
-                                    You must enter FRSD funding required
-                                </div>
-                            </div>
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="insurance_copy">{{label.uploadInsuranceCopy}} </label>
+                            <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
+                            <div id="insurance_preview"></div>
+                        </div> -->
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " style="margin-top: 24px;">
+                            <label for="frsd_required">{{label.frsdRequired}} </label>
+                            <!-- <input type="text" class="form-control mandatory" id="frsd_required"
+                                placeholder="FRSD Funding Required" name="frsd_required"
+                                formControlName="fsrdFundingReq"> -->
+                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq" (click)="onChangeFRSD($event)" />
 
                         </div>
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="frsd_amount">{{label.frsdAmount}} <sub class="star_red_col">*</sub> </label>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                            *ngIf="obj.controls['fsrdFundingReq'].value === true">
+                            <label for="frsd_amount">{{label.frsdAmount}} </label>
                             <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
                                 name="frsd_amount" formControlName="fsrdPremiumAmount" min="0">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fsrdPremiumAmount'].touched && !obj.controls['fsrdPremiumAmount'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['fsrdPremiumAmount'].hasError('required')">
-                                    You must enter FRSD premium amount
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -1969,244 +1553,402 @@
 
                 <div class="" id="used_car_show" *ngIf="productCatoryCode === 'UC'">
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="registartion_number">{{label.registartionNumber}}</label>
-                        <input type="text" class="form-control mandatory input-upper" id="registartion_number"
-                            placeholder="Vechical Registration No" name="registartion_number"
-                            formControlName="vehicleRegNo">
+                    <div class="row">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                You must enter vehicle registration number
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="registartion_number">{{label.registartionNumber}} <sub
+                                    class="star_red_col">*</sub>
+                            </label>
+                            <input type="text" class="form-control mandatory input-upper" id="registartion_number"
+                                placeholder="Vechical Registration No" name="registartion_number"
+                                formControlName="vehicleRegNo">
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
+                                    You must enter vehicle registration number
+                                </div>
                             </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
+                                (change)="onVehicleRegion($event.target.value)">
+                            </app-vf-custom-select>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
+                                    You must select vehicle region
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="asset_make">{{label.assetMake}} <sub class="star_red_col">*</sub> </label>
+                            <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
+                                (change)="onAssetMake($event.target.value)">
+                            </app-vf-custom-select>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetMake'].touched && !obj.controls['assetMake'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetMake'].value === ''">
+                                    You must select asset make
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
+                                (change)="onVehicleType($event.target.value)">
+                            </app-vf-custom-select>
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['vehicleType'].touched && !obj.controls['vehicleType'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleType'].value === ''">
+                                    You must select vehicle type
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="asset_body_type">{{label.assetSegement}} <sub
+                                    class="star_red_col">*</sub></label>
+                            <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
+                                (change)="onAssetBodyType($event.target.value)">
+                            </app-vf-custom-select>
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
+                                    You must select asset body type
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="asset_model">{{label.assetModel}} <sub class="star_red_col">*</sub></label>
+                            <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
+                                (change)="onAssetModel($event.target.value)">
+                            </app-vf-custom-select>
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetModel'].value === ''">
+                                    You must select asset model
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub></label>
+                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+                            </app-vf-custom-select>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetVariant'].value === ''">
+                                    You must select asset variant
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant"
+                                formControlName="assetSubVariant">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="asset_other">{{label.assetOther}}</label>
+                            <input type="text" class="form-control mandatory " id="asset_other"
+                                placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
+                            <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
+                            </app-vf-custom-select>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['vehicleUsage'].touched && !obj.controls['vehicleUsage'].vaild">
+                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleUsage'].value === ''">
+                                    You must select vehicle usage
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category">
+                            <label for="vechical_usage">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" formControlName="category">
+                            </app-vf-custom-select>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['category'].touched && !obj.controls['category'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['category'].hasError('required') || obj.controls['category'].value === ''">
+                                    You must select vehicle category
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="month_year">{{label.monthYear}}</label>
+                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
+                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                                placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
+                            </kendo-datepicker>
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    You must select year and month manufacturing
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
+                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
+                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" disabled>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                            <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
+                            </label>
+                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
+                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
+                                name="age_of_vehicle" min="0" disabled>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="asset_cost_indian">{{label.assetCostIndian}}</label>
+                            <input formControlName="assetCostIBB" type="number" class="form-control mandatory"
+                                id="asset_cost_indian" placeholder="Asset Cost basis Indian Bluebook"
+                                name="asset_cost_indian" (keyup)="onCompareFinalAssetCode($event.target.value)" min="0"
+                                maxlength="10">
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['assetCostIBB'].hasError('required')" maxlength="10">
+                                    You must enter asset cost basis indian bluebook
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="asset_cost_car">{{label.assetCostCar}}</label>
+                            <input formControlName="assetCostCarTrade" type="number" class="form-control mandatory"
+                                id="asset_cost_car" placeholder="Asset Cost basis Car Trade" name="asset_cost_car"
+                                min="0" (keyup)="onCompareFinalAssetCode($event.target.value)" maxlength="10">
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['assetCostCarTrade'].touched && !obj.controls['assetCostCarTrade'].vaild">
+                                <div class="cus-mandatory-field"
+                                    *ngIf="obj.controls['assetCostCarTrade'].hasError('required')">
+                                    You must enter asset cost car trade
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
+                            </label>
+                            <input formControlName="finalAssetCost" type="number" class="form-control mandatory" min="0"
+                                id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost" disabled>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="asset_cost_least">{{label.assetCostLeast}}</label>
+                            <input type="number" class="form-control mandatory " id="asset_cost_least"
+                                placeholder="Asset Cost Least" name="asset_cost_least" formControlName="assetCostLeast"
+                                min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="chassis_number">{{label.chassisNumber}}</label>
+                            <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                                name="chassis_number" formControlName="chasisNumber" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="engine_number">{{label.engineNumber}}</label>
+                            <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
+                                name="engine_number" formControlName="engineNumber" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
+                            <input type="number" class="form-control" id="vehicle_purchased_cost"
+                                placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
+                                formControlName="vehiclePurchasedCost" min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
+                            <input type="number" class="form-control" id="vehicle_ownership"
+                                placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
+                                formControlName="vehicleOwnerShipNumber" min="0">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="rc_owner_name">{{label.rcOwnerName}}</label>
+                            <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
+                                name="rc_owner_name" formControlName="rcOwnerName">
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
+
+                            <kendo-datepicker class="form-control mandatory" formControlName="vehicleRegDate"
+                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                placeholder="Vehicle Registration Date">
+                            </kendo-datepicker>
+
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_region"> {{ label.vechicalRegion }} </label>
+                    <div class="row">
 
-                        <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                            (change)="onVehicleRegion($event.target.value)">
-                        </app-vf-custom-select>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
+                            <input type="text" class="form-control" id="gross_vehicle_weight"
+                                placeholder="Gross Vehicle Weight" name="gross_vehicle_weight"
+                                formControlName="gorssVehicleWeight">
+                        </div>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
-                                You must select vehicle region
-                            </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
+                            </app-vf-custom-select>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
+                                formControlName="interStateVehicle">
+                            </app-vf-custom-select>
+
                         </div>
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_make">{{label.assetMake}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                            (change)="onAssetMake($event.target.value)">
-                        </app-vf-custom-select>
-                    </div>
+                    <div class="row">
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vehicle_type">{{label.vehicleType}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                            (change)="onVehicleType($event.target.value)">
-                        </app-vf-custom-select>
-                    </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="duplicate_rc">{{label.duplicateRC}}</label>
+                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="duplicateRC">
+                            </app-vf-custom-select>
 
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_body_type">{{label.assetSegement}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                            (change)="onAssetBodyType($event.target.value)">
-                        </app-vf-custom-select>
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
-                                You must select asset body type
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_model">{{label.assetModel}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
-                            (change)="onAssetModel($event.target.value)">
-                        </app-vf-custom-select>
-                    </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="cubic_capacity">{{label.cubicCapacity}}</label>
+                            <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
+                                name="cubic_capacity" formControlName="cubicCapacity">
+                        </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_variant">{{label.assetVariant}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
-                        </app-vf-custom-select>
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" formControlName="assetSubVariant">
-                        </app-vf-custom-select>
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_other">{{label.assetOther}}</label>
-                        <input type="text" class="form-control mandatory " id="asset_other"
-                            placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="vechical_usage">{{label.vechicalUsage}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
-                        </app-vf-custom-select>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="seating_capacity">{{label.seatingCapacity}}</label>
+                            <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
+                                name="seating_capacity" formControlName="seatingCapacity">
+                        </div>
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="vehicle_category">{{label.vehicleCategory}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" formControlName="category">
-                        </app-vf-custom-select>
+                    <div class="row">
 
-                    </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="month_year">{{label.monthYear}}</label>
-                        <input formControlName="manuFacMonthYear" autocomplete="off" class="form-control" name="date"
-                            bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)"
-                            placeholder="Year And Month Manufactueing">
-                    </div>
+                            <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
+                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                placeholder="insurance_validity">
+                            </kendo-datepicker>
+                        </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="age_vehicle">{{label.ageVehicle}}</label>
-                        <input type="text" class="form-control mandatory " id="age_vehicle" placeholder="Age of Vehicle"
-                            name="age_vehicle" formControlName="ageOfAsset">
-                    </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="idv">{{label.idv}}</label>
+                            <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
+                                formControlName="idv">
+                        </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="asset_cost_indian">{{label.assetCostIndian}}</label>
-                        <input type="text" class="form-control mandatory " id="asset_cost_indian"
-                            placeholder="Asset Cost basis Indian bluebook" name="asset_cost_indian"
-                            formControlName="assetCostIBB">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="asset_cost_car">{{label.assetCostCar}}</label>
-                        <input type="text" class="form-control mandatory " id="asset_cost_car"
-                            placeholder="Asset Cost basis Car Trade" name="asset_cost_car"
-                            formControlName="assetCostCarTrade">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="asset_cost_least">{{label.assetCostLeast}}</label>
-                        <input type="text" class="form-control mandatory " id="asset_cost_least"
-                            placeholder="Asset Cost Least" name="asset_cost_least" formControlName="assetCostLeast">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                        <label for="chassis_number">{{label.chassisNumber}}</label>
-                        <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                            name="chassis_number" formControlName="chasisNumber">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                        <label for="engine_number">{{label.engineNumber}}</label>
-                        <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
-                            name="engine_number" formControlName="engineNumber">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
-                        <input type="text" class="form-control" id="vehicle_purchased_cost"
-                            placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                            formControlName="vehiclePurchasedCost">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
-                        <input type="number" class="form-control" id="vehicle_ownership"
-                            placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                            formControlName="vehicleOwnerShipNumber">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="rc_owner_name">{{label.rcOwnerName}}</label>
-                        <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                            name="rc_owner_name" formControlName="rcOwnerName">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}}</label>
-                        <input type="date" class="form-control mandatory date_caps" id="vehicle_registration_date"
-                            placeholder="Vehicle Registration Date" name="vehicle_registration_date"
-                            formControlName="vehicleRegDate">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
-                        <input type="text" class="form-control" id="gross_vehicle_weight"
-                            placeholder="Gross Vehicle Weight" name="gross_vehicle_weight"
-                            formControlName="gorssVehicleWeight">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
-                        </app-vf-custom-select>
-
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="interStateVehicle">
-                        </app-vf-custom-select>
-
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="duplicate_rc">{{label.duplicateRC}}</label>
-                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="duplicateRC">
-                        </app-vf-custom-select>
-
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                        <label for="cubic_capacity">{{label.cubicCapacity}}</label>
-                        <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                            name="cubic_capacity" formControlName="cubicCapacity">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                        <label for="seating_capacity">{{label.seatingCapacity}}</label>
-                        <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                            name="seating_capacity" formControlName="seatingCapacity">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="insurance_validity">{{label.insuranceValidity}}</label>
-                        <input type="date" class="form-control mandatory date_caps" id="insurance_validity"
-                            placeholder="Insurance Validity" name="insurance_validity"
-                            formControlName="insuranceValidity">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="idv">{{label.idv}}</label>
-                        <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                            formControlName="idv">
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="insurance_copy">{{label.uploadInsuranceCopy}}</label>
                         <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
                         <div id="insurance_preview"></div>
+                    </div> -->
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="frsd_required">{{label.frsdRequired}}</label>
+                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq" (click)="onChangeFRSD($event)" />
+
+                            <!-- <input type="text" class="form-control mandatory" id="frsd_required"
+                                placeholder="FRSD Funding Required" name="frsd_required"
+                                formControlName="fsrdFundingReq"> -->
+                        </div>
+
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="frsd_required">{{label.frsdRequired}}</label>
-                        <input type="text" class="form-control mandatory" id="frsd_required"
-                            placeholder="FRSD Funding Required" name="frsd_required" formControlName="fsrdFundingReq">
+                    <div class="row" *ngIf="obj.controls['fsrdFundingReq'].value === true">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="frsd_amount">{{label.frsdAmount}} </label>
+                            <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                                name="frsd_amount" formControlName="fsrdPremiumAmount" min="0">
+                        </div>
+
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="frsd_amount">{{label.frsdAmount}}</label>
+                            <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                                name="frsd_amount" formControlName="fsrdPremiumAmount" min="0">
+                        </div> -->
+
                     </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="frsd_amount">{{label.frsdAmount}}</label>
-                        <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                            name="frsd_amount" formControlName="fsrdPremiumAmount">
-                    </div>
+
+
                 </div>
 
             </div>

@@ -83,6 +83,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
 
+    console.log(this.loanTenor, 'loan')
+
     this.initForms();
     this.getLov();
     this.labelsData.getLabelsData()
@@ -150,21 +152,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
     if (value && formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
-      console.log(formArray.value[0].assetCostCarTrade, 'Less')
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostCarTrade
+        finalAssetCost: formArray.value[0].assetCostCarTrade,
+        assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
+
     } else if (value && formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
-      console.log(formArray.value[0].assetCostIBB, 'greater')
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
+        finalAssetCost: formArray.value[0].assetCostIBB,
+        assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
     } else if (value && formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
-      console.log(value, 'value')
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
+        finalAssetCost: formArray.value[0].assetCostIBB,
+        assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
     }
+  }
+
+  onChangeFRSD(event) {
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    const controls = formArray.at(0) as FormGroup;
+
+    if (event.target.checked) {
+      controls.addControl('fsrdPremiumAmount', new FormControl(''));
+    } else {
+      controls.removeControl('fsrdPremiumAmount');
+    }
+
   }
 
   initForms() {
@@ -235,7 +250,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
           ageOfAsset: VehicleDetail.ageOfAsset || null,
           finalAssetCost: VehicleDetail.finalAssetCost || '',
-          exShowRoomCost: VehicleDetail.exShowRoomCost,
+          exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
           vehicleUsage: VehicleDetail.vehicleUsage || '',
           noOfVehicles: VehicleDetail.noOfVehicles || '',
           usage: VehicleDetail.usage || '',
@@ -257,11 +272,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.sharedService.getFormValidation(this.basicVehicleForm)
       } else if (this.roleName === 'Credit Officer') {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        const creditFormArray = (formArray['controls'][0].get('creditFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
+        this.sharedService.getFormValidation(this.basicVehicleForm)
         this.formDataOutput.emit(formArray.value)
       }
-
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -296,30 +310,30 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       emiProtect: VehicleDetail.emiProtect || '',
       emiProtectAmount: VehicleDetail.emiProtectAmount || null,
       engineNumber: VehicleDetail.engineNumber || null,
-      exShowRoomCost: VehicleDetail.exShowRoomCost || null,
+      exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
       fastTag: VehicleDetail.fastTag || '',
       fastTagAmount: VehicleDetail.fastTagAmount || null,
-      finalAssetCost: VehicleDetail.finalAssetCost || '',
-      fitnessDate: VehicleDetail.fitnessDate || '',
-      fsrdFundingReq: VehicleDetail.fsrdFundingReq || '',
+      finalAssetCost: VehicleDetail.finalAssetCost || null,
+      fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
+      fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ?  true : false || '',
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
       gorssVehicleWeight: VehicleDetail.gorssVehicleWeight || '',
       idv: VehicleDetail.idv || null,
       insurance: VehicleDetail.insurance || null,
-      insuranceValidity: VehicleDetail.insuranceValidity || '',
+      insuranceValidity: VehicleDetail.insuranceValidity ? this.utilityService.getDateFromString(VehicleDetail.insuranceValidity) : '',
       interStateVehicle: VehicleDetail.interStateVehicle || null,
       inusrancePolicyNumber: VehicleDetail.inusrancePolicyNumber || null,
       invoiceAmount: VehicleDetail.invoiceAmount || null,
-      invoiceDate: VehicleDetail.invoiceDate || '',
-      invoiceNumber: VehicleDetail.invoiceNumber || '',
+      invoiceDate: VehicleDetail.invoiceDate ? this.utilityService.getDateFromString(VehicleDetail.invoiceDate) : '',
+      invoiceNumber: VehicleDetail.invoiceNumber || null,
       isOrpFunding: VehicleDetail.isOrpFunding || '',
       leadId: Number(this.leadId),
       lmsCollateralId: VehicleDetail.lmsCollateralId || null,
-      manuFacMonthYear: this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) || '',
+      manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
       manuFactureSubventionPartIRR: VehicleDetail.manuFactureSubventionPartIRR || '',
       manuFatureSubventionPartFinCharge: VehicleDetail.manuFatureSubventionPartFinCharge || '',
       manufacSubventionApplicable: VehicleDetail.manufacSubventionApplicable || '',
-      manufactureSubventionAmount: VehicleDetail.manufactureSubventionAmount || '',
+      manufactureSubventionAmount: VehicleDetail.manufactureSubventionAmount || null,
       noOfUnits: VehicleDetail.noOfUnits || '',
       noOfVehicles: VehicleDetail.noOfVehicles || '',
       oneTimeTax: VehicleDetail.oneTimeTax || '',
@@ -327,12 +341,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       others: VehicleDetail.others || '',
       pac: VehicleDetail.pac || '',
       pacAmount: VehicleDetail.pacAmount || null,
-      permitExpiryDate: VehicleDetail.permitExpiryDate || '',
+      permitExpiryDate: VehicleDetail.permitExpiryDate ? this.utilityService.getDateFromString(VehicleDetail.permitExpiryDate) : '',
       processtionType: VehicleDetail.processtionType || '',
       productCatCode: VehicleDetail.productCatCode || '',
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
-      regMonthYear: VehicleDetail.regMonthYear || '',
+      regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
       registrationNo: VehicleDetail.registrationNo || '',
       seatingCapacity: VehicleDetail.seatingCapacity || '',
@@ -346,7 +360,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleId: VehicleDetail.vehicleId || null,
       vehicleOwnerShipNumber: VehicleDetail.vehicleOwnerShipNumber || null,
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
-      vehicleRegDate: VehicleDetail.vehicleRegDate || null,
+      vehicleRegDate: VehicleDetail.vehicleRegDate ? this.utilityService.getDateFromString(VehicleDetail.vehicleRegDate) : '',
       vehicleRegNo: VehicleDetail.vehicleRegNo || '',
       vehicleType: VehicleDetail.vehicleTypeCode || '',
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
@@ -354,9 +368,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       pincode: VehicleDetail.pincode || null,
       vehicleUsage: VehicleDetail.vehicleUsage,
       ageAfterTenure: VehicleDetail.ageAfterTenure || null,
+      assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-
+    console.log(formArray.value, 'formArray')
   }
 
   // event emitter for giving output to parent add vehicle component
@@ -411,17 +426,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onAssetModel(value) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    // if (this.roleName === 'Sales Officer') {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.controls[0].patchValue({
       vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
     })
-    // } else {
-    //   const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    //   formArray.controls[0].patchValue({
-    //     vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
-    //   })
-    // }
 
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       0, "vehicleVariant")
@@ -451,7 +459,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
       ])],
       vehicleUsage: [''],
-      category: ['', Validators.required],
+      category: [''],
       rcOwnerName: [''],
       ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[1-9][0-9]*$')])],
       address: ['', Validators.maxLength(140)],
@@ -482,6 +490,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('address');
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
+      controls.removeControl('category');
 
       controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
     } else if (this.productCatoryCode === 'NC') {
@@ -494,6 +503,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('ownerMobileNo');
       controls.removeControl('address');
       controls.removeControl('pincode');
+      controls.removeControl('category');
       controls.removeControl('exShowRoomCost');
 
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
@@ -510,11 +520,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('address');
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
+      controls.removeControl('category');
 
       controls.addControl('assetCostIBB', new FormControl('', Validators.required));
       controls.addControl('assetCostCarTrade', new FormControl('', Validators.required));
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
+      controls.addControl('category', new FormControl('', Validators.required));
     } else if (this.productCatoryCode === 'UCV') {
 
 
@@ -526,6 +538,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('address');
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
+      controls.removeControl('category');
 
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('assetCostGrid', new FormControl('', Validators.required));
@@ -554,29 +567,32 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: '',
       assetOther: '',
       assetBodyType: ['', Validators.required],
-      vehicleType: ['LCVVEHTYP', Validators.required],
+      vehicleType: ['', Validators.required],
+      manuFacMonthYear: ['', Validators.required],
+      ageOfAsset: ['', Validators.required],
+      ageAfterTenure: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
-      dealerSuventionApproval: ['', Validators.required],
-      dealerSubventionAmount: [null, Validators.required],
-      dealerSubventionPartIRR: [null, Validators.required],
-      dealerSubventionPartFinCharge: [null, Validators.required],
-      manufacSubventionApplicable: ['', Validators.required],
-      manufactureSubventionAmount: [null, Validators.required],
-      manuFactureSubventionPartIRR: [null, Validators.required],
-      manuFatureSubventionPartFinCharge: [null, Validators.required],
-      invoiceNumber: [null, Validators.required],
-      invoiceDate: ['', Validators.required],
-      invoiceAmount: [null, Validators.required],
-      isOrpFunding: ['', Validators.required],
-      insurance: ['', Validators.required],
-      oneTimeTax: ['', Validators.required],
-      pac: ['', Validators.required],
-      vas: ['', Validators.required],
-      emiProtect: ['', Validators.required],
-      fastTag: ['', Validators.required],
-      others: ['', Validators.required],
-      discount: ['', Validators.required],
+      dealerSuventionApproval: [''],
+      dealerSubventionAmount: [null],
+      dealerSubventionPartIRR: [null],
+      dealerSubventionPartFinCharge: [null],
+      manufacSubventionApplicable: [''],
+      manufactureSubventionAmount: [null],
+      manuFactureSubventionPartIRR: [null],
+      manuFatureSubventionPartFinCharge: [null],
+      invoiceNumber: [null],
+      invoiceDate: [''],
+      invoiceAmount: [null],
+      isOrpFunding: [''],
+      insurance: [''],
+      oneTimeTax: [''],
+      pac: [''],
+      vas: [''],
+      emiProtect: [''],
+      fastTag: [''],
+      others: [''],
+      discount: [''],
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
@@ -596,30 +612,30 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVariant: '',
       assetOther: '',
       assetBodyType: ['', Validators.required],
-      vehicleType: ['LCVVEHTYP', Validators.required],
+      vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
-      dealerSuventionApproval: ['', Validators.required],
-      dealerSubventionAmount: [null, Validators.required],
-      dealerSubventionPartIRR: [null, Validators.required],
-      dealerSubventionPartFinCharge: [null, Validators.required],
-      manufacSubventionApplicable: ['', Validators.required],
-      manufactureSubventionAmount: [null, Validators.required],
-      manuFactureSubventionPartIRR: [null, Validators.required],
-      manuFatureSubventionPartFinCharge: [null, Validators.required],
-      invoiceNumber: [null, Validators.required],
-      invoiceDate: ['', Validators.required],
-      invoiceAmount: [null, Validators.required],
-      isOrpFunding: ['', Validators.required],
-      insurance: ['', Validators.required],
-      oneTimeTax: ['', Validators.required],
-      pac: ['', Validators.required],
-      vas: ['', Validators.required],
-      emiProtect: ['', Validators.required],
-      fastTag: ['', Validators.required],
-      others: ['', Validators.required],
-      discount: ['', Validators.required],
-      vehicleUsage: ['', Validators.required],
+      dealerSuventionApproval: [''],
+      dealerSubventionAmount: [null],
+      dealerSubventionPartIRR: [null],
+      dealerSubventionPartFinCharge: [null],
+      manufacSubventionApplicable: [''],
+      manufactureSubventionAmount: [null],
+      manuFactureSubventionPartIRR: [null],
+      manuFatureSubventionPartFinCharge: [null],
+      invoiceNumber: [null],
+      invoiceDate: [''],
+      invoiceAmount: [null],
+      isOrpFunding: [''],
+      insurance: [''],
+      oneTimeTax: [''],
+      pac: [''],
+      vas: [''],
+      emiProtect: [''],
+      fastTag: [''],
+      others: [''],
+      discount: [''],
+      vehicleUsage: [''],
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
@@ -649,30 +665,30 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         Validators.required,
         Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
       ])],
-      fitnessDate: ['', Validators.required],
-      typeOfPermit: ['', Validators.required],
-      typeOfPermitOthers: ['', Validators.required],
-      permitExpireDate: ['', Validators.required],
+      fitnessDate: [''],
+      typeOfPermit: [''],
+      typeOfPermitOthers: [''],
+      permitExpiryDate: [''],
       permitUpload: [''],
-      chasisNumber: [null, Validators.required],
-      engineNumber: [null, Validators.required],
-      vehiclePurchasedCost: [null, Validators.required],
-      vehicleOwnerShipNumber: [null, Validators.required],
-      rcOwnerName: ['', Validators.required],
+      chasisNumber: [null],
+      engineNumber: [null],
+      vehiclePurchasedCost: [null],
+      vehicleOwnerShipNumber: [null],
+      rcOwnerName: [''],
       ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[1-9][0-9]*$'), Validators.required])],
       address: ['', Validators.compose([Validators.maxLength(140), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
-      vehicleRegDate: ['', Validators.required],
-      reRegVehicle: ['', Validators.required],
-      interStateVehicle: ['', Validators.required],
-      duplicateRC: ['', Validators.required],
-      cubicCapacity: ['', Validators.required],
-      seatingCapacity: ['', Validators.required],
-      insuranceValidity: ['', Validators.required],
-      idv: ['', Validators.required],
+      vehicleRegDate: [''],
+      reRegVehicle: [''],
+      interStateVehicle: [''],
+      duplicateRC: [''],
+      cubicCapacity: [''],
+      seatingCapacity: [''],
+      insuranceValidity: [''],
+      idv: [''],
       insuranceCopy: [''],
-      fsrdFundingReq: ['', Validators.required],
-      fsrdPremiumAmount: [null, Validators.required],
+      fsrdFundingReq: [''],
+      fsrdPremiumAmount: [null],
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
@@ -694,13 +710,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
-      vehicleUsage: ['PVEHUSG'],
-      category: ['CATAVEHCAT'],
-      manuFacMonthYear: '',
-      ageOfAsset: '',
-      assetCostIBB: '',
-      assetCostCarTrade: '',
+      vehicleUsage: ['', Validators.required],
+      category: ['', Validators.required],
+      manuFacMonthYear: ['', Validators.required],
+      ageOfAsset: ['', Validators.required],
+      assetCostIBB: ['', Validators.required],
+      assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
+      finalAssetCost: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
+      ])],
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],

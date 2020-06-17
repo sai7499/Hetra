@@ -20,8 +20,6 @@ export class BasicVehicleDetailsComponent implements OnInit {
   public leadId: number;
   public routerId: number;
 
-  public isHidden: boolean = false;
-  public errorMsg: string;
   public formValue: any;
 
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
@@ -45,8 +43,6 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
 
   FormDataParentMethod(value: any) {
-    console.log(this.formDataFromChild, 'value')
-
     this.formDataFromChild = value;
     this.vehicleDetails = value[0];
 
@@ -54,22 +50,21 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   onSubmit() {
 
-    console.log(this.vehicleDetails, 'vehicleDetails')
-
-
-    this.isHidden = false;
     if (this.formValue.valid === true) {
-      const data = this.vehicleDetails[0];
 
-      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+      let data = this.formValue.value.vehicleFormArray[0];
+
+      data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') :  null;
+      data.invoiceDate= data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') :  null;
+
       data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
-      data.permitExpireDate = data.permitExpireDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpireDate, 'DD/MM/YYYY') : null;
+      data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
       data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
       data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
 
+      data.fsrdFundingReq =  data.fsrdFundingReq === true ? '1' : '0'
+
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        // this.isHidden = true;
-        // this.errorMsg = res.ProcessVariables.error.message;
         const apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.Error === '0') {
@@ -83,10 +78,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
         console.log(error, 'error')
       })
     } else {
-      this.isHidden = true;
-      this.errorMsg = 'Please select one of the any vehicle details';
       this.utilityService.validateAllFormFields(this.formValue)
-      // alert('Please Select any one of the Veh')
     }
   }
 }
