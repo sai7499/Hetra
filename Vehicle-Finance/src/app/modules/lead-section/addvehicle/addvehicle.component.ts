@@ -99,6 +99,7 @@ export class AddvehicleComponent implements OnInit {
   saveVehicleCollaterals() {
     if (this.formValue.valid === true) {
       const data = this.vehicleDetails[0];
+      console.log('In', data)
 
       data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
@@ -115,6 +116,7 @@ export class AddvehicleComponent implements OnInit {
         console.log(error, 'error')
       })
     } else {
+      console.log('Out')
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }
