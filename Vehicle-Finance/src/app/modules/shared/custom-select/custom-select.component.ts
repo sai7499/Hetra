@@ -99,9 +99,15 @@ export class CustomSelectComponent
 
   writeValue(val) {
     this.val = val;
-    if(this.isFirst){
+    if (!val && this.isFirst) {
+      this.isFirst = false;
+      return;
+    }
+    if (!this.val) {
       this.checkValidation();
       this.isFirst = false;
+    } else {
+      this.inputError = false;
     }
   }
 
