@@ -32,9 +32,31 @@
                         <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i">
 
                             <td>{{i+1}}</td>
-                            <td><input type="text" class="form-control input_value height" formControlName="regdNo" maxlength="10">
+                            <td>
+                                <div>
+                                    <input type="text" class="form-control input_value height" formControlName="regdNo" maxlength="10">
+
+                                    <span *ngIf="submitted && itemrow.get('regdNo').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('regdNo').errors.required"> reg no is
+                                            required</span>
+                                    <!-- <span *ngIf="itemrow.get('regdNo').errors.pattern"> Invalid reg no</span> -->
+                                    <span *ngIf="itemrow.get('regdNo').errors.minLength"></span> regd no should be min ten chars long
+
+                                    </span>
+
+
+                                </div>
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="regdOwner" maxlength="15">
+                            <td>
+                                <div><input type="text" class="form-control input_value height" formControlName="regdOwner" maxlength="15">
+                                    <span *ngIf="submitted && itemrow.get('regdOwner').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('regdOwner').errors.required"> reg owner is
+                                            required</span>
+                                    <span *ngIf="itemrow.get('regdOwner').errors.pattern"> Invalid name</span>
+                                    </span>
+
+
+                                </div>
                             </td>
                             <td style="min-width: 165px;">
                                 <!-- <select class="form-control input_value height" formControlName="relation">
@@ -57,7 +79,20 @@
                                 </app-vf-custom-select>
                             </td>
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
-                            <td><input type="text" class="form-control input_value height" formControlName="yom" maxlength="4"></td>
+                            <td>
+                                <div>
+                                    <input type="text" class="form-control input_value height" formControlName="yom" maxlength="4">
+                                    <span *ngIf="submitted && itemrow.get('yom').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('yom').errors.required">yom is
+                                            required</span>
+                                    <!-- <span *ngIf="itemrow.get('regdNo').errors.pattern"> Invalid reg no</span> -->
+                                    <span *ngIf="itemrow.get('yom').errors.minLength"></span> invalid yom
+
+                                    </span>
+
+                                </div>
+                            </td>
+
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td style="min-width: 120px;">
                                 <!-- <select class="form-control input_value height" id="asset_make"
@@ -72,22 +107,54 @@
                                 </app-vf-custom-select>
 
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="loanNo" maxlength="4">
+                            <td>
+                                <div><input type="number" class="form-control input_value height" formControlName="loanNo" maxlength="4"></div>
+                                <span *ngIf="submitted && itemrow.get('loanNo').errors" style="color:red;" class="invalid-feedback">
+                                    <span *ngIf="itemrow.get('loanNo').errors.required">loan no is
+                                        required</span>
+                                <!-- <span *ngIf="itemrow.get('regdNo').errors.pattern"> Invalid reg no</span> -->
+                                <span *ngIf="itemrow.get('loanNo').errors.minLength"></span> invalid loan no
+
+                                </span>
+
+
                             </td>
                             <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <span class="input-group-addon"><span
+                                        <!-- <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                        <input type='date' class="form-control" formControlName="purchaseDate">
+                                        </span> -->
+                                        <kendo-datepicker width="100%" class="form-control mandatory" formControlName="purchaseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"></kendo-datepicker>
+                                        <!-- <input type='date' class="form-control" formControlName="purchaseDate"> -->
                                     </div>
                                 </div>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="tenure" maxlength="3">
+                            <td>
+                                <div><input type="number" class="form-control input_value height" formControlName="tenure" maxlength="3">
+                                    <span *ngIf="submitted && itemrow.get('tenure').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('tenure').errors.required">tenure is
+                                            required</span>
+                                    <!-- <span *ngIf="itemrow.get('regdNo').errors.pattern"> Invalid reg no</span> -->
+                                    <!-- <span *ngIf="itemrow.get('loanNo').errors.minLength"></span> invalid loan no -->
+
+                                    </span>
+
+
+                                </div>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="paid" maxlength="3">
+                            <td>
+                                <div><input type="number" class="form-control input_value height" formControlName="paid" maxlength="3">
+
+                                    <span *ngIf="submitted && itemrow.get('paid').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('paid').errors.required">loan no is
+                                            required</span>
+                                    <!-- <span *ngIf="itemrow.get('regdNo').errors.pattern"> Invalid reg no</span> -->
+                                    <!-- <span *ngIf="itemrow.get('loanNo').errors.minLength"></span> invalid loan no -->
+
+                                    </span>
+                                </div>
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="seasoning">
                             </td>
@@ -114,6 +181,8 @@
     <!-- </div> -->
 
 </form>
+
+
 <!-- </div> -->
 
 

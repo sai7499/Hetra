@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -25,6 +25,7 @@ export class FleetDetailsComponent implements OnInit {
   fleetDetails: any = [];
   fleetLov: any = [];
   fleetArray = [];
+  submitted = false;
 
   // relationSelected = []
   relation: any[];
@@ -131,39 +132,39 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: [rowData.regdNo, Validators.required],
-        regdOwner: [rowData.regdOwner, Validators.required],
-        relation: [rowData.relation, Validators.required],
-        make: [rowData.make, Validators.required],
-        yom: [rowData.yom, Validators.required],
-        financier: [rowData.financier, Validators.required],
-        loanNo: [rowData.loanNo, Validators.required],
-        purchaseDate: [rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.required],
-        tenure: [rowData.tenure, Validators.required],
-        paid: [rowData.paid, Validators.required],
-        seasoning: [{ value: rowData.seasoning, disabled: true }],
-        ad: [{ value: rowData.ad, disabled: true }],
-        pd: [{ value: rowData.pd, disabled: true }],
-        gridValue: [{ value: rowData.gridValue, disabled: true }],
+        regdNo: new FormControl(rowData.regdNo, [Validators.required, Validators.minLength(10), Validators.pattern(/^[A-Z][A-Z][0-9][0-9][A-Z][A-Z][0-9][0-9][0-9][0-9]*$/)]),
+        regdOwner: new FormControl(rowData.regdOwner, [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]),
+        relation: new FormControl(rowData.relation, [Validators.required]),
+        make: new FormControl(rowData.make, [Validators.required]),
+        yom: new FormControl(rowData.yom, [Validators.required, Validators.minLength(4)]),
+        financier: new FormControl(rowData.financier, [Validators.required]),
+        loanNo: new FormControl(rowData.loanNo, [Validators.required]),
+        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", [Validators.required]),
+        tenure: new FormControl(rowData.tenure, [Validators.required]),
+        paid: new FormControl(rowData.paid, [Validators.required]),
+        seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
+        ad: new FormControl({ value: rowData.ad, disabled: true }),
+        pd: new FormControl({ value: rowData.pd, disabled: true }),
+        gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: [rowData.id]
       })
     }
     else return this.fb.group({
       // id: [],
-      regdNo: [''],
-      regdOwner: [],
-      relation: [''],
-      make: [''],
-      yom: [],
-      financier: [''],
-      loanNo: [''],
-      purchaseDate: [''],
-      tenure: [],
-      paid: [],
-      seasoning: [{ value: '', disabled: true }],
-      ad: [{ value: "", disabled: true }],
-      pd: [{ value: "", disabled: true }],
-      gridValue: [{ value: "", disabled: true }]
+      regdNo: new FormControl('', [Validators.required, Validators.minLength(10)]),
+      regdOwner: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]),
+      relation: new FormControl('', [Validators.required]),
+      make: new FormControl('', [Validators.required]),
+      yom: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      financier: new FormControl('', [Validators.required]),
+      loanNo: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      purchaseDate: new FormControl('', [Validators.required]),
+      tenure: new FormControl('', [Validators.required]),
+      paid: new FormControl('', [Validators.required]),
+      seasoning: new FormControl({ value: '', disabled: true }),
+      ad: new FormControl({ value: '', disabled: true }),
+      pd: new FormControl({ value: '', disabled: true }),
+      gridValue: new FormControl({ value: '', disabled: true }),
     });
   }
 
@@ -186,22 +187,23 @@ export class FleetDetailsComponent implements OnInit {
 
   getDateFormat(date) {
 
-    console.log("in getDateFormat", date)
+    // console.log("in getDateFormat", date)
 
     var datePart = date.match(/\d+/g);
     var month = datePart[1];
     var day = datePart[0];
     var year = datePart[2];
-    const dateFormat: Date = new Date(month + '/' + day + '/' + year);
-    year = dateFormat.getFullYear();
-    month = Number(dateFormat.getMonth()) + 1;
-    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-    day = dateFormat.getDate().toString();
-    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    const formattedDate = year + '-' + month1 + '-' + day;
-    //   const formattedDate = day + '-' + month1 + '-' + year;
-    console.log("formattedDate", formattedDate)
-    return formattedDate;
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+
+    // year = dateFormat.getFullYear();
+    // month = Number(dateFormat.getMonth()) + 1;
+    // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    // day = dateFormat.getDate().toString();
+    // day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    // //   const formattedDate = day + '-' + month1 + '-' + year;
+    // console.log("formattedDate", formattedDate)
+    return dateFormat;
   }
 
   dateDbFormat(date) {
@@ -235,7 +237,7 @@ export class FleetDetailsComponent implements OnInit {
   // method for saving and updating fleet details
 
   saveOrUpdateFleetDetails() {
-    console.log(this.fleetDetails);
+    //console.log(this.fleetDetails);
     for (let i = 0; i < this.fleetDetails.length; i++) {
       this.fleetDetails[i]['purchaseDate'] = this.sendDate(this.fleetDetails[i]['purchaseDate'])
     }
@@ -245,7 +247,7 @@ export class FleetDetailsComponent implements OnInit {
       userId: this.userId,
       fleets: this.fleetDetails,
     }
-    console.log("in save fleet", this.fleetDetails)
+    //  console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
       console.log("saveFleetDetailsResponse", res)
       this.toasterService.showSuccess('Fleet saved successfully!', '');
@@ -288,9 +290,9 @@ export class FleetDetailsComponent implements OnInit {
     console.log("in delete row fn ", fleets, index)
     this.formArr.removeAt(index);
     if (fleets.length > 1) {
-      console.log("inside del fun", fleets)
+      // console.log("inside del fun", fleets)
 
-      console.log("vehicleId", fleets[index].id)
+      // console.log("vehicleId", fleets[index].id)
 
       const data = {
         id: fleets[index].id,
@@ -299,7 +301,7 @@ export class FleetDetailsComponent implements OnInit {
 
       this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
 
-        console.log("response from delete api", res.ProcessVariables)
+        // console.log("response from delete api", res.ProcessVariables)
       });
 
       fleets.splice(index, 1)
@@ -312,7 +314,7 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   getRtr(fleetid: number) {
-    console.log("in getRtr", fleetid)
+    // console.log("in getRtr", fleetid)
     // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
     this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + fleetid])
   }
@@ -323,11 +325,18 @@ export class FleetDetailsComponent implements OnInit {
 
 
   onFormSubmit() {
+    this.submitted = true;
+    if (this.fleetForm.invalid) {
+      return;
+    }
+    else {
 
-    this.fleetDetails = this.fleetForm.value.Rows
-    console.log(this.fleetDetails)
-    this.saveOrUpdateFleetDetails();
+      this.fleetDetails = this.fleetForm.value.Rows
+      // console.log(this.fleetDetails)
+      this.saveOrUpdateFleetDetails();
+    }
   }
 }
+
 
 
