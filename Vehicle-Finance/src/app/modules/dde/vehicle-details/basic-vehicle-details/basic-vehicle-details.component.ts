@@ -5,6 +5,7 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -21,9 +22,11 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
   public isHidden: boolean = false;
   public errorMsg: string;
+  public formValue: any;
 
-  constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService,  private toasterService: ToasterService,
-    private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
+    private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
+    private activatedRoute: ActivatedRoute, private sharedService: SharedService) { }
 
   ngOnInit() {
 
@@ -35,6 +38,9 @@ export class BasicVehicleDetailsComponent implements OnInit {
       this.routerId = value ? value.vehicleId : null;
     })
 
+    this.sharedService.vaildateForm$.subscribe((value) => {
+      this.formValue = value;
+    })
   }
 
 
@@ -42,14 +48,17 @@ export class BasicVehicleDetailsComponent implements OnInit {
     console.log(this.formDataFromChild, 'value')
 
     this.formDataFromChild = value;
-    this.vehicleDetails = value[0].creditFormArray;
+    this.vehicleDetails = value[0];
 
   }
 
   onSubmit() {
 
+    console.log(this.vehicleDetails, 'vehicleDetails')
+
+
     this.isHidden = false;
-    if (this.vehicleDetails.length > 0) {
+    if (this.formValue.valid === true) {
       const data = this.vehicleDetails[0];
 
       data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
@@ -75,7 +84,8 @@ export class BasicVehicleDetailsComponent implements OnInit {
       })
     } else {
       this.isHidden = true;
-      this.errorMsg = 'Please select one of the any vehicle details'
+      this.errorMsg = 'Please select one of the any vehicle details';
+      this.utilityService.validateAllFormFields(this.formValue)
       // alert('Please Select any one of the Veh')
     }
   }
