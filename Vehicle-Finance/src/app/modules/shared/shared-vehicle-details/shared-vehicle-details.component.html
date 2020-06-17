@@ -2,9 +2,9 @@
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <h4 class="title"><b>{{ roleName === 'Sales Officer' ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
-        <button class="btn mar-right8" [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'"
-            type="button"
+        <button class="btn mar-right8 btn-primary" type="button"
             [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
+        <!--  [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'" -->
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -55,9 +55,9 @@
                     <td data-title="Model">
                         {{item.model}}
                     </td>
-                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true" (click)="onEditVehicleDetails(item.collateralId)"></i>&nbsp;<i
-                            class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
-                            (click)="DeleteVehicleDetails(item)"></i>
+                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
+                            (click)="onEditVehicleDetails(item.collateralId)"></i>&nbsp;<i class="fa fa-minus"
+                            aria-hidden="true" id="remove_item_applicant" (click)="DeleteVehicleDetails(item)"></i>
                     </td>
                 </tr>
             </tbody>
