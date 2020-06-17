@@ -346,11 +346,6 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       this.sourcingCodePlaceholder = 'Sourcing Code';
     }
-    // if (this.sourchingTypeValues.length === 0) {
-    //   this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
-    //   const sourcingTypeData = this.sourchingTypeValues[0].key;
-    //   this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
-    // }
   }
 
   sourchingTypeChange(event) {
