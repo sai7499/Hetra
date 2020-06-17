@@ -631,7 +631,7 @@
                 <kendo-datepicker class="form-control" 
                 formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Date"
                 [activeView]="'decade'"
                 ></kendo-datepicker>
               </div>
@@ -688,7 +688,7 @@
                 id="amount"
               /> -->
               <app-custom-input
-                  formControlName="minorGuardianUcic"
+                  formControlName="numberOfDirectors"
                   [patternCheck]="numberPattern"
                   ></app-custom-input>
             </div>
@@ -853,9 +853,9 @@
                   disabled=""
                 /> -->
                 <kendo-datepicker class="form-control" 
-                formControlName="dob" [format]="'dd/MM/yyyy'"
+                formControlName="externalRatingIssueDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Date"
                 [activeView]="'decade'"
                 ></kendo-datepicker>
               </div>
@@ -879,9 +879,9 @@
                   disabled=""
                 /> -->
                 <kendo-datepicker class="form-control" 
-                formControlName="dob" [format]="'dd/MM/yyyy'"
+                formControlName="externalRatingExpiryDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Date"
                 [activeView]="'decade'"
                
                 ></kendo-datepicker>
