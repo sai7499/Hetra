@@ -1,4 +1,18 @@
-<select [class]="className" [(ngModel)]="selectedOption" [disabled]="isDisabled">
-    <option value="{{defaultOption.key}}" disabled>{{defaultOption.value}}</option>
-    <option value="{{option.key}}" *ngFor="let option Of values">{{option.value}}</option>
-</select> 
+<select
+  [class]="className"
+  [(ngModel)]="selectedOption"
+  [disabled]="isDisabled"
+  (blur)="onBlurMethod($event)"
+>
+  <option value="{{ defaultOption.key }}" disabled>{{
+    defaultOption.value
+  }}</option>
+  <option value="{{ option.key }}" *ngFor="let option of values">{{
+    option.value
+  }}</option>
+</select>
+<div class="invalid-feedback" *ngIf="inputError">
+  <div>
+    {{ isRequired }}
+  </div>
+</div>

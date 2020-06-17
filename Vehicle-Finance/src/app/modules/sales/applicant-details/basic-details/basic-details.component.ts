@@ -39,11 +39,11 @@ export class BasicDetailsComponent implements OnInit {
   isSeniorCitizen : any ="0"
   isMinor : any = "0"
   gaurdianNamemandatory : any= {};
-  senior : boolean;
-  minor : boolean;
   checkingMinor : boolean
  checkingSenior : boolean
- @ViewChild('fatherName', {static : true}) fatherName : string;
+ isDirty : boolean;
+ mobilePhone : any
+ 
   //imMinor : boolean= true
   designation = [
     {
@@ -55,6 +55,10 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+  numberPattern={
+    rule : '^[0-9]',
+    msg : 'Invalid'
+  }
   nameLength30={
     rule: 30,
   }
@@ -124,17 +128,20 @@ export class BasicDetailsComponent implements OnInit {
     const formArray=this.basicForm.get('details') as FormArray;
    const details = formArray.at(0)
    details.patchValue({preferredLanguage: 'ENGPRFLAN'})
-   console.log('fatherName', this.fatherName)
+  
    
-    // setTimeout(() => {
+    // setTimeout(() => { 
     // this.clearFormArray();
     // });
+   console.log('validation', this.validation)
   }
 
   get validation(){
   const formArray=this.basicForm.get('details') as FormArray;
    const details = formArray.at(0)
+
    return details;
+   console.log('details', details)
   }
 
  
@@ -166,10 +173,10 @@ export class BasicDetailsComponent implements OnInit {
       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
       this.initialAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
       console.log('initially age', this.initialAge)
-      if(this.initialAge<18){
-        this.checkingMinor= true
-      }
-      if(this.initialAge>70)
+      // if(this.initialAge<18){
+      //   this.checkingMinor= true
+      // }
+      // if(this.initialAge>70)
       this.checkingMinor= this.initialAge< 18 ? true : false
       this.checkingSenior= this.initialAge> 70 ? true : false
 
@@ -178,14 +185,14 @@ export class BasicDetailsComponent implements OnInit {
       this.isSeniorCitizen= this.checkingSenior ==true ? '1': '0'
       console.log('issenior', this.isSeniorCitizen)
 
-      if(this.initialAge<70 ){
-        this.senior = true
+      // if(this.initialAge<70 ){
+      //   this.senior = true
        
-      }
-      else if(this.initialAge>18 ){
-        this.minor= true;
+      // }
+      // else if(this.initialAge>18 ){
+      //   this.minor= true;
       
-      }
+      // }
 
       
   }
@@ -205,22 +212,22 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingSenior= this.showAge>70 ? true : false
     
     this.validation.get('minorGuardianName').setValue(this.validation.get('minorGuardianName').value)
-    this.checkMinorOrSenior(this.showAge) 
+    //this.checkMinorOrSenior(this.showAge) 
 
     this.isSeniorCitizen= this.checkingSenior==true ? '1': '0'
     this.isMinor = this.checkingMinor  == true ? '1' : '0'
   }
-  checkMinorOrSenior(showAge){
-    if(showAge < 70){
-      this.senior = true
+  // checkMinorOrSenior(showAge){
+  //   if(showAge < 70){
+  //     this.senior = true
      
-    }
-    else if(showAge > 18){
-      this.minor= true;
+  //   }
+  //   else if(showAge > 18){
+  //     this.minor= true;
     
-    }
+  //   }
 
-  }
+  // }
   // onGender(){
   //   if(this.validation.get('gender').status !=='VALID'){
 
@@ -249,7 +256,7 @@ export class BasicDetailsComponent implements OnInit {
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead: this.applicant.applicantDetails
-        .applicantTypeKey,
+        .applicantTypeKey || '',
         title: this.applicant.applicantDetails.title || '',
     });
     if (this.isIndividual) {
@@ -283,6 +290,10 @@ export class BasicDetailsComponent implements OnInit {
       ? this.applicant.aboutIndivProspectDetails
       : {};
       this.showAge= aboutIndivProspectDetails.age;
+      const mobile = aboutIndivProspectDetails.mobilePhone;
+      if( mobile && mobile.length== 12){
+       this.mobilePhone = mobile.slice(2, 12);
+      }
       // this.toDayDate = new Date(aboutIndivProspectDetails.dob)
       //console.log('dob changes',new Date(this.utilityService.getDateFromString(aboutIndivProspectDetails.dob)));
     const formArray = this.basicForm.get('details') as FormArray;
@@ -290,7 +301,7 @@ export class BasicDetailsComponent implements OnInit {
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
-      mobilePhone: aboutIndivProspectDetails.mobilePhone || '',
+      mobilePhone: this.mobilePhone || '',
       dob: this.utilityService.getDateFromString(aboutIndivProspectDetails.dob) || new Date() ,
       minorGuardianName: aboutIndivProspectDetails.minorGuardianName || '',
       fatherName: aboutIndivProspectDetails.fatherName || '',
@@ -355,32 +366,35 @@ export class BasicDetailsComponent implements OnInit {
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null),
-      name2: new FormControl(null),
-      name3: new FormControl(null),
-      mobilePhone: new FormControl(null),
-      dob: new FormControl(this.toDayDate),
-      age: new FormControl(null),
-      gender: new FormControl(null),
-      isSeniorCitizen : new FormControl(null),
-      isMinor: new FormControl(null),
-      minorGuardianRelation: new FormControl(null),
-      alternateMobileNumber: new FormControl(null),
-     
-      applicantType: new FormControl(null),
-      minorGuardianName: new FormControl(null),
-      fatherName: new FormControl(null),
-      spouseName: new FormControl(null),
-      motherMaidenName: new FormControl(null),
+      name1: new FormControl('', Validators.required),
+      name2: new FormControl(''),
+      name3: new FormControl(''),
+      mobilePhone: new FormControl('', Validators.required),
+      dob: new FormControl('', Validators.required),
+      age: new FormControl(''),
+      gender: new FormControl('', Validators.required),
+      isSeniorCitizen : new FormControl(''),
+      isMinor: new FormControl(''),
+
+
+      minorGuardianName: new FormControl('', Validators.required),
+      minorGuardianRelation: new FormControl('', Validators.required),
+
+
+      alternateMobileNumber: new FormControl(''),
+      applicantType: new FormControl(''),
+      fatherName: new FormControl('', Validators.required),
+      spouseName: new FormControl(''),
+      motherMaidenName: new FormControl(''),
       occupation: new FormControl({value: ''}, Validators.required),
-      nationality: new FormControl(''),
+      nationality: new FormControl('', Validators.required),
      
       emailId: new FormControl(''),
       alternateEmailId: new FormControl(''),
-      preferredLanguage: new FormControl(''),
+      preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null),
-      customerCategory: new FormControl(''),
-      custSegment : new FormControl(''),
+      customerCategory: new FormControl('', Validators.required),
+      custSegment : new FormControl('', Validators.required),
     });
     formArray.push(controls);
   }
@@ -416,8 +430,14 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   async onSave() {
+    this.isDirty= true
+    if(this.basicForm.invalid){
+      
+      return 
+    }
+    console.log('basicForm')
     const rawValue = this.basicForm.getRawValue();
-    console.log('FormValue', rawValue)
+    //console.log('FormValue', rawValue)
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -425,8 +445,10 @@ export class BasicDetailsComponent implements OnInit {
       this.storeNonIndividualValueInService(rawValue);
       this.applicantDataService.setIndividualProspectDetails(null);
     }
+    
 
-  //  if(this.basicForm.valid){
+  //  if(){
+     
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
 
@@ -446,9 +468,10 @@ export class BasicDetailsComponent implements OnInit {
           ]);
         }
       });
-    // }else{
-    //   this.utilityService.validateAllFormFields(this.basicForm)
-    // }
+    //  }else{
+    //  this.utilityService.validateAllFormFields(this.basicForm)
+    //  console.log('utilityservice', this.basicForm.get('details')['controls'])
+    //  }
   }
 
   getLeadId() {
