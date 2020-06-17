@@ -36,7 +36,7 @@
                   <td>{{ dedupe.Applicant }}</td>
                   <td>{{ dedupe.individualMobile }}</td>
                   <td>{{ dedupe.leadStaage }}</td>
-                  <td class="reject_reason">{{ dedupe.status }}</td>
+                  <td [ngClass]="{'reject_reason':status === 'Rejected'}">{{ dedupe.status }}</td>
                   <td>{{ dedupe.reasonForRejection }}</td>
                 </tr>
               </tbody>

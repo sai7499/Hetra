@@ -26,6 +26,7 @@ export class LeadDedupeComponent implements OnInit {
   modalMessage: string;
   leadId: string;
   isWithLead: boolean;
+  status: string;
 
   constructor(
     private route: Router,
@@ -56,6 +57,7 @@ export class LeadDedupeComponent implements OnInit {
       return;
     }
     this.dedupeArray = dedupeData;
+    this.status = dedupeData.status;
     this.leadId = dedupeData[0].leadID;
   }
 
