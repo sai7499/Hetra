@@ -74,7 +74,8 @@ export class SourcingDetailsComponent implements OnInit {
   dealorCodeKey: string;
   dealorCodeValue: string;
 
-  isSourchingCode:boolean;
+  isSourchingCode: boolean;
+  isDirty: boolean;
 
   sourcingCodeObject: {
     key: string;
@@ -346,11 +347,6 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       this.sourcingCodePlaceholder = 'Sourcing Code';
     }
-    // if (this.sourchingTypeValues.length === 0) {
-    //   this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
-    //   const sourcingTypeData = this.sourchingTypeValues[0].key;
-    //   this.sourcingDetailsForm.patchValue({ sourcingType: sourcingTypeData });
-    // }
   }
 
   sourchingTypeChange(event) {
@@ -443,6 +439,7 @@ export class SourcingDetailsComponent implements OnInit {
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
+    this.isDirty = true;
     if (this.sourcingDetailsForm.valid === true) {
       const saveAndUpdate: any = { ...formValue };
 

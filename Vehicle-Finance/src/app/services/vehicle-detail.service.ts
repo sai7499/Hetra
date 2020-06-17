@@ -81,8 +81,6 @@ export class VehicleDetailService {
 
   saveOrUpdateVehcicleDetails(data) {
 
-    console.log(data, 'data')
-
     const processId = this.apiService.api.saveOrUpdateVehicleCollateralDetails.processId;
     const workflowId = this.apiService.api.saveOrUpdateVehicleCollateralDetails.workflowId;
     const projectId = environment.projectIds.salesProjectId;
@@ -94,8 +92,6 @@ export class VehicleDetailService {
       workflowId: workflowId,
       projectId: projectId
     };
-
-    console.log(JSON.stringify(body), 'Body')
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);

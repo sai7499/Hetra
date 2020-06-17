@@ -34,7 +34,7 @@ export class LeadDedupeComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private createLeadService: CreateLeadService,
     private createLeadDataService: CreateLeadDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getLabels();

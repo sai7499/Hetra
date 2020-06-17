@@ -62,6 +62,7 @@ export class LeadCreationComponent implements OnInit {
   isNgAutoCompleteDealer: any;
   isMobile: any;
   isSourchingCode: boolean;
+  isDirty: boolean;
 
 
   obj = {};
@@ -149,6 +150,7 @@ export class LeadCreationComponent implements OnInit {
   initForm() {
     this.createLeadForm = new FormGroup({
       bizDivision: new FormControl('', Validators.required),
+      productCategory: new FormControl('', Validators.required),
       product: new FormControl('', Validators.required),
       fundingProgram: new FormControl('', Validators.required),
       priority: new FormControl(''),
@@ -406,6 +408,7 @@ export class LeadCreationComponent implements OnInit {
     this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
     this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
+    this.isDirty = true;
 
     if (this.createLeadForm.valid === true
       && this.isNgAutoCompleteDealer !== ''

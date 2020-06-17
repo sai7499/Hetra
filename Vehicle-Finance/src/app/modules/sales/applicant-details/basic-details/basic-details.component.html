@@ -16,6 +16,8 @@
             [values]="applicantLov?.entityType"
             (valueChange)="onIndividualChange($event)"
             formControlName="entity"
+            [isRequired]="'Please select one'"
+           [isDirty]="isDirty"
           ></app-vf-custom-select>
           
           
@@ -25,7 +27,10 @@
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
             [values]="applicantLov?.applicantRelationshipWithLead"
+            [isRequired]="'Please select one'"
+                        [isDirty]="isDirty"
           ></app-vf-custom-select>
+           
           
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -33,12 +38,15 @@
                         <app-vf-custom-select
                         formControlName="title"
                         [values]="applicantLov?.salutation"
+                        [isRequired]="'Please select one'"
+                        [isDirty]="isDirty"
                       ></app-vf-custom-select>
+                
+
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
-      <ng-container formArrayName="details"
-      *ngFor="let obj of basicForm.get('details')['controls']; let i =index; let l= last">
+      <ng-container formArrayName="details">
         <div 
           id="individual_section_start"
           [formGroupName]="0"
@@ -59,6 +67,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'First Name is required'"
+                  [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -107,6 +116,7 @@
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
                  [maxLength]='mobileLenght10'
+                 [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -140,7 +150,7 @@
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">Age <sub class="star_red_col">*</sub></label>
+              <label for="entity">Age </label>
               <!-- <select class="form-control" id="entity">                                                  
                                
                                 <option value="Mrs" selected>Mrs</option>                                                   
@@ -152,8 +162,7 @@
                             name="age"
                             [value]="showAge ? showAge : initialAge"
                             formControlName="age"
-                            
-                           
+                            disabled
                           />
             </div>
           </div>
@@ -163,13 +172,10 @@
               <app-vf-custom-select
                 formControlName="gender"
                 [values]="applicantLov?.gender "
-                
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
 
-
-              <!-- <div  class="cus-mandatory-field" *ngIf="obj.controls['gender'].valid">
-                select gender
-              </div> -->
 
 
               <!-- <div class="cus-mandatory-field"
@@ -206,7 +212,7 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
                   <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
-                  (click)="checkSenior($event)" [disabled]="senior" [checked]="checkingSenior"> 
+                  (click)="checkSenior($event)" [disabled]="checkingSenior" [checked]="checkingSenior"> 
                   <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
               
                 <!-- <div class="showErrorMessage">
@@ -220,7 +226,7 @@
               
               
               <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
-                  (click)="checkMinor($event)" [disabled]="minor" [checked]="checkingMinor"> 
+                  (click)="checkMinor($event)" [disabled]="checkingMinor" [checked]="checkingMinor"> 
                   <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
              <!-- <div class="showErrorMessage">
                {{messageOfMinor}}
@@ -241,7 +247,10 @@
               /> -->
               <app-custom-input
                   formControlName="minorGuardianName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
                   [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
+                  [isDirty]="isDirty"
                   ></app-custom-input>
                 
             </div>
@@ -254,6 +263,8 @@
                             <app-vf-custom-select
                             formControlName="minorGuardianRelation"
                             [values]="applicantLov.relationship"
+                            [isRequired]="'Please select one'"
+                            [isDirty]="isDirty"
                           ></app-vf-custom-select>
             </div>
           </div>
@@ -271,9 +282,12 @@
                   formControlName="fatherName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
-                  [isRequired]="'Father Name is Mandatory'"
-                  #fatherName
+                  [isDirty]="isDirty"
+                  [isRequired]="'father Name is Required'"
+                  
+            
                 ></app-custom-input>
+                
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="spouse_name">Spouse Name</label>
@@ -304,6 +318,8 @@
                   formControlName="motherMaidenName"
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Mother name is Required'"
                   
                 ></app-custom-input>
             </div>
@@ -364,18 +380,10 @@
               <app-vf-custom-select
                 formControlName="occupation"
                 [values]="applicantLov?.occupation"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <!-- <span class="showErrorMessage" 
-              *ngIf="validation.get('occupation').errors?.value !== '' 
-              && validation.get('occupation').errors?.required" >                  
-                    Select Occupation
-              </span> -->
-              <!-- <div class="showErrorMessage"
-              *ngIf="obj.controls['occupation'].touched && !obj.controls['occupation'].valid">
-                  <div class="showErrorMessage" *ngIf="obj.controls['occupation'].value==''">
-                       select occupation
-                   </div>
-              </div> -->
+              
               
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -383,7 +391,10 @@
               <app-vf-custom-select
                 formControlName="nationality"
                 [values]="applicantLov?.nationality"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
+              
 
               <!-- <span class="showErrorMessage" 
               *ngIf="validation.get('nationality').errors?.value !== '' 
@@ -395,7 +406,9 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="preffered_language">Preferred Language for Communication</label>
-              <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage">
+              <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage"
+              [isRequired]="'Please select one'"
+              [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
           </div>
@@ -403,7 +416,7 @@
             
             
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Politically Exposed Person [PEP] <sub class="star_red_col">*</sub></label>
+              <label for="customer_category">Politically Exposed Person [PEP] </label>
               <app-vf-custom-select
                 formControlName="politicallyExposedPerson"
                 [values]="applicantLov?.politicallyExposed"
@@ -420,12 +433,11 @@
               <app-vf-custom-select
                 formControlName="custSegment"
                 [values]="applicantLov?.customerSegment"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <!-- <span class="showErrorMessage"  
-              *ngIf="validation.get('customerCategory').errors?.value !== ''
-               && validation.get('customerCategory').errors?.required">                  
-                Select customer category
-            </span> -->
+              
+              
             
             </div>
             
@@ -434,7 +446,10 @@
               <app-vf-custom-select
                 formControlName="customerCategory"
                 [values]="applicantLov?.customerCategory"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
+              
               
             </div>
     
@@ -489,7 +504,7 @@
               <!-- <input formControlName="name1" type="text" class="form-control" /> -->
               <app-custom-input
                   formControlName="name1"
-                  
+                  [isDirty]="isDirty"
                   [maxLength]="nameLength30"
                   [isRequired]="'Company Name is required'"
                 ></app-custom-input>
@@ -532,11 +547,15 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">Number Of Directors</label>
-              <input
+              <!-- <input
                 formControlName="numberOfDirectors"
                 type="text"
                 class="form-control"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="numberOfDirectors"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
           </div>
         </div>
@@ -556,9 +575,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
       </button></a>
-    <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSave()">
+    <a  id="save_vehicle_details"  ><button class="btn btn-primary" type="button" (click)="onSave()" >
       Save
-    </p>
+    </button>
+      
+    </a>
     <a id="next_vehicle_details"><button class="btn btn-primary" type="button"
         [routerLink]="['../../identity-details', applicantId]">
         Next
