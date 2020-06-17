@@ -9,6 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
+import { CommentStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-fleet-details',
@@ -132,11 +133,11 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: new FormControl(rowData.regdNo, [Validators.required, Validators.minLength(10), Validators.pattern(/^[A-Z][A-Z][0-9][0-9][A-Z][A-Z][0-9][0-9][0-9][0-9]*$/)]),
+        regdNo: new FormControl(rowData.regdNo, [Validators.required, Validators.minLength(10)]),
         regdOwner: new FormControl(rowData.regdOwner, [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]),
         relation: new FormControl(rowData.relation, [Validators.required]),
         make: new FormControl(rowData.make, [Validators.required]),
-        yom: new FormControl(rowData.yom, [Validators.required, Validators.minLength(4)]),
+        yom: new FormControl(rowData.yom, [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(4)]),
         financier: new FormControl(rowData.financier, [Validators.required]),
         loanNo: new FormControl(rowData.loanNo, [Validators.required]),
         purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", [Validators.required]),
@@ -152,15 +153,15 @@ export class FleetDetailsComponent implements OnInit {
     else return this.fb.group({
       // id: [],
       regdNo: new FormControl('', [Validators.required, Validators.minLength(10)]),
-      regdOwner: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]),
+      regdOwner: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/), Validators.minLength(10)]),
       relation: new FormControl('', [Validators.required]),
       make: new FormControl('', [Validators.required]),
-      yom: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      yom: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(4)]),
       financier: new FormControl('', [Validators.required]),
       loanNo: new FormControl('', [Validators.required, Validators.minLength(4)]),
       purchaseDate: new FormControl('', [Validators.required]),
-      tenure: new FormControl('', [Validators.required]),
-      paid: new FormControl('', [Validators.required]),
+      tenure: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      paid: new FormControl('', [Validators.required, Validators.minLength(4)]),
       seasoning: new FormControl({ value: '', disabled: true }),
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
@@ -276,8 +277,9 @@ export class FleetDetailsComponent implements OnInit {
       } else {
         this.formArr.push(this.initRows(null));
       }
-      console.log("in get fleets", res.ProcessVariables.fleets)
-      console.log("get fleet response", res.ProcessVariables.fleets)
+      // console.log("in get fleets", res.ProcessVariables.fleets)
+      // console.log("get fleet response", res.ProcessVariables.fleets)
+      // console.log("fleet form controls", this.fleetForm.controls.Rows)
     })
   }
 
@@ -326,14 +328,16 @@ export class FleetDetailsComponent implements OnInit {
 
   onFormSubmit() {
     this.submitted = true;
-    if (this.fleetForm.invalid) {
-      return;
-    }
-    else {
-
+    if (this.fleetForm.valid) {
       this.fleetDetails = this.fleetForm.value.Rows
       // console.log(this.fleetDetails)
       this.saveOrUpdateFleetDetails();
+
+    }
+    else {
+
+      return;
+
     }
   }
 }
