@@ -424,7 +424,7 @@ export class LeadCreationComponent implements OnInit {
         fundingProgram: leadModel.fundingProgram,
         sourcingChannel: leadModel.sourcingChannel,
         sourcingType: leadModel.sourcingType,
-        sourcingCode: leadModel.sourcingCode.key,
+        sourcingCode: leadModel.sourcingCode.key ? leadModel.sourcingCode.key : '',
         dealorCode: leadModel.dealerCode.dealorCode,
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
