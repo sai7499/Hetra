@@ -159,7 +159,7 @@
                     formControlName="aadhar"
                     [maxLength]="maxlength12"
                     [patternCheck]="adharNumberPattern"
-                    [isRequired]="'Aadhar number is required'"
+                    [isRequired]="'Aadhaar number is required'"
                     [isDirty]="isDirty"
                   ></app-custom-input>
                 </div>
@@ -206,7 +206,7 @@
                   <label for="mobile">{{
                     labels?.drivingLicenceIssueDate
                   }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -221,13 +221,29 @@
                       [(ngModel)]="drivingLicenseIssueDate"
                       (ngModelChange)="dateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="drivingLicenseIssueDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="mandatory['drivingLicenseIssueDate']"
+                    [(ngModel)]="drivingLicenseIssueDate"
+                    (ngModelChange)="dateSelected()"
+                    placeholder="Driving License Issue Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       mandatory['drivingLicenseIssueDate'] &&
-                      (coApplicantForm.get('drivingLicenseIssueDate').dirty ||
-                        coApplicantForm.get('drivingLicenseIssueDate').touched)
+                      (coApplicantForm
+                        .get('dedupe')
+                        .get('drivingLicenseIssueDate').dirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseIssueDate').touched)
                     "
                   >
                     Select Date
@@ -237,7 +253,7 @@
                   <label for="mobile">{{
                     labels?.drivingLicenceExpiryDate
                   }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -252,13 +268,29 @@
                       [(ngModel)]="drivingLicenseExpiryDate"
                       (ngModelChange)="expiryDateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="drivingLicenseExpiryDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="mandatory['drivingLicenseExpiryDate']"
+                    [(ngModel)]="drivingLicenseExpiryDate"
+                    (ngModelChange)="expiryDateSelected()"
+                    placeholder="Driving License Expiry Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       mandatory['drivingLicenseExpiryDate'] &&
-                      (coApplicantForm.get('drivingLicenseExpiryDate').dirty ||
-                        coApplicantForm.get('drivingLicenseExpiryDate').touched)
+                      (coApplicantForm
+                        .get('dedupe')
+                        .get('drivingLicenseExpiryDate').dirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseExpiryDate').touched)
                     "
                   >
                     Select date
@@ -279,7 +311,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -293,13 +325,27 @@
                       [(ngModel)]="passportIssueDate"
                       (ngModelChange)="passportDateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="passportIssueDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="passportMandatory['passportIssueDate']"
+                    [(ngModel)]="passportIssueDate"
+                    (ngModelChange)="passportDateSelected()"
+                    placeholder="Passport Issue Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       passportMandatory['passportIssueDate'] &&
-                      (coApplicantForm.get('passportIssueDate').dirty ||
-                        coApplicantForm.get('passportIssueDate').touched)
+                      (coApplicantForm.get('dedupe').get('passportIssueDate')
+                        .dirty ||
+                        coApplicantForm.get('dedupe').get('passportIssueDate')
+                          .touched)
                     "
                   >
                     Select Date
@@ -308,7 +354,7 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -322,13 +368,27 @@
                       [(ngModel)]="passportExpiryDate"
                       (ngModelChange)="passportExpiryDateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="passportExpiryDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="passportMandatory['passportExpiryDate']"
+                    [(ngModel)]="passportExpiryDate"
+                    (ngModelChange)="passportExpiryDateSelected()"
+                    placeholder="Passport Expiry Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       passportMandatory['passportExpiryDate'] &&
-                      (coApplicantForm.get('passportExpiryDate').dirty ||
-                        coApplicantForm.get('passportExpiryDate').touched)
+                      (coApplicantForm.get('dedupe').get('passportExpiryDate')
+                        .dirty ||
+                        coApplicantForm.get('dedupe').get('passportExpiryDate')
+                          .touched)
                     "
                   >
                     Select Date
