@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -85,6 +85,18 @@ export class SourcingDetailsComponent implements OnInit {
     value: string;
   }
 
+  regexPattern = {
+    amount: {
+      rule: "^[1-9][0-9]*$",
+      msg: 'Invalid Amount / Alphabets and Special Characters not allowed'
+    },
+    nameLength: {
+      rule: '30',
+      msg: ''
+    }
+  }
+
+
   saveUpdate: {
     bizDivision: string;
     productCategory?: string;
@@ -120,13 +132,13 @@ export class SourcingDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService
-  ) { 
-    this.sourcingCodeObject= {
+  ) {
+    this.sourcingCodeObject = {
       key: '',
       value: ''
     }
-  
-    this.dealorCodeObject= {
+
+    this.dealorCodeObject = {
       key: '',
       value: ''
     }
@@ -234,7 +246,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   patchSourcingDetails() {
-    
+
     this.sourcingDetailsForm.patchValue({
       sourcingChannel: this.sourchingChannelFromLead,
     });
@@ -249,7 +261,7 @@ export class SourcingDetailsComponent implements OnInit {
     // this.sourcingCodeData.push(this.sourcingCodeObject);
     // this.sourcingDetailsForm.patchValue({sourcingCode: this.sourcingCodeObject});
     this.sourchingCodeFromLead = this.leadData.leadDetails.sourcingCode;
-    this.sourcingDetailsForm.patchValue({sourcingCode: this.sourchingCodeFromLead});
+    this.sourcingDetailsForm.patchValue({ sourcingCode: this.sourchingCodeFromLead });
   }
 
   getBusinessDivision(bizDivision) {
@@ -416,50 +428,55 @@ export class SourcingDetailsComponent implements OnInit {
       dealerCode: new FormControl(''),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
-      requestedAmount: new FormControl(''),
-      requestedTenor: new FormControl(''),
+      requestedAmount: new FormControl('', Validators.required),
+      requestedTenor: new FormControl('', Validators.required),
     });
   }
 
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
-    const saveAndUpdate: any = { ...formValue };
+    console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid)
+    if (this.sourcingDetailsForm.valid === true) {
+      const saveAndUpdate: any = { ...formValue };
 
-    console.log(formValue, 'FormValue')
+      console.log(formValue, 'FormValue')
 
-    this.saveUpdate = {
-      userId: Number(this.userId),
-      leadId: Number(this.leadId),
-      bizDivision: saveAndUpdate.bizDivision,
-      // productCategory: Number(saveAndUpdate.productCategory),
-      product: Number(saveAndUpdate.product),
-      priority: Number(saveAndUpdate.priority),
-      sourcingChannel: saveAndUpdate.sourcingChannel,
-      sourcingType: saveAndUpdate.sourcingType,
-      sourcingCode: saveAndUpdate.sourcingCode.key,
-      dealorCode: saveAndUpdate.dealerCode.key,
-      // spokeCode: Number(saveAndUpdate.spokeCode),
-      spokeCode: 1,
-      loanBranch: Number(this.branchId),
-      leadHandeledBy: Number(this.userId),
-      leadCreatedBy: Number(this.branchId),
-      leadCreatedOn: this.leadCreatedDateFromLead,
-      requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
-      requestedLoanTenor: Number(saveAndUpdate.requestedTenor),
-    };
+      this.saveUpdate = {
+        userId: Number(this.userId),
+        leadId: Number(this.leadId),
+        bizDivision: saveAndUpdate.bizDivision,
+        // productCategory: Number(saveAndUpdate.productCategory),
+        product: Number(saveAndUpdate.product),
+        priority: Number(saveAndUpdate.priority),
+        sourcingChannel: saveAndUpdate.sourcingChannel,
+        sourcingType: saveAndUpdate.sourcingType,
+        sourcingCode: saveAndUpdate.sourcingCode.key,
+        dealorCode: saveAndUpdate.dealerCode.key,
+        // spokeCode: Number(saveAndUpdate.spokeCode),
+        spokeCode: 1,
+        loanBranch: Number(this.branchId),
+        leadHandeledBy: Number(this.userId),
+        leadCreatedBy: Number(this.branchId),
+        leadCreatedOn: this.leadCreatedDateFromLead,
+        requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
+        requestedLoanTenor: Number(saveAndUpdate.requestedTenor),
+      };
 
-    this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
-      const response = res;
-      console.log('saveUpdate', response);
-      // this.vehicleDataStore.setLoanTenour(response);
+      this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
+        const response = res;
+        console.log('saveUpdate', response);
+        // this.vehicleDataStore.setLoanTenour(response);
 
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
 
-      if (appiyoError === '0' && apiError === '0') {
-        this.toasterService.showSuccess('Lead Updated Successfully !', '');
-      }
-    });
+        if (appiyoError === '0' && apiError === '0') {
+          this.toasterService.showSuccess('Lead Updated Successfully !', '');
+        }
+      });
+    } else {
+      this.toasterService.showError('Please fill all mandatory fields.', 'Lead Details');
+    }
   }
 
   onNext() {

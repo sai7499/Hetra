@@ -8,6 +8,7 @@ import { FleetDetailsService } from '../services/fleet-details.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -24,6 +25,9 @@ export class FleetDetailsComponent implements OnInit {
   fleetDetails: any = [];
   fleetLov: any = [];
   fleetArray = [];
+
+  // relationSelected = []
+  relation: any[];
   // vehicleId: any;
   constructor(
 
@@ -35,7 +39,8 @@ export class FleetDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
     public activatedRoute: ActivatedRoute,
-    public router: Router) { }
+    public router: Router,
+    private toasterService: ToasterService) { }
 
 
   async ngOnInit() {
@@ -126,23 +131,20 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: [rowData.regdNo],
-        regdOwner: [rowData.regdOwner],
-        relation: [rowData.relation],
-        make: [rowData.make],
-        yom: [rowData.yom],
-        financier: [rowData.financier],
-        loanNo: [rowData.loanNo],
-        purchaseDate: [rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : ""],
-        tenure: [rowData.tenure],
-        paid: [rowData.paid],
-        seasoning: [rowData.seasoning],
-        // ad: [{ value: rowData.ad, disabled: true }],
-        ad: [rowData.ad],
-        // pd: [{ value: rowData.pd, disabled: true }],
-        pd: [rowData.pd],
-        // gridValue: [{ value: rowData.gridValue, disabled: true }],
-        gridValue: [rowData.gridValue],
+        regdNo: [rowData.regdNo, Validators.required],
+        regdOwner: [rowData.regdOwner, Validators.required],
+        relation: [rowData.relation, Validators.required],
+        make: [rowData.make, Validators.required],
+        yom: [rowData.yom, Validators.required],
+        financier: [rowData.financier, Validators.required],
+        loanNo: [rowData.loanNo, Validators.required],
+        purchaseDate: [rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.required],
+        tenure: [rowData.tenure, Validators.required],
+        paid: [rowData.paid, Validators.required],
+        seasoning: [{ value: rowData.seasoning, disabled: true }],
+        ad: [{ value: rowData.ad, disabled: true }],
+        pd: [{ value: rowData.pd, disabled: true }],
+        gridValue: [{ value: rowData.gridValue, disabled: true }],
         id: [rowData.id]
       })
     }
@@ -158,13 +160,10 @@ export class FleetDetailsComponent implements OnInit {
       purchaseDate: [''],
       tenure: [],
       paid: [],
-      seasoning: [''],
-      // ad: [{ value: "", disabled: true }],
-      ad: [],
-      // pd: [{ value: "", disabled: true }],
-      pd: [],
-      // gridValue: [{ value: "", disabled: true }]
-      gridValue: [],
+      seasoning: [{ value: '', disabled: true }],
+      ad: [{ value: "", disabled: true }],
+      pd: [{ value: "", disabled: true }],
+      gridValue: [{ value: "", disabled: true }]
     });
   }
 
@@ -177,6 +176,13 @@ export class FleetDetailsComponent implements OnInit {
     });
 
   }
+
+  relationShipChange(event) {
+    this.relation = [];
+    console.log('relationShipChange', event.target.value);
+    const relation = event.target.value;
+  }
+
 
   getDateFormat(date) {
 
@@ -242,6 +248,9 @@ export class FleetDetailsComponent implements OnInit {
     console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
       console.log("saveFleetDetailsResponse", res)
+      this.toasterService.showSuccess('Fleet saved successfully!', '');
+
+
     });
   }
 
@@ -294,9 +303,10 @@ export class FleetDetailsComponent implements OnInit {
       });
 
       fleets.splice(index, 1)
+      this.toasterService.showSuccess("fleet deleted successfully!", '')
 
     } else {
-      alert("Atleast One Row Required");
+      this.toasterService.showError("atleast one row required !", '')
 
     }
   }

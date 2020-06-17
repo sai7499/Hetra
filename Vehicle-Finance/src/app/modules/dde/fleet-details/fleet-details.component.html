@@ -32,9 +32,9 @@
                         <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i">
 
                             <td>{{i+1}}</td>
-                            <td><input type="text" class="form-control input_value height" formControlName="regdNo">
+                            <td><input type="text" class="form-control input_value height" formControlName="regdNo" maxlength="10">
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="regdOwner">
+                            <td><input type="text" class="form-control input_value height" formControlName="regdOwner" maxlength="15">
                             </td>
                             <td style="min-width: 165px;">
                                 <!-- <select class="form-control input_value height" formControlName="relation">
@@ -43,7 +43,7 @@
                                             <option>{{labels.guarantor}}</option>
                                         </select> -->
 
-                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead" formControlName="relation">
+                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead" formControlName="relation" (change)="relationShipChange($event)" [isRequired]="'PLease select One Option'">
                                 </app-vf-custom-select>
                             </td>
                             <td style="min-width: 200px;">
@@ -57,7 +57,7 @@
                                 </app-vf-custom-select>
                             </td>
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
-                            <td><input type="text" class="form-control input_value height" formControlName="yom"></td>
+                            <td><input type="text" class="form-control input_value height" formControlName="yom" maxlength="4"></td>
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td style="min-width: 120px;">
                                 <!-- <select class="form-control input_value height" id="asset_make"
@@ -72,7 +72,7 @@
                                 </app-vf-custom-select>
 
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="loanNo">
+                            <td><input type="number" class="form-control input_value height" formControlName="loanNo" maxlength="4">
                             </td>
                             <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
                             <td>
@@ -85,9 +85,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="tenure">
+                            <td><input type="number" class="form-control input_value height" formControlName="tenure" maxlength="3">
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="paid">
+                            <td><input type="number" class="form-control input_value height" formControlName="paid" maxlength="3">
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="seasoning">
                             </td>

@@ -161,9 +161,16 @@ export class OtpSectionComponent implements OnInit {
         console.log(res.ProcessVariables.error);
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         // alert("otp verified successfully")
-        this.router.navigate([
-          'pages/lead-section/' + this.leadId + '/applicant-details',
-        ]);
+
+        if (res.ProcessVariables.leadStage == '20'){
+          this.router.navigate([
+            'pages/sales/' + this.leadId + '/applicant-list',
+          ]);
+        }else{
+          this.router.navigate([
+            'pages/lead-section/' + this.leadId + '/applicant-details',
+          ]);
+        }
       } else {
         // alert(res.ProcessVariables.error.message);
         this.toasterService.showError('Invalid OTP !', '');
