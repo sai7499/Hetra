@@ -15,11 +15,11 @@
                 <div class="col-sm-7 text-right"></div>
             </div>
 
-            <ng-container formArrayName="details">
-                <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0">
+            <ng-container formArrayName="details" >
+                <div id="individual_section_start" *ngIf="isIndividual" formGroupName="0" >
                     <!-- <h4 class="title">individual</h4> -->
                     <h4 class="title">Permanent Address</h4>
-                    <div  formGroupName="permanantAddress">
+                    <div  formGroupName="permanantAddress" >
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="pan">{{ labels.addressline1 }}</label>
@@ -28,6 +28,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -57,6 +58,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='permanantPincode'
                                ></app-custom-input>
@@ -68,8 +70,12 @@
                                         <option>City 2</option>
                                         <option>City 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city">
+                                <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city"
+                                [isRequired]="'Please select one'"
+                        [isDirty]="isDirty">
                                 </app-vf-custom-select>
+
+                                
                                 
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -79,7 +85,9 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="district" [values]="permanantPincode?.district">
+                                <app-vf-custom-select formControlName="district" [values]="permanantPincode?.district"
+                                [isRequired]="'Please select one'"
+                        [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                         </div>
@@ -91,7 +99,10 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="state" [values]="permanantPincode?.state">
+                                <app-vf-custom-select formControlName="state" [values]="permanantPincode?.state"
+                                [isRequired]="'Please select one'"
+                                    [isDirty]="isDirty">
+                                    
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -101,7 +112,9 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="country" [values]="permanantPincode?.country">
+                                <app-vf-custom-select formControlName="country" [values]="permanantPincode?.country"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -121,12 +134,12 @@
                             <h4 class="title">Current Address</h4>
                         </div>
                         <div class="col-sm-7" id="align_this_texbox">
-                            <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)" />
+                            <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"  [checked]="onPerAsCurChecked"/>
                             <span id="address_section_checkbox_text">Is it same as your permanent Address?
                             </span>
                         </div>
                     </div>
-                    <div formGroupName="currentAddress">
+                    <div formGroupName="currentAddress" >
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="pan">{{ labels.addressline1 }}</label>
@@ -135,6 +148,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -163,6 +177,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='currentPincode'
                                ></app-custom-input>
@@ -174,7 +189,9 @@
                                         <option>City 2</option>
                                         <option>City 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="city" [values]="currentPincode?.city">
+                                <app-vf-custom-select formControlName="city" [values]="currentPincode?.city"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -184,7 +201,9 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="district" [values]="currentPincode?.district">
+                                <app-vf-custom-select formControlName="district" [values]="currentPincode?.district"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                         </div>
@@ -196,7 +215,9 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="state" [values]="currentPincode?.state">
+                                <app-vf-custom-select formControlName="state" [values]="currentPincode?.state"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -206,7 +227,9 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="country" [values]="currentPincode?.country">
+                                <app-vf-custom-select formControlName="country" [values]="currentPincode?.country"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -269,6 +292,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -297,6 +321,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='officePincode'
                                ></app-custom-input>
@@ -308,7 +333,9 @@
                                         <option>City 2</option>
                                         <option>City 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="city" [values]="officePincode?.city">
+                                <app-vf-custom-select formControlName="city" [values]="officePincode?.city"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -318,7 +345,9 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="district" [values]="officePincode?.district">
+                                <app-vf-custom-select formControlName="district" [values]="officePincode?.district"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                         </div>
@@ -330,7 +359,9 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="state" [values]="officePincode?.state">
+                                <app-vf-custom-select formControlName="state" [values]="officePincode?.state"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -340,31 +371,17 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="country" [values]="officePincode?.country">
+                                <app-vf-custom-select formControlName="country" [values]="officePincode?.country"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="passport">{{ labels.typeOfAccommmodation }}</label>
-                                <!-- <select class="form-control">
-                                        <option>Own House</option>
-                                        <option>Rented House</option>
-                                        
-                                    </select> -->
+                                
                                 <app-vf-custom-select formControlName="accommodationType"
                                     [values]="LOV.LOVS.accomodationType"></app-vf-custom-select>
-                            </div>
-                        </div>
-                        <div class=" row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="passport">{{labels.periodOfCurrentStayInYears }}</label>
-                                <!-- <select class="form-control">
-                                        <option>5 years</option>
-                                        <option>2 years</option>
-                                    </select> -->
-                                <!-- <app-vf-custom-select formControlName="periodOfCurrentStay" ></app-vf-custom-select> -->
-                                <input formControlName="periodOfCurrentStay" type="text" class="form-control"
-                                    id="periodOfCurrentStay" />
-                            </div>
+                            </div> -->
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="current_landline_num">{{labels.landlineNumber}}</label>
                                 <!-- <input formControlName="landlineNumber" type="text" class="form-control"
@@ -375,6 +392,15 @@
                                   [maxLength]="landlineLength15"
                                ></app-custom-input>
                             </div>
+                        </div>
+                        <div class=" row">
+                            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="passport">{{labels.periodOfCurrentStayInYears }}</label>
+                                
+                                <input formControlName="periodOfCurrentStay" type="text" class="form-control"
+                                    id="periodOfCurrentStay" />
+                            </div> -->
+                           
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="alternate_mobile_num">{{labels.alternateMobileNumber}}</label>
                                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
@@ -401,6 +427,7 @@
                                 formControlName="addressLineOne" 
                                 [maxLength]="maxLenght40"
                                 [isRequired]="'Address 1 is required'">
+                                [isDirty]="isDirty"
                             </app-custom-input>
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -434,6 +461,7 @@
                               [patternCheck]="pincodePattern"
                               [maxLength]="pincodeLength"
                               [isRequired]="'Pincode is required'"
+                              [isDirty]="isDirty"
                               (keyup)="inputPincode($event)"
                               id='registeredPincode'
                            ></app-custom-input>
@@ -445,7 +473,9 @@
                                     <option>City 2</option>
                                     <option>City 3</option>
                                 </select> -->
-                            <app-vf-custom-select formControlName="city" [values]="registeredPincode?.city">
+                            <app-vf-custom-select formControlName="city" [values]="registeredPincode?.city"
+                            [isRequired]="'Please select one'"
+                            [isDirty]="isDirty">
                             </app-vf-custom-select>
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -455,7 +485,9 @@
                                     <option>District 2</option>
                                     <option>District 3</option>
                                 </select> -->
-                            <app-vf-custom-select formControlName="district" [values]="registeredPincode?.district">
+                            <app-vf-custom-select formControlName="district" [values]="registeredPincode?.district"
+                            [isRequired]="'Please select one'"
+                            [isDirty]="isDirty">
                             </app-vf-custom-select>
                         </div>
                        </div>
@@ -467,7 +499,9 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="state" [values]="registeredPincode?.state">
+                                <app-vf-custom-select formControlName="state" [values]="registeredPincode?.state"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -477,7 +511,9 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                                <app-vf-custom-select formControlName="country" [values]="registeredPincode?.country">
+                                <app-vf-custom-select formControlName="country" [values]="registeredPincode?.country"
+                                [isRequired]="'Please select one'"
+                                [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -511,7 +547,7 @@
                             </div>
                             <div class="col-sm-7" id="align_this_texbox">
                                 <input type="checkbox" id="address_section_checkbox"
-                                    (change)="onSameRegistered($event)" />
+                                    (change)="onSameRegistered($event)"  [checked]="onRegAsCommChecked"/>
                                 <span id="address_section_checkbox_text">Is it same as your Registered Address?
                                 </span>
                             </div>
@@ -525,6 +561,7 @@
                                     formControlName="addressLineOne" 
                                     [maxLength]="maxLenght40"
                                     [isRequired]="'Address 1 is required'">
+                                    [isDirty]="isDirty"
                                 </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -554,6 +591,7 @@
                                   [patternCheck]="pincodePattern"
                                   [maxLength]="pincodeLength"
                                   [isRequired]="'Pincode is required'"
+                                  [isDirty]="isDirty"
                                   (keyup)="inputPincode($event)"
                                   id='communicationPincode'
                                ></app-custom-input>
@@ -561,7 +599,9 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="passport">{{ labels.city }}</label>
     
-                                    <app-vf-custom-select formControlName="city" [values]="communicationPincode?.city">
+                                    <app-vf-custom-select formControlName="city" [values]="communicationPincode?.city"
+                                    [isRequired]="'Please select one'"
+                                    [isDirty]="isDirty">
                                     </app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -572,21 +612,27 @@
                                         <option>District 3</option>
                                     </select> -->
                                     <app-vf-custom-select formControlName="district"
-                                        [values]="communicationPincode?.district"></app-vf-custom-select>
+                                        [values]="communicationPincode?.district"
+                                        [isRequired]="'Please select one'"
+                                        [isDirty]="isDirty"></app-vf-custom-select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="passport">{{ labels.state }}</label>
     
-                                    <app-vf-custom-select formControlName="state" [values]="communicationPincode?.state">
+                                    <app-vf-custom-select formControlName="state" [values]="communicationPincode?.state"
+                                    [isRequired]="'Please select one'"
+                                    [isDirty]="isDirty">
                                     </app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="passport">{{ labels.country }}</label>
     
                                     <app-vf-custom-select formControlName="country"
-                                        [values]="communicationPincode?.country"></app-vf-custom-select>
+                                        [values]="communicationPincode?.country"
+                                        [isRequired]="'Please select one'"
+                                        [isDirty]="isDirty"></app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="passport">{{ labels.landlineNumber }}</label>
