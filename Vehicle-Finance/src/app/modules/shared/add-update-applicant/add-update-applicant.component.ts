@@ -41,8 +41,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     msg: 'Pan is invalid',
   };
   namePattern = {
-    // rule: '^[A-Z]*[a-z]*$',
-    // msg: 'Invalid Name'
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Name',
   };
   namePatternIdv = {
     rule: '^[A-Z]*[a-z]*$',
