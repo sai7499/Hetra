@@ -117,7 +117,7 @@ export class PslDataComponent implements OnInit, OnChanges {
 
   initForm() {
     this.pslDataForm = this.formBuilder.group({
-      activity: [this.LOV.LOVS.pslActivity],
+      activity: [""],
 
       agriculture: this.formBuilder.group({
         activity: [this.LOV.LOVS.pslActivity[1].key],
@@ -297,7 +297,6 @@ export class PslDataComponent implements OnInit, OnChanges {
       const dltActivity = this.pslData.detailActivity;
       this.selectFormGroup();
       this.detailActivityChange = dltActivity;   
-
       this.getLovForDetailActivity();
 
       if(activity==='1PSLACTVTY') {
@@ -335,7 +334,6 @@ export class PslDataComponent implements OnInit, OnChanges {
       const loanAmount = this.pslData.loanAmount;
       this.pslSubCategoryChange =  this.pslData.pslSubCategory;
       this.setValueForPslSubCategory();
-
       setTimeout(() => {
         this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
         this.setValueForProofOfInvetment();
@@ -343,12 +341,13 @@ export class PslDataComponent implements OnInit, OnChanges {
         this.caCertifiedAmount = this.pslData.caCertifiedAmount;
         this.setValueForCaCertifiedAmount();
         this.otherInvestmentCost = this.pslData.otherInvestmentCost;
-        this.setValueForOtherInvestmentCost();
+        this.setValueForOtherInvestmentCost();  
         this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
         this.setValueForPslSubCategoryByInvestmentInEquipment();
-        this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
-        this.setValueForPslSubCategoryByInvestmentInPlantANdMacinery();
-        
+        if(!this.investmentInEquipmentValue) {
+          this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
+          this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
+        }
         this.pslDataForm.patchValue({
           activity: this.pslData.activity,
           microSmallAndMediumEnterprises :{
@@ -594,7 +593,8 @@ export class PslDataComponent implements OnInit, OnChanges {
         },
       ];
       this.pslCertificateValues = data;
-    } else {
+    } else if(this.pslSubCategoryChange === "5PSLSUBCAT" || this.pslSubCategoryChange === "6PSLSUBCAT" ||
+              this.pslSubCategoryChange === "8PSLSUBCAT" || this.pslSubCategoryChange === "9PSLSUBCAT") {
       const data = [
         {
           key: this.LOV.LOVS.pslCertificate[4].key,
@@ -780,10 +780,10 @@ export class PslDataComponent implements OnInit, OnChanges {
     let investmentInPlantMachineryChange = event.target.value;
     this.investmentInPlantMachineryValue = this.totalInvestmentCost;
     // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
-    this.setValueForPslSubCategoryByInvestmentInPlantANdMacinery()
+    this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery()
   }
 
-  setValueForPslSubCategoryByInvestmentInPlantANdMacinery() {
+  setValueForPslSubCategoryByInvestmentInPlantAndMacinery() {
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
 
     this.investmentInPlantMachineryMap = this.pslSubCategoryValueMap.filter(
