@@ -15,7 +15,7 @@ export class LabelsService {
 
   getLabelsData(): Observable<any> {
     return this.http.get(this.labelsurl);
-  }
+    }
 
   getLabelsOfDDEData(): Observable<any> {
     return this.http.get(this.labelDDEsurl);

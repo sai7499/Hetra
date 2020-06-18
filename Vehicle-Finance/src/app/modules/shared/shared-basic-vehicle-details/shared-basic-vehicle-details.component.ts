@@ -36,6 +36,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public label: any = {};
   regionDataArray = [];
 
+  numberPattern = '/^[^`~!@#$%\^&*()_+={}|[\]\\:'
+
   public productCatoryCode: string;
   public leadDetails: any = {};
   public loanTenor: number = 0;
@@ -152,18 +154,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (value && formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostCarTrade,
-        assetCostLeast: formArray.value[0].assetCostCarTrade,
+        // assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
 
     } else if (value && formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB,
-        assetCostLeast: formArray.value[0].assetCostCarTrade,
+        // assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
     } else if (value && formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB,
-        assetCostLeast: formArray.value[0].assetCostCarTrade,
+        // assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
     }
   }
@@ -313,7 +315,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       fastTagAmount: VehicleDetail.fastTagAmount || null,
       finalAssetCost: VehicleDetail.finalAssetCost || null,
       fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
-      fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ?  true : false || '',
+      fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ? true : false || '',
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
       gorssVehicleWeight: VehicleDetail.gorssVehicleWeight || '',
       idv: VehicleDetail.idv || null,
@@ -670,7 +672,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: [null],
       rcOwnerName: [''],
-      ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[1-9][0-9]*$'), Validators.required])],
+      ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[0-9]*$'), Validators.required])],
       address: ['', Validators.compose([Validators.maxLength(140), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],
