@@ -41,6 +41,7 @@ export class CustomSelectComponent
   @Output() valueChange = new EventEmitter();
 
   inputError: boolean;
+  isFirst: boolean = true;
 
   onChange: any = () => {};
   onTouch: any = () => {};
@@ -98,6 +99,16 @@ export class CustomSelectComponent
 
   writeValue(val) {
     this.val = val;
+    if (!val && this.isFirst) {
+      this.isFirst = false;
+      return;
+    }
+    if (!this.val) {
+      this.checkValidation();
+      this.isFirst = false;
+    } else {
+      this.inputError = false;
+    }
   }
 
   registerOnChange(fn) {
