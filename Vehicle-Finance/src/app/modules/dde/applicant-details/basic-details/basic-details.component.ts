@@ -6,6 +6,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { Location } from '@angular/common';
+import { UtilityService} from '@services/utility.service'
 import {
   Applicant,
   ApplicantDetails,
@@ -26,7 +27,14 @@ export class BasicDetailsComponent implements OnInit {
   LOV: any = [];
   applicantId: number;
   applicant: Applicant;
-  leadId :  number
+  leadId :  number;
+  showAge : any;
+  initialageCal : any;
+  checkingSenior : boolean;
+  isSeniorCitizen : string;
+  mobilePhone : string
+  isDirty : boolean;
+  public toDayDate: Date = new Date();
 
   designation = [
     {
@@ -38,6 +46,40 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+  nameLength30={
+    rule: 30,
+  }
+  mobileLenght10={
+    rule: 10,
+  }
+  namePattern = {
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Name',
+  };
+
+//   companyPattern ={
+//    rule : '^[A-Z]*[a-z]*$',
+//    msg: 'Invalid Name',
+//  };
+  numberPattern={
+    rule : '^[0-9]',
+    msg : 'Invalid'
+  }
+  mobilePattern={
+    rule: '^[1-9][0-9]*$',
+    msg: 'Invalid Mobile Number',
+  }
+  emailPattern={
+    rule : '^\\w+([\.-]?\\w+)@\\w+([\.-]?\\w+)(\\.\\w{2,10})+$',
+    msg : 'Invalid email'
+  }
+  landlinePattern={
+    rule : '^[0-9]{6,15}',
+    msg : "Invalid Number"
+  }
+  landlineLength15={
+    rule: 15,
+  }
 
   
   constructor(
@@ -47,7 +89,8 @@ export class BasicDetailsComponent implements OnInit {
     private router: Router,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
-    private location: Location
+    private location: Location,
+    private utilityService : UtilityService
   ) {}
  async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -95,8 +138,42 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
+      
       this.setBasicData();
     });
+  }
+  initiallayAgecal(dob){
+    const convertDate = new Date(this.utilityService.getDateFromString(dob))
+    const convertAge = new Date(convertDate);
+      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+      this.initialageCal = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+      console.log('initially age', this.initialageCal)
+      this.checkingSenior = this.initialageCal >70 ? true : false
+      this.isSeniorCitizen= this.checkingSenior ==true ? '1': '0'
+      // if(this.initialageCal<70 ){
+      //   this.senior = true
+       
+      // }
+  }
+  ageCalculation(event){
+    const value = event;
+    const convertDate = new Date(this.utilityService.getNewDateFormat(value))
+    const convertAge = new Date(convertDate);
+      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+      this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+      console.log('showAge', this.showAge);
+      this.checkingSenior= this.showAge>70 ? true : false
+      this.isSeniorCitizen= this.checkingSenior==true ? '1': '0'
+      //this.checkSenior(this.showAge) 
+  }
+  // checkSenior(showAge){
+  //   this.senior = showAge < 70 ? true : false
+  // }
+  onCheckSenior(event){
+    if(event.target.checked && (this.showAge < 70 || this.initialageCal< 70)){
+      event.target.checked= false;
+     }
+    else{event.target.checked = true;}
   }
 
   setBasicData() {
@@ -121,36 +198,40 @@ export class BasicDetailsComponent implements OnInit {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
-      console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
+      //console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
+      const mobile = aboutIndivProspectDetails.mobilePhone;
+      if(mobile && mobile.length==12){
+        this.mobilePhone= mobile.slice(2,12)
+      }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     const applicantDetails = this.applicant.applicantDetails;
     details.patchValue({
-      name1: applicantDetails.name1,
-      name2: applicantDetails.name2,
-      name3: applicantDetails.name3,
-      title: applicantDetails.title,
-      customerCategory: applicantDetails.customerCategory,
-      emailId: aboutIndivProspectDetails.emailId,
-      alternateEmailId: aboutIndivProspectDetails.alternateEmailId,
-      mobilePhone: aboutIndivProspectDetails.mobilePhone,
-      dob: aboutIndivProspectDetails.dob,
-      minorGuardianName: aboutIndivProspectDetails.minorGuardianName,
-      fatherName: aboutIndivProspectDetails.fatherName,
-      spouseName: aboutIndivProspectDetails.spouseName,
-      motherMaidenName: aboutIndivProspectDetails.motherMaidenName,
-      preferredLanguage: aboutIndivProspectDetails.preferredLanguage,
-      occupation: aboutIndivProspectDetails.occupation,
-      nationality: aboutIndivProspectDetails.nationality,
-      employeeCode: aboutIndivProspectDetails.employeeCode,
-      employerType: aboutIndivProspectDetails.employerType,
-      isSeniorCitizen: aboutIndivProspectDetails.isSeniorCitizen,
-      minorGuardianUcic: aboutIndivProspectDetails.minorGuardianUcic,
-      designation: aboutIndivProspectDetails.designation,
+      name1: applicantDetails.name1 || '',
+      name2: applicantDetails.name2 || '',
+      name3: applicantDetails.name3 || '',
+      title: applicantDetails.title || '',
+      customerCategory: applicantDetails.customerCategory || '',
+      emailId: aboutIndivProspectDetails.emailId || '',
+      alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
+      mobilePhone: this.mobilePhone || '',
+      dob: this.utilityService.getDateFromString(aboutIndivProspectDetails.dob) || '',
+      minorGuardianName: aboutIndivProspectDetails.minorGuardianName || '',
+      fatherName: aboutIndivProspectDetails.fatherName || '',
+      spouseName: aboutIndivProspectDetails.spouseName || '',
+      motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
+      preferredLanguage: aboutIndivProspectDetails.preferredLanguage || '',
+      occupation: aboutIndivProspectDetails.occupation || '',
+      nationality: aboutIndivProspectDetails.nationality || '',
+      employeeCode: aboutIndivProspectDetails.employeeCode || '',
+      employerType: aboutIndivProspectDetails.employerType || '',
+      isSeniorCitizen: aboutIndivProspectDetails.isSeniorCitizen || '',
+      minorGuardianUcic: aboutIndivProspectDetails.minorGuardianUcic || '',
+      designation: aboutIndivProspectDetails.designation || '',
 
-      currentEmpYears: aboutIndivProspectDetails.currentEmpYears,
-      department: aboutIndivProspectDetails.department,
-      employerName : aboutIndivProspectDetails.employerName
+      currentEmpYears: aboutIndivProspectDetails.currentEmpYears || '',
+      department: aboutIndivProspectDetails.department || '',
+      employerName : aboutIndivProspectDetails.employerName || ''
       
       
 
@@ -164,33 +245,33 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
-      name1: applicantDetails.name1,
-      name2: applicantDetails.name2,
-      name3: applicantDetails.name3,
-      title: applicantDetails.title,
-      companyPhoneNumber: corporateProspectDetails.companyPhoneNumber,
-      companyEmailId: corporateProspectDetails.companyEmailId,
-      alternateEmailId: corporateProspectDetails.alternateEmailId,
-      numberOfDirectors: corporateProspectDetails.numberOfDirectors,
-      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation,
+      name1: applicantDetails.name1 || '',
+      name2: applicantDetails.name2 || '',
+      name3: applicantDetails.name3 || '',
+      title: applicantDetails.title || '',
+      companyPhoneNumber: corporateProspectDetails.companyPhoneNumber || '',
+      companyEmailId: corporateProspectDetails.companyEmailId || '',
+      alternateEmailId: corporateProspectDetails.alternateEmailId || '',
+      numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
+      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation || '',
       preferredLanguageCommunication:
-        corporateProspectDetails.preferredLanguageCommunication,
-      customerCategory: applicantDetails.customerCategory,
-      directorName: corporateProspectDetails.directorName,
+        corporateProspectDetails.preferredLanguageCommunication || '',
+      customerCategory: applicantDetails.customerCategory || '',
+      directorName: corporateProspectDetails.directorName || '',
       directorIdentificationNumber:
-        corporateProspectDetails.directorIdentificationNumber,
-      contactPerson: corporateProspectDetails.contactPerson,
+        corporateProspectDetails.directorIdentificationNumber || '',
+      contactPerson: corporateProspectDetails.contactPerson || '',
       contactPersonDesignation:
-        corporateProspectDetails.contactPersonDesignation,
-      contactPersonMobile: corporateProspectDetails.contactPersonMobile,
-      ratingIssuerName: corporateProspectDetails.ratingIssuerName,
-      externalRatingAssigned: corporateProspectDetails.externalRatingAssigned,
-      externalRatingIssueDate: corporateProspectDetails.externalRatingIssueDate,
+        corporateProspectDetails.contactPersonDesignation || '',
+      contactPersonMobile: corporateProspectDetails.contactPersonMobile || '',
+      ratingIssuerName: corporateProspectDetails.ratingIssuerName || '',
+      externalRatingAssigned: corporateProspectDetails.externalRatingAssigned || '',
+      externalRatingIssueDate: corporateProspectDetails.externalRatingIssueDate || '',
       externalRatingExpiryDate:
-        corporateProspectDetails.externalRatingExpiryDate,
-      foreignCurrencyDealing: corporateProspectDetails.foreignCurrencyDealing,
-      exposureBankingSystem: corporateProspectDetails.exposureBankingSystem,
-      creditRiskScore: corporateProspectDetails.creditRiskScore,
+        corporateProspectDetails.externalRatingExpiryDate || '',
+      foreignCurrencyDealing: corporateProspectDetails.foreignCurrencyDealing || '',
+      exposureBankingSystem: corporateProspectDetails.exposureBankingSystem || '',
+      creditRiskScore: corporateProspectDetails.creditRiskScore || '',
     });
   }
 
@@ -279,6 +360,11 @@ export class BasicDetailsComponent implements OnInit {
 
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
+      const dob= this.applicant.aboutIndivProspectDetails.dob ;
+      console.log('dob', dob)
+    if(dob !==null){
+      this.initiallayAgecal(dob)
+    }
       this.setBasicData();
     });
     console.log('LOvs', this.LOV);
@@ -383,8 +469,8 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const aboutIndivProspectDetails = formValue;
-    prospectDetails.dob = formValue.dob;
-    prospectDetails.mobilePhone = aboutIndivProspectDetails.mobilePhone;
+    prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
+    prospectDetails.mobilePhone = `91${aboutIndivProspectDetails.mobilePhone}`;
     prospectDetails.isSeniorCitizen = '1';
     prospectDetails.minorGuardianName =
       aboutIndivProspectDetails.minorGuardianName;
@@ -405,6 +491,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.designation = aboutIndivProspectDetails.designation;
     prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears;
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
+    prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
     
     // prospectDetails.department = 'department';
     
@@ -465,10 +552,10 @@ export class BasicDetailsComponent implements OnInit {
       corporateProspectDetails.externalRatingAssigned;
     // prospectDetails.externalRatingExpiryDate = '22-Mar-2020';
     prospectDetails.externalRatingExpiryDate =
-      corporateProspectDetails.externalRatingExpiryDate;
+    this.utilityService.getDateFormat(corporateProspectDetails.externalRatingExpiryDate);
     // prospectDetails.externalRatingIssueDate = '22-Mar-2020';
     prospectDetails.externalRatingIssueDate =
-      corporateProspectDetails.externalRatingIssueDate;
+    this.utilityService.getDateFormat(corporateProspectDetails.externalRatingIssueDate);
     prospectDetails.foreignCurrencyDealing =
       corporateProspectDetails.foreignCurrencyDealing;
     prospectDetails.numberOfDirectors = Number(

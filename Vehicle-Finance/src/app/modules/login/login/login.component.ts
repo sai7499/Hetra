@@ -60,7 +60,8 @@ export class LoginComponent implements OnInit {
 
   isMobile: any;
   base64Data: any;
-
+  appVersion;
+  buildDate;
 
   constructor(
     private loginService: LoginService,
@@ -78,6 +79,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.appVersion = environment.version;
+    this.buildDate = environment.buildDate
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -118,14 +121,17 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginData = this.loginForm.value;
+    this.loginData = this.loginForm.value;      
     if (environment.hostingEnvironment === 'Production') {
       this.loginData.email = `${this.loginData.email}@equitasbank.in`;
-    } else {
+    } else if(environment.hostingEnvironment === 'UAT'){
       this.loginData.email = `${this.loginData.email}@esfbuat.in`;
+    }else{
+      this.loginData.email = `${this.loginData.email}@equitas.in`;
     }
     this.loginService.getLogin(this.loginData).subscribe(
       (res: any) => {
+        this.loginForm.reset();
         const response = res;
         if (response.status) {
           const token = response.token;

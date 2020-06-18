@@ -52,7 +52,7 @@ export class LeadCreationComponent implements OnInit {
   sourcingData = [];
   socuringTypeData = [];
   placeholder = [];
-  sourcingCodeData: Array<{ key: string, value: string }> = [];
+  sourcingCodeData: Array<{ key: string; value: string }> = [];
   dealerCodeData: Array<any> = [];
   fundingProgramData = [];
   isSourcingType: boolean;
@@ -62,7 +62,7 @@ export class LeadCreationComponent implements OnInit {
   isNgAutoCompleteDealer: any;
   isMobile: any;
   isSourchingCode: boolean;
-
+  isDirty: boolean;
 
   obj = {};
   test = [];
@@ -71,25 +71,24 @@ export class LeadCreationComponent implements OnInit {
   public toDayDate: Date = new Date();
 
   namePattern: {
-    rule: string,
-    msg: string
-  }
+    rule: string;
+    msg: string;
+  };
 
   regexPattern = {
     maxLength: {
       rule: '10',
-      msg: 'Maximum Length 10 digits'
+      msg: 'Maximum Length 10 digits',
     },
     nameLength: {
       rule: '30',
-      msg: ''
+      msg: '',
     },
     mobile: {
-      rule: "^[1-9][0-9]*$",
-      msg: "Numbers only allowed !"
-    }
-  }
-
+      rule: '^[1-9][0-9]*$',
+      msg: 'Numbers only allowed !',
+    },
+  };
 
   loanLeadDetails: {
     bizDivision: string;
@@ -124,7 +123,7 @@ export class LeadCreationComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
     private toasterService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -136,7 +135,6 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm.patchValue({ bizDivision: 'EBBIZDIV' });
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
-
   }
 
   getLabels() {
@@ -149,6 +147,7 @@ export class LeadCreationComponent implements OnInit {
   initForm() {
     this.createLeadForm = new FormGroup({
       bizDivision: new FormControl('', Validators.required),
+      productCategory: new FormControl('', Validators.required),
       product: new FormControl('', Validators.required),
       fundingProgram: new FormControl('', Validators.required),
       priority: new FormControl(''),
@@ -159,9 +158,18 @@ export class LeadCreationComponent implements OnInit {
       rcLimit: new FormControl('', Validators.required),
       rcUtilizedLimit: new FormControl('', Validators.required),
       rcUnutilizedLimit: new FormControl('', Validators.required),
-      spokeCodeLocation: new FormControl({ value: '', disabled: !this.isSpoke }),
-      loanBranch: new FormControl({ value: this.loanAccountBranch, disabled: true }, Validators.required),
-      leadHandeledBy: new FormControl({ value: this.leadHandeledBy, disabled: true }),
+      spokeCodeLocation: new FormControl({
+        value: '',
+        disabled: !this.isSpoke,
+      }),
+      loanBranch: new FormControl(
+        { value: this.loanAccountBranch, disabled: true },
+        Validators.required
+      ),
+      leadHandeledBy: new FormControl({
+        value: this.leadHandeledBy,
+        disabled: true,
+      }),
       entity: new FormControl('', Validators.required),
       nameOne: new FormControl('', Validators.required),
       nameTwo: new FormControl(''),
@@ -172,7 +180,9 @@ export class LeadCreationComponent implements OnInit {
   }
 
   getLOV() {
-    this.commonLovService.getLovData().subscribe((lov: any) => (this.LOV = lov));
+    this.commonLovService
+      .getLovData()
+      .subscribe((lov: any) => (this.LOV = lov));
   }
 
   getUserDetailsData() {
@@ -191,7 +201,9 @@ export class LeadCreationComponent implements OnInit {
     this.leadHandeledBy = `${this.userId}-${userName}`;
 
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
-    this.spokesCodeLocation = this.isSpoke ? roleAndUserDetails.userDetails.parentBranch : null;
+    this.spokesCodeLocation = this.isSpoke
+      ? roleAndUserDetails.userDetails.parentBranch
+      : null;
   }
 
   getBusinessDivision(roleAndUserDetails) {
@@ -237,9 +249,12 @@ export class LeadCreationComponent implements OnInit {
     console.log('productCategoryChange', event.target.value);
     const productCategorySelected = event.target.value;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
-      this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
+      this.productCategoryList.filter(
+        (data) => data.productCatCode === productCategorySelected
+      ),
       'assetProdcutCode',
-      'assetProdutName');
+      'assetProdutName'
+    );
     this.createLeadForm.patchValue({ product: '' });
   }
 
@@ -247,24 +262,26 @@ export class LeadCreationComponent implements OnInit {
     this.fundingProgramData = [];
     console.log('productChange', event.target.value);
     const productChange = event.target.value;
-    this.createLeadService.fundingPrograming(productChange).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
+    this.createLeadService
+      .fundingPrograming(productChange)
+      .subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
 
-      if (appiyoError === '0' && apiError === '0') {
-        const data = response.ProcessVariables.fpList;
-        if (data) {
-          data.map(ele => {
-            const datas = {
-              key: ele.fpId,
-              value: ele.fpDescription
-            }
-            this.fundingProgramData.push(datas);
-          });
+        if (appiyoError === '0' && apiError === '0') {
+          const data = response.ProcessVariables.fpList;
+          if (data) {
+            data.map((ele) => {
+              const datas = {
+                key: ele.fpId,
+                value: ele.fpDescription,
+              };
+              this.fundingProgramData.push(datas);
+            });
+          }
         }
-      }
-    });
+      });
     this.createLeadForm.patchValue({ fundingProgram: '' });
   }
 
@@ -275,7 +292,8 @@ export class LeadCreationComponent implements OnInit {
       this.sourcingChannelData = this.utilityService.getValueFromJSON(
         this.sourcingData,
         'sourcingChannelId',
-        'sourcingChannelDesc');
+        'sourcingChannelDesc'
+      );
     });
   }
 
@@ -284,10 +302,13 @@ export class LeadCreationComponent implements OnInit {
     this.sourcingChange = event.target.value;
 
     this.sourchingTypeValues = this.utilityService.getValueFromJSON(
-      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange),
+      this.sourcingData.filter(
+        (data) => data.sourcingChannelId === this.sourcingChange
+      ),
       'sourcingTypeId',
-      'sourcingTypeDesc');
-    this.createLeadForm.patchValue({ sourcingType: '' });
+      'sourcingTypeDesc'
+    );
+    // this.createLeadForm.patchValue({ sourcingType: '' });
     if (this.sourchingTypeValues.length === 1) {
       const sourcingTypeData = this.sourchingTypeValues[0].key;
       this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
@@ -301,17 +322,20 @@ export class LeadCreationComponent implements OnInit {
       this.sourchingTypeChange(sourcingTypeData);
     } else {
       this.sourcingCodePlaceholder = 'Sourcing Code';
+      this.createLeadForm.patchValue({ sourcingType: '' });
     }
-
   }
 
   sourchingTypeChange(event) {
     const sourchingTypeId = event.target ? event.target.value : event;
-    this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
+    this.socuringTypeData = this.sourcingData.filter(
+      (data) => data.sourcingTypeId === sourchingTypeId
+    );
     this.placeholder = this.utilityService.getValueFromJSON(
       this.socuringTypeData,
       'sourcingCodeType',
-      'sourcingCode');
+      'sourcingCode'
+    );
     console.log('placeholder', this.placeholder);
     this.createLeadForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
@@ -326,22 +350,26 @@ export class LeadCreationComponent implements OnInit {
     let inputString = event;
     let sourcingCode = [];
     console.log('inputStringSorc', event);
-    sourcingCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
+    sourcingCode = this.socuringTypeData.filter(
+      (data) => data.sourcingCodeType === this.placeholder[0].key
+    );
     console.log('sourcingCode', sourcingCode);
     if (sourcingCode.length === 0) {
       return;
     }
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      if (appiyoError === '0' && apiError === '0') {
-        this.sourcingCodeData = response.ProcessVariables.codeList;
-        this.keyword = 'value';
-      }
-    });
+    this.createLeadService
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.sourcingCodeData = response.ProcessVariables.codeList;
+          this.keyword = 'value';
+        }
+      });
   }
 
   onDealerCodeSearch(event) {
@@ -367,21 +395,21 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm.patchValue({ rcUnutilizedLimit: rcData.rcUnutilized });
   }
 
-  onFocused($event) { }
+  onFocused($event) {}
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;
-    console.log(this.applicantType)
+    console.log(this.applicantType);
     if (this.applicantType === 'INDIVENTTYP') {
       this.namePattern = {
         rule: '^[A-Za-z ]{0,99}$',
-        msg: 'Special Characters not allowed'
-      }
+        msg: 'Special Characters not allowed',
+      };
     } else {
       this.namePattern = {
         rule: "^[0-9A-Za-z, _&*#' /\\-@]{ 0, 49 } $",
-        msg: 'Invalid organization name'
-      }
+        msg: 'Invalid organization name',
+      };
     }
   }
 
@@ -400,17 +428,26 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
-    console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
+    console.log(
+      'isNgAutoCompleteDealer',
+      this.createLeadForm.controls.dealerCode.value
+    );
+    console.log(
+      'isNgAutoCompleteSourcing',
+      this.createLeadForm.controls.sourcingCode.value
+    );
 
     this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
     this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
+    this.isDirty = true;
 
-    if (this.createLeadForm.valid === true
-      && this.isNgAutoCompleteDealer !== ''
-      && this.isNgAutoCompleteSourcing !== ''
-      && this.isMobile !== '') {
+    if (
+      this.createLeadForm.valid === true &&
+      this.isNgAutoCompleteDealer !== '' &&
+      this.isNgAutoCompleteSourcing !== '' &&
+      this.isMobile !== ''
+    ) {
       const leadModel: any = { ...formValue };
       this.leadStoreService.setLeadCreation(leadModel);
 
@@ -421,7 +458,9 @@ export class LeadCreationComponent implements OnInit {
         fundingProgram: leadModel.fundingProgram,
         sourcingChannel: leadModel.sourcingChannel,
         sourcingType: leadModel.sourcingType,
-        sourcingCode: leadModel.sourcingCode.key,
+        sourcingCode: leadModel.sourcingCode.key
+          ? leadModel.sourcingCode.key
+          : '',
         dealorCode: leadModel.dealerCode.dealorCode,
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
@@ -438,58 +477,71 @@ export class LeadCreationComponent implements OnInit {
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
       };
 
-      this.createLeadService.createLead(this.loanLeadDetails, this.applicantDetails, false).subscribe(
-        (res: any) => {
-          const response = res;
-          const appiyoError = response.Error;
-          const apiError = response.ProcessVariables.error.code;
+      this.createLeadService
+        .createLead(this.loanLeadDetails, this.applicantDetails, false)
+        .subscribe(
+          (res: any) => {
+            const response = res;
+            const appiyoError = response.Error;
+            const apiError = response.ProcessVariables.error.code;
 
-          if (appiyoError === '0' && apiError === '0') {
-            this.createLeadDataService.setLeadData(this.loanLeadDetails, this.applicantDetails);
+            if (appiyoError === '0' && apiError === '0') {
+              this.createLeadDataService.setLeadData(
+                this.loanLeadDetails,
+                this.applicantDetails
+              );
 
-            const message = response.ProcessVariables.error.message;
-            const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
-            const leadSectionData = response.ProcessVariables;
-            this.leadId = leadSectionData.leadId;
-
-            if (isDedupeAvailable) {
-              const leadDedupeData = response.ProcessVariables.leadDedupeResults;
-              this.leadStoreService.setDedupeData(leadDedupeData);
-              this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
-              return;
-            }
-
-            this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
-              const response = res;
-              const appiyoError = response.Error;
-              const apiError = response.ProcessVariables.error.code;
+              const message = response.ProcessVariables.error.message;
+              const isDedupeAvailable =
+                response.ProcessVariables.isDedupeAvailable;
               const leadSectionData = response.ProcessVariables;
+              this.leadId = leadSectionData.leadId;
 
-              if (appiyoError === '0' && apiError === '0') {
-                this.leadId = leadSectionData.leadId;
-                this.createLeadDataService.setLeadSectionData(leadSectionData);
-                this.showModal = true;
-              } else {
-                const message = response.ProcessVariables.error.message;
-                this.toasterService.error(message, 'Lead Creation');
+              if (isDedupeAvailable) {
+                const leadDedupeData =
+                  response.ProcessVariables.leadDedupeResults;
+                this.leadStoreService.setDedupeData(leadDedupeData);
+                this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
+                return;
               }
-            });
-          } else {
-            const message = response.ProcessVariables.error.message;
-            this.toasterService.error(message, 'Lead Creation');
+
+              this.createLeadService
+                .getLeadById(this.leadId)
+                .subscribe((res: any) => {
+                  const response = res;
+                  const appiyoError = response.Error;
+                  const apiError = response.ProcessVariables.error.code;
+                  const leadSectionData = response.ProcessVariables;
+
+                  if (appiyoError === '0' && apiError === '0') {
+                    this.leadId = leadSectionData.leadId;
+                    this.createLeadDataService.setLeadSectionData(
+                      leadSectionData
+                    );
+                    this.showModal = true;
+                  } else {
+                    const message = response.ProcessVariables.error.message;
+                    this.toasterService.error(message, 'Lead Creation');
+                  }
+                });
+            } else {
+              const message = response.ProcessVariables.error.message;
+              this.toasterService.error(message, 'Lead Creation');
+            }
+          },
+          (err) => {
+            alert(err);
           }
-        },
-        (err) => {
-          alert(err);
-        }
-      );
+        );
     } else {
-      this.toasterService.error('Please fill all mandatory fields.', 'Lead Creation');
+      this.toasterService.error(
+        'Please fill all mandatory fields.',
+        'Lead Creation'
+      );
     }
   }
 
   navgiateToNextPage() {
     this.router.navigateByUrl(`pages/lead-section/${this.leadId}`);
-
   }
 }
