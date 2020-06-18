@@ -5,8 +5,10 @@
         <h3 class="margin_zero" *ngIf="applicantId == null">
             {{ labels?.addApplicantTitle }}
         </h3>
-        <h3 class="margin_zero" *ngIf="applicantId !== null">Edit Applicant</h3>
-        <form [formGroup]="coApplicantForm">
+        <h3 class="margin_zero" *ngIf="applicantId !== null">
+            Edit Applicant
+        </h3>
+        <form [formGroup]="coApplicantForm" autocomplete="off">
             <div class="content">
                 <div class="row">
                     <div id="individual_section_leadco">
@@ -276,8 +278,9 @@
                                 <div class="row container" formGroupName="permentAddress">
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="address1">{{ labels?.addressline1 }}</label>
-                                            <app-custom-input formControlName="addressLineOne" [isRequired]="'Address is Required'" [isDirty]="isDirty" [maxLength]="maxlength40"></app-custom-input>
+                                            <label for="address1">{{ labels?.addressline1 }}
+                        <sub class="star_red_col">*</sub></label>
+                                            <app-custom-input formControlName="addressLineOne" [isRequired]="'Address is Required'" [isDirty]="isDirty" [maxLength]="maxlength40" [isDirty]="isDirty"></app-custom-input>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                             <label for="address2">{{ labels?.addressline2 }}</label>
@@ -290,43 +293,40 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="pincode">{{ labels?.code }}</label>
+                                            <label for="pincode">{{ labels?.code }}
+                        <sub class="star_red_col">*</sub></label>
                                             <app-custom-input formControlName="pincode" [maxLength]="maxlength6" [patternCheck]="pincodePattern" (keyup)="getPincode($event.target)" [id]="'permanentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"></app-custom-input>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="permanent_address_city">{{
-                      labels?.city
-                    }}</label>
-                                            <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city">
+                                            <label for="permanent_address_city">{{ labels?.city }}
+                        <sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city" [isDirty]="isDirty" [isRequired]="'City is required'">
                                             </app-vf-custom-select>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="permanent_address_district">{{
-                      labels?.district
-                    }}</label>
-                                            <app-vf-custom-select [values]="permanentPincode?.district" formControlName="district">
+                                            <label for="permanent_address_district">{{ labels?.district
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="permanentPincode?.district" formControlName="district" [isDirty]="isDirty" [isRequired]="'District is required'">
                                             </app-vf-custom-select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="permanent_address_state">{{
-                      labels?.state
-                    }}</label>
-                                            <app-vf-custom-select [values]="permanentPincode?.state" formControlName="state">
+                                            <label for="permanent_address_state">{{ labels?.state
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="permanentPincode?.state" formControlName="state" [isDirty]="isDirty" [isRequired]="'State is required'">
                                             </app-vf-custom-select>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="permanent_address_country">{{
-                      labels.country
-                    }}</label>
-                                            <app-vf-custom-select [values]="permanentPincode?.country" formControlName="country">
+                                            <label for="permanent_address_country">{{ labels.country
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="permanentPincode?.country" formControlName="country" [isDirty]="isDirty" [isRequired]="'Country is required'">
                                             </app-vf-custom-select>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                             <label for="landline">{{
-                      labels?.permanentAddressLandline
-                    }}</label>
+                        labels?.permanentAddressLandline
+                      }}</label>
                                             <app-custom-input formControlName="landlineNumber" [patternCheck]="landlLinePattern" [maxLength]="maxlength15"></app-custom-input>
                                         </div>
                                     </div>
@@ -344,7 +344,8 @@
                                 <div class="row container" formGroupName="communicationAddress">
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="line1">{{ labels?.addressline1 }}</label>
+                                            <label for="line1">{{ labels?.addressline1
+                        }}<sub class="star_red_col">*</sub></label>
                                             <app-custom-input formControlName="addressLineOne" [isRequired]="'Address is Required'" [maxLength]="maxlength40" [isDirty]="isDirty"></app-custom-input>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -358,42 +359,41 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="current_pincode">{{ labels?.code }}</label>
+                                            <label for="current_pincode">{{ labels?.code
+                        }}<sub class="star_red_col">*</sub></label>
                                             <app-custom-input formControlName="pincode" [maxLength]="maxlength6" [patternCheck]="pincodePattern" (keyup)="getPincode($event.target)" [id]="'currentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"></app-custom-input>
                                         </div>
                                         <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
-                                            <label for="current_address_city">{{ labels?.city }}</label>
-                                            <app-vf-custom-select [values]="currentPincode?.city" formControlName="city">
+                                            <label for="current_address_city">{{ labels?.city
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="currentPincode?.city" formControlName="city" [isRequired]="'City is required'" [isDirty]="isDirty">
                                             </app-vf-custom-select>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="current_address_district">{{
-                      labels?.district
-                    }}</label>
-                                            <app-vf-custom-select [values]="currentPincode?.district" formControlName="district">
+                                            <label for="current_address_district">{{ labels?.district
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="currentPincode?.district" formControlName="district" [isRequired]="'District is required'" [isDirty]="isDirty">
                                             </app-vf-custom-select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="current_address_state">{{
-                      labels?.state
-                    }}</label>
-                                            <app-vf-custom-select [values]="currentPincode?.state" formControlName="state">
+                                            <label for="current_address_state">{{ labels?.state
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="currentPincode?.state" formControlName="state" [isRequired]="'State is required'" [isDirty]="isDirty">
                                             </app-vf-custom-select>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                            <label for="current_address_country">{{
-                      labels?.country
-                    }}</label>
-                                            <app-vf-custom-select [values]="currentPincode?.country" formControlName="country">
+                                            <label for="current_address_country">{{ labels?.country
+                        }}<sub class="star_red_col">*</sub></label>
+                                            <app-vf-custom-select [values]="currentPincode?.country" formControlName="country" [isRequired]="'Country is required'" [isDirty]="isDirty">
                                             </app-vf-custom-select>
                                         </div>
 
                                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                             <label for="current_landline">{{
-                      labels?.landlineNumber
-                    }}</label>
+                        labels?.landlineNumber
+                      }}</label>
                                             <app-custom-input formControlName="landlineNumber" [patternCheck]="landlLinePattern" [maxLength]="maxlength15"></app-custom-input>
                                         </div>
                                     </div>
@@ -404,7 +404,8 @@
                                 <h3 class="title">Registered Address</h3>
                                 <div class="row" formGroupName="registeredAddress">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_line1">{{ labels?.line1 }}</label>
+                                        <label for="registered_line1">{{ labels?.line1
+                      }}<sub class="star_red_col">*</sub></label>
                                         <app-custom-input formControlName="addressLineOne" [isRequired]="'Address is Required'" [maxLength]="maxlength40" [isDirty]="isDirty"></app-custom-input>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -417,37 +418,32 @@
                                         <app-custom-input formControlName="addressLineThree" [maxLength]="maxlength40"></app-custom-input>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_pincode">{{
-                      labels?.registeredAddressPinCode
-                    }}</label>
+                                        <label for="registered_pincode">{{ labels?.registeredAddressPinCode
+                      }}<sub class="star_red_col">*</sub></label>
                                         <app-custom-input formControlName="pincode" [maxLength]="maxlength6" [patternCheck]="pincodePattern" (keyup)="getPincode($event.target)" [id]="'permanentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"></app-custom-input>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="registered_address_city">{{
-                      labels?.registeredAddressCity
-                    }}</label>
-                                        <app-vf-custom-select [values]="registerPincode?.city" formControlName="city">
+                                        <label for="registered_address_city">{{ labels?.registeredAddressCity
+                      }}<sub class="star_red_col">*</sub></label>
+                                        <app-vf-custom-select [values]="registerPincode?.city" formControlName="city" [isDirty]="isDirty" [isDirty]="'City is required'">
                                         </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_district">{{
-                      labels?.registeredAddressDistrict
-                    }}</label>
-                                        <app-vf-custom-select [values]="registerPincode?.district" formControlName="district">
+                                        <label for="current_address_district">{{ labels?.registeredAddressDistrict
+                      }}<sub class="star_red_col">*</sub></label>
+                                        <app-vf-custom-select [values]="registerPincode?.district" formControlName="district" [isDirty]="isDirty" [isDirty]="'District is required'">
                                         </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_state">{{
-                      labels?.registeredAddressState
-                    }}</label>
-                                        <app-vf-custom-select [values]="registerPincode?.state" formControlName="state">
+                                        <label for="current_address_state">{{ labels?.registeredAddressState
+                      }}<sub class="star_red_col">*</sub></label>
+                                        <app-vf-custom-select [values]="registerPincode?.state" formControlName="state" [isDirty]="isDirty" [isDirty]="'State is required'">
                                         </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="current_address_country">{{
-                      labels?.registeredAddressCountry
-                    }}</label>
-                                        <app-vf-custom-select [values]="registerPincode?.country" formControlName="country">
+                                        <label for="current_address_country">{{ labels?.registeredAddressCountry
+                      }}<sub class="star_red_col">*</sub></label>
+                                        <app-vf-custom-select [values]="registerPincode?.country" formControlName="country" [isDirty]="isDirty" [isDirty]="'Country is required'">
                                         </app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -459,21 +455,23 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
         </form>
-        </div>
-        <div class="btn-sec clear-both" *ngIf="!isEnableDedupe">
-            <div class="col-sm-5"></div>
-            <div class="col-sm-7 text-right" id="clickButton">
-                <button class="btn btn-primary mar-right8" type="button" (click)="navigateToApplicantList()">
+    </div>
+    <div class="btn-sec clear-both" *ngIf="!isEnableDedupe">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right" id="clickButton">
+            <button class="btn btn-primary mar-right8" type="button" (click)="navigateToApplicantList()">
         <a class="back_color">Back</a></button>&nbsp;
-                <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
+            <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
         <a class="back_color">Save</a>
       </button> &nbsp;
-                <button type="button" class="btn btn-primary" (click)="onNext()">
+            <button type="button" class="btn btn-primary" (click)="onNext()">
         <a class="back_color">Next</a>
       </button>
-            </div>
         </div>
+    </div>
 </main>
 
 <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showDedupeModal }">
