@@ -83,8 +83,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
 
-    console.log(this.loanTenor, 'loan')
-
     this.initForms();
     this.getLov();
     this.labelsData.getLabelsData()
@@ -371,7 +369,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-    console.log(formArray.value, 'formArray')
   }
 
   // event emitter for giving output to parent add vehicle component
@@ -477,7 +474,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   changeSalesForm() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = formArray.at(0) as FormGroup;
-    console.log(controls, 'controls')
 
     if (this.productCatoryCode === 'NCV') {
       controls.removeControl('vehicleRegNo');
@@ -528,7 +524,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('category', new FormControl('', Validators.required));
     } else if (this.productCatoryCode === 'UCV') {
-
 
       controls.removeControl('vehicleRegNo');
       controls.removeControl('assetCostGrid');
