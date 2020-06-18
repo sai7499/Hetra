@@ -6,17 +6,17 @@
           <table class="table table-responsive">
             <thead>
               <tr class="table-head-bg text-center">
-                <td>{{labels.sNO}} </td>
-                <td>{{labels.type}} </td>
-                <td>{{labels.loanNo}}</td>
-                <td>{{labels.assets}}</td>
-                <td>{{labels.yom}} </td>
-                <td>{{labels.gridValue}} </td>
-                <td>{{labels.ltv}} </td>
-                <td>{{labels.currentPos}} </td>
-                <td>{{labels.tenure}} </td>
-                <td>{{labels.emiPaid}} </td>
-                <td>{{labels.action}} </td>
+                <td>{{labels?.sNO}} </td>
+                <td>{{labels?.type}} </td>
+                <td>{{labels?.loanNo}}</td>
+                <td>{{labels?.assets}}</td>
+                <td>{{labels?.yom}} </td>
+                <td>{{labels?.gridValue}} </td>
+                <td>{{labels?.ltv}} </td>
+                <td>{{labels?.currentPos}} </td>
+                <td>{{labels?.tenure}} </td>
+                <td>{{labels?.emiPaid}} </td>
+                <td>{{labels?.action}} </td>
 
               </tr>
             </thead>
@@ -27,7 +27,7 @@
                 <td>
                   <select class="input_value height_alter" name="loanType" formControlName="loanType">
                     <!-- <option disabled>--Select One--</option> -->
-                    <option value="{{item.key}}" *ngFor= " let item of lovData['loanType-Exposure']">{{item.value}}</option>
+                    <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
                     <!-- <option value="liveloan">Proposed</option> -->
                   </select>
                 </td>
@@ -110,7 +110,7 @@
                 <td>{{i+1}}</td>
                 <td>
                   <select class="input_value height_alter" name="loanType" formControlName="loanType">
-                    <option value="{{item.key}}" *ngFor= " let item of lovData['loanType-Exposure']">{{item.value}}</option>
+                    <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
                     <!-- <option disabled>--Select One--</option>
                     <option value="liveloan">Live loan</option>
                     <option value="liveloan">Proposed</option> -->

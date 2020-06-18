@@ -60,14 +60,10 @@ export class ExposureDetailsComponent implements OnInit {
     });
     this.commonservice.getLovData().subscribe((res: any) => {
       console.log(res.LOVS);
-      this.lovData = res.LOVS;
+      this.lovData = res.LOVS['loanType-Exposure'];
+      console.log(this.lovData,' live proposed response');
     });
-    console.log(this.route);
-    console.log(this.activatedRoute, ' activated route');
-    // this.leadId = (await this.getLeadId()) as number;
-    console.log(this.leadId, 'leadId');
     this.userId = localStorage.getItem('userId');
-    console.log(this.userId);
     this.getExposure();
 
   }
@@ -233,33 +229,33 @@ onSubmit() {
     for (let i = 0; i <  this.exposureLiveLoan.value.proposedTable.length; i++ ) {
       arrayData.push(this.exposureLiveLoan.value.proposedTable[i]);
      }
-
-    //  const data = {
-    //   ...this.exposureLiveLoan.value.loanTable,
-    //     ...this.exposureLiveLoan.value.proposedLoan
-    //  };
-    console.log(arrayData, 'final data');
     const body = {
        leadId: this.leadId,
        userId: this.userId,
        exposures : arrayData
     };
+    if (this.exposureLiveLoan.invalid) {
+    return;
+    }
     this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
       console.log(res, ' response in exposure');
-      if(res["Error"] == 0){
-        this.isAlert = true;
-        setTimeout(() => {
-          this.isAlert = true;
-        }, 4000);
+      if (res.ProcessVariables.error.code === '0') {
+        const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
+        const proposedControl = this.exposureLiveLoan.controls.proposedTable as FormArray;
+        liveloanControl.controls = [];
+        proposedControl.controls = [];
+        this.liveloanArray = [];
+        this.proposedArray = [];
+        this.getExposure();
       }
 
     });
   }
 
-  onBack(){
+  onBack() {
   this.location.back();
   }
-  onNext(){
-    this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`)
+  onNext() {
+    this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`);
   }
 }
