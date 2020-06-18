@@ -38,6 +38,7 @@ export class IdentityDetailsComponent implements OnInit {
   corporateProspectDetails: CorporateProspectDetails;
   isIndividual = true;
   identityForm: FormGroup;
+  isDirty : boolean;
 
   panPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
@@ -152,7 +153,7 @@ export class IdentityDetailsComponent implements OnInit {
   addIndividualFormControls() {
     const controls = new FormGroup({
       aadhar: new FormControl(null),
-      panType: new FormControl(''),
+      panType: new FormControl('', Validators.required),
       pan: new FormControl(null),
       passportNumber: new FormControl(null),
       passportIssueDate: new FormControl(null),
@@ -293,6 +294,10 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isDirty= true;
+    if(this.identityForm.invalid){
+       return
+    }
     if (this.isIndividual) {
       this.storeIndividualValueInService();
       this.applicantDataService.setCorporateProspectDetails(null);

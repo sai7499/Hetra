@@ -1,13 +1,13 @@
 <div class="content">
   <form
     class="multisteps-form__form"
-    style="height: 400px;"
+    
     [formGroup]="basicForm"
   >
     <div
       class="multisteps-form__panel js-active"
       data-animation="scaleIn"
-      id="scroll_starts_here"
+      id="form-class"
     >
       <!-- <h4 class="title">Basic Data</h4> -->
       <!-- <div class="btn-sec clear-both row">
@@ -66,45 +66,69 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="name">{{ labels?.firstName }}</label>
-              <input
+              <!-- <input
                 formControlName="name1"
                 type="text"
                 class="form-control"
                 id="name"
-                readonly=""
-              />
+                
+              /> -->
+              <app-custom-input
+                  formControlName="name1"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'First Name is required'"
+                  [isDirty]="isDirty"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="name">{{ labels?.middleName }}</label>
-              <input
+              <!-- <input
                 formControlName="name2"
                 type="text"
                 class="form-control"
                 id="name"
-                readonly=""
-              />
+                
+              /> -->
+              <app-custom-input
+                  formControlName="name2"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="name">{{ labels?.lastName }}</label>
-              <input
+              <!-- <input
                 formControlName="name3"
                 type="text"
                 class="form-control"
                 id="name"
-                readonly=""
-              />
+                
+              /> -->
+              <app-custom-input
+                  formControlName="name3"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="mobile_number">{{ labels?.mobileNumber }}</label>
-              <input
+              <!-- <input
                 formControlName="mobilePhone"
                 type="text"
                 class="form-control"
                 id="mobile_number"
                 name="mobile_number"
                 value="8974563210"
-                readonly=""
-              />
+                
+              /> -->
+              <app-custom-input
+                  formControlName="mobilePhone"
+                  [patternCheck]="mobilePattern"
+                  [isRequired]="'Mobile Number is required'"
+                 [maxLength]='mobileLenght10'
+                 [isDirty]="isDirty"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="date_of_birth">{{ labels?.dateOfBirth }}</label>
@@ -113,19 +137,26 @@
                 id="date_of_birth"
                 name="date_of_birth"
               >
-                <span class="input-group-btn">
+                <!-- <span class="input-group-btn">
                   <button class="btn btn-default">
                     <i class="fa fa-calendar" id="datepicker"></i>
                   </button>
-                </span>
-                <input
+                </span> -->
+                <!-- <input
                   formControlName="dob"
                   type="text"
                   class="form-control"
                   id="datepicker"
                   value="27-05-1974"
                   readonly=""
-                />
+                /> -->
+                <kendo-datepicker class="form-control" 
+                formControlName="dob" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date of birth"
+                [activeView]="'decade'"
+                (valueChange)="ageCalculation($event)"
+                ></kendo-datepicker>
               </div>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -133,7 +164,7 @@
                         <input formControlName="applicantType" type="text" class="form-control" id="applicant_type" name="applicant_type">
                     </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3 senior-citizen">
-              <label for="senior_citizen">{{ labels?.seniorCitizen }}</label>
+              <!-- <label for="senior_citizen">{{ labels?.seniorCitizen }}</label> -->
               <!-- <select class="form-control" id="senior_citizen" name="senior_citizen">
                                     <option>Yes</option>
                                     <option>No</option>
@@ -142,61 +173,99 @@
                 formControlName="isSeniorCitizen"
                 [values]=""
               ></app-vf-custom-select> -->
-              <input type="checkbox" formControlName="isSeniorCitizen" />
+              <div  class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+                <input type="checkbox" formControlName="isSeniorCitizen"  class="senior_minor"
+              (click)="onCheckSenior($event)" disabled [checked]="checkingSenior" />
+              <span class="is_senior">Is senior Citizen?</span>
+              </div>
+              
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="guardian_name">{{
                 labels?.ifMinorIsYesGuardianName
               }}</label>
-              <input
+              <!-- <input
                 formControlName="minorGuardianName"
                 type="text"
                 class="form-control"
                 id="guardian_name"
                 name="guardian_name"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="minorGuardianName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'Gaurdian Name is Mandatory'"
+                  [isDirty]="isDirty"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="existing_customer">{{
                 labels?.ifGuardianIsAnExistingCustomer
               }}</label>
-              <input
+              <!-- <input
                 formControlName="minorGuardianUcic"
                 type="text"
                 class="form-control"
                 id="existing_customer"
                 name="existing_customer"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="minorGuardianUcic"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="father_name">{{ labels?.fatherName }}</label>
-              <input
+              <!-- <input
                 formControlName="fatherName"
                 type="text"
                 class="form-control"
                 id="father_name"
                 name="father_name"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="fatherName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+                  [isDirty]="isDirty"
+                  [isRequired]="'father Name is Required'"
+                  
+            
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="spouse_name">{{ labels?.spouseName }}</label>
-              <input
+              <!-- <input
                 formControlName="spouseName"
                 type="text"
                 class="form-control"
                 id="spouse_name"
                 name="spouse_name"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="spouseName"
+                  [patternCheck]="namePattern"
+                  [maxLength]="nameLength30"
+        
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="maiden_name">{{ labels?.mothersMaidenName }}</label>
-              <input
+              <!-- <input
                 formControlName="motherMaidenName"
                 type="text"
                 class="form-control"
                 id="maiden_name"
                 name="maiden_name"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="motherMaidenName"
+              [patternCheck]="namePattern"
+              [maxLength]="nameLength30"
+              [isDirty]="isDirty"
+              
+            ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="occupation">{{ labels?.occupation }}</label>
@@ -234,26 +303,36 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="email_id">{{ labels?.emailID }}</label>
 
-              <input
+              <!-- <input
                 formControlName="emailId"
                 type="text"
                 class="form-control"
                 id="email_Id"
                 name="email_Id"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="emailId"
+                  [patternCheck]="emailPattern"
+                  
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="alternate_email_id">{{
                 labels?.alternateEmailID
               }}</label>
 
-              <input
+              <!-- <input
                 formControlName="alternateEmailId"
                 type="text"
                 class="form-control"
                 id="altrEmail_Id"
                 name="altrEmail_Id"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="alternateEmailId"
+                  [patternCheck]="emailPattern"
+
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="alternate_email_id">{{
@@ -311,27 +390,38 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="office_name">{{ labels?.officeName }}</label>
-              <input
+              <!-- <input
                 formControlName="employerName"
                 type="text"
                 class="form-control"
                 name="office_name"
                 id="office_name"
                 required="required"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="employerName"
+              [patternCheck]="namePattern"
+              [maxLength]="nameLength30"
+              
+              
+            ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="yr_curr_employment">{{
                 labels?.noOfyearsInCurrEmployment
               }}</label>
-              <input
+              <!-- <input
                 formControlName="currentEmpYears"
                 type="text"
                 class="form-control"
                 name="yr_curr_employment"
                 id="yr_curr_employment"
                 required="required"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="currentEmpYears"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="employee_code">{{ labels?.employeeCode }}</label>
@@ -463,34 +553,50 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="channel">{{ labels?.company1 }}</label>
-              <input
+              <!-- <input
                 formControlName="name1"
                 type="text"
                 class="form-control"
                 id="amount"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="name1"
+                  [isDirty]="isDirty"
+                  [maxLength]="nameLength30"
+                  [isRequired]="'Company Name is required'"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing type">{{ labels?.company2 }}</label>
-              <input
+              <!-- <input
                 formControlName="name2"
                 type="text"
                 class="form-control"
                 id="amount"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="name2"
+              [maxLength]="nameLength30"
+             
+            ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sourcing code">{{ labels?.company3 }}</label>
-              <input
+              <!-- <input
                 formControlName="name3"
                 type="text"
                 class="form-control"
                 id="amount"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="name3"
+                  [maxLength]="nameLength30"
+                 
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="mobile_number">{{ labels?.mobileNumber }}</label>
-              <input
+              <!-- <input
                 formControlName="companyPhoneNumber"
                 type="text"
                 class="form-control"
@@ -498,7 +604,14 @@
                 name="mobile_number"
                 value="8974563210"
                 readonly=""
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="companyPhoneNumber"
+                  [patternCheck]="mobilePattern"
+                  [isRequired]="'Mobile Number is required'"
+                 [maxLength]='mobileLenght10'
+                 [isDirty]="isDirty"
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="entity">{{ labels?.dateOfIncorporation }}</label>
@@ -508,13 +621,19 @@
                     <i class="fa fa-calendar"></i>
                   </button>
                 </span>
-                <input
+                <!-- <input
                   formControlName="dateOfIncorporation"
                   type="text"
                   class="form-control"
                   id="date"
                   disabled=""
-                />
+                /> -->
+                <kendo-datepicker class="form-control" 
+                formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date"
+                [activeView]="'decade'"
+                ></kendo-datepicker>
               </div>
             </div>
 
@@ -562,12 +681,16 @@
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">{{ labels?.numberOfDirections }}</label>
-              <input
+              <!-- <input
                 formControlName="numberOfDirectors"
                 type="text"
                 class="form-control"
                 id="amount"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="numberOfDirectors"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
           </div>
           <!-- <div class="row">
@@ -595,36 +718,54 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="name_of_director">{{ labels?.nameofDirector }}</label>
-              <input
+              <!-- <input
                 formControlName="directorName"
                 type="text"
                 class="form-control"
                 name="name_of_director"
                 id="name_of_director"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="directorName"
+              [patternCheck]="namePattern"
+              [maxLength]="nameLength30"
+              
+              
+            ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="din">{{
                 labels?.directorIdentificationNumber
               }}</label>
-              <input
+              <!-- <input
                 formControlName="directorIdentificationNumber"
                 type="text"
                 class="form-control"
                 name="din"
                 id="din"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="directorIdentificationNumber"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="contact_person">{{ labels?.contactPerson }}</label>
-              <input
+              <!-- <input
                 formControlName="contactPerson"
                 type="text"
                 class="form-control"
                 name="contact_person"
                 id="contact_person"
                 required="required"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="contactPerson"
+              [patternCheck]="namePattern"
+              [maxLength]="nameLength30"
+              
+              
+            ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="contact_person_designation">{{
@@ -642,26 +783,40 @@
               <label for="contact_person_mobile_number">{{
                 labels?.contactPersonMobileNumber
               }}</label>
-              <input
+              <!-- <input
                 formControlName="contactPersonMobile"
                 type="text"
                 class="form-control"
                 name="contact_person_mobile_number"
                 id="contact_person_mobile_number"
                 required="required"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="contactPersonMobile"
+                  [patternCheck]="mobilePattern"
+                  
+                 [maxLength]='mobileLenght10'
+                 
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="rating_issuer_name">{{
                 labels?.ratingIssuerName
               }}</label>
-              <input
+              <!-- <input
                 formControlName="ratingIssuerName"
                 type="text"
                 class="form-control"
                 name="rating_issuer_name"
                 id="rating_issuer_name"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="ratingIssuerName"
+              [patternCheck]="namePattern"
+              [maxLength]="nameLength30"
+              
+              
+            ></app-custom-input>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="external_rating_assigned">{{labels?.ratingIssuerName}}</label>
@@ -689,14 +844,20 @@
                     <i class="fa fa-calendar"></i>
                   </button>
                 </span>
-                <input
+                <!-- <input
                   formControlName="externalRatingIssueDate"
                   type="text"
                   class="form-control"
                   id="extnl_rating_expiry_date"
                   name="extnl_rating_expiry_date"
                   disabled=""
-                />
+                /> -->
+                <kendo-datepicker class="form-control" 
+                formControlName="externalRatingIssueDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date"
+                [activeView]="'decade'"
+                ></kendo-datepicker>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -709,14 +870,21 @@
                     <i class="fa fa-calendar"></i>
                   </button>
                 </span>
-                <input
+                <!-- <input
                   formControlName="externalRatingExpiryDate"
                   type="text"
                   class="form-control"
                   id="extnl_rating_expiry_date"
                   name="extnl_rating_expiry_date"
                   disabled=""
-                />
+                /> -->
+                <kendo-datepicker class="form-control" 
+                formControlName="externalRatingExpiryDate" [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                 placeholder="Date"
+                [activeView]="'decade'"
+               
+                ></kendo-datepicker>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -747,14 +915,18 @@
               <label for="credit_risk_score">{{
                 labels?.creditRiskScore
               }}</label>
-              <input
+              <!-- <input
                 formControlName="creditRiskScore"
                 type="text"
                 class="form-control"
                 name="credit_risk_score"
                 id="credit_risk_score"
                 required="required"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="creditRiskScore"
+                  [patternCheck]="numberPattern"
+                  ></app-custom-input>
             </div>
           </div>
         </div>

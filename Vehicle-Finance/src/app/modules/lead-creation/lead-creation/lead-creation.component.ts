@@ -62,7 +62,7 @@ export class LeadCreationComponent implements OnInit {
   isNgAutoCompleteDealer: any;
   isMobile: any;
   isSourchingCode: boolean;
-
+  isDirty: boolean;
 
 
   obj = {};
@@ -150,6 +150,7 @@ export class LeadCreationComponent implements OnInit {
   initForm() {
     this.createLeadForm = new FormGroup({
       bizDivision: new FormControl('', Validators.required),
+      productCategory: new FormControl('', Validators.required),
       product: new FormControl('', Validators.required),
       fundingProgram: new FormControl('', Validators.required),
       priority: new FormControl(''),
@@ -299,17 +300,15 @@ export class LeadCreationComponent implements OnInit {
         this.isSourchingCode = false;
         this.sourcingCodePlaceholder = 'Sourcing Code';
       }
-      return;
+      this.sourchingTypeChange(sourcingTypeData);
+    } else {
+      this.sourcingCodePlaceholder = 'Sourcing Code';
     }
-    if (this.sourchingTypeValues.length === 0) {
-      this.sourchingTypeValues.push({ key: 'notApplicable', value: 'Not Applicable' });
-      const sourcingTypeData = this.sourchingTypeValues[0].key;
-      this.createLeadForm.patchValue({ sourcingType: sourcingTypeData });
-    }
+
   }
 
   sourchingTypeChange(event) {
-    const sourchingTypeId = event.target.value;
+    const sourchingTypeId = event.target ? event.target.value : event;
     this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
     this.placeholder = this.utilityService.getValueFromJSON(
       this.socuringTypeData,
@@ -362,10 +361,6 @@ export class LeadCreationComponent implements OnInit {
     });
   }
 
-  selectSourcingEvent(event) {
-    this.isNgAutoCompleteSourcing = event ? true : false;
-  }
-
   selectDealerEvent(event) {
     this.isNgAutoCompleteDealer = event ? true : false;
     const rcData = event;
@@ -375,7 +370,6 @@ export class LeadCreationComponent implements OnInit {
   }
 
   onFocused($event) { }
-  selectEvent($event) { }
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;
@@ -387,9 +381,8 @@ export class LeadCreationComponent implements OnInit {
       }
     } else {
       this.namePattern = {
-        // rule: "^[0-9A-Za-z, _&*#' /\\-@]{ 0, 49 } $",
-        rule: '',
-        msg: 'org'
+        rule: "^[0-9A-Za-z, _&*#' /\\-@]{ 0, 49 } $",
+        msg: 'Invalid organization name'
       }
     }
   }
@@ -415,6 +408,7 @@ export class LeadCreationComponent implements OnInit {
     this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
     this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
+    this.isDirty = true;
 
     if (this.createLeadForm.valid === true
       && this.isNgAutoCompleteDealer !== ''

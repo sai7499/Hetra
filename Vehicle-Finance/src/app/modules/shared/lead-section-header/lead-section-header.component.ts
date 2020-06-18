@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LabelsService } from "src/app/services/labels.service";
-import { Routes, RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
