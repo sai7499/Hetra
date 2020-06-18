@@ -57,7 +57,7 @@
                     formControlName="name1"
                     [patternCheck]="namePattern"
                     [isRequired]="'Name is required'"
-                    [maxlength]="maxlength30"
+                    [maxLength]="maxlength30"
                     [isDirty]="isDirty"
                   ></app-custom-input>
                 </div>
@@ -75,7 +75,7 @@
                   <app-custom-input
                     formControlName="name2"
                     [patternCheck]="namePattern"
-                    [maxlength]="maxlength30"
+                    [maxLength]="maxlength30"
                   ></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -92,7 +92,7 @@
                   <app-custom-input
                     formControlName="name3"
                     [patternCheck]="namePattern"
-                    [maxlength]="maxlength30"
+                    [maxLength]="maxlength30"
                   ></app-custom-input>
                 </div>
               </div>
@@ -126,6 +126,20 @@
                       placeholder="Date of birth"
                     >
                     </kendo-datepicker>
+
+                    <div
+                      class="ShowError"
+                      *ngIf="
+                        coApplicantForm.get('dedupe').get('dob').touched ||
+                        isDirty
+                      "
+                    >
+                      <div
+                        *ngIf="coApplicantForm.get('dedupe').get('dob').invalid"
+                      >
+                        select date
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row" *ngIf="applicantType == 'NONINDIVENTTYP'">
@@ -159,7 +173,7 @@
                     formControlName="aadhar"
                     [maxLength]="maxlength12"
                     [patternCheck]="adharNumberPattern"
-                    [isRequired]="'Aadhar number is required'"
+                    [isRequired]="'Aadhaar number is required'"
                     [isDirty]="isDirty"
                   ></app-custom-input>
                 </div>
@@ -206,7 +220,7 @@
                   <label for="mobile">{{
                     labels?.drivingLicenceIssueDate
                   }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -221,13 +235,30 @@
                       [(ngModel)]="drivingLicenseIssueDate"
                       (ngModelChange)="dateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="drivingLicenseIssueDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="mandatory['drivingLicenseIssueDate']"
+                    [(ngModel)]="drivingLicenseIssueDate"
+                    (ngModelChange)="dateSelected()"
+                    placeholder="Driving License Issue Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       mandatory['drivingLicenseIssueDate'] &&
-                      (coApplicantForm.get('drivingLicenseIssueDate').dirty ||
-                        coApplicantForm.get('drivingLicenseIssueDate').touched)
+                      (isDirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseIssueDate').dirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseIssueDate').touched)
                     "
                   >
                     Select Date
@@ -237,7 +268,7 @@
                   <label for="mobile">{{
                     labels?.drivingLicenceExpiryDate
                   }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -252,13 +283,30 @@
                       [(ngModel)]="drivingLicenseExpiryDate"
                       (ngModelChange)="expiryDateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="drivingLicenseExpiryDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="mandatory['drivingLicenseExpiryDate']"
+                    [(ngModel)]="drivingLicenseExpiryDate"
+                    (ngModelChange)="expiryDateSelected()"
+                    placeholder="Driving License Expiry Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       mandatory['drivingLicenseExpiryDate'] &&
-                      (coApplicantForm.get('drivingLicenseExpiryDate').dirty ||
-                        coApplicantForm.get('drivingLicenseExpiryDate').touched)
+                      (isDirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseExpiryDate').dirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseExpiryDate').touched)
                     "
                   >
                     Select date
@@ -279,7 +327,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -293,13 +341,28 @@
                       [(ngModel)]="passportIssueDate"
                       (ngModelChange)="passportDateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="passportIssueDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="passportMandatory['passportIssueDate']"
+                    [(ngModel)]="passportIssueDate"
+                    (ngModelChange)="passportDateSelected()"
+                    placeholder="Passport Issue Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       passportMandatory['passportIssueDate'] &&
-                      (coApplicantForm.get('passportIssueDate').dirty ||
-                        coApplicantForm.get('passportIssueDate').touched)
+                      (isDirty ||
+                        coApplicantForm.get('dedupe').get('passportIssueDate')
+                          .dirty ||
+                        coApplicantForm.get('dedupe').get('passportIssueDate')
+                          .touched)
                     "
                   >
                     Select Date
@@ -308,7 +371,7 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
                         <i class="fa fa-calendar"></i>
@@ -322,13 +385,28 @@
                       [(ngModel)]="passportExpiryDate"
                       (ngModelChange)="passportExpiryDateSelected()"
                     />
-                  </div>
+                  </div> -->
+                  <kendo-datepicker
+                    class="form-control mandatory"
+                    formControlName="passportExpiryDate"
+                    [format]="'dd/MM/yyyy'"
+                    [max]="toDayDate"
+                    [activeView]="'decade'"
+                    [required]="passportMandatory['passportExpiryDate']"
+                    [(ngModel)]="passportExpiryDate"
+                    (ngModelChange)="passportExpiryDateSelected()"
+                    placeholder="Passport Expiry Date"
+                  >
+                  </kendo-datepicker>
                   <div
                     class="ShowError"
                     *ngIf="
                       passportMandatory['passportExpiryDate'] &&
-                      (coApplicantForm.get('passportExpiryDate').dirty ||
-                        coApplicantForm.get('passportExpiryDate').touched)
+                      (isDirty ||
+                        coApplicantForm.get('dedupe').get('passportExpiryDate')
+                          .dirty ||
+                        coApplicantForm.get('dedupe').get('passportExpiryDate')
+                          .touched)
                     "
                   >
                     Select Date
@@ -356,6 +434,15 @@
                   >
                     <a class="back_color">Check Dedupe</a>
                   </button>
+                  &nbsp;&nbsp;
+                  <button
+                    *ngIf="!isValueChanged"
+                    class="btn btn-primary mar-right8"
+                    type="button"
+                    (click)="navigateToApplicantList()"
+                  >
+                    <a class="back_color">Back</a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -371,7 +458,8 @@
                 *ngIf="applicantType == 'INDIVENTTYP'"
               >
                 <h3 class="title">Permanent Address</h3>
-                <div class="row" formGroupName="permentAddress">
+                <div class="row container" formGroupName="permentAddress">
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="address1">{{ labels?.addressline1 }}</label>
                     <app-custom-input
@@ -395,6 +483,8 @@
                       [maxLength]="maxlength40"
                     ></app-custom-input>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="pincode">{{ labels?.code }}</label>
                     <app-custom-input
@@ -427,6 +517,8 @@
                     >
                     </app-vf-custom-select>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="permanent_address_state">{{
                       labels?.state
@@ -457,6 +549,7 @@
                       [maxLength]="maxlength15"
                     ></app-custom-input>
                   </div>
+                  </div>
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
@@ -474,7 +567,8 @@
                     </span>
                   </div>
                 </div>
-                <div class="row" formGroupName="communicationAddress">
+                <div class="row container" formGroupName="communicationAddress">
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="line1">{{ labels?.addressline1 }}</label>
                     <app-custom-input
@@ -498,6 +592,8 @@
                       [maxLength]="maxlength40"
                     ></app-custom-input>
                   </div>
+                  </div>
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_pincode">{{ labels?.code }}</label>
                     <app-custom-input
@@ -528,6 +624,8 @@
                     >
                     </app-vf-custom-select>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state">{{
                       labels?.state
@@ -558,6 +656,7 @@
                       [patternCheck]="landlLinePattern"
                       [maxLength]="maxlength15"
                     ></app-custom-input>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -726,6 +825,6 @@
 <!-- Footer -->
 <!-- <footer class="footer pf">
   <div class="container">
-    <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    <p>©️ Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>
 </footer> -->

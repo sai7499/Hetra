@@ -123,7 +123,7 @@ export class BasicDetailsComponent implements OnInit {
       details: new FormArray([]),
     });
     
-    //this.addNonIndividualFormControls();
+    this.addNonIndividualFormControls();
     this.getLovData();
     const formArray=this.basicForm.get('details') as FormArray;
    const details = formArray.at(0)
@@ -301,7 +301,7 @@ export class BasicDetailsComponent implements OnInit {
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
-      mobilePhone: this.mobilePhone || '',
+      mobilePhone: this.mobilePhone,
       dob: this.utilityService.getDateFromString(aboutIndivProspectDetails.dob) || new Date() ,
       minorGuardianName: aboutIndivProspectDetails.minorGuardianName || '',
       fatherName: aboutIndivProspectDetails.fatherName || '',
@@ -432,7 +432,7 @@ export class BasicDetailsComponent implements OnInit {
   async onSave() {
     this.isDirty= true
     if(this.basicForm.invalid){
-      
+      console.log('if')
       return 
     }
     console.log('basicForm')
@@ -503,7 +503,7 @@ export class BasicDetailsComponent implements OnInit {
 
     prospectDetails.emailId = formValue.emailId;
     prospectDetails.alternateEmailId = formValue.alternateEmailId;
-    prospectDetails.mobilePhone = formValue.mobilePhone;
+    prospectDetails.mobilePhone =`91${formValue.mobilePhone}` ;
     prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
     prospectDetails.minorGuardianName = formValue.minorGuardianName;
     prospectDetails.fatherName = formValue.fatherName;
