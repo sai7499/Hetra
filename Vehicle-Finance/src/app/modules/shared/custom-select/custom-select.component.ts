@@ -36,12 +36,12 @@ export class CustomSelectComponent
   @Input() isDisabled: boolean;
   @Input('selectedOption') val: any;
   @Input() values: any[];
+  @Input() isRequired: string;
 
   @Output() valueChange = new EventEmitter();
 
-  @Input() isRequired = '';
-
   inputError: boolean;
+  isFirst: boolean = true;
 
   onChange: any = () => {};
   onTouch: any = () => {};
@@ -99,6 +99,16 @@ export class CustomSelectComponent
 
   writeValue(val) {
     this.val = val;
+    if (!val && this.isFirst) {
+      this.isFirst = false;
+      return;
+    }
+    if (!this.val) {
+      this.checkValidation();
+      this.isFirst = false;
+    } else {
+      this.inputError = false;
+    }
   }
 
   registerOnChange(fn) {

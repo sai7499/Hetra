@@ -181,10 +181,10 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray
     const details = formArray.at(0)
     this.checkingMinor = this.initialAge < 18
-    details.get('isMinor').setValue({value: this.checkingMinor,disabled: false}) 
+    details.get('isMinor').setValue(this.checkingMinor) 
     
     this.checkingSenior = this.initialAge > 70 
-    details.get('isSeniorCitizen').setValue({value : this.checkingSenior, disabled : false})
+    details.get('isSeniorCitizen').setValue(this.checkingSenior)
 
 
     this.isMinor = this.checkingMinor == true ? '1' : '0'
@@ -192,10 +192,6 @@ export class BasicDetailsComponent implements OnInit {
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0'
     //console.log('issenior', this.isSeniorCitizen)
     this.setGaurdianFieldMandatory()
-
-    
-
-
   }
 
   ageCalculation(event) {
@@ -282,7 +278,7 @@ export class BasicDetailsComponent implements OnInit {
 
 
       customerCategory: applicantDetails.customerCategory || '',
-      custSegment: applicantDetails.custSegment || ''
+      custSegment: applicantDetails.custSegment || '',
     });
   }
 
@@ -320,7 +316,7 @@ export class BasicDetailsComponent implements OnInit {
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson: aboutIndivProspectDetails.politicallyExposedPerson || '',
-      alternateMobileNumber: aboutIndivProspectDetails.alternateMobileNumber,
+      alternateMobileNumber: aboutIndivProspectDetails.alternateMobileNumber || '',
       minorGuardianRelation: aboutIndivProspectDetails.minorGuardianRelation || '',
 
     });
@@ -520,8 +516,8 @@ export class BasicDetailsComponent implements OnInit {
       value.applicantRelationshipWithLead;
     applicantDetails.title = value.title;
     applicantDetails.entityType = value.entity;
-    applicantDetails.customerCategory = formValue.customerCategory;
-    applicantDetails.custSegment = formValue.custSegment;
+    applicantDetails.customerCategory = formValue.customerCategory || '';
+    applicantDetails.custSegment = formValue.custSegment || '';
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
@@ -538,8 +534,8 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.preferredLanguage = formValue.preferredLanguage;
 
     prospectDetails.age = Number(this.showAge);
-    prospectDetails.gender = formValue.gender;
-    prospectDetails.minorGuardianRelation = formValue.minorGuardianRelation;
+    prospectDetails.gender = formValue.gender || '';
+    prospectDetails.minorGuardianRelation = formValue.minorGuardianRelation || '';
     prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber;
     prospectDetails.politicallyExposedPerson = formValue.politicallyExposedPerson;
     prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
