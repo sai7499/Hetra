@@ -425,18 +425,17 @@
 
                 <div
                   class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20"
+                  *ngIf="isEnableDedupe"
                 >
                   <button
                     class="btn btn-primary mar-right8"
                     type="button"
                     (click)="checkDedupe()"
-                    [disabled]="isValueChanged"
                   >
                     <a class="back_color">Check Dedupe</a>
                   </button>
                   &nbsp;&nbsp;
                   <button
-                    *ngIf="!isValueChanged"
                     class="btn btn-primary mar-right8"
                     type="button"
                     (click)="navigateToApplicantList()"
@@ -450,7 +449,7 @@
             <div
               class="multisteps-form__panel"
               data-animation="scaleIn"
-              *ngIf="isDedupeFound && isValueChanged"
+              *ngIf="!isEnableDedupe"
             >
               <div
                 id="individual_section_address"
@@ -763,7 +762,7 @@
       </div>
     </form>
   </div>
-  <div class="btn-sec clear-both" *ngIf="isDedupeFound && isValueChanged">
+  <div class="btn-sec clear-both" *ngIf="!isEnableDedupe">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right" id="clickButton">
       <button

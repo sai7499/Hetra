@@ -21,6 +21,9 @@ export class UtilityService {
   }
 
   getDateFormat(date) {
+    if (!date) {
+      return;
+    }
     const dateFormat: Date = new Date(date);
     const year = dateFormat.getFullYear();
     const month = Number(dateFormat.getMonth()) + 1;
