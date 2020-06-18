@@ -82,10 +82,13 @@
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <span class="input-group-addon"><span
+                                        <!-- <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                        <input type='date' class="form-control" formControlName="purchaseDate">
+                                        </span> -->
+                                        <kendo-datepicker width="100%" class="form-control mandatory" formControlName="purchaseDate"
+                                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
+                                        ></kendo-datepicker>
+                                        <!-- <input type='date' class="form-control" formControlName="purchaseDate"> -->
                                     </div>
                                 </div>
                             </td>

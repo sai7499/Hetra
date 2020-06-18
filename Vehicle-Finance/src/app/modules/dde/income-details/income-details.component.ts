@@ -65,16 +65,13 @@ export class IncomeDetailsComponent implements OnInit {
     this.getLov();
     this.getLeadId();
     this.userId = localStorage.getItem('userId');
-    console.log(this.userId);
     
     const data = {
       leadId: this.leadId,
     };
 
     this.applicantService.getApplicantList(data).subscribe((res: any) => {
-      console.log('applicant details ==>>',res);
       this.applicantDetails = res.ProcessVariables.applicantListForLead;
-      console.log('select api==>',this.applicantDetails);
       
     });
     this.incomeDetailsForm = this.formBuilder.group({
@@ -119,8 +116,6 @@ export class IncomeDetailsComponent implements OnInit {
     };
 
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
-      console.log('applicant details ==>>',value);
-      
       const processVariables = value.ProcessVariables;
       this.applicantDetails = processVariables.applicantListForLead;
     });
@@ -128,7 +123,7 @@ export class IncomeDetailsComponent implements OnInit {
   private getBusinessIncomeDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        applicantId: [""] ,
+        applicantId: ['',Validators.required],
         applicantType: [""],
         businessEnterpriseName: [""],
         depreciation: Number(null),
@@ -373,7 +368,6 @@ else{
 
 
 onSubmit() {
-  console.log(this.incomeDetailsForm.value)
   this.submitted = true;
 
   // stop here if form is invalid
