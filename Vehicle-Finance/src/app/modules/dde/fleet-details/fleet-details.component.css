@@ -222,3 +222,7 @@ form .form-control {
     font-style: oblique;
     font-size: 12px;
 }
+
+.input-upper {
+    text-transform: uppercase;
+}

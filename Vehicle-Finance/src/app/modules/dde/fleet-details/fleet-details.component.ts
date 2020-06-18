@@ -10,6 +10,8 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { CommentStmt } from '@angular/compiler';
+import { UtilityService } from '@services/utility.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -26,7 +28,7 @@ export class FleetDetailsComponent implements OnInit {
   fleetDetails: any = [];
   fleetLov: any = [];
   fleetArray = [];
-  submitted = false;
+  formValue: any;
 
   // relationSelected = []
   relation: any[];
@@ -40,9 +42,11 @@ export class FleetDetailsComponent implements OnInit {
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
-    public activatedRoute: ActivatedRoute,
-    public router: Router,
-    private toasterService: ToasterService) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private toasterService: ToasterService,
+    private utilityService: UtilityService,
+    private sharedService: SharedService) { }
 
 
   async ngOnInit() {
@@ -84,9 +88,9 @@ export class FleetDetailsComponent implements OnInit {
         console.log(error);
       });
 
-
-
-
+    this.sharedService.vaildateForm$.subscribe((value) => {
+      this.formValue = value;
+    })
 
   }
 
@@ -133,16 +137,16 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: new FormControl(rowData.regdNo, [Validators.required, Validators.minLength(10)]),
-        regdOwner: new FormControl(rowData.regdOwner, [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]),
+        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required, Validators.minLength(10)])),
+        regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
         relation: new FormControl(rowData.relation, [Validators.required]),
         make: new FormControl(rowData.make, [Validators.required]),
-        yom: new FormControl(rowData.yom, [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(4)]),
+        yom: new FormControl(rowData.yom, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
         financier: new FormControl(rowData.financier, [Validators.required]),
-        loanNo: new FormControl(rowData.loanNo, [Validators.required]),
-        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", [Validators.required]),
-        tenure: new FormControl(rowData.tenure, [Validators.required]),
-        paid: new FormControl(rowData.paid, [Validators.required]),
+        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
+        paid: new FormControl(rowData.paid, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
         ad: new FormControl({ value: rowData.ad, disabled: true }),
         pd: new FormControl({ value: rowData.pd, disabled: true }),
@@ -152,16 +156,16 @@ export class FleetDetailsComponent implements OnInit {
     }
     else return this.fb.group({
       // id: [],
-      regdNo: new FormControl('', [Validators.required, Validators.minLength(10)]),
-      regdOwner: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/), Validators.minLength(10)]),
+      regdNo: new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
+      regdOwner: new FormControl('', Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
       relation: new FormControl('', [Validators.required]),
       make: new FormControl('', [Validators.required]),
-      yom: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(4)]),
+      yom: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
       financier: new FormControl('', [Validators.required]),
-      loanNo: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      loanNo: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
       purchaseDate: new FormControl('', [Validators.required]),
-      tenure: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      paid: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      tenure: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(3)])),
+      paid: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
       seasoning: new FormControl({ value: '', disabled: true }),
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
@@ -327,16 +331,18 @@ export class FleetDetailsComponent implements OnInit {
 
 
   onFormSubmit() {
-    this.submitted = true;
-    if (this.fleetForm.valid) {
+
+    console.log(this.fleetForm)
+
+    if (this.fleetForm.valid === true) {
       this.fleetDetails = this.fleetForm.value.Rows
       // console.log(this.fleetDetails)
       this.saveOrUpdateFleetDetails();
 
     }
     else {
-
-      return;
+      console.log('Error', this.fleetForm)
+      this.utilityService.validateAllFormFields(this.fleetForm)
 
     }
   }

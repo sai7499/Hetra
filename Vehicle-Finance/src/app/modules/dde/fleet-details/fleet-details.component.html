@@ -36,7 +36,7 @@
                             <td>
                                 <div>
 
-                                    <input type="text" class="form-control input_value height" formControlName="regdNo" maxlength="10">
+                                    <input type="text" class="form-control input_value height input-upper" formControlName="regdNo" maxlength="10">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdNo'].touched && !itemrow.controls['regdNo'].vaild">
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdNo'].hasError('required')">
                                             registration number is needed
@@ -49,7 +49,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div><input type="text" class="form-control input_value height" formControlName="regdOwner" maxlength="10">
+                                <div><input type="text" class="form-control input_value height input-upper" formControlName="regdOwner" maxlength="15">
                                     <!-- <span *ngIf="submitted && itemrow.get('regdOwner').errors" style="color:red;" class="invalid-feedback">
                                         <span *ngIf="itemrow.get('regdOwner').errors.required"> reg owner is
                                             required</span>
@@ -59,7 +59,10 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('required')">
                                             owner name is needed
                                         </div>
-                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('minLength')">
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('pattern')">
+                                            owner name should be in chars only
+                                        </div>
+                                        <div *ngIf="itemrow.controls['yom'].hasError('regdOwner') || itemrow.controls['regdOwner'].hasError('maxlength')">
                                             Invalid owner name
                                         </div>
 
@@ -103,7 +106,7 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('required')">
                                             yom is needed
                                         </div>
-                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('minLength')">
+                                        <div *ngIf="itemrow.controls['yom'].hasError('minlength') || itemrow.controls['yom'].hasError('maxlength')">
                                             Invalid yom
                                         </div>
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('pattern')">
@@ -142,7 +145,7 @@
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].hasError('required')">
                                         loan no is needed
                                     </div>
-                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].hasError('minLength')">
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].hasError('maxLength')">
                                         Invalid loan no
                                     </div>
 
@@ -160,8 +163,12 @@
                                         <kendo-datepicker width="100%" class="form-control mandatory" formControlName="purchaseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy">
                                         </kendo-datepicker>
                                         <!-- <input type='date' class="form-control" formControlName="purchaseDate"> -->
+
                                     </div>
                                 </div>
+
+
+
                             </td>
                             <td>
                                 <div><input type="number" class="form-control input_value height" formControlName="tenure" maxlength="4">
