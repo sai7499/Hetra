@@ -18,6 +18,8 @@ import { Constant } from '@assets/constants/constant';
 import { map } from 'rxjs/operators';
 import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
+import { ToasterService} from '@services/toaster.service';
+
 
 @Component({
   selector: 'app-address-details',
@@ -112,7 +114,8 @@ export class AddressDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private toasterService : ToasterService
   ) {}
 
   onBack() {
@@ -284,11 +287,11 @@ export class AddressDetailsComponent implements OnInit {
       addressLineOne: new FormControl(null),
       addressLineTwo: new FormControl(null),
       addressLineThree: new FormControl(null),
-      pincode: new FormControl(null),
-      city: new FormControl(''),
-      district: new FormControl(''),
-      state: new FormControl(''),
-      country: new FormControl(''),
+      pincode: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      district: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(null),
     };
   }
@@ -826,11 +829,15 @@ export class AddressDetailsComponent implements OnInit {
           //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
           //   this.applicantId,
           // ]);
-          alert('saved successfully');
+          this.toasterService.showSuccess(
+            'Applicant Address Details Saved Successfully',
+            ''
+          );
         } else {
-          this.router.navigate([
-            `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,
-          ]);
+          this.toasterService.showSuccess(
+            'Applicant Address Details Saved Successfully',
+            ''
+          );
         }
       });
     });
@@ -946,3 +953,14 @@ export class AddressDetailsComponent implements OnInit {
     );
   }
 }
+
+
+// onSubmit() {
+//   this.isSubmitted = true;
+//   if (!this.registrationForm.valid) {
+//     return false;
+//   } else {
+//     alert(JSON.stringify(this.registrationForm.value))
+//   }
+
+// }
