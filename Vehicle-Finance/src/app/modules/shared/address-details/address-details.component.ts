@@ -248,7 +248,7 @@ export class AddressDetailsComponent implements OnInit {
       entity: new FormControl(''),
       details: new FormArray([]),
     });
-    //this.addIndividualFormControls();
+    this.addIndividualFormControls();
   }
 
   getLabels() {
