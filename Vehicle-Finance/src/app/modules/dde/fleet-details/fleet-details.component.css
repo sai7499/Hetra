@@ -177,7 +177,7 @@ i.fa.fa-minus.delete-row {
 
 form .form-control {
     box-shadow: none;
-    padding: 6px 10px;
+    padding: 1px 4px;
 }
 
 
@@ -215,4 +215,14 @@ form .form-control {
 
 .cst_btm_btns {
     margin-bottom: 55px;
+}
+
+.cus-mandatory-field {
+    color: red;
+    font-style: oblique;
+    font-size: 12px;
+}
+
+.input-upper {
+    text-transform: uppercase;
 }
