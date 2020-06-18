@@ -109,7 +109,7 @@
                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
                         <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanStartDate"
-                        [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy"
+                        [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [max]="toDayDate" 
                         (valueChange)="loanStartDate($event)"></kendo-datepicker>
                         <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
                             <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>

@@ -29,6 +29,7 @@ export class TrackVehicleComponent implements OnInit {
   fleetId: number;
   fleetRtrLov: any = {};
   totalDelayDays: number;
+  public toDayDate: Date = new Date();
   public trackVehicleForm: FormGroup;
   leadId: number;
   constructor(
