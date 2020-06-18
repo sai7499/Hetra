@@ -278,22 +278,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isPanDisabled = this.panValue === '1PANTYPE';
     const dedupe = this.coApplicantForm.get('dedupe');
     if (!this.isPanDisabled) {
-      dedupe.get('pan').disable();
+      dedupe.patchValue({
+        pan: '',
+      });
+      setTimeout(() => {
+        dedupe.get('pan').disable();
+      });
       this.panPattern = {};
       // this.panRequired = null;
       this.panRequired = null;
     } else {
+      dedupe.patchValue({
+        pan: '',
+      });
       dedupe.get('pan').enable();
       this.panPattern = this.panFormPattern;
       this.panRequired = 'Pan is required';
     }
-
-    setTimeout(() => {
-      // this.coApplicantForm.patchValue({
-      //   pan: '',
-      // });
-      this.coApplicantForm.get('dedupe').get('pan').setValue(null);
-    });
   }
 
   onDrvingLisenseChange(formCtrl) {
@@ -671,6 +672,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         dateOfIncorporation: details.dateOfIncorporation || '',
         identity_type: applicantValue.identity_type || '',
         panType: details.panType || '',
+        pan: details.pan ||  '',
         aadhar: details.aadhar || '',
         voterIdNumber: details.voterIdNumber,
         drivingLicenseNumber: details.drivingLicenseNumber || '',
@@ -813,19 +815,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.indivIdentityInfoDetails = {
       panType: dedupe.panType,
-      pan: String(dedupe.pan).toUpperCase(),
+      pan: String(dedupe.pan || '').toUpperCase(),
       aadhar: dedupe.aadhar,
-      passportNumber: String(dedupe.passportNumber).toUpperCase(),
+      passportNumber: String(dedupe.passportNumber || '').toUpperCase(),
       passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
       passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
-      drivingLicenseNumber: String(dedupe.drivingLicenseNumber).toUpperCase(),
+      drivingLicenseNumber: String(dedupe.drivingLicenseNumber || '').toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
         dedupe.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
         dedupe.drivingLicenseExpiryDate
       ),
-      voterIdNumber: dedupe.voterIdNumber,
+      voterIdNumber: String(dedupe.voterIdNumber || '').toUpperCase(),
     };
 
     this.addressDetails = [];
@@ -853,18 +855,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = coApplicantModel.dedupe;
     this.corporateProspectDetails = {
       dateOfIncorporation: this.formatGivenDate(dedupe.dateOfIncorporation),
-      panNumber: dedupe.pan,
-      passportNumber: String(dedupe.passportNumber).toUpperCase(),
+      panNumber: String(dedupe.pan || '').toUpperCase(),
+      passportNumber: String(dedupe.passportNumber || '').toUpperCase(),
       passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
       passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
-      drivingLicenseNumber: String(dedupe.drivingLicenseNumber).toUpperCase(),
+      drivingLicenseNumber: String(dedupe.drivingLicenseNumber || '').toUpperCase(),
       drivingLicenseIssueDate: this.formatGivenDate(
         dedupe.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.formatGivenDate(
         dedupe.drivingLicenseExpiryDate
       ),
-      voterIdNumber: String(dedupe.voterIdNumber).toUpperCase(),
+      voterIdNumber: String(dedupe.voterIdNumber || '').toUpperCase(),
       companyPhoneNumber: dedupe.mobilePhone,
       panType: dedupe.panType,
     };
@@ -1024,19 +1026,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanApplicationRelation: applicantDetails.loanApplicationRelation,
       aadhar: applicantDetails.aadhar,
       dob: applicantDetails.dob,
-      pan: String(applicantDetails.pan).toUpperCase(),
+      pan: String(applicantDetails.pan || '').toUpperCase(),
       panType: applicantDetails.panType,
-      voterIdNumber: String(applicantDetails.voterIdNumber).toUpperCase(),
+      voterIdNumber: String(applicantDetails.voterIdNumber || '').toUpperCase(),
       drivingLicenseNumber: String(
-        applicantDetails.drivingLicenseNumber
+        applicantDetails.drivingLicenseNumber || ''
       ).toUpperCase(),
       drivingLicenseIssueDate: this.utilityService.getDateFormat(
         applicantDetails.drivingLicenseIssueDate
       ),
       drivingLicenseExpiryDate: this.utilityService.getDateFormat(
-        applicantDetails.drivingLicenseExpiryDate
+        applicantDetails.drivingLicenseExpiryDate 
       ),
-      passportNumber: String(applicantDetails.passportNumber).toUpperCase(),
+      passportNumber: String(applicantDetails.passportNumber || '').toUpperCase(),
       passportIssueDate: this.utilityService.getDateFormat(
         applicantDetails.passportIssueDate
       ),
