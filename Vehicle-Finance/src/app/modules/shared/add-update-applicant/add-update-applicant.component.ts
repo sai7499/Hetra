@@ -220,7 +220,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private location: Location,
     private salesDedupeService: SalesDedupeService,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.initForm();

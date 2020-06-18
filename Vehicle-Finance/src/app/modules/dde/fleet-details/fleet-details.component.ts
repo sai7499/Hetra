@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -8,6 +8,10 @@ import { FleetDetailsService } from '../services/fleet-details.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToasterService } from '@services/toaster.service';
+import { CommentStmt } from '@angular/compiler';
+import { UtilityService } from '@services/utility.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -24,6 +28,10 @@ export class FleetDetailsComponent implements OnInit {
   fleetDetails: any = [];
   fleetLov: any = [];
   fleetArray = [];
+  formValue: any;
+
+  // relationSelected = []
+  relation: any[];
   // vehicleId: any;
   constructor(
 
@@ -34,8 +42,11 @@ export class FleetDetailsComponent implements OnInit {
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
-    public activatedRoute: ActivatedRoute,
-    public router: Router) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private toasterService: ToasterService,
+    private utilityService: UtilityService,
+    private sharedService: SharedService) { }
 
 
   async ngOnInit() {
@@ -77,9 +88,9 @@ export class FleetDetailsComponent implements OnInit {
         console.log(error);
       });
 
-
-
-
+    this.sharedService.vaildateForm$.subscribe((value) => {
+      this.formValue = value;
+    })
 
   }
 
@@ -126,45 +137,39 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: [rowData.regdNo],
-        regdOwner: [rowData.regdOwner],
-        relation: [rowData.relation],
-        make: [rowData.make],
-        yom: [rowData.yom],
-        financier: [rowData.financier],
-        loanNo: [rowData.loanNo],
-        purchaseDate: [rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : ""],
-        tenure: [rowData.tenure],
-        paid: [rowData.paid],
-        seasoning: [rowData.seasoning],
-        // ad: [{ value: rowData.ad, disabled: true }],
-        ad: [rowData.ad],
-        // pd: [{ value: rowData.pd, disabled: true }],
-        pd: [rowData.pd],
-        // gridValue: [{ value: rowData.gridValue, disabled: true }],
-        gridValue: [rowData.gridValue],
+        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required, Validators.minLength(10)])),
+        regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
+        relation: new FormControl(rowData.relation, [Validators.required]),
+        make: new FormControl(rowData.make, [Validators.required]),
+        yom: new FormControl(rowData.yom, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        financier: new FormControl(rowData.financier, [Validators.required]),
+        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
+        paid: new FormControl(rowData.paid, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
+        seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
+        ad: new FormControl({ value: rowData.ad, disabled: true }),
+        pd: new FormControl({ value: rowData.pd, disabled: true }),
+        gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: [rowData.id]
       })
     }
     else return this.fb.group({
       // id: [],
-      regdNo: [''],
-      regdOwner: [],
-      relation: [''],
-      make: [''],
-      yom: [],
-      financier: [''],
-      loanNo: [''],
-      purchaseDate: [''],
-      tenure: [],
-      paid: [],
-      seasoning: [''],
-      // ad: [{ value: "", disabled: true }],
-      ad: [],
-      // pd: [{ value: "", disabled: true }],
-      pd: [],
-      // gridValue: [{ value: "", disabled: true }]
-      gridValue: [],
+      regdNo: new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
+      regdOwner: new FormControl('', Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
+      relation: new FormControl('', [Validators.required]),
+      make: new FormControl('', [Validators.required]),
+      yom: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+      financier: new FormControl('', [Validators.required]),
+      loanNo: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+      purchaseDate: new FormControl('', [Validators.required]),
+      tenure: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(3)])),
+      paid: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
+      seasoning: new FormControl({ value: '', disabled: true }),
+      ad: new FormControl({ value: '', disabled: true }),
+      pd: new FormControl({ value: '', disabled: true }),
+      gridValue: new FormControl({ value: '', disabled: true }),
     });
   }
 
@@ -178,6 +183,13 @@ export class FleetDetailsComponent implements OnInit {
 
   }
 
+  relationShipChange(event) {
+    this.relation = [];
+    console.log('relationShipChange', event.target.value);
+    const relation = event.target.value;
+  }
+
+
   getDateFormat(date) {
 
     // console.log("in getDateFormat", date)
@@ -186,8 +198,8 @@ export class FleetDetailsComponent implements OnInit {
     var month = datePart[1];
     var day = datePart[0];
     var year = datePart[2];
-    const dateFormat: Date = new Date( year + '/' + month  + '/' + day);
- 
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+
     // year = dateFormat.getFullYear();
     // month = Number(dateFormat.getMonth()) + 1;
     // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
@@ -240,9 +252,12 @@ export class FleetDetailsComponent implements OnInit {
       userId: this.userId,
       fleets: this.fleetDetails,
     }
-  //  console.log("in save fleet", this.fleetDetails)
+    //  console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
       console.log("saveFleetDetailsResponse", res)
+      this.toasterService.showSuccess('Fleet saved successfully!', '');
+
+
     });
   }
 
@@ -266,8 +281,9 @@ export class FleetDetailsComponent implements OnInit {
       } else {
         this.formArr.push(this.initRows(null));
       }
-      console.log("in get fleets", res.ProcessVariables.fleets)
-      console.log("get fleet response", res.ProcessVariables.fleets)
+      // console.log("in get fleets", res.ProcessVariables.fleets)
+      // console.log("get fleet response", res.ProcessVariables.fleets)
+      // console.log("fleet form controls", this.fleetForm.controls.Rows)
     })
   }
 
@@ -291,19 +307,20 @@ export class FleetDetailsComponent implements OnInit {
 
       this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
 
-       // console.log("response from delete api", res.ProcessVariables)
+        // console.log("response from delete api", res.ProcessVariables)
       });
 
       fleets.splice(index, 1)
+      this.toasterService.showSuccess("fleet deleted successfully!", '')
 
     } else {
-      alert("Atleast One Row Required");
+      this.toasterService.showError("atleast one row required !", '')
 
     }
   }
 
   getRtr(fleetid: number) {
-   // console.log("in getRtr", fleetid)
+    // console.log("in getRtr", fleetid)
     // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
     this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + fleetid])
   }
@@ -315,10 +332,21 @@ export class FleetDetailsComponent implements OnInit {
 
   onFormSubmit() {
 
-    this.fleetDetails = this.fleetForm.value.Rows
-   // console.log(this.fleetDetails)
-    this.saveOrUpdateFleetDetails();
+    console.log(this.fleetForm)
+
+    if (this.fleetForm.valid === true) {
+      this.fleetDetails = this.fleetForm.value.Rows
+      // console.log(this.fleetDetails)
+      this.saveOrUpdateFleetDetails();
+
+    }
+    else {
+      console.log('Error', this.fleetForm)
+      this.utilityService.validateAllFormFields(this.fleetForm)
+
+    }
   }
 }
+
 
 
