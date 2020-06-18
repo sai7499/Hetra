@@ -144,14 +144,14 @@ export class FleetDetailsComponent implements OnInit {
         yom: new FormControl(rowData.yom, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
         financier: new FormControl(rowData.financier, [Validators.required]),
         loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
-        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
         tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
         paid: new FormControl(rowData.paid, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
         ad: new FormControl({ value: rowData.ad, disabled: true }),
         pd: new FormControl({ value: rowData.pd, disabled: true }),
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
-        id: [rowData.id]
+        id: rowData.id
       })
     }
     else return this.fb.group({
