@@ -146,10 +146,12 @@ export class AddressDetailsComponent implements OnInit {
         map((value: any) => {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
+          console.log('addressList',addressList)
           if (value.Error !== '0') {
             return null;
           }
           const first = addressList[0];
+          console.log('first', first)
           const obj = {
             state: [
               {
@@ -408,6 +410,21 @@ export class AddressDetailsComponent implements OnInit {
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
     if (isCurAsPer.isCurrAddSameAsPermAdd == '1') {
       this.onPerAsCurChecked= true
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const currentAddressVariable = details.get('currentAddress');
+   
+   
+    currentAddressVariable.get('addressLineOne').disable()
+    currentAddressVariable.get('addressLineTwo').disable()
+    currentAddressVariable.get('addressLineThree').disable()
+    currentAddressVariable.get('pincode').disable()
+    currentAddressVariable.get('city').disable()
+    currentAddressVariable.get('district').disable()
+    currentAddressVariable.get('state').disable()
+    currentAddressVariable.get('country').disable()
+    currentAddressVariable.get('landlineNumber').disable()
+  
       const currentAddressObj = isCurAsPer;
       this.currentPincode = {
         city: [
@@ -562,6 +579,19 @@ export class AddressDetailsComponent implements OnInit {
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
         this.onRegAsCommChecked= true
+        const formArray = this.addressForm.get('details') as FormArray;
+        const details = formArray.at(0);
+        const communicationAddressVariable = details.get('communicationAddress');
+    
+    communicationAddressVariable.get('addressLineOne').disable()
+    communicationAddressVariable.get('addressLineTwo').disable()
+    communicationAddressVariable.get('addressLineThree').disable()
+    communicationAddressVariable.get('pincode').disable()
+    communicationAddressVariable.get('city').disable()
+    communicationAddressVariable.get('district').disable()
+    communicationAddressVariable.get('state').disable()
+    communicationAddressVariable.get('country').disable()
+    communicationAddressVariable.get('landlineNumber').disable()
       const communicationAddressObj = isCommAsReg;
       this.communicationPincode = {
         city: [
@@ -666,20 +696,46 @@ export class AddressDetailsComponent implements OnInit {
     if (isChecked) {
       this.currentPincode = this.permanantPincode;
       console.log('currentPincode', this.currentPincode);
-    }else{
-      return
+      this.getPermanentAddressValue();
+    }else if(!isChecked){
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const currentAddress = details.get('currentAddress');
+    
+   currentAddress.get('addressLineOne').enable()
+    currentAddress.get('addressLineTwo').enable()
+    currentAddress.get('addressLineThree').enable()
+    currentAddress.get('pincode').enable()
+    currentAddress.get('city').enable()
+    currentAddress.get('district').enable()
+    currentAddress.get('state').enable()
+    currentAddress.get('country').enable()
+    currentAddress.get('landlineNumber').enable()
     }
-    this.getPermanentAddressValue();
+    
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     if (isChecked) {
       this.communicationPincode = this.registeredPincode;
-    }else{
-      return
+      this.getRegisteredAddressValue();
+    }else if(!isChecked){
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+       const communicationAddress = details.get('communicationAddress');
+   
+    communicationAddress.get('addressLineOne').enable()
+    communicationAddress.get('addressLineTwo').enable()
+    communicationAddress.get('addressLineThree').enable()
+    communicationAddress.get('pincode').enable()
+    communicationAddress.get('city').enable()
+    communicationAddress.get('district').enable()
+    communicationAddress.get('state').enable()
+    communicationAddress.get('country').enable()
+    communicationAddress.get('landlineNumber').enable()
     }
-    this.getRegisteredAddressValue();
+    
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
   }
 
@@ -689,9 +745,21 @@ export class AddressDetailsComponent implements OnInit {
     console.log('PERAM VALUE', formValue);
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
+    console.log('currentAddress', currentAddress)
     currentAddress.patchValue({
       ...formValue,
     });
+    currentAddress.get('addressLineOne').disable()
+    currentAddress.get('addressLineTwo').disable()
+    currentAddress.get('addressLineThree').disable()
+    currentAddress.get('pincode').disable()
+    currentAddress.get('city').disable()
+    currentAddress.get('district').disable()
+    currentAddress.get('state').disable()
+    currentAddress.get('country').disable()
+    currentAddress.get('landlineNumber').disable()
+    
+    
   }
 
   getRegisteredAddressValue() {
@@ -703,6 +771,15 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.patchValue({
       ...formValue,
     });
+    communicationAddress.get('addressLineOne').disable()
+    communicationAddress.get('addressLineTwo').disable()
+    communicationAddress.get('addressLineThree').disable()
+    communicationAddress.get('pincode').disable()
+    communicationAddress.get('city').disable()
+    communicationAddress.get('district').disable()
+    communicationAddress.get('state').disable()
+    communicationAddress.get('country').disable()
+    communicationAddress.get('landlineNumber').disable()
   }
 
   hasRoute() {

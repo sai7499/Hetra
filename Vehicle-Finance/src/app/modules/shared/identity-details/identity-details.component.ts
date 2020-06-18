@@ -80,13 +80,14 @@ export class IdentityDetailsComponent implements OnInit {
         console.log(error);
       }
     );
-    this.getLov();
+    
 
     this.identityForm = new FormGroup({
       entity: new FormControl(''),
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
+    this.getLov();
   }
 
   getLeadId() {
@@ -258,32 +259,33 @@ export class IdentityDetailsComponent implements OnInit {
 
   setIndividualValue() {
     const value = this.indivIdentityInfoDetails;
+    console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const passportExpiryDate = this.utilityService.getDateFromString(value.passportExpiryDate) || '';
-    const passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
-    const drivingLicenseIssueDate = this.utilityService.getDateFromString(
-      value.drivingLicenseIssueDate)
-    ;
-    const drivingLicenseExpiryDate = this.utilityService.getDateFromString(
-      value.drivingLicenseExpiryDate)
-    ;
-    const voterIdIssueDate = this.getFormateDate(value.voterIdIssueDate);
-    const voterIdExpiryDate = this.getFormateDate(value.voterIdExpiryDate);
+    // const aadhar= value.aadhar
+    // const passportExpiryDate = this.utilityService.getDateFromString(value.passportExpiryDate) || '';
+    // const passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
+    // const drivingLicenseIssueDate = this.utilityService.getDateFromString(
+    //   value.drivingLicenseIssueDate)
+    // ;
+    // const drivingLicenseExpiryDate = this.utilityService.getDateFromString(
+    //   value.drivingLicenseExpiryDate)
+    // ;
+    // const voterIdIssueDate = this.getFormateDate(value.voterIdIssueDate);
+    // const voterIdExpiryDate = this.getFormateDate(value.voterIdExpiryDate);
     details.patchValue({
-      passportIssueDate,
-      passportExpiryDate,
-      drivingLicenseIssueDate,
-      drivingLicenseExpiryDate,
-      voterIdExpiryDate,
-      voterIdIssueDate,
-      aadhar: value.aadhar,
+      passportIssueDate: this.utilityService.getDateFromString(value.passportIssueDate),
+      passportExpiryDate: this.utilityService.getDateFromString(value.passportExpiryDate),
+      drivingLicenseIssueDate: this.utilityService.getDateFromString(value.drivingLicenseIssueDate),
+      drivingLicenseExpiryDate: this.utilityService.getDateFromString(value.drivingLicenseExpiryDate),
+      aadhar : value.aadhar,
       pan: value.pan,
       panType: value.panType,
       passportNumber: value.passportNumber,
       drivingLicenseNumber: value.drivingLicenseNumber,
       voterIdNumber: value.voterIdNumber,
     });
+    console.log('details', details)
   }
   getFormateDate(date: string) {
     if (!date) {
