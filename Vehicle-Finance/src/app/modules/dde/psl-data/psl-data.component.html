@@ -18,7 +18,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="property_type">{{labels.propertyType}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslPropertyType" 
+                    [values]="" 
                     formControlName="propertyType"
                     name="propertyType">
                 </app-vf-custom-select>
@@ -26,7 +26,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="detail_activity">{{labels.detailActivity}}</label>
                 <app-vf-custom-select 
-                    [values]="detailActivityValues" 
+                    [values]="" 
                     formControlName="detailActivity" 
                     (change)="onChangeDetailActivity($event)"
                     name="detailActivity"> 
@@ -40,7 +40,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                 <label for="type_of_service">{{labels.typeOfService}}</label>
                 <app-vf-custom-select
-                    [values]="LOV.LOVS.typeOfService"
+                    [values]=""
                     formControlName="typeOfService"
                     name="typeOfService">
                 </app-vf-custom-select>
@@ -48,7 +48,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="purpose_of_loan_ag">{{labels.purposeOfLoan}}</label>
                 <app-vf-custom-select 
-                    [values]="endUseValues" 
+                    [values]="" 
                     formControlName="purposeOfLoan" 
                     name="purposeOfLoan"> 
                </app-vf-custom-select>
@@ -56,7 +56,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                 <label for="purpose_of_loan_msme">{{labels.purposeOfLoan}}</label>
                 <app-vf-custom-select 
-                    [values]="endUseValues" 
+                    [values]="" 
                     formControlName="purposeOfLoan" 
                     name="purposeOfLoan"> 
                </app-vf-custom-select>
@@ -64,7 +64,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                 <label for="business_activity">{{labels.businessActivity}}</label>
                 <app-vf-custom-select 
-                [values]="LOV.LOVS.businessActivity" 
+                [values]="" 
                 formControlName="businessActivity" 
                 name="businessActivity"> 
            </app-vf-custom-select>
@@ -72,7 +72,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="land_holding">{{labels.landHolding}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.landHolding" 
+                    [values]="" 
                     formControlName="landHolding"
                     name="landHolding">
                 </app-vf-custom-select>
@@ -80,7 +80,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="land_owner">{{labels.landOwner}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.landOwner" 
+                    [values]="" 
                     formControlName="landOwner"
                     name="landOwner">
                 </app-vf-custom-select>
@@ -88,7 +88,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="relationship_with_landowner">{{labels.relWithLandowner}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.relationship" 
+                    [values]="" 
                     formControlName="relationshipWithLandOwner"
                     name="relWithLandowner">
                 </app-vf-custom-select>
@@ -96,7 +96,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="farmer_type">{{labels.farmerType}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslFarmerType" 
+                    [values]="" 
                     formControlName="farmerType"
                     name="farmerType">
                 </app-vf-custom-select>
@@ -109,7 +109,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="land_proof">{{labels.landProof}} </label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pSLLANDPROOF"
+                    [values]=""
                     formControlName="landProof"
                     name="landProof">
                 </app-vf-custom-select>
@@ -127,7 +127,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="proof_of_investment">{{labels.proofOfInvestment}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.proofOfInvestment" 
+                    [values]="" 
                     formControlName="proofOfInvestment"
                     name="proofOfInvest">
                 </app-vf-custom-select>
@@ -192,7 +192,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="property_located_city">{{labels.propertyLocatedCity}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.propertyLocatedCity" 
+                    [values]="" 
                     formControlName="propertyLocatedCity"
                     name="propertyLocatedCity">
                 </app-vf-custom-select>
@@ -200,7 +200,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="property_location">{{labels.propertyLocation}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.propertyLocation" 
+                    [values]="" 
                     formControlName="propertyLocation"
                     name="propertyLocation">
                 </app-vf-custom-select>
@@ -208,7 +208,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="property_pincode">{{labels.propertyPincode}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.propertyPincode" 
+                    [values]="" 
                     formControlName="propertyPincode"
                     name="propertyPincode">
                 </app-vf-custom-select>
@@ -247,7 +247,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_category_ag">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCategory" 
+                    [values]="" 
                     formControlName="pslCategory"
                     name="pslCategory">
                 </app-vf-custom-select>
@@ -255,7 +255,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="psl_category_msme">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCategory" 
+                    [values]="" 
                     formControlName="pslCategory"
                     name="pslCategory">
                 </app-vf-custom-select>
@@ -263,7 +263,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="psl_category_hos">{{labels.pslCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCategory" 
+                    [values]="" 
                     formControlName="pslCategory"
                     name="pslCategory">
                 </app-vf-custom-select>
@@ -271,7 +271,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_sub_category_ag">{{labels.pslSubCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslSubCategory" 
+                    [values]="" 
                     formControlName="pslSubCategory"
                     name="pslSubCategory">
                 </app-vf-custom-select>
@@ -279,7 +279,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="psl_sub_category_msme">{{labels.pslSubCategory}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslSubCategoryMsme" 
+                    [values]="" 
                     formControlName="pslSubCategory"
                     name="pslSubCategory">
                 </app-vf-custom-select>
@@ -287,7 +287,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_certificate_ag">{{labels.pslCertificateAg}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCertificate" 
+                    [values]="" 
                     formControlName="pslCCertificate"
                     name="pslCCertificate">
                 </app-vf-custom-select>
@@ -295,7 +295,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
                 <label for="psl_certificate_msme">{{labels.pslCertificateMsme}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCertificate" 
+                    [values]="" 
                     formControlName="pslCCertificate"
                     name="pslCCertificate">
                 </app-vf-custom-select>
@@ -303,7 +303,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 housing" >
                 <label for="psl_certificate_hou">{{labels.pslCertificateHos}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.pslCertificateHos" 
+                    [values]="" 
                     formControlName="pslCCertificate"
                     name="pslCCertificate">
                 </app-vf-custom-select>
@@ -311,7 +311,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="weaker_section_ag">{{labels.weakerSection}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.wEAKERSECTION" 
+                    [values]="" 
                     formControlName="weakerSection"
                     name="weakerSection">
                 </app-vf-custom-select>
@@ -319,7 +319,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
                 <label for="weaker_section_msme">{{labels.weakerSection}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.wEAKERSECTION" 
+                    [values]="" 
                     formControlName="weakerSection"
                     name="weakerSection">
                 </app-vf-custom-select>
@@ -554,7 +554,7 @@
         <app-vf-custom-select 
             [values]="pslCategoryValues" 
             formControlName="pslCategory"
-            name="pslCategoryMsme">
+            name="pslCategory">
         </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
