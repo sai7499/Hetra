@@ -126,6 +126,20 @@
                       placeholder="Date of birth"
                     >
                     </kendo-datepicker>
+
+                    <div
+                      class="ShowError"
+                      *ngIf="
+                        coApplicantForm.get('dedupe').get('dob').touched ||
+                        isDirty
+                      "
+                    >
+                      <div
+                        *ngIf="coApplicantForm.get('dedupe').get('dob').invalid"
+                      >
+                        select date
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row" *ngIf="applicantType == 'NONINDIVENTTYP'">
@@ -238,9 +252,10 @@
                     class="ShowError"
                     *ngIf="
                       mandatory['drivingLicenseIssueDate'] &&
-                      (coApplicantForm
-                        .get('dedupe')
-                        .get('drivingLicenseIssueDate').dirty ||
+                      (isDirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseIssueDate').dirty ||
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseIssueDate').touched)
@@ -285,9 +300,10 @@
                     class="ShowError"
                     *ngIf="
                       mandatory['drivingLicenseExpiryDate'] &&
-                      (coApplicantForm
-                        .get('dedupe')
-                        .get('drivingLicenseExpiryDate').dirty ||
+                      (isDirty ||
+                        coApplicantForm
+                          .get('dedupe')
+                          .get('drivingLicenseExpiryDate').dirty ||
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseExpiryDate').touched)
@@ -342,8 +358,9 @@
                     class="ShowError"
                     *ngIf="
                       passportMandatory['passportIssueDate'] &&
-                      (coApplicantForm.get('dedupe').get('passportIssueDate')
-                        .dirty ||
+                      (isDirty ||
+                        coApplicantForm.get('dedupe').get('passportIssueDate')
+                          .dirty ||
                         coApplicantForm.get('dedupe').get('passportIssueDate')
                           .touched)
                     "
@@ -385,8 +402,9 @@
                     class="ShowError"
                     *ngIf="
                       passportMandatory['passportExpiryDate'] &&
-                      (coApplicantForm.get('dedupe').get('passportExpiryDate')
-                        .dirty ||
+                      (isDirty ||
+                        coApplicantForm.get('dedupe').get('passportExpiryDate')
+                          .dirty ||
                         coApplicantForm.get('dedupe').get('passportExpiryDate')
                           .touched)
                     "
@@ -415,6 +433,15 @@
                     [disabled]="isValueChanged"
                   >
                     <a class="back_color">Check Dedupe</a>
+                  </button>
+                  &nbsp;&nbsp;
+                  <button
+                    *ngIf="!isValueChanged"
+                    class="btn btn-primary mar-right8"
+                    type="button"
+                    (click)="navigateToApplicantList()"
+                  >
+                    <a class="back_color">Back</a>
                   </button>
                 </div>
               </div>
@@ -786,6 +813,6 @@
 <!-- Footer -->
 <!-- <footer class="footer pf">
   <div class="container">
-    <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    <p>©️ Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>
 </footer> -->
