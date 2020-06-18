@@ -165,6 +165,12 @@
                                         <!-- <input type='date' class="form-control" formControlName="purchaseDate"> -->
 
                                     </div>
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['purchaseDate'].touched && !itemrow.controls['purchaseDate'].vaild">
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['purchaseDate'].hasError('required')">
+                                            purchase date is needed
+                                        </div>
+
+                                    </div>
                                 </div>
 
 
