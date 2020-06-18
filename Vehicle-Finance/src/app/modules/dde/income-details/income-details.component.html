@@ -98,7 +98,6 @@
                       name="depreciation"
                       class="form-control text-center"
                       formControlName="depreciation"
-                      (keyup)="addBusinessIncomeDetails(i)"
                     />
                   </td>
                   <td
@@ -230,6 +229,7 @@
                     <app-vf-custom-select
                       [values]="incomeLov?.incomeType"
                       formControlName="incomeType"
+                      (change)="appendFactoredIncome($event.target.value, i)"
                     >
                     </app-vf-custom-select>
                   </td>
@@ -242,6 +242,7 @@
                       name="grossIncome"
                       class="form-control text-center"
                       formControlName="grossIncome"
+                      (keyup)="getOtherFactoredIncome(i)"
                     />
                   </td>
                   <td data-title="Factoring %">

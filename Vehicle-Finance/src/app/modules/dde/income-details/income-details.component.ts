@@ -47,11 +47,8 @@ export class IncomeDetailsComponent implements OnInit {
     private incomeDetailsService: IncomeDetailsService,
     private commonLovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
-    private applicantService: ApplicantService,
-
-
-  ) {
-   }
+    private applicantService: ApplicantService
+  ) {}
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -59,9 +56,8 @@ export class IncomeDetailsComponent implements OnInit {
       (data) => {
         this.labels = data;
       },
-      (error) => { }
+      (error) => {}
     );
-
 
     this.getLov();
     this.getLeadId();
@@ -73,7 +69,6 @@ export class IncomeDetailsComponent implements OnInit {
 
     this.applicantService.getApplicantList(data).subscribe((res: any) => {
       this.applicantDetails = res.ProcessVariables.applicantListForLead;
-
     });
     this.incomeDetailsForm = this.formBuilder.group({
       businessIncomeDetails: this.formBuilder.array([]),
@@ -83,29 +78,21 @@ export class IncomeDetailsComponent implements OnInit {
       userId: this.userId,
     });
     this.getAllIncome();
-
   }
-
-
-
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
-
     });
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
-
         if (value && value.leadId) {
           resolve(Number(value.leadId));
           this.leadId = Number(value.leadId);
-
         }
         resolve(null);
       });
@@ -136,7 +123,7 @@ export class IncomeDetailsComponent implements OnInit {
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : 0,
-       applicantId: Number(data.applicantId ? data.applicantId : ''),
+        applicantId: Number(data.applicantId ? data.applicantId : ''),
 
         applicantType: data.applicantTypeValue ? data.applicantTypeValue : '',
         applicantTypeValue: data.applicantTypeValue
@@ -231,27 +218,25 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   removeBusinessIncomeIndex(i?: any) {
-    const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+    const control = this.incomeDetailsForm.controls
+      .businessIncomeDetails as FormArray;
     const id = control.at(i).value.id;
     if (control.controls.length > 1) {
       // tslint:disable-next-line: triple-equals
-      if (id == undefined ) {
+      if (id == undefined) {
         control.removeAt(i);
-
       } else {
-      const body = {
-        userId: this.userId,
-        aBusinessIncomeDetail: { id },
-      };
-      this.incomeDetailsService
-        .softDeleteIncomeDetails(body)
-        .subscribe((res: any) => {
-          control.removeAt(i);
-          alert(res.ProcessVariables.error.message);
-
-        });
+        const body = {
+          userId: this.userId,
+          aBusinessIncomeDetail: { id },
+        };
+        this.incomeDetailsService
+          .softDeleteIncomeDetails(body)
+          .subscribe((res: any) => {
+            control.removeAt(i);
+            alert(res.ProcessVariables.error.message);
+          });
       }
-
     } else {
       alert('Atleast One Row Required');
     }
@@ -264,6 +249,9 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getOtherIncomeDetails(data[i]));
+        console.log(data[i]);
+        this.appendFactoredIncome(data[i].incomeType, i);
+        // this.getOtherIncomeDetails(i);
       }
     } else {
       control.push(this.getOtherIncomeDetails());
@@ -276,23 +264,20 @@ export class IncomeDetailsComponent implements OnInit {
 
     if (control.controls.length > 1) {
       // tslint:disable-next-line: triple-equals
-      if (id == undefined ) {
+      if (id == undefined) {
         control.removeAt(i);
-
       } else {
-      const body = {
-        userId: this.userId,
-        otherIncomeDetail: { id },
-      };
-      this.incomeDetailsService
-        .softDeleteIncomeDetails(body)
-        .subscribe((res: any) => {
-          control.removeAt(i);
-          alert(res.ProcessVariables.error.message);
-
-        });
+        const body = {
+          userId: this.userId,
+          otherIncomeDetail: { id },
+        };
+        this.incomeDetailsService
+          .softDeleteIncomeDetails(body)
+          .subscribe((res: any) => {
+            control.removeAt(i);
+            alert(res.ProcessVariables.error.message);
+          });
       }
-
     } else {
       alert('Atleast One Row Required');
     }
@@ -315,21 +300,19 @@ export class IncomeDetailsComponent implements OnInit {
     const id = control.at(i).value.id;
     if (control.controls.length > 1) {
       // tslint:disable-next-line: triple-equals
-      if (id == undefined ) {
+      if (id == undefined) {
         control.removeAt(i);
-
       } else {
-      const body = {
-        userId: this.userId,
-        obligationDetail: { id },
-      };
-      this.incomeDetailsService
-        .softDeleteIncomeDetails(body)
-        .subscribe((res: any) => {
-          control.removeAt(i);
-          alert(res.ProcessVariables.error.message);
-
-        });
+        const body = {
+          userId: this.userId,
+          obligationDetail: { id },
+        };
+        this.incomeDetailsService
+          .softDeleteIncomeDetails(body)
+          .subscribe((res: any) => {
+            control.removeAt(i);
+            alert(res.ProcessVariables.error.message);
+          });
       }
     } else {
       alert('Atleast One Row Required');
@@ -351,34 +334,43 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   onBusinessApplicantChange(event?: any, i?: number) {
-
     // tslint:disable-next-line: triple-equals
-    const applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType;
-    const control = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+    const applicantType = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).applicantType;
+    const control = this.incomeDetailsForm.controls
+      .businessIncomeDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
-
   }
 
   onOtherApplicantChange(event, i?: number) {
     // tslint:disable-next-line: triple-equals
-    const applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType;
-    const control = this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
+    const applicantType = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).applicantType;
+    const control = this.incomeDetailsForm.controls
+      .otherIncomeDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
   }
 
   onObligationApplicantChange(event, i?: number) {
     // tslint:disable-next-line: triple-equals
-    const applicantType = this.applicantDetails.find((res) => res.applicantId == event).applicantType;
-    const control = this.incomeDetailsForm.controls.obligationDetails as FormArray;
+    const applicantType = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).applicantType;
+    const control = this.incomeDetailsForm.controls
+      .obligationDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
   }
 
+  onSubmit() {
+    this.submitted = true;
 
-onSubmit() {
-  this.submitted = true;
-
-  // stop here if form is invalid
-  if (this.incomeDetailsForm.invalid) {
+    // stop here if form is invalid
+    if (this.incomeDetailsForm.invalid) {
       // return;
       alert('Select Applicant');
     } else {
@@ -388,11 +380,14 @@ onSubmit() {
           // tslint:disable-next-line: triple-equals
           if (res && res.ProcessVariables.error.code == '0') {
             // tslint:disable-next-line: prefer-const
-            let businessControls =  this.incomeDetailsForm.controls.businessIncomeDetails as FormArray;
+            let businessControls = this.incomeDetailsForm.controls
+              .businessIncomeDetails as FormArray;
             businessControls.controls = [];
-            const otherIncomeDetailsControls =  this.incomeDetailsForm.controls.otherIncomeDetails as FormArray;
+            const otherIncomeDetailsControls = this.incomeDetailsForm.controls
+              .otherIncomeDetails as FormArray;
             otherIncomeDetailsControls.controls = [];
-            const obligationDetailsControls =  this.incomeDetailsForm.controls.obligationDetails as FormArray;
+            const obligationDetailsControls = this.incomeDetailsForm.controls
+              .obligationDetails as FormArray;
             obligationDetailsControls.controls = [];
             alert('saved Success');
             this.getAllIncome();
@@ -400,10 +395,34 @@ onSubmit() {
         });
     }
   }
-  addBusinessIncomeDetails() {
-    alert('Business Income CAlculation');
+  appendFactoredIncome(event: any, i: number) {
+    if (event === 'SALRINCTYP') {
+      const incomeArray = this.incomeDetailsForm.controls
+        .otherIncomeDetails as FormArray;
+      incomeArray.at(i).patchValue({ factoring: 100 });
+    } else if (event === 'RENINCTYP') {
+      const incomeArray = this.incomeDetailsForm.controls
+        .otherIncomeDetails as FormArray;
+      incomeArray.at(i).patchValue({ factoring: 80 });
+    } else if (event === 'PENINCTYP') {
+      const incomeArray = this.incomeDetailsForm.controls
+        .otherIncomeDetails as FormArray;
+      incomeArray.at(i).patchValue({ factoring: 100 });
+    } else if (event === 'AGRIINCINCTYP') {
+      const incomeArray = this.incomeDetailsForm.controls
+        .otherIncomeDetails as FormArray;
+      incomeArray.at(i).patchValue({ factoring: 50 });
+    }
+    this.getOtherIncomeDetails(i);
   }
-
+  getOtherFactoredIncome(i: number) {
+    const incomeArray = this.incomeDetailsForm.controls
+    .otherIncomeDetails as FormArray;
+    const factoringPerc = incomeArray.at(i).value.factoring;
+    const grossIncome = incomeArray.at(i).value.grossIncome;
+    const value = grossIncome * (factoringPerc / 100);
+    console.log(value);
+    incomeArray.at(i).patchValue({ factoredIncome : value });
+  }
 }
-
 
