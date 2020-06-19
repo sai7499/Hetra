@@ -107,10 +107,13 @@
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
-                                    <app-custom-input formControlName="drivingLicenseNumber" [patternCheck]="drivingLicensePattern" [maxLength]="maxlength15" (change)="onDrvingLisenseChange($event)" [inputClass]="'text-uppercase'">
+                                    <app-custom-input formControlName="drivingLicenseNumber" 
+                                   
+                                    [maxLength]="maxlength15" (change)="onDrvingLisenseChange($event)" 
+                                    [inputClass]="'text-uppercase'">
                                     </app-custom-input>
                                 </div>
-
+                                <!-- [patternCheck]="drivingLicensePattern"  -->
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="mobile">{{
                     labels?.drivingLicenceIssueDate
