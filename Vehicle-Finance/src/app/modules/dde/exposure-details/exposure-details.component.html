@@ -6,17 +6,17 @@
           <table class="table table-responsive">
             <thead>
               <tr class="table-head-bg text-center">
-                <td>{{labels.sNO}} </td>
-                <td>{{labels.type}} </td>
-                <td>{{labels.loanNo}}</td>
-                <td>{{labels.assets}}</td>
-                <td>{{labels.yom}} </td>
-                <td>{{labels.gridValue}} </td>
-                <td>{{labels.ltv}} </td>
-                <td>{{labels.currentPos}} </td>
-                <td>{{labels.tenure}} </td>
-                <td>{{labels.emiPaid}} </td>
-                <td>{{labels.action}} </td>
+                <td>{{labels?.sNO}} </td>
+                <td>{{labels?.type}} </td>
+                <td>{{labels?.loanNo}}</td>
+                <td>{{labels?.assets}}</td>
+                <td>{{labels?.yom}} </td>
+                <td>{{labels?.gridValue}} </td>
+                <td>{{labels?.ltv}} </td>
+                <td>{{labels?.currentPos}} </td>
+                <td>{{labels?.tenure}} </td>
+                <td>{{labels?.emiPaid}} </td>
+                <td>{{labels?.action}} </td>
 
               </tr>
             </thead>
@@ -26,8 +26,8 @@
                 <td>{{i+1}}</td>
                 <td>
                   <select class="input_value height_alter" name="loanType" formControlName="loanType">
-                    <!-- <option disabled>--Select One--</option> -->
-                    <option value="{{item.key}}" *ngFor= " let item of lovData['loanType-Exposure']">{{item.value}}</option>
+                    <option disabled>Select One</option>
+                    <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
                     <!-- <option value="liveloan">Proposed</option> -->
                   </select>
                 </td>
@@ -35,7 +35,7 @@
                     class="form-control text-center" formControlName="loanNo"></td>
                 <td>
                   <select class="input_value height_alter" name="assetType" formControlName="assetType">
-                    <!-- <option disabled>--Select One--</option> -->
+                    <option disabled>Select One</option>
                     <option  value="{{item.key}}" *ngFor = " let item of productCategory" >{{item.value}}</option>
                     <!-- <option>Used Car</option>
                     <option>New CV</option>
@@ -43,17 +43,17 @@
                   </select>
                 </td>
                 <td><input type="number" class="input_value" value="2015" name="yom"
-                    class="form-control text-center" formControlName="yom"></td>
+                    class="form-control text-center" formControlName="yom"  min="0"></td>
                 <td><input type="number" class="input_value" value="55" name="gridValue" class="form-control text-center"
-                    formControlName="gridValue"></td>
+                    formControlName="gridValue"  min="0"></td>
                 <td><input type="number" class="input_value" value="80" name="LTV" class="form-control text-center"
-                    formControlName="ltv"></td>
+                    formControlName="ltv"  min="0"></td>
                 <td><input type="number" class="input_value" value="34" name="currentPOS" class="form-control text-center"
-                    formControlName="currentPos"></td>
+                    formControlName="currentPos"  min="0"></td>
                 <td><input type="number" class="input_value" value="60" name="tenure" class="form-control text-center"
-                    formControlName="tenure"></td>
+                    formControlName="tenure"  min="0"></td>
                 <td><input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
-                    formControlName="emiPaid"></td>
+                    formControlName="emiPaid"  min="0"></td>
                 <td><i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant"
                     style="color: red;" (click)="removeIndex(i)"></i>&nbsp;<i type="button" class="fa fa-plus"
                     aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
@@ -89,17 +89,17 @@
           <table class="table table-responsive">
             <thead>
               <tr class="table-head-bg text-center">
-                <td>{{labels.sNO}} </td>
-                <td>{{labels.type}} </td>
-                <td>{{labels.loanNo}}</td>
-                <td>{{labels.assets}}</td>
-                <td>{{labels.yom}} </td>
-                <td>{{labels.gridValue}} </td>
-                <td>{{labels.ltv}} </td>
-                <td>{{labels.currentPos}} </td>
-                <td>{{labels.tenure}} </td>
-                <td>{{labels.emiPaid}} </td>
-                <td>{{labels.action}} </td>
+                <td>{{labels?.sNO}} </td>
+                <td>{{labels?.type}} </td>
+                <td>{{labels?.loanNo}}</td>
+                <td>{{labels?.assets}}</td>
+                <td>{{labels?.yom}} </td>
+                <td>{{labels?.gridValue}} </td>
+                <td>{{labels?.ltv}} </td>
+                <td>{{labels?.currentPos}} </td>
+                <td>{{labels?.tenure}} </td>
+                <td>{{labels?.emiPaid}} </td>
+                <td>{{labels?.action}} </td>
 
               </tr>
             </thead>
@@ -110,9 +110,10 @@
                 <td>{{i+1}}</td>
                 <td>
                   <select class="input_value height_alter" name="loanType" formControlName="loanType">
-                    <option value="{{item.key}}" *ngFor= " let item of lovData['loanType-Exposure']">{{item.value}}</option>
-                    <!-- <option disabled>--Select One--</option>
-                    <option value="liveloan">Live loan</option>
+                    <option disabled>Select One</option>
+                    <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
+                    
+                    <!-- <option value="liveloan">Live loan</option> 
                     <option value="liveloan">Proposed</option> -->
                   </select>
                 </td>
@@ -120,7 +121,7 @@
                     class="form-control text-center" formControlName="loanNo"></td>
                 <td>
                   <select class="input_value height_alter" name="assetType" formControlName="assetType">
-                    <!-- <option disabled>--Select One--</option> -->
+                    <option disabled>Select One</option>
                     <!-- <option>Used CV</option>
                     <option>Used Car</option>
                     <option>New CV</option>
@@ -129,17 +130,17 @@
                   </select>
                 </td>
                 <td><input type="number" class="input_value" value="" name="yom"
-                    class="form-control text-center" formControlName="yom"></td>
+                    class="form-control text-center" formControlName="yom"  min="0"></td>
                 <td><input type="number" class="input_value" value="55" name="gridValue" class="form-control text-center"
-                    formControlName="gridValue"></td>
+                    formControlName="gridValue"  min="0"></td>
                 <td><input type="number" class="input_value" value="80" name="LTV" class="form-control text-center"
-                    formControlName="ltv"></td>
+                    formControlName="ltv"  min="0"></td>
                 <td><input type="number" class="input_value" value="34" name="currentPOS" class="form-control text-center"
-                    formControlName="currentPos"></td>
+                    formControlName="currentPos"  min="0"></td>
                 <td><input type="number" class="input_value" value="60" name="tenure" class="form-control text-center"
-                    formControlName="tenure"></td>
+                    formControlName="tenure"  min="0"></td>
                 <td><input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
-                    formControlName="emiPaid"></td>
+                    formControlName="emiPaid"  min="0"></td>
                 <td><i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant"
                     style="color: red;" (click)="removeProposedIndex(i)"></i>&nbsp;<i type="button" class="fa fa-plus"
                     aria-hidden="true" id="remove_item_applicant" (click)="addProposedUnit()"></i></td>

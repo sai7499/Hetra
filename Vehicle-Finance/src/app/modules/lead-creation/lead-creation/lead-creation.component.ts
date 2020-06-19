@@ -499,7 +499,7 @@ export class LeadCreationComponent implements OnInit {
 
               if (isDedupeAvailable) {
                 const leadDedupeData =
-                  response.ProcessVariables.leadDedupeResults;
+                  response.ProcessVariables;
                 this.leadStoreService.setDedupeData(leadDedupeData);
                 this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
                 return;

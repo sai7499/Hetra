@@ -18,6 +18,7 @@ import {
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../services/lead.store.service';
 import { dateFieldName } from '@progress/kendo-angular-intl';
+import { ToasterService } from '@services/toaster.service'
 
 
 @Component({
@@ -101,7 +102,8 @@ export class BasicDetailsComponent implements OnInit {
     private router: Router,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private toasterService : ToasterService
   ) { }
 
   ngOnInit() {
@@ -482,10 +484,14 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
 
       if (res.Error === '0') {
-        this.router.navigate([
-          `/pages/sales-applicant-details/${leadId}/identity-details`,
-          this.applicantId,
-        ]);
+        // this.router.navigate([
+        //   `/pages/sales-applicant-details/${leadId}/identity-details`,
+        //   this.applicantId,
+        // ]);
+        this.toasterService.showSuccess(
+          'Applicant Basic Details Saved Successfully',
+          ''
+        );
       }
     });
     //  }else{
