@@ -287,11 +287,11 @@ export class AddressDetailsComponent implements OnInit {
       addressLineOne: new FormControl(null),
       addressLineTwo: new FormControl(null),
       addressLineThree: new FormControl(null),
-      pincode: new FormControl(null),
-      city: new FormControl(''),
-      district: new FormControl(''),
-      state: new FormControl(''),
-      country: new FormControl(''),
+      pincode: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      district: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(null),
     };
   }
@@ -953,3 +953,14 @@ export class AddressDetailsComponent implements OnInit {
     );
   }
 }
+
+
+// onSubmit() {
+//   this.isSubmitted = true;
+//   if (!this.registrationForm.valid) {
+//     return false;
+//   } else {
+//     alert(JSON.stringify(this.registrationForm.value))
+//   }
+
+// }
