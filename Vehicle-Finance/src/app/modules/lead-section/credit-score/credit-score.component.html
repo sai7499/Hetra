@@ -16,15 +16,15 @@
             <div class="row" id="sales_credit_score_sec">
 
                 <div class="col-lg-4">
-                    <p id=""><span id="">Product Offered</span><span id="credit_score_tag1">{{variable?.productCategoryName}}</span></p>
-                    <p id=""><span id="">Customer Segment</span><span id="credit_score_tag2">{{variable?.customerSegment }}</span></p>
+                    <p id=""><span id="">{{labels?.productOffered}}</span><span id="credit_score_tag1">{{variable?.productCategoryName}}</span></p>
+                    <p id=""><span id="">{{labels?.customerSegment  }}</span><span id="credit_score_tag2">{{variable?.customerSegment }}</span></p>
                 </div>
                 <div class="col-lg-4">
-                    <p id=""><span id="">Requested Tenor Amount</span><span id="credit_score_tag4">{{variable?.loanAmount}} </span></p>
+                    <p id=""><span id="">{{labels?.requestedTenor}}</span><span id="credit_score_tag4">{{variable?.loanAmount}} </span></p>
                 </div>
                 <div class="col-lg-4">
-                    <p id=""><span id="">Loan Tenor</span><span id="credit_score_tag3">{{variable?.loanTenure}} Months</span></p>
-                    <p id=""><span id="">Age of the car at the end of tenor</span><span id="credit_score_tag5"> {{variable?.ageOfAsset }} Months</span></p>
+                    <p id=""><span id="">{{labels?.loanTenor}}</span><span id="credit_score_tag3">{{variable?.loanTenure}} Months</span></p>
+                    <p id=""><span id="">{{labels?.ageOfCarEndOfTenor}}</span><span id="credit_score_tag5"> {{variable?.ageOfAsset }} Months</span></p>
                 </div>
 
 
@@ -33,7 +33,7 @@
 
 
             <br />
-            <h3 class="title">Credit Bureau (CIBIL)</h3>
+            <h3 class="title">{{labels?.creditBureauCIBIL}}</h3>
             <div class="table-responsive">
 
 
@@ -41,9 +41,9 @@
                     <thead>
                         <tr class=" table-head-bg ">
                             <!--- <th>ID</th> --->
-                            <th>Applicant</th>
-                            <th>Applicant Type</th>
-                            <th>Bureau Score</th>
+                            <th>{{labels?.applicant}}</th>
+                            <th>{{labels?.applicantType}}</th>
+                            <th>{{labels?.bureauScore}}</th>
 
                         </tr>
 
@@ -77,12 +77,12 @@
 
                 </table>
             </div>
-            <p class="text-center" id="credit_score_tag10">Eligible Loan Amount : {{variable?.eligibleAmount}}</p>
+            <p class="text-center" id="credit_score_tag10">{{labels?.eligibleLoanAmount}} : {{variable?.eligibleAmount}}</p>
             <div class="text-center" id="">
                 <button type="button " class="btn btn-primary ok_button proceed_button mar-right8" id="proceed_button "
-                    (click)="navigateUrl()">Proceed</button>
+                    (click)="navigateUrl()">{{labels?.proceed}}</button>
                 <a data-toggle="modal" data-target="#myModal" id="reject_credit">
-                    <p type="button" class="btn btn-primary">Reject</p>
+                    <p type="button" class="btn btn-primary">{{labels?.reject}}</p>
                 </a>
             </div>
         </div>
@@ -104,14 +104,14 @@
 
             <!-- Modal body -->
             <div class="modal-body" style="text-align: center;">
-                <p>Are you sure want to reject ?</p>
+                <p>{{labels?.areYouSureWantToReject}}</p>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
-                    value="Yes" (click)="declineOffer()">Yes</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    value="Yes" (click)="declineOffer()">{{labels?.yes}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{labels?.cancel}}</button>
             </div>
 
         </div>
