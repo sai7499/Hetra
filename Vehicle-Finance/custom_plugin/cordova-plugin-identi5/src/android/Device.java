@@ -18,8 +18,14 @@
 */
 package org.apache.cordova.device;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -28,12 +34,19 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.SimpleDateFormat;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -47,8 +60,14 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Properties;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import capacitor.android.plugins.R;
 
@@ -67,6 +86,8 @@ public class Device extends CordovaPlugin {
     private static final String AMAZON_PLATFORM = "amazon-fireos";
     private static final String AMAZON_DEVICE = "Amazon";
 
+    KeyStore p12;
+
     /**
      * Storage the found bluetooth devices
      * format:<MAC, <Key,Value>>;Key=[RSSI/NAME/COD(class of device)/BOND/UUID]
@@ -78,6 +99,7 @@ public class Device extends CordovaPlugin {
     private String glbDevmac = "";
     private String fCount = "1";
 
+    Properties uidPrefs;
 
     private boolean isProtoBuf = false,isRc = true, glbConnSwitch = false;
 
@@ -96,13 +118,52 @@ public class Device extends CordovaPlugin {
             if(data.hasExtra("PID_DATA")) {
                 String piddata = data.getStringExtra("PID_DATA");
                 Log.e(TAG, "capture data:" + piddata);
+                Document doc = null;
+                try {
+                    doc = toXmlDocument(piddata);
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String authXMLdata =  createAuthXML(piddata);
+
+//                Element element=doc.getDocumentElement();
+//                element.normalize();
+//
+//                NodeList nList = doc.getElementsByTagName("PidData");
+//                String skey, hMac, dataEnc;
+//
+//                for (int i=0; i<nList.getLength(); i++) {
+//
+//                    Node node = nList.item(i);
+//                    if (node.getNodeType() == Node.ELEMENT_NODE) {
+//                        Element element2 = (Element) node;
+//
+//                        skey = getValue("Skey", element2);
+//                        hMac = getValue("Hmac", element2);
+//
+//                        dataEnc = getValue("Data", element2);
+//
+//                        System.out.println("skey"+skey);
+//                        System.out.println("hMac"+hMac);
+//
+//                        System.out.println("dataEnc"+dataEnc);
+//
+//                    }
+//                }
+
+
 
                 try {
                     JSONObject r = new JSONObject();
                     r.put("uuid", Device.uuid);
                     r.put("version", this.getOSVersion());
                     r.put("platform", this.getPlatform());
-                    r.put("model", piddata);
+                    r.put("model", authXMLdata);
                     r.put("manufacturer", this.getManufacturer());
                     r.put("isVirtual", this.isVirtual());
                     r.put("serial", this.getSerialNumber());
@@ -272,10 +333,6 @@ public class Device extends CordovaPlugin {
         return sdkversion;
     }
 
-    public String getTimeZoneID() {
-        TimeZone tz = TimeZone.getDefault();
-        return (tz.getID());
-    }
 
     /**
      * Function to check if the device is manufactured by Amazon
@@ -295,7 +352,240 @@ public class Device extends CordovaPlugin {
     }
 
 
+
+    private static Document toXmlDocument(String str) throws ParserConfigurationException, SAXException, IOException {
+
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document document = docBuilder.parse(new InputSource(new StringReader(str)));
+
+        return document;
+    }
+
+    private static String getValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = nodeList.item(0);
+        return node.getNodeValue();
+    }
+
+//    public String createAuthXML(String piddataxml) {
+//
+//        String uid = "";
+//        Log.e(TAG, " :: createAuthXMLRegistered | ENTER");
+//        uidPrefs = loadPreferences("staging.properties");
+//        char[] password;
+//        String sigAlias;
+//        String txn = null;
+//        String ns2 = "";
+//        String xmlns = "xmlns=\"http://www.uidai.gov.in/authentication/uid-auth-request/2.0\"";
+//        String xmlnsBfd = "";
+//        String type = "A";
+//        String pi = "n";
+//
+//        String errcode		= "1";
+//        String errinfo		= null;
+//        String fcount		= null;
+//        String pid		    = null;
+//        String skey			= null;
+//        String ci			= null;
+//        String hmac			= null;
+//        String rdsId	    = null;
+//        String rdsVer	    = null;
+//        String dpId			= null;
+//        String dc			= null;
+//        String mi			= null;
+//        String mc			= null;
+//
+//        try {
+//            Log.e(TAG, " :: createAuthXMLRegistered Parsing | ENTER");
+//            InputStream is = new ByteArrayInputStream(piddataxml.getBytes());
+//
+//            DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+//            domFactory.setIgnoringComments(true);
+//            DocumentBuilder builder = domFactory.newDocumentBuilder();
+//            Document doc = builder.parse(is);
+//
+//            errcode = doc.getElementsByTagName("Resp").item(0).getAttributes().getNamedItem("errCode").getTextContent();
+//            if (errcode.equals("1")) {
+//                errinfo = doc.getElementsByTagName("Resp").item(0).getAttributes().getNamedItem("errInfo").getTextContent();
+//            } else {
+//                fcount = doc.getElementsByTagName("Resp").item(0).getAttributes().getNamedItem("fCount").getTextContent();
+//                pid = doc.getElementsByTagName("Data").item(0).getTextContent();
+//                skey = doc.getElementsByTagName("Skey").item(0).getTextContent();
+//                ci = doc.getElementsByTagName("Skey").item(0).getAttributes().getNamedItem("ci").getTextContent();
+//                hmac = doc.getElementsByTagName("Hmac").item(0).getTextContent();
+//                type = doc.getElementsByTagName("Data").item(0).getAttributes().getNamedItem("type").getTextContent();
+//                dc = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("dc").getTextContent();
+//                mi = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("mi").getTextContent();
+//                mc = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("mc").getTextContent();
+//                Log.e(TAG, "device Public certificate: " + mc);
+//                Log.e(TAG, "device skey: " + skey);
+//                skey = skey.replaceAll(" ", "\n");
+//                Log.e(TAG, "device skey: " + skey);
+//
+////                SimpleDateFormat sdfTxn = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.US);
+////                txn = "" +sdfTxn.format(date);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            errcode = "1";
+//            errinfo = "xml Parsing error";
+//        }
+//
+//        if (!errcode.equals("1")) {
+//            try {
+//                Log.e(TAG, " :: createAuthXMLRegistered xml building| ENTER");
+//                //TODO :	rc hardcoded to y in authxml
+//
+//                String authXML = String.format(
+//                        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+//                                "<" + ns2 + "Auth " + "ac=\"" + uidPrefs.getProperty("auaCode")
+//                                + "\" " + "lk=\"" + uidPrefs.getProperty("auaLicenseKey") + "\" " + "rc=\"" + (isRc? "Y":"N") +"\""+"sa=\""
+//                                + uidPrefs.getProperty("sa") + "\" " + "tid=\"registered\" "
+//                                + "txn=\"" + txn + "\" " + "uid=\"" + uid + "\" " + "ver=\"2.0\" " + xmlnsBfd + xmlns + ">"
+//                                + "<Uses " + "bio=\"y\" " + "bt=\"FMR\" " + "otp=\"n\" " + "pa=\"n\" " + "pfa=\"n\" "
+//                                + "pi=\"" + pi + "\" " + "pin=\"n\"/>"
+//                                + "<Meta "  + "dc=\"" + dc + "\" "
+//                                + "mi=\"" + mi + "\" "
+//                                + "mc=\"" + mc + "\" "
+//                                + "rdsId=\"" + rdsId + "\" "
+//                                + "rdsVer=\"" + rdsVer + "\" "
+//                                + "dpId=\"" + dpId + "\" "
+//                                + "udc=\"" + uidPrefs.getProperty("udc") + "\"/>"
+//                                + "<Skey " + "ci=\"" + ci + "\">" + skey + "</Skey>"
+//                                + "<Data "+ "type=\""+ type +"\">" + pid + "</Data>"
+//                                + "<Hmac>" + hmac + "</Hmac>" + "</" + ns2 + "Auth>");
+//
+//                Log.e(TAG, " :: AuthXML is:" + authXML);
+//                password = uidPrefs.getProperty("signaturePassword").toCharArray();
+//                sigAlias = uidPrefs.getProperty("signatureAlias");
+//                p12 = KeyStore.getInstance("pkcs12");
+//                InputStream is = this.cordova.getActivity().getApplicationContext().getAssets().open(uidPrefs.getProperty("signKeyStore"));
+//                p12.load(is, password);
+//                PrivateKey privKey = (PrivateKey) p12.getKey(sigAlias, password);
+//                X509Certificate cert = (X509Certificate) p12.getCertificate(sigAlias);
+//                String signedXML = XmlSigner.generateXmlSignature(authXML, privKey, cert);
+//                is.close();
+//                Log.e(TAG, " :: signedXML is:" + signedXML);
+//                return signedXML;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                errcode = "1";
+//                errinfo = "xml formation error";
+//            }
+//        }
+//
+//        return null;
+//    }
+
+    private Properties loadPreferences(String prefsFile) {
+        InputStream is = null;
+        Properties prefs = null;
+        try {
+            is = this.cordova.getActivity().getApplicationContext().getAssets().open(prefsFile);
+            if (is != null) {
+                prefs = new Properties();
+                prefs.load(is);
+            }
+        } catch (IOException ex) {
+            Log.e(this.toString(), "Error accessing preferences file");
+            return null;
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException ex) {
+                Log.e(this.toString(), "Error closing preferences file");
+            }
+        }
+        return prefs;
+    }
+
+    public String createAuthXML(String piddataxml) {
+        Log.e(TAG, " :: createAuthXMLRegistered | ENTER");
+        char[] password;
+        String sigAlias;
+        String txn = null;
+        String ns2 = "";
+        String xmlns = "xmlns=\"http://www.uidai.gov.in/authentication/uid-auth-request/2.0\"";
+        String xmlnsBfd = "";
+        String type = "A";
+        String pi = "n";
+
+        String errcode = "1";
+        String errinfo = null;
+        String fcount = null;
+        String pid = null;
+        String skey = null;
+        String ci = null;
+        String hmac = null;
+        String rdsId = null;
+        String rdsVer = null;
+        String dpId = null;
+        String dc = null;
+        String mi = null;
+        String mc = null;
+
+        try {
+            Log.e(TAG, " :: createAuthXMLRegistered Parsing | ENTER");
+            InputStream is = new ByteArrayInputStream(piddataxml.getBytes());
+
+            DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+            domFactory.setIgnoringComments(true);
+            DocumentBuilder builder = domFactory.newDocumentBuilder();
+            Document doc = builder.parse(is);
+
+            errcode = doc.getElementsByTagName("Resp").item(0).getAttributes().getNamedItem("errCode").getTextContent();
+            if (errcode.equals("1")) {
+                errinfo = doc.getElementsByTagName("Resp").item(0).getAttributes().getNamedItem("errInfo").getTextContent();
+            } else {
+                fcount = doc.getElementsByTagName("Resp").item(0).getAttributes().getNamedItem("fCount").getTextContent();
+                pid = doc.getElementsByTagName("Data").item(0).getTextContent();
+                skey = doc.getElementsByTagName("Skey").item(0).getTextContent();
+                ci = doc.getElementsByTagName("Skey").item(0).getAttributes().getNamedItem("ci").getTextContent();
+                hmac = doc.getElementsByTagName("Hmac").item(0).getTextContent();
+                type = doc.getElementsByTagName("Data").item(0).getAttributes().getNamedItem("type").getTextContent();
+                dc = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("dc").getTextContent();
+                mi = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("mi").getTextContent();
+                mc = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("mc").getTextContent();
+                Log.e(TAG, "device Public certificate: " + mc);
+                Log.e(TAG, "device skey: " + skey);
+                skey = skey.replaceAll(" ", "\n");
+                Log.e(TAG, "device skey: " + skey);
+
+//                SimpleDateFormat sdfTxn = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.US);
+//                txn = "" +sdfTxn.format(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            errcode = "1";
+            errinfo = "xml Parsing error";
+        }
+
+        if (!errcode.equals("1")) {
+            try {
+                Log.e(TAG, " :: createAuthXMLRegistered xml building| ENTER");
+                //TODO :	rc hardcoded to y in authxml
+
+                String authXML = String.format(
+                        "<Skey " + "ci=\"" + ci + "\">" + skey + "</Skey>"
+                                + "<Data " + "type=\"" + type + "\">" + pid + "</Data>"
+                                + "<Hmac>" + hmac + "</Hmac>");
+
+                Log.e(TAG, " :: AuthXML is:" + authXML);
+                return authXML;
+            } catch (Exception e) {
+                e.printStackTrace();
+                errcode = "1";
+                errinfo = "xml formation error";
+            }
+        }
+
+        return null;
+    }
 }
+
 
 
 

@@ -146,6 +146,8 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 
    let now = moment().format("MMDDhhmmss");
    let localDate = moment().format("MMDD");
+   let localTime = moment().format("hhmmss");
+
 
    let pId = pid;
 
@@ -161,18 +163,18 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
                         "<TransactionInfo>"+
                           "<UID type=\"U\">"+"802172334890"+"</UID>"+
                           "<Transm_Date_time>"+now+"</Transm_Date_time>"+
-                          "<Local_Trans_Time>"+localDate+"</Local_Trans_Time>"+
-                          "<Mcc>"+"6012"+"</Mcc>"+
+                          "<Local_Trans_Time>"+localTime+"</Local_Trans_Time>"+
+                          "<Local_date>"+localDate+"</Local_date>"+
                           "<CA_TID>"+"11205764"+"</CA_TID>"+
-                          "<CA_ID>"+"EQT000000000001"+"</CA_ID>"+
-                          "<CA_TA>"+"CSB NERUL MUMBAI MHIN"+"</CA_TA>"+
+                          "<CA_ID>"+"EQT000000001441"+"</CA_ID>"+
+                          "<CA_TA>"+"Equitas Bank Chennai TNIN"+"</CA_TA>"+
                           "<Stan>"+stan+"</Stan>"+
                         "</TransactionInfo>"+
-                        "<KycReqInfo ver=\"2.5\" ra=\"O\" rc=\"Y\" pfr=\"Y\" lr=\"Y\"  de=\"N\" >"+
-                          "<Auth  txn=\"UKC:795251\"  ver=\"2.5\">"+
+                        "<KycReqInfo ver=\"2.5\"  ra=\"O\" rc=\"Y\" pfr=\"N\" lr=\"Y\"  de=\"N\" >"+
+                          "<Auth  txn=\"UKC:"+stan+"\"  ver=\"2.5\">"+
                             "<Uses pi=\"n\" pa=\"n\" pfa=\"n\"  bio=\"y\" otp=\"n\"/>"+
                             "<Meta/>"+pId+
-                          "<Auth>"+
+                          "</Auth>"+
                         "</KycReqInfo>"+
                       "</KycRequest>";
 
