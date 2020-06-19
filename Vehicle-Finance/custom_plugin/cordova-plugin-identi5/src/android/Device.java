@@ -546,9 +546,13 @@ public class Device extends CordovaPlugin {
                 ci = doc.getElementsByTagName("Skey").item(0).getAttributes().getNamedItem("ci").getTextContent();
                 hmac = doc.getElementsByTagName("Hmac").item(0).getTextContent();
                 type = doc.getElementsByTagName("Data").item(0).getAttributes().getNamedItem("type").getTextContent();
+                dpId = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("dpId").getTextContent();
+                rdsId = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("rdsId").getTextContent();
+                rdsVer = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("rdsVer").getTextContent();
                 dc = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("dc").getTextContent();
                 mi = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("mi").getTextContent();
                 mc = doc.getElementsByTagName("DeviceInfo").item(0).getAttributes().getNamedItem("mc").getTextContent();
+                Log.e(TAG, "device Public certificate: " + mc);
                 Log.e(TAG, "device Public certificate: " + mc);
                 Log.e(TAG, "device skey: " + skey);
                 skey = skey.replaceAll(" ", "\n");
@@ -569,7 +573,15 @@ public class Device extends CordovaPlugin {
                 //TODO :	rc hardcoded to y in authxml
 
                 String authXML = String.format(
-                        "<Skey " + "ci=\"" + ci + "\">" + skey + "</Skey>"
+                        "<Uses bio=\"y\" bt=\"FMR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\" />"+
+                                "<Meta "  + "dc=\"" + dc + "\" "
+                                + "mi=\"" + mi + "\" "
+                                + "mc=\"" + mc + "\" "
+                                + "rdsId=\"" + rdsId + "\" "
+                                + "rdsVer=\"" + rdsVer + "\" "
+                                + "dpId=\"" + dpId + "\" "
+                                + "udc=\"" + "ESB000011205764" + "\"/>"+
+                                "<Skey " + "ci=\"" + ci + "\">" + skey + "</Skey>"
                                 + "<Data " + "type=\"" + type + "\">" + pid + "</Data>"
                                 + "<Hmac>" + hmac + "</Hmac>");
 
@@ -585,6 +597,7 @@ public class Device extends CordovaPlugin {
         return null;
     }
 }
+
 
 
 
