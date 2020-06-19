@@ -220,7 +220,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private location: Location,
     private salesDedupeService: SalesDedupeService,
     private toasterService: ToasterService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.initForm();
@@ -1147,28 +1147,53 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');
     dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
-      if (value !== this.mobileNumber) {
-        this.isMobileChanged = true;
-        this.isEnableDedupe = true;
+      if (!dedupe.get('mobilePhone').invalid && !value) {
+        if (value !== this.mobileNumber) {
+          this.isMobileChanged = true;
+          this.isEnableDedupe = true;
+        } else {
+          this.isEnableDedupe = false;
+          this.isMobileChanged = false;
+        }
       } else {
-        this.isEnableDedupe = false;
-        this.isMobileChanged = false;
+        this.isEnableDedupe = true;
+        // this.isMobileChanged = false;
       }
     });
     dedupe.get('name1').valueChanges.subscribe((value) => {
-      this.enableDedupeBasedOnChanges(value !== this.firstName);
+      if (!dedupe.get('name1').invalid && !value) {
+        this.enableDedupeBasedOnChanges(value !== this.firstName);
+      } else {
+        this.isEnableDedupe = true;
+      }
     });
     dedupe.get('pan').valueChanges.subscribe((value) => {
-      this.enableDedupeBasedOnChanges(value !== this.pan);
+      if (!dedupe.get('pan').invalid && !value) {
+        this.enableDedupeBasedOnChanges(value !== this.pan);
+      } else {
+        this.isEnableDedupe = true;
+      }
     });
     dedupe.get('aadhar').valueChanges.subscribe((value) => {
-      this.enableDedupeBasedOnChanges(value !== this.aadhar);
+      if (!dedupe.get('aadhar').invalid && !value) {
+        this.enableDedupeBasedOnChanges(value !== this.aadhar);
+      } else {
+        this.isEnableDedupe = true;
+      }
     });
     dedupe.get('passportNumber').valueChanges.subscribe((value) => {
-      this.enableDedupeBasedOnChanges(value !== this.passportNumber);
+      if (!dedupe.get('passportNumber').invalid && !value) {
+        this.enableDedupeBasedOnChanges(value !== this.passportNumber);
+      } else {
+        this.isEnableDedupe = true;
+      }
     });
     dedupe.get('drivingLicenseNumber').valueChanges.subscribe((value) => {
-      this.enableDedupeBasedOnChanges(value !== this.drivingLicenseNumber);
+      if (!dedupe.get('drivingLicenseNumber').invalid && !value) {
+        this.enableDedupeBasedOnChanges(value !== this.drivingLicenseNumber);
+      } else {
+        this.isEnableDedupe = true;
+      }
     });
   }
 
