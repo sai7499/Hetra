@@ -25,8 +25,10 @@
               <tbody>
                 <tr
                   *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">
-                  <td><input (click)="onLeadSelect(i)" class="checkbox" type="checkbox" name="selectLead"
-                      [disabled]="i !== 0 ? 'disabled' : null" /></td>
+                  <!-- <td><input (click)="onLeadSelect(i)" class="checkbox" type="checkbox" name="selectLead"
+                      [disabled]="i !== 0 ? 'disabled' : null" /></td> -->
+                      <td><input (click)="onLeadSelect(i)" class="checkbox" type="radio" name="selectLead"
+                        [disabled]="((dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created')) ? 'disabled' : null" /></td>
                   <td>{{ dedupe.leadID }}</td>
                   <td>{{ dedupe.branch }}</td>
                   <td>{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>
@@ -36,7 +38,7 @@
                   <td>{{ dedupe.Applicant }}</td>
                   <td>{{ dedupe.individualMobile }}</td>
                   <td>{{ dedupe.stage }}</td>
-                  <td [ngClass]="{'reject_reason':status === 'Rejected'}">{{ dedupe.status }}</td>
+                  <td [ngClass]="{'reject_reason':dedupe.status === 'Rejected'}">{{ dedupe.status }}</td>
                   <td>{{ dedupe.reasonForRejection }}</td>
                 </tr>
               </tbody>
@@ -60,9 +62,9 @@
                   <div class="col-12 mx-auto" id="proceed_div">
                     <div class="col-6 field"><label for="proceed_reason">Select the reason for Rejection</label></div>
                     <div class="col-6 field">
-                      <select class="form-control " id="proceed_reason">
-                        <option value="Reason-1">Reason-1</option>
-                        <option value="Reason-2">Reason-2</option>
+                      <select class="form-control " id="proceed_reason" (change)="onSelectRejectReason($event)">
+                        <option disabled value="">-- Select one --</option>
+                        <option *ngFor="let rejectReason of rejectReasonList" [value]="rejectReason.reasonCode">{{rejectReason.reasonDesc}}</option>
                       </select>
                     </div>
                     <button *ngIf="isSubmit || isChecked" class="btn btn-primary mar-right8" id="proceed_with_sumbit"

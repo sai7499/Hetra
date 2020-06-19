@@ -18,6 +18,8 @@ import { Constant } from '@assets/constants/constant';
 import { map } from 'rxjs/operators';
 import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
+import { ToasterService} from '@services/toaster.service';
+
 
 @Component({
   selector: 'app-address-details',
@@ -112,8 +114,9 @@ export class AddressDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private utilityService: UtilityService
-  ) { }
+    private utilityService: UtilityService,
+    private toasterService : ToasterService
+  ) {}
 
   onBack() {
     this.location.back();
@@ -826,11 +829,15 @@ export class AddressDetailsComponent implements OnInit {
           //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
           //   this.applicantId,
           // ]);
-          alert('saved successfully');
+          this.toasterService.showSuccess(
+            'Applicant Address Details Saved Successfully',
+            ''
+          );
         } else {
-          this.router.navigate([
-            `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,
-          ]);
+          this.toasterService.showSuccess(
+            'Applicant Address Details Saved Successfully',
+            ''
+          );
         }
       });
     });

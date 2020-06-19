@@ -36,6 +36,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public label: any = {};
   regionDataArray = [];
 
+  numberPattern = '/^[^`~!@#$%\^&*()_+={}|[\]\\:'
+
   public productCatoryCode: string;
   public leadDetails: any = {};
   public loanTenor: number = 0;
@@ -82,8 +84,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
-
-    console.log(this.loanTenor, 'loan')
 
     this.initForms();
     this.getLov();
@@ -154,18 +154,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (value && formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostCarTrade,
-        assetCostLeast: formArray.value[0].assetCostCarTrade,
+        // assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
 
     } else if (value && formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB,
-        assetCostLeast: formArray.value[0].assetCostCarTrade,
+        // assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
     } else if (value && formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB,
-        assetCostLeast: formArray.value[0].assetCostCarTrade,
+        // assetCostLeast: formArray.value[0].assetCostCarTrade,
       })
     }
   }
@@ -315,7 +315,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       fastTagAmount: VehicleDetail.fastTagAmount || null,
       finalAssetCost: VehicleDetail.finalAssetCost || null,
       fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
-      fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ?  true : false || '',
+      fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ? true : false || '',
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
       gorssVehicleWeight: VehicleDetail.gorssVehicleWeight || '',
       idv: VehicleDetail.idv || null,
@@ -371,7 +371,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-    console.log(formArray.value, 'formArray')
   }
 
   // event emitter for giving output to parent add vehicle component
@@ -477,7 +476,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   changeSalesForm() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const controls = formArray.at(0) as FormGroup;
-    console.log(controls, 'controls')
 
     if (this.productCatoryCode === 'NCV') {
       controls.removeControl('vehicleRegNo');
@@ -528,7 +526,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('category', new FormControl('', Validators.required));
     } else if (this.productCatoryCode === 'UCV') {
-
 
       controls.removeControl('vehicleRegNo');
       controls.removeControl('assetCostGrid');
@@ -675,7 +672,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: [null],
       rcOwnerName: [''],
-      ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[1-9][0-9]*$'), Validators.required])],
+      ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[0-9]*$'), Validators.required])],
       address: ['', Validators.compose([Validators.maxLength(140), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],

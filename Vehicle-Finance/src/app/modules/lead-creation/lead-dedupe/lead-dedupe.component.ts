@@ -4,6 +4,7 @@ import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { CreateLeadService } from '../service/creatLead.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
 import { Router } from '@angular/router';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-lead-dedupe',
@@ -27,17 +28,24 @@ export class LeadDedupeComponent implements OnInit {
   leadId: string;
   isWithLead: boolean;
   status: string;
+  productCode: string;
+  rejectReasonList = [];
+  rejectReasonCode: number;
+  createdBy: string;
+  userName: string;
 
   constructor(
     private route: Router,
     private labelsData: LabelsService,
     private leadStoreService: LeadStoreService,
     private createLeadService: CreateLeadService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private loginStoreService: LoginStoreService
   ) { }
 
   ngOnInit() {
     this.getLabels();
+    this.getUserDetails();
     this.getDedupeData();
   }
 
@@ -51,14 +59,23 @@ export class LeadDedupeComponent implements OnInit {
     );
   }
 
+  getUserDetails() {
+    const getUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    if (!getUserDetails) {
+      return;
+    }
+    this.userName = getUserDetails.userDetails.firstName;
+  }
+
   getDedupeData() {
     const dedupeData = this.leadStoreService.getDedupeData();
+    this.dedupeArray = dedupeData.leadDedupeResults;
     if (!dedupeData) {
       return;
     }
-    this.dedupeArray = dedupeData;
-    this.status = dedupeData.status;
-    this.leadId = dedupeData[0].leadID;
+    this.leadId = dedupeData.leadDedupeResults[0].leadID;
+    this.productCode = dedupeData.loanLeadDetails.product;
+    console.log('dedupeData', dedupeData.leadDedupeResults);
   }
 
   OnProceed() {
@@ -70,10 +87,19 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   OnReject() {
-    this.isReason = true;
-    this.isSubmit = true;
-    this.showModal = 'rejectModal';
-    this.modalMessage = `Are you sure you want to reject lead - ${this.leadId} ?`;
+    this.createLeadService.rejectLead(this.productCode).subscribe((res: any) => {
+      const response = res;
+      console.log('Reject Lead', response);
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.rejectReasonList = response.ProcessVariables.assetRejectReason;
+        this.isReason = true;
+        this.isSubmit = true;
+        this.showModal = 'rejectModal';
+        this.modalMessage = `Are you sure you want to reject lead - ${this.leadId} ?`;
+      }
+    });
   }
 
   OnCreateNew() {
@@ -130,11 +156,46 @@ export class LeadDedupeComponent implements OnInit {
     });
   }
 
+  onSelectRejectReason(event) {
+    this.rejectReasonCode = event.target.value;
+  }
+
+  rejectReason() {
+    const createLead = this.createLeadDataService.getLeadData();
+    const data: any = { ...createLead };
+    const loanLeadDetails = data.loanLeadDetails;
+    const applicantDetails = data.applicantDetails;
+
+    this.createLeadService
+      .createLead(loanLeadDetails, applicantDetails, true, true, Number(this.rejectReasonCode))
+      .subscribe((res: any) => {
+        const response = res;
+        console.log('Reject with reason', response);
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          const leadId = response.ProcessVariables.leadId;
+          this.route.navigateByUrl(`/activity-search`);
+        }
+      });
+
+  }
+
+  // navigateToLeadSection() {
+  //   if (this.isWithLead) {
+  //     this.proceedAsNewLead();
+  //   } else {
+  //     this.proceedWithSelectedLead();
+  //   }
+  // }
+
   navigateToLeadSection() {
-    if (this.isWithLead) {
+    if (this.showModal === 'proceedModal_without') {
       this.proceedAsNewLead();
-    } else {
+    } else if (this.showModal === 'proceedModal_with') {
       this.proceedWithSelectedLead();
+    } else if (this.showModal === 'rejectModal') {
+      this.rejectReason();
     }
   }
 
