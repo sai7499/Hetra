@@ -14,7 +14,7 @@
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
             </label>
             <app-vf-custom-select [isDisabled]="isBusinessDivisionEnable" [values]="businessDivision"
-              formControlName="bizDivision" (change)="getProductCategory($event)" [isRequired]="'true'">
+              formControlName="bizDivision" (change)="getProductCategory($event)" [isRequired]="'Business Division required'">
             </app-vf-custom-select>
           </div>
 
