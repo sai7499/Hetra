@@ -1,4 +1,4 @@
-[import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router , ActivatedRoute, } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/public_api';
@@ -492,4 +492,3 @@ export class IncomeDetailsComponent implements OnInit {
   }
 }
 
-]
