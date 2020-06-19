@@ -31,6 +31,7 @@ export class BankDetailsComponent implements OnInit {
   bsDatepickerConfig: any;
   toDate;
   assignedArray1 = [];
+  toDayDate: Date = new Date();
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -41,6 +42,7 @@ export class BankDetailsComponent implements OnInit {
     private location: Location ,
   ) {
     this.listArray = this.fb.array([]);
+    
   }
   async ngOnInit() {
   const date = new Date();

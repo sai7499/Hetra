@@ -46,10 +46,11 @@
                       <!-- <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
                       (input)= "getMonths()" > -->
                       <kendo-datepicker class="form-control" 
-                      formControlName="fromDate" [format]="'dd/MM/yyyy'"
+                      formControlName="fromDate" 
+                      [format]="'dd/MM/yyyy'"
                       [max]="toDayDate"
                        placeholder="Select Start Month"
-                      [activeView]="'day'"
+                      [activeView]="'decade'"
                       (input)="getMonths()"
                       ></kendo-datepicker>
                    </div>
