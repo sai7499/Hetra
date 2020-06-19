@@ -436,6 +436,7 @@
     "totalMonthlySalaryIncome": "Total Monthly Salary Income",
     "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
     "salariedFOIRDeviation": "Salaried FOIR Deviation %",
+    "totalSalariedFOIR":"Total Salaried FOIR %",
     "consideredSalaryIncome": "Considered Salary Income",
     "totalMonthlyBusinessIncome": "Total Monthly Business Income",
     "totalMonthlyRentalIncome": "Total Monthly Rental Income",

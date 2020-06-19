@@ -81,7 +81,8 @@
                   </td>
                   <td data-title="Net Profit">
                     <input
-                      type="number"
+                      type="text"
+                      numbersOnly
                       id="latbox"
                       class="no_border"
                       class="input_value"
@@ -160,7 +161,7 @@
             </table>
             <div class="row bottom_common m-0">
               <div class="col-md-12 text-right">
-               {{labels?.totalMonthlyBusinessIncome}} :
+               {{labels?.totalMonthlyBusinessIncome}} : {{totalBusinessIncomeAmount | number:'1.0-0'}}
               </div>
             </div>
           </div>
@@ -467,7 +468,7 @@
             </table>
             <div class="row bottom_common m-0">
               <div class="col-md-12 text-right">
-                {{ labels?.totalMontlyObligations }} : 27,490
+                {{ labels?.totalMontlyObligations }} : {{totalObligationAmount | number:'1.0-0'}}
               </div>
             </div>
           </div>
@@ -481,48 +482,71 @@
 
               <tr>
                 <td>{{ labels?.totalMonthlySalaryIncome }}</td>
-                <td>50000</td>
+                <td>{{totalMonthlySalaryIncome}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.salariedFOIRaspePolicy }}</td>
-                <td>70%</td>
+                <td><input
+                  type="number"
+                  id=""
+                  readonly = "true"
+                  class="input_value"
+                  name="salariedFOIRDeviation"
+                  class="form-control text-center"
+                  value=""
+                  formControlName = "salariedFOIRaspePolicy">
+                </td>
               </tr>
               <tr>
                 <td>{{ labels?.salariedFOIRDeviation }}</td>
-                <td>70%</td>
+                <td>
+                  <input
+                  type="number"
+                  id=""
+                  class="input_value"
+                  name="salariedFOIRDeviation"
+                  class="form-control text-center"
+                  value=""
+                  formControlName = "salariedFOIRDeviation"
+                  (keyup)="onSalFoirDeviation($event.target.value)"
+                /></td>
+              </tr>
+              <tr>
+                <td>{{ labels?.totalSalariedFOIR }}</td>
+                <td>{{totalSalariedFOIR}} </td>
               </tr>
               <tr>
                 <td>{{ labels?.consideredSalaryIncome }}</td>
-                <td>35000</td>
+                <td>{{(totalMonthlySalaryIncome * totalSalariedFOIR)/100}}</td>
               </tr>
 
               <tr>
                 <td>{{ labels?.totalMonthlyBusinessIncome }}</td>
-                <td>212424</td>
+                <td>{{totalBusinessIncomeAmount}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMonthlyRentalIncome }}</td>
-                <td>9600</td>
+                <td>{{totalMonthlyRentalIncome}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMonthlyPensionIncome }}</td>
-                <td>0</td>
+                <td>{{totalMonthlyPensionIncome}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMonthlyAgriIncome }}</td>
-                <td>0</td>
+                <td>{{totalMonthlyAgriIncome}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMonthlyIncome }}</td>
-                <td>257024</td>
+                <td>{{totalMonthlyIncome}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMontlyObligations }}</td>
-                <td>27490</td>
+                <td>{{totalObligationAmount}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.loanEligibilityasperFOIR }}</td>
-                <td>9039107</td>
+                <td>{{1.4 * (totalMonthlyIncome - totalObligationAmount)}}</td>
               </tr>
             </table>
           </div>
