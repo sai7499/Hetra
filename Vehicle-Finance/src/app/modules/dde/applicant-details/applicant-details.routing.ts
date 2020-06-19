@@ -10,12 +10,13 @@ import { EmploymentDetailsComponent } from './employment-details/employment-deta
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { BankListComponent } from './bank-list/bank-list.component';
 import { ApplicantResolveService } from '@services/applicant.resolve.service';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: ApplicantDetailsComponent,
-    resolve: { applicantDetails: ApplicantResolveService },
+    resolve: { applicantDetails: ApplicantResolveService, leadData: LeadDataResolverService },
     children: [
       {
         path: 'basic-data/:applicantId',

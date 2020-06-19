@@ -263,6 +263,19 @@ td {
     margin-left: 4px;
    
 }
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+.cus-mandatory-field {
+    color: red;
+    font-style: oblique;
+    font-size: 12px;
+}
 .star_blue_col
 {
     color:#0000FF;
