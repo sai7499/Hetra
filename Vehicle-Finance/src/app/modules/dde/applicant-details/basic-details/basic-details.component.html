@@ -264,6 +264,7 @@
               [patternCheck]="namePattern"
               [maxLength]="nameLength30"
               [isDirty]="isDirty"
+              [isRequired]="'Mother Name Is Required'"
               
             ></app-custom-input>
             </div>
@@ -276,6 +277,8 @@
               <app-vf-custom-select
                 formControlName="occupation"
                 [values]="LOV.LOVS.occupation"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty">
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -286,6 +289,8 @@
               <app-vf-custom-select
                 formControlName="nationality"
                 [values]="LOV.LOVS.nationality"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty">
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -344,6 +349,8 @@
               <app-vf-custom-select
                 formControlName="preferredLanguage"
                 [values]="LOV.LOVS.preferredLanguage"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty">
               ></app-vf-custom-select>
             </div>
           </div>
@@ -644,6 +651,8 @@
               <app-vf-custom-select
                 formControlName="customerCategory"
                 [values]="LOV.LOVS.customerCategory"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty">
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -676,6 +685,8 @@
               <app-vf-custom-select
                 formControlName="preferredLanguageCommunication"
                 [values]="LOV.LOVS.preferredLanguage"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty">
               ></app-vf-custom-select>
             </div>
 

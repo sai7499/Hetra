@@ -7,6 +7,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { Location } from '@angular/common';
 import { UtilityService} from '@services/utility.service'
+import { ToasterService} from '@services/toaster.service'
 import {
   Applicant,
   ApplicantDetails,
@@ -90,7 +91,8 @@ export class BasicDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private location: Location,
-    private utilityService : UtilityService
+    private utilityService : UtilityService,
+    private toasterService : ToasterService
   ) {}
  async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -202,6 +204,8 @@ export class BasicDetailsComponent implements OnInit {
       const mobile = aboutIndivProspectDetails.mobilePhone;
       if(mobile && mobile.length==12){
         this.mobilePhone= mobile.slice(2,12)
+      } else if (mobile && mobile.length == 10) {
+        this.mobilePhone = mobile
       }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -433,10 +437,14 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.Error === '0') {
         console.log('RESPONSE', response);
-        this.router.navigate([
-          `/pages/applicant-details/${this.leadId}/identity-details`,
-          this.applicantId,
-        ]);
+        // this.router.navigate([
+        //   `/pages/applicant-details/${this.leadId}/identity-details`,
+        //   this.applicantId,
+        // ]);
+        this.toasterService.showSuccess(
+          'Applicant Basic Details Saved Successfully',
+          ''
+        );
       }
     });
   }
