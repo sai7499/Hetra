@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ExposureService } from '@services/exposure.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -61,7 +61,6 @@ export class ExposureDetailsComponent implements OnInit {
     this.commonservice.getLovData().subscribe((res: any) => {
       console.log(res.LOVS);
       this.lovData = res.LOVS['loanType-Exposure'];
-      console.log(this.lovData,' live proposed response');
     });
     this.userId = localStorage.getItem('userId');
     this.getExposure();
@@ -106,7 +105,7 @@ export class ExposureDetailsComponent implements OnInit {
     if (!data || data === null || undefined) {
       return this.formBuilder.group({
         loanType: [''],
-        loanNo: ['' ],
+        loanNo: ['', [Validators.minLength(0)] ],
         assetType: [''],
         yom: ['' ],
         gridValue: ['' ],

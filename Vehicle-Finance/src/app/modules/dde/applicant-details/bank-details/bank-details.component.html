@@ -5,42 +5,53 @@
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_holder_name">Account Holder Name</label>
                 <input formControlName="accountHolderName" type="text" class="form-control"
-                     name="account_holder_name" id="account_holder_name" required="required">
+                     name="account_holder_name" id="account_holder_name" required="required" pattern="[A-Za-z]*">
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="bank_name">Bank Name</label>
-                <!-- <app-vf-custom-select formControlName="bankId" [values]="bankMaster"></app-vf-custom-select> -->
+                <app-vf-custom-select formControlName="bankId" [values]="lovData?.bankMaster" [isRequired]="'Please Select Bank Name'"></app-vf-custom-select>
                 
             <!-- <input formControlName="bankName" type="text" class="form-control" name="bank_name" id="bank_name" required="required"> -->
-            <select class="form-control" id="account_type" name="account_type" required="required"
+            <!-- <select class="form-control" id="account_type" name="account_type" required="required"
                  formControlName="bankId" >
                 <option disabled>--Select One--</option>
                 <option value="{{item.key}}" *ngFor="let item of lovData.bankMaster">{{item.value}}</option>
                 
-             </select>    
+             </select>     -->
         </div>
+         
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_number">Account Number</label>
                 <input formControlName="accountNumber" type="number" class="form-control" name="account_number" 
-                    id="account_number" required="required">
+                    id="account_number" required="required"  min= "0">
              </div>
+            </div>
+            <div class="row">
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_type">Account Type</label>
-                <select class="form-control" id="account_type" name="account_type" required="required" 
+                <!-- <select class="form-control" id="account_type" name="account_type" required="required" 
                     formControlName="accountType" >
                     <option disabled>--Select One--</option>
                     <option value="{{item.key}}" *ngFor="let item of lovData.bankAccountType">{{item.value}}</option> 
-                </select>
-                <!-- <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType"></app-vf-custom-select> -->
+                </select> -->
+                <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType" [isRequired]="'Please Select Account Type'"></app-vf-custom-select>
              </div>
+           
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="from_date">From Date</label>
                 <div class="form-group date">
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
-                      (input)= "getMonths()" >
+                      <!-- <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
+                      (input)= "getMonths()" > -->
+                      <kendo-datepicker class="form-control" 
+                      formControlName="fromDate" [format]="'dd/MM/yyyy'"
+                      [max]="toDayDate"
+                       placeholder="Select Start Month"
+                      [activeView]="'day'"
+                      (input)="getMonths()"
+                      ></kendo-datepicker>
                    </div>
                 </div>
              </div>
@@ -50,20 +61,31 @@
                    <div class="input-group date" id="datetimepicker1">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                       </span>
-                      <input  formControlName="toDate"    type="date" 
+                      <!-- <input  formControlName="toDate"    type="date" 
                         class="form-control date datepicker" 
                          disabled>
-                   </div>
+                   </div> -->
+                   <kendo-datepicker class="form-control" 
+                   formControlName="toDate" [format]="'dd/MM/yyyy'"
+                   [max]="toDayDate"
+                    placeholder="Select Latest Month"
+                   [activeView]="'decade'"
+                   (input)="getMonths()"
+                   ></kendo-datepicker>
                 </div>
              </div>
+            </div>
+        </div>
+            <div class="row">
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="period">Period</label>
-                <input formControlName="period" type="number" class="form-control" name="period" id="period" required="required" disabled>
+                <input formControlName="period" type="number" class="form-control" name="period" id="period" min= "0" required="required" disabled>
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="limit">Limit</label>
-                <input formControlName="limit" type="number" class="form-control" name="limit" id="limit" required="required">
+                <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required">
              </div>
+             <div class="form-group col-sm-6 col-md-4 col-lg-3"></div>
           </div>
           <div class="">
           <div class="table-responsive application">
@@ -114,28 +136,28 @@
                       <input class="form-control" formControlName = "month" value="{{assignedArray[i] ? assignedArray[i] : assignedArray[i].month[0]}}" disabled > 
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="inflow">
+                      <input type="number" class="form-control input_value"   min= "0" formControlName="inflow">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value" formControlName="outflow">
+                      <input type="number" class="form-control input_value"  min= "0" formControlName="outflow">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="noOfInWardBounces">
+                      <input type="number" class="form-control input_value"   min= "0" formControlName="noOfInWardBounces">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="noOfOutWardBounces">
+                      <input type="number" class="form-control input_value"  min= "0" formControlName="noOfOutWardBounces">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="balanceOn5th">
+                      <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn5th">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="balanceOn15th">
+                      <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn15th">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="balanceOn20th">
+                      <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn20th">
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  formControlName="abbOfTheMonth">
+                      <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth">
                   </td>
                   <!--  <td><input type="text" class="form-control input_value" value=""></td> -->
               </tr>
@@ -145,6 +167,7 @@
           </div>
       </div>
        </div>
+    <!-- </div> -->
        
    </form>
    <div class="row">

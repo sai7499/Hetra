@@ -48,12 +48,12 @@ export class BankDetailsComponent implements OnInit {
   this.bankForm = this.fb.group({
     userId: localStorage.getItem('userId'),
     applicantId: this.applicantId,
-    accountHolderName: [''],
+    accountHolderName: ['', Validators.pattern('^[a-zA-Z ]*$')],
     bankId: [''],
     accountNumber: [''],
     accountType: [''],
     fromDate: ['' ],
-    toDate: [this.utilityService.getNewDateFormat(date), {disabled: true}],
+    toDate: [''],
     period: ['' , { disabled : true}],
     limit: [''],
     id: this.leadId,
@@ -254,6 +254,7 @@ export class BankDetailsComponent implements OnInit {
   }
 
   getMonths() {
+    setTimeout(() => {
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
@@ -272,7 +273,7 @@ export class BankDetailsComponent implements OnInit {
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
     ) {
       this.listArray.controls = [];
-      alert('Invalid Date Selection');
+      // alert('Invalid Date Selection');
     } else {
       // const numberOfMonths =
       //   (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
@@ -283,7 +284,7 @@ export class BankDetailsComponent implements OnInit {
           period: numberOfMonths,
         });
       } else {
-        alert('Invalid Date Selection');
+        // alert('Invalid Date Selection');
         this.bankForm.value.period = '';
         return false;
       }
@@ -305,6 +306,7 @@ export class BankDetailsComponent implements OnInit {
       this.assignedArray = this.assignedArray.reverse();
       console.log(this.assignedArray, ' assigned Array');
       }
+    }, 1000);
   }
 onBack() {
     this.location.back();
