@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+[import { Component, OnInit } from '@angular/core';
 import { Router , ActivatedRoute, } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/public_api';
@@ -40,6 +40,8 @@ export class IncomeDetailsComponent implements OnInit {
   submitted = false;
   keyword = 'applicantName';
   getResults = new Array();
+  totalObligation: void;
+  totalObligationAmount: any;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -289,9 +291,12 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getObligationDetails(data[i]));
+
       }
     } else {
       control.push(this.getObligationDetails());
+      // this.appendFactoredIncome(data[i].incomeType, i);
+
     }
   }
   removeObligationIndex(i?: any) {
@@ -424,5 +429,67 @@ export class IncomeDetailsComponent implements OnInit {
     console.log(value);
     incomeArray.at(i).patchValue({ factoredIncome : value });
   }
+  onTenure(event: any,i: number) { // without type info
+    console.log(event);
+    const obligationArray = this.incomeDetailsForm.controls
+    .obligationDetails as FormArray;
+    console.log(obligationArray);
+    
+    const tenure = obligationArray.value[i].tenure;
+    const mob =  obligationArray.value[i].mob;
+
+    console.log(tenure);
+    
+    const balanceTenor = Number(tenure) - Number(mob);
+    // obligationArray.value[i].balanceTenure = balanceTenor;
+    obligationArray.at(i).patchValue({balanceTenure : balanceTenor })
+    // this.totalObligation =  obligationAmount
+    // console.log(this.totalObligation);
+    
+  }
+  onEmi(event: any,i: number) { // without type info
+    console.log(event);
+    const obligationArray = this.incomeDetailsForm.controls
+    .obligationDetails as FormArray;
+    console.log(obligationArray);
+    
+   
+    const emi =  obligationArray.value[i].emi;
+
+    console.log(emi);
+    
+    const obligationAmount =emi
+    obligationArray.at(i).patchValue({obligationAmount : obligationAmount})
+    if (obligationArray && obligationArray.length > 0) {
+     for(let i = 0; i < obligationArray.length; i++){
+  console.log( obligationArray[i].value.emi);
+       this.totalObligationAmount += obligationArray[i].value.emi;
+     
+      //  console.log(a);
+       
+       
+     }
+
+    }
+    
+  }
+  onIncome(event: any,i: number) { // without type info
+    console.log(event);
+    const businessIncomeArray = this.incomeDetailsForm.controls
+    .businessIncomeDetails as FormArray;
+    console.log(businessIncomeArray);
+    
+    const netProfit = businessIncomeArray.value[i].netProfit;
+    const depreciation =  businessIncomeArray.value[i].depreciation;
+    const directorSalary =  businessIncomeArray.value[i].directorSalary;
+
+    const grossDerivedIncome = Number(netProfit * 3) + Number(depreciation) + Number(directorSalary);
+    businessIncomeArray.at(i).patchValue({grossDerivedIncome : grossDerivedIncome })
+    const grossMonthlyIncome =grossDerivedIncome/12
+    businessIncomeArray.at(i).patchValue({grossMonthlyIncome : grossMonthlyIncome})
+   
+    
+  }
 }
 
+]

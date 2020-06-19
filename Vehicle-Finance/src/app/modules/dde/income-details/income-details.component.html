@@ -106,11 +106,12 @@
                     <input
                       type="number"
                       id=""
-                      readonly="true"
                       class="input_value"
                       name="directorSalary"
                       class="form-control text-center"
                       formControlName="directorSalary"
+                      (keyup)="onIncome($event.target.value, i)"
+
                     />
                   </td>
                   <td data-title="Gross derived Income">
@@ -159,7 +160,7 @@
             </table>
             <div class="row bottom_common m-0">
               <div class="col-md-12 text-right">
-                Total Monthly Business Income :
+               {{labels?.totalMonthlyBusinessIncome}} :
               </div>
             </div>
           </div>
@@ -380,6 +381,7 @@
                       name="loanAmount"
                       class="form-control text-center"
                       formControlName="loanAmount"
+                      min="0"
                     />
                   </td>
                   <td data-title="Tenor(In Months)">
@@ -390,16 +392,21 @@
                       name="tenure"
                       class="form-control text-center"
                       formControlName="tenure"
+                      min="0"
+
                     />
                   </td>
                   <td data-title="MOB">
                     <input
                       type="number"
+                      min="0"
                       id=""
                       class="input_value"
                       name="mob"
                       class="form-control text-center"
                       formControlName="mob"
+                      (keyup)="onTenure($event.target.value, i)"
+
                     />
                   </td>
                   <td data-title="EMI">
@@ -410,6 +417,8 @@
                       name="emi"
                       class="form-control text-center"
                       formControlName="emi"
+                      (keyup)="onEmi($event.target.value, i)"
+
                     />
                   </td>
                   <td data-title="Balance Tenor">
@@ -458,7 +467,7 @@
             </table>
             <div class="row bottom_common m-0">
               <div class="col-md-12 text-right">
-                Total Monthly Obligation : 27,490
+                {{ labels?.totalMontlyObligations }} : 27,490
               </div>
             </div>
           </div>
@@ -479,7 +488,7 @@
                 <td>70%</td>
               </tr>
               <tr>
-                <td>{{ labels?.salairedFOIRDeviation }}</td>
+                <td>{{ labels?.salariedFOIRDeviation }}</td>
                 <td>70%</td>
               </tr>
               <tr>
