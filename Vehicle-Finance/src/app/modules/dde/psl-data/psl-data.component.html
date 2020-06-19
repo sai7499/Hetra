@@ -429,6 +429,7 @@
                 <app-vf-custom-select 
                     [values]="weakerSectionValues" 
                     formControlName="weakerSection"
+                    (change)="onChangeWeakerSection($event)"
                     name="weakerSection">
                 </app-vf-custom-select>
             </div>
@@ -507,9 +508,8 @@
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="ca_registration_number">{{labels.caRegisterNo}}</label>
-        <input type="text" formControlName="caRegistrationNumber" class="form-control" name="ca_registration_number"
-            id="ca_registration_number" required="required" [ngModel]="caRegistrationNumber"
-            (ngModelChange)="caRegistrationNumber=$event.toUpperCase()"/>
+        <input type="text" formControlName="caRegistrationNumber" class="form-control  input-upper" name="ca_registration_number"
+            id="ca_registration_number" required="required" [ngModel]="caRegistrationNumber"/>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="udin_no">{{labels.udinNo}}</label>
