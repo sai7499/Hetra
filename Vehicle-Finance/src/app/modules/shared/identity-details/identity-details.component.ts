@@ -21,7 +21,8 @@ import {
 } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '../../../../assets/constants/constant';
-import { UtilityService } from '@services/utility.service'
+import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service'
 
 @Component({
   selector: 'app-identity-details',
@@ -55,7 +56,8 @@ export class IdentityDetailsComponent implements OnInit {
     private router: Router,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private utilityService : UtilityService
+    private utilityService : UtilityService,
+    private toasterService : ToasterService
   ) {}
 
   navigateToApplicantList() {
@@ -325,15 +327,23 @@ export class IdentityDetailsComponent implements OnInit {
       }
       const currentUrl = this.location.path();
       if (currentUrl.includes('sales')) {
-        this.router.navigate([
-          `/pages/sales-applicant-details/${this.leadId}/address-details`,
-          this.applicantId,
-        ]);
+        // this.router.navigate([
+        //   `/pages/sales-applicant-details/${this.leadId}/address-details`,
+        //   this.applicantId,
+        // ]);
+        this.toasterService.showSuccess(
+          'Applicant Identity Details Saved Successfully',
+          ''
+        );
       } else {
-        this.router.navigate([
-          `/pages/applicant-details/${this.leadId}/address-details`,
-          this.applicantId,
-        ]);
+        // this.router.navigate([
+        //   `/pages/applicant-details/${this.leadId}/address-details`,
+        //   this.applicantId,
+        // ]);
+        this.toasterService.showSuccess(
+          'Applicant Identity Details Saved Successfully',
+          ''
+        );
       }
     });
   }
