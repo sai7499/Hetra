@@ -10,6 +10,8 @@ import { CommomLovService } from '@services/commom-lov-service';
 //import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { ToasterService } from '@services/toaster.service';
+
 
 @Component({
   selector: 'app-track-vehicle',
@@ -29,8 +31,41 @@ export class TrackVehicleComponent implements OnInit {
   fleetId: number;
   fleetRtrLov: any = {};
   totalDelayDays: number;
+  public toDayDate: Date = new Date();
   public trackVehicleForm: FormGroup;
   leadId: number;
+  isDirty: boolean;
+
+  regexPattern = {
+    amount: {
+      rule: "^[1-9][0-9]*$",
+      msg: 'Alphabets and Special Characters not allowed'
+    },
+    nameLength: {
+      rule: '30',
+      msg: ''
+    },
+    contact:{
+      rule: /^\d{10}$/,
+      msg: 'Invalid Number / Alphabets and Special Characters not allowed'
+    },
+    contLength:{
+      rule: '10'
+    },
+    name:{
+      rule:/^[a-zA-Z ]*$/,
+      msg: 'Invalid Name / Numbers and Special Characters not allowed'
+    },
+    vachilePattern : {
+      rule:/^[^*|\":<>[\]{}`\\()';@&$]+$/,
+      msg: 'Invalid Name / Special Characters not allowed'
+    },
+    vechileNoPattern: {
+      rule: /^[ A-Za-z0-9_@./#&+-]*$/,
+      msg: 'Invalid Vechile No / Special Characters not allowed'
+    }
+  }
+ 
   constructor(
     private trackVechileService: TrackVechileService,
     private labelsData: LabelsService,
@@ -41,6 +76,7 @@ export class TrackVehicleComponent implements OnInit {
     private ddeStoreService: DdeStoreService,
     private utilityService: UtilityService,
     private location: Location,
+    private toasterService: ToasterService,
     private actRoute: ActivatedRoute
   ) { }
   async getId() {
@@ -61,34 +97,49 @@ export class TrackVehicleComponent implements OnInit {
 
   fleetRtrForm(fleetRtr) {
     if (fleetRtr) {
-      this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl(fleetRtr.clientName ,[Validators.required , Validators.pattern(/^[a-zA-Z ]*$/)]),
-        financierName: new FormControl(fleetRtr.financierName ,Validators.required ),
-        assetFinancied: new FormControl(fleetRtr.assetFinancied ,Validators.required ),
-        repaymentMode: new FormControl(fleetRtr.repaymentMode ,Validators.required ),
-        financeAmount: new FormControl({ value: 200000, disabled: true }),
-        financeCharges: new FormControl(fleetRtr.financeCharges,Validators.required ),
-        contractValue: new FormControl(fleetRtr.contractValue,Validators.required ),
-        contNo: new FormControl(fleetRtr.contNo,Validators.required ),
-        vehicleNo: new FormControl(fleetRtr.vehicleNo,Validators.required ),
-        financeType: new FormControl(fleetRtr.financeType,Validators.required ),
-        accountStatus: new FormControl(fleetRtr.accountStatus,Validators.required ),
-        loanStartDate: new FormControl(this.getDateFormat(fleetRtr.loanStartDate),Validators.required ),
-        loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate),Validators.required ),
-        thirtyDpdCount: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : 0, disabled: true }),
-        ninetyDpdCount: new FormControl({ value: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : 0, disabled: true }),
-        noOfEmi: new FormControl(fleetRtr.noOfEmi,Validators.required ),
-        emisPaid: new FormControl(fleetRtr.emisPaid,Validators.required ),
-        balanceTenor: new FormControl({ value: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : 0, disabled: true }),
-        totalDelay: new FormControl({ value: fleetRtr.totalDelay ? fleetRtr.totalDelay : 0, disabled: true }),
-        peakDelay: new FormControl({ value: fleetRtr.peakDelay ? fleetRtr.peakDelay : 0, disabled: true }),
-        avgDelay: new FormControl({ value: fleetRtr.avgDelay ? fleetRtr.avgDelay : 0, disabled: true }),
-        trackStatus: new FormControl({ value: fleetRtr.trackStatus ? fleetRtr.trackStatus : 0, disabled: true }),
-        totalAmtPaid: new FormControl({ value: fleetRtr.totalAmtPaid ? fleetRtr.totalAmtPaid : 0, disabled: true }),
-        emiPaid: new FormControl(fleetRtr.emiPaid),
-        // emiAmount: new FormControl(1000),
-        installment: this.fb.array([])
-      });
+      this.trackVehicleForm.patchValue({ clientName: fleetRtr.clientName});
+      this.trackVehicleForm.patchValue({ financierName: fleetRtr.financierName});
+      this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinancied});
+      this.trackVehicleForm.patchValue({ repaymentMode: fleetRtr.repaymentMode});
+      this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount});
+      this.trackVehicleForm.patchValue({ financeCharges: fleetRtr.financeCharges});
+      this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
+      this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
+      this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
+      this.trackVehicleForm.patchValue({ contNo: fleetRtr.contNo});
+      this.trackVehicleForm.patchValue({ vehicleNo: fleetRtr.vehicleNo});
+      this.trackVehicleForm.patchValue({ financeType: fleetRtr.financeType});
+      this.trackVehicleForm.patchValue({ accountStatus: fleetRtr.accountStatus});
+      this.trackVehicleForm.patchValue({ loanStartDate: this.getDateFormat(fleetRtr.loanStartDate)});
+      this.trackVehicleForm.patchValue({ loanMaturityDate: this.getDateFormat(fleetRtr.loanMaturityDate)});
+      this.trackVehicleForm.patchValue({ thirtyDpdCount: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : 0 });
+      this.trackVehicleForm.patchValue({ ninetyDpdCount: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : 0});
+      this.trackVehicleForm.patchValue({ noOfEmi: fleetRtr.noOfEmi});
+      this.trackVehicleForm.patchValue({ emisPaid: fleetRtr.emisPaid});
+      this.trackVehicleForm.patchValue({ balanceTenor: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : 0});
+      this.trackVehicleForm.patchValue({ totalDelay: fleetRtr.totalDelay});
+      this.trackVehicleForm.patchValue({ peakDelay: fleetRtr.peakDelay});
+      this.trackVehicleForm.patchValue({ avgDelay: fleetRtr.avgDelay});
+      this.trackVehicleForm.patchValue({ trackStatus: fleetRtr.trackStatus ?fleetRtr.trackStatus : 0 });
+      this.trackVehicleForm.patchValue({ totalAmtPaid: fleetRtr.totalAmtPaid});
+      this.trackVehicleForm.patchValue({ emiPaid: fleetRtr.emiPaid});
+    
+      // this.trackVehicleForm = this.fb.group({
+     ////  loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate),Validators.required ),
+      //   thirtyDpdCount: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : 0, disabled: true }),
+      //   ninetyDpdCount: new FormControl({ value: fleetRtr.ninetyDpdCount ? fleetRtr.ninetyDpdCount : 0, disabled: true }),
+      //   noOfEmi: new FormControl(fleetRtr.noOfEmi,Validators.required ),
+      //   emisPaid: new FormControl(fleetRtr.emisPaid,Validators.required ),
+      //   balanceTenor: new FormControl({ value: fleetRtr.balanceTenor ? fleetRtr.balanceTenor : 0, disabled: true }),
+      //   totalDelay: new FormControl({ value: fleetRtr.totalDelay ? fleetRtr.totalDelay : 0, disabled: true }),
+      //   peakDelay: new FormControl({ value: fleetRtr.peakDelay ? fleetRtr.peakDelay : 0, disabled: true }),
+      //   avgDelay: new FormControl({ value: fleetRtr.avgDelay ? fleetRtr.avgDelay : 0, disabled: true }),
+      //   trackStatus: new FormControl({ value: fleetRtr.trackStatus ? fleetRtr.trackStatus : 0, disabled: true }),
+      //   totalAmtPaid: new FormControl({ value: fleetRtr.totalAmtPaid ? fleetRtr.totalAmtPaid : 0, disabled: true }),
+      //   emiPaid: new FormControl(fleetRtr.emiPaid),
+      //   // emiAmount: new FormControl(1000),
+      //   installment: this.fb.array([])
+      // });
       this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
     } else {
@@ -532,6 +583,8 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res) => {
         console.log(res);
         this.formArr.removeAt(index);
+        this.toasterService.showSuccess('FleetRtr instalment deleted successfully!', '');
+
       })
     } else {
       this.formArr.removeAt(index);
@@ -540,16 +593,23 @@ export class TrackVehicleComponent implements OnInit {
 
   onFormSubmit() {
     this.submitted = true;
+    this.isDirty = true;
 
     // stop here if form is invalid
     if (this.trackVehicleForm.invalid) {
         return;
     }else{
+
    console.log(this.trackVehicleForm.getRawValue()) ;
    let formDetails = this.trackVehicleForm.getRawValue();
    formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
    formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
-   formDetails['contNo'] =this.trackVehicleForm.controls['contNo'].value.toString();
+   formDetails['financeCharges'] =  parseInt(this.trackVehicleForm.controls['financeCharges'].value);
+   formDetails['contractValue'] =  parseInt(this.trackVehicleForm.controls['contractValue'].value);
+  //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
+   formDetails['noOfEmi'] =  parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
+   formDetails['emisPaid'] =  parseInt(this.trackVehicleForm.controls['emisPaid'].value);
+    //  formDetails['contNo'] =this.trackVehicleForm.controls['contNo'].value.toString();
    for (let i = 0; i < this.formArr.length; i++) {
       formDetails['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
       formDetails['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);
@@ -557,7 +617,9 @@ export class TrackVehicleComponent implements OnInit {
     this.trackVechileService.saveUpdateFleetRtr(formDetails, this.fleetId, this.leadId).subscribe((res: any) => {
       console.log(res);
       if (res['Error'] == "0") {
-        alert("Saved Success");
+       // alert("Saved Success");
+        this.toasterService.showSuccess('FleetRtr saved successfully!', '');
+
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
     });
