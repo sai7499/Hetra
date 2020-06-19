@@ -4,6 +4,7 @@ import { LabelsService } from '@services/labels.service';
 import { CreditScoreService } from '@services/credit-score.service';
 import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { Lead } from '@model/lead.model';
+import { CommomLovService } from '@services/commom-lov-service';
 interface CibilData {
   ageOfAsset?: number;
 // applicantList: [ApplicantDetails]
@@ -38,20 +39,23 @@ export class CreditScoreComponent implements OnInit {
     private router: Router,
     private labelService: LabelsService,
     private creditService: CreditScoreService,
-    private termsService: TermAcceptanceService
+    private termsService: TermAcceptanceService,
+    private commonLovService: CommomLovService,
+
   ) {
   }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
     this.labelService.getLabelsData().subscribe((res: any) => {
-      console.log(res);
+      console.log('ress----.>',res);
       this.labels = res;
     });
     this.leadId = (await this.getLeadId()) as number;
 
     this.leadData = this.getCreditFromService(this.leadId);
   }
+
   getCreditFromService(data: any) {
     const body = { leadId: data.toString() };
     console.log(body);
