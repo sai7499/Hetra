@@ -69,6 +69,12 @@ export class CustomSelectComponent
       : {};
   }
 
+  get selectedOption() {
+    return this.val;
+  }
+
+  constructor(private lovDataService: LovDataService) {}
+
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;
   }
