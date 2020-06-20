@@ -50,7 +50,7 @@ export class BankDetailsComponent implements OnInit {
   this.bankForm = this.fb.group({
     userId: localStorage.getItem('userId'),
     applicantId: this.applicantId,
-    accountHolderName: ['', Validators.pattern('^[a-zA-Z ]*$')],
+    accountHolderName: ['', Validators.required],
     bankId: [''],
     accountNumber: [''],
     accountType: [''],
