@@ -33,3 +33,6 @@ kendo-datepicker{
   margin-top: 16px;
   font-weight: 600;
 }
+.col-sm-7 button{
+    margin-left: 2px;
+}
