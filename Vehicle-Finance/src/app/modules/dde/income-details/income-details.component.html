@@ -81,8 +81,9 @@
                   </td>
                   <td data-title="Net Profit">
                     <input
-                      type="text"
-                      numbersOnly
+                      type="number" appNumberOnly
+                     min="0"
+
                       id="latbox"
                       class="no_border"
                       class="input_value"
@@ -90,10 +91,12 @@
                       class="form-control text-center"
                       formControlName="netProfit"
                     />
+                    
                   </td>
                   <td data-title="Depreciation">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
+                      
                       id="latbox"
                       class="input_value"
                       name="depreciation"
@@ -105,7 +108,8 @@
                     data-title="Directors salary/Interest to partners + Interest"
                   >
                     <input
-                      type="number"
+                      type="number" appNumberOnly
+                      
                       id=""
                       class="input_value"
                       name="directorSalary"
@@ -117,7 +121,7 @@
                   </td>
                   <td data-title="Gross derived Income">
                     <input
-                      type="number"
+                    type="number" appNumberOnly
                       id="latbox"
                       class="input_value"
                       name="grossDerivedIncome"
@@ -128,7 +132,7 @@
                   </td>
                   <td data-title="Gross monthly income">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id=""
                       readonly="true"
                       class="input_value"
@@ -237,7 +241,7 @@
                   </td>
                   <td data-title="Gross Income">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id="latbox"
                       class="no_border"
                       class="input_value"
@@ -249,7 +253,7 @@
                   </td>
                   <td data-title="Factoring %">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id="latbox"
                       class="input_value"
                       name="factoring"
@@ -260,7 +264,7 @@
                   </td>
                   <td data-title="Factored Income">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id=""
                       readonly="true"
                       class="input_value"
@@ -376,7 +380,7 @@
                   </td>
                   <td data-title="Loan Amount">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id="latbox"
                       class="input_value"
                       name="loanAmount"
@@ -387,7 +391,7 @@
                   </td>
                   <td data-title="Tenor(In Months)">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id=""
                       class="input_value"
                       name="tenure"
@@ -399,7 +403,7 @@
                   </td>
                   <td data-title="MOB">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       min="0"
                       id=""
                       class="input_value"
@@ -412,7 +416,7 @@
                   </td>
                   <td data-title="EMI">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id="latbox"
                       class="input_value"
                       name="emi"
@@ -424,7 +428,7 @@
                   </td>
                   <td data-title="Balance Tenor">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id=""
                       class="input_value"
                       name="balanceTenure"
@@ -435,7 +439,7 @@
                   </td>
                   <td data-title="Obligation Amount">
                     <input
-                      type="number"
+                      type="number" appNumberOnly
                       id=""
                       class="input_value"
                       name="obligationAmount"
@@ -487,7 +491,7 @@
               <tr>
                 <td>{{ labels?.salariedFOIRaspePolicy }}</td>
                 <td><input
-                  type="number"
+                  type="number" appNumberOnly
                   id=""
                   readonly = "true"
                   class="input_value"
@@ -501,7 +505,7 @@
                 <td>{{ labels?.salariedFOIRDeviation }}</td>
                 <td>
                   <input
-                  type="number"
+                  type="number" appNumberOnly
                   id=""
                   class="input_value"
                   name="salariedFOIRDeviation"
