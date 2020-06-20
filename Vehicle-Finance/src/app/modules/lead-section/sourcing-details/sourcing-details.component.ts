@@ -98,7 +98,6 @@ export class SourcingDetailsComponent implements OnInit {
     }
   }
 
-
   saveUpdate: {
     bizDivision: string;
     productCategory?: string;
