@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router , ActivatedRoute, } from '@angular/router';
+import { Router, ActivatedRoute, } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
-import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/public_api';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { IncomeDetailsService } from '@services/income-details.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
-import { data } from 'jquery';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-income-details',
@@ -50,6 +49,12 @@ export class IncomeDetailsComponent implements OnInit {
   totalMonthlyAgriIncome = 0;
   totalMonthlyIncome = 0;
   totalSalariedFOIR = 0;
+  salArray = [];
+  rentArray = [];
+  pensionArray = [];
+  agriArray = [];
+  productCode: string;
+  incomeTypeResponse: any;
 
   constructor(
     private router: Router,
@@ -58,8 +63,10 @@ export class IncomeDetailsComponent implements OnInit {
     private incomeDetailsService: IncomeDetailsService,
     private commonLovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
-    private applicantService: ApplicantService
-  ) {}
+    private applicantService: ApplicantService,
+    private createLeadDataService: CreateLeadDataService,
+
+  ) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -67,7 +74,7 @@ export class IncomeDetailsComponent implements OnInit {
       (data) => {
         this.labels = data;
       },
-      (error) => {}
+      (error) => { }
     );
 
     this.getLov();
@@ -85,14 +92,19 @@ export class IncomeDetailsComponent implements OnInit {
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
-      salariedFOIRaspePolicy : Number(70),
-      salariedFOIRDeviation : [''],
+      salariedFOIRaspePolicy: Number(70),
+      salariedFOIRDeviation: [''],
       leadId: this.leadId,
       userId: this.userId,
-      
+
     });
-    
+
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const leadSectionData = (leadData as any);
+    this.productCode = leadSectionData['leadDetails']['productCatCode'];
+ 
     this.getAllIncome();
+
   }
 
   getLov() {
@@ -412,138 +424,145 @@ export class IncomeDetailsComponent implements OnInit {
         });
     }
   }
+
+
   appendFactoredIncome(event: any, i: number) {
-    if (event === 'SALRINCTYP') {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      incomeArray.at(i).patchValue({ factoring: 100 });
-    } else if (event === 'RENINCTYP') {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      incomeArray.at(i).patchValue({ factoring: 80 });
-    } else if (event === 'PENINCTYP') {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      incomeArray.at(i).patchValue({ factoring: 100 });
-    } else if (event === 'AGRIINCINCTYP') {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      incomeArray.at(i).patchValue({ factoring: 50 });
+    const data = {
+      productCode: this.productCode
     }
-    this.getOtherIncomeDetails(i);
+    this.incomeDetailsService.getFactoringValue(data).subscribe(res => {
+      this.incomeTypeResponse = res['ProcessVariables']['factoringList']
+      this.incomeTypeResponse.forEach(element => {
+        if (event === element.incomeTypeUniqueValue) {
+          const incomeArray = this.incomeDetailsForm.controls
+            .otherIncomeDetails as FormArray;
+          incomeArray.at(i).patchValue({ factoring: element.factoring });
+        }
+        this.getOtherIncomeDetails(i);
+      });
+
+    })
   }
-//   appendFactoredIncome(event: any, i: number){
-// const data = {
-//   incomeType : event
-// }
-//     this.incomeDetailsService.getFactoringValue(data).subscribe(res=>{
-//       console.log(res);
-      
-//     })
-//   }
   getOtherFactoredIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
-    .otherIncomeDetails as FormArray;
+      .otherIncomeDetails as FormArray;
     const factoringPerc = incomeArray.at(i).value.factoring;
     const grossIncome = incomeArray.at(i).value.grossIncome;
     const value = Math.round(grossIncome * (factoringPerc / 100));
-    incomeArray.at(i).patchValue({ factoredIncome : value });
-    if(incomeArray.at(i).value.incomeType === 'SALRINCTYP')
-    {
+    incomeArray.at(i).patchValue({ factoredIncome: value });
+
+    if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
       if (incomeArray && incomeArray.length > 0) {
         this.totalMonthlySalaryIncome = 0;
-       for(let i = 0; i < incomeArray.length; i++){
-          this.totalMonthlySalaryIncome =  Math.round(this.totalMonthlySalaryIncome + incomeArray.value[i].factoredIncome);  
-       }
+        for (let i = 0; i < incomeArray.length; i++) {
+          if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
+            this.totalMonthlySalaryIncome = Math.round(this.totalMonthlySalaryIncome + incomeArray.value[i].factoredIncome);
+            this.salArray.push(this.totalMonthlySalaryIncome)
+          }
+
+
+        }
       }
     }
-    if(incomeArray.at(i).value.incomeType === 'RENINCTYP')
-    {
+    if (incomeArray.at(i).value.incomeType === 'RENINCTYP') {
       if (incomeArray && incomeArray.length > 0) {
         this.totalMonthlyRentalIncome = 0;
-       for(let i = 0; i < incomeArray.length; i++){
-          this.totalMonthlyRentalIncome =  Math.round(this.totalMonthlyRentalIncome + incomeArray.value[i].factoredIncome);  
-       }
+        for (let i = 0; i < incomeArray.length; i++) {
+          if (incomeArray.at(i).value.incomeType === 'RENINCTYP') {
+            this.totalMonthlyRentalIncome = Math.round(this.totalMonthlyRentalIncome + incomeArray.value[i].factoredIncome);
+            this.rentArray.push(this.totalMonthlyRentalIncome)
+          }
+
+
+        }
       }
     }
-    if(incomeArray.at(i).value.incomeType === 'PENINCTYP')
-    {
+    if (incomeArray.at(i).value.incomeType === 'PENINCTYP') {
       if (incomeArray && incomeArray.length > 0) {
         this.totalMonthlyPensionIncome = 0;
-       for(let i = 0; i < incomeArray.length; i++){
-          this.totalMonthlyPensionIncome =  Math.round(this.totalMonthlyPensionIncome + incomeArray.value[i].factoredIncome);  
-       }
+        for (let i = 0; i < incomeArray.length; i++) {
+          if (incomeArray.at(i).value.incomeType === 'PENINCTYP') {
+            this.totalMonthlyPensionIncome = Math.round(this.totalMonthlyPensionIncome + incomeArray.value[i].factoredIncome);
+            this.pensionArray.push(this.totalMonthlyPensionIncome)
+          }
+
+
+        }
       }
     }
-    if(incomeArray.at(i).value.incomeType === 'AGRIINCINCTYP')
-    {
+    if (incomeArray.at(i).value.incomeType === 'AGRIINCINCTYP') {
       if (incomeArray && incomeArray.length > 0) {
         this.totalMonthlyAgriIncome = 0;
-       for(let i = 0; i < incomeArray.length; i++){
-          this.totalMonthlyAgriIncome =  Math.round(this.totalMonthlyAgriIncome + incomeArray.value[i].factoredIncome);  
-       }
+        for (let i = 0; i < incomeArray.length; i++) {
+          if (incomeArray.at(i).value.incomeType === 'AGRIINCINCTYP') {
+            this.totalMonthlyAgriIncome = Math.round(this.totalMonthlyAgriIncome + incomeArray.value[i].factoredIncome);
+            this.agriArray.push(this.totalMonthlyAgriIncome)
+          }
+
+
+        }
       }
     }
 
     if (incomeArray && incomeArray.length > 0) {
-        this.totalMonthlyIncome = 0;
-       for(let i = 0; i < incomeArray.length; i++){
-          this.totalMonthlyIncome =  Math.round(this.totalMonthlyIncome + incomeArray.value[i].factoredIncome);  
-       }
+      this.totalMonthlyIncome = 0;
+      for (let i = 0; i < incomeArray.length; i++) {
+        this.totalMonthlyIncome = Math.round(this.totalMonthlyIncome + incomeArray.value[i].factoredIncome);
       }
+    }
   }
 
-  onTenure(event: any,i: number) { 
+  onTenure(event: any, i: number) {
     const obligationArray = this.incomeDetailsForm.controls
-    .obligationDetails as FormArray;
+      .obligationDetails as FormArray;
     const tenure = obligationArray.value[i].tenure;
-    const mob =  obligationArray.value[i].mob;
+    const mob = obligationArray.value[i].mob;
     const balanceTenor = Number(tenure) - Number(mob);
-    if(tenure <= mob){
+    if (tenure <= mob) {
       const balanceTenor = Number(mob) - Number(tenure);
-      obligationArray.at(i).patchValue({balanceTenure : balanceTenor })
+      obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
 
     }
-    obligationArray.at(i).patchValue({balanceTenure : balanceTenor })
+    obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
   }
-  onEmi(event: any,i: number) { 
+  onEmi(event: any, i: number) {
     const obligationArray = this.incomeDetailsForm.controls
-    .obligationDetails as FormArray;
-    const emi =  obligationArray.value[i].emi;
-    const obligationAmount =emi
-    obligationArray.at(i).patchValue({obligationAmount : obligationAmount})
+      .obligationDetails as FormArray;
+    const emi = obligationArray.value[i].emi;
+    const obligationAmount = emi
+    obligationArray.at(i).patchValue({ obligationAmount: obligationAmount })
     if (obligationArray && obligationArray.length > 0) {
       this.totalObligationAmount = 0;
-     for(let i = 0; i < obligationArray.length; i++){
-        this.totalObligationAmount =  Math.round(this.totalObligationAmount + obligationArray.value[i].emi);  
-     }
+      for (let i = 0; i < obligationArray.length; i++) {
+        this.totalObligationAmount = Math.round(this.totalObligationAmount + obligationArray.value[i].emi);
+      }
     }
-    
+
   }
-  onIncome(event: any,i: number) { // without type info
+  onIncome(event: any, i: number) { 
     const businessIncomeArray = this.incomeDetailsForm.controls
-    .businessIncomeDetails as FormArray;
+      .businessIncomeDetails as FormArray;
     const netProfit = businessIncomeArray.value[i].netProfit;
-    const depreciation =  businessIncomeArray.value[i].depreciation;
-    const directorSalary =  businessIncomeArray.value[i].directorSalary;
+    const depreciation = businessIncomeArray.value[i].depreciation;
+    const directorSalary = businessIncomeArray.value[i].directorSalary;
 
     const grossDerivedIncome = Math.round(Number(netProfit * 3) + Number(depreciation) + Number(directorSalary));
-    businessIncomeArray.at(i).patchValue({grossDerivedIncome : grossDerivedIncome })
-    const grossMonthlyIncome = Math.round(grossDerivedIncome/12)
-    businessIncomeArray.at(i).patchValue({grossMonthlyIncome : grossMonthlyIncome})
+    businessIncomeArray.at(i).patchValue({ grossDerivedIncome: grossDerivedIncome })
+    const grossMonthlyIncome = Math.round(grossDerivedIncome / 12)
+    businessIncomeArray.at(i).patchValue({ grossMonthlyIncome: grossMonthlyIncome })
     if (businessIncomeArray && businessIncomeArray.length > 0) {
       this.totalBusinessIncomeAmount = 0;
-     for(let i = 0; i < businessIncomeArray.length; i++){
-        this.totalBusinessIncomeAmount =  Math.round(this.totalBusinessIncomeAmount + businessIncomeArray.value[i].grossMonthlyIncome) ;  
-     }
+      for (let i = 0; i < businessIncomeArray.length; i++) {
+        this.totalBusinessIncomeAmount = Math.round(this.totalBusinessIncomeAmount + businessIncomeArray.value[i].grossMonthlyIncome);
+      }
     }
-    
+
   }
-  onSalFoirDeviation(event:any){
-const salariedFOIRaspePolicy = this.incomeDetailsForm.controls.salariedFOIRaspePolicy.value
-this.totalSalariedFOIR = 0;
-this.totalSalariedFOIR = Math.round(Number(event) + Number(salariedFOIRaspePolicy))
-    
+  onSalFoirDeviation(event: any) {
+    const salariedFOIRaspePolicy = this.incomeDetailsForm.controls.salariedFOIRaspePolicy.value
+    this.totalSalariedFOIR = 0;
+    this.totalSalariedFOIR = Math.round(Number(event) + Number(salariedFOIRaspePolicy))
+
   }
 }
 
