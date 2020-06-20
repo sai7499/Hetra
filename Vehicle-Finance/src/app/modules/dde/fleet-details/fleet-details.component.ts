@@ -156,7 +156,7 @@ export class FleetDetailsComponent implements OnInit {
         ad: new FormControl({ value: rowData.ad, disabled: true }),
         pd: new FormControl({ value: rowData.pd, disabled: true }),
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
-        id: [rowData.id]
+        id: rowData.id
       })
     }
     else return this.fb.group({
