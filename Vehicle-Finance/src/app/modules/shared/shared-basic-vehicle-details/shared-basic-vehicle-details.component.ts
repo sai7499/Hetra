@@ -35,13 +35,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   LOV: any = [];
   public label: any = {};
   regionDataArray = [];
-
-  numberPattern = '/^[^`~!@#$%\^&*()_+={}|[\]\\:'
-
   public productCatoryCode: string;
   public leadDetails: any = {};
   public loanTenor: number = 0;
   public productCatoryId: any;
+
+  mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
+  // , Validators.pattern('^[A-Z]{2}[-][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$')
 
   // LovData
   public assetMake: any = [];
@@ -142,7 +142,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value) {
       formArray.controls[0].patchValue({
-        finalAssetCost: value
+        finalAssetCost: value,
+        exShowRoomCost: Number(value)
       })
     }
 
@@ -153,14 +154,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value && formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostCarTrade,
-        // assetCostLeast: formArray.value[0].assetCostCarTrade,
+        finalAssetCost: formArray.value[0].assetCostCarTrade
       })
 
     } else if (value && formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB,
-        // assetCostLeast: formArray.value[0].assetCostCarTrade,
+        finalAssetCost: formArray.value[0].assetCostIBB
       })
     } else if (value && formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
@@ -284,7 +283,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onPatchArrayValue(formArray, VehicleDetail) {
 
     formArray.controls[0].patchValue({
-      dealerSubventionPartIRR: VehicleDetail.DealerSubventionPartIRR || '',
+      dealerSubventionPartIRR: VehicleDetail.dealerSubventionPartIRR || '',
       ageOfAsset: VehicleDetail.ageOfAsset || null,
       assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
       assetCost: VehicleDetail.assetCost || null,
@@ -331,7 +330,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       lmsCollateralId: VehicleDetail.lmsCollateralId || null,
       manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
       manuFactureSubventionPartIRR: VehicleDetail.manuFactureSubventionPartIRR || '',
-      manuFatureSubventionPartFinCharge: VehicleDetail.manuFatureSubventionPartFinCharge || '',
+      manufacturesubventionPartFinCharge: VehicleDetail.manufacturesubventionPartFinCharge || '',
       manufacSubventionApplicable: VehicleDetail.manufacSubventionApplicable || '',
       manufactureSubventionAmount: VehicleDetail.manufactureSubventionAmount || null,
       noOfUnits: VehicleDetail.noOfUnits || '',
@@ -460,8 +459,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: [''],
       category: [''],
       rcOwnerName: [''],
-      ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[1-9][0-9]*$')])],
-      address: ['', Validators.maxLength(140)],
+      ownerMobileNo: [''],
+      address: ['', Validators.maxLength(120)],
       pincode: ['', Validators.maxLength(6)],
       noOfVehicles: ['', Validators.required],
       vehicleId: 0,
@@ -539,9 +538,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('assetCostGrid', new FormControl('', Validators.required));
-      controls.addControl('rcOwnerName', new FormControl('', Validators.required));
+      controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
       controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{9}')]));
-      controls.addControl('address', new FormControl('', Validators.required));
+      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
@@ -577,7 +576,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manufacSubventionApplicable: [''],
       manufactureSubventionAmount: [null],
       manuFactureSubventionPartIRR: [null],
-      manuFatureSubventionPartFinCharge: [null],
+      manufacturesubventionPartFinCharge: [null],
       invoiceNumber: [null],
       invoiceDate: [''],
       invoiceAmount: [null],
@@ -619,7 +618,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manufacSubventionApplicable: [''],
       manufactureSubventionAmount: [null],
       manuFactureSubventionPartIRR: [null],
-      manuFatureSubventionPartFinCharge: [null],
+      manufacturesubventionPartFinCharge: [null],
       invoiceNumber: [null],
       invoiceDate: [''],
       invoiceAmount: [null],
@@ -667,13 +666,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
       permitUpload: [''],
-      chasisNumber: [null],
-      engineNumber: [null],
+      chasisNumber: [''],
+      engineNumber: [''],
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: [null],
-      rcOwnerName: [''],
-      ownerMobileNo: ['', Validators.compose([Validators.maxLength(10), Validators.pattern('^[0-9]*$'), Validators.required])],
-      address: ['', Validators.compose([Validators.maxLength(140), Validators.required])],
+      rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
+      ownerMobileNo: ['', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{9}')]],
+      address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],
       reRegVehicle: [''],
@@ -711,6 +710,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       category: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
       ageOfAsset: ['', Validators.required],
+      ageAfterTenure: [''],
       assetCostIBB: ['', Validators.required],
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
@@ -722,7 +722,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       engineNumber: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: [''],
-      rcOwnerName: [''],
+      rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       vehicleRegDate: '',
       gorssVehicleWeight: [''],
       reRegVehicle: ['1'],

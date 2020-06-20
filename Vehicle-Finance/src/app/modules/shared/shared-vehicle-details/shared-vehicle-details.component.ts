@@ -26,19 +26,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public leadData: any = {};
   public userId: number;
 
-  public vehicleListArray = [
-    {
-      registrationNum: 'TN-04-SS-0292',
-      make: 'TATA',
-      model: 'SUMO'
-    },
-    {
-      registrationNum: 'KL-05-AG-1191',
-      make: 'TATA',
-      model: 'SUMO'
-    }
-  ];
-
   locationIndex: any;
 
   constructor(
@@ -81,10 +68,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
   getLocationIndex(url) {
     if (url.includes('lead-section')) {
       return 'lead-section';
-    } else  if (url.includes('sales')) {
+    } else if (url.includes('sales')) {
       return 'sales';
-    } 
-    // return url;
+    }
   }
   editVehicle(collateralId: number) {
     this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
