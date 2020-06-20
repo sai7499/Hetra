@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-
+import { NgControl } from '@angular/forms';
 @Directive({
-  selector: '[appLettersOnly]'
+  selector: 'input[appLettersOnly]'
 })
 export class LettersOnlyDirective {
 
@@ -10,7 +10,7 @@ export class LettersOnlyDirective {
 
   @HostListener('input', ['$event']) onInputChange(event) {
     const initalValue = this._el.nativeElement.value;
-    this._el.nativeElement.value = initalValue.replace(/[^a-z,A-Z]*/g, '');
+    this._el.nativeElement.value = initalValue.replace(/[^A-Z,a-z, ,]*/g, '');
     if ( initalValue !== this._el.nativeElement.value) {
       event.stopPropagation();
     }
