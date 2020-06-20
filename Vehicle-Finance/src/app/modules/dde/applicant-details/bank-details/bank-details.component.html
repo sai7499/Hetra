@@ -5,7 +5,7 @@
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_holder_name">Account Holder Name</label>
                 <input formControlName="accountHolderName" type="text" class="form-control"
-                     name="account_holder_name" id="account_holder_name" required="required" pattern="[A-Za-z]*">
+                     name="account_holder_name" id="account_holder_name" required="required" appLettersOnly>
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="bank_name">Bank Name</label>
@@ -23,7 +23,7 @@
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_number">Account Number</label>
                 <input formControlName="accountNumber" type="number" class="form-control" name="account_number" 
-                    id="account_number" required="required"  min= "0">
+                    id="account_number" required="required"  min= "0" appNumberOnly>
              </div>
             </div>
             <div class="row">
@@ -46,10 +46,11 @@
                       <!-- <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
                       (input)= "getMonths()" > -->
                       <kendo-datepicker class="form-control" 
-                      formControlName="fromDate" [format]="'dd/MM/yyyy'"
+                      formControlName="fromDate" 
+                      [format]="'dd/MM/yyyy'"
                       [max]="toDayDate"
                        placeholder="Select Start Month"
-                      [activeView]="'day'"
+                      [activeView]="'decade'"
                       (input)="getMonths()"
                       ></kendo-datepicker>
                    </div>

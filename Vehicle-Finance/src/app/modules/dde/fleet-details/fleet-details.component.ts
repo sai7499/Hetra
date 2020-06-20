@@ -387,7 +387,7 @@ export class FleetDetailsComponent implements OnInit {
     }
     else {
       console.log('Error', this.fleetForm)
-      this.toasterService.showError("Please enter all details!", '')
+      this.toasterService.showError("Please enter valid details!", '')
       this.utilityService.validateAllFormFields(this.fleetForm)
 
     }
