@@ -170,11 +170,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
                           "<CA_TA>"+"Equitas Bank Chennai TNIN"+"</CA_TA>"+
                           "<Stan>"+stan+"</Stan>"+
                         "</TransactionInfo>"+
-                        "<KycReqInfo ver=\"2.5\" ra=\"F\" rc=\"Y\" pfr=\"Y\" lr=\"N\" de=\"N\" >"+
-                          "<Auth  txn=\"UKC:"+stan+"\" >"
-                          +pId+
-                          "</Auth>"+
-                        "</KycReqInfo>"+
+                        pId+
                       "</KycRequest>";
 
     console.log("kycRequest"+kycRequest);

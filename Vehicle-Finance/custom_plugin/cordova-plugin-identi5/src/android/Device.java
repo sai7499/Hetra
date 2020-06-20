@@ -62,6 +62,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
@@ -560,6 +561,8 @@ public class Device extends CordovaPlugin {
 
 //                SimpleDateFormat sdfTxn = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.US);
 //                txn = "" +sdfTxn.format(date);
+
+                txn = ""+ getRandomNumberString();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -573,17 +576,21 @@ public class Device extends CordovaPlugin {
                 //TODO :	rc hardcoded to y in authxml
 
                 String authXML = String.format(
-                        "<Uses bio=\"y\" bt=\"FMR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\" />"+
-                                "<Meta "  + "dc=\"" + dc + "\" "
-                                + "mi=\"" + mi + "\" "
-                                + "mc=\"" + mc + "\" "
-                                + "rdsId=\"" + rdsId + "\" "
-                                + "rdsVer=\"" + rdsVer + "\" "
-                                + "dpId=\"" + dpId + "\" "
-                                + "udc=\"" + "ESB000011205764" + "\"/>"+
-                                "<Skey " + "ci=\"" + ci + "\">" + skey + "</Skey>"
-                                + "<Data " + "type=\"" + type + "\">" + pid + "</Data>"
-                                + "<Hmac>" + hmac + "</Hmac>");
+                        "<KycReqInfo ver=\"2.5\" ra=\"F\" rc=\"Y\" pfr=\"Y\" lr=\"N\" de=\"N\" >"+
+                                "<Auth  txn=\"UKC:"+txn+"\" >"+
+                                        "<Uses bio=\"y\" bt=\"FMR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\" />"+
+                                        "<Meta "  + "dc=\"" + dc + "\" "
+                                        + "mi=\"" + mi + "\" "
+                                        + "mc=\"" + mc + "\" "
+                                        + "rdsId=\"" + rdsId + "\" "
+                                        + "rdsVer=\"" + rdsVer + "\" "
+                                        + "dpId=\"" + dpId + "\" "
+                                        + "udc=\"" + "ESB000011205764" + "\"/>"+
+                                        "<Skey " + "ci=\"" + ci + "\">" + skey + "</Skey>"
+                                        + "<Data " + "type=\"" + type + "\">" + pid + "</Data>"
+                                        + "<Hmac>" + hmac + "</Hmac>"+
+                                "</Auth>"+
+                        "</KycReqInfo>");
 
                 Log.e(TAG, " :: AuthXML is:" + authXML);
                 return authXML;
@@ -596,7 +603,19 @@ public class Device extends CordovaPlugin {
 
         return null;
     }
+
+    public static String getRandomNumberString() {
+        // It will generate 6 digit random Number.
+        // from 0 to 999999
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+
+        // this will convert any number sequence into 6 character.
+        return String.format("%06d", number);
+    }
+
 }
+
 
 
 
