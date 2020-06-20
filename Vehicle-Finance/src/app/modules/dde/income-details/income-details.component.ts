@@ -527,9 +527,9 @@ export class IncomeDetailsComponent implements OnInit {
     const depreciation =  businessIncomeArray.value[i].depreciation;
     const directorSalary =  businessIncomeArray.value[i].directorSalary;
 
-    const grossDerivedIncome = Number(netProfit * 3) + Number(depreciation) + Number(directorSalary);
+    const grossDerivedIncome = Math.round(Number(netProfit * 3) + Number(depreciation) + Number(directorSalary));
     businessIncomeArray.at(i).patchValue({grossDerivedIncome : grossDerivedIncome })
-    const grossMonthlyIncome =grossDerivedIncome/12
+    const grossMonthlyIncome = Math.round(grossDerivedIncome/12)
     businessIncomeArray.at(i).patchValue({grossMonthlyIncome : grossMonthlyIncome})
     if (businessIncomeArray && businessIncomeArray.length > 0) {
       this.totalBusinessIncomeAmount = 0;
@@ -542,7 +542,7 @@ export class IncomeDetailsComponent implements OnInit {
   onSalFoirDeviation(event:any){
 const salariedFOIRaspePolicy = this.incomeDetailsForm.controls.salariedFOIRaspePolicy.value
 this.totalSalariedFOIR = 0;
-this.totalSalariedFOIR = Number(event) + Number(salariedFOIRaspePolicy)
+this.totalSalariedFOIR = Math.round(Number(event) + Number(salariedFOIRaspePolicy))
     
   }
 }
