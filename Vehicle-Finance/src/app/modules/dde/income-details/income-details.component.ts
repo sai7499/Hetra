@@ -85,7 +85,7 @@ export class IncomeDetailsComponent implements OnInit {
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
-      salariedFOIRaspePolicy : Number(80),
+      salariedFOIRaspePolicy : Number(70),
       salariedFOIRDeviation : [''],
       leadId: this.leadId,
       userId: this.userId,
