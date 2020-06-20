@@ -234,8 +234,8 @@ export class TrackVehicleComponent implements OnInit {
     return formattedDate;
   }
   loanStartDate(event) {
-    const confirmed = confirm("Are you sure to loan start date");
-    if (confirmed) {
+  //  const confirmed = confirm("Are you sure to loan start date");
+   // if (confirmed) {
       this.loanEmiDate = this.dateDbFormat(event)
       this.formArr.controls = [];
       let addDueDate = this.dateDbFormat(event);
@@ -296,9 +296,9 @@ export class TrackVehicleComponent implements OnInit {
         this.formArr.push(this.initRows(rowData));
       }
 
-    } else {
-      this.trackVehicleForm.controls['loanStartDate'].setValue(this.loanEmiDate);
-    }
+    // } else {
+    //   this.trackVehicleForm.controls['loanStartDate'].setValue(this.loanEmiDate);
+    // }
 
   }
   // changeEmiAmount(event) {
@@ -488,7 +488,7 @@ export class TrackVehicleComponent implements OnInit {
           receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
           toalExcess = receivedAmt - installmentAmount;
           this.fleetRtrDetails[i].payment = toalExcess;
-          totalAmount = totalAmount + receivedAmt;
+          totalAmount =  receivedAmt;
         }
         if (i == 0) {
           this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
@@ -544,8 +544,8 @@ export class TrackVehicleComponent implements OnInit {
         receiptNo: [rowData.receiptNo ? rowData.receiptNo : ''],
         receivedDate: [rowData.receivedDate ? rowData.receivedDate : ''],
         receivedAmt: [rowData.receivedAmt],
-        delayDays: [{ value: rowData.delayDays, disabled: true }],
-        payment: [{ value: rowData.payment, disabled: true }]
+        delayDays: [{ value: rowData.delayDays ? rowData.delayDays : 0, disabled: true }],
+        payment: [{ value: rowData.payment ? rowData.payment : 0, disabled: true }]
 
       });
     } else {
@@ -618,11 +618,11 @@ export class TrackVehicleComponent implements OnInit {
       console.log(res);
       if (res['Error'] == "0") {
        // alert("Saved Success");
-        this.toasterService.showSuccess('FleetRtr saved successfully!', '');
+        this.toasterService.showSuccess('Repayment Track Record successfully!', '');
 
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
-    });
+    }); 
   }
   }
   getLeadId() {
