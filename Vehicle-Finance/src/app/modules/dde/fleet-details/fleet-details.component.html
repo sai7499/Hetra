@@ -154,7 +154,14 @@
                                         <!-- <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
                                         </span> -->
-                                        <kendo-datepicker width="100%" class="form-control mandatory" formControlName="purchaseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy">
+                                        <kendo-datepicker width="100%" 
+                                            class="form-control mandatory" 
+                                            formControlName="purchaseDate" 
+                                            [format]="'dd/MM/yyyy'" 
+                                            [max]="toDayDate" 
+                                            placeholder="dd/MM/yyyy"
+                                            [activeView]="'decade'"
+                                            >
                                         </kendo-datepicker>
                                         <!-- <input type='date' class="form-control" formControlName="purchaseDate"> -->
 
@@ -171,7 +178,11 @@
 
                             </td>
                             <td>
-                                <div><input type="number" class="form-control input_value height" formControlName="tenure" maxlength="4">
+                                <div>
+                                    <input type="number" 
+                                        class="form-control input_value height" 
+                                        formControlName="tenure" 
+                                        maxlength="3">
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].touched">
                                         <!-- <div class="cus-mandatory-field">

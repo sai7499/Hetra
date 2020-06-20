@@ -101,7 +101,7 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.patchValue({ financierName: fleetRtr.financierName});
       this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinancied});
       this.trackVehicleForm.patchValue({ repaymentMode: fleetRtr.repaymentMode});
-      this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount ? fleetRtr.financeAmount : 200000 });
+      this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount ? fleetRtr.financeAmount : ''});
       this.trackVehicleForm.patchValue({ financeCharges: fleetRtr.financeCharges});
       this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
       this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
@@ -148,11 +148,11 @@ export class TrackVehicleComponent implements OnInit {
         financierName: new FormControl({value :'' , disabled: true },Validators.required ),
         assetFinancied: new FormControl({value :'' , disabled: true },Validators.required ),
         repaymentMode: new FormControl('',Validators.required ),
-        financeAmount: new FormControl({ value: 200000, disabled: true }),
+        financeAmount: new FormControl('' ,Validators.required),
         financeCharges: new FormControl('' , Validators.required ),
         contractValue: new FormControl('',Validators.required ),
         contNo: new FormControl({value :'' , disabled: true }, Validators.required ),
-        vehicleNo: new FormControl('',Validators.required ),
+        vehicleNo: new FormControl({value :'' , disabled: true },Validators.required ),
         financeType: new FormControl('',Validators.required ),
         accountStatus: new FormControl('',Validators.required ),
         loanStartDate: new FormControl('' , Validators.required ),
@@ -609,6 +609,7 @@ export class TrackVehicleComponent implements OnInit {
    formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
    formDetails['financeCharges'] =  parseInt(this.trackVehicleForm.controls['financeCharges'].value);
    formDetails['contractValue'] =  parseInt(this.trackVehicleForm.controls['contractValue'].value);
+   formDetails['financeAmount'] = Number(this.trackVehicleForm.controls['financeAmount'].value);
   //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
    formDetails['noOfEmi'] =  parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
    formDetails['emisPaid'] =  parseInt(this.trackVehicleForm.controls['emisPaid'].value);

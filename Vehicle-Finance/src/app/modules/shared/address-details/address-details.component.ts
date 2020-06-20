@@ -544,7 +544,8 @@ export class AddressDetailsComponent implements OnInit {
       });
     } else {
       this.onPerAsCurChecked = false;
-      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
+      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS] ||
+                                addressObj['COMMADDADDTYP'];
       if (currentAddressObj) {
         this.currentPincode = {
           city: [

@@ -102,6 +102,7 @@ export class LeadCreationComponent implements OnInit {
     spokeCode: number;
     loanBranch: number;
     leadHandeledBy: number;
+    sourcingCodeDescription: string;
   };
 
   applicantDetails: {
@@ -466,6 +467,7 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
+        sourcingCodeDescription: leadModel.sourcingCode.value
       };
 
       this.applicantDetails = {
