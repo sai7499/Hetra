@@ -56,6 +56,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
       data.fsrdPremiumAmount = data.fsrdPremiumAmount ? Number(data.fsrdPremiumAmount) : null;
       data.manufacturerSubventionAmount = data.manufacturerSubventionAmount ? Number(data.manufacturerSubventionAmount) : null;
+      data.insurance = data.insurance ? Number(data.insurance) : null;
 
       data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') :  null;
       data.invoiceDate= data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') :  null;

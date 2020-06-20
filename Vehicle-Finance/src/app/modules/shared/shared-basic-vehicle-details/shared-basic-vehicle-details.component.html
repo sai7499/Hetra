@@ -655,10 +655,10 @@
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
                             <input type="text" class="form-control" id="dealer_subvention_irr"
                                 placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionIRR" maxlength="10" pattern="^[1-9][0-9]*$">
+                                formControlName="dealerSubventionPartIRR" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionIRR'].hasError('pattern')">
+                                *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('pattern')">
                                 You must enter valid dealer subvention part IRR
                             </div>
 
@@ -693,10 +693,10 @@
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                             <input type="text" class="form-control" id="manufacturer_subvention_amount"
                                 placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufacturerSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
+                                formControlName="manufactureSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacturerSubventionAmount'].hasError('pattern')">
+                                *ngIf="obj.controls['manufactureSubventionAmount'].hasError('pattern')">
                                 You must enter valid manufacturer subvention amount
                             </div>
 
@@ -710,11 +710,11 @@
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
                             <input type="text" class="form-control" id="manufacturer_subvention_irr"
                                 placeholder="Manufacturer Subvention Part of Operating IRR"
-                                name="manufacturer_subvention_irr" formControlName="manufacturerSubventionPartIRR"
+                                name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
                                 maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacturerSubventionPartIRR'].hasError('pattern')">
+                                *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('pattern')">
                                 You must enter valid manuFacture subvention part IRR
                             </div>
 
@@ -726,11 +726,11 @@
                             <input type="text" class="form-control" id="manufacturer_subvention_finance"
                                 placeholder="Manufacturer Subvention Part of Finance Charges"
                                 name="manufacturer_subvention_finance"
-                                formControlName="manuFatureSubventionPartFinCharge" maxlength="10"
+                                formControlName="manufacturesubventionPartFinCharge" maxlength="10"
                                 pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].hasError('pattern')">
+                                *ngIf="obj.controls['manufacturesubventionPartFinCharge'].hasError('pattern')">
                                 You must enter valid manuFacture subvention part of finance charge
                             </div>
                         </div>
@@ -782,8 +782,13 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
-                            <input type="number" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance" min="0" maxlength="50" pattern="^[1-9][0-9]*$">
+                            <input type="text" class="form-control" id="insurance" placeholder="Insurance"
+                                name="insurance" formControlName="insurance" maxlength="50" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('pattern')">
+                                You must enter valid insurance
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
@@ -1079,10 +1084,10 @@
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
                             <input type="text" class="form-control" id="dealer_subvention_irr"
                                 placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionIRR" maxlength="10" pattern="^[1-9][0-9]*$">
+                                formControlName="dealerSubventionPartIRR" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionIRR'].hasError('pattern')">
+                                *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('pattern')">
                                 You must enter valid dealer subvention part IRR
                             </div>
 
@@ -1117,10 +1122,10 @@
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                             <input type="text" class="form-control" id="manufacturer_subvention_amount"
                                 placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufacturerSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
+                                formControlName="manufactureSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacturerSubventionAmount'].hasError('pattern')">
+                                *ngIf="obj.controls['manufactureSubventionAmount'].hasError('pattern')">
                                 You must enter valid manufacturer subvention amount
                             </div>
                         </div>
@@ -1129,11 +1134,11 @@
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
                             <input type="text" class="form-control" id="manufacturer_subvention_irr"
                                 placeholder="Manufacturer Subvention Part of Operating IRR"
-                                name="manufacturer_subvention_irr" formControlName="manufacturerSubventionPartIRR"
+                                name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
                                 maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacturerSubventionPartIRR'].hasError('pattern')">
+                                *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('pattern')">
                                 You must enter valid manuFacture subvention part IRR
                             </div>
 
@@ -1144,11 +1149,11 @@
                             <input type="text" class="form-control" id="manufacturer_subvention_finance"
                                 placeholder="Manufacturer Subvention Part of Finance Charges"
                                 name="manufacturer_subvention_finance"
-                                formControlName="manuFatureSubventionPartFinCharge" maxlength="10"
+                                formControlName="manufacturesubventionPartFinCharge" maxlength="10"
                                 pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].hasError('pattern')">
+                                *ngIf="obj.controls['manufacturesubventionPartFinCharge'].hasError('pattern')">
                                 You must enter valid manuFacture subvention part of finance charge
                             </div>
                         </div>
@@ -1199,8 +1204,13 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
-                            <input type="number" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance" min="0" maxlength="50" pattern="^[1-9][0-9]*$">
+                            <input type="text" class="form-control" id="insurance" placeholder="Insurance"
+                                name="insurance" formControlName="insurance" maxlength="50" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('pattern')">
+                                You must enter valid insurance
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
