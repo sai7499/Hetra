@@ -105,6 +105,15 @@ export class AddressDetailsComponent implements OnInit {
     rule: 15,
   };
 
+  currentStayMaxLength = {
+    rule: 3,
+  };
+
+  currentStayPattern = {
+    rule: '^[0-9]*$',
+    msg: 'Invalid',
+  };
+
   constructor(
     private lovData: LovDataService,
     private labelsData: LabelsService,
