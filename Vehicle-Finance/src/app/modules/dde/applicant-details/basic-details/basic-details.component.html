@@ -27,13 +27,15 @@
             formControlName="entity"
             [values]="LOV?.LOVS?.entityType"
             (change)="onIndividualChange($event)"
+            [isRequired]="'Please select one'"
+           [isDirty]="isDirty"
           >
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="applicant_type">{{
             labels?.relationWithApplicant
-          }}</label>
+          }} <sub class="star_red_col">*</sub></label>
           <!-- <select class="form-control ">                                                  
                             <option value="Applicant"> Applicant </option>
                             <option value="Co-applicant"> Co-applicant </option>
@@ -42,10 +44,12 @@
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
             [values]="LOV.LOVS.applicantRelationshipWithLead"
+            [isRequired]="'Please select one'"
+                        [isDirty]="isDirty"
           ></app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="entity">{{ labels?.title }}</label>
+          <label for="entity">{{ labels?.title }} <sub class="star_red_col">*</sub></label>
           <!-- <select class="form-control" id="entity">                                                  
                            
                             <option value="Mrs" selected>Mrs</option>                                                   
@@ -53,6 +57,8 @@
           <app-vf-custom-select
             formControlName="title"
             [values]="LOV.LOVS.salutation"
+            [isRequired]="'Please select one'"
+                        [isDirty]="isDirty"
           ></app-vf-custom-select>
         </div>
       </div>
@@ -65,7 +71,7 @@
           <!-- <h4 class="title">EMP &amp; Income details  -  Individual</h4>-->
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="name">{{ labels?.firstName }}</label>
+              <label for="name">{{ labels?.firstName }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="name1"
                 type="text"
@@ -111,8 +117,11 @@
                   [maxLength]="nameLength30"
                 ></app-custom-input>
             </div>
+          </div>
+          <div class="row">
+
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">{{ labels?.mobileNumber }}</label>
+              <label for="mobile_number">{{ labels?.mobileNumber }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="mobilePhone"
                 type="text"
@@ -131,7 +140,7 @@
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="date_of_birth">{{ labels?.dateOfBirth }}</label>
+              <label for="date_of_birth">{{ labels?.dateOfBirth }} <sub class="star_red_col">*</sub></label>
               <div
                 class="input-group input-medium"
                 id="date_of_birth"
@@ -159,64 +168,106 @@
                 ></kendo-datepicker>
               </div>
             </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="entity">Age </label>
+              <!-- <select class="form-control" id="entity">                                                  
+                               
+                                <option value="Mrs" selected>Mrs</option>                                                   
+                            </select>  -->
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="age"
+                            name="age"
+                            [value]="showAge ? showAge : initialAge"
+                            formControlName="age"
+                            disabled
+                          />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Gender <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="gender"
+                [values]="LOV?.LOVS?.gender "
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
+              ></app-vf-custom-select>
+ 
+            </div>
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="applicant_type">{{labels?.applicantType}}</label>
                         <input formControlName="applicantType" type="text" class="form-control" id="applicant_type" name="applicant_type">
                     </div> -->
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 senior-citizen">
-              <!-- <label for="senior_citizen">{{ labels?.seniorCitizen }}</label> -->
-              <!-- <select class="form-control" id="senior_citizen" name="senior_citizen">
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select> -->
-              <!-- <app-vf-custom-select
-                formControlName="isSeniorCitizen"
-                [values]=""
-              ></app-vf-custom-select> -->
-              <div  class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
-                <input type="checkbox" formControlName="isSeniorCitizen"  class="senior_minor"
-              (click)="onCheckSenior($event)" disabled [checked]="checkingSenior" />
-              <span class="is_senior">Is senior Citizen?</span>
-              </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+                      <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
+                      (click)="checkSenior($event)" disabled [checked]="checkingSenior"> 
+                      <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
+                  
+                    <!-- <div class="showErrorMessage">
+                         {{messageOfSeniorcitizen}}
+                    </div> -->
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
               
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="guardian_name">{{
-                labels?.ifMinorIsYesGuardianName
-              }}</label>
-              <!-- <input
-                formControlName="minorGuardianName"
-                type="text"
-                class="form-control"
-                id="guardian_name"
-                name="guardian_name"
-              /> -->
-              <app-custom-input
-                  formControlName="minorGuardianName"
-                  [patternCheck]="namePattern"
-                  [maxLength]="nameLength30"
-                  [isRequired]="'Gaurdian Name is Mandatory'"
-                  [isDirty]="isDirty"
-                  ></app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              
+                    <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
+                        (click)="checkMinor($event)" disabled [checked]="checkingMinor">
+                        <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
+                   <!-- <div class="showErrorMessage">
+                     {{messageOfMinor}}
+                   </div>  -->
+                  </div>
+                </div>
+                  <div class="row" *ngIf="checkingMinor">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                      <label for="guardian_name"
+                        >Guardian Name <sub class="star_blue_col">*</sub></label
+                      >
+                      <!-- <input
+                        type="text"
+                        class="form-control"
+                        id="guardian_name"
+                        name="guardian_name"
+                        formControlName="minorGuardianName"
+                      /> -->
+                      <app-custom-input
+                          formControlName="minorGuardianName"
+                          [patternCheck]="namePattern"
+                          [maxLength]="nameLength30"
+                          [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
+                          [isDirty]="isDirty"
+                          ></app-custom-input>
+                        
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                      <label for="entity">Guardian's Relationship with Minor <sub class="star_blue_col">*</sub></label>
+                      <!-- <select class="form-control" id="entity">                                                  
+                                       
+                                        <option value="Mrs" selected>Mrs</option>                                                   
+                                    </select>  -->
+                                    <app-vf-custom-select
+                                    formControlName="minorGuardianRelation"
+                                    [values]="LOV.LOVS.relationship"
+                                    [isRequired]="'Please select one'"
+                                    [isDirty]="isDirty"
+                                  ></app-vf-custom-select>
+                    </div>
+                  </div>
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="existing_customer">{{
                 labels?.ifGuardianIsAnExistingCustomer
               }}</label>
-              <!-- <input
-                formControlName="minorGuardianUcic"
-                type="text"
-                class="form-control"
-                id="existing_customer"
-                name="existing_customer"
-              /> -->
+              
               <app-custom-input
                   formControlName="minorGuardianUcic"
                   [patternCheck]="numberPattern"
                   ></app-custom-input>
-            </div>
+            </div> -->
+            <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="father_name">{{ labels?.fatherName }}</label>
+              <label for="father_name">{{ labels?.fatherName }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="fatherName"
                 type="text"
@@ -229,7 +280,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
-                  [isRequired]="'father Name is Required'"
+                  [isRequired]="'Father Name is Required'"
                   
             
                 ></app-custom-input>
@@ -251,7 +302,7 @@
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="maiden_name">{{ labels?.mothersMaidenName }}</label>
+              <label for="maiden_name">{{ labels?.mothersMaidenName }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="motherMaidenName"
                 type="text"
@@ -268,8 +319,60 @@
               
             ></app-custom-input>
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="occupation">{{ labels?.occupation }}</label>
+              <label for="mobile_number">Alternate contact Number </label>
+              <!-- <input
+                type="text"
+                class="form-control"
+                id="mobile_number"
+                name="mobile_number"
+                value="8974563210"
+                
+                formControlName="mobilePhone"
+              /> -->
+              <app-custom-input
+                  formControlName="alternateMobileNumber"
+                  [patternCheck]="landlinePattern"
+                  
+                 [maxLength]='landlineLength15'
+                ></app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="email_id">Email ID</label>
+              <!-- <input
+                type="email"
+                class="form-control"
+                id="email_id"
+                name="email_id"
+                formControlName="emailId"
+              /> -->
+              <app-custom-input
+                  formControlName="emailId"
+                  [patternCheck]="emailPattern"
+                  
+                ></app-custom-input> 
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="alternate_email_id">Alternate email ID</label>
+              <!-- <input
+                type="text"
+                class="form-control"
+                id="alternate_email_id"
+                name="alternate_email_id"
+                formControlName="alternateEmailId"
+              /> -->
+              <app-custom-input
+                  formControlName="alternateEmailId"
+                  [patternCheck]="emailPattern"
+
+                ></app-custom-input> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="occupation">{{ labels?.occupation }} <sub class="star_red_col">*</sub></label>
               <!-- <select class="form-control" id="occupation" name="occupation">
                                     <option>Occupation 1</option>
                                     <option>Occupation 2</option>
@@ -282,7 +385,7 @@
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="nationality">{{ labels?.nationality }}</label>
+              <label for="nationality">{{ labels?.nationality }} <sub class="star_red_col">*</sub></label>
               <!-- <select class="form-control" id="nationality" name="nationality">
                                     <option>Select</option>
                                 </select> -->
@@ -294,65 +397,55 @@
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{
-                labels?.customerCategory
-              }}</label>
-              <!-- <select class="form-control" id="customer_category" name="customer_category">
-                                    <option>Select</option>
-                                </select> -->
+              <label for="preffered_language">Preferred Language for Communication</label>
+              <app-vf-custom-select formControlName="preferredLanguage" [values]="LOV?.LOVS?.preferredLanguage"
+              [isRequired]="'Please select one'"
+              [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Politically Exposed Person [PEP] </label>
+              <app-vf-custom-select
+                formControlName="politicallyExposedPerson"
+                [values]="LOV?.LOVS.politicallyExposed"
+              ></app-vf-custom-select>
+              <!-- <span class="showErrorMessage"  
+              *ngIf="validation.get('customerCategory').errors?.value !== ''
+               && validation.get('customerCategory').errors?.required">                  
+                Select customer category
+            </span> -->
+            
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer Segment <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="custSegment"
+                [values]="LOV?.LOVS?.customerSegment"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
+              ></app-vf-custom-select>
+              
+              
+            
+            </div>
+            
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="customer_category">Customer category <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="customerCategory"
-                [values]="LOV.LOVS.customerCategory"
-              ></app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="email_id">{{ labels?.emailID }}</label>
-
-              <!-- <input
-                formControlName="emailId"
-                type="text"
-                class="form-control"
-                id="email_Id"
-                name="email_Id"
-              /> -->
-              <app-custom-input
-                  formControlName="emailId"
-                  [patternCheck]="emailPattern"
-                  
-                ></app-custom-input> 
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="alternate_email_id">{{
-                labels?.alternateEmailID
-              }}</label>
-
-              <!-- <input
-                formControlName="alternateEmailId"
-                type="text"
-                class="form-control"
-                id="altrEmail_Id"
-                name="altrEmail_Id"
-              /> -->
-              <app-custom-input
-                  formControlName="alternateEmailId"
-                  [patternCheck]="emailPattern"
-
-                ></app-custom-input> 
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="alternate_email_id">{{
-                labels?.prefferedLanguageForCommunication
-              }}</label>
-              <!-- <select class="form-control" id="alternate_email_id" name="alternate_email_id">
-                                    <option>Select</option>
-                                </select> -->
-              <app-vf-custom-select
-                formControlName="preferredLanguage"
-                [values]="LOV.LOVS.preferredLanguage"
+                [values]="LOV?.LOVS?.customerCategory"
                 [isRequired]="'Please select one'"
-                [isDirty]="isDirty">
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
+              
+              
             </div>
+          
+           
+            
+            
           </div>
 
           <!-- <div class="row">
@@ -391,12 +484,12 @@
                 formControlName="designation"
                 name="designation"
                 id="designation"
-                required="required"
+                
                 value="Product Manager"
               />
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="office_name">{{ labels?.officeName }}</label>
+              <label for="office_name">{{ labels?.officeName }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="employerName"
                 type="text"
@@ -409,14 +502,15 @@
               formControlName="employerName"
               [patternCheck]="namePattern"
               [maxLength]="nameLength30"
-              
+              [isRequired]="'Office Name Is Required'"
+              [isDirty]="isDirty"
               
             ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="yr_curr_employment">{{
                 labels?.noOfyearsInCurrEmployment
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="currentEmpYears"
                 type="text"
@@ -428,27 +522,39 @@
               <app-custom-input
                   formControlName="currentEmpYears"
                   [patternCheck]="numberPattern"
+                  [maxLength]="length4"
+                  [isRequired]="'Employeement Year is required'"
+                  [isDirty]="isDirty"
                   ></app-custom-input>
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="employee_code">{{ labels?.employeeCode }}</label>
-              <input
+              <label for="employee_code">{{ labels?.employeeCode }} <sub class="star_red_col">*</sub></label>
+              <!-- <input
                 formControlName="employeeCode"
                 type="text"
                 class="form-control"
                 name="employee_code"
                 id="employee_code"
                 required="required"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="employeeCode"
+                  [isRequired]="'Employee Code is required'"
+                  [isDirty]="isDirty"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="employee_type">{{ labels?.employeeType }}</label>
+              <label for="employee_type">{{ labels?.employeeType }} <sub class="star_red_col">*</sub></label>
               <!-- <select class="form-control" id="employee_type" name="employee_type">
                             <option value="">Select</option>
                         </select> -->
               <app-vf-custom-select
                 formControlName="employerType"
                 [values]="LOV.LOVS.applicantEmployerTpe"
+                [isRequired]="'Please Select One'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -547,6 +653,7 @@
                     </div> -->
           </div>
         </div>
+      
         <!-- Individual Section End Here ->
 
 
