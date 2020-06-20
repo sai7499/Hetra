@@ -120,7 +120,7 @@
     "permitExpireDate": "Permit Expiry Date",
     "permitUpload": "Upload Permit Document",
     "vehiclePurchasedCost": "Vehicle Purchased Cost",
-    "vehicleOwnership": "Vehicle Ownership Member",
+    "vehicleOwnership": "Vehicle Ownership Number",
     "rcOwnerName": "RC Owner Name",
     "vehicleRegistrationDate": "Vehicle Registration Date",
     "grossVehicleWeight": "Gross Vehicle Weight",
@@ -704,6 +704,8 @@
     "ageOfCarEndOfTenor": "Age of the car at the end of tenor ",
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
-    "creditBureauCIBIL": "Credit Bureau (CIBIL)"
+    "creditBureauCIBIL": "Credit Bureau (CIBIL)",
+    "areYouSureWantToReject":"Are you sure want to reject ?"
+
     
 }

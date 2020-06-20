@@ -23,10 +23,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">
-                  <td><input (click)="onLeadSelect(i)" class="checkbox" type="checkbox" name="selectLead"
-                      [disabled]="i !== 0 ? 'disabled' : null" /></td>
+                <tr *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">    
+                      <td>
+                        <input 
+                          (click)="onLeadSelect($event, i)" 
+                          class="checkbox" 
+                          type="radio" 
+                          name="selectLead"
+                          [checked]="selectedIndex === i"
+                          [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true"/>
+                      </td>
                   <td>{{ dedupe.leadID }}</td>
                   <td>{{ dedupe.branch }}</td>
                   <td>{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>
@@ -36,7 +42,7 @@
                   <td>{{ dedupe.Applicant }}</td>
                   <td>{{ dedupe.individualMobile }}</td>
                   <td>{{ dedupe.stage }}</td>
-                  <td [ngClass]="{'reject_reason':status === 'Rejected'}">{{ dedupe.status }}</td>
+                  <td [ngClass]="{'reject_reason':dedupe.status === 'Rejected'}">{{ dedupe.status }}</td>
                   <td>{{ dedupe.reasonForRejection }}</td>
                 </tr>
               </tbody>
@@ -45,11 +51,11 @@
 
               <div class="text-center">
                 <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button"
-                  type="button" data-toggle="modal" data-target="#proceedModal_without" [disabled]="selectedLead">
+                  type="button" data-toggle="modal" data-target="#proceedModal_without" [disabled]="isSelectedLead">
                   Proceed as new Lead
                 </button>
                 <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button"
-                  data-toggle="modal" data-target="#proceedModal_with" [disabled]="!selectedLead">
+                  data-toggle="modal" data-target="#proceedModal_with" [disabled]="!isSelectedLead">
                   Proceed with selected lead
                 </button>
 
@@ -60,9 +66,9 @@
                   <div class="col-12 mx-auto" id="proceed_div">
                     <div class="col-6 field"><label for="proceed_reason">Select the reason for Rejection</label></div>
                     <div class="col-6 field">
-                      <select class="form-control " id="proceed_reason">
-                        <option value="Reason-1">Reason-1</option>
-                        <option value="Reason-2">Reason-2</option>
+                      <select class="form-control " id="proceed_reason" (change)="onSelectRejectReason($event)">
+                        <option disabled value="">-- Select one --</option>
+                        <option *ngFor="let rejectReason of rejectReasonList" [value]="rejectReason.reasonCode">{{rejectReason.reasonDesc}}</option>
                       </select>
                     </div>
                     <button *ngIf="isSubmit || isChecked" class="btn btn-primary mar-right8" id="proceed_with_sumbit"
