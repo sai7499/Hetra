@@ -622,7 +622,7 @@ export class TrackVehicleComponent implements OnInit {
 
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }
-    });
+    }); 
   }
   }
   getLeadId() {
