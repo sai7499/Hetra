@@ -95,6 +95,14 @@ export class SourcingDetailsComponent implements OnInit {
     nameLength: {
       rule: '30',
       msg: ''
+    },
+    amountLength:{
+      rule: '10',
+      msg: ''
+    },
+    loanTenor:{
+      rule: '3',
+      msg: ''
     }
   }
 

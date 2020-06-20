@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
+import { ToasterService } from '@services/toaster.service';
 // import * as $ from 'jquery';
 
 @Component({
@@ -32,6 +33,7 @@ export class BankDetailsComponent implements OnInit {
   toDate;
   assignedArray1 = [];
   toDayDate: Date = new Date();
+  isDirty:boolean;
   namePattern = {
     rule: '^[A-Z,a-z, ]*$',
     msg: 'Invalid Name',
@@ -68,8 +70,10 @@ export class BankDetailsComponent implements OnInit {
     private router: Router,
     private utilityService: UtilityService,
     private location: Location ,
+    private toStarService: ToasterService
   ) {
     this.listArray = this.fb.array([]);
+    
   }
   async ngOnInit() {
   const date = new Date();
@@ -84,7 +88,7 @@ export class BankDetailsComponent implements OnInit {
     fromDate: ['' ],
     toDate: [''],
     period: ['' , { disabled : true}],
-    limit: [''],
+    limit: [null],
     id: this.leadId,
     // transactionDetails: this.fb.array([]),
     transactionDetails: this.listArray,
@@ -250,7 +254,10 @@ export class BankDetailsComponent implements OnInit {
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
         if (res.ProcessVariables.error.code === '0' ) {
-        this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
+          this.toStarService.showSuccess("Bank Detail Saved Successfully","Bank Detail");
+          this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
+        } else{
+          this.toStarService.showError(res.ProcessVariables.error.message,"Bank Detail")
         }
       });
     console.log(this.bankForm.value);
@@ -297,6 +304,7 @@ export class BankDetailsComponent implements OnInit {
     const diff = toDate.getMonth() - fromDate.getMonth();
     console.log(diff);
     console.log(this.monthArray, 'month array in month function');
+    let stratMonth = fromDate.getMonth();
     const numberOfMonths =
      Math.abs( (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
       (toDate.getMonth() - fromDate.getMonth()) +
@@ -329,8 +337,11 @@ export class BankDetailsComponent implements OnInit {
       // const startMonth = fromDate.getMonth();
       // const endMonth = toDate.getMonth();
       this.assignedArray = [];
-      for (let i = numberOfMonths - 1 ; i >= 0; i--) {
-        const count = i % 12;
+      for (let i =0; i< numberOfMonths ; i++) {
+        // const count = i % 12;
+        const count = stratMonth % 12;
+        stratMonth = stratMonth + 1;
+        console.log('start monthy',stratMonth);
         const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
         // this.bankForm.controls.transactionDetails.setValue({ month: array });

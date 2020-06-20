@@ -56,6 +56,12 @@ export class BasicDetailsComponent implements OnInit {
   length4 ={
     rule : 3
   }
+  length2 ={
+    rule : 2
+  }
+  length20 ={
+    rule : 20
+  }
   mobileLenght10={
     rule: 10,
   }
@@ -63,7 +69,10 @@ export class BasicDetailsComponent implements OnInit {
     rule: '^[A-Z]*[a-z]*$',
     msg: 'Invalid Name',
   };
-
+  nameSpacePattern = {
+    rule: '^[A-Z ]*[a-z ]*$',
+    msg: 'Invalid Name',
+  };
 //   companyPattern ={
 //    rule : '^[A-Z]*[a-z]*$',
 //    msg: 'Invalid Name',
@@ -371,7 +380,7 @@ export class BasicDetailsComponent implements OnInit {
       name3: new FormControl(null),
       mobilePhone: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
-      age: new FormControl('', Validators.required),
+      age: new FormControl(''),
       gender: new FormControl('', Validators.required),
       isSeniorCitizen: new FormControl(''),
       isMinor: new FormControl(''),
