@@ -49,6 +49,8 @@ import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { ToastrModule } from 'ngx-toastr';
 import { DateInputsModule} from '@progress/kendo-angular-dateinputs';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { NumberOnlyDirective } from './services/directives/number-only.directive';
+import { LettersOnlyDirective } from './services/directives/letters-only.directive';
 
 
 setTheme('bs4'); 
@@ -65,7 +67,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective],
   imports: [
     BrowserModule,
     HttpClientModule,
