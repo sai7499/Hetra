@@ -240,7 +240,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (this.applicantId) {
         this.isEnableDedupe = false;
         this.getApplicantDetails();
-        this.listenerForUnique();
       } else {
         this.isEnableDedupe = true;
         this.coApplicantForm.get('dedupe').get('pan').disable();
@@ -765,6 +764,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
       }
     }
+    setTimeout(() => {
+      this.listenerForUnique();
+    });
   }
 
   formatPincodeData(data) {
