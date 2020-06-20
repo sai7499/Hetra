@@ -12,6 +12,7 @@ import { ToasterService } from '@services/toaster.service';
 import { CommentStmt } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { TypeaheadOptions } from 'ngx-bootstrap/typeahead/public_api';
 
 @Component({
   selector: 'app-fleet-details',
@@ -32,7 +33,11 @@ export class FleetDetailsComponent implements OnInit {
 
   // relationSelected = []
   relation: any[];
+  make: any = [];
+  financierName: any = [];
   // vehicleId: any;
+  fleetIDs: any = [];
+  fleetId: any;
   constructor(
 
     private labelsData: LabelsService,
@@ -137,14 +142,14 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required, Validators.minLength(10)])),
+        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required, Validators.minLength(12)])),
         regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
         relation: new FormControl(rowData.relation, [Validators.required]),
         make: new FormControl(rowData.make, [Validators.required]),
         yom: new FormControl(rowData.yom, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
         financier: new FormControl(rowData.financier, [Validators.required]),
-        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
-        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(20)])),
+        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
         tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
         paid: new FormControl(rowData.paid, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
@@ -189,6 +194,16 @@ export class FleetDetailsComponent implements OnInit {
     const relation = event.target.value;
   }
 
+  makeChange(event) {
+    this.make = [];
+    console.log('make ', event.target.value);
+    const make = event.target.value;
+  }
+  financierChange(event) {
+    this.financierName = [];
+    console.log('financier name', event.target.value);
+    const financierName = event.target.value;
+  }
 
   getDateFormat(date) {
 
@@ -241,7 +256,7 @@ export class FleetDetailsComponent implements OnInit {
 
   // method for saving and updating fleet details
 
-  saveOrUpdateFleetDetails() {
+  saveOrUpdateFleetDetails(index) {
     //console.log(this.fleetDetails);
     for (let i = 0; i < this.fleetDetails.length; i++) {
       this.fleetDetails[i]['purchaseDate'] = this.sendDate(this.fleetDetails[i]['purchaseDate'])
@@ -254,10 +269,19 @@ export class FleetDetailsComponent implements OnInit {
     }
     //  console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
-      console.log("saveFleetDetailsResponse", res)
+      console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
+      this.fleetIDs = res.ProcessVariables.ids
+      console.log("saveFleetDetailsResponse", this.fleetIDs)
       this.toasterService.showSuccess('Fleet saved successfully!', '');
+      if (index != null) {
+        console.log("index", index)
+        // console.log("fletds", this.fleetIDs)
 
+        this.fleetId = this.fleetIDs[index];
+        console.log("this fleet id", this.fleetId)
+        this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId])
 
+      }
     });
   }
 
@@ -319,10 +343,29 @@ export class FleetDetailsComponent implements OnInit {
     }
   }
 
-  getRtr(fleetid: number) {
-    // console.log("in getRtr", fleetid)
-    // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
-    this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + fleetid])
+  getRtr(index: number) {
+
+    // if (this.fleetIDs! = null) {
+    //   this.fleetId = (this.fleetIDs)
+
+
+    //   console.log("fleet id", this.fleetId)
+    // }
+    // else {
+    //   console.log("fleets not recieved")
+    // }
+
+    // if (this.fleetId) {
+    //   // console.log("in getRtr", fleetid)
+    //   // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId])
+
+    // }
+    // else {
+    //   this.toasterService.showError("fleet not saved!", '')
+    // }
+
+
   }
 
   toCollaterals() {
@@ -330,23 +373,25 @@ export class FleetDetailsComponent implements OnInit {
   }
 
 
-  onFormSubmit() {
+  onFormSubmit(index: number) {
 
-    console.log(this.fleetForm)
+    this.fleetDetails = this.fleetForm.value.Rows;
+
+
 
     if (this.fleetForm.valid === true) {
-      this.fleetDetails = this.fleetForm.value.Rows
-      // console.log(this.fleetDetails)
-      this.saveOrUpdateFleetDetails();
+      // this.fleetDetails = this.fleetForm.value.Rows
+      console.log(this.fleetDetails)
+      this.saveOrUpdateFleetDetails(index);
 
     }
     else {
       console.log('Error', this.fleetForm)
+      this.toasterService.showError("Please enter all details!", '')
       this.utilityService.validateAllFormFields(this.fleetForm)
 
     }
   }
 }
-
 
 
