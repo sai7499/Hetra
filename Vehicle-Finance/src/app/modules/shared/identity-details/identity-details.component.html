@@ -100,6 +100,8 @@
               <app-vf-custom-select
                 formControlName="panType"
                 [values]="lov?.LOVS?.applicantPanType"
+                [isRequired]="'PanType Is Required'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
@@ -186,7 +188,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Issue Date"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -210,7 +212,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Expriy Date"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -282,7 +284,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="drivingLicenseIssueDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Issue Date"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -309,7 +311,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Expiry Date"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -376,7 +378,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="voterIdIssueDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Issue Date"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -400,7 +402,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="voterIdExpiryDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Expiry Date"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -522,7 +524,7 @@
       Save
     </p>
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onSubmit()">
+      ><button class="btn btn-primary" type="button" (click)="onNext()">
         Next
       </button></a
     >

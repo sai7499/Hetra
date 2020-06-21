@@ -144,19 +144,11 @@
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_code">{{ labels.sourcingCode }}</label>
-          <!-- <input
-            type="text"
-            formControlName="sourcingCode"
-            class="form-control mandatory"
-            id="sourcing_code"
-            [placeholder]="sourcingCodePlaceholder"
-            name="sourcing_code"
-          /> -->
           <div class="ng-autocomplete" style="width:100%">
             <ng-autocomplete #autocomplete
               [data]="sourcingCodeData"
               [searchKeyword]="keyword"
-              (selected)='selectEvent($event)'
+              (selected)='selectSourcingEvent($event)'
               (inputChanged)='onSourcingCodeSearch($event)'
               [itemTemplate]="sourcingCodeTemplate"
               [notFoundTemplate]="notFoundTemplate"
@@ -179,19 +171,12 @@
           <label for="sourcing_code">Dealer Code
             <sub class="star_blue_col">*</sub>
           </label>
-          <!-- <input
-            formControlName="dealerCode"
-            type="text"
-            class="form-control mandatory select2"
-            id="sourcingCode"
-            placeholder="Dealer Code"
-            name="dealerCode"
-          /> -->
           <div class="ng-autocomplete" style="width:100%">
             <ng-autocomplete 
               [data]="dealerCodeData"
               [searchKeyword]="keyword"
               (inputChanged)='onDealerCodeSearch($event)'
+              (selected)='selectDealorEvent($event)'
               [itemTemplate]="dealerCodeTemplate"
               [notFoundTemplate]="notFoundTemplate"
               formControlName="dealerCode"
@@ -199,7 +184,7 @@
               [minQueryLength]="2">                                 
             </ng-autocomplete>               
             <ng-template #dealerCodeTemplate let-item>
-            <a [innerHTML]="item.dealorCode"></a>
+            <a [innerHTML]="item.dealorName"></a>
             </ng-template>               
             <ng-template #notFoundTemplate let-notFound>
             <div [innerHTML]="notFound"></div>
@@ -212,23 +197,14 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="spoken_code">{{ labels.requestedAmount }}</label>
           <sub class="star_red_col">*</sub>
-          <!-- <input
-            type="text"
-            formControlName="requestedAmount"
-            class="form-control mandatory"
-            id="requested_amount"
-            placeholder="Requested Amount"
-            name="requested_amount"
-            pattern="^[0-9]*[.][0-9]*$"
-          />
-          <div *ngIf="requested_amount.errors.pattern"> testt</div> -->
           <app-custom-input
               formControlName="requestedAmount"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Amount'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="regexPattern.amountLength"
               [isRequired]="'Required Amount is mandatory'"
               [patternCheck]="regexPattern.amount"
+              [isDirty]="isDirty"
               >
             </app-custom-input>
         </div>
@@ -239,19 +215,12 @@
               formControlName="requestedTenor"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Tenor'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="regexPattern.loanTenor"
               [isRequired]="'Required Tenor is mandatory'"
               [patternCheck]="regexPattern.amount"
+              [isDirty]="isDirty"
               >
             </app-custom-input>
-          <!-- <input
-            type="text"
-            formControlName="requestedTenor"
-            class="form-control mandatory"
-            id="requested_tenor"
-            placeholder="Requested Tenor"
-            name="requested_tenor"
-          /> -->
         </div>
       </div>
     </div>

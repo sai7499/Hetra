@@ -7,8 +7,23 @@
 input#add_banks {
     width: 25%;
 }
-
+.table-head-bg {
+  font-size: 14px;
+}
 /* .content {
     overflow: hidden;
     overflow-y: scroll;
 } */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+  }
+  kendo-datepicker{
+    width: 100%!important;
+  }

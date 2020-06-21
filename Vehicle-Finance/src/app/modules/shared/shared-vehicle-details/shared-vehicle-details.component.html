@@ -1,10 +1,9 @@
 <div class="multisteps-form__form">
-    <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <h4 class="title"><b>{{ roleName === 'Sales Officer' ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
-        <button class="btn mar-right8" [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'"
-            type="button"
+        <button class="btn mar-right8 btn-primary" type="button"
             [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
+        <!--  [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'" -->
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -13,13 +12,12 @@
                     <th>{{label.registrationNo}}</th>
                     <th>{{label.make}} </th>
                     <th>{{label.model}}</th>
-                    <th *ngIf="roleName === 'Sales Officer'">{{label.variant}}</th>
-                    <th *ngIf="roleName === 'Sales Officer'">{{label.finalAssetCost}}</th>
+                    <th>{{label.variant}}</th>
+                    <th>{{label.finalAssetCost}}</th>
                     <th>{{label.action}}</th>
                 </tr>
             </thead>
-            <tbody *ngIf="roleName === 'Sales Officer'">
-                <!-- <ng-template *ngIf="vehicleArray.length > 0"> -->
+            <tbody>
                 <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
                     <td data-title="Registration Number">
                         {{item.regNo | uppercase}}
@@ -37,27 +35,8 @@
                         {{item.finalAssetCost}}
                     </td>
                     <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                            (click)="editVehicle(item.collateralId)"></i>&nbsp;<i class="fa fa-minus" aria-hidden="true"
+                            (click)="roleName === 'Sales Officer' ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"></i>&nbsp;<i class="fa fa-minus" aria-hidden="true"
                             id="remove_item_applicant" (click)="DeleteVehicleDetails(item)"></i>
-                        <!--  [routerLink]="['../add-vehicle', item.collateralId]" -->
-                    </td>
-                </tr>
-                <!-- </ng-template> -->
-            </tbody>
-            <tbody *ngIf="roleName === 'Credit Officer'">
-                <tr class="text-center" id="applicant_row" *ngFor="let item of vehicleArray; let i = index">
-                    <td data-title="Registration Number">
-                        {{item.regNo  | uppercase}}
-                    </td>
-                    <td data-title="Make">
-                        {{item.make}}
-                    </td>
-                    <td data-title="Model">
-                        {{item.model}}
-                    </td>
-                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true" (click)="onEditVehicleDetails(item.collateralId)"></i>&nbsp;<i
-                            class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
-                            (click)="DeleteVehicleDetails(item)"></i>
                     </td>
                 </tr>
             </tbody>
@@ -65,16 +44,3 @@
     </div>
 
 </div>
-
-<!-- <div class="btn-sec clear-both row">
-    <div class="col-sm-5">
-
-    </div>
-    <div class="col-sm-7 text-right">
-        <button class="btn btn-primary js-btn-prev" [routerLink]="['../applicant-details']" type="button"> {{label.back}
-        </button> &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> save</button> &nbsp;
-        <button class="btn btn-primary js-btn-next" [routerLink]="['/pages/lead-section/credit-score']"
-            type="button">{{label.next}}</button>
-    </div>
-</div> -->

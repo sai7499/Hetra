@@ -10,7 +10,7 @@
                     <thead>
                         <tr class="table-head-bg">
                             <td role="columnheader">{{labels.sNo}} </td>
-                            <td role="columnheader">{{labels.regdNo}} </td>
+                            <td role="columnheader">{{labels.regdNo }} </td>
                             <td role="columnheader">{{labels.regdOwner}}</td>
                             <td role="columnheader" style="min-width: 165px;">{{labels.relation}}</td>
                             <td role="columnheader" style="min-width: 200px;">{{labels.make}} </td>
@@ -29,14 +29,47 @@
                         </tr>
                     </thead>
                     <tbody formArrayName="Rows">
-                        <tr id="applicant_1_row"
-                            *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
-                            [formGroupName]="i">
+                        <!-- <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i"> -->
+                        <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i">
 
                             <td>{{i+1}}</td>
-                            <td><input type="text" class="form-control input_value height" formControlName="regdNo">
+                            <td>
+                                <div>
+
+                                    <input type="text" class="form-control input_value height input-upper" formControlName="regdNo" maxlength="12">
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdNo'].touched && !itemrow.controls['regdNo'].vaild">
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdNo'].hasError('required')">
+                                            registration number is needed
+                                        </div>
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdNo'].hasError('minlength')">
+                                            Invalid registration number
+                                        </div>
+
+                                    </div>
+                                </div>
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="regdOwner">
+                            <td>
+                                <div><input type="text" class="form-control input_value height input-upper" formControlName="regdOwner" maxlength="30">
+                                    <!-- <span *ngIf="submitted && itemrow.get('regdOwner').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('regdOwner').errors.required"> reg owner is
+                                            required</span>
+                                    <span *ngIf="itemrow.get('regdOwner').errors.pattern"> Invalid name</span>
+                                    </span> -->
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].touched && !itemrow.controls['regdOwner'].vaild">
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('required')">
+                                            owner name is needed
+                                        </div>
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('pattern')">
+                                            owner name should be in chars only
+                                        </div>
+                                        <div *ngIf="itemrow.controls['yom'].hasError('regdOwner') || itemrow.controls['regdOwner'].hasError('maxlength')">
+                                            Invalid owner name
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
                             </td>
                             <td style="min-width: 165px;">
                                 <!-- <select class="form-control input_value height" formControlName="relation">
@@ -45,8 +78,7 @@
                                             <option>{{labels.guarantor}}</option>
                                         </select> -->
 
-                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
-                                    formControlName="relation">
+                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead" formControlName="relation" (change)="relationShipChange($event)" [isRequired]="'Please select alteast one '">
                                 </app-vf-custom-select>
                             </td>
                             <td style="min-width: 200px;">
@@ -56,11 +88,36 @@
         
                                         </select> -->
 
-                                <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make">
+                                <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make" (change)="makeChange($event)" [isRequired]="'Please select atleast one'">
                                 </app-vf-custom-select>
                             </td>
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
-                            <td><input type="text" class="form-control input_value height" formControlName="yom"></td>
+                            <td>
+                                <div>
+                                    <input type="text" class="form-control input_value height" formControlName="yom" maxlength="4">
+                                    <!-- <span *ngIf="submitted && itemrow.get('yom').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('yom').errors.required">yom is
+                                            required</span>
+                                    <span *ngIf="itemrow.get('regdNo').errors.pattern"> Invalid reg no</span>
+                                    <span *ngIf="itemrow.get('yom').errors.minLength"></span> invalid yom
+
+                                    </span> -->
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].touched && !itemrow.controls['yom'].vaild">
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('required')">
+                                            yom is needed
+                                        </div>
+                                        <div *ngIf="itemrow.controls['yom'].hasError('minlength') || itemrow.controls['yom'].hasError('maxlength')">
+                                            Invalid yom
+                                        </div>
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('pattern')">
+                                            yom should be in number
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </td>
+
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td style="min-width: 120px;">
                                 <!-- <select class="form-control input_value height" id="asset_make"
@@ -71,27 +128,90 @@
         
                                         </select> -->
 
-                                <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers"
-                                    formControlName="financier">
+                                <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers" formControlName="financier" (change)="financierChange($event)" [isRequired]="'Please select atleast one'">
                                 </app-vf-custom-select>
 
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="loanNo">
+                            <td>
+                                <div><input type="number" class="form-control input_value height" formControlName="loanNo" maxlength="20"></div>
+
+                                <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].touched && !itemrow.controls['loanNo'].vaild">
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].hasError('required')">
+                                        loan no is needed
+                                    </div>
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].hasError('maxLength')">
+                                        Invalid loan no
+                                    </div>
+
+                                </div>
+
+
                             </td>
                             <!-- <td><input type="text" class="form-control input_value height" value="01-010-16" formControlName="purchaseDate"></td> -->
                             <td>
-                                <div class="form-group date">
+                                <div class="form-group ">
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <span class="input-group-addon"><span
+                                        <!-- <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                        <input type='date' class="form-control" formControlName="purchaseDate">
+                                        </span> -->
+                                        <kendo-datepicker width="100%" 
+                                            class="form-control mandatory" 
+                                            formControlName="purchaseDate" 
+                                            [format]="'dd/MM/yyyy'" 
+                                            [max]="toDayDate" 
+                                            placeholder="dd/MM/yyyy"
+                                            [activeView]="'decade'"
+                                            >
+                                        </kendo-datepicker>
+                                        <!-- <input type='date' class="form-control" formControlName="purchaseDate"> -->
+
+                                    </div>
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['purchaseDate'].touched && !itemrow.controls['purchaseDate'].vaild">
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['purchaseDate'].hasError('required')">
+                                            purchase date is needed
+                                        </div>
+
                                     </div>
                                 </div>
+
+
+
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="tenure">
+                            <td>
+                                <div>
+                                    <input type="number" 
+                                        class="form-control input_value height" 
+                                        formControlName="tenure" 
+                                        maxlength="3">
+
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].touched">
+                                        <!-- <div class="cus-mandatory-field">
+                                            tenure is needed
+                                        </div> -->
+
+                                    </div>
+
+
+
+
+                                </div>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="paid">
+                            <td>
+                                <div><input type="number" class="form-control input_value height" formControlName="paid" maxlength="4">
+
+                                    <!-- <span *ngIf="submitted && itemrow.get('paid').errors" style="color:red;" class="invalid-feedback">
+                                        <span *ngIf="itemrow.get('paid').errors.required">loan no is
+                                            required</span>
+                                   
+                                    </span> -->
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].touched">
+                                        <!-- <div class="cus-mandatory-field">
+                                            paid is needed
+                                        </div> -->
+
+
+                                    </div>
+                                </div>
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="seasoning">
                             </td>
@@ -99,19 +219,16 @@
                             </td>
                             <td><input type="number" class="form-control input_value height" formControlName="pd">
                             </td>
-                            <td><input type="number" class="form-control input_value height"
-                                    formControlName="gridValue">
+                            <td><input type="number" class="form-control input_value height" formControlName="gridValue">
                             </td>
-                            <td><u><button class="a_tag" (click)="getRtr(itemrow.value.id)">RTR</button></u></td>
+                            <td><u><button class="a_tag" (click)="onFormSubmit(i)">RTR</button></u></td>
                             <!-- <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
                                                 (click)="addNewRow()"></i> &nbsp;
                                             <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
                                                 (click)="deleteRow(i)"></i></td> -->
                             <td>
-                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                                    (click)="addNewRow()"></button>&nbsp;<button type="button" class="fa fa-minus"
-                                    aria-hidden="true" id="delPOIbutton" value="Delete"
-                                    (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" (click)="addNewRow()"></button>&nbsp;
+                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
                         </tr>
                     </tbody>
@@ -121,7 +238,6 @@
     </div>
     <!-- </div> -->
 
-</form>
 <!-- </div> -->
 
 
@@ -131,10 +247,12 @@
     </div>
     <div class="col-sm-7 text-right ">
         <button class="btn btn-primary mar-right8" type="button" (click)="toCollaterals()">Back</button>&nbsp;
-        <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>&nbsp;
+        <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit(i)">Save </button>&nbsp;
         <button class="btn btn-primary js-btn-next" type="button" routerLink="../exposure"> Next </button>
     </div>
 </div>
+
+</form>
 
 <!-- 
         <div class="btn-sec clear-both row text-right">

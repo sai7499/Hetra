@@ -6,12 +6,12 @@ import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router) { }
+  constructor(private httpService: HttpService, private router: Router) {}
 
   logOut() {
     this.httpService.logOut().subscribe(
-      (res) => { },
-      (error) => { }
+      (res) => {},
+      (error) => {}
     );
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
@@ -21,6 +21,9 @@ export class UtilityService {
   }
 
   getDateFormat(date) {
+    if (!date) {
+      return;
+    }
     const dateFormat: Date = new Date(date);
     const year = dateFormat.getFullYear();
     const month = Number(dateFormat.getMonth()) + 1;
@@ -49,7 +52,7 @@ export class UtilityService {
   }
 
   ageCalculation(dob) {
-    return moment().diff(dob, 'years')
+    return moment().diff(dob, 'years');
   }
 
   convertDateTimeTOUTC(date, format) {
@@ -57,38 +60,37 @@ export class UtilityService {
   }
 
   converDateToUTC(date) {
-    return moment.utc(date).format('YYYY-MM-DD HH:MM')
+    return moment.utc(date).format('YYYY-MM-DD HH:MM');
   }
 
   getCommonUniqueValue(array, value: any) {
     let distinctThings = array.filter((thing, i, arr) => {
-      return arr.indexOf(arr.find(t => t[value] === thing[value])) === i;
+      return arr.indexOf(arr.find((t) => t[value] === thing[value])) === i;
     });
     return distinctThings;
   }
 
   validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field)
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
       if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true })
+        control.markAsTouched({ onlySelf: true });
       } else if (control instanceof FormGroup) {
-        this.validateAllFormFields(control)
+        this.validateAllFormFields(control);
       } else if (control instanceof FormArray) {
-        this.validateFormArray(control)
+        this.validateFormArray(control);
       }
-    })
+    });
   }
 
   validateFormArray(formArray) {
-
     for (const control of formArray.controls) {
       if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true })
+        control.markAsTouched({ onlySelf: true });
       } else if (control instanceof FormGroup) {
-        this.validateAllFormFields(control)
+        this.validateAllFormFields(control);
       } else if (control instanceof FormArray) {
-        this.validateFormArray(control)
+        this.validateFormArray(control);
       }
     }
   }
@@ -120,9 +122,14 @@ export class UtilityService {
     return this.getUiquJson(arrayList, 'key');
   }
   getDateFromString(date) {
-    let dateArray = date.split("/");
-    let getDate = new Date(dateArray[1] + "-" + dateArray[0] + "-" + dateArray[2])
-    console.log("return Date", getDate)
+    if (!date) {
+      return;
+    }
+    let dateArray = date.split('/');
+    let getDate = new Date(
+      dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
+    );
+    console.log('return Date', getDate);
     return getDate;
   }
 }
