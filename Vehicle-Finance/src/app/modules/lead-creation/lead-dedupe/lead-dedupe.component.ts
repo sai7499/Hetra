@@ -182,16 +182,7 @@ export class LeadDedupeComponent implements OnInit {
           this.route.navigateByUrl(`/activity-search`);
         }
       });
-
   }
-
-  // navigateToLeadSection() {
-  //   if (this.isWithLead) {
-  //     this.proceedAsNewLead();
-  //   } else {
-  //     this.proceedWithSelectedLead();
-  //   }
-  // }
 
   navigateToLeadSection() {
     if (this.showModal === 'proceedModal_without') {

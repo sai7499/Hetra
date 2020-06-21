@@ -96,11 +96,11 @@ export class SourcingDetailsComponent implements OnInit {
       rule: '30',
       msg: ''
     },
-    amountLength:{
+    amountLength: {
       rule: '10',
       msg: ''
     },
-    loanTenor:{
+    loanTenor: {
       rule: '3',
       msg: ''
     }
@@ -304,7 +304,8 @@ export class SourcingDetailsComponent implements OnInit {
     const productCategorySelected = isBool ? event.target.value : event;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
       this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
-      'assetProdcutCode', 'assetProdutName');
+      'assetProdcutCode',
+      'assetProdutName');
     if (isBool === true) {
       this.sourcingDetailsForm.patchValue({ product: '' });
     }
@@ -324,7 +325,9 @@ export class SourcingDetailsComponent implements OnInit {
       console.log('sourching', response);
       this.sourcingData = response;
       this.sourcingChannelData = this.utilityService.getValueFromJSON(
-        this.sourcingData, 'sourcingChannelId', 'sourcingChannelDesc');
+        this.sourcingData,
+        'sourcingChannelId',
+        'sourcingChannelDesc');
       this.sourcingChannelChange(this.sourchingChannelFromLead, false);
       this.patchSourcingDetails();
     });
