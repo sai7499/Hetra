@@ -521,7 +521,7 @@
               </tr>
               <tr>
                 <td>{{ labels?.consideredSalaryIncome }}</td>
-                <td>{{(totalMonthlySalaryIncome * totalSalariedFOIR)/100}}</td>
+                <td>{{(totalMonthlySalaryIncome * totalSalariedFOIR)/100 | number:'1.0-0'}}</td>
               </tr>
 
               <tr>
@@ -550,7 +550,7 @@
               </tr>
               <tr>
                 <td>{{ labels?.loanEligibilityasperFOIR }}</td>
-                <td>{{1.4 * (totalMonthlyIncome - totalObligationAmount)}}</td>
+                <td>{{1.4 * (totalMonthlyIncome - totalObligationAmount) | number:'1.0-0'}}</td>
               </tr>
             </table>
           </div>

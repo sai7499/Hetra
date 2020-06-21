@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
+import { ToasterService } from '@services/toaster.service';
 // import * as $ from 'jquery';
 
 @Component({
@@ -32,6 +33,35 @@ export class BankDetailsComponent implements OnInit {
   toDate;
   assignedArray1 = [];
   toDayDate: Date = new Date();
+  isDirty:boolean;
+  namePattern = {
+    rule: '^[A-Z,a-z, ]*$',
+    msg: 'Invalid Name',
+  };
+  nameLength30 = {
+    rule: 30,
+  };
+  accountNumberPattern = {
+    rule: '^[0-9]*$',
+    msg: 'Invalid Account Number'
+  };
+  numberLength20 = {
+    rule: 20
+  };
+  limitNumberPattern = {
+    rule: '^[0-9]*$',
+    msg: 'Invalid Limit'
+  };
+  limitLength20 = {
+    rule: 20
+  };
+  inputValidation = {
+    rule: '^[0-9]*$',
+    msg: 'Enter Digits Only'
+  };
+  inputLength10 = {
+    rule: 10
+  };
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -40,6 +70,7 @@ export class BankDetailsComponent implements OnInit {
     private router: Router,
     private utilityService: UtilityService,
     private location: Location ,
+    private toStarService: ToasterService
   ) {
     this.listArray = this.fb.array([]);
     
@@ -50,14 +81,14 @@ export class BankDetailsComponent implements OnInit {
   this.bankForm = this.fb.group({
     userId: localStorage.getItem('userId'),
     applicantId: this.applicantId,
-    accountHolderName: ['', Validators.required],
+    accountHolderName: [''],
     bankId: [''],
     accountNumber: [''],
     accountType: [''],
     fromDate: ['' ],
     toDate: [''],
     period: ['' , { disabled : true}],
-    limit: [''],
+    limit: [null],
     id: this.leadId,
     // transactionDetails: this.fb.array([]),
     transactionDetails: this.listArray,
@@ -76,17 +107,19 @@ export class BankDetailsComponent implements OnInit {
       'Nov',
       'Dec',
     ];
-  this.lovService.getLovData().subscribe((res: any) => {
-      this.lovData = res.LOVS;
-    });
   this.applicantId = (await this.getApplicantId()) as number;
   this.leadId = (await this.getLeadId()) as number;
+  this.lovService.getLovData().subscribe((res: any) => {
+      this.lovData = res.LOVS;
+      this.formType = this.route.snapshot.queryParams.formType;
+      if (this.formType) {
+          this.getBankDetails();
+        } else {
+        }
+    });
+  
 
-  this.formType = this.route.snapshot.queryParams.formType;
-  if (this.formType) {
-      this.getBankDetails();
-    } else {
-    }
+ 
   // $('.datepicker').datepicker('update', new Date());
   }
   getApplicantId() {
@@ -149,7 +182,7 @@ export class BankDetailsComponent implements OnInit {
         // if (res.error === null) {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0 ; i < this.bankDetailsNew.length; i++ ) {
-          this.assignedArray.push(this.bankDetailsNew[i].month);
+          this.assignedArray[i] = this.bankDetailsNew[i].month.toString();
           }
         console.log(this.assignedArray, ' on init');
         this.populateData(res);
@@ -183,10 +216,10 @@ export class BankDetailsComponent implements OnInit {
         ? data.ProcessVariables.accountTypeId
         : null,
       fromDate: data.ProcessVariables.fromDate
-        ? this.utilityService.getNewDateFormat(data.ProcessVariables.fromDate)
+        ? this.utilityService.getDateFromString(data.ProcessVariables.fromDate)
         : '',
       toDate: data.ProcessVariables.toDate
-        ? this.utilityService.getNewDateFormat(data.ProcessVariables.toDate)
+        ? this.utilityService.getDateFromString(data.ProcessVariables.toDate)
         : '',
       period: data.ProcessVariables.period
         ? Number(data.ProcessVariables.period)
@@ -207,19 +240,24 @@ export class BankDetailsComponent implements OnInit {
   onSave() {
     this.bankForm.value.fromDate = this.utilityService.getDateFormat(this.bankForm.value.fromDate);
     this.bankForm.value.toDate = this.utilityService.getDateFormat(this.bankForm.value.toDate);
+    this.bankForm.value.limit = Number(this.bankForm.value.limit);
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
     console.log(this.bankForm.value.transactionDetails);
     const newArray: {} = this.assignedArray;
       // console.log(newArray);
     for (let i = 0; i < this.bankForm.value.transactionDetails.length; i++) {
-        this.bankForm.value.transactionDetails[i].month = newArray[i] ? newArray[i][0] : newArray[i].month;
+        this.bankForm.value.transactionDetails[i].month = this.assignedArray[i] ? this.assignedArray[i][0] : this.assignedArray[i].month;
+        console.log(this.bankForm.value.transactionDetails[i].month, 'month before posting');
       }
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
         if (res.ProcessVariables.error.code === '0' ) {
-        this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
+          this.toStarService.showSuccess("Bank Detail Saved Successfully","Bank Detail");
+          this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`);
+        } else{
+          this.toStarService.showError(res.ProcessVariables.error.message,"Bank Detail")
         }
       });
     console.log(this.bankForm.value);
@@ -243,7 +281,7 @@ export class BankDetailsComponent implements OnInit {
       const startMonth = fromDate.getMonth();
        // tslint:disable-next-line: prefer-const
       this.assignedArray1 = [];
-      for ( let i = numberOfMonths ; i >= startMonth; i--) {
+      for ( let i = numberOfMonths + 1 ; i >= startMonth; i--) {
         const index = startMonth % 12;
         this.assignedArray1.push(this.monthArray[index]);
         console.log(this.assignedArray1, ' new month array');
@@ -266,10 +304,11 @@ export class BankDetailsComponent implements OnInit {
     const diff = toDate.getMonth() - fromDate.getMonth();
     console.log(diff);
     console.log(this.monthArray, 'month array in month function');
+    let stratMonth = fromDate.getMonth();
     const numberOfMonths =
-      (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+     Math.abs( (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
       (toDate.getMonth() - fromDate.getMonth()) +
-      1;
+      1);
     if (
       diff === undefined ||
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
@@ -298,14 +337,18 @@ export class BankDetailsComponent implements OnInit {
       // const startMonth = fromDate.getMonth();
       // const endMonth = toDate.getMonth();
       this.assignedArray = [];
-      for (let i = numberOfMonths + 3   ; i >= 0; i--) {
-        const count = i % 12;
+      for (let i =0; i< numberOfMonths ; i++) {
+        // const count = i % 12;
+        const count = stratMonth % 12;
+        stratMonth = stratMonth + 1;
+        console.log('start monthy',stratMonth);
         const array = this.monthArray.slice(count, count + 1);
         this.assignedArray.push(array);
+        // this.bankForm.controls.transactionDetails.setValue({ month: array });
 
         //
         }
-      this.assignedArray = this.assignedArray.reverse();
+      // this.assignedArray = this.assignedArray.reverse();
       console.log(this.assignedArray, ' assigned Array');
       }
     }, 1000);

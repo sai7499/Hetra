@@ -102,6 +102,7 @@ export class LeadCreationComponent implements OnInit {
     spokeCode: number;
     loanBranch: number;
     leadHandeledBy: number;
+    sourcingCodeDescription: string;
   };
 
   applicantDetails: {
@@ -123,16 +124,15 @@ export class LeadCreationComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
     private toasterService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.onChangeLanguage('English');
+    this.initForm();
     this.getLabels();
     this.getLOV();
     this.getUserDetailsData();
     this.getSourcingChannel();
-    this.initForm();
-    this.createLeadForm.patchValue({ bizDivision: 'EBBIZDIV' });
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
   }
@@ -223,6 +223,7 @@ export class LeadCreationComponent implements OnInit {
     });
 
     if (this.businessDivision.length === 1) {
+      this.createLeadForm.patchValue({ bizDivision: this.bizDivId });
       this.isBusinessDivisionEnable = true;
       this.getProductCategory(this.bizDivId);
     } else {
@@ -395,7 +396,7 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm.patchValue({ rcUnutilizedLimit: rcData.rcUnutilized });
   }
 
-  onFocused($event) {}
+  onFocused($event) { }
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;
@@ -466,6 +467,7 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
+        sourcingCodeDescription: leadModel.sourcingCode.value
       };
 
       this.applicantDetails = {

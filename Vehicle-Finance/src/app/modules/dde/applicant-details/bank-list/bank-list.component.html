@@ -10,7 +10,8 @@
                            <h4 class="title">Vehicle Details</h4> 
                        </div> -->
                     <div class="col-sm-12 text-right">
-                        <button class="btn btn-secondary mar-right8" type="button" (click)="bankDetail()"> Add Bank
+                        <button class="btn btn-secondary mar-right8 table-head-bg " 
+                            id="btnColor" type="button" (click)="bankDetail()"> Add Bank
                             Details </button>
                         <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                     </div>
@@ -34,13 +35,13 @@
                             <tbody>
                                 <tr  id="" *ngFor="let item of bankDetails">
 
-                                    <td class="text-center">{{item.accountHolderName}}</td>
-                                    <td class="text-center">{{item.bankName}}</td>
-                                    <td class="text-center">{{item.accountNumber}}</td>
-                                    <td class="text-center">{{item.accountType}}</td>
-                                    <td class="text-center">{{item.fromDate }}</td>
-                                    <td class="text-center">{{item.toDate }}</td>
-                                    <td class="text-center">{{item.period}}</td>
+                                    <td class="text-center">{{item?.accountHolderName}}</td>
+                                    <td class="text-center">{{item?.bankName}}</td>
+                                    <td class="text-center">{{item?.accountNumber}}</td>
+                                    <td class="text-center">{{item?.accountType}}</td>
+                                    <td class="text-center">{{item?.fromDate }}</td>
+                                    <td class="text-center">{{item?.toDate }}</td>
+                                    <td class="text-center">{{item?.period}}</td>
                                     <td class="text-center"><i class="fa fa-pencil" (click)="routeDetails(item.applicantId);"
                                             aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true"
                                             id="remove_item_applicant" (click)="onDelete()"></i></td>
@@ -98,7 +99,7 @@
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
             <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
-            <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button>
+            <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
         </div>
     
     </div>

@@ -25,7 +25,7 @@
                 <app-custom-input
                 formControlName="financierName"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Financier Name'"
+                [placeholder]="'Financier'"
                 [maxLength]="regexPattern.nameLength"
                 [isRequired]="'Financier Name is mandatory'"
                 [patternCheck]="regexPattern.name"
@@ -42,7 +42,7 @@
                 <app-custom-input
                 formControlName="assetFinancied"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Financier Name'"
+                [placeholder]="'Asset Financier'"
                 [maxLength]="regexPattern.nameLength"
                 [isRequired]="'Financier Name is mandatory'"
                 [patternCheck]="regexPattern.vachilePattern"
@@ -72,8 +72,22 @@
                 </span>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.financeAmount}}</label>
-                <input type="text" class="form-control" id="finance_amount" formControlName="financeAmount">
+                <label for="Vechical Type">{{labels.financeAmount}}<sub class="star_red_col">*</sub></label>
+                <!-- <input type="text" class="form-control" id="finance_amount" 
+                    formControlName="financeAmount"
+                    
+                    maxlength="10"> -->
+                <app-custom-input
+                    formControlName="financeAmount"
+                    [className]="'form-control mandatory input-upper'"
+                    [placeholder]="'Finance Amount'"
+                    [maxLength]="regexPattern.contLength"
+                    [isRequired]="'Finance Amount is mandatory'"
+                    [patternCheck]="regexPattern.amount"
+                    [isDirty]="isDirty"
+                    
+                ></app-custom-input>
+                <!-- [inputClass]="'text-uppercase'" -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.financeCharges}}<sub class="star_red_col">*</sub></label>
@@ -82,7 +96,7 @@
                 formControlName="financeCharges"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Requested Amount'"
-                [maxLength]="regexPattern.nameLength"
+                [maxLength]="regexPattern.contLength"
                 [isRequired]="'Finance charges is mandatory'"
                 [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
@@ -102,7 +116,7 @@
                 formControlName="contractValue"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Contract Value'"
-                [maxLength]="regexPattern.nameLength"
+                [maxLength]="regexPattern.contLength"
                 [isRequired]="'Contract Value is mandatory'"
                 [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
@@ -114,10 +128,10 @@
                 <app-custom-input
                 formControlName="contNo"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Cont No'"
+                [placeholder]="'Contract Number'"
                 [maxLength]="regexPattern.contLength"
                 [isRequired]="'Contact No is mandatory'"
-                [patternCheck]="regexPattern.contact"
+                [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -138,6 +152,7 @@
                 [isRequired]="'Vehicle Number is mandatory'"
                 [patternCheck]="regexPattern.vechileNoPattern"
                 [isDirty]="isDirty"
+                [inputClass]="'text-uppercase'"
                 >
               </app-custom-input>
                 <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
@@ -178,9 +193,15 @@
                     <div class='input-group date' id='loan_start_date'>
                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
-                        <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanStartDate"
-                        [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [max]="toDayDate" 
-                        (valueChange)="loanStartDate($event)"></kendo-datepicker>
+                        <kendo-datepicker style="width:100%" 
+                            class="form-control mandatory" 
+                            formControlName="loanStartDate"
+                            [format]="'dd/MM/yyyy'" 
+                            placeholder="dd/mm/yyyy" 
+                            [max]="toDayDate" 
+                            [activeView]="'decade'"
+                            (valueChange)="loanStartDate($event)">
+                        </kendo-datepicker>
                         <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
                             <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>
                         </div>
@@ -194,8 +215,11 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanMaturityDate"
-                [format]="'dd/MM/yyyy'"  placeholder="dd/mm/yyyy"
+                <kendo-datepicker width="100%" 
+                    class="form-control mandatory" 
+                    formControlName="loanMaturityDate"
+                    [format]="'dd/MM/yyyy'"  placeholder="dd/mm/yyyy"
+                    [activeView]="'decade'"
               ></kendo-datepicker>
               <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
                 <span *ngIf="f.loanMaturityDate.errors.required">{{labels.loanMaturityDate}} is required</span>
@@ -310,8 +334,12 @@
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <kendo-datepicker class="form-control mandatory" formControlName="dueDate"
-                                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
+                                        <kendo-datepicker class="form-control mandatory" 
+                                            formControlName="dueDate"
+                                            [format]="'dd/MM/yyyy'" 
+                                            [max]="toDayDate" 
+                                            placeholder="dd/mm/yyyy"
+                                            [activeView]="'decade'"
                                         ></kendo-datepicker>
 <!--                                   
                                         <input type='date' class="form-control" value="01-01-2018"
@@ -324,9 +352,15 @@
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date'>
-                                        <kendo-datepicker class="form-control mandatory" formControlName="receivedDate"
-                                            [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
-                                            (valueChange)="delayDays($event ,i , itemrow)"></kendo-datepicker>
+                                        <kendo-datepicker
+                                            class="form-control mandatory" 
+                                            formControlName="receivedDate"
+                                            [format]="'dd/MM/yyyy'" 
+                                            [max]="toDayDate" 
+                                            placeholder="dd/mm/yyyy"
+                                            (valueChange)="delayDays($event ,i , itemrow)"
+                                            [activeView]="'decade'">
+                                        </kendo-datepicker>
                                         <!-- <input type='date' class="form-control"  data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09"
                                             formControlName="receivedDate" (change)="delayDays($event ,i , itemrow)" /> -->
                                     </div>
