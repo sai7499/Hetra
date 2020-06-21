@@ -201,9 +201,10 @@
               formControlName="requestedAmount"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Amount'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="regexPattern.amountLength"
               [isRequired]="'Required Amount is mandatory'"
               [patternCheck]="regexPattern.amount"
+              [isDirty]="isDirty"
               >
             </app-custom-input>
         </div>
@@ -214,9 +215,10 @@
               formControlName="requestedTenor"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Tenor'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="regexPattern.loanTenor"
               [isRequired]="'Required Tenor is mandatory'"
               [patternCheck]="regexPattern.amount"
+              [isDirty]="isDirty"
               >
             </app-custom-input>
         </div>

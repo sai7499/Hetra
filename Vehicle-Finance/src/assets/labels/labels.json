@@ -120,7 +120,7 @@
     "permitExpireDate": "Permit Expiry Date",
     "permitUpload": "Upload Permit Document",
     "vehiclePurchasedCost": "Vehicle Purchased Cost",
-    "vehicleOwnership": "Vehicle Ownership Member",
+    "vehicleOwnership": "Vehicle Ownership Number",
     "rcOwnerName": "RC Owner Name",
     "vehicleRegistrationDate": "Vehicle Registration Date",
     "grossVehicleWeight": "Gross Vehicle Weight",
@@ -435,7 +435,8 @@
     "obligationAmount": "Obligation Amount",
     "totalMonthlySalaryIncome": "Total Monthly Salary Income",
     "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
-    "salairedFOIRDeviation": "Salaired FOIR Deviation %",
+    "salariedFOIRDeviation": "Salaried FOIR Deviation %",
+    "totalSalariedFOIR":"Total Salaried FOIR %",
     "consideredSalaryIncome": "Considered Salary Income",
     "totalMonthlyBusinessIncome": "Total Monthly Business Income",
     "totalMonthlyRentalIncome": "Total Monthly Rental Income",
@@ -705,5 +706,7 @@
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
     "creditBureauCIBIL": "Credit Bureau (CIBIL)",
-    "applicant":"Applicant"
+    "areYouSureWantToReject":"Are you sure want to reject ?"
+
+    
 }

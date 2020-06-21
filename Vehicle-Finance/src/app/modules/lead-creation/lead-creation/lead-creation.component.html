@@ -14,7 +14,7 @@
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
             </label>
             <app-vf-custom-select [isDisabled]="isBusinessDivisionEnable" [values]="businessDivision"
-              formControlName="bizDivision" (change)="getProductCategory($event)" [isRequired]="'true'">
+              formControlName="bizDivision" (change)="getProductCategory($event)" [isRequired]="'Business Division required'">
             </app-vf-custom-select>
           </div>
 
@@ -24,7 +24,9 @@
             <app-vf-custom-select 
               [values]="productCategoryData" 
               (change)="productCategoryChange($event)"
-              [isRequired]="'true'">
+              formControlName="productCategory"
+              [isRequired]="'Product Category required'"
+              [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
 
@@ -35,7 +37,8 @@
               [values]="productCategorySelectedList" 
               formControlName="product"
               (change)="productChange($event)"
-              [isRequired]="'true'">
+              [isRequired]="'Product required'"
+              [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
         </div>
@@ -47,16 +50,19 @@
             <app-vf-custom-select 
               [values]="fundingProgramData" 
               formControlName="fundingProgram"
-              [isRequired]="'true'">
+              [isRequired]="'Funding Program required'"
+              [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="priority">{{ labels.priority }}</label>
-            <app-vf-custom-select [values]="[
+            <app-vf-custom-select 
+              [values]="[
                 { key: '1', value: 'Yes' },
                 { key: '0', value: 'No' }
-              ]" formControlName="priority">
+              ]" 
+              formControlName="priority">
             </app-vf-custom-select>
           </div>
 
@@ -73,7 +79,8 @@
               formControlName="sourcingChannel"
               (change)="sourcingChannelChange($event)"
               name="sourcingChannel"
-              [isRequired]="'true'"
+              [isRequired]="'Sourcing Channel required'"
+              [isDirty]="isDirty"
             >
             </app-vf-custom-select>
           </div>
@@ -86,7 +93,8 @@
               [values]="sourchingTypeValues"
               formControlName="sourcingType"
               (change)="sourchingTypeChange($event) "
-              [isRequired]="'true'"
+              [isRequired]="'Sourcing Type required'"
+              [isDirty]="isDirty"
             >
             </app-vf-custom-select>
           </div>
@@ -173,7 +181,10 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="spoken_code">{{ labels.spokeCodeLocation }}
               <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="spokesCodeLocation" formControlName="spokeCodeLocation" [isRequired]="'true'">
+            <app-vf-custom-select 
+              [values]="spokesCodeLocation" 
+              formControlName="spokeCodeLocation" 
+              [isRequired]="'spokes Code Location required'">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -198,8 +209,12 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select [values]="LOV.LOVS.entityType" formControlName="entity" [isRequired]="'Entity Required'"
-              (change)="selectApplicantType($event, false)">
+            <app-vf-custom-select 
+              [values]="LOV.LOVS.entityType" 
+              formControlName="entity" 
+              [isRequired]="'Entity Required'"
+              (change)="selectApplicantType($event, false)"
+              [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
         </div>
@@ -219,6 +234,7 @@
               [maxLength]="regexPattern.nameLength"
               [patternCheck]="namePattern"
               [isRequired]="'First Name is mandatory'"
+              [isDirty]="isDirty"
               >
             </app-custom-input>
           </div>
@@ -258,7 +274,8 @@
               [placeholder]="'Mobile'"
               [maxLength]="regexPattern.maxLength"
               [patternCheck]="regexPattern.mobile"
-              [isRequired]="'Contact Number mandatory'">
+              [isRequired]="'Contact Number mandatory'"
+              [isDirty]="isDirty">
             </app-custom-input>
           </div>
 
@@ -285,7 +302,16 @@
               [activeView]="'decade'"></kendo-datepicker>  
           </div>
 
+
           <div class="btn-sec clear-both">
+            <!-- <div> -->
+            <!-- <label>Note:
+              <sub class="star_red_col">* </sub>
+              <span>Fields are mandatory</span>
+              <sub class="star_blue_col">* </sub>
+              <span class="lable">Fields are conditional mandatory</span>
+            </label> -->
+          <!-- </div> -->
             <div class="col-sm-12 text-right">
               <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
                 {{ labels.createLead }}

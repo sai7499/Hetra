@@ -4,25 +4,55 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
-                <input type="text" class="form-control" id="client_name" formControlName="clientName">
+                <app-custom-input
+                formControlName="clientName"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Client Name'"
+                [maxLength]="regexPattern.nameLength"
+                [isRequired]="'Client Name is mandatory'"
+                [patternCheck]="regexPattern.name"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <input type="text" class="form-control" id="client_name" formControlName="clientName">
                 <span *ngIf="submitted && f.clientName.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.clientName.errors.required">Client Name is required</span>
                     <span *ngIf="f.clientName.errors.pattern">Numbers and Special Characters not allowed</span>
-                </span>
+                </span> -->
              </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.nameOfTheFinancier}}<sub class="star_red_col">*</sub></label>
-                <input type="text" class="form-control" id="financier_name" formControlName="financierName">
+                <app-custom-input
+                formControlName="financierName"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Financier'"
+                [maxLength]="regexPattern.nameLength"
+                [isRequired]="'Financier Name is mandatory'"
+                [patternCheck]="regexPattern.name"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <input type="text" class="form-control" id="financier_name" formControlName="financierName">
                 <span *ngIf="submitted && f.financierName.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.financierName.errors.required">{{labels.nameOfTheFinancier}} is required</span>
-                </span>
+                </span> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.assetFinanced}}<sub class="star_red_col">*</sub></label>
-                <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
+                <app-custom-input
+                formControlName="assetFinancied"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Asset Financier'"
+                [maxLength]="regexPattern.nameLength"
+                [isRequired]="'Financier Name is mandatory'"
+                [patternCheck]="regexPattern.vachilePattern"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
                 <span *ngIf="submitted && f.assetFinancied.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.assetFinancied.errors.required">{{labels.assetFinanced}} is required</span>
-                </span>
+                </span> -->
             </div>
         </div>
         <div class="row">
@@ -42,38 +72,93 @@
                 </span>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.financeAmount}}</label>
-                <input type="text" class="form-control" id="finance_amount" formControlName="financeAmount">
+                <label for="Vechical Type">{{labels.financeAmount}}<sub class="star_red_col">*</sub></label>
+                <!-- <input type="text" class="form-control" id="finance_amount" 
+                    formControlName="financeAmount"
+                    
+                    maxlength="10"> -->
+                <app-custom-input
+                    formControlName="financeAmount"
+                    [className]="'form-control mandatory input-upper'"
+                    [placeholder]="'Finance Amount'"
+                    [maxLength]="regexPattern.contLength"
+                    [isRequired]="'Finance Amount is mandatory'"
+                    [patternCheck]="regexPattern.amount"
+                    [isDirty]="isDirty"
+                    
+                ></app-custom-input>
+                <!-- [inputClass]="'text-uppercase'" -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.financeCharges}}<sub class="star_red_col">*</sub></label>
-                <input type="number" class="form-control" id="finance_charges" formControlName="financeCharges">
-                <span *ngIf="submitted && f.financeCharges.errors"style= "color:red;" class="invalid-feedback">
+                <!-- <input type="number" class="form-control" id="finance_charges" formControlName="financeCharges"> -->
+                <app-custom-input
+                formControlName="financeCharges"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Requested Amount'"
+                [maxLength]="regexPattern.contLength"
+                [isRequired]="'Finance charges is mandatory'"
+                [patternCheck]="regexPattern.amount"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <span *ngIf="submitted && f.financeCharges.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.financeCharges.errors.required">{{labels.financeCharges}} is required</span>
-                </span>
+                    <span *ngIf="f.contNo.errors.min"> Please Enter valid financeCharges</span>
+                </span> -->
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.contractValue}}<sub class="star_red_col">*</sub></label>
-                <input type="number" class="form-control" id="contract_value" formControlName="contractValue">
-                <span *ngIf="submitted && f.contractValue.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.contractValue.errors.required">{{labels.contractValue}} is required</span>
-                </span>
+                <!-- <input type="number" class="form-control" id="contract_value" formControlName="contractValue"> -->
+                <app-custom-input
+                formControlName="contractValue"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Contract Value'"
+                [maxLength]="regexPattern.contLength"
+                [isRequired]="'Contract Value is mandatory'"
+                [patternCheck]="regexPattern.amount"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.contNo}}<sub class="star_red_col">*</sub></label>
-                <input type="number" class="form-control" id="cont_no" formControlName="contNo">
+                <app-custom-input
+                formControlName="contNo"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Contract Number'"
+                [maxLength]="regexPattern.contLength"
+                [isRequired]="'Contact No is mandatory'"
+                [patternCheck]="regexPattern.amount"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <input type="number" class="form-control" id="cont_no" formControlName="contNo">
                 <span *ngIf="submitted && f.contNo.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.contNo.errors.required"> contNo is required</span>
-                </span>
+                    <span *ngIf="f.contNo.errors.pattern"> Please Enter valid contact number</span>
+
+                </span> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.vehicleNo}}<sub class="star_red_col">*</sub></label>
-                <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
+                <app-custom-input
+                formControlName="vehicleNo"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Vehicle Number'"
+                [maxLength]="regexPattern.contLength"
+                [isRequired]="'Vehicle Number is mandatory'"
+                [patternCheck]="regexPattern.vechileNoPattern"
+                [isDirty]="isDirty"
+                [inputClass]="'text-uppercase'"
+                >
+              </app-custom-input>
+                <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
                 <span *ngIf="submitted && f.vehicleNo.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.vehicleNo.errors.required">vehicle Number is required</span>
-                </span>
+                </span> -->
             </div>
         </div>
         <div class="row">
@@ -108,9 +193,15 @@
                     <div class='input-group date' id='loan_start_date'>
                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
-                        <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanStartDate"
-                        [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy"
-                        (valueChange)="loanStartDate($event)"></kendo-datepicker>
+                        <kendo-datepicker style="width:100%" 
+                            class="form-control mandatory" 
+                            formControlName="loanStartDate"
+                            [format]="'dd/MM/yyyy'" 
+                            placeholder="dd/mm/yyyy" 
+                            [max]="toDayDate" 
+                            [activeView]="'decade'"
+                            (valueChange)="loanStartDate($event)">
+                        </kendo-datepicker>
                         <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
                             <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>
                         </div>
@@ -124,8 +215,11 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanMaturityDate"
-                [format]="'dd/MM/yyyy'"  placeholder="dd/mm/yyyy"
+                <kendo-datepicker width="100%" 
+                    class="form-control mandatory" 
+                    formControlName="loanMaturityDate"
+                    [format]="'dd/MM/yyyy'"  placeholder="dd/mm/yyyy"
+                    [activeView]="'decade'"
               ></kendo-datepicker>
               <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
                 <span *ngIf="f.loanMaturityDate.errors.required">{{labels.loanMaturityDate}} is required</span>
@@ -141,19 +235,39 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalNoOfEmis}}<sub class="star_red_col">*</sub></label>
-                <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
+                <app-custom-input
+                formControlName="noOfEmi"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Total number of Emis'"
+                [maxLength]="regexPattern.nameLength"
+                [isRequired]="'Total number of emis is mandatory'"
+                [patternCheck]="regexPattern.amount"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
                 <span *ngIf="submitted && f.noOfEmi.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.noOfEmi.errors.required">{{labels.totalNoOfEmis}} is required</span>
-                </span>
+                </span> -->
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.noOfEmisPaid}}<sub class="star_red_col">*</sub></label>
-                <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
+                <app-custom-input
+                formControlName="emisPaid"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Total number of Emis paid'"
+                [maxLength]="regexPattern.nameLength"
+                [isRequired]="'Total number of emis paid is mandatory'"
+                [patternCheck]="regexPattern.amount"
+                [isDirty]="isDirty"
+                >
+              </app-custom-input>
+                <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
                 <span *ngIf="submitted && f.emisPaid.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.emisPaid.errors.required">{{labels.noOfEmisPaid}} is required</span>
-                </span>
+                </span> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.balanceTenor}}</label>
@@ -220,8 +334,12 @@
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <kendo-datepicker class="form-control mandatory" formControlName="dueDate"
-                                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
+                                        <kendo-datepicker class="form-control mandatory" 
+                                            formControlName="dueDate"
+                                            [format]="'dd/MM/yyyy'" 
+                                            [max]="toDayDate" 
+                                            placeholder="dd/mm/yyyy"
+                                            [activeView]="'decade'"
                                         ></kendo-datepicker>
 <!--                                   
                                         <input type='date' class="form-control" value="01-01-2018"
@@ -234,9 +352,15 @@
                             <td>
                                 <div class="form-group date">
                                     <div class='input-group date'>
-                                        <kendo-datepicker class="form-control mandatory" formControlName="receivedDate"
-                                            [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
-                                            (valueChange)="delayDays($event ,i , itemrow)"></kendo-datepicker>
+                                        <kendo-datepicker
+                                            class="form-control mandatory" 
+                                            formControlName="receivedDate"
+                                            [format]="'dd/MM/yyyy'" 
+                                            [max]="toDayDate" 
+                                            placeholder="dd/mm/yyyy"
+                                            (valueChange)="delayDays($event ,i , itemrow)"
+                                            [activeView]="'decade'">
+                                        </kendo-datepicker>
                                         <!-- <input type='date' class="form-control"  data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09"
                                             formControlName="receivedDate" (change)="delayDays($event ,i , itemrow)" /> -->
                                     </div>

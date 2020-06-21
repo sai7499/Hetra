@@ -29,7 +29,7 @@ export class OtpSectionComponent implements OnInit {
     private applicantService: ApplicantService,
     private router: Router,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   getLeadIdAndApplicantId() {
     return new Promise((resolve) => {
@@ -138,8 +138,11 @@ export class OtpSectionComponent implements OnInit {
         console.log('reference number ==>', this.referenceNo);
         console.log('mobile number ==>', this.mobileNo);
         this.toasterService.showSuccess('OTP sent successfully !', '');
-      } else {
-        alert('invalid customer mobile number');
+
+      }
+      else {
+        alert(res.ProcessVariables.error.message);
+
       }
     });
   }
@@ -159,11 +162,11 @@ export class OtpSectionComponent implements OnInit {
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         // alert("otp verified successfully")
 
-        if (res.ProcessVariables.leadStage == '20'){
+        if (res.ProcessVariables.leadStage == '20') {
           this.router.navigate([
             'pages/sales/' + this.leadId + '/applicant-list',
           ]);
-        }else{
+        } else {
           this.router.navigate([
             'pages/lead-section/' + this.leadId + '/applicant-details',
           ]);

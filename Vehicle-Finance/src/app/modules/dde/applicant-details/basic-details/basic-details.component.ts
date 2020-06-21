@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { Location } from '@angular/common';
+import { UtilityService} from '@services/utility.service'
+import { ToasterService} from '@services/toaster.service'
 import {
   Applicant,
   ApplicantDetails,
@@ -26,7 +28,17 @@ export class BasicDetailsComponent implements OnInit {
   LOV: any = [];
   applicantId: number;
   applicant: Applicant;
-  leadId :  number
+  leadId :  number;
+  showAge : any;
+  initialAge : any;
+  isSeniorCitizen: any = "0"
+  isMinor: any = "0"
+  gaurdianNamemandatory: any = {};
+  checkingMinor: boolean;
+  checkingSenior: boolean;
+  mobilePhone : string
+  isDirty : boolean;
+  public toDayDate: Date = new Date();
 
   designation = [
     {
@@ -38,6 +50,52 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
+  nameLength30={
+    rule: 30,
+  }
+  length4 ={
+    rule : 3
+  }
+  length2 ={
+    rule : 2
+  }
+  length20 ={
+    rule : 20
+  }
+  mobileLenght10={
+    rule: 10,
+  }
+  namePattern = {
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Name',
+  };
+  nameSpacePattern = {
+    rule: '^[A-Z ]*[a-z ]*$',
+    msg: 'Invalid Name',
+  };
+//   companyPattern ={
+//    rule : '^[A-Z]*[a-z]*$',
+//    msg: 'Invalid Name',
+//  };
+  numberPattern={
+    rule : '^[0-9]',
+    msg : 'Invalid'
+  }
+  mobilePattern={
+    rule: '^[1-9][0-9]*$',
+    msg: 'Invalid Mobile Number',
+  }
+  emailPattern={
+    rule : '^\\w+([\.-]?\\w+)@\\w+([\.-]?\\w+)(\\.\\w{2,10})+$',
+    msg : 'Invalid email'
+  }
+  landlinePattern={
+    rule : '^[0-9]{6,15}',
+    msg : "Invalid Number"
+  }
+  landlineLength15={
+    rule: 15,
+  }
 
   
   constructor(
@@ -47,7 +105,9 @@ export class BasicDetailsComponent implements OnInit {
     private router: Router,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
-    private location: Location
+    private location: Location,
+    private utilityService : UtilityService,
+    private toasterService : ToasterService
   ) {}
  async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -60,13 +120,17 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
-      entity: new FormControl(''),
-      applicantRelationshipWithLead: new FormControl(''),
-      title: new FormControl(''),
+      entity: new FormControl({value :'', disabled : true}),
+      applicantRelationshipWithLead: new FormControl('', Validators.required),
+      title: new FormControl('', Validators.required),
       details: new FormArray([]),
     });
     this.addNonIndividualFormControls();
     this.getLOV();
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    details.patchValue({ preferredLanguage: 'ENGPRFLAN' })
+    
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
@@ -95,9 +159,99 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
+      
       this.setBasicData();
     });
   }
+  initiallayAgecal(dob) {
+    const convertDate = new Date(this.utilityService.getDateFromString(dob))
+    const convertAge = new Date(convertDate);
+    const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+    this.initialAge = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365);
+    console.log('initially age', this.initialAge)
+    
+    const formArray = this.basicForm.get('details') as FormArray
+    const details = formArray.at(0)
+    this.checkingMinor = this.initialAge < 18
+    details.get('isMinor').setValue(this.checkingMinor) 
+    
+    this.checkingSenior = this.initialAge > 70 
+    details.get('isSeniorCitizen').setValue(this.checkingSenior)
+
+
+    this.isMinor = this.checkingMinor == true ? '1' : '0'
+    //console.log('isminor',details.get('isMinor').value)
+    this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0'
+    //console.log('issenior', this.isSeniorCitizen)
+    this.setGaurdianFieldMandatory()
+  }
+  ageCalculation(event) {
+    console.log('event', event)
+    const value = event;
+
+    const convertDate = new Date(this.utilityService.getNewDateFormat(value))
+    const convertAge = new Date(convertDate);
+    const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+    this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365);
+    console.log('showAge', this.showAge);
+
+
+    this.basicForm.get('details')['controls'][0].get('isMinor').value = this.checkingMinor = this.showAge < 18 ? true : false
+    this.basicForm.get('details')['controls'][0].get('isSeniorCitizen').value = this.checkingSenior = this.showAge > 70 ? true : false
+
+    // console.log(this.basicForm.get('details')['controls'][0].get('isMinor').value)
+    // console.log(this.basicForm.get('details')['controls'][0].get('isSeniorCitizen').value)
+
+    //this.checkMinorOrSenior(this.showAge) 
+
+    this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0'
+    this.isMinor = this.checkingMinor == true ? '1' : '0'
+
+    this.setGaurdianFieldMandatory()
+  }
+  checkSenior(event) {
+    if (event.target.checked && (this.showAge < 70 || this.initialAge < 70)) {
+      event.target.checked = false;
+    }
+    else { event.target.checked = true; }
+    if (event.target.checked == true) {
+
+    }
+
+  }
+
+  checkMinor(event) {
+    if (event.target.checked && (this.showAge > 18 || this.initialAge > 18)) {
+      event.target.checked = false;
+    }
+    else {
+      event.target.checked = true;
+    }
+    console.log()
+  }
+
+  setGaurdianFieldMandatory() {
+
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0) as FormGroup;
+    if(details.get('isMinor').value){
+      console.log('isminorgaur', details.get('isMinor').value)
+      details.addControl('minorGuardianName', new FormControl())
+      details.addControl ('minorGuardianRelation', new FormControl())  
+    }else{
+      details.removeControl('minorGuardianName')
+      details.removeControl('minorGuardianRelation')
+    }
+
+  
+  }
+ 
+  // onCheckSenior(event){
+  //   if(event.target.checked && (this.showAge < 70 || this.initialageCal< 70)){
+  //     event.target.checked= false;
+  //    }
+  //   else{event.target.checked = true;}
+  // }
 
   setBasicData() {
     this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
@@ -105,7 +259,7 @@ export class BasicDetailsComponent implements OnInit {
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead:
         this.applicant.applicantDetails.applicantTypeKey || '',
-      title: this.applicant.applicantDetails.title,
+      title: this.applicant.applicantDetails.title || '',
     });
     if (this.isIndividual) {
       this.clearFormArray();
@@ -115,42 +269,69 @@ export class BasicDetailsComponent implements OnInit {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
     }
+    const dob = this.applicant.aboutIndivProspectDetails.dob;
+    console.log('dob', dob)
+    if (dob !== null) {
+      this.initiallayAgecal(dob)
+
+    }
+    const applicantDetails = this.applicant.applicantDetails;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+
+    details.patchValue({
+      name1: applicantDetails.name1,
+      name2: applicantDetails.name2,
+      name3: applicantDetails.name3,
+
+
+      customerCategory: applicantDetails.customerCategory || '',
+      custSegment: applicantDetails.custSegment || '',
+    });
   }
 
   setValuesForIndividual() {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
-      console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
+      //console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
+      this.showAge = aboutIndivProspectDetails.age;
+      const mobile = aboutIndivProspectDetails.mobilePhone;
+      if (mobile && mobile.length == 12) {
+        this.mobilePhone = mobile.slice(2, 12);
+      }
+      else if (mobile && mobile.length == 10) {
+        this.mobilePhone = mobile
+      }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     const applicantDetails = this.applicant.applicantDetails;
     details.patchValue({
-      name1: applicantDetails.name1,
-      name2: applicantDetails.name2,
-      name3: applicantDetails.name3,
-      title: applicantDetails.title,
-      customerCategory: applicantDetails.customerCategory,
-      emailId: aboutIndivProspectDetails.emailId,
-      alternateEmailId: aboutIndivProspectDetails.alternateEmailId,
-      mobilePhone: aboutIndivProspectDetails.mobilePhone,
-      dob: aboutIndivProspectDetails.dob,
-      minorGuardianName: aboutIndivProspectDetails.minorGuardianName,
-      fatherName: aboutIndivProspectDetails.fatherName,
-      spouseName: aboutIndivProspectDetails.spouseName,
-      motherMaidenName: aboutIndivProspectDetails.motherMaidenName,
-      preferredLanguage: aboutIndivProspectDetails.preferredLanguage,
-      occupation: aboutIndivProspectDetails.occupation,
-      nationality: aboutIndivProspectDetails.nationality,
-      employeeCode: aboutIndivProspectDetails.employeeCode,
-      employerType: aboutIndivProspectDetails.employerType,
-      isSeniorCitizen: aboutIndivProspectDetails.isSeniorCitizen,
-      minorGuardianUcic: aboutIndivProspectDetails.minorGuardianUcic,
-      designation: aboutIndivProspectDetails.designation,
+      emailId: aboutIndivProspectDetails.emailId || '',
+      alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
+      mobilePhone: this.mobilePhone || '',
+      dob: this.utilityService.getDateFromString(aboutIndivProspectDetails.dob) || '',
+      minorGuardianName: aboutIndivProspectDetails.minorGuardianName || '',
+      fatherName: aboutIndivProspectDetails.fatherName || '',
+      spouseName: aboutIndivProspectDetails.spouseName || '',
+      motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
+      preferredLanguage: aboutIndivProspectDetails.preferredLanguage || '',
+      occupation: aboutIndivProspectDetails.occupation || '',
+      nationality: aboutIndivProspectDetails.nationality || '',
+      age: this.showAge,
+      gender: aboutIndivProspectDetails.gender || '',
+      politicallyExposedPerson: aboutIndivProspectDetails.politicallyExposedPerson || '',
+      alternateMobileNumber: aboutIndivProspectDetails.alternateMobileNumber || '',
+      minorGuardianRelation: aboutIndivProspectDetails.minorGuardianRelation || '',
+      employeeCode: aboutIndivProspectDetails.employeeCode || '',
+      employerType: aboutIndivProspectDetails.employerType || '',
+      // isSeniorCitizen: aboutIndivProspectDetails.isSeniorCitizen || '',
+      // minorGuardianUcic: aboutIndivProspectDetails.minorGuardianUcic || '',
+      designation: aboutIndivProspectDetails.designation || '',
 
-      currentEmpYears: aboutIndivProspectDetails.currentEmpYears,
-      department: aboutIndivProspectDetails.department,
-      employerName : aboutIndivProspectDetails.employerName
+      currentEmpYears: aboutIndivProspectDetails.currentEmpYears || '',
+      department: aboutIndivProspectDetails.department || '',
+      employerName : aboutIndivProspectDetails.employerName || ''
       
       
 
@@ -164,73 +345,78 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
-      name1: applicantDetails.name1,
-      name2: applicantDetails.name2,
-      name3: applicantDetails.name3,
-      title: applicantDetails.title,
-      companyPhoneNumber: corporateProspectDetails.companyPhoneNumber,
-      companyEmailId: corporateProspectDetails.companyEmailId,
-      alternateEmailId: corporateProspectDetails.alternateEmailId,
-      numberOfDirectors: corporateProspectDetails.numberOfDirectors,
-      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation,
+     
+      companyPhoneNumber: corporateProspectDetails.companyPhoneNumber || '',
+      companyEmailId: corporateProspectDetails.companyEmailId || '',
+      alternateEmailId: corporateProspectDetails.alternateEmailId || '',
+      numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
+      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation || '',
       preferredLanguageCommunication:
-        corporateProspectDetails.preferredLanguageCommunication,
-      customerCategory: applicantDetails.customerCategory,
-      directorName: corporateProspectDetails.directorName,
+        corporateProspectDetails.preferredLanguageCommunication || '',
+      customerCategory: applicantDetails.customerCategory || '',
+      directorName: corporateProspectDetails.directorName || '',
       directorIdentificationNumber:
-        corporateProspectDetails.directorIdentificationNumber,
-      contactPerson: corporateProspectDetails.contactPerson,
+        corporateProspectDetails.directorIdentificationNumber || '',
+      contactPerson: corporateProspectDetails.contactPerson || '',
       contactPersonDesignation:
-        corporateProspectDetails.contactPersonDesignation,
-      contactPersonMobile: corporateProspectDetails.contactPersonMobile,
-      ratingIssuerName: corporateProspectDetails.ratingIssuerName,
-      externalRatingAssigned: corporateProspectDetails.externalRatingAssigned,
-      externalRatingIssueDate: corporateProspectDetails.externalRatingIssueDate,
+        corporateProspectDetails.contactPersonDesignation || '',
+      contactPersonMobile: corporateProspectDetails.contactPersonMobile || '',
+      ratingIssuerName: corporateProspectDetails.ratingIssuerName || '',
+      externalRatingAssigned: corporateProspectDetails.externalRatingAssigned || '',
+      externalRatingIssueDate: corporateProspectDetails.externalRatingIssueDate || '',
       externalRatingExpiryDate:
-        corporateProspectDetails.externalRatingExpiryDate,
-      foreignCurrencyDealing: corporateProspectDetails.foreignCurrencyDealing,
-      exposureBankingSystem: corporateProspectDetails.exposureBankingSystem,
-      creditRiskScore: corporateProspectDetails.creditRiskScore,
+        corporateProspectDetails.externalRatingExpiryDate || '',
+      foreignCurrencyDealing: corporateProspectDetails.foreignCurrencyDealing || '',
+      exposureBankingSystem: corporateProspectDetails.exposureBankingSystem || '',
+      creditRiskScore: corporateProspectDetails.creditRiskScore || '',
     });
   }
 
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null),
+      name1: new FormControl(null, Validators.required),
       name2: new FormControl(null),
       name3: new FormControl(null),
-      mobilePhone: new FormControl(null),
-      dob: new FormControl(null),
+      mobilePhone: new FormControl(null, Validators.required),
+      dob: new FormControl(null, Validators.required),
+      age: new FormControl(''),
+      gender: new FormControl('', Validators.required),
+      isSeniorCitizen: new FormControl(''),
+      isMinor: new FormControl(''),
 
       applicantType: new FormControl(null),
-      isSeniorCitizen: new FormControl(null),
-      minorGuardianName: new FormControl(null),
-      minorGuardianUcic: new FormControl(null),
-      fatherName: new FormControl(null),
+
+      minorGuardianName: new FormControl('', Validators.required),
+      minorGuardianRelation: new FormControl('', Validators.required),
+
+      fatherName: new FormControl(null, Validators.required),
       spouseName: new FormControl(null),
-      motherMaidenName: new FormControl(null),
-      occupation: new FormControl(''),
-      nationality: new FormControl(''),
-      customerCategory: new FormControl(''),
+      motherMaidenName: new FormControl(null, Validators.required),
+      occupation: new FormControl('', Validators.required),
+      nationality: new FormControl('', Validators.required),
+      customerCategory: new FormControl('', Validators.required),
+      custSegment: new FormControl('', Validators.required),
       emailId: new FormControl(''),
       alternateEmailId: new FormControl(''),
-      preferredLanguage: new FormControl(''),
+      alternateMobileNumber: new FormControl(''),
+      preferredLanguage: new FormControl('', Validators.required),
+      politicallyExposedPerson: new FormControl(null),
       // accountNumber: new FormControl(null),
       // accountBank: new FormControl(''),
       // branchAddress: new FormControl(null),
       // spokeAddress: new FormControl(null),
       designation: new FormControl(''),
-      employerName: new FormControl(null),
-      currentEmpYears: new FormControl(null),
-      employeeCode: new FormControl(null),
-      employerType: new FormControl(''),
-      department: new FormControl(''),
-      businessType: new FormControl(''),
-      businessName: new FormControl(null),
-      businessStartDate: new FormControl(null),
-      currentBusinessYear: new FormControl(null),
-      turnOver: new FormControl(null),
+      employerName: new FormControl(null, Validators.required),
+      currentEmpYears: new FormControl(null, Validators.required),
+      employeeCode: new FormControl(null, Validators.required),
+      employerType: new FormControl('', Validators.required),
+      // department: new FormControl(''),
+      // businessType: new FormControl(''),
+      // businessName: new FormControl(null),
+      // businessStartDate: new FormControl(null),
+      // currentBusinessYear: new FormControl(null),
+      // turnOver: new FormControl(null),
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -279,6 +465,7 @@ export class BasicDetailsComponent implements OnInit {
 
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
+      
       this.setBasicData();
     });
     console.log('LOvs', this.LOV);
@@ -326,6 +513,10 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.isDirty= true
+    if ( this.basicForm.invalid){
+      return
+    }
     const value = this.basicForm.getRawValue();
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
@@ -347,10 +538,14 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.Error === '0') {
         console.log('RESPONSE', response);
-        this.router.navigate([
-          `/pages/applicant-details/${this.leadId}/identity-details`,
-          this.applicantId,
-        ]);
+        // this.router.navigate([
+        //   `/pages/applicant-details/${this.leadId}/identity-details`,
+        //   this.applicantId,
+        // ]);
+        this.toasterService.showSuccess(
+          'Applicant Basic Details Saved Successfully',
+          ''
+        );
       }
     });
   }
@@ -380,17 +575,24 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     applicantDetails.title = value.title;
     applicantDetails.customerCategory = formValue.customerCategory;
+    applicantDetails.custSegment = formValue.custSegment || '';
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const aboutIndivProspectDetails = formValue;
-    prospectDetails.dob = formValue.dob;
-    prospectDetails.mobilePhone = aboutIndivProspectDetails.mobilePhone;
-    prospectDetails.isSeniorCitizen = '1';
+    prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
+    prospectDetails.mobilePhone = `91${aboutIndivProspectDetails.mobilePhone}`;
+    prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
+    prospectDetails.isMinor = this.isMinor;
     prospectDetails.minorGuardianName =
       aboutIndivProspectDetails.minorGuardianName;
-    prospectDetails.minorGuardianUcic = Number(
-      aboutIndivProspectDetails.minorGuardianUcic
-    );
+    // prospectDetails.minorGuardianUcic = Number(
+    //   aboutIndivProspectDetails.minorGuardianUcic
+    // );
+    prospectDetails.age = Number(this.showAge);
+    prospectDetails.gender = formValue.gender || '';
+    prospectDetails.minorGuardianRelation = formValue.minorGuardianRelation || '';
+    prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber;
+    prospectDetails.politicallyExposedPerson = formValue.politicallyExposedPerson;
     prospectDetails.spouseName = aboutIndivProspectDetails.spouseName;
     prospectDetails.fatherName = aboutIndivProspectDetails.fatherName;
     prospectDetails.motherMaidenName =
@@ -405,6 +607,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.designation = aboutIndivProspectDetails.designation;
     prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears;
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
+   
     
     // prospectDetails.department = 'department';
     
@@ -465,10 +668,10 @@ export class BasicDetailsComponent implements OnInit {
       corporateProspectDetails.externalRatingAssigned;
     // prospectDetails.externalRatingExpiryDate = '22-Mar-2020';
     prospectDetails.externalRatingExpiryDate =
-      corporateProspectDetails.externalRatingExpiryDate;
+    this.utilityService.getDateFormat(corporateProspectDetails.externalRatingExpiryDate);
     // prospectDetails.externalRatingIssueDate = '22-Mar-2020';
     prospectDetails.externalRatingIssueDate =
-      corporateProspectDetails.externalRatingIssueDate;
+    this.utilityService.getDateFormat(corporateProspectDetails.externalRatingIssueDate);
     prospectDetails.foreignCurrencyDealing =
       corporateProspectDetails.foreignCurrencyDealing;
     prospectDetails.numberOfDirectors = Number(

@@ -17,44 +17,115 @@ export class CreateLeadService {
         private apiService: ApiService
     ) { }
 
-    createLead(loanLeadDetails, applicantDetails, fromDedupe) {
+    // createLead(loanLeadDetails, applicantDetails, fromDedupe) {
+    //     const processId = this.apiService.api.createLead.processId;
+    //     const workflowId = this.apiService.api.createLead.workflowId;
+    //     const projectId = this.apiService.api.createLead.projectId;
+
+    //     const userId = storage.getUserId();
+
+    //     if (fromDedupe) {
+    //         console.log("loan", loanLeadDetails)
+    //         console.log("app", applicantDetails)
+    //         const body: RequestEntity = {
+    //             processId: processId,
+    //             ProcessVariables: {
+    //                 loanLeadDetails,
+    //                 applicantDetails,
+    //                 "userId": userId,
+    //                 'toCreateNewLead': true
+    //             },
+    //             workflowId: workflowId,
+    //             projectId: projectId
+    //         };
+    //         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    //         return this.httpService.post(url, body);
+    //     } else {
+    //         const body: RequestEntity = {
+    //             processId: processId,
+    //             ProcessVariables: {
+    //                 "loanLeadDetails": loanLeadDetails,
+    //                 "applicantDetails": applicantDetails,
+    //                 "userId": userId
+    //             },
+    //             workflowId: workflowId,
+    //             projectId: projectId
+    //         };
+    //         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    //         return this.httpService.post(url, body);
+    //     }
+
+    // }
+
+    createLead(loanLeadDetails, applicantDetails, fromDedupe, isReject?, rejectReason?) {
         const processId = this.apiService.api.createLead.processId;
         const workflowId = this.apiService.api.createLead.workflowId;
         const projectId = this.apiService.api.createLead.projectId;
 
         const userId = storage.getUserId();
+        let body: RequestEntity;
 
         if (fromDedupe) {
-            console.log("loan", loanLeadDetails)
-            console.log("app", applicantDetails)
-            const body: RequestEntity = {
-                processId: processId,
+            if (isReject) {
+                body = {
+                    processId,
+                    ProcessVariables: {
+                        loanLeadDetails,
+                        applicantDetails,
+                        userId,
+                        'toCreateNewLead': true,
+                        'isLeadRejected': true,
+                        rejectReason
+                    },
+                    workflowId,
+                    projectId
+                };
+
+            } else {
+                body = {
+                    processId,
+                    ProcessVariables: {
+                        loanLeadDetails,
+                        applicantDetails,
+                        userId,
+                        'toCreateNewLead': true
+                    },
+                    workflowId,
+                    projectId
+                };
+            }
+        } else {
+            body = {
+                processId,
                 ProcessVariables: {
                     loanLeadDetails,
                     applicantDetails,
-                    "userId": userId,
-                    'toCreateNewLead': true
+                    userId
                 },
-                workflowId: workflowId,
-                projectId: projectId
+                workflowId,
+                projectId
             };
-            const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-            return this.httpService.post(url, body);
-        } else {
-            const body: RequestEntity = {
-                processId: processId,
-                ProcessVariables: {
-                    "loanLeadDetails": loanLeadDetails,
-                    "applicantDetails": applicantDetails,
-                    "userId": userId
-                },
-                workflowId: workflowId,
-                projectId: projectId
-            };
-            const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-            return this.httpService.post(url, body);
         }
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
 
+    }
+
+    rejectLead(productCode) {
+        const processId = this.apiService.api.rejectLead.processId;
+        const workflowId = this.apiService.api.rejectLead.workflowId;
+        const projectId = this.apiService.api.rejectLead.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                "productCode": productCode
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
     }
 
     getProductCategory(bizDivId) {
@@ -160,4 +231,5 @@ export class CreateLeadService {
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
+
 }

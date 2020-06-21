@@ -16,6 +16,9 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '@assets/constants/constant';
 import { map } from 'rxjs/operators';
+import { UtilityService } from '@services/utility.service';
+import { constants } from 'os';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-address-details',
@@ -34,6 +37,7 @@ export class AddressDetailsComponent implements OnInit {
   address: Applicant;
   applicantId: number;
   leadId: number;
+  isDirty: boolean;
 
   permanantPincode: {
     state?: any[];
@@ -69,32 +73,46 @@ export class AddressDetailsComponent implements OnInit {
   isCurrAddSameAsPermAdd: any = '0';
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
+  onPerAsCurChecked: boolean;
+  onRegAsCommChecked: boolean;
+  addressObj: any;
+
+  isOfficeAddressMandatory: boolean;
 
   maxLenght40 = {
-    rule : 40
+    rule: 40,
   };
   pincodePattern = {
-    rule: '^[1-9][0-9]{5}$' ,
-    msg: 'pincode Number is required'
+    rule: '^[1-9][0-9]{5}$',
+    msg: 'pincode Number is required',
   };
-  pincodeLength ={
+  pincodeLength = {
     rule: 6,
-    msg : 'Should be 6 digit'
-  }
-  mobilePattern={
+    msg: 'Should be 6 digit',
+  };
+  mobilePattern = {
     rule: '^[1-9][0-9]*$',
     msg: 'Invalid Mobile Number',
-  }
-  mobileLength10={
+  };
+  mobileLength10 = {
     rule: 10,
-  }
-  landlinePattern={
-    rule : '^[0-9]{6,15}',
-    msg : "Invalid Number"
-  }
-  landlineLength15={
+  };
+  landlinePattern = {
+    rule: '^[0-9]{6,15}',
+    msg: 'Invalid Number',
+  };
+  landlineLength15 = {
     rule: 15,
-  }
+  };
+
+  currentStayMaxLength = {
+    rule: 3,
+  };
+
+  currentStayPattern = {
+    rule: '^[0-9]*$',
+    msg: 'Invalid',
+  };
 
   constructor(
     private lovData: LovDataService,
@@ -105,8 +123,94 @@ export class AddressDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private leadStoreService: LeadStoreService,
-    private location: Location
+    private location: Location,
+    private utilityService: UtilityService,
+    private toasterService: ToasterService
   ) {}
+
+  async ngOnInit() {
+    this.initForm();
+    this.getLabels();
+    this.getLOV();
+    this.hasRoute();
+    this.leadId = (await this.getLeadId()) as number;
+    console.log('leadId', this.leadId);
+
+    this.listenerForOfficeAddress();
+
+    this.lovData.getLovData().subscribe((res: any) => {
+      console.log(res, 'res');
+      this.values = res[0].addApplicant[0];
+      console.log(this.values, 'values');
+      this.activatedRoute.params.subscribe((value) => {
+        if (!value && !value.applicantId) {
+          return;
+        }
+        this.applicantId = Number(value.applicantId);
+        this.getAddressDetails();
+      });
+    });
+  }
+
+  listenerForOfficeAddress() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const officeAddress = formArray.at(0).get('officeAddress');
+    const addressLineOne = officeAddress.get('addressLineOne');
+    let isChanged = false;
+    addressLineOne.valueChanges.subscribe((value) => {
+      if (!addressLineOne.invalid && value) {
+        // if (!this.isDirty) {
+        this.isDirty = false;
+        // }
+        isChanged = true;
+        this.isOfficeAddressMandatory = true;
+        this.addValidatorsForOfficeAddress();
+      } else {
+        // this.isDirty = false;
+
+        // if (this.isDirty) {
+        this.isDirty = false;
+        // }
+
+        this.isOfficeAddressMandatory = false;
+        this.removeValidatorsForOfficeAddress();
+        setTimeout(() => {
+          if (isChanged) {
+            isChanged = false;
+            officeAddress.patchValue({
+              addressLineOne: '',
+              pincode: '',
+            });
+          }
+        });
+      }
+    });
+  }
+
+  addValidatorsForOfficeAddress() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const officeAddress = formArray.at(0).get('officeAddress');
+    const validators = [Validators.required];
+    officeAddress.get('addressLineOne').setValidators(validators);
+    officeAddress.get('pincode').setValidators(validators);
+    officeAddress.get('city').setValidators(validators);
+    officeAddress.get('district').setValidators(validators);
+    officeAddress.get('state').setValidators(validators);
+    officeAddress.get('country').setValidators(validators);
+    officeAddress.updateValueAndValidity();
+  }
+
+  removeValidatorsForOfficeAddress() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const officeAddress = formArray.at(0).get('officeAddress');
+    officeAddress.get('addressLineOne').clearValidators();
+    officeAddress.get('pincode').clearValidators();
+    officeAddress.get('city').clearValidators();
+    officeAddress.get('district').clearValidators();
+    officeAddress.get('state').clearValidators();
+    officeAddress.get('country').clearValidators();
+    officeAddress.updateValueAndValidity();
+  }
 
   onBack() {
     this.location.back();
@@ -139,10 +243,15 @@ export class AddressDetailsComponent implements OnInit {
         map((value: any) => {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
+          console.log('addressList', addressList);
           if (value.Error !== '0') {
             return null;
           }
+          if (!addressList) {
+            return;
+          }
           const first = addressList[0];
+          console.log('first', first);
           const obj = {
             state: [
               {
@@ -199,29 +308,6 @@ export class AddressDetailsComponent implements OnInit {
       });
   }
 
-  async ngOnInit() {
-    //this.getPincodeResult(624003);
-    this.initForm();
-    this.getLabels();
-    this.getLOV();
-    this.hasRoute();
-    this.leadId = (await this.getLeadId()) as number;
-    console.log('leadId', this.leadId);
-
-    this.lovData.getLovData().subscribe((res: any) => {
-      console.log(res, 'res');
-      this.values = res[0].addApplicant[0];
-      console.log(this.values, 'values');
-      this.activatedRoute.params.subscribe((value) => {
-        if (!value && !value.applicantId) {
-          return;
-        }
-        this.applicantId = Number(value.applicantId);
-        this.getAddressDetails();
-      });
-    });
-  }
-
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -234,7 +320,7 @@ export class AddressDetailsComponent implements OnInit {
   }
   initForm() {
     this.addressForm = new FormGroup({
-      entity: new FormControl(''),
+      // entity: new FormControl(''),
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
@@ -265,14 +351,14 @@ export class AddressDetailsComponent implements OnInit {
 
   getAddressFormControls() {
     return {
-      addressLineOne: new FormControl(null),
+      addressLineOne: new FormControl(null, Validators.required),
       addressLineTwo: new FormControl(null),
       addressLineThree: new FormControl(null),
-      pincode: new FormControl(null),
-      city: new FormControl(''),
-      district: new FormControl(''),
-      state: new FormControl(''),
-      country: new FormControl(''),
+      pincode: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
+      district: new FormControl('', Validators.required),
+      state: new FormControl('', Validators.required),
+      country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(null),
     };
   }
@@ -287,7 +373,15 @@ export class AddressDetailsComponent implements OnInit {
         accommodationType: new FormControl(''),
       }),
       officeAddress: new FormGroup({
-        ...this.getAddressFormControls(),
+        addressLineOne: new FormControl(null),
+        addressLineTwo: new FormControl(null),
+        addressLineThree: new FormControl(null),
+        pincode: new FormControl(''),
+        city: new FormControl(''),
+        district: new FormControl(''),
+        state: new FormControl(''),
+        country: new FormControl(''),
+        landlineNumber: new FormControl(null),
         periodOfCurrentStay: new FormControl(''),
         mobileNumber: new FormControl(''),
         accommodationType: new FormControl(''),
@@ -309,10 +403,10 @@ export class AddressDetailsComponent implements OnInit {
     (this.addressForm.get('details') as FormArray).push(nonIndividual);
   }
 
-  get addressValidations(){
-    const formArray=this.addressForm.get('details') as FormArray;
-   const details = formArray.at(0)
-   return details;
+  get addressValidations() {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    return details;
   }
 
   getAddressDetails() {
@@ -324,11 +418,11 @@ export class AddressDetailsComponent implements OnInit {
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
     // this.clearFormArray();
-    this.addressForm.patchValue({
-      entity: this.address.applicantDetails.entityTypeKey,
-    });
+    // this.addressForm.patchValue({
+    //   entity: this.address.applicantDetails.entityTypeKey,
+    // });
     if (this.isIndividual) {
-      this.addIndividualFormControls();
+      // this.addIndividualFormControls();
       this.setValuesForIndividual();
     } else {
       this.clearFormArray();
@@ -364,38 +458,56 @@ export class AddressDetailsComponent implements OnInit {
     const details = formArray.at(0);
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
     console.log('permanentAddressObj', permanentAddressObj);
-    this.permanantPincode = {
-      city: [
-        {
-          key: permanentAddressObj.city,
-          value: permanentAddressObj.cityValue,
-        },
-      ],
-      district: [
-        {
-          key: permanentAddressObj.district,
-          value: permanentAddressObj.districtValue,
-        },
-      ],
-      state: [
-        {
-          key: permanentAddressObj.state,
-          value: permanentAddressObj.stateValue,
-        },
-      ],
-      country: [
-        {
-          key: permanentAddressObj.country,
-          value: permanentAddressObj.countryValue,
-        },
-      ],
-    };
-    const permenantAddress = details.get('permanantAddress');
-    permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
+
+    if (permanentAddressObj) {
+      this.permanantPincode = {
+        city: [
+          {
+            key: permanentAddressObj.city,
+            value: permanentAddressObj.cityValue,
+          },
+        ],
+        district: [
+          {
+            key: permanentAddressObj.district,
+            value: permanentAddressObj.districtValue,
+          },
+        ],
+        state: [
+          {
+            key: permanentAddressObj.state,
+            value: permanentAddressObj.stateValue,
+          },
+        ],
+        country: [
+          {
+            key: permanentAddressObj.country,
+            value: permanentAddressObj.countryValue,
+          },
+        ],
+      };
+      const permenantAddress = details.get('permanantAddress');
+      permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
+    }
 
     const valueCheckbox = this.getAddressObj();
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
     if (isCurAsPer.isCurrAddSameAsPermAdd == '1') {
+      this.onPerAsCurChecked = true;
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const currentAddressVariable = details.get('currentAddress');
+
+      currentAddressVariable.get('addressLineOne').disable();
+      currentAddressVariable.get('addressLineTwo').disable();
+      currentAddressVariable.get('addressLineThree').disable();
+      currentAddressVariable.get('pincode').disable();
+      currentAddressVariable.get('city').disable();
+      currentAddressVariable.get('district').disable();
+      currentAddressVariable.get('state').disable();
+      currentAddressVariable.get('country').disable();
+      currentAddressVariable.get('landlineNumber').disable();
+
       const currentAddressObj = isCurAsPer;
       this.currentPincode = {
         city: [
@@ -431,7 +543,9 @@ export class AddressDetailsComponent implements OnInit {
         mobileNumber: currentAddressObj.mobileNumber,
       });
     } else {
-      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
+      this.onPerAsCurChecked = false;
+      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS] ||
+                                addressObj['COMMADDADDTYP'];
       if (currentAddressObj) {
         this.currentPincode = {
           city: [
@@ -547,6 +661,20 @@ export class AddressDetailsComponent implements OnInit {
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
+      this.onRegAsCommChecked = true;
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const communicationAddressVariable = details.get('communicationAddress');
+
+      communicationAddressVariable.get('addressLineOne').disable();
+      communicationAddressVariable.get('addressLineTwo').disable();
+      communicationAddressVariable.get('addressLineThree').disable();
+      communicationAddressVariable.get('pincode').disable();
+      communicationAddressVariable.get('city').disable();
+      communicationAddressVariable.get('district').disable();
+      communicationAddressVariable.get('state').disable();
+      communicationAddressVariable.get('country').disable();
+      communicationAddressVariable.get('landlineNumber').disable();
       const communicationAddressObj = isCommAsReg;
       this.communicationPincode = {
         city: [
@@ -580,6 +708,7 @@ export class AddressDetailsComponent implements OnInit {
         this.setAddressValues(communicationAddressObj)
       );
     } else {
+      this.onRegAsCommChecked = false;
       const communicationAddressObj =
         addressObj[Constant.COMMUNICATION_ADDRESS];
       this.communicationPincode = {
@@ -650,16 +779,46 @@ export class AddressDetailsComponent implements OnInit {
     if (isChecked) {
       this.currentPincode = this.permanantPincode;
       console.log('currentPincode', this.currentPincode);
+      this.getPermanentAddressValue();
+    } else if (!isChecked) {
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const currentAddress = details.get('currentAddress');
+
+      currentAddress.get('addressLineOne').enable();
+      currentAddress.get('addressLineTwo').enable();
+      currentAddress.get('addressLineThree').enable();
+      currentAddress.get('pincode').enable();
+      currentAddress.get('city').enable();
+      currentAddress.get('district').enable();
+      currentAddress.get('state').enable();
+      currentAddress.get('country').enable();
+      currentAddress.get('landlineNumber').enable();
     }
-    this.getPermanentAddressValue();
+
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
   }
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     if (isChecked) {
       this.communicationPincode = this.registeredPincode;
+      this.getRegisteredAddressValue();
+    } else if (!isChecked) {
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const communicationAddress = details.get('communicationAddress');
+
+      communicationAddress.get('addressLineOne').enable();
+      communicationAddress.get('addressLineTwo').enable();
+      communicationAddress.get('addressLineThree').enable();
+      communicationAddress.get('pincode').enable();
+      communicationAddress.get('city').enable();
+      communicationAddress.get('district').enable();
+      communicationAddress.get('state').enable();
+      communicationAddress.get('country').enable();
+      communicationAddress.get('landlineNumber').enable();
     }
-    this.getRegisteredAddressValue();
+
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
   }
 
@@ -669,9 +828,19 @@ export class AddressDetailsComponent implements OnInit {
     console.log('PERAM VALUE', formValue);
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
+    console.log('currentAddress', currentAddress);
     currentAddress.patchValue({
       ...formValue,
     });
+    currentAddress.get('addressLineOne').disable();
+    currentAddress.get('addressLineTwo').disable();
+    currentAddress.get('addressLineThree').disable();
+    currentAddress.get('pincode').disable();
+    currentAddress.get('city').disable();
+    currentAddress.get('district').disable();
+    currentAddress.get('state').disable();
+    currentAddress.get('country').disable();
+    currentAddress.get('landlineNumber').disable();
   }
 
   getRegisteredAddressValue() {
@@ -683,6 +852,15 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.patchValue({
       ...formValue,
     });
+    communicationAddress.get('addressLineOne').disable();
+    communicationAddress.get('addressLineTwo').disable();
+    communicationAddress.get('addressLineThree').disable();
+    communicationAddress.get('pincode').disable();
+    communicationAddress.get('city').disable();
+    communicationAddress.get('district').disable();
+    communicationAddress.get('state').disable();
+    communicationAddress.get('country').disable();
+    communicationAddress.get('landlineNumber').disable();
   }
 
   hasRoute() {
@@ -694,58 +872,84 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    const value = this.addressForm.value;
-    console.log('TOTAL FORM VALUE', value);
-    if (this.isIndividual) {
-      this.storeIndividualValueInService(value);
-    } else {
-      this.storeNonIndividualValueInService(value);
-    }
-    const applicantData = this.applicantDataService.getApplicant();
-    const data = {
-      applicantId: this.applicantId,
-      ...applicantData,
-      leadId: this.leadId,
-    };
-    this.applicantService.saveApplicant(data).subscribe((res: any) => {
-      if (res.Error !== '0') {
+    this.isDirty = true;
+    setTimeout(() => {
+      if (this.addressForm.invalid) {
         return;
       }
-      const leadId = this.leadStoreService.getLeadId();
-      this.applicantService.saveApplicant(data).subscribe((res) => {
-        const currentUrl = this.location.path();
-        if (currentUrl.includes('sales')) {
-          // this.router.navigate([
-          //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
-          //   this.applicantId,
-          // ]);
-          alert("saved successfully")
-        } else {
-          this.router.navigate([
-            `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`,
-          ]);
+      const value = this.addressForm.value;
+      if (this.isIndividual) {
+        this.storeIndividualValueInService(value);
+      } else {
+        this.storeNonIndividualValueInService(value);
+      }
+      // if(this.addressForm.valid){
+      const applicantData = this.applicantDataService.getApplicant();
+      const data = {
+        applicantId: this.applicantId,
+        ...applicantData,
+        leadId: this.leadId,
+      };
+      this.applicantService.saveApplicant(data).subscribe((res: any) => {
+        if (res.Error !== '0') {
+          return;
         }
+        const leadId = this.leadStoreService.getLeadId();
+        this.applicantService.saveApplicant(data).subscribe((res) => {
+          const currentUrl = this.location.path();
+          if (currentUrl.includes('sales')) {
+            // this.router.navigate([
+            //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
+            //   this.applicantId,
+            // ]);
+            this.toasterService.showSuccess(
+              'Applicant Address Details Saved Successfully',
+              ''
+            );
+          } else {
+            this.toasterService.showSuccess(
+              'Applicant Address Details Saved Successfully',
+              ''
+            );
+          }
+        });
       });
     });
-    
-    console.log('addressdetailsArray', this.addressDetailsDataArray);
   }
 
   getAddressFormValues(address: AddressDetails) {
+    // return {
+    //   ...address,
+    //   pincode: 600002,
+    //   city: 114100,
+    //   state: 40,
+    //   country: 'IND',
+    //   district: 127,
+    // };
+    if (!address) {
+      return;
+    }
+    const city = address.city ? Number(address.city) : null;
+    const district = address.district ? Number(address.district) : null;
+    const state = address.state ? Number(address.state) : null;
+    const pincode = address.pincode ? Number(address.pincode) : null;
     return {
-      ...address,
-      pincode: 600002,
-      city: 114100,
-      state: 40,
-      country: 'IND',
-      district: 127,
+      pincode,
+      city,
+      district,
+      state,
+      addressLineOne: address.addressLineOne,
+      addressLineTwo: address.addressLineTwo,
+      addressLineThree: address.addressLineThree,
+      country: address.country,
+      landlineNumber: address.landlineNumber,
     };
   }
 
   storeIndividualValueInService(value) {
     this.addressDetailsDataArray = [];
     const applicantDetails: ApplicantDetails = {};
-    applicantDetails.entityType = value.entity;
+    // applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const permanentAddressObject = value.details[0].permanantAddress;
     console.log('permanant address object', permanentAddressObject);
@@ -778,7 +982,7 @@ export class AddressDetailsComponent implements OnInit {
   }
   storeNonIndividualValueInService(value) {
     const applicantDetails: ApplicantDetails = {};
-    applicantDetails.entityType = value.entity;
+    // applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const registeredAddressObject = value.details[0].registeredAddress;
     this.addressDetailsDataArray = [];
@@ -818,3 +1022,13 @@ export class AddressDetailsComponent implements OnInit {
     );
   }
 }
+
+// onSubmit() {
+//   this.isSubmitted = true;
+//   if (!this.registrationForm.valid) {
+//     return false;
+//   } else {
+//     alert(JSON.stringify(this.registrationForm.value))
+//   }
+
+// }
