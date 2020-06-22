@@ -254,7 +254,7 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId,
     },
     termsAcceptance: {
-      processId: 'cde7ca74abc811ea832af2fa9bec3d63' ,
+      processId: 'cde7ca74abc811ea832af2fa9bec3d63',
       workflowId: 'cda49f10abc811ea832af2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },

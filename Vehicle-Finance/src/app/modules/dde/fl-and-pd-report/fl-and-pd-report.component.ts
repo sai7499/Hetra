@@ -13,7 +13,7 @@ export class FlAndPdReportComponent implements OnInit {
     constructor(
         private router: Router,
         private location: Location,
-        private personaldiscussion: PersonalDiscussionService ) { }
+        private personaldiscussion: PersonalDiscussionService) { }
 
     ngOnInit() {
         const currentUrl = this.location.path();
