@@ -41,7 +41,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     msg: 'Pan is invalid',
   };
   namePattern = {
-    rule: '^[A-Z]*[a-z]*$',
+    rule: '^[A-Z ]*[a-z ]*$',
     msg: 'Invalid Name',
   };
   namePatternIdv = {
@@ -94,7 +94,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   };
 
   voterIdPattern = {
-    rule: '[A-Z]{3}[0-9]{6}',
+    // rule: '[A-Z]{3}[0-9]{6}',
+    rule: '^[a-zA-Z0-9]*$',
     msg: 'Invalid VoterId Number',
   };
 
