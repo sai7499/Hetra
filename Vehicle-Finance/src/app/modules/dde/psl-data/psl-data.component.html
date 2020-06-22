@@ -405,7 +405,7 @@
                     [className]="'form-control mandatory'"
                     [placeholder]="'Land Area in Acres'"
                     [maxLength]="regexPattern.numberLength"
-                   
+                    [isRequired]="'Required Input is mandatory'"
                     [patternCheck]="regexPattern.numberPattern"
                     [isDirty]="isDirty"
                     >
@@ -415,9 +415,10 @@
                 <label for="land_proof">{{labels.landProof}} </label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.pslLandProof"
+                    (change)="onChangePslLandProof($event)"
                     formControlName="landProof"
                     name="landProof"
-                 
+                    [isRequired]="'Please Select One Option'"
                     >
                 </app-vf-custom-select>
             </div>
@@ -498,6 +499,7 @@
         <app-vf-custom-select 
             [values]="endUseValues" 
             formControlName="purposeOfLoan" 
+            (change) = "onChangePurposeOfLoan($event)"
             name="purposeOfLoan"
             [isRequired]="'Please Select One Option'"
             > 
@@ -576,10 +578,11 @@
             required="required" /> -->
         <app-custom-input
             formControlName="nameOfCA"
+            [(ngModel)] = "nameOfCA"
             [className]="'form-control mandatory'"
             [placeholder]="'Name of CA'"
             [maxLength]="regexPattern.nameLength"
-            
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.namePattern"
             [isDirty]="isDirty"
         >
@@ -591,10 +594,11 @@
             id="name_of_ca_firm" required="required" /> -->
         <app-custom-input
             formControlName="nameOfCAFirm"
+            [(ngModel)] = "nameOfCAFirm"
             [className]="'form-control mandatory'"
             [placeholder]="'Name of CA Firm'"
             [maxLength]="regexPattern.nameLength"
-           
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.namePattern"
             [isDirty]="isDirty"
             name="name_of_ca_firm"
@@ -608,11 +612,11 @@
 
             <app-custom-input
             formControlName="caRegistrationNumber"
-            [ngModel]="caRegistrationNumber"
+            [(ngModel)]="caRegistrationNumber"
             [className]="'form-control mandatory input-upper'"
             [placeholder]="'CA Registration Number'"
             [maxLength]="regexPattern.nameLength"
-           
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.namePattern"
             [isDirty]="isDirty"
         >
@@ -624,12 +628,13 @@
             required="required" *ngIf="showInputFieldsCA"/> -->
         <app-custom-input
             [type] = "number"
+            [(ngModel)]="udinNo"
             formControlName="udinNo"
             *ngIf="showInputFieldsCA"
             [className]="'form-control mandatory'"
             [placeholder]="'UDIN No'"
             [maxLength]="regexPattern.numberLength"
-           
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
             [isDirty]="isDirty"
         >
@@ -648,7 +653,7 @@
             [className]="'form-control mandatory'"
             [placeholder]="'CA Certified Amount'"
             [maxLength]="regexPattern.numberLength"
-          
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
             [isDirty]="isDirty"
         >
@@ -667,7 +672,7 @@
             [className]="'form-control mandatory'"
             [placeholder]="'Other Investment Cost'"
             [maxLength]="regexPattern.numberLength"
-           
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
             [isDirty]="isDirty"
         >
@@ -686,7 +691,7 @@
             [className]="'form-control mandatory'"
             [placeholder]="'Total Investment Cost'"
             [maxLength]="regexPattern.numberLength"
-         
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
             [isDirty]="isDirty"
         >
@@ -707,7 +712,7 @@
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Equipment'"
             [maxLength]="regexPattern.numberLength"
-         
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
             [isDirty]="isDirty"
         >
@@ -727,7 +732,7 @@
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Plant and Machinery'"
             [maxLength]="regexPattern.numberLength"
-            
+            [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
             [isDirty]="isDirty"
         >
@@ -767,7 +772,7 @@
     <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
         <label for="weaker_section_msme">{{labels.weakerSection}}</label>
         <app-vf-custom-select 
-            [values]="weakerSectionValues" 
+            [values]="[{key: 'Not Applicable', value: 'Not Applicable'}]" 
             formControlName="weakerSection"
             name="weakerSection"
         >
