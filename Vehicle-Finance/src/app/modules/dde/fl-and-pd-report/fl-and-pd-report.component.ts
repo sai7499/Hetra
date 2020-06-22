@@ -9,7 +9,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 })
 export class FlAndPdReportComponent implements OnInit {
     locationIndex = 0;
-    personalDiscussionDetail: any;
+    pdDetail: any;
     constructor(
         private router: Router,
         private location: Location,
@@ -25,12 +25,12 @@ export class FlAndPdReportComponent implements OnInit {
     }
     getPdDetails() {
         const data = {
-            pdId: 181,
+            applicantId: 6,
         };
 
         this.personaldiscussion.getPdData(data).subscribe((value: any) => {
             const processVariables = value.ProcessVariables;
-            this.personalDiscussionDetail = processVariables.personalDiscussionDetail;
+            this.pdDetail = processVariables.personalDiscussionDetail;
         });
 
     }
