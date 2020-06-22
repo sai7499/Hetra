@@ -101,7 +101,7 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.patchValue({ financierName: fleetRtr.financierName});
       this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinancied});
       this.trackVehicleForm.patchValue({ repaymentMode: fleetRtr.repaymentMode});
-      this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount});
+      this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount ? fleetRtr.financeAmount : ''});
       this.trackVehicleForm.patchValue({ financeCharges: fleetRtr.financeCharges});
       this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
       this.trackVehicleForm.patchValue({ contractValue: fleetRtr.contractValue});
@@ -144,23 +144,23 @@ export class TrackVehicleComponent implements OnInit {
 
     } else {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl('' , [Validators.required ,Validators.pattern(/^[a-zA-Z ]*$/)] ),
-        financierName: new FormControl('',Validators.required ),
-        assetFinancied: new FormControl('',Validators.required ),
+        clientName: new FormControl({value :'' , disabled: true }, [Validators.required ,Validators.pattern(/^[a-zA-Z ]*$/)] ),
+        financierName: new FormControl({value :'' , disabled: true },Validators.required ),
+        assetFinancied: new FormControl({value :'' , disabled: true },Validators.required ),
         repaymentMode: new FormControl('',Validators.required ),
-        financeAmount: new FormControl({ value: 200000, disabled: true }),
+        financeAmount: new FormControl('' ,Validators.required),
         financeCharges: new FormControl('' , Validators.required ),
         contractValue: new FormControl('',Validators.required ),
-        contNo: new FormControl('', Validators.required ),
-        vehicleNo: new FormControl('',Validators.required ),
+        contNo: new FormControl({value :'' , disabled: true }, Validators.required ),
+        vehicleNo: new FormControl({value :'' , disabled: true },Validators.required ),
         financeType: new FormControl('',Validators.required ),
         accountStatus: new FormControl('',Validators.required ),
         loanStartDate: new FormControl('' , Validators.required ),
         loanMaturityDate: new FormControl('', Validators.required ),
         thirtyDpdCount: new FormControl({ value:0, disabled: true }),
         ninetyDpdCount: new FormControl({ value:0, disabled: true }),
-        noOfEmi: new FormControl('', Validators.required ),
-        emisPaid: new FormControl('', Validators.required ),
+        noOfEmi: new FormControl({value :'' , disabled: true }, Validators.required ),
+        emisPaid: new FormControl({value :'' , disabled: true }, Validators.required ),
         balanceTenor: new FormControl({ value: 0, disabled: true }),
         totalDelay: new FormControl({  value: 0 ,disabled: true }),
         peakDelay: new FormControl({ value:0, disabled: true }),
@@ -508,12 +508,15 @@ export class TrackVehicleComponent implements OnInit {
     this.trackVehicleForm.get('totalAmtPaid').setValue(totalAmount)
   }
   getDateFormat(date) {
-    var datePart = date.match(/\d+/g);
-    var month = datePart[1];
-    var day = datePart[0];
-    var year = datePart[2];
-    const dateFormat: Date = new Date( year + '/' + month  + '/' + day);
-    return dateFormat;
+    if(date){
+      var datePart = date.match(/\d+/g);
+      var month = datePart[1];
+      var day = datePart[0];
+      var year = datePart[2];
+      const dateFormat: Date = new Date( year + '/' + month  + '/' + day);
+      return dateFormat;
+    }
+   
   }
 
   dateDbFormat(date) {
@@ -583,7 +586,7 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res) => {
         console.log(res);
         this.formArr.removeAt(index);
-        this.toasterService.showSuccess('FleetRtr instalment deleted successfully!', '');
+        this.toasterService.showSuccess('Instalment deleted successfully!', '');
 
       })
     } else {
@@ -606,6 +609,7 @@ export class TrackVehicleComponent implements OnInit {
    formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
    formDetails['financeCharges'] =  parseInt(this.trackVehicleForm.controls['financeCharges'].value);
    formDetails['contractValue'] =  parseInt(this.trackVehicleForm.controls['contractValue'].value);
+   formDetails['financeAmount'] = Number(this.trackVehicleForm.controls['financeAmount'].value);
   //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
    formDetails['noOfEmi'] =  parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
    formDetails['emisPaid'] =  parseInt(this.trackVehicleForm.controls['emisPaid'].value);
@@ -618,7 +622,7 @@ export class TrackVehicleComponent implements OnInit {
       console.log(res);
       if (res['Error'] == "0") {
        // alert("Saved Success");
-        this.toasterService.showSuccess('Repayment Track Record successfully!', '');
+        this.toasterService.showSuccess('Repayment Track Record saved successfully!', '');
 
         this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
       }

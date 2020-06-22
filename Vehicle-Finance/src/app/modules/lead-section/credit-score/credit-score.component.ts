@@ -17,6 +17,7 @@ productCategoryCode: string;
 productCategoryName?: string;
 productId?: string;
 totalAmount: number;
+ageAfterTenure:number;
 }
 @Component({
   selector: 'app-credit-score',

@@ -30,7 +30,7 @@ export class FleetDetailsComponent implements OnInit {
   fleetLov: any = [];
   fleetArray = [];
   formValue: any;
-
+  toDayDate: Date = new Date();
   // relationSelected = []
   relation: any[];
   make: any = [];
@@ -142,7 +142,7 @@ export class FleetDetailsComponent implements OnInit {
     // }
     if (rowData) {
       return this.fb.group({
-        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required, Validators.minLength(12)])),
+        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required, Validators.minLength(8)])),
         regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
         relation: new FormControl(rowData.relation, [Validators.required]),
         make: new FormControl(rowData.make, [Validators.required]),
@@ -161,7 +161,7 @@ export class FleetDetailsComponent implements OnInit {
     }
     else return this.fb.group({
       // id: [],
-      regdNo: new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
+      regdNo: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8)])),
       regdOwner: new FormControl('', Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
       relation: new FormControl('', [Validators.required]),
       make: new FormControl('', [Validators.required]),
