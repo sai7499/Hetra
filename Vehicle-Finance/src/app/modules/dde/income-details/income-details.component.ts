@@ -260,6 +260,7 @@ this.salariedFOIRaspePolicy = 70
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getBusinessIncomeDetails(data[i]));
+        this.onIncome(null, i);
       }
     } else {
       control.push(this.getBusinessIncomeDetails());
@@ -303,6 +304,7 @@ this.salariedFOIRaspePolicy = 70
         control.push(this.getOtherIncomeDetails(data[i]));
         this.appendFactoredIncome(data[i].incomeType, i);
         // this.getOtherIncomeDetails(i);
+       this.getOtherFactoredIncome(i);
       }
     } else {
       control.push(this.getOtherIncomeDetails());
@@ -344,7 +346,7 @@ this.salariedFOIRaspePolicy = 70
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getObligationDetails(data[i]));
-
+        this.onEmi(null, i);
       }
     } else {
       control.push(this.getObligationDetails());
@@ -589,13 +591,16 @@ console.log("form data ",this.incomeDetailsForm)
     console.log(tenure)
    
     const mob = obligationArray.value[i].mob;
-    const balanceTenor = Math.abs( Number(tenure) - Number(mob));
-    // if (tenure <= mob) {
-    //   const balanceTenor = Number(mob) - Number(tenure);
-    //   obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
+    if (tenure < mob) {
+      this.toasterService.showError(
+        'enter correct value',
+        ''
+      );
 
-    // }
-    obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
+    }else{const balanceTenor = Math.abs( Number(tenure) - Number(mob));
+    
+      obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })}
+    
   }
   onEmi(event: any, i: number) {
     const obligationArray = this.incomeDetailsForm.controls
