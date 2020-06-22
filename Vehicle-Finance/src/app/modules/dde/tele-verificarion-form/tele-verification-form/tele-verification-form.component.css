@@ -2,7 +2,7 @@
     margin-top: 18px;
 }
 
-.text-underline{
+.text-underline {
     text-decoration: underline;
     color: darkslateblue;
 }
@@ -22,4 +22,8 @@
 
 .dash_href {
     margin: 5px;
+}
+
+div>input {
+    padding-bottom: 10px;
 }
