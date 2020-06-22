@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormArray,
+  FormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -136,11 +142,11 @@ export class AddressDetailsComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
 
-    this.listenerForOfficeAddress();
-
     this.lovData.getLovData().subscribe((res: any) => {
       console.log(res, 'res');
       this.values = res[0].addApplicant[0];
+      this.listenerForOfficeAddress();
+
       console.log(this.values, 'values');
       this.activatedRoute.params.subscribe((value) => {
         if (!value && !value.applicantId) {
@@ -156,11 +162,59 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const officeAddress = formArray.at(0).get('officeAddress');
     const addressLineOne = officeAddress.get('addressLineOne');
+    const addressLineTwo = officeAddress.get('addressLineTwo');
+    const addressLineThree = officeAddress.get('addressLineThree');
+    const pincode = officeAddress.get('pincode');
+    const landlineNumber = officeAddress.get('landlineNumber');
+    const mobileNumber = officeAddress.get('mobileNumber');
+    this.addressCommonListener(addressLineOne);
+    this.addressCommonListener(addressLineTwo);
+    this.addressCommonListener(addressLineThree);
+    this.addressCommonListener(pincode);
+    this.addressCommonListener(landlineNumber);
+    this.addressCommonListener(mobileNumber);
+    // let isChanged = false;
+    // addressLineOne.valueChanges.subscribe((value) => {
+    //   if (!addressLineOne.invalid && value) {
+    //     this.isDirty = false;
+    //     // }
+    //     isChanged = true;
+    //     this.isOfficeAddressMandatory = true;
+    //     this.addValidatorsForOfficeAddress();
+    //   } else {
+    //     // this.isDirty = false;
+
+    //     // if (this.isDirty) {
+    //     this.isDirty = false;
+    //     // }
+
+    //     this.isOfficeAddressMandatory = false;
+    //     this.removeValidatorsForOfficeAddress();
+    //     setTimeout(() => {
+    //       if (isChanged) {
+    //         isChanged = false;
+    //         officeAddress.patchValue({
+    //           addressLineOne: '',
+    //           pincode: '',
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
+  }
+
+  addressCommonListener(control: AbstractControl) {
+    const formArray = this.addressForm.get('details') as FormArray;
+    const officeAddress = formArray.at(0).get('officeAddress');
     let isChanged = false;
-    addressLineOne.valueChanges.subscribe((value) => {
-      if (!addressLineOne.invalid && value) {
-        // if (!this.isDirty) {
+    control.valueChanges.subscribe((value) => {
+      if (value === undefined) {
+        return;
+      }
+      if (this.isDirty) {
         this.isDirty = false;
+      }
+      if (!control.invalid && value) {
         // }
         isChanged = true;
         this.isOfficeAddressMandatory = true;
@@ -169,7 +223,6 @@ export class AddressDetailsComponent implements OnInit {
         // this.isDirty = false;
 
         // if (this.isDirty) {
-        this.isDirty = false;
         // }
 
         this.isOfficeAddressMandatory = false;
@@ -492,7 +545,7 @@ export class AddressDetailsComponent implements OnInit {
 
     const valueCheckbox = this.getAddressObj();
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
-    if (isCurAsPer.isCurrAddSameAsPermAdd == '1') {
+    if (isCurAsPer && isCurAsPer.isCurrAddSameAsPermAdd == '1') {
       this.onPerAsCurChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
