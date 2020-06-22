@@ -75,6 +75,7 @@ export class IncomeDetailsComponent implements OnInit {
     msg: 'Invalid Name',
   };
   salariedFOIRaspePolicy: number;
+  isDirty:boolean;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
