@@ -83,9 +83,9 @@ export class PslDataComponent implements OnInit, OnChanges {
   nameOfCA: string;
   nameOfCAFirm: string;
   udinNo: number;
-  caCertifiedAmount: number = 0;
-  otherInvestmentCost: number = 0;
-  totalInvestmentCost: number = 0;
+  caCertifiedAmount: number;
+  otherInvestmentCost: number;
+  totalInvestmentCost: number;
 
   isDirty: boolean;
 
@@ -187,7 +187,7 @@ export class PslDataComponent implements OnInit, OnChanges {
         typeOfService: ["", Validators.required],
         purposeOfLoan: ["", Validators.required],
         businessActivity: [{ value: "", disabled: true }],
-        loanAmount: ["", Validators.required],
+        loanAmount: [""],
         proofOfInvestment: ["", Validators.required],
         proofOfInvestmentUpload: [{ value: "", disabled: true }],
         nameOfCA: [""],
@@ -196,7 +196,7 @@ export class PslDataComponent implements OnInit, OnChanges {
         udinNo: [""],
         caCertifiedAmount: [""],
         otherInvestmentCost: [""],
-        totalInvestmentCost: ["", Validators.required],
+        totalInvestmentCost: [{value: this.totalInvestmentCost, disabled: true}],
         investmentInEquipment: [""],
         investmentInPlantAndMachinery: [""],
         pslCategory: ["", Validators.required],
@@ -385,10 +385,11 @@ export class PslDataComponent implements OnInit, OnChanges {
           this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
           this.setValueForProofOfInvetment();
           this.caRegistrationNumber = this.pslData.caRegistrationNumber;
-          this.caCertifiedAmount = this.pslData.caCertifiedAmount;
-          this.setValueForCaCertifiedAmount();
+          // this.caCertifiedAmount = this.pslData.caCertifiedAmount;
+          // this.setValueForCaCertifiedAmount();
           this.otherInvestmentCost = this.pslData.otherInvestmentCost;
           this.setValueForOtherInvestmentCost();
+          // this.totalInvestmentCost = this.pslData.totalInvestmentCost;
           this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
           this.setValueForPslSubCategoryByInvestmentInEquipment();
           if (!this.investmentInEquipmentValue) {
@@ -416,8 +417,7 @@ export class PslDataComponent implements OnInit, OnChanges {
               otherInvestmentCost: this.pslData.otherInvestmentCost,
               totalInvestmentCost: this.pslData.totalInvestmentCost,
               investmentInEquipment: this.pslData.investmentInEquipment,
-              investmentInPlantAndMachinery: this.pslData
-                .investmentInPlantAndMachinery,
+              investmentInPlantAndMachinery: this.pslData.investmentInPlantAndMachinery,
               pslCategory: this.pslData.pslCategory,
               pslSubCategory: this.pslData.pslSubCategory,
               pslCCertificate: this.pslData.pslCCertificate,
@@ -457,6 +457,13 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.detailActivityValues = [];
     this.activityChange = event.target.value;
     // console.log("ACTIVITY_CHANGE----", this.activityChange);
+    // if(this.activityChange==='3PSLACTVTY') {
+    //   this.pslDataForm.get('housing').value;
+    //   // this.pslData.removeControl('housing');
+    //   console.log("HOUSING_____", this.pslDataForm.get('housing').value);
+    // } else {
+    //   return;
+    // }
     this.selectFormGroup();
     if (this.detailActivityValues.length === 0) {
       this.detailActivityValues = [
@@ -495,7 +502,7 @@ export class PslDataComponent implements OnInit, OnChanges {
         const data = this.LOV.LOVS.typeOfService;
         this.typeOfService = data;
         this.isGoosManufactured = false;
-
+        // this.investmentInPlantMachineryValue = 0;
         // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').setValidators([Validators.required]);
         // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').updateValueAndValidity();
       } else {
@@ -558,12 +565,23 @@ export class PslDataComponent implements OnInit, OnChanges {
     //For ACTIVITY--MSME>>>>> Detail Activity SERVICE AND MANUFACTURING
     if (this.detailActivityChange === "5PSLDTLACTVTY") {
       this.isInvestmentInPlantMachinery = true;
-      this.investmentInEquipmentValue = 0;
-      console.log(
-        "this.investmentInEquipmentValue",
-        this.investmentInEquipmentValue
-      );
-
+      // if(this.pslData === null) {
+      //   return;
+      // }
+      // if(!this.pslData.investmentInPlantAndMachinery) {
+      //   this.otherInvestmentCost = 0;
+      //   this.totalInvestmentCost = 0;
+      //   this.investmentInEquipmentValue = 0;
+      // } else {
+      //   this.totalInvestmentCost = this.pslData.totalInvestmentCost;
+      //   this.otherInvestmentCost = this.pslData.otherInvestmentCost;
+      //   this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
+      // }
+      // console.log(
+      //   "this.investmentInEquipmentValue",
+      //   this.investmentInEquipmentValue, this.totalInvestmentCost, this.otherInvestmentCost
+      // );
+      // this.typeOfService = [{key: 'Not Applicable', value: 'Not Applicable'}]
       this.pslCategoryData = [
         {
           key: this.LOV.LOVS.pslCategory[2].key,
@@ -602,11 +620,24 @@ export class PslDataComponent implements OnInit, OnChanges {
 
     if (this.detailActivityChange === "6PSLDTLACTVTY") {
       this.isInvestmentInEquipment = true;
-      this.investmentInPlantMachineryValue = 0;
-      console.log(
-        "this.investmentInPlantMachineryValue",
-        this.investmentInPlantMachineryValue
-      );
+      // this.investmentInPlantMachineryValue = 0;
+      // console.log(
+      //   "this.investmentInPlantMachineryValue",
+      //   this.investmentInPlantMachineryValue
+      // );
+ 
+      // if(this.pslData === null) {
+      //   return;
+      // }
+      // if(!this.pslData.investmentInEquipment) {
+      //   this.otherInvestmentCost = 0;
+      //   this.totalInvestmentCost = 0;
+      //   this.investmentInPlantMachineryValue = 0;
+      // } else {
+      //   this.totalInvestmentCost = this.pslData.totalInvestmentCost;
+      //   this.otherInvestmentCost = this.pslData.otherInvestmentCost;
+      //   this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
+      // }
 
       this.pslCategoryData = [
         {
@@ -624,6 +655,8 @@ export class PslDataComponent implements OnInit, OnChanges {
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
         .updateValueAndValidity();
     } else {
+
+      // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').clearValidators();
       this.isInvestmentInEquipment = false;
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
@@ -964,7 +997,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       pslSubCategory: "",
     });
   }
-
+  // proofOfInvsetmentValue: any = [];
   onChangeProofOfInvestment(event: any) {
     this.proofOfInvestmentChange = event.target.value;
     console.log("ProofOfInvestment_ID", this.proofOfInvestmentChange);
@@ -972,73 +1005,73 @@ export class PslDataComponent implements OnInit, OnChanges {
   }
 
   setValueForProofOfInvetment() {
-    if (this.proofOfInvestmentChange === "1PSLINVSTPRF") {
-      this.showInputFieldsCA = true;
-      this.otherInvestmentCost = 0;
-      this.totalInvestmentCost = 0;
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCA")
-        .setValidators([Validators.required]);
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCA")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCAFirm")
-        .setValidators([Validators.required]);
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCAFirm")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caRegistrationNumber")
-        .setValidators([Validators.required]);
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caRegistrationNumber")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.udinNo")
-        .setValidators([Validators.required]);
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.udinNo")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caCertifiedAmount")
-        .setValidators([Validators.required]);
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caCertifiedAmount")
-        .updateValueAndValidity();
-    } else {
-      this.showInputFieldsCA = false;
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCA")
-        .clearValidators();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCA")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCAFirm")
-        .clearValidators();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.nameOfCAFirm")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caRegistrationNumber")
-        .clearValidators();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caRegistrationNumber")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.udinNo")
-        .clearValidators();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.udinNo")
-        .updateValueAndValidity();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caCertifiedAmount")
-        .clearValidators();
-      this.pslDataForm
-        .get("microSmallAndMediumEnterprises.caCertifiedAmount")
-        .updateValueAndValidity();
-    }
+    // if (this.proofOfInvestmentChange === "1PSLINVSTPRF") {
+    //   this.showInputFieldsCA = true;
+    //   this.otherInvestmentCost = 0;
+    //   this.totalInvestmentCost = 0;
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCA")
+    //     .setValidators([Validators.required]);
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCA")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCAFirm")
+    //     .setValidators([Validators.required]);
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCAFirm")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caRegistrationNumber")
+    //     .setValidators([Validators.required]);
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caRegistrationNumber")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.udinNo")
+    //     .setValidators([Validators.required]);
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.udinNo")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caCertifiedAmount")
+    //     .setValidators([Validators.required]);
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caCertifiedAmount")
+    //     .updateValueAndValidity();
+    // } else {
+    //   this.showInputFieldsCA = false;
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCA")
+    //     .clearValidators();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCA")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCAFirm")
+    //     .clearValidators();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.nameOfCAFirm")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caRegistrationNumber")
+    //     .clearValidators();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caRegistrationNumber")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.udinNo")
+    //     .clearValidators();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.udinNo")
+    //     .updateValueAndValidity();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caCertifiedAmount")
+    //     .clearValidators();
+    //   this.pslDataForm
+    //     .get("microSmallAndMediumEnterprises.caCertifiedAmount")
+    //     .updateValueAndValidity();
+    // }
 
     if (
       this.proofOfInvestmentChange === "2PSLINVSTPRF" ||
@@ -1046,12 +1079,12 @@ export class PslDataComponent implements OnInit, OnChanges {
       this.proofOfInvestmentChange === "4PSLINVSTPRF"
     ) {
       this.showInputFieldsInvestments = true;
-      this.nameOfCA = "";
-      this.nameOfCAFirm = "";
-      this.caRegistrationNumber = "";
-      this.caCertifiedAmount = 0;
-      this.udinNo = 0;
-      this.totalInvestmentCost = 0;
+      // this.nameOfCA = "";
+      // this.nameOfCAFirm = "";
+      // this.caRegistrationNumber = "";
+      // this.caCertifiedAmount = 0;
+      // this.udinNo = 0;
+      // this.totalInvestmentCost = 0;
       // console.log("-------", this.nameOfCAFirm, this.nameOfCAFirm,
       // this.udinNo, this.caCertifiedAmount, this.totalInvestmentCost);
 
@@ -1153,26 +1186,26 @@ export class PslDataComponent implements OnInit, OnChanges {
     console.log("this.plsLandProofChange", this.plsLandProofChange);
   }
 
-  onChangeCaCertifiedAmount(event: any) {
-    let caCertifiedAmountChange = event.target.value;
-    this.setValueForCaCertifiedAmount();
-    console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-  }
+  // onChangeCaCertifiedAmount(event: any) {
+  //   let caCertifiedAmountChange = event.target.value;
+  //   this.setValueForCaCertifiedAmount();
+  //   console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+  // }
 
-  setValueForCaCertifiedAmount() {
-    // this.otherInvestmentCost = 0;
-    if (this.caCertifiedAmount && this.otherInvestmentCost) {
-      this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
-      // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    } else if (this.caCertifiedAmount) {
-      this.otherInvestmentCost = 0;
-      this.totalInvestmentCost =  +this.caCertifiedAmount + +this.otherInvestmentCost;
-      // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    } else {
-      this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+  // setValueForCaCertifiedAmount() {
+  //   // this.otherInvestmentCost = 0;
+  //   if (this.caCertifiedAmount && this.otherInvestmentCost) {
+  //     this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+  //     // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+  //   } else if (this.caCertifiedAmount) {
+  //     this.otherInvestmentCost = 0;
+  //     this.totalInvestmentCost =  +this.caCertifiedAmount + +this.otherInvestmentCost;
+  //     // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+  //   } else {
+  //     this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
         
-    }
-  }
+  //   }
+  // }
 
   onChangeOtherInvestmentCost(event: any) {
     let otherInvestmentChange = event.target.value;
@@ -1180,18 +1213,21 @@ export class PslDataComponent implements OnInit, OnChanges {
   }
 
   setValueForOtherInvestmentCost() {
-    // this.caCertifiedAmount = 0;
-    if (this.caCertifiedAmount && this.otherInvestmentCost) {
-      this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
-      // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    } else if (this.otherInvestmentCost) {
-      this.caCertifiedAmount = 0;
-      this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
-      // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
-    } else {
-      this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    if(this.otherInvestmentCost) {
+      this.totalInvestmentCost = +this.otherInvestmentCost;
     }
-    // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+    // this.caCertifiedAmount = 0;
+    // if (this.caCertifiedAmount && this.otherInvestmentCost) {
+    //   this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    //   // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+    // } else if (this.otherInvestmentCost) {
+    //   this.caCertifiedAmount = 0;
+    //   this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    //   // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
+    // } else {
+    //   this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    // }
+    // // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
   }
 
   // autoSumTotalInvestment(value1, value2) {
@@ -1204,13 +1240,15 @@ export class PslDataComponent implements OnInit, OnChanges {
   // }
   onChangeTotalInvestmentCost(event) {
     let totalInvestmentChange = event.target.value;
-    if (this.caCertifiedAmount) {
-      this.totalInvestmentCost = +this.caCertifiedAmount;
-    } else if (this.otherInvestmentCost) {
-      this.totalInvestmentCost = +this.otherInvestmentCost;
-    } else {
-      this.totalInvestmentCost = 0;
-    }
+    this.totalInvestmentCost = +this.otherInvestmentCost;
+    // if (this.caCertifiedAmount) {
+    //   this.totalInvestmentCost = +this.caCertifiedAmount;
+    // } else 
+    // if (this.otherInvestmentCost) {
+    //   this.totalInvestmentCost =  this.otherInvestmentCost;
+    // } else {
+    //   this.totalInvestmentCost = 0;
+    // }
   }
 
   saveOrUpdatePslData() {
@@ -1218,7 +1256,7 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.microSmallAndMediumEnterprises = this.pslDataForm.get(
       "microSmallAndMediumEnterprises"
     );
-
+    // console.log("totalInvestmentCost" ,this.totalInvestmentCost);
     if (this.activityChange === "1PSLACTVTY") {
       this.formValues = this.pslDataForm.get("agriculture").value;
       console.log("formValues--------", this.formValues);
@@ -1259,9 +1297,8 @@ export class PslDataComponent implements OnInit, OnChanges {
       this.formValues.pslCategory = this.pslCategoryData[0].key;
       this.formValues.typeOfService = this.typeOfService[0].key;
       this.formValues.purposeOfLoan = this.purposeOfLoanChange;
-      // console.log("PURPOSE", this.formValues.purposeOfLoan);
-      // this.formValues.pslSubCategory = this.pslSubCategoryChange;
-      // console.log("this.pslSubCategoryChange", this.formValues.pslSubCategory);
+      this.formValues.totalInvestmentCost = this.totalInvestmentCost;
+      // this.formValues.investmentInEquipment = this.investmentInEquipmentValue;
       const data = {
         userId: localStorage.getItem("userId"),
         leadId: this.leadId,
@@ -1271,9 +1308,12 @@ export class PslDataComponent implements OnInit, OnChanges {
           udinNo: Number(this.formValues.udinNo),
           caCertifiedAmount: Number(this.formValues.caCertifiedAmount),
           otherInvestmentCost: Number(this.formValues.otherInvestmentCost),
-          totalInvestment: Number(this.formValues.totalInvestmentCost),
+          totalInvestmentCost: Number(this.formValues.totalInvestmentCost),
+          investmentInEquipmentValue: Number(this.formValues.investmentInEquipment),
+          investmentInPlantMachineryValue: Number(this.formValues.investmentInPlantAndMachinery)
         },
       };
+      
       // const data = this.pslDataForm.get('microSmallAndMediumEnterprises').value;
       if (this.microSmallAndMediumEnterprises.valid === true) {
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
