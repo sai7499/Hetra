@@ -277,7 +277,7 @@
               /> -->
               <app-custom-input
                   formControlName="fatherName"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
                   [isRequired]="'Father Name is Required'"
@@ -296,7 +296,7 @@
               /> -->
               <app-custom-input
                   formControlName="spouseName"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
         
                 ></app-custom-input>
@@ -312,7 +312,7 @@
               /> -->
               <app-custom-input
               formControlName="motherMaidenName"
-              [patternCheck]="namePattern"
+              [patternCheck]="nameSpacePattern"
               [maxLength]="nameLength30"
               [isDirty]="isDirty"
               [isRequired]="'Mother Name Is Required'"
@@ -500,12 +500,13 @@
               /> -->
               <app-custom-input
               formControlName="employerName"
-              [patternCheck]="namePattern"
+              
               [maxLength]="nameLength30"
               [isRequired]="'Office Name Is Required'"
               [isDirty]="isDirty"
               
             ></app-custom-input>
+            <!-- [patternCheck]="nameSpacePattern" -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="yr_curr_employment">{{
@@ -522,7 +523,7 @@
               <app-custom-input
                   formControlName="currentEmpYears"
                   [patternCheck]="numberPattern"
-                  [maxLength]="length4"
+                  [maxLength]="length2"
                   [isRequired]="'Employeement Year is required'"
                   [isDirty]="isDirty"
                   ></app-custom-input>
@@ -543,6 +544,7 @@
                   formControlName="employeeCode"
                   [isRequired]="'Employee Code is required'"
                   [isDirty]="isDirty"
+                  [maxLength]="length20"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">

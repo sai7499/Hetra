@@ -71,15 +71,16 @@ export class BasicVehicleDetailsComponent implements OnInit {
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         const apiError = res.ProcessVariables.error.message;
 
-        if (res.Error === '0' && res.Error === '0') {
-          this.toasterService.showSuccess(apiError, '');
+        if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.toasterService.showSuccess(apiError, 'Vehicle Detail');
+          this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
         } else {
-          this.toasterService.showError(apiError, '')
+          this.toasterService.showError(apiError, 'Vehicle Detail')
         }
 
-        this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
       }, error => {
         console.log(error, 'error')
+        this.toasterService.showError(error, 'Vehicle Detail')
       })
     } else {
       this.utilityService.validateAllFormFields(this.formValue)

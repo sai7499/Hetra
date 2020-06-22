@@ -1640,7 +1640,7 @@
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['vehicleOwnerShipNumber'].hasError('pattern')">
-                                Enter valid vehicle ownership number
+                                Enter valid number
                             </div>
                         </div>
 
@@ -2139,12 +2139,11 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}}</label>
-                            <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                                name="cubic_capacity" formControlName="cubicCapacity" maxlength="5"
-                                pattern="^[1-9][0-9]*$">
+                            <input type="text" class="form-control input-upper" id="cubic_capacity"
+                                placeholder="Cubic Capacity" name="cubic_capacity" formControlName="cubicCapacity"
+                                maxlength="5" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field input-upper"
-                                *ngIf="obj.controls['cubicCapacity'].hasError('pattern')">
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['cubicCapacity'].hasError('pattern')">
                                 Enter valid cubic capacity
                             </div>
 

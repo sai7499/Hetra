@@ -70,6 +70,10 @@ export class BasicDetailsComponent implements OnInit {
     rule: '^[A-Z]*[a-z]*$',
     msg: 'Invalid Name',
   };
+  nameSpacePattern = {
+    rule: '^[A-Z ]*[a-z ]*$',
+    msg: 'Invalid Name',
+  };
 
   //   companyPattern ={
   //    rule : '^[A-Z]*[a-z]*$',
