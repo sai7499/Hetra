@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, } from '@angular/router';
-import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { IncomeDetailsService } from '@services/income-details.service';
@@ -57,7 +57,24 @@ export class IncomeDetailsComponent implements OnInit {
   agriArray = [];
   productCode: string;
   incomeTypeResponse: any;
-
+  inputValidation = {
+    rule: '^[0-9]*$',
+    msg: 'Enter Digits Only',
+  };
+  inputLength10 = {
+    rule: 10,
+  };
+  inputLength3 = {
+    rule: 3,
+  };
+  inputLength30 = {
+    rule: 30,
+  };
+  namePattern = {
+    rule: '^[A-Z, ]*[a-z, ]*[0-9, ]*$',
+    msg: 'Invalid Name',
+  };
+  salariedFOIRaspePolicy: number;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -96,12 +113,12 @@ export class IncomeDetailsComponent implements OnInit {
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
       salariedFOIRaspePolicy: Number(70),
-      salariedFOIRDeviation: ['',Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(2)])],
+      salariedFOIRDeviation: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
       leadId: this.leadId,
       userId: this.userId,
 
     });
-console.log(this.incomeDetailsForm)
+this.salariedFOIRaspePolicy = 70
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (leadData as any);
     this.productCode = leadSectionData['leadDetails']['productCatCode'];
@@ -109,6 +126,7 @@ console.log(this.incomeDetailsForm)
     this.getAllIncome();
 
   }
+  get f() { return this.incomeDetailsForm.controls.businessIncomeDetails; }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -144,11 +162,11 @@ console.log(this.incomeDetailsForm)
         applicantId: ['', Validators.required],
         applicantType: [''],
         businessEnterpriseName: [''],
-        depreciation: Number(null),
-        directorSalary: Number(null),
+        depreciation:  [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+        directorSalary: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
         grossDerivedIncome: Number(null),
         grossMonthlyIncome: Number(null),
-        netProfit: Number(null),
+        netProfit: [null, [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(10)]],
       });
     } else {
       return this.formBuilder.group({
@@ -162,15 +180,15 @@ console.log(this.incomeDetailsForm)
         businessEnterpriseName: data.businessEnterpriseName
           ? data.businessEnterpriseName
           : 'Abc Enterprises',
-        depreciation: Number(data.depreciation ? data.depreciation : ''),
-        directorSalary: Number(data.directorSalary ? data.directorSalary : ''),
+        depreciation: Number(data.depreciation ? data.depreciation : 0),
+        directorSalary: Number(data.directorSalary ? data.directorSalary : 0),
         grossDerivedIncome: Number(
-          data.grossDerivedIncome ? data.grossDerivedIncome : ''
+          data.grossDerivedIncome ? data.grossDerivedIncome : 0
         ),
         grossMonthlyIncome: Number(
-          data.grossMonthlyIncome ? data.grossMonthlyIncome : ''
+          data.grossMonthlyIncome ? data.grossMonthlyIncome : 0
         ),
-        netProfit: Number(data.netProfit ? data.netProfit : ''),
+        netProfit: Number(data.netProfit ? data.netProfit : 0),
       });
     }
   }
@@ -180,7 +198,7 @@ console.log(this.incomeDetailsForm)
         applicantId: ['', Validators.required],
         applicantType: [''],
         incomeType: [''],
-        grossIncome: Number(null),
+        grossIncome: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
         factoring: Number(null),
         factoredIncome: Number(null),
       });
@@ -206,12 +224,12 @@ console.log(this.incomeDetailsForm)
         applicantType: [''],
         loanType: [''],
         financier: [''],
-        loanAmount: Number(null),
-        tenure: Number(null),
-        mob: Number(null),
-        emi: Number(null),
-        balanceTenure: Number(null),
-        obligationAmount: Number(null),
+        loanAmount: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+        tenure: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+        mob: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+        emi: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+        balanceTenure:Number(null),
+        obligationAmount: Number(null)
       });
     } else {
       return this.formBuilder.group({
@@ -374,7 +392,9 @@ console.log(this.incomeDetailsForm)
         this.addBusinessIncomeUnit(res.ProcessVariables.businessIncomeList);
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
+
       });
+      
   }
 
   onBusinessApplicantChange(event?: any, i?: number) {
@@ -412,12 +432,42 @@ console.log(this.incomeDetailsForm)
 
   onSubmit() {
     this.submitted = true;
-
+console.log("form data ",this.incomeDetailsForm)
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
-      // return;
-      this.toasterService.showInfo('Select Applicant', '')
+     
+      this.toasterService.showError('Select Applicant', '')
     } else {
+      const businessControl = this.incomeDetailsForm.controls
+      .businessIncomeDetails as FormArray;
+       for (let i =0; i<businessControl.length;i++){
+         const depreciation = Number(businessControl.at(i).get('depreciation').value)
+         businessControl.at(i).get('depreciation').setValue(depreciation);
+        const directorSalary = Number(businessControl.at(i).get('directorSalary').value)
+        businessControl.at(i).get('directorSalary').setValue(directorSalary);  
+        const netProfit = Number(businessControl.at(i).get('netProfit').value)
+        businessControl.at(i).get('netProfit').setValue(netProfit);
+       }
+       const otherIncomeControl = this.incomeDetailsForm.controls
+       .otherIncomeDetails as FormArray;
+       for (let i =0; i<otherIncomeControl.length;i++){
+        const grossIncome = Number(otherIncomeControl.at(i).get('grossIncome').value)
+        otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome);
+      
+      }
+      const obligationControl = this.incomeDetailsForm.controls
+      .obligationDetails as FormArray;
+      for (let i =0; i<obligationControl.length;i++){
+        const loanAmount = Number(obligationControl.at(i).get('loanAmount').value)
+        obligationControl.at(i).get('loanAmount').setValue(loanAmount);
+       const tenure = Number(obligationControl.at(i).get('tenure').value)
+       obligationControl.at(i).get('tenure').setValue(tenure);  
+       const mob = Number(obligationControl.at(i).get('mob').value)
+       obligationControl.at(i).get('mob').setValue(mob);
+       const emi = Number(obligationControl.at(i).get('emi').value)
+       obligationControl.at(i).get('emi').setValue(emi);
+       
+      }
       this.incomeDetailsService
         .setAllIncomeDetails(this.incomeDetailsForm.value)
         .subscribe((res: any) => {
@@ -439,6 +489,7 @@ console.log(this.incomeDetailsForm)
               ''
             );
             this.getAllIncome();
+            
           }
         });
     }
@@ -535,6 +586,8 @@ console.log(this.incomeDetailsForm)
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     const tenure = obligationArray.value[i].tenure;
+    console.log(tenure)
+   
     const mob = obligationArray.value[i].mob;
     const balanceTenor = Math.abs( Number(tenure) - Number(mob));
     // if (tenure <= mob) {
@@ -553,7 +606,10 @@ console.log(this.incomeDetailsForm)
     if (obligationArray && obligationArray.length > 0) {
       this.totalObligationAmount = 0;
       for (let i = 0; i < obligationArray.length; i++) {
-        this.totalObligationAmount = Math.round(this.totalObligationAmount + obligationArray.value[i].emi);
+        this.totalObligationAmount = Math.round(this.totalObligationAmount + Number(obligationArray.value[i].emi));
+
+        console.log(this.totalObligationAmount);
+        
       }
     }
 
