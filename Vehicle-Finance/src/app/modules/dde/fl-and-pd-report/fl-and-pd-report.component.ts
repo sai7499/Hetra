@@ -25,7 +25,7 @@ export class FlAndPdReportComponent implements OnInit {
     }
     getPdDetails() {
         const data = {
-            applicantId: 6,
+            applicantId: 63,
         };
 
         this.personaldiscussion.getPdData(data).subscribe((value: any) => {
