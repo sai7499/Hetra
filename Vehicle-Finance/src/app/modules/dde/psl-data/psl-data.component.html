@@ -539,11 +539,11 @@
         name="businessActivity" > 
    </app-vf-custom-select>
     </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
-        <label for="loan_amount">{{labels.loanAmount}}</label>
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
+        <label for="loan_amount">{{labels.loanAmount}}</label> -->
         <!-- <input type="text" formControlName="loanAmount" class="form-control" name="loan_amount" id="loan_amount"
             required="required" /> -->
-        <app-custom-input
+        <!-- <app-custom-input
             formControlName="loanAmount"
             [className]="'form-control mandatory'"
             [placeholder]="'Loan Amount'"
@@ -553,12 +553,16 @@
             [isDirty]="isDirty"
             name="loan_amount"
         >
-        </app-custom-input>
-    </div>
+        </app-custom-input> -->
+    <!-- </div> -->
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="proof_of_investment">{{labels.proofOfInvestment}}</label>
         <app-vf-custom-select 
-            [values]="LOV.LOVS.proofOfInvestment" 
+            [values]="[
+              {key: this.LOV.LOVS.proofOfInvestment[1].key, value: this.LOV.LOVS.proofOfInvestment[1].value},
+             {key: this.LOV.LOVS.proofOfInvestment[2].key, value: this.LOV.LOVS.proofOfInvestment[2].value},
+             {key: this.LOV.LOVS.proofOfInvestment[3].key, value: this.LOV.LOVS.proofOfInvestment[3].value}
+             ]" 
             formControlName="proofOfInvestment"
             (change) = "onChangeProofOfInvestment($event)"
             name="proofOfInvestment"
@@ -571,12 +575,12 @@
         <input id="investment_proof_upload" formControlName="proofOfInvestmentUpload" type="file" multiple=""
             name="investment_proof_upload">
     </div>
-
+<!-- 
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA" >
-        <label for="name_of_ca">{{labels.nameOfCa}}</label>
+        <label for="name_of_ca">{{labels.nameOfCa}}</label> -->
         <!-- <input type="text" formControlName="nameOfCA" class="form-control" name="name_of_ca" id="name_of_ca"
             required="required" /> -->
-        <app-custom-input
+        <!-- <app-custom-input
             formControlName="nameOfCA"
             [(ngModel)] = "nameOfCA"
             [className]="'form-control mandatory'"
@@ -587,12 +591,12 @@
             [isDirty]="isDirty"
         >
         </app-custom-input>
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
+    </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
         <label for="name_of_ca_firm">{{labels.nameOfCaFirm}}</label>
-        <!-- <input type="text" formControlName="nameOfCAFirm" class="form-control" name="name_of_ca_firm"
+        <input type="text" formControlName="nameOfCAFirm" class="form-control" name="name_of_ca_firm"
             id="name_of_ca_firm" required="required" /> -->
-        <app-custom-input
+        <!-- <app-custom-input
             formControlName="nameOfCAFirm"
             [(ngModel)] = "nameOfCAFirm"
             [className]="'form-control mandatory'"
@@ -603,13 +607,13 @@
             [isDirty]="isDirty"
             name="name_of_ca_firm"
         >
-        </app-custom-input>
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
-        <label for="ca_registration_number">{{labels.caRegisterNo}}</label>
+        </app-custom-input> -->
+    <!-- </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
+        <label for="ca_registration_number">{{labels.caRegisterNo}}</label> -->
         <!-- <input type="text" formControlName="caRegistrationNumber" class="form-control  input-upper" name="ca_registration_number"
             id="ca_registration_number" required="required" [ngModel]="caRegistrationNumber"/> -->
-
+<!-- 
             <app-custom-input
             formControlName="caRegistrationNumber"
             [(ngModel)]="caRegistrationNumber"
@@ -620,13 +624,13 @@
             [patternCheck]="regexPattern.namePattern"
             [isDirty]="isDirty"
         >
-        </app-custom-input>    
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
-        <label for="udin_no">{{labels.udinNo}}</label>
+        </app-custom-input>     -->
+    <!-- </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
+        <label for="udin_no">{{labels.udinNo}}</label> -->
         <!-- <input type="number" formControlName="udinNo" class="form-control" name="udin_no" id="udin_no"
             required="required" *ngIf="showInputFieldsCA"/> -->
-        <app-custom-input
+        <!-- <app-custom-input
             [type] = "number"
             [(ngModel)]="udinNo"
             formControlName="udinNo"
@@ -639,13 +643,13 @@
             [isDirty]="isDirty"
         >
         </app-custom-input>  
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
-        <label for="ca_certified_amount">{{labels.caCertifiedAmount}}</label>
+    </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsCA">
+        <label for="ca_certified_amount">{{labels.caCertifiedAmount}}</label> -->
         <!-- <input type="number" formControlName="caCertifiedAmount" class="form-control" name="ca_certified_amount"
             id="ca_certified_amount" required="required" [(ngModel)]="caCertifiedAmount"
             (change)="onChangeCaCertifiedAmount($event)" /> -->
-        <app-custom-input
+        <!-- <app-custom-input
             [type] = "number"
             formControlName="caCertifiedAmount"
             [(ngModel)]="caCertifiedAmount"
@@ -658,7 +662,7 @@
             [isDirty]="isDirty"
         >
         </app-custom-input>  
-    </div>
+    </div> -->
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsInvestments">
         <label for="other_investment_cost">{{labels.otherInvestmentCost}}</label>
         <!-- <input type="number" formControlName="otherInvestmentCost" class="form-control"
@@ -687,14 +691,9 @@
             [type] = "number"
             formControlName="totalInvestmentCost"
             [(ngModel)]="totalInvestmentCost" 
-            (change)="onChangeTotalInvestmentCost($event)"
-            [className]="'form-control mandatory'"
+            (keyup)="onChangeTotalInvestmentCost($event)"
             [placeholder]="'Total Investment Cost'"
-            [maxLength]="regexPattern.numberLength"
-            [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [isDirty]="isDirty"
-        >
+       >
         </app-custom-input>  
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInEquipment" >

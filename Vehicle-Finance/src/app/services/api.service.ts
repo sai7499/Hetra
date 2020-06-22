@@ -277,6 +277,13 @@ export class ApiService {
       processId: 'f2dadd44b22611ea8796f2fa9bec3d63',
       workflowId: 'f2bc4564b22611ea8796f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,  
+    },
+    getVehicleValuation: {
+      processId: '2db56d129c2911eabddcf2fa9bec3d63',
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     }
   };
 }
+
+
