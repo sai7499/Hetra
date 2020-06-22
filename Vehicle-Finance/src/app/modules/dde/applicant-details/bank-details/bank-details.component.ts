@@ -64,6 +64,7 @@ export class BankDetailsComponent implements OnInit {
     rule: 10,
   };
   labels: any;
+  transactionData: any;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -161,16 +162,16 @@ export class BankDetailsComponent implements OnInit {
   public populateTransaction(data?: any) {
     console.log(data, 'data in aptch ');
     return this.fb.group({
-      month: data.month,
-      year: data.year,
-      inflow: data.inflow,
-      outflow: data.outflow,
-      noOfInWardBounces: data.noOfInWardBounces,
-      noOfOutWardBounces: data.noOfOutWardBounces,
-      balanceOn5th: data.balanceOn5th,
-      balanceOn15th: data.balanceOn15th,
-      balanceOn20th: data.balanceOn20th,
-      abbOfTheMonth: data.abbOfTheMonth,
+      month: data.month ? data.month : null,
+      year: data.year ? data.year : null ,
+      inflow: data.inflow ? Number(data.inflow) : null,
+      outflow: data.outflow ? Number(data.outflow) : null,
+      noOfInWardBounces: data.noOfInWardBounces ? Number(data.noOfInWardBounces) : null,
+      noOfOutWardBounces: data.noOfOutWardBounces ? Number(data.noOfOutWardBounces) : null,
+      balanceOn5th: data.balanceOn5th ? Number(data.balanceOn5th) : null,
+      balanceOn15th: data.balanceOn15th ? Number(data.balanceOn15th) : null,
+      balanceOn20th: data.balanceOn20th ? Number(data.balanceOn20th) : null,
+      abbOfTheMonth: data.abbOfTheMonth ? Number(data.abbOfTheMonth) : null,
     });
   }
   getBankDetails() {
@@ -294,6 +295,14 @@ export class BankDetailsComponent implements OnInit {
       });
     console.log(this.bankForm.value);
   }
+  savetransactionData() {
+    const details = this.bankForm.controls.transactionDetails as FormArray;
+    this.transactionData  = details.controls;
+    console.log(this.transactionData);
+    this.transactionData.forEach((res: any ) => {
+    console.log(res,  ' saved data');
+    });
+  }
 
   getMonths() {
     const fromDate = new Date(this.bankForm.value.fromDate)
@@ -356,7 +365,7 @@ export class BankDetailsComponent implements OnInit {
         //
       }
       // this.assignedArray = this.assignedArray.reverse();
-      console.log(this.assignedArray, ' assigned Array');
+      // console.log(this.assignedArray, ' assigned Array');
     }
   }
   onBack() {

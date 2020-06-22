@@ -53,7 +53,7 @@
                       [format]="'dd/MM/yyyy'"
                        placeholder="Select Start Month"
                       [activeView]="'decade'"
-                      (valueChange)="getMonths()"
+                      (input)="getMonths()"
                       [max]="toDayDate"
                       ></kendo-datepicker>
                    </div>
@@ -74,7 +74,7 @@
                    [max]="toDayDate"
                     placeholder="Select Latest Month"
                    [activeView]="'decade'"
-                   (valueChange)="getMonths()"
+                   (input)="getMonths()"
                    ></kendo-datepicker>
                 </div>
              </div>
@@ -148,6 +148,7 @@
                       [maxLength]="inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData()"
                     ></app-custom-input>
                   </td>
                   <td>
@@ -158,6 +159,7 @@
                       [maxLength]=" inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData()"
                     ></app-custom-input>
                   </td>
                   <td>
