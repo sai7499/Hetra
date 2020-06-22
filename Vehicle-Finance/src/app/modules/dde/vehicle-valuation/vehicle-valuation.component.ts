@@ -1,9 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from "@services/labels.service";
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
+import { VehicleValuationService } from '../services/vehicle-valuation.service';
+import { CommomLovService } from '@services/commom-lov-service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: "app-vehicle-valuation",
@@ -12,33 +15,51 @@ import { DdeStoreService } from '@services/dde-store.service';
 })
 export class VehicleValuationComponent implements OnInit {
 
-  public vhValLov: any = {};
-  public labels: any = {};
-  public errorMsg;
-  public getLabels;
+  leadId;
+  labels: any = {};
+  LOV: any = [];
 
   isModal: boolean;
   isOk: boolean;
   isYes: boolean;
 
-  constructor(private labelsData: LabelsService,
+  constructor(
+    private labelsData: LabelsService,
+    private commomLovService: CommomLovService,
+    private vehicleValuationService: VehicleValuationService,
     private lovDataService: LovDataService,
     private router: Router,
-    private ddeStoreService: DdeStoreService) { }
+    private aRoute: ActivatedRoute,
+    private toasterService: ToasterService,
+    private location: Location,
+    private ddeStoreService: DdeStoreService
+    ) { }
 
   ngOnInit() {
+    this.getLabels();
+    this.getLOV();
+    this.getLeadId();
+  }
 
-    this.getLabels = this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      },
-      error => {
-        this.errorMsg = error;
-      });
+  getLabels() {
+    this.labelsData.getLabelsData().subscribe(
+      (data) => (this.labels = data),
+      (error) => console.log("PSL_DATA Label Error", error)
+    );
+  }
 
-    this.lovDataService.getLovData().subscribe((value: any) => {
-      this.vhValLov = value ? value[0].vehicleVal[0] : {};
+  getLeadId() {
+    this.aRoute.parent.params.subscribe((val) => {
+      this.leadId = Number(val.leadId);
     });
+    console.log("LEADID--->", this.leadId);
+  }
+
+  getLOV() {
+    this.commomLovService.getLovData().subscribe((lov) => {
+      this.LOV = lov;
+    });
+    console.log("PSL DATA LOV  --->", this.LOV);
   }
 
   onChange() {
@@ -62,7 +83,7 @@ export class VehicleValuationComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.router.navigate(['/pages/dde/track-vehicle']);
+    this.router.navigate(['/pages/dde/tvr']);
   }
 
 }
