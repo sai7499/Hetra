@@ -25,7 +25,7 @@
                 <app-custom-input
                 formControlName="financierName"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Financier Name'"
+                [placeholder]="'Financier'"
                 [maxLength]="regexPattern.nameLength"
                 [isRequired]="'Financier Name is mandatory'"
                 [patternCheck]="regexPattern.name"
@@ -42,7 +42,7 @@
                 <app-custom-input
                 formControlName="assetFinancied"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Financier Name'"
+                [placeholder]="'Asset Financier'"
                 [maxLength]="regexPattern.nameLength"
                 [isRequired]="'Financier Name is mandatory'"
                 [patternCheck]="regexPattern.vachilePattern"
@@ -82,7 +82,7 @@
                 formControlName="financeCharges"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Requested Amount'"
-                [maxLength]="regexPattern.nameLength"
+                [maxLength]="regexPattern.contLength"
                 [isRequired]="'Finance charges is mandatory'"
                 [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
@@ -102,7 +102,7 @@
                 formControlName="contractValue"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Contract Value'"
-                [maxLength]="regexPattern.nameLength"
+                [maxLength]="regexPattern.contLength"
                 [isRequired]="'Contract Value is mandatory'"
                 [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
@@ -114,10 +114,10 @@
                 <app-custom-input
                 formControlName="contNo"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Cont No'"
+                [placeholder]="'Contract Number'"
                 [maxLength]="regexPattern.contLength"
                 [isRequired]="'Contact No is mandatory'"
-                [patternCheck]="regexPattern.contact"
+                [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
