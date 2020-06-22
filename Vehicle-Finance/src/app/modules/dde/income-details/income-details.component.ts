@@ -7,6 +7,8 @@ import { IncomeDetailsService } from '@services/income-details.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToasterService } from '@services/toaster.service';
+
 
 @Component({
   selector: 'app-income-details',
@@ -65,6 +67,7 @@ export class IncomeDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
+    private toasterService: ToasterService,
 
   ) { }
 
@@ -93,12 +96,12 @@ export class IncomeDetailsComponent implements OnInit {
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
       salariedFOIRaspePolicy: Number(70),
-      salariedFOIRDeviation: [''],
+      salariedFOIRDeviation: ['',Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(2)])],
       leadId: this.leadId,
       userId: this.userId,
 
     });
-
+console.log(this.incomeDetailsForm)
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (leadData as any);
     this.productCode = leadSectionData['leadDetails']['productCatCode'];
@@ -261,11 +264,15 @@ export class IncomeDetailsComponent implements OnInit {
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
             control.removeAt(i);
-            alert(res.ProcessVariables.error.message);
+            const message = res.ProcessVariables.error.message;
+            this.toasterService.showSuccess(message, '');
           });
       }
     } else {
-      alert('Atleast One Row Required');
+      this.toasterService.showError(
+        'Atleast One Row Required',
+        ''
+      );
     }
   }
 
@@ -301,11 +308,15 @@ export class IncomeDetailsComponent implements OnInit {
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
             control.removeAt(i);
-            alert(res.ProcessVariables.error.message);
+            const message = res.ProcessVariables.error.message;
+            this.toasterService.showSuccess(message, '');
           });
       }
     } else {
-      alert('Atleast One Row Required');
+      this.toasterService.showError(
+        'Atleast One Row Required',
+        ''
+      );
     }
   }
   addObligationUnit(data?: any) {
@@ -340,11 +351,15 @@ export class IncomeDetailsComponent implements OnInit {
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
             control.removeAt(i);
-            alert(res.ProcessVariables.error.message);
+            const message = res.ProcessVariables.error.message;
+            this.toasterService.showSuccess(message, '');
           });
       }
     } else {
-      alert('Atleast One Row Required');
+      this.toasterService.showError(
+        'Atleast One Row Required',
+        ''
+      );
     }
   }
 
@@ -401,7 +416,7 @@ export class IncomeDetailsComponent implements OnInit {
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       // return;
-      alert('Select Applicant');
+      this.toasterService.showInfo('Select Applicant', '')
     } else {
       this.incomeDetailsService
         .setAllIncomeDetails(this.incomeDetailsForm.value)
@@ -418,7 +433,11 @@ export class IncomeDetailsComponent implements OnInit {
             const obligationDetailsControls = this.incomeDetailsForm.controls
               .obligationDetails as FormArray;
             obligationDetailsControls.controls = [];
-            alert('saved Success');
+           
+            this.toasterService.showSuccess(
+              'Applicant Income Details Saved Successfully',
+              ''
+            );
             this.getAllIncome();
           }
         });
@@ -517,12 +536,12 @@ export class IncomeDetailsComponent implements OnInit {
       .obligationDetails as FormArray;
     const tenure = obligationArray.value[i].tenure;
     const mob = obligationArray.value[i].mob;
-    const balanceTenor = Number(tenure) - Number(mob);
-    if (tenure <= mob) {
-      const balanceTenor = Number(mob) - Number(tenure);
-      obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
+    const balanceTenor = Math.abs( Number(tenure) - Number(mob));
+    // if (tenure <= mob) {
+    //   const balanceTenor = Number(mob) - Number(tenure);
+    //   obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
 
-    }
+    // }
     obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
   }
   onEmi(event: any, i: number) {
@@ -561,7 +580,10 @@ export class IncomeDetailsComponent implements OnInit {
   onSalFoirDeviation(event: any) {
     const salariedFOIRaspePolicy = this.incomeDetailsForm.controls.salariedFOIRaspePolicy.value
     this.totalSalariedFOIR = 0;
-    this.totalSalariedFOIR = Math.round(Number(event) + Number(salariedFOIRaspePolicy))
+    // this.totalSalariedFOIR = Math.round(Number(event) + Number(salariedFOIRaspePolicy))
+    this.totalSalariedFOIR = Math.round(Number(event))
+
+
 
   }
 }
