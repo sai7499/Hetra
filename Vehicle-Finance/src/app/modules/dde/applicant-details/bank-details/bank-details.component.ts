@@ -305,6 +305,9 @@ export class BankDetailsComponent implements OnInit {
   }
 
   getMonths() {
+    if (this.transactionData && this.transactionData.length > 0) {
+    alert(this.transactionData);
+    }
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
@@ -363,6 +366,9 @@ export class BankDetailsComponent implements OnInit {
         // controlArray.at(i).patchValue({ month: array });
 
         //
+        if (this.assignedArray.length > numberOfMonths) {
+          return;
+        }
       }
       // this.assignedArray = this.assignedArray.reverse();
       // console.log(this.assignedArray, ' assigned Array');
