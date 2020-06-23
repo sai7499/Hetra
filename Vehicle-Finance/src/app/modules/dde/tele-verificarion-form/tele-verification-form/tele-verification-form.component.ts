@@ -24,8 +24,12 @@ export class TeleVerificationFormComponent implements OnInit {
   isAlert: boolean;
   tvrDashboardList;
   applicantId;
+  referenceData = [];
+  applicantName;
+  so_name;
+  dateFormate;
 
-  public dateValue: Date = new Date(2000, 2, 10);
+  public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
 
   constructor(
@@ -61,6 +65,8 @@ export class TeleVerificationFormComponent implements OnInit {
     this.getTvrDetailsList();
   }
 
+
+
   getLOV() {
     this.commomLovService.getLovData().subscribe((value) => {
       this.LOV = value;
@@ -70,89 +76,99 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
 
-  initForm() {
-    this.teleVerificationForm = this.fb.group({
-      leadId: [{value: '', disabled: true}],
-      applicantName: [{value: '', disabled: true}],
-      soName: [{value: '', disabled: true}],
-      assetCost: [''],
-      assetType: [''],
-      financeAmt: [''],
-      tenureInMonth: [''],
-      srcOfProposal: [''],
-      product: [''],
-      emi: [''],
-      ndForProposedVehicle: [''],
-      route: [''],
-      contractDetails: [''],
-      typeOfGoods: [''],
-      amountRequested: [''],
-      fundEndUse: [''],
-      tenureRequested: [''],
-      residentType: [''],
-      otherVehiclesOwned: [''],
-      residentPhnNo: ['', Validators.compose([Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]*')])],
-      residentAddress: [''],
+  initForm(data?) {
 
-      otherLoans: [''],
-      otherLoanEmi: [''],
-      residentNoOfYrs: [''],
-      cc: [''],
-      status: [true],
-      dob: [''],
-      spokenTo: [''],
-      familyMembers: [''],
-      relationShip: [''],
-      tvrDate: [''],
-      tvrTime: [''],
-      radioAddress: [''],
-      residenceStabilityConfirmed: [''],
-      customerAvailabilty: [''],
-      tvrDoneBy: [''],
-      eCode: [''],
-      office: [''],
-      wrkExperience: [''],
+    this.teleVerificationForm = this.fb.group({
+      leadId: [{value: data && data.leadId ? data.leadId : this.leadId, disabled: true}],
+      applicantName: [{value: data && data.applicantName ? data.applicantName : this.applicantName, disabled: true}],
+      soName: [{value: data && data.soName ? data.soName : this.so_name, disabled: true}],
+      assetCost: [data && data.assetCost ? data.assetCost : ''],
+      assetType: [data && data.assetType ? data.assetType : ''],
+      financeAmt: [data && data.financeAmt ? data.financeAmt : ''],
+      tenureInMonth: [data && data.tenureInMonth ? data.tenureInMonth : ''],
+      srcOfProposal: [data && data.srcOfProposal ? data.srcOfProposal : ''],
+      referredBy: [data && data.referredBy ? data.referredBy : ''],
+      product: [data && data.product ? data.product : ''],
+      emi: [data && data.emi ? data.emi : ''],
+      ndForProposedVehicle: [data && data.ndForProposedVehicle ? data.ndForProposedVehicle : ''],
+      route: [data && data.route ? data.route : ''],
+      contractDetails: [data && data.contractDetails ? data.contractDetails : ''],
+      typeOfGoods: [data && data.typeOfGoods ? data.typeOfGoods : ''],
+      amountRequested: [data && data.amountRequested ? data.amountRequested : ''],
+      fundEndUse: [data && data.fundEndUse ? data.fundEndUse : ''],
+      tenureRequested: [data && data.tenureRequested ? data.tenureRequested : ''],
+      residentType: [data && data.residentType ? data.residentType : ''],
+      otherVehiclesOwned: [data && data.otherVehiclesOwned ? data.otherVehiclesOwned : ''],
+      // tslint:disable-next-line: max-line-length
+      residentPhnNo: [data && data.residentPhnNo ? data.residentPhnNo : '', Validators.compose([Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]*')])],
+      residentAddress: [data && data.residentAddress ? data.residentAddress : ''],
+
+      otherLoans: [data && data.otherLoans ? data.otherLoans : ''],
+      otherLoanEmi: [data && data.otherLoanEmi ? data.otherLoanEmi : ''],
+      residentNoOfYrs: [data && data.residentNoOfYrs ? data.residentNoOfYrs : ''],
+      cc: [data && data.cc ? data.cc : ''],
+      tvrStatus: [true],
+      dob: [data && data.dob ? this.dateFunction(data.dob) : new Date()],
+      spokenTo: [data && data.spokenTo ? data.spokenTo : ''],
+      familyMembers: [data && data.familyMembers ? data.familyMembers : ''],
+      relationShip: [data && data.relationShip ? data.relationShip : ''],
+      tvrDate: [data && data.tvrDate ? this.dateFunction(data.tvrDate) : new Date()],
+      tvrTime: [data && data.tvrTime ? data.tvrTime : ''],
+      addressConfirmed: [data && data.addressConfirmed ? data.addressConfirmed.toString() : ''],
+      residenceStabilityConfirmed: [data && data.residenceStabilityConfirmed ? data.residenceStabilityConfirmed.toString() : ''],
+      customerAvailabilty: [data && data.customerAvailabilty ? data.customerAvailabilty : ''],
+      tvrDoneBy: [data && data.tvrDoneBy ? data.tvrDoneBy : ''],
+      eCode: [data && data.eCode ? data.eCode : ''],
+      wrkExperience: [data && data.wrkExperience ? data.wrkExperience : ''],
       officePhnNo: ['', Validators.compose([Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]*')])],
-      officePhnExt: [''],
-      wrkStability: [''],
-      natureOfBusiness: [''],
-      typeOfTransaction: [''],
-      businessStability: [''],
-      compNameAddress: [''],
-      designation: [''],
-      industryType: [''],
-      yrsInEmployment: [''],
-      ifBusiness: [''],
-      employees: [''],
-      relation: [''],
-      monthlyGrossSalary: [''],
-      otherIncome: [''],
-      decision: [''],
-      cibilOverDue: [''],
-      cibilClarification: [''],
-      remarks: [''],
+      officePhnExt: [data && data.officePhnExt ? data.officePhnExt : ''],
+      wrkStability: [data && data.wrkStability ? data.wrkStability : ''],
+      natureOfBusiness: [data && data.natureOfBusiness ? data.natureOfBusiness : ''],
+      typeOfTransaction: [data && data.typeOfTransaction ? data.typeOfTransaction : ''],
+      businessStability: [data && data.businessStability ? data.businessStability : ''],
+      compNameAddress: [data && data.compNameAddress ? data.compNameAddress : ''],
+      designation: [data && data.designation ? data.designation : ''],
+      industryType: [data && data.industryType ? data.industryType : ''],
+      yrsInEmployment: [data && data.yrsInEmployment ? data.yrsInEmployment : ''],
+      ifBusiness: [data && data.ifBusiness ? data.ifBusiness : ''],
+      employees: [data && data.employees ? data.employees : ''],
+      relation: [data && data.relation ? data.relation : ''],
+      monthlyGrossSalary: [data && data.monthlyGrossSalary ? data.monthlyGrossSalary : ''],
+      otherIncome: [data && data.otherIncome ? data.otherIncome : ''],
+      decision: [data && data.decision ? data.decision : ''],
+      cibilOverDue: [data && data.cibilOverDue ? data.cibilOverDue : ''],
+      cibilClarification: [data && data.cibilClarification ? data.cibilClarification : ''],
+      remarks: [data && data.remarks ? data.remarks : ''],
       applicationReferences: this.fb.group({
         reference1: this.fb.group({
           applicantId: this.applicantId,
-          referenceId: 0,
-          firstName: [''],
-          mobileNo: [''],
-          address: [''],
-          referenceStatus: ['']
+          referenceId: this.referenceData.length > 0 && this.referenceData[0]['referenceId'] ? this.referenceData[0]['referenceId'] : 0,
+          firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
+          mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
+          address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
+          // tslint:disable-next-line: max-line-length
+          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ?  this.referenceData[0].referenceStatus : '']
         }),
         reference2: this.fb.group({
           applicantId: this.applicantId,
-          referenceId: 0,
-          firstName: [''],
-          mobileNo: [''],
-          address: [''],
-          referenceStatus: ['']
+          referenceId: this.referenceData.length > 0 && this.referenceData[1]['referenceId'] ? this.referenceData[1]['referenceId'] : 0,
+          firstName: [this.referenceData.length > 0 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
+          mobileNo: [this.referenceData.length > 0 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
+          address: [this.referenceData.length > 0 && this.referenceData[1].address ? this.referenceData[1].address : ''],
+          referenceStatus: [this.referenceData.length > 0 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
         })
       })
     });
   }
 
+  dateFunction(newDate) {
+    const newDateFormat = newDate.split('/');
+    return new Date(newDateFormat[2], newDateFormat[1], newDateFormat[0]);
+  }
 
+dateToFormate (date){
+  return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+}
 
   getTvrDetails() {
     const data = {
@@ -160,16 +176,24 @@ export class TeleVerificationFormComponent implements OnInit {
     };
     this.tvrService.getTvrDetails(data).subscribe((res: any) => {
       this.tvrData = res.ProcessVariables.tvr;
+      this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences: [];
+      // this.dateFormate = res.ProcessVariables.tvr.dob;
+      this.initForm(this.tvrData);
       if (this.tvrData) {
-      this.teleVerificationForm.patchValue(this.tvrData);
+      // this.teleVerificationForm.patchValue(this.tvrData);
+      // this.teleVerificationForm.get('dob').patchValue(this.dateFunction(res.ProcessVariables.tvr.dob));
+      // this.teleVerificationForm.controls['applicationReferences'].patchValue(this.referenceData);
 
       }
 
       // this.teleVerificationForm.controls['residenceStabilityConfirmed'].setValue(this.tvrData.residenceStabilityConfirmed.toString());
-      // this.teleVerificationForm.controls['radioAddress'].setValue(this.tvrData.residenceStabilityConfirmed.toString());
+      // this.teleVerificationForm.controls['addressConfirmed'].setValue(this.tvrData.residenceStabilityConfirmed.toString());
       // this.teleVerificationForm.controls['customerAvailabilty'].setValue(this.tvrData.residenceStabilityConfirmed.toString());
       // this.initForm();
       console.log('tvrResponse', this.tvrData);
+      console.log('applicationReferenceData', this.referenceData);
+      console.log(this.dateFunction(res.ProcessVariables.tvr.dob));
+
     });
   }
 
@@ -185,16 +209,6 @@ export class TeleVerificationFormComponent implements OnInit {
     console.log('save tvr details', this.tvrDetails);
     this.tvrService.setTvrDetails(data).subscribe((res: any) => {
       console.log('saveUpdateTvrDetails', res);
-      // const appiyoError = res.Error;
-      // const apiError = res.ProcessVariables.error.code;
-
-      // if (appiyoError === '0' && apiError === '0') {
-      //   // alert(response.ProcessVariables.error.message);
-      //   this.isAlert = true;
-      //   setTimeout(() => {
-      //     this.isAlert = false;
-      //   }, 3000);
-      // }
     });
   }
 
@@ -206,6 +220,9 @@ export class TeleVerificationFormComponent implements OnInit {
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
       this.tvrDashboardList = res.ProcessVariables.tvrApplicantsList;
       this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
+      this.applicantName = res.ProcessVariables.tvrApplicantsList[0].applicantName;
+      this.so_name = res.ProcessVariables.tvrApplicantsList[0].so_name;
+      // this.initForm();
       console.log('TVR-Dashboard_list', this.tvrDashboardList);
     });
 
@@ -215,7 +232,7 @@ export class TeleVerificationFormComponent implements OnInit {
     // console.log('on save', this.teleVerificationForm.value);
     this.tvrDetails = this.teleVerificationForm.value;
     this.tvrDetails.residenceStabilityConfirmed = parseInt(this.teleVerificationForm.value.residenceStabilityConfirmed)
-    this.tvrDetails.radioAddress = parseInt(this.teleVerificationForm.value.radioAddress)
+    this.tvrDetails.addressConfirmed = parseInt(this.teleVerificationForm.value.addressConfirmed)
     this.tvrDetails.customerAvailabilty = parseInt(this.teleVerificationForm.value.customerAvailabilty)
     this.tvrDetails.amountRequested = parseInt(this.teleVerificationForm.value.amountRequested)
     this.tvrDetails.assetCost = parseInt(this.teleVerificationForm.value.assetCost)
@@ -229,11 +246,12 @@ export class TeleVerificationFormComponent implements OnInit {
     this.tvrDetails.tenureRequested = parseInt(this.teleVerificationForm.value.tenureRequested)
     this.tvrDetails.wrkExperience = parseInt(this.teleVerificationForm.value.wrkExperience)
     this.tvrDetails.yrsInEmployment = parseInt(this.teleVerificationForm.value.yrsInEmployment)
+    this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
+    this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);
     const data =  this.tvrDetails['applicationReferences'];
-    console.log(data);
     this.tvrDetails.applicationReferences = [this.tvrDetails['applicationReferences'].reference1,
      this.tvrDetails['applicationReferences'].reference2];
-    
+
     console.log(this.tvrDetails);
     this.saveOrUpdateTvrDetails();
     console.log('TVR_Get_Details', this.tvrData);
