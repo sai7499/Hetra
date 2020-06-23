@@ -6,7 +6,7 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="activity">{{labels.activity}}</label>
             <app-vf-custom-select 
-                [values]="LOV.LOVS.pslActivity" 
+                [values]="activityLOVS" 
                 (change)="onActivityChange($event)"
                 formControlName="activity"
                 name="activity"> 
@@ -558,11 +558,7 @@
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="proof_of_investment">{{labels.proofOfInvestment}}</label>
         <app-vf-custom-select 
-            [values]="[
-              {key: this.LOV.LOVS.proofOfInvestment[1].key, value: this.LOV.LOVS.proofOfInvestment[1].value},
-             {key: this.LOV.LOVS.proofOfInvestment[2].key, value: this.LOV.LOVS.proofOfInvestment[2].value},
-             {key: this.LOV.LOVS.proofOfInvestment[3].key, value: this.LOV.LOVS.proofOfInvestment[3].value}
-             ]" 
+            [values]="proofOfInvsetmentLOVS" 
             formControlName="proofOfInvestment"
             (change) = "onChangeProofOfInvestment($event)"
             name="proofOfInvestment"
