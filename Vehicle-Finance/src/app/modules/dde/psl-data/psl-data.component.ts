@@ -42,7 +42,8 @@ export class PslDataComponent implements OnInit, OnChanges {
   activityChange: string = "";
   detailActivityChange: string;
   proofOfInvestmentChange: string = "";
-
+  proofOfInvsetmentLOVS: any = [];
+  
   pslDependentLOVSData: any = [];
   detailActivityValues: any = [];
   detailActivityChangeValues: any = [];
@@ -1006,7 +1007,7 @@ getActivityLOVS() {
       pslSubCategory: "",
     });
   }
-  proofOfInvsetmentLOVS: any = [];
+
   onChangeProofOfInvestment(event: any) {
     this.proofOfInvestmentChange = event.target.value;
     console.log("ProofOfInvestment_ID", this.proofOfInvestmentChange);
