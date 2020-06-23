@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
-
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { ToasterService } from '@services/toaster.service';
 @Component({
   selector: 'app-customer-profile-details',
   templateUrl: './customer-profile-details.component.html',
@@ -19,11 +20,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
   public labels: any = {};
   public errorMsg;
   public getLabels;
+  leadId: number;
+  userId: number;
+  custProfileDetails: any = [];
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
-    private ddeStoreService: DdeStoreService) { }
+    private ddeStoreService: DdeStoreService,
+    private personalDiscusionService: PersonalDiscussionService,
+    private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.initForm();
@@ -40,6 +46,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
       this.setFormValue();
     });
+
+
 
   }
 
@@ -59,6 +67,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   setFormValue() {
+
     const customerProfileModal = this.ddeStoreService.getCustomerProfile() || {};
 
     this.customerProfileForm.patchValue({
@@ -75,10 +84,37 @@ export class CustomerProfileDetailsComponent implements OnInit {
     });
   }
 
+  saveOrUpdatePdData() {
+
+    const data = {
+
+      leadId: 83,
+      userId: "1001",
+      applicantId: 63,
+      customerProfileDetails: this.custProfileDetails
+    }
+    this.personalDiscusionService.saveOrUpdatePdData(data).subscribe((res: any) => {
+      console.log("save or update PD Response", res)
+      this.toasterService.showSuccess("customer Profle Details saved !", '')
+    })
+
+  }
+
   onFormSubmit() {
+    this.customerProfileForm.value.addressRecord = parseInt(this.customerProfileForm.value.addressRecord);
     const formModal = this.customerProfileForm.value;
+    formModal.noEmployees = parseInt(formModal.noEmployees);
+    formModal.nameBoardSeen = parseInt(formModal.nameBoardSeen);
+    formModal.selfieWithHouse = parseInt(formModal.selfieWithHouse);
+    formModal.ownershipProof = parseInt(formModal.ownershipProof);
+    formModal.metCustomer = parseInt(formModal.metCustomer);
     const customerProfileModal = { ...formModal };
-    this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
+    console.log("profile form", this.customerProfileForm);
+    this.custProfileDetails = this.customerProfileForm.value;
+
+    this.saveOrUpdatePdData();
+
+    // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
   }
 
 }
