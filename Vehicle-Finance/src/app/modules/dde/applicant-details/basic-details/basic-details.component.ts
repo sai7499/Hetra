@@ -7,7 +7,9 @@ import { ApplicantService } from '@services/applicant.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { Location } from '@angular/common';
 import { UtilityService} from '@services/utility.service'
-import { ToasterService} from '@services/toaster.service'
+import { ToasterService} from '@services/toaster.service';
+import { distinctUntilChanged } from 'rxjs/operators';
+
 import {
   Applicant,
   ApplicantDetails,
@@ -39,6 +41,8 @@ export class BasicDetailsComponent implements OnInit {
   mobilePhone : string
   isDirty : boolean;
   public toDayDate: Date = new Date();
+  isRequiredSpouse ='Spouse Name is Required';
+  isRequiredFather = 'Father Name is Required'
 
   designation = [
     {
@@ -53,12 +57,10 @@ export class BasicDetailsComponent implements OnInit {
   nameLength30={
     rule: 30,
   }
-  length4 ={
-    rule : 3
-  }
   length2 ={
     rule : 2
   }
+  
   length20 ={
     rule : 20
   }
@@ -140,6 +142,68 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
+
+    this.eitherFathOrspouse()
+  }
+
+  eitherFathOrspouse(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    let fatherName= details.get('fatherName').value;
+    let spouseName= details.get('spouseName').value;
+    details.get('fatherName').valueChanges.pipe(distinctUntilChanged()).subscribe((value1)=>{
+      console.log('value', value1)
+      if(fatherName==value1){
+        return
+      }
+      fatherName= value1
+      if(value1 ){
+        
+        details.get('spouseName').clearValidators()
+        details.get('spouseName').updateValueAndValidity()
+        this.isRequiredSpouse = '';
+        // const spouseName= details.get('spouseName').value || null;
+        setTimeout(() => {
+          details.get('spouseName').setValue(spouseName || null)
+        });
+        
+       
+      }else{
+        details.get('spouseName').setValidators([Validators.required])
+        details.get('spouseName').updateValueAndValidity()
+        this.isRequiredSpouse = 'Spouse name is required';
+        //const spouseName= details.get('spouseName').value || null;
+        setTimeout(() => {
+          details.get('spouseName').setValue(spouseName || null)
+        });
+      }
+    })
+    
+    details.get('spouseName').valueChanges.subscribe((value)=>{
+      if(spouseName==value){
+        return
+      }
+      spouseName= value
+      if(value){
+        details.get('fatherName').clearValidators()
+        details.get('fatherName').updateValueAndValidity()
+       this.isRequiredFather = '';
+       //const fatherName= details.get('fatherName').value || null;
+        setTimeout(() => {
+          details.get('fatherName').setValue(fatherName || null)
+        });
+       
+       
+      }else{
+        details.get('fatherName').setValidators([Validators.required])
+        details.get('fatherName').updateValueAndValidity();
+        this.isRequiredFather = 'Father name is required';
+        setTimeout(() => {
+          details.get('fatherName').setValue(fatherName || null)
+        });
+      }
+    })
+
   }
 
   getApplicantDetails() {
@@ -254,7 +318,7 @@ export class BasicDetailsComponent implements OnInit {
   // }
 
   setBasicData() {
-    this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead:
@@ -391,7 +455,7 @@ export class BasicDetailsComponent implements OnInit {
       minorGuardianRelation: new FormControl('', Validators.required),
 
       fatherName: new FormControl(null, Validators.required),
-      spouseName: new FormControl(null),
+      spouseName: new FormControl(null, Validators.required),
       motherMaidenName: new FormControl(null, Validators.required),
       occupation: new FormControl('', Validators.required),
       nationality: new FormControl('', Validators.required),
@@ -461,7 +525,7 @@ export class BasicDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
-      // this.getApplicantDetails();
+      //console.log('lovs', this.LOV)
 
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
@@ -594,7 +658,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber;
     prospectDetails.politicallyExposedPerson = formValue.politicallyExposedPerson;
     prospectDetails.spouseName = aboutIndivProspectDetails.spouseName;
-    prospectDetails.fatherName = aboutIndivProspectDetails.fatherName;
+    prospectDetails.fatherName = aboutIndivProspectDetails.fatherName? aboutIndivProspectDetails.fatherName : ' ';
     prospectDetails.motherMaidenName =
       aboutIndivProspectDetails.motherMaidenName;
     prospectDetails.nationality = aboutIndivProspectDetails.nationality;
