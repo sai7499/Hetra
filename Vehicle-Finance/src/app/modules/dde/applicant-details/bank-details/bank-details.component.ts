@@ -299,7 +299,7 @@ export class BankDetailsComponent implements OnInit {
     console.log(this.bankForm.value);
   }
   // savetransactionData() {
-  //   const details = this.bankForm.value.transactionDetails as FormArray;
+  //   const details = this.bankForm.controls.transactionDetails as FormArray;
   //   this.transactionData  = details.controls;
   // }
 
