@@ -10,8 +10,6 @@
   class="form-control"
   [(ngModel)]="inputValue"
   [ngClass]="inputClass"
-  appFiledFill
-  appPreventAction
   [id]="id"
   (blur)="onBlurMethod($event)"
   [minLength]="minLength?.rule"
@@ -24,6 +22,7 @@
   autocapitalize="off"
   spellcheck="false"
   [placeholder]="placeholder"
+  autocomplete="off"
 />
 <div class="invalid-feedback" *ngIf="inputError">
   <div>
