@@ -89,7 +89,7 @@ export class BankDetailsComponent implements OnInit {
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
       period: ['', { disabled: true }],
-      limit: [null],
+      limit: [0],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),
       transactionDetails: this.listArray,
@@ -217,7 +217,7 @@ export class BankDetailsComponent implements OnInit {
         : null,
       limit: data.ProcessVariables.limit
         ? Number(data.ProcessVariables.limit)
-        : null,
+        : 0,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -298,20 +298,16 @@ export class BankDetailsComponent implements OnInit {
       });
     console.log(this.bankForm.value);
   }
-  savetransactionData() {
-    const details = this.bankForm.controls.transactionDetails as FormArray;
-    this.transactionData  = details.controls;
-    // console.log(this.transactionData);
-    // this.transactionData.forEach((res: any ) => {
-    // console.log(res,  ' saved data');
-    // });
-  }
+  // savetransactionData() {
+  //   const details = this.bankForm.value.transactionDetails as FormArray;
+  //   this.transactionData  = details.controls;
+  // }
 
   getMonths() {
-    if (this.transactionData && this.transactionData.length > 0) {
-    alert(this.transactionData);
-    console.log(this.transactionData);
-    }
+    // if (this.transactionData && this.transactionData.length > 0) {
+    // alert(this.transactionData);
+    // console.log(this.transactionData);
+    // }
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
