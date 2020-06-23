@@ -53,7 +53,7 @@
                       [format]="'dd/MM/yyyy'"
                        placeholder="Select Start Month"
                       [activeView]="'decade'"
-                      (input)="getMonths()"
+                      (valueChange)="getMonths()"
                       [max]="toDayDate"
                       ></kendo-datepicker>
                    </div>
@@ -160,6 +160,7 @@
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="savetransactionData()"
+                      [type]="'number'"
                     ></app-custom-input>
                   </td>
                   <td>
