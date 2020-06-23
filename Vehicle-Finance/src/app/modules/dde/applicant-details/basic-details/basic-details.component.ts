@@ -39,6 +39,8 @@ export class BasicDetailsComponent implements OnInit {
   mobilePhone : string
   isDirty : boolean;
   public toDayDate: Date = new Date();
+  isRequiredSpouse ='Spouse Name is Required';
+  isRequiredFather = 'Father Name is Required'
 
   designation = [
     {
@@ -53,8 +55,8 @@ export class BasicDetailsComponent implements OnInit {
   nameLength30={
     rule: 30,
   }
-  length4 ={
-    rule : 3
+  length2 ={
+    rule : 2
   }
   mobileLenght10={
     rule: 10,
@@ -131,6 +133,27 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
+
+    this.eitherFathOrspouse()
+  }
+
+  eitherFathOrspouse(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0) as FormGroup
+    details.get('fatherName').valueChanges.subscribe((value)=>{
+      if(value){
+        details.get('spouseName').clearValidators()
+        this.isRequiredSpouse=''
+
+      }
+    })
+    details.get('spouseName').valueChanges.subscribe((value)=>{
+      if(value){
+        details.get('fatherName').clearValidators()
+       this.isRequiredFather =''
+      }
+    })
+
   }
 
   getApplicantDetails() {
@@ -245,7 +268,7 @@ export class BasicDetailsComponent implements OnInit {
   // }
 
   setBasicData() {
-    this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead:
@@ -452,7 +475,7 @@ export class BasicDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
-      console.log('lovs', this.LOV)
+      //console.log('lovs', this.LOV)
 
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);

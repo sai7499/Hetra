@@ -280,7 +280,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
-                  [isRequired]="'Father Name is Required'"
+                  [isRequired]="isRequiredFather"
                   
             
                 ></app-custom-input>
@@ -472,13 +472,13 @@
                 </div> -->
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="designation">{{ labels?.designation }}</label>
+              <label for="designation">{{ labels?.designation }} <sub class="star_red_col">*</sub></label>
               <!-- <select class="form-control" id="designation" name="designation">
                             <option value="Salaried">Salaried</option>
                             <option value="Self_Employed">Self Employed</option>
                         </select> -->
               <!-- <app-vf-custom-select formControlName="designation" [values]="designation" (change)="onDesignationChange($event)"></app-vf-custom-select> -->
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 formControlName="designation"
@@ -486,7 +486,13 @@
                 id="designation"
                 
                 value="Product Manager"
-              />
+              /> -->
+              <app-vf-custom-select
+                formControlName="designation"
+                [values]="LOV.LOVS.designation"
+                [isRequired]="'Please Select One'"
+                [isDirty]="isDirty"
+              ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="office_name">{{ labels?.officeName }} <sub class="star_red_col">*</sub></label>
@@ -522,7 +528,7 @@
               <app-custom-input
                   formControlName="currentEmpYears"
                   [patternCheck]="numberPattern"
-                  [maxLength]="length4"
+                  [maxLength]="length2"
                   [isRequired]="'Employeement Year is required'"
                   [isDirty]="isDirty"
                   ></app-custom-input>

@@ -43,7 +43,8 @@ export class BasicDetailsComponent implements OnInit {
   checkingSenior: boolean;
 
   isDirty: boolean;
-  mobilePhone: any
+  mobilePhone: any;
+  
 
   //imMinor : boolean= true
   designation = [
@@ -67,7 +68,7 @@ export class BasicDetailsComponent implements OnInit {
     rule: 10,
   }
   namePattern = {
-    rule: '^[A-Z]*[a-z]*$',
+    rule: '^[A-Za-z ]{0,99}$',
     msg: 'Invalid Name',
   };
 
@@ -92,6 +93,8 @@ export class BasicDetailsComponent implements OnInit {
     rule: 15,
   }
   public toDayDate: Date = new Date();
+  isRequiredSpouse ='Spouse Name is Required';
+  isRequiredFather = 'Father Name is Required'
 
   constructor(
     private labelsData: LabelsService,
@@ -119,7 +122,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.basicForm = new FormGroup({
       title: new FormControl(''),
-      entity: new FormControl({ value: '', disabled: true }),
+      entity: new FormControl({ value: '', disabled : true }),
       applicantRelationshipWithLead: new FormControl(''),
 
       details: new FormArray([]),
@@ -128,13 +131,14 @@ export class BasicDetailsComponent implements OnInit {
     });
 
    this.addNonIndividualFormControls();
-
+   
 
 
     this.getLovData();
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
     details.patchValue({ preferredLanguage: 'ENGPRFLAN' })
+    this.eitherFathOrspouse()
 
 
     // setTimeout(() => { 
@@ -143,12 +147,25 @@ export class BasicDetailsComponent implements OnInit {
     //this.setGaurdianFieldMandatory()
   }
 
-  get validation() {
-    const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0)
+  
 
-    return details;
-    console.log('details', details)
+  eitherFathOrspouse(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0) as FormGroup
+    details.get('fatherName').valueChanges.subscribe((value)=>{
+      if(value){
+        details.get('spouseName').clearValidators()
+        this.isRequiredSpouse =''
+
+      }
+    })
+    details.get('spouseName').valueChanges.subscribe((value)=>{
+      if(value){
+        details.get('fatherName').clearValidators()
+       this.isRequiredFather = ''
+      }
+    })
+
   }
 
 
@@ -247,7 +264,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   setBasicData() {
-    this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     // this.clearFormArray();
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
@@ -389,7 +406,7 @@ export class BasicDetailsComponent implements OnInit {
       alternateMobileNumber: new FormControl(''),
       applicantType: new FormControl(''),
       fatherName: new FormControl('', Validators.required),
-      spouseName: new FormControl(''),
+      spouseName: new FormControl('', Validators.required),
       motherMaidenName: new FormControl(''),
       occupation: new FormControl({ value: '' }, Validators.required),
       nationality: new FormControl('', Validators.required),
@@ -439,11 +456,12 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onIndividualChange(event) {
+    //console.log('OnIndividdaulevent',event )
     if (!event) {
       return;
     }
-    const value = event.value;
-    this.isIndividual = value === 'Individual';
+    const value = event.key;
+    this.isIndividual = value === 'INDIVENTTYP';
     const formArray = this.basicForm.get('details') as FormArray;
     formArray.clear();
     this.isIndividual
@@ -454,7 +472,6 @@ export class BasicDetailsComponent implements OnInit {
   async onSave() {
     this.isDirty = true
     if (this.basicForm.invalid) {
-      console.log('if')
       return
     }
     console.log('basicForm')
