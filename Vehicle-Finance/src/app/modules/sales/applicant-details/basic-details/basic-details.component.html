@@ -270,7 +270,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="father_name">Father Name <sub class="star_red_col">*</sub></label>
+              <label for="father_name">Father Name <sub class="star_blue_col">*</sub></label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -280,7 +280,7 @@
               /> -->
               <app-custom-input
                   formControlName="fatherName"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
                   [isRequired]="isRequiredFather"
@@ -290,7 +290,7 @@
                 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="spouse_name">Spouse Name</label>
+              <label for="spouse_name">Spouse Name <sub class="star_blue_col">*</sub></label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -300,7 +300,7 @@
               /> -->
               <app-custom-input
                   formControlName="spouseName"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="isRequiredSpouse"
                   [isDirty]="isDirty"
@@ -317,7 +317,7 @@
               /> -->
               <app-custom-input
                   formControlName="motherMaidenName"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
                   [isRequired]="'Mother name is Required'"

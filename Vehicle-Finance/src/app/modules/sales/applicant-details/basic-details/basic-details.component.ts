@@ -19,6 +19,7 @@ import {
 import { LeadStoreService } from '../../services/lead.store.service';
 import { dateFieldName } from '@progress/kendo-angular-intl';
 import { ToasterService } from '@services/toaster.service'
+import { pairwise, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -69,6 +70,10 @@ export class BasicDetailsComponent implements OnInit {
   }
   namePattern = {
     rule: '^[A-Za-z ]{0,99}$',
+    msg: 'Invalid Name',
+  };
+  nameSpacePattern = {
+    rule: '^[A-Z ]*[a-z ]*$',
     msg: 'Invalid Name',
   };
 
@@ -151,18 +156,59 @@ export class BasicDetailsComponent implements OnInit {
 
   eitherFathOrspouse(){
     const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0) as FormGroup
-    details.get('fatherName').valueChanges.subscribe((value)=>{
-      if(value){
+    const details = formArray.at(0)
+    let fatherName= details.get('fatherName').value;
+    let spouseName= details.get('spouseName').value;
+    details.get('fatherName').valueChanges.pipe(distinctUntilChanged()).subscribe((value1)=>{
+      //console.log('value', value1)
+      if(fatherName==value1){
+        return
+      }
+      fatherName= value1
+      if(value1 ){
+        
         details.get('spouseName').clearValidators()
-        this.isRequiredSpouse =''
-
+        details.get('spouseName').updateValueAndValidity()
+        this.isRequiredSpouse = '';
+        // const spouseName= details.get('spouseName').value || null;
+        setTimeout(() => {
+          details.get('spouseName').setValue(spouseName || null)
+        });
+        
+       
+      }else{
+        details.get('spouseName').setValidators([Validators.required])
+        details.get('spouseName').updateValueAndValidity()
+        this.isRequiredSpouse = 'Spouse name is required';
+        //const spouseName= details.get('spouseName').value || null;
+        setTimeout(() => {
+          details.get('spouseName').setValue(spouseName || null)
+        });
       }
     })
+    
     details.get('spouseName').valueChanges.subscribe((value)=>{
+      if(spouseName==value){
+        return
+      }
+      spouseName= value
       if(value){
         details.get('fatherName').clearValidators()
-       this.isRequiredFather = ''
+        details.get('fatherName').updateValueAndValidity()
+       this.isRequiredFather = '';
+       //const fatherName= details.get('fatherName').value || null;
+        setTimeout(() => {
+          details.get('fatherName').setValue(fatherName || null)
+        });
+       
+       
+      }else{
+        details.get('fatherName').setValidators([Validators.required])
+        details.get('fatherName').updateValueAndValidity();
+        this.isRequiredFather = 'Father name is required';
+        setTimeout(() => {
+          details.get('fatherName').setValue(fatherName || null)
+        });
       }
     })
 
@@ -353,14 +399,17 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
-      companyEmailId: corporateProspectDetails.companyEmailId || '',
-      alternateEmailId: corporateProspectDetails.alternateEmailId || '',
+      name1: applicantDetails.name1,
+      name2: applicantDetails.name2,
+      name3: applicantDetails.name3,
+      // companyEmailId: corporateProspectDetails.companyEmailId || '',
+      // alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
       dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
       // occupation: '',
       // nationality: '',
-      preferredLanguageCommunication:
-        corporateProspectDetails.preferredLanguageCommunication,
+      // preferredLanguageCommunication:
+      //   corporateProspectDetails.preferredLanguageCommunication,
     });
   }
 
@@ -405,8 +454,10 @@ export class BasicDetailsComponent implements OnInit {
 
       alternateMobileNumber: new FormControl(''),
       applicantType: new FormControl(''),
+
       fatherName: new FormControl('', Validators.required),
       spouseName: new FormControl('', Validators.required),
+
       motherMaidenName: new FormControl(''),
       occupation: new FormControl({ value: '' }, Validators.required),
       nationality: new FormControl('', Validators.required),
@@ -476,7 +527,7 @@ export class BasicDetailsComponent implements OnInit {
     }
     console.log('basicForm')
     const rawValue = this.basicForm.getRawValue();
-    //console.log('FormValue', rawValue)
+    console.log('FormValue', rawValue)
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -549,7 +600,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.mobilePhone = `91${formValue.mobilePhone}`;
     prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
     prospectDetails.minorGuardianName = formValue.minorGuardianName;
-    prospectDetails.fatherName = formValue.fatherName;
+    prospectDetails.fatherName = formValue.fatherName? formValue.fatherName : ' ';
     prospectDetails.spouseName = formValue.spouseName;
     prospectDetails.motherMaidenName = formValue.motherMaidenName;
     prospectDetails.occupation = formValue.occupation;

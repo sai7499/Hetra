@@ -706,7 +706,22 @@
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
     "creditBureauCIBIL": "Credit Bureau (CIBIL)",
-    "areYouSureWantToReject":"Are you sure want to reject ?"
+    "areYouSureWantToReject":"Are you sure want to reject ?",
+    "fromDate":"From Date",
+    "toDate": " To Date",
+    "month": "Month",
+    "period": "Period",
+    "limit": "Limit",
+    "inflow": "Inflow",
+    "outflow": "Outflow",
+    "noOfInwardBounces" : "No.of.Inward Bounces",
+    "noOfOutwardBounces" : "No.of.Outward Bounces",
+    "balanceOn5th": "Balance as on 5th",
+    "balanceOn10th": "Balance as on 10th",
+    "balanceOn15th": "Balance as on 15th",
+    "balanceOn20th": "Balance as on 20th",
+    "abbOfMonth": "ABB Of The Month",
+    "backToApplicantDetails": "Back To Applicant Details"
 
     
 }
