@@ -85,17 +85,17 @@
                 <label for="period">{{labels?.period}}</label>
                 <input formControlName="period" type="number" class="form-control" name="period" id="period" min= "0" required="required" disabled>
              </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+             <div class="form-group col-sm-6 col-md-4 col-lg-3" style="display: none;">
                 <label for="limit">{{labels?.limit}}</label>
-                <app-custom-input
+                <!-- <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
                 [maxLength]="limitLength20"
-               
+                
                 [isDirty]="isDirty"
-              ></app-custom-input>
+              ></app-custom-input> -->
               <!-- [isRequired]="'Limit is required'" -->
-                <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
+                <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required">
              </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3"></div>
           </div>
@@ -148,6 +148,7 @@
                       [maxLength]="inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData()"
                     ></app-custom-input>
                   </td>
                   <td>
@@ -158,6 +159,8 @@
                       [maxLength]=" inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData()"
+                      
                     ></app-custom-input>
                   </td>
                   <td>
@@ -216,16 +219,9 @@
                   </td>
                   <td>
                       <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled> 
-                      <!-- <app-custom-input
-                      formControlName="abbOfTheMonth"
-                      [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      [disabled]="isDisabled"
-                    ></app-custom-input> -->
+                     
                   </td>
-                  <!--  <td><input type="text" class="form-control input_value" value=""></td> -->
+                
               </tr>
               
               </tbody>
