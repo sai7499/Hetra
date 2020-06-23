@@ -48,34 +48,41 @@ export class NewLeadsComponent implements OnInit {
     };
 
     this.dashboardService.myLeads(data).subscribe((res: any) => {
-      const response = res.ProcessVariables.loanLead;
-      this.newArray = response;
-      this.limit = res.ProcessVariables.perPage;
-      this.pageNumber = res.ProcessVariables.from;
-      this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
-
-      this.currentPage = res.ProcessVariables.currentPage;
-      this.totalItems = res.ProcessVariables.totalPages;
-      this.from = res.ProcessVariables.from;
-
+      this.setPageData(res);
     });
   }
 
 
 
-  getCreditDashboard() {
+  getCreditDashboard(perPageCount, pageNumber?) {
     const data = {
       branchId: this.branchId,
-      roleId: this.roleId
+      roleId: this.roleId,
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber)
     };
     this.dashboardService.getCreditDashboard(data).subscribe((res: any) => {
-      const response = res.ProcessVariables.loanLead;
-      this.newArray = response;
+      this.setPageData(res);      
     });
   }
-
+  setPageData(res){
+    const response = res.ProcessVariables.loanLead;
+    this.newArray = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
   setPage(event) {
-    this.getMyLeads(this.itemsPerPage, event);
+    if (this.roleType == '2') {
+      this.getCreditDashboard(this.itemsPerPage, event);
+    }
+    else {
+      this.getMyLeads(this.itemsPerPage,event);
+      }
   }
 
   ngOnInit() {
@@ -91,7 +98,7 @@ export class NewLeadsComponent implements OnInit {
       this.roleType = value.roleType;
       });
     if (this.roleType == '2') {
-        this.getCreditDashboard();
+        this.getCreditDashboard(this.itemsPerPage);
         } else {
         this.getMyLeads(this.itemsPerPage);
         }
