@@ -166,7 +166,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       activity: ["", Validators.required],
 
       agriculture: this.formBuilder.group({
-        activity: [this.LOV.LOVS.pslActivity[1].key],
+        activity: [""],
         detailActivity: ["", Validators.required],
         purposeOfLoan: ["", Validators.required],
         landHolding: ["", Validators.required],
@@ -183,7 +183,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       }),
 
       microSmallAndMediumEnterprises: this.formBuilder.group({
-        activity: [this.LOV.LOVS.pslActivity[0].key],
+        activity: [""],
         detailActivity: ["", Validators.required],
         goodsManufactured: [""],
         typeOfService: ["", Validators.required],
@@ -309,12 +309,6 @@ export class PslDataComponent implements OnInit, OnChanges {
       }),
     });
   }
-
-  // getActivityControl() {
-  //   return {
-  //     activity: this.LOV.LOVS.pslActivity[0].key
-  //   }
-  // }
 
   getDependentDropdownLOV() {
     this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
@@ -452,6 +446,7 @@ getActivityLOVS() {
         // console.log("ACTIVITYLOVS******", this.activityLOVS);
   });
 }
+
   selectFormGroup() {
     this.pslDependentLOVSData.map((element) => {
       if (element.activityId === this.activityChange) {
