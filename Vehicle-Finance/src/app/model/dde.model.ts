@@ -114,22 +114,22 @@ export interface ApplicantDetails {
     fatherName?: string;
     gender?: string;
     maritalStatus?: string;
-    physicallyChallenged?: string;
-    residenceNo?: string;
-    officeNo?: string;
+    physicallyChallenged?: number;
+    residancePhoneNumber?: string;
+    officePhoneNumber?: string;
     mobile?: string;
-    residenceAddress?: string;
+    residenceAddressAsPerLoanApplication?: number;
     bankName?: string;
-    accountNo?: string;
+    accountNumber?: string;
     landmark?: string;
-    locate?: string;
-    locality?: string;
+    addressAccessibility?: number;
+    residentialLocality?: string;
     residentialType?: string;
-    standardHouse?: string;
+    houseType?: string;
     sizeOfHouse?: string;
-    stdOfLiving?: string;
+    standardOfLiving?: string;
     houseOwnership?: string;
-    ratingBySo?: string;
+    ratingbySO?: string;
 }
 
 export interface CustomerProfile {

@@ -11,10 +11,17 @@ export class PersonalDiscussionService {
     processId?: string;
     workflowId?: string;
   };
+
+  savePd: {
+    processId?: string;
+    workflowId?: string;
+  };
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
-  ) { this.pdData = this.apiService.api.getPdData; }
+  ) { this.pdData = this.apiService.api.getPdData;
+      this.savePd = this.apiService.api.SavePdData;
+   }
 
   getPdData(data) {
     const projectId = environment.projectIds.creditProjectId;
@@ -26,6 +33,26 @@ export class PersonalDiscussionService {
       processId,
       workflowId,
       ProcessVariables: {
+        ...data
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  savePdData(data) {
+    const projectId = environment.projectIds.creditProjectId;
+    const processId = this.savePd.processId;
+    const workflowId = this.savePd.workflowId;
+
+    const body = {
+      projectId,
+      processId,
+      workflowId,
+      ProcessVariables: {
+        leadId: 3,
+        applicantId: 41,
+        userId: '1001',
         ...data
       },
     };
