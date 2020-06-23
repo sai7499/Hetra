@@ -90,7 +90,7 @@ export class AddressDetailsComponent implements OnInit {
   };
   pincodePattern = {
     rule: '^[1-9][0-9]{5}$',
-    msg: 'pincode Number is required',
+    msg: 'Invalid pincode',
   };
   pincodeLength = {
     rule: 6,
@@ -173,67 +173,46 @@ export class AddressDetailsComponent implements OnInit {
     this.addressCommonListener(pincode);
     this.addressCommonListener(landlineNumber);
     this.addressCommonListener(mobileNumber);
-    // let isChanged = false;
-    // addressLineOne.valueChanges.subscribe((value) => {
-    //   if (!addressLineOne.invalid && value) {
-    //     this.isDirty = false;
-    //     // }
-    //     isChanged = true;
-    //     this.isOfficeAddressMandatory = true;
-    //     this.addValidatorsForOfficeAddress();
-    //   } else {
-    //     // this.isDirty = false;
-
-    //     // if (this.isDirty) {
-    //     this.isDirty = false;
-    //     // }
-
-    //     this.isOfficeAddressMandatory = false;
-    //     this.removeValidatorsForOfficeAddress();
-    //     setTimeout(() => {
-    //       if (isChanged) {
-    //         isChanged = false;
-    //         officeAddress.patchValue({
-    //           addressLineOne: '',
-    //           pincode: '',
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
   }
 
   addressCommonListener(control: AbstractControl) {
     const formArray = this.addressForm.get('details') as FormArray;
     const officeAddress = formArray.at(0).get('officeAddress');
     let isChanged = false;
+    let val = control.value;
     control.valueChanges.subscribe((value) => {
-      if (value === undefined) {
+      if (value === undefined || val === value) {
         return;
       }
+      val = value;
       if (this.isDirty) {
         this.isDirty = false;
       }
-      if (!control.invalid && value) {
+      if (value) {
         // }
+        if (!isChanged) {
+          this.addValidatorsForOfficeAddress();
+        }
         isChanged = true;
         this.isOfficeAddressMandatory = true;
-        this.addValidatorsForOfficeAddress();
       } else {
         // this.isDirty = false;
-
-        // if (this.isDirty) {
-        // }
-
         this.isOfficeAddressMandatory = false;
+
+        if (!isChanged) {
+          return;
+        }
+
         this.removeValidatorsForOfficeAddress();
+
         setTimeout(() => {
           if (isChanged) {
             isChanged = false;
-            officeAddress.patchValue({
-              addressLineOne: '',
-              pincode: '',
-            });
+            // officeAddress.patchValue({
+            //   addressLineOne: null,
+            //   pincode: null,
+            // });
+            control.setValue(null);
           }
         });
       }
@@ -597,8 +576,8 @@ export class AddressDetailsComponent implements OnInit {
       });
     } else {
       this.onPerAsCurChecked = false;
-      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS] ||
-                                addressObj['COMMADDADDTYP'];
+      const currentAddressObj =
+        addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
       if (currentAddressObj) {
         this.currentPincode = {
           city: [
@@ -924,10 +903,26 @@ export class AddressDetailsComponent implements OnInit {
     console.log('isSalesOrCredit', this.isSalesOrCredit);
   }
 
+  checkOfficeAddressValidation() {
+    if (this.isOfficeAddressMandatory) {
+      const formArray = this.addressForm.get('details') as FormArray;
+      const officeAddress = formArray.at(0).get('officeAddress');
+      const city = officeAddress.get('city').value;
+      const state = officeAddress.get('state').value;
+      const country = officeAddress.get('country').value;
+      const district = officeAddress.get('district').value;
+      if (!city || !state || !country || !district) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
   onSubmit() {
     this.isDirty = true;
     setTimeout(() => {
-      if (this.addressForm.invalid) {
+      if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
         return;
       }
       const value = this.addressForm.value;
