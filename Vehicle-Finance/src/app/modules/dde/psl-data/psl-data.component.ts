@@ -37,11 +37,13 @@ export class PslDataComponent implements OnInit, OnChanges {
   pslData: any = [];
   pslDataObj: any = {};
   data: any = [];
-
+  
+  activityLOVS: any = [];
   activityChange: string = "";
   detailActivityChange: string;
   proofOfInvestmentChange: string = "";
-
+  proofOfInvsetmentLOVS: any = [];
+  
   pslDependentLOVSData: any = [];
   detailActivityValues: any = [];
   detailActivityChangeValues: any = [];
@@ -155,6 +157,7 @@ export class PslDataComponent implements OnInit, OnChanges {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
       this.getDependentDropdownLOV();
+      this.getProofOfInvestmentLOVS()
     });
     console.log("PSL DATA LOV  --->", this.LOV);
   }
@@ -164,7 +167,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       activity: ["", Validators.required],
 
       agriculture: this.formBuilder.group({
-        activity: [this.LOV.LOVS.pslActivity[1].key],
+        activity: [""],
         detailActivity: ["", Validators.required],
         purposeOfLoan: ["", Validators.required],
         landHolding: ["", Validators.required],
@@ -181,7 +184,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       }),
 
       microSmallAndMediumEnterprises: this.formBuilder.group({
-        activity: [this.LOV.LOVS.pslActivity[0].key],
+        activity: [""],
         detailActivity: ["", Validators.required],
         goodsManufactured: [""],
         typeOfService: ["", Validators.required],
@@ -206,7 +209,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       }),
 
       housing: this.formBuilder.group({
-        activity: [this.LOV.LOVS.pslActivity[2].key],
+        activity: [""],
         propertyType: [""],
         detailActivity: [""],
         propertyLocatedCity: [""],
@@ -308,12 +311,6 @@ export class PslDataComponent implements OnInit, OnChanges {
     });
   }
 
-  // getActivityControl() {
-  //   return {
-  //     activity: this.LOV.LOVS.pslActivity[0].key
-  //   }
-  // }
-
   getDependentDropdownLOV() {
     this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
       console.log(
@@ -324,6 +321,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       console.log("PSLDATA_Dependent_LOVS_API", response);
       this.pslDependentLOVSData = response;
       this.getLeadId();
+      this.getActivityLOVS();
     });
   }
 
@@ -429,6 +427,27 @@ export class PslDataComponent implements OnInit, OnChanges {
     });
   }
 
+getActivityLOVS() {
+  this.pslDependentLOVSData.map((element) => {
+    const data = {
+      key: element.activityId,
+      value: element.activityName,
+    };
+    this.activityLOVS.push(data);
+        //To filter unique value in Array
+        let activityObject = {};
+        const activityData = [];
+        this.activityLOVS.forEach((element) => {
+          if (!activityObject[element.key]) {
+            activityObject[element.key] = true;
+            activityData.push(element);
+          }
+        });
+        this.activityLOVS = activityData;
+        // console.log("ACTIVITYLOVS******", this.activityLOVS);
+  });
+}
+
   selectFormGroup() {
     this.pslDependentLOVSData.map((element) => {
       if (element.activityId === this.activityChange) {
@@ -453,17 +472,11 @@ export class PslDataComponent implements OnInit, OnChanges {
     // console.log("DETAILACTIVITY_DATA", detailActivityData);
     this.detailActivityChangeValues = detailActivityData;
   }
+
   onActivityChange(event: any) {
     this.detailActivityValues = [];
     this.activityChange = event.target.value;
-    // console.log("ACTIVITY_CHANGE----", this.activityChange);
-    // if(this.activityChange==='3PSLACTVTY') {
-    //   this.pslDataForm.get('housing').value;
-    //   // this.pslData.removeControl('housing');
-    //   console.log("HOUSING_____", this.pslDataForm.get('housing').value);
-    // } else {
-    //   return;
-    // }
+    console.log("ACTIVITY_CHANGE----", this.activityChange);
     this.selectFormGroup();
     if (this.detailActivityValues.length === 0) {
       this.detailActivityValues = [
@@ -503,15 +516,11 @@ export class PslDataComponent implements OnInit, OnChanges {
         this.typeOfService = data;
         this.isGoosManufactured = false;
         // this.investmentInPlantMachineryValue = 0;
-        // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').setValidators([Validators.required]);
-        // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').updateValueAndValidity();
       } else {
         this.typeOfService = [
           { key: "Not Applicable", value: "Not Applicable" },
         ];
         this.isGoosManufactured = true;
-
-        // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').clearValidators();
       }
     });
 
@@ -590,6 +599,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       ];
       this.pslCategoryValues = this.pslCategoryData;
       this.formValues.pslCategory = this.pslCategoryData[0].key;
+      this.typeOfService = [{key: 'Not Applicable', value: 'Not Applicable'}]
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.goodsManufactured")
         .setValidators([Validators.required]);
@@ -896,7 +906,7 @@ export class PslDataComponent implements OnInit, OnChanges {
   // investmentInEquipmentChange: any;
   onChangeInvestmentInEquipment(event: any) {
     const investmentInEquipmentChange = event.target.value;
-    this.investmentInEquipmentValue = this.totalInvestmentCost;
+   this.investmentInEquipmentValue = this.totalInvestmentCost;
     // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
     this.setValueForPslSubCategoryByInvestmentInEquipment();
   }
@@ -997,11 +1007,20 @@ export class PslDataComponent implements OnInit, OnChanges {
       pslSubCategory: "",
     });
   }
-  // proofOfInvsetmentValue: any = [];
+
   onChangeProofOfInvestment(event: any) {
     this.proofOfInvestmentChange = event.target.value;
     console.log("ProofOfInvestment_ID", this.proofOfInvestmentChange);
     this.setValueForProofOfInvetment();
+  }
+
+  getProofOfInvestmentLOVS() {
+    const data = [
+      {key: this.LOV.LOVS.proofOfInvestment[1].key, value: this.LOV.LOVS.proofOfInvestment[1].value},
+      {key: this.LOV.LOVS.proofOfInvestment[2].key, value: this.LOV.LOVS.proofOfInvestment[2].value},
+      {key: this.LOV.LOVS.proofOfInvestment[3].key, value: this.LOV.LOVS.proofOfInvestment[3].value}
+     ];
+     this.proofOfInvsetmentLOVS = data;
   }
 
   setValueForProofOfInvetment() {
@@ -1153,7 +1172,6 @@ export class PslDataComponent implements OnInit, OnChanges {
       this.plsLandProofChange = "";
       // console.log("_______", this.landAreaInAcresValue);
       // console.log("_______", this.plsLandProofChange);
-
       this.pslDataForm.get("agriculture.landArea").clearValidators();
       this.pslDataForm.get("agriculture.landArea").updateValueAndValidity();
       this.pslDataForm.get("agriculture.landProof").clearValidators();
