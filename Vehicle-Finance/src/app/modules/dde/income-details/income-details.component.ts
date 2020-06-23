@@ -435,7 +435,6 @@ this.salariedFOIRaspePolicy = 70
 
   onSubmit() {
     this.submitted = true;
-console.log("form data ",this.incomeDetailsForm)
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
      
@@ -589,12 +588,11 @@ console.log("form data ",this.incomeDetailsForm)
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     const tenure = obligationArray.value[i].tenure;
-    console.log(tenure)
    
     const mob = obligationArray.value[i].mob;
     if (tenure < mob) {
       this.toasterService.showError(
-        'enter correct value',
+        'Mob should not exceed tenure',
         ''
       );
 
@@ -614,7 +612,6 @@ console.log("form data ",this.incomeDetailsForm)
       for (let i = 0; i < obligationArray.length; i++) {
         this.totalObligationAmount = Math.round(this.totalObligationAmount + Number(obligationArray.value[i].emi));
 
-        console.log(this.totalObligationAmount);
         
       }
     }
