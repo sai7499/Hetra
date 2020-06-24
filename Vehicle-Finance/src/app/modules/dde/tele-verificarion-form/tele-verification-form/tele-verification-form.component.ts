@@ -29,6 +29,7 @@ export class TeleVerificationFormComponent implements OnInit {
   so_name;
   dateFormate;
   applicantType;
+  isDirty: boolean;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
