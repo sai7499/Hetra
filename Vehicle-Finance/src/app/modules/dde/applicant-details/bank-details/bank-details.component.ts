@@ -65,6 +65,8 @@ export class BankDetailsComponent implements OnInit {
   };
   labels: any;
   transactionData: any;
+  OldFromDate: Date;
+  OldToDate: any;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -298,88 +300,133 @@ export class BankDetailsComponent implements OnInit {
       });
     console.log(this.bankForm.value);
   }
-  // savetransactionData() {
-  //   const details = this.bankForm.controls.transactionDetails as FormArray;
-  //   this.transactionData  = details.controls;
-  // }
+  getNewDateFormat(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    const formattedDate = day + '/' + month1 + '/' + year;
+    console.log('return Date', formattedDate);
+    return formattedDate;
+  }
+  savetransactionData() {
+    this.transactionData = [];
+    const details = this.bankForm.controls.transactionDetails as FormArray;
+    this.transactionData  = details.value;
+  }
 
   getMonths() {
+    if (this.OldToDate && this.OldFromDate) {
+     const txt = confirm('Are You Sure Want To Change Dates ?');
+     if (txt === false) {
+      return;
+     } 
+    }
+    const fromDate = new Date(this.bankForm.value.fromDate)
+    ? new Date(this.bankForm.value.fromDate)
+    : null;
+    const toDate = new Date(this.bankForm.value.toDate)
+    ? new Date(this.bankForm.value.toDate)
+    : null;
+    if (fromDate > toDate) {
+    this.toasterService.showWarning('Invalid Date Selection', '');
+    if (this.OldFromDate && this.OldToDate) {
+      // this.listArray.controls = [];
+      const date = new Date(this.OldFromDate);
+      this.bankForm.patchValue({  fromDate : this.OldFromDate,
+      toDate : this.OldFromDate});
+    }
+    return;
+    }
+    const fromDateNew = this.bankForm.value.fromDate;
+    const toDateNew = this.bankForm.value.toDate;
+    this.OldFromDate = fromDateNew;
+    this.OldToDate = toDateNew;
+    const diff = toDate.getMonth() - fromDate.getMonth();
+    const numberOfMonths = Math.round(
+    (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+      (toDate.getMonth() - fromDate.getMonth()) +
+      1
+  );
+    if (
+    diff === undefined ||
+    (diff === null && fromDate.getFullYear() > toDate.getFullYear())
+  ) {
+    this.listArray.controls = [];
+  } else {
+    if (numberOfMonths >= 1) {
+      this.bankForm.patchValue({
+        period: numberOfMonths,
+      });
+    } else {
+      // alert('Invalid Date Selection');
+      this.bankForm.value.period = '';
+      return false;
+    }
+    this.assignedArray = [];
+    let stratMonth = fromDate.getMonth();
+    for (let i = 0; i < numberOfMonths; i++) {
+      // const count = i % 12;
+      const count = stratMonth % 12;
+      stratMonth = stratMonth + 1;
+      console.log('start monthy', stratMonth);
+      // const array = this.monthArray.slice(count, count + 1);
+      // tslint:disable-next-line: one-variable-per-declaration
+      const array = this.monthArray[count];
+      console.log(array, array[0]);
+      this.assignedArray.push(array);
+      if (this.assignedArray.length > numberOfMonths) {
+        return;
+      }
+    }
+
     // if (this.transactionData && this.transactionData.length > 0) {
     // alert(this.transactionData);
     // console.log(this.transactionData);
+    // this.listArray.controls = [];
+    // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < this.transactionData.length; i++ ) {
+    //   this.addProposedUnit(this.transactionData[i]);
     // }
-    const fromDate = new Date(this.bankForm.value.fromDate)
-      ? new Date(this.bankForm.value.fromDate)
-      : null;
-    const toDate = new Date(this.bankForm.value.toDate)
-      ? new Date(this.bankForm.value.toDate)
-      : null;
-    const diff = toDate.getMonth() - fromDate.getMonth();
-    const numberOfMonths = Math.round(
-      (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-        (toDate.getMonth() - fromDate.getMonth()) +
-        1
-    );
-    if (
-      diff === undefined ||
-      (diff === null && fromDate.getFullYear() > toDate.getFullYear())
-    ) {
-      this.listArray.controls = [];
-      // alert('Invalid Date Selection');
-    } else {
-      // const numberOfMonths =
-      //   (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-      //   (toDate.getMonth() - fromDate.getMonth()) +
-      //   1;
-      if (numberOfMonths >= 1) {
-        this.bankForm.patchValue({
-          period: numberOfMonths,
-        });
-      } else {
-        // alert('Invalid Date Selection');
-        this.bankForm.value.period = '';
-        return false;
-      }
-
-      this.listArray.controls = [];
-      for (let i = 0; i <= numberOfMonths - 1; i++) {
+    // this.transactionData.forEach((data) => {
+    // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < this.transactionData.length; i++) {
+    //   this.assignedArray.forEach((month) => {
+    //     if (this.transactionData[i].month === month) {
+    //       this.addProposedUnit(this.transactionData[i]);
+    //     } else {
+    //       this.initRows(null);
+    //     }
+    //   });
+    //   }
+    // for (let i = 0; i < this.assignedArray.length; i++) {
+    //   this.assignedArray.forEach((month) => {
+    //         if (this.transactionData[i].month === month) {
+    //           this.addProposedUnit(this.transactionData[i]);
+    //         } else {
+    //           this.initRows(null);
+    //         }
+    //       });
+    // }
+    // // })
+    // } else {
+    this.listArray.controls = [];
+    for (let i = 0; i <= numberOfMonths - 1; i++) {
         this.listArray.push(this.initRows());
       }
-      // const startMonth = fromDate.getMonth();
-      // const endMonth = toDate.getMonth();
-      this.assignedArray = [];
-      const controlArray = this.bankForm.controls
-        .transactionDetails as FormArray;
-      let stratMonth = fromDate.getMonth();
-      for (let i = 0; i < numberOfMonths; i++) {
-        // const count = i % 12;
-        const count = stratMonth % 12;
-        stratMonth = stratMonth + 1;
-        console.log('start monthy', stratMonth);
-        // const array = this.monthArray.slice(count, count + 1);
-        // tslint:disable-next-line: one-variable-per-declaration
-        const array = this.monthArray[count];
-        console.log(array, array[0]);
-        this.assignedArray.push(array);
-
-        // console.log(controlArray, 'Control Array') ;
-        // controlArray.at(i).patchValue({ month: array });
-
-        //
-        if (this.assignedArray.length > numberOfMonths) {
-          return;
-        }
-      }
-      // this.assignedArray = this.assignedArray.reverse();
-      // console.log(this.assignedArray, ' assigned Array');
     }
-  }
-  onBack() {
+  // }
+}
+
+onBack() {
     this.location.back();
   }
   // log(this.assignedArray);
 
-  onBackToApplicant() {
+onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 }
