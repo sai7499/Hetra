@@ -5,19 +5,27 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="cost_of_vehicle">{{labels.costOfVehicle}}</label>
-                <input type="text" class="form-control" id="cost_of_vehicle" formControlName="costOfVehicle">
+                <!-- <input type="text" class="form-control" id="cost_of_vehicle" formControlName="costOfVehicle"> -->
+                <app-custom-input id="cost_of_vehicle" formControlName="costOfVehicle" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model/type">{{labels.modelType}}</label>
-                <input type="text" class="form-control" id="model_type" formControlName="modelType">
+                <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
+                <app-custom-input id="model_type" formControlName="modelType" [patternCheck]="modelPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt">{{labels.loanAmt}}</label>
-                <input type="text" class="form-control" id="loan_amt" formControlName="loanAmt">
+                <!-- <input type="text" class="form-control" id="loan_amt" formControlName="loanAmt"> -->
+                <app-custom-input id="loan_amt" formControlName="reqLoanAmount" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}</label>
-                <input type="text" class="form-control" id="margin_money" formControlName="marginMoney">
+                <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
+                <app-custom-input id="margin_money" formControlName="marginMoney" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
 
         </div>
@@ -25,19 +33,27 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt_required">{{labels.loanAmtReq}}</label>
-                <input type="text" class="form-control" id="loan_amt_required" formControlName="loanAmtReq">
+                <!-- <input type="text" class="form-control" id="loan_amt_required" formControlName="loanAmtReq"> -->
+                <app-custom-input id="loan_amt_required" formControlName="loanAmtReq" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="source_puchase">{{labels.sourcePurchase}}</label>
-                <input type="text" class="form-control" id="source_puchase" formControlName="sourcePurchase">
+                <!-- <input type="text" class="form-control" id="source_puchase" formControlName="sourcePurchase"> -->
+                <app-custom-input id="source_puchase" formControlName="sourcePurchase" [isRequired]="'required'" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}</label>
-                <input type="text" class="form-control" id="margin_money" formControlName="marginMoney">
+                <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
+                <app-custom-input id="margin_money" formControlName="marginMoney" [patternCheck]="amountPattern"  [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="name_of_financier">{{labels.nameOfFinancer}}</label>
-                <input type="text" class="form-control" id="name_of_financier" formControlName="nameOfFinancer">
+                <!-- <input type="text" class="form-control" id="name_of_financier" formControlName="nameOfFinancer"> -->
+                <app-custom-input id="name_of_financier" formControlName="nameOfFinancer" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="aware_of_margin">{{labels.awareMarginMoney}}</label>
@@ -46,7 +62,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareMarginMoney">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareMarginMoney" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -58,7 +74,7 @@
                     <option value="Direct Customer">Direct Customer</option>
                     <option value="Seller">Seller</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.nameOfChannel" formControlName="nameOfChannel">
+                <app-vf-custom-select [values]="loanDetailsLov?.nameOfChannel" formControlName="nameOfChannel" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -68,28 +84,38 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="sellerVehicle">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="sellerVehicle" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="know_abt_vechicle">{{labels.knowAbtVehicle}}</label>
-                <input type="text" class="form-control" id="know_abt_vechicle" formControlName="knowAbtVehicle">
+                <!-- <input type="text" class="form-control" id="know_abt_vechicle" formControlName="knowAbtVehicle"> -->
+                <app-custom-input id="know_abt_vechicle" formControlName="knowAbtVehicle">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_invested">{{labels.moneyInvested}}</label>
-                <input type="text" class="form-control" id="money_invested" formControlName="moneyInvested">
+                <!-- <input type="text" class="form-control" id="money_invested" formControlName="moneyInvested"> -->
+                <app-custom-input id="money_invested" formControlName="moneyInvested" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_borrowed">{{labels.moneyBorrowed}}</label>
-                <input type="text" class="form-control" id="money_borrowed" formControlName="moneyBorrowed">
+                <!-- <input type="text" class="form-control" id="money_borrowed" formControlName="moneyBorrowed"> -->
+                <app-custom-input id="money_borrowed" formControlName="moneyBorrowed" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="market_value">{{labels.marketValue}}</label>
-                <input type="text" class="form-control" id="market_value" formControlName="marketValue">
+                <!-- <input type="text" class="form-control" id="market_value" formControlName="marketValue"> -->
+                <app-custom-input id="market_value" formControlName="marketValue" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="purchased_value">{{labels.purchasedValue}}</label>
-                <input type="text" class="form-control" id="purchased_value" formControlName="purchasedValue">
+                <!-- <input type="text" class="form-control" id="purchased_value" formControlName="purchasedValue"> -->
+                <app-custom-input id="purchased_value" formControlName="purchasedValue" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vechicle_condition">{{labels.vehicleCondition}}</label>
@@ -98,12 +124,14 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleCondition">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleCondition" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="usage_of_funds">{{labels.usageFunds}}</label>
-                <input type="text" class="form-control" id="usage_of_funds" formControlName="usageFunds">
+                <!-- <input type="text" class="form-control" id="usage_of_funds" formControlName="usageFunds"> -->
+                <app-custom-input id="usage_of_funds" formControlName="usageFunds" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_conditions">{{labels.vehicleConditions}}</label>
@@ -113,12 +141,14 @@
                     <option value="Trailer">Trailer</option>
                     <option value="Others">Others</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" formControlName="vehicleConditions">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" formControlName="vehicleConditions" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks_others">{{labels.remarksOthers}}</label>
-                <input type="text" class="form-control" id="remarks_others" formControlName="remarksOthers">
+                <!-- <input type="text" class="form-control" id="remarks_others" formControlName="remarksOthers"> -->
+                <app-custom-input id="remarks_others" formControlName="remarksOthers" [maxLength]="maxlength30">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="earlier_driving">{{labels.earlierDriving}}</label>
@@ -130,12 +160,14 @@
                     <option value="LCV">LCV</option>
                     <option value="HCV">HCV</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']" formControlName="earlierDriving">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']" formControlName="earlierDriving" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="running_attached">{{labels.runningAttached}}</label>
-                <input type="text" class="form-control" id="running_attached" formControlName="runningAttached">
+                <!-- <input type="text" class="form-control" id="running_attached" formControlName="runningAttached"> -->
+                <app-custom-input id="running_attached" formControlName="runningAttached" [maxLength]="maxlength30">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="aware_of_due">{{labels.awareDue}}</label>
@@ -144,7 +176,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareDue">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareDue" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
 

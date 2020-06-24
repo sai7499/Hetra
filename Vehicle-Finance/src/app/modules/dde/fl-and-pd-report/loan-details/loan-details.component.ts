@@ -23,6 +23,25 @@ export class LoanDetailsComponent implements OnInit {
   public getLabels;
   LOV: any = [];
 
+  amountPattern = {
+    rule: '^[1-9][0-9]*$',
+    msg: 'Numbers Only Required',
+  };
+
+  maxlength10 = {
+    rule: 10,
+    msg: '',
+  };
+
+  modelPattern = {
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Model',
+  };
+
+  maxlength30 = {
+    rule: 30,
+    msg: '',
+  };
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,

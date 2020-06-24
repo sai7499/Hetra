@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -28,13 +28,35 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   custProfileDetails: CustomerProfile;
 
+  employeeSeenPattern = {
+    rule: '^[1-9][0-9]*$',
+    msg: 'Numbers Only Required',
+  };
+
+  maxlength10 = {
+    rule: 10,
+    msg: '',
+  };
+
+
+  mismatchAddressPattern = {
+    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
+    msg: 'Invalid Landmark',
+  };
+
+  maxlength40 = {
+    rule: 40,
+    msg: '',
+  };
+  isDirty: boolean;
+
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private personalDiscusion: PersonalDiscussionService,
-    private toasterService: ToasterService,
-    private commonLovService: CommomLovService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private personalDiscusion: PersonalDiscussionService,
+              private toasterService: ToasterService,
+              private commonLovService: CommomLovService) { }
 
   ngOnInit() {
 
@@ -64,16 +86,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   initForm() {
     this.customerProfileForm = new FormGroup({
-      offAddSameAsRecord: new FormControl(''),
-      noOfEmployeesSeen: new FormControl(''),
-      nameBoardSeen: new FormControl(''),
-      officePremises: new FormControl(''),
-      sizeofOffice: new FormControl(''),
-      customerProfileRatingSo: new FormControl(''),
-      mismatchAddress: new FormControl(''),
-      customerHouseSelfie: new FormControl(''),
-      ownershipAvailable: new FormControl(''),
-      mandatoryCustMeeting: new FormControl('')
+      offAddSameAsRecord: new FormControl('', Validators.required),
+      noOfEmployeesSeen: new FormControl('', Validators.required),
+      nameBoardSeen: new FormControl('', Validators.required),
+      officePremises: new FormControl('', Validators.required),
+      sizeofOffice: new FormControl('', Validators.required),
+      customerProfileRatingSo: new FormControl('', Validators.required),
+      mismatchAddress: new FormControl('', Validators.required),
+      customerHouseSelfie: new FormControl('', Validators.required),
+      ownershipAvailable: new FormControl('', Validators.required),
+      mandatoryCustMeeting: new FormControl('', Validators.required)
     });
   }
 
@@ -107,40 +129,48 @@ export class CustomerProfileDetailsComponent implements OnInit {
     formModal.customerHouseSelfie = parseInt(formModal.customerHouseSelfie);
     formModal.ownershipAvailable = parseInt(formModal.ownershipAvailable);
     formModal.mandatoryCustMeeting = parseInt(formModal.mandatoryCustMeeting);
-
-
+    console.log('Control Value', this.customerProfileForm.get('offAddSameAsRecord'));
+    this.isDirty = true;
+    if (
+      // this.customerProfileForm.get('offAddSameAsRecord').invalid ||
+      // this.customerProfileForm.get('nameBoardSeen').invalid ||
+      // this.customerProfileForm.get('officePremises').invalid
+      this.customerProfileForm.invalid
+    ) {
+      //this.isDirty = true;
+      return;
+    }
     const customerProfileModal = { ...formModal };
-    console.log("profile form", customerProfileModal);
+    console.log('profile form', customerProfileModal);
     this.custProfileDetails = {
-      offAddSameAsRecord: customerProfileModal.offAddSameAsRecord,
-      noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen,
-      nameBoardSeen: customerProfileModal.nameBoardSeen,
-      officePremises: customerProfileModal.officePremises,
-      sizeofOffice: customerProfileModal.sizeofOffice,
-      customerProfileRatingSo: customerProfileModal.customerProfileRatingSo,
-      mismatchAddress: customerProfileModal.mismatchAddress,
-      customerHouseSelfie: customerProfileModal.customerHouseSelfie,
-      ownershipAvailable: customerProfileModal.ownershipAvailable,
-      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting,
+      offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
+      noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
+      nameBoardSeen: customerProfileModal.nameBoardSeen || '',
+      officePremises: customerProfileModal.officePremises || '',
+      sizeofOffice: customerProfileModal.sizeofOffice || '',
+      customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
+      mismatchAddress: customerProfileModal.mismatchAddress || '',
+      customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
+      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
+      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
     };
     const data = {
       leadId: 1,
       applicantId: 6,
-      userId: "1002",
+      userId: '1002',
       customerProfileDetails: this.custProfileDetails
     };
 
     this.personalDiscusion.saveOrUpdatePdData(data).subscribe((res: any) => {
-      console.log("save or update PD Response", res)
+      console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess("customer Profle Details saved !", '')
-      }
-      else {
-        console.log("error", res.ProcessVariables.error.message);
-        this.toasterService.showError("ivalid save", 'message')
+        this.toasterService.showSuccess('customer Profle Details saved !', '');
+      } else {
+        console.log('error', res.ProcessVariables.error.message);
+        this.toasterService.showError('ivalid save', 'message');
 
       }
-    })
+    });
 
     // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
   }
