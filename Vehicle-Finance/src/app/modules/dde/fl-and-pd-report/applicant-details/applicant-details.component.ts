@@ -19,8 +19,60 @@ export class ApplicantDetailComponent implements OnInit {
   public labels: any = {};
   public errorMsg;
   public getLabels;
+  isDirty: boolean;
   LOV: any = [];
   applicantDetails: ApplicantDetails;
+
+  namePattern = {
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Name',
+  };
+
+  maxlength30 = {
+    rule: 30,
+    msg: '',
+  };
+
+  landlinePattern = {
+    rule: '^[0-9]{6,15}',
+    msg: 'Invalid Landline Number',
+  };
+
+  maxlength15 = {
+    rule: 15,
+    msg: '',
+  };
+
+  mobileNumberPattern = {
+    rule: '^[1-9][0-9]*$',
+    msg: 'Numbers Only Required',
+  };
+
+  maxlength10 = {
+    rule: 10,
+    msg: 'Max Required Length 10',
+  };
+
+  bankAccountNumber = {
+    rule: '^[0-9]{9,18}$',
+    msg: 'Invalid Account No',
+  };
+
+  maxlength18 = {
+    rule: 18,
+    msg: '',
+  };
+
+  landmarkPattern = {
+    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
+    msg: 'Invalid Landmark',
+  };
+
+  maxlength40 = {
+    rule: 40,
+    msg: '',
+  };
+
   constructor(private labelsData: LabelsService,
               private lovDataService: LovDataService,
               private router: Router,
@@ -105,7 +157,16 @@ export class ApplicantDetailComponent implements OnInit {
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
     console.log('Form Data', applicantFormModal);
+    console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     //this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
+    // if (
+    //   this.applicantForm.get('physicallyChallenged').invalid ||
+    //   this.applicantForm.get('maritalStatus').invalid ||
+    //   this.applicantForm.get('gender').invalid
+    // ) {
+    //   this.isDirty = true;
+    //   return;
+    // }
 
     this.applicantDetails = {
   applicantName: applicantFormModal.applicantName,
@@ -131,6 +192,11 @@ export class ApplicantDetailComponent implements OnInit {
 };
     const data = {
       applicantPersonalDiscussionDetails: this.applicantDetails,
+      // customerProfileDetails: null,
+      // loanDetailsForNewCv: null,
+      // applicableForUsedVehicle: null,
+      // applicableForAssetDetailsUsedVehicle: null,
+
   };
 
     this.personaldiscussion.savePdData(data).subscribe((value: any) => {
