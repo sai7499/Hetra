@@ -28,9 +28,63 @@ export class TeleVerificationFormComponent implements OnInit {
   applicantName;
   so_name;
   dateFormate;
+  applicantType;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
+
+  maxLenght40 = {
+    rule: 40,
+  };
+  regexPattern = {
+    amount: {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid Amount / Alphabets and Special Characters not allowed'
+    },
+    amountLength: {
+      rule: '10',
+      msg: ''
+    },
+    nameLength: {
+      rule: '30',
+      msg: ''
+    },
+    maxLength: {
+      rule: '10',
+      msg: 'Maximum Length 10 digits',
+    },
+    maxLength40 : {
+      rule: 40,
+    },
+    mobile: {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Numbers only allowed !',
+    },
+    tenure : {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid Months / Alphabets and Special Characters not allowed'
+    },
+    maxLength3: {
+      rule: '3',
+      msg: ''
+    },
+    noOfYears: {
+      rule: '2',
+      msg: ''
+    },
+    years : {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid Years / Alphabets and Special Characters not allowed'
+    },
+    emi : {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid EMI / Alphabets and Special Characters not allowed'
+    },
+    employees : {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid employees / Alphabets and Special Characters not allowed'
+    }
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +105,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   get teleVerificationFormControls() { return this.teleVerificationForm.controls; }
 
+  // ------NgOnInit-------
   ngOnInit() {
     this.labelDetails.getLabelsData().subscribe(
       data => {
@@ -79,9 +134,9 @@ export class TeleVerificationFormComponent implements OnInit {
   initForm(data?) {
 
     this.teleVerificationForm = this.fb.group({
-      leadId: [{value: data && data.leadId ? data.leadId : this.leadId, disabled: true}],
-      applicantName: [{value: data && data.applicantName ? data.applicantName : this.applicantName, disabled: true}],
-      soName: [{value: data && data.soName ? data.soName : this.so_name, disabled: true}],
+      leadId: [{ value: data && data.leadId ? data.leadId : this.leadId, disabled: true }],
+      applicantName: [{ value: data && data.applicantName ? data.applicantName : this.applicantName, disabled: true }],
+      soName: [{ value: data && data.soName ? data.soName : this.so_name, disabled: true }],
       assetCost: [data && data.assetCost ? data.assetCost : ''],
       assetType: [data && data.assetType ? data.assetType : ''],
       financeAmt: [data && data.financeAmt ? data.financeAmt : ''],
@@ -100,7 +155,7 @@ export class TeleVerificationFormComponent implements OnInit {
       residentType: [data && data.residentType ? data.residentType : ''],
       otherVehiclesOwned: [data && data.otherVehiclesOwned ? data.otherVehiclesOwned : ''],
       // tslint:disable-next-line: max-line-length
-      residentPhnNo: [data && data.residentPhnNo ? data.residentPhnNo : '', Validators.compose([Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]*')])],
+      residentPhnNo: [data && data.residentPhnNo ? data.residentPhnNo : ''],
       residentAddress: [data && data.residentAddress ? data.residentAddress : ''],
 
       otherLoans: [data && data.otherLoans ? data.otherLoans : ''],
@@ -108,11 +163,11 @@ export class TeleVerificationFormComponent implements OnInit {
       residentNoOfYrs: [data && data.residentNoOfYrs ? data.residentNoOfYrs : ''],
       cc: [data && data.cc ? data.cc : ''],
       tvrStatus: [true],
-      dob: [data && data.dob ? this.dateFunction(data.dob) : new Date()],
+      dob: [data && data.dob ? this.dateFunction(data.dob) : ''],
       spokenTo: [data && data.spokenTo ? data.spokenTo : ''],
       familyMembers: [data && data.familyMembers ? data.familyMembers : ''],
       relationShip: [data && data.relationShip ? data.relationShip : ''],
-      tvrDate: [data && data.tvrDate ? this.dateFunction(data.tvrDate) : new Date()],
+      tvrDate: [data && data.tvrDate ? this.dateFunction(data.tvrDate) : ''],
       tvrTime: [data && data.tvrTime ? data.tvrTime : ''],
       addressConfirmed: [data && data.addressConfirmed ? data.addressConfirmed.toString() : ''],
       residenceStabilityConfirmed: [data && data.residenceStabilityConfirmed ? data.residenceStabilityConfirmed.toString() : ''],
@@ -147,7 +202,7 @@ export class TeleVerificationFormComponent implements OnInit {
           mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
           // tslint:disable-next-line: max-line-length
-          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ?  this.referenceData[0].referenceStatus : '']
+          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '']
         }),
         reference2: this.fb.group({
           applicantId: this.applicantId,
@@ -155,6 +210,7 @@ export class TeleVerificationFormComponent implements OnInit {
           firstName: [this.referenceData.length > 0 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
           mobileNo: [this.referenceData.length > 0 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[1].address ? this.referenceData[1].address : ''],
+          // tslint:disable-next-line: max-line-length
           referenceStatus: [this.referenceData.length > 0 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
         })
       })
@@ -166,9 +222,11 @@ export class TeleVerificationFormComponent implements OnInit {
     return new Date(newDateFormat[2], newDateFormat[1], newDateFormat[0]);
   }
 
-dateToFormate (date){
-  return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-}
+  dateToFormate(date) {
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  }
+
+
 
   getTvrDetails() {
     const data = {
@@ -176,13 +234,13 @@ dateToFormate (date){
     };
     this.tvrService.getTvrDetails(data).subscribe((res: any) => {
       this.tvrData = res.ProcessVariables.tvr;
-      this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences: [];
+      this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences : [];
       // this.dateFormate = res.ProcessVariables.tvr.dob;
       this.initForm(this.tvrData);
       if (this.tvrData) {
-      // this.teleVerificationForm.patchValue(this.tvrData);
-      // this.teleVerificationForm.get('dob').patchValue(this.dateFunction(res.ProcessVariables.tvr.dob));
-      // this.teleVerificationForm.controls['applicationReferences'].patchValue(this.referenceData);
+        // this.teleVerificationForm.patchValue(this.tvrData);
+        // this.teleVerificationForm.get('dob').patchValue(this.dateFunction(res.ProcessVariables.tvr.dob));
+        // this.teleVerificationForm.controls['applicationReferences'].patchValue(this.referenceData);
 
       }
 
@@ -192,7 +250,7 @@ dateToFormate (date){
       // this.initForm();
       console.log('tvrResponse', this.tvrData);
       console.log('applicationReferenceData', this.referenceData);
-      console.log(this.dateFunction(res.ProcessVariables.tvr.dob));
+      // console.log(this.dateFunction(res.ProcessVariables.tvr.dob));
 
     });
   }
@@ -222,7 +280,8 @@ dateToFormate (date){
       this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
       this.applicantName = res.ProcessVariables.tvrApplicantsList[0].applicantName;
       this.so_name = res.ProcessVariables.tvrApplicantsList[0].so_name;
-      // this.initForm();
+      this.applicantType = res.ProcessVariables.tvrApplicantsList[0].applicantType;
+      this.initForm();
       console.log('TVR-Dashboard_list', this.tvrDashboardList);
     });
 
@@ -248,9 +307,9 @@ dateToFormate (date){
     this.tvrDetails.yrsInEmployment = parseInt(this.teleVerificationForm.value.yrsInEmployment)
     this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
     this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);
-    const data =  this.tvrDetails['applicationReferences'];
+    const data = this.tvrDetails['applicationReferences'];
     this.tvrDetails.applicationReferences = [this.tvrDetails['applicationReferences'].reference1,
-     this.tvrDetails['applicationReferences'].reference2];
+    this.tvrDetails['applicationReferences'].reference2];
 
     console.log(this.tvrDetails);
     this.saveOrUpdateTvrDetails();
