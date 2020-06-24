@@ -271,6 +271,8 @@ export class IdentityDetailsComponent implements OnInit {
 
   setIndividualValue() {
     const value = this.indivIdentityInfoDetails;
+    this.convertPassportDate= new Date(value.passportIssueDate);
+    this.convertDrivingDate = new Date(value.drivingLicenseIssueDate)
     console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
