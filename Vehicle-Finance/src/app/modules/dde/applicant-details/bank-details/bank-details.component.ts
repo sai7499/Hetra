@@ -64,6 +64,7 @@ export class BankDetailsComponent implements OnInit {
     rule: 10,
   };
   labels: any;
+  transactionData: any;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -88,7 +89,7 @@ export class BankDetailsComponent implements OnInit {
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
       period: ['', { disabled: true }],
-      limit: [null],
+      limit: [0],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),
       transactionDetails: this.listArray,
@@ -161,16 +162,16 @@ export class BankDetailsComponent implements OnInit {
   public populateTransaction(data?: any) {
     console.log(data, 'data in aptch ');
     return this.fb.group({
-      month: data.month,
-      year: data.year,
-      inflow: data.inflow,
-      outflow: data.outflow,
-      noOfInWardBounces: data.noOfInWardBounces,
-      noOfOutWardBounces: data.noOfOutWardBounces,
-      balanceOn5th: data.balanceOn5th,
-      balanceOn15th: data.balanceOn15th,
-      balanceOn20th: data.balanceOn20th,
-      abbOfTheMonth: data.abbOfTheMonth,
+      month: data.month ? data.month : null,
+      year: data.year ? Number(data.year) : null ,
+      inflow: data.inflow ? Number(data.inflow) : null,
+      outflow: data.outflow ? Number(data.outflow) : null,
+      noOfInWardBounces: data.noOfInWardBounces ? Number(data.noOfInWardBounces) : null,
+      noOfOutWardBounces: data.noOfOutWardBounces ? Number(data.noOfOutWardBounces) : null,
+      balanceOn5th: data.balanceOn5th ? Number(data.balanceOn5th) : null,
+      balanceOn15th: data.balanceOn15th ? Number(data.balanceOn15th) : null,
+      balanceOn20th: data.balanceOn20th ? Number(data.balanceOn20th) : null,
+      abbOfTheMonth: data.abbOfTheMonth ? Number(data.abbOfTheMonth) : null,
     });
   }
   getBankDetails() {
@@ -190,18 +191,7 @@ export class BankDetailsComponent implements OnInit {
         // }
       });
   }
-  getDate() {
-    const date = new Date();
-    console.log(date, ' date function');
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const day1 = day < 10 ? '0' + day : day;
-    const month1 = month < 10 ? ' 0' + month : month;
-    const newDate = (day1 + '-' + month1 + '-' + year).toString();
-    console.log(newDate);
-    return newDate;
-  }
+
   public populateData(data?: any) {
     this.bankForm.patchValue({
       accountHolderName: data.ProcessVariables.accountHolderName
@@ -227,7 +217,7 @@ export class BankDetailsComponent implements OnInit {
         : null,
       limit: data.ProcessVariables.limit
         ? Number(data.ProcessVariables.limit)
-        : null,
+        : 0,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -263,10 +253,24 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.toDate = this.utilityService.getDateFormat(
       this.bankForm.value.toDate
     );
+    // this.bankForm.value.year = Number(this.bankForm.value.year);
     this.bankForm.value.limit = Number(this.bankForm.value.limit);
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
-    console.log(this.bankForm.value.transactionDetails);
+    const transactionArray = this.bankForm.value.transactionDetails as FormArray;
+    console.log(transactionArray, ' transaction data');
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0 ; i < transactionArray.length; i++) {
+    transactionArray[i].year = Number(transactionArray[i].year);
+    transactionArray[i].outflow = Number(transactionArray[i].outflow);
+    transactionArray[i].inflow = Number(transactionArray[i].inflow);
+    transactionArray[i].noOfInWardBounces = Number(transactionArray[i].noOfInWardBounces);
+    transactionArray[i].noOfOutWardBounces = Number(transactionArray[i].noOfOutWardBounces);
+    transactionArray[i].balanceOn5th = Number(transactionArray[i].balanceOn5th);
+    transactionArray[i].balanceOn15th = Number(transactionArray[i].balanceOn15th);
+    transactionArray[i].balanceOn20th = Number(transactionArray[i].balanceOn20th);
+    }
+    // console.log(this.bankForm.value.transactionDetails);
     if (this.bankForm.invalid) {
       this.toasterService.showWarning(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
@@ -294,8 +298,16 @@ export class BankDetailsComponent implements OnInit {
       });
     console.log(this.bankForm.value);
   }
+  // savetransactionData() {
+  //   const details = this.bankForm.controls.transactionDetails as FormArray;
+  //   this.transactionData  = details.controls;
+  // }
 
   getMonths() {
+    // if (this.transactionData && this.transactionData.length > 0) {
+    // alert(this.transactionData);
+    // console.log(this.transactionData);
+    // }
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
@@ -354,9 +366,12 @@ export class BankDetailsComponent implements OnInit {
         // controlArray.at(i).patchValue({ month: array });
 
         //
+        if (this.assignedArray.length > numberOfMonths) {
+          return;
+        }
       }
       // this.assignedArray = this.assignedArray.reverse();
-      console.log(this.assignedArray, ' assigned Array');
+      // console.log(this.assignedArray, ' assigned Array');
     }
   }
   onBack() {

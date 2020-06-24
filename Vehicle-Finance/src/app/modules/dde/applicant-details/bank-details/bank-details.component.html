@@ -85,7 +85,7 @@
                 <label for="period">{{labels?.period}}</label>
                 <input formControlName="period" type="number" class="form-control" name="period" id="period" min= "0" required="required" disabled>
              </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+             <div class="form-group col-sm-6 col-md-4 col-lg-3" style="display: none;">
                 <label for="limit">{{labels?.limit}}</label>
                 <app-custom-input
                 formControlName="limit"
@@ -148,6 +148,7 @@
                       [maxLength]="inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData()"
                     ></app-custom-input>
                   </td>
                   <td>
@@ -158,6 +159,8 @@
                       [maxLength]=" inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData()"
+                      [type]="'number'"
                     ></app-custom-input>
                   </td>
                   <td>
