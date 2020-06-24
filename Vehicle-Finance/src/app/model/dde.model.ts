@@ -133,59 +133,69 @@ export interface ApplicantDetails {
 }
 
 export interface CustomerProfile {
-    addressRecord?: string;
-    noEmployees?: string;
+    offAddSameAsRecord?: string;
+    noOfEmployeesSeen?: string;
     nameBoardSeen?: string;
     officePremises?: string;
-    sizeOfOffice?: string;
-    ratingBySo?: string;
+    sizeofOffice?: string;
+    customerProfileRatingSo?: string;
     mismatchAddress?: string;
-    selfieWithHouse?: string;
-    ownershipProof?: string;
-    metCustomer?: string;
+    customerHouseSelfie?: string;
+    ownershipAvailable?: string;
+    mandatoryCustMeeting?: string;
 }
 
 export interface LoanDetails {
-    costOfVehicle?: string;
-    modelType?: string;
-    loanAmt?: string;
+
+    // applicabel for new cv
+
+    vehicleCost?: string;
+    model?: string;
+    reqLoanAmount?: string;
     marginMoney?: string;
-    loanAmtReq?: string;
-    sourcePurchase?: string;
-    nameOfFinancer?: string;
-    awareMarginMoney?: string;
-    nameOfChannel?: string;
-    sellerVehicle?: string;
-    knowAbtVehicle?: string;
-    moneyInvested?: string;
-    moneyBorrowed?: string;
-    marketValue?: string;
-    purchasedValue?: string;
+
+    // applicable for used vehicle
+
+    usedVehicleLoanAmountReq?: string;
+    sourceOfVehiclePurchase?: string;
+    marginMoneySource?: string;
+    financierName?: string;
+    coAapplicantAwareMarginMoney?: string;
+    channelSourceName?: string;
+    vehicleSeller?: string;
+    proposedVehicle?: string;
+    invesmentAmount?: string;
+    marginMoneyBorrowed?: string;
+    marketValueProposedVehicle?: string;
+    purchasePrice?: string;
     vehicleCondition?: string;
-    usageFunds?: string;
-    vehicleConditions?: string;
+    fundsUsage?: string;
+    earlierVehicleApplication?: string;
     remarksOthers?: string;
-    earlierDriving?: string;
-    runningAttached?: string;
-    awareDue?: string;
+    drivingVehicleEarlier?: string;
+    vehicleAttachedPlying?: string;
+    awareDueDateEmiAmount?: string;
+
+    // applicable for assetDetails used Vehicle
+
     vehicleMake?: string;
-    model1?: string;
-    registrationNo?: string;
-    regCopyVerified?: string;
-    hpaNbfc?: string;
+    modelInYear?: string;
+    regNo?: string;
+    regCopVfd?: string;
+    vehicleHpaNbfc?: string;
     engineNumber?: string;
-    chassisNumber?: string;
-    permitDate?: string;
-    fitnessDate1?: string;
-    taxDate?: string;
-    insuranceCopy?: string;
-    insuranceDate?: string;
-    vehicleVerified?: string;
-    physicalCondition?: string;
+    chasisNumber?: string;
+    permitValidity?: string;
+    fitnessValidity?: string;
+    taxValidity?: string;
+    insuranceCopyVerified?: string;
+    insuranceValidity?: string;
+    vehiclePhsicallyVerified?: string;
+    conditionOfVehicle?: string;
     vehicleRoute?: string;
-    noTrips?: string;
-    tripAmt?: string;
-    selfDriver?: string;
+    noOfTrips?: string;
+    amtPerTrip?: string;
+    selfDrivenOrDriver?: string;
     remarks?: string;
 }
 

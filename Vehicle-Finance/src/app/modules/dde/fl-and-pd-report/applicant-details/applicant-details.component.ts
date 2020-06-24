@@ -6,7 +6,7 @@ import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
-import { ApplicantDetails} from '@model/dde.model';
+import { ApplicantDetails } from '@model/dde.model';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -93,7 +93,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
-      //this.setFormValue();
+      //  this.setFormValue();
     });
 
   }
@@ -158,7 +158,7 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantFormModal = { ...formModal };
     console.log('Form Data', applicantFormModal);
     console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
-    //this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
+    //  this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
     // if (
     //   this.applicantForm.get('physicallyChallenged').invalid ||
     //   this.applicantForm.get('maritalStatus').invalid ||
@@ -197,15 +197,15 @@ export class ApplicantDetailComponent implements OnInit {
       // applicableForUsedVehicle: null,
       // applicableForAssetDetailsUsedVehicle: null,
 
-  };
+    };
 
     this.personaldiscussion.savePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-      const message = processVariables.error.message;
-      console.log('PD Status', message);
-  }
-  });
+        const message = processVariables.error.message;
+        console.log('PD Status', message);
+      }
+    });
   }
 
 }
