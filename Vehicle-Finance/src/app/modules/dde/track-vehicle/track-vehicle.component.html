@@ -218,7 +218,9 @@
                 <kendo-datepicker width="100%" 
                     class="form-control mandatory" 
                     formControlName="loanMaturityDate"
-                    [format]="'dd/MM/yyyy'"  placeholder="dd/mm/yyyy"
+                    [format]="'dd/MM/yyyy'" 
+                     placeholder="dd/mm/yyyy"
+                     [min]="maturedDate"
                     [activeView]="'decade'"
               ></kendo-datepicker>
               <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
@@ -383,14 +385,15 @@
                                             [max]="toDayDate" 
                                             placeholder="dd/mm/yyyy"
                                             (valueChange)="delayDays($event ,i , itemrow)"
-                                            [activeView]="'decade'">
+                                            
+                                            [focusedDate]="focusedDate">
                                         </kendo-datepicker>
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
                                                 Received date is mandatory
                                             </div>
                                         </div>
-                                        <div class="isDirty">
+                                        <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
                                                 Received date is mandatory
                                             </div>
