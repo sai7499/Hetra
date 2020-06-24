@@ -42,7 +42,7 @@ export class OtpServiceService {
     const processData = data;
     const processId = this.apiService.api.validateOtp.processId;
     const workflowId = this.apiService.api.validateOtp.workflowId;
-    const projectId = environment.projectIds.otpProjectId;
+    const projectId = environment.projectIds.externalApi;
 
     const body: RequestEntity = {
       processId: processId,

@@ -12,6 +12,7 @@ export class BankTransactionsService {
 
   constructor(private httpService: HttpService,
               private apiService: ApiService) { }
+              
   setTransactionDetails(data) {
     const processData = data;
     const processId = this.apiService.api.bankTransaction.processId;

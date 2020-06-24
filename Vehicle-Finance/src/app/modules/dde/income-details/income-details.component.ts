@@ -76,6 +76,7 @@ export class IncomeDetailsComponent implements OnInit {
   };
   salariedFOIRaspePolicy: number;
   isDirty:boolean;
+  incomeTypeValue: any;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -109,6 +110,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.applicantService.getApplicantList(data).subscribe((res: any) => {
       this.applicantDetails = res.ProcessVariables.applicantListForLead;
     });
+    
     this.incomeDetailsForm = this.formBuilder.group({
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
@@ -123,11 +125,23 @@ this.salariedFOIRaspePolicy = 70
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (leadData as any);
     this.productCode = leadSectionData['leadDetails']['productCatCode'];
- 
+    const incomeData = {
+      productCode: this.productCode
+    }
+    this.incomeDetailsService.getFactoringValue(incomeData).subscribe(res => {
+      this.incomeTypeResponse = res['ProcessVariables']['factoringList']
+      console.log(this.incomeTypeResponse);
+      
+      // this.incomeTypeResponse.forEach(element => {
+      //   console.log('income type ---->',element)
+      //   this.incomeTypeValue = element
+      //   console.log(this.incomeTypeValue);
+        
+      // })
+    });
     this.getAllIncome();
 
   }
-  get f() { return this.incomeDetailsForm.controls.businessIncomeDetails; }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -435,7 +449,6 @@ this.salariedFOIRaspePolicy = 70
 
   onSubmit() {
     this.submitted = true;
-console.log("form data ",this.incomeDetailsForm)
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
      
@@ -499,22 +512,52 @@ console.log("form data ",this.incomeDetailsForm)
   }
 
 
+  // appendFactoredIncome(event: any, i: number) {
+  //   const data = {
+  //     productCode: this.productCode
+  //   }
+  //   this.incomeDetailsService.getFactoringValue(data).subscribe(res => {
+  //     this.incomeTypeResponse = res['ProcessVariables']['factoringList']
+  //     this.incomeTypeResponse.forEach(element => {
+  //       if (event === element.incomeTypeUniqueValue) {
+  //         const incomeArray = this.incomeDetailsForm.controls
+  //           .otherIncomeDetails as FormArray;
+  //         incomeArray.at(i).patchValue({ factoring: element.factoring });
+  //       }
+  //       this.getOtherIncomeDetails(i);
+  //     });
+
+  //   })
+  // }
   appendFactoredIncome(event: any, i: number) {
-    const data = {
-      productCode: this.productCode
-    }
-    this.incomeDetailsService.getFactoringValue(data).subscribe(res => {
-      this.incomeTypeResponse = res['ProcessVariables']['factoringList']
-      this.incomeTypeResponse.forEach(element => {
-        if (event === element.incomeTypeUniqueValue) {
+    
+        if (event === this.incomeTypeResponse[0].incomeTypeUniqueValue) {
           const incomeArray = this.incomeDetailsForm.controls
             .otherIncomeDetails as FormArray;
-          incomeArray.at(i).patchValue({ factoring: element.factoring });
+          incomeArray.at(i).patchValue({ factoring: this.incomeTypeResponse[0].factoring });
+        }
+        else if (event === this.incomeTypeResponse[1].incomeTypeUniqueValue) {
+          const incomeArray = this.incomeDetailsForm.controls
+            .otherIncomeDetails as FormArray;
+            incomeArray.at(i).patchValue({ factoring: this.incomeTypeResponse[1].factoring });
+
+        }
+       else if (event === this.incomeTypeResponse[2].incomeTypeUniqueValue) {
+          const incomeArray = this.incomeDetailsForm.controls
+            .otherIncomeDetails as FormArray;
+            incomeArray.at(i).patchValue({ factoring: this.incomeTypeResponse[2].factoring });
+
+        }
+       else if (event === this.incomeTypeResponse[3].incomeTypeUniqueValue) {
+          const incomeArray = this.incomeDetailsForm.controls
+            .otherIncomeDetails as FormArray;
+            incomeArray.at(i).patchValue({ factoring: this.incomeTypeResponse[3].factoring });
+
         }
         this.getOtherIncomeDetails(i);
-      });
+      
 
-    })
+    
   }
   getOtherFactoredIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
@@ -589,12 +632,11 @@ console.log("form data ",this.incomeDetailsForm)
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     const tenure = obligationArray.value[i].tenure;
-    console.log(tenure)
    
     const mob = obligationArray.value[i].mob;
     if (tenure < mob) {
       this.toasterService.showError(
-        'enter correct value',
+        'Mob should not exceed tenure',
         ''
       );
 
@@ -614,7 +656,6 @@ console.log("form data ",this.incomeDetailsForm)
       for (let i = 0; i < obligationArray.length; i++) {
         this.totalObligationAmount = Math.round(this.totalObligationAmount + Number(obligationArray.value[i].emi));
 
-        console.log(this.totalObligationAmount);
         
       }
     }

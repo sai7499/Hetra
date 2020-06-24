@@ -53,7 +53,7 @@ import { NumberOnlyDirective } from './services/directives/number-only.directive
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
 
 
-setTheme('bs4'); 
+setTheme('bs4');
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',

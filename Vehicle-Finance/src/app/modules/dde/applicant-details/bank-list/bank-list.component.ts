@@ -65,7 +65,7 @@ export class BankListComponent {
       this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/employment-details/${this.applicantId}` );
     }
     loadAppplicant() {
-      this.route.navigateByUrl(`pages/dde/${this.leadId}/applicant-details`);
+      this.route.navigateByUrl(`pages/dde/${this.leadId}/applicant-list`);
     }
     onDelete() {
     const body = {
