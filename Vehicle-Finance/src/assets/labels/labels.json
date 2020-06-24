@@ -234,6 +234,8 @@
     "vehicleValTitle": "Valuation",
     "valuatorType": "Valuator Type",
     "valuatorCode": "Valuator Code",
+    "valuatorStatus": "Valuator Status",
+    "VehicleValremarks": "Remarks",
     "valuatorName": "Valuator Name",
     "valuationAmount": "Valuation Amount",
     "valuationDate": "Valuation Date",
