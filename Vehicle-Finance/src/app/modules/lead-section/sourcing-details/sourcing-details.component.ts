@@ -195,7 +195,6 @@ export class SourcingDetailsComponent implements OnInit {
       ? roleAndUserDetails.userDetails.parentBranch
       : null;
     this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
-    this.sourcingDetailsForm.patchValue({ leadCreatedBy: this.leadHandeledBy });
     this.sourcingDetailsForm.patchValue({ leadHandeledBy: this.leadHandeledBy });
   }
 
@@ -243,6 +242,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
 
+    const leadCreatedby = data.leadDetails.leadCreatedBy;
+    this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreatedby });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
@@ -398,6 +399,10 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingCodeValue = sourcingEvent.value;
   }
 
+  onSourcingCodeClear(event) {
+    this.sourcingCodeKey = '';
+  }
+
   onDealerCodeSearch(event) {
     let inputString = event;
     let dealerCode = [];
@@ -419,6 +424,10 @@ export class SourcingDetailsComponent implements OnInit {
     console.log('dealorEvent', dealorEvent);
     this.dealorCodeKey = dealorEvent.dealorCode;
     this.dealorCodeValue = dealorEvent.dealorName;
+  }
+
+  onDealerCodeClear(event) {
+    this.dealorCodeKey = '';
   }
 
   setPatchData(data) {
