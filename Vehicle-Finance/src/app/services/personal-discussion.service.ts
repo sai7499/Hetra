@@ -51,9 +51,9 @@ export class PersonalDiscussionService {
       processId,
       workflowId,
       ProcessVariables: {
-        leadId: 3,
-        applicantId: 41,
-        userId: '1001',
+        leadId: 1,
+        applicantId: 6,
+        userId: '1002',
         ...data
       },
     };

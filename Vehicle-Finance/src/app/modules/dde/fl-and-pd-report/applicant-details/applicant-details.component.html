@@ -5,11 +5,15 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="applicant_name"> {{labels.applicantName}} </label>
-                <input type="text" class="form-control" id="applicant_name" formControlName="applicantName">
+                <!-- <input type="text" class="form-control" id="applicant_name" formControlName="applicantName"> -->
+                <app-custom-input id="applicant_name" formControlName="applicantName" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="father_name">{{labels.fatherName}}</label>
-                <input type="text" class="form-control" id="father_name" formControlName="fatherName">
+                <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+                <app-custom-input id="father_name" formControlName="fatherName" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="gender">{{labels.gender}}</label>
@@ -18,7 +22,7 @@
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdGender']" formControlName="gender"> </app-vf-custom-select>
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdGender']" formControlName="gender" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="marital_status"> {{labels.maritalStatus}} </label>
@@ -27,7 +31,7 @@
                     <option value="Single">Single</option>
                     <option value="Married">Married</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdMaritalStatus']" formControlName="maritalStatus">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdMaritalStatus']" formControlName="maritalStatus" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -37,21 +41,27 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="physicallyChallenged">
+                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="physicallyChallenged" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="residence_number">{{labels.residenceNo}}</label>
-                <input type="number" class="form-control" id="residence_number" formControlName="residancePhoneNumber">
+                <!-- <input type="number" class="form-control" id="residence_number" formControlName="residancePhoneNumber"> -->
+                <app-custom-input id="residence_number" formControlName="residancePhoneNumber" [patternCheck]="landlinePattern" [isRequired]="'Residence number is required'" [maxLength]="maxlength15" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="office_number">{{labels.officeNo}}</label>
-                <input type="number" class="form-control" id="office_number" formControlName="officePhoneNumber">
+                <!-- <input type="number" class="form-control" id="office_number" formControlName="officePhoneNumber"> -->
+                <app-custom-input id="office_number" formControlName="officePhoneNumber" [patternCheck]="landlinePattern" [isRequired]="'Office number is required'" [maxLength]="maxlength15" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{labels.mobile}}</label>
-                <input type="number" class="form-control" id="mobile" formControlName="mobile">
+                <!-- <input type="number" class="form-control" id="mobile" formControlName="mobile"> -->
+                <app-custom-input id="mobile" formControlName="mobile" [patternCheck]="mobileNumberPattern" [isRequired]="'Office number is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="residence_address">{{labels.residenceAddress}}</label>
@@ -60,20 +70,26 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="residenceAddressAsPerLoanApplication">
+                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="residenceAddressAsPerLoanApplication" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="bank_name">{{labels.bankName}}</label>
-                <input type="text" class="form-control" id="bank_name" formControlName="bankName">
+                <!-- <input type="text" class="form-control" id="bank_name" formControlName="bankName"> -->
+                <app-custom-input id="bank_name" formControlName="bankName" [patternCheck]="namePattern" [isRequired]="'Bank Name is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="account_no">{{labels.accountNo}}</label>
-                <input type="number" class="form-control" id="account_no" formControlName="accountNumber">
+                <!-- <input type="number" class="form-control" id="account_no" formControlName="accountNumber"> -->
+                <app-custom-input id="account_no" formControlName="accountNumber" [patternCheck]="bankAccountNumber" [maxLength]="maxlength18" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="landmark">{{labels.landmark}}</label>
-                <input type="text" class="form-control" id="landmark" formControlName="landmark">
+                <!-- <input type="text" class="form-control" id="landmark" formControlName="landmark"> -->
+                <app-custom-input id="landmark" formControlName="landmark" [patternCheck]="landmarkPattern"  [maxLength]="maxlength40" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="locate">{{labels.locate}}</label>
@@ -82,7 +98,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="addressAccessibility">
+                <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="addressAccessibility" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -94,7 +110,7 @@
                         <option value="Middle Class">Middle Class</option>
                         <option value="Middle/Upper Class">Middle/Upper Class</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdResidentialLocality']" formControlName="residentialLocality">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdResidentialLocality']" formControlName="residentialLocality" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -106,7 +122,7 @@
                     <option value="Independent House">Independent House</option>
                     <option value="Flat/Apartment">Flat/Apartment</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdResidentialType']" formControlName="residentialType">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdResidentialType']" formControlName="residentialType" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -117,7 +133,7 @@
                     <option value="Average">Average</option>
                     <option value="Poor">Poor</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseStandard']" formControlName="houseType">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseStandard']" formControlName="houseType" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -128,7 +144,7 @@
                     <option value="Average">500 to 1000 Sft</option>
                     <option value="Poor">More than 1000 Sft</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseSize']" formControlName="sizeOfHouse">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseSize']" formControlName="sizeOfHouse" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -141,7 +157,7 @@
                     <option value="Car">Car</option>
                     <option value="TW">Tw</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdLivingStandard']" formControlName="standardOfLiving">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdLivingStandard']" formControlName="standardOfLiving" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -152,7 +168,7 @@
                     <option value="Rented">Rented</option>
                     <option value="Family Owned">Family Owned</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseOwnership']" formControlName="houseOwnership">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseOwnership']" formControlName="houseOwnership" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -164,7 +180,7 @@
                     <option value="Good">Good</option>
                     <option value="Very Good">Very Good</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdRating']" formControlName="ratingbySO">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdRating']" formControlName="ratingbySO" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
 
