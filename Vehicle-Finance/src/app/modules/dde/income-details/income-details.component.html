@@ -200,8 +200,8 @@
             </table>
             <div class="row bottom_common m-0">
               <div class="col-md-12 text-right">
-                {{ labels?.totalMonthlyIncome }} :
-                {{ totalMonthlyIncome | number: "1.0-0" }}
+                {{ labels?.totalMonthlyOtherIncome }} :
+                {{ totalMonthlyOtherIncome | number: "1.0-0" }}
               </div>
             </div>
           </div>
@@ -419,8 +419,8 @@
                 <td>{{ totalMonthlyAgriIncome }}</td>
               </tr>
               <tr>
-                <td>{{ labels?.totalMonthlyIncome }}</td>
-                <td>{{ totalMonthlyIncome }}</td>
+                <td>{{ labels?.totalMonthlyOtherIncome }}</td>
+                <td>{{ totalMonthlyOtherIncome }}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMontlyObligations }}</td>
@@ -430,7 +430,7 @@
                 <td>{{ labels?.loanEligibilityasperFOIR }}</td>
                 <td>
                   {{
-                    1.4 * (totalMonthlyIncome - totalObligationAmount)
+                    1.4 * (totalMonthlyOtherIncome - totalObligationAmount)
                       | number: "1.0-0"
                   }}
                 </td>

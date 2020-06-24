@@ -49,7 +49,7 @@ export class IncomeDetailsComponent implements OnInit {
   totalMonthlyRentalIncome = 0;
   totalMonthlyPensionIncome = 0;
   totalMonthlyAgriIncome = 0;
-  totalMonthlyIncome = 0;
+  totalMonthlyOtherIncome = 0;
   totalSalariedFOIR = 0;
   salArray = [];
   rentArray = [];
@@ -622,9 +622,9 @@ export class IncomeDetailsComponent implements OnInit {
     }
 
     if (incomeArray && incomeArray.length > 0) {
-      this.totalMonthlyIncome = 0;
+      this.totalMonthlyOtherIncome = 0;
       for (let i = 0; i < incomeArray.length; i++) {
-        this.totalMonthlyIncome = Math.round(this.totalMonthlyIncome + incomeArray.value[i].factoredIncome);
+        this.totalMonthlyOtherIncome = Math.round(this.totalMonthlyOtherIncome + incomeArray.value[i].factoredIncome);
       }
     }
   }
