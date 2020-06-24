@@ -6,7 +6,7 @@ import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
-import { ApplicantDetails} from '@model/dde.model';
+import { ApplicantDetails } from '@model/dde.model';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -22,11 +22,11 @@ export class ApplicantDetailComponent implements OnInit {
   LOV: any = [];
   applicantDetails: ApplicantDetails;
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private personaldiscussion: PersonalDiscussionService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private personaldiscussion: PersonalDiscussionService) { }
 
   ngOnInit() {
     this.initForm();
@@ -108,38 +108,38 @@ export class ApplicantDetailComponent implements OnInit {
     //this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
 
     this.applicantDetails = {
-  applicantName: applicantFormModal.applicantName,
-  fatherName: applicantFormModal.fatherName,
-  gender: applicantFormModal.gender,
-  maritalStatus: applicantFormModal.maritalStatus,
-  physicallyChallenged: Number(applicantFormModal.physicallyChallenged),
-  residancePhoneNumber: applicantFormModal.residancePhoneNumber,
-  officePhoneNumber: applicantFormModal.officePhoneNumber,
-  mobile: applicantFormModal.mobile,
-  residenceAddressAsPerLoanApplication: Number(applicantFormModal.residenceAddressAsPerLoanApplication),
-  bankName: applicantFormModal.bankName,
-  accountNumber: applicantFormModal.accountNumber,
-  landmark: applicantFormModal.landmark,
-  addressAccessibility: Number(applicantFormModal.addressAccessibility),
-  residentialLocality: applicantFormModal.residentialLocality,
-  residentialType: applicantFormModal.residentialType,
-  houseType: applicantFormModal.houseType,
-  sizeOfHouse: applicantFormModal.sizeOfHouse,
-  standardOfLiving: applicantFormModal.standardOfLiving,
-  houseOwnership: applicantFormModal.houseOwnership,
-  ratingbySO: applicantFormModal.ratingbySO,
-};
+      applicantName: applicantFormModal.applicantName,
+      fatherName: applicantFormModal.fatherName,
+      gender: applicantFormModal.gender,
+      maritalStatus: applicantFormModal.maritalStatus,
+      physicallyChallenged: Number(applicantFormModal.physicallyChallenged),
+      residancePhoneNumber: applicantFormModal.residancePhoneNumber,
+      officePhoneNumber: applicantFormModal.officePhoneNumber,
+      mobile: applicantFormModal.mobile,
+      residenceAddressAsPerLoanApplication: Number(applicantFormModal.residenceAddressAsPerLoanApplication),
+      bankName: applicantFormModal.bankName,
+      accountNumber: applicantFormModal.accountNumber,
+      landmark: applicantFormModal.landmark,
+      addressAccessibility: Number(applicantFormModal.addressAccessibility),
+      residentialLocality: applicantFormModal.residentialLocality,
+      residentialType: applicantFormModal.residentialType,
+      houseType: applicantFormModal.houseType,
+      sizeOfHouse: applicantFormModal.sizeOfHouse,
+      standardOfLiving: applicantFormModal.standardOfLiving,
+      houseOwnership: applicantFormModal.houseOwnership,
+      ratingbySO: applicantFormModal.ratingbySO,
+    };
     const data = {
       applicantPersonalDiscussionDetails: this.applicantDetails,
-  };
+    };
 
     this.personaldiscussion.savePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-      const message = processVariables.error.message;
-      console.log('PD Status', message);
-  }
-  });
+        const message = processVariables.error.message;
+        console.log('PD Status', message);
+      }
+    });
   }
 
 }

@@ -25,15 +25,15 @@ export class FlAndPdReportComponent implements OnInit {
     }
     getPdDetails() {
         const data = {
-            applicantId: 63,
+            applicantId: 6,
         };
 
         this.personaldiscussion.getPdData(data).subscribe((value: any) => {
             const processVariables = value.ProcessVariables;
             if (processVariables.error.code === '0') {
-            this.pdDetail = processVariables.personalDiscussionDetail;
-            console.log('PD Details', this.pdDetail.accountNumber);
-        }
+                this.pdDetail = processVariables.personalDiscussionDetail;
+                console.log('PD Details', this.pdDetail.accountNumber);
+            }
         });
 
     }

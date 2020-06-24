@@ -20,16 +20,6 @@
                 <input type="text" class="form-control" id="margin_money" formControlName="marginMoney">
             </div>
 
-
-            <!--  <div class="btn-sec clear-both">
-                            <div class="col-sm-5">
-                                <button class="btn btn-primary js-btn-prev" type="button"> Back </button>
-                            </div>
-                            <div class="col-sm-7 text-right">
-                                <button class="btn btn-primary mar-right8" type="button"> Save </button>
-                                <a class="btn btn-primary" href="#" id="submit"> Submit </a>
-                            </div>
-                        </div> -->
         </div>
         <h3 class="title">{{labels.avilForUsedVehicle}}</h3>
         <div class="row">
@@ -123,7 +113,7 @@
                     <option value="Trailer">Trailer</option>
                     <option value="Others">Others</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.vehicleConditions" formControlName="vehicleConditions">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" formControlName="vehicleConditions">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -140,7 +130,7 @@
                     <option value="LCV">LCV</option>
                     <option value="HCV">HCV</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.earlierDriving" formControlName="earlierDriving">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']" formControlName="earlierDriving">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -304,7 +294,7 @@
                     <option value="Self Driven">Self Driven</option>
                     <option value="Driver">Driver</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.selfDriver" formControlName="selfDriver">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdSelfDrivenOrDriver']" formControlName="selfDriver">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
