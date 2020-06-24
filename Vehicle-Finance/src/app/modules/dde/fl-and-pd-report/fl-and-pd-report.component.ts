@@ -32,7 +32,7 @@ export class FlAndPdReportComponent implements OnInit {
             const processVariables = value.ProcessVariables;
             if (processVariables.error.code === '0') {
             this.pdDetail = processVariables.personalDiscussionDetail;
-            console.log('PD Details', this.pdDetail.accountNumber);
+            //console.log('PD Details', this.pdDetail.accountNumber);
         }
         });
 
