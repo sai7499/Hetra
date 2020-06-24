@@ -204,11 +204,11 @@ export class LeadCreationComponent implements OnInit {
     this.spokesCodeLocation = this.isSpoke
       ? roleAndUserDetails.userDetails.parentBranch
       : null;
-      this.createLeadForm.patchValue({
-        loanBranch:this.loanAccountBranch,          
-        leadHandeledBy: this.leadHandeledBy,
-        // spokeCodeLocation:  this.spokesCodeLocation   
-      });
+    this.createLeadForm.patchValue({
+      loanBranch: this.loanAccountBranch,
+      leadHandeledBy: this.leadHandeledBy,
+      // spokeCodeLocation:  this.spokesCodeLocation   
+    });
   }
 
   getBusinessDivision(roleAndUserDetails) {
