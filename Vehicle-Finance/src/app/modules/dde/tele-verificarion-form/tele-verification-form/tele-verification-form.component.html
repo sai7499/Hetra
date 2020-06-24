@@ -5,7 +5,7 @@
         <h3 class="dashboard m-0">Tele Verification Form</h3>
         <div class="multisteps-form">
             <div class="content">
-                <form [formGroup]="teleVerificationForm">
+                <form name="teleVerificationForm" [formGroup]="teleVerificationForm">
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="leadNumber">{{labels.leadNumber}}</label>
@@ -26,13 +26,13 @@
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="financeAmount">{{labels.financeAmount}}</label>
                             <!-- <input type="text" class="form-control" id="financeAmount" name="financeAmount" formControlName="financeAmt"> -->
-                            <app-custom-input formControlName="financeAmt" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isRequired]="'Required Amount is mandatory'" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
+                            <app-custom-input id="financeAmount" formControlName="financeAmt" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isRequired]="'Required Amount is mandatory'" [patternCheck]="regexPattern.amount">
                             </app-custom-input>
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="tenureInMonths">{{labels.tenureInMonths}}</label>
                             <!-- <input type="text" class="form-control" id="tenureInMonths" name="tenureInMonths" formControlName="tenureInMonth"> -->
-                            <app-custom-input formControlName="tenureInMonth" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [isRequired]="'Tenure months is mandatory'" [patternCheck]="regexPattern.tenure" [isDirty]="isDirty">
+                            <app-custom-input id="tenureInMonths" formControlName="tenureInMonth" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [isRequired]="'Tenure months is mandatory'" [patternCheck]="regexPattern.tenure" [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -67,7 +67,7 @@
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="emi">{{labels.emi}}</label>
                             <!-- <input type="text" class="form-control" id="emi" name="emi" formControlName="emi"> -->
-                            <app-custom-input formControlName="emi" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
+                            <app-custom-input id="emi" formControlName="emi" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="fundingAmountRequested" class="ellipsify">{{labels.fundingAmountRequested}}</label>
                                 <!-- <input type="text" class="form-control" id="fundingAmountRequested" name="fundingAmountRequested" formControlName="amountRequested"> -->
-                                <app-custom-input formControlName="amountRequested" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
+                                <app-custom-input id="fundingAmountRequested" formControlName="amountRequested" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -106,7 +106,7 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="tenureRequested">{{labels.tenureRequested}}</label>
                                 <!-- <input type="text" class="form-control" id="tenureRequested" name="tenureRequested" formControlName="tenureRequested"> -->
-                                <app-custom-input formControlName="tenureRequested" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
+                                <app-custom-input id="tenureRequested" formControlName="tenureRequested" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
 
@@ -137,13 +137,13 @@
                                     <span *ngIf="(teleVerificationFormControls.residentPhnNo.dirty || teleVerificationFormControls.residentPhnNo.touched) && teleVerificationFormControls.residentPhnNo.errors.pattern">Value
                                             must be in Number</span>
                                 </div> -->
-                                <app-custom-input formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
+                                <app-custom-input id="phoneNo" formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="address" class="">{{labels.address}}</label>
                                 <!-- <input type="text" class="form-control" id="address" name="address" formControlName="residentAddress"> -->
-                                <app-custom-input formControlName="residentAddress" [maxLength]="regexPattern.maxLength40" [isDirty]="isDirty">
+                                <app-custom-input id="address" formControlName="residentAddress" [maxLength]="regexPattern.maxLength40" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -153,13 +153,13 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="teleVerification-emi">{{labels.emi}}</label>
                                 <!-- <input type="text" class="form-control" id="teleVerification-emi" name="teleVerification-emi" formControlName="otherLoanEmi"> -->
-                                <app-custom-input formControlName="otherLoanEmi" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
+                                <app-custom-input id="teleVerification-emi" formControlName="otherLoanEmi" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="noOfYears">{{labels.noOfYears}}</label>
                                 <!-- <input type="text" class="form-control" id="noOfYears" name="noOfYears" formControlName="residentNoOfYrs"> -->
-                                <app-custom-input formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="regexPattern.noOfYears" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
+                                <app-custom-input id="noOfYears" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="regexPattern.noOfYears" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -257,7 +257,7 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="workExperience">{{labels.workExperience}}</label>
                                     <!-- <input type="text" class="form-control" id="workExperience" name="workExperience" formControlName="wrkExperience"> -->
-                                    <app-custom-input formControlName="wrkExperience" [className]="'form-control mandatory'" [maxLength]="regexPattern.noOfYears" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
+                                    <app-custom-input id="workExperience" formControlName="wrkExperience" [className]="'form-control mandatory'" [maxLength]="regexPattern.noOfYears" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -269,7 +269,7 @@
                                         <span *ngIf="(teleVerificationFormControls.officePhnNo.dirty || teleVerificationFormControls.officePhnNo.touched) && teleVerificationFormControls.officePhnNo.errors.pattern">Value
                                                 must be in Number</span>
                                     </div> -->
-                                    <app-custom-input formControlName="officePhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isRequired]="'Contact Number mandatory'" [isDirty]="isDirty">
+                                    <app-custom-input formControlName="officePhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -313,7 +313,7 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="yearsInEmP/Bussiness">{{labels.yearsInEmpBusiness}}</label>
                                 <!-- <input type="text" class="form-control" id="yearsInEmP/Bussiness" name="yearsInEmP/Bussiness" formControlName="yrsInEmployment"> -->
-                                <app-custom-input formControlName="yrsInEmployment" [className]="'form-control mandatory'" [maxLength]="regexPattern.noOfYears" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
+                                <app-custom-input id="yearsInEmP" formControlName="yrsInEmployment" [className]="'form-control mandatory'" [maxLength]="regexPattern.noOfYears" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -324,7 +324,7 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="employees">{{labels.employees}}</label>
                                 <!-- <input type="text" class="form-control" id="employees" name="employees" formControlName="employees"> -->
-                                <app-custom-input formControlName="employees" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.employees" [isDirty]="isDirty">
+                                <app-custom-input id="employees" formControlName="employees" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.employees" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -334,7 +334,7 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="monthlySalaryGross">{{labels.monthlySalaryGross}}</label>
                                 <!-- <input type="text" class="form-control" id="monthlySalaryGross" name="monthlySalaryGross" formControlName="monthlyGrossSalary"> -->
-                                <app-custom-input formControlName="monthlyGrossSalary" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
+                                <app-custom-input id="monthlySalaryGross" formControlName="monthlyGrossSalary" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -369,12 +369,12 @@
                                     <th class="bank_name">Name</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="firstName" type="text" class="form-control"> -->
-                                        <app-custom-input formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="regexPattern.nameLength" [isDirty]="isDirty">
+                                        <app-custom-input id="refFirstName1" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="regexPattern.nameLength" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
                                     <td formGroupName="reference2">
                                         <!-- <input formControlName="firstName" type="text" class="form-control"> -->
-                                        <app-custom-input formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="regexPattern.nameLength" [isDirty]="isDirty">
+                                        <app-custom-input id="refFirstName2" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="regexPattern.nameLength" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
 
@@ -384,12 +384,12 @@
                                     <th class="bank_name">Address</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="address" type="text" class="form-control"> -->
-                                        <app-custom-input formControlName="address" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength40" [isDirty]="isDirty">
+                                        <app-custom-input id="refAddress1" formControlName="address" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength40" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
                                     <td formGroupName="reference2">
                                         <!-- <input formControlName="address" type="text" class="form-control"> -->
-                                        <app-custom-input formControlName="address" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength40" [isDirty]="isDirty">
+                                        <app-custom-input id="refAddress2" formControlName="address" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength40" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
 
@@ -398,12 +398,12 @@
                                     <th class="bank_name">Contact No</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="mobileNo" type="text" class="form-control"> -->
-                                        <app-custom-input formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
+                                        <app-custom-input id="refmobileNo1" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
                                     <td formGroupName="reference2">
                                         <!-- <input formControlName="mobileNo" type="text" class="form-control"> -->
-                                        <app-custom-input formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
+                                        <app-custom-input id="refmobileNo2" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
 
