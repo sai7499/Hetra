@@ -455,60 +455,63 @@ export class TrackVehicleComponent implements OnInit {
     let toalExcess = 0;
     let installmentAmount = 0;
     let receivedAmt = 0;
-    if (this.fleetRtrDetails) {
-      if (event != null && index < this.fleetRtrDetails.length) {
-        this.fleetRtrDetails[index].installmentAmt = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value);
-        this.fleetRtrDetails[index].dueDate = this.dateDbFormat(this.formArr.controls[index]['controls']['dueDate'].value)
-        this.fleetRtrDetails[index].receiptNo = this.formArr.controls[index]['controls']['receiptNo'].value
-        this.fleetRtrDetails[index].receivedAmt = parseInt(event.target['value']);
-      } else if (event != null && index >= this.fleetRtrDetails.length) {
-        this.fleetRtrDetails.push({
-          'receivedAmt': parseInt(event.target['value']),
-          'installmentAmt': parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value),
-        })
-      }
-    } else {
-      receivedAmt = parseInt(this.formArr.controls[index]['controls']['receivedAmt'].value);
-      installmentAmount = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value)
-      this.fleetRtrDetails.push({
-        'receivedAmt': parseInt(this.formArr.controls[0].value['receivedAmt']),
-        'installmentAmt': parseInt(this.formArr.controls[0].value['installmentAmt']),
-        'receiptNo': parseInt(this.formArr.controls[0].value['receiptNo']),
-        'dueDate': this.formArr.controls[0].value['dueDate'],
-        'receivedDate': this.formArr.controls[0].value['receivedDate'],
-        'payment': receivedAmt - installmentAmount
-      });
-      //     this.fleetRtrDetails[0]['paymentExcess'] = receivedAmt - installmentAmount;
-      this.formArr.push(this.initRows(this.fleetRtrDetails[0]));
-    }
-
-    this.formArr.controls = [];
-    let totalAmount = 0;
-    for (let i = 0; i < this.fleetRtrDetails.length; i++) {
-      if (i < this.fleetRtrDetails.length) {
-        installmentAmount = installmentAmount + parseInt(this.fleetRtrDetails[i].installmentAmt);
-        if (this.fleetRtrDetails[i].receivedAmt) {
-          receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
-          toalExcess = receivedAmt - installmentAmount;
-          this.fleetRtrDetails[i].payment = toalExcess;
-          totalAmount = receivedAmt;
-        }
-        if (i == 0) {
-          this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
-        }
-        else {
-          this.addNewRow(this.fleetRtrDetails[i]);
+    if(this.formArr.controls[index]['controls']['receivedAmt'].value && this.formArr.controls[index]['controls']['receivedAmt'].value != '' ){
+      if (this.fleetRtrDetails) {
+        if (event != null && index < this.fleetRtrDetails.length) {
+          this.fleetRtrDetails[index].installmentAmt = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value);
+          this.fleetRtrDetails[index].dueDate = this.dateDbFormat(this.formArr.controls[index]['controls']['dueDate'].value)
+          this.fleetRtrDetails[index].receiptNo = this.formArr.controls[index]['controls']['receiptNo'].value
+          this.fleetRtrDetails[index].receivedAmt = parseInt(this.formArr.controls[index]['controls']['receivedAmt'].value);
+        } else if (event != null && index >= this.fleetRtrDetails.length) {
+          this.fleetRtrDetails.push({
+            'receivedAmt': parseInt(event.target['value']),
+            'installmentAmt': parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value),
+          })
         }
       } else {
-        let rowData = {
-          // installmentAmt: this.trackVehicleForm.value['emiAmount'],
-          dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
-        }
-        this.formArr.push(this.initRows(rowData));
+        receivedAmt = parseInt(this.formArr.controls[index]['controls']['receivedAmt'].value);
+        installmentAmount = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value)
+        this.fleetRtrDetails.push({
+          'receivedAmt': parseInt(this.formArr.controls[0].value['receivedAmt']),
+          'installmentAmt': parseInt(this.formArr.controls[0].value['installmentAmt']),
+          'receiptNo': parseInt(this.formArr.controls[0].value['receiptNo']),
+          'dueDate': this.formArr.controls[0].value['dueDate'],
+          'receivedDate': this.formArr.controls[0].value['receivedDate'],
+          'payment': receivedAmt - installmentAmount
+        });
+        //     this.fleetRtrDetails[0]['paymentExcess'] = receivedAmt - installmentAmount;
+        this.formArr.push(this.initRows(this.fleetRtrDetails[0]));
       }
-
+  
+      this.formArr.controls = [];
+      let totalAmount = 0;
+      for (let i = 0; i < this.fleetRtrDetails.length; i++) {
+        if (i < this.fleetRtrDetails.length) {
+          installmentAmount = installmentAmount + parseInt(this.fleetRtrDetails[i].installmentAmt);
+          if (this.fleetRtrDetails[i].receivedAmt) {
+            receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
+            toalExcess = receivedAmt - installmentAmount;
+            this.fleetRtrDetails[i].payment = toalExcess;
+            totalAmount = receivedAmt;
+          }
+          if (i == 0) {
+            this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
+          }
+          else {
+            this.addNewRow(this.fleetRtrDetails[i]);
+          }
+        } else {
+          let rowData = {
+            // installmentAmt: this.trackVehicleForm.value['emiAmount'],
+            dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
+          }
+          this.formArr.push(this.initRows(rowData));
+        }
+  
+      }
+      this.trackVehicleForm.get('totalAmtPaid').setValue(totalAmount)
     }
-    this.trackVehicleForm.get('totalAmtPaid').setValue(totalAmount)
+    else{ }
   }
   getDateFormat(date) {
     if (date) {

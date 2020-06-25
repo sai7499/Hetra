@@ -342,6 +342,7 @@
                                     [isRequired]="'Installment Amount is mandatory'"
                                     [patternCheck]="regexPattern.amount"
                                     [isDirty]="isDirty"
+                                    (change)="paymentExcessOrShort($event ,i)"
                                     >
                                   </app-custom-input>
                             </td>
