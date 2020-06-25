@@ -203,7 +203,7 @@
                     formControlName="pan"
                     [disabled]="isPanDisabled"
                     [patternCheck]="panFormPattern"
-                    [isRequired]="panRequired"
+                    [isRequired]="panRequired ? 'Pan is required' : ''"
                     [isDirty]="isDirty"
                     [inputClass]="'text-uppercase'"
                     [maxLength]="maxlength10"
@@ -246,7 +246,7 @@
                     class="form-control mandatory"
                     formControlName="drivingLicenseIssueDate"
                     [format]="'dd/MM/yyyy'"
-                    [max]="toDayDate"
+                    [max]="drivingLicenseExpiryDate || toDayDate"
                     [activeView]="'decade'"
                     [required]="mandatory['drivingLicenseIssueDate']"
                     [(ngModel)]="drivingLicenseIssueDate"
@@ -295,6 +295,7 @@
                     formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'"
                     [max]="toDayDate"
+                    [min]="drivingLicenseIssueDate"
                     [activeView]="'decade'"
                     [required]="mandatory['drivingLicenseExpiryDate']"
                     [(ngModel)]="drivingLicenseExpiryDate"
@@ -329,31 +330,20 @@
                     (change)="onPassportNumberChange($event)"
                     [inputClass]="'text-uppercase'"
                     [maxLength]="maxlength8"
+                    [isRequired]="
+                      isPassportRequired ? 'Passport number is required' : ''
+                    "
+                    [isDirty]="isPassportRequired && isDirty"
                   >
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
-                  <!-- <div class="input-group input-medium">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default">
-                        <i class="fa fa-calendar"></i>
-                      </button>
-                    </span>
-                    <input
-                      type="date"
-                      class="form-control"
-                      formControlName="passportIssueDate"
-                      [required]="passportMandatory['passportIssueDate']"
-                      [(ngModel)]="passportIssueDate"
-                      (ngModelChange)="passportDateSelected()"
-                    />
-                  </div> -->
                   <kendo-datepicker
                     class="form-control mandatory"
                     formControlName="passportIssueDate"
                     [format]="'dd/MM/yyyy'"
-                    [max]="toDayDate"
+                    [max]="passportExpiryDate || toDayDate"
                     [activeView]="'decade'"
                     [required]="passportMandatory['passportIssueDate']"
                     [(ngModel)]="passportIssueDate"
@@ -378,25 +368,11 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
-                  <!-- <div class="input-group input-medium">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default">
-                        <i class="fa fa-calendar"></i>
-                      </button>
-                    </span>
-                    <input
-                      type="date"
-                      class="form-control"
-                      formControlName="passportExpiryDate"
-                      [required]="passportMandatory['passportExpiryDate']"
-                      [(ngModel)]="passportExpiryDate"
-                      (ngModelChange)="passportExpiryDateSelected()"
-                    />
-                  </div> -->
                   <kendo-datepicker
                     class="form-control mandatory"
                     formControlName="passportExpiryDate"
                     [format]="'dd/MM/yyyy'"
+                    [min]="passportIssueDate"
                     [max]="toDayDate"
                     [activeView]="'decade'"
                     [required]="passportMandatory['passportExpiryDate']"
@@ -428,12 +404,21 @@
                     [maxLength]="maxlength15"
                     [patternCheck]="voterIdPattern"
                     [inputClass]="'text-uppercase'"
+                    [isRequired]="isVoterRequired ? 'Voter id is required' : ''"
+                    [isDirty]="isVoterRequired && isDirty"
                   ></app-custom-input>
                 </div>
 
                 <div
                   class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20"
-                  *ngIf="isEnableDedupe"
+                  *ngIf="
+                    isMobileChanged ||
+                    isName1Changed ||
+                    isPanChanged ||
+                    isAadharChanged ||
+                    isPassportChanged ||
+                    isDrivingLicenseChanged
+                  "
                 >
                   <button
                     class="btn btn-primary mar-right8"
@@ -457,7 +442,14 @@
             <div
               class="multisteps-form__panel"
               data-animation="scaleIn"
-              *ngIf="!isEnableDedupe"
+              *ngIf="
+                !isMobileChanged &&
+                !isName1Changed &&
+                !isPanChanged &&
+                !isAadharChanged &&
+                !isPassportChanged &&
+                !isDrivingLicenseChanged
+              "
             >
               <div
                 id="individual_section_address"
@@ -827,7 +819,17 @@
       </div>
     </form>
   </div>
-  <div class="btn-sec clear-both" *ngIf="!isEnableDedupe">
+  <div
+    class="btn-sec clear-both"
+    *ngIf="
+      !isMobileChanged &&
+      !isName1Changed &&
+      !isPanChanged &&
+      !isAadharChanged &&
+      !isPassportChanged &&
+      !isDrivingLicenseChanged
+    "
+  >
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right" id="clickButton">
       <button
