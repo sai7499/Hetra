@@ -1266,7 +1266,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');
     dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
-      if (!dedupe.get('mobilePhone').invalid && !value) {
+      if (!dedupe.get('mobilePhone').invalid) {
         if (value !== this.mobileNumber) {
           this.isMobileChanged = true;
           this.isEnableDedupe = true;
