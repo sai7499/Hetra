@@ -312,7 +312,7 @@ export class TeleVerificationFormComponent implements OnInit {
       this.applicantName = res.ProcessVariables.tvrApplicantsList[0].applicantName;
       this.so_name = res.ProcessVariables.tvrApplicantsList[0].so_name;
       this.applicantType = res.ProcessVariables.tvrApplicantsList[0].applicantType;
-      // this.initForm();
+      this.initForm();
       // console.log('TVR-Dashboard_list', this.tvrDashboardList);
     });
 
