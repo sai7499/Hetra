@@ -136,7 +136,7 @@ export class IncomeDetailsComponent implements OnInit {
       productCode: this.productCode,
     };
     this.incomeDetailsService.getFactoringValue(incomeData).subscribe((res) => {
-      this.incomeTypeResponse = res.ProcessVariables['factoringList'];
+      // this.incomeTypeResponse = res.ProcessVariables['factoringList'];
     });
     this.getAllIncome();
   }
