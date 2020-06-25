@@ -75,13 +75,13 @@ export class CustomInputComponent
     if (value) {
       this.checkIsFirst = false;
       this.checkValidation(this.data);
-      // this.propagateChange(this.data);
+      this.propagateChange(this.data);
     }
   }
   private checkIsFirst = true;
-  // private propagateChange = (event) => {
-  //   // this.change.emit(event);
-  // };
+  private propagateChange = (event) => {
+    // this.change.emit(event);
+  };
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
@@ -99,7 +99,7 @@ export class CustomInputComponent
     this.data = obj;
     this.inputValue = this.data;
     this.checkValidation(this.data);
-    // this.propagateChange(this.data);
+    this.propagateChange(this.data);
   }
 
   set inputValue(value) {
@@ -111,7 +111,7 @@ export class CustomInputComponent
   }
 
   registerOnChange(fn: any) {
-    // this.propagateChange = fn;
+    this.propagateChange = fn;
   }
 
   validate(c?: FormControl) {
@@ -129,7 +129,7 @@ export class CustomInputComponent
 
   updateChanges() {
     this.checkValidation(this.data);
-    // this.propagateChange(this.data);
+    this.propagateChange(this.data);
   }
 
   checkValidation(value) {

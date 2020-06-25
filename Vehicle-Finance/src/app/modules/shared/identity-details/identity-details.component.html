@@ -78,7 +78,7 @@
                     </div>
                   </div>
 
-                  <!--upload-content-->
+                  
                   <input
                     data-required="image"
                     type="file"
@@ -100,8 +100,8 @@
               <app-vf-custom-select
                 formControlName="panType"
                 [values]="lov?.LOVS?.applicantPanType"
-                [isRequired]="'PanType Is Required'"
-                [isDirty]="isDirty"
+                
+                
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
@@ -190,7 +190,7 @@
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
-                
+                (valueChange)="datePassportChange($event)"
                 ></kendo-datepicker>
                 </div>
               </div>
@@ -211,7 +211,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
+                [min]="convertPassportDate"
                  placeholder="Expriy Date"
                 [activeView]="'decade'"
                 
@@ -286,6 +286,7 @@
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
+                (valueChange)="dateDrivingChange($event)"
                 
                 ></kendo-datepicker>
                   
@@ -310,7 +311,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
+                [min]="convertDrivingDate"
                  placeholder="Expiry Date"
                 [activeView]="'decade'"
                 
@@ -365,16 +366,7 @@
               <label for="issuance_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <!-- <span class="input-group-addon"
-                    ><span
-                      class="glyphicon glyphicon-calendar fa fa-calendar"
-                    ></span>
-                  </span>
-                  <input
-                    formControlName="voterIdIssueDate"
-                    type="date"
-                    class="form-control"
-                  /> -->
+                 
                   <kendo-datepicker class="form-control" 
                 formControlName="voterIdIssueDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
@@ -389,16 +381,7 @@
               <label for="expiry_date">Expiry Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <!-- <span class="input-group-addon"
-                    ><span
-                      class="glyphicon glyphicon-calendar fa fa-calendar"
-                    ></span>
-                  </span>
-                  <input
-                    formControlName="voterIdExpiryDate"
-                    type="date"
-                    class="form-control"
-                  /> -->
+                 
                   <kendo-datepicker class="form-control" 
                 formControlName="voterIdExpiryDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
