@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
@@ -9,6 +8,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { LoanDetails } from '@model/dde.model';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ToasterService } from '@services/toaster.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -28,17 +28,62 @@ export class LoanDetailsComponent implements OnInit {
   newCvDetails: any = {};
   usedVehicleDetails: any = {};
   assetDetailsUsedVehicle: any = {};
+  leadId: number;
+  userId: number;
 
+  amountPattern = {
+    rule: '^[1-9][0-9]*$',
+    msg: 'Numbers Only Required',
+  };
+
+  maxlength10 = {
+    rule: 10,
+    msg: '',
+  };
+
+  modelPattern = {
+    rule: '^[A-Z]*[a-z]*$',
+    msg: 'Invalid Model',
+  };
+
+  maxlength30 = {
+    rule: 30,
+    msg: '',
+  };
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
     private commonLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private activatedRoute: ActivatedRoute,
     private personalDiscussion: PersonalDiscussionService,
     private toasterService: ToasterService) { }
 
   ngOnInit() {
+
+    // accessing lead id from route
+
+    // this.leadId = (await this.getLeadId()) as number;
+    // console.log("leadID =>", this.leadId)
+
+    // method for getting all vehicle details related to a lead
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+
+    console.log("user id ==>", this.userId)
+
+    this.initForm();
+
+    this.getLabels = this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      },
+      error => {
+        this.errorMsg = error;
+      });
     this.initForm();
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
@@ -55,6 +100,19 @@ export class LoanDetailsComponent implements OnInit {
     });
 
 
+  }
+  getLeadId() {
+    // console.log("in getleadID")
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          // console.log("in if", value.leadId)
+          resolve(Number(value.leadId));
+          // console.log("after resolve", value.leadId)
+        }
+        resolve(null);
+      });
+    });
   }
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
@@ -231,7 +289,7 @@ export class LoanDetailsComponent implements OnInit {
     const data = {
       leadId: 1,
       applicantId: 6,
-      userId: "1002",
+      userId: this.leadId,
       loanDetailsForNewCv: this.newCvDetails,
       applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
       applicableForUsedVehicle: this.usedVehicleDetails

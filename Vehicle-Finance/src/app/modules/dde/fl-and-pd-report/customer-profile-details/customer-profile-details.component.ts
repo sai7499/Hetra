@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
@@ -9,6 +9,7 @@ import { ToasterService } from '@services/toaster.service';
 import { CustomerProfile } from '@model/dde.model';
 import { CommomLovService } from '@services/commom-lov-service';
 import { PdDataService } from '../pd-data.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
@@ -31,6 +32,28 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   custProfileDetails: CustomerProfile;
 
+  employeeSeenPattern = {
+    rule: '^[1-9][0-9]*$',
+    msg: 'Numbers Only Required',
+  };
+
+  maxlength10 = {
+    rule: 10,
+    msg: '',
+  };
+
+
+  mismatchAddressPattern = {
+    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
+    msg: 'Invalid Landmark',
+  };
+
+  maxlength40 = {
+    rule: 40,
+    msg: '',
+  };
+  isDirty: boolean;
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
@@ -38,10 +61,24 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private personalDiscusion: PersonalDiscussionService,
     private toasterService: ToasterService,
     private commonLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private activatedRoute: ActivatedRoute,
     private pdDataService: PdDataService,
     private personalDiscussion: PersonalDiscussionService) { }
 
   ngOnInit() {
+
+    // accessing lead if from route
+
+    // this.leadId = (await this.getLeadId()) as number;
+    // console.log("leadID =>", this.leadId)
+
+    // method for getting all vehicle details related to a lead
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+
+    console.log("user id ==>", this.userId)
 
     this.initForm();
 
@@ -65,6 +102,19 @@ export class CustomerProfileDetailsComponent implements OnInit {
     });
 
   }
+  getLeadId() {
+    // console.log("in getleadID")
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          // console.log("in if", value.leadId)
+          resolve(Number(value.leadId));
+          // console.log("after resolve", value.leadId)
+        }
+        resolve(null);
+      });
+    });
+  }
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
@@ -73,16 +123,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
   initForm() {
 
     this.customerProfileForm = new FormGroup({
-      offAddSameAsRecord: new FormControl(''),
-      noOfEmployeesSeen: new FormControl(''),
-      nameBoardSeen: new FormControl(''),
-      officePremises: new FormControl(''),
-      sizeofOffice: new FormControl(''),
-      customerProfileRatingSo: new FormControl(''),
-      mismatchInAddress: new FormControl(''),
-      customerHouseSelfie: new FormControl(''),
-      ownershipAvailable: new FormControl(''),
-      mandatoryCustMeeting: new FormControl('')
+      offAddSameAsRecord: new FormControl('', Validators.required),
+      noOfEmployeesSeen: new FormControl('', Validators.required),
+      nameBoardSeen: new FormControl('', Validators.required),
+      officePremises: new FormControl('', Validators.required),
+      sizeofOffice: new FormControl('', Validators.required),
+      customerProfileRatingSo: new FormControl('', Validators.required),
+      mismatchInAddress: new FormControl('', Validators.required),
+      customerHouseSelfie: new FormControl('', Validators.required),
+      ownershipAvailable: new FormControl('', Validators.required),
+      mandatoryCustMeeting: new FormControl('', Validators.required)
     });
   }
 
@@ -111,8 +161,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
         this.custProfDetails = value.ProcessVariables.customerProfileDetails;
         console.log('calling get api ', this.custProfDetails);
-
         if (this.custProfDetails) {
+          this.setFormValue()
           this.pdDataService.setCustomerProfile(this.custProfDetails)
         }
       }
@@ -122,11 +172,37 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   setFormValue() {
 
-    const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
+    // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
+    const customerProfileModal = this.custProfDetails || {};
 
     console.log('in form value', customerProfileModal)
 
     this.customerProfileForm.patchValue({
+      offAddSameAsRecord: customerProfileModal.offAddSameAsRecordValue || '',
+      noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
+      nameBoardSeen: customerProfileModal.nameBoardSeenValue || '',
+      officePremises: customerProfileModal.officePremises || '',
+      sizeofOffice: customerProfileModal.sizeofOffice || '',
+      customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
+      mismatchInAddress: customerProfileModal.mismatchInAddress || '',
+      customerHouseSelfie: customerProfileModal.customerHouseSelfieValue || '',
+      ownershipProof: customerProfileModal.ownershipAvailableValue || '',
+      metCustomer: customerProfileModal.mandatoryCustMeetingValue || ''
+    });
+    console.log("patched form", this.customerProfileForm);
+  }
+
+
+
+
+
+
+  onFormSubmit() {
+    const formModal = this.customerProfileForm.value;
+
+    const customerProfileModal = { ...formModal };
+    console.log('profile form', customerProfileModal);
+    this.custProfileDetails = {
       offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
       noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
       nameBoardSeen: customerProfileModal.nameBoardSeen || '',
@@ -135,48 +211,26 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
       mismatchInAddress: customerProfileModal.mismatchInAddress || '',
       customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
-      ownershipProof: customerProfileModal.ownershipAvailable || '',
-      metCustomer: customerProfileModal.mandatoryCustMeeting || ''
-    });
-  }
-
-
-
-  onFormSubmit() {
-    const formModal = this.customerProfileForm.value;
-
-    const customerProfileModal = { ...formModal };
-    console.log("profile form", customerProfileModal);
-    this.custProfileDetails = {
-      offAddSameAsRecord: customerProfileModal.offAddSameAsRecord,
-      noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen,
-      nameBoardSeen: customerProfileModal.nameBoardSeen,
-      officePremises: customerProfileModal.officePremises,
-      sizeofOffice: customerProfileModal.sizeofOffice,
-      customerProfileRatingSo: customerProfileModal.customerProfileRatingSo,
-      mismatchInAddress: customerProfileModal.mismatchInAddress,
-      customerHouseSelfie: customerProfileModal.customerHouseSelfie,
-      ownershipAvailable: customerProfileModal.ownershipAvailable,
-      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting,
+      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
+      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
     };
     const data = {
       leadId: 1,
       applicantId: 6,
-      userId: "1002",
+      userId: this.userId,
       customerProfileDetails: this.custProfileDetails
     };
 
     this.personalDiscusion.saveOrUpdatePdData(data).subscribe((res: any) => {
-      console.log("save or update PD Response", res)
+      console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess("customer Profle Details saved !", '')
-      }
-      else {
-        console.log("error", res.ProcessVariables.error.message);
-        this.toasterService.showError("ivalid save", 'message')
+        this.toasterService.showSuccess('customer Profle Details saved !', '');
+      } else {
+        console.log('error', res.ProcessVariables.error.message);
+        this.toasterService.showError('ivalid save', 'message');
 
       }
-    })
+    });
 
     // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
   }

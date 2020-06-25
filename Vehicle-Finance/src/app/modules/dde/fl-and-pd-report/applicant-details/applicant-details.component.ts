@@ -74,11 +74,11 @@ export class ApplicantDetailComponent implements OnInit {
   };
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commomLovService: CommomLovService,
-    private personaldiscussion: PersonalDiscussionService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commomLovService: CommomLovService,
+              private personaldiscussion: PersonalDiscussionService) { }
 
   ngOnInit() {
     this.initForm();
@@ -93,7 +93,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
-      //this.setFormValue();
+      //  this.setFormValue();
     });
 
   }
@@ -158,7 +158,7 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantFormModal = { ...formModal };
     console.log('Form Data', applicantFormModal);
     console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
-    //this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
+    //  this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
     // if (
     //   this.applicantForm.get('physicallyChallenged').invalid ||
     //   this.applicantForm.get('maritalStatus').invalid ||
@@ -169,27 +169,27 @@ export class ApplicantDetailComponent implements OnInit {
     // }
 
     this.applicantDetails = {
-      applicantName: applicantFormModal.applicantName,
-      fatherName: applicantFormModal.fatherName,
-      gender: applicantFormModal.gender,
-      maritalStatus: applicantFormModal.maritalStatus,
-      physicallyChallenged: Number(applicantFormModal.physicallyChallenged),
-      residancePhoneNumber: applicantFormModal.residancePhoneNumber,
-      officePhoneNumber: applicantFormModal.officePhoneNumber,
-      mobile: applicantFormModal.mobile,
-      residenceAddressAsPerLoanApplication: Number(applicantFormModal.residenceAddressAsPerLoanApplication),
-      bankName: applicantFormModal.bankName,
-      accountNumber: applicantFormModal.accountNumber,
-      landmark: applicantFormModal.landmark,
-      addressAccessibility: Number(applicantFormModal.addressAccessibility),
-      residentialLocality: applicantFormModal.residentialLocality,
-      residentialType: applicantFormModal.residentialType,
-      houseType: applicantFormModal.houseType,
-      sizeOfHouse: applicantFormModal.sizeOfHouse,
-      standardOfLiving: applicantFormModal.standardOfLiving,
-      houseOwnership: applicantFormModal.houseOwnership,
-      ratingbySO: applicantFormModal.ratingbySO,
-    };
+  applicantName: applicantFormModal.applicantName,
+  fatherName: applicantFormModal.fatherName,
+  gender: applicantFormModal.gender,
+  maritalStatus: applicantFormModal.maritalStatus,
+  physicallyChallenged: applicantFormModal.physicallyChallenged,
+  residancePhoneNumber: applicantFormModal.residancePhoneNumber,
+  officePhoneNumber: applicantFormModal.officePhoneNumber,
+  mobile: applicantFormModal.mobile,
+  residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPeLoanApplication,
+  bankName: applicantFormModal.bankName,
+  accountNumber: applicantFormModal.accountNumber,
+  landmark: applicantFormModal.landmark,
+  addressAccessibility: applicantFormModal.addressAccessibility,
+  residentialLocality: applicantFormModal.residentialLocality,
+  residentialType: applicantFormModal.residentialType,
+  houseType: applicantFormModal.houseType,
+  sizeOfHouse: applicantFormModal.sizeOfHouse,
+  standardOfLiving: applicantFormModal.standardOfLiving,
+  houseOwnership: applicantFormModal.houseOwnership,
+  ratingbySO: applicantFormModal.ratingbySO,
+};
     const data = {
       applicantPersonalDiscussionDetails: this.applicantDetails,
       // customerProfileDetails: null,
