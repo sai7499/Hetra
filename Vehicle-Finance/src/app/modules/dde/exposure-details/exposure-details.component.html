@@ -59,14 +59,21 @@
                     class="form-control text-center" formControlName="yom"  max="9999" > -->
                     <input
                       type="text" 
+                      
                       class="form-control input_value"                     
                       required autocomplete="off"
                       [maxlength]="4"
                       formControlName="yom"                    
-                      name="yom"                    
-                      pattern="^[1-9][0-9]*$"
+                      name="yom"        
+                      (input)="checkYear($event)"
+                      max="currentYear"
+                      
                     >
-                    
+                   
+                    <div *ngIf="validYom" class="invalid-feedback">
+                      Invalid YOM                     
+                    </div>
+                   
                     <!-- (input)="checkAmountLimit($event,minMaxValues['Loan_amount'].minValue,minMaxValues['Loan_amount'].maxValue)" -->
                   </td>
                 <td><input type="number" class="input_value" value="55" name="gridValue" class="form-control text-center"
@@ -202,6 +209,7 @@
   <span aria-hidden="true">&times;</span></button
 >Saved!
 </div>
+<!-- {{exposureLiveLoan.valid}} -->
 <!-- <div class="alert alert-success alert-dismissible" id="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
       aria-hidden="true">&times;</span></button> Souring Details saved Successfully.

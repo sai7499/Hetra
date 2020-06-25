@@ -21,6 +21,7 @@ export class ExposureDetailsComponent implements OnInit {
   liveloanArray = [];
   proposedArray = [];
   isAlert: boolean;
+  currentYear = new Date().getFullYear();
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -53,7 +54,7 @@ export class ExposureDetailsComponent implements OnInit {
    ngOnInit() {
     this.exposureLiveLoan = this.formBuilder.group({
       loanTable: this.formBuilder.array([]),
-      proposedTable: this.formBuilder.array([])
+      // proposedTable: this.formBuilder.array([])
     });
     // this.exposureProposedLoan = this.formBuilder.group({
     //   proposedTable: this.formBuilder.array([this.getProposedLoan()])
@@ -78,7 +79,7 @@ export class ExposureDetailsComponent implements OnInit {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < this.getExposureDetails.length; i++) {
           // if (this.getExposureDetails[i].loanDesc === 'Proposed') {
-          this.proposedArray.push(this.getExposureDetails[i]);
+          // this.proposedArray.push(this.getExposureDetails[i]);
           // // } else {
             this.liveloanArray.push(this.getExposureDetails[i]);
           // }
@@ -110,12 +111,13 @@ export class ExposureDetailsComponent implements OnInit {
         loanType: [''],
         loanNo: ['', [Validators.minLength(0)] ],
         assetType: [''],
-        yom: ['' ],
-        gridValue: ['' ],
-        ltv: ['' ],
-        currentPos: ['' ],
-        tenure: ['' ],
-        emiPaid: ['' ]
+        yom: ['' ,[Validators.minLength(4),Validators.maxLength(4),
+                    Validators.max(this.currentYear)]],
+        gridValue: ['',[Validators.required] ],
+        ltv: ['',[Validators.required] ],
+        currentPos: ['',[Validators.required] ],
+        tenure: ['',[Validators.required] ],
+        emiPaid: ['',[Validators.required]]
       });
     } else {
     return this.formBuilder.group({
@@ -136,14 +138,14 @@ export class ExposureDetailsComponent implements OnInit {
     if (!data || data === null || undefined) {
       return this.formBuilder.group({
         loanType: [''],
-        loanNo: ['' ],
-        assetType: [''],
-        yom: ['' ],
-        gridValue: ['' ],
-        ltv: ['' ],
-        currentPos: ['' ],
-        tenure: ['' ],
-        emiPaid: ['' ]
+        loanNo: ['',[Validators.required] ],
+        assetType: ['',[Validators.required]],
+        yom: ['',[Validators.minLength(4),Validators.maxLength(4),Validators.max(this.currentYear)] ],
+        gridValue: ['',[Validators.required] ],
+        ltv: ['',[Validators.required] ],
+        currentPos: ['',[Validators.required] ],
+        tenure: ['',[Validators.required] ],
+        emiPaid: ['',[Validators.required] ]
       });
     } else {
     return this.formBuilder.group({
@@ -204,10 +206,10 @@ addProposedUnit(data?: any) {
     if (data && data.length > 0 ) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0 ; i < data.length; i++) {
-        control.push(this.getLiveLoan(data[i]));
+        // control.push(this.getLiveLoan(data[i]));
       }
     } else {
-      control.push(this.getLiveLoan(null));
+      // control.push(this.getLiveLoan(null));
     }
   }
 removeProposedIndex(i?: any) {
@@ -231,53 +233,71 @@ removeProposedIndex(i?: any) {
 
 onSubmit() {
     // tslint:disable-next-line: prefer-const
-    let arrayData = [];
+    if (this.exposureLiveLoan.valid && !this.validYom){
+      let arrayData = [];
 
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i <  this.exposureLiveLoan.value.loanTable.length; i++ ) {
-     arrayData.push(this.exposureLiveLoan.value.loanTable[i]);
-     
-    }
-    // tslint:disable-next-line: prefer-for-of
-    // for (let i = 0; i <  this.exposureLiveLoan.value.proposedTable.length; i++ ) {
-    //   arrayData.push(this.exposureLiveLoan.value.proposedTable[i]);
-    //  }
-    arrayData.forEach(ele =>
-      {ele.loanNo = (ele.loanNo).toString();
-       ele.yom = (ele.yom).toString();
-      })
-
-
-    const body = {
-       leadId: this.leadId,
-       userId: this.userId,
-       exposures : arrayData
-    };
-    if (this.exposureLiveLoan.invalid) {
-    return;
-    }
-    this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
-      console.log(res, ' response in exposure');
-      if (res.ProcessVariables.error.code === '0') {
-        const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
-        const proposedControl = this.exposureLiveLoan.controls.proposedTable as FormArray;
-        liveloanControl.controls = [];
-        proposedControl.controls = [];
-        this.liveloanArray = [];
-        this.proposedArray = [];
-        this.getExposure();
-      this.toStarService.showSuccess("Exposure Saved Successfuly","Exposuer Details")
-      }else{
-        this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i <  this.exposureLiveLoan.value.loanTable.length; i++ ) {
+      arrayData.push(this.exposureLiveLoan.value.loanTable[i]);
+      
       }
+      // tslint:disable-next-line: prefer-for-of
+      // for (let i = 0; i <  this.exposureLiveLoan.value.proposedTable.length; i++ ) {
+      //   arrayData.push(this.exposureLiveLoan.value.proposedTable[i]);
+      //  }
+      arrayData.forEach(ele =>
+        {ele.loanNo = (ele.loanNo).toString();
+        ele.yom = (ele.yom).toString();
+        })
 
-    });
+
+      const body = {
+        leadId: this.leadId,
+        userId: this.userId,
+        exposures : arrayData
+      };
+      if (this.exposureLiveLoan.invalid) {
+      return;
+      }
+      this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
+        console.log(res, ' response in exposure');
+        if (res.ProcessVariables.error.code === '0') {
+          const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
+          const proposedControl = this.exposureLiveLoan.controls.proposedTable as FormArray;
+          liveloanControl.controls = [];
+          // proposedControl.controls = [];
+          this.liveloanArray = [];
+          this.proposedArray = [];
+          this.getExposure();
+        this.toStarService.showSuccess("Exposure Saved Successfuly","Exposuer Details")
+        }else{
+          this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
+        }
+
+      });
+    } else {
+      this.toStarService.showError("Please Enter Mandatory Data","Exposuer Details")
+    }
   }
+
 
   onBack() {
   this.location.back();
   }
   onNext() {
     this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`);
+  }
+  validYom:boolean ;
+  checkYear(event){
+    const getYom = event.target.value;
+    console.log("yom",getYom)
+    if(getYom > this.currentYear){
+      this.toStarService.showError("given year should lessthan or equtal to current year",
+                                    "Income Details")
+      this.validYom = true;
+    }else{
+      this.validYom = false;
+    }
+
   }
 }
