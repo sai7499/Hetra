@@ -84,7 +84,7 @@ export class BasicDetailsComponent implements OnInit {
     msg : 'Invalid'
   }
   mobilePattern={
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   }
   emailPattern={
