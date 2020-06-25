@@ -5,15 +5,15 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="cost_of_vehicle">{{labels.costOfVehicle}}</label>
-                <input type="text" class="form-control" id="cost_of_vehicle" formControlName="costOfVehicle">
+                <input type="text" class="form-control" id="cost_of_vehicle" formControlName="vehicleCost">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model/type">{{labels.modelType}}</label>
-                <input type="text" class="form-control" id="model_type" formControlName="modelType">
+                <input type="text" class="form-control" id="model_type" formControlName="model">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt">{{labels.loanAmt}}</label>
-                <input type="text" class="form-control" id="loan_amt" formControlName="loanAmt">
+                <input type="text" class="form-control" id="loan_amt" formControlName="reqLoanAmount">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}</label>
@@ -25,19 +25,19 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt_required">{{labels.loanAmtReq}}</label>
-                <input type="text" class="form-control" id="loan_amt_required" formControlName="loanAmtReq">
+                <input type="text" class="form-control" id="loan_amt_required" formControlName="usedVehicleLoanAmountReq">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="source_puchase">{{labels.sourcePurchase}}</label>
-                <input type="text" class="form-control" id="source_puchase" formControlName="sourcePurchase">
+                <input type="text" class="form-control" id="source_puchase" formControlName="sourceOfVehiclePurchase">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}</label>
-                <input type="text" class="form-control" id="margin_money" formControlName="marginMoney">
+                <input type="text" class="form-control" id="margin_money" formControlName="marginMoneySource">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="name_of_financier">{{labels.nameOfFinancer}}</label>
-                <input type="text" class="form-control" id="name_of_financier" formControlName="nameOfFinancer">
+                <input type="text" class="form-control" id="name_of_financier" formControlName="financierName">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="aware_of_margin">{{labels.awareMarginMoney}}</label>
@@ -46,7 +46,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareMarginMoney">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="coAapplicantAwareMarginMoney">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -58,7 +58,7 @@
                     <option value="Direct Customer">Direct Customer</option>
                     <option value="Seller">Seller</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.nameOfChannel" formControlName="nameOfChannel">
+                <app-vf-custom-select [values]="loanDetailsLov?.nameOfChannel" formControlName="channelSourceName">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -68,28 +68,28 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="sellerVehicle">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleSeller">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="know_abt_vechicle">{{labels.knowAbtVehicle}}</label>
-                <input type="text" class="form-control" id="know_abt_vechicle" formControlName="knowAbtVehicle">
+                <input type="text" class="form-control" id="know_abt_vechicle" formControlName="proposedVehicle">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_invested">{{labels.moneyInvested}}</label>
-                <input type="text" class="form-control" id="money_invested" formControlName="moneyInvested">
+                <input type="text" class="form-control" id="money_invested" formControlName="invesmentAmount">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_borrowed">{{labels.moneyBorrowed}}</label>
-                <input type="text" class="form-control" id="money_borrowed" formControlName="moneyBorrowed">
+                <input type="text" class="form-control" id="money_borrowed" formControlName="marginMoneyBorrowed">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="market_value">{{labels.marketValue}}</label>
-                <input type="text" class="form-control" id="market_value" formControlName="marketValue">
+                <input type="text" class="form-control" id="market_value" formControlName="marketValueProposedVehicle">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="purchased_value">{{labels.purchasedValue}}</label>
-                <input type="text" class="form-control" id="purchased_value" formControlName="purchasedValue">
+                <input type="text" class="form-control" id="purchased_value" formControlName="purchasePrice">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vechicle_condition">{{labels.vehicleCondition}}</label>
@@ -103,7 +103,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="usage_of_funds">{{labels.usageFunds}}</label>
-                <input type="text" class="form-control" id="usage_of_funds" formControlName="usageFunds">
+                <input type="text" class="form-control" id="usage_of_funds" formControlName="fundsUsage">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_conditions">{{labels.vehicleConditions}}</label>
@@ -113,12 +113,12 @@
                     <option value="Trailer">Trailer</option>
                     <option value="Others">Others</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" formControlName="vehicleConditions">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" formControlName="earlierVehicleApplication">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks_others">{{labels.remarksOthers}}</label>
-                <input type="text" class="form-control" id="remarks_others" formControlName="remarksOthers">
+                <input type="text" class="form-control" id="remarks_others" formControlName="othersRemarks">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="earlier_driving">{{labels.earlierDriving}}</label>
@@ -130,12 +130,12 @@
                     <option value="LCV">LCV</option>
                     <option value="HCV">HCV</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']" formControlName="earlierDriving">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']" formControlName="drivingVehicleEarlier">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="running_attached">{{labels.runningAttached}}</label>
-                <input type="text" class="form-control" id="running_attached" formControlName="runningAttached">
+                <input type="text" class="form-control" id="running_attached" formControlName="vehicleAttachedPlying">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="aware_of_due">{{labels.awareDue}}</label>
@@ -144,7 +144,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareDue">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareDueDateEmiAmount">
                 </app-vf-custom-select>
             </div>
 
@@ -166,11 +166,11 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model_year">{{labels.model1}}</label>
-                <input type="text" class="form-control" id="model_year" formControlName="model1">
+                <input type="text" class="form-control" id="model_year" formControlName="modelInYear">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="registration_no">{{labels.registrationNo}}</label>
-                <input type="text" class="form-control" id="registration_no" formControlName="registrationNo">
+                <input type="text" class="form-control" id="registration_no" formControlName="regNo">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="reg_copy_verified">{{labels.regCopyVerified}}</label>
@@ -179,7 +179,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="regCopyVerified">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="regCopVfd">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -189,7 +189,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="hpaNbfc">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleHpaNbfc">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -198,7 +198,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="chassis_number">{{labels.chassisNumber}}</label>
-                <input type="text" class="form-control" id="chassis_number" formControlName="chassisNumber">
+                <input type="text" class="form-control" id="chassis_number" formControlName="chasisNumber">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="permit_date">{{labels.permitDate}}</label>
@@ -208,7 +208,7 @@
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
-                    <input type="date" class="form-control" id="permit_date" formControlName="permitDate">
+                    <input type="date" class="form-control" id="permit_date" formControlName="permitValidity">
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -219,7 +219,7 @@
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
-                    <input type="date" class="form-control" id="fitness_date" formControlName="fitnessDate1">
+                    <input type="date" class="form-control" id="fitness_date" formControlName="fitnessValidity">
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -230,7 +230,7 @@
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
-                    <input type="date" class="form-control" id="tax_date" formControlName="taxDate">
+                    <input type="date" class="form-control" id="tax_date" formControlName="taxValidity">
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -240,7 +240,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="insuranceCopy">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="insuranceCopyVerified">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -251,7 +251,7 @@
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
-                    <input type="date" class="form-control" id="insurance_date">
+                    <input type="date" class="form-control" id="insurance_date" formControlName="insuranceValidity">
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -261,7 +261,7 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleVerified">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehiclePhsicallyVerified">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -271,7 +271,7 @@
                     <option value="Good">Good</option>
                     <option value="Average">Average</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.physicalCondition" formControlName="physicalCondition">
+                <app-vf-custom-select [values]="loanDetailsLov?.physicalCondition" formControlName="conditionOfVehicle">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -280,11 +280,11 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="no_of_trips">{{labels.noTrips}}</label>
-                <input type="text" class="form-control" id="no_of_trips" formControlName="noTrips">
+                <input type="text" class="form-control" id="no_of_trips" formControlName="noOfTrips">
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="trip_amt">{{labels.tripAmt}}</label>
-                <input type="text" class="form-control" id="trip_amt" formControlName="tripAmt">
+                <input type="text" class="form-control" id="trip_amt" formControlName="amtPerTrip">
             </div>
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -294,7 +294,7 @@
                     <option value="Self Driven">Self Driven</option>
                     <option value="Driver">Driver</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdSelfDrivenOrDriver']" formControlName="selfDriver">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdSelfDrivenOrDriver']" formControlName="selfDrivenOrDriver">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">

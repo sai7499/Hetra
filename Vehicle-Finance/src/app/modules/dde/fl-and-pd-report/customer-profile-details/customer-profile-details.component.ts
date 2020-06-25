@@ -8,6 +8,8 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ToasterService } from '@services/toaster.service';
 import { CustomerProfile } from '@model/dde.model';
 import { CommomLovService } from '@services/commom-lov-service';
+import { PdDataService } from '../pd-data.service';
+
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
   selector: 'app-customer-profile-details',
@@ -25,6 +27,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   leadId: number;
   userId: number;
   LOV: any = [];
+  custProfDetails: any = [];
 
   custProfileDetails: CustomerProfile;
 
@@ -34,7 +37,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private ddeStoreService: DdeStoreService,
     private personalDiscusion: PersonalDiscussionService,
     private toasterService: ToasterService,
-    private commonLovService: CommomLovService) { }
+    private commonLovService: CommomLovService,
+    private pdDataService: PdDataService,
+    private personalDiscussion: PersonalDiscussionService) { }
 
   ngOnInit() {
 
@@ -49,11 +54,14 @@ export class CustomerProfileDetailsComponent implements OnInit {
       });
 
     this.getLOV();
+    // this.commonService()
+    this.getPdDetails();
+    this.setFormValue();;
 
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
       // console.log("lov customer", this.customerProfileLov)
-      // this.setFormValue();
+
     });
 
   }
@@ -63,6 +71,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   initForm() {
+
     this.customerProfileForm = new FormGroup({
       offAddSameAsRecord: new FormControl(''),
       noOfEmployeesSeen: new FormControl(''),
@@ -70,16 +79,52 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl(''),
       sizeofOffice: new FormControl(''),
       customerProfileRatingSo: new FormControl(''),
-      mismatchAddress: new FormControl(''),
+      mismatchInAddress: new FormControl(''),
       customerHouseSelfie: new FormControl(''),
       ownershipAvailable: new FormControl(''),
       mandatoryCustMeeting: new FormControl('')
     });
   }
 
+  commonService() {
+    const customerProfileModal = this.pdDataService.getCustomerProfile();
+
+    if (customerProfileModal) {
+
+      console.log("common variable ", customerProfileModal)
+    }
+    else {
+      console.log("common variable is empty calling get api")
+
+      this.getPdDetails();
+    }
+  }
+
+  getPdDetails() {
+    const data = {
+      applicantId: 6,
+    };
+
+    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+      const processVariables = value.ProcessVariables;
+      if (processVariables.error.code === '0') {
+
+        this.custProfDetails = value.ProcessVariables.customerProfileDetails;
+        console.log('calling get api ', this.custProfDetails);
+
+        if (this.custProfDetails) {
+          this.pdDataService.setCustomerProfile(this.custProfDetails)
+        }
+      }
+    });
+
+  }
+
   setFormValue() {
 
-    const customerProfileModal = this.ddeStoreService.getCustomerProfile() || {};
+    const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
+
+    console.log('in form value', customerProfileModal)
 
     this.customerProfileForm.patchValue({
       offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
@@ -88,7 +133,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: customerProfileModal.officePremises || '',
       sizeofOffice: customerProfileModal.sizeofOffice || '',
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
-      mismatchAddress: customerProfileModal.mismatchAddress || '',
+      mismatchInAddress: customerProfileModal.mismatchInAddress || '',
       customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
       ownershipProof: customerProfileModal.ownershipAvailable || '',
       metCustomer: customerProfileModal.mandatoryCustMeeting || ''
@@ -100,15 +145,6 @@ export class CustomerProfileDetailsComponent implements OnInit {
   onFormSubmit() {
     const formModal = this.customerProfileForm.value;
 
-    // coverting the stirng format into number format
-    this.customerProfileForm.value.offAddSameAsRecord = parseInt(this.customerProfileForm.value.offAddSameAsRecord);
-    formModal.noOfEmployeesSeen = parseInt(formModal.noOfEmployeesSeen);
-    formModal.nameBoardSeen = parseInt(formModal.nameBoardSeen);
-    formModal.customerHouseSelfie = parseInt(formModal.customerHouseSelfie);
-    formModal.ownershipAvailable = parseInt(formModal.ownershipAvailable);
-    formModal.mandatoryCustMeeting = parseInt(formModal.mandatoryCustMeeting);
-
-
     const customerProfileModal = { ...formModal };
     console.log("profile form", customerProfileModal);
     this.custProfileDetails = {
@@ -118,7 +154,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: customerProfileModal.officePremises,
       sizeofOffice: customerProfileModal.sizeofOffice,
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo,
-      mismatchAddress: customerProfileModal.mismatchAddress,
+      mismatchInAddress: customerProfileModal.mismatchInAddress,
       customerHouseSelfie: customerProfileModal.customerHouseSelfie,
       ownershipAvailable: customerProfileModal.ownershipAvailable,
       mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting,

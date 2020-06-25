@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { DdeStoreService } from '@services/dde-store.service';
+import { PdDataService } from './pd-data.service';
 
 @Component({
     templateUrl: './fl-and-pd-report.component.html',
@@ -13,7 +15,9 @@ export class FlAndPdReportComponent implements OnInit {
     constructor(
         private router: Router,
         private location: Location,
-        private personaldiscussion: PersonalDiscussionService) { }
+        private personalDiscussion: PersonalDiscussionService,
+        private ddeStoreService: DdeStoreService,
+        private pdDataService: PdDataService) { }
 
     ngOnInit() {
         const currentUrl = this.location.path();
@@ -28,11 +32,15 @@ export class FlAndPdReportComponent implements OnInit {
             applicantId: 6,
         };
 
-        this.personaldiscussion.getPdData(data).subscribe((value: any) => {
+        this.personalDiscussion.getPdData(data).subscribe((value: any) => {
             const processVariables = value.ProcessVariables;
             if (processVariables.error.code === '0') {
-                this.pdDetail = processVariables.personalDiscussionDetail;
-                console.log('PD Details', this.pdDetail.accountNumber);
+                this.pdDetail = value.ProcessVariables;
+                console.log('PD Details', this.pdDetail);
+
+                if (this.pdDetail) {
+                    this.pdDataService.setCustomerProfile(this.pdDetail.customerProfileDetails)
+                }
             }
         });
 

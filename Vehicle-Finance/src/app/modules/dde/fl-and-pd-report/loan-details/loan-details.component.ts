@@ -6,7 +6,9 @@ import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
-import { LoanDetails } from '@model/lead.model';
+import { LoanDetails } from '@model/dde.model';
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -22,13 +24,19 @@ export class LoanDetailsComponent implements OnInit {
   public errorMsg;
   public getLabels;
   LOV: any = [];
+  loanDetails: LoanDetails;
+  newCvDetails: any = {};
+  usedVehicleDetails: any = {};
+  assetDetailsUsedVehicle: any = {};
 
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
-    private commonLovService: CommomLovService) { }
+    private commonLovService: CommomLovService,
+    private personalDiscussion: PersonalDiscussionService,
+    private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.initForm();
@@ -55,46 +63,47 @@ export class LoanDetailsComponent implements OnInit {
 
   initForm() {
     this.loanDetailsForm = new FormGroup({
-      costOfVehicle: new FormControl(''),
-      modelType: new FormControl(''),
+      vehicleCost: new FormControl(''),
+      model: new FormControl(''),
       reqLoanAmount: new FormControl(''),
       marginMoney: new FormControl(''),
-      loanAmtReq: new FormControl(''),
-      sourcePurchase: new FormControl(''),
-      nameOfFinancer: new FormControl(''),
-      awareMarginMoney: new FormControl(''),
-      nameOfChannel: new FormControl(''),
-      sellerVehicle: new FormControl(''),
-      knowAbtVehicle: new FormControl(''),
-      moneyInvested: new FormControl(''),
-      moneyBorrowed: new FormControl(''),
-      marketValue: new FormControl(''),
-      purchasedValue: new FormControl(''),
+      usedVehicleLoanAmountReq: new FormControl(''),
+      sourceOfVehiclePurchase: new FormControl(''),
+      marginMoneySource: new FormControl(''),
+      financierName: new FormControl(''),
+      coAapplicantAwareMarginMoney: new FormControl(''),
+      channelSourceName: new FormControl(''),
+      vehicleSeller: new FormControl(''),
+      proposedVehicle: new FormControl(''),
+      invesmentAmount: new FormControl(''),
+      marginMoneyBorrowed: new FormControl(''),
+      marketValueProposedVehicle: new FormControl(''),
+      purchasePrice: new FormControl(''),
       vehicleCondition: new FormControl(''),
-      usageFunds: new FormControl(''),
-      vehicleConditions: new FormControl(''),
-      remarksOthers: new FormControl(''),
-      earlierDriving: new FormControl(''),
-      runningAttached: new FormControl(''),
-      awareDue: new FormControl(''),
+      fundsUsage: new FormControl(''),
+      earlierVehicleApplication: new FormControl(''),
+      othersRemarks: new FormControl(''),
+      drivingVehicleEarlier: new FormControl(''),
+      vehicleAttachedPlying: new FormControl(''),
+      awareDueDateEmiAmount: new FormControl(''),
       vehicleMake: new FormControl(''),
-      model1: new FormControl(''),
-      registrationNo: new FormControl(''),
-      regCopyVerified: new FormControl(''),
-      hpaNbfc: new FormControl(''),
+      modelInYear: new FormControl(''),
+      regNo: new FormControl(''),
+      regCopVfd: new FormControl(''),
+      vehicleHpaNbfc: new FormControl(''),
       engineNumber: new FormControl(''),
-      chassisNumber: new FormControl(''),
-      permitDate: new FormControl(''),
-      fitnessDate1: new FormControl(''),
-      taxDate: new FormControl(''),
-      insuranceCopy: new FormControl(''),
-      insuranceDate: new FormControl(''),
-      vehicleVerified: new FormControl(''),
-      physicalCondition: new FormControl(''),
+      chasisNumber: new FormControl(''),
+      permitValidity: new FormControl(''),
+      fitnessValidity: new FormControl(''),
+      taxValidity: new FormControl(''),
+      insuranceCopyVerified: new FormControl(''),
+      insuranceValidity: new FormControl(''),
+      vehiclePhsicallyVerified: new FormControl(''),
+      conditionOfVehicle: new FormControl(''),
       vehicleRoute: new FormControl(''),
-      noTrips: new FormControl(''),
-      tripAmt: new FormControl(''),
-      selfDriver: new FormControl(''),
+      noOfTrips: new FormControl(''),
+      amtPerTrip: new FormControl(''),
+      selfDrivenOrDriver: new FormControl(''),
       remarks: new FormControl('')
     });
   }
@@ -104,55 +113,141 @@ export class LoanDetailsComponent implements OnInit {
     // console.log("customerProfile", customerProfileModal);
 
     this.loanDetailsForm.patchValue({
-      vehicleCost: loanDetailsModal.vehicleCost || '',
-      modelType: loanDetailsModal.model || '',
-      loanAmt: loanDetailsModal.reqLoanAmount || '',
-      marginMoney: loanDetailsModal.marginMoney || '',
-      loanAmtReq: loanDetailsModal.usedVehicleLoanAmountReq || '',
-      sourcePurchase: loanDetailsModal.sourceOfVehiclePurchase || '',
-      nameOfFinancer: loanDetailsModal.marginMoneySource || '',
-      awareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney || '',
-      nameOfChannel: loanDetailsModal.channelSourceName || '',
-      sellerVehicle: loanDetailsModal.vehicleSeller || '',
-      knowAbtVehicle: loanDetailsModal.proposedVehicle || '',
-      moneyInvested: loanDetailsModal.invesmentAmount || '',
-      moneyBorrowed: loanDetailsModal.marginMoneyBorrowed || '',
-      marketValue: loanDetailsModal.marketValueProposedVehicle || '',
-      purchasedValue: loanDetailsModal.purchasePrice || '',
-      vehicleCondition: loanDetailsModal.vehicleCondition || '',
-      usageFunds: loanDetailsModal.fundsUsage || '',
-      vehicleConditions: loanDetailsModal.earlierVehicleApplication || '',
-      remarksOthers: loanDetailsModal.remarksOthers || '',
-      earlierDriving: loanDetailsModal.drivingVehicleEarlier || '',
-      runningAttached: loanDetailsModal.vehicleAttachedPlying || '',
-      awareDue: loanDetailsModal.awareDueDateEmiAmount || '',
-      vehicleMake: loanDetailsModal.vehicleMake || '',
-      model1: loanDetailsModal.modelInYear || '',
-      registrationNo: loanDetailsModal.regNo || '',
-      regCopyVerified: loanDetailsModal.regCopVfd || '',
-      hpaNbfc: loanDetailsModal.vehicleHpaNbfc || '',
-      engineNumber: loanDetailsModal.engineNumber || '',
-      chassisNumber: loanDetailsModal.chasisNumber || '',
-      permitDate: loanDetailsModal.permitValidity || '',
-      fitnessDate1: loanDetailsModal.fitnessValidity || '',
-      taxDate: loanDetailsModal.taxValidity || '',
-      insuranceCopy: loanDetailsModal.insuranceCopyVerified || '',
-      insuranceDate: loanDetailsModal.insuranceValidity || '',
-      vehicleVerified: loanDetailsModal.vehiclePhsicallyVerified || '',
-      physicalCondition: loanDetailsModal.conditionOfVehicle || '',
-      vehicleRoute: loanDetailsModal.vehicleRoute || '',
-      noTrips: loanDetailsModal.noOfTrips || '',
-      tripAmt: loanDetailsModal.amtPerTrip || '',
-      selfDriver: loanDetailsModal.selfDrivenOrDriver || '',
-      remarks: loanDetailsModal.remarks || ''
+      vehicleCost: loanDetailsModal.vehicleCost,
+      model: loanDetailsModal.model,
+      // type: loanDetailsModal.model,
+      reqLoanAmount: loanDetailsModal.reqLoanAmount,
+      marginMoney: loanDetailsModal.marginMoney,
+      usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
+      sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
+      marginMoneySource: loanDetailsModal.marginMoneySource,
+      financierName: loanDetailsModal.financierName,
+      coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
+      channelSourceName: loanDetailsModal.channelSourceName,
+      vehicleSeller: loanDetailsModal.vehicleSeller,
+      proposedVehicle: loanDetailsModal.proposedVehicle,
+      invesmentAmount: loanDetailsModal.invesmentAmount,
+      marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
+      marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
+      purchasePrice: loanDetailsModal.purchasePrice,
+      vehicleCondition: loanDetailsModal.vehicleCondition,
+      fundsUsage: loanDetailsModal.fundsUsage,
+      earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
+      othersRemarks: loanDetailsModal.othersRemarks,
+      drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
+      vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
+      awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
+      vehicleMake: loanDetailsModal.vehicleMake,
+      modelInYear: loanDetailsModal.modelInYear,
+      regNo: loanDetailsModal.regNo,
+      regCopyVerified: loanDetailsModal.regCopVfd,
+      hpaNbfc: loanDetailsModal.vehicleHpaNbfc,
+      regCopVfd: loanDetailsModal.engineNumber,
+      chasisNumber: loanDetailsModal.chasisNumber,
+      permitValidity: loanDetailsModal.permitValidity,
+      fitnessValidity: loanDetailsModal.fitnessValidity,
+      taxValidity: loanDetailsModal.taxValidity,
+      insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
+      insuranceValidity: loanDetailsModal.insuranceValidity,
+      vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
+      conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
+      vehicleRoute: loanDetailsModal.vehicleRoute,
+      noOfTrips: loanDetailsModal.noOfTrips,
+      amtPerTrip: loanDetailsModal.amtPerTrip,
+      selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
+      remarks: loanDetailsModal.remarks
     });
   }
 
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
     const loanDetailsModal = { ...formModal };
+    console.log("form data", loanDetailsModal)
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
     // this.router.navigate(['/pages/dde']);
+
+    this.newCvDetails = {
+
+      // new vehicle
+
+      vehicleCost: loanDetailsModal.vehicleCost,
+      model: loanDetailsModal.model,
+      type: loanDetailsModal.model,
+      reqLoanAmount: loanDetailsModal.reqLoanAmount,
+      marginMoney: loanDetailsModal.marginMoney,
+
+    }
+
+    // used  vehicle details
+
+    this.usedVehicleDetails = {
+
+      usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
+      sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
+      marginMoneySource: loanDetailsModal.marginMoneySource,
+      financierName: loanDetailsModal.financierName,
+      coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
+      channelSourceName: loanDetailsModal.channelSourceName,
+      vehicleSeller: loanDetailsModal.vehicleSeller,
+      proposedVehicle: loanDetailsModal.proposedVehicle,
+      invesmentAmount: loanDetailsModal.invesmentAmount,
+      marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
+      marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
+      purchasePrice: loanDetailsModal.purchasePrice,
+      vehicleCondition: loanDetailsModal.vehicleCondition,
+      fundsUsage: loanDetailsModal.fundsUsage,
+      earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
+      othersRemarks: loanDetailsModal.othersRemarks,
+      drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
+      vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
+      awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
+    }
+
+    // for assetDetails used vehicle
+
+    this.assetDetailsUsedVehicle = {
+
+      vehicleMake: loanDetailsModal.vehicleMake,
+      modelInYear: loanDetailsModal.modelInYear,
+      regNo: loanDetailsModal.regNo,
+      regCopVfd: loanDetailsModal.regCopVfd,
+      vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
+      engineNumber: loanDetailsModal.engineNumber,
+      chasisNumber: loanDetailsModal.chasisNumber,
+      permitValidity: loanDetailsModal.permitValidity,
+      fitnessValidity: loanDetailsModal.fitnessValidity,
+      taxValidity: loanDetailsModal.taxValidity,
+      insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
+      insuranceValidity: loanDetailsModal.insuranceValidity,
+      vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
+      conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
+      vehicleRoute: loanDetailsModal.vehicleRoute,
+      noOfTrips: loanDetailsModal.noOfTrips,
+      amtPerTrip: loanDetailsModal.amtPerTrip,
+      selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
+      remarks: loanDetailsModal.remarks
+    };
+
+    const data = {
+      leadId: 1,
+      applicantId: 6,
+      userId: "1002",
+      loanDetailsForNewCv: this.newCvDetails,
+      applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
+      applicableForUsedVehicle: this.usedVehicleDetails
+
+    }
+
+    this.personalDiscussion.savePdData(data).subscribe((value: any) => {
+      const processVariables = value.ProcessVariables;
+      if (processVariables.error.code === '0') {
+        const message = processVariables.error.message;
+        console.log('PD Status', message);
+        console.log("response loan details", value.ProcessVariables)
+        this.toasterService.showSuccess("loan details saved successfully!", '')
+      }
+    });
+
 
   }
 

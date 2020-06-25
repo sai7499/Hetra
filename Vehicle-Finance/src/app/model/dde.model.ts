@@ -139,7 +139,7 @@ export interface CustomerProfile {
     officePremises?: string;
     sizeofOffice?: string;
     customerProfileRatingSo?: string;
-    mismatchAddress?: string;
+    mismatchInAddress?: string;
     customerHouseSelfie?: string;
     ownershipAvailable?: string;
     mandatoryCustMeeting?: string;
@@ -171,7 +171,7 @@ export interface LoanDetails {
     vehicleCondition?: string;
     fundsUsage?: string;
     earlierVehicleApplication?: string;
-    remarksOthers?: string;
+    othersRemarks?: string;
     drivingVehicleEarlier?: string;
     vehicleAttachedPlying?: string;
     awareDueDateEmiAmount?: string;
