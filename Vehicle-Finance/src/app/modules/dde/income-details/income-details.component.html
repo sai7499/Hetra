@@ -2,7 +2,6 @@
 <!--progress bar-->
 <form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
   <div class="multisteps-form">
-    <!-- <div class="content"> -->
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="container-fluid">
         <div class="row">
@@ -54,22 +53,13 @@
                       readonly="true" name="applicant" class="form-control text-center" />
                   </td>
 
-                  <td data-title="Business Entity Name" >
-                    <!-- <input
-                      type="text"
-                      id="latbox"
-                      class="no_border"
-                      class="input_value"
-                      name="businessEnterpriseName"
-                      class="form-control text-center"
-                      formControlName="businessEnterpriseName"
-                    /> -->
+                  <td data-title="Business Entity Name">
+
                     <app-custom-input formControlName="businessEnterpriseName" [patternCheck]="namePattern"
                       [maxLength]="inputLength30" [isRequired]="'*required'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Net Profit">
-                    <!-- <input type="number" appNumberOnly min="0" id="latbox" class="no_border" class="input_value"
-                      name="netProfit" class="form-control text-center" formControlName="netProfit" (keyup)="onIncome($event.target.value, i)" /> -->
+
                     <app-custom-input [type]="number" formControlName="netProfit" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)" appNumberOnly></app-custom-input>
@@ -81,16 +71,7 @@
                       (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="Directors salary/Interest to partners + Interest">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      class="input_value"
-                      name="directorSalary"
-                      class="form-control text-center"
-                      formControlName="directorSalary"
-                      (keyup)="onIncome($event.target.value, i)"
-                    /> -->
+
                     <app-custom-input [type]="number" formControlName="directorSalary" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)"></app-custom-input>
@@ -166,17 +147,7 @@
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Gross Income">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="no_border"
-                      class="input_value"
-                      name="grossIncome"
-                      class="form-control text-center"
-                      formControlName="grossIncome"
-                      (keyup)="getOtherFactoredIncome(i)"
-                    /> -->
+
                     <app-custom-input [type]="number" formControlName="grossIncome" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="getOtherFactoredIncome(i)"></app-custom-input>
@@ -260,62 +231,24 @@
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Loan Amount">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="input_value"
-                      name="loanAmount"
-                      class="form-control text-center"
-                      formControlName="loanAmount"
-                      min="0"
-                    /> -->
+
                     <app-custom-input [type]="number" formControlName="loanAmount" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Tenor(In Months)">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      class="input_value"
-                      name="tenure"
-                      class="form-control text-center"
-                      formControlName="tenure"
-                      min="0"
-                      (keyup)="onTenure($event.target.value, i)"
-                    /> -->
+
                     <app-custom-input [type]="number" formControlName="tenure" [patternCheck]="inputValidation"
                       [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="MOB">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      min="0"
-                      id=""
-                      class="input_value"
-                      name="mob"
-                      class="form-control text-center"
-                      formControlName="mob"
-                      (keyup)="onTenure($event.target.value, i)"
-                    /> -->
+
                     <app-custom-input [type]="number" formControlName="mob" [patternCheck]="inputValidation"
                       [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="EMI">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="input_value"
-                      name="emi"
-                      class="form-control text-center"
-                      formControlName="emi"
-                      (keyup)="onEmi($event.target.value, i)"
-                    /> -->
+
                     <app-custom-input [type]="number" formControlName="emi" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onEmi($event.target.value, i)" appNumberOnly></app-custom-input>
@@ -360,29 +293,15 @@
               <tr>
                 <td>{{ labels?.salariedFOIRaspePolicy }}</td>
                 <td>
-                  <input type="number"  id="" readonly="true" class="input_value"
-                    name="salariedFOIRDeviation" class="form-control" value="70"
-                    formControlName="salariedFOIRaspePolicy" />
+                  <input type="number" id="" readonly="true" class="input_value" name="salariedFOIRDeviation"
+                    class="form-control" value="70" formControlName="salariedFOIRaspePolicy" />
 
                 </td>
               </tr>
               <tr>
                 <td>{{ labels?.salariedFOIRDeviation }}<sub class="star_red_col">*</sub></td>
                 <td>
-                  <!-- <input
-                    type="number"
-                    appNumberOnly
-                    id=""
-                    class="input_value"
-                    name="salariedFOIRDeviation"
-                    class="form-control text-center"
-                    value=""
-                    min="0"
-                    max="10"
-                    maxlength="2"
-                    formControlName="salariedFOIRDeviation"
-                    (keyup)="onSalFoirDeviation($event.target.value)"
-                  /> -->
+
                   <app-custom-input formControlName="salariedFOIRDeviation" [patternCheck]="inputValidation"
                     [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
                     (keyup)="onSalFoirDeviation($event.target.value)"></app-custom-input>
@@ -390,7 +309,7 @@
               </tr>
               <tr>
                 <td>{{ labels?.totalSalariedFOIR }}</td>
-                <td>{{ totalSalariedFOIR + salariedFOIRaspePolicy }}</td>
+                <td>{{ totalSalariedFOIR }}</td>
               </tr>
               <tr>
                 <td>{{ labels?.consideredSalaryIncome }}</td>
@@ -441,7 +360,6 @@
       </div>
     </div>
 
-    <!-- </div> -->
   </div>
 
   <div class="btn-sec clear-both row cst_btm_btns">

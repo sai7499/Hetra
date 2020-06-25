@@ -20,6 +20,8 @@ export class LeadSectionHeaderComponent implements OnInit {
   productIdFromLead: any;
   applicantName: string;
   loanAmount: Number;
+  stageDescription: string;
+
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -63,6 +65,7 @@ export class LeadSectionHeaderComponent implements OnInit {
                       // leadSectionData.leadDetails.reqLoanAmt : 0;
     this.applicantName = leadSectionData.applicantDetails[0].fullName;
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt'];
+    this.stageDescription = leadSectionData.leadDetails.stageDesc;
     
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;

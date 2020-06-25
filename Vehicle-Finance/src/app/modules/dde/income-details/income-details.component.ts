@@ -77,6 +77,7 @@ export class IncomeDetailsComponent implements OnInit {
   salariedFOIRaspePolicy: number;
   isDirty: boolean;
   incomeTypeValue: any;
+  SalariedFOIRDeviation: number;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -130,14 +131,6 @@ export class IncomeDetailsComponent implements OnInit {
     }
     this.incomeDetailsService.getFactoringValue(incomeData).subscribe(res => {
       this.incomeTypeResponse = res['ProcessVariables']['factoringList']
-      console.log(this.incomeTypeResponse);
-
-      // this.incomeTypeResponse.forEach(element => {
-      //   console.log('income type ---->',element)
-      //   this.incomeTypeValue = element
-      //   console.log(this.incomeTypeValue);
-
-      // })
     });
     this.getAllIncome();
 
@@ -317,9 +310,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getOtherIncomeDetails(data[i]));
-        // this.appendFactoredIncome(data[i].incomeType, i);
-        // this.getOtherIncomeDetails(i);
-        this.getOtherFactoredIncome(i);
+         this.getOtherFactoredIncome(i);
       }
     } else {
       control.push(this.getOtherIncomeDetails());
@@ -365,7 +356,6 @@ export class IncomeDetailsComponent implements OnInit {
       }
     } else {
       control.push(this.getObligationDetails());
-      // this.appendFactoredIncome(data[i].incomeType, i);
 
     }
   }
@@ -406,10 +396,14 @@ export class IncomeDetailsComponent implements OnInit {
       .getAllIncomeDetails(body)
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
+        this.incomeDetailsForm.patchValue({ salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation })
         this.addBusinessIncomeUnit(res.ProcessVariables.businessIncomeList);
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
+        this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation)
+
       });
+
 
   }
 
@@ -451,8 +445,8 @@ export class IncomeDetailsComponent implements OnInit {
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
 
-      this.toasterService.showError( 'Mandatory Fields Missing Or Invalid Pattern Detected',
-      'Income Details');
+      this.toasterService.showError('Mandatory Fields Missing Or Invalid Pattern Detected',
+        'Income Details');
       return;
     } else {
       const businessControl = this.incomeDetailsForm.controls
@@ -485,6 +479,11 @@ export class IncomeDetailsComponent implements OnInit {
         obligationControl.at(i).get('emi').setValue(emi);
 
       }
+      const salaryContol = this.incomeDetailsForm.controls.salariedFOIRDeviation as FormControl;
+      const salariedFOIRDeviation = Number(salaryContol.value)
+      salaryContol.setValue(salariedFOIRDeviation);
+
+
       this.incomeDetailsService
         .setAllIncomeDetails(this.incomeDetailsForm.value)
         .subscribe((res: any) => {
@@ -511,25 +510,7 @@ export class IncomeDetailsComponent implements OnInit {
         });
     }
   }
-
-
-  // appendFactoredIncome(event: any, i: number) {
-  //   const data = {
-  //     productCode: this.productCode
-  //   }
-  //   this.incomeDetailsService.getFactoringValue(data).subscribe(res => {
-  //     this.incomeTypeResponse = res['ProcessVariables']['factoringList']
-  //     this.incomeTypeResponse.forEach(element => {
-  //       if (event === element.incomeTypeUniqueValue) {
-  //         const incomeArray = this.incomeDetailsForm.controls
-  //           .otherIncomeDetails as FormArray;
-  //         incomeArray.at(i).patchValue({ factoring: element.factoring });
-  //       }
-  //       this.getOtherIncomeDetails(i);
-  //     });
-
-  //   })
-  // }
+ 
   appendFactoredIncome(event: any, i: number) {
 
     if (event === this.incomeTypeResponse[0].incomeTypeUniqueValue) {
@@ -633,15 +614,18 @@ export class IncomeDetailsComponent implements OnInit {
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     const tenure = obligationArray.value[i].tenure;
+console.log(tenure);
 
     const mob = obligationArray.value[i].mob;
+    console.log(mob);
+    
     if (tenure < mob) {
       this.toasterService.showError(
         'Mob should not exceed tenure',
         ''
       );
 
-    } else {
+    } else if(tenure > mob){
       const balanceTenor = Math.abs(Number(tenure) - Number(mob));
 
       obligationArray.at(i).patchValue({ balanceTenure: balanceTenor })
@@ -685,9 +669,15 @@ export class IncomeDetailsComponent implements OnInit {
   }
   onSalFoirDeviation(event: any) {
     const salariedFOIRaspePolicy = this.incomeDetailsForm.controls.salariedFOIRaspePolicy.value
-    this.totalSalariedFOIR = 0;
-    // this.totalSalariedFOIR = Math.round(Number(event) + Number(salariedFOIRaspePolicy))
-    this.totalSalariedFOIR = Math.round(Number(event))
+
+    if (Number(event) + Number(salariedFOIRaspePolicy) <= 150) {
+      this.SalariedFOIRDeviation = Math.round(Number(event))
+      this.totalSalariedFOIR = this.SalariedFOIRDeviation + salariedFOIRaspePolicy;
+    } else {
+      this.toasterService.showWarning('should not exceed 150', '');
+      this.totalSalariedFOIR = 0;
+    }
+
 
 
 
