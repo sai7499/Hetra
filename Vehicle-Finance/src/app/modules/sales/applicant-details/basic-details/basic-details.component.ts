@@ -551,7 +551,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
 
-      if (res.Error === '0') {
+      if (res.ProcessVariables.error.code === '0') {
         // this.router.navigate([
         //   `/pages/sales-applicant-details/${leadId}/identity-details`,
         //   this.applicantId,
