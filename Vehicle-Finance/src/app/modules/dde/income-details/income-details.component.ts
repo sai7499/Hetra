@@ -646,6 +646,7 @@ export class IncomeDetailsComponent implements OnInit {
     if (tenure < mob) {
       this.toasterService.showError('Mob should not exceed tenure', '');
       obligationArray.at(i).patchValue({ mob: 0 });
+      obligationArray.at(i).patchValue({ balanceTenure: tenure });
     } else {
       const balanceTenor = Math.abs(Number(tenure) - Number(mob));
 
