@@ -64,10 +64,11 @@ export class IdentityDetailsComponent implements OnInit {
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-      return;
-    }
+      
+    }else{
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
+}
 
   onBack() {
     this.location.back();

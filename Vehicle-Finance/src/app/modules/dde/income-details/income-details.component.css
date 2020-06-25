@@ -30,6 +30,13 @@
   height: 100px;
   z-index: 999;
 }
+.star_red_col
+{
+    color: #da3939;
+    font-size: 25px;
+    margin-left: 4px;
+   
+}
 /***fleet design starts here******/
 /*#track > tbody > tr > td{padding:10px;}*/
 /*
