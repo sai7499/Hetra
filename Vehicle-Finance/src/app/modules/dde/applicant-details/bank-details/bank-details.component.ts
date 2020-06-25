@@ -64,6 +64,9 @@ export class BankDetailsComponent implements OnInit {
     rule: 10,
   };
   labels: any;
+  transactionData: any;
+  OldFromDate: Date;
+  OldToDate: any;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -88,7 +91,7 @@ export class BankDetailsComponent implements OnInit {
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
       period: ['', { disabled: true }],
-      limit: [null],
+      limit: [0],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),
       transactionDetails: this.listArray,
@@ -161,16 +164,16 @@ export class BankDetailsComponent implements OnInit {
   public populateTransaction(data?: any) {
     console.log(data, 'data in aptch ');
     return this.fb.group({
-      month: data.month,
-      year: data.year,
-      inflow: data.inflow,
-      outflow: data.outflow,
-      noOfInWardBounces: data.noOfInWardBounces,
-      noOfOutWardBounces: data.noOfOutWardBounces,
-      balanceOn5th: data.balanceOn5th,
-      balanceOn15th: data.balanceOn15th,
-      balanceOn20th: data.balanceOn20th,
-      abbOfTheMonth: data.abbOfTheMonth,
+      month: data.month ? data.month : null,
+      year: data.year ? Number(data.year) : null ,
+      inflow: data.inflow ? Number(data.inflow) : null,
+      outflow: data.outflow ? Number(data.outflow) : null,
+      noOfInWardBounces: data.noOfInWardBounces ? Number(data.noOfInWardBounces) : null,
+      noOfOutWardBounces: data.noOfOutWardBounces ? Number(data.noOfOutWardBounces) : null,
+      balanceOn5th: data.balanceOn5th ? Number(data.balanceOn5th) : null,
+      balanceOn15th: data.balanceOn15th ? Number(data.balanceOn15th) : null,
+      balanceOn20th: data.balanceOn20th ? Number(data.balanceOn20th) : null,
+      abbOfTheMonth: data.abbOfTheMonth ? Number(data.abbOfTheMonth) : null,
     });
   }
   getBankDetails() {
@@ -190,18 +193,7 @@ export class BankDetailsComponent implements OnInit {
         // }
       });
   }
-  getDate() {
-    const date = new Date();
-    console.log(date, ' date function');
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const day1 = day < 10 ? '0' + day : day;
-    const month1 = month < 10 ? ' 0' + month : month;
-    const newDate = (day1 + '-' + month1 + '-' + year).toString();
-    console.log(newDate);
-    return newDate;
-  }
+
   public populateData(data?: any) {
     this.bankForm.patchValue({
       accountHolderName: data.ProcessVariables.accountHolderName
@@ -227,7 +219,7 @@ export class BankDetailsComponent implements OnInit {
         : null,
       limit: data.ProcessVariables.limit
         ? Number(data.ProcessVariables.limit)
-        : null,
+        : 0,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -263,10 +255,24 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.toDate = this.utilityService.getDateFormat(
       this.bankForm.value.toDate
     );
+    // this.bankForm.value.year = Number(this.bankForm.value.year);
     this.bankForm.value.limit = Number(this.bankForm.value.limit);
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
-    console.log(this.bankForm.value.transactionDetails);
+    const transactionArray = this.bankForm.value.transactionDetails as FormArray;
+    console.log(transactionArray, ' transaction data');
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0 ; i < transactionArray.length; i++) {
+    transactionArray[i].year = Number(transactionArray[i].year);
+    transactionArray[i].outflow = Number(transactionArray[i].outflow);
+    transactionArray[i].inflow = Number(transactionArray[i].inflow);
+    transactionArray[i].noOfInWardBounces = Number(transactionArray[i].noOfInWardBounces);
+    transactionArray[i].noOfOutWardBounces = Number(transactionArray[i].noOfOutWardBounces);
+    transactionArray[i].balanceOn5th = Number(transactionArray[i].balanceOn5th);
+    transactionArray[i].balanceOn15th = Number(transactionArray[i].balanceOn15th);
+    transactionArray[i].balanceOn20th = Number(transactionArray[i].balanceOn20th);
+    }
+    // console.log(this.bankForm.value.transactionDetails);
     if (this.bankForm.invalid) {
       this.toasterService.showWarning(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
@@ -294,77 +300,133 @@ export class BankDetailsComponent implements OnInit {
       });
     console.log(this.bankForm.value);
   }
+  getNewDateFormat(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    const formattedDate = day + '/' + month1 + '/' + year;
+    console.log('return Date', formattedDate);
+    return formattedDate;
+  }
+  savetransactionData() {
+    this.transactionData = [];
+    const details = this.bankForm.controls.transactionDetails as FormArray;
+    this.transactionData  = details.value;
+  }
 
   getMonths() {
+    if (this.OldToDate && this.OldFromDate) {
+     const txt = confirm('Are You Sure Want To Change Dates ?');
+     if (txt === false) {
+      return;
+     } 
+    }
     const fromDate = new Date(this.bankForm.value.fromDate)
-      ? new Date(this.bankForm.value.fromDate)
-      : null;
+    ? new Date(this.bankForm.value.fromDate)
+    : null;
     const toDate = new Date(this.bankForm.value.toDate)
-      ? new Date(this.bankForm.value.toDate)
-      : null;
+    ? new Date(this.bankForm.value.toDate)
+    : null;
+    if (fromDate > toDate) {
+    this.toasterService.showWarning('Invalid Date Selection', '');
+    if (this.OldFromDate && this.OldToDate) {
+      // this.listArray.controls = [];
+      const date = new Date(this.OldFromDate);
+      this.bankForm.patchValue({  fromDate : this.OldFromDate,
+      toDate : this.OldFromDate});
+    }
+    return;
+    }
+    const fromDateNew = this.bankForm.value.fromDate;
+    const toDateNew = this.bankForm.value.toDate;
+    this.OldFromDate = fromDateNew;
+    this.OldToDate = toDateNew;
     const diff = toDate.getMonth() - fromDate.getMonth();
     const numberOfMonths = Math.round(
-      (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-        (toDate.getMonth() - fromDate.getMonth()) +
-        1
-    );
+    (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+      (toDate.getMonth() - fromDate.getMonth()) +
+      1
+  );
     if (
-      diff === undefined ||
-      (diff === null && fromDate.getFullYear() > toDate.getFullYear())
-    ) {
-      this.listArray.controls = [];
-      // alert('Invalid Date Selection');
+    diff === undefined ||
+    (diff === null && fromDate.getFullYear() > toDate.getFullYear())
+  ) {
+    this.listArray.controls = [];
+  } else {
+    if (numberOfMonths >= 1) {
+      this.bankForm.patchValue({
+        period: numberOfMonths,
+      });
     } else {
-      // const numberOfMonths =
-      //   (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-      //   (toDate.getMonth() - fromDate.getMonth()) +
-      //   1;
-      if (numberOfMonths >= 1) {
-        this.bankForm.patchValue({
-          period: numberOfMonths,
-        });
-      } else {
-        // alert('Invalid Date Selection');
-        this.bankForm.value.period = '';
-        return false;
+      // alert('Invalid Date Selection');
+      this.bankForm.value.period = '';
+      return false;
+    }
+    this.assignedArray = [];
+    let stratMonth = fromDate.getMonth();
+    for (let i = 0; i < numberOfMonths; i++) {
+      // const count = i % 12;
+      const count = stratMonth % 12;
+      stratMonth = stratMonth + 1;
+      console.log('start monthy', stratMonth);
+      // const array = this.monthArray.slice(count, count + 1);
+      // tslint:disable-next-line: one-variable-per-declaration
+      const array = this.monthArray[count];
+      console.log(array, array[0]);
+      this.assignedArray.push(array);
+      if (this.assignedArray.length > numberOfMonths) {
+        return;
       }
+    }
 
-      this.listArray.controls = [];
-      for (let i = 0; i <= numberOfMonths - 1; i++) {
+    // if (this.transactionData && this.transactionData.length > 0) {
+    // alert(this.transactionData);
+    // console.log(this.transactionData);
+    // this.listArray.controls = [];
+    // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < this.transactionData.length; i++ ) {
+    //   this.addProposedUnit(this.transactionData[i]);
+    // }
+    // this.transactionData.forEach((data) => {
+    // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < this.transactionData.length; i++) {
+    //   this.assignedArray.forEach((month) => {
+    //     if (this.transactionData[i].month === month) {
+    //       this.addProposedUnit(this.transactionData[i]);
+    //     } else {
+    //       this.initRows(null);
+    //     }
+    //   });
+    //   }
+    // for (let i = 0; i < this.assignedArray.length; i++) {
+    //   this.assignedArray.forEach((month) => {
+    //         if (this.transactionData[i].month === month) {
+    //           this.addProposedUnit(this.transactionData[i]);
+    //         } else {
+    //           this.initRows(null);
+    //         }
+    //       });
+    // }
+    // // })
+    // } else {
+    this.listArray.controls = [];
+    for (let i = 0; i <= numberOfMonths - 1; i++) {
         this.listArray.push(this.initRows());
       }
-      // const startMonth = fromDate.getMonth();
-      // const endMonth = toDate.getMonth();
-      this.assignedArray = [];
-      const controlArray = this.bankForm.controls
-        .transactionDetails as FormArray;
-      let stratMonth = fromDate.getMonth();
-      for (let i = 0; i < numberOfMonths; i++) {
-        // const count = i % 12;
-        const count = stratMonth % 12;
-        stratMonth = stratMonth + 1;
-        console.log('start monthy', stratMonth);
-        // const array = this.monthArray.slice(count, count + 1);
-        // tslint:disable-next-line: one-variable-per-declaration
-        const array = this.monthArray[count];
-        console.log(array, array[0]);
-        this.assignedArray.push(array);
-
-        // console.log(controlArray, 'Control Array') ;
-        // controlArray.at(i).patchValue({ month: array });
-
-        //
-      }
-      // this.assignedArray = this.assignedArray.reverse();
-      console.log(this.assignedArray, ' assigned Array');
     }
-  }
-  onBack() {
+  // }
+}
+
+onBack() {
     this.location.back();
   }
   // log(this.assignedArray);
 
-  onBackToApplicant() {
+onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 }

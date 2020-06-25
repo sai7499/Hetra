@@ -2,7 +2,6 @@
 <!--progress bar-->
 <form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
   <div class="multisteps-form">
-    <!-- <div class="content"> -->
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="container-fluid">
         <div class="row">
@@ -16,176 +15,80 @@
               <thead>
                 <tr class="">
                   <th role="columnheader">{{ labels?.sNO }}</th>
-                  <th role="columnheader">{{ labels?.applicantName }}</th>
+                  <th role="columnheader">{{ labels?.applicantName }}<sub class="star_red_col">*</sub></th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
-                  <th role="columnheader">{{ labels?.businessEntityName }}</th>
-                  <th role="columnheader">{{ labels?.netProfit }}</th>
-                  <th role="columnheader">{{ labels?.depreciation }}</th>
-                  <th role="columnheader">{{ labels?.directorsSalary }}</th>
+                  <th role="columnheader">{{ labels?.businessEntityName }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.netProfit }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.depreciation }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.directorsSalary }}<sub class="star_red_col">*</sub></th>
                   <th role="columnheader">{{ labels?.grossDerivedIncome }}</th>
                   <th role="columnheader">{{ labels?.grossMonthlyIncome }}</th>
                   <th role="columnheader">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="businessIncomeDetails">
-                <tr
-                  class="text-center"
-                  id="applicant_1_row"
-                  *ngFor="
+                <tr class="text-center" id="applicant_1_row" *ngFor="
                     let item of incomeDetailsForm.get('businessIncomeDetails')[
                       'controls'
                     ];
                     let i = index
-                  "
-                  [formGroupName]="i"
-                >
+                  " [formGroupName]="i">
                   <td data-title="S.No">
                     {{ i + 1 }}
                   </td>
                   <td data-title="Applicant Name">
-                    <select
-                      class="form-control mandatory select2"
-                      id=""
-                      name="applicantId"
-                      [ngClass]="{ 'is-invalid': submitted }"
-                      class="form-control text-center"
-                      formControlName="applicantId"
-                      (change)="
+                    <select class="form-control mandatory select2" id="" name="applicantId"
+                      [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center"
+                      formControlName="applicantId" (change)="
                         onBusinessApplicantChange($event.target.value, i)
-                      "
-                    >
-                      <option
-                        *ngFor="let applicants of applicantDetails"
-                        [value]="applicants.applicantId"
-                      >
-                        {{ applicants.fullName }}</option
-                      >
+                      ">
+                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+                        {{ applicants.fullName }}</option>
                     </select>
                     <div *ngIf="submitted"></div>
                   </td>
 
                   <td data-title="Applicant Type">
-                    <input
-                      type="text"
-                      id="latbox"
-                      formControlName="applicantType"
-                      class="no_border"
-                      class="input_value"
-                      readonly="true"
-                      name="applicant"
-                      class="form-control text-center"
-                    />
+                    <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value"
+                      readonly="true" name="applicant" class="form-control text-center" />
                   </td>
 
                   <td data-title="Business Entity Name">
-                    <!-- <input
-                      type="text"
-                      id="latbox"
-                      class="no_border"
-                      class="input_value"
-                      name="businessEnterpriseName"
-                      class="form-control text-center"
-                      formControlName="businessEnterpriseName"
-                    /> -->
-                    <app-custom-input
-                    formControlName="businessEnterpriseName"
-                    [patternCheck]="namePattern"
-                    [maxLength]="inputLength30"
-                    [isRequired]="'*required'"
-                    [isDirty]="isDirty"
-                  ></app-custom-input>
+
+                    <app-custom-input formControlName="businessEnterpriseName" [patternCheck]="namePattern"
+                      [maxLength]="inputLength30" [isRequired]="'*required'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Net Profit">
-                    <!-- <input type="number" appNumberOnly min="0" id="latbox" class="no_border" class="input_value"
-                      name="netProfit" class="form-control text-center" formControlName="netProfit" (keyup)="onIncome($event.target.value, i)" /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="netProfit"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="onIncome($event.target.value, i)"
-                      appNumberOnly
-                    ></app-custom-input>
+
+                    <app-custom-input [type]="number" formControlName="netProfit" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="onIncome($event.target.value, i)" appNumberOnly></app-custom-input>
                   </td>
                   <td data-title="Depreciation">
-                  
-                    <app-custom-input
-                      [type]= "number"
-                      formControlName="depreciation"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="onIncome($event.target.value, i)"
-                    ></app-custom-input>
+
+                    <app-custom-input [type]="number" formControlName="depreciation" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                   </td>
-                  <td
-                    data-title="Directors salary/Interest to partners + Interest"
-                  >
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      class="input_value"
-                      name="directorSalary"
-                      class="form-control text-center"
-                      formControlName="directorSalary"
-                      (keyup)="onIncome($event.target.value, i)"
-                    /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="directorSalary"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="onIncome($event.target.value, i)"
-                    ></app-custom-input>
+                  <td data-title="Directors salary/Interest to partners + Interest">
+
+                    <app-custom-input [type]="number" formControlName="directorSalary" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="Gross derived Income">
-                    <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="input_value"
-                      name="grossDerivedIncome"
-                      readonly="true"
-                      class="form-control text-center"
-                      formControlName="grossDerivedIncome"
-                    />
+                    <input type="number" appNumberOnly id="latbox" class="input_value" name="grossDerivedIncome"
+                      readonly="true" class="form-control text-center" formControlName="grossDerivedIncome" />
                   </td>
                   <td data-title="Gross monthly income">
-                    <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      readonly="true"
-                      class="input_value"
-                      name="grossMonthlyIncome"
-                      class="form-control text-center"
-                      formControlName="grossMonthlyIncome"
-                    />
+                    <input type="number" appNumberOnly id="" readonly="true" class="input_value"
+                      name="grossMonthlyIncome" class="form-control text-center" formControlName="grossMonthlyIncome" />
                   </td>
                   <td data-title="Actions">
-                    <i
-                      type="button"
-                      class="fa fa-plus"
-                      aria-hidden="true"
-                      id="addmorePOIbutton"
-                      value="Add"
-                      (click)="addBusinessIncomeUnit(null)"
-                    ></i
-                    >&nbsp;
-                    <i
-                      type="button"
-                      class="fa fa-minus"
-                      aria-hidden="true"
-                      id="delPOIbutton"
-                      value="Delete"
-                      (click)="removeBusinessIncomeIndex(i)"
-                    ></i>
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      (click)="removeBusinessIncomeIndex(i)"></i>
                   </td>
                 </tr>
               </tbody>
@@ -208,133 +111,70 @@
               <thead>
                 <tr class="">
                   <th role="columnheader">{{ labels?.sNO }}</th>
-                  <th role="columnheader">{{ labels?.applicantName }}</th>
+                  <th role="columnheader">{{ labels?.applicantName }} <sub class="star_red_col">*</sub></th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
-                  <th role="columnheader">{{ labels?.incomeType }}</th>
-                  <th role="columnheader">{{ labels?.grossIncome }}</th>
+                  <th role="columnheader">{{ labels?.incomeType }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.grossIncome }}<sub class="star_red_col">*</sub></th>
                   <th role="columnheader">{{ labels?.factoring }}</th>
                   <th role="columnheader">{{ labels?.factoredIncome }}</th>
                   <th role="columnheader">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="otherIncomeDetails">
-                <tr
-                  *ngFor="
+                <tr *ngFor="
                     let item of incomeDetailsForm.get('otherIncomeDetails')[
                       'controls'
                     ];
                     let i = index
-                  "
-                  [formGroupName]="i"
-                >
+                  " [formGroupName]="i">
                   <td data-title="S.no">{{ i + 1 }}</td>
                   <td>
-                    <select
-                      class="form-control mandatory select2"
-                      id=""
-                      name="applicantId"
-                      [ngClass]="{ 'is-invalid': submitted }"
-                      class="form-control text-center"
-                      formControlName="applicantId"
-                      (change)="onOtherApplicantChange($event.target.value, i)"
-                    >
-                      <option
-                        *ngFor="let applicants of applicantDetails"
-                        [value]="applicants.applicantId"
-                      >
-                        {{ applicants.fullName }}</option
-                      >
+                    <select class="form-control mandatory select2" id="" name="applicantId"
+                      [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center"
+                      formControlName="applicantId" (change)="onOtherApplicantChange($event.target.value, i)">
+                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+                        {{ applicants.fullName }}</option>
                     </select>
                     <div *ngIf="submitted"></div>
                   </td>
                   <td data-title="Applicant Type">
-                    <input
-                      type="text"
-                      id="latbox"
-                      formControlName="applicantType"
-                      class="no_border"
-                      class="input_value"
-                      readonly="true"
-                      name="applicant"
-                      class="form-control text-center"
-                    />
+                    <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value"
+                      readonly="true" name="applicant" class="form-control text-center" />
                   </td>
                   <td data-title="Income Type">
-                    <app-vf-custom-select
-                      [values]="incomeLov?.incomeType"
-                      formControlName="incomeType"
-                      (change)="appendFactoredIncome($event.target.value, i)"
-                    >
+                    <app-vf-custom-select [values]="incomeLov?.incomeType" formControlName="incomeType"
+                      (change)="appendFactoredIncome($event.target.value, i)">
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Gross Income">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="no_border"
-                      class="input_value"
-                      name="grossIncome"
-                      class="form-control text-center"
-                      formControlName="grossIncome"
-                      (keyup)="getOtherFactoredIncome(i)"
-                    /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="grossIncome"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="getOtherFactoredIncome(i)"
-                    ></app-custom-input>
+
+                    <app-custom-input [type]="number" formControlName="grossIncome" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="getOtherFactoredIncome(i)"></app-custom-input>
                   </td>
                   <td data-title="Factoring %">
-                    <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="input_value"
-                      name="factoring"
-                      class="form-control text-center"
-                      readonly="true"
-                      formControlName="factoring"
-                    />
+                    <input type="number" appNumberOnly id="latbox" class="input_value" name="factoring"
+                      class="form-control text-center" readonly="true" formControlName="factoring" />
                   </td>
                   <td data-title="Factored Income">
-                    <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      readonly="true"
-                      class="input_value"
-                      name="factoredIncome"
-                      class="form-control text-center"
-                      formControlName="factoredIncome"
-                    />
+                    <input type="number" appNumberOnly id="" readonly="true" class="input_value" name="factoredIncome"
+                      class="form-control text-center" formControlName="factoredIncome" />
                   </td>
                   <td data-title="Actions">
-                    <i
-                      type="button"
-                      class="fa fa-plus"
-                      aria-hidden="true"
-                      id="addmorePOIbutton"
-                      value="Add"
-                      (click)="addOtherIncomeUnit(null)"
-                    ></i
-                    >&nbsp;
-                    <i
-                      type="button"
-                      class="fa fa-minus"
-                      aria-hidden="true"
-                      id="delPOIbutton"
-                      value="Delete"
-                      (click)="removeOtherIncomeIndex(i)"
-                    ></i>
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      (click)="addOtherIncomeUnit(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      (click)="removeOtherIncomeIndex(i)"></i>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <div class="row bottom_common m-0">
+              <div class="col-md-12 text-right">
+                {{ labels?.totalMonthlyOtherIncome }} :
+                {{ totalMonthlyOtherIncome | number: "1.0-0" }}
+              </div>
+            </div>
           </div>
           <div class="table-responsive application mt-3">
             <table id="POITable_obligation" border="1" class="table">
@@ -346,208 +186,87 @@
               <thead>
                 <tr class="">
                   <th role="columnheader">{{ labels?.sNO }}</th>
-                  <th role="columnheader">{{ labels?.borrowerName }}</th>
+                  <th role="columnheader">{{ labels?.borrowerName }}<sub class="star_red_col">*</sub></th>
                   <th role="columnheader">{{ labels?.applicantType }}</th>
-                  <th role="columnheader">{{ labels?.typeOfLoan }}</th>
-                  <th role="columnheader">{{ labels?.financier }}</th>
-                  <th role="columnheader">{{ labels?.loanAmount }}</th>
-                  <th role="columnheader">{{ labels?.tenorInMonths }}</th>
-                  <th role="columnheader">{{ labels?.mob }}</th>
-                  <th role="columnheader">{{ labels?.emi }}</th>
+                  <th role="columnheader">{{ labels?.typeOfLoan }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.financier }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.loanAmount }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.tenorInMonths }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.mob }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader">{{ labels?.emi }}<sub class="star_red_col">*</sub></th>
                   <th role="columnheader">{{ labels?.balanceTenor }}</th>
                   <th role="columnheader">{{ labels?.obligationAmount }}</th>
                   <th role="columnheader">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
-                <tr
-                  *ngFor="
+                <tr *ngFor="
                     let item of incomeDetailsForm.get('obligationDetails')[
                       'controls'
                     ];
                     let i = index
-                  "
-                  [formGroupName]="i"
-                >
+                  " [formGroupName]="i">
                   <td data-title="S.No">{{ i + 1 }}</td>
                   <td>
-                    <select
-                      class="form-control mandatory select2"
-                      id=""
-                      name="applicantId"
-                      [ngClass]="{ 'is-invalid': submitted }"
-                      class="form-control text-center"
-                      formControlName="applicantId"
-                      (change)="
+                    <select class="form-control mandatory select2" id="" name="applicantId"
+                      [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center"
+                      formControlName="applicantId" (change)="
                         onObligationApplicantChange($event.target.value, i)
-                      "
-                    >
-                      <option
-                        *ngFor="let applicants of applicantDetails"
-                        [value]="applicants.applicantId"
-                      >
-                        {{ applicants.fullName }}</option
-                      >
+                      ">
+                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+                        {{ applicants.fullName }}</option>
                     </select>
                     <div *ngIf="submitted"></div>
                   </td>
                   <td data-title="Applicant Type">
-                    <input
-                      type="text"
-                      id="latbox"
-                      formControlName="applicantType"
-                      class="no_border"
-                      class="input_value"
-                      readonly="true"
-                      name="applicant"
-                      class="form-control text-center"
-                    />
+                    <input type="text" id="latbox" formControlName="applicantType" class="no_border" class="input_value"
+                      readonly="true" name="applicant" class="form-control text-center" />
                   </td>
                   <td data-title="Type of Loan">
-                    <app-vf-custom-select
-                      [values]="incomeLov?.typeOfLoan"
-                      formControlName="loanType"
-                      id="latbox"
-                    >
+                    <app-vf-custom-select [values]="incomeLov?.typeOfLoan" formControlName="loanType" id="latbox">
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Financier">
-                    <app-vf-custom-select
-                      [values]="incomeLov?.vehicleFinanciers"
-                      formControlName="financier"
-                    >
+                    <app-vf-custom-select [values]="incomeLov?.vehicleFinanciers" formControlName="financier">
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Loan Amount">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="input_value"
-                      name="loanAmount"
-                      class="form-control text-center"
-                      formControlName="loanAmount"
-                      min="0"
-                    /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="loanAmount"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      
-                    ></app-custom-input>
+
+                    <app-custom-input [type]="number" formControlName="loanAmount" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Tenor(In Months)">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      class="input_value"
-                      name="tenure"
-                      class="form-control text-center"
-                      formControlName="tenure"
-                      min="0"
-                      (keyup)="onTenure($event.target.value, i)"
-                    /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="tenure"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength3"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="onTenure($event.target.value, i)"
-                    ></app-custom-input>
+
+                    <app-custom-input [type]="number" formControlName="tenure" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="MOB">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      min="0"
-                      id=""
-                      class="input_value"
-                      name="mob"
-                      class="form-control text-center"
-                      formControlName="mob"
-                      (keyup)="onTenure($event.target.value, i)"
-                    /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="mob"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength3"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="onTenure($event.target.value, i)"
-                    ></app-custom-input>
+
+                    <app-custom-input [type]="number" formControlName="mob" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="EMI">
-                    <!-- <input
-                      type="number"
-                      appNumberOnly
-                      id="latbox"
-                      class="input_value"
-                      name="emi"
-                      class="form-control text-center"
-                      formControlName="emi"
-                      (keyup)="onEmi($event.target.value, i)"
-                    /> -->
-                    <app-custom-input
-                    [type]= "number"
-                      formControlName="emi"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="onEmi($event.target.value, i)"
-                      appNumberOnly
-                    ></app-custom-input>
-                  
+
+                    <app-custom-input [type]="number" formControlName="emi" [patternCheck]="inputValidation"
+                      [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
+                      (keyup)="onEmi($event.target.value, i)" appNumberOnly></app-custom-input>
+
                   </td>
                   <td data-title="Balance Tenor">
-                    <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      class="input_value"
-                      name="balanceTenure"
-                      readonly="true"
-                      class="form-control text-center"
-                      formControlName="balanceTenure"
-                    />
+                    <input type="number" appNumberOnly id="" class="input_value" name="balanceTenure" readonly="true"
+                      class="form-control text-center" formControlName="balanceTenure" />
                   </td>
                   <td data-title="Obligation Amount">
-                    <input
-                      type="number"
-                      appNumberOnly
-                      id=""
-                      class="input_value"
-                      name="obligationAmount"
-                      readonly="true"
-                      class="form-control text-center"
-                      formControlName="obligationAmount"
-                    />
+                    <input type="number" appNumberOnly id="" class="input_value" name="obligationAmount" readonly="true"
+                      class="form-control text-center" formControlName="obligationAmount" />
                   </td>
                   <td data-title="Actions">
-                    <i
-                      type="button"
-                      class="fa fa-plus"
-                      aria-hidden="true"
-                      id="addmorePOIbutton"
-                      value="Add"
-                      (click)="addObligationUnit(null)"
-                    ></i
-                    >&nbsp;
-                    <i
-                      type="button"
-                      class="fa fa-minus"
-                      aria-hidden="true"
-                      id="delPOIbutton"
-                      value="Delete"
-                      (click)="removeObligationIndex(i)"
-                    ></i>
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      (click)="addObligationUnit(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      (click)="removeObligationIndex(i)"></i>
                   </td>
                 </tr>
               </tbody>
@@ -574,51 +293,23 @@
               <tr>
                 <td>{{ labels?.salariedFOIRaspePolicy }}</td>
                 <td>
-                  <input
-                    type="number"
-                    appNumberOnly
-                    id=""
-                    readonly="true"
-                    class="input_value"
-                    name="salariedFOIRDeviation"
-                    class="form-control text-center"
-                    value="70"
-                    formControlName="salariedFOIRaspePolicy"
-                  />
-                 
+                  <input type="number" id="" readonly="true" class="input_value" name="salariedFOIRDeviation"
+                    class="form-control" value="70" formControlName="salariedFOIRaspePolicy" />
+
                 </td>
               </tr>
               <tr>
-                <td>{{ labels?.salariedFOIRDeviation }}</td>
+                <td>{{ labels?.salariedFOIRDeviation }}<sub class="star_red_col">*</sub></td>
                 <td>
-                  <!-- <input
-                    type="number"
-                    appNumberOnly
-                    id=""
-                    class="input_value"
-                    name="salariedFOIRDeviation"
-                    class="form-control text-center"
-                    value=""
-                    min="0"
-                    max="10"
-                    maxlength="2"
-                    formControlName="salariedFOIRDeviation"
-                    (keyup)="onSalFoirDeviation($event.target.value)"
-                  /> -->
-                  <app-custom-input
-                  formControlName="salariedFOIRDeviation"
-                  [patternCheck]="inputValidation"
-                  [maxLength]="inputLength3"
-                  [isRequired]="'*required'"
-                  [isDirty]="isDirty"
-                  (keyup)="onSalFoirDeviation($event.target.value)"
 
-                ></app-custom-input>
+                  <app-custom-input formControlName="salariedFOIRDeviation" [patternCheck]="inputValidation"
+                    [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="onSalFoirDeviation($event.target.value)"></app-custom-input>
                 </td>
               </tr>
               <tr>
                 <td>{{ labels?.totalSalariedFOIR }}</td>
-                <td>{{ totalSalariedFOIR + salariedFOIRaspePolicy }}</td>
+                <td>{{ totalSalariedFOIR }}</td>
               </tr>
               <tr>
                 <td>{{ labels?.consideredSalaryIncome }}</td>
@@ -647,8 +338,8 @@
                 <td>{{ totalMonthlyAgriIncome }}</td>
               </tr>
               <tr>
-                <td>{{ labels?.totalMonthlyIncome }}</td>
-                <td>{{ totalMonthlyIncome }}</td>
+                <td>{{ labels?.totalMonthlyOtherIncome }}</td>
+                <td>{{ totalMonthlyOtherIncome }}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMontlyObligations }}</td>
@@ -658,7 +349,7 @@
                 <td>{{ labels?.loanEligibilityasperFOIR }}</td>
                 <td>
                   {{
-                    1.4 * (totalMonthlyIncome - totalObligationAmount)
+                    1.4 * (totalMonthlyOtherIncome - totalObligationAmount)
                       | number: "1.0-0"
                   }}
                 </td>
@@ -669,31 +360,18 @@
       </div>
     </div>
 
-    <!-- </div> -->
   </div>
 
   <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button
-        class="btn btn-primary dash_href"
-        type="button"
-        routerLink="../exposure"
-      >
+      <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
         Back
       </button>
-      <button
-        class="btn btn-primary mar-right8"
-        type="button"
-        (click)="onSubmit()"
-      >
+      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
         Save
       </button>
-      <button
-        class="btn btn-primary dash_href"
-        type="button"
-        routerLink="../psl-data"
-      >
+      <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
         Next
       </button>
     </div>

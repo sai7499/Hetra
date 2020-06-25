@@ -55,6 +55,7 @@ export class SourcingDetailsComponent implements OnInit {
   isBusinessDivisionEnable: boolean;
   productCategoryList = [];
   productCategoryData: any;
+  productCategoryChanged: string;
   alertTimeOut: any;
   isProductCategory: boolean;
   isSourcingType: boolean;
@@ -195,7 +196,6 @@ export class SourcingDetailsComponent implements OnInit {
       ? roleAndUserDetails.userDetails.parentBranch
       : null;
     this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
-    this.sourcingDetailsForm.patchValue({ leadCreatedBy: this.leadHandeledBy });
     this.sourcingDetailsForm.patchValue({ leadHandeledBy: this.leadHandeledBy });
   }
 
@@ -243,6 +243,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
 
+    const leadCreatedby = data.leadDetails.leadCreatedBy;
+    this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreatedby });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
@@ -313,7 +315,7 @@ export class SourcingDetailsComponent implements OnInit {
     if (productCategorySelected) {
       this.productCategoryData.map(data => {
         if (data.key === productCategorySelected) {
-          this.sharedService.leadDataToHeader(data.value);
+          this.productCategoryChanged = data.value;
         }
       });
     }
@@ -398,6 +400,10 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingCodeValue = sourcingEvent.value;
   }
 
+  onSourcingCodeClear(event) {
+    this.sourcingCodeKey = '';
+  }
+
   onDealerCodeSearch(event) {
     let inputString = event;
     let dealerCode = [];
@@ -419,6 +425,10 @@ export class SourcingDetailsComponent implements OnInit {
     console.log('dealorEvent', dealorEvent);
     this.dealorCodeKey = dealorEvent.dealorCode;
     this.dealorCodeValue = dealorEvent.dealorName;
+  }
+
+  onDealerCodeClear(event) {
+    this.dealorCodeKey = '';
   }
 
   setPatchData(data) {
@@ -483,6 +493,10 @@ export class SourcingDetailsComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           this.toasterService.showSuccess('Lead Updated Successfully !', '');
+          this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
+          this.sharedService.leadDataToHeader(this.productCategoryChanged);
+
+
         }
       });
     } else {

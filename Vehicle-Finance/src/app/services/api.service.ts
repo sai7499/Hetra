@@ -79,7 +79,7 @@ export class ApiService {
     creditBureau: {
       processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
       workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
-      projectId: environment.projectIds.salesCreditScore,
+      projectId: environment.projectIds.externalApi,
     },
     validateOtp: {
       processId: '3e2e4f5caad811ea82aef2fa9bec3d63',
