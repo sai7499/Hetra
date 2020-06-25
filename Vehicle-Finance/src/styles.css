@@ -599,9 +599,9 @@ h4.table-head-bg.m-0.p-02 {
  
 }
 
-.sourcingCodeDisable {
-  background-color: #eee;
-  opacity: 1;
+.codeDisable {
+  background-color: #eee !important;
+  opacity: 1 !important;
 }
 
 
