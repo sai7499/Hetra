@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { CreateLeadService } from '../service/creatLead.service';
@@ -33,6 +33,10 @@ export class LeadDedupeComponent implements OnInit {
   rejectReasonCode: number;
   createdBy: string;
   userName: string;
+  selectedIndex: number;
+  isSelectedLead: boolean;
+
+  @ViewChild('radioSelect', { static: true }) radioButtonSelected: ElementRef;
 
   constructor(
     private route: Router,
@@ -69,10 +73,10 @@ export class LeadDedupeComponent implements OnInit {
 
   getDedupeData() {
     const dedupeData = this.leadStoreService.getDedupeData();
-    this.dedupeArray = dedupeData.leadDedupeResults;
     if (!dedupeData) {
       return;
     }
+    this.dedupeArray = dedupeData.leadDedupeResults;
     this.leadId = dedupeData.leadDedupeResults[0].leadID;
     this.productCode = dedupeData.loanLeadDetails.product;
     console.log('dedupeData', dedupeData.leadDedupeResults);
@@ -178,16 +182,7 @@ export class LeadDedupeComponent implements OnInit {
           this.route.navigateByUrl(`/activity-search`);
         }
       });
-
   }
-
-  // navigateToLeadSection() {
-  //   if (this.isWithLead) {
-  //     this.proceedAsNewLead();
-  //   } else {
-  //     this.proceedWithSelectedLead();
-  //   }
-  // }
 
   navigateToLeadSection() {
     if (this.showModal === 'proceedModal_without') {
@@ -199,8 +194,21 @@ export class LeadDedupeComponent implements OnInit {
     }
   }
 
-  onLeadSelect(index: number) {
-    this.selectedLead = !this.selectedLead;
+  onLeadSelect(event, index: number) {
+    this.selectedLead = event.target.checked;
+    if (this.selectedLead) {
+      this.leadId = this.dedupeArray[index].leadID;
+    } else {
+      this.getDedupeData();
+    }
+
+    if (this.selectedIndex === index) {
+      this.selectedIndex = -1;
+      this.isSelectedLead = false;
+    } else {
+      this.selectedIndex = index;
+      this.isSelectedLead = true;
+    }
   }
 
   OnItemPerPage(e) {

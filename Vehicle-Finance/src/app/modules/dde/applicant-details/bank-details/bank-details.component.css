@@ -7,7 +7,9 @@
 input#add_banks {
     width: 25%;
 }
-
+.table-head-bg {
+  font-size: 14px;
+}
 /* .content {
     overflow: hidden;
     overflow-y: scroll;

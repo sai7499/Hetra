@@ -150,6 +150,7 @@
               [searchKeyword]="keyword"
               (selected)='selectSourcingEvent($event)'
               (inputChanged)='onSourcingCodeSearch($event)'
+              (inputCleared)='onSourcingCodeClear($event)'
               [itemTemplate]="sourcingCodeTemplate"
               [notFoundTemplate]="notFoundTemplate"
               formControlName="sourcingCode"
@@ -176,6 +177,7 @@
               [data]="dealerCodeData"
               [searchKeyword]="keyword"
               (inputChanged)='onDealerCodeSearch($event)'
+              (inputCleared)='onDealerCodeClear($event)'
               (selected)='selectDealorEvent($event)'
               [itemTemplate]="dealerCodeTemplate"
               [notFoundTemplate]="notFoundTemplate"
@@ -201,7 +203,7 @@
               formControlName="requestedAmount"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Amount'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="regexPattern.amountLength"
               [isRequired]="'Required Amount is mandatory'"
               [patternCheck]="regexPattern.amount"
               [isDirty]="isDirty"
@@ -215,7 +217,7 @@
               formControlName="requestedTenor"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Tenor'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="regexPattern.loanTenor"
               [isRequired]="'Required Tenor is mandatory'"
               [patternCheck]="regexPattern.amount"
               [isDirty]="isDirty"

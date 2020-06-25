@@ -30,6 +30,13 @@
   height: 100px;
   z-index: 999;
 }
+.star_red_col
+{
+    color: #da3939;
+    font-size: 25px;
+    margin-left: 4px;
+   
+}
 /***fleet design starts here******/
 /*#track > tbody > tr > td{padding:10px;}*/
 /*
@@ -374,3 +381,13 @@ label.col-form-label-two {
 .dash_href {
   margin: 5px;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+  }

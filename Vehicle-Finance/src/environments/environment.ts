@@ -15,7 +15,9 @@ export const environment = {
     salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
     otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63'
+    creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
+    // otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63'
   },
 
   // hostingEnvironment: 'DEV',
