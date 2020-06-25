@@ -135,7 +135,7 @@ export class IncomeDetailsComponent implements OnInit {
     const incomeData = {
       productCode: this.productCode,
     };
-    this.incomeDetailsService.getFactoringValue(incomeData).subscribe((res) => {
+    this.incomeDetailsService.getFactoringValue(incomeData).subscribe((res: any) => {
       this.incomeTypeResponse = res.ProcessVariables['factoringList'];
     });
     this.getAllIncome();
@@ -146,6 +146,7 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
+      
     });
   }
   getLeadId() {
@@ -555,6 +556,12 @@ export class IncomeDetailsComponent implements OnInit {
       incomeArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[3].factoring });
+    }else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
+      const incomeArray = this.incomeDetailsForm.controls
+        .otherIncomeDetails as FormArray;
+      incomeArray
+        .at(i)
+        .patchValue({ factoring: this.incomeTypeResponse[4].factoring });
     }
     this.getOtherIncomeDetails(i);
   }
@@ -621,7 +628,20 @@ export class IncomeDetailsComponent implements OnInit {
         }
       }
     }
-
+    if (incomeArray.at(i).value.incomeType === 'OTHRINCTYP') {
+      if (incomeArray && incomeArray.length > 0) {
+        this.totalMonthlyAgriIncome = 0;
+        for (let i = 0; i < incomeArray.length; i++) {
+          if (incomeArray.at(i).value.incomeType === 'OTHRINCTYP') {
+            this.totalMonthlyAgriIncome = Math.round(
+              this.totalMonthlyAgriIncome + incomeArray.value[i].factoredIncome
+            );
+            this.agriArray.push(this.totalMonthlyAgriIncome);
+          }
+        }
+      }
+    }
+   
     if (incomeArray && incomeArray.length > 0) {
       this.totalMonthlyOtherIncome = 0;
       for (let i = 0; i < incomeArray.length; i++) {
@@ -638,10 +658,8 @@ export class IncomeDetailsComponent implements OnInit {
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     tenure = Number(obligationArray.value[i].tenure);
-    console.log(tenure);
 
     mob = Number(obligationArray.value[i].mob);
-    console.log(mob);
 
     if (tenure < mob) {
       this.toasterService.showError('Mob should not exceed tenure', '');
