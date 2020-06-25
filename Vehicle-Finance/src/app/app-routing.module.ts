@@ -100,7 +100,7 @@ const routes: Routes = [
           ).then((m) => m.ApplicantDetailsModule),
       },
       {
-        path: 'tele-verification-form',
+        path: 'tvr-details',
         loadChildren: () =>
           import(
             './modules/dde/tele-verificarion-form/tele-verificarion-form.module'

@@ -46,6 +46,9 @@ export class IdentityDetailsComponent implements OnInit {
     msg: 'Invalid Pan',
   };
   public toDayDate: Date = new Date();
+  convertPassportDate : Date;
+  convertDrivingDate : Date
+ 
 
   constructor(
     private labelsData: LabelsService,
@@ -64,10 +67,11 @@ export class IdentityDetailsComponent implements OnInit {
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-      return;
-    }
+      
+    }else{
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
+}
 
   onBack() {
     this.location.back();
@@ -156,7 +160,7 @@ export class IdentityDetailsComponent implements OnInit {
   addIndividualFormControls() {
     const controls = new FormGroup({
       aadhar: new FormControl(null),
-      panType: new FormControl('', Validators.required),
+      panType: new FormControl({value :'', disabled : true}),
       pan: new FormControl(null),
       passportNumber: new FormControl(null),
       passportIssueDate: new FormControl(null),
@@ -170,7 +174,7 @@ export class IdentityDetailsComponent implements OnInit {
     });
     (this.identityForm.get('details') as FormArray).push(controls);
   }
-
+  
   addNonIndividualFormControls() {
     const controls = new FormGroup({
       tinNumber: new FormControl(null),
@@ -179,6 +183,13 @@ export class IdentityDetailsComponent implements OnInit {
       gstNumber: new FormControl(null),
     });
     (this.identityForm.get('details') as FormArray).push(controls);
+  }
+
+  datePassportChange(event){
+    this.convertPassportDate = new Date(event)
+  }
+  dateDrivingChange(event){
+     this.convertDrivingDate= new Date(event)
   }
 
   onIndividualChange(event) {
@@ -261,6 +272,8 @@ export class IdentityDetailsComponent implements OnInit {
 
   setIndividualValue() {
     const value = this.indivIdentityInfoDetails;
+    this.convertPassportDate= new Date(value.passportIssueDate);
+    this.convertDrivingDate = new Date(value.drivingLicenseIssueDate)
     console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -322,7 +335,7 @@ export class IdentityDetailsComponent implements OnInit {
     };
     const leadId = this.leadStoreService.getLeadId();
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
-      if (res.Error !== '0') {
+      if (res.ProcessVariables.error.code !== '0') {
         return;
       }
       const currentUrl = this.location.path();

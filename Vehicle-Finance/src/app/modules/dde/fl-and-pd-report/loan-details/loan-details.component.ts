@@ -9,6 +9,7 @@ import { LoanDetails } from '@model/dde.model';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { PdDataService } from '../pd-data.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -59,6 +60,7 @@ export class LoanDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
     private personalDiscussion: PersonalDiscussionService,
+    private pdDataService: PdDataService,
     private toasterService: ToasterService) { }
 
   ngOnInit() {
@@ -73,7 +75,7 @@ export class LoanDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
 
-    console.log("user id ==>", this.userId)
+    // console.log("user id ==>", this.userId)
 
     this.initForm();
 
@@ -94,9 +96,10 @@ export class LoanDetailsComponent implements OnInit {
         this.errorMsg = error;
       });
     this.getLOV();
+    this.getPdDetails()
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
-      // this.setFormValue();
+
     });
 
 
@@ -116,7 +119,7 @@ export class LoanDetailsComponent implements OnInit {
   }
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOVs', this.LOV);
+    // console.log('LOVs', this.LOV);
   }
 
   initForm() {
@@ -165,55 +168,90 @@ export class LoanDetailsComponent implements OnInit {
       remarks: new FormControl('')
     });
   }
+  getPdDetails() {
+    const data = {
+      applicantId: 6,
+    };
+
+    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+      const processVariables = value.ProcessVariables;
+      if (processVariables.error.code === '0') {
+
+        this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
+        // console.log("new cv details", this.newCvDetails)
+        this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
+        // console.log("used vehicle details", this.usedVehicleDetails)
+        this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle
+        // console.log("asset details used vehilce", this.assetDetailsUsedVehicle)
+        console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
+
+        this.setFormValue();
+        // if (this.loanDetails) {
+        // this.setFormValue()
+        // this.pdDataService.setLoanDetails(this.loanDetails)
+      }
+    });
+  }
 
   setFormValue() {
-    const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
-    // console.log("customerProfile", customerProfileModal);
+    // const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
+    const newCvModel = this.newCvDetails || {};
+    console.log("new cv model", newCvModel);
+    const usedVehicleModel = this.usedVehicleDetails || {};
+    const assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {}
 
     this.loanDetailsForm.patchValue({
-      vehicleCost: loanDetailsModal.vehicleCost,
-      model: loanDetailsModal.model,
+      // new cv details patching
+
+      vehicleCost: newCvModel.vehicleCost,
+      model: newCvModel.model,
       // type: loanDetailsModal.model,
-      reqLoanAmount: loanDetailsModal.reqLoanAmount,
-      marginMoney: loanDetailsModal.marginMoney,
-      usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
-      sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
-      marginMoneySource: loanDetailsModal.marginMoneySource,
-      financierName: loanDetailsModal.financierName,
-      coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
-      channelSourceName: loanDetailsModal.channelSourceName,
-      vehicleSeller: loanDetailsModal.vehicleSeller,
-      proposedVehicle: loanDetailsModal.proposedVehicle,
-      invesmentAmount: loanDetailsModal.invesmentAmount,
-      marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
-      marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
-      purchasePrice: loanDetailsModal.purchasePrice,
-      vehicleCondition: loanDetailsModal.vehicleCondition,
-      fundsUsage: loanDetailsModal.fundsUsage,
-      earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
-      othersRemarks: loanDetailsModal.othersRemarks,
-      drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
-      vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
-      awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
-      vehicleMake: loanDetailsModal.vehicleMake,
-      modelInYear: loanDetailsModal.modelInYear,
-      regNo: loanDetailsModal.regNo,
-      regCopyVerified: loanDetailsModal.regCopVfd,
-      hpaNbfc: loanDetailsModal.vehicleHpaNbfc,
-      regCopVfd: loanDetailsModal.engineNumber,
-      chasisNumber: loanDetailsModal.chasisNumber,
-      permitValidity: loanDetailsModal.permitValidity,
-      fitnessValidity: loanDetailsModal.fitnessValidity,
-      taxValidity: loanDetailsModal.taxValidity,
-      insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
-      insuranceValidity: loanDetailsModal.insuranceValidity,
-      vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
-      conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
-      vehicleRoute: loanDetailsModal.vehicleRoute,
-      noOfTrips: loanDetailsModal.noOfTrips,
-      amtPerTrip: loanDetailsModal.amtPerTrip,
-      selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
-      remarks: loanDetailsModal.remarks
+      reqLoanAmount: newCvModel.reqLoanAmount,
+      marginMoney: newCvModel.marginMoney,
+
+      // used vehicle details patching
+      usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq,
+      sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase,
+      marginMoneySource: usedVehicleModel.marginMoneySource,
+      financierName: usedVehicleModel.financierName,
+      coAapplicantAwareMarginMoney: usedVehicleModel.coAapplicantAwareMarginMoney,
+      channelSourceName: usedVehicleModel.channelSourceName,
+      vehicleSeller: usedVehicleModel.vehicleSeller,
+      proposedVehicle: usedVehicleModel.proposedVehicle,
+      invesmentAmount: usedVehicleModel.invesmentAmount,
+      marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed,
+      marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle,
+      purchasePrice: usedVehicleModel.purchasePrice,
+      vehicleCondition: usedVehicleModel.vehicleCondition,
+      fundsUsage: usedVehicleModel.fundsUsage,
+      earlierVehicleApplication: usedVehicleModel.earlierVehicleApplication,
+      othersRemarks: usedVehicleModel.othersRemarks,
+      drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier,
+      vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying,
+      awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount,
+
+      // assedDetails for used vehicle values patching
+
+      vehicleMake: assetDetailsUsedVehicleModel.vehicleMake,
+      modelInYear: assetDetailsUsedVehicleModel.modelInYear,
+      regNo: assetDetailsUsedVehicleModel.regNo,
+      regCopyVerified: assetDetailsUsedVehicleModel.regCopVfd,
+      vehicleHpaNbfc: assetDetailsUsedVehicleModel.vehicleHpaNbfc,
+      regCopVfd: assetDetailsUsedVehicleModel.regCopVfd,
+      engineNumber: assetDetailsUsedVehicleModel.engineNumber,
+      chasisNumber: assetDetailsUsedVehicleModel.chasisNumber,
+      permitValidity: assetDetailsUsedVehicleModel.permitValidity,
+      fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
+      taxValidity: assetDetailsUsedVehicleModel.taxValidity,
+      insuranceCopyVerified: assetDetailsUsedVehicleModel.insuranceCopyVerified,
+      insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
+      vehiclePhsicallyVerified: assetDetailsUsedVehicleModel.vehiclePhsicallyVerified,
+      conditionOfVehicle: assetDetailsUsedVehicleModel.conditionOfVehicle,
+      vehicleRoute: assetDetailsUsedVehicleModel.vehicleRoute,
+      noOfTrips: assetDetailsUsedVehicleModel.noOfTrips,
+      amtPerTrip: assetDetailsUsedVehicleModel.amtPerTrip,
+      selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver,
+      remarks: assetDetailsUsedVehicleModel.remarks
     });
   }
 
@@ -289,7 +327,7 @@ export class LoanDetailsComponent implements OnInit {
     const data = {
       leadId: 1,
       applicantId: 6,
-      userId: this.leadId,
+      userId: this.userId,
       loanDetailsForNewCv: this.newCvDetails,
       applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
       applicableForUsedVehicle: this.usedVehicleDetails

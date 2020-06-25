@@ -79,7 +79,7 @@ export class ApiService {
     creditBureau: {
       processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
       workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
-      projectId: environment.projectIds.salesCreditScore,
+      projectId: environment.projectIds.externalApi,
     },
     validateOtp: {
       processId: '3e2e4f5caad811ea82aef2fa9bec3d63',
@@ -287,6 +287,18 @@ export class ApiService {
       processId: 'e0a4d60aa23d11eabe47f2fa9bec3d63',
       workflowId: 'e063568aa23d11eabe47f2fa9bec3d63',
       projectId: environment.projectIds.creditProjectId,
+    },
+
+    getFactoringValue: {
+      processId: 'f2dadd44b22611ea8796f2fa9bec3d63',
+      workflowId: 'f2bc4564b22611ea8796f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getVehicleValuation: {
+      processId: '2db56d129c2911eabddcf2fa9bec3d63',
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     }
-  };
+  }
 }
+

@@ -21,7 +21,7 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                You must enter vehicle registration number
+                                Enter vehicle registration number
                             </div>
                         </div>
 
@@ -178,7 +178,7 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['ageOfAsset'].touched && !obj.controls['ageOfAsset'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['ageOfAsset'].hasError('required')">
-                                You must enter age of asset
+                                Enter age of asset
                             </div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                             *ngIf="obj.controls['ageAfterTenure'].touched && !obj.controls['ageAfterTenure'].vaild">
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['ageAfterTenure'].hasError('required')">
-                                You must enter age of vehicle
+                                Enter age of vehicle
                             </div>
                         </div>
                     </div>
@@ -210,7 +210,7 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['assetCostGrid'].touched && !obj.controls['assetCostGrid'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostGrid'].hasError('required')">
-                                You must enter asset cost
+                                Enter asset cost
                             </div>
                         </div>
 
@@ -229,12 +229,12 @@
                             *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('required')"
                                 maxlength="10">
-                                You must enter asset cost basis indian bluebook
+                                Enter asset cost basis indian bluebook
                             </div>
                         </div>
 
                         <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('pattern')">
-                            You must enter valid asset cost basis indian bluebook
+                            Enter valid asset cost basis indian bluebook
                         </div>
 
                     </div>
@@ -251,12 +251,12 @@
                             *ngIf="obj.controls['assetCostCarTrade'].touched && !obj.controls['assetCostCarTrade'].vaild">
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['assetCostCarTrade'].hasError('required')">
-                                You must enter asset cost carwale
+                                Enter asset cost carwale
                             </div>
                         </div>
 
                         <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostCarTrade'].hasError('pattern')">
-                            You must enter valid asset cost carwale
+                            Enter valid asset cost carwale
                         </div>
 
                     </div>
@@ -265,20 +265,20 @@
                         *ngIf="productCatoryCode === 'NC' || productCatoryCode === 'NCV'">
                         <label for="ex_showroom_price"> {{ label.exShowroomPrice }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="exShowRoomCost" type="number" class="form-control mandatory"
+                        <input formControlName="exShowRoomCost" type="text" class="form-control mandatory"
                             id="ex_showroom_price" placeholder="Ex-showroom price" name="ex_showroom_price" min="0"
-                            (keyup)="onPatchFinalAssetCost($event.target.value)" pattern="[^-,]+">
+                            (keyup)="onPatchFinalAssetCost($event.target.value)" maxlength="10" pattern="^[1-9][0-9]*$">
 
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['exShowRoomCost'].touched && !obj.controls['exShowRoomCost'].vaild">
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['exShowRoomCost'].hasError('required')">
-                                You must enter exshow room price
+                                Enter exshow room price
                             </div>
                         </div>
 
                         <div class="cus-mandatory-field" *ngIf="obj.controls['exShowRoomCost'].hasError('pattern')">
-                            You must enter valid exshow room price
+                            Enter valid exshow room price
                         </div>
 
                     </div>
@@ -294,7 +294,7 @@
                             *ngIf="obj.controls['finalAssetCost'].touched && !obj.controls['finalAssetCost'].vaild">
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['finalAssetCost'].hasError('required')">
-                                You must enter final asset cost
+                                Enter final asset cost
                             </div>
                         </div>
                     </div>
@@ -338,15 +338,20 @@
                         <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} <sub
                                 class="star_red_col">*</sub> </label>
                         <input formControlName="rcOwnerName" type="text" class="form-control mandatory"
-                            id="name_vehicle_owner" placeholder="Name of Vehicle Owner/Dealer"
-                            name="name_vehicle_owner">
+                            id="name_vehicle_owner" placeholder="Name of Vehicle Owner/Dealer" name="name_vehicle_owner"
+                            maxlength="40">
 
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['rcOwnerName'].touched && !obj.controls['rcOwnerName'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('required')">
-                                You must enter name of vehicle owner/dealer
+                                Enter name of vehicle owner/dealer
                             </div>
                         </div>
+
+                        <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('pattern')">
+                            Enter valid name of vehicle owner/dealer
+                        </div>
+
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner"
@@ -355,12 +360,12 @@
                                 class="star_red_col">*</sub> </label>
                         <input formControlName="ownerMobileNo" type="number" class="form-control mandatory"
                             id="mobile_vehicle_owner" placeholder="Mobile Number of Vehicle Owner/Dealer"
-                            name="mobile_vehicle_owner" min="0" maxlength="10" pattern="[^-,]+">
+                            name="mobile_vehicle_owner" min="0" minlength="10" maxlength="10" pattern="[^-,]+">
 
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['ownerMobileNo'].touched && !obj.controls['ownerMobileNo'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].hasError('required')">
-                                You must enter valid mobile number of vehicle owner/dealer
+                                Enter valid mobile number of vehicle owner/dealer
                             </div>
                         </div>
 
@@ -369,7 +374,7 @@
                         </div>
 
                         <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].hasError('pattern')">
-                            You must enter valid mobile number
+                            Enter valid mobile number
                         </div>
 
                     </div>
@@ -385,7 +390,7 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['address'].touched && !obj.controls['address'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['address'].hasError('required')">
-                                You must enter address
+                                Enter address
                             </div>
                         </div>
 
@@ -401,7 +406,7 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['pincode'].touched && !obj.controls['pincode'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('required')">
-                                You must enter the pincode
+                                Enter the pincode
                             </div>
                         </div>
 
@@ -410,7 +415,7 @@
                         </div>
 
                         <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('pattern')">
-                            You must enter valid pincode
+                            Enter valid pincode
                         </div>
 
                     </div>
@@ -423,12 +428,12 @@
                         <div class="cus-mandatory-field"
                             *ngIf="obj.controls['noOfVehicles'].touched && !obj.controls['noOfVehicles'].vaild">
                             <div class="cus-mandatory-field" *ngIf="obj.controls['noOfVehicles'].hasError('required')">
-                                You must enter the no of vehicle
+                                Enter the no of vehicle
                             </div>
                         </div>
 
                         <div class="cus-mandatory-field" *ngIf="obj.controls['noOfVehicles'].hasError('pattern')">
-                            You must enter vaild number of vehicle
+                            Enter vaild number of vehicle
                         </div>
 
                     </div>
@@ -595,20 +600,21 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input type="number" class="form-control mandatory " id="ex_showroom_cost"
+                            <input type="text" class="form-control mandatory " id="ex_showroom_cost"
                                 placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowRoomCost"
-                                (keyup)="onPatchFinalAssetCost($event.target.value)" min="0" pattern="[^-,]+">
+                                (keyup)="onPatchFinalAssetCost($event.target.value)" maxlength="10"
+                                pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['exShowRoomCost'].touched && !obj.controls['exShowRoomCost'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['exShowRoomCost'].hasError('required')">
-                                    You must enter exshow room price
+                                    Enter exshow room price
                                 </div>
                             </div>
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['exShowRoomCost'].hasError('pattern')">
-                                You must enter valid exshow room price
+                                Enter valid exshow room price
                             </div>
 
                         </div>
@@ -634,26 +640,26 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
-                            <input type="number" class="form-control" id="dealer_subvention_amount"
+                            <input type="text" class="form-control" id="dealer_subvention_amount"
                                 placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                                formControlName="dealerSubventionAmount" min="0" pattern="[^-,]+">
+                                formControlName="dealerSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['dealerSubventionAmount'].hasError('pattern')">
-                                You must enter valid dealer subvention amount
+                                Enter valid dealer subvention amount
                             </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
-                            <input type="number" class="form-control" id="dealer_subvention_irr"
+                            <input type="text" class="form-control" id="dealer_subvention_irr"
                                 placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionPartIRR" min="0" pattern="[^-,]+">
+                                formControlName="dealerSubventionPartIRR" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('pattern')">
-                                You must enter valid dealer subvention part IRR
+                                Enter valid dealer subvention part IRR
                             </div>
 
                         </div>
@@ -664,13 +670,13 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
-                            <input type="number" class="form-control" id="dealer_subvention_finance"
+                            <input type="text" class="form-control" id="dealer_subvention_finance"
                                 placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
-                                formControlName="dealerSubventionPartFinCharge" min="0" pattern="[^-,]+">
+                                formControlName="dealerSubventionPartFinCharge" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['dealerSubventionPartFinCharge'].hasError('pattern')">
-                                You must enter valid dealer subvention part of finance charges
+                                Enter valid dealer subvention part of finance charges
                             </div>
 
                         </div>
@@ -685,13 +691,13 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_amount"
+                            <input type="text" class="form-control" id="manufacturer_subvention_amount"
                                 placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufactureSubventionAmount" min="0" pattern="[^-,]+">
+                                formControlName="manufactureSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['manufactureSubventionAmount'].hasError('pattern')">
-                                You must enter valid manufacturer subvention amount
+                                Enter valid manufacturer subvention amount
                             </div>
 
                         </div>
@@ -702,14 +708,14 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_irr"
+                            <input type="text" class="form-control" id="manufacturer_subvention_irr"
                                 placeholder="Manufacturer Subvention Part of Operating IRR"
                                 name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
-                                min="0" pattern="[^-,]+">
+                                maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('pattern')">
-                                You must enter valid manuFacture subvention part IRR
+                                Enter valid manuFacture subvention part IRR
                             </div>
 
                         </div>
@@ -717,25 +723,26 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}
                             </label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_finance"
+                            <input type="text" class="form-control" id="manufacturer_subvention_finance"
                                 placeholder="Manufacturer Subvention Part of Finance Charges"
                                 name="manufacturer_subvention_finance"
-                                formControlName="manuFatureSubventionPartFinCharge" min="0" pattern="[^-,]+">
+                                formControlName="manufacturesubventionPartFinCharge" maxlength="10"
+                                pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].hasError('pattern')">
-                                You must enter valid manuFacture subvention part of finance charge
+                                *ngIf="obj.controls['manufacturesubventionPartFinCharge'].hasError('pattern')">
+                                Enter valid manuFacture subvention part of finance charge
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
-                            <input type="number" class="form-control" id="proforma_invoice_no"
+                            <input type="text" class="form-control" id="proforma_invoice_no"
                                 placeholder="Proforma Invoice No" name="proforma_invoice_no"
-                                formControlName="invoiceNumber" min="0" pattern="[^-,]+">
+                                formControlName="invoiceNumber" maxlength="30" pattern="[^ -,]+">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceNumber'].hasError('pattern')">
-                                You must enter valid invoice number
+                                Enter valid invoice number
                             </div>
 
                         </div>
@@ -754,12 +761,12 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
-                            <input type="number" class="form-control" id="proforma_invoice_amount"
+                            <input type="text" class="form-control" id="proforma_invoice_amount"
                                 placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                                formControlName="invoiceAmount" min="0" pattern="[^-,]+">
+                                formControlName="invoiceAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceAmount'].hasError('pattern')">
-                                You must enter valid invoice amount
+                                Enter valid invoice amount
                             </div>
                         </div>
 
@@ -776,13 +783,23 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
                             <input type="text" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance">
+                                name="insurance" formControlName="insurance" maxlength="50" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('pattern')">
+                                Enter valid insurance
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                                name="one_time_tax" formControlName="oneTimeTax">
+                                name="one_time_tax" formControlName="oneTimeTax" maxlength="10" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['oneTimeTax'].hasError('pattern')">
+                                Enter valid one time tax
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
@@ -826,7 +843,11 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
                             <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
-                                formControlName="discount">
+                                formControlName="discount" maxlength="10" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['discount'].hasError('pattern')">
+                                Enter valid discount
+                            </div>
                         </div>
                     </div>
 
@@ -989,20 +1010,21 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input type="number" class="form-control mandatory " id="ex_showroom_cost"
+                            <input type="text" class="form-control mandatory " id="ex_showroom_cost"
                                 placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowRoomCost"
-                                (keyup)="onPatchFinalAssetCost($event.target.value)" min="0" pattern="[^-,]+">
+                                (keyup)="onPatchFinalAssetCost($event.target.value)" maxlength="10"
+                                pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['exShowRoomCost'].touched && !obj.controls['exShowRoomCost'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['exShowRoomCost'].hasError('required')">
-                                    You must enter exshow room price
+                                    Enter exshow room price
                                 </div>
                             </div>
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['exShowRoomCost'].hasError('pattern')">
-                                You must enter valid exshow room price
+                                Enter valid exshow room price
                             </div>
 
                         </div>
@@ -1044,13 +1066,13 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
-                            <input type="number" class="form-control" id="dealer_subvention_amount"
+                            <input type="text" class="form-control" id="dealer_subvention_amount"
                                 placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                                formControlName="dealerSubventionAmount" min="0" pattern="[^-,]+">
+                                formControlName="dealerSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['dealerSubventionAmount'].hasError('pattern')">
-                                You must enter valid dealer subvention amount
+                                Enter valid dealer subvention amount
                             </div>
                         </div>
 
@@ -1060,26 +1082,26 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
-                            <input type="number" class="form-control" id="dealer_subvention_irr"
+                            <input type="text" class="form-control" id="dealer_subvention_irr"
                                 placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionPartIRR" min="0" pattern="[^-,]+">
+                                formControlName="dealerSubventionPartIRR" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('pattern')">
-                                You must enter valid dealer subvention part IRR
+                                Enter valid dealer subvention part IRR
                             </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
-                            <input type="number" class="form-control" id="dealer_subvention_finance"
+                            <input type="text" class="form-control" id="dealer_subvention_finance"
                                 placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
-                                formControlName="dealerSubventionPartFinCharge" min="0" pattern="[^-,]+">
+                                formControlName="dealerSubventionPartFinCharge" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['dealerSubventionPartFinCharge'].hasError('pattern')">
-                                You must enter valid dealer subvention part of finance charges
+                                Enter valid dealer subvention part of finance charges
                             </div>
 
                         </div>
@@ -1098,40 +1120,41 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_amount"
+                            <input type="text" class="form-control" id="manufacturer_subvention_amount"
                                 placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufactureSubventionAmount" min="0" pattern="[^-,]+">
+                                formControlName="manufactureSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['manufactureSubventionAmount'].hasError('pattern')">
-                                You must enter valid manufacturer subvention amount
+                                Enter valid manufacturer subvention amount
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_irr"
+                            <input type="text" class="form-control" id="manufacturer_subvention_irr"
                                 placeholder="Manufacturer Subvention Part of Operating IRR"
                                 name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
-                                min="0" pattern="[^-,]+">
+                                maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('pattern')">
-                                You must enter valid manuFacture subvention part IRR
+                                Enter valid manuFacture subvention part IRR
                             </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
-                            <input type="number" class="form-control" id="manufacturer_subvention_finance"
+                            <input type="text" class="form-control" id="manufacturer_subvention_finance"
                                 placeholder="Manufacturer Subvention Part of Finance Charges"
                                 name="manufacturer_subvention_finance"
-                                formControlName="manuFatureSubventionPartFinCharge" min="0" pattern="[^-,]+">
+                                formControlName="manufacturesubventionPartFinCharge" maxlength="10"
+                                pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFatureSubventionPartFinCharge'].hasError('pattern')">
-                                You must enter valid manuFacture subvention part of finance charge
+                                *ngIf="obj.controls['manufacturesubventionPartFinCharge'].hasError('pattern')">
+                                Enter valid manuFacture subvention part of finance charge
                             </div>
                         </div>
 
@@ -1141,12 +1164,12 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
-                            <input type="number" class="form-control" id="proforma_invoice_no"
+                            <input type="text" class="form-control" id="proforma_invoice_no"
                                 placeholder="Proforma Invoice No" name="proforma_invoice_no"
-                                formControlName="invoiceNumber" min="0" pattern="[^-,]+">
+                                formControlName="invoiceNumber" maxlength="30" pattern="[^ -,]+">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceNumber'].hasError('pattern')">
-                                You must enter valid invoice number
+                                Enter valid invoice number
                             </div>
                         </div>
 
@@ -1160,12 +1183,12 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
-                            <input type="number" class="form-control" id="proforma_invoice_amount"
+                            <input type="text" class="form-control" id="proforma_invoice_amount"
                                 placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                                formControlName="invoiceAmount" min="0" pattern="[^-,]+">
+                                formControlName="invoiceAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceAmount'].hasError('pattern')">
-                                You must enter valid invoice amount
+                                Enter valid invoice amount
                             </div>
                         </div>
 
@@ -1182,13 +1205,23 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
                             <input type="text" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance">
+                                name="insurance" formControlName="insurance" maxlength="50" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('pattern')">
+                                Enter valid insurance
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                                name="one_time_tax" formControlName="oneTimeTax">
+                                name="one_time_tax" formControlName="oneTimeTax" maxlength="10" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['oneTimeTax'].hasError('pattern')">
+                                Enter valid one time tax
+                            </div>
+
                         </div>
 
                     </div>
@@ -1232,7 +1265,11 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
                             <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
-                                formControlName="discount">
+                                formControlName="discount" maxlength="10" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['discount'].hasError('pattern')">
+                                Enter valid discount
+                            </div>
                         </div>
                     </div>
 
@@ -1254,7 +1291,7 @@
                                 *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                    You must enter vehicle registration number
+                                    Enter vehicle registration number
                                 </div>
                             </div>
 
@@ -1425,15 +1462,20 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub> </label>
                             <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                                name="rc_owner_name" formControlName="rcOwnerName">
+                                name="rc_owner_name" formControlName="rcOwnerName" maxlength="40">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['rcOwnerName'].touched && !obj.controls['rcOwnerName'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['rcOwnerName'].hasError('required')">
-                                    You must enter RC owner name
+                                    Enter RC owner name
                                 </div>
                             </div>
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('pattern')">
+                                Enter valid name of vehicle owner/dealer
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
@@ -1441,23 +1483,22 @@
                                     class="star_red_col">*</sub> </label>
                             <input formControlName="ownerMobileNo" type="number" class="form-control mandatory"
                                 id="mobile_vehicle_owner" placeholder="Mobile Number of Vehicle Owner/Dealer"
-                                name="mobile_vehicle_owner" min="0" maxlength="10" pattern="[^-,]+">
+                                name="mobile_vehicle_owner" min="0" minlength="10" maxlength="10" pattern="[^-,]+">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['ownerMobileNo'].touched && !obj.controls['ownerMobileNo'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['ownerMobileNo'].hasError('required')">
-                                    You must enter valid mobile number of vehicle owner/dealer
+                                    Enter valid mobile number of vehicle owner/dealer
                                 </div>
                             </div>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['ownerMobileNo'].hasError('pattern') || obj.controls['ownerMobileNo'].maxlength">
-                                The length of mobile no. should be ten digits only
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].maxlength">
+                                The length of mobile no should be ten digits only
                             </div>
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].hasError('pattern')">
-                                You must enter valid mobile number
+                                Enter valid mobile number
                             </div>
 
                         </div>
@@ -1476,7 +1517,7 @@
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['address'].touched && !obj.controls['address'].vaild">
                                 <div class="cus-mandatory-field" *ngIf="obj.controls['address'].hasError('required')">
-                                    You must enter address
+                                    Enter address
                                 </div>
                             </div>
 
@@ -1492,7 +1533,7 @@
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['pincode'].touched && !obj.controls['pincode'].vaild">
                                 <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('required')">
-                                    You must enter the pincode
+                                    Enter the pincode
                                 </div>
                                 <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('pattern')">
                                     You must not nenter the pincode
@@ -1504,7 +1545,7 @@
                             </div>
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('pattern')">
-                                You must enter valid pincode
+                                Enter valid pincode
                             </div>
 
                         </div>
@@ -1557,33 +1598,33 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
-                            <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                                name="chassis_number" formControlName="chasisNumber" min="0" pattern="[^-,]+">
+                            <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                                name="chassis_number" formControlName="chasisNumber" maxlength="50" pattern="[^ -,]+">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['chasisNumber'].hasError('pattern')">
-                                You must enter valid chasis number
+                                Enter valid chasis number
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}} </label>
-                            <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
-                                name="engine_number" formControlName="engineNumber" min="0" pattern="[^-,]+">
+                            <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
+                                name="engine_number" formControlName="engineNumber" maxlength="50" pattern="[^ -,]+">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['engineNumber'].hasError('pattern')">
-                                You must enter valid engine number
+                                Enter valid engine number
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
-                            <input type="number" class="form-control" id="vehicle_purchased_cost"
+                            <input type="text" class="form-control" id="vehicle_purchased_cost"
                                 placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                                formControlName="vehiclePurchasedCost" min="0" pattern="[^-,]+">
+                                formControlName="vehiclePurchasedCost" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['vehiclePurchasedCost'].hasError('pattern')">
-                                You must enter valid vehicle purchased cost
+                                Enter valid vehicle purchased cost
                             </div>
                         </div>
 
@@ -1593,13 +1634,13 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
-                            <input type="number" class="form-control" id="vehicle_ownership"
+                            <input type="text" class="form-control" id="vehicle_ownership"
                                 placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                                formControlName="vehicleOwnerShipNumber" min="0" pattern="[^-,]+">
+                                formControlName="vehicleOwnerShipNumber" maxlength="2" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['vehicleOwnerShipNumber'].hasError('pattern')">
-                                You must enter valid vehicle ownership number
+                                Enter valid number
                             </div>
                         </div>
 
@@ -1639,7 +1680,13 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}} </label>
                             <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                                name="cubic_capacity" formControlName="cubicCapacity">
+                                name="cubic_capacity" formControlName="cubicCapacity" maxlength="5"
+                                pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['cubicCapacity'].hasError('pattern')">
+                                Enter valid cubic capacity
+                            </div>
+
                         </div>
 
                     </div>
@@ -1649,7 +1696,14 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
                             <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                                name="seating_capacity" formControlName="seatingCapacity">
+                                name="seating_capacity" formControlName="seatingCapacity" maxlength="3"
+                                pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['seatingCapacity'].hasError('pattern')">
+                                Enter valid seating capacity
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1664,7 +1718,11 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}} </label>
                             <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                                formControlName="idv">
+                                formControlName="idv" maxlength="10" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['idv'].maxlength">
+                                The length of idv should be ten digits only
+                            </div>
                         </div>
 
                     </div>
@@ -1675,7 +1733,7 @@
                             <label for="insurance_copy">{{label.uploadInsuranceCopy}} </label>
                             <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
                             <div id="insurance_preview"></div>
-                        </div> -->
+                            </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 " style="margin-top: 24px;">
                             <label for="frsd_required">{{label.frsdRequired}} </label>
@@ -1690,13 +1748,15 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
-                            <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                                name="frsd_amount" formControlName="fsrdPremiumAmount" min="0" pattern="[^-,]+">
+                            <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                                name="frsd_amount" formControlName="fsrdPremiumAmount" maxlength="10"
+                                pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['fsrdPremiumAmount'].hasError('pattern')">
-                                You must enter valid fsrd premium amount
+                                Enter number fsrd premium amount
                             </div>
+
                         </div>
 
                     </div>
@@ -1719,7 +1779,7 @@
                                 *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                    You must enter vehicle registration number
+                                    Enter vehicle registration number
                                 </div>
                             </div>
 
@@ -1867,7 +1927,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="month_year">{{label.monthYear}}</label>
+                            <label for="month_year">{{label.monthYear}} <sub class="star_red_col">*</sub> </label>
                             <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
                                 [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
                                 placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
@@ -1902,7 +1962,8 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="asset_cost_indian">{{label.assetCostIndian}}</label>
+                            <label for="asset_cost_indian">{{label.assetCostIndian}} <sub class="star_red_col">*</sub>
+                            </label>
                             <input formControlName="assetCostIBB" type="number" class="form-control mandatory"
                                 id="asset_cost_indian" placeholder="Asset Cost basis Indian Bluebook"
                                 name="asset_cost_indian" (keyup)="onCompareFinalAssetCode($event.target.value)" min="0"
@@ -1912,18 +1973,19 @@
                                 *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['assetCostIBB'].hasError('required')" maxlength="10">
-                                    You must enter asset cost basis indian bluebook
+                                    Enter asset cost basis indian bluebook
                                 </div>
                             </div>
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('pattern')">
-                                You must enter valid asset cost basis indian bluebook
+                                Enter valid asset cost basis indian bluebook
                             </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="asset_cost_car">{{label.assetCostCar}}</label>
+                            <label for="asset_cost_car">{{label.assetCostCar}} <sub class="star_red_col">*</sub>
+                            </label>
                             <input formControlName="assetCostCarTrade" type="number" class="form-control mandatory"
                                 id="asset_cost_car" placeholder="Asset Cost basis Car Trade" name="asset_cost_car"
                                 min="0" (keyup)="onCompareFinalAssetCode($event.target.value)" maxlength="10"
@@ -1933,13 +1995,13 @@
                                 *ngIf="obj.controls['assetCostCarTrade'].touched && !obj.controls['assetCostCarTrade'].vaild">
                                 <div class="cus-mandatory-field"
                                     *ngIf="obj.controls['assetCostCarTrade'].hasError('required')">
-                                    You must enter asset cost car trade
+                                    Enter asset cost car trade
                                 </div>
                             </div>
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['assetCostCarTrade'].hasError('pattern')">
-                                You must enter valid asset cost cartrade
+                                Enter valid asset cost cartrade
                             </div>
 
                         </div>
@@ -1958,22 +2020,22 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="asset_cost_least">{{label.assetCostLeast}}</label>
-                            <input type="number" class="form-control mandatory " id="asset_cost_least"
+                            <input type="text" class="form-control mandatory " id="asset_cost_least"
                                 placeholder="Asset Cost Least" name="asset_cost_least" formControlName="assetCostLeast"
-                                min="0" pattern="[^-,]+">
+                                maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostLeast'].hasError('pattern')">
-                                You must enter valid asset cost least
+                                Enter valid asset cost least
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
-                            <input type="number" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                                name="chassis_number" formControlName="chasisNumber" min="0" pattern="[^-,]+">
+                            <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
+                                name="chassis_number" formControlName="chasisNumber" maxlength="50" pattern="[^ -,]+">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['chasisNumber'].hasError('pattern')">
-                                You must enter valid chasis number
+                                Enter valid chasis number
                             </div>
 
                         </div>
@@ -1984,35 +2046,35 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}}</label>
-                            <input type="number" class="form-control" id="engine_number" placeholder="Engine Number"
-                                name="engine_number" formControlName="engineNumber" min="0" pattern="[^-,]+">
+                            <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
+                                name="engine_number" formControlName="engineNumber" maxlength="50" pattern="[^ -,]+">
 
                             <div class="cus-mandatory-field" *ngIf="obj.controls['engineNumber'].hasError('pattern')">
-                                You must enter valid engine number
+                                Enter valid engine number
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
-                            <input type="number" class="form-control" id="vehicle_purchased_cost"
+                            <input type="text" class="form-control" id="vehicle_purchased_cost"
                                 placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                                formControlName="vehiclePurchasedCost" min="0" pattern="[^-,]+">
+                                formControlName="vehiclePurchasedCost" maxlength="10" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['vehiclePurchasedCost'].hasError('pattern')">
-                                You must enter valid vehicle purchased cost
+                                Enter valid vehicle purchased cost
                             </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
-                            <input type="number" class="form-control" id="vehicle_ownership"
+                            <input type="text" class="form-control" id="vehicle_ownership"
                                 placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                                formControlName="vehicleOwnerShipNumber" min="0" pattern="[^-,]+">
+                                formControlName="vehicleOwnerShipNumber" maxlength="2" pattern="^[1-9][0-9]*$">
 
                             <div class="cus-mandatory-field"
                                 *ngIf="obj.controls['vehicleOwnerShipNumber'].hasError('pattern')">
-                                You must enter valid vehicle ownership number
+                                Enter valid vehicle ownership number
                             </div>
                         </div>
 
@@ -2023,7 +2085,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}}</label>
                             <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                                name="rc_owner_name" formControlName="rcOwnerName">
+                                name="rc_owner_name" formControlName="rcOwnerName" maxlength="30">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('pattern')">
+                                Enter valid name of vehicle owner/dealer
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -2073,13 +2140,26 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}}</label>
                             <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                                name="cubic_capacity" formControlName="cubicCapacity">
+                                name="cubic_capacity" formControlName="cubicCapacity" maxlength="5"
+                                pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['cubicCapacity'].hasError('pattern')">
+                                Enter valid cubic capacity
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
                             <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                                name="seating_capacity" formControlName="seatingCapacity">
+                                name="seating_capacity" formControlName="seatingCapacity" maxlength="3"
+                                pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field"
+                                *ngIf="obj.controls['seatingCapacity'].hasError('pattern')">
+                                Enter valid seating capacity
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -2098,16 +2178,21 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}}</label>
                             <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                                formControlName="idv">
+                                formControlName="idv" maxlength="10" pattern="^[1-9][0-9]*$">
+
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['idv'].maxlength">
+                                The length of idv should be ten digits only
+                            </div>
+
                         </div>
 
                         <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="insurance_copy">{{label.uploadInsuranceCopy}}</label>
                         <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
                         <div id="insurance_preview"></div>
-                    </div> -->
+                        </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" style="margin-top: 24px;">
                             <label for="frsd_required">{{label.frsdRequired}}</label>
 
                             <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq"
@@ -2121,12 +2206,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
-                            <input type="number" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                                name="frsd_amount" formControlName="fsrdPremiumAmount" min="0" pattern="[^-,]+">
+                            <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
+                                name="frsd_amount" formControlName="fsrdPremiumAmount" maxlength="10"
+                                pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fsrdPremiumAmount'].hasError('pattern')">
-                                You must enter valid fsrd premium amount
+                            <div class="cus-mandatory-field" *ngIf="obj.controls['fsrdPremiumAmount'].maxlength">
+                                The length of fsrd premium amount should be ten digits only
                             </div>
                         </div>
 

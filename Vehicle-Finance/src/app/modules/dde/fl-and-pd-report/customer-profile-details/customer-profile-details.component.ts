@@ -178,16 +178,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
     console.log('in form value', customerProfileModal)
 
     this.customerProfileForm.patchValue({
-      offAddSameAsRecord: customerProfileModal.offAddSameAsRecordValue || '',
+      offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
       noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
-      nameBoardSeen: customerProfileModal.nameBoardSeenValue || '',
+      nameBoardSeen: customerProfileModal.nameBoardSeen || '',
       officePremises: customerProfileModal.officePremises || '',
       sizeofOffice: customerProfileModal.sizeofOffice || '',
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
       mismatchInAddress: customerProfileModal.mismatchInAddress || '',
-      customerHouseSelfie: customerProfileModal.customerHouseSelfieValue || '',
-      ownershipProof: customerProfileModal.ownershipAvailableValue || '',
-      metCustomer: customerProfileModal.mandatoryCustMeetingValue || ''
+      customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
+      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
+      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
     });
     console.log("patched form", this.customerProfileForm);
   }
@@ -202,6 +202,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     const customerProfileModal = { ...formModal };
     console.log('profile form', customerProfileModal);
+    console.log("mismatch value", customerProfileModal.mismatchInAddress)
     this.custProfileDetails = {
       offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
       noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
