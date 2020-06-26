@@ -28,102 +28,35 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let data of collateralDetailsData;  let i = index">
-                                <td>{{ data.regNo}}</td>
+                                <td>{{ data.regNo | uppercase}}</td>
                                 <td>{{data.make}}</td>
                                 <td> {{data.model}} </td>
                                 <td> {{data.address}} </td>
                                 <td> {{data.valuationStatus}} </td>
-                                <td> {{data.valuatorStatus}} </td>
+                                <td> {{valuatorStatus}} </td>
                                 <td>
                                     <u>
-                                        <a class="a_tag" (click)="OnSubmit()" data-toggle="modal"
-                                            data-target="#myModal">Initiate</a>
+                                        <a class="a_tag" (click)="onClickValuationReport()" data-toggle="modal"
+                                           data-target="#myModal"> {{valuationReport}} </a>
                                     </u>
                                 </td>
                             </tr>
-                            <!-- <tr>
-                                <td>{{ data.regNo}}</td>
-                                <td>{{data.make}}</td>
-                                <td> {{data.model}} </td>
-                                <td> {{data.address}} </td>
-                                <td> {{data.valuationStatus}} </td>
-                                <td> {{data.valuatorStatus}} </td>
-                                <td>
-                                    <u>
-                                        <a class="a_tag" href="vehicle_valuation/vehicle_valuation_details.html"></a>
-                                    </u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ data.regNo}}</td>
-                                <td>{{data.make}}</td>
-                                <td> {{data.model}} </td>
-                                <td> {{data.address}} </td>
-                                <td> {{data.valuationStatus}} </td>
-                                <td> {{data.valuatorStatus}} </td>
-                                <td>
-                                    <u>
-                                        <a class="a_tag" [routerLink]="['/pages/vehicle-valuation/valuation']">View</a>
-                                    </u>
-                                </td>
-                            </tr> -->
-
                         </tbody>
                     </table>
-                    <!-- <div class="btn-sec clear-both">
-                                            <div class="records col-sm-6">
-                                                <select class="form-control input-sm">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
-                                                <nav class="col-sm-12 col-md-12 col-lg-12 page">
-                                                    <ul class="pagination">
-                                                        <li class="disabled"><a href="#"><span>«</span></a></li>
-                                                        <li class="active"><a href="#">1 <span
-                                                                    class="sr-only">(current)</span></a></li>
-                                                        <li><a href="#">2</a></li>
-                                                        <li><a href="#">3</a></li>
-                                                        <li><a href="#">4</a></li>
-                                                        <li><a href="#">5</a></li>
-                                                        <li><a href="#"><span>»</span></a></li>
-                                                    </ul>
-                                                </nav>
-                                            </div>
-                                        </div> -->
                 </div>
             </div>
-<!-- <div class="row">
-<div class="col-sm-5"></div>
-<div class="col-sm-7 text-right">
-    <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['/pages/dde/psl-data']"> {{labels.back}} </button> &nbsp;
-    <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
-</div>
-</div> -->
 
         </div>
     </div>
 </form>
 
-<!-- <div class="btn-sec clear-both"> 
-    <div class="col-sm-5"></div>
-    <div class="col-sm-7 text-right cst_btm_btns" >
-        <button class="btn btn-primary  " type="button" [routerLink]="['/pages/dde/psl-data']">
-            {{labels.back}} </button> &nbsp;
-       
-        <button class="btn btn-primary " type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
-    </div>
-</div> -->
-
 <div class="btn-sec clear-both">
     <div class="col-sm-5"> </div>
-    <div class="col-sm-7 text-right cst_btm_btns" > <br> <br>
-        <button class="btn btn-primary" type="button" [routerLink]="['/pages/dde/psl-data']"> {{labels.back}} </button>
+    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
+        <button class="btn btn-primary" type="button" (click)="onBack()"> {{labels.back}} </button>
         &nbsp;
         <!-- <p class="btn btn-primary save"> Save </p> -->
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+        <button class="btn btn-primary" type="button" (click)="onNext()"> {{labels.next}} </button>
     </div>
 </div>
 
@@ -140,12 +73,12 @@
                 <!-- <button type="button" (click)="isModal = false" class="close" data-dismiss="modal">&times;</button> -->
                 <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
             </div>
-            <div class="modal-body">   
+            <div class="modal-body">
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
                         <label for="registration_cost"> {{labels.registrationNumber}} </label>
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" [value]="regNo">
+                            required="required" [value]="regNo | uppercase">
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
@@ -163,22 +96,21 @@
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
                             required="required" [value]="address">
                     </div>
-                    <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
-                        <label for="remarks">{{labels.VehicleValremarks}}</label>
-                        <!-- <input type="textArea" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required"> -->
-                        <textarea class="form-control"> </textarea>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-                        <label for="property_located_city"> {{labels.chooseValuator}} </label>
-                        <select class="form-control" id="property_located_city" name="property_located_city"
-                            required="required">
-                            <option value="">Valuator 1</option>
-                            <option value="">Valuator 2</option>
-                            <option value="">Valuator 3</option>
-                        </select>
-                    </div>
+                    <form class="multisteps-form__form" [formGroup]="modelDataForm">
 
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
+                            <label for="remarks">{{labels.VehicleValremarks}}</label>
+                            <textarea class="form-control" formControlName="remarks"> 
+                            </textarea>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+                            <label for="property_located_city"> {{labels.chooseValuator}} </label>
+                            <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
+                                [isRequired]="'Please Select One Option'" >
+                            </app-vf-custom-select>
+                        </div>
+
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
@@ -230,7 +162,7 @@
                 <p>{{labels.modalBody2}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
+                <button type="button" class="btn btn-default table-head-bg" (click)="initiateVehicleValuation()"
                     data-dismiss="modal">{{labels.ok}}</button>
                 <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
                     data-dismiss="modal">{{labels.close}}</button>

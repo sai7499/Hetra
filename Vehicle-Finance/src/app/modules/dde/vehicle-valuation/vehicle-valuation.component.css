@@ -21,8 +21,9 @@
     display: block;
 }
 
-.a_tag{
+.a_tag, u{
     cursor: pointer;
+    text-decoration: none;
 }
 
 .cst_btm_btns {

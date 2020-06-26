@@ -278,9 +278,29 @@ export class ApiService {
       workflowId: 'f2bc4564b22611ea8796f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,  
     },
-    getVehicleValuation: {
+    getCollateralDetailsForVehicleValuation: {
       processId: '2db56d129c2911eabddcf2fa9bec3d63',
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getVendorCode: {
+      processId: '5c532d10b21011ea874ef2fa9bec3d63',
+      workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    initiateVehicleValuation: {
+      processId: 'f46ad0f8a36011eabe55f2fa9bec3d63',
+      workflowId: 'f439df02a36011eabe55f2fa9bec3d63',
+      projectId: environment.projectIds.externalApi,
+    },
+    getVehicleValuation: {
+      processId: 'e47087929ccb11eabdddf2fa9bec3d63',
+      workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveUpdateVehicleValuation: {
+      processId: '29f089d09c2b11eabddcf2fa9bec3d63',
+      workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     }
   };

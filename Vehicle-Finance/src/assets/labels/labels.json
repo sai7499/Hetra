@@ -64,6 +64,7 @@
     "assetBodyType": "Asset Body Type",
     "assetSegement": "Asset Segment",
     "vehicleType": "Vehicle Type",
+    "vehicleNumber": "Vehicle Number",
     "assetVariant": "Asset Variant",
     "assetSubVariant": "Asset Sub-Variant",
     "assetOther": "Asset Variant - Other",
