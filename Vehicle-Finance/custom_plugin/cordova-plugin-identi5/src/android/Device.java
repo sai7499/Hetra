@@ -23,7 +23,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Hashtable;
@@ -48,6 +52,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 
 
@@ -71,6 +76,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import capacitor.android.plugins.R;
+
+import static android.util.Base64.*;
 
 
 public class Device extends CordovaPlugin {
@@ -231,42 +238,6 @@ public class Device extends CordovaPlugin {
 
     }
 
-    private String getInputData() {
-
-        String dname = "christus valerian";
-
-        Log.e(TAG, "startCaptureRegistered");
-        String sConnStat="";
-        if (glbConnSwitch)
-            sConnStat = "<Param " + "name=\"" + "Connection" + "\" " + "value=\"" + (glbConnSwitch? "Y":"N") + "\"/> ";
-        else
-            sConnStat ="";
-
-        String inputxml = String.format(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                        + "<PidOptions ver =\"1.0\">" + "<Opts "
-                        + "env=\"P\" "+ "fCount=\""+ fCount + "\""+ "fType=\"0\" "+ "iCount=\"1\" "+ "iType=\"0\" "+ "pCount=\"1\" "
-                        + "pType=\"0\" "+ "format=\""+(isProtoBuf? "1":"0")+ "\" "+ "pidVer=\""+ "2.0"+ "\" "+ "timeout=\""+ "10000"+ "\" "
-                        + "otp=\""+ "" + "\" "
-                        + "wadh=\""+ "" + "\" "
-                        + "posh=\""+ "UNKNOWN"+ "\"/>"
-//                        + "<Demo>" + "</Demo>"
-                        + "<Demo lang=\"07\">"
-                        + "<Pi "+ "name=\""+ dname + "\""
-//                        +"ms=\""+"E"+"\" "
-//                        +"gender=\""+"M"+"\" "
-                        + "/>"
-                        + "</Demo>"
-                        + "<CustOpts>"
-                        + "<Param " + "name=\"" + glbDevname + "\" " + "value=\"" + glbDevmac + "\"/> "
-                        + sConnStat // This is an optional parameter for retaining the BT connection without
-                        // this the connection with the device will be disconnected after every operation.
-                        + "</CustOpts>"
-                        + "</PidOptions>");
-        Log.e(TAG, "PidOptions: " + inputxml);
-
-        return inputxml;
-    }
 
 
     //--------------------------------------------------------------------------
@@ -503,6 +474,88 @@ public class Device extends CordovaPlugin {
         return prefs;
     }
 
+    private String getInputData() throws NoSuchAlgorithmException {
+
+
+        String wadhStr = "2.5"+"F"+"Y"+"N"+"N"+"N";
+
+
+
+        MessageDigest digest=null;
+        String hash = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            digest.update(wadhStr.getBytes());
+
+            hash = bytesToHexString(digest.digest());
+
+            Log.i("Eamorr", "result is " + hash);
+        } catch (NoSuchAlgorithmException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+
+        byte[] data = new byte[0];
+        try {
+            data = hash.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String wadthBase64 = Base64.encodeToString(data, Base64.DEFAULT);
+
+        System.out.println("wadthBase64"+ wadthBase64);
+
+        /*String sha256hex = SHA256(wadhStr);
+
+        System.out.println("sha256hex"+ sha256hex);
+        TF/lfPuh1n4ZY1xizYpqikIBm+gv65r51MFNek4uwNw=*/
+
+//        019d62ddc0ba091c0e7d1a0646993b1888bae3bccb9f29edd68725228b5d4d0b
+
+//        4c5fe57cfba1d67e19635c62cd8a6a8a42019be82feb9af9d4c14d7a4e2ec0dc
+
+        String dname = "";
+
+        Log.e(TAG, "startCaptureRegistered");
+        String sConnStat="";
+        if (glbConnSwitch)
+            sConnStat = "<Param " + "name=\"" + "Connection" + "\" " + "value=\"" + (glbConnSwitch? "Y":"N") + "\"/> ";
+        else
+            sConnStat ="";
+
+/*
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <PidOptions ver ="1.0">
+        <Opts env="S" fCount="1"fType="0" iCount="1" iType="0" pCount="1" pType="0"
+                format="0" pidVer="2.0" timeout="10000" otp="" wadh="" posh="UNKNOWN"/>
+        <Demo lang="07"><Pi name="Rahul Gowda R"/></Demo>
+        <CustOpts>
+        <Param name="ESIAA0065" value="00:04:3E:6C:96:2B"/>
+        <Param name="Connection" value="Y"/>
+        </CustOpts>
+        </PidOptions>*/
+
+
+        String inputxml = String.format(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                        + "<PidOptions ver =\"1.0\" >" +
+                        "<Opts "
+                        + "env=\"PP\" "+ "fCount=\""+ fCount + "\" "+ "fType=\"0\" "+  "iType=\"0\" "+ "pCount=\"1\" "
+                        + "pType=\"0\" "+ "format=\""+(isProtoBuf? "1":"0")+ "\" "+ "pidVer=\""+ "2.0"+ "\" "+ "timeout=\""+ "10000"+ "\" "
+                        + "wadh=\""+ wadthBase64 + "\" "
+                        + "posh=\""+ "UNKNOWN"+ "\"/>"
+                        + "</PidOptions>");
+        Log.e(TAG, "PidOptions: " + inputxml);
+
+        System.out.println("PidOptions Str"+ inputxml);
+
+
+
+        return inputxml;
+    }
+
+
     public String createAuthXML(String piddataxml) {
         Log.e(TAG, " :: createAuthXMLRegistered | ENTER");
         char[] password;
@@ -513,6 +566,7 @@ public class Device extends CordovaPlugin {
         String xmlnsBfd = "";
         String type = "A";
         String pi = "n";
+//        uidPrefs = loadPreferences("staging.properties");
 
         String errcode = "1";
         String errinfo = null;
@@ -575,10 +629,22 @@ public class Device extends CordovaPlugin {
                 Log.e(TAG, " :: createAuthXMLRegistered xml building| ENTER");
                 //TODO :	rc hardcoded to y in authxml
 
+//                HA-256(ver+ra+rc+lr+de+pfr)
+
+
+//                2.5+F+Y+N+N+N
+
+
+//                pi="n" pa="n" pfa="n" pin="n" bio="y" bt="FMR" otp="n"
+
+//                ver="2.5" ra="F" rc="Y" pfr="N" lr="N" de="N"
+
+ //                2.5+I+Y+Y+N+Y
+
                 String authXML = String.format(
-                        "<KycReqInfo ver=\"2.5\" ra=\"F\" rc=\"Y\" pfr=\"Y\" lr=\"N\" de=\"N\" >"+
+                        "<KycReqInfo de=\"N\" lr=\"N\" pfr=\"Y\" ra=\"F\" rc=\"Y\" ver=\"2.5\">"+
                                 "<Auth  txn=\"UKC:"+txn+"\" >"+
-                                        "<Uses bio=\"y\" bt=\"FMR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\" />"+
+                                        "<Uses bio=\"y\" bt=\"FMR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\"  />"+
                                         "<Meta "  + "dc=\"" + dc + "\" "
                                         + "mi=\"" + mi + "\" "
                                         + "mc=\"" + mc + "\" "
@@ -591,6 +657,7 @@ public class Device extends CordovaPlugin {
                                         + "<Hmac>" + hmac + "</Hmac>"+
                                 "</Auth>"+
                         "</KycReqInfo>");
+
 
                 Log.e(TAG, " :: AuthXML is:" + authXML);
                 return authXML;
@@ -614,10 +681,24 @@ public class Device extends CordovaPlugin {
         return String.format("%06d", number);
     }
 
+    public static String SHA256 (String text) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        md.update(text.getBytes());
+        byte[] digest = md.digest();
+
+        return encodeToString(digest, DEFAULT);
+    }
+
+    private static String bytesToHexString(byte[] bytes) {
+        // http://stackoverflow.com/questions/332079
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+
+
 }
-
-
-
-
-
-
