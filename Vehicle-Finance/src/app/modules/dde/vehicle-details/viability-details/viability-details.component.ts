@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
+import { ViabilityServiceService } from '@services/viability-service.service';
 
 @Component({
   selector: 'app-viability-details',
-  templateUrl: './viability-details.component.html'
-  // styleUrls: ['./viability-details.component.css']
+  templateUrl: './viability-details.component.html',
+  styleUrls: ['./viability-details.component.css']
 })
 export class ViabilityDetailsComponent implements OnInit {
 
@@ -13,87 +14,125 @@ export class ViabilityDetailsComponent implements OnInit {
   public labelPassanger: any = {};
   public labelPassangerStandOperator: any = {};
   public labelCaptive: any = {};
-  public vehicle_viability_value: string = 'passanger';
+  public viabilityData: any;
+  // tslint:disable-next-line: variable-name
+  public vehicle_viability_value = 'passanger';
 
   public viabilityForm: FormGroup;
 
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService) { }
+  constructor(private fb: FormBuilder, private labelsData: LabelsService,
+              private viabilityService: ViabilityServiceService) { }
 
   ngOnInit() {
     this.createForm();
 
-    this.labelsData.getLabelsOfDDEData()
+    this.labelsData.getLabelsData()
       .subscribe(data => {
-        this.label = data[0].viabilityDetails[0];
-        this.labelPassanger = this.label.passanger[0];
-        this.labelPassangerStandOperator = this.label.passangerStandOperator[0];
-        this.labelCaptive = this.label.captive[0];
+        this.label = data;
       },
         error => {
-          console.log(error, 'error')
+          console.log(error, 'error');
         });
+    this.getViability();
   }
 
   createForm() {
-    this.viabilityForm = this._fb.group({
-      vehicleViabilityNavigate: ['passanger', Validators.required],
-      passanger: this._fb.group({
+    this.viabilityForm = this.fb.group({
+      type: ['passanger', Validators.required],
+      passanger: this.fb.group({
         route: ['Chennai to Athipattu'],
-        natureGoods: ['Oil'],
-        distanceKm: ['220'],
-        noofTrips: ['25'],
-        monthlyRunninginKm: ['5500'],
-        averageLoad: ['9'],
-        rateTonneKL: ['600'],
-        fuelAverage: ['5.00'],
-        costLitreFuel: ['65.00'],
-        numTyres: ['6.00'],
-        costTyre: ['8000.00'],
-        lifeNewTyres: ['60000.00'],
-        fuelCost: ['71500.00'],
-        tyreCost: ['4400.00'],
-        driversSalaryAllowances: ['8000.00'],
-        cleanersSalaryAllowances: ['4000.00'],
-        permitCost: ["0.00"],
-        fcCharges: ['0.00'],
-        tollTaxPaid: ['0.00'],
-        taxes: ['1500.00'],
-        maintenance: ['2000.00'],
-        miscellaneous: ['1000.00'],
-        insuranceExpenses: ['5000.00'],
-        totalExpenses: ['97400.00'],
-        emi: ["16580.00"]
+        natureOfGoods: ['Oil'],
+        distanceInKm: [220],
+        tripsPerMonth: [25],
+        monthlyRunningKm: [5500],
+        avgLoadPerTon: [9],
+        rateTonne: [600],
+        fuelAvgPerKm: [5.00],
+        costPerLtr: [65.00],
+        noOfTyres: [6.00],
+        perTyreCost: [8000.00],
+        newTyreLifeKm: [60000.00],
+        fuelCost: [71500.00],
+        tyreCost: [4400.00],
+        driversSalary: [8000.00],
+        cleanersSalary: [4000.00],
+        permitCost: [0.00],
+        fcCharge: [0.00],
+        paidTollTax: [0.00],
+        taxes: [1500.00],
+        maintanence: [2000.00],
+        busMiscellaneousExpenses: [1000.00],
+        busInsurenceExpenses: [5000.00],
+        busMonthlyIncome: [97400.00],
+        netCashFlow: [16580.00],
+        emi: [5000],
+        totalExpense: [50000]
       }),
-      passangerStandOperator: this._fb.group({
+      passangerStandOperator: this.fb.group({
         application: ['Travels'],
-        grossIncome: ['3100'],
-        earningsperday: ['22'],
-        expensesperday: ['1300.00'],
-        avgTyreExpenses: ['1500.00'],
-        insuranceExpenses: ['2000.00'],
-        miscellaneousExpenses: ['2000.00'],
-        totalExpenses: ['34100.00'],
-        netCashFlow: ['34100.00'],
-        emi: ["15810.00"]
+        grossIncomePerDay: [3100],
+        businessEarningPerDay: [22],
+        businessIncomePerDay: [1300.00],
+        avgTyreExpenses: [1500.00],
+        insuranceExpenses: [2000.00],
+        miscellaneousExpenses: [2000.00],
+        totalExpenses: [34100.00],
+        netCashFlow: [34100.00],
+        emi: [15810.00]
       }),
-      captive: this._fb.group({
-        natureBusiness: ['SAND'],
-        grossIncome: ['5000'],
-        numEarnings: ['25'],
-        expensesperdayBusiness: ['3000.00'],
-        obligationsBusinessMonth: ['5000.00'],
-        avgTyreExpenses: ['1500.00'],
-        insuranceExpenses: ['2000.00'],
-        miscellaneousExpenses: ['1500.00'],
-        totalExpenses: ['80000.00'],
-        netCashFlow: ['45000.00'],
-        emi: ["15670.00"]
+      captive: this.fb.group({
+        natureOfBusiness: ['SAND'],
+        businessIncomePerDay: [5000],
+        businessEarningPerDay: [25],
+        busExpensesPerDay: [3000.00],
+        oblicationsPerMonth: [5000.00],
+        busTyreAvgExpenses: [1500.00],
+        busInsurenceExpenses: [2000.00],
+        busMiscellaneousExpenses: [1500.00],
+        busMonthlyIncome: [1334578],
+        totalExpenses: [80000.00],
+        netCashFlowEmi: [45000.00],
+        emi: [15670.00]
       }),
-    })
+    });
   }
 
   vehicle_viability_navigate(event) {
     this.vehicle_viability_value = event.target.value;
+  }
+  private privateViability() {
+    return
+  }
+  getViability() {
+    const body = {
+      // loginId: 'e12346@equitasbank.in',
+      userId : '1002',
+      id: 1020,
+      // colletaralId: 81
+    };
+    this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
+      console.log(res);
+    });
+
+  }
+  onSave() {
+    const body = {
+      userId: '1002',
+      customerName: 'Nixon',
+      vehicleModel: 1,
+      income: 45154,
+    // iId: 1180,
+      vehicleViabilityDetails : {
+        collateralId: 81,
+        type: this.viabilityForm.value.type,
+        ...this.viabilityForm.value.passangerStandOperator
+      },
+    };
+    console.log(this.viabilityForm.value);
+    console.log(body, 'Viability Body');
+    this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
+console.log(res);
+    });
   }
 
 }

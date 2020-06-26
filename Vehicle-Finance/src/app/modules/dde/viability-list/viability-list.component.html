@@ -25,21 +25,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="applicant_1_row">
-                            <td>TN-04-SS-0292</td>
-                            <td>TATA</td>
-                            <td>SUMO</td>
-                            <td>Submitted</td>
+                        <tr id="applicant_1_row" *ngFor=" let viability of viabilityData">
+                            <td>{{viability?.registerNo}}</td>
+                            <td>{{viability?.make}}</td>
+                            <td>{{viability?.model}}</td>
+                            <td>{{viability?.viabilityStatus}}</td>
                             <td><u><a class="a_tag"
-                                        [routerLink]="['/pages/vehicle-details/viability-details']">View</a></u></td>
+                                        (click)="getViability()">View</a></u></td>
                         </tr>
-                        <tr id="applicant_2_row">
+                        <!-- <tr id="applicant_2_row">
                             <td>KL-05-AG-1191</td>
                             <td>TATA</td>
                             <td>SUMO</td>
                             <td>Waiting</td>
                             <td></td>
-                        </tr>
+                        </tr> -->
 
                     </tbody>
                 </table>

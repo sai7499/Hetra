@@ -1,0 +1,19 @@
+.row.top_bar {
+    margin: 0px;
+    border: 1px solid #ddd;
+    font-weight: 100;
+    border-radius: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: white;
+}
+.margin_zero {
+    margin: 0px;
+    padding-bottom: 15px;
+}
+.form-group.mb-0{margin-bottom:0px;}
+.col-form-label{margin-bottom:0px;}
+.col-form-label-two{margin-bottom:0px;}
+.table tbody tr td {
+    text-align: left !important;
+ }
