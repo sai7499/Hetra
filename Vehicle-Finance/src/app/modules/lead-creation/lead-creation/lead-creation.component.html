@@ -132,7 +132,7 @@
             </label>
             <!-- <input formControlName="dealerCode" type="text" class="form-control mandatory select2" id="sourcingCode"
               placeholder="Dealer Code" name="dealerCode" /> -->
-              <div class="ng-autocomplete" style="width:100%">
+              <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
                 <ng-autocomplete 
                   [data]="dealerCodeData"
                   [searchKeyword]="keyword"
@@ -142,7 +142,8 @@
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'"
-                  [minQueryLength]="2">                                 
+                  [minQueryLength]="2"
+                  [disabled]="isSourchingCode">                                 
                 </ng-autocomplete>               
                 <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorName"></a>
