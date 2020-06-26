@@ -88,7 +88,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="landmark">{{labels.landmark}}</label>
                 <!-- <input type="text" class="form-control" id="landmark" formControlName="landmark"> -->
-                <app-custom-input id="landmark" formControlName="landmark" [patternCheck]="landmarkPattern"  [maxLength]="maxlength40" [isDirty]="isDirty">
+                <app-custom-input id="landmark" formControlName="landmark" [patternCheck]="landmarkPattern" [maxLength]="maxlength40" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -190,7 +190,8 @@
                     <button class="btn btn-primary" type="button" routerLink="/pages/dde/fl-report"> {{labels.back}}
                     </button> &nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+                    <button class="btn btn-primary" type="button" [routerLink]="['../../customer-profile',applicantId]">
+                        {{labels.next}} </button>
                 </div>
             </div>
 

@@ -53,6 +53,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     msg: '',
   };
   isDirty: boolean;
+  applicantId: number;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -118,6 +119,13 @@ export class CustomerProfileDetailsComponent implements OnInit {
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      console.log('Applicant Id In Customer Profile Component', this.applicantId);
+    });
   }
 
   initForm() {
@@ -199,7 +207,10 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   onFormSubmit() {
     const formModal = this.customerProfileForm.value;
-
+    this.isDirty = true;
+    if (this.customerProfileForm.invalid) {
+      return;
+    }
     const customerProfileModal = { ...formModal };
     console.log('profile form', customerProfileModal);
     console.log("mismatch value", customerProfileModal.mismatchInAddress)

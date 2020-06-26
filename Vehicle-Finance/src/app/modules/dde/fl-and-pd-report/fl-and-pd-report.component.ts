@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { DdeStoreService } from '@services/dde-store.service';
@@ -12,12 +12,15 @@ import { PdDataService } from './pd-data.service';
 export class FlAndPdReportComponent implements OnInit {
     locationIndex = 0;
     pdDetail: any;
+    leadId: any;
+    applicantId: any;
     constructor(
         private router: Router,
         private location: Location,
         private personalDiscussion: PersonalDiscussionService,
         private ddeStoreService: DdeStoreService,
-        private pdDataService: PdDataService) { }
+        private pdDataService: PdDataService,
+        private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
         const currentUrl = this.location.path();
@@ -26,6 +29,23 @@ export class FlAndPdReportComponent implements OnInit {
             this.locationIndex = this.getLocationIndex(url);
         });
         this.getPdDetails();
+        this.activatedRoute.params.subscribe((value: any) => {
+            console.log('params', value);
+            this.leadId = Number(value.leadId);
+            // if (!this.leadId) {
+            //   const data: any = this.createLeadDataService.getLeadData();
+            //   this.leadId = data.leadId;
+            // }
+            // this.leadStoreService.setLeadId(this.leadId);
+            // console.log(
+            //   ' this.createLeadDataService.getLeadData()',
+            //   this.createLeadDataService.getLeadData()
+            // );
+        });
+        this.activatedRoute.firstChild.params.subscribe((value: any) => {
+            this.applicantId = value.applicantId;
+            console.log('applicant ID', value.applicantId);
+        });
     }
     getPdDetails() {
         const data = {
@@ -39,11 +59,17 @@ export class FlAndPdReportComponent implements OnInit {
                 console.log('PD Details', this.pdDetail);
 
                 if (this.pdDetail) {
-                    this.pdDataService.setCustomerProfile(this.pdDetail.customerProfileDetails)
+                    this.pdDataService.setCustomerProfile(this.pdDetail.customerProfileDetails);
                 }
             }
         });
 
+    }
+    onNavigate(url: string) {
+        this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}`]);
+        // this.router.navigate([
+        //     '/pages/fl-and-pd-report/${this.leadId}/${url}/',this.applicantId,
+        // ]);
     }
     getLocationIndex(url: string) {
         if (url.includes('applicant-details')) {
