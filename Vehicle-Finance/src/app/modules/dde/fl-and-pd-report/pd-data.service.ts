@@ -14,9 +14,9 @@ export class PdDataService {
   constructor() { }
 
 
-  setApplicationDetails(appDetails: ApplicantDetails) {
+  setApplicationDetails(applicantPdDetails: ApplicantDetails) {
 
-    this.applicantDetails = appDetails;
+    this.applicantDetails = applicantPdDetails;
   }
 
   getApplicationDetails() {

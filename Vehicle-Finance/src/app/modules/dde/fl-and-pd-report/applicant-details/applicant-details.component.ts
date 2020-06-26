@@ -7,6 +7,8 @@ import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ApplicantDetails } from '@model/dde.model';
+import { PdDataService } from '../pd-data.service';
+import { ToasterService } from '@services/toaster.service';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -23,9 +25,11 @@ export class ApplicantDetailComponent implements OnInit {
   LOV: any = [];
   applicantDetails: ApplicantDetails;
   applicantId: any;
+  applicantPdDetails: any;
+
 
   namePattern = {
-    rule: '^[A-Z]*[a-z]*$',
+    rule: '^[A-Za-z ]{0,99}$',
     msg: 'Invalid Name',
   };
 
@@ -80,7 +84,9 @@ export class ApplicantDetailComponent implements OnInit {
               private ddeStoreService: DdeStoreService,
               private commomLovService: CommomLovService,
               private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.initForm();
@@ -107,6 +113,7 @@ export class ApplicantDetailComponent implements OnInit {
       if (!value && !value.applicantId) {
         return;
       }
+      this.getPdDetails();
       this.applicantId = Number(value.applicantId);
       console.log('Applicant Id In applicant Details Component', this.applicantId);
     });
@@ -137,7 +144,8 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   setFormValue() {
-    const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
+    // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
+    const applicantModal = this.applicantPdDetails || { };
     this.applicantForm.patchValue({
       applicantName: applicantModal.applicantName || '',
       fatherName: applicantModal.fatherName || '',
@@ -160,6 +168,26 @@ export class ApplicantDetailComponent implements OnInit {
       houseOwnership: applicantModal.houseOwnership || '',
       ratingbySO: applicantModal.ratingbySO || ''
     });
+  }
+
+  getPdDetails() {
+    const data = {
+      applicantId: 6,
+    };
+
+    this.personaldiscussion.getPdData(data).subscribe((value: any) => {
+      const processVariables = value.ProcessVariables;
+      if (processVariables.error.code === '0') {
+
+        this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
+        console.log('Applicant Details in calling get api ', this.applicantPdDetails);
+        if (this.applicantPdDetails) {
+          this.setFormValue();
+          this.pdDataService.setCustomerProfile(this.applicantPdDetails);
+        }
+      }
+    });
+
   }
 
   onFormSubmit() {
@@ -211,8 +239,11 @@ export class ApplicantDetailComponent implements OnInit {
     this.personaldiscussion.savePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-        const message = processVariables.error.message;
-        console.log('PD Status', message);
+        this.toasterService.showSuccess('Applicant Details saved !', '');
+      } else {
+        console.log('error', processVariables.error.message);
+        this.toasterService.showError('ivalid save', 'message');
+
       }
     });
   }
