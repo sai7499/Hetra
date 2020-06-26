@@ -367,11 +367,12 @@ export class SourcingDetailsComponent implements OnInit {
     this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
     console.log('placeholder', this.placeholder);
     this.sourcingDetailsForm.controls.sourcingCode.reset();
-    if (this.placeholder[0].value === 'Not Applicable') {
-      this.sourcingCodePlaceholder = 'Sourcing Code';
-      return;
-    }
     this.sourcingCodePlaceholder = this.placeholder[0].value;
+    if (this.sourcingCodePlaceholder === 'Not Applicable') {
+      this.isSourchingCode = true;
+    } else {
+      this.isSourchingCode = false;
+    }
   }
 
   onSourcingCodeSearch(event) {
@@ -495,8 +496,6 @@ export class SourcingDetailsComponent implements OnInit {
           this.toasterService.showSuccess('Lead Updated Successfully !', '');
           this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
-
-
         }
       });
     } else {
