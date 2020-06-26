@@ -41,7 +41,7 @@ export class PdReportComponent implements OnInit {
       leadId: 153,
       //  uncomment this once get proper Pd data for perticular
       // leadId: this.leadId
-      userId: '1002'
+      userId: '1002',
     };
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
       const processveriables = value.ProcessVariables;
