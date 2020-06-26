@@ -97,7 +97,7 @@ export class AddressDetailsComponent implements OnInit {
     msg: 'Should be 6 digit',
   };
   mobilePattern = {
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   };
   mobileLength10 = {
@@ -923,12 +923,14 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+    
     this.isDirty = true;
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
         return;
       }
       const value = this.addressForm.value;
+      console.log('value', value)
       if (this.isIndividual) {
         this.storeIndividualValueInService(value);
       } else {
