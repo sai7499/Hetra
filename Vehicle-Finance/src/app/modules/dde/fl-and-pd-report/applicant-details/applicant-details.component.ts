@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
@@ -22,6 +22,7 @@ export class ApplicantDetailComponent implements OnInit {
   isDirty: boolean;
   LOV: any = [];
   applicantDetails: ApplicantDetails;
+  applicantId: any;
 
   namePattern = {
     rule: '^[A-Z]*[a-z]*$',
@@ -78,7 +79,8 @@ export class ApplicantDetailComponent implements OnInit {
               private router: Router,
               private ddeStoreService: DdeStoreService,
               private commomLovService: CommomLovService,
-              private personaldiscussion: PersonalDiscussionService) { }
+              private personaldiscussion: PersonalDiscussionService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.initForm();
@@ -101,6 +103,13 @@ export class ApplicantDetailComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      console.log('Applicant Id In applicant Details Component', this.applicantId);
+    });
   }
   initForm() {
     this.applicantForm = new FormGroup({

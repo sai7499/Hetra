@@ -50,16 +50,17 @@ export class LoanDetailsComponent implements OnInit {
     rule: 30,
     msg: '',
   };
+  applicantId: number;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private personalDiscussion: PersonalDiscussionService,
-    private toasterService: ToasterService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private personalDiscussion: PersonalDiscussionService,
+              private toasterService: ToasterService) { }
 
   ngOnInit() {
 
@@ -117,6 +118,13 @@ export class LoanDetailsComponent implements OnInit {
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      console.log('Applicant Id In Loan Details Component', this.applicantId);
+    });
   }
 
   initForm() {

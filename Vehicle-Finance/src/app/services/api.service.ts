@@ -288,6 +288,11 @@ export class ApiService {
       workflowId: 'e063568aa23d11eabe47f2fa9bec3d63',
       projectId: environment.projectIds.creditProjectId,
     },
+    pdList : {
+      processId: 'e1405c1ab61511ea8a0af2fa9bec3d63',
+      workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
+      projectId: environment.projectIds.creditProjectId,
+    },
     getFactoringValue: {
       processId: 'f2dadd44b22611ea8796f2fa9bec3d63',
       workflowId: 'f2bc4564b22611ea8796f2fa9bec3d63',

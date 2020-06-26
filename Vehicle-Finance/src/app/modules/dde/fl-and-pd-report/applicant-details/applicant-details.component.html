@@ -190,7 +190,7 @@
                     <button class="btn btn-primary" type="button" routerLink="/pages/dde/fl-report"> {{labels.back}}
                     </button> &nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+                    <button class="btn btn-primary" type="button" [routerLink] = "['../../customer-profile',applicantId]"> {{labels.next}} </button>
                 </div>
             </div>
 

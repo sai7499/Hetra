@@ -105,10 +105,10 @@
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" routerLink="/pages/fl-and-pd-report/applicant-detail">
+                    <button class="btn btn-primary" type="button" [routerLink]="['../../applicant-detail',applicantId]">
                         {{labels.back}} </button> &nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
+                    <button class="btn btn-primary" type="button" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button>
 
                 </div>
             </div>

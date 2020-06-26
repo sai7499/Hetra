@@ -17,11 +17,36 @@ export class PersonalDiscussionService {
     processId?: string;
     workflowId?: string;
   };
+
+  PdList: {
+    processId?: string;
+    workflowId?: string;
+  };
+
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
   ) { this.pdData = this.apiService.api.getPdData;
       this.savePd = this.apiService.api.SavePdData;
+     // this.PdList = this.apiService.api.getPdList;
+   }
+
+   getPdList(data) {
+    const projectId = environment.projectIds.creditProjectId;
+    const processId = this.apiService.api.pdList.processId;
+    const workflowId = this.apiService.api.pdList.workflowId;
+
+    const body = {
+      projectId,
+      processId,
+      workflowId,
+      ProcessVariables: {
+        ...data
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
    }
 
   getPdData(data) {
