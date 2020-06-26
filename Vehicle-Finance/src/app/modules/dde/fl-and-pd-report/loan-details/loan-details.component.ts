@@ -180,10 +180,10 @@ export class LoanDetailsComponent implements OnInit {
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
         // console.log("new cv details", this.newCvDetails)
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
-        // console.log("used vehicle details", this.usedVehicleDetails)
+        console.log("used vehicle details", this.usedVehicleDetails)
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle
         // console.log("asset details used vehilce", this.assetDetailsUsedVehicle)
-        console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
+        // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
 
         this.setFormValue();
         // if (this.loanDetails) {
@@ -230,7 +230,7 @@ export class LoanDetailsComponent implements OnInit {
       vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying,
       awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount,
 
-      // assedDetails for used vehicle values patching
+      // asset Details for used vehicle values patching
 
       vehicleMake: assetDetailsUsedVehicleModel.vehicleMake,
       modelInYear: assetDetailsUsedVehicleModel.modelInYear,
@@ -330,9 +330,10 @@ export class LoanDetailsComponent implements OnInit {
       userId: this.userId,
       loanDetailsForNewCv: this.newCvDetails,
       applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
-      applicableForUsedVehicle: this.usedVehicleDetails
+      applicableForUsedVehicle: this.usedVehicleDetails,
 
     }
+    console.log("used vehicle data", this.assetDetailsUsedVehicle)
 
     this.personalDiscussion.savePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
