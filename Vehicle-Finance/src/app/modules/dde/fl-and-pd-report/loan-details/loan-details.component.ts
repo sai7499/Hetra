@@ -10,6 +10,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PdDataService } from '../pd-data.service';
+import { valHooks } from 'jquery';
 
 @Component({
   selector: 'app-loan-details',
@@ -162,11 +163,11 @@ export class LoanDetailsComponent implements OnInit {
       vehicleHpaNbfc: new FormControl(''),
       engineNumber: new FormControl(''),
       chasisNumber: new FormControl(''),
-      permitValidity: new FormControl(''),
-      fitnessValidity: new FormControl(''),
-      taxValidity: new FormControl(''),
+      permitValidity: new FormControl('', Validators.compose([Validators.required])),
+      fitnessValidity: new FormControl('', Validators.compose([Validators.required])),
+      taxValidity: new FormControl('', Validators.compose([Validators.required])),
       insuranceCopyVerified: new FormControl(''),
-      insuranceValidity: new FormControl(''),
+      insuranceValidity: new FormControl('', Validators.compose([Validators.required])),
       vehiclePhsicallyVerified: new FormControl(''),
       conditionOfVehicle: new FormControl(''),
       vehicleRoute: new FormControl(''),
