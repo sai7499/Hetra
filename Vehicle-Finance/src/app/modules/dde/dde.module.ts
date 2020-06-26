@@ -6,7 +6,6 @@ import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
 import { DdeRoutingModule } from './dde.routing.module';
-import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
@@ -38,7 +37,6 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     ViabilityListComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
-    SourcingDdeComponent,
     ExposureDetailsComponent,
     IncomeDetailsComponent,
     VehicleListComponent,

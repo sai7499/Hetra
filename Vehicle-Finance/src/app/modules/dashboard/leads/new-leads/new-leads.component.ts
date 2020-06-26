@@ -63,10 +63,10 @@ export class NewLeadsComponent implements OnInit {
       currentPage: parseInt(pageNumber)
     };
     this.dashboardService.getCreditDashboard(data).subscribe((res: any) => {
-      this.setPageData(res);      
+      this.setPageData(res);
     });
   }
-  setPageData(res){
+  setPageData(res) {
     const response = res.ProcessVariables.loanLead;
     this.newArray = response;
     this.limit = res.ProcessVariables.perPage;
@@ -79,9 +79,8 @@ export class NewLeadsComponent implements OnInit {
   setPage(event) {
     if (this.roleType == '2') {
       this.getCreditDashboard(this.itemsPerPage, event);
-    }
-    else {
-      this.getMyLeads(this.itemsPerPage,event);
+    } else {
+      this.getMyLeads(this.itemsPerPage, event);
       }
   }
 
@@ -105,12 +104,12 @@ export class NewLeadsComponent implements OnInit {
 
     }
 
-  getLeadIdSales(Id,stageCode?) {
+  getLeadIdSales(Id, stageCode?) {
     this.vehicleDataStoreService.setSalesLeadID(Id);
-    
-    if(stageCode == '10'){
+
+    if (stageCode == '10') {
       this.router.navigateByUrl(`/pages/lead-section/${Id}`);
-    } else if(stageCode == '20'){
+    } else if (stageCode == '20') {
       this.router.navigateByUrl(`/pages/sales/${Id}/lead-details`);
     }
 

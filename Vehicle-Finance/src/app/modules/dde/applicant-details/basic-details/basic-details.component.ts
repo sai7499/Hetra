@@ -84,7 +84,7 @@ export class BasicDetailsComponent implements OnInit {
     msg : 'Invalid'
   }
   mobilePattern={
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   }
   emailPattern={
@@ -600,8 +600,8 @@ export class BasicDetailsComponent implements OnInit {
     };
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
-      if (response.Error === '0') {
-        console.log('RESPONSE', response);
+      if (response.ProcessVariables.error.code === '0') {
+        //console.log('RESPONSE', response);
         // this.router.navigate([
         //   `/pages/applicant-details/${this.leadId}/identity-details`,
         //   this.applicantId,

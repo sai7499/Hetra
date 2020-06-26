@@ -55,6 +55,7 @@ export class SourcingDetailsComponent implements OnInit {
   isBusinessDivisionEnable: boolean;
   productCategoryList = [];
   productCategoryData: any;
+  productCategoryChanged: string;
   alertTimeOut: any;
   isProductCategory: boolean;
   isSourcingType: boolean;
@@ -314,7 +315,7 @@ export class SourcingDetailsComponent implements OnInit {
     if (productCategorySelected) {
       this.productCategoryData.map(data => {
         if (data.key === productCategorySelected) {
-          this.sharedService.leadDataToHeader(data.value);
+          this.productCategoryChanged = data.value;
         }
       });
     }
@@ -366,11 +367,12 @@ export class SourcingDetailsComponent implements OnInit {
     this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
     console.log('placeholder', this.placeholder);
     this.sourcingDetailsForm.controls.sourcingCode.reset();
-    if (this.placeholder[0].value === 'Not Applicable') {
-      this.sourcingCodePlaceholder = 'Sourcing Code';
-      return;
-    }
     this.sourcingCodePlaceholder = this.placeholder[0].value;
+    if (this.sourcingCodePlaceholder === 'Not Applicable') {
+      this.isSourchingCode = true;
+    } else {
+      this.isSourchingCode = false;
+    }
   }
 
   onSourcingCodeSearch(event) {
@@ -492,6 +494,8 @@ export class SourcingDetailsComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           this.toasterService.showSuccess('Lead Updated Successfully !', '');
+          this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
+          this.sharedService.leadDataToHeader(this.productCategoryChanged);
         }
       });
     } else {

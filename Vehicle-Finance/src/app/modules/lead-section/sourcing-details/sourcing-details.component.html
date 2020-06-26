@@ -25,6 +25,8 @@
             [values]="productCategoryData"
             formControlName="productCategory"
             (change)="productCategory($event, true)"
+            [isRequired]="'Product Category required'"
+            [isDirty]="isDirty"
           >
           </app-vf-custom-select>
         </div>
@@ -33,7 +35,9 @@
           <label for="product_type">{{ labels.product }}</label>
           <app-vf-custom-select 
             [values]="productCategorySelectedList" 
-            formControlName="product">
+            formControlName="product"
+            [isRequired]="'Product required'"
+            [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
 
@@ -106,6 +110,7 @@
           <app-vf-custom-select
             [values]="spokesCodeLocation"
             formControlName="spokeCodeLocation"
+            [isRequired]="'spokes Code Location required'"
           >
           </app-vf-custom-select>
         </div>
@@ -130,6 +135,8 @@
             formControlName="sourcingChannel"
             (change)="sourcingChannelChange($event, true)"
             name="sourcingChannel"
+            [isRequired]="'Sourcing Channel required'"
+            [isDirty]="isDirty"
           >
           </app-vf-custom-select>
         </div>
@@ -139,12 +146,14 @@
             [values]="sourchingTypeValues"
             formControlName="sourcingType"
             (change)="sourchingTypeChange($event)"
+            [isRequired]="'Sourcing Type required'"
+            [isDirty]="isDirty"
           >
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_code">{{ labels.sourcingCode }}</label>
-          <div class="ng-autocomplete" style="width:100%">
+          <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
             <ng-autocomplete #autocomplete
               [data]="sourcingCodeData"
               [searchKeyword]="keyword"
@@ -155,7 +164,9 @@
               [notFoundTemplate]="notFoundTemplate"
               formControlName="sourcingCode"
               [placeHolder]="sourcingCodePlaceholder"
-              [minQueryLength]="2">                                 
+              [minQueryLength]="2"
+              [disabled]="isSourchingCode">      
+                                         
             </ng-autocomplete>               
             <ng-template #sourcingCodeTemplate let-item>
             <a [innerHTML]="item.value"></a>

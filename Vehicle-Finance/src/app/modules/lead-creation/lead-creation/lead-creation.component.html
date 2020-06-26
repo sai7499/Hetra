@@ -101,9 +101,8 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code"
               >{{ labels.sourcingCode }}
-              <sub class="star_blue_col">*</sub></label
-            >
-            <div class="ng-autocomplete" style="width:100%" >
+              <sub class="star_blue_col">*</sub></label>
+            <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
               <ng-autocomplete 
                 [data]="sourcingCodeData"
                 [searchKeyword]="keyword"
@@ -129,10 +128,8 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">Dealer Code
               <sub class="star_blue_col">*</sub>
-            </label>
-            <!-- <input formControlName="dealerCode" type="text" class="form-control mandatory select2" id="sourcingCode"
-              placeholder="Dealer Code" name="dealerCode" /> -->
-              <div class="ng-autocomplete" style="width:100%">
+            </label>            
+              <div class="ng-autocomplete" style="width:100%" >
                 <ng-autocomplete 
                   [data]="dealerCodeData"
                   [searchKeyword]="keyword"

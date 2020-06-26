@@ -15,6 +15,7 @@ export class TvrDetailsComponent implements OnInit {
   tvrData;
   tableData: any;
   tvrList: any;
+  applicantId;
   constructor(
     private labelDetails: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -31,7 +32,7 @@ export class TvrDetailsComponent implements OnInit {
     this.getLeadId();
     this.leadId = (await this.getLeadId()) as number;
     console.log(this.leadId);
-    this.getTvrDetails();
+    // this.getTvrDetails();
     this.getTvrDetailsList();
   }
 
@@ -40,7 +41,7 @@ export class TvrDetailsComponent implements OnInit {
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
-          console.log(Number(value.leadId));
+          // console.log(Number(value.leadId));
         }
         resolve(null);
       });
@@ -54,22 +55,23 @@ export class TvrDetailsComponent implements OnInit {
     };
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
       this.tvrList = res.ProcessVariables.tvrApplicantsList;
+      this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
       console.log('TVR-Dashboard_list', this.tvrList);
     });
 
   }
 
-  getTvrDetails() {
-    this.tvrService.getTvrDetails().subscribe((res: any) => {
-      this.tvrData = res.ProcessVariables.tvr;
-      // console.log(this.tvrData);
-      this.tableData = this.tvrData;
-    });
-  }
+  // getTvrDetails() {
+  //   this.tvrService.getTvrDetails().subscribe((res: any) => {
+  //     this.tvrData = res.ProcessVariables.tvr;
+  //     console.log(this.tvrData);
+  //     this.tableData = this.tvrData;
+  //   });
+  // }
 
   async onViewClick() {
     const leadId = (await this.getLeadId()) as number;
-    this.router.navigateByUrl(`pages/tele-verification-form/${leadId}`);
+    this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${this.applicantId}`);
   }
 
 }
