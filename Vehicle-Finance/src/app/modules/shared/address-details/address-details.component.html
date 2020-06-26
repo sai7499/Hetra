@@ -1,17 +1,18 @@
 <div class="content">
   <form class="" [formGroup]="addressForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-      <!-- <div class="btn-sec clear-both row" >
+      <div class="btn-sec clear-both row" >
         <div class="col-sm-3">
           <app-vf-custom-select
             formControlName="entity"
             [values]="LOV.LOVS.entityType"
             (change)="onIndividualChange($event)"
+            hidden
           >
           </app-vf-custom-select>
         </div>
         <div class="col-sm-7 text-right"></div>
-      </div> -->
+      </div>
 
       <ng-container formArrayName="details">
         <div
@@ -329,6 +330,12 @@
                 <app-custom-input
                   formControlName="addressLineOne"
                   [maxLength]="maxLenght40"
+                  [isRequired]="
+                    isDirty && isOfficeAddressMandatory
+                      ? 'Address 1 is required'
+                      : ''
+                  "
+                  [isDirty]="isDirty && isOfficeAddressMandatory"
                 >
                 </app-custom-input>
               </div>
@@ -359,9 +366,14 @@
                   formControlName="pincode"
                   [patternCheck]="pincodePattern"
                   [maxLength]="pincodeLength"
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
                   (keyup)="inputPincode($event)"
                   id="officePincode"
+                  [isRequired]="
+                    isDirty && isOfficeAddressMandatory
+                      ? 'Pincode is required'
+                      : ''
+                  "
+                  [isDirty]="isDirty && isOfficeAddressMandatory"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -449,9 +461,7 @@
                                     [values]="LOV.LOVS.accomodationType"></app-vf-custom-select>
                             </div> -->
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="current_landline_num">{{
-                  labels.landlineNumber
-                }}</label>
+                <label for="current_landline_num">Landline Number</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control"
                                     id="current_landline_num" /> -->
                 <app-custom-input
@@ -470,15 +480,13 @@
                             </div> -->
 
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="alternate_mobile_num">{{
-                  labels.alternateMobileNumber
-                }}</label>
+                <label for="alternate_mobile_num">Alternate Contact Number</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                     id="alternate_mobile_num" /> -->
                 <app-custom-input
                   formControlName="mobileNumber"
-                  [patternCheck]="mobilePattern"
-                  [maxLength]="mobileLength10"
+                  [patternCheck]="landlinePattern"
+                  [maxLength]="landlineLength15"
                 ></app-custom-input>
               </div>
             </div>

@@ -25,16 +25,28 @@
                 *ngFor="let item of exposureLiveLoan.get('loanTable')['controls']; let i= index" [formGroupName]="i">
                 <td>{{i+1}}</td>
                 <td>
-                  <select class="input_value height_alter" name="loanType" formControlName="loanType">
+                  <select class="form-control input_value" name="loanType" 
+                    formControlName="loanType">
                     <option disabled>Select One</option>
                     <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
                     <!-- <option value="liveloan">Proposed</option> -->
                   </select>
                 </td>
-                <td><input type="number" class="input_value" value="loanNo" name="loanNumber"
-                    class="form-control text-center" formControlName="loanNo"></td>
                 <td>
-                  <select class="input_value height_alter" name="assetType" formControlName="assetType">
+                  <input type="number" class="input_value" value="loanNo" 
+                    name="loanNumber"
+                    class="form-control" formControlName="loanNo"
+                    >
+                    <!-- <app-custom-input
+                      formControlName="loanNo"
+                      [patternCheck]="numberPattern"
+                      [type]="number"
+                                          > 
+                    </app-custom-input> -->
+                  </td>
+                <td>
+                  <select class="form-control input_value" name="assetType" 
+                    formControlName="assetType">
                     <option disabled>Select One</option>
                     <option  value="{{item.key}}" *ngFor = " let item of productCategory" >{{item.value}}</option>
                     <!-- <option>Used Car</option>
@@ -42,8 +54,21 @@
                     <option>New Car</option> -->
                   </select>
                 </td>
-                <td><input type="number" class="input_value" value="2015" name="yom"
-                    class="form-control text-center" formControlName="yom"  min="0"></td>
+                <td>
+                  <!-- <input type="number" class="input_value" value="2015" name="yom"
+                    class="form-control text-center" formControlName="yom"  max="9999" > -->
+                    <input
+                      type="text" 
+                      class="form-control input_value"                     
+                      required autocomplete="off"
+                      [maxlength]="4"
+                      formControlName="yom"                    
+                      name="yom"                    
+                      pattern="^[1-9][0-9]*$"
+                    >
+                    
+                    <!-- (input)="checkAmountLimit($event,minMaxValues['Loan_amount'].minValue,minMaxValues['Loan_amount'].maxValue)" -->
+                  </td>
                 <td><input type="number" class="input_value" value="55" name="gridValue" class="form-control text-center"
                     formControlName="gridValue"  min="0"></td>
                 <td><input type="number" class="input_value" value="80" name="LTV" class="form-control text-center"
@@ -54,9 +79,13 @@
                     formControlName="tenure"  min="0"></td>
                 <td><input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
                     formControlName="emiPaid"  min="0"></td>
-                <td><i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant"
-                    style="color: red;" (click)="removeIndex(i)"></i>&nbsp;<i type="button" class="fa fa-plus"
-                    aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
+                <td>                  
+                  <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
+                    *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
+                    style="color: red;" (click)="removeIndex(i)"></i>&nbsp;                   
+                    <i type="button" class="fa fa-plus"
+                        *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1"
+                       aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
               </tr>
 
               <!-- <tr class="font-weight">
@@ -82,7 +111,7 @@
 
 <!-- </form>
 <form class="multisteps-form__form" style="height: auto;" [formGroup]="exposureProposedLoan"> -->
-  <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
+  <!-- <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
     <div class="container">
       <div class="row">
         <div class=" application">
@@ -112,20 +141,13 @@
                   <select class="input_value height_alter" name="loanType" formControlName="loanType">
                     <option disabled>Select One</option>
                     <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
-                    
-                    <!-- <option value="liveloan">Live loan</option> 
-                    <option value="liveloan">Proposed</option> -->
                   </select>
                 </td>
                 <td><input type="number" class="input_value" value="" name="loanNumber"
                     class="form-control text-center" formControlName="loanNo"></td>
                 <td>
                   <select class="input_value height_alter" name="assetType" formControlName="assetType">
-                    <option disabled>Select One</option>
-                    <!-- <option>Used CV</option>
-                    <option>Used Car</option>
-                    <option>New CV</option>
-                    <option>New Car</option> -->
+                    <option disabled>Select One</option>                    
                     <option  value="{{item.key}}" *ngFor = " let item of productCategory" >{{item.value}}</option>
                   </select>
                 </td>
@@ -144,28 +166,17 @@
                 <td><i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant"
                     style="color: red;" (click)="removeProposedIndex(i)"></i>&nbsp;<i type="button" class="fa fa-plus"
                     aria-hidden="true" id="remove_item_applicant" (click)="addProposedUnit()"></i></td>
-              </tr>
-
-              <!-- <tr class="font-weight">
-                        <td colspan="15">Proposed Asset Cost</td>
-                        <td>720,000.00</td>
-                       </tr>
-                       <tr class="font-weight">
-                           <td colspan="12">if more than above to be attach separte excel</td>
-                           <td colspan="3">Total Fleet Value</td>
-                           <td>720,000.00</td>
-                       </tr> -->
+              </tr>         
 
             </tbody>
           </table>
-          <!-- <i type="button" class="fa fa-plus add-row" aria-hidden="true"></i>
-               <i type="button" class="fa fa-minus delete-row" aria-hidden="true"></i> -->
+     
         </div>
       </div>
     </div>
 
 
-  </div>
+  </div> -->
 
 </form>
 <!-- </div> -->

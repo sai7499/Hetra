@@ -2,7 +2,7 @@
     margin-top: 18px;
 }
 
-.text-underline{
+.text-underline {
     text-decoration: underline;
     color: darkslateblue;
 }
@@ -10,6 +10,10 @@
 .cam_table_proposed {
     width: 98%;
     margin: 0 auto;
+}
+
+.particulars {
+    padding-right: 80px;
 }
 
 .bank_name {
@@ -22,4 +26,8 @@
 
 .dash_href {
     margin: 5px;
+}
+
+div>input {
+    padding-bottom: 10px;
 }

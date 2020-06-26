@@ -6,6 +6,8 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ThrowStmt } from '@angular/compiler';
+import { ToasterService } from '@services/toaster.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-exposure-details',
@@ -24,7 +26,8 @@ export class ExposureDetailsComponent implements OnInit {
               private commonservice: CommomLovService,
               private route: Router,
               private activatedRoute: ActivatedRoute,
-              private location: Location ) { }
+              private location: Location,
+              private toStarService: ToasterService ) { }
   exposureLiveLoan: FormGroup;
   exposureProposedLoan: FormGroup;
   labels: any = {};
@@ -74,11 +77,11 @@ export class ExposureDetailsComponent implements OnInit {
       if (this.getExposureDetails && this.getExposureDetails.length > 0 ) {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < this.getExposureDetails.length; i++) {
-          if (this.getExposureDetails[i].loanDesc === 'Proposed') {
+          // if (this.getExposureDetails[i].loanDesc === 'Proposed') {
           this.proposedArray.push(this.getExposureDetails[i]);
-          } else {
+          // // } else {
             this.liveloanArray.push(this.getExposureDetails[i]);
-          }
+          // }
         }
         this.addUnit(this.liveloanArray);
         this.addProposedUnit(this.proposedArray);
@@ -169,22 +172,32 @@ export class ExposureDetailsComponent implements OnInit {
     }
   }
 
-  removeIndex(i?: any) {
+  removeIndex(i?: any,rowId?:any) {
     const control = this.exposureLiveLoan.controls.loanTable as FormArray;
-    console.log(control.controls.length);
-    const id = this.liveloanArray[i].id ? this.liveloanArray[i].id : null;
-    const body = {
+    console.log(control.controls.length,rowId);
+    
+    // if (this.liveloanArray.length >0 ){
+      // const  id = this.proposedArray[i].id ? this.proposedArray[i].id : null;
+      const  id = control.controls[i].value.id;
+      const body = {
         id,
         userId: this.userId
       };
-    this.exposureservice.deleteExposureDetails(body).subscribe((res: any) => {
-        console.log(res);
-        control.removeAt(i);
-        alert(res.ProcessVariables.error.message);
-      });
-    if (control.controls.length === 1) {
-        this.addUnit(null);
-      }
+      if(id){
+        this.exposureservice.deleteExposureDetails(body).subscribe((res: any) => {
+            console.log(res);
+            control.removeAt(i);
+            // alert(res.ProcessVariables.error.message);
+            this.toStarService.showInfo(res.ProcessVariables.error.message,"Exposure Details")
+          });
+        } else{
+          control.removeAt(i);
+          this.toStarService.showInfo("Row is Removed","Exposure Details")
+        }
+      // }
+    // if (control.controls.length === 1) {
+    //     this.addUnit(null);
+    //   }
   }
 addProposedUnit(data?: any) {
     const control = this.exposureLiveLoan.controls.proposedTable as FormArray;
@@ -223,11 +236,18 @@ onSubmit() {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i <  this.exposureLiveLoan.value.loanTable.length; i++ ) {
      arrayData.push(this.exposureLiveLoan.value.loanTable[i]);
+     
     }
     // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i <  this.exposureLiveLoan.value.proposedTable.length; i++ ) {
-      arrayData.push(this.exposureLiveLoan.value.proposedTable[i]);
-     }
+    // for (let i = 0; i <  this.exposureLiveLoan.value.proposedTable.length; i++ ) {
+    //   arrayData.push(this.exposureLiveLoan.value.proposedTable[i]);
+    //  }
+    arrayData.forEach(ele =>
+      {ele.loanNo = (ele.loanNo).toString();
+       ele.yom = (ele.yom).toString();
+      })
+
+
     const body = {
        leadId: this.leadId,
        userId: this.userId,
@@ -246,6 +266,9 @@ onSubmit() {
         this.liveloanArray = [];
         this.proposedArray = [];
         this.getExposure();
+      this.toStarService.showSuccess("Exposure Saved Successfuly","Exposuer Details")
+      }else{
+        this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
       }
 
     });

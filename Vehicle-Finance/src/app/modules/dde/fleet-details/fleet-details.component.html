@@ -62,7 +62,7 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('pattern')">
                                             Owner name should be in chars only
                                         </div>
-                                        <div *ngIf="itemrow.controls['yom'].hasError('regdOwner') || itemrow.controls['regdOwner'].hasError('maxlength')">
+                                        <div *ngIf="itemrow.controls['regdOwner'].hasError('regdOwner') || itemrow.controls['regdOwner'].hasError('maxlength')">
                                             Invalid owner name
                                         </div>
 
@@ -94,7 +94,11 @@
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
                             <td>
                                 <div>
-                                    <input type="text" class="form-control  t input_value height" placeholder=" Manufacturing Year" formControlName="yom" maxlength="4">
+                                    <input type="text" class="form-control  t input_value height" 
+                                        placeholder=" Manufacturing Year" 
+                                        formControlName="yom" 
+                                        maxlength="4"
+                                        (change)="checkManufacturingYear($event ,i)" >
                                     <!-- <span *ngIf="submitted && itemrow.get('yom').errors" style="color:red;" class="invalid-feedback">
                                         <span *ngIf="itemrow.get('yom').errors.required">yom is
                                             required</span>
@@ -112,7 +116,9 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('pattern')">
                                             Manufacturing year should be in number
                                         </div>
-
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].errors && itemrow.controls['yom'].errors['incorrect']">
+                                            Yom not grater current Year
+                                        </div>
                                     </div>
 
                                 </div>
@@ -170,8 +176,21 @@
 
 
                             </td>
-                            <td>
-                                <div><input type="number" class="form-control  input_value height" formControlName="tenure" placeholder="Tenure" maxlength="3">
+                            <td style="min-width: 120px;">
+
+                                <app-custom-input
+                                formControlName="tenure"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Tenure'"
+                                [maxLength]="regexPattern.length"
+                                [isRequired]="'tenure is mandatory'"
+                                [patternCheck]="regexPattern.tensure"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
+
+<!-- 
+                                <div><input type="number" class="form-control  input_value height" formControlName="tenure" placeholder="Tenure">
 
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].touched && !itemrow.controls['tenure'].valid">
@@ -188,10 +207,22 @@
 
 
 
-                                </div>
+                                </div> -->
                             </td>
-                            <td>
-                                <div><input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">
+                            <td style="min-width: 120px;">
+                                <div>
+                                    <app-custom-input
+                                formControlName="paid"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Tenure'"
+                                [maxLength]="regexPattern.length"
+                                [isRequired]="'tenure is mandatory'"
+                                [patternCheck]="regexPattern.tensure"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
+                                    
+                                    <!-- <input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].touched && !itemrow.controls['paid'].valid">
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].hasError('required')">
                                             Paid is required
@@ -201,7 +232,7 @@
                                         </div>
 
 
-                                    </div>
+                                    </div> -->
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="seasoning">

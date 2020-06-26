@@ -253,7 +253,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
-      this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      // this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      this.vehicleLov.vehicleCategory = value.LOVS.customerCategory;
+
       this.vehicleLov.YesORNoValue = [
         {
           key: "1",
