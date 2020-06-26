@@ -21,6 +21,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
   public routerId: number;
 
   public formValue: any;
+  public isDirty: boolean;
 
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
@@ -78,12 +79,12 @@ export class BasicVehicleDetailsComponent implements OnInit {
           this.toasterService.showError(apiError, 'Vehicle Detail')
         }
 
-        
       }, error => {
         console.log(error, 'error')
         this.toasterService.showError(error, 'Vehicle Detail')
       })
     } else {
+      this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }
