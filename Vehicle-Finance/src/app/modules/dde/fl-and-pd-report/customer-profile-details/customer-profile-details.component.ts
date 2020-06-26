@@ -56,16 +56,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
   applicantId: number;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private personalDiscusion: PersonalDiscussionService,
-    private toasterService: ToasterService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private personalDiscussion: PersonalDiscussionService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private personalDiscusion: PersonalDiscussionService,
+              private toasterService: ToasterService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private personalDiscussion: PersonalDiscussionService) { }
 
   ngOnInit() {
 
@@ -94,7 +94,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.getLOV();
     // this.commonService()
     this.getPdDetails();
-    this.setFormValue();;
+    this.setFormValue();
 
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
@@ -171,7 +171,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
         console.log('calling get api ', this.custProfDetails);
         if (this.custProfDetails) {
           this.setFormValue()
-          this.pdDataService.setCustomerProfile(this.custProfDetails)
+          this.pdDataService.setCustomerProfile(this.custProfDetails);
         }
       }
     });
@@ -186,16 +186,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
     console.log('in form value', customerProfileModal)
 
     this.customerProfileForm.patchValue({
-      offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
+      offAddSameAsRecord: customerProfileModal.offAddSameAsRecordValue || '',
       noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
-      nameBoardSeen: customerProfileModal.nameBoardSeen || '',
+      nameBoardSeen: customerProfileModal.nameBoardSeenValue || '',
       officePremises: customerProfileModal.officePremises || '',
       sizeofOffice: customerProfileModal.sizeofOffice || '',
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
       mismatchInAddress: customerProfileModal.mismatchInAddress || '',
-      customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
-      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
-      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
+      customerHouseSelfie: customerProfileModal.customerHouseSelfieValue || '',
+      ownershipProof: customerProfileModal.ownershipAvailableValue || '',
+      metCustomer: customerProfileModal.mandatoryCustMeetingValue || ''
     });
     console.log("patched form", this.customerProfileForm);
   }
@@ -213,7 +213,6 @@ export class CustomerProfileDetailsComponent implements OnInit {
     }
     const customerProfileModal = { ...formModal };
     console.log('profile form', customerProfileModal);
-    console.log("mismatch value", customerProfileModal.mismatchInAddress)
     this.custProfileDetails = {
       offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
       noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
