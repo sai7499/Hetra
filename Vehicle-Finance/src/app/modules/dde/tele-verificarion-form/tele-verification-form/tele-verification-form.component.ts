@@ -28,7 +28,7 @@ export class TeleVerificationFormComponent implements OnInit {
   tvrDashboardList;
   applicantId;
   applicantName;
-  so_name;
+  soName;
   dateFormate;
   applicantType;
   isDirty: boolean;
@@ -169,7 +169,7 @@ export class TeleVerificationFormComponent implements OnInit {
       this.LOV = value;
     });
 
-    // console.log(this.LOV);
+    console.log(this.LOV);
     this.valueChanges = this.LOV.LOVS || [];
   }
 
@@ -179,7 +179,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.teleVerificationForm =  this.fb.group({
       leadId: [{ value: data && data.leadId ? data.leadId : this.leadId, disabled: true }],
       applicantName: [{ value: data && data.applicantName ? data.applicantName : this.applicantName, disabled: true }],
-      soName: [{ value: data && data.soName ? data.soName : this.so_name, disabled: true }],
+      soName: [{ value: data && data.soName ? data.soName : this.soName, disabled: true }],
       assetCost: [data && data.assetCost ? data.assetCost : ''],
       assetType: [data && data.assetType ? data.assetType : ''],
       // financeAmt: [financeAmt],
@@ -259,7 +259,6 @@ export class TeleVerificationFormComponent implements OnInit {
         })
       })
     });
-   
   }
 
 
@@ -275,7 +274,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
 
   getTvrDetails() {
-    console.log(this.teleVerificationForm.value);
+    // console.log(this.teleVerificationForm.value);
 
     const data = {
       applicantId: this.applicantId
@@ -326,14 +325,29 @@ export class TeleVerificationFormComponent implements OnInit {
             this.teleVerificationForm.get('decision').setValue(element.key);
           }
         });
+        this.valueChanges.howDidCustomerKnowEquitasBank.forEach(element => {
+          if (tvr && element.value === tvr.referredBy) {
+            this.teleVerificationForm.get('referredBy').setValue(element.key);
+          }
+        });
+        this.valueChanges.applicationReferenceStatus.forEach(element => {
+          if (tvr && element.value === tvr.referenceStatus) {
+            this.teleVerificationForm.get('referenceStatus').setValue(element.key);
+          }
+        });
+        this.valueChanges.applicationReferenceStatus.forEach(element => {
+          if (tvr && element.value === tvr.referenceStatus) {
+            this.teleVerificationForm.get('referenceStatus').setValue(element.key);
+          }
+        });
       }
     // this.initForm(this.tvrData);
-      if (this.tvrData) {
-        // this.teleVerificationForm.patchValue(this.tvrData);
-        // this.teleVerificationForm.get('dob').patchValue(this.dateFunction(res.ProcessVariables.tvr.dob));
-        // this.teleVerificationForm.controls['applicationReferences'].patchValue(this.referenceData);
+      // if (this.tvrData) {
+      //   // this.teleVerificationForm.patchValue(this.tvrData);
+      //   // this.teleVerificationForm.get('dob').patchValue(this.dateFunction(res.ProcessVariables.tvr.dob));
+      //   // this.teleVerificationForm.controls['applicationReferences'].patchValue(this.referenceData);
 
-      }
+      // }
 
       // this.teleVerificationForm.controls['residenceStabilityConfirmed'].setValue(this.tvrData.residenceStabilityConfirmed.toString());
       // this.teleVerificationForm.controls['addressConfirmed'].setValue(this.tvrData.residenceStabilityConfirmed.toString());
@@ -347,15 +361,9 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   saveOrUpdateTvrDetails() {
-    // const data = {
-    //   userId: localStorage.getItem('userId'),
-    //   applicantId: 43,
-    //   tvrDetails: this.tvrDetails
-    // };
     this.tvrDetails['userId'] = localStorage.getItem('userId');
     this.tvrDetails['applicantId'] = this.applicantId;
     const data = this.tvrDetails;
-    // console.log('save tvr details', this.tvrDetails);
     this.tvrService.setTvrDetails(data).subscribe((res: any) => {
       const response = res;
       // console.log('saveUpdateTvrDetails', res);
@@ -365,7 +373,7 @@ export class TeleVerificationFormComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         this.toasterService.showSuccess('Lead Updated Successfully !', '');
       } else {
-        this.toasterService.showError('Please fill all mandatory fields.', 'Lead Details');
+        this.toasterService.showError('Please fill all mandatory fields.', 'TVR Details');
       }
     });
   }
@@ -378,9 +386,9 @@ export class TeleVerificationFormComponent implements OnInit {
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
       this.tvrDashboardList = res.ProcessVariables.tvrApplicantsList;
       this.applicantName = res.ProcessVariables.tvrApplicantsList[0].applicantName;
-      this.so_name = res.ProcessVariables.tvrApplicantsList[0].so_name;
+      this.soName = res.ProcessVariables.tvrApplicantsList[0].so_name;
       this.applicantType = res.ProcessVariables.tvrApplicantsList[0].applicantType;
-      // this.initForm();
+      this.initForm();
       // console.log('TVR-Dashboard_list', this.tvrDashboardList);
     });
 

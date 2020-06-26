@@ -41,12 +41,8 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="sourcing_code" class="ellipsify">{{labels.knowAboutEquitasBank}}</label>
-                            <app-vf-custom-select [values]="[
-                                 { key: '1HCKAEB', value: 'Friend Referral' },
-                                 { key: '2HCKAEB', value: 'Employee Referral' },
-                                 { key: '3HCKAEB', value: 'Social Media' }
-                                ]" formControlName="referredBy">
-                            </app-vf-custom-select>
+                            <app-vf-custom-select [values]="LOV.LOVS.howDidCustomerKnowEquitasBank" formControlName="referredBy"> </app-vf-custom-select>
+
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="product" class="ellipsify">{{labels.product}}</label>
@@ -412,20 +408,14 @@
 
                                     <th class="bank_name">status</th>
                                     <td formGroupName="reference1">
-                                        <input formControlName="referenceStatus" type="text" class="form-control"></td>
-                                    <!-- <app-vf-custom-select [values]="[
-                                 { key: '1APPREFSTS', value: 'Friend Referral' },
-                                 { key: '2APPREFSTS', value: 'Employee Referral' },
-                                ]" formControlName="referenceStatus">
-                            </app-vf-custom-select> -->
-                                    <td formGroupName="reference2">
-                                        <input formControlName="referenceStatus" type="text" class="form-control">
-                                        <!-- <app-vf-custom-select [values]="[
-                                 { key: '1APPREFSTS', value: 'Friend Referral' },
-                                 { key: '2APPREFSTS', value: 'Employee Referral' },
-                                ]" formControlName="referenceStatus">
-                            </app-vf-custom-select> -->
-                                    </td>
+                                        <!-- <input formControlName="referenceStatus" type="text" class="form-control"></td> -->
+                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus"> </app-vf-custom-select>
+
+                                        <td formGroupName="reference2">
+                                            <!-- <input formControlName="referenceStatus" type="text" class="form-control"> -->
+                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus"> </app-vf-custom-select>
+
+                                        </td>
 
                                 </tr>
                             </tbody>
