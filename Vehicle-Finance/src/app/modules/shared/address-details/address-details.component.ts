@@ -76,7 +76,7 @@ export class AddressDetailsComponent implements OnInit {
     city?: any[];
   };
 
-  isCurrAddSameAsPermAdd: any = '0';
+  isCurrAddSameAsPermAdd: any ;
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
   onPerAsCurChecked: boolean;
@@ -97,7 +97,7 @@ export class AddressDetailsComponent implements OnInit {
     msg: 'Should be 6 digit',
   };
   mobilePattern = {
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   };
   mobileLength10 = {
@@ -154,8 +154,11 @@ export class AddressDetailsComponent implements OnInit {
         }
         this.applicantId = Number(value.applicantId);
         this.getAddressDetails();
+        //console.log('onperascur', this.onPerAsCurChecked)
       });
     });
+
+   
   }
 
   listenerForOfficeAddress() {
@@ -352,7 +355,7 @@ export class AddressDetailsComponent implements OnInit {
   }
   initForm() {
     this.addressForm = new FormGroup({
-      // entity: new FormControl(''),
+      entity: new FormControl(''),
       details: new FormArray([]),
     });
     this.addIndividualFormControls();
@@ -450,9 +453,9 @@ export class AddressDetailsComponent implements OnInit {
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entity === 'Individual';
     // this.clearFormArray();
-    // this.addressForm.patchValue({
-    //   entity: this.address.applicantDetails.entityTypeKey,
-    // });
+    this.addressForm.patchValue({
+      entity: this.address.applicantDetails.entityTypeKey,
+    });
     if (this.isIndividual) {
       // this.addIndividualFormControls();
       this.setValuesForIndividual();
@@ -920,12 +923,14 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+    
     this.isDirty = true;
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
         return;
       }
       const value = this.addressForm.value;
+      console.log('value', value)
       if (this.isIndividual) {
         this.storeIndividualValueInService(value);
       } else {
@@ -939,11 +944,11 @@ export class AddressDetailsComponent implements OnInit {
         leadId: this.leadId,
       };
       this.applicantService.saveApplicant(data).subscribe((res: any) => {
-        if (res.Error !== '0') {
+        if (res.ProcessVariables.error.code !== '0') {
           return;
         }
         const leadId = this.leadStoreService.getLeadId();
-        this.applicantService.saveApplicant(data).subscribe((res) => {
+        //this.applicantService.saveApplicant(data).subscribe((res) => {
           const currentUrl = this.location.path();
           if (currentUrl.includes('sales')) {
             // this.router.navigate([
@@ -960,7 +965,7 @@ export class AddressDetailsComponent implements OnInit {
               ''
             );
           }
-        });
+        
       });
     });
   }
@@ -997,25 +1002,26 @@ export class AddressDetailsComponent implements OnInit {
   storeIndividualValueInService(value) {
     this.addressDetailsDataArray = [];
     const applicantDetails: ApplicantDetails = {};
-    // applicantDetails.entityType = value.entity;
+    applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const permanentAddressObject = value.details[0].permanantAddress;
     console.log('permanant address object', permanentAddressObject);
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(permanentAddressObject),
       addressType: Constant.PERMANENT_ADDRESS,
-      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd ?  this.isCurrAddSameAsPermAdd : this.onPerAsCurChecked==true? '1': '0',
     });
     const officeAddressObject = value.details[0].officeAddress;
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(officeAddressObject),
       addressType: Constant.OFFICE_ADDRESS,
-      accommodationType: officeAddressObject.accommodationType,
-      periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
+      // accommodationType: officeAddressObject.accommodationType,
+      // periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
       mobileNumber: officeAddressObject.mobileNumber,
       //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
-    if (this.isCurrAddSameAsPermAdd == '0') {
+    const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
+    if (this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '0' : initialCurAsPer == '0') {
       const currentAddressObject = value.details[0].currentAddress;
       this.addressDetailsDataArray.push({
         ...this.getAddressFormValues(currentAddressObject),
@@ -1040,9 +1046,10 @@ export class AddressDetailsComponent implements OnInit {
       accommodationType: registeredAddressObject.accommodationType,
       periodOfCurrentStay: Number(registeredAddressObject.periodOfCurrentStay),
       mobileNumber: registeredAddressObject.mobileNumber,
-      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
+      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd? this.isCurrAddSameAsPermAdd : this.onRegAsCommChecked? '1' : '0',
     });
-    if (this.isCurrAddSameAsPermAdd == '0') {
+    const initialCurAsPer= this.onRegAsCommChecked== true? '1' : '0'
+    if (this.isCurrAddSameAsPermAdd ? this.isCurrAddSameAsPermAdd == '0' : initialCurAsPer=='0') {
       const communicationAddressObject = value.details[0].communicationAddress;
       this.addressDetailsDataArray.push({
         ...this.getAddressFormValues(communicationAddressObject),

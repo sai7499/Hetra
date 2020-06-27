@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
+  OnChanges,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -59,6 +60,8 @@ export class CustomInputComponent
 
   @Input() inputClass: string;
 
+  @Input() isDisabled: boolean = false;
+
   @Input() dynamicDataBinding: boolean;
 
   @Input() placeholder = '';
@@ -69,7 +72,7 @@ export class CustomInputComponent
 
   errorMsg: string;
   inputError = false;
-  isDisabled: boolean;
+
   private data: any;
   @Input() set isDirty(value) {
     if (value) {

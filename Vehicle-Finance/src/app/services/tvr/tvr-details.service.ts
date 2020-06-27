@@ -48,16 +48,16 @@ export class TvrDetailsService {
     return this.httpService.post(url, requestEntity);
   }
 
-  getTvrDetails() {
-    // const processData = data;
+  getTvrDetails(data) {
+    const processData = data;
     const processId = this.apiService.api.getTvrDetails.processId;
     const workflowId = this.apiService.api.getTvrDetails.workflowId;
     const projectId = this.apiService.api.getTvrDetails.projectId;
 
     const requestEntity: RequestEntity = {
       processId,
-      // ProcessVariables: processData,
-      ProcessVariables: {applicantId: 43},
+      ProcessVariables: processData,
+      // ProcessVariables: {applicantId: 481},
       workflowId,
       projectId,
     };
