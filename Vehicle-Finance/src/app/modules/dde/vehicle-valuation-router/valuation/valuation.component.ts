@@ -7,7 +7,7 @@ import { DdeStoreService } from '@services/dde-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleValuationService } from '@modules/dde/services/vehicle-valuation.service';
-import { data } from 'jquery';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-valuation',
@@ -82,7 +82,7 @@ export class ValuationComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private vehicleValuationService: VehicleValuationService,
     private toasterService: ToasterService,
-    private ddeStoreService: DdeStoreService) { }
+    private utilityService: UtilityService) { }
 
   async ngOnInit() {
     this.getLabels();
@@ -152,6 +152,7 @@ export class ValuationComponent implements OnInit {
       this.vehiclePincode = this.vehicleValuationDetails.pincode;
       this.assetCostGrid = this.vehicleValuationDetails.gridAmt;
       this.setFormValue();
+      // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
   }
 
@@ -204,31 +205,31 @@ export class ValuationComponent implements OnInit {
       // year: [""],
       // registeredOwner: [""],
       // registeredOwnerName: [""],
-      // vhNoPrefix: [""],
-      // vhNumber: [""],
+      // vehiclehNoPrefix: [""],
+      // vehicleNumber: [""],
       // costOfVehicle: [""]
     });
   }
 
   setFormValue() {
     this.vehicleValuationForm.patchValue({
-      valuatorType: this.vehicleValuationDetails.valuatorType || '',
-      valuatorCode: this.vehicleValuationDetails.valuatorCode || '',
-      valuatorName: this.vehicleValuationDetails.valuatorName || '',
-      vehicleOwnerName:  this.vehicleValuationDetails.vehicleOwnerName || '',
-      vehicleOwnerMobile: this.vehicleValuationDetails.vehicleOwnerMobile || '',
-      vehicleAddress: this.vehicleValuationDetails.vehicleAddress || '',
-      pincode: this.vehicleValuationDetails.pincode || '',
-      gridAmt: this.vehicleValuationDetails.gridAmt || '',
+      // valuatorType: this.vehicleValuationDetails.valuatorType || '',
+      // valuatorCode: this.vehicleValuationDetails.valuatorCode || '',
+      // valuatorName: this.vehicleValuationDetails.valuatorName || '',
+      // vehicleOwnerName:  this.vehicleValuationDetails.vehicleOwnerName || '',
+      // vehicleOwnerMobile: this.vehicleValuationDetails.vehicleOwnerMobile || '',
+      // vehicleAddress: this.vehicleValuationDetails.vehicleAddress || '',
+      // pincode: this.vehicleValuationDetails.pincode || '',
+      // gridAmt: this.vehicleValuationDetails.gridAmt || '',
       valuationAmt: this.vehicleValuationDetails.valuationAmt || '',
-      valuationDate: this.vehicleValuationDetails.valuationDate || '',
+      valuationDate: this.vehicleValuationDetails.valuationDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationDate) : '',
       idv: this.vehicleValuationDetails.idv || '',
-      idvValidityDate: this.vehicleValuationDetails.idvValidityDate || '',
+      idvValidityDate: this.vehicleValuationDetails.idvValidityDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.idvValidityDate) : '',
       vehicleAvailGrid: this.vehicleValuationDetails.vehicleAvailGrid || '',
-      // gridAmount: [""],
+      // gridAmount: this.vehicleValuationDetails.gridAmount || '',
       make: this.vehicleValuationDetails.make || '',
       model: this.vehicleValuationDetails.model || '',
-      // newUsedAsset: [""],
+      // newUsedAsset: this.vehicleValuationDetails.newUsedAsset || '',
       vehiclePrefixNo: this.vehicleValuationDetails.vehiclePrefixNo || '',
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
       chasisNumber: this.vehicleValuationDetails.chasisNumber || '',
@@ -242,39 +243,44 @@ export class ValuationComponent implements OnInit {
       reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
       regChasisNo: this.vehicleValuationDetails.regChasisNo || '',
       agricultureProof: this.vehicleValuationDetails.agricultureProof || '',
-      fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate || '',
-      dateofReg: this.vehicleValuationDetails.dateofReg || '',
+      fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
+      dateofReg: this.vehicleValuationDetails.dateofReg ? this.utilityService.getDateFromString(this.vehicleValuationDetails.dateofReg) : '',
       gvw: this.vehicleValuationDetails.gvw || '',
       preReRegNumber: this.vehicleValuationDetails.preReRegNumber || '',
       interStateVehicle: this.vehicleValuationDetails.interStateVehicle || '',
       duplicateRc: this.vehicleValuationDetails.duplicateRc || '',
       cubicCapacity: this.vehicleValuationDetails.cubicCapacity || '',
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
-      // existingVechicleOwned: [""],
-      // noOfVehicles: [""],
-      // existingSelfCostAsset: [""],
-      // total: [""],
-      // make: [""],
-      // model: [""],
-      // year: [""],
-      // registeredOwner: [""],
-      // registeredOwnerName: [""],
-      // vhNoPrefix: [""],
-      // vhNumber: [""],
-      // costOfVehicle: [""]
-
+      // existingVechicleOwned: this.vehicleValuationDetails.existingVechicleOwned || '',
+      // noOfVehicles: this.vehicleValuationDetails.noOfVehicles || '',
+      // existingSelfCostAsset: this.vehicleValuationDetails.existingSelfCostAsset || '',
+      // total: this.vehicleValuationDetails.total || '',
+      // make: this.vehicleValuationDetails.make || '',
+      // model: this.vehicleValuationDetails.model || '',
+      // year: this.vehicleValuationDetails.year || '',
+      // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
+      // registeredOwnerName: this.vehicleValuationDetails.registeredOwnerName || '',
+      // vehiclehNoPrefix: this.vehicleValuationDetails.vehiclehNoPrefix || '',
+      // vehicleNumber: this.vehicleValuationDetails.vehicleNumber || '',
+      // costOfVehicle: this.vehicleValuationDetails.costOfVehicle || '',
     });
   }
 
   saveUpdateVehicleValuation() {
-    const formValues = this.vehicleValuationForm.getRawValue();
+    const formValues = this.vehicleValuationForm.value;
     console.log("FORMVALUES****", formValues);
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
       collateralId: this.colleteralId,
-      ...formValues
+      ...formValues,
+      valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
+      idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
+      fcExpiryDate: this.utilityService.convertDateTimeTOUTC(formValues.fcExpiryDate, 'DD/MM/YYYY'),
+      dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
     };
+    // console.log("VALUATION DATE****", formValues.valuationDate);
+    
     if(this.vehicleValuationForm.valid === true) {
       this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe( (res: any) => {
         const response = res;
@@ -291,9 +297,6 @@ export class ValuationComponent implements OnInit {
   onFormSubmit() {
     this.isDirty= true
     this.saveUpdateVehicleValuation();
-    // const formModel = this.vehicleValForm.value;
-    // const vhValModel = { ...formModel };
-    // this.router.navigate(['/pages/dde/vehicle-valuation']);
   }
 
   onNext() {

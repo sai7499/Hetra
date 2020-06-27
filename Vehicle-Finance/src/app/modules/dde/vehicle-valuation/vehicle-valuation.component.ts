@@ -117,15 +117,15 @@ export class VehicleValuationComponent implements OnInit {
       this.collateralDetailsData[0].valuatorStatus === '0') {
       this.valuationReport = 'View';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'Submitted' &&
+    else if (this.collateralDetailsData[0].valuationStatus === 'SUBMITTED' &&
       this.collateralDetailsData[0].valuatorStatus === '1') {
       this.valuationReport = 'View';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'Submitted' &&
+    else if (this.collateralDetailsData[0].valuationStatus === 'SUBMITTED' &&
       this.collateralDetailsData[0].valuatorStatus === '0') {
       this.valuationReport = 'View';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'Received' &&
+    else if (this.collateralDetailsData[0].valuationStatus === 'RECEIVED' &&
       this.collateralDetailsData[0].valuatorStatus === '1') {
       this.valuationReport = 'View';
     }

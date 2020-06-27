@@ -1348,6 +1348,7 @@ getActivityLOVS() {
   }
 
   onFormSubmit() {
+    this.isDirty = true;
     this.saveOrUpdatePslData();
     const formModel = this.pslDataForm.value;
     const pslDataFormModel = { ...formModel };

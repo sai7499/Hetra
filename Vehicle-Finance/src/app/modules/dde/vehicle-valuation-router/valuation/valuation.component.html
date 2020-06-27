@@ -93,7 +93,6 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="valuation_amount">{{labels.valuationAmount}}</label>
-               
                         <app-custom-input 
                             [type]="text"
                             formControlName="valuationAmt"
@@ -108,7 +107,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="valuation_date">{{labels.valuationDate}}</label>
-                
+
                         <kendo-datepicker class="form-control" formControlName="valuationDate" 
                             [activeView]="'decade'"  [format]="'dd/MM/yyyy'" 
                             [max]="toDayDate" placeholder="Valuation Date">
@@ -121,7 +120,7 @@
                             formControlName="idv"
                             [className]="'form-control mandatory'"
                             [placeholder]="'IDV'"
-                            [maxLength]="regexPattern.valuationAmountLength"
+                            [maxLength]="regexPattern.numberLength"
                             [isRequired]="'Required Input is mandatory'"
                             [patternCheck]="regexPattern.numberPattern"
                             [isDirty]="isDirty"
@@ -163,6 +162,7 @@
                             [type] = "text"
                             formControlName="make"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Asset Manufacturer'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -178,6 +178,7 @@
                             [type] = "text"
                             formControlName="model"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Asset Model'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -198,6 +199,7 @@
                             [type] = "text"
                             formControlName="vehiclePrefixNo"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Vehicle No. Prefix'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -212,6 +214,7 @@
                             [type] = "text"
                             formControlName="registrationNo"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Vehicle Number'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -226,6 +229,7 @@
                             [type] = "text"
                             formControlName="chasisNumber"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Chassis Number'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -240,6 +244,7 @@
                             [type] = "text"
                             formControlName="engineNumber"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Engine Number'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -283,9 +288,9 @@
                             formControlName="ageOfAsset"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Age of Asset'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="regexPattern.numberLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
+                            [patternCheck]="regexPattern.numberPattern"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -324,6 +329,7 @@
                             [type] = "text"
                             formControlName="secondVehiclePrefixNo"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Second Vehicle No Prefix'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -338,6 +344,7 @@
                             [type] = "text"
                             formControlName="reRegNumber"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Second Vehicle No'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -352,6 +359,7 @@
                             [type] = "text"
                             formControlName="regChasisNo"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Second Chassis Number'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -381,7 +389,7 @@
            
                     <kendo-datepicker class="form-control" formControlName="dateofReg"
                         [activeView]="'decade'"  [format]="'dd/MM/yyyy'" 
-                        [max]="toDayDate" [max]="maxDate"
+                        [max]="toDayDate" 
                         placeholder="Vehicle Reg.Date">
                     </kendo-datepicker>
                     </div>
@@ -405,6 +413,7 @@
                             [type] = "text"
                             formControlName="preReRegNumber"
                             [className]="'form-control mandatory'"
+                            [inputClass]="'text-uppercase'"
                             [placeholder]="'Re-Registered Vehicle'"
                             [maxLength]="regexPattern.nameLength"
                             [isRequired]="'Required Input is mandatory'"
@@ -434,9 +443,9 @@
                             formControlName="cubicCapacity"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Cubic Capacity'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="regexPattern.numberLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
+                            [patternCheck]="regexPattern.numberPattern"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -448,9 +457,9 @@
                             formControlName="seatingCapacity"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Seating Capacity'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="regexPattern.numberLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
+                            [patternCheck]="regexPattern.numberPattern"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -499,12 +508,12 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isInputField">
                         <label for="vechicle_no_prefix">{{labels.vhNoPrefix}} </label>
-                        <input type="text" formControlName="vhNoPrefix" class="form-control" id="vechicle_no_prefix"
+                        <input type="text" formControlName="vehiclehNoPrefix" class="form-control" id="vechicle_no_prefix"
                             name="vechicle_no_prefix">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isInputField">
                         <label for="vechicle_number">{{labels.vhNumber}} </label>
-                        <input type="text" formControlName="vhNumber" class="form-control" id="vechicle_number"
+                        <input type="text" formControlName="vehicleNumber" class="form-control" id="vechicle_number"
                             name="vechicle_number">
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isInputField">
