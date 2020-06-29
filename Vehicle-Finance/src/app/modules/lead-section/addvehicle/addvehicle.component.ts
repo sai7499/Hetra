@@ -27,6 +27,8 @@ export class AddvehicleComponent implements OnInit {
   selectedVehicle: number;
   formValue: any;
 
+  isDirty: boolean;
+
   vehicleArray = [];
   routerId = 0;
 
@@ -99,7 +101,6 @@ export class AddvehicleComponent implements OnInit {
   saveVehicleCollaterals() {
     if (this.formValue.valid === true) {
       const data = this.vehicleDetails[0];
-      console.log('In', data)
 
       data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
@@ -108,15 +109,16 @@ export class AddvehicleComponent implements OnInit {
 
         if (res.Error === '0' && res.Error === '0') {
           this.toasterService.showSuccess(apiError, '');
+          this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
         } else {
           this.toasterService.showError(apiError, '')
         }
-        this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
       }, error => {
         console.log(error, 'error')
+        this.toasterService.showError(error, '')
       })
     } else {
-      console.log('Out')
+      this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }

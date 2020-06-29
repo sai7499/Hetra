@@ -460,7 +460,7 @@ getActivityLOVS() {
       }
       // console.log("DETAIL_ACTIVITY_VALUES---", this.detailActivityValues);
     });
-    //To filter unique value in Array
+    //To filter unique value from Array
     let detailActivityObject = {};
     const detailActivityData = [];
     this.detailActivityValues.forEach((element) => {
@@ -484,7 +484,7 @@ getActivityLOVS() {
       ];
     }
     //SHOW ALL OPTIONS_MSME
-    this.showInputFieldsCA = true;
+    // this.showInputFieldsCA = true;
     this.showInputFieldsInvestments = true;
 
     this.isInvestmentInEquipment = true;
@@ -1348,6 +1348,7 @@ getActivityLOVS() {
   }
 
   onFormSubmit() {
+    this.isDirty = true;
     this.saveOrUpdatePslData();
     const formModel = this.pslDataForm.value;
     const pslDataFormModel = { ...formModel };
