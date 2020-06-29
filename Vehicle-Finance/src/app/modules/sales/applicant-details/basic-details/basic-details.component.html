@@ -270,7 +270,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="father_name">Father Name <sub class="star_red_col">*</sub></label>
+              <label for="father_name">Father Name <sub class="star_blue_col">*</sub></label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -283,14 +283,14 @@
                   [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
-                  [isRequired]="'Father Name is Required'"
+                  [isRequired]="isRequiredFather"
                   
             
                 ></app-custom-input>
                 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="spouse_name">Spouse Name</label>
+              <label for="spouse_name">Spouse Name <sub class="star_blue_col">*</sub></label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -302,7 +302,8 @@
                   formControlName="spouseName"
                   [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
-        
+                  [isRequired]="isRequiredSpouse"
+                  [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -540,7 +541,7 @@
                 <kendo-datepicker class="form-control" 
                 formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date of birth"
+                 placeholder="Date"
                 [activeView]="'decade'"
                 ></kendo-datepicker>
               </div>

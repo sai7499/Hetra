@@ -19,6 +19,7 @@ import {
 import { LeadStoreService } from '../../services/lead.store.service';
 import { dateFieldName } from '@progress/kendo-angular-intl';
 import { ToasterService } from '@services/toaster.service'
+import { pairwise, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -43,7 +44,8 @@ export class BasicDetailsComponent implements OnInit {
   checkingSenior: boolean;
 
   isDirty: boolean;
-  mobilePhone: any
+  mobilePhone: any;
+  
 
   //imMinor : boolean= true
   designation = [
@@ -67,7 +69,7 @@ export class BasicDetailsComponent implements OnInit {
     rule: 10,
   }
   namePattern = {
-    rule: '^[A-Z]*[a-z]*$',
+    rule: '^[A-Za-z ]{0,99}$',
     msg: 'Invalid Name',
   };
   nameSpacePattern = {
@@ -81,7 +83,7 @@ export class BasicDetailsComponent implements OnInit {
   //  };
 
   mobilePattern = {
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   }
   emailPattern = {
@@ -96,6 +98,8 @@ export class BasicDetailsComponent implements OnInit {
     rule: 15,
   }
   public toDayDate: Date = new Date();
+  isRequiredSpouse ='Spouse Name is Required';
+  isRequiredFather = 'Father Name is Required'
 
   constructor(
     private labelsData: LabelsService,
@@ -123,7 +127,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.basicForm = new FormGroup({
       title: new FormControl(''),
-      entity: new FormControl({ value: '', disabled: true }),
+      entity: new FormControl({ value: '', disabled : true }),
       applicantRelationshipWithLead: new FormControl(''),
 
       details: new FormArray([]),
@@ -132,13 +136,14 @@ export class BasicDetailsComponent implements OnInit {
     });
 
    this.addNonIndividualFormControls();
-
+   
 
 
     this.getLovData();
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
     details.patchValue({ preferredLanguage: 'ENGPRFLAN' })
+    this.eitherFathOrspouse()
 
 
     // setTimeout(() => { 
@@ -147,12 +152,66 @@ export class BasicDetailsComponent implements OnInit {
     //this.setGaurdianFieldMandatory()
   }
 
-  get validation() {
+  
+
+  eitherFathOrspouse(){
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
+    let fatherName= details.get('fatherName').value;
+    let spouseName= details.get('spouseName').value;
+    details.get('fatherName').valueChanges.pipe(distinctUntilChanged()).subscribe((value1)=>{
+      //console.log('value', value1)
+      if(fatherName==value1){
+        return
+      }
+      fatherName= value1
+      if(value1 ){
+        
+        details.get('spouseName').clearValidators()
+        details.get('spouseName').updateValueAndValidity()
+        this.isRequiredSpouse = '';
+        // const spouseName= details.get('spouseName').value || null;
+        setTimeout(() => {
+          details.get('spouseName').setValue(spouseName || null)
+        });
+        
+       
+      }else{
+        details.get('spouseName').setValidators([Validators.required])
+        details.get('spouseName').updateValueAndValidity()
+        this.isRequiredSpouse = 'Spouse name is required';
+        //const spouseName= details.get('spouseName').value || null;
+        setTimeout(() => {
+          details.get('spouseName').setValue(spouseName || null)
+        });
+      }
+    })
+    
+    details.get('spouseName').valueChanges.subscribe((value)=>{
+      if(spouseName==value){
+        return
+      }
+      spouseName= value
+      if(value){
+        details.get('fatherName').clearValidators()
+        details.get('fatherName').updateValueAndValidity()
+       this.isRequiredFather = '';
+       //const fatherName= details.get('fatherName').value || null;
+        setTimeout(() => {
+          details.get('fatherName').setValue(fatherName || null)
+        });
+       
+       
+      }else{
+        details.get('fatherName').setValidators([Validators.required])
+        details.get('fatherName').updateValueAndValidity();
+        this.isRequiredFather = 'Father name is required';
+        setTimeout(() => {
+          details.get('fatherName').setValue(fatherName || null)
+        });
+      }
+    })
 
-    return details;
-    console.log('details', details)
   }
 
 
@@ -251,7 +310,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   setBasicData() {
-    this.isIndividual = this.applicant.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     // this.clearFormArray();
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
@@ -340,14 +399,17 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
-      companyEmailId: corporateProspectDetails.companyEmailId || '',
-      alternateEmailId: corporateProspectDetails.alternateEmailId || '',
+      name1: applicantDetails.name1,
+      name2: applicantDetails.name2,
+      name3: applicantDetails.name3,
+      // companyEmailId: corporateProspectDetails.companyEmailId || '',
+      // alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
       dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
       // occupation: '',
       // nationality: '',
-      preferredLanguageCommunication:
-        corporateProspectDetails.preferredLanguageCommunication,
+      // preferredLanguageCommunication:
+      //   corporateProspectDetails.preferredLanguageCommunication,
     });
   }
 
@@ -392,8 +454,10 @@ export class BasicDetailsComponent implements OnInit {
 
       alternateMobileNumber: new FormControl(''),
       applicantType: new FormControl(''),
+
       fatherName: new FormControl('', Validators.required),
-      spouseName: new FormControl(''),
+      spouseName: new FormControl('', Validators.required),
+
       motherMaidenName: new FormControl(''),
       occupation: new FormControl({ value: '' }, Validators.required),
       nationality: new FormControl('', Validators.required),
@@ -443,11 +507,12 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onIndividualChange(event) {
+    //console.log('OnIndividdaulevent',event )
     if (!event) {
       return;
     }
-    const value = event.value;
-    this.isIndividual = value === 'Individual';
+    const value = event.key;
+    this.isIndividual = value === 'INDIVENTTYP';
     const formArray = this.basicForm.get('details') as FormArray;
     formArray.clear();
     this.isIndividual
@@ -458,12 +523,11 @@ export class BasicDetailsComponent implements OnInit {
   async onSave() {
     this.isDirty = true
     if (this.basicForm.invalid) {
-      console.log('if')
       return
     }
     console.log('basicForm')
     const rawValue = this.basicForm.getRawValue();
-    //console.log('FormValue', rawValue)
+    console.log('FormValue', rawValue)
     if (this.isIndividual) {
       this.storeIndividualValueInService(rawValue);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -487,7 +551,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
 
-      if (res.Error === '0') {
+      if (res.ProcessVariables.error.code === '0') {
         // this.router.navigate([
         //   `/pages/sales-applicant-details/${leadId}/identity-details`,
         //   this.applicantId,
@@ -536,7 +600,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.mobilePhone = `91${formValue.mobilePhone}`;
     prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
     prospectDetails.minorGuardianName = formValue.minorGuardianName;
-    prospectDetails.fatherName = formValue.fatherName;
+    prospectDetails.fatherName = formValue.fatherName? formValue.fatherName : ' ';
     prospectDetails.spouseName = formValue.spouseName;
     prospectDetails.motherMaidenName = formValue.motherMaidenName;
     prospectDetails.occupation = formValue.occupation;

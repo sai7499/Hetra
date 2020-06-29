@@ -19,10 +19,6 @@
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td *ngIf="roleType == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
                 <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode)" style="cursor: pointer;">{{item.leadId}}</td>
-                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 10"><a [routerLink]="['/pages/sales-applicant-details', item.leadId, 'basic-details', ???]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
-                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 20"><a [routerLink]="['/pages/sales', item.leadId, 'applicant-list']" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
-                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 30"><a [routerLink]="['/pages/sales', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
-                <!-- <td class="text-underline" *ngIf="roleType == '1' && item.stageCode == 40"><a [routerLink]="['/pages/sales', item.leadId]" (click)="getLeadIdSales(item.leadId)">{{item.leadId}}</a></td> -->
                 <td class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>

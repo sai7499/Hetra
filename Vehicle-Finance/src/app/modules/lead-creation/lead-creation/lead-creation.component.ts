@@ -124,16 +124,15 @@ export class LeadCreationComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
     private toasterService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.onChangeLanguage('English');
+    this.initForm();
     this.getLabels();
     this.getLOV();
     this.getUserDetailsData();
     this.getSourcingChannel();
-    this.initForm();
-    this.createLeadForm.patchValue({ bizDivision: 'EBBIZDIV' });
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
   }
@@ -205,6 +204,11 @@ export class LeadCreationComponent implements OnInit {
     this.spokesCodeLocation = this.isSpoke
       ? roleAndUserDetails.userDetails.parentBranch
       : null;
+    this.createLeadForm.patchValue({
+      loanBranch: this.loanAccountBranch,
+      leadHandeledBy: this.leadHandeledBy,
+      // spokeCodeLocation:  this.spokesCodeLocation   
+    });
   }
 
   getBusinessDivision(roleAndUserDetails) {
@@ -224,6 +228,7 @@ export class LeadCreationComponent implements OnInit {
     });
 
     if (this.businessDivision.length === 1) {
+      this.createLeadForm.patchValue({ bizDivision: this.bizDivId });
       this.isBusinessDivisionEnable = true;
       this.getProductCategory(this.bizDivId);
     } else {
@@ -396,7 +401,7 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm.patchValue({ rcUnutilizedLimit: rcData.rcUnutilized });
   }
 
-  onFocused($event) {}
+  onFocused($event) { }
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;

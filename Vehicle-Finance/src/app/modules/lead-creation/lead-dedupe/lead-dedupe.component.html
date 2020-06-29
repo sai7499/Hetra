@@ -26,6 +26,7 @@
                 <tr *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">    
                       <td>
                         <input 
+                          [ngStyle]="{'cursor': 'pointer'}"
                           (click)="onLeadSelect($event, i)" 
                           class="checkbox" 
                           type="radio" 
