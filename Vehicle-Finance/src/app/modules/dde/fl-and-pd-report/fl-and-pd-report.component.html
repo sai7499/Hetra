@@ -3,25 +3,24 @@
         <h3 class="margin_zero">Lead ID : 125468</h3>
 
         <app-dde-header></app-dde-header>
-        
+
         <div class="multisteps-form">
             <div class="multisteps-form__progress">
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 0}"
-                    type="button" id="applicant_basic_details" (click)="onNavigate('applicant-detail')">
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 0}" type="button" id="applicant_basic_details" (click)="onNavigate('applicant-detail')">
                     Applicant Details </button>
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}"
-                    type="button" id="applicant_bank_details"(click) = "onNavigate('customer-profile')">
-                  Customer Profile Details</button>
-                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
-                    type="button" id="applicant_identity_details"
-                    (click) = "onNavigate('loan-details')">Loan Details</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}" type="button" id="applicant_bank_details" (click)="onNavigate('customer-profile')">
+                    Customer Profile Details</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}" type="button" id="applicant_identity_details" (click)="onNavigate('loan-details')">Loan
+                    Details</button>
+                <button *ngIf="roleName === 'Sales Officer'" class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}" type="button" id="applicant_identity_details" (click)="onNavigate('reference-check')">Reference
+                    Check</button>
             </div>
 
-            <div class="content"> 
+            <div class="content">
                 <router-outlet></router-outlet>
             </div>
-         
+
         </div>
     </div>
-    
+
 </main>

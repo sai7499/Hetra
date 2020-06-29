@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { PdDataService } from './pd-data.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
     templateUrl: './fl-and-pd-report.component.html',
@@ -15,15 +16,27 @@ export class FlAndPdReportComponent implements OnInit {
     leadId: any;
     applicantId: any;
     version: any;
+    userId: any;
+    roleName: any;
+    roles: any = [];
     constructor(
         private router: Router,
         private location: Location,
+        private loginStoreService: LoginStoreService,
         private personalDiscussion: PersonalDiscussionService,
         private ddeStoreService: DdeStoreService,
         private pdDataService: PdDataService,
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
+
+        const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+        this.userId = roleAndUserDetails.userDetails.userId;
+        this.roles = roleAndUserDetails.roles;
+        this.roleName = this.roles[0].name;
+        console.log("this user", this.roleName)
+
+
         const currentUrl = this.location.path();
         this.locationIndex = this.getLocationIndex(currentUrl);
         this.location.onUrlChange((url: string) => {
@@ -69,10 +82,19 @@ export class FlAndPdReportComponent implements OnInit {
 
     }
     onNavigate(url: string) {
-        this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}/${this.version}`]);
-        // this.router.navigate([
-        //     '/pages/fl-and-pd-report/${this.leadId}/${url}/',this.applicantId,
-        // ]);
+        if (this.roleName == "Credit Officer") {
+            this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}/${this.version}`]);
+
+            // this.router.navigate([
+            //     '/pages/fl-and-pd-report/${this.leadId}/${url}/',this.applicantId,
+            // ]);
+
+        } else if (this.roleName == "Sales Officer") {
+            // } else if (this.roleName == "Credit Officer") {
+
+            this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}`]);
+        }
+
     }
     getLocationIndex(url: string) {
         if (url.includes('applicant-details')) {
@@ -81,6 +103,8 @@ export class FlAndPdReportComponent implements OnInit {
             return 1;
         } else if (url.includes('loan-details')) {
             return 2;
+        } else if (url.includes('reference-check')) {
+            return 3;
         }
     }
 }
