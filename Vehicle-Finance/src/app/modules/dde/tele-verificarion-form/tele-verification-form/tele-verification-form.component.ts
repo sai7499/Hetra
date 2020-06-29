@@ -41,6 +41,10 @@ export class TeleVerificationFormComponent implements OnInit {
     rule: 40,
   };
   regexPattern = {
+    assetFinanceLength: {
+      rule: '12',
+      msg: ''
+    },
     amount: {
       rule: '^[1-9][0-9]*$',
       msg: 'Invalid Amount / Alphabets and Special Characters not allowed'
@@ -53,12 +57,22 @@ export class TeleVerificationFormComponent implements OnInit {
       rule: '30',
       msg: ''
     },
+    namePattern: {
+      rule: '^[A-Za-z0-9 ]+$',
+      msg: 'Invalid Name /  Special Characters not allowed',
+    },
     maxLength: {
       rule: '10',
       msg: 'Maximum Length 10 digits',
     },
-    maxLength40: {
-      rule: 40,
+    maxLength20: {
+      rule: 20,
+    },
+    maxLength50: {
+      rule: 50,
+    },
+    maxLength100: {
+      rule: 100,
     },
     mobile: {
       rule: '^[1-9][0-9]*$',
@@ -72,8 +86,8 @@ export class TeleVerificationFormComponent implements OnInit {
       rule: '3',
       msg: ''
     },
-    noOfYears: {
-      rule: '2',
+    maxLength5: {
+      rule: '5',
       msg: ''
     },
     years: {
@@ -122,14 +136,14 @@ export class TeleVerificationFormComponent implements OnInit {
       assetType: [''],
       financeAmt: [''],
       tenureInMonth: [''],
-      srcOfProposal: [''],
+      srcOfProposal: [{value: '', disabled: true}],
       referredBy: [''],
-      product: [''],
+      product: [{value: '', disabled: true}],
       emi: [''],
-      ndForProposedVehicle: [''],
-      route: [''],
+      ndForProposedVehicle: [{value: '', disabled: true}],
+      route: [{value: '', disabled: true}],
       contractDetails: [''],
-      typeOfGoods: [''],
+      typeOfGoods: [{value: '', disabled: true}],
       amountRequested: [''],
       fundEndUse: [''],
       tenureRequested: [''],
@@ -145,19 +159,19 @@ export class TeleVerificationFormComponent implements OnInit {
       dob: [''],
       spokenTo: [''],
       familyMembers: [''],
-      relationShip: [''],
+      relationShip: [{value: '', disabled: true}],
       tvrDate: [''],
       tvrTime: [''],
       addressConfirmed: [''],
       residenceStabilityConfirmed: [''],
       customerAvailabilty: [''],
-      tvrDoneBy: [''],
-      eCode: [''],
+      tvrDoneBy: [{value: '', disabled: true}],
+      eCode: [{value: '', disabled: true}],
       wrkExperience: [''],
       officePhnNo: [''],
       officePhnExt: [''],
       wrkStability: [''],
-      natureOfBusiness: [''],
+      natureOfBusiness: [{value: '', disabled: true}],
       typeOfTransaction: [''],
       businessStability: [''],
       compNameAddress: [''],
@@ -166,10 +180,10 @@ export class TeleVerificationFormComponent implements OnInit {
       yrsInEmployment: [''],
       ifBusiness: [''],
       employees: [''],
-      relation: [''],
+      relation: [{value: '', disabled: true}],
       monthlyGrossSalary: [''],
       otherIncome: [''],
-      decision: [''],
+      decision: [{value: '', disabled: true}],
       cibilOverDue: [''],
       cibilClarification: [''],
       remarks: [''],
