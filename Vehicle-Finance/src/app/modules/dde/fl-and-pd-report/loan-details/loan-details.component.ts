@@ -52,17 +52,18 @@ export class LoanDetailsComponent implements OnInit {
     msg: '',
   };
   applicantId: number;
+  version: string;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private personalDiscussion: PersonalDiscussionService,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private personalDiscussion: PersonalDiscussionService,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService) { }
 
   ngOnInit() {
 
@@ -126,6 +127,7 @@ export class LoanDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
+      this.version = String(value.version);
       console.log('Applicant Id In Loan Details Component', this.applicantId);
     });
   }
@@ -179,6 +181,8 @@ export class LoanDetailsComponent implements OnInit {
   getPdDetails() {
     const data = {
       applicantId: 6,
+      // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      pdVersion: this.version,
     };
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {

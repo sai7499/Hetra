@@ -50,14 +50,14 @@ export class PdReportComponent implements OnInit {
     });
   }
 
-  navigatePage(applicantId: string) {
+  navigatePage(applicantId: string, version) {
     console.log(
       'applicantId',
       applicantId,
     );
     const URL = `/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`;
     console.log('URL', URL);
-    this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`]);
+    this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}/${version}`]);
     // routerLink="/pages/fl-and-pd-report/applicant-detail"
   }
 

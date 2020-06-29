@@ -53,12 +53,13 @@ export class PersonalDiscussionService {
     const projectId = environment.projectIds.creditProjectId;
     const processId = this.pdData.processId;
     const workflowId = this.pdData.workflowId;
-
+    console.log('input data in getPddata', data);
     const body = {
       projectId,
       processId,
       workflowId,
       ProcessVariables: {
+        userId: '1002',
         ...data
       },
     };

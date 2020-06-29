@@ -14,6 +14,7 @@ export class FlAndPdReportComponent implements OnInit {
     pdDetail: any;
     leadId: any;
     applicantId: any;
+    version: any;
     constructor(
         private router: Router,
         private location: Location,
@@ -44,7 +45,9 @@ export class FlAndPdReportComponent implements OnInit {
         });
         this.activatedRoute.firstChild.params.subscribe((value: any) => {
             this.applicantId = value.applicantId;
+            this.version = value.version;
             console.log('applicant ID', value.applicantId);
+            console.log('version in fi and pd report', this.version);
         });
     }
     getPdDetails() {
@@ -66,7 +69,7 @@ export class FlAndPdReportComponent implements OnInit {
 
     }
     onNavigate(url: string) {
-        this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}`]);
+        this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}/${this.version}`]);
         // this.router.navigate([
         //     '/pages/fl-and-pd-report/${this.leadId}/${url}/',this.applicantId,
         // ]);

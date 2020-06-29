@@ -13,15 +13,15 @@ const routes: Routes = [
         component: FlAndPdReportComponent,
         children: [
           {
-              path: 'applicant-detail/:applicantId',
+              path: 'applicant-detail/:applicantId/:version',
               component: ApplicantDetailComponent
           },
           {
-            path: 'customer-profile/:applicantId',
+            path: 'customer-profile/:applicantId/:version',
             component: CustomerProfileDetailsComponent
         },
         {
-            path: 'loan-details/:applicantId',
+            path: 'loan-details/:applicantId/:version',
             component: LoanDetailsComponent
         }
         ]

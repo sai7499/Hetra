@@ -54,6 +54,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   };
   isDirty: boolean;
   applicantId: number;
+  version: string;
 
   constructor(private labelsData: LabelsService,
               private lovDataService: LovDataService,
@@ -124,7 +125,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
+      this.version = String(value.version);
       console.log('Applicant Id In Customer Profile Component', this.applicantId);
+      console.log('Applicant Id In Customer Profile Component', this.version);
     });
   }
 
@@ -161,6 +164,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
   getPdDetails() {
     const data = {
       applicantId: 6,
+     // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      pdVersion: this.version,
     };
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
