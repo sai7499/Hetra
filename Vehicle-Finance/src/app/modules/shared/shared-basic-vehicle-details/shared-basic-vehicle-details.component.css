@@ -21,3 +21,23 @@
     font-size: 25px;
     margin-left: 4px;
 }
+
+kendo-datepicker{
+    width: 100%!important;
+}
+
+.invalid-feedback {
+    font-size: 1vw;
+    font-family: zurich-bold;
+    letter-spacing: 0.5px;
+    color: red;
+    padding-top: 0.5vw;
+}
+
+.mt {
+    margin-top: 24px;
+}
+
+.ml {
+    margin-left: 10px;
+}

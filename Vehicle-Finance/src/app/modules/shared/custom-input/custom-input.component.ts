@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
+  HostListener,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -47,10 +48,8 @@ export class CustomInputComponent
   @Input() type = 'text';
   @Input() labelName: string;
   @Input() id: string;
-  @Input() patternCheck: {
-    rule?: string;
-    msg?: string;
-  };
+
+  @Input() patternCheck;
   @Input() custom: {
     rule?: Function;
     msg?: string;
@@ -60,6 +59,8 @@ export class CustomInputComponent
   @Input() isRequired: string;
 
   @Input() inputClass: string;
+
+  @Input() isDisabled: boolean = false;
 
   @Input() dynamicDataBinding: boolean;
 
@@ -71,22 +72,34 @@ export class CustomInputComponent
 
   errorMsg: string;
   inputError = false;
-  isDisabled: boolean;
-  private data: any;
 
+  private data: any;
+  @Input() set isDirty(value) {
+    if (value) {
+      this.checkIsFirst = false;
+      this.checkValidation(this.data);
+      this.propagateChange(this.data);
+    }
+  }
   private checkIsFirst = true;
   private propagateChange = (event) => {
     // this.change.emit(event);
   };
 
+  constructor(private elementRef: ElementRef) {}
+
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
+    // console.log('inputError', this.customInput)
   }
 
   // this is the initial value set to the component
   writeValue(obj: any) {
     if (this.dynamicDataBinding) {
       // this.checkIsFirst = false;
+    }
+    if (obj === '') {
+      return;
     }
     this.data = obj;
     this.inputValue = this.data;
@@ -201,5 +214,35 @@ export class CustomInputComponent
 
   setDisabledState(disabled: boolean) {
     this.isDisabled = disabled;
+  }
+
+  @HostListener('input', ['$event']) onInputChange(event) {
+    switch (this.type) {
+      case 'number':
+        this.allowNumberOnly(event);
+        break;
+      case 'alpha-numeric':
+        this.allowAlphaNumericOnly(event);
+        break;
+      case 'alpha':
+        this.allowAlphaOnly(event);
+        break;
+    }
+    this.checkValidation(this.inputValue);
+  }
+
+  allowNumberOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^0-9]*/g, '');
+  }
+
+  allowAlphaNumericOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
+  }
+
+  allowAlphaOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, '');
   }
 }

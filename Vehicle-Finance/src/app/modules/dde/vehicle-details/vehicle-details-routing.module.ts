@@ -5,11 +5,13 @@ import { BasicVehicleDetailsComponent } from './basic-vehicle-details/basic-vehi
 // import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
     path: ":leadId",
     component: VehicleDetailsComponent,
+    resolve: { leadData: LeadDataResolverService },
     children: [
       {
         path: "basic-vehicle-details",

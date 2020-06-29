@@ -100,4 +100,26 @@ getAllAplicantDetails(data){
     
     return this.httpService.post(url, requestEntity);
 }
+getFactoringValue(data){
+  const processData = data;
+  const processId = this.apiService.api.getFactoringValue.processId;
+  const workflowId = this.apiService.api.getFactoringValue.workflowId;
+  const projectId = this.apiService.api.bankTransaction.projectId;
+
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'income details');
+
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
 }

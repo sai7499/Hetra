@@ -1,8 +1,8 @@
-#scroll_starts_here {
+/* #scroll_starts_here {
   height: 400px;
   overflow-y: scroll;
   overflow-x: hidden;
-}
+} */
 
 .dropdown_individual {
   background-color: #6c757d;
@@ -10,10 +10,29 @@
   color: white;
 }
 
-.senior-citizen {
+/* .senior-citizen {
   margin-top: 24px;
 }
 
 .senior-citizen input {
   margin-left: 15px;
+} */
+.senior_minor{
+  margin-top: 15px;
+}
+.is_senior{
+  padding-left: 10px ;
+}
+#date_of_birth{
+  width: 100%!important;
+}
+kendo-datepicker{
+  width: 100%!important;
+}
+#align_this_checkbox{
+  margin-top: 16px;
+  font-weight: 600;
+}
+.col-sm-7 button{
+    margin-left: 2px;
 }

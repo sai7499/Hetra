@@ -6,7 +6,6 @@ import { DdeSharedModule } from './shared/shared.module';
 import { SharedModule } from '../shared/shared.module';
 import { DdeComponent } from './dde.component';
 import { DdeRoutingModule } from './dde.routing.module';
-import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
@@ -18,6 +17,7 @@ import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { CamComponent } from './cam/cam.component';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
@@ -36,7 +36,6 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     ViabilityListComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
-    SourcingDdeComponent,
     ExposureDetailsComponent,
     IncomeDetailsComponent,
     VehicleListComponent,
@@ -60,7 +59,7 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     SharedModule,
     DdeSharedModule,
     LeadSectionModule,
-    
+    DateInputsModule
   ],
 })
 export class DdeModule {}

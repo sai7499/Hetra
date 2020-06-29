@@ -10,7 +10,8 @@
                            <h4 class="title">Vehicle Details</h4> 
                        </div> -->
                     <div class="col-sm-12 text-right">
-                        <button class="btn btn-secondary mar-right8" type="button" (click)="bankDetail()"> Add Bank
+                        <button class="btn btn-secondary mar-right8 table-head-bg " id="btnColor" type="button"
+                            (click)="bankDetail()"> Add Bank
                             Details </button>
                         <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                     </div>
@@ -21,53 +22,31 @@
                             <thead>
                                 <tr class="table-head-bg">
 
-                                    <td>Account Holder Name </td>
-                                    <td>Bank Name </td>
-                                    <td>A/C Number </td>
-                                    <td>A/C Type</td>
-                                    <td>From Date</td>
-                                    <td>To Date</td>
-                                    <td>Period</td>
-                                    <td>Action</td>
+                                    <td class="text-center">Account Holder Name </td>
+                                    <td class="text-center">Bank Name </td>
+                                    <td class="text-center">A/C Number </td>
+                                    <td class="text-center">A/C Type</td>
+                                    <td class="text-center">From Date</td>
+                                    <td class="text-center">To Date</td>
+                                    <td class="text-center">Period</td>
+                                    <td class="text-center">Action</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr  id="" *ngFor="let item of bankDetails">
+                                <tr id="" *ngFor="let item of bankDetails">
 
-                                    <td class="text-left">{{item.accountHolderName}}</td>
-                                    <td class="text-left">{{item.bankName}}</td>
-                                    <td class="text-left">{{item.accountNumber}}</td>
-                                    <td class="text-left">{{item.accountType}}</td>
-                                    <td class="text-left">{{item.fromDate | date:'dd-MM-yyyy'}}</td>
-                                    <td class="text-left">{{item.toDate | date:'dd-MM-yyyy'}}</td>
-                                    <td class="text-left">{{item.period}}</td>
-                                    <td class="text-left"><i class="fa fa-pencil" (click)="routeDetails(item.applicantId);"
+                                    <td class="text-center">{{item?.accountHolderName}}</td>
+                                    <td class="text-center">{{item?.bankName}}</td>
+                                    <td class="text-center">{{item?.accountNumber}}</td>
+                                    <td class="text-center">{{item?.accountType}}</td>
+                                    <td class="text-center">{{item?.fromDate }}</td>
+                                    <td class="text-center">{{item?.toDate }}</td>
+                                    <td class="text-center">{{item?.period}}</td>
+                                    <td class="text-center"><i class="fa fa-pencil"
+                                            (click)="routeDetails(item.applicantId);"
                                             aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true"
                                             id="remove_item_applicant" (click)="onDelete()"></i></td>
                                 </tr>
-                                <!-- <tr id="applicant_2_row">
-                                        
-                                        <td>Saravana Kumar</td>
-                                        <td>ICICI</td>
-                                        <td>6878780</td>
-                                        <td>Savings</td>
-                                        <td>02-06-2019</td>
-                                        <td>22-12-2019</td>
-                                        <td>6</td>                                                      
-                                        <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant2"></i></td>
-                                    </tr>
-                                    <tr id="applicant_3_row">
-                                        
-                                        <td>Akash</td>
-                                        <td>ICICI</td>
-                                        <td>9764542</td>
-                                        <td>Savings</td>
-                                        <td>02-06-2019</td>
-                                        <td>22-12-2019</td>
-                                        <td>6</td>                                                          
-                                        <td><i class="fa fa-pencil" onclick="add_applicant_details();" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant3"></i></td>
-                                    </tr> -->
-
 
                             </tbody>
                         </table>
@@ -90,39 +69,24 @@
             <div id="add_multiple_banks"></div>
 
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <!-- <label for="">Add Multiple Bank Accounts</label>
-                        <input class="form-control btn-primary" type="button" value="Add Here" id="add_banks" />  -->
 
-                <!-- <button type="button" onclick="add_applicant_details();" class="add-row">Add Row</button> -->
-                <!-- <input type="button" class="add-row" value="Add Row"> -->
-                <!-- <button type="button" class="delete-row">Delete Row</button> -->
             </div>
 
 
         </div>
-        <!-- Individual Section End Here -->
 
-
-        <!-- Non-Individual Section Starts------->
-        <!---- <div id="non_individual_section_start">
-                <h4 ></h4>
-                <div class="row"  >
-                    
-                </div> 
-            </div> ---->
-        <!-- Non-Individual Section End-->
     </form>
     <div class="row">
 
         <div class="col-sm-5">
             <button class="btn btn-primary dash_href " (click)=loadAppplicant()> Back To Applicant
-                    Details </button>
+                Details </button>
         </div>
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
             <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
-            <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button>
+            <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
         </div>
-    
+
     </div>
 </div>

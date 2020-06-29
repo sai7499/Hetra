@@ -5,7 +5,6 @@ import { ApplicantListComponent } from '@shared/applicant-list/applicant-list.co
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
-import { SourcingDdeComponent } from './sourcing-dde/sourcing-dde.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
@@ -29,7 +28,6 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        // component: SourcingDdeComponent,
         component: SourcingDetailsComponent,
       },
       {

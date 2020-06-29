@@ -79,7 +79,7 @@ export class ApiService {
     creditBureau: {
       processId: 'a8b03e88ab2f11ea82f3f2fa9bec3d63',
       workflowId: 'fdcdedacaa2611ea825df2fa9bec3d63',
-      projectId: environment.projectIds.salesCreditScore,
+      projectId: environment.projectIds.externalApi,
     },
     validateOtp: {
       processId: '3e2e4f5caad811ea82aef2fa9bec3d63',
@@ -272,7 +272,43 @@ export class ApiService {
       processId: 'ba45976eac9811ea83eaf2fa9bec3d63',
       workflowId: 'ba27322eac9811ea83eaf2fa9bec3d63',
       projectId: 'd627fff49e5011eabde0f2fa9bec3d63',
+    },
+    rejectLead: {
+      processId: '41f8884eb08e11ea8668f2fa9bec3d63',
+      workflowId: '41d97b66b08e11ea8668f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getFactoringValue:{
+      processId: 'f2dadd44b22611ea8796f2fa9bec3d63',
+      workflowId: 'f2bc4564b22611ea8796f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,  
+    },
+    getCollateralDetailsForVehicleValuation: {
+      processId: '2db56d129c2911eabddcf2fa9bec3d63',
+      workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getVendorCode: {
+      processId: '5c532d10b21011ea874ef2fa9bec3d63',
+      workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    initiateVehicleValuation: {
+      processId: 'f46ad0f8a36011eabe55f2fa9bec3d63',
+      workflowId: 'f439df02a36011eabe55f2fa9bec3d63',
+      projectId: environment.projectIds.externalApi,
+    },
+    getVehicleValuation: {
+      processId: 'e47087929ccb11eabdddf2fa9bec3d63',
+      workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveUpdateVehicleValuation: {
+      processId: '29f089d09c2b11eabddcf2fa9bec3d63',
+      workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
     }
-
-  }
+  };
 }
+
+
