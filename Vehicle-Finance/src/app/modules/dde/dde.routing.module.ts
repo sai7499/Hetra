@@ -105,11 +105,11 @@ const routes: Routes = [
         component: DeviationsComponent,
       },
       {
-        path: 'viability',
+        path: 'viability-dashboard',
         component: ViabilityListComponent,
       },
       {
-        path: 'viability-dashboard',
+        path: 'viability-details',
         component: ViabilityDetailsComponent,
       },
     ],

@@ -2,15 +2,13 @@
 
     <form [formGroup]="viabilityForm">
 
-        <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type" (change)="vehicle_viability_navigate($event)">
-            <option value="passanger">{{label?.passenger}}</option>
-            <option value="passanger_stand_operator">{{label?.passengerStandTitle}}</option>
-            <option value="captive">{{label?.capativeTitle}}</option>
+        <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
+            <option value="{{item.key}}" *ngFor = "let item of viabilityObj.vehicleViability">{{item?.value}}</option>
         </select>
-        <!-- <app-vf-custom-select class="btn btn-primary" id="vehicle_viability_navigate" (change)="vehicle_viability_navigate($event)"
-            formControlName="vehicleViabilityNavigate" (change)="vehicle_viability_navigate($event)">
+        <!-- <app-vf-custom-select class="btn btn-primary" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
+            formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
         </app-vf-custom-select> -->
-        <div id="passanger" formGroupName="passanger" *ngIf="vehicle_viability_value === 'passanger'">
+        <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'"  formArrayName="passanger">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
             <!-- <p id="">Customer Name: Nixon</p>  -->
@@ -195,7 +193,7 @@
 
         </div>
         <div id="passanger_stand_operator" formGroupName="passangerStandOperator"
-            *ngIf="vehicle_viability_value === 'passanger_stand_operator'">
+            *ngIf="vehicle_viability_value === '2VHCLVBTY'">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
             <!-- <p id="">Customer Name: ANTONY</p>  -->
@@ -281,7 +279,7 @@
             <!-- </form> -->
 
         </div>
-        <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === 'captive'">
+        <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === '3VHCLVBTY'">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
             <!-- <p id="">Customer Name: BALAJI</p>  -->

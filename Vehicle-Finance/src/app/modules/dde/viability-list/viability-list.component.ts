@@ -33,7 +33,7 @@ export class ViabilityListComponent {
         this.getViabilityList();
     }
     getViability() {
-         this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-dashboard`);
+         this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details`);
     }
     getLeadId() {
         return new Promise((resolve, reject) => {
