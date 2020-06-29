@@ -32,6 +32,8 @@ export class LoanDetailsComponent implements OnInit {
   assetDetailsUsedVehicle: any = {};
   leadId: number;
   userId: number;
+  roleName: any;
+  roles: any = [];
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -53,6 +55,7 @@ export class LoanDetailsComponent implements OnInit {
     msg: '',
   };
   applicantId: number;
+  version: string;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -76,10 +79,13 @@ export class LoanDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleName = this.roles[0].name;
+    console.log("this user", this.roleName)
 
     // console.log("user id ==>", this.userId)
 
-    this.initForm();
+    // this.initForm();
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -127,6 +133,7 @@ export class LoanDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
+      this.version = String(value.version);
       console.log('Applicant Id In Loan Details Component', this.applicantId);
     });
   }
@@ -230,6 +237,8 @@ export class LoanDetailsComponent implements OnInit {
   getPdDetails() {
     const data = {
       applicantId: 6,
+      // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      pdVersion: this.version,
     };
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
@@ -317,6 +326,56 @@ export class LoanDetailsComponent implements OnInit {
       selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver,
       remarks: assetDetailsUsedVehicleModel.remarks
     });
+  }
+
+
+  // method for approving pd report
+
+  approvePd() {
+    const data = {
+      // applicantId: this.applicantId,
+      applicantId: 1,
+      userId: this.userId
+    }
+    this.personalDiscussion.approvePd(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      console.log("response approve pd", processVariables)
+      const message = processVariables.error.message
+      if (processVariables.error.code === '0') {
+
+        this.toasterService.showSuccess("pd report approved successfully", '')
+      }
+      else {
+        this.toasterService.showError("", 'message')
+
+      }
+    })
+
+  }
+  // method for re-initating pd report
+
+  reinitiatePd() {
+    const data = {
+      // applicantId: this.applicantId,
+      applicantId: 1,
+      userId: this.userId
+    }
+    this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      console.log("response reinitiate pd", processVariables)
+      const message = processVariables.error.message
+      if (processVariables.error.code === '0') {
+
+        this.toasterService.showSuccess("pd report reinitiated successfully", '')
+      }
+      else {
+        this.toasterService.showError("", 'message')
+
+      }
+    })
+
+
+
   }
 
   onFormSubmit() {

@@ -77,6 +77,7 @@ export class ApplicantDetailComponent implements OnInit {
     rule: 40,
     msg: '',
   };
+  version: any;
 
   constructor(private labelsData: LabelsService,
               private lovDataService: LovDataService,
@@ -113,9 +114,12 @@ export class ApplicantDetailComponent implements OnInit {
       if (!value && !value.applicantId) {
         return;
       }
-      this.getPdDetails();
       this.applicantId = Number(value.applicantId);
+      this.version = String(value.version);
+      this.getPdDetails();
       console.log('Applicant Id In applicant Details Component', this.applicantId);
+      console.log('Version In applicant Details Component', this.version);
+
     });
   }
   initForm() {
@@ -173,6 +177,9 @@ export class ApplicantDetailComponent implements OnInit {
   getPdDetails() {
     const data = {
       applicantId: 6,
+      //applicantId: this.applicantId
+      pdVersion: this.version,
+
     };
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {

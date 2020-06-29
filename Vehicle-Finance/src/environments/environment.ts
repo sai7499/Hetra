@@ -17,7 +17,8 @@ export const environment = {
     salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
     // otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63'
   },
 
   // hostingEnvironment: 'DEV',
@@ -25,7 +26,6 @@ export const environment = {
   hostingEnvironment: 'Production',
   // host: 'http://128.199.164.250/appiyo/',
   host: 'http://10.101.10.153/appiyo/',
-
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',

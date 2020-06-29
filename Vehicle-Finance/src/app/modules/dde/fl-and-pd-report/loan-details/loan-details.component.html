@@ -343,15 +343,15 @@
                 <app-custom-input rows="1" id="remarks" formControlName="remarks" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
             </div>
 
-            <div class="btn-sec clear-both">
-                <div class="col-sm-5"></div>
-                <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button">
-                        {{labels.approve}}
-                    </button>&nbsp;
-                    <button class="btn btn-primary " (click)="onFormSubmit()">
+            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+                <div class="col-sm-7"></div>
+                <div class="col-sm-5 text-right">
+                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                         {{labels.reinitiate}}
                     </button>&nbsp;
+                    <button class="btn btn-success " (click)="approvePd()">
+                        {{labels.approve}}
+                    </button>
 
                 </div>
             </div>
@@ -359,7 +359,7 @@
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" [routerLink]="['../../customer-profile',applicantId]">
+                    <button class="btn btn-primary" type="button" [routerLink]="['../../../customer-profile',applicantId,version]">
                         {{labels.back}}
                     </button>&nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()">
