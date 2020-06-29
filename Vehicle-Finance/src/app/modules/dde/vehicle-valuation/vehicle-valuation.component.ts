@@ -34,7 +34,7 @@ export class VehicleValuationComponent implements OnInit {
   isModal: boolean;
   isOk: boolean;
   isYes: boolean;
-
+  
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,

@@ -407,6 +407,7 @@
                     [maxLength]="regexPattern.numberLength"
                     [isRequired]="'Required Input is mandatory'"
                     [patternCheck]="regexPattern.numberPattern"
+                    [type]="'number'"
                     [isDirty]="isDirty"
                     >
                   </app-custom-input>
@@ -516,6 +517,7 @@
             [maxLength]="regexPattern.nameLength"
             [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.namePattern"
+            [type]="'alpha-numeric'"
             [isDirty]="isDirty"
             name="goods_manufactured"
         >
@@ -674,6 +676,7 @@
             [maxLength]="regexPattern.numberLength"
             [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
+            [type]="'number'"
             [isDirty]="isDirty"
         >
         </app-custom-input>  
@@ -689,6 +692,11 @@
             [(ngModel)]="totalInvestmentCost" 
             (keyup)="onChangeTotalInvestmentCost($event)"
             [placeholder]="'Total Investment Cost'"
+            [maxLength]="regexPattern.numberLength"
+            [isRequired]="'Required Input is mandatory'"
+            [patternCheck]="regexPattern.numberPattern"
+            [type]="'number'"
+            [isDirty]="isDirty"
        >
         </app-custom-input>  
     </div>
@@ -709,6 +717,7 @@
             [maxLength]="regexPattern.numberLength"
             [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
+            [type]="'number'"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
@@ -729,6 +738,7 @@
             [maxLength]="regexPattern.numberLength"
             [isRequired]="'Required Input is mandatory'"
             [patternCheck]="regexPattern.numberPattern"
+            [type]="'number'"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
