@@ -268,6 +268,11 @@ export class ApiService {
       workflowId: '2f8408d0ab4011ea82f7f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    requestKYC: {
+      processId: 'ba45976eac9811ea83eaf2fa9bec3d63',
+      workflowId: 'ba27322eac9811ea83eaf2fa9bec3d63',
+      projectId: 'd627fff49e5011eabde0f2fa9bec3d63',
+    },
     rejectLead: {
       processId: '41f8884eb08e11ea8668f2fa9bec3d63',
       workflowId: '41d97b66b08e11ea8668f2fa9bec3d63',
