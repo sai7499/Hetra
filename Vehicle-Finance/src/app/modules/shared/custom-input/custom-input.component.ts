@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
+  HostListener,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -82,6 +83,8 @@ export class CustomInputComponent
   private propagateChange = (event) => {
     // this.change.emit(event);
   };
+
+  constructor(private elementRef: ElementRef) {}
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
@@ -209,5 +212,35 @@ export class CustomInputComponent
 
   setDisabledState(disabled: boolean) {
     this.isDisabled = disabled;
+  }
+
+  @HostListener('input', ['$event']) onInputChange(event) {
+    switch (this.type) {
+      case 'number':
+        this.allowNumberOnly(event);
+        break;
+      case 'alpha-numeric':
+        this.allowAlphaNumericOnly(event);
+        break;
+      case 'alpha':
+        this.allowAlphaOnly(event);
+        break;
+    }
+    this.checkValidation(this.inputValue);
+  }
+
+  allowNumberOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^0-9]*/g, '');
+  }
+
+  allowAlphaNumericOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
+  }
+
+  allowAlphaOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, '');
   }
 }
