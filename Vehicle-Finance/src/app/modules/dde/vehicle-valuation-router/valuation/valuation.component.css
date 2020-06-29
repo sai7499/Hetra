@@ -1,0 +1,39 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.input-upper {
+  text-transform: uppercase;
+}
+
+.cus-mandatory-field {
+  color: red;
+  font-style: oblique;
+  font-size: 12px;
+}
+
+.star_red_col
+{
+  color: #da3939;
+  font-size: 25px;
+  margin-left: 4px;
+ 
+}
+.star_blue_col
+{
+  color:#0000FF;
+  font-size: 25px;
+  margin-left: 4px;
+}
+
+kendo-datepicker{
+  width: 100%!important;
+}

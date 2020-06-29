@@ -15,13 +15,15 @@
 .table-head-bg {
     text-align: center;
     font-size: 14px;
+    /* font-weight: bold; */
 }
 .showModal{
     display: block;
 }
 
-.a_tag{
+.a_tag, u{
     cursor: pointer;
+    text-decoration: none;
 }
 
 .cst_btm_btns {
