@@ -68,12 +68,15 @@ export class BasicDetailsComponent implements OnInit {
   mobileLenght10 = {
     rule: 10,
   }
+  numberOfDirectors2={
+    rule : 2
+  }
   namePattern = {
     rule: '^[A-Za-z ]{0,99}$',
     msg: 'Invalid Name',
   };
   nameSpacePattern = {
-    rule: '^[A-Z ]*[a-z ]*$',
+    rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
     msg: 'Invalid Name',
   };
 

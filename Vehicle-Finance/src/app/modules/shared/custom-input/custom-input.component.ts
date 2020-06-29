@@ -70,7 +70,7 @@ export class CustomInputComponent
 
   errorMsg: string;
   inputError = false;
-  isDisabled: boolean;
+  @Input() isDisabled: boolean;
   private data: any;
   @Input() set isDirty(value) {
     if (value) {
