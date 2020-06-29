@@ -46,9 +46,7 @@
                         </thead>
                         <tbody>
 
-                            <tr
-                            *ngFor="let item of pdList;let i = index" 
-                             >
+                            <tr *ngFor="let item of pdList;let i = index">
                                 <td>{{ item.ucic ? item.ucic : '-' }}</td>
                                 <td>{{ item.applicantName ? item.applicantName : '-' }}</td>
                                 <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
@@ -126,8 +124,7 @@
 <div class="btn-sec clear-both">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
-        <button class="btn btn-primary" type="button" [routerLink]="['../fl-report']"> {{labels.back}} </button>
-        &nbsp;
+        <button class="btn btn-primary" type="button" [routerLink]="['../fl-report']"> {{labels.back}} </button> &nbsp;
         <!-- <p class="btn btn-primary save"> Save </p> -->
         <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.next}} </button>
     </div>

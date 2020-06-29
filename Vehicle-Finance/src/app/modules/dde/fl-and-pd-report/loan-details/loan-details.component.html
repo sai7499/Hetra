@@ -236,35 +236,41 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="permit_date">{{labels.permitDate}}</label>
                 <div class="input-group input-medium">
-                    <span class="input-group-btn">
+                    <!-- <span class="input-group-btn">
                         <button class="btn btn-default">
                             <i class="fa fa-calendar"></i>
                         </button>
-                    </span>
-                    <input type="date" class="form-control" id="permit_date" formControlName="permitValidity">
+                    </span> -->
+                    <!-- <input type="date" class="form-control" id="permit_date" formControlName="permitValidity"> -->
                 </div>
+                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="permitValidity" [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                </kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="fitness_date">{{labels.fitnessDate1}}</label>
-                <div class="input-group input-medium">
+                <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                         <button class="btn btn-default">
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
                     <input type="date" class="form-control" id="fitness_date" formControlName="fitnessValidity">
-                </div>
+                </div> -->
+                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="fitnessValidity" [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                </kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="tax_date">{{labels.taxDate}}</label>
-                <div class="input-group input-medium">
+                <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                         <button class="btn btn-default">
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
                     <input type="date" class="form-control" id="tax_date" formControlName="taxValidity">
-                </div>
+                </div> -->
+                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="taxValidity" [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                </kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="insurance_copy">{{labels.insuranceCopy}}</label>
@@ -278,14 +284,16 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="insurance_date">{{labels.insuranceDate}}</label>
-                <div class="input-group input-medium">
+                <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                         <button class="btn btn-default">
                             <i class="fa fa-calendar"></i>
                         </button>
                     </span>
                     <input type="date" class="form-control" id="insurance_date" formControlName="insuranceValidity">
-                </div>
+                </div> -->
+                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="insuranceValidity" [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                </kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_verified">{{labels.vehicleVerified}}</label>

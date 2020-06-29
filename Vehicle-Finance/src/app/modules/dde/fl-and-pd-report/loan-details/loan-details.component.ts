@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -10,6 +10,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PdDataService } from '../pd-data.service';
+import { valHooks } from 'jquery';
 
 @Component({
   selector: 'app-loan-details',
@@ -164,11 +165,11 @@ export class LoanDetailsComponent implements OnInit {
       vehicleHpaNbfc: new FormControl(''),
       engineNumber: new FormControl(''),
       chasisNumber: new FormControl(''),
-      permitValidity: new FormControl(''),
-      fitnessValidity: new FormControl(''),
-      taxValidity: new FormControl(''),
+      permitValidity: new FormControl('', Validators.compose([Validators.required])),
+      fitnessValidity: new FormControl('', Validators.compose([Validators.required])),
+      taxValidity: new FormControl('', Validators.compose([Validators.required])),
       insuranceCopyVerified: new FormControl(''),
-      insuranceValidity: new FormControl(''),
+      insuranceValidity: new FormControl('', Validators.compose([Validators.required])),
       vehiclePhsicallyVerified: new FormControl(''),
       conditionOfVehicle: new FormControl(''),
       vehicleRoute: new FormControl(''),
@@ -178,6 +179,56 @@ export class LoanDetailsComponent implements OnInit {
       remarks: new FormControl('')
     });
   }
+
+  getDateFormat(date) {
+
+    // console.log("in getDateFormat", date)
+
+    var datePart = date.match(/\d+/g);
+    var month = datePart[1];
+    var day = datePart[0];
+    var year = datePart[2];
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+
+    // year = dateFormat.getFullYear();
+    // month = Number(dateFormat.getMonth()) + 1;
+    // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    // day = dateFormat.getDate().toString();
+    // day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    // //   const formattedDate = day + '-' + month1 + '-' + year;
+    // console.log("formattedDate", formattedDate)
+    return dateFormat;
+  }
+
+  dateDbFormat(date) {
+    // console.log("in dataDbFormat", date)
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = year + '-' + month1 + '-' + day;
+    // const formattedDate = day + '-' + month1 + '-' + year;
+    // console.log("res", formattedDate)
+    return formattedDate;
+  }
+
+  sendDate(date) {
+    const dateFormat: Date = new Date(date);
+    let year = dateFormat.getFullYear();
+    let month = Number(dateFormat.getMonth()) + 1;
+    let day = dateFormat.getDate().toString();
+    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+
+    const formattedDate = day + "/" + month1 + "/" + year;
+    return formattedDate;
+
+  }
+
   getPdDetails() {
     const data = {
       applicantId: 6,
@@ -252,11 +303,16 @@ export class LoanDetailsComponent implements OnInit {
       regCopVfd: assetDetailsUsedVehicleModel.regCopVfd,
       engineNumber: assetDetailsUsedVehicleModel.engineNumber,
       chasisNumber: assetDetailsUsedVehicleModel.chasisNumber,
-      permitValidity: assetDetailsUsedVehicleModel.permitValidity,
-      fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
-      taxValidity: assetDetailsUsedVehicleModel.taxValidity,
+
+      // permitValidity: assetDetailsUsedVehicleModel.permitValidity,
+      permitValidity: new Date(assetDetailsUsedVehicleModel.permitValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.permitValidity) : ""),
+      // fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
+      fitnessValidity: new Date(assetDetailsUsedVehicleModel.fitnessValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.fitnessValidity) : ""),
+      // taxValidity: assetDetailsUsedVehicleModel.taxValidity,
+      taxValidity: new Date(assetDetailsUsedVehicleModel.taxValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.taxValidity) : ""),
       insuranceCopyVerified: assetDetailsUsedVehicleModel.insuranceCopyVerified,
-      insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
+      // insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
+      insuranceValidity: new Date(assetDetailsUsedVehicleModel.insuranceValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.insuranceValidity) : ""),
       vehiclePhsicallyVerified: assetDetailsUsedVehicleModel.vehiclePhsicallyVerified,
       conditionOfVehicle: assetDetailsUsedVehicleModel.conditionOfVehicle,
       vehicleRoute: assetDetailsUsedVehicleModel.vehicleRoute,
@@ -322,11 +378,12 @@ export class LoanDetailsComponent implements OnInit {
       vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
       engineNumber: loanDetailsModal.engineNumber,
       chasisNumber: loanDetailsModal.chasisNumber,
-      permitValidity: loanDetailsModal.permitValidity,
-      fitnessValidity: loanDetailsModal.fitnessValidity,
-      taxValidity: loanDetailsModal.taxValidity,
+      // permitValidity: loanDetailsModal.permitValidity,
+      permitValidity: this.sendDate(loanDetailsModal.permitValidity),
+      fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
+      taxValidity: this.sendDate(loanDetailsModal.taxValidity),
       insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
-      insuranceValidity: loanDetailsModal.insuranceValidity,
+      insuranceValidity: this.sendDate(loanDetailsModal.insuranceValidity),
       vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
       conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
       vehicleRoute: loanDetailsModal.vehicleRoute,
