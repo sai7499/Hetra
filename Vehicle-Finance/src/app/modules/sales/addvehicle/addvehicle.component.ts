@@ -27,6 +27,8 @@ export class AddvehicleComponent implements OnInit {
   selectedVehicle: number;
   formValue: any;
 
+  isDirty: boolean;
+
   vehicleArray = [];
   routerId = 0;
 
@@ -106,15 +108,16 @@ export class AddvehicleComponent implements OnInit {
 
         if (res.Error === '0' && res.Error === '0') {
           this.toasterService.showSuccess(apiError, '');
+          this.router.navigate(['pages/sales/' + this.leadId + '/vehicle-list']);
         } else {
           this.toasterService.showError(apiError, '')
         }
-        this.router.navigate(['pages/sales/' + this.leadId + '/vehicle-list']);
       }, error => {
         console.log(error, 'error')
+        this.toasterService.showError(error, '')
       })
     } else {
-      console.log(this.vehicleDetails, 'Error')
+      this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }
