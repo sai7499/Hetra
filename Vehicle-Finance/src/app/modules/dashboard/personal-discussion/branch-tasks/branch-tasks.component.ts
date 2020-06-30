@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { LoginService } from '../../../login/login/login.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
 
 @Component({
   selector: 'app-branch-tasks',
@@ -12,8 +15,14 @@ export class BranchTasksComponent implements OnInit {
   itemsPerPage = 5;
   labels: any = {};
   q;
+  roleId: string;
+  branchId: any;
+  pdListDashboard: any;
 
-  constructor(private labelsData: LabelsService) {
+  constructor(private labelsData: LabelsService,
+              private loginService: LoginService,
+              private loginStoreService: LoginStoreService,
+              private personalDiscussion: PersonalDiscussionService) {
     this.leadDetails = [
       {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
       priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'},
@@ -34,6 +43,29 @@ export class BranchTasksComponent implements OnInit {
         this.labels = data;
       }
     );
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = String(value.roleId);
+      this.branchId = value.branchId;
+      console.log('value.branchId For User in branch Task', value.branchId);
+     });
+    this.getPdBrabchTask();
+  }
+
+  getPdBrabchTask() {
+    const data = {
+      taskName: 'Personal Discussion',
+      branchId: this.branchId,
+      // roleId: this.roleId, Uncomment this after getting proper data
+      roleId: '4',
+      currentPage: 1,
+      perPage: 3,
+      myLeads: false,
+    };
+    this.personalDiscussion.getPdTaskDashboard(data).subscribe((value: any) => {
+      const processveriables = value.ProcessVariables;
+      this.pdListDashboard = processveriables.loanLead;
+      console.log('Leads for Get PD data dashboard for BankBranch', this.pdListDashboard);
+    });
   }
 
 }

@@ -305,6 +305,11 @@ export class ApiService {
       projectId: environment.projectIds.reinitiatePdApi,
     },
 
+    taskDashboard: {
+      processId: '28b56774b48711ea88e7f2fa9bec3d63',
+      workflowId: '2875dddeb48711ea88e7f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
 
     getFactoringValue: {
       processId: 'f2dadd44b22611ea8796f2fa9bec3d63',

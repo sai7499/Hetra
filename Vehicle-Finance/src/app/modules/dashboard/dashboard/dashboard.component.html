@@ -77,7 +77,7 @@
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
-            <li id="pd" class="disabled" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
+            <li id="pd" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
             <li id="viability" class="disabled" [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Vehicle Viability</a></li>
             <li id="query" class="disabled"><a>Query</a></li>
         </ul>
@@ -85,7 +85,7 @@
     <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
-            <li id="pd" class="disabled" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
+            <li id="pd" [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
             <li id="viability" class="disabled" [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Deviation</a></li>
             <li id="query" class="disabled"><a>Credit Decision</a></li>
         </ul>
