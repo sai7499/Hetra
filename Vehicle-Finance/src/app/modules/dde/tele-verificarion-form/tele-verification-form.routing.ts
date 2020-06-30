@@ -4,7 +4,7 @@ import { TeleVerificationFormComponent } from './tele-verification-form/tele-ver
 
 const routes: Routes = [
     {
-        path: ':leadId/tele-verification-form/:applicantId',
+        path: ':leadId/tele-verification-form/:applicantType/:applicantId',
         component: TeleVerificationFormComponent
     }
 ];
