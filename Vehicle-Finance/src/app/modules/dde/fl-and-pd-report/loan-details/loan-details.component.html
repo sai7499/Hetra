@@ -359,7 +359,10 @@
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" [routerLink]="['../../../customer-profile',applicantId,version]">
+                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../customer-profile',applicantId,version]">
+                        {{labels.back}}
+                    </button>&nbsp;
+                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../customer-profile',applicantId]">
                         {{labels.back}}
                     </button>&nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()">
@@ -368,7 +371,10 @@
                     <!-- <button class="btn btn-primary" type="button" (click)="onFormSubmit()">
                         {{labels.next}}
                     </button> -->
-                    <button class="btn btn-primary" type="button" [routerLink]="['../../../../pd-report']">
+                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../pd-report']">
+                        {{labels.next}}
+                    </button>
+                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../reference-check',applicantId]">
                         {{labels.next}}
                     </button>
 

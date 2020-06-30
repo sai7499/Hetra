@@ -36,6 +36,7 @@ export class PdReportComponent implements OnInit {
     // this.roleName = 'Sales Officer';
     // this.roleName = 'Credit Officer';
     console.log("this user", this.roleName)
+
     this.leadId = (await this.getLeadId()) as number;
     console.log('Lead ID', this.leadId);
     this.getLabels = this.labelsData.getLabelsData()
@@ -70,7 +71,13 @@ export class PdReportComponent implements OnInit {
     );
     const URL = `/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`;
     console.log('URL', URL);
-    this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}/${version}`]);
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`]);
+    }
+    else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}/${version}`]);
+
+    }
     // routerLink="/pages/fl-and-pd-report/applicant-detail"
   }
 

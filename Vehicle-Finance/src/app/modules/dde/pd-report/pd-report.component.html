@@ -51,7 +51,7 @@
                                 <td>{{ item.applicantName ? item.applicantName : '-' }}</td>
                                 <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
                                 <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
-                                <td *ngIf="roleName === 'Sales Officer'">
+                                <td *ngIf="roleName === 'Sales Officer'" (click)="navigatePage(item.applicantId)">
                                     {{ item.pdStatusValue ? item.pdStatusValue : '-' }}</td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                                 <ng-container *ngIf="roleName === 'Credit Officer'">
