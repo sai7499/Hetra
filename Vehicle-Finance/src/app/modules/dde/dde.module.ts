@@ -18,6 +18,7 @@ import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { CamComponent } from './cam/cam.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { ViabilityDetailsComponent} from './vehicle-details/viability-details/viability-details.component';
 
 // import { DdeRoutingModule } from './dde.routing.module';
 // import { DdeSharedModule } from './shared/shared.module';
@@ -48,6 +49,7 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     CreditConditionsComponent,
     DeviationsComponent,
     VehicleValuationComponent,
+    ViabilityDetailsComponent
 
   ],
   imports: [
