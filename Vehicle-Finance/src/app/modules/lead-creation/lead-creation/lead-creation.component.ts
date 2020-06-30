@@ -63,6 +63,7 @@ export class LeadCreationComponent implements OnInit {
   isMobile: any;
   isSourchingCode: boolean;
   isDirty: boolean;
+  nameErrorMessage: string;
 
   obj = {};
   test = [];
@@ -70,10 +71,7 @@ export class LeadCreationComponent implements OnInit {
   public dateValue: Date = new Date(2000, 2, 10);
   public toDayDate: Date = new Date();
 
-  namePattern: {
-    rule: string;
-    msg: string;
-  };
+  namePattern: string;
 
   regexPattern = {
     maxLength: {
@@ -407,15 +405,11 @@ export class LeadCreationComponent implements OnInit {
     this.applicantType = bool ? event : event.target.value;
     console.log(this.applicantType);
     if (this.applicantType === 'INDIVENTTYP') {
-      this.namePattern = {
-        rule: '^[A-Za-z ]{0,99}$',
-        msg: 'Special Characters not allowed',
-      };
+      this.namePattern = 'alpha';
+      this.nameErrorMessage = 'First Name is mandatory';
     } else {
-      this.namePattern = {
-        rule: "^[0-9A-Za-z, _&*#' /\\-@]{ 0, 49 } $",
-        msg: 'Invalid organization name',
-      };
+      this.namePattern = 'text';
+      this.nameErrorMessage = 'Company Name is mandatory';
     }
   }
 

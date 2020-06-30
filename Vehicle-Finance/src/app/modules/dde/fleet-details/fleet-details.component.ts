@@ -46,6 +46,34 @@ export class FleetDetailsComponent implements OnInit {
     length: {
       rule: '3',
       msg: ''
+    },
+    contact: {
+      rule: /^\d{10}$/,
+      msg: 'Invalid Number / Alphabets and Special Characters not allowed'
+    },
+    contLength: {
+      rule: '10'
+    },
+    maxLoanLength:{
+      rule: '20'
+    },
+    minLoanLength:{
+      rule: '4'
+    },
+    name: {
+      rule: /^[a-zA-Z ]*$/,
+      msg: 'Invalid Name / Numbers and Special Characters not allowed'
+    },
+    nameLength:{
+      rule: '30'
+    },
+    vachilePattern: {
+      rule: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+      msg: 'Invalid Name / Special Characters not allowed'
+    },
+    loanNoPattern: {
+      rule: /^[ A-Za-z0-9_@./#&+-]*$/,
+      msg: 'Invalid Vechile No / Special Characters not allowed'
     }
   }
   constructor(
