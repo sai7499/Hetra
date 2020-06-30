@@ -34,6 +34,7 @@ export class FlAndPdReportComponent implements OnInit {
         this.userId = roleAndUserDetails.userDetails.userId;
         this.roles = roleAndUserDetails.roles;
         this.roleName = this.roles[0].name;
+        // this.roleName = 'Sales Officer';
         console.log("this user", this.roleName)
 
 

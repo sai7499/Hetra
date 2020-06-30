@@ -343,7 +343,7 @@
                 <app-custom-input rows="1" id="remarks" formControlName="remarks" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
             </div>
 
-            <div class="btn-sec clear-both" *ngIf="roleName === 'Sales Officer'">
+            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
                 <div class="col-sm-7"></div>
                 <div class="col-sm-5 text-right">
                     <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
@@ -365,7 +365,10 @@
                     <button class="btn btn-primary " (click)="onFormSubmit()">
                         {{labels.save}}
                     </button>&nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onFormSubmit()">
+                    <!-- <button class="btn btn-primary" type="button" (click)="onFormSubmit()">
+                        {{labels.next}}
+                    </button> -->
+                    <button class="btn btn-primary" type="button" [routerLink]="['../../../../pd-report']">
                         {{labels.next}}
                     </button>
 

@@ -34,6 +34,9 @@ export class LoanDetailsComponent implements OnInit {
   userId: number;
   roleName: any;
   roles: any = [];
+  applicantId: number;
+  version: string;
+  data: any;
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -54,8 +57,8 @@ export class LoanDetailsComponent implements OnInit {
     rule: 30,
     msg: '',
   };
-  applicantId: number;
-  version: string;
+
+
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -80,7 +83,9 @@ export class LoanDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
-    this.roleName = this.roles[0].name;
+    // this.roleName = this.roles[0].name;
+    this.roleName = 'Sales Officer';
+    // this.roleName = 'Credit Officer';
     console.log("this user", this.roleName)
 
     // console.log("user id ==>", this.userId)
@@ -235,13 +240,28 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   getPdDetails() {
-    const data = {
-      applicantId: 6,
-      // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-      pdVersion: this.version,
-    };
+    // const data = {
+    //   applicantId: 6,
+    //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+    //   pdVersion: this.version,
+    // };
+    if (this.roleName == 'Credit Officer') {
+      this.data = {
 
-    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+        applicantId: 6,
+        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        pdVersion: this.version,
+      };
+    }
+    else if (this.roleName == 'Sales Officer') {
+      this.data = {
+
+        applicantId: 6,
+        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      };
+    }
+
+    this.personalDiscussion.getPdData(this.data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
@@ -466,6 +486,10 @@ export class LoanDetailsComponent implements OnInit {
         console.log('PD Status', message);
         console.log("response loan details", value.ProcessVariables)
         this.toasterService.showSuccess("loan details saved successfully!", '')
+      }
+      else {
+        console.log("error", processVariables.error.message);
+        this.toasterService.showError("invalid loan details", 'message')
       }
     });
 

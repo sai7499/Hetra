@@ -29,6 +29,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   userId: number;
   LOV: any = [];
   custProfDetails: any = [];
+  data: any;
 
   custProfileDetails: CustomerProfile;
 
@@ -55,6 +56,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
   isDirty: boolean;
   applicantId: number;
   version: string;
+  roleName: string;
+  roles: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -79,6 +82,10 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    // this.roleName = this.roles[0].name;
+    this.roleName = 'Sales Officer';
+    // this.roleName = 'Credit Officer';
 
     console.log("user id ==>", this.userId)
 
@@ -104,19 +111,19 @@ export class CustomerProfileDetailsComponent implements OnInit {
     });
 
   }
-  getLeadId() {
-    // console.log("in getleadID")
-    return new Promise((resolve, reject) => {
-      this.activatedRoute.parent.params.subscribe((value) => {
-        if (value && value.leadId) {
-          // console.log("in if", value.leadId)
-          resolve(Number(value.leadId));
-          // console.log("after resolve", value.leadId)
-        }
-        resolve(null);
-      });
-    });
-  }
+  // getLeadId() {
+  //   // console.log("in getleadID")
+  //   return new Promise((resolve, reject) => {
+  //     this.activatedRoute.parent.params.subscribe((value) => {
+  //       if (value && value.leadId) {
+  //         // console.log("in if", value.leadId)
+  //         resolve(Number(value.leadId));
+  //         // console.log("after resolve", value.leadId)
+  //       }
+  //       resolve(null);
+  //     });
+  //   });
+  // }
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
@@ -162,13 +169,24 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   getPdDetails() {
-    const data = {
-      applicantId: 6,
-     // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-      pdVersion: this.version,
-    };
 
-    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+    if (this.roleName == 'Credit Officer') {
+      this.data = {
+
+        applicantId: 6,
+        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        pdVersion: this.version,
+      };
+    }
+    else if (this.roleName == 'Sales Officer') {
+      this.data = {
+
+        applicantId: 6,
+        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      };
+    }
+
+    this.personalDiscussion.getPdData(this.data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
@@ -241,6 +259,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('customer Profle Details saved !', '');
+        this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
       } else {
         console.log('error', res.ProcessVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
@@ -248,7 +267,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       }
     });
 
-    // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
+
   }
 
 }

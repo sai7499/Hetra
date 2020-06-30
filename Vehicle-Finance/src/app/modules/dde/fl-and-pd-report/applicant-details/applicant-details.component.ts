@@ -9,6 +9,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ApplicantDetails } from '@model/dde.model';
 import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
+import { LoginStoreService } from '@services/login-store.service';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -78,18 +79,38 @@ export class ApplicantDetailComponent implements OnInit {
     msg: '',
   };
   version: any;
+  // data: {
+  //   applicantId: number;
+  //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+  //   pdVersion: any;
+  // };
+  roleName: string;
+  data: any;
+  userId: number;
+  roles: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService) { }
 
   ngOnInit() {
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    console.log("roles", this.roles)
+    this.roleName = this.roles[0].name;
+    // this.roleName = 'Sales Officer';
+    // this.roleName = 'Credit Officer';
+
+    console.log("user id ==>", this.userId)
     this.initForm();
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
@@ -149,7 +170,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   setFormValue() {
     // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
-    const applicantModal = this.applicantPdDetails || { };
+    const applicantModal = this.applicantPdDetails || {};
     this.applicantForm.patchValue({
       applicantName: applicantModal.applicantName || '',
       fatherName: applicantModal.fatherName || '',
@@ -175,14 +196,29 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   getPdDetails() {
-    const data = {
-      applicantId: 6,
-      //applicantId: this.applicantId
-      pdVersion: this.version,
+    // const data = {
+    //   applicantId: 6,
+    //   //applicantId: this.applicantId
+    //   pdVersion: this.version,
 
-    };
+    // };
+    if (this.roleName == 'Credit Officer') {
+      this.data = {
 
-    this.personaldiscussion.getPdData(data).subscribe((value: any) => {
+        applicantId: 6,
+        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        pdVersion: this.version,
+      };
+    }
+    else if (this.roleName == 'Sales Officer') {
+      this.data = {
+
+        applicantId: 6,
+        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      };
+    }
+
+    this.personaldiscussion.getPdData(this.data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
@@ -213,27 +249,27 @@ export class ApplicantDetailComponent implements OnInit {
     // }
 
     this.applicantDetails = {
-  applicantName: applicantFormModal.applicantName,
-  fatherName: applicantFormModal.fatherName,
-  gender: applicantFormModal.gender,
-  maritalStatus: applicantFormModal.maritalStatus,
-  physicallyChallenged: applicantFormModal.physicallyChallenged,
-  residancePhoneNumber: applicantFormModal.residancePhoneNumber,
-  officePhoneNumber: applicantFormModal.officePhoneNumber,
-  mobile: applicantFormModal.mobile,
-  residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPeLoanApplication,
-  bankName: applicantFormModal.bankName,
-  accountNumber: applicantFormModal.accountNumber,
-  landmark: applicantFormModal.landmark,
-  addressAccessibility: applicantFormModal.addressAccessibility,
-  residentialLocality: applicantFormModal.residentialLocality,
-  residentialType: applicantFormModal.residentialType,
-  houseType: applicantFormModal.houseType,
-  sizeOfHouse: applicantFormModal.sizeOfHouse,
-  standardOfLiving: applicantFormModal.standardOfLiving,
-  houseOwnership: applicantFormModal.houseOwnership,
-  ratingbySO: applicantFormModal.ratingbySO,
-};
+      applicantName: applicantFormModal.applicantName,
+      fatherName: applicantFormModal.fatherName,
+      gender: applicantFormModal.gender,
+      maritalStatus: applicantFormModal.maritalStatus,
+      physicallyChallenged: applicantFormModal.physicallyChallenged,
+      residancePhoneNumber: applicantFormModal.residancePhoneNumber,
+      officePhoneNumber: applicantFormModal.officePhoneNumber,
+      mobile: applicantFormModal.mobile,
+      residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPeLoanApplication,
+      bankName: applicantFormModal.bankName,
+      accountNumber: applicantFormModal.accountNumber,
+      landmark: applicantFormModal.landmark,
+      addressAccessibility: applicantFormModal.addressAccessibility,
+      residentialLocality: applicantFormModal.residentialLocality,
+      residentialType: applicantFormModal.residentialType,
+      houseType: applicantFormModal.houseType,
+      sizeOfHouse: applicantFormModal.sizeOfHouse,
+      standardOfLiving: applicantFormModal.standardOfLiving,
+      houseOwnership: applicantFormModal.houseOwnership,
+      ratingbySO: applicantFormModal.ratingbySO,
+    };
     const data = {
       applicantPersonalDiscussionDetails: this.applicantDetails,
       // customerProfileDetails: null,

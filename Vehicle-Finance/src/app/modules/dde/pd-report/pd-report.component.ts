@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-pd-report',
@@ -16,13 +17,25 @@ export class PdReportComponent implements OnInit {
   public getLabels;
   pdList: [];
   leadId: number;
+  userId: any;
+  roles: any;
+  roleName: string;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
+    private loginStoreService: LoginStoreService,
     private personalDiscussionService: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute) { }
 
   async ngOnInit() {
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleName = this.roles[0].name;
+    // this.roleName = 'Sales Officer';
+    // this.roleName = 'Credit Officer';
+    console.log("this user", this.roleName)
     this.leadId = (await this.getLeadId()) as number;
     console.log('Lead ID', this.leadId);
     this.getLabels = this.labelsData.getLabelsData()
@@ -41,7 +54,7 @@ export class PdReportComponent implements OnInit {
       leadId: 153,
       //  uncomment this once get proper Pd data for perticular
       // leadId: this.leadId
-      userId: '1002',
+      userId: '1001',
     };
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
       const processveriables = value.ProcessVariables;
