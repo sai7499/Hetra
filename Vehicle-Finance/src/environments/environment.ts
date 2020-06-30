@@ -13,13 +13,16 @@ export const environment = {
 
   projectIds: {
     salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
-    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    // otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
   },
 
   // hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
   hostingEnvironment: 'Production',
-  host: 'http://128.199.164.250/appiyo/',
+  // host: 'http://128.199.164.250/appiyo/',
+  host: 'http://10.101.10.153/appiyo/',
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
