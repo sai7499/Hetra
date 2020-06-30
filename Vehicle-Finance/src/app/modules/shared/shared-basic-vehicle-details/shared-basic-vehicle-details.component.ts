@@ -40,8 +40,72 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public loanTenor: number = 0;
   public productCatoryId: any;
 
+  @Input() isDirty: boolean;
+  isDisabled: boolean = true;
+
+  maxlength10 = {
+    rule: 10,
+    msg: '',
+  };
+
+  maxLength3 = {
+    rule: 3,
+    msg: '',
+  };
+
+  maxlength2 = {
+    rule: 2,
+    msg: '',
+  };
+
+  maxlength5 = {
+    rule: 5,
+    msg: '',
+  };
+
+  namePattern = {
+    rule: '^[A-Za-z-0-9]{0,99}$',
+    msg: 'Special Characters not allowed',
+  };
+
+  regexPattern = {
+    maxLength: {
+      rule: '10',
+      msg: 'Maximum Length 10 digits',
+    },
+    pincodemaxLength: {
+      rule: '6',
+      msg: 'Maximum Length 6 digits',
+    },
+    maxlength30: {
+      rule: '30',
+      msg: '',
+    },
+    nameLength: {
+      rule: '50',
+      msg: '',
+    },
+    namePattern: {
+      rule: '^[A-Z ]*[a-z ]*$',
+      msg: 'Invalid Name',
+    },
+    maxlength40: {
+      rule: '40',
+      msg: '',
+    },
+    mobNumberPattern: {
+      rule: "^[6-9]{1}[0-9]{9}",
+      msg: 'Invalid Mobile Number',
+    },
+    numberPattern: {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Numbers only allowed !',
+    },
+  };
+
+  public minDate = new Date('01/01/2010')
+
   mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
-  // , Validators.pattern('^[A-Z]{2}[-][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$')
 
   // LovData
   public assetMake: any = [];
@@ -152,19 +216,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onCompareFinalAssetCode(value) {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-    if (value && formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
+    if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostCarTrade
       })
-
-    } else if (value && formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
+    } else if (formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB
       })
-    } else if (value && formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
+    } else if (formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB,
-        // assetCostLeast: formArray.value[0].assetCostCarTrade,
+        finalAssetCost: formArray.value[0].assetCostIBB
       })
     }
   }
@@ -174,7 +236,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const controls = formArray.at(0) as FormGroup;
 
     if (event.target.checked) {
-      controls.addControl('fsrdPremiumAmount', new FormControl(''));
+      controls.addControl('fsrdPremiumAmount', new FormControl('', [Validators.required, Validators.maxLength(10)]));
     } else {
       controls.removeControl('fsrdPremiumAmount');
     }
@@ -193,7 +255,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
-      this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      // this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      this.vehicleLov.vehicleCategory = value.LOVS.customerCategory;
+
       this.vehicleLov.YesORNoValue = [
         {
           key: "1",
@@ -244,7 +308,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           vehicleType: VehicleDetail.vehicleTypeCode || '',
           assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
           assetModel: VehicleDetail.vehicleModelCode || '',
-          assetVariant: VehicleDetail.assetVarient === 'Petrol' ? 0 : '',
+          assetVariant: VehicleDetail.assetVarient === 'Petrol' ? '0' : '',
           assetSubVariant: VehicleDetail.assetSubVariant || '',
           manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
           ageOfAsset: VehicleDetail.ageOfAsset || null,
@@ -293,7 +357,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostRef: VehicleDetail.assetCostRef || null,
       assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
       assetModel: VehicleDetail.vehicleModelCode || '',
-      assetVariant: VehicleDetail.assetVarient === 'Petrol' ? 0 : '',
+      assetVariant: VehicleDetail.assetVarient === 'Petrol' ? '0' : '',
       assetSubVariant: VehicleDetail.assetSubVariant || '',
       category: VehicleDetail.category || '',
       chasisNumber: VehicleDetail.chasisNumber || null,
@@ -539,11 +603,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('assetCostGrid', new FormControl('', Validators.required));
       controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
-      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{9}')]));
+      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
       controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
+    // this.isDirty = true;
   }
 
   addCreditFormControls() {
@@ -671,7 +736,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: [null],
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
-      ownerMobileNo: ['', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{9}')]],
+      ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],

@@ -72,7 +72,7 @@ export class BasicDetailsComponent implements OnInit {
     msg: 'Invalid Name',
   };
   nameSpacePattern = {
-    rule: '^[A-Z ]*[a-z ]*$',
+    rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
     msg: 'Invalid Name',
   };
 //   companyPattern ={

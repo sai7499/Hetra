@@ -101,9 +101,8 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code"
               >{{ labels.sourcingCode }}
-              <sub class="star_blue_col">*</sub></label
-            >
-            <div class="ng-autocomplete" style="width:100%">
+              <sub class="star_blue_col">*</sub></label>
+            <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
               <ng-autocomplete 
                 [data]="sourcingCodeData"
                 [searchKeyword]="keyword"
@@ -129,10 +128,8 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">Dealer Code
               <sub class="star_blue_col">*</sub>
-            </label>
-            <!-- <input formControlName="dealerCode" type="text" class="form-control mandatory select2" id="sourcingCode"
-              placeholder="Dealer Code" name="dealerCode" /> -->
-              <div class="ng-autocomplete" style="width:100%">
+            </label>            
+              <div class="ng-autocomplete" style="width:100%" >
                 <ng-autocomplete 
                   [data]="dealerCodeData"
                   [searchKeyword]="keyword"
@@ -233,9 +230,9 @@
               [className]="'form-control mandatory'"
               [placeholder]="'First Name'"
               [maxLength]="regexPattern.nameLength"
-              [patternCheck]="namePattern"
-              [isRequired]="'First Name is mandatory'"
+              [isRequired]="nameErrorMessage"
               [isDirty]="isDirty"
+              [type]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -276,7 +273,8 @@
               [maxLength]="regexPattern.maxLength"
               [patternCheck]="regexPattern.mobile"
               [isRequired]="'Contact Number mandatory'"
-              [isDirty]="isDirty">
+              [isDirty]="isDirty"
+              [type]="'number'">
             </app-custom-input>
           </div>
 
@@ -287,14 +285,7 @@
             <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{
               labels.dateOfIncorporation
             }}</label>
-             <!-- <input
-              type="date"
-              class="form-control mandatory"
-              id="dob"
-              placeholder="Date of birth"
-              name="dob"
-              formControlName="dateOfBirth"
-            /> -->
+
             <kendo-datepicker class="form-control mandatory" 
               formControlName="dateOfBirth" 
               [format]="'dd/MM/yyyy'"
@@ -305,14 +296,6 @@
 
 
           <div class="btn-sec clear-both">
-            <!-- <div> -->
-            <!-- <label>Note:
-              <sub class="star_red_col">* </sub>
-              <span>Fields are mandatory</span>
-              <sub class="star_blue_col">* </sub>
-              <span class="lable">Fields are conditional mandatory</span>
-            </label> -->
-          <!-- </div> -->
             <div class="col-sm-12 text-right">
               <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
                 {{ labels.createLead }}

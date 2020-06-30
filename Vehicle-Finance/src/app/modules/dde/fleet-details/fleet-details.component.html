@@ -33,8 +33,20 @@
                         <tr id="applicant_1_row" *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last" [formGroupName]="i">
 
                             <td>{{i+1}}</td>
-                            <td>
-                                <div>
+                            <td style="min-width: 150px;">
+                                <app-custom-input
+                                formControlName="regdNo"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'regdNo'"
+                                [maxLength]="regexPattern.contLength"
+                                [isRequired]="'Loan No is mandatory'"
+                                [patternCheck]="regexPattern.loanNoPattern"
+                                [type] = "'alpha-numeric'"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
+
+                                <!-- <div>
 
                                     <input type="text" class="form-control input_value height input-upper" placeholder="Registration No" formControlName="regdNo" maxlength="12">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdNo'].touched && !itemrow.controls['regdNo'].vaild">
@@ -46,15 +58,12 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> -->
                             </td>
-                            <td>
-                                <div><input type="text" class="form-control input_value height input-upper" placeholder="Owner Name" formControlName="regdOwner" maxlength="30">
-                                    <!-- <span *ngIf="submitted && itemrow.get('regdOwner').errors" style="color:red;" class="invalid-feedback">
-                                        <span *ngIf="itemrow.get('regdOwner').errors.required"> reg owner is
-                                            required</span>
-                                    <span *ngIf="itemrow.get('regdOwner').errors.pattern"> Invalid name</span>
-                                    </span> -->
+                            <td style="min-width: 130px;">
+                                <!-- <div>
+                                    
+                                    <input type="text" class="form-control input_value height input-upper" placeholder="Owner Name" formControlName="regdOwner" maxlength="30">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].touched && !itemrow.controls['regdOwner'].vaild">
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('required')">
                                             Owner name is needed
@@ -62,32 +71,28 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['regdOwner'].hasError('pattern')">
                                             Owner name should be in chars only
                                         </div>
-                                        <div *ngIf="itemrow.controls['yom'].hasError('regdOwner') || itemrow.controls['regdOwner'].hasError('maxlength')">
+                                        <div *ngIf="itemrow.controls['regdOwner'].hasError('regdOwner') || itemrow.controls['regdOwner'].hasError('maxlength')">
                                             Invalid owner name
                                         </div>
-
                                     </div>
-
-
-                                </div>
+                                </div> -->
+                                <app-custom-input
+                                formControlName="regdOwner"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'loanNo'"
+                                [minLength]="regexPattern.minLoanLength"
+                                [maxLength]="regexPattern.nameLength"
+                                [isRequired]="'Owner name is mandatory'"
+                                [patternCheck]="regexPattern.name"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
                             </td>
                             <td style="min-width: 165px;">
-                                <!-- <select class="form-control input_value height" formControlName="relation">
-                                            <option>{{labels.applicant}}</option>
-                                            <option>{{labels.coApplicant}}</option>
-                                            <option>{{labels.guarantor}}</option>
-                                        </select> -->
-
-                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead" formControlName="relation" (change)="relationShipChange($event)" [isRequired]="'Please select alteast one '">
+                                                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead" formControlName="relation" (change)="relationShipChange($event)" [isRequired]="'Please select alteast one '">
                                 </app-vf-custom-select>
                             </td>
                             <td style="min-width: 200px;">
-                                <!-- <select class="form-control input_value height" formControlName="make">
-                                            <option>{{labels.tatamotors}}</option>
-                                            <option>{{labels.eicher}}</option>
-        
-                                        </select> -->
-
                                 <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make" (change)="makeChange($event)" [isRequired]="'Please select atleast one'">
                                 </app-vf-custom-select>
                             </td>
@@ -97,7 +102,8 @@
                                     <input type="text" class="form-control  t input_value height" 
                                         placeholder=" Manufacturing Year" 
                                         formControlName="yom" 
-                                        maxlength="4">
+                                        maxlength="4"
+                                        (change)="checkManufacturingYear($event ,i)" >
                                     <!-- <span *ngIf="submitted && itemrow.get('yom').errors" style="color:red;" class="invalid-feedback">
                                         <span *ngIf="itemrow.get('yom').errors.required">yom is
                                             required</span>
@@ -115,7 +121,9 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].hasError('pattern')">
                                             Manufacturing year should be in number
                                         </div>
-
+                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].errors && itemrow.controls['yom'].errors['incorrect']">
+                                            Yom not grater current Year
+                                        </div>
                                     </div>
 
                                 </div>
@@ -123,20 +131,25 @@
 
                             <!-- <td><input type="text" class="form-control input_value height" value="BAJAJ" formControlName="financier"></td>-->
                             <td style="min-width: 120px;">
-                                <!-- <select class="form-control input_value height" id="asset_make"
-                                            formControlName="financier">
-                                            <option>{{labels.bajaj}}</option>
-                                            <option>{{labels.icici}}</option>
-                                            <option>{{labels.chola}}</option>
-        
-                                        </select> -->
-
                                 <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers" formControlName="financier" (change)="financierChange($event)" [isRequired]="'Please select atleast one'">
                                 </app-vf-custom-select>
 
                             </td>
-                            <td>
-                                <div><input type="text" class="form-control  input_value height" placeholder="Loan No" formControlName="loanNo" maxlength="20"></div>
+                            <td style="min-width: 150px;">
+                                <!-- <div> -->
+                                     <app-custom-input
+                                formControlName="loanNo"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'loanNo'"
+                                [minLength]="regexPattern.minLoanLength"
+                                [maxLength]="regexPattern.maxLoanLength"
+                                [isRequired]="'Loan No is mandatory'"
+                                [patternCheck]="regexPattern.loanNoPattern"
+                                [type] = "'alpha-numeric'"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
+                                    <!-- <input type="text" class="form-control  input_value height" placeholder="Loan No" formControlName="loanNo" maxlength="20"></div>
 
                                 <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].touched && !itemrow.controls['loanNo'].vaild">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['loanNo'].hasError('required')">
@@ -146,7 +159,7 @@
                                         Invalid loan no
                                     </div>
 
-                                </div>
+                                </div> -->
 
 
                             </td>
@@ -173,8 +186,22 @@
 
 
                             </td>
-                            <td>
-                                <div><input type="number" class="form-control  input_value height" formControlName="tenure" placeholder="Tenure" maxlength="3">
+                            <td style="min-width: 120px;">
+
+                                <app-custom-input
+                                formControlName="tenure"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Tenure'"
+                                [maxLength]="regexPattern.length"
+                                [isRequired]="'Tenure is mandatory'"
+                                [patternCheck]="regexPattern.tensure"
+                                [type] = "'number'"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
+
+<!-- 
+                                <div><input type="number" class="form-control  input_value height" formControlName="tenure" placeholder="Tenure">
 
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].touched && !itemrow.controls['tenure'].valid">
@@ -191,10 +218,23 @@
 
 
 
-                                </div>
+                                </div> -->
                             </td>
-                            <td>
-                                <div><input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">
+                            <td style="min-width: 120px;">
+                                <div>
+                                    <app-custom-input
+                                formControlName="paid"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Tenure'"
+                                [maxLength]="regexPattern.length"
+                                [isRequired]="'tenure is mandatory'"
+                                [patternCheck]="regexPattern.tensure"
+                                [type] = "'number'"
+                                [isDirty]="isDirty"
+                                >
+                              </app-custom-input>
+                                    
+                                    <!-- <input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].touched && !itemrow.controls['paid'].valid">
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].hasError('required')">
                                             Paid is required
@@ -204,7 +244,7 @@
                                         </div>
 
 
-                                    </div>
+                                    </div> -->
                                 </div>
                             </td>
                             <td><input type="text" class="form-control input_value height" formControlName="seasoning">
