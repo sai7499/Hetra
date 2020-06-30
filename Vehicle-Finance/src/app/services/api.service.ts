@@ -281,12 +281,30 @@ export class ApiService {
     getFactoringValue: {
       processId: 'f2dadd44b22611ea8796f2fa9bec3d63',
       workflowId: 'f2bc4564b22611ea8796f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getCollateralDetailsForVehicleValuation: {
       processId: '2db56d129c2911eabddcf2fa9bec3d63',
       workflowId: 'a8f86a64959a11eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
+    },
+    setViability : {
+      // processId: '0d888054a7e811ea800bf2fa9bec3d63',
+      processId: '9d20feb0a17811eabe2ef2fa9bec3d63',
+      workflowId: '9d148ea0a17811eabe2ef2fa9bec3d63',
+      // projectId: environment.projectIds.salesProjectId,
+      projectId: '0d888054a7e811ea800bf2fa9bec3d63'
+    },
+    getViability : {
+      processId: '9d3e6176a17811eabe2ef2fa9bec3d63',
+      workflowId: '9d148ea0a17811eabe2ef2fa9bec3d63',
+      // projectId: environment.projectIds.salesProjectId,
+      projectId: '0d888054a7e811ea800bf2fa9bec3d63'
+    },
+    getViabilityList : {
+      processId: '745eed2cb79c11ea8b00f2fa9bec3d63',
+      workflowId: '0d888054a7e811ea800bf2fa9bec3d63',
+      projectId: environment.projectIds.viabilityApi
     },
     getVendorCode: {
       processId: '5c532d10b21011ea874ef2fa9bec3d63',
