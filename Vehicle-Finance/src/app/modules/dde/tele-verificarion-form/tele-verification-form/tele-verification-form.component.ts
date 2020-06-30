@@ -129,21 +129,21 @@ export class TeleVerificationFormComponent implements OnInit {
   initForm() {
     // this.referenceData =  this.referenceData || [];
     this.teleVerificationForm = this.fb.group({
-      leadId: [{value: this.leadId, disabled: true}],
-      applicantName: [{value: this.applicantName, disabled: true}],
-      soName: [{value: this.soName, disabled: true}],
+      leadId: [{ value: this.leadId, disabled: true }],
+      applicantName: [{ value: this.applicantName, disabled: true }],
+      soName: [{ value: this.soName, disabled: true }],
       assetCost: [''],
       assetType: [''],
       financeAmt: [''],
       tenureInMonth: [''],
-      srcOfProposal: [{value: '', disabled: true}],
+      srcOfProposal: [{ value: '', disabled: true }],
       referredBy: [''],
-      product: [{value: '', disabled: true}],
+      product: [{ value: '', disabled: true }],
       emi: [''],
-      ndForProposedVehicle: [{value: '', disabled: true}],
-      route: [{value: '', disabled: true}],
+      ndForProposedVehicle: [{ value: '', disabled: true }],
+      route: [{ value: '', disabled: true }],
       contractDetails: [''],
-      typeOfGoods: [{value: '', disabled: true}],
+      typeOfGoods: [{ value: '', disabled: true }],
       amountRequested: [''],
       fundEndUse: [''],
       tenureRequested: [''],
@@ -159,31 +159,31 @@ export class TeleVerificationFormComponent implements OnInit {
       dob: [''],
       spokenTo: [''],
       familyMembers: [''],
-      relationShip: [{value: '', disabled: true}],
+      relationShip: [''],
       tvrDate: [''],
       tvrTime: [''],
       addressConfirmed: [''],
       residenceStabilityConfirmed: [''],
       customerAvailabilty: [''],
-      tvrDoneBy: [{value: '', disabled: true}],
-      eCode: [{value: '', disabled: true}],
+      tvrDoneBy: [{ value: '', disabled: true }],
+      eCode: [{ value: '', disabled: true }],
       wrkExperience: [''],
       officePhnNo: [''],
       officePhnExt: [''],
       wrkStability: [''],
-      natureOfBusiness: [{value: '', disabled: true}],
+      natureOfBusiness: [{ value: '', disabled: true }],
       typeOfTransaction: [''],
       businessStability: [''],
       compNameAddress: [''],
       designation: [''],
-      industryType: [''],
+      industryType: [{ value: '', disabled: true }],
       yrsInEmployment: [''],
       ifBusiness: [''],
       employees: [''],
-      relation: [{value: '', disabled: true}],
+      relation: [''],
       monthlyGrossSalary: [''],
       otherIncome: [''],
-      decision: [{value: '', disabled: true}],
+      decision: [''],
       cibilOverDue: [''],
       cibilClarification: [''],
       remarks: [''],
@@ -223,7 +223,7 @@ export class TeleVerificationFormComponent implements OnInit {
     // this.setFormValue();
     this.getTvrDetails();
     // this.saveOrUpdateTvrDetails();
-    this.getTvrDetailsList();
+    // this.getTvrDetailsList();
 
   }
 
@@ -373,18 +373,28 @@ export class TeleVerificationFormComponent implements OnInit {
         }
       };
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
-      console.log(tvr);
+      // console.log(tvr);
       if (tvr.dob) {
-      this.teleVerificationForm.patchValue(tvr);
-      if (this.valueChanges) {
-          this.valueChanges.tvrBusiness.forEach(element => {
-            if (tvr && element.value === tvr.ifBusiness) {
-              this.teleVerificationForm.get('ifBusiness').setValue(element.key);
+        this.teleVerificationForm.patchValue(tvr);
+        if (this.valueChanges) {
+          this.valueChanges.applicantRelationshipWithLead.forEach(element => {
+            if (tvr && element.value === tvr.relationShip) {
+              this.teleVerificationForm.get('relationShip').setValue(element.key);
             }
           });
           this.valueChanges.tvrTranscationType.forEach(element => {
             if (tvr && element.value === tvr.typeOfTransaction) {
               this.teleVerificationForm.get('typeOfTransaction').setValue(element.key);
+            }
+          });
+          this.valueChanges.tvrBusiness.forEach(element => {
+            if (tvr && element.value === tvr.ifBusiness) {
+              this.teleVerificationForm.get('ifBusiness').setValue(element.key);
+            }
+          });
+          this.valueChanges.relationship.forEach(element => {
+            if (tvr && element.value === tvr.relation) {
+              this.teleVerificationForm.get('relation').setValue(element.key);
             }
           });
           this.valueChanges.tvrDecision.forEach(element => {
@@ -424,8 +434,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
       // }
 
-      this.teleVerificationForm.controls['residenceStabilityConfirmed'].setValue(this.tvrData ? this.tvrData.residenceStabilityConfirmed.toString() : '');
-      this.teleVerificationForm.controls['addressConfirmed'].setValue(this.tvrData ? this.tvrData.residenceStabilityConfirmed.toString() : '');
+      // this.teleVerificationForm.controls['residenceStabilityConfirmed'].setValue(this.tvrData ? this.tvrData.residenceStabilityConfirmed : '');
+      // this.teleVerificationForm.controls['addressConfirmed'].setValue(this.tvrData ? this.tvrData.residenceStabilityConfirmed : '');
       // this.initForm();
       // console.log('tvrResponse', this.tvrData);
       // console.log('applicationReferenceData', this.referenceData);
@@ -475,21 +485,21 @@ export class TeleVerificationFormComponent implements OnInit {
   async onSave() {
     // console.log('on save', this.teleVerificationForm.value);
     this.tvrDetails = this.teleVerificationForm.value;
-    this.tvrDetails.residenceStabilityConfirmed = parseInt(this.teleVerificationForm.value.residenceStabilityConfirmed)
-    this.tvrDetails.addressConfirmed = parseInt(this.teleVerificationForm.value.addressConfirmed)
-    this.tvrDetails.customerAvailabilty = parseInt(this.teleVerificationForm.value.customerAvailabilty)
-    this.tvrDetails.amountRequested = parseInt(this.teleVerificationForm.value.amountRequested)
-    this.tvrDetails.assetCost = parseInt(this.teleVerificationForm.value.assetCost)
-    this.tvrDetails.otherLoanEmi = parseInt(this.teleVerificationForm.value.otherLoanEmi)
-    this.tvrDetails.emi = parseInt(this.teleVerificationForm.value.emi)
-    this.tvrDetails.employees = parseInt(this.teleVerificationForm.value.employees)
-    this.tvrDetails.financeAmt = parseInt(this.teleVerificationForm.value.financeAmt)
-    this.tvrDetails.monthlyGrossSalary = parseInt(this.teleVerificationForm.value.monthlyGrossSalary)
-    this.tvrDetails.residentNoOfYrs = parseInt(this.teleVerificationForm.value.residentNoOfYrs)
-    this.tvrDetails.tenureInMonth = parseInt(this.teleVerificationForm.value.tenureInMonth)
-    this.tvrDetails.tenureRequested = parseInt(this.teleVerificationForm.value.tenureRequested)
-    this.tvrDetails.wrkExperience = parseInt(this.teleVerificationForm.value.wrkExperience)
-    this.tvrDetails.yrsInEmployment = parseInt(this.teleVerificationForm.value.yrsInEmployment)
+    // this.tvrDetails.residenceStabilityConfirmed = parseInt(this.teleVerificationForm.value.residenceStabilityConfirmed)
+    // this.tvrDetails.addressConfirmed = parseInt(this.teleVerificationForm.value.addressConfirmed)
+    // this.tvrDetails.customerAvailabilty = parseInt(this.teleVerificationForm.value.customerAvailabilty)
+    // this.tvrDetails.amountRequested = parseInt(this.teleVerificationForm.value.amountRequested)
+    // this.tvrDetails.assetCost = parseInt(this.teleVerificationForm.value.assetCost)
+    // this.tvrDetails.otherLoanEmi = parseInt(this.teleVerificationForm.value.otherLoanEmi)
+    // this.tvrDetails.emi = parseInt(this.teleVerificationForm.value.emi)
+    // this.tvrDetails.employees = parseInt(this.teleVerificationForm.value.employees)
+    // this.tvrDetails.financeAmt = parseInt(this.teleVerificationForm.value.financeAmt)
+    // this.tvrDetails.monthlyGrossSalary = parseInt(this.teleVerificationForm.value.monthlyGrossSalary)
+    // this.tvrDetails.residentNoOfYrs = parseInt(this.teleVerificationForm.value.residentNoOfYrs)
+    // this.tvrDetails.tenureInMonth = parseInt(this.teleVerificationForm.value.tenureInMonth)
+    // this.tvrDetails.tenureRequested = parseInt(this.teleVerificationForm.value.tenureRequested)
+    // this.tvrDetails.wrkExperience = parseInt(this.teleVerificationForm.value.wrkExperience)
+    // this.tvrDetails.yrsInEmployment = parseInt(this.teleVerificationForm.value.yrsInEmployment)
     this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
     this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);
     const data = this.tvrDetails['applicationReferences'];
@@ -502,8 +512,5 @@ export class TeleVerificationFormComponent implements OnInit {
 
     // this.router.navigateByUrl(`pages/dde/${this.leadId}/tvr-details`);
   }
-
-
-
 
 }

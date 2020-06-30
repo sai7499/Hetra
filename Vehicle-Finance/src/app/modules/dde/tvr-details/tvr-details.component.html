@@ -17,8 +17,8 @@
                     <td>{{item.applicantName ? item.applicantName : '--'}}</td>
                     <td>{{item.mobileNumber ? item.mobileNumber : '--'}}</td>
                     <td>{{item.applicantType ? item.applicantType : '--'}}</td>
-                    <td>{{item.tvrStatus ? "Completed" : "Pending"}}</td>
-                    <td class="text-underline" (click)="onViewClick(item.applicantId, item.applicantType)">{{item.tvrStatus === 0 ? "start" : "view" }}</td>
+                    <td>{{item.tvrStatus === '1' ? "Completed" : "Pending"}}</td>
+                    <td class="text-underline" (click)="onViewClick(item.applicantId, item.applicantType)">{{item.tvrStatus === '0' ? "start" : "view" }}</td>
                 </tr>
             </tbody>
         </table>

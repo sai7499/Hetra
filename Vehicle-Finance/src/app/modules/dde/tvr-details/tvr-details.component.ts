@@ -70,7 +70,6 @@ export class TvrDetailsComponent implements OnInit {
   // }
 
   async onViewClick(applicantId: string, applicantType: string) {
-    // console.log('on view click',event);
 
     const leadId = (await this.getLeadId()) as number;
     this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${applicantType}/${applicantId}`);

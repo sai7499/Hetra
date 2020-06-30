@@ -7,69 +7,77 @@
             <div class="content">
                 <form name="teleVerificationForm" [formGroup]="teleVerificationForm">
                     <div class="row">
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="leadNumber">{{labels.leadNumber}}</label>
-                            <input type="text" class="form-control" id="leadNumber" name="leadNumber" formControlName="leadId">
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="applicantName">{{labels.applicantName}}</label>
-                            <input type="text" class="form-control" id="applicantName" name="applicantName" formControlName="applicantName">
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="soName">{{labels.soName}}</label>
-                            <input type="text" class="form-control" id="soName" name="soName" formControlName="soName">
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="assetCost">{{labels.assetCost}}</label>
-                            <!-- <input type="text" class="form-control" id="assetCost" name="assetCost" formControlName="assetCost"> -->
-                            <app-custom-input formControlName="assetCost" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [isDirty]="isDirty" [type]="'number'">
-                            </app-custom-input>
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="financeAmount">{{labels.financeAmount}}</label>
-                            <!-- <input type="text" class="form-control" id="financeAmount" name="financeAmount" formControlName="financeAmt"> -->
-                            <app-custom-input id="financeAmount" name="financeAmt" formControlName="financeAmt" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [isDirty]="isDirty" [type]="'number'">
-                            </app-custom-input>
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="tenureInMonths">{{labels.tenureInMonths}}</label>
-                            <!-- <input type="text" class="form-control" id="tenureInMonths" name="tenureInMonths" formControlName="tenureInMonth"> -->
-                            <app-custom-input id="tenureInMonths" [type]="'number'" formControlName="tenureInMonth" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.tenure" [isDirty]="isDirty">
-                            </app-custom-input>
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="sourceOfProposal" class="ellipsify">{{labels.sourceOfProposal}}</label>
-                            <input type="text" class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal">
-                            <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
-
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="sourcing_code" class="ellipsify">{{labels.knowAboutEquitasBank}}</label>
-                            <app-vf-custom-select [values]="LOV.LOVS.howDidCustomerKnowEquitasBank" formControlName="referredBy"> </app-vf-custom-select>
-
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="product" class="ellipsify">{{labels.product}}</label>
-                            <input type="text" class="form-control mar-top19" id="product" name="product" formControlName="product">
-                            <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
-                        </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="spoke_code_location" class="asset_type">{{labels.assetType}}</label>
-
-                            <div>
-                                <label class="radio-inline">
-                                    <input type="radio" name="assetType" formControlName="assetType" value="new">New
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="assetType" formControlName="assetType" value="used">Used
-                                </label>
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="leadNumber">{{labels.leadNumber}}</label>
+                                <input type="text" class="form-control" id="leadNumber" name="leadNumber" formControlName="leadId">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicantName">{{labels.applicantName}}</label>
+                                <input type="text" class="form-control" id="applicantName" name="applicantName" formControlName="applicantName">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="soName">{{labels.soName}}</label>
+                                <input type="text" class="form-control" id="soName" name="soName" formControlName="soName">
                             </div>
                         </div>
-                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                            <label for="emi">{{labels.emi}}</label>
-                            <!-- <input type="text" class="form-control" id="emi" name="emi" formControlName="emi"> -->
-                            <app-custom-input id="emi" [type]="'number'" formControlName="emi" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
-                            </app-custom-input>
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="assetCost">{{labels.assetCost}}</label>
+                                <!-- <input type="text" class="form-control" id="assetCost" name="assetCost" formControlName="assetCost"> -->
+                                <app-custom-input formControlName="assetCost" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [isDirty]="isDirty" [type]="'number'">
+                                </app-custom-input>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="financeAmount">{{labels.financeAmount}}</label>
+                                <!-- <input type="text" class="form-control" id="financeAmount" name="financeAmount" formControlName="financeAmt"> -->
+                                <app-custom-input id="financeAmount" name="financeAmt" formControlName="financeAmt" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [isDirty]="isDirty" [type]="'number'">
+                                </app-custom-input>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="tenureInMonths">{{labels.tenureInMonths}}</label>
+                                <!-- <input type="text" class="form-control" id="tenureInMonths" name="tenureInMonths" formControlName="tenureInMonth"> -->
+                                <app-custom-input id="tenureInMonths" [type]="'number'" formControlName="tenureInMonth" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.tenure" [isDirty]="isDirty">
+                                </app-custom-input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="sourceOfProposal" class="ellipsify">{{labels.sourceOfProposal}}</label>
+                                <input type="text" class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal">
+                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="sourcing_code" class="ellipsify">{{labels.knowAboutEquitasBank}}</label>
+                                <app-vf-custom-select [values]="LOV.LOVS.howDidCustomerKnowEquitasBank" formControlName="referredBy"> </app-vf-custom-select>
+
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="product" class="ellipsify">{{labels.product}}</label>
+                                <input type="text" class="form-control mar-top19" id="product" name="product" formControlName="product">
+                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="spoke_code_location" class="asset_type">{{labels.assetType}}</label>
+
+                                <div>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="assetType" formControlName="assetType" value="new">New
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="assetType" formControlName="assetType" value="used">Used
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="emi">{{labels.emi}}</label>
+                                <!-- <input type="text" class="form-control" id="emi" name="emi" formControlName="emi"> -->
+                                <app-custom-input id="emi" [type]="'number'" formControlName="emi" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
+                                </app-custom-input>
+                            </div>
                         </div>
                     </div>
 
@@ -78,38 +86,42 @@
                     <div>
                         <h3 class="dashboard text-center text-underline m-3">Vehicle and Loan related Fields</h3>
                         <div class="row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="needForProposedVehicle" class="ellipsify">{{labels.needForProposedVehicle}}</label>
-                                <input type="text" class="form-control" id="needForProposedVehicle" name="needForProposedVehicle" formControlName="ndForProposedVehicle">
-                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="needForProposedVehicle" class="ellipsify">{{labels.needForProposedVehicle}}</label>
+                                    <input type="text" class="form-control" id="needForProposedVehicle" name="needForProposedVehicle" formControlName="ndForProposedVehicle">
+                                    <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="routeOfOperation" class="ellipsify">{{labels.routeOfOperation}}</label>
+                                    <input type="text" class="form-control mar-top19" id="routeOfOperation" name="routeOfOperation" formControlName="route">
+                                    <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
+                                    <!-- <input type="text" class="form-control mar-top19" id="contractDetails" name="contractDetails" formControlName="contractDetails"> -->
+                                    <app-custom-input id="contractDetails" [type]="'alpha-numeric'" formControlName="contractDetails" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
                             </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="routeOfOperation" class="ellipsify">{{labels.routeOfOperation}}</label>
-                                <input type="text" class="form-control mar-top19" id="routeOfOperation" name="routeOfOperation" formControlName="route">
-                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
-                                <!-- <input type="text" class="form-control mar-top19" id="contractDetails" name="contractDetails" formControlName="contractDetails"> -->
-                                <app-custom-input id="contractDetails" [type]="'alpha-numeric'" formControlName="contractDetails" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="typeofGoodsCarried" class="ellipsify">{{labels.typeofGoodsCarried}}</label>
-                                <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried" formControlName="typeOfGoods">
-                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="fundingAmountRequested" class="ellipsify">{{labels.fundingAmountRequested}}</label>
-                                <!-- <input type="text" class="form-control" id="fundingAmountRequested" name="fundingAmountRequested" formControlName="amountRequested"> -->
-                                <app-custom-input id="fundingAmountRequested" [type]="'number'" formControlName="amountRequested" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="endUseFunds" class="ellipsify">{{labels.endUseFunds}}</label>
-                                <!-- <input type="text" class="form-control" id="endUseFunds" name="endUseFunds" formControlName="fundEndUse"> -->
-                                <app-custom-input id="endUseFunds" [type]="'alpha-numeric'" formControlName="fundEndUse" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength100" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
-                                </app-custom-input>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="typeofGoodsCarried" class="ellipsify">{{labels.typeofGoodsCarried}}</label>
+                                    <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried" formControlName="typeOfGoods">
+                                    <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="fundingAmountRequested" class="ellipsify">{{labels.fundingAmountRequested}}</label>
+                                    <!-- <input type="text" class="form-control" id="fundingAmountRequested" name="fundingAmountRequested" formControlName="amountRequested"> -->
+                                    <app-custom-input id="fundingAmountRequested" [type]="'number'" formControlName="amountRequested" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="endUseFunds" class="ellipsify">{{labels.endUseFunds}}</label>
+                                    <!-- <input type="text" class="form-control" id="endUseFunds" name="endUseFunds" formControlName="fundEndUse"> -->
+                                    <app-custom-input id="endUseFunds" [type]="'alpha-numeric'" formControlName="fundEndUse" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength100" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="tenureRequested">{{labels.tenureRequested}}</label>
@@ -128,165 +140,178 @@
 
                         <h3 class="dashboard text-center text-underline m-3">Tele Verification</h3>
                         <div class="row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="residence" class="">{{labels.residence}}</label>
-                                <input type="text" class="form-control" id="residence" name="residence" formControlName="residentType">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="otherVehicles">{{labels.otherVehicles}}</label>
-                                <!-- <input type="text" class="form-control" id="otherVehicles" name="otherVehicles" formControlName="otherVehiclesOwned"> -->
-                                <app-custom-input id="otherVehicles" [type]="'alpha-numeric'" formControlName="otherVehiclesOwned" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="phoneNo">{{labels.phoneNo}}</label>
-                                <!-- <input type="text" class="form-control" id="phoneNo" name="phoneNo" formControlName="residentPhnNo"> -->
-                                <app-custom-input id="phoneNo" [type]="'number'" formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="address" class="">{{labels.address}}</label>
-                                <!-- <input type="text" class="form-control" id="address" name="address" formControlName="residentAddress"> -->
-                                <app-custom-input id="address" [type]="'alpha-numeric'" formControlName="residentAddress" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="anyOtherLoansAsset">{{labels.anyOtherLoansAsset}}</label>
-                                <!-- <input type="text" class="form-control" id="anyOtherLoansAsset" name="anyOtherLoansAsset" formControlName="otherLoans"> -->
-                                <app-custom-input id="anyOtherLoansAsset" [type]="'alpha-numeric'" formControlName="otherLoans" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="teleVerification-emi">{{labels.emi}}</label>
-                                <!-- <input type="text" class="form-control" id="teleVerification-emi" name="teleVerification-emi" formControlName="otherLoanEmi"> -->
-                                <app-custom-input id="teleVerification-emi" [type]="'number'" formControlName="otherLoanEmi" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [patternCheck]="regexPattern.emi" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="noOfYears">{{labels.noOfYears}}</label>
-                                <!-- <input type="text" class="form-control" id="noOfYears" name="noOfYears" formControlName="residentNoOfYrs"> -->
-                                <app-custom-input id="noOfYears" [type]="'number'" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="teleVerification-CC">{{labels.cc}}</label>
-                                <!-- <input type="text" class="form-control" id="teleVerification-CC" name="teleVerification-CC" formControlName="cc"> -->
-                                <app-custom-input id="teleVerificationCC" [type]="'alpha-numeric'" formControlName="cc" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="status">{{labels.status}}</label>
-                                <!-- <input type="text" class="form-control" id="status" name="status" formControlName="tvrStatus"> -->
-                                <app-custom-input id="status" [type]="'alpha'" formControlName="tvrStatus" [maxLength]="regexPattern.maxLength" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="dob">{{labels.dob}}</label>
-                                <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
-                                <!-- <div class="input-group input-medium">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default">
-                                        <i class="fa fa-calendar"></i>
-                                      </button>
-                                    </span>
-                                    <input type="date" class="form-control" id="dob" name="dob" formControlName="dob">
-                                </div> -->
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="spokenTo">{{labels.spokenTo}}</label>
-                                <!-- <input type="text" class="form-control" id="spokenTo" name="spokenTo" formControlName="spokenTo"> -->
-                                <app-custom-input id="spokenTo" [type]="'alpha'" formControlName="spokenTo" [maxLength]="regexPattern.maxLength" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="familyMembers">{{labels.familyMembers}}</label>
-                                <!-- <input type="text" class="form-control" id="familyMembers" name="familyMembers" formControlName="familyMembers"> -->
-                                <app-custom-input id="familyMembers" [type]="'alpha'" formControlName="familyMembers" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="relationWithApplicant">{{labels.relationWithApplicant}}</label>
-                                <input type="text" class="form-control" id="relationWithApplicant" name="relationWithApplicant" formControlName="relationShip">
-                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="lead_created_date">{{labels.date}}</label>
-                                <kendo-datepicker class="form-control mandatory" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
-                                <!-- <div class="input-group input-medium">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default">
-                                        <i class="fa fa-calendar"></i>
-                                      </button>
-                                    </span>
-                                    <input type="date" class="form-control" id="tvrDate" formControlName="tvrDate" />
-                                </div> -->
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="lead_created_time"> {{labels.time}}</label>
-                                <input type="time" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
-                                <div>
-                                    <label class="radio-inline">
-                                    <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="1">Yes
-                                </label>
-                                    <label class="radio-inline">
-                                    <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="0">No
-                                </label>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="residence" class="">{{labels.residence}}</label>
+                                    <input type="text" class="form-control" id="residence" name="residence" formControlName="residentType">
                                 </div>
-                            </div>
-
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
-                                <input type="text" class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy">
-                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="sourcing_type" class="asset_type">{{labels.residenceStability}}</label>
-                                <div>
-                                    <label class="radio-inline">
-                                    <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes
-                                </label>
-                                    <label class="radio-inline">
-                                    <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="0">No
-                                </label>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="otherVehicles">{{labels.otherVehicles}}</label>
+                                    <!-- <input type="text" class="form-control" id="otherVehicles" name="otherVehicles" formControlName="otherVehiclesOwned"> -->
+                                    <app-custom-input id="otherVehicles" [type]="'alpha-numeric'" formControlName="otherVehiclesOwned" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
+                                    </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="sourcing_type" class="asset_type">{{labels.customerAvailability}}</label>
-                                <div>
-                                    <label class="radio-inline">
-                                <input type="radio" name="customerAvailabilty"formControlName="customerAvailabilty" value="1">Yes
-                            </label>
-                                    <label class="radio-inline">
-                                <input type="radio" name="customerAvailabilty"formControlName="customerAvailabilty" value="0">No
-                            </label>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="phoneNo">{{labels.phoneNo}}</label>
+                                    <!-- <input type="text" class="form-control" id="phoneNo" name="phoneNo" formControlName="residentPhnNo"> -->
+                                    <app-custom-input id="phoneNo" [type]="'number'" formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
+                                    </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="eCode">{{labels.eCode}}</label>
-                                <input type="text" class="form-control" id="eCode" name="eCode" formControlName="eCode">
-                                <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
                             </div>
                             <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="address" class="">{{labels.address}}</label>
+                                    <!-- <input type="text" class="form-control" id="address" name="address" formControlName="residentAddress"> -->
+                                    <app-custom-input id="address" [type]="'alpha-numeric'" formControlName="residentAddress" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="anyOtherLoansAsset">{{labels.anyOtherLoansAsset}}</label>
+                                    <!-- <input type="text" class="form-control" id="anyOtherLoansAsset" name="anyOtherLoansAsset" formControlName="otherLoans"> -->
+                                    <app-custom-input id="anyOtherLoansAsset" [type]="'alpha-numeric'" formControlName="otherLoans" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="teleVerification-emi">{{labels.emi}}</label>
+                                    <!-- <input type="text" class="form-control" id="teleVerification-emi" name="teleVerification-emi" formControlName="otherLoanEmi"> -->
+                                    <app-custom-input id="teleVerification-emi" [type]="'number'" formControlName="otherLoanEmi" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="noOfYears">{{labels.noOfYears}}</label>
+                                    <!-- <input type="text" class="form-control" id="noOfYears" name="noOfYears" formControlName="residentNoOfYrs"> -->
+                                    <app-custom-input id="noOfYears" [type]="'number'" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="teleVerification-CC">{{labels.cc}}</label>
+                                    <!-- <input type="text" class="form-control" id="teleVerification-CC" name="teleVerification-CC" formControlName="cc"> -->
+                                    <app-custom-input id="teleVerificationCC" [type]="'alpha-numeric'" formControlName="cc" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="status">{{labels.status}}</label>
+                                    <!-- <input type="text" class="form-control" id="status" name="status" formControlName="tvrStatus"> -->
+                                    <app-custom-input id="status" [type]="'alpha'" formControlName="tvrStatus" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="dob">{{labels.dob}}</label>
+                                    <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
+                                    <!-- <div class="input-group input-medium">
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-default">
+                                            <i class="fa fa-calendar"></i>
+                                          </button>
+                                        </span>
+                                        <input type="date" class="form-control" id="dob" name="dob" formControlName="dob">
+                                    </div> -->
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="spokenTo">{{labels.spokenTo}}</label>
+                                    <!-- <input type="text" class="form-control" id="spokenTo" name="spokenTo" formControlName="spokenTo"> -->
+                                    <app-custom-input id="spokenTo" [type]="'alpha'" formControlName="spokenTo" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="familyMembers">{{labels.familyMembers}}</label>
+                                    <!-- <input type="text" class="form-control" id="familyMembers" name="familyMembers" formControlName="familyMembers"> -->
+                                    <app-custom-input id="familyMembers" [type]="'alpha'" formControlName="familyMembers" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="relationWithApplicant">{{labels.relationWithApplicant}}</label>
+                                    <!-- <input type="text" class="form-control" id="relationWithApplicant" name="relationWithApplicant" formControlName="relationShip"> -->
+                                    <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead" formControlName="relationShip"></app-vf-custom-select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="lead_created_date">{{labels.date}}</label>
+                                    <kendo-datepicker class="form-control mandatory" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
+                                    <!-- <div class="input-group input-medium">
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-default">
+                                            <i class="fa fa-calendar"></i>
+                                          </button>
+                                        </span>
+                                        <input type="date" class="form-control" id="tvrDate" formControlName="tvrDate" />
+                                    </div> -->
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="lead_created_time"> {{labels.time}}</label>
+                                    <input type="time" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                        <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="1">Yes
+                                    </label>
+                                        <label class="radio-inline">
+                                        <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="0">No
+                                    </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
+                                    <input type="text" class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy">
+                                    <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="sourcing_type" class="asset_type">{{labels.residenceStability}}</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                        <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes
+                                    </label>
+                                        <label class="radio-inline">
+                                        <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="0">No
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="sourcing_type" class="asset_type">{{labels.customerAvailability}}</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                    <input type="radio" name="customerAvailabilty"formControlName="customerAvailabilty" value="1">Yes
+                                </label>
+                                        <label class="radio-inline">
+                                    <input type="radio" name="customerAvailabilty"formControlName="customerAvailabilty" value="0">No
+                                </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="eCode">{{labels.eCode}}</label>
+                                    <input type="text" class="form-control" id="eCode" name="eCode" formControlName="eCode">
+                                    <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
+                                </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="workExperience">{{labels.workExperience}}</label>
                                     <!-- <input type="text" class="form-control" id="workExperience" name="workExperience" formControlName="wrkExperience"> -->
                                     <app-custom-input id="workExperience" [type]="'alpha-numeric'" formControlName="wrkExperience" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="phoneNo2">{{labels.phoneNo}}</label>
                                     <!-- <input type="text" class="form-control" id="phoneNo2" name="phoneNo2" formControlName="officePhnNo">
-                                    <div style="color: red;" *ngIf="teleVerificationFormControls.officePhnNo.errors">
-                                        <span *ngIf="(teleVerificationFormControls.officePhnNo.errors.minlength || teleVerificationFormControls.officePhnNo.errors.maxlength)">Mobile Number must be 10
-                                            Number</span>
-                                        <span *ngIf="(teleVerificationFormControls.officePhnNo.dirty || teleVerificationFormControls.officePhnNo.touched) && teleVerificationFormControls.officePhnNo.errors.pattern">Value
-                                                must be in Number</span>
-                                    </div> -->
-                                    <app-custom-input [type]="'number'" formControlName="officePhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
+                                        <div style="color: red;" *ngIf="teleVerificationFormControls.officePhnNo.errors">
+                                            <span *ngIf="(teleVerificationFormControls.officePhnNo.errors.minlength || teleVerificationFormControls.officePhnNo.errors.maxlength)">Mobile Number must be 10
+                                                Number</span>
+                                            <span *ngIf="(teleVerificationFormControls.officePhnNo.dirty || teleVerificationFormControls.officePhnNo.touched) && teleVerificationFormControls.officePhnNo.errors.pattern">Value
+                                                    must be in Number</span>
+                                        </div> -->
+                                    <app-custom-input id="officePhnNo" [type]="'number'" formControlName="officePhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -295,14 +320,14 @@
                                     <app-custom-input [type]="'number'" id="extn" formControlName="officePhnExt" [className]="'form-control'" [maxLength]="regexPattern.maxLength3" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="workStability">{{labels.workStability}}</label>
                                     <!-- <input type="text" class="form-control" id="workStability" name="workStability" formControlName="wrkStability"> -->
                                     <app-custom-input id="workStability" [type]="'number'" formControlName="wrkStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="natureOfBusiness">{{labels.natureOfBusiness}}</label>
                                     <input type="text" class="form-control" id="natureOfBusiness" name="natureOfBusiness" formControlName="natureOfBusiness">
@@ -311,63 +336,71 @@
                                     <label for="transactionType" class="asset_type">{{labels.transactionType}}</label>
                                     <app-vf-custom-select [values]="LOV.LOVS.tvrTranscationType" formControlName="typeOfTransaction"> </app-vf-custom-select>
                                 </div>
+
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="businessStability">{{labels.businessStability}}</label>
+                                    <!-- <input type="text" class="form-control" id="businessStability" name="businessStability" formControlName="businessStability"> -->
+                                    <app-custom-input id="businessStability" [type]="'number'" formControlName="businessStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="coNameAndAddress">{{labels.coNameAndAddress}}</label>
+                                    <!-- <input type="text" class="form-control" id="coNameAndAddress" name="coNameAndAddress" formControlName="compNameAddress"> -->
+                                    <app-custom-input id="coNameAndAddress" [type]="'alpha-numeric'" formControlName="compNameAddress" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="designation">{{labels.designation}}</label>
+                                    <!-- <input type="text" class="form-control" id="designation" name="designation" formControlName="designation"> -->
+                                    <app-custom-input id="designation" [type]="'alpha'" formControlName="designation" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="industryType">{{labels.industryType}}</label>
+                                    <input type="text" class="form-control" id="industryType" name="industryType" formControlName="industryType">
+                                    <!-- <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="industryType"> </app-vf-custom-select> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="yearsInEmP/Bussiness">{{labels.yearsInEmpBusiness}}</label>
+                                    <!-- <input type="text" class="form-control" id="yearsInEmP/Bussiness" name="yearsInEmP/Bussiness" formControlName="yrsInEmployment"> -->
+                                    <app-custom-input id="yearsInEmP" [type]="'number'" formControlName="yrsInEmployment" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="sourcing_type" class="asset_type">{{labels.ifBusiness}}</label>
+                                    <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness"> </app-vf-custom-select>
+
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="employees">{{labels.employees}}</label>
+                                    <!-- <input type="text" class="form-control" id="employees" name="employees" formControlName="employees"> -->
+                                    <app-custom-input id="employees" [type]="'number'" formControlName="employees" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength5" [patternCheck]="regexPattern.employees" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="relation">{{labels.relation}}</label>
+                                    <!-- <input type="text" class="form-control" id="relation" name="relation" formControlName="relation"> -->
+                                    <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="relation"> </app-vf-custom-select>
+
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="monthlySalaryGross">{{labels.monthlySalaryGross}}</label>
+                                    <!-- <input type="text" class="form-control" id="monthlySalaryGross" name="monthlySalaryGross" formControlName="monthlyGrossSalary"> -->
+                                    <app-custom-input id="monthlySalaryGross" [type]="'number'" formControlName="monthlyGrossSalary" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="otherSourcesofIncome">{{labels.otherSourcesofIncome}}</label>
+                                    <input type="text" class="form-control" id="otherSourcesofIncome" name="otherSourcesofIncome" formControlName="otherIncome">
+                                </div>
                             </div>
 
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="businessStability">{{labels.businessStability}}</label>
-                                <!-- <input type="text" class="form-control" id="businessStability" name="businessStability" formControlName="businessStability"> -->
-                                <app-custom-input id="businessStability" [type]="'number'" formControlName="businessStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="coNameAndAddress">{{labels.coNameAndAddress}}</label>
-                                <!-- <input type="text" class="form-control" id="coNameAndAddress" name="coNameAndAddress" formControlName="compNameAddress"> -->
-                                <app-custom-input id="coNameAndAddress" [type]="'alpha-numeric'" formControlName="compNameAddress" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="designation">{{labels.designation}}</label>
-                                <!-- <input type="text" class="form-control" id="designation" name="designation" formControlName="designation"> -->
-                                <app-custom-input id="designation" [type]="'alpha'" formControlName="designation" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="industryType">{{labels.industryType}}</label>
-                                <!-- <input type="text" class="form-control" id="industryType" name="industryType" formControlName="industryType"> -->
-                                <app-custom-input id="industryType" [type]="'number'" formControlName="industryType" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="yearsInEmP/Bussiness">{{labels.yearsInEmpBusiness}}</label>
-                                <!-- <input type="text" class="form-control" id="yearsInEmP/Bussiness" name="yearsInEmP/Bussiness" formControlName="yrsInEmployment"> -->
-                                <app-custom-input id="yearsInEmP" [type]="'number'" formControlName="yrsInEmployment" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="sourcing_type" class="asset_type">{{labels.ifBusiness}}</label>
-                                <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness"> </app-vf-custom-select>
-
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="employees">{{labels.employees}}</label>
-                                <!-- <input type="text" class="form-control" id="employees" name="employees" formControlName="employees"> -->
-                                <app-custom-input id="employees" [type]="'number'" formControlName="employees" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength5" [patternCheck]="regexPattern.employees" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="relation">{{labels.relation}}</label>
-                                <input type="text" class="form-control" id="relation" name="relation" formControlName="relation">
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="monthlySalaryGross">{{labels.monthlySalaryGross}}</label>
-                                <!-- <input type="text" class="form-control" id="monthlySalaryGross" name="monthlySalaryGross" formControlName="monthlyGrossSalary"> -->
-                                <app-custom-input id="monthlySalaryGross" [type]="'number'" formControlName="monthlyGrossSalary" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength" [isDirty]="isDirty">
-                                </app-custom-input>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="otherSourcesofIncome">{{labels.otherSourcesofIncome}}</label>
-                                <input type="text" class="form-control" id="otherSourcesofIncome" name="otherSourcesofIncome" formControlName="otherIncome">
-                            </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="decision">{{labels.decision}}</label>
                                 <app-vf-custom-select [values]="LOV.LOVS.tvrDecision" formControlName="decision"> </app-vf-custom-select>
@@ -462,7 +495,7 @@
                         <h3 class="dashboard text-center text-underline m-3">CIBIL Remarks</h3>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>1. Cibil Overdue</h5>
-                            <textarea type="text" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name=""></textarea>
+                            <textarea type="text" [maxLength]="regexPattern.maxLength50" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name=""></textarea>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>2. Clarification on recent enquiries in CIBIL report</h5>
