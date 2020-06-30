@@ -61,6 +61,7 @@
                 <app-custom-input
                   formControlName="pincode"
                   [patternCheck]="pincodePattern"
+                  [type]='"number"'
                   [maxLength]="pincodeLength"
                   [isRequired]="'Pincode is required'"
                   [isDirty]="isDirty"
@@ -137,6 +138,7 @@
                   formControlName="landlineNumber"
                   [patternCheck]="landlinePattern"
                   [maxLength]="landlineLength15"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
             </div>
@@ -201,6 +203,7 @@
                   [isDirty]="isDirty"
                   (keyup)="inputPincode($event)"
                   id="currentPincode"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -293,6 +296,7 @@
                   formControlName="periodOfCurrentStay"
                   [maxLength]="currentStayMaxLength"
                   [patternCheck]="currentStayPattern"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -305,6 +309,7 @@
                   formControlName="landlineNumber"
                   [patternCheck]="landlinePattern"
                   [maxLength]="landlineLength15"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -317,6 +322,7 @@
                   formControlName="mobileNumber"
                   [patternCheck]="mobilePattern"
                   [maxLength]="mobileLength10"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
             </div>
@@ -374,6 +380,7 @@
                       : ''
                   "
                   [isDirty]="isDirty && isOfficeAddressMandatory"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -468,6 +475,7 @@
                   formControlName="landlineNumber"
                   [patternCheck]="landlinePattern"
                   [maxLength]="landlineLength15"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
             </div>
@@ -487,6 +495,7 @@
                   formControlName="mobileNumber"
                   [patternCheck]="landlinePattern"
                   [maxLength]="landlineLength15"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
             </div>
@@ -548,6 +557,7 @@
                   [isDirty]="isDirty"
                   (keyup)="inputPincode($event)"
                   id="registeredPincode"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -621,6 +631,7 @@
                   formControlName="landlineNumber"
                   [patternCheck]="landlinePattern"
                   [maxLength]="landlineLength15"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
             </div>
@@ -633,6 +644,7 @@
                   formControlName="mobileNumber"
                   [patternCheck]="mobilePattern"
                   [maxLength]="mobileLength10"
+                  [type]='"number"'
                 ></app-custom-input>
               </div>
             </div>
@@ -699,6 +711,7 @@
                     [isDirty]="isDirty"
                     (keyup)="inputPincode($event)"
                     id="communicationPincode"
+                    [type]='"number"'
                   >
                   </app-custom-input>
                 </div>
@@ -757,6 +770,7 @@
                     formControlName="landlineNumber"
                     [patternCheck]="landlinePattern"
                     [maxLength]="landlineLength15"
+                    [type]='"number"'
                   ></app-custom-input>
                 </div>
               </div>
