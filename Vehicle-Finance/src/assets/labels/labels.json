@@ -682,6 +682,7 @@
     "notAccepted": "Not Accepted",
     "defferedTillDate": "Deffered till date",
     "autoDeviation": "Auto Deviation",
+    "getTriggerPolicy": "Get Trigger Policy",
     "manualDeviation": "Manual Deviation",
     "deviation": "Deviation",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
