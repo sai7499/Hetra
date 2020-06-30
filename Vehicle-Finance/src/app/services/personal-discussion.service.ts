@@ -23,6 +23,11 @@ export class PersonalDiscussionService {
     workflowId?: string;
   };
 
+  pdTaskDashboard: {
+    processId?: string;
+    workflowId?: string;
+  }
+
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -30,6 +35,7 @@ export class PersonalDiscussionService {
     this.pdData = this.apiService.api.getPdData;
     this.savePd = this.apiService.api.SavePdData;
     // this.PdList = this.apiService.api.getPdList;
+    this.pdTaskDashboard = this.apiService.api.taskDashboard;
   }
 
   getPdList(data) {
@@ -132,6 +138,24 @@ export class PersonalDiscussionService {
       ProcessVariables: processData,
       workflowId: workflowId,
       projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
+  getPdTaskDashboard(data) {
+    const projectId = environment.projectIds.salesProjectId;
+    const processId = this.pdTaskDashboard.processId;
+    const workflowId = this.pdTaskDashboard.workflowId;
+
+    const body = {
+      projectId,
+      processId,
+      workflowId,
+      ProcessVariables: {
+        ...data
+      },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
