@@ -69,7 +69,10 @@ export class CamComponent implements OnInit {
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-
+this.proposedVehicleDetails.forEach(element => {
+  console.log(element);
+  
+});
 
 
 

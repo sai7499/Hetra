@@ -147,15 +147,14 @@
                 <td>{{ proposedDetails?.otherRemarks }}</td>
             </tr>
             <tr>
-                <td colspan="3"></td>
+                <td colspan="2"></td>
                 <td class="readonly">{{ labels?.total }}</td>
-                <td class="readonly">0</td>
-                <td class="readonly">0</td>
+                <td *ngFor="let proposedDetails of proposedVehicleDetails" class="readonly">{{proposedDetails?.total}}</td>
                 <td class="" colspan="4"></td>
             </tr>
             <tr>
                 <td colspan="2">{{ labels?.sourceOfMarginMoney }}</td>
-                <td colspan="9">{{ proposedDetails?.sourceOfMarginMoney }}</td>
+                <td colspan="9">{{ camDetails?.proposedToSourceOfMarginMoney }}</td>
             </tr>
             <tr>
                 <td colspan="2">{{ labels?.anyOtherRemarks }}</td>
@@ -303,7 +302,7 @@
                 <td class="bank_name">{{ labels?.existingFinancers }}</td>
                 <td colspan="4">{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
                 <td class="bank_name">{{ labels?.firstVeh }}</td>
-                <td>{{ camDetails?.fleetSummaryTofirstVehicle }}</td>
+                <td colspan="2">{{ camDetails?.fleetSummaryTofirstVehicle }}</td>
                 <td class="bank_name">{{ labels?.purchasedOn }}</td>
                 <td>{{ camDetails?.fleetSummaryTopurchaseOn }}</td>
             </tr>
@@ -322,7 +321,7 @@
                 <td>{{ labels?.addedInLastOneYr }}</td>
                 <td>{{ labels?.freeAsset }}</td>
                 <td>{{ labels?.ffr }}</td>
-
+<td></td>
 
             </tr>
 
@@ -390,7 +389,7 @@
                 <th colspan="2">
                     {{ labels?.lastTwelveMonth }}
                 </th>
-                <th >
+                <th colspan="2">
                     {{ labels?.remark }}
                 </th>
             </tr>
@@ -414,7 +413,7 @@
                 <td>
                     {{ labels?.pd }}
                 </td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
         </thead>
         <tbody>
@@ -435,7 +434,7 @@
                 <td>{{trackValidation?.lastSixMonthPD}}</td>
                 <td>{{trackValidation?.lastTwelveMonthAD}}</td>
                 <td>{{trackValidation?.lastTwelveMonthPD}}</td>
-                <td>{{trackValidation?.remarks}}</td>
+                <td colspan="2">{{trackValidation?.remarks}}</td>
                
             </tr>
         
@@ -444,7 +443,7 @@
                     {{ labels?.anyOtherRemarks }}
                 </td>
                 <td>{{camDetails?.trackValidationToAnyOtherRemarks}}</td>
-                <td colspan="11">
+                <td colspan="8">
                     {{ labels?.appIsInTransportFieldFromLastManyYears }}
                 </td>
                 <td>{{camDetails?.trackValidationToAppIsInTransportFromManyYears}}</td>
