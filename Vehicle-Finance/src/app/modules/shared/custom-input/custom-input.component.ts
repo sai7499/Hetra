@@ -60,7 +60,7 @@ export class CustomInputComponent
 
   @Input() inputClass: string;
 
-  @Input() isDisabled: boolean = false;
+  //@Input() isDisabled: boolean = false;
 
   @Input() dynamicDataBinding: boolean;
 
@@ -72,7 +72,7 @@ export class CustomInputComponent
 
   errorMsg: string;
   inputError = false;
-
+  @Input() isDisabled: boolean;
   private data: any;
   @Input() set isDirty(value) {
     if (value) {
