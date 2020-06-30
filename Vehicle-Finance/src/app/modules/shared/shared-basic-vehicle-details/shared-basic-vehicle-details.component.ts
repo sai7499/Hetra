@@ -94,14 +94,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       msg: '',
     },
     mobNumberPattern: {
-      rule: "^[1-9]{1}[0-9]{9}",
-      msg: 'Numbers only allowed !',
+      rule: "^[6-9]{1}[0-9]{9}",
+      msg: 'Invalid Mobile Number',
     },
     numberPattern: {
       rule: '^[1-9][0-9]*$',
       msg: 'Numbers only allowed !',
     },
   };
+
+  public minDate = new Date('01/01/2010')
 
   mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
 
@@ -601,7 +603,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('assetCostGrid', new FormControl('', Validators.required));
       controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
-      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{9}')]));
+      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
       controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
     }
@@ -734,7 +736,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: [null],
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
-      ownerMobileNo: ['', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{9}')]],
+      ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],
