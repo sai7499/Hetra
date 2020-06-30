@@ -1,0 +1,97 @@
+import { Injectable } from '@angular/core';
+import { ApiService } from './api.service';
+import { HttpService } from './http.service';
+import { environment } from '../../environments/environment';
+import RequestEntity from '../model/request.entity';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeviationService {
+
+  constructor(private apiService: ApiService, private httpService: HttpService) { }
+
+
+  getDeviationsDetails(leadId) {
+
+    const processId = this.apiService.api.getDeviations.processId;
+    const workflowId = this.apiService.api.getDeviations.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: {
+        "leadId": leadId
+      },
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  getDeviationsMaster(data) {
+
+    const processId = this.apiService.api.getDeviationsMaster.processId;
+    const workflowId = this.apiService.api.getDeviationsMaster.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  saveOrUpdateDeviations(leadId, data, userId) {
+
+    const processId = this.apiService.api.saveorUpdateDeviation.processId;
+    const workflowId = this.apiService.api.saveorUpdateDeviation.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: {
+        "leadId": leadId,
+        "deviations": data,
+        "userId": userId
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  getDeleteDeviation(id, userId) {
+
+    const processId = this.apiService.api.deleteDeviation.processId;
+    const workflowId = this.apiService.api.deleteDeviation.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: {
+        "rule_dev_id": id
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
+}

@@ -14,6 +14,9 @@ import { LoginStoreService } from '../../../services/login-store.service';
 import { storage } from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
 
+import * as moment from 'moment';
+
+
 // import {GoogleMapsAPIWrapper} from '@agm/core';
 
 // import { GpsService } from 'src/app/services/gps.service';
@@ -27,6 +30,7 @@ import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 
 declare var device: any;
+
 
 
 @Component({
@@ -60,6 +64,9 @@ export class LoginComponent implements OnInit {
 
   isMobile: any;
   base64Data: any;
+  pid: any;
+
+
   appVersion;
   buildDate;
 
@@ -223,21 +230,72 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  initIdenti5() {
+  initIdenti5(){
     // let dInfo = new device();
     // console.log(dInfo.model);
-    // tslint:disable-next-line: no-var-keyword
     var that = this;
-    this.base64Data = '';
-    // tslint:disable-next-line: only-arrow-functions
-    device.getInfo(function(result) {
-      console.log('Result&&&&' + result);
-      // tslint:disable-next-line: no-string-literal
-      that.base64Data = result['model'];
-      console.log('base64Data' + that.base64Data);
-    // tslint:disable-next-line: only-arrow-functions
-    }, function(error) {
-      console.log('Result&&&&' + error);
+    this.pid = "";
+
+    device.getInfo(function(result){
+      console.log("Result&&&&"+ result);
+      that.pid = result["model"];
+      console.log("base64Data"+ that.pid);
+      alert(that.pid);
+      that.prepareKYCRequest(that.pid);
+    },function(error){
+      console.log("Result&&&&"+ error);
+      alert("error"+error);
     });
+  
   }
+
+
+  prepareKYCRequest(pid) {
+    let stan =  Math.floor(100000 + Math.random() * 900000);
+    console.log(stan);
+ 
+    let now = moment().format("MMDDhhmmss");
+    let localDate = moment().format("MMDD");
+    let localTime = moment().format("hhmmss");
+ 
+ 
+    let pId = pid;
+ 
+    console.log("pId"+pId);
+ 
+    console.log("now"+now);
+    console.log("localDate"+localDate);
+ 
+ 
+ 
+       
+     let kycRequest =  "<KycRequest>"+
+                         "<TransactionInfo>"+
+                           "<UID type=\"U\">"+"802172334890"+"</UID>"+
+                           "<Transm_Date_time>"+now+"</Transm_Date_time>"+
+                           "<Local_Trans_Time>"+localTime+"</Local_Trans_Time>"+
+                           "<Local_date>"+localDate+"</Local_date>"+
+                           "<CA_TID>"+"11205764"+"</CA_TID>"+
+                           "<CA_ID>"+"EQT000000001441"+"</CA_ID>"+
+                           "<CA_TA>"+"Equitas Bank Chennai TNIN"+"</CA_TA>"+
+                           "<Stan>"+stan+"</Stan>"+
+                         "</TransactionInfo>"+
+                         "<KycReqInfo ver=\"2.5\"  ra=\"O\" rc=\"Y\" pfr=\"N\" lr=\"Y\"  de=\"N\" >"+
+                           "<Auth  txn=\"UKC:"+stan+"\"  ver=\"2.5\">"+
+                             "<Uses pi=\"n\" pa=\"n\" pfa=\"n\"  bio=\"y\" otp=\"n\"/>"+
+                             "<Meta/>"+pId+
+                           "</Auth>"+
+                         "</KycReqInfo>"+
+                       "</KycRequest>";
+ 
+     console.log("kycRequest"+kycRequest);
+ 
+     const data = {
+       ekycRequest: kycRequest,
+     };
+     this.dashboardService.getKycDetails(data).subscribe((res: any) => {
+       console.log("KYC result"+JSON.stringify(res));
+     });
+ 
+   }
 }
