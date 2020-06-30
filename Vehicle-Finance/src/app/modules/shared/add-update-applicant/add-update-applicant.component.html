@@ -61,6 +61,7 @@
                     [isRequired]="'Name is required'"
                     [maxLength]="maxlength30"
                     [isDirty]="isDirty"
+                    [type]="applicantType == 'INDIVENTTYP'?'alpha' : 'text'"
                   ></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -78,6 +79,7 @@
                     formControlName="name2"
                     [patternCheck]="namePattern"
                     [maxLength]="maxlength30"
+                    [type]="applicantType == 'INDIVENTTYP'?'alpha' : 'text'"
                   >
                   </app-custom-input>
                 </div>
@@ -96,6 +98,7 @@
                     formControlName="name3"
                     [patternCheck]="namePattern"
                     [maxLength]="maxlength30"
+                    [type]="applicantType == 'INDIVENTTYP'?'alpha' : 'text'"
                   >
                   </app-custom-input>
                 </div>
@@ -112,6 +115,7 @@
                     [isRequired]="'Mobile number is required'"
                     [maxLength]="maxlength10"
                     [isDirty]="isDirty"
+                    [type]="'number'"
                   >
                   </app-custom-input>
                 </div>
@@ -180,6 +184,7 @@
                     [patternCheck]="adharNumberPattern"
                     [isRequired]="'Aadhaar number is required'"
                     [isDirty]="isDirty"
+                    [type]="'number'"
                   >
                   </app-custom-input>
                 </div>
@@ -207,6 +212,7 @@
                     [isDirty]="isDirty"
                     [inputClass]="'text-uppercase'"
                     [maxLength]="maxlength10"
+                    [type]="'alpha-numeric'"
                   ></app-custom-input>
                 </div>
               </div>
@@ -218,6 +224,7 @@
                     [maxLength]="maxlength15"
                     (change)="onDrvingLisenseChange($event)"
                     [inputClass]="'text-uppercase'"
+                    [type]="'alpha-numeric'"
                   >
                   </app-custom-input>
                 </div>
@@ -332,6 +339,7 @@
                       isPassportRequired ? 'Passport number is required' : ''
                     "
                     [isDirty]="isPassportRequired && isDirty"
+                    [type]="'alpha-numeric'"
                   >
                   </app-custom-input>
                 </div>
@@ -401,6 +409,7 @@
                     [inputClass]="'text-uppercase'"
                     [isRequired]="isVoterRequired ? 'Voter id is required' : ''"
                     [isDirty]="isVoterRequired && isDirty"
+                    [type]="'alpha-numeric'"
                   ></app-custom-input>
                 </div>
 
@@ -465,6 +474,7 @@
                         [isDirty]="isDirty"
                         [maxLength]="maxlength40"
                         [isDirty]="isDirty"
+                        
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -496,6 +506,7 @@
                         [id]="'permanentPincode'"
                         [isRequired]="'Pincode is required'"
                         [isDirty]="isDirty"
+                        [type]="'number'"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -560,6 +571,7 @@
                         formControlName="landlineNumber"
                         [patternCheck]="landlLinePattern"
                         [maxLength]="maxlength15"
+                        [type]="'number'"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -623,6 +635,7 @@
                         [id]="'currentPincode'"
                         [isRequired]="'Pincode is required'"
                         [isDirty]="isDirty"
+                        [type]="'number'"
                       ></app-custom-input>
                     </div>
                     <div
@@ -690,6 +703,7 @@
                         formControlName="landlineNumber"
                         [patternCheck]="landlLinePattern"
                         [maxLength]="maxlength15"
+                        [type]="'number'"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -743,6 +757,7 @@
                       [id]="'permanentPincode'"
                       [isRequired]="'Pincode is required'"
                       [isDirty]="isDirty"
+                      [type]="'number'"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -804,6 +819,7 @@
                       class="form-control"
                       id="reg_mobile"
                       formControlName="landlineNumber"
+                      [type]="'number'"
                     />
                   </div>
                 </div>
