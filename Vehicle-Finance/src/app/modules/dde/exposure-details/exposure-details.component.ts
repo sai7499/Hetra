@@ -22,13 +22,34 @@ export class ExposureDetailsComponent implements OnInit {
   proposedArray = [];
   isAlert: boolean;
   currentYear = new Date().getFullYear();
+  regexPattern = {
+    maxLength4: {
+      rule: '4',
+      msg: 'Maximum Length 4 digits',     
+    },
+    maxLength15: {
+      rule: '15',     
+    },
+    nameLength: {
+      rule: '30',
+      msg: '',
+    },
+    mobile: {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Numbers only allowed !',
+    },
+  };
+  yearCheck = [];
+  isDirty: boolean;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
               private route: Router,
               private activatedRoute: ActivatedRoute,
               private location: Location,
-              private toStarService: ToasterService ) { }
+              private toStarService: ToasterService ) {
+                this.yearCheck = [{rule: val => val>this.currentYear,msg:'Feature year not accepted'}]
+              }
   exposureLiveLoan: FormGroup;
   exposureProposedLoan: FormGroup;
   labels: any = {};
@@ -108,7 +129,7 @@ export class ExposureDetailsComponent implements OnInit {
   public getProposedLoan(data?: any) {
     if (!data || data === null || undefined) {
       return this.formBuilder.group({
-        loanType: [''],
+        loanType: ['',[Validators.required]],
         loanNo: ['', [Validators.minLength(0)] ],
         assetType: [''],
         yom: ['' ,[Validators.minLength(4),Validators.maxLength(4),
@@ -233,6 +254,7 @@ removeProposedIndex(i?: any) {
 
 onSubmit() {
     // tslint:disable-next-line: prefer-const
+    this.isDirty = true;
     if (this.exposureLiveLoan.valid && !this.validYom){
       let arrayData = [];
 
@@ -248,6 +270,11 @@ onSubmit() {
       arrayData.forEach(ele =>
         {ele.loanNo = (ele.loanNo).toString();
         ele.yom = (ele.yom).toString();
+        ele.gridValue = Number(ele.gridValue);
+        ele.ltv = Number(ele.ltv);
+        ele.currentPos = Number(ele.currentPos);
+        ele.tenure = Number(ele.tenure);
+        ele.emiPaid = Number(ele.emiPaid);
         })
 
 

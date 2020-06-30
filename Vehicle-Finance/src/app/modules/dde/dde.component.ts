@@ -5,7 +5,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
 declare var jquery:any;
-declare var $ :any;
+declare var $:any;
 
 @Component({
   templateUrl: './dde.component.html',
@@ -22,14 +22,14 @@ export class DdeComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private cds: CommonDataService
   ) {
-    $(document).ready(function(){
+    $(document).ready(function() {
       $(".second-row").css("display", "none");
-      $(".prev-first-data").click(function(){
+      $(".prev-first-data").click(function() {
           $(".first-row").css({"display":"block"});
           $(".second-row").css({"display":"none"});
 
       });
-      $(".next-second-data").click(function(){
+      $(".next-second-data").click(function() {
           $(".first-row").css({"display":"none"});
           $(".second-row").css({"display":"block"});
 
@@ -74,27 +74,29 @@ export class DdeComponent implements OnInit {
       return 5;
     } else if (url.includes('psl-data')) {
       return 6;
-    }else if (url.includes('vehicle-valuation')) {
+    } else if (url.includes('vehicle-valuation')) {
       return 7;
-    }else if (url.includes('tvr-details')) {
+    } else if (url.includes('tvr-details')) {
       return 8;
-    }else if (url.includes('fl-report')) {
+    } else if (url.includes('fl-report')) {
       return 9;
-    }else if (url.includes('pd-report')) {
+    } else if (url.includes('pd-report')) {
       return 10;
-    }else if (url.includes('viability-details')) {
+    } else if (url.includes('viability')) {
       return 11;
-    }else if (url.includes('score-card')) {
+    } else if (url.includes('viability-dashboard')) {
+      return 11;
+    } else if (url.includes('score-card')) {
       return 12;
-    }else if (url.includes('cam')) {
+    } else if (url.includes('cam')) {
       return 13;
-    }else if (url.includes('deviations')) {
+    } else if (url.includes('deviations')) {
         return 14;
-    }else if (url.includes('insurance-details')) {
+    } else if (url.includes('insurance-details')) {
       return 15;
-    }else if (url.includes('credit_conditions')) {
+    } else if (url.includes('credit_conditions')) {
       return 16;
-    }else if (url.includes('term-sheets')) {
+    } else if (url.includes('term-sheets')) {
       return 17;
     }
   }

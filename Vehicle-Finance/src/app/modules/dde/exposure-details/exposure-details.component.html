@@ -24,51 +24,51 @@
               <tr class=" text-center" id="applicant_1_row"
                 *ngFor="let item of exposureLiveLoan.get('loanTable')['controls']; let i= index" [formGroupName]="i">
                 <td>{{i+1}}</td>
-                <td>
-                  <select class="form-control input_value" name="loanType" 
-                    formControlName="loanType">
-                    <option disabled>Select One</option>
-                    <option value="{{item.key}}" *ngFor= " let item of lovData">{{item.value}}</option>
-                    <!-- <option value="liveloan">Proposed</option> -->
-                  </select>
+                <td>               
+                  <app-vf-custom-select
+                  [values]= "lovData"
+                  formControlName="loanType"
+                  [isRequired]="'Select any type'"
+                  [isDirty]="isDirty"
+                  >
+                  </app-vf-custom-select>
+                
                 </td>
                 <td>
-                  <input type="number" class="input_value" value="loanNo" 
+                  <!-- <input type="number" class="input_value" value="loanNo" 
                     name="loanNumber"
                     class="form-control" formControlName="loanNo"
-                    >
-                    <!-- <app-custom-input
+                    >  -->
+                    <app-custom-input
                       formControlName="loanNo"
-                      [patternCheck]="numberPattern"
-                      [type]="number"
-                                          > 
-                    </app-custom-input> -->
+                      [className]="'form-control mandatory'"
+                      [placeholder]="'loan no'"
+                      [maxLength]="labels?.validationData.loanNumber.maxLength"                      
+                      [isRequired]="'loan number mandatory'"                     
+                      [type]="labels?.validationData.loanNumber.type"                      
+                      [isDirty]="isDirty">
+                    </app-custom-input>                 
                   </td>
                 <td>
-                  <select class="form-control input_value" name="assetType" 
-                    formControlName="assetType">
-                    <option disabled>Select One</option>
-                    <option  value="{{item.key}}" *ngFor = " let item of productCategory" >{{item.value}}</option>
-                    <!-- <option>Used Car</option>
-                    <option>New CV</option>
-                    <option>New Car</option> -->
-                  </select>
+                <app-vf-custom-select
+                  [values]= "productCategory"
+                  formControlName="assetType"
+                  [isRequired]="'Select any Asset Type'"
+                  [isDirty]="isDirty"
+                  >
+                  </app-vf-custom-select>
                 </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="2015" name="yom"
-                    class="form-control text-center" formControlName="yom"  max="9999" > -->
-                    <input
-                      type="text" 
-                      
-                      class="form-control input_value"                     
-                      required autocomplete="off"
-                      [maxlength]="4"
-                      formControlName="yom"                    
-                      name="yom"        
-                      (input)="checkYear($event)"
-                      max="currentYear"
-                      
-                    >
+                <td>                  
+                    <app-custom-input
+                      formControlName="yom"
+                      [className]="'form-control mandatory'"
+                      [placeholder]="'YOM'"
+                      [maxLength]="labels?.validationData.yom.maxLength"                      
+                      [isRequired]="'YOM mandatory'"                     
+                      [type]="labels?.validationData.yom.type"
+                      [custom]="yearCheck"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
                    
                     <div *ngIf="validYom" class="invalid-feedback">
                       Invalid YOM                     
@@ -76,16 +76,72 @@
                    
                     <!-- (input)="checkAmountLimit($event,minMaxValues['Loan_amount'].minValue,minMaxValues['Loan_amount'].maxValue)" -->
                   </td>
-                <td><input type="number" class="input_value" value="55" name="gridValue" class="form-control text-center"
-                    formControlName="gridValue"  min="0"></td>
-                <td><input type="number" class="input_value" value="80" name="LTV" class="form-control text-center"
-                    formControlName="ltv"  min="0"></td>
-                <td><input type="number" class="input_value" value="34" name="currentPOS" class="form-control text-center"
-                    formControlName="currentPos"  min="0"></td>
-                <td><input type="number" class="input_value" value="60" name="tenure" class="form-control text-center"
-                    formControlName="tenure"  min="0"></td>
-                <td><input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
-                    formControlName="emiPaid"  min="0"></td>
+                <td>
+                  <!-- <input type="number" class="input_value" value="55" 
+                        name="gridValue" class="form-control text-center"
+                        formControlName="gridValue"  min="0"> -->
+                    <app-custom-input
+                      formControlName="gridValue"
+                      [className]="'form-control mandatory'"
+                      [placeholder]="'Grid Value'"
+                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [isRequired]="'Grid Value mandatory'"                     
+                      [type]="labels?.validationData.amountValue.type"                     
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                  </td>
+                <td>
+                  <!-- <input type="number" class="input_value" value="80" name="LTV" class="form-control text-center"
+                    formControlName="ltv"  min="0"> -->
+                    <app-custom-input
+                      formControlName="ltv"
+                      [className]="'form-control mandatory'"
+                      [placeholder]="'LTV'"
+                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [isRequired]="'Ltv mandatory'"                     
+                      [type]="labels?.validationData.amountValue.type"                     
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                  </td>
+                <td>
+                  <!-- <input type="number" class="input_value" value="34" name="currentPOS" class="form-control text-center"
+                    formControlName="currentPos"  min="0"> -->
+                    <app-custom-input
+                    formControlName="currentPos"
+                    [className]="'form-control mandatory'"
+                    [placeholder]="'Current Pos'"
+                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [isRequired]="'Current Pos mandatory'"                     
+                    [type]="labels?.validationData.amountValue.type"                     
+                    [isDirty]="isDirty">
+                  </app-custom-input>
+                  </td>
+                <td>
+                  <!-- <input type="number" class="input_value" value="60" name="tenure" class="form-control text-center"
+                    formControlName="tenure"  min="0"> -->
+                    <app-custom-input
+                    formControlName="tenure"
+                    [className]="'form-control mandatory'"
+                    [placeholder]="'Tenure'"
+                    [maxLength]="labels?.validationData.percentage.maxLength"                      
+                    [isRequired]="'Tenure mandatory'"                     
+                    [type]="labels?.validationData.percentage.type"                     
+                    [isDirty]="isDirty">
+                  </app-custom-input>
+                  </td>
+                <td>
+                  <!-- <input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
+                    formControlName="emiPaid"  min="0"> -->
+                    <app-custom-input
+                    formControlName="emiPaid"
+                    [className]="'form-control mandatory'"
+                    [placeholder]="'EMI Paid'"
+                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [isRequired]="'EMI Paid mandatory'"                     
+                    [type]="labels?.validationData.amountValue.type"                     
+                    [isDirty]="isDirty">
+                  </app-custom-input>
+                  </td>
                 <td>                  
                   <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
                     *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
