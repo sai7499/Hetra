@@ -55,33 +55,33 @@
 
                   <td data-title="Business Entity Name">
 
-                    <app-custom-input formControlName="businessEnterpriseName" [patternCheck]="namePattern"
+                    <app-custom-input formControlName="businessEnterpriseName" [patternCheck]="namePattern" [type]="'alpha-numeric'"
                       [maxLength]="inputLength30" [isRequired]="'*required'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Net Profit">
 
-                    <app-custom-input [type]="number" formControlName="netProfit" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="netProfit" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
-                      (keyup)="onIncome($event.target.value, i)" appNumberOnly></app-custom-input>
+                      (keyup)="onIncome($event.target.value, i)"  ></app-custom-input>
                   </td>
                   <td data-title="Depreciation">
 
-                    <app-custom-input [type]="number" formControlName="depreciation" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="depreciation" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="Directors salary/Interest to partners + Interest">
 
-                    <app-custom-input [type]="number" formControlName="directorSalary" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="directorSalary" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="Gross derived Income">
-                    <input type="number" appNumberOnly id="latbox" class="input_value" name="grossDerivedIncome"
+                    <input type="number"   id="latbox" class="input_value" name="grossDerivedIncome"
                       readonly="true" class="form-control text-center" formControlName="grossDerivedIncome" />
                   </td>
                   <td data-title="Gross monthly income">
-                    <input type="number" appNumberOnly id="" readonly="true" class="input_value"
+                    <input type="number"   id="" readonly="true" class="input_value"
                       name="grossMonthlyIncome" class="form-control text-center" formControlName="grossMonthlyIncome" />
                   </td>
                   <td data-title="Actions">
@@ -148,16 +148,16 @@
                   </td>
                   <td data-title="Gross Income">
 
-                    <app-custom-input [type]="number" formControlName="grossIncome" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="grossIncome" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="getOtherFactoredIncome(i)"></app-custom-input>
                   </td>
                   <td data-title="Factoring %">
-                    <input type="number" appNumberOnly id="latbox" class="input_value" name="factoring"
+                    <input type="number"   id="latbox" class="input_value" name="factoring"
                       class="form-control text-center" readonly="true" formControlName="factoring" />
                   </td>
                   <td data-title="Factored Income">
-                    <input type="number" appNumberOnly id="" readonly="true" class="input_value" name="factoredIncome"
+                    <input type="number"   id="" readonly="true" class="input_value" name="factoredIncome"
                       class="form-control text-center" formControlName="factoredIncome" />
                   </td>
                   <td data-title="Actions">
@@ -232,34 +232,34 @@
                   </td>
                   <td data-title="Loan Amount">
 
-                    <app-custom-input [type]="number" formControlName="loanAmount" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="loanAmount" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Tenor(In Months)">
 
-                    <app-custom-input [type]="number" formControlName="tenure" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="tenure" [patternCheck]="inputValidation"
                       [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="MOB">
 
-                    <app-custom-input [type]="number" formControlName="mob" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="mob" [patternCheck]="inputValidation"
                       [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="EMI">
 
-                    <app-custom-input [type]="number" formControlName="emi" [patternCheck]="inputValidation"
+                    <app-custom-input [type]="'number'" formControlName="emi" [patternCheck]="inputValidation"
                       [maxLength]="inputLength10" [isRequired]="'*required'" [isDirty]="isDirty"
-                      (keyup)="onEmi($event.target.value, i)" appNumberOnly></app-custom-input>
+                      (keyup)="onEmi($event.target.value, i)"  ></app-custom-input>
 
                   </td>
                   <td data-title="Balance Tenor">
-                    <input type="number" appNumberOnly id="" class="input_value" name="balanceTenure" readonly="true"
+                    <input type="number"   id="" class="input_value" name="balanceTenure" readonly="true"
                       class="form-control text-center" formControlName="balanceTenure" />
                   </td>
                   <td data-title="Obligation Amount">
-                    <input type="number" appNumberOnly id="" class="input_value" name="obligationAmount" readonly="true"
+                    <input type="number"   id="" class="input_value" name="obligationAmount" readonly="true"
                       class="form-control text-center" formControlName="obligationAmount" />
                   </td>
                   <td data-title="Actions">
@@ -302,7 +302,7 @@
                 <td>{{ labels?.salariedFOIRDeviation }}<sub class="star_red_col">*</sub></td>
                 <td>
 
-                  <app-custom-input formControlName="salariedFOIRDeviation" [patternCheck]="inputValidation"
+                  <app-custom-input formControlName="salariedFOIRDeviation" [patternCheck]="inputValidation" [type]="'number'"
                     [maxLength]="inputLength3" [isRequired]="'*required'" [isDirty]="isDirty"
                     (keyup)="onSalFoirDeviation($event.target.value)"></app-custom-input>
                 </td>

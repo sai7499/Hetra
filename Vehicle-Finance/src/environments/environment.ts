@@ -13,9 +13,10 @@ export const environment = {
 
   projectIds: {
     salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
-    camProjectId:'74c36bec6da211eabdc2f2fa9bec3d63',
     // otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    camProjectId:'74c36bec6da211eabdc2f2fa9bec3d63',
+
   },
 
   // hostingEnvironment: 'DEV',

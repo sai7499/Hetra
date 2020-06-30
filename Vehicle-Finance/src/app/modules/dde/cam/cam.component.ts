@@ -15,11 +15,24 @@ export class CamComponent implements OnInit {
   sourcingDetails: any;
   proposedVehicleDetails: any;
   partyToAgreement: any;
+  partyToAnyOtherRemarks: any;
+  proposedToAnyOtherRemarks: any;
+  cibilSynopsys: any;
+  cibilSynopsysToAnyOtherRemark: any;
+  bankingSummary: any;
+  camDetails: any;
+  fleetSummary: any;
+  trackValidation: any;
+  keyFinancial: any;
+  creditOfficersRemarks: any;
+  cmRecommendation: any;
+  acmRecommendation: any;
+  ncmBhApprovalRecommendation: any;
 
   constructor(private labelsData: LabelsService,
-    private camService : CamService,
+    private camService: CamService,
     private activatedRoute: ActivatedRoute,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -29,28 +42,39 @@ export class CamComponent implements OnInit {
       error => {
       }
     );
-this.getLeadId();
-this.getCamDetails();
+    this.getLeadId();
+    this.getCamDetails();
   }
 
-  getCamDetails(){
+  getCamDetails() {
     const data = {
       leadId: this.leadId,
     };
-   this.camService.getCamDetails(data).subscribe((res:any)=>{
-     console.log(res)
-     this.basicDetails = res.ProcessVariables['basicDetailsObj'];
-     console.log('basic cam details...>',this.basicDetails)
-     this.sourcingDetails = res.ProcessVariables['sourcingObj'];
-     console.log('sourcing details...>',this.sourcingDetails)
-     this.proposedVehicleDetails = res.ProcessVariables['proposedVehiclesObj'];
-     console.log('proposedVehicleDetails ...>',this.proposedVehicleDetails)
-     this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
-     console.log('partyToAgreement ...>',this.partyToAgreement)
+    this.camService.getCamDetails(data).subscribe((res: any) => {
+      console.log(res)
+      this.camDetails = res.ProcessVariables
+      this.basicDetails = res.ProcessVariables['basicDetailsObj'];
+      this.sourcingDetails = res.ProcessVariables['sourcingObj'];
+      this.proposedVehicleDetails = res.ProcessVariables['proposedVehiclesObj'];
+      this.proposedToAnyOtherRemarks = res.ProcessVariables['proposedToAnyOtherRemarks']
+      this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
+      this.partyToAnyOtherRemarks = res.ProcessVariables['partyToAnyOtherRemarks']
+      this.cibilSynopsys = res.ProcessVariables['cibilSynopsysObj'];
+      this.cibilSynopsysToAnyOtherRemark = res.ProcessVariables['cibilSynopsysToAnyOtherRemark']
+      this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
+      this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
+      this.trackValidation = res.ProcessVariables['trackValidationObj']
+      this.keyFinancial = res.ProcessVariables['keyFinancialObj']
+      this.creditOfficersRemarks = res.ProcessVariables['creditOfficersRemarksObj']
+      this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
+      this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
+      this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
 
-     
 
-   })
+
+
+
+    })
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
