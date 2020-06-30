@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.2.2',
-  buildDate: '23/06/2020',
+  version: '0.3',
+  buildDate: '30/06/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -14,11 +14,11 @@ export const environment = {
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
-  hostingEnvironment: 'Production',
+  hostingEnvironment: 'UAT',
+  // hostingEnvironment: 'Production',
 
-  //host: '/appiyo/',
-   host: 'http://128.199.164.250/appiyo/',
+  host: '/appiyo/',
+  //  host: 'http://128.199.164.250/appiyo/',
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey:

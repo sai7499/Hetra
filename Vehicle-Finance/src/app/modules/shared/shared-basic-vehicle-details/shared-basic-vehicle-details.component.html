@@ -15,10 +15,14 @@
                             <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'" [id]="'vechical_reg'"
-                            [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
-                            [inputClass]="'input-upper'" [maxLength]="regexPattern.nameLength"
-                            [patternCheck]="namePattern" [isRequired]="'Vechical Registration No Required'"
+                        <app-custom-input formControlName="vehicleRegNo" 
+                            [type]="'alpha-numeric'" [id]="'vechical_reg'"
+                            [className]="'form-control mandatory'" 
+                            [placeholder]="'Vechical Registration No'"
+                            [inputClass]="'input-upper'" 
+                            [maxLength]="label?.validationData.vehicleRegNo.maxLength"
+                            [patternCheck]="namePattern" 
+                            [isRequired]="'Vechical Registration No Required'"
                             [isDirty]="isDirty">
                         </app-custom-input>
 
