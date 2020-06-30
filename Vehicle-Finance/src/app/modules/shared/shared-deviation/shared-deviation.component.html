@@ -1,0 +1,45 @@
+<form class="multisteps-form__form" [formGroup]="deviationsForm">
+
+  <div class="text-right" id="get_role_details_btn">
+    <button class="btn mar-right8 btn-primary" type="button"
+      (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
+  </div>
+
+
+<h3 class="margin_zero">{{labels?.autoDeviation}}</h3>
+
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="acp">{{labels?.deviation}}</label>
+    <p>{{labels?.referText1}}</p>
+  </div>
+  <div class="form-group col-sm-6 col-md-2 col-lg-2">
+    <label for="acp">{{labels?.approvalLevel}}</label>
+    <p>{{labels?.bcm}}</p>
+  </div>
+  <div class="form-group col-sm-6 col-md-5 col-lg-5">
+    <label for="activity">{{labels?.justification}}</label>
+    <!-- <input type="text" name="file" class="form-control"  value="Ref#123456"/> -->
+    <textarea class="form-control" value="Justification"></textarea>
+  </div>
+
+  <div class="form-group col-sm-6 col-md-2 col-lg-2">
+    <label for="end" class="action">{{labels?.action}}</label>
+
+    <div class="row m-0">
+      <label class="radio-inline disabled">
+        <input type="radio" name="bcmApproveAction" disabled>{{labels?.approve}}
+      </label>
+      <label class="radio-inline disabled">
+        <input type="radio" name="bcmReferAction" disabled>{{labels?.referToNextLevel}}
+      </label>
+      <label class="radio-inline disabled">
+        <input type="radio" name="bcmDeclineAction" disabled>{{labels?.decline}}
+      </label>
+    </div>
+  </div>
+
+</div>
+
+
+</form>
