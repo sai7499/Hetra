@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ViabilityServiceService {
+  CollateralObj: any;
 
   constructor(private httpService: HttpService,
               private apiService: ApiService) { }
@@ -49,7 +50,10 @@ export class ViabilityServiceService {
       return this.httpService.post(url, requestEntity);
     }
     getViabilityList(data) {
-      const processData = data;
+      const body = {
+        leadId : Number(data.leadId)
+      };
+      const processData = body;
       const processId = this.apiService.api.getViabilityList.processId;
       const workflowId = this.apiService.api.getViabilityList.workflowId;
       const projectId = this.apiService.api.getViabilityList.projectId;
@@ -66,5 +70,11 @@ export class ViabilityServiceService {
       // tslint:disable-next-line: max-line-length
       const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
       return this.httpService.post(url, requestEntity);
+    }
+     CollateralId(data) {
+      this.CollateralObj = data;
+    }
+    getCollateralId() {
+      return this.CollateralObj;
     }
 }

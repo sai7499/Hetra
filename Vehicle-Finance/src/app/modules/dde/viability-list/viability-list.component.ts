@@ -32,8 +32,14 @@ export class ViabilityListComponent {
         );
         this.getViabilityList();
     }
-    getViability() {
-         this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details`);
+    getViability(data: any, i: number) {
+      const body = {
+        data: Number(data),
+        i
+      };
+      console.log(body);
+      this.viabilityService.CollateralId(body);
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details`);
     }
     getLeadId() {
         return new Promise((resolve, reject) => {
