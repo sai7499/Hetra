@@ -104,21 +104,21 @@ export class LoginComponent implements OnInit {
     });
 
     /* Get latitude and longitude from mobile */
-    if (this.isMobile) {
-      this.gpsService.initLatLong().subscribe((res) => {
-        if (res) {
-          this.gpsService.getLatLong().subscribe((position) => {
-            console.log('login position', position);
-          });
-        } else {
-          console.log(res);
-        }
-      });
-    } else {
-      this.gpsService.getBrowserLatLong().subscribe((position) => {
-        console.log('login position', position);
-      });
-    }
+    // if (this.isMobile) {
+    //   this.gpsService.initLatLong().subscribe((res) => {
+    //     if (res) {
+    //       this.gpsService.getLatLong().subscribe((position) => {
+    //         console.log('login position', position);
+    //       });
+    //     } else {
+    //       console.log(res);
+    //     }
+    //   });
+    // } else {
+    //   this.gpsService.getBrowserLatLong().subscribe((position) => {
+    //     console.log('login position', position);
+    //   });
+    // }
   }
 
   enter(event) {
