@@ -526,10 +526,14 @@
                     <div class="col-sm-5"></div>
                     <div class="col-sm-7 padding-10 text-right">
                         <button type="submit" class="btn btn-primary" (click)="onSave()"> {{labels.save}} </button>
-                        <button disabled class="btn btn-primary dash_href" type="button"><a
-                              (click)="onSave()"
+                        <button class="btn btn-primary dash_href" type="button">
+                            <!-- <a
+                              (click)="onSubmit()"
                                
-                                >{{labels.submit}}</a></button>
+                                >{{labels.submit}}</a> -->
+                                <a class="a_tag" (click)="onSubmit()" data-toggle="modal"
+                                           data-target="#myModal">{{labels.submit}}</a>
+                            </button>
                     </div>
                 </div>
             </div>
@@ -539,9 +543,42 @@
     </div>
 </main>
 
-<div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
+<div class="modal" id="myModal" role="dialog" *ngIf="isModal" [ngClass]="{ in: isModal, showModal: isModal }">
     <div class="modal-dialog">
         <div class="modal-content">
+            <div class="content">
+                <h3 class="title">Credit Report Authorization</h3>
+                <hr />
+                <div id="">
+                    <p>As part of your application for loan with Equitas Small Finnance Bank, We request your authorization to pull your credit report.</p>
+                    <p>By Sharing the OTP send to your mobile number, you authorize Equitas Small Finanace Bank to verify information in your application, and you agree the Equitas Small Finanace Bank may contact third parties to verify any such infromation.</p>
+                </div>
+                <div class="row">
+                    <div>
+                        <label>OTP Sent To 9812398456</label>
+                    </div>
+                    <div>
+                        <input class="form-control text-center" type="text" placeholder="Enter OTP" autofocus="" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-7"><a href="sales_application_details.html"><button class="btn btn-primary" id="otp_button"  >Verify OTP</button></a><a id="a_under_lin"> Resend OTP </a></div>
+
+                </div>
+            </div>
+
+            <!-- <div class="modal-header table-head-bg">
+                <button type="button" (click)="isModal = false" class="close" data-dismiss="modal" style="color:white;opacity: 1;">&times;</button>
+                <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
+            </div>
+            <div class="modal-body">
+                <p>{{labels.modalBody}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default table-head-bg" data-dismiss="modal" data-toggle="modal" data-target="#myModal_two" (click)="yesModal()" id="model_ok">{{labels.yes}}</button>
+                <button type="button" (click)="closeModal()" class="btn btn-default table-head-bg" data-dismiss="modal">{{labels.close}}</button>
+            </div> -->
 
             <!-- <div class="content">
                 <h3 class="title">Credit Report Authorization</h3>

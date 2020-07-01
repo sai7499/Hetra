@@ -25,14 +25,15 @@ export class TeleVerificationFormComponent implements OnInit {
   tvrDetails;
   tvrData: any;
   isAlert: boolean;
-  tvrDashboardList;
+  tvrDashboardList: any = [];
   applicantId;
-  applicantName;
-  soName;
+  applicantName: any;
+  soName: any;
   dateFormate;
-  applicantType;
+  applicantType: any;
   isDirty: boolean;
-  valueChanges;
+  valueChanges: any = {};
+  isModal = false;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -515,6 +516,10 @@ export class TeleVerificationFormComponent implements OnInit {
     // console.log('TVR_Get_Details', this.tvrData);
 
     // this.router.navigateByUrl(`pages/dde/${this.leadId}/tvr-details`);
+  }
+
+  onSubmit() {
+    this.isModal = true;
   }
 
 }
