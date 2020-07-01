@@ -15,23 +15,18 @@
                             <sub class="star_red_col">*</sub>
                         </label>
 
-                        <input formControlName="vehicleRegNo" type="text" class="form-control mandatory input-upper"
-                            id="registartion_number" placeholder="Vechical Registration No" name="registartion_number">
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                Enter vehicle registration number
-                            </div>
-                        </div>
+                        <app-custom-input formControlName="vehicleRegNo" 
+                            [type]="'alpha-numeric'" [id]="'vechical_reg'"
+                            [className]="'form-control mandatory'" 
+                            [placeholder]="'Vechical Registration No'"
+                            [inputClass]="'input-upper'" 
+                            [maxLength]="label?.validationData.vehicleRegNo.maxLength"
+                            [patternCheck]="namePattern" 
+                            [isRequired]="'Vechical Registration No Required'"
+                            [isDirty]="isDirty">
+                        </app-custom-input>
 
                     </div>
-
-                    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="!isHidden">
-                    <label for="registartion_number"></label>
-                    <input type="button" class="form-control btn-primary" id="check_dedupe" name="registartion_number"
-                        value="Check Dedupe" data-toggle="modal" data-target="#myModal" />
-                </div> -->
                 </div>
 
                 <div class="row">
@@ -41,47 +36,30 @@
                             <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                            (change)="onVehicleRegion($event.target.value)">
+                        <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
+                            formControlName="region" [isRequired]="'Vehicle Region Required'"
+                            (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
-                                You must select vehicle region
-                            </div>
-                        </div>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_make"> {{ label.assetMake }} <sub class="star_red_col">*</sub> </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                            (change)="onAssetMake($event.target.value)">
+                        <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
+                            formControlName="assetMake" [isRequired]="'Asset Make Required'"
+                            (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetMake'].touched && !obj.controls['assetMake'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetMake'].value === ''">
-                                You must select asset make
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vechical_type"> {{ label.vechicalType }} <sub class="star_red_col">*</sub> </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                            (change)="onVehicleType($event.target.value)">
+                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                            formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                            (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['vehicleType'].touched && !obj.controls['vehicleType'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleType'].value === ''">
-                                You must select vehicle type
-                            </div>
-                        </div>
 
                     </div>
 
@@ -93,33 +71,21 @@
                         <label for="asset_body_type"> {{ label.assetSegement }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                            (change)="onAssetBodyType($event.target.value)">
+                        <app-vf-custom-select [values]="vehicleLov?.assetBodyType" [id]="'asset_body_type'"
+                            formControlName="assetBodyType" [isRequired]="'Asset Body Type Required'"
+                            (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
-                                You must select asset body type
-                            </div>
-                        </div>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_model"> {{ label.assetModel }} <sub class="star_red_col">*</sub>
                         </label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
-                            (change)="onAssetModel($event.target.value)">
+
+                        <app-vf-custom-select [values]="vehicleLov?.assetModel" [id]="'asset_model'"
+                            formControlName="assetModel" [isRequired]="'Asset Model Required'"
+                            (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetModel'].value === ''">
-                                You must select asset model
-                            </div>
-                        </div>
 
                     </div>
 
@@ -127,15 +93,9 @@
                         <label for="asset_variant"> {{ label.assetVariant }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+                        <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
+                            formControlName="assetVariant" [isRequired]="'Asset Variant Required'" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetVariant'].value === ''">
-                                You must select asset variant
-                            </div>
-                        </div>
 
                     </div>
 
@@ -145,8 +105,8 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
-
-                        <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" formControlName="assetSubVariant">
+                        <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
+                            formControlName="assetSubVariant">
                         </app-vf-custom-select>
                     </div>
 
@@ -155,64 +115,56 @@
                                 class="star_red_col">*</sub>
                         </label>
 
-                        <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
-                            [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                        <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                            formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'" [topView]="'decade'"
+                            [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
                             placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
                         </kendo-datepicker>
 
-                        <div class="cus-mandatory-field"
+                        <div class="invalid-feedback"
                             *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                You must select year and month manufacturing
+                            <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                Year and Month Manufacturing Required
                             </div>
                         </div>
+
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                         <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
-                        <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
-                            id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0" pattern="[^-,]+"
-                            disabled>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['ageOfAsset'].touched && !obj.controls['ageOfAsset'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['ageOfAsset'].hasError('required')">
-                                Enter age of asset
-                            </div>
-                        </div>
+                        <app-custom-input formControlName="ageOfAsset" [id]="'age_of_asset'"
+                            [className]="'form-control mandatory'" [placeholder]="'Age of Asset'"
+                            [isRequired]="'Age of Asset Required'" [isDirty]="isDirty" [isDisabled]="true">
+                        </app-custom-input>
+
                     </div>
+
+                </div>
+
+                <div class="row">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                         <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
-                            id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor" name="age_of_vehicle"
-                            min="0" pattern="[^-,]+" disabled>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['ageAfterTenure'].touched && !obj.controls['ageAfterTenure'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['ageAfterTenure'].hasError('required')">
-                                Enter age of vehicle
-                            </div>
-                        </div>
+                        <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
+                            [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
+                            [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
+                            [isDisabled]="true">
+                        </app-custom-input>
+
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
                         *ngIf="productCatoryCode === 'UCV'">
                         <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="assetCostGrid" type="number" class="form-control mandatory"
-                            id="asset_cost_basis" placeholder="Asset cost basis Grid" name="asset_cost_basis" min="0"
-                            pattern="[^-,]+" disabled>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetCostGrid'].touched && !obj.controls['assetCostGrid'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostGrid'].hasError('required')">
-                                Enter asset cost
-                            </div>
-                        </div>
+                        <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
+                            [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
+                            [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty" [isDisabled]="true">
+                        </app-custom-input>
 
                     </div>
 
@@ -220,22 +172,15 @@
                         *ngIf="productCatoryCode === 'UC'">
                         <label for="asset_cost_indian"> {{ label.assetCostIndian }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="assetCostIBB" type="number" class="form-control mandatory"
-                            id="asset_cost_indian" placeholder="Asset Cost basis Indian Bluebook"
-                            name="asset_cost_indian" (keyup)="onCompareFinalAssetCode($event.target.value)" min="0"
-                            maxlength="10" pattern="[^-,]+">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('required')"
-                                maxlength="10">
-                                Enter asset cost basis indian bluebook
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('pattern')">
-                            Enter valid asset cost basis indian bluebook
-                        </div>
+                        <app-custom-input formControlName="assetCostIBB" [type]="'number'"
+                            [className]="'form-control mandatory'"
+                            [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
+                            (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
+                            (change)="onCompareFinalAssetCode($event.target.value)" [maxLength]="maxlength10"
+                            [patternCheck]="regexPattern.numberPattern"
+                            [placeholder]="'Asset Cost basis Indian Bluebook'">
+                        </app-custom-input>
 
                     </div>
 
@@ -243,21 +188,14 @@
                         *ngIf="productCatoryCode === 'UC'">
                         <label for="asset_cost_car"> {{ label.assetCostCarwale }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="assetCostCarTrade" type="number" class="form-control mandatory"
-                            id="asset_cost_car" placeholder="Asset Cost basis Carwale" name="asset_cost_car" min="0"
-                            (keyup)="onCompareFinalAssetCode($event.target.value)" maxlength="10" pattern="[^-,]+">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['assetCostCarTrade'].touched && !obj.controls['assetCostCarTrade'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetCostCarTrade'].hasError('required')">
-                                Enter asset cost carwale
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostCarTrade'].hasError('pattern')">
-                            Enter valid asset cost carwale
-                        </div>
+                        <app-custom-input formControlName="assetCostCarTrade" [type]="'number'"
+                            [className]="'form-control mandatory'" [isRequired]="'Asset Cost basis Carwale Required'"
+                            [isDirty]="isDirty" (keyup)="onCompareFinalAssetCode($event.target.value)"
+                            [id]="asset_cost_car" (change)="onCompareFinalAssetCode($event.target.value)"
+                            [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                            [placeholder]="'Asset Cost basis Carwale'">
+                        </app-custom-input>
 
                     </div>
 
@@ -265,38 +203,25 @@
                         *ngIf="productCatoryCode === 'NC' || productCatoryCode === 'NCV'">
                         <label for="ex_showroom_price"> {{ label.exShowroomPrice }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="exShowRoomCost" type="text" class="form-control mandatory"
-                            id="ex_showroom_price" placeholder="Ex-showroom price" name="ex_showroom_price" min="0"
-                            (keyup)="onPatchFinalAssetCost($event.target.value)" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['exShowRoomCost'].touched && !obj.controls['exShowRoomCost'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['exShowRoomCost'].hasError('required')">
-                                Enter exshow room price
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['exShowRoomCost'].hasError('pattern')">
-                            Enter valid exshow room price
-                        </div>
+                        <app-custom-input formControlName="exShowRoomCost" [type]="'number'" [id]="'ex_showroom_price'"
+                            [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Price Required'"
+                            [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
+                            [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                            [placeholder]="'Ex Showroom Price'">
+                        </app-custom-input>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="finalAssetCost" type="number" class="form-control mandatory" min="0"
-                            id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost"
-                            pattern="[^-,]+" disabled>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['finalAssetCost'].touched && !obj.controls['finalAssetCost'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['finalAssetCost'].hasError('required')">
-                                Enter final asset cost
-                            </div>
-                        </div>
+                        <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                            [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
+                            [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                        </app-custom-input>
+
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use"
@@ -304,53 +229,34 @@
                         <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
+                        <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" [id]="'vechical_usage'"
+                            formControlName="vehicleUsage" [isRequired]="'Vehicle Usage Required'" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['vehicleUsage'].touched && !obj.controls['vehicleUsage'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleUsage'].value === ''">
-                                You must select vehicle usage
-                            </div>
-                        </div>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category"
                         *ngIf="productCatoryCode === 'UC'">
-                        <label for="vechical_usage">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
+                        <label for="vechical_category">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" formControlName="category">
+                        <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" [id]="'vechical_category'"
+                            formControlName="category" [isRequired]="'Vehicle Category Required'" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['category'].touched && !obj.controls['category'].vaild">
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['category'].hasError('required') || obj.controls['category'].value === ''">
-                                You must select vehicle category
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="name_vehicle_owner"
                         *ngIf="productCatoryCode === 'UCV'">
                         <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} <sub
-                                class="star_red_col">*</sub> </label>
-                        <input formControlName="rcOwnerName" type="text" class="form-control mandatory"
-                            id="name_vehicle_owner" placeholder="Name of Vehicle Owner/Dealer" name="name_vehicle_owner"
-                            maxlength="40">
+                                class="star_red_col">*</sub>
+                        </label>
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['rcOwnerName'].touched && !obj.controls['rcOwnerName'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('required')">
-                                Enter name of vehicle owner/dealer
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('pattern')">
-                            Enter valid name of vehicle owner/dealer
-                        </div>
+                        <app-custom-input formControlName="rcOwnerName" [type]="'alpha'" [id]="'name_vehicle_owner'"
+                            [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'"
+                            [maxLength]="regexPattern.maxlength40" [patternCheck]="regexPattern.namePattern"
+                            [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                        </app-custom-input>
 
                     </div>
 
@@ -358,24 +264,13 @@
                         *ngIf="productCatoryCode === 'UCV'">
                         <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                 class="star_red_col">*</sub> </label>
-                        <input formControlName="ownerMobileNo" type="number" class="form-control mandatory"
-                            id="mobile_vehicle_owner" placeholder="Mobile Number of Vehicle Owner/Dealer"
-                            name="mobile_vehicle_owner" min="0" minlength="10" maxlength="10" pattern="[^-,]+">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['ownerMobileNo'].touched && !obj.controls['ownerMobileNo'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].hasError('required')">
-                                Enter valid mobile number of vehicle owner/dealer
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].maxlength">
-                            The length of mobile no should be ten digits only
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].hasError('pattern')">
-                            Enter valid mobile number
-                        </div>
+                        <app-custom-input formControlName="ownerMobileNo" [type]="'number'"
+                            [id]="'mobile_vehicle_owner'" [className]="'form-control mandatory'"
+                            [placeholder]="'Mobile Number of Vehicle Owner/Dealer'" [maxLength]="regexPattern.maxLength"
+                            [patternCheck]="regexPattern.mobNumberPattern"
+                            [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                        </app-custom-input>
 
                     </div>
 
@@ -384,15 +279,20 @@
                         <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
                         </label>
                         <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address" cols="1"
-                            rows="3" placeholder="Vehicle Address Line" formControlName="address"
+                            rows="3" placeholder="Vehicle Address" formControlName="address" maxlength="120"
                             style="resize: none;"></textarea>
 
-                        <div class="cus-mandatory-field"
+                        <div class="invalid-feedback"
                             *ngIf="obj.controls['address'].touched && !obj.controls['address'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['address'].hasError('required')">
-                                Enter address
+                            <div *ngIf="obj.controls['address'].hasError('required')">
+                                Vehicle Address Required
                             </div>
                         </div>
+
+                        <div *ngIf="obj.controls['address'].hasError('pattern')">
+                            Not Allowed Special Characters !
+                        </div>
+
 
                     </div>
 
@@ -400,41 +300,23 @@
                         *ngIf="productCatoryCode === 'UCV'">
                         <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                         </label>
-                        <input formControlName="pincode" type="text" class="form-control mandatory" id="vehicle_pincode"
-                            placeholder="Vehicle Address PINCODE" min="0" maxlength="6" name="vehicle_pincode">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['pincode'].touched && !obj.controls['pincode'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('required')">
-                                Enter the pincode
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].maxlength">
-                            The length of pincode should be six digits only
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('pattern')">
-                            Enter valid pincode
-                        </div>
+                        <app-custom-input formControlName="pincode" [type]="'number'" [id]="'vehicle_pincode'"
+                            [className]="'form-control mandatory'" [placeholder]="'Vehicle Address PINCODE'"
+                            [maxLength]="regexPattern.pincodemaxLength" [patternCheck]="regexPattern.numberPattern"
+                            [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
+                        </app-custom-input>
 
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                         <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
-                        <input formControlName="noOfVehicles" type="number" class="form-control mandatory"
-                            id="no_vehicle" placeholder="No of vehicles" name="no_vehicle" min="0" pattern="[^-,]+">
 
-                        <div class="cus-mandatory-field"
-                            *ngIf="obj.controls['noOfVehicles'].touched && !obj.controls['noOfVehicles'].vaild">
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['noOfVehicles'].hasError('required')">
-                                Enter the no of vehicle
-                            </div>
-                        </div>
-
-                        <div class="cus-mandatory-field" *ngIf="obj.controls['noOfVehicles'].hasError('pattern')">
-                            Enter vaild number of vehicle
-                        </div>
+                        <app-custom-input formControlName="noOfVehicles" [type]="'number'" [id]="'no_vehicle'"
+                            [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
+                            [maxLength]="maxLength3" [patternCheck]="regexPattern.numberPattern"
+                            [isRequired]="'No of vehicles Required'" [isDirty]="isDirty">
+                        </app-custom-input>
 
                     </div>
                 </div>
@@ -451,46 +333,30 @@
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                                (change)="onVehicleRegion($event.target.value)">
+                            <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
+                                formControlName="region" [isRequired]="'Vehicle Region Required'"
+                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
-                                    You must select vehicle region
-                                </div>
-                            </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_make">{{label.assetMake}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                                (change)="onAssetMake($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetMake'].touched && !obj.controls['assetMake'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetMake'].value === ''">
-                                    You must select asset make
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
+                                formControlName="assetMake" [isRequired]="'Asset Make Required'"
+                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                                (change)="onVehicleType($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleType'].touched && !obj.controls['vehicleType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleType'].value === ''">
-                                    You must select vehicle type
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                                formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
@@ -501,45 +367,32 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_body_type">{{label.assetSegement}} <sub class="star_red_col">*</sub>
                             </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                                (change)="onAssetBodyType($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
-                                    You must select asset body type
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
+                                [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
+                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_model">{{label.assetModel}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
-                                (change)="onAssetModel($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetModel'].value === ''">
-                                    You must select asset model
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
+                                [id]="'asset_model'" [isRequired]="'Asset Model Required'"
+                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+
+                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
+                                formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetVariant'].value === ''">
-                                    You must select asset variant
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -548,7 +401,7 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant"
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
@@ -564,25 +417,27 @@
                                     class="star_red_col">*</sub>
                             </label>
 
-                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
-                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                                formControlName="manuFacMonthYear" [min]="minDate" ndo-datepicker [bottomView]="'year'"
+                                [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
                                 placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
                             </kendo-datepicker>
 
-                            <div class="cus-mandatory-field"
+                            <div class="invalid-feedback"
                                 *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                    You must select year and month manufacturing
+                                <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    Year and Month Manufacturing Required
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
-                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
-                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
+                                [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -592,39 +447,33 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
-                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
-                                name="age_of_vehicle" min="0" pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
+                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input type="text" class="form-control mandatory " id="ex_showroom_cost"
-                                placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowRoomCost"
-                                (keyup)="onPatchFinalAssetCost($event.target.value)" maxlength="10"
-                                pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['exShowRoomCost'].touched && !obj.controls['exShowRoomCost'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['exShowRoomCost'].hasError('required')">
-                                    Enter exshow room price
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['exShowRoomCost'].hasError('pattern')">
-                                Enter valid exshow room price
-                            </div>
+                            <app-custom-input formControlName="exShowRoomCost" [type]="'number'"
+                                [id]="'ex_showroom_price'" [className]="'form-control mandatory'"
+                                [isRequired]="'Ex Showroom Cost Required'" [isDirty]="isDirty"
+                                (keyup)="onPatchFinalAssetCost($event.target.value)" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Ex Showroom Cost'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input type="number" class="form-control mandatory " id="final_asset_cost"
-                                placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
+                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -634,33 +483,28 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                                formControlName="dealerSuventionApproval">
+                                [id]="'dealer_subvention_applicable'" formControlName="dealerSuventionApproval">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
-                            <input type="text" class="form-control" id="dealer_subvention_amount"
-                                placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                                formControlName="dealerSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionAmount'].hasError('pattern')">
-                                Enter valid dealer subvention amount
-                            </div>
+                            <app-custom-input formControlName="dealerSubventionAmount" [type]="'number'"
+                                [id]="'dealer_subvention_amount'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Dealer Subvention Amount'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
-                            <input type="text" class="form-control" id="dealer_subvention_irr"
-                                placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionPartIRR" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('pattern')">
-                                Enter valid dealer subvention part IRR
-                            </div>
+                            <app-custom-input formControlName="dealerSubventionPartIRR" [type]="'number'"
+                                [id]="'dealer_subvention_irr'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Dealer Subvention Part of Operating IRR'">
+                            </app-custom-input>
 
                         </div>
 
@@ -670,35 +514,31 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
-                            <input type="text" class="form-control" id="dealer_subvention_finance"
-                                placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
-                                formControlName="dealerSubventionPartFinCharge" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartFinCharge'].hasError('pattern')">
-                                Enter valid dealer subvention part of finance charges
-                            </div>
+                            <app-custom-input formControlName="dealerSubventionPartFinCharge" [type]="'number'"
+                                [id]="'dealer_subvention_finance'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Dealer Subvention Part of Finance Charges'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
                                 for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                                formControlName="manufacSubventionApplicable">
+                            <app-vf-custom-select [id]="'manufacturer_subvention_applicable'"
+                                [values]="vehicleLov?.YesORNoValue" formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
-                            <input type="text" class="form-control" id="manufacturer_subvention_amount"
-                                placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufactureSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufactureSubventionAmount'].hasError('pattern')">
-                                Enter valid manufacturer subvention amount
-                            </div>
+                            <app-custom-input formControlName="manufactureSubventionAmount" [type]="'number'"
+                                [id]="'manufacturer_subvention_amount'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Manufacturer Subvention Amount'">
+                            </app-custom-input>
 
                         </div>
 
@@ -708,43 +548,35 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
-                            <input type="text" class="form-control" id="manufacturer_subvention_irr"
-                                placeholder="Manufacturer Subvention Part of Operating IRR"
-                                name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
-                                maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('pattern')">
-                                Enter valid manuFacture subvention part IRR
-                            </div>
+                            <app-custom-input formControlName="manuFactureSubventionPartIRR" [type]="'number'"
+                                [id]="'manufacturer_subvention_irr'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}
                             </label>
-                            <input type="text" class="form-control" id="manufacturer_subvention_finance"
-                                placeholder="Manufacturer Subvention Part of Finance Charges"
-                                name="manufacturer_subvention_finance"
-                                formControlName="manufacturesubventionPartFinCharge" maxlength="10"
-                                pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacturesubventionPartFinCharge'].hasError('pattern')">
-                                Enter valid manuFacture subvention part of finance charge
-                            </div>
+                            <app-custom-input formControlName="manufacturesubventionPartFinCharge" [type]="'number'"
+                                [id]="'manufacturer_subvention_finance'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
+                            </app-custom-input>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
-                            <input type="text" class="form-control" id="proforma_invoice_no"
-                                placeholder="Proforma Invoice No" name="proforma_invoice_no"
-                                formControlName="invoiceNumber" maxlength="30" pattern="[^ -,]+">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceNumber'].hasError('pattern')">
-                                Enter valid invoice number
-                            </div>
-
+                            <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
+                                [type]="'alpha-numeric'" [className]="'form-control mandatory'"
+                                [placeholder]="'Proforma Invoice No'" [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -761,18 +593,18 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
-                            <input type="text" class="form-control" id="proforma_invoice_amount"
-                                placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                                formControlName="invoiceAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceAmount'].hasError('pattern')">
-                                Enter valid invoice amount
-                            </div>
+                            <app-custom-input formControlName="invoiceAmount" [type]="'number'"
+                                [id]="'proforma_invoice_amount'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Proforma Invoice Amount'">
+                            </app-custom-input>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="isOrpFunding">
+                            <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="isOrpFunding">
                             </app-vf-custom-select>
                         </div>
 
@@ -782,29 +614,28 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
-                            <input type="text" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance" maxlength="50" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('pattern')">
-                                Enter valid insurance
-                            </div>
+                            <app-custom-input formControlName="insurance" [type]="'number'" [id]="'insurance'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Insurance'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
-                            <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                                name="one_time_tax" formControlName="oneTimeTax" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['oneTimeTax'].hasError('pattern')">
-                                Enter valid one time tax
-                            </div>
+                            <app-custom-input formControlName="oneTimeTax" [type]="'number'" [id]="'one_time_tax'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'One Time Tax'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="pac">
+                            <app-vf-custom-select [id]="'pac'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="pac">
                             </app-vf-custom-select>
                         </div>
 
@@ -814,19 +645,22 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="vas">{{label.vas}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="vas">
+                            <app-vf-custom-select [id]="'vas'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="vas">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
+                            <app-vf-custom-select [id]="'emi_protect'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="fastTag">
+                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="fastTag">
                             </app-vf-custom-select>
                         </div>
 
@@ -836,18 +670,20 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
-                            <input type="text" class="form-control" id="others" placeholder="Others" name="others"
-                                formControlName="others">
+
+                            <app-custom-input formControlName="others" [id]="'others'" [type]="'alpha'"
+                                [className]="'form-control'" [patternCheck]="regexPattern.namePattern"
+                                [placeholder]="'Others'">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
-                            <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
-                                formControlName="discount" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['discount'].hasError('pattern')">
-                                Enter valid discount
-                            </div>
+                            <app-custom-input formControlName="discount" [type]="'number'" [id]="'discount'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Discount'">
+                            </app-custom-input>
                         </div>
                     </div>
 
@@ -861,46 +697,30 @@
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                                (change)="onVehicleRegion($event.target.value)">
+                            <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
+                                formControlName="region" [isRequired]="'Vehicle Region Required'"
+                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
-                                    You must select vehicle region
-                                </div>
-                            </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_make">{{label.assetMake}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                                (change)="onAssetMake($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetMake'].touched && !obj.controls['assetMake'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetMake'].value === ''">
-                                    You must select asset make
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
+                                formControlName="assetMake" [isRequired]="'Asset Make Required'"
+                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                                (change)="onVehicleType($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleType'].touched && !obj.controls['vehicleType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleType'].value === ''">
-                                    You must select vehicle type
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                                formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
@@ -911,45 +731,32 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_body_type">{{label.assetSegement}} <sub class="star_red_col">*</sub>
                             </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                                (change)="onAssetBodyType($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
-                                    You must select asset body type
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
+                                [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
+                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_model">{{label.assetModel}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
-                                (change)="onAssetModel($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetModel'].value === ''">
-                                    You must select asset model
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
+                                [id]="'asset_model'" [isRequired]="'Asset Model Required'"
+                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+
+                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
+                                formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetVariant'].value === ''">
-                                    You must select asset variant
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -958,7 +765,7 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant"
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
@@ -974,25 +781,27 @@
                                     class="star_red_col">*</sub>
                             </label>
 
-                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
-                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                                formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'"
+                                [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
                                 placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
                             </kendo-datepicker>
 
-                            <div class="cus-mandatory-field"
+                            <div class="invalid-feedback"
                                 *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                    You must select year and month manufacturing
+                                <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    Year and Month Manufacturing Required
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
-                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
-                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
+                                [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -1002,39 +811,32 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
-                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
-                                name="age_of_vehicle" min="0" pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
+                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input type="text" class="form-control mandatory " id="ex_showroom_cost"
-                                placeholder="Ex Showroom Cost" name="ex_showroom_cost" formControlName="exShowRoomCost"
-                                (keyup)="onPatchFinalAssetCost($event.target.value)" maxlength="10"
-                                pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['exShowRoomCost'].touched && !obj.controls['exShowRoomCost'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['exShowRoomCost'].hasError('required')">
-                                    Enter exshow room price
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['exShowRoomCost'].hasError('pattern')">
-                                Enter valid exshow room price
-                            </div>
+                            <app-custom-input formControlName="exShowRoomCost" [type]="'number'"
+                                [id]="'ex_showroom_price'" [className]="'form-control mandatory'"
+                                [isRequired]="'Ex Showroom Cost Required'" [isDirty]="isDirty"
+                                (keyup)="onPatchFinalAssetCost($event.target.value)" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Ex Showroom Cost'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input type="number" class="form-control mandatory " id="final_asset_cost"
-                                placeholder="Final Asset Cost" name="final_asset_cost" formControlName="finalAssetCost"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
+                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -1045,35 +847,28 @@
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
+                            <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" [id]="'vechical_usage'"
+                                formControlName="vehicleUsage" [isRequired]="'Vehicle Usage Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleUsage'].touched && !obj.controls['vehicleUsage'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleUsage'].value === ''">
-                                    You must select vehicle usage
-                                </div>
-                            </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                                formControlName="dealerSuventionApproval">
+                                [id]="'dealer_subvention_applicable'" formControlName="dealerSuventionApproval">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
-                            <input type="text" class="form-control" id="dealer_subvention_amount"
-                                placeholder="Dealer Subvention Amount" name="dealer_subvention_amount"
-                                formControlName="dealerSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionAmount'].hasError('pattern')">
-                                Enter valid dealer subvention amount
-                            </div>
+                            <app-custom-input formControlName="dealerSubventionAmount" [type]="'number'"
+                                [id]="'dealer_subvention_amount'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Dealer Subvention Amount'">
+                            </app-custom-input>
+
                         </div>
 
                     </div>
@@ -1082,35 +877,31 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
-                            <input type="text" class="form-control" id="dealer_subvention_irr"
-                                placeholder="Dealer Subvention Part of Operating IRR" name="dealer_subvention_irr"
-                                formControlName="dealerSubventionPartIRR" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartIRR'].hasError('pattern')">
-                                Enter valid dealer subvention part IRR
-                            </div>
+                            <app-custom-input formControlName="dealerSubventionPartIRR" [type]="'number'"
+                                [id]="'dealer_subvention_irr'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Dealer Subvention Part of Operating IRR'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
-                            <input type="text" class="form-control" id="dealer_subvention_finance"
-                                placeholder="Dealer Subvention Part of Finance Charges" name="dealer_subvention_finance"
-                                formControlName="dealerSubventionPartFinCharge" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['dealerSubventionPartFinCharge'].hasError('pattern')">
-                                Enter valid dealer subvention part of finance charges
-                            </div>
+                            <app-custom-input formControlName="dealerSubventionPartFinCharge" [type]="'number'"
+                                [id]="'dealer_subvention_finance'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Dealer Subvention Part of Finance Charges'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
                                 for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
-                                formControlName="manufacSubventionApplicable">
+                            <app-vf-custom-select [id]="'manufacturer_subvention_applicable'"
+                                [values]="vehicleLov?.YesORNoValue" formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
                         </div>
 
@@ -1120,42 +911,31 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
-                            <input type="text" class="form-control" id="manufacturer_subvention_amount"
-                                placeholder="Manufacturer Subvention Amount" name="manufacturer_subvention_amount"
-                                formControlName="manufactureSubventionAmount" maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufactureSubventionAmount'].hasError('pattern')">
-                                Enter valid manufacturer subvention amount
-                            </div>
+                            <app-custom-input formControlName="manufactureSubventionAmount" [type]="'number'"
+                                [id]="'manufacturer_subvention_amount'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Manufacturer Subvention Amount'">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
-                            <input type="text" class="form-control" id="manufacturer_subvention_irr"
-                                placeholder="Manufacturer Subvention Part of Operating IRR"
-                                name="manufacturer_subvention_irr" formControlName="manuFactureSubventionPartIRR"
-                                maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manuFactureSubventionPartIRR'].hasError('pattern')">
-                                Enter valid manuFacture subvention part IRR
-                            </div>
+                            <app-custom-input formControlName="manuFactureSubventionPartIRR" [type]="'number'"
+                                [id]="'manufacturer_subvention_irr'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
-                            <input type="text" class="form-control" id="manufacturer_subvention_finance"
-                                placeholder="Manufacturer Subvention Part of Finance Charges"
-                                name="manufacturer_subvention_finance"
-                                formControlName="manufacturesubventionPartFinCharge" maxlength="10"
-                                pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['manufacturesubventionPartFinCharge'].hasError('pattern')">
-                                Enter valid manuFacture subvention part of finance charge
-                            </div>
+                            <app-custom-input formControlName="manufacturesubventionPartFinCharge" [type]="'number'"
+                                [id]="'manufacturer_subvention_finance'" [className]="'form-control'"
+                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -1164,13 +944,11 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
-                            <input type="text" class="form-control" id="proforma_invoice_no"
-                                placeholder="Proforma Invoice No" name="proforma_invoice_no"
-                                formControlName="invoiceNumber" maxlength="30" pattern="[^ -,]+">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceNumber'].hasError('pattern')">
-                                Enter valid invoice number
-                            </div>
+                            <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
+                                [type]="'alpha-numeric'" [className]="'form-control mandatory'"
+                                [placeholder]="'Proforma Invoice No'" [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1183,13 +961,10 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
-                            <input type="text" class="form-control" id="proforma_invoice_amount"
-                                placeholder="Proforma Invoice Amount" name="proforma_invoice_amount"
-                                formControlName="invoiceAmount" maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['invoiceAmount'].hasError('pattern')">
-                                Enter valid invoice amount
-                            </div>
+                            <app-custom-input formControlName="invoiceAmount" [id]="'proforma_invoice_amount'"
+                                [type]="'number'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Proforma Invoice Amount'">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -1198,29 +973,26 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="isOrpFunding">
+                            <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="isOrpFunding">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
-                            <input type="text" class="form-control" id="insurance" placeholder="Insurance"
-                                name="insurance" formControlName="insurance" maxlength="50" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['insurance'].hasError('pattern')">
-                                Enter valid insurance
-                            </div>
+                            <app-custom-input formControlName="insurance" [id]="'insurance'" [type]="'number'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Insurance'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
-                            <input type="text" class="form-control" id="one_time_tax" placeholder="One Time Tax"
-                                name="one_time_tax" formControlName="oneTimeTax" maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['oneTimeTax'].hasError('pattern')">
-                                Enter valid one time tax
-                            </div>
+                            <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'" [type]="'number'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'One Time Tax'">
+                            </app-custom-input>
 
                         </div>
 
@@ -1230,19 +1002,22 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="pac">
+                            <app-vf-custom-select [id]="'pac'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="pac">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="vas">{{label.vas}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="vas">
+                            <app-vf-custom-select [id]="'vas'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="vas">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="emiProtect">
+                            <app-vf-custom-select [id]="'emi_protect'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
 
@@ -1252,24 +1027,25 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="fastTag">
+                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="fastTag">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
-                            <input type="text" class="form-control" id="others" placeholder="Others" name="others"
-                                formControlName="others">
+                            <app-custom-input formControlName="others" [type]="'alpha'" [id]="'others'"
+                                [className]="'form-control'" [patternCheck]="regexPattern.namePattern"
+                                [placeholder]="'Others'">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
-                            <input type="text" class="form-control" id="discount" placeholder="Discount" name="discount"
-                                formControlName="discount" maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['discount'].hasError('pattern')">
-                                Enter valid discount
-                            </div>
+                            <app-custom-input formControlName="discount" [type]="'number'" [id]="'discount'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Discount'">
+                            </app-custom-input>
                         </div>
                     </div>
 
@@ -1283,49 +1059,33 @@
                             <label for="registartion_number">{{label.registartionNumber}} <sub
                                     class="star_red_col">*</sub>
                             </label>
-                            <input type="text" class="form-control mandatory input-upper" id="registartion_number"
-                                placeholder="Vechical Registration No" name="registartion_number"
-                                formControlName="vehicleRegNo">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                    Enter vehicle registration number
-                                </div>
-                            </div>
+                            <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'"
+                                [id]="'vechical_reg'" [className]="'form-control mandatory'"
+                                [inputClass]="'input-upper'" [placeholder]="'Vechical Registration No'"
+                                [maxLength]="regexPattern.nameLength" [patternCheck]="namePattern"
+                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
                             </label>
-
-                            <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                                (change)="onVehicleRegion($event.target.value)">
+                            <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
+                                formControlName="region" [isRequired]="'Vehicle Region Required'"
+                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
-                                    You must select vehicle region
-                                </div>
-                            </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_make">{{label.assetMake}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                                (change)="onAssetMake($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetMake'].touched && !obj.controls['assetMake'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetMake'].value === ''">
-                                    You must select asset make
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
+                                formControlName="assetMake" [isRequired]="'Asset Make Required'"
+                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
@@ -1335,42 +1095,31 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                                (change)="onVehicleType($event.target.value)">
+
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                                formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleType'].touched && !obj.controls['vehicleType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleType'].value === ''">
-                                    You must select vehicle type
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_body_type">{{label.assetSegement}} <sub
                                     class="star_red_col">*</sub></label>
                             <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                                (change)="onAssetBodyType($event.target.value)">
+                                [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
+                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
-                                    You must select asset body type
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_model">{{label.assetModel}} <sub class="star_red_col">*</sub></label>
+
                             <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
-                                (change)="onAssetModel($event.target.value)">
+                                [id]="'asset_model'" [isRequired]="'Asset Model Required'"
+                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetModel'].value === ''">
-                                    You must select asset model
-                                </div>
-                            </div>
+
                         </div>
 
                     </div>
@@ -1379,20 +1128,17 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub></label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+
+                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
+                                formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetVariant'].value === ''">
-                                    You must select asset variant
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant"
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
@@ -1405,18 +1151,19 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="month_year">{{label.monthYear}} <sub class="star_red_col">*</sub></label>
-                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
-                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+                            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                                formControlName="manuFacMonthYear" [min]="minDate" ndo-datepicker [bottomView]="'year'"
+                                [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
                                 placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
                             </kendo-datepicker>
 
-                            <div class="cus-mandatory-field"
+                            <div class="invalid-feedback"
                                 *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                    You must select year and month manufacturing
+                                <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    Year and Month Manufacturing Required
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
@@ -1425,26 +1172,30 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="age_vehicle">{{label.ageVehicle}} <sub class="star_red_col">*</sub> </label>
-                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
-                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
+                                [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
-                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
-                                name="age_of_vehicle" min="0" pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
+                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis">
                             <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="assetCostGrid" type="number" class="form-control mandatory"
-                                id="asset_cost_basis" placeholder="Asset cost basis Grid" name="asset_cost_basis"
-                                min="0" pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="assetCostGrid" [id]="asset_cost_basis"
+                                [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
+                                [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -1454,52 +1205,33 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="finalAssetCost" type="number" class="form-control mandatory" min="0"
-                                id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
+                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub> </label>
-                            <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                                name="rc_owner_name" formControlName="rcOwnerName" maxlength="40">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['rcOwnerName'].touched && !obj.controls['rcOwnerName'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['rcOwnerName'].hasError('required')">
-                                    Enter RC owner name
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('pattern')">
-                                Enter valid name of vehicle owner/dealer
-                            </div>
+                            <app-custom-input formControlName="rcOwnerName" [type]="'alpha'" [id]="'name_vehicle_owner'"
+                                [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'"
+                                [maxLength]="regexPattern.maxlength40" [patternCheck]="regexPattern.namePattern"
+                                [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
                             <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                     class="star_red_col">*</sub> </label>
-                            <input formControlName="ownerMobileNo" type="number" class="form-control mandatory"
-                                id="mobile_vehicle_owner" placeholder="Mobile Number of Vehicle Owner/Dealer"
-                                name="mobile_vehicle_owner" min="0" minlength="10" maxlength="10" pattern="[^-,]+">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['ownerMobileNo'].touched && !obj.controls['ownerMobileNo'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['ownerMobileNo'].hasError('required')">
-                                    Enter valid mobile number of vehicle owner/dealer
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].maxlength">
-                                The length of mobile no should be ten digits only
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['ownerMobileNo'].hasError('pattern')">
-                                Enter valid mobile number
-                            </div>
+                            <app-custom-input formControlName="ownerMobileNo" [type]="'number'"
+                                [id]="'mobile_vehicle_owner'" [className]="'form-control mandatory'"
+                                [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
+                                [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobNumberPattern"
+                                [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                            </app-custom-input>
 
                         </div>
 
@@ -1511,13 +1243,13 @@
                             <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
                             </label>
                             <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address"
-                                cols="1" rows="3" placeholder="Vehicle Address Line" formControlName="address"
-                                style="resize: none;"></textarea>
+                                cols="1" rows="3" placeholder="Vehicle Address" formControlName="address"
+                                maxlength="120" style="resize: none;"></textarea>
 
-                            <div class="cus-mandatory-field"
+                            <div class="invalid-feedback"
                                 *ngIf="obj.controls['address'].touched && !obj.controls['address'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['address'].hasError('required')">
-                                    Enter address
+                                <div *ngIf="obj.controls['address'].hasError('required')">
+                                    Vehicle Address Required
                                 </div>
                             </div>
 
@@ -1526,27 +1258,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode">
                             <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="pincode" type="text" class="form-control mandatory"
-                                id="vehicle_pincode" placeholder="Vehicle Address PINCODE" min="0" maxlength="6"
-                                name="vehicle_pincode" pattern="[^-,]+">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['pincode'].touched && !obj.controls['pincode'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('required')">
-                                    Enter the pincode
-                                </div>
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('pattern')">
-                                    You must not nenter the pincode
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].maxlength">
-                                The length of pincode should be six digits only
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['pincode'].hasError('pattern')">
-                                Enter valid pincode
-                            </div>
+                            <app-custom-input formControlName="pincode" [type]="'number'" [id]="'vehicle_pincode'"
+                                [className]="'form-control mandatory'" [placeholder]="'Vehicle Address PINCODE'"
+                                [maxLength]="regexPattern.pincodemaxLength" [patternCheck]="regexPattern.numberPattern"
+                                [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
+                            </app-custom-input>
 
                         </div>
 
@@ -1566,14 +1283,18 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_type">{{label.permitType}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.permitType" formControlName="typeOfPermit">
+                            <app-vf-custom-select [id]="'permit_type'" [values]="vehicleLov?.permitType"
+                                formControlName="typeOfPermit">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="permit_other">{{label.permitOthers}} </label>
-                            <input type="text" class="form-control" id="permit_other" placeholder="Type of Permit Other"
-                                name="permit_other" formControlName="typeOfPermitOthers">
+
+                            <app-custom-input formControlName="typeOfPermitOthers" [type]="'alpha'"
+                                [id]="'permit_other'" [className]="'form-control'" [maxLength]="regexPattern.nameLength"
+                                [patternCheck]="regexPattern.namePattern" [placeholder]="'Type of Permit Other'">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1581,8 +1302,7 @@
                             </label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="permitExpiryDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                                placeholder="Permit Expire Date">
+                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="Permit Expire Date">
                             </kendo-datepicker>
                         </div>
 
@@ -1598,34 +1318,34 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
-                            <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                                name="chassis_number" formControlName="chasisNumber" maxlength="50" pattern="[^ -,]+">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['chasisNumber'].hasError('pattern')">
-                                Enter valid chasis number
-                            </div>
+                            <app-custom-input formControlName="chasisNumber" [type]="'alpha-numeric'"
+                                [id]="'chassis_number'" [className]="'form-control'" [placeholder]="'Chassis Number'"
+                                [inputClass]="'input-upper'" [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern">
+                            </app-custom-input>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}} </label>
-                            <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
-                                name="engine_number" formControlName="engineNumber" maxlength="50" pattern="[^ -,]+">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['engineNumber'].hasError('pattern')">
-                                Enter valid engine number
-                            </div>
+                            <app-custom-input formControlName="engineNumber" [type]="'alpha-numeric'"
+                                [id]="'engine_number'" [className]="'form-control'" [placeholder]="'Engine Number'"
+                                [inputClass]="'input-upper'" [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern">
+                            </app-custom-input>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
-                            <input type="text" class="form-control" id="vehicle_purchased_cost"
-                                placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                                formControlName="vehiclePurchasedCost" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehiclePurchasedCost'].hasError('pattern')">
-                                Enter valid vehicle purchased cost
-                            </div>
+                            <app-custom-input formControlName="vehiclePurchasedCost" [type]="'number'"
+                                [id]="'vehicle_purchased_cost'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Vehicle Purchased Cost'">
+                            </app-custom-input>
+
                         </div>
 
                     </div>
@@ -1634,14 +1354,11 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
-                            <input type="text" class="form-control" id="vehicle_ownership"
-                                placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                                formControlName="vehicleOwnerShipNumber" maxlength="2" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleOwnerShipNumber'].hasError('pattern')">
-                                Enter valid number
-                            </div>
+                            <app-custom-input formControlName="vehicleOwnerShipNumber" [type]="'number'"
+                                [id]="'vehicle_ownership'" [className]="'form-control'" [maxLength]="maxlength2"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Vehicle Ownership Number'">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1656,7 +1373,8 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
+                            <app-vf-custom-select [id]="'re_registered_vehicle'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="reRegVehicle">
                             </app-vf-custom-select>
                         </div>
 
@@ -1666,26 +1384,24 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="inter_state_vehicle">{{label.interStateVehicle}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
+                            <app-vf-custom-select [id]="'inter_state_vehicle'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="interStateVehicle">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}} </label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="duplicateRC">
+                            <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="duplicateRC">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}} </label>
-                            <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                                name="cubic_capacity" formControlName="cubicCapacity" maxlength="5"
-                                pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['cubicCapacity'].hasError('pattern')">
-                                Enter valid cubic capacity
-                            </div>
+                            <app-custom-input formControlName="cubicCapacity" [type]="'number'" [id]="'cubic_capacity'"
+                                [className]="'form-control'" [maxLength]="maxlength5"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Cubic Capacity'">
+                            </app-custom-input>
 
                         </div>
 
@@ -1695,14 +1411,11 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
-                            <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                                name="seating_capacity" formControlName="seatingCapacity" maxlength="3"
-                                pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['seatingCapacity'].hasError('pattern')">
-                                Enter valid seating capacity
-                            </div>
+                            <app-custom-input formControlName="seatingCapacity" [type]="'number'"
+                                [id]="'seating_capacity'" [className]="'form-control'" [maxLength]="maxLength3"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Seating Capacity'">
+                            </app-custom-input>
 
                         </div>
 
@@ -1710,19 +1423,18 @@
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="insurance_validity">
                             </kendo-datepicker>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}} </label>
-                            <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                                formControlName="idv" maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['idv'].maxlength">
-                                The length of idv should be ten digits only
-                            </div>
+                            <app-custom-input formControlName="idv" [id]="'idv'" [type]="'number'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'IDV'">
+                            </app-custom-input>
+
                         </div>
 
                     </div>
@@ -1735,27 +1447,28 @@
                             <div id="insurance_preview"></div>
                             </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " style="margin-top: 24px;">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
                             <label for="frsd_required">{{label.frsdRequired}} </label>
-                            <!-- <input type="text" class="form-control mandatory" id="frsd_required"
-                                placeholder="FRSD Funding Required" name="frsd_required"
-                                formControlName="fsrdFundingReq"> -->
-                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq"
+
+                            <input class="ml" type="checkbox" formControlName="fsrdFundingReq"
                                 (click)="onChangeFRSD($event)" />
+
+                            <!-- <app-custom-input formControlName="fsrdFundingReq" [id]="'frsd_required'"
+                                [className]="'form-control'" [type]="'checkbox'" [placeholder]="'FRSD Funding Required'"
+                                (click)="onChangeFRSD($event)">
+                            </app-custom-input> -->
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
-                            <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                                name="frsd_amount" formControlName="fsrdPremiumAmount" maxlength="10"
-                                pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['fsrdPremiumAmount'].hasError('pattern')">
-                                Enter number fsrd premium amount
-                            </div>
+                            <app-custom-input formControlName="fsrdPremiumAmount" [type]="'number'" [id]="'frsd_amount'"
+                                [className]="'form-control mandatory'" [isRequired]="'FRSD Premium Amount Required'"
+                                [isDirty]="isDirty" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'FRSD Premium Amount'">
+                            </app-custom-input>
 
                         </div>
 
@@ -1771,17 +1484,13 @@
                             <label for="registartion_number">{{label.registartionNumber}} <sub
                                     class="star_red_col">*</sub>
                             </label>
-                            <input type="text" class="form-control mandatory input-upper" id="registartion_number"
-                                placeholder="Vechical Registration No" name="registartion_number"
-                                formControlName="vehicleRegNo">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleRegNo'].touched && !obj.controls['vehicleRegNo'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['vehicleRegNo'].hasError('required')">
-                                    Enter vehicle registration number
-                                </div>
-                            </div>
+                            <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'"
+                                [id]="'vechical_reg'" [className]="'form-control mandatory'"
+                                [inputClass]="'input-upper'" [placeholder]="'Vechical Registration No'"
+                                [maxLength]="regexPattern.nameLength" [patternCheck]="namePattern"
+                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                            </app-custom-input>
 
                         </div>
 
@@ -1789,31 +1498,20 @@
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.region" formControlName="region"
-                                (change)="onVehicleRegion($event.target.value)">
+                            <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
+                                formControlName="region" [isRequired]="'Vehicle Region Required'"
+                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['region'].touched && !obj.controls['region'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['region'].value === ''">
-                                    You must select vehicle region
-                                </div>
-                            </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_make">{{label.assetMake}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetMake" formControlName="assetMake"
-                                (change)="onAssetMake($event.target.value)">
-                            </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetMake'].touched && !obj.controls['assetMake'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetMake'].value === ''">
-                                    You must select asset make
-                                </div>
-                            </div>
+                            <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
+                                formControlName="assetMake" [isRequired]="'Asset Make Required'"
+                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 
@@ -1823,42 +1521,33 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
-                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" formControlName="vehicleType"
-                                (change)="onVehicleType($event.target.value)">
+
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                                formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleType'].touched && !obj.controls['vehicleType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleType'].value === ''">
-                                    You must select vehicle type
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_body_type">{{label.assetSegement}} <sub
                                     class="star_red_col">*</sub></label>
+
                             <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
-                                (change)="onAssetBodyType($event.target.value)">
+                                [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
+                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetBodyType'].touched && !obj.controls['assetBodyType'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetBodyType'].value === ''">
-                                    You must select asset body type
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_model">{{label.assetModel}} <sub class="star_red_col">*</sub></label>
+
                             <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
-                                (change)="onAssetModel($event.target.value)">
+                                [id]="'asset_model'" [isRequired]="'Asset Model Required'"
+                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
                             </app-vf-custom-select>
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetModel'].touched && !obj.controls['assetModel'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetModel'].value === ''">
-                                    You must select asset model
-                                </div>
-                            </div>
+
                         </div>
 
                     </div>
@@ -1867,20 +1556,17 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub></label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" formControlName="assetVariant">
+
+                            <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
+                                formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetVariant'].touched && !obj.controls['assetVariant'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['assetVariant'].value === ''">
-                                    You must select asset variant
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant"
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
@@ -1895,15 +1581,11 @@
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" formControlName="vehicleUsage">
+                            <app-vf-custom-select [values]="vehicleLov?.vechicalUsage" [id]="'vechical_usage'"
+                                formControlName="vehicleUsage" [isRequired]="'Vehicle Usage Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleUsage'].touched && !obj.controls['vehicleUsage'].vaild">
-                                <div class="cus-mandatory-field" *ngIf="obj.controls['vehicleUsage'].value === ''">
-                                    You must select vehicle usage
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -1914,39 +1596,37 @@
                             <label for="vechical_usage">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" formControlName="category">
+                            <app-vf-custom-select [values]="vehicleLov?.vehicleCategory" [id]="'vechical_category'"
+                                formControlName="category" [isRequired]="'Vehicle Category Required'"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['category'].touched && !obj.controls['category'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['category'].hasError('required') || obj.controls['category'].value === ''">
-                                    You must select vehicle category
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="month_year">{{label.monthYear}} <sub class="star_red_col">*</sub> </label>
-                            <kendo-datepicker class="form-control" formControlName="manuFacMonthYear" ndo-datepicker
-                                [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
+
+                            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                                formControlName="manuFacMonthYear" [min]="minDate" ndo-datepicker [bottomView]="'year'"
+                                [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
                                 placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
                             </kendo-datepicker>
 
-                            <div class="cus-mandatory-field"
+                            <div class="invalid-feedback"
                                 *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                    You must select year and month manufacturing
+                                <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                    Year and Month Manufacturing Required
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
-                            <input formControlName="ageOfAsset" type="number" class="form-control mandatory"
-                                id="age_of_asset" placeholder="Age of Asset" name="age_of_asset" min="0"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
+                                [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -1956,53 +1636,39 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="ageAfterTenure" type="number" class="form-control mandatory"
-                                id="age_of_vehicle" placeholder="Age of vehicle at the end of tenor"
-                                name="age_of_vehicle" min="0" pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
+                                [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
+                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="asset_cost_indian">{{label.assetCostIndian}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="assetCostIBB" type="number" class="form-control mandatory"
-                                id="asset_cost_indian" placeholder="Asset Cost basis Indian Bluebook"
-                                name="asset_cost_indian" (keyup)="onCompareFinalAssetCode($event.target.value)" min="0"
-                                maxlength="10" (change)="onCompareFinalAssetCode($event.target.value)" pattern="[^-,]+">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetCostIBB'].touched && !obj.controls['assetCostIBB'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['assetCostIBB'].hasError('required')" maxlength="10">
-                                    Enter asset cost basis indian bluebook
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostIBB'].hasError('pattern')">
-                                Enter valid asset cost basis indian bluebook
-                            </div>
+                            <app-custom-input formControlName="assetCostIBB" [type]="'number'"
+                                [className]="'form-control mandatory'"
+                                [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
+                                (keyup)="onCompareFinalAssetCode($event.target.value)" [maxLength]="maxlength10"
+                                (change)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
+                                [patternCheck]="regexPattern.numberPattern"
+                                [placeholder]="'Asset Cost basis Indian Bluebook'">
+                            </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="asset_cost_car">{{label.assetCostCar}} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="assetCostCarTrade" type="number" class="form-control mandatory"
-                                id="asset_cost_car" placeholder="Asset Cost basis Car Trade" name="asset_cost_car"
-                                min="0" (keyup)="onCompareFinalAssetCode($event.target.value)" maxlength="10"
-                                pattern="[^-,]+">
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetCostCarTrade'].touched && !obj.controls['assetCostCarTrade'].vaild">
-                                <div class="cus-mandatory-field"
-                                    *ngIf="obj.controls['assetCostCarTrade'].hasError('required')">
-                                    Enter asset cost car trade
-                                </div>
-                            </div>
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['assetCostCarTrade'].hasError('pattern')">
-                                Enter valid asset cost cartrade
-                            </div>
+                            <app-custom-input formControlName="assetCostCarTrade" [type]="'number'"
+                                [className]="'form-control mandatory'"
+                                [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
+                                (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
+                                (change)="onCompareFinalAssetCode($event.target.value)" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Asset Cost basis Carwale'">
+                            </app-custom-input>
 
                         </div>
 
@@ -2013,85 +1679,76 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
                             </label>
-                            <input formControlName="finalAssetCost" type="number" class="form-control mandatory" min="0"
-                                id="final_asset_cost" placeholder="Final Asset Cost" name="final_asset_cost"
-                                pattern="[^-,]+" disabled>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
+                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="asset_cost_least">{{label.assetCostLeast}}</label>
                             <input type="text" class="form-control mandatory " id="asset_cost_least"
                                 placeholder="Asset Cost Least" name="asset_cost_least" formControlName="assetCostLeast"
                                 maxlength="10" pattern="^[1-9][0-9]*$">
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['assetCostLeast'].hasError('pattern')">
+                            <div class="invalid-feedback" *ngIf="obj.controls['assetCostLeast'].hasError('pattern')">
                                 Enter valid asset cost least
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
-                            <input type="text" class="form-control" id="chassis_number" placeholder="Chassis Number"
-                                name="chassis_number" formControlName="chasisNumber" maxlength="50" pattern="[^ -,]+">
+                            <app-custom-input formControlName="chasisNumber" [type]="'alpha-numeric'"
+                                [id]="'chassis_number'" [className]="'form-control'" [placeholder]="'Chassis Number'"
+                                [inputClass]="'input-upper'" [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern">
+                            </app-custom-input>
 
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['chasisNumber'].hasError('pattern')">
-                                Enter valid chasis number
-                            </div>
+                        </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="engine_number">{{label.engineNumber}}</label>
+                            <app-custom-input formControlName="engineNumber" [type]="'alpha-numeric'"
+                                [id]="'engine_number'" [className]="'form-control'" [placeholder]="'Engine Number'"
+                                [inputClass]="'input-upper'" [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern">
+                            </app-custom-input>
                         </div>
 
                     </div>
 
                     <div class="row">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="engine_number">{{label.engineNumber}}</label>
-                            <input type="text" class="form-control" id="engine_number" placeholder="Engine Number"
-                                name="engine_number" formControlName="engineNumber" maxlength="50" pattern="[^ -,]+">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['engineNumber'].hasError('pattern')">
-                                Enter valid engine number
-                            </div>
-                        </div>
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
-                            <input type="text" class="form-control" id="vehicle_purchased_cost"
-                                placeholder="Vehicle Purchased Cost" name="vehicle_purchased_cost"
-                                formControlName="vehiclePurchasedCost" maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehiclePurchasedCost'].hasError('pattern')">
-                                Enter valid vehicle purchased cost
-                            </div>
+                            <app-custom-input formControlName="vehiclePurchasedCost" [type]="'number'"
+                                [id]="'vehicle_purchased_cost'" [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Vehicle Purchased Cost'">
+                            </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
-                            <input type="text" class="form-control" id="vehicle_ownership"
-                                placeholder="Vehicle Ownership Member" name="vehicle_ownership" maxlength="3"
-                                formControlName="vehicleOwnerShipNumber" maxlength="2" pattern="^[1-9][0-9]*$">
+                            <app-custom-input formControlName="vehicleOwnerShipNumber" [type]="'number'"
+                                [id]="'vehicle_ownership'" [className]="'form-control'" [maxLength]="maxlength2"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Vehicle Ownership Number'">
+                            </app-custom-input>
+                        </div>
 
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['vehicleOwnerShipNumber'].hasError('pattern')">
-                                Enter valid vehicle ownership number
-                            </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="rc_owner_name">{{label.rcOwnerName}}</label>
+
+                            <app-custom-input formControlName="rcOwnerName" [type]="'alpha'" [id]="'name_vehicle_owner'"
+                                [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'"
+                                [maxLength]="regexPattern.maxlength40" [patternCheck]="regexPattern.namePattern"
+                                [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                            </app-custom-input>
+
                         </div>
 
                     </div>
 
                     <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="rc_owner_name">{{label.rcOwnerName}}</label>
-                            <input type="text" class="form-control" id="rc_owner_name" placeholder="RC Owner Name"
-                                name="rc_owner_name" formControlName="rcOwnerName" maxlength="30">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['rcOwnerName'].hasError('pattern')">
-                                Enter valid name of vehicle owner/dealer
-                            </div>
-
-                        </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
@@ -2105,9 +1762,18 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
-                            <input type="text" class="form-control" id="gross_vehicle_weight"
-                                placeholder="Gross Vehicle Weight" name="gross_vehicle_weight"
-                                formControlName="gorssVehicleWeight">
+
+                            <app-custom-input formControlName="gorssVehicleWeight" [type]="'alpha'"
+                                [id]="'gross_vehicle_weight'" [className]="'form-control'"
+                                [placeholder]="'Gross Vehicle Weight'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
+                            <app-vf-custom-select [id]="'re_registered_vehicle'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="reRegVehicle">
+                            </app-vf-custom-select>
                         </div>
 
                     </div>
@@ -2115,22 +1781,25 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="reRegVehicle">
-                            </app-vf-custom-select>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
+                            <app-vf-custom-select [id]="'inter_state_vehicle'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="interStateVehicle">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" formControlName="duplicateRC">
+                            <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="duplicateRC">
                             </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
+                            <label for="cubic_capacity">{{label.cubicCapacity}}</label>
+                            <app-custom-input formControlName="cubicCapacity" [type]="'number'" [id]="'cubic_capacity'"
+                                [className]="'form-control'" [maxLength]="maxlength5"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Cubic Capacity'">
+                            </app-custom-input>
                         </div>
 
                     </div>
@@ -2138,27 +1807,11 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                            <label for="cubic_capacity">{{label.cubicCapacity}}</label>
-                            <input type="text" class="form-control" id="cubic_capacity" placeholder="Cubic Capacity"
-                                name="cubic_capacity" formControlName="cubicCapacity" maxlength="5"
-                                pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['cubicCapacity'].hasError('pattern')">
-                                Enter valid cubic capacity
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
-                            <input type="text" class="form-control" id="seating_capacity" placeholder="Seating Capacity"
-                                name="seating_capacity" formControlName="seatingCapacity" maxlength="3"
-                                pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field"
-                                *ngIf="obj.controls['seatingCapacity'].hasError('pattern')">
-                                Enter valid seating capacity
-                            </div>
+                            <app-custom-input formControlName="seatingCapacity" [type]="'number'"
+                                [id]="'seating_capacity'" [className]="'form-control'" [maxLength]="maxLength3"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Seating Capacity'">
+                            </app-custom-input>
 
                         </div>
 
@@ -2166,25 +1819,22 @@
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="insurance_validity">
                             </kendo-datepicker>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="idv">{{label.idv}}</label>
+                            <app-custom-input formControlName="idv" [id]="'idv'" [type]="'number'"
+                                [className]="'form-control'" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'IDV'">
+                            </app-custom-input>
+
                         </div>
 
                     </div>
 
                     <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="idv">{{label.idv}}</label>
-                            <input type="text" class="form-control mandatory" id="idv" placeholder="IDV" name="idv"
-                                formControlName="idv" maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['idv'].maxlength">
-                                The length of idv should be ten digits only
-                            </div>
-
-                        </div>
 
                         <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                         <label for="insurance_copy">{{label.uploadInsuranceCopy}}</label>
@@ -2192,27 +1842,21 @@
                         <div id="insurance_preview"></div>
                         </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" style="margin-top: 24px;">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
                             <label for="frsd_required">{{label.frsdRequired}}</label>
 
-                            <input style="margin-left: 10px;" type="checkbox" formControlName="fsrdFundingReq"
+                            <input class="ml" type="checkbox" formControlName="fsrdFundingReq"
                                 (click)="onChangeFRSD($event)" />
-
-                            <!-- <input type="text" class="form-control mandatory" id="frsd_required"
-                                placeholder="FRSD Funding Required" name="frsd_required"
-                                formControlName="fsrdFundingReq"> -->
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
-                            <input type="text" class="form-control" id="frsd_amount" placeholder="FRSD Premium Amount"
-                                name="frsd_amount" formControlName="fsrdPremiumAmount" maxlength="10"
-                                pattern="^[1-9][0-9]*$">
-
-                            <div class="cus-mandatory-field" *ngIf="obj.controls['fsrdPremiumAmount'].maxlength">
-                                The length of fsrd premium amount should be ten digits only
-                            </div>
+                            <app-custom-input formControlName="fsrdPremiumAmount" [type]="'number'" [id]="'frsd_amount'"
+                                [className]="'form-control mandatory'" [isRequired]="'FRSD Premium Amount Required'"
+                                [isDirty]="isDirty" [maxLength]="maxlength10"
+                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'FRSD Premium Amount'">
+                            </app-custom-input>
                         </div>
 
                     </div>

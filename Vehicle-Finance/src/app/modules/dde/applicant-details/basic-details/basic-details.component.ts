@@ -72,7 +72,7 @@ export class BasicDetailsComponent implements OnInit {
     msg: 'Invalid Name',
   };
   nameSpacePattern = {
-    rule: '^[A-Z ]*[a-z ]*$',
+    rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
     msg: 'Invalid Name',
   };
 //   companyPattern ={
@@ -84,7 +84,7 @@ export class BasicDetailsComponent implements OnInit {
     msg : 'Invalid'
   }
   mobilePattern={
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   }
   emailPattern={

@@ -117,6 +117,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     Geolocation,
     Camera,
   ],
+  
 
   bootstrap: [AppComponent],
 })

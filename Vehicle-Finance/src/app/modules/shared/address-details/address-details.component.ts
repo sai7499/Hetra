@@ -90,14 +90,14 @@ export class AddressDetailsComponent implements OnInit {
   };
   pincodePattern = {
     rule: '^[1-9][0-9]{5}$',
-    msg: 'Invalid pincode',
+    msg: 'Pincode Must be 6 Digits',
   };
   pincodeLength = {
     rule: 6,
     msg: 'Should be 6 digit',
   };
   mobilePattern = {
-    rule: '^[1-9][0-9]*$',
+    rule: '^[6-9][0-9]*$',
     msg: 'Invalid Mobile Number',
   };
   mobileLength10 = {
@@ -923,12 +923,14 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+    
     this.isDirty = true;
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
         return;
       }
       const value = this.addressForm.value;
+      console.log('value', value)
       if (this.isIndividual) {
         this.storeIndividualValueInService(value);
       } else {

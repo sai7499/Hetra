@@ -599,9 +599,33 @@ h4.table-head-bg.m-0.p-02 {
  
 }
 
-.sourcingCodeDisable {
-  background-color: #eee;
-  opacity: 1;
+.codeDisable {
+  background-color: #eee !important;
+  opacity: 1 !important;
 }
+.invalid-feedback {
+  font-size: 1.0vw;
+  font-family: zurich-bold;
+  letter-spacing: 0.5px;
+  color: red;
+  padding-top: 0.5vw;
+}
+
+  .codeDisable .autocomplete-container .input-container input {
+    border-radius: 4px !important;
+    padding: 6px 12px !important;
+    font-size: 14px !important;
+    line-height: 1.42857143 !important;
+    color: #555 !important;
+    background-color: #eee !important;
+    background-image: none !important;
+    border-radius: 4px !important;
+    height:100% !important;   
+  }
+  .disableCode {
+    background-color: #eee !important;
+  }
+
+
 
 

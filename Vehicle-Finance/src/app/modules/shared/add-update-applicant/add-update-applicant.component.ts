@@ -38,7 +38,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // msg: 'Invalid Pan',
   };
   panFormPattern = {
-    rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    // rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    rule: '[A-Z]{5}[0-9]{4}[A-Z]{1}',
     msg: 'Pan is invalid',
   };
   namePattern = {
@@ -850,11 +851,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (this.isAddressSame) {
           this.currentPincode = this.permanentPincode;
 
+          this.isCurrAddSameAsPermAdd = '1';
+
           cummunicationAddress.patchValue(
             this.createAddressObject(permenantAddressObj)
           );
           cummunicationAddress.disable();
         } else {
+          this.isCurrAddSameAsPermAdd = '0';
           const cummunicationAddressObj =
             addressObj[Constant.COMMUNICATION_ADDRESS];
           this.currentPincode = this.formatPincodeData(cummunicationAddressObj);
@@ -1113,6 +1117,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       leadId: this.leadId,
       isMobileNumberChanged: this.isMobileChanged,
     };
+
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
       if (response.Error === '0') {
@@ -1128,7 +1133,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onAddress(event) {
     const eventClicked = event.target.checked;
-    this.isCurrAddSameAsPermAdd = eventClicked === true ? '1' : '0';
+    this.isCurrAddSameAsPermAdd = eventClicked ? '1' : '0';
     const communicationAddress = this.coApplicantForm.get(
       'communicationAddress'
     );
@@ -1175,6 +1180,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     this.isDirty = true;
     if (dedupe.invalid) {
+      return;
+    }
+
+    if (
+      this.passportMandatory['passportIssueDate'] &&
+      !this.passportIssueDate &&
+      !this.passportExpiryDate
+    ) {
+      return;
+    }
+
+    if (
+      this.mandatory['drivingLicenseIssueDate'] &&
+      !this.drivingLicenseIssueDate &&
+      !this.drivingLicenseExpiryDate
+    ) {
       return;
     }
 
