@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="customerProfileForm" *ngIf="labels">
+<form class="multisteps-form__form" [formGroup]="customerProfileForm" *ngIf="this.customerProfileForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <h3 class="title">{{labels.customerProfileTitle}}</h3>
         <div class="row">
@@ -106,14 +106,17 @@
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
+                    
+                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
                         {{labels.back}} </button> &nbsp;
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../applicant-detail',applicantId]">
-                        {{labels.back}} </button> &nbsp;
+                        {{labels.back}} </button> &nbsp; -->
+                        <button class="btn btn-primary" type="button" (click)="onNavigateBack()" >
+                            {{labels.back}} </button>
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
-                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button>
-
+                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
+                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button> -->
+                    <button class="btn btn-primary" type="button" (click)="onNavigateNext()"> {{labels.next}} </button>
                 </div>
             </div>
         </div>

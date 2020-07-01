@@ -114,15 +114,15 @@ export interface ApplicantDetails {
     fatherName?: string;
     gender?: string;
     maritalStatus?: string;
-    physicallyChallenged?: number;
+    physicallyChallenged?: string;
     residancePhoneNumber?: string;
     officePhoneNumber?: string;
     mobile?: string;
-    residenceAddressAsPerLoanApplication?: number;
+    residenceAddressAsPerLoanApplication?: string;
     bankName?: string;
     accountNumber?: string;
     landmark?: string;
-    addressAccessibility?: number;
+    addressAccessibility?: string;
     residentialLocality?: string;
     residentialType?: string;
     houseType?: string;

@@ -88,19 +88,20 @@ export class ApplicantDetailComponent implements OnInit {
   data: any;
   userId: number;
   roles: any;
+  leadId: number;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commomLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private personaldiscussion: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commomLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private personaldiscussion: PersonalDiscussionService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService) { }
 
-  ngOnInit() {
+    async ngOnInit() {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -112,7 +113,8 @@ export class ApplicantDetailComponent implements OnInit {
 
     console.log("user id ==>", this.userId)
     this.initForm();
-
+    this.leadId = (await this.getLeadId()) as number;
+    console.log('Lead ID in Aplicant Details', this.leadId);
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -126,6 +128,16 @@ export class ApplicantDetailComponent implements OnInit {
       //  this.setFormValue();
     });
 
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
   }
 
   getLOV() {
@@ -194,6 +206,23 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantModal.ratingbySO || ''
     });
   }
+  onNavigateNext() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
+
+    }
+  }
+
+  onNavigateBack() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/../../../customer-profile/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`../../../customer-profile/${this.applicantId}/${this.version}`]);
+
+    }
+  }
 
   getPdDetails() {
     // const data = {
@@ -202,15 +231,14 @@ export class ApplicantDetailComponent implements OnInit {
     //   pdVersion: this.version,
 
     // };
-    if (this.roleName == 'Credit Officer') {
+    if (this.roleName === 'Credit Officer') {
       this.data = {
 
         applicantId: 6,
         // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
         pdVersion: this.version,
       };
-    }
-    else if (this.roleName == 'Sales Officer') {
+    } else if (this.roleName === 'Sales Officer') {
       this.data = {
 
         applicantId: 6,
@@ -257,7 +285,7 @@ export class ApplicantDetailComponent implements OnInit {
       residancePhoneNumber: applicantFormModal.residancePhoneNumber,
       officePhoneNumber: applicantFormModal.officePhoneNumber,
       mobile: applicantFormModal.mobile,
-      residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPeLoanApplication,
+      residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPerLoanApplication,
       bankName: applicantFormModal.bankName,
       accountNumber: applicantFormModal.accountNumber,
       landmark: applicantFormModal.landmark,
@@ -271,6 +299,9 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantFormModal.ratingbySO,
     };
     const data = {
+      leadId: 1,
+      applicantId: 6,
+      userId: this.userId,
       applicantPersonalDiscussionDetails: this.applicantDetails,
       // customerProfileDetails: null,
       // loanDetailsForNewCv: null,
@@ -279,7 +310,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     };
 
-    this.personaldiscussion.savePdData(data).subscribe((value: any) => {
+    this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Applicant Details saved !', '');

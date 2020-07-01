@@ -60,38 +60,38 @@ export class CustomerProfileDetailsComponent implements OnInit {
   roles: any;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private personalDiscusion: PersonalDiscussionService,
-    private toasterService: ToasterService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private personalDiscussion: PersonalDiscussionService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private personalDiscusion: PersonalDiscussionService,
+              private toasterService: ToasterService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private personalDiscussion: PersonalDiscussionService) { }
 
-  ngOnInit() {
+ async ngOnInit() {
 
     // accessing lead if from route
 
-    // this.leadId = (await this.getLeadId()) as number;
+     this.leadId = (await this.getLeadId()) as number;
     // console.log("leadID =>", this.leadId)
 
     // method for getting all vehicle details related to a lead
 
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userId = roleAndUserDetails.userDetails.userId;
-    this.roles = roleAndUserDetails.roles;
-    // this.roleName = this.roles[0].name;
-    this.roleName = 'Sales Officer';
+     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+     this.userId = roleAndUserDetails.userDetails.userId;
+     this.roles = roleAndUserDetails.roles;
+     this.roleName = this.roles[0].name;
+    // this.roleName = 'Sales Officer';
     // this.roleName = 'Credit Officer';
 
-    console.log("user id ==>", this.userId)
+     console.log("user id ==>", this.userId)
 
-    this.initForm();
+     this.initForm();
 
-    this.getLabels = this.labelsData.getLabelsData().subscribe(
+     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
       },
@@ -99,31 +99,31 @@ export class CustomerProfileDetailsComponent implements OnInit {
         this.errorMsg = error;
       });
 
-    this.getLOV();
+     this.getLOV();
     // this.commonService()
-    this.getPdDetails();
-    this.setFormValue();
+     this.getPdDetails();
+     this.setFormValue();
 
-    this.lovDataService.getLovData().subscribe((value: any) => {
+     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
       // console.log("lov customer", this.customerProfileLov)
 
     });
 
   }
-  // getLeadId() {
-  //   // console.log("in getleadID")
-  //   return new Promise((resolve, reject) => {
-  //     this.activatedRoute.parent.params.subscribe((value) => {
-  //       if (value && value.leadId) {
-  //         // console.log("in if", value.leadId)
-  //         resolve(Number(value.leadId));
-  //         // console.log("after resolve", value.leadId)
-  //       }
-  //       resolve(null);
-  //     });
-  //   });
-  // }
+  getLeadId() {
+    // console.log("in getleadID")
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          // console.log("in if", value.leadId)
+          resolve(Number(value.leadId));
+          // console.log("after resolve", value.leadId)
+        }
+        resolve(null);
+      });
+    });
+  }
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
@@ -199,6 +199,23 @@ export class CustomerProfileDetailsComponent implements OnInit {
       }
     });
 
+  }
+
+  onNavigateNext() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+    }
+  }
+  onNavigateBack() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`]);
+
+    }
   }
 
   setFormValue() {
