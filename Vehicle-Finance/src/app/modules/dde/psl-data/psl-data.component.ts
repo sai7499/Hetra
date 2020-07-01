@@ -116,7 +116,7 @@ export class PslDataComponent implements OnInit, OnChanges {
       msg: "Invalid Input / Alphabets and Special Characters not allowed",
     },
     landAreaPattern: {
-      rule: "^[0-9]+(\.[0-9]{1})?$",
+      rule: "^([1-9][0-9]*)(\.[0-9]{1,3})?$",
       msg: "Invalid Input / Alphabets and Special Characters not allowed except Decimal"
     }
   };
@@ -506,6 +506,33 @@ getActivityLOVS() {
     });
     this.pslDataForm.get("agriculture").patchValue({
       pslSubCategory: "",
+    });
+    this.pslDataForm.get("agriculture").patchValue({
+      landProof: "",
+    });
+    this.pslDataForm.get("agriculture").patchValue({
+      pslCCertificate: "",
+    });
+    this.pslDataForm.get("agriculture").patchValue({
+      weakerSection: "",
+    });
+    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+      pslSubCategory: "",
+    });
+    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+      otherInvestmentCost: 0,
+    });
+    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+      totalInvestmentCost: 0,
+    });
+    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+      investmentInEquipment: 0,
+    });
+    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+      investmentInPlantAndMachinery: 0,
+    });
+    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+      pslCCertificate: "",
     });
     this.pslDependentLOVSData.map((element) => {
       if (element.dltActivityId === this.detailActivityChange) {
@@ -1042,6 +1069,18 @@ getActivityLOVS() {
     this.pslDataForm.get("agriculture").patchValue({
       pslSubCategory: "",
     });
+    this.pslDataForm.get("agriculture").patchValue({
+      pslCCertificate: "",
+    });
+    this.pslDataForm.get("agriculture").patchValue({
+      weakerSection: "",
+    });
+    this.pslDataForm.get("agriculture").patchValue({
+      farmerType: "",
+    });
+    this.pslDataForm.get("agriculture").patchValue({
+      landArea: 0,
+    });
     this.farmerTypeValues = [];
     if (this.pslLandHoldingChange === "1") {
       this.LOV.LOVS.pslFarmerType.filter( (element) => { 
@@ -1183,6 +1222,7 @@ getActivityLOVS() {
     );
     // console.log("totalInvestmentCost" ,this.totalInvestmentCost);
     if (this.activityChange === "1PSLACTVTY") {
+      this.isDirty = true;
       this.formValues = this.pslDataForm.get("agriculture").value;
       console.log("formValues--------", this.formValues);
       if (!this.formValues.pslCCertificate) {
@@ -1212,6 +1252,7 @@ getActivityLOVS() {
         this.toasterService.showError("Please fill all mandatory fields.", "");
       }
     } else if (this.activityChange === "2PSLACTVTY") {
+      this.isDirty = true;
       this.formValues = this.pslDataForm.get(
         "microSmallAndMediumEnterprises"
       ).value;
@@ -1257,10 +1298,9 @@ getActivityLOVS() {
   }
 
   onFormSubmit() {
-    this.isDirty = true;
     this.saveOrUpdatePslData();
-    const formModel = this.pslDataForm.value;
-    const pslDataFormModel = { ...formModel };
+    // const formModel = this.pslDataForm.value;
+    // const pslDataFormModel = { ...formModel };
     // console.log("PSL_DATA_FORM", pslDataFormModel);
     // this.ddeStoreService.setPslData(pslDataFormModel);
     // this.router.navigate(["/pages/dde/vehicle-valuation"]);

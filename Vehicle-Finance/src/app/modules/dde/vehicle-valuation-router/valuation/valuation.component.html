@@ -130,7 +130,8 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="vehicle_available_in_grid">{{labels.vhAvailInGrid}}</label>
-                        <app-vf-custom-select [values]="valuesToYesNo" formControlName="vehicleAvailGrid">
+                        <app-vf-custom-select [values]="valuesToYesNo" 
+                            formControlName="vehicleAvailGrid" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
                     <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf = "isInputField">
@@ -363,7 +364,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="agriculture_proof">{{labels.agricultureProof}} </label>
                         <app-vf-custom-select [values]="valuesToYesNo" formControlName="agricultureProof"
-                        [isRequired]="'Please Select One Option'"
+                        [isRequired]="'Please Select One Option'" [isDirty]="isDirty"
                         >
                         </app-vf-custom-select>
                         
@@ -381,8 +382,7 @@
            
                     <kendo-datepicker class="form-control" formControlName="dateofReg"
                         [activeView]="'decade'"  [format]="'dd/MM/yyyy'" 
-                        [max]="toDayDate" 
-                        placeholder="Vehicle Reg.Date">
+                        [max]="toDayDate" placeholder="Vehicle Reg.Date">
                     </kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -419,12 +419,14 @@
                         <app-vf-custom-select [values]="valuesToYesNo"
                             formControlName="interStateVehicle"
                             [isRequired]="'Please Select One Option'"
+                            [isDirty]="isDirty"
                         > </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="duplicate_rc">{{labels.duplicateRC}} </label>
                         <app-vf-custom-select [values]="valuesToYesNo" formControlName="duplicateRc"
                             [isRequired]="'Please Select One Option'"
+                            [isDirty]="isDirty"
                         >
                         </app-vf-custom-select>
                     </div>
