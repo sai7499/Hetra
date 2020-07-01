@@ -324,7 +324,12 @@ export class ApiService {
     saveUpdateVehicleValuation: {
       processId: '29f089d09c2b11eabddcf2fa9bec3d63',
       workflowId: '2d8a14fa9c2911eabddcf2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getCamDetails: {
+      processId: 'd65f9efeb84611ea8b34f2fa9bec3d63',
+      workflowId: 'd641350eb84611ea8b34f2fa9bec3d63',
+      projectId: environment.projectIds.camProjectId,
     },
     getDeviations: {
       processId: '24527ea6b14e11ea86caf2fa9bec3d63',
