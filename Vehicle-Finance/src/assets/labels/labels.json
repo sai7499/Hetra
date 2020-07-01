@@ -889,6 +889,18 @@
             },
             "type":"number"
     },
+    "amount":{
+        "maxLength": {
+            "rule": 10                    
+            },
+            "type":"number"
+    },
+    "receiptNo":{
+        "maxLength": {
+            "rule": 15                    
+            },
+            "type":"number"
+    },
     "percentage":{
         "maxLength": {
             "rule": 3                    
@@ -906,8 +918,19 @@
             "rule": 15                    
             },
             "type":"alpha-numeric"
+    },
+    "tenurePaid":{
+        "maxLength": {
+            "rule": 3                    
+            },
+            "type":"number"
+    },
+    "contractValue":{
+        "maxLength": {
+            "rule": 10                    
+            },
+            "type":"number"
     }
-
 
 }
 }
