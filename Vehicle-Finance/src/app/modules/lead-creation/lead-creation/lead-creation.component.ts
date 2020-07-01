@@ -458,7 +458,7 @@ export class LeadCreationComponent implements OnInit {
         fundingProgram: leadModel.fundingProgram,
         sourcingChannel: leadModel.sourcingChannel,
         sourcingType: leadModel.sourcingType,
-        sourcingCode: leadModel.sourcingCode.key
+        sourcingCode: leadModel.sourcingCode
           ? leadModel.sourcingCode.key
           : '',
         dealorCode: leadModel.dealerCode.dealorCode,
@@ -466,7 +466,7 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
-        sourcingCodeDescription: leadModel.sourcingCode.value
+        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value:''
       };
 
       this.applicantDetails = {

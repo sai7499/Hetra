@@ -23,6 +23,7 @@ export class FleetDetailsComponent implements OnInit {
 
   public fleetForm: FormGroup;
   labels: any = {};
+  formValidation:any = {};
   values: any = [];
   leadId: number;
   userId: number;
@@ -76,6 +77,8 @@ export class FleetDetailsComponent implements OnInit {
       msg: 'Invalid Vechile No / Special Characters not allowed'
     }
   }
+  currentYear = new Date().getFullYear();
+  yearCheck = [];
   constructor(
 
     private labelsData: LabelsService,
@@ -89,7 +92,9 @@ export class FleetDetailsComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService) { 
+      this.yearCheck = [{rule: val => val>this.currentYear,msg:'Feature year not accepted'}];
+    }
 
 
   async ngOnInit() {
@@ -123,9 +128,10 @@ export class FleetDetailsComponent implements OnInit {
       this.values = res[0].fleetDetails[0];
     });
 
-    this.labelsData.getLabelsFleetData().subscribe(
+    this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.lablesFleet;
+        this.formValidation = data;
       },
       error => {
         console.log(error);

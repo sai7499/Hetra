@@ -28,6 +28,7 @@ import { DeviationsComponent } from './deviations/deviations.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
+import { NumberOnlyDirective } from '@services/directives/number-only.directive';
 
 @NgModule({
   declarations: [
