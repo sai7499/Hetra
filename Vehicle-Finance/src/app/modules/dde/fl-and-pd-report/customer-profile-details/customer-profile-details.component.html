@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="customerProfileForm" *ngIf="labels">
+<form class="multisteps-form__form" [formGroup]="customerProfileForm" *ngIf="this.customerProfileForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <h3 class="title">{{labels.customerProfileTitle}}</h3>
         <div class="row">

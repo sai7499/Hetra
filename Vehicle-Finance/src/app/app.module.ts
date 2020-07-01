@@ -46,9 +46,10 @@ import { LeadDataResolverService } from './modules/lead-section/services/leadDat
 
 import { setTheme } from 'ngx-bootstrap/utils';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { TimePickerModule } from '@progress/kendo-angular-dateinputs';
 import { ToastrModule } from 'ngx-toastr';
-import { DateInputsModule} from '@progress/kendo-angular-dateinputs';
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { NumberOnlyDirective } from './services/directives/number-only.directive';
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
 
@@ -86,6 +87,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DdeSharedModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     DatePickerModule,
+    TimePickerModule,
     ToastrModule.forRoot(),
     DateInputsModule,
     AutocompleteLibModule,
@@ -118,4 +120,4 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

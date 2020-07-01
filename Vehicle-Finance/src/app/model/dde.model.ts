@@ -1,3 +1,5 @@
+import { ReferenceCheckComponent } from '@modules/dde/fl-and-pd-report/reference-check/reference-check.component';
+
 export interface Dde {
     vehicleValuation?: VehicleValuation;
     pslData?: PslData;
@@ -6,6 +8,7 @@ export interface Dde {
     loanDetails?: LoanDetails;
     fleetDetails?: FleetDetails;
     trackVehicle?: TrackVehicle;
+    referenceCheck?: ReferenceCheck;
 }
 
 export interface VehicleValuation {
@@ -247,4 +250,20 @@ export interface TrackVehicle {
     rcptAmount?: string;
     delayDays?: string;
     paymentsExcess?: string;
+}
+
+export interface ReferenceCheck {
+    addressOfReference?: string,
+    nameOfReference?: string,
+    overallFiReport?: string,
+    pdRemarks?: string,
+    referenceMobile?: string,
+    soName?: string;
+    employeeCode?: string;
+    date?: string;
+    place?: string;
+    time?: string;
+    // referenceType?: string,
+    // routeMapId?: string,
+    // stage?: string
 }

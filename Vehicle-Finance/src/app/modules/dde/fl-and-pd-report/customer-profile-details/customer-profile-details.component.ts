@@ -58,12 +58,12 @@ export class CustomerProfileDetailsComponent implements OnInit {
   version: string;
   roleName: string;
   roles: any;
+  userName: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
-    private personalDiscusion: PersonalDiscussionService,
     private toasterService: ToasterService,
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
@@ -71,22 +71,23 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private pdDataService: PdDataService,
     private personalDiscussion: PersonalDiscussionService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     // accessing lead if from route
 
-    // this.leadId = (await this.getLeadId()) as number;
-    // console.log("leadID =>", this.leadId)
+    this.leadId = (await this.getLeadId()) as number;
+    console.log("leadID =>", this.leadId)
 
     // method for getting all vehicle details related to a lead
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.userName = roleAndUserDetails.userDetails.firstName;
     this.roles = roleAndUserDetails.roles;
-    // this.roleName = this.roles[0].name;
-    this.roleName = 'Sales Officer';
+    this.roleName = this.roles[0].name;
+    // this.roleName = 'Sales Officer';
     // this.roleName = 'Credit Officer';
-
+    console.log("user name", this.userName)
     console.log("user id ==>", this.userId)
 
     this.initForm();
@@ -111,19 +112,19 @@ export class CustomerProfileDetailsComponent implements OnInit {
     });
 
   }
-  // getLeadId() {
-  //   // console.log("in getleadID")
-  //   return new Promise((resolve, reject) => {
-  //     this.activatedRoute.parent.params.subscribe((value) => {
-  //       if (value && value.leadId) {
-  //         // console.log("in if", value.leadId)
-  //         resolve(Number(value.leadId));
-  //         // console.log("after resolve", value.leadId)
-  //       }
-  //       resolve(null);
-  //     });
-  //   });
-  // }
+  getLeadId() {
+    // console.log("in getleadID")
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          // console.log("in if", value.leadId)
+          resolve(Number(value.leadId));
+          // console.log("after resolve", value.leadId)
+        }
+        resolve(null);
+      });
+    });
+  }
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
@@ -164,7 +165,12 @@ export class CustomerProfileDetailsComponent implements OnInit {
     else {
       console.log("common variable is empty calling get api")
 
-      this.getPdDetails();
+      // this.getPdDetails();
+
+
+
+
+
     }
   }
 
@@ -255,17 +261,19 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerProfileDetails: this.custProfileDetails
     };
 
-    this.personalDiscusion.saveOrUpdatePdData(data).subscribe((res: any) => {
+    this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('customer Profle Details saved !', '');
-        this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
+
       } else {
         console.log('error', res.ProcessVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
 
       }
     });
+    // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
+    // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`]);
 
 
   }

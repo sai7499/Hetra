@@ -722,5 +722,13 @@
     "balanceOn15th": "Balance as on 15th",
     "balanceOn20th": "Balance as on 20th",
     "abbOfMonth": "ABB Of The Month",
-    "backToApplicantDetails": "Back To Applicant Details"
+    "backToApplicantDetails": "Back To Applicant Details",
+    "referenceCheck": "Reference Check",
+    "personName": "Person Name",
+    "addressOfThePerson": "Address of the person",
+    "contacNumber": "Contact Number",
+    "place": "Place",
+    "overallReport": "Overall Report",
+    "referenceRemarks": "Remarks",
+    "referenceCheckTitle": "Reference Check"
 }
