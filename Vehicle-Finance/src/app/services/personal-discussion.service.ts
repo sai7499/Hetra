@@ -26,7 +26,8 @@ export class PersonalDiscussionService {
   pdTaskDashboard: {
     processId?: string;
     workflowId?: string;
-  }
+  };
+  userId: any;
 
   constructor(
     private httpService: HttpService,
@@ -60,13 +61,14 @@ export class PersonalDiscussionService {
     const projectId = environment.projectIds.creditProjectId;
     const processId = this.pdData.processId;
     const workflowId = this.pdData.workflowId;
-    console.log('input data in getPddata', data);
+    this.userId = localStorage.getItem('userId');
+    console.log('userID in Get PD Data', this.userId);
     const body = {
       projectId,
       processId,
       workflowId,
       ProcessVariables: {
-        userId: '1002',
+        userId: this.userId,
         ...data
       },
     };

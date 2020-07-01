@@ -64,6 +64,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private lovDataService: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
+    private personalDiscusion: PersonalDiscussionService,
     private toasterService: ToasterService,
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
@@ -76,7 +77,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     // accessing lead if from route
 
     this.leadId = (await this.getLeadId()) as number;
-    console.log("leadID =>", this.leadId)
+    // console.log("leadID =>", this.leadId)
 
     // method for getting all vehicle details related to a lead
 
@@ -205,6 +206,23 @@ export class CustomerProfileDetailsComponent implements OnInit {
       }
     });
 
+  }
+
+  onNavigateNext() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+    }
+  }
+  onNavigateBack() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`]);
+
+    }
   }
 
   setFormValue() {

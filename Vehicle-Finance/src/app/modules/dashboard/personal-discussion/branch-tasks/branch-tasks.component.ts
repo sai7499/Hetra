@@ -55,8 +55,8 @@ export class BranchTasksComponent implements OnInit {
     const data = {
       taskName: 'Personal Discussion',
       branchId: this.branchId,
-      // roleId: this.roleId, Uncomment this after getting proper data
-      roleId: '4',
+      roleId: this.roleId, /* Uncomment this after getting proper data */
+      // roleId: '1',
       currentPage: 1,
       perPage: 3,
       myLeads: false,

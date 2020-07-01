@@ -61,21 +61,21 @@ export class LoanDetailsComponent implements OnInit {
 
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private personalDiscussion: PersonalDiscussionService,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private personalDiscussion: PersonalDiscussionService,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService) { }
 
-  ngOnInit() {
+ async ngOnInit() {
 
     // accessing lead id from route
 
-    // this.leadId = (await this.getLeadId()) as number;
+    this.leadId = (await this.getLeadId()) as number;
     // console.log("leadID =>", this.leadId)
 
     // method for getting all vehicle details related to a lead
@@ -83,10 +83,10 @@ export class LoanDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
-    // this.roleName = this.roles[0].name;
-    this.roleName = 'Sales Officer';
+    this.roleName = this.roles[0].name;
+    // this.roleName = 'Sales Officer';
     // this.roleName = 'Credit Officer';
-    console.log("this user", this.roleName)
+    console.log("this user", this.roleName);
 
     // console.log("user id ==>", this.userId)
 
@@ -279,6 +279,25 @@ export class LoanDetailsComponent implements OnInit {
         // this.pdDataService.setLoanDetails(this.loanDetails)
       }
     });
+  }
+
+  onNavigateNext() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/reference-check/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      console.log('URL for Loan => Next In Credit Flow', `/pages/fl-and-pd-report/${this.leadId}/pd-report`);
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/pd-report`]);
+
+    }
+  }
+
+  onNavigateBack() {
+    if (this.roleName === 'Sales Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
+    } else if (this.roleName === 'Credit Officer') {
+      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
+
+    }
   }
 
   setFormValue() {
