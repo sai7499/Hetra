@@ -863,7 +863,8 @@
         "rcptAmount": "Rcpt Amount",
         "delayDays": "Delay Days",
         "paymentsExcess": "Payments excess/short",
-        "emiAmount": "Emi Amount"
+        "emiAmount": "Emi Amount",
+        "reinitiate": "Reinitiate"
     },
     "validationData": {
         "name": {

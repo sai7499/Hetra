@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -39,6 +39,11 @@ export class ApplicantDetailComponent implements OnInit {
     msg: '',
   };
 
+  maxlength25 = {
+    rule: 25,
+    msg: '',
+  };
+
   landlinePattern = {
     rule: '^[0-9]{6,15}',
     msg: 'Invalid Landline Number',
@@ -50,8 +55,8 @@ export class ApplicantDetailComponent implements OnInit {
   };
 
   mobileNumberPattern = {
-    rule: '^[1-9][0-9]*$',
-    msg: 'Numbers Only Required',
+    rule: '^[6-9][0-9]*$',
+    msg: 'Invalid Mobile Number',
   };
 
   maxlength10 = {
@@ -60,8 +65,8 @@ export class ApplicantDetailComponent implements OnInit {
   };
 
   bankAccountNumber = {
-    rule: '^[0-9]{9,18}$',
-    msg: 'Invalid Account No',
+    rule: '^[0-9A-Za-z]{9,15}$',
+    msg: 'Invalid Account Number',
   };
 
   maxlength18 = {
@@ -158,25 +163,25 @@ export class ApplicantDetailComponent implements OnInit {
   initForm() {
     this.applicantForm = new FormGroup({
       applicantName: new FormControl(''),
-      fatherName: new FormControl(''),
-      gender: (new FormControl('')),
-      maritalStatus: new FormControl(''),
-      physicallyChallenged: new FormControl(''),
-      residancePhoneNumber: new FormControl(''),
-      officePhoneNumber: new FormControl(''),
-      mobile: new FormControl(''),
-      residenceAddressAsPerLoanApplication: new FormControl(''),
-      bankName: new FormControl(''),
-      accountNumber: new FormControl(''),
-      landmark: new FormControl(''),
-      addressAccessibility: new FormControl(''),
-      residentialLocality: new FormControl(''),
-      residentialType: new FormControl(''),
-      houseType: new FormControl(''),
-      sizeOfHouse: new FormControl(''),
-      standardOfLiving: new FormControl(''),
-      houseOwnership: new FormControl(''),
-      ratingbySO: new FormControl('')
+      fatherName: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      maritalStatus: new FormControl('', Validators.required),
+      physicallyChallenged: new FormControl('', Validators.required),
+      residancePhoneNumber: new FormControl('', Validators.required),
+      officePhoneNumber: new FormControl('', Validators.required),
+      mobile: new FormControl('', Validators.required),
+      residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
+      bankName: new FormControl('', Validators.required),
+      accountNumber: new FormControl('', Validators.required),
+      landmark: new FormControl('', Validators.required),
+      addressAccessibility: new FormControl('', Validators.required),
+      residentialLocality: new FormControl('', Validators.required),
+      residentialType: new FormControl('', Validators.required),
+      houseType: new FormControl('', Validators.required),
+      sizeOfHouse: new FormControl('', Validators.required),
+      standardOfLiving: new FormControl('', Validators.required),
+      houseOwnership: new FormControl('', Validators.required),
+      ratingbySO: new FormControl('', Validators.required)
     });
   }
 
@@ -266,6 +271,10 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantFormModal = { ...formModal };
     console.log('Form Data', applicantFormModal);
     console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
+    this.isDirty = true;
+    if (this.applicantForm.invalid) {
+      return;
+    }
     //  this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
     // if (
     //   this.applicantForm.get('physicallyChallenged').invalid ||
