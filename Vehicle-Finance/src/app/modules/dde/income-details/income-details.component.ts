@@ -56,6 +56,8 @@ export class IncomeDetailsComponent implements OnInit {
   totalMonthlyAgriIncome = 0;
   totalMonthlyOtherIncome = 0;
   totalSalariedFOIR = 0;
+  totalMonthlyOtherIncomeOfOthers = 0;
+  otherArray = [];
   salArray = [];
   rentArray = [];
   pensionArray = [];
@@ -83,6 +85,7 @@ export class IncomeDetailsComponent implements OnInit {
   isDirty: boolean;
   incomeTypeValue: any;
   SalariedFOIRDeviation: number;
+ 
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -630,13 +633,13 @@ export class IncomeDetailsComponent implements OnInit {
     }
     if (incomeArray.at(i).value.incomeType === 'OTHRINCTYP') {
       if (incomeArray && incomeArray.length > 0) {
-        this.totalMonthlyAgriIncome = 0;
+        this.totalMonthlyOtherIncomeOfOthers = 0;
         for (let i = 0; i < incomeArray.length; i++) {
           if (incomeArray.at(i).value.incomeType === 'OTHRINCTYP') {
-            this.totalMonthlyAgriIncome = Math.round(
-              this.totalMonthlyAgriIncome + incomeArray.value[i].factoredIncome
+            this.totalMonthlyOtherIncomeOfOthers = Math.round(
+              this.totalMonthlyOtherIncomeOfOthers + incomeArray.value[i].factoredIncome
             );
-            this.agriArray.push(this.totalMonthlyAgriIncome);
+            this.otherArray.push(this.totalMonthlyOtherIncomeOfOthers);
           }
         }
       }
