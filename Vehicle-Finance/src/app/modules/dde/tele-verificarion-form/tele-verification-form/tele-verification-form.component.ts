@@ -86,6 +86,10 @@ export class TeleVerificationFormComponent implements OnInit {
       rule: '3',
       msg: ''
     },
+    maxLength4: {
+      rule: '4',
+      msg: ''
+    },
     maxLength5: {
       rule: '5',
       msg: ''
