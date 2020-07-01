@@ -38,9 +38,9 @@
                                 formControlName="regdNo"
                                 [className]="'form-control mandatory'"
                                 [placeholder]="'regdNo'"
-                                [maxLength]="validationData.vehicleRegNo['maxLength']"
+                                [maxLength]="validationData?.vehicleRegNo['maxLength']"
                                 [isRequired]="'Registration number is mandatory'"
-                                [type] = "validationData.vehicleRegNo['type']"
+                                [type] = "validationData?.vehicleRegNo['type']"
                                 [isDirty]="isDirty"
                                 >
                               </app-custom-input>
@@ -79,10 +79,10 @@
                                 formControlName="regdOwner"
                                 [className]="'form-control mandatory'"
                                 [placeholder]="'Owner name'"
-                                [maxLength]="validationData.name.maxLength"
+                                [maxLength]="validationData?.name.maxLength"
                                 [isRequired]="'Owner name is mandatory'"
                                 [isDirty]="isDirty"
-                                [type]="validationData.name.type"
+                                [type]="validationData?.name.type"
                                 >
                               </app-custom-input>
                             </td>
@@ -125,9 +125,9 @@
                                         formControlName="yom"
                                         [className]="'form-control mandatory'"
                                         [placeholder]="'YOM'"
-                                        [maxLength]="formValidation?.validationData.yom.maxLength"                      
+                                        [maxLength]="formValidation?.validationData?.yom.maxLength"                      
                                         [isRequired]="'YOM mandatory'"                     
-                                        [type]="formValidation?.validationData.yom.type"
+                                        [type]="formValidation?.validationData?.yom.type"
                                         [custom]="yearCheck"
                                         [isDirty]="isDirty">
                                     </app-custom-input>
@@ -162,9 +162,9 @@
                                         formControlName="loanNo"
                                         [className]="'form-control mandatory'"
                                         [placeholder]="'loanNo'"
-                                        [maxLength]="validationData.loanNumber.maxLength"
+                                        [maxLength]="validationData?.loanNumber.maxLength"
                                         [isRequired]="'Loan No is mandatory'"
-                                        [type] = "validationData.loanNumber.type"
+                                        [type] = "validationData?.loanNumber.type"
                                         [isDirty]="isDirty"
                                     >
                               </app-custom-input>
@@ -211,10 +211,10 @@
                                 formControlName="tenure"
                                 [className]="'form-control mandatory'"
                                 [placeholder]="'Tenure'"
-                                [maxLength]="validationData.tenurePaid['maxLength']"
+                                [maxLength]="validationData?.tenurePaid['maxLength']"
                                 [isRequired]="'Tenure is mandatory'"
                                 [patternCheck]="regexPattern.tensure"
-                                [type] = "validationData.tenurePaid['type']"
+                                [type] = "validationData?.tenurePaid['type']"
                                 [isDirty]="isDirty"
                                 >
                               </app-custom-input>
@@ -245,9 +245,9 @@
                                     formControlName="paid"
                                     [className]="'form-control mandatory'"
                                     [placeholder]="'paid'"
-                                    [maxLength]="validationData.tenurePaid['maxLength']"
+                                    [maxLength]="validationData?.tenurePaid['maxLength']"
                                     [isRequired]="'Paid is mandatory'"
-                                    [type] = "validationData.tenurePaid['type']"
+                                    [type] = "validationData?.tenurePaid['type']"
                                     [isDirty]="isDirty"
                                     (keyup) = "checkPaid(event ,i)"
                                     >

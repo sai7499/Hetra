@@ -100,7 +100,7 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
                                     <!-- <input type="text" class="form-control mar-top19" id="contractDetails" name="contractDetails" formControlName="contractDetails"> -->
-                                    <app-custom-input id="contractDetails" [type]="'alpha-numeric'" formControlName="contractDetails" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
+                                    <app-custom-input id="contractDetails" [type]="'alpha-numeric'" formControlName="contractDetails" [className]="'mar-top19 form-control'" [maxLength]="regexPattern.maxLength50" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
                             </div>
@@ -142,11 +142,12 @@
 
                         <h3 class="dashboard text-center text-underline m-3">Tele Verification</h3>
                         <div class="row">
+                            <h4>Residence</h4>
                             <div class="row">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="residence" class="">{{labels.residence}}</label>
                                     <input type="text" class="form-control" id="residence" name="residence" formControlName="residentType">
-                                </div>
+                                </div> -->
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="otherVehicles">{{labels.otherVehicles}}</label>
                                     <!-- <input type="text" class="form-control" id="otherVehicles" name="otherVehicles" formControlName="otherVehiclesOwned"> -->
@@ -159,14 +160,15 @@
                                     <app-custom-input id="phoneNo" [type]="'number'" formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="address" class="">{{labels.address}}</label>
                                     <!-- <input type="text" class="form-control" id="address" name="address" formControlName="residentAddress"> -->
                                     <app-custom-input id="address" [type]="'alpha-numeric'" formControlName="residentAddress" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
+                            </div>
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="anyOtherLoansAsset">{{labels.anyOtherLoansAsset}}</label>
                                     <!-- <input type="text" class="form-control" id="anyOtherLoansAsset" name="anyOtherLoansAsset" formControlName="otherLoans"> -->
@@ -176,17 +178,18 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="teleVerification-emi">{{labels.emi}}</label>
                                     <!-- <input type="text" class="form-control" id="teleVerification-emi" name="teleVerification-emi" formControlName="otherLoanEmi"> -->
-                                    <app-custom-input id="teleVerification-emi" [type]="'number'" formControlName="otherLoanEmi" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [isDirty]="isDirty">
+                                    <app-custom-input id="teleVerification-emi" [type]="'number'" formControlName="otherLoanEmi" [className]="'form-control mandatory'" [maxLength]="regexPattern.assetFinanceLength" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="noOfYears">{{labels.noOfYears}}</label>
                                     <!-- <input type="text" class="form-control" id="noOfYears" name="noOfYears" formControlName="residentNoOfYrs"> -->
                                     <app-custom-input id="noOfYears" [type]="'number'" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength3" [patternCheck]="regexPattern.years" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
+                            </div>
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="teleVerification-CC">{{labels.cc}}</label>
                                     <!-- <input type="text" class="form-control" id="teleVerification-CC" name="teleVerification-CC" formControlName="cc"> -->
@@ -199,8 +202,6 @@
                                     <app-custom-input id="status" [type]="'alpha'" formControlName="tvrStatus" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="dob">{{labels.dob}}</label>
                                     <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
@@ -213,6 +214,9 @@
                                         <input type="date" class="form-control" id="dob" name="dob" formControlName="dob">
                                     </div> -->
                                 </div>
+                            </div>
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="spokenTo">{{labels.spokenTo}}</label>
                                     <!-- <input type="text" class="form-control" id="spokenTo" name="spokenTo" formControlName="spokenTo"> -->
@@ -225,13 +229,14 @@
                                     <app-custom-input id="familyMembers" [type]="'alpha'" formControlName="familyMembers" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="relationWithApplicant">{{labels.relationWithApplicant}}</label>
                                     <!-- <input type="text" class="form-control" id="relationWithApplicant" name="relationWithApplicant" formControlName="relationShip"> -->
                                     <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead" formControlName="relationShip"></app-vf-custom-select>
                                 </div>
+                            </div>
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="lead_created_date">{{labels.date}}</label>
                                     <kendo-datepicker class="form-control mandatory" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
@@ -248,8 +253,6 @@
                                     <label for="lead_created_time"> {{labels.time}}</label>
                                     <input type="time" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
                                     <div>
@@ -261,6 +264,9 @@
                                     </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+
 
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
@@ -278,8 +284,6 @@
                                     </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="sourcing_type" class="asset_type">{{labels.customerAvailability}}</label>
                                     <div>
@@ -291,19 +295,23 @@
                                 </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="eCode">{{labels.eCode}}</label>
                                     <input type="text" class="form-control" id="eCode" name="eCode" formControlName="eCode">
                                     <!-- <app-vf-custom-select formControlName="referredBy"> </app-vf-custom-select> -->
                                 </div>
+
+                            </div>
+                            <h4>Office</h4>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="workExperience">{{labels.workExperience}}</label>
                                     <!-- <input type="text" class="form-control" id="workExperience" name="workExperience" formControlName="wrkExperience"> -->
                                     <app-custom-input id="workExperience" [type]="'alpha-numeric'" formControlName="wrkExperience" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [patternCheck]="regexPattern.namePattern" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="phoneNo2">{{labels.phoneNo}}</label>
                                     <!-- <input type="text" class="form-control" id="phoneNo2" name="phoneNo2" formControlName="officePhnNo">
@@ -319,17 +327,18 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="extn">{{labels.extn}}</label>
                                     <!-- <input type="text" class="form-control" id="extn" name="extn" formControlName="officePhnExt"> -->
-                                    <app-custom-input [type]="'number'" id="extn" formControlName="officePhnExt" [className]="'form-control'" [maxLength]="regexPattern.maxLength3" [isDirty]="isDirty">
+                                    <app-custom-input [type]="'number'" id="extn" formControlName="officePhnExt" [className]="'form-control'" [maxLength]="regexPattern.maxLength4" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
+
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="workStability">{{labels.workStability}}</label>
                                     <!-- <input type="text" class="form-control" id="workStability" name="workStability" formControlName="wrkStability"> -->
-                                    <app-custom-input id="workStability" [type]="'number'" formControlName="wrkStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
+                                    <app-custom-input id="workStability" [type]="'alpha-numeric'" formControlName="wrkStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="natureOfBusiness">{{labels.natureOfBusiness}}</label>
                                     <input type="text" class="form-control" id="natureOfBusiness" name="natureOfBusiness" formControlName="natureOfBusiness">
@@ -339,14 +348,15 @@
                                     <app-vf-custom-select [values]="LOV.LOVS.tvrTranscationType" formControlName="typeOfTransaction"> </app-vf-custom-select>
                                 </div>
 
+
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="businessStability">{{labels.businessStability}}</label>
                                     <!-- <input type="text" class="form-control" id="businessStability" name="businessStability" formControlName="businessStability"> -->
-                                    <app-custom-input id="businessStability" [type]="'number'" formControlName="businessStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
+                                    <app-custom-input id="businessStability" [type]="'alpha-numeric'" formControlName="businessStability" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="coNameAndAddress">{{labels.coNameAndAddress}}</label>
                                     <!-- <input type="text" class="form-control" id="coNameAndAddress" name="coNameAndAddress" formControlName="compNameAddress"> -->
@@ -359,13 +369,14 @@
                                     <app-custom-input id="designation" [type]="'alpha'" formControlName="designation" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
+
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="industryType">{{labels.industryType}}</label>
                                     <input type="text" class="form-control" id="industryType" name="industryType" formControlName="industryType">
                                     <!-- <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="industryType"> </app-vf-custom-select> -->
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="yearsInEmP/Bussiness">{{labels.yearsInEmpBusiness}}</label>
                                     <!-- <input type="text" class="form-control" id="yearsInEmP/Bussiness" name="yearsInEmP/Bussiness" formControlName="yrsInEmployment"> -->
@@ -377,14 +388,15 @@
                                     <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness"> </app-vf-custom-select>
 
                                 </div>
+
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="employees">{{labels.employees}}</label>
                                     <!-- <input type="text" class="form-control" id="employees" name="employees" formControlName="employees"> -->
                                     <app-custom-input id="employees" [type]="'number'" formControlName="employees" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength5" [patternCheck]="regexPattern.employees" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="relation">{{labels.relation}}</label>
                                     <!-- <input type="text" class="form-control" id="relation" name="relation" formControlName="relation"> -->
@@ -397,13 +409,16 @@
                                     <app-custom-input id="monthlySalaryGross" [type]="'number'" formControlName="monthlyGrossSalary" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="otherSourcesofIncome">{{labels.otherSourcesofIncome}}</label>
-                                    <input type="text" class="form-control" id="otherSourcesofIncome" name="otherSourcesofIncome" formControlName="otherIncome">
-                                </div>
+
                             </div>
 
                             <div class="row">
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="otherSourcesofIncome">{{labels.otherSourcesofIncome}}</label>
+                                    <!-- <input type="text" class="form-control" id="otherSourcesofIncome" name="otherSourcesofIncome" formControlName="otherIncome"> -->
+                                    <app-custom-input id="otherSourcesofIncome" [type]="'number'" formControlName="otherIncome" [className]="'form-control mandatory'" [maxLength]="regexPattern.amountLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="decision">{{labels.decision}}</label>
                                     <app-vf-custom-select [values]="LOV.LOVS.tvrDecision" formControlName="decision"> </app-vf-custom-select>
@@ -422,14 +437,14 @@
                         <table class="table-bordered cam_table_proposed mt-3">
                             <thead>
                                 <tr class="">
-                                    <th class="particulars bank_name">Particulars</th>
-                                    <th class="bank_name text-center">Reference-1</th>
-                                    <th class="bank_name text-center">Reference-2</th>
+                                    <th class="particulars bank_name">{{labels.particulars}}</th>
+                                    <th class="bank_name text-center">{{labels.reference1}}</th>
+                                    <th class="bank_name text-center">{{labels.reference2}}</th>
                                 </tr>
                             </thead>
                             <tbody formGroupName="applicationReferences">
                                 <tr>
-                                    <th class="bank_name">Name</th>
+                                    <th class="bank_name">{{labels.name}}</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="firstName" type="text" class="form-control"> -->
                                         <app-custom-input id="refFirstName1" [type]="'alpha'" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength20" [isDirty]="isDirty">
@@ -444,7 +459,7 @@
                                 </tr>
                                 <tr>
 
-                                    <th class="bank_name">Address</th>
+                                    <th class="bank_name">{{labels.address}}</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="address" type="text" class="form-control"> -->
                                         <app-custom-input id="refAddress1" [type]="'alpha-numeric'" formControlName="address" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
@@ -458,7 +473,7 @@
 
                                 </tr>
                                 <tr>
-                                    <th class="bank_name">Contact No</th>
+                                    <th class="bank_name">{{labels.contactNo}}</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="mobileNo" type="text" class="form-control"> -->
                                         <app-custom-input id="refmobileNo1" [type]="'number'" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobile" [isDirty]="isDirty">
@@ -473,7 +488,7 @@
                                 </tr>
                                 <tr>
 
-                                    <th class="bank_name">status</th>
+                                    <th class="bank_name">{{labels.status}}</th>
                                     <td formGroupName="reference1">
                                         <!-- <input formControlName="referenceStatus" type="text" class="form-control"></td> -->
                                         <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus"> </app-vf-custom-select>
@@ -489,19 +504,19 @@
                         </table>
                     </div>
                     <div class="row">
-                        <h3 class="dashboard text-center text-underline m-3">Remarks</h3>
+                        <h3 class="dashboard text-center text-underline m-3">{{labels.remark}}</h3>
                         <textarea type="text" class="form-control text_area" formControlName="remarks" id="" name=""></textarea>
                         <!-- <app-custom-input id="remarks" [type]="'alpha-numeric'" formControlName="remarks" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
                         </app-custom-input> -->
                     </div>
                     <div class="row">
-                        <h3 class="dashboard text-center text-underline m-3">CIBIL Remarks</h3>
+                        <h3 class="dashboard text-center text-underline m-3">{{labels.cibilRemarks}}</h3>
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <h5>1. Cibil Overdue</h5>
+                            <h5>{{labels.cibilOverdue}}</h5>
                             <textarea type="text" [maxLength]="regexPattern.maxLength50" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name=""></textarea>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <h5>2. Clarification on recent enquiries in CIBIL report</h5>
+                            <h5>{{labels.cibilReport}}</h5>
                             <textarea type="text" class="form-control" formControlName="cibilClarification" id="cibilReport" name=""></textarea>
                         </div>
                     </div>
@@ -510,11 +525,11 @@
                 <div class="row mar-top19">
                     <div class="col-sm-5"></div>
                     <div class="col-sm-7 padding-10 text-right">
-                        <button type="submit" class="btn btn-primary" (click)="onSave()"> Save </button>
+                        <button type="submit" class="btn btn-primary" (click)="onSave()"> {{labels.save}} </button>
                         <button disabled class="btn btn-primary dash_href" type="button"><a
                               (click)="onSave()"
                                
-                                >Submit</a></button>
+                                >{{labels.submit}}</a></button>
                     </div>
                 </div>
             </div>
@@ -523,3 +538,38 @@
 
     </div>
 </main>
+
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- <div class="content">
+                <h3 class="title">Credit Report Authorization</h3>
+                <hr />
+                <div id="">
+                    <p>As part of your application for loan with Equitas Small Finnance Bank, We request your authorization to pull your credit report.</p>
+                    <p>By Sharing the OTP send to your mobile number, you authorize Equitas Small Finanace Bank to verify information in your application, and you agree the Equitas Small Finanace Bank may contact third parties to verify any such infromation.</p>
+                </div>
+                <hr />
+                <br />
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>OTP Sent To 9812398456</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input class="form-control text-center" type="text" placeholder="Enter OTP" autofocus="" />
+                    </div>
+                </div>
+                &nbsp;
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-7"><a href="sales_application_details.html"><button class="btn btn-primary" id="otp_button"  >Verify OTP</button><a  id="a_under_lin" > Resend OTP </a></div>
+
+                </div>
+
+
+
+            </div> -->
+        </div>
+    </div>
+</div>
