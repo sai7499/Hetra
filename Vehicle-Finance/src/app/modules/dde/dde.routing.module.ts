@@ -19,6 +19,8 @@ import { DeviationsComponent } from './deviations/deviations.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SourcingDetailsComponent } from '@modules/lead-section/sourcing-details/sourcing-details.component';
+import { ViabilityListComponent } from './viability-list/viability-list.component';
+import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
 
 const routes: Routes = [
   {
@@ -101,6 +103,14 @@ const routes: Routes = [
       {
         path: 'deviations',
         component: DeviationsComponent,
+      },
+      {
+        path: 'viability-dashboard',
+        component: ViabilityListComponent,
+      },
+      {
+        path: 'viability-details',
+        component: ViabilityDetailsComponent,
       },
     ],
   },

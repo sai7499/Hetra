@@ -85,7 +85,7 @@
                     [isRequired]="'Finance Amount is mandatory'"
                     [patternCheck]="regexPattern.amount"
                     [isDirty]="isDirty"
-                    
+                    [type] = "'number'"
                 ></app-custom-input>
                 <!-- [inputClass]="'text-uppercase'" -->
             </div>
@@ -100,6 +100,7 @@
                 [isRequired]="'Finance charges is mandatory'"
                 [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
+                [type] = "'number'"
                 >
               </app-custom-input>
                 <!-- <span *ngIf="submitted && f.financeCharges.errors"style= "color:red;" class="invalid-feedback">
@@ -120,6 +121,7 @@
                 [isRequired]="'Contract Value is mandatory'"
                 [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
+                [type] = "'number'"
                 >
               </app-custom-input>
             </div>
@@ -342,6 +344,7 @@
                                     [isRequired]="'Installment Amount is mandatory'"
                                     [patternCheck]="regexPattern.amount"
                                     [isDirty]="isDirty"
+                                    [type] = "'number'"
                                     (change)="paymentExcessOrShort($event ,i)"
                                     >
                                   </app-custom-input>
@@ -373,6 +376,7 @@
                                     [isRequired]="'Receipt No is mandatory'"
                                     [patternCheck]="regexPattern.amount"
                                     [isDirty]="isDirty"
+                                    [type] = "'number'"
                                     (change)="receiptNumber($event ,i)"
                                     >
                                   </app-custom-input>
@@ -416,6 +420,7 @@
                                     [isRequired]="'Received Amt is mandatory'"
                                     [patternCheck]="regexPattern.amount"
                                     [isDirty]="isDirty"
+                                    [type] = "'number'"
                                     (change)="paymentExcessOrShort($event ,i)"
                                     >
                                   </app-custom-input>

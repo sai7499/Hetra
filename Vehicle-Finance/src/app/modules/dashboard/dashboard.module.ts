@@ -18,10 +18,13 @@ import { VehicleViabilityComponent } from './vehicle-viability/vehicle-viability
 import { ViabilityChecksComponent } from './vehicle-viability/viability-checks/viability-checks.component';
 import { ViabilityChecksBranchComponent } from './vehicle-viability/viability-checks-branch/viability-checks-branch.component';
 import { FormsModule } from '@angular/forms';
+import { DeviationComponent } from './deviation/deviation.component';
+import { DeviationDashboardComponent } from './deviation/deviation-dashboard/deviation-dashboard.component';
+import { CaseSummaryComponent } from './deviation/case-summary/case-summary.component';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent],
+  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationDashboardComponent, CaseSummaryComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

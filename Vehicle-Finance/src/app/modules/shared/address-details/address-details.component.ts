@@ -90,7 +90,7 @@ export class AddressDetailsComponent implements OnInit {
   };
   pincodePattern = {
     rule: '^[1-9][0-9]{5}$',
-    msg: 'Invalid pincode',
+    msg: 'Pincode Must be 6 Digits',
   };
   pincodeLength = {
     rule: 6,

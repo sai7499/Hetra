@@ -81,10 +81,11 @@
               /> -->
               <app-custom-input
                   formControlName="name1"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
                   [isRequired]="'First Name is required'"
                   [isDirty]="isDirty"
+                  [type]="'alpha'"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -98,8 +99,9 @@
               /> -->
               <app-custom-input
                   formControlName="name2"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
+                  [type]="'alpha'"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -113,8 +115,9 @@
               /> -->
               <app-custom-input
                   formControlName="name3"
-                  [patternCheck]="namePattern"
+                  [patternCheck]="nameSpacePattern"
                   [maxLength]="nameLength30"
+                  [type]="'alpha'"
                 ></app-custom-input>
             </div>
           </div>
@@ -137,6 +140,7 @@
                   [isRequired]="'Mobile Number is required'"
                  [maxLength]='mobileLenght10'
                  [isDirty]="isDirty"
+                 [type]="'number'"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -234,10 +238,11 @@
                       /> -->
                       <app-custom-input
                           formControlName="minorGuardianName"
-                          [patternCheck]="namePattern"
+                          [patternCheck]="nameSpacePattern"
                           [maxLength]="nameLength30"
                           [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
                           [isDirty]="isDirty"
+                          [type]="'alpha'"
                           ></app-custom-input>
                         
                     </div>
@@ -281,7 +286,7 @@
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
                   [isRequired]="isRequiredFather"
-                  
+                  [type]="'alpha'"
             
                 ></app-custom-input>
             </div>
@@ -300,6 +305,7 @@
                   [maxLength]="nameLength30"
                   [isDirty]="isDirty"
                   [isRequired]="isRequiredSpouse"
+                  [type]="'alpha'"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -317,7 +323,7 @@
               [maxLength]="nameLength30"
               [isDirty]="isDirty"
               [isRequired]="'Mother Name Is Required'"
-              
+              [type]="'alpha'"
             ></app-custom-input>
             </div>
           </div>
@@ -336,7 +342,7 @@
               <app-custom-input
                   formControlName="alternateMobileNumber"
                   [patternCheck]="landlinePattern"
-                  
+                  [type]="'number'"
                  [maxLength]='landlineLength15'
                 ></app-custom-input>
             </div>
@@ -533,6 +539,7 @@
                   [maxLength]="length2"
                   [isRequired]="'Employeement Year is required'"
                   [isDirty]="isDirty"
+                  [type]="'number'"
                   ></app-custom-input>
             </div>
           </div>
@@ -551,7 +558,8 @@
                   formControlName="employeeCode"
                   [isRequired]="'Employee Code is required'"
                   [isDirty]="isDirty"
-                  [maxLength]="length20"
+                  [maxLength]="labels?.validationData.employeeCode.maxLength"
+                  [type]="labels?.validationData.employeeCode.type"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -734,6 +742,7 @@
                   [isRequired]="'Mobile Number is required'"
                  [maxLength]='mobileLenght10'
                  [isDirty]="isDirty"
+                 [type]="'number'"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -817,6 +826,7 @@
               <app-custom-input
                   formControlName="numberOfDirectors"
                   [patternCheck]="numberPattern"
+                  [type]="'number'"
                   ></app-custom-input>
             </div>
           </div>
@@ -854,9 +864,9 @@
               /> -->
               <app-custom-input
               formControlName="directorName"
-              [patternCheck]="namePattern"
+              [patternCheck]="nameSpacePattern"
               [maxLength]="nameLength30"
-              
+              [type]="'alpha'"
               
             ></app-custom-input>
             </div>
@@ -874,6 +884,7 @@
               <app-custom-input
                   formControlName="directorIdentificationNumber"
                   [patternCheck]="numberPattern"
+                  [type]="'number'"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -888,9 +899,9 @@
               /> -->
               <app-custom-input
               formControlName="contactPerson"
-              [patternCheck]="namePattern"
+              [patternCheck]="nameSpacePattern"
               [maxLength]="nameLength30"
-              
+              [type]="'alpha'"
               
             ></app-custom-input>
             </div>
@@ -923,6 +934,7 @@
                   [patternCheck]="mobilePattern"
                   
                  [maxLength]='mobileLenght10'
+                 [type]="'number'"
                  
                 ></app-custom-input>
             </div>
@@ -939,7 +951,7 @@
               /> -->
               <app-custom-input
               formControlName="ratingIssuerName"
-              [patternCheck]="namePattern"
+              [patternCheck]="nameSpacePattern"
               [maxLength]="nameLength30"
               
               
@@ -1053,6 +1065,7 @@
               <app-custom-input
                   formControlName="creditRiskScore"
                   [patternCheck]="numberPattern"
+                  [type]="'number'"
                   ></app-custom-input>
             </div>
           </div>
