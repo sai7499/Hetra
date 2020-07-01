@@ -45,8 +45,7 @@ export class HttpService {
     private errorListenerService: ErrorListenerService,
     private router: Router
   ) {
-    this.isMobile = this.deviceService.isMobile();
-    // this.isMobile = true;
+    this.isMobile = environment.isMobile;
   }
 
   get(url?: string, params?: any) {

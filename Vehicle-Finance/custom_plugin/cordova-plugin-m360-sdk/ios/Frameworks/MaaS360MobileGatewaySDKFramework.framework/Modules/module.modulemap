@@ -1,0 +1,6 @@
+framework module MaaS360MobileGatewaySDKFramework {
+  umbrella header "MaaS360MobileGatewaySDKFramework.h"
+
+  export *
+  module * { export * }
+}

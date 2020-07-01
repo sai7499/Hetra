@@ -7,7 +7,8 @@ import { CommomLovService } from '../../../services/commom-lov-service';
 import { commonRoutingUrl } from '../../shared/routing.constant';
 import * as moment from 'moment';
 
-declare var device:any;
+declare var identi5: any;
+
 
 
 @Component({
@@ -104,7 +105,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     var that = this;
     this.pid = "";
 
-    device.getInfo(function(result){
+    identi5.getInfo(function(result){
       console.log("Result&&&&"+ result);
       that.pid = result["model"];
       console.log("base64Data"+ that.pid);
