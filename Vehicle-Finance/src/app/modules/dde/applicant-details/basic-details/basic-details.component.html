@@ -558,7 +558,8 @@
                   formControlName="employeeCode"
                   [isRequired]="'Employee Code is required'"
                   [isDirty]="isDirty"
-                  [maxLength]="length20"
+                  [maxLength]="labels?.validationData.employeeCode.maxLength"
+                  [type]="labels?.validationData.employeeCode.type"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">

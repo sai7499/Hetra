@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.2.2',
-  buildDate: '23/06/2020',
+  version: '0.3',
+  buildDate: '30/06/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -10,11 +10,15 @@ export const environment = {
   projectIds: {
     salesProjectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
     externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    camProjectId:'74c36bec6da211eabdc2f2fa9bec3d63',
+
     // salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    // salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
-  hostingEnvironment: 'Production',
+  hostingEnvironment: 'UAT',
+  // hostingEnvironment: 'Production',
 
   //host: '/appiyo/',
   //  host: 'http://128.199.164.250/appiyo/',

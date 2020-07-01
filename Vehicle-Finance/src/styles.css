@@ -599,6 +599,17 @@ h4.table-head-bg.m-0.p-02 {
  
 }
 
+.codeDisable {
+  background-color: #eee !important;
+  opacity: 1 !important;
+}
+.invalid-feedback {
+  font-size: 1.0vw;
+  font-family: zurich-bold;
+  letter-spacing: 0.5px;
+  color: red;
+  padding-top: 0.5vw;
+}
 
   .codeDisable .autocomplete-container .input-container input {
     border-radius: 4px !important;
@@ -614,6 +625,7 @@ h4.table-head-bg.m-0.p-02 {
   .disableCode {
     background-color: #eee !important;
   }
+
 
 
 

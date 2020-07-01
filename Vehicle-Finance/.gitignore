@@ -1,4 +1,5 @@
 node_modules
 android.zip
-hetra
-www
+/hetra
+/www
+/dist
