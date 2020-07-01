@@ -58,6 +58,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
+        // console.log("this labels data", this.labels)
       },
       error => {
         this.errorMsg = error;
@@ -125,6 +126,10 @@ export class ReferenceCheckComponent implements OnInit {
           this.setFormValue()
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
+      }
+      else {
+        console.log("error", processVariables.error.message);
+
       }
     });
 
