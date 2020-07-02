@@ -249,8 +249,8 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     submitToCredit: {
-      processId: 'fa99b43aa9a011ea823df2fa9bec3d63',
-      workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
+      processId: 'a0289928b78111ea8af8f2fa9bec3d63',
+      workflowId: 'a00ac092b78111ea8af8f2fa9bec3d63',
       projectId: environment.projectIds.submitToCredit
     },
     termsAcceptance: {
