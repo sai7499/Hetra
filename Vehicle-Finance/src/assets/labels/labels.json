@@ -109,6 +109,7 @@
   "vehicleAddress": "Vehicle Address",
   "vehiclePinCode": "Vehicle Address PINCODE",
   "idv": "IDV",
+  "vehicleNumber": "Vehicle Number",
   "insuranceValidity": "Insurance Validity",
   "insuranceCopy": "Insurance",
   "uploadInsuranceCopy": "Upload Insurance Document",
@@ -930,7 +931,100 @@
             "rule": 10                    
             },
             "type":"number"
+    },
+    "landArea":{
+        "maxLength": {
+            "rule": 5                    
+            },
+            "type":"number"
+    },
+    "goodsManufactured": {
+        "maxLength": {
+            "rule": 50                    
+            },
+            "type": "alpha"
+    },
+    "pslInvestmentCost": {
+        "maxLength": {
+            "rule": 10                    
+            },
+            "type":"number"
+    },
+    "valuationAmount": {
+        "maxLength": {
+            "rule": 10                    
+            },
+            "type":"number"
+    },
+    "idv": {
+        "maxLength": {
+            "rule": 8                   
+            },
+            "type":"number"
+    },
+    "makeModel": {
+        "maxLength": {
+            "rule": 40
+        },
+        "type": "alpha-numeric"
+    },
+    "vehiclePrefixNo": {
+        "maxLength": {
+            "rule": 40
+        },
+        "type": "alpha-numeric"
+    },
+    "registrationNo": {
+        "maxLength": {
+            "rule": 11
+        },
+        "registrationPattern": {
+            "rule": "^[A-Za-z][A-Za-z0-9]+$",
+            "msg": "Invalid Name /  Special Characters not allowed"
+        },
+        "type": "alpha-numeric"
+    },
+    "chasisEngineNo": {
+        "maxLength": {
+            "rule": 30
+        },
+        "type": "alpha-numeric"
+    },
+    "monthOfManuf": {
+        "maxLength": {
+            "rule": 2
+        },
+        "type": "number"
+    },
+    "ageOfAsset": {
+        "maxLength": {
+            "rule": 3
+        },
+        "type": "number"
+    },
+    "sellerShortDesc": {
+        "maxLength": {
+            "rule": 40
+        },
+        "type": "alpha"
+    },
+    "gvw": {
+        "maxLength": {
+            "rule": 10
+        },
+        "type": "number"
+    },
+    "seatingCapacity": {
+        "maxLength": {
+            "rule": 3
+        },
+        "type": "number"
+    },
+    "cubicCapacity": {
+        "maxLength": {
+            "rule": 10
+        },
+        "type": "alpha-numeric"
     }
-
 }
 }

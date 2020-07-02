@@ -77,9 +77,9 @@ export class PslDataComponent implements OnInit, OnChanges {
   isInvestmentInPlantMachinery: boolean;
   isGoosManufactured: boolean;
 
-  investmentInEquipmentValue: number = 0;
+  investmentInEquipmentValue: number;
   investmentInEquipmentValueMap: any = [];
-  investmentInPlantMachineryValue: number = 0;
+  investmentInPlantMachineryValue: number;
   investmentInPlantMachineryMap: any = [];
 
   caRegistrationNumber: string = "";
@@ -97,29 +97,6 @@ export class PslDataComponent implements OnInit, OnChanges {
     { key: 0, value: "No" },
   ];
   businessActivity: any = [{ key: "Not Applicable", value: "Not Applicable" }];
-
-  regexPattern = {
-    namePattern: {
-      rule: "^[A-Za-z0-9 ]+$",
-      msg: "Invalid Name /  Special Characters not allowed",
-    },
-    nameLength: {
-      rule: 40,
-      msg: "",
-    },
-    numberLength: {
-      rule: 10,
-      msg: "",
-    },
-    numberPattern: {
-      rule: "^[1-9][0-9]*$",
-      msg: "Invalid Input / Alphabets and Special Characters not allowed",
-    },
-    landAreaPattern: {
-      rule: "^([1-9][0-9]*)(\.[0-9]{1,3})?$",
-      msg: "Invalid Input / Alphabets and Special Characters not allowed except Decimal"
-    }
-  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -516,9 +493,12 @@ getActivityLOVS() {
     this.pslDataForm.get("agriculture").patchValue({
       weakerSection: "",
     });
-    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-      pslSubCategory: "",
-    });
+    // this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+    //   pslSubCategory: "",
+    // });
+    // this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+    //   pslCCertificate: "",
+    // });
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       otherInvestmentCost: 0,
     });
@@ -531,9 +511,7 @@ getActivityLOVS() {
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       investmentInPlantAndMachinery: 0,
     });
-    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-      pslCCertificate: "",
-    });
+
     this.pslDependentLOVSData.map((element) => {
       if (element.dltActivityId === this.detailActivityChange) {
         // console.log("RELATED_ENDUSE_NAME --", element.endUseName);
@@ -596,18 +574,18 @@ getActivityLOVS() {
     //For ACTIVITY--MSME>>>>> Detail Activity SERVICE AND MANUFACTURING
     if (this.detailActivityChange === "5PSLDTLACTVTY") {
       this.isInvestmentInPlantMachinery = true;
-      // if(this.pslData === null) {
-      //   return;
-      // }
-      // if(!this.pslData.investmentInPlantAndMachinery) {
-      //   this.otherInvestmentCost = 0;
-      //   this.totalInvestmentCost = 0;
-      //   this.investmentInEquipmentValue = 0;
-      // } else {
-      //   this.totalInvestmentCost = this.pslData.totalInvestmentCost;
-      //   this.otherInvestmentCost = this.pslData.otherInvestmentCost;
-      //   this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
-      // }
+      if(this.pslData === null) {
+        return;
+      }
+      if(!this.pslData.investmentInPlantAndMachinery) {
+        this.otherInvestmentCost = 0;
+        this.totalInvestmentCost = 0;
+        this.investmentInEquipmentValue = 0;
+      } else {
+        this.totalInvestmentCost = this.pslData.totalInvestmentCost;
+        this.otherInvestmentCost = this.pslData.otherInvestmentCost;
+        this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
+      }
       // console.log(
       //   "this.investmentInEquipmentValue",
       //   this.investmentInEquipmentValue, this.totalInvestmentCost, this.otherInvestmentCost
@@ -657,18 +635,18 @@ getActivityLOVS() {
       //   this.investmentInPlantMachineryValue
       // );
  
-      // if(this.pslData === null) {
-      //   return;
-      // }
-      // if(!this.pslData.investmentInEquipment) {
-      //   this.otherInvestmentCost = 0;
-      //   this.totalInvestmentCost = 0;
-      //   this.investmentInPlantMachineryValue = 0;
-      // } else {
-      //   this.totalInvestmentCost = this.pslData.totalInvestmentCost;
-      //   this.otherInvestmentCost = this.pslData.otherInvestmentCost;
-      //   this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
-      // }
+      if(this.pslData === null) {
+        return;
+      }
+      if(!this.pslData.investmentInEquipment) {
+        this.otherInvestmentCost = 0;
+        this.totalInvestmentCost = 0;
+        this.investmentInPlantMachineryValue = 0;
+      } else {
+        this.totalInvestmentCost = this.pslData.totalInvestmentCost;
+        this.otherInvestmentCost = this.pslData.otherInvestmentCost;
+        this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
+      }
       this.LOV.LOVS.pslCategory.filter( (element) => { 
         if(element.key === "2PSLCAT") {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
@@ -1178,7 +1156,11 @@ getActivityLOVS() {
 
   setValueForOtherInvestmentCost() {
     if(this.otherInvestmentCost) {
-      this.totalInvestmentCost = +this.otherInvestmentCost;
+      this.totalInvestmentCost = this.otherInvestmentCost;
+      this.investmentInPlantMachineryValue =  this.totalInvestmentCost;
+      // console.log("this.otherInvestmentCost", this.otherInvestmentCost);
+      // console.log("this.totalInvestmentCost", this.totalInvestmentCost);
+      // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
     }
     // this.caCertifiedAmount = 0;
     // if (this.caCertifiedAmount && this.otherInvestmentCost) {
@@ -1202,18 +1184,19 @@ getActivityLOVS() {
   //     this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
   //   }
   // }
-  onChangeTotalInvestmentCost(event) {
-    let totalInvestmentChange = event.target.value;
-    this.totalInvestmentCost = +this.otherInvestmentCost;
-    // if (this.caCertifiedAmount) {
-    //   this.totalInvestmentCost = +this.caCertifiedAmount;
-    // } else 
-    // if (this.otherInvestmentCost) {
-    //   this.totalInvestmentCost =  this.otherInvestmentCost;
-    // } else {
-    //   this.totalInvestmentCost = 0;
-    // }
-  }
+
+  // onChangeTotalInvestmentCost(event) {
+  //   let totalInvestmentChange = event.target.value;
+  //   this.totalInvestmentCost = this.otherInvestmentCost;
+  //   if (this.caCertifiedAmount) {
+  //     this.totalInvestmentCost = +this.caCertifiedAmount;
+  //   } else 
+  //   if (this.otherInvestmentCost) {
+  //     this.totalInvestmentCost =  this.otherInvestmentCost;
+  //   } else {
+  //     this.totalInvestmentCost = 0;
+  //   }
+  // }
 
   saveOrUpdatePslData() {
     this.agriculture = this.pslDataForm.get("agriculture");
@@ -1277,8 +1260,8 @@ getActivityLOVS() {
           caCertifiedAmount: Number(this.formValues.caCertifiedAmount),
           otherInvestmentCost: Number(this.formValues.otherInvestmentCost),
           totalInvestmentCost: Number(this.formValues.totalInvestmentCost),
-          investmentInEquipmentValue: Number(this.formValues.investmentInEquipment),
-          investmentInPlantMachineryValue: Number(this.formValues.investmentInPlantAndMachinery)
+          investmentInEquipment: Number(this.formValues.investmentInEquipment),
+          investmentInPlantAndMachinery: Number(this.formValues.investmentInPlantAndMachinery)
         },
       };
       

@@ -84,15 +84,14 @@
                         </app-custom-input> 
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="valuation_amount">{{labels.valuationAmount}}</label>
+                        <label for="valuation_amount">{{labels?.valuationAmount}}</label>
                         <app-custom-input 
                             formControlName="valuationAmt"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Valuation Amount'"
-                            [maxLength]="regexPattern.valuationAmountLength"
+                            [maxLength]="labels?.validationData?.valuationAmount.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type] = "'number'"
+                            [type] = "labels?.validationData?.valuationAmount.type"
                             [isDirty]="isDirty"
                          >
                         </app-custom-input> 
@@ -111,10 +110,9 @@
                             formControlName="idv"
                             [className]="'form-control mandatory'"
                             [placeholder]="'IDV'"
-                            [maxLength]="regexPattern.numberLength8"
+                            [maxLength]="labels?.validationData?.idv.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type] = "'number'"
+                            [type] = "labels?.validationData?.idv.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input> 
@@ -156,10 +154,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Asset Manufacturer'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.makeModel.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type] = "'alpha-numeric'"
+                            [type] = "labels?.validationData?.makeModel.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -172,10 +169,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Asset Model'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.makeModel.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type] = "'alpha-numeric'"
+                            [type] = "labels?.validationData?.makeModel.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -193,10 +189,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Vehicle No. Prefix'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.vehiclePrefixNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type] = "'alpha-numeric'"
+                            [type] = "labels?.validationData?.vehiclePrefixNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -208,10 +203,10 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Vehicle Number'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.registrationNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.registrationPattern"
-                            [type] = "'alpha-numeric'"
+                            [patternCheck]="labels?.validationData?.registrationNo.registrationPattern"
+                            [type] = "labels?.validationData?.registrationNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -223,10 +218,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Chassis Number'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type] = "'alpha-numeric'"
+                            [type] = "labels?.validationData?.chasisEngineNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -238,10 +232,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Engine Number'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type] = "'alpha-numeric'"
+                            [type] = "labels?.validationData?.chasisEngineNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -252,10 +245,9 @@
                             formControlName="yearOfManufacturer"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Year of Manuf/Reg. of Asset'"
-                            [maxLength]="regexPattern.yearLength"
+                            [maxLength]="labels?.validationData?.yom.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type]="'number'"
+                            [type]="labels?.validationData?.yom.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -266,10 +258,9 @@
                             formControlName="monthOfManufacturer"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Month of Manuf/Reg. of Asset'"
-                            [maxLength]="regexPattern.monthLength"
+                            [maxLength]="labels?.validationData?.monthOfManuf.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type]="'number'"
+                            [type]="labels?.validationData?.monthOfManuf.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -280,10 +271,9 @@
                             formControlName="ageOfAsset"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Age of Asset'"
-                            [maxLength]="regexPattern.numberLength3"
+                            [maxLength]="labels?.validationData?.ageOfAsset.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type]="'number'"
+                            [type]="labels?.validationData?.ageOfAsset.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -294,10 +284,9 @@
                             formControlName="sellerShortDesc"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Seller Short Descr'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.sellerShortDesc.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type]="'alpha-numeric'"
+                            [type]="labels?.validationData?.sellerShortDesc.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -308,10 +297,9 @@
                             formControlName="secondAsset"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Second Asset'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.makeModel.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type]="'alpha-numeric'"
+                            [type]="labels?.validationData?.makeModel.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -323,10 +311,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Second Vehicle No Prefix'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.vehiclePrefixNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type]="'alpha-numeric'"
+                            [type]="labels?.validationData?.vehiclePrefixNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -338,10 +325,10 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Second Vehicle No'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.registrationNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.registrationPattern"
-                            [type]="'alpha-numeric'"
+                            [patternCheck]="labels?.validationData?.registrationNo.registrationPattern"
+                            [type]="labels?.validationData?.registrationNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -353,10 +340,9 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Second Chassis Number'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type]="'alpha-numeric'"
+                            [type]="labels?.validationData?.chasisEngineNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -391,10 +377,9 @@
                             formControlName="gvw"
                             [className]="'form-control mandatory'"
                             [placeholder]="'GVW'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.gvw.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.namePattern"
-                            [type]="'alpha-numeric'"
+                            [type]="labels?.validationData?.gvw.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -406,10 +391,10 @@
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
                             [placeholder]="'Re-Registered Vehicle'"
-                            [maxLength]="regexPattern.nameLength"
+                            [maxLength]="labels?.validationData?.registrationNo.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.registrationPattern"
-                            [type]="'alpha-numeric'"
+                            [patternCheck]="labels?.validationData?.registrationNo.registrationPattern"
+                            [type]="labels?.validationData?.registrationNo.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -436,10 +421,9 @@
                             formControlName="cubicCapacity"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Cubic Capacity'"
-                            [maxLength]="regexPattern.numberLength"
+                            [maxLength]="labels?.validationData?.cubicCapacity.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type]="'number'"
+                            [type]="labels?.validationData?.cubicCapacity.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -450,10 +434,9 @@
                             formControlName="seatingCapacity"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Seating Capacity'"
-                            [maxLength]="regexPattern.numberLength3"
+                            [maxLength]="labels?.validationData?.seatingCapacity.maxLength"
                             [isRequired]="'Required Input is mandatory'"
-                            [patternCheck]="regexPattern.numberPattern"
-                            [type]="'number'"
+                            [type]="labels?.validationData?.seatingCapacity.type"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>

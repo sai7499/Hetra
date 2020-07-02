@@ -409,9 +409,9 @@
                     formControlName="landArea"
                     [className]="'form-control mandatory'"
                     [placeholder]="'Land Area in Acres'"
-                    [maxLength]="regexPattern.numberLength"
+                    [maxLength]="labels?.validationData.landArea.maxLength"
                     [isRequired]="'Required Input is mandatory'"
-                    [patternCheck]="regexPattern.landAreaPattern"
+                    [type]="labels?.validationData.landArea.type"
                     [isDirty]="isDirty"
                     >
                   </app-custom-input>
@@ -525,10 +525,9 @@
             formControlName="goodsManufactured"
             [className]="'form-control mandatory'"
             [placeholder]="'Goods Manufactured'"
-            [maxLength]="regexPattern.nameLength"
+            [maxLength]="labels?.validationData.goodsManufactured.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.namePattern"
-            [type]="'alpha-numeric'"
+            [type]="labels?.validationData.goodsManufactured.type"
             [isDirty]="isDirty"
             name="goods_manufactured"
             [isDirty] = "isDirty"
@@ -688,10 +687,9 @@
             (change)="onChangeOtherInvestmentCost($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Other Investment Cost'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input>  
@@ -704,12 +702,10 @@
         <app-custom-input
             formControlName="totalInvestmentCost"
             [(ngModel)]="totalInvestmentCost" 
-            (keyup)="onChangeTotalInvestmentCost($event)"
             [placeholder]="'Total Investment Cost'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
        >
         </app-custom-input>  
@@ -727,10 +723,9 @@
             (keyup)="onChangeInvestmentInEquipment($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Equipment'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
@@ -747,10 +742,9 @@
             (keyup)="onChangeInvestmentInPlantAndMachinery($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Plant and Machinery'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
