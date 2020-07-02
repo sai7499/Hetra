@@ -14,10 +14,14 @@ export class MyTasksComponent implements OnInit {
   leadDetails;
   itemsPerPage = 5;
   labels: any = {};
-  q;
   roleId: any;
   pdListDashboard: any;
   branchId: any;
+  limit: any;
+  count: any;
+  pageNumber: any;
+  currentPage: any;
+  totalItems: any;
 
   constructor(private labelsData: LabelsService,
               private loginService: LoginService,
@@ -64,24 +68,35 @@ export class MyTasksComponent implements OnInit {
       this.branchId = value.branchId;
       console.log('values For User in My Task', value);
      });
-    this.getPdMyTask();
+    this.getPdMyTask(this.itemsPerPage);
   }
 
-  getPdMyTask() {
+  getPdMyTask(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Personal Discussion',
       branchId: this.branchId ,
-      roleId: this.roleId, /* Uncomment this after getting proper data */
-      // roleId: '1',
-      currentPage: 1,
-      perPage: 3,
-      myLeads: true,
+      roleId: this.roleId,
+      currentPage: parseInt(pageNumber),
+      perPage: parseInt(perPageCount),
+      myLeads: true
     };
-    this.personalDiscussion.getPdTaskDashboard(data).subscribe((value: any) => {
-      const processveriables = value.ProcessVariables;
-      this.pdListDashboard = processveriables.loanLead;
-      console.log('Leads for Get PD data dashboard', this.pdListDashboard);
+    this.personalDiscussion.getPdTaskDashboard(data).subscribe((res: any) => {
+      this.setPageData(res);
     });
   }
+
+  setPageData(res) {
+    const response = res.ProcessVariables.loanLead;
+    this.pdListDashboard = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+  }
+
+  setPage(event) {
+    this.getPdMyTask(this.itemsPerPage, event);
+   }
 
 }
