@@ -81,11 +81,10 @@
                     formControlName="financeAmount"
                     [className]="'form-control mandatory input-upper'"
                     [placeholder]="'Finance Amount'"
-                    [maxLength]="regexPattern.contLength"
+                    [maxLength]="validationData?.amountValue.maxLength"
                     [isRequired]="'Finance Amount is mandatory'"
-                    [patternCheck]="regexPattern.amount"
                     [isDirty]="isDirty"
-                    [type] = "'number'"
+                    [type] = "validationData?.amountValue.type"
                 ></app-custom-input>
                 <!-- [inputClass]="'text-uppercase'" -->
             </div>
@@ -95,18 +94,18 @@
                 <app-custom-input
                 formControlName="financeCharges"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Requested Amount'"
-                [maxLength]="regexPattern.contLength"
-                [isRequired]="'Finance charges is mandatory'"
-                [patternCheck]="regexPattern.amount"
+                [placeholder]="'Finance Charges'"
+                [isRequired]="'Finance Charges is mandatory'"
+                [maxLength]="validationData?.amountValue['maxLength']"
                 [isDirty]="isDirty"
-                [type] = "'number'"
+                [type] = "validationData?.amountValue['type']"
+                (keyup) = "checkFinanceCharge()"
                 >
               </app-custom-input>
-                <!-- <span *ngIf="submitted && f.financeCharges.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.financeCharges.errors.required">{{labels.financeCharges}} is required</span>
-                    <span *ngIf="f.contNo.errors.min"> Please Enter valid financeCharges</span>
-                </span> -->
+                    <div class="cus-mandatory-field" *ngIf="f.financeCharges.errors && f.financeCharges.errors['incorrect']">
+                        Finance Charges not grater finance amount
+                    </div>
+                
             </div>
         </div>
         <div class="row">
@@ -117,11 +116,10 @@
                 formControlName="contractValue"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Contract Value'"
-                [maxLength]="regexPattern.contLength"
                 [isRequired]="'Contract Value is mandatory'"
-                [patternCheck]="regexPattern.amount"
+                [maxLength]="validationData?.contractValue.maxLength"
                 [isDirty]="isDirty"
-                [type] = "'number'"
+                [type] = "validationData?.contractValue.type"
                 >
               </app-custom-input>
             </div>
@@ -150,11 +148,7 @@
                 formControlName="vehicleNo"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Vehicle Number'"
-                [maxLength]="regexPattern.contLength"
-                [isRequired]="'Vehicle Number is mandatory'"
-                [patternCheck]="regexPattern.vechileNoPattern"
-                [isDirty]="isDirty"
-                [inputClass]="'text-uppercase'"
+               
                 >
               </app-custom-input>
                 <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
@@ -243,10 +237,7 @@
                 formControlName="noOfEmi"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Total number of Emis'"
-                [maxLength]="regexPattern.nameLength"
-                [isRequired]="'Total number of emis is mandatory'"
-                [patternCheck]="regexPattern.amount"
-                [isDirty]="isDirty"
+               
                 >
               </app-custom-input>
                 <!-- <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
@@ -262,10 +253,7 @@
                 formControlName="emisPaid"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Total number of Emis paid'"
-                [maxLength]="regexPattern.nameLength"
-                [isRequired]="'Total number of emis paid is mandatory'"
-                [patternCheck]="regexPattern.amount"
-                [isDirty]="isDirty"
+               
                 >
               </app-custom-input>
                 <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
@@ -340,11 +328,10 @@
                                     formControlName="installmentAmt"
                                     [className]="'form-control mandatory'"
                                     [placeholder]="'Installment Amount'"
-                                    [maxLength]="regexPattern.contLength"
                                     [isRequired]="'Installment Amount is mandatory'"
-                                    [patternCheck]="regexPattern.amount"
+                                    [maxLength]="validationData?.amountValue.maxLength"
                                     [isDirty]="isDirty"
-                                    [type] = "'number'"
+                                    [type] = "validationData?.amountValue.type"
                                     (change)="paymentExcessOrShort($event ,i)"
                                     >
                                   </app-custom-input>
@@ -372,11 +359,11 @@
                                     formControlName="receiptNo"
                                     [className]="'form-control mandatory'"
                                     [placeholder]="'Receipt No'"
-                                    [maxLength]="regexPattern.contLength"
+                                    [maxLength]="validationData?.receiptNo.maxLength"
                                     [isRequired]="'Receipt No is mandatory'"
-                                    [patternCheck]="regexPattern.amount"
+                                   
                                     [isDirty]="isDirty"
-                                    [type] = "'number'"
+                                    [type] = "validationData?.receiptNo.type"
                                     (change)="receiptNumber($event ,i)"
                                     >
                                   </app-custom-input>
@@ -416,11 +403,10 @@
                                     formControlName="receivedAmt"
                                     [className]="'form-control mandatory'"
                                     [placeholder]="'Received Amt'"
-                                    [maxLength]="regexPattern.contLength"
                                     [isRequired]="'Received Amt is mandatory'"
-                                    [patternCheck]="regexPattern.amount"
+                                    [maxLength]="validationData?.amountValue.maxLength"
                                     [isDirty]="isDirty"
-                                    [type] = "'number'"
+                                    [type] = "validationData?.amountValue.type"
                                     (change)="paymentExcessOrShort($event ,i)"
                                     >
                                   </app-custom-input>

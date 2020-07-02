@@ -428,14 +428,8 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log(
-      'isNgAutoCompleteDealer',
-      this.createLeadForm.controls.dealerCode.value
-    );
-    console.log(
-      'isNgAutoCompleteSourcing',
-      this.createLeadForm.controls.sourcingCode.value
-    );
+    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
+    console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
 
     this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
     this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class LabelsService {
   private labelFleetUrl = 'assets/labels/labelFleetDetails.json';
   private languageLabelsurl = 'assets/labels/labels-hindi.json';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpService) { }
 
   getLabelsData(): Observable<any> {
     return this.http.get(this.labelsurl);
