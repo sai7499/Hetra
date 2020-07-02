@@ -15,8 +15,9 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="no_employees">{{labels.noEmployees}}</label>
                 <!-- <input type="number" class="form-control" id="no_employees" formControlName="noOfEmployeesSeen"> -->
-                <app-custom-input id="no_employees" formControlName="noOfEmployeesSeen" [type]='"number"' [patternCheck]="employeeSeenPattern" [isRequired]="'Input is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="no_employees" formControlName="noOfEmployeesSeen" [type]="labels?.validationData?.numberOfEmployeeSeen?.type" [patternCheck]="labels?.validationData?.numberOfEmployeeSeen?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.numberOfEmployeeSeen?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
+
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="name_board_seen">{{labels.nameBoardSeen}}</label>
@@ -66,7 +67,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mismatch_address">{{labels.mismatchAddress}}</label>
                 <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
-                <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" [patternCheck]="mismatchAddressPattern" [isRequired]="'Input is required'" [maxLength]="maxlength40" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength" [isDirty]="isDirty"></app-custom-input>
 
 
             </div>

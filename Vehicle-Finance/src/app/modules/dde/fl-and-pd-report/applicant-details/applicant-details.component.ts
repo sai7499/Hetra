@@ -29,10 +29,11 @@ export class ApplicantDetailComponent implements OnInit {
   applicantPdDetails: any;
 
 
-  namePattern = {
-    rule: '^[A-Za-z ]{0,99}$',
-    msg: 'Invalid Name',
-  };
+  // namePattern = {
+  //   rule: '^[A-Za-z ]{0,99}$',
+  //   msg: 'Invalid Name',
+  // };
+
 
   maxlength30 = {
     rule: 30,
@@ -44,40 +45,40 @@ export class ApplicantDetailComponent implements OnInit {
     msg: '',
   };
 
-  landlinePattern = {
-    rule: '^[0-9]{6,15}',
-    msg: 'Invalid Landline Number',
-  };
+  // landlinePattern = {
+  //   rule: '^[0-9]{6,15}',
+  //   msg: 'Invalid Landline Number',
+  // };
 
   maxlength15 = {
     rule: 15,
     msg: '',
   };
 
-  mobileNumberPattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  };
+  // mobileNumberPattern = {
+  //   rule: '^[6-9][0-9]*$',
+  //   msg: 'Invalid Mobile Number',
+  // };
 
   maxlength10 = {
     rule: 10,
     msg: 'Max Required Length 10',
   };
 
-  bankAccountNumber = {
-    rule: '^[0-9A-Za-z]{9,15}$',
-    msg: 'Invalid Account Number',
-  };
+  // bankAccountNumber = {
+  //   rule: '^[0-9A-Za-z]{9,15}$',
+  //   msg: 'Invalid Account Number',
+  // };
 
   maxlength18 = {
     rule: 18,
     msg: '',
   };
 
-  landmarkPattern = {
-    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-    msg: 'Invalid Landmark',
-  };
+  // landmarkPattern = {
+  //   rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
+  //   msg: 'Invalid Landmark',
+  // };
 
   maxlength40 = {
     rule: 40,
@@ -106,20 +107,16 @@ export class ApplicantDetailComponent implements OnInit {
               private pdDataService: PdDataService,
               private toasterService: ToasterService) { }
 
-    async ngOnInit() {
+     async ngOnInit() {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     console.log("roles", this.roles)
+    console.log("user id ==>", this.userId)
     this.roleName = this.roles[0].name;
     // this.roleName = 'Sales Officer';
     // this.roleName = 'Credit Officer';
-
-    console.log("user id ==>", this.userId)
-    this.initForm();
-    this.leadId = (await this.getLeadId()) as number;
-    console.log('Lead ID in Aplicant Details', this.leadId);
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -127,6 +124,10 @@ export class ApplicantDetailComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
+    
+    this.initForm();
+    this.leadId = (await this.getLeadId()) as number;
+    console.log('Lead ID in Aplicant Details', this.leadId);
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};

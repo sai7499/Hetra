@@ -57,6 +57,7 @@ export class LoanDetailsComponent implements OnInit {
     rule: 30,
     msg: '',
   };
+  isDirty: boolean;
 
 
 
@@ -419,6 +420,10 @@ export class LoanDetailsComponent implements OnInit {
 
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
+    this.isDirty = true;
+    if (this.loanDetailsForm.invalid) {
+      return
+    }
     const loanDetailsModal = { ...formModal };
     console.log("form data", loanDetailsModal)
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
