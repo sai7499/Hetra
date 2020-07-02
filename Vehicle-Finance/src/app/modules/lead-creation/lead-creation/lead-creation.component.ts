@@ -428,14 +428,8 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log(
-      'isNgAutoCompleteDealer',
-      this.createLeadForm.controls.dealerCode.value
-    );
-    console.log(
-      'isNgAutoCompleteSourcing',
-      this.createLeadForm.controls.sourcingCode.value
-    );
+    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
+    console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
 
     this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
     this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
@@ -458,7 +452,7 @@ export class LeadCreationComponent implements OnInit {
         fundingProgram: leadModel.fundingProgram,
         sourcingChannel: leadModel.sourcingChannel,
         sourcingType: leadModel.sourcingType,
-        sourcingCode: leadModel.sourcingCode.key
+        sourcingCode: leadModel.sourcingCode
           ? leadModel.sourcingCode.key
           : '',
         dealorCode: leadModel.dealerCode.dealorCode,
@@ -466,7 +460,7 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
-        sourcingCodeDescription: leadModel.sourcingCode.value
+        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value:''
       };
 
       this.applicantDetails = {

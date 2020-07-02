@@ -55,7 +55,7 @@ export class TvrDetailsComponent implements OnInit {
     };
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
       this.tvrList = res.ProcessVariables.tvrApplicantsList;
-      this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
+      // this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
       console.log('TVR-Dashboard_list', this.tvrList);
     });
 
@@ -69,9 +69,11 @@ export class TvrDetailsComponent implements OnInit {
   //   });
   // }
 
-  async onViewClick() {
+  async onViewClick(applicantId: string, applicantType: string) {
+
     const leadId = (await this.getLeadId()) as number;
-    this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${this.applicantId}`);
+    this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${applicantType}/${applicantId}`);
   }
+
 
 }

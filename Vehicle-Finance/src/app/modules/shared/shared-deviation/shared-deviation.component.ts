@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -13,7 +13,7 @@ import { LoginStoreService } from '@services/login-store.service';
   templateUrl: './shared-deviation.component.html',
   styleUrls: ['./shared-deviation.component.css']
 })
-export class SharedDeviationComponent implements OnInit {
+export class SharedDeviationComponent implements OnInit, OnChanges {
 
   deviationsForm: FormGroup;
   public labels: any = {};
@@ -67,10 +67,12 @@ export class SharedDeviationComponent implements OnInit {
     })
     this.getDeviationMaster()
     this.sharedService.getFormValidation(this.deviationsForm)
+  }
+
+  ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       console.log('value', value)
     })
-
   }
 
   getDeviationMaster() {
@@ -144,7 +146,7 @@ export class SharedDeviationComponent implements OnInit {
       return element.key === Number(event.target.value);
     })
     formArray.controls[i].patchValue({
-      approverRole: Number(event.target.value)
+      approverRole: item.value
     })
   }
 
@@ -162,14 +164,15 @@ export class SharedDeviationComponent implements OnInit {
   getManualDeviations() {
     return this._fb.group({
       approverRole: ["", Validators.required],
-      // approverLevel: ['', Validators.required],
       devCode: ['', Validators.required],
       devDesc: [""],
       devRuleId: 0,
       justification: ['', Validators.required],
       approveAction: [{ value: '', disabled: true }],
       referAction: [{ value: '', disabled: true }],
-      declineAction: [{ value: '', disabled: true }]
+      declineAction: [{ value: '', disabled: true }],
+      isManualDev: null,
+      statusCode: null,
     });
   }
 
@@ -189,7 +192,7 @@ export class SharedDeviationComponent implements OnInit {
   }
 
   getTrigurePolicy() {
-    this.deviationService.getDeviationsDetails(1000).subscribe((res: any) => {
+    this.deviationService.getDeviationsDetails(this.leadId).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         const formArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 

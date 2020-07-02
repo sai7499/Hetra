@@ -134,6 +134,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleFormArray: this._fb.array([])
     })
 
+    this.labelsData.getLabelsData()
+    .subscribe(data => {
+      this.label = data;
+      console.log(this.label.validationData, 'Aldfndn')
+    }, error => {
+      console.log('error', error)
+    });
+
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
@@ -151,12 +159,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.initForms();
     this.getLov();
-    this.labelsData.getLabelsData()
-      .subscribe(data => {
-        this.label = data;
-      }, error => {
-        console.log('error', error)
-      });
 
     if (this.id) {
       this.setFormValue();

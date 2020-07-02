@@ -8,10 +8,12 @@ import { DdeSharedModule } from '../shared/shared.module';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 import { SharedModule } from '@shared/shared.module';
-import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
+// import { ViabilityDetailsComponent } from './viability-details/viability-details.component';
 
 @NgModule({
-  declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent, InsuranceDetailsComponent, ViabilityDetailsComponent],
+  declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent, InsuranceDetailsComponent,
+    //  ViabilityDetailsComponent
+    ],
   imports: [
     CommonModule,
     VehicleDetailsRoutingModule,

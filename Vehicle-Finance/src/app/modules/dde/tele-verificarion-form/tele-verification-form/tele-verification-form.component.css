@@ -1,5 +1,9 @@
+.showModal {
+    display: block;
+}
+
 .mar-top19 {
-    margin-top: 18px;
+    margin-top: 16px;
 }
 
 .text-underline {
