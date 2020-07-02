@@ -150,11 +150,45 @@ export class ReferenceCheckComponent implements OnInit {
       employeeCode: refCheckModal.employeeCode || '',
       date: refCheckModal.date || '',
       place: refCheckModal.place || '',
-      time: refCheckModal.time || '',
+      time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
+      // time: refCheckModal.time || '',
       pdRemarks: refCheckModal.pdRemarks || '',
       overallFiReport: refCheckModal.overallFiReport || ''
     });
     console.log("patched form", this.referenceCheckForm);
+  }
+  getDateFormat(date) {
+
+    // console.log("in getDateFormat", date)
+
+    var datePart = date.match(/\d+/g);
+    var month = datePart[1];
+    var day = datePart[0];
+    var year = datePart[2];
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+
+    // year = dateFormat.getFullYear();
+    // month = Number(dateFormat.getMonth()) + 1;
+    // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    // day = dateFormat.getDate().toString();
+    // day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    // const formattedDate = year + '-' + month1 + '-' + day;
+    // //   const formattedDate = day + '-' + month1 + '-' + year;
+    // console.log("formattedDate", formattedDate)
+    return dateFormat;
+  }
+  sendDate(date) {
+    const dateFormat: Date = new Date(date);
+    let year = dateFormat.getFullYear();
+    let month = Number(dateFormat.getMonth()) + 1;
+    let day = dateFormat.getDate().toString();
+    let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+
+    const formattedDate = day + "/" + month1 + "/" + year;
+    return formattedDate;
+
   }
 
   onFormSubmit() {
@@ -174,7 +208,8 @@ export class ReferenceCheckComponent implements OnInit {
       employeeCode: refCheckModal.employeeCode || '',
       date: refCheckModal.date || '',
       place: refCheckModal.place || '',
-      time: refCheckModal.time || '',
+      time: this.sendDate(refCheckModal.time),
+      // time: refCheckModal.time || '',
       pdRemarks: refCheckModal.pdRemarks || '',
       overallFiReport: refCheckModal.overallFiReport || '',
     };

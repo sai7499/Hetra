@@ -79,11 +79,16 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="overall_report">{{labels.overallReport}}</label>
-                <select class="form-control" formControlName="overallFiReport">
+                <!-- <select class="form-control" formControlName="overallFiReport">
                     <option>Select</option>
                     <option value="Positive">Positive</option>
                     <option value="Negative">Negative</option>
-                </select>
+                </select> -->
+                <app-vf-custom-select [values]="[
+                { key: '0', value: 'Positive' },
+                { key: '1', value: 'Negative' }
+              ]" formControlName="overallFiReport">
+                </app-vf-custom-select>
             </div>
 
 

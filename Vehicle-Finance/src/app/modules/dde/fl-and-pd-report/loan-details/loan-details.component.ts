@@ -61,17 +61,17 @@ export class LoanDetailsComponent implements OnInit {
 
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commonLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private activatedRoute: ActivatedRoute,
-              private personalDiscussion: PersonalDiscussionService,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commonLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private activatedRoute: ActivatedRoute,
+    private personalDiscussion: PersonalDiscussionService,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService) { }
 
- async ngOnInit() {
+  async ngOnInit() {
 
     // accessing lead id from route
 
