@@ -878,6 +878,62 @@
             },
             "type": "number"
         },
+        "mobileNumber": {
+            "maxLength": {
+                "rule": 10,
+                "msg":"10 Digits required"
+            },
+            "pattern":{
+            "rule":"^[6-9][0-9]*$",
+            "msg":"Invalid Mobile Number"
+            },
+            "type": "number"
+        },
+        "accountNumber": {
+            "pattern":{
+                "rule": "^[0-9A-Za-z]{9,15}$",
+                "msg":"Invalid account Number"
+            }
+        },
+        "bankName": {
+            "maxLength": {
+                "rule": 25
+            },
+            "pattern":{
+                "rule": "^[A-Za-z ]{0,99}$",
+                "msg":"Invalid account Number"
+            },
+            "type": "alpha"
+        },
+        "landLine": {
+            "maxLength": {
+                "rule": 15
+            },
+            "pattern":{
+            "rule":"^[0-9]{6,15}",
+            "msg":"Invalid Number"
+            },
+            "type": "number"
+        },
+        "landMark": {
+            "maxLength": {
+                "rule": 40
+            },
+            "pattern": {
+                "rule":"^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+                "msg":"Invalid Number"
+            }
+        },
+        "numberOfEmployeeSeen": {
+            "maxLength": {
+                "rule": 10
+            },
+            "pattern": {
+                "rule":"^[1-9][0-9]*$",
+                "msg":"Invalid Number"
+            },
+            "type":"number"
+        },
         "amount": {
             "maxLength": {
                 "rule": 10
