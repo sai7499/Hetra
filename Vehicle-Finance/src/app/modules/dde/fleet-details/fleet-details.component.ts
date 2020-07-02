@@ -97,7 +97,7 @@ export class FleetDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private utilityService: UtilityService,
     private sharedService: SharedService) { 
-      this.yearCheck = [{rule: val => val>this.currentYear,msg:'Feature year not accepted'}];
+      this.yearCheck = [{rule: val => val>this.currentYear,msg:'Future year not accepted'}];
     }
 
 
