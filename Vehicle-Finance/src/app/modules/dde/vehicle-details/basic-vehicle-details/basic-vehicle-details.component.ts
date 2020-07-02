@@ -85,6 +85,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
       })
     } else {
       this.isDirty = true;
+      console.log('error', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }

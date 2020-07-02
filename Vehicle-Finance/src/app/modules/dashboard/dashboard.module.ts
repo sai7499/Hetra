@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { DeviationComponent } from './deviation/deviation.component';
 import { DeviationDashboardComponent } from './deviation/deviation-dashboard/deviation-dashboard.component';
 import { CaseSummaryComponent } from './deviation/case-summary/case-summary.component';
+import { SharedModule } from '@modules/shared/shared.module';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -29,7 +30,8 @@ import { CaseSummaryComponent } from './deviation/case-summary/case-summary.comp
     CommonModule,
     DashboardRoutingModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class DashboardModule { }

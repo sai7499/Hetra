@@ -1,45 +1,193 @@
-<form class="multisteps-form__form" [formGroup]="deviationsForm">
+<form class="multisteps-form__form" [formGroup]="deviationsForm" (change)="formDataOutputMethod($event)">
+  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-  <div class="text-right" id="get_role_details_btn">
-    <button class="btn mar-right8 btn-primary" type="button"
-      (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
-  </div>
-
-
-<h3 class="margin_zero">{{labels?.autoDeviation}}</h3>
-
-<div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label for="acp">{{labels?.deviation}}</label>
-    <p>{{labels?.referText1}}</p>
-  </div>
-  <div class="form-group col-sm-6 col-md-2 col-lg-2">
-    <label for="acp">{{labels?.approvalLevel}}</label>
-    <p>{{labels?.bcm}}</p>
-  </div>
-  <div class="form-group col-sm-6 col-md-5 col-lg-5">
-    <label for="activity">{{labels?.justification}}</label>
-    <!-- <input type="text" name="file" class="form-control"  value="Ref#123456"/> -->
-    <textarea class="form-control" value="Justification"></textarea>
-  </div>
-
-  <div class="form-group col-sm-6 col-md-2 col-lg-2">
-    <label for="end" class="action">{{labels?.action}}</label>
-
-    <div class="row m-0">
-      <label class="radio-inline disabled">
-        <input type="radio" name="bcmApproveAction" disabled>{{labels?.approve}}
-      </label>
-      <label class="radio-inline disabled">
-        <input type="radio" name="bcmReferAction" disabled>{{labels?.referToNextLevel}}
-      </label>
-      <label class="radio-inline disabled">
-        <input type="radio" name="bcmDeclineAction" disabled>{{labels?.decline}}
-      </label>
+    <div class="text-right" id="get_role_details_btn">
+      <button class="btn mar-right8 btn-primary" type="button"
+        (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
     </div>
+
+    <ng-container formArrayName="autoDeviationFormArray">
+
+      <div *ngIf="autoDeviationArray.length > 0">
+
+        <h3 class="margin_zero">{{labels?.autoDeviation}}</h3>
+
+        <div *ngFor="let obj of deviationsForm.get('autoDeviationFormArray')['controls']; let i=index;let l=last"
+          [formGroupName]="i">
+
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="acp">{{labels?.deviation}}</label>
+              <p>{{obj.controls['devDesc'].value}}</p>
+            </div>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+              <label for="acp">{{labels?.approvalLevel}}</label>
+              <p>{{obj.controls['approverRole'].value}}</p>
+            </div>
+            <div class="form-group col-sm-6 col-md-5 col-lg-5">
+              <label for="activity">{{labels?.justification}}</label>
+              <textarea class="form-control" value="Justification" formControlName="justification"></textarea>
+
+              <div class="invalid-feedback"
+                *ngIf="obj.controls['justification'].touched && !obj.controls['justification'].vaild">
+                <div *ngIf="obj.controls['justification'].hasError('required')">
+                  Manual Justfication Required
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+              <label for="end" class="action">{{labels?.action}}</label>
+
+              <div class="row m-0">
+                <label class="radio-inline disabled">
+                  <input type="radio" name="approveAction" formControlName="approveAction">{{labels?.approve}}
+                </label>
+                <label class="radio-inline disabled">
+                  <input type="radio" name="referAction" formControlName="referAction">{{labels?.referToNextLevel}}
+                </label>
+                <label class="radio-inline disabled">
+                  <input type="radio" name="declineAction" formControlName="declineAction">{{labels?.decline}}
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </ng-container>
+
+    <hr>
+
+    <ng-container formArrayName="manualDeviationFormArray">
+
+      <h3 class="margin_zero">{{labels?.manualDeviation}}</h3>
+
+      <div class="panel-body row" id="show_1_div_identity"
+        *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let i = index"
+        [formGroupName]="i">
+
+        <div class="form-group col-sm-6 col-md-3 col-lg-2">
+          <label for="deviation">{{labels?.deviation}}</label>
+          <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
+            [isRequired]="'Deviation Required'" [isDirty]="isDirty" (change)="onGetDeviationCode($event, i)">
+          </app-vf-custom-select>
+
+          <div class="invalid-feedback" *ngIf="findDuplicate(item.controls['devCode'].value, i) && i > 0">
+            Duplicate Deviation
+          </div>
+
+        </div>
+
+        <div class="form-group col-sm-6 col-md-3 col-lg-2">
+          <label for="approval_level"> {{labels?.approvalLevel}}</label>
+          <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
+            formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
+            (change)="onGetApprovalLevel($event, i)">
+          </app-vf-custom-select>
+        </div>
+
+        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+          <label for="activity">{{labels?.justification}}</label>
+          <textarea class="form-control" value="Justification" formControlName="justification"></textarea>
+
+          <div class="invalid-feedback"
+            *ngIf="item.controls['justification'].touched && !item.controls['justification'].vaild">
+            <div *ngIf="item.controls['justification'].hasError('required')">
+              Manual Justfication Required
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group col-sm-6 col-md-3 col-lg-2">
+          <label for="end" class="action">{{labels?.action}}</label>
+          <div class="row m-0 radio-inline" [ngClass]="{'disabled': item.controls['devRuleId'].value === 0}">
+            <label>
+              <input type="radio" name="approveAction" formControlName="approveAction">{{labels?.approve}}
+            </label>
+            <label>
+              <input type="radio" name="referAction" formControlName="referAction">{{labels?.referToNextLevel}}
+            </label>
+            <label>
+              <input type="radio" name="declineAction" formControlName="declineAction">{{labels?.decline}}
+            </label>
+          </div>
+
+        </div>
+
+        <div class="form-group col-sm-1 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
+          <label>{{labels?.more}} </label>
+          <div class="row">
+
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <label class="image-upload" for="upload_files"><i class="fa fa-plus fa-3" aria-hidden="true"
+                  id="add_more_documents1" (click)="addDeviationUnit(item, i)"></i> &nbsp; <i class="fa fa-minus fa-3"
+                  aria-hidden="true" id="add_more_documents_remove1" (click)="removeDeviationIndex(i)"></i></label>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </ng-container>
+
+    <div class="bottom_20"></div>
+
+    <div class="row btn-sec clear-both">
+      <div class="col-sm-4">
+      </div>
+      <div class="col-sm-5 text-right">
+        <div class="form-group col-md-10" style="margin-bottom: 0px;">
+
+          <div class="form-group col-sm-3 col-md-3 text-right" style="padding: 0px;">
+            <label for="document" style="padding-top:8px;">{{labels?.referTo}}</label>
+          </div>
+
+          <div class="form-group col-sm-8 col-md-8">
+            <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
+              formControlName="approvalLevel">
+            </app-vf-custom-select>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="button" data-toggle="modal"
+          data-target="#referRecommedation">{{labels?.refer}}</button>
+      </div>
+      <div class="col-sm-3 row text-right">
+
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
+          disabled>{{labels?.approveDeviations}}</button>
+        <button class="btn btn-primary" type="button" data-toggle="modal" *ngIf="isSubmitToCredit"
+          data-target="#referRecommedation">{{labels?.sendBackToCredit}}</button>
+      </div>
+    </div>
+
   </div>
-
-</div>
-
-
 </form>
+
+
+<div class="modal fade" id="referRecommedation" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{labels?.recommendation}}</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" rows="10" cols="5">{{labels?.referText4}}</textarea>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.ok}}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+      </div>
+    </div>
+
+  </div>
+</div>

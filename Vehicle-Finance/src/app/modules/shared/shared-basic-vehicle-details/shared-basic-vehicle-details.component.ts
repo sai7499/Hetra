@@ -516,10 +516,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: [''],
       assetCostCarTrade: [''],
       exShowRoomCost: [''],
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       vehicleUsage: [''],
       category: [''],
       rcOwnerName: [''],
@@ -722,10 +719,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ageOfAsset: ['', Validators.required],
       ageAfterTenure: ['', Validators.required],
       assetCostGrid: ['', Validators.required],
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
       typeOfPermit: [''],
       typeOfPermitOthers: [''],
@@ -779,10 +773,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: ['', Validators.required],
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
