@@ -80,8 +80,8 @@ export class MyTasksComponent implements OnInit {
       perPage: parseInt(perPageCount),
       myLeads: true
     };
-    this.personalDiscussion.getPdTaskDashboard(data).subscribe((value: any) => {
-      const processveriables = value.ProcessVariables;
+    this.personalDiscussion.getPdTaskDashboard(data).subscribe((res: any) => {
+      this.setPageData(res);
     });
   }
 
