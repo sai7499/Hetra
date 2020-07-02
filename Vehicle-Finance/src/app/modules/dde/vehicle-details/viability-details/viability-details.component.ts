@@ -38,12 +38,22 @@ export class ViabilityDetailsComponent implements OnInit {
   inputLength10 = {
     rule: 10,
   };
-  public viabilityForm: FormGroup;
+  public viabilityForm: any;
   viabilityObj: any;
   viabliityDataToPatch: any;
   collataralId: any;
   leadId: number;
   userId: string;
+  monthlyIncome = 0;
+  monthlyRunningKm = 0;
+  montlyStandOperatorIncome = 0;
+  standoperatorExpense: number;
+  standOperatorEmi = 0;
+  montlyCaptiveIncome = 0;
+  captiveExpense = 0;
+  captiveEmi = 0;
+  netCashFlowEmiPassenger = 0;
+  netFlowCash = 0;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -69,7 +79,7 @@ export class ViabilityDetailsComponent implements OnInit {
     });
     // this.createForm();
     this.viabilityForm = this.fb.group({
-      type: [[], Validators.required],
+      type: ['', Validators.required],
       passanger: this.fb.group({ route: [],
         natureOfGoods: [],
         distanceInKm: [],
@@ -93,7 +103,7 @@ export class ViabilityDetailsComponent implements OnInit {
         maintanence: [],
         busMiscellaneousExpenses: [],
         busInsurenceExpenses: [],
-        busMonthlyIncome: [],
+        busMonthlyIncome: [this.monthlyIncome],
         netCashFlow: [],
         emi: [],
         totalExpenses: []}),
@@ -175,7 +185,7 @@ vehicle_viability_navigate(event) {
    const privateViability = this.viabilityForm.controls.passanger as FormGroup;
    privateViability.get('route').setValidators(Validators.required);
    privateViability.get('natureOfGoods').setValidators(Validators.required);
-   privateViability.get('distanceInKm').setValidators(Validators.required);
+  //  privateViability.get('distanceInKm').setValidators(Validators.required);
    privateViability.get('tripsPerMonth').setValidators(Validators.required);
    privateViability.get('monthlyRunningKm').setValidators(Validators.required);
    privateViability.get('avgLoadPerTon').setValidators(Validators.required);
@@ -301,19 +311,29 @@ getViability(id: any) {
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
         this.patchViability(this.viabliityDataToPatch);
+        this.calculatePassenger();
+        this.calculatePassengerB();
+        this.calculatePassengerC();
+        this.calculatePassengerD();
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '2VHCLVBTY') {
         this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
         this.setPassangetStandOperator(this.viabliityDataToPatch);
+        this.calculateStandOperator();
+        this.calculateStandOperatorB();
+        this.calculateStandOperatorC();
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '3VHCLVBTY') {
         this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.setCapative(this.viabliityDataToPatch);
+        this.calculateCaptive();
+        this.calculateCaptiveB();
+        this.calculateCaptiveC();
        }
     } else {
-      // this.viabilityForm.controls.type = '1VHCLVBTY';
+      this.viabilityForm.controls.type = '1VHCLVBTY';
     }
     });
 
@@ -327,16 +347,17 @@ getViability(id: any) {
   //   }
   // }
 onSave() {
+    this.vehicle_viability_navigate(this.viabilityForm.controls.type);
     if (this.viabilityForm.invalid) {
       console.log(this.viabilityForm.value);
       return;
     }
-    if (this.viabilityForm.value.type === '1VHCLVBTY') {
+    if (this.viabilityForm.controls.type === '1VHCLVBTY') {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
           collateralId: this.collataralId,
-          type: this.viabilityForm.value.type,
+          type: this.viabilityForm.controls.type,
           ...this.convertPassenger(this.viabilityForm.value.passanger)
         },
       };
@@ -344,12 +365,12 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
     });
-    } else if ( this.viabilityForm.value.type === '2VHCLVBTY') {
+    } else if ( this.viabilityForm.controls.type === '2VHCLVBTY') {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
           collateralId: this.collataralId,
-          type: this.viabilityForm.value.type,
+          type: this.viabilityForm.controls.type,
           ...this.convertStandOperative(this.viabilityForm.value.passangerStandOperator)
         },
       };
@@ -357,12 +378,12 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
     });
-     } else if ( this.viabilityForm.value.type === '3VHCLVBTY') {
+     } else if ( this.viabilityForm.controls.type === '3VHCLVBTY') {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
           collateralId: this.collataralId,
-          type: this.viabilityForm.value.type,
+          type: this.viabilityForm.controls.type,
           ...this.convertCapitve(this.viabilityForm.value.captive)
         },
       };
@@ -412,7 +433,7 @@ patchViability(data: any) {
    const body = {
     route: data.route ? data.route : null,
     natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
-       distanceInKm: data.distanceInKm ? Number (data.distanceInKm) : 45,
+    distanceInKm: data.distanceInKm ? Number (data.distanceInKm) : null,
        tripsPerMonth: data.tripsPerMonth ? Number (data.tripsPerMonth) : null,
        monthlyRunningKm: data.monthlyRunningKm ? Number(data.monthlyRunningKm) : null,
        avgLoadPerTon: data.avgLoadPerTon ? Number(data.avgLoadPerTon) : null,
@@ -513,4 +534,144 @@ convertCapitve(dataCaptive) {
  onBack() {
 this.location.back();
  }
+ calculatePassenger() {
+   this.monthlyRunningKm = 0 ;
+   this.monthlyIncome = 0;
+   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+   console.log(passengerGroup);
+   const distanceInKm = passengerGroup.value.distanceInKm ? Number(passengerGroup.value.distanceInKm) : 0;
+   const tripsPerMonth = passengerGroup.value.tripsPerMonth ? Number(passengerGroup.value.tripsPerMonth) : 0;
+   const monthlyRunningKm = distanceInKm * tripsPerMonth;
+   this.monthlyRunningKm = monthlyRunningKm ;
+   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
+   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
+   const tonnageCalc =  avgLoadPerTon * rateTonne;
+   this.monthlyIncome = tripsPerMonth * tonnageCalc;
+   passengerGroup.value.busMonthlyIncome = this.monthlyIncome;
+  //  this.viabilityForm.value.passanger.patchValue({
+  //   busMonthlyIncome : this.monthlyIncome
+  //  });
+   passengerGroup.patchValue({
+    monthlyRunningKm : this.monthlyRunningKm
+  });
+ }
+ calculatePassengerB() {
+  const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+  const monthlyRunningKm = passengerGroup.value.monthlyRunningKm ? Number(passengerGroup.value.monthlyRunningKm) : 0;
+  const costPerLtr = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
+  const fuelAvgPerKm = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : 0;
+  const fuelCostPass = Math.round( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm) ;
+  passengerGroup.patchValue({
+    fuelCost : fuelCostPass
+  });
+  const noOfTyres = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
+  const newTyreLifeKm = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
+  const perTyreCost = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
+  const tyreCostPass = Math.round ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm);
+  passengerGroup.patchValue( {
+    tyreCost : tyreCostPass
+  });
+ }
+ calculatePassengerC() {
+  const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+  const tyreCost = passengerGroup.value.tyreCost ? Number(passengerGroup.value.tyreCost) : 0;
+  const fuelCost = passengerGroup.value.fuelCost ? Number(passengerGroup.value.fuelCost) : 0;
+  const driversSalary = passengerGroup.value.driversSalary ? Number(passengerGroup.value.driversSalary) : 0;
+  const cleanersSalary = passengerGroup.value.cleanersSalary ? Number(passengerGroup.value.cleanersSalary) : 0;
+  const permitCost = passengerGroup.value.permitCost ? Number(passengerGroup.value.permitCost) : 0;
+  const fcCharge = passengerGroup.value.fcCharge ? Number(passengerGroup.value.fcCharge) : 0;
+  const paidTollTax =  passengerGroup.value.paidTollTax ? Number(passengerGroup.value.paidTollTax) : 0;
+  const taxes = passengerGroup.value.taxes ? Number(passengerGroup.value.taxes) : 0 ;
+  const maintanence =  passengerGroup.value.maintanence ? Number( passengerGroup.value.maintanence ) : 0 ;
+  // tslint:disable-next-line: max-line-length
+  const  busMiscellaneousExpenses =  passengerGroup.value.busMiscellaneousExpenses ? Number( passengerGroup.value.busMiscellaneousExpenses) : 0 ;
+  const busInsurenceExpenses = passengerGroup.value.busInsurenceExpenses ? Number(passengerGroup.value.busInsurenceExpenses) : 0;
+  // const busMonthlyIncome = passengerGroup.value.busMonthlyIncome ? Number(passengerGroup.value.busMonthlyIncome) : 0;
+  // tslint:disable-next-line: max-line-length
+  const expense = tyreCost + fuelCost + driversSalary + cleanersSalary + permitCost + fcCharge + paidTollTax + taxes + maintanence + busInsurenceExpenses;
+  passengerGroup.patchValue({
+  totalExpenses : expense
+  });
+  // passengerGroup.patchValue({
+  //   netCashFlow : this.monthlyIncome - expense
+  // });
+  this.netFlowCash = this.monthlyIncome - expense;
+ }
+ calculatePassengerD() {
+  const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+  const totalExpenses = passengerGroup.value.totalExpenses ? Number(passengerGroup.value.totalExpenses) : 0;
+  const emi = passengerGroup.value.emi ? Number(passengerGroup.value.emi) : 0;
+  const netFlow = this.monthlyIncome - totalExpenses;
+  const emiCal = (netFlow / emi).toFixed(2);
+  this.netCashFlowEmiPassenger = Number(emiCal);
+}
+ calculateStandOperator() {
+  this.montlyStandOperatorIncome = 0;
+  const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
+  console.log(passengerStandGroup);
+  const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
+  const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
+  this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+ }
+ calculateStandOperatorB() {
+  this.standoperatorExpense = 0;
+  const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
+  const businessIncomePerDay =  passengerStandGroup.value.businessIncomePerDay ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
+  const avgTyreExpenses = passengerStandGroup.value.avgTyreExpenses ? Number(passengerStandGroup.value.avgTyreExpenses) : 0;
+  const insuranceExpenses = passengerStandGroup.value.insuranceExpenses ? Number(passengerStandGroup.value.insuranceExpenses) : 0;
+  // tslint:disable-next-line: max-line-length
+  const miscellaneousExpenses = passengerStandGroup.value.miscellaneousExpenses ? Number(passengerStandGroup.value.miscellaneousExpenses) : 0;
+  this.standoperatorExpense = businessIncomePerDay + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses;
+  passengerStandGroup.patchValue({
+    totalExpenses : this.standoperatorExpense
+  });
+  const ncf = this.montlyStandOperatorIncome - this.standoperatorExpense;
+  passengerStandGroup.patchValue({
+    netCashFlow : ncf
+  });
+}
+calculateStandOperatorC() {
+  const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
+  const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : 0;
+  const ncf = passengerStandGroup.value.netCashFlow ? Number(passengerStandGroup.value.netCashFlow) : 0;
+
+  const calEMi = ncf / emi;
+  this.standOperatorEmi = calEMi;
+}
+calculateCaptive() {
+  this.montlyCaptiveIncome = 0;
+  const passengerStandGroup = this.viabilityForm.controls.captive;
+  console.log(passengerStandGroup);
+  // tslint:disable-next-line: max-line-length
+  const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
+  const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
+  this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+ }
+ calculateCaptiveB() {
+  this.captiveExpense = 0;
+  const passengerStandGroup = this.viabilityForm.controls.captive;
+  const businessIncomePerDay =  passengerStandGroup.value.busExpensesPerDay ? Number(passengerStandGroup.value.busExpensesPerDay) : 0;
+  const avgTyreExpenses = passengerStandGroup.value.busTyreAvgExpenses ? Number(passengerStandGroup.value.busTyreAvgExpenses) : 0;
+  const insuranceExpenses = passengerStandGroup.value.busInsurenceExpenses ? Number(passengerStandGroup.value.busInsurenceExpenses) : 0;
+  // tslint:disable-next-line: max-line-length
+  const miscellaneousExpenses = passengerStandGroup.value.busMiscellaneousExpenses ? Number(passengerStandGroup.value.busMiscellaneousExpenses) : 0;
+  const oblicationsPerMonth = passengerStandGroup.value.oblicationsPerMonth ? Number(passengerStandGroup.value.oblicationsPerMonth) : 0;
+  this.captiveExpense = businessIncomePerDay + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses + oblicationsPerMonth;
+  passengerStandGroup.patchValue({
+    totalExpenses : this.captiveExpense
+  });
+  const ncf = this.montlyCaptiveIncome - this.captiveExpense;
+  passengerStandGroup.patchValue({
+    netCashFlowEmi : ncf
+  });
+}
+calculateCaptiveC() {
+  this.captiveEmi = 0;
+  const passengerStandGroup = this.viabilityForm.controls.captive;
+  const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : 0;
+  const ncf = passengerStandGroup.value.netCashFlowEmi ? Number(passengerStandGroup.value.netCashFlowEmi) : 0;
+
+  const calEMi = ncf / emi;
+  this.captiveEmi = calEMi;
+}
 }

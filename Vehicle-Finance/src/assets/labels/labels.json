@@ -749,6 +749,7 @@
   "income": "INCOME",
   "route": "ROUTE",
   "distanceInKm": "Distance in Km",
+  "expensesPerDayBusiness" : " Business Expenses Per Day",
   "noOfTripsPeMonth": "No. of Trips per month",
   "monthlyRunningInKm": " Monthly running in Km",
   "averageLoadInPerTon": "Average load in per ton",
@@ -788,6 +789,7 @@
   "netCashFlowEMI": " Net Cash Flow  EMI",
   "obligationsBusinessMonth": "Obligations in business (Loans) per month",
   "viabilityStatus": "Viability Status",
+  "earningsPerDay" : " No. of earnings per day (No of days)",
   "lablesFleet":{
     "select": "Select",
     "sNo": "S.No",
@@ -855,7 +857,8 @@
     "rcptAmount": "Rcpt Amount",
     "delayDays": "Delay Days",
     "paymentsExcess": "Payments excess/short",    
-    "emiAmount": "Emi Amount"
+    "emiAmount": "Emi Amount",
+    "expensesPerdayBusiness" : "Expenses Per Business Day"
 },
   "validationData":{
     "name":{

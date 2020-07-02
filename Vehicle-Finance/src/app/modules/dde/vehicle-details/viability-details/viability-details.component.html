@@ -30,6 +30,7 @@
                             <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
                             <app-custom-input formControlName="route" [patternCheck]="namePattern"
                                 [maxLength]="nameLength30" [isRequired]="'Route Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Route Details'"
                                 [type]="'alpha'"></app-custom-input>
                         </td>
                     </tr>
@@ -40,6 +41,7 @@
                                 formControlName="natureOfGoods" /> -->
                             <app-custom-input formControlName="natureOfGoods" [patternCheck]="namePattern"
                                 [maxLength]="nameLength30" [isRequired]="'Nature Of Goods is Required'"
+                                [placeholder]="'Enter Nature of Goods'" 
                                 [isDirty]="isDirty" [type]="'alpha'"></app-custom-input>
                         </td>
                     </tr>
@@ -50,6 +52,8 @@
                                 formControlName="distanceInKm" /> -->
                             <app-custom-input formControlName="distanceInKm" [patternCheck]="inputValidation"
                                 [maxLength]="inputLength10" [isRequired]="'Distance in kms is Required'"
+                                [placeholder]="'Enter Distance In Kms'"
+                                (keyup)="calculatePassenger()"
                                 [isDirty]="isDirty" [type]="'number'"></app-custom-input>
 
                         </td>
@@ -64,15 +68,17 @@
                                 [patternCheck]="inputValidation"
                                 [maxLength]="inputLength10"
                                 [isRequired]="'TripsPerMonth is Required'"
+                                [placeholder]="'Enter Trips Per Month'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
                         <td>(c) {{label?.monthlyRunningInKm}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="monthly_running_km" id="monthly_running_km"
-                                formControlName="monthlyRunningKm" /></td> -->
+                                value="monthlyRunningKm" formControlName="monthlyRunningKm" disabled/></td> -->
 
                                 <app-custom-input
                                 formControlName="monthlyRunningKm"
@@ -80,7 +86,9 @@
                                 [maxLength]="inputLength10"
                                 [isRequired]="'monthlyRunningKm is Required'"
                                 [isDirty]="isDirty"
+                                [placeholder]="' Monthly Running Kms'"
                                 [type]="'number'"
+                                [isDisabled]=" true"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -95,7 +103,9 @@
                                 [maxLength]="inputLength10"
                                 [isRequired]="'Average Load Per Ton is Required'"
                                 [isDirty]="isDirty"
+                                [placeholder]="'Enter Average Load Per Ton'"
                                 [type]="'number'"
+                                (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -110,14 +120,16 @@
                                 [patternCheck]="inputValidation"
                                 [maxLength]="inputLength10"
                                 [isRequired]="'Tonnage Rate is Required'"
+                                [placeholder]="'Enter Rate of Tonne'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                         </td>
                     </tr>
                     <tr>
                         <td><strong>(g) {{label?.monthlyRevenueInLacs}}</strong></td>
-                        <td><strong>135000.00</strong></td>
+                        <td><strong>{{monthlyIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.validityCheck}}</td>
@@ -136,6 +148,8 @@
                                 [isRequired]="'Fuel Avg Per Km is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Fuel Avg Per Km'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -151,6 +165,8 @@
                                 [isRequired]="'Cost Per Litre is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Cost Per Litre'"
+                                (keyup) = " calculatePassengerB()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -166,6 +182,8 @@
                                 [isRequired]="'No Of Tyres is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter No of Tyres'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -182,6 +200,8 @@
                                 [isRequired]="'Cost Per Tyre is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Cost Per Tyre'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -198,6 +218,8 @@
                                 [isRequired]="'Life Of Tyre Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Life of New Tyre'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -217,6 +239,9 @@
                                 [isRequired]="'Fuel Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Fuel Cost'"
+                                [isDisabled]= "true"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -233,6 +258,9 @@
                                 [isRequired]="'tyre Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Cost of Tyre'"
+                                [isDisabled]= "true" 
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -249,7 +277,10 @@
                                 [isRequired]="'Drivers Salary Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Driver Salary'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
+                               
                             </td>
                     </tr>
                     <tr>
@@ -265,6 +296,8 @@
                                 [isRequired]="'Cleaners Salary Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Cleaner Salary'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                              </td>
                     </tr>
@@ -281,6 +314,8 @@
                                 [isRequired]="'Permit Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Permit Cost'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -297,6 +332,8 @@
                                 [isRequired]="'FC-Charge Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter FC-Charge Cost'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -313,6 +350,8 @@
                                 [isRequired]="'Paid TollTax Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Toll Tax Paid'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -323,12 +362,14 @@
                                 formControlName="taxes" /> -->
                                 <app-custom-input
                                 [id]="taxes"
+                                (keyup)="calculatePassengerC()"
                                 formControlName="taxes"
                                 [patternCheck]="inputValidation"
                                 [maxLength]="inputLength10"
                                 [isRequired]="'Taxes Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Taxes'"
                                 ></app-custom-input>
 
                         </td>
@@ -340,12 +381,14 @@
                                 formControlName="maintanence" /> -->
                                 <app-custom-input
                                 [id]="maintanence"
+                                (keyup)="calculatePassengerC()"
                                 formControlName="maintanence"
                                 [patternCheck]="inputValidation"
                                 [maxLength]="inputLength10"
                                 [isRequired]="'Maintanence Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Maintanence'"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -362,6 +405,8 @@
                                 [isRequired]="'Miscellaneous Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Miscellaneous'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -378,6 +423,8 @@
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Insurance Expenses'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -394,6 +441,8 @@
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Total Expenses'"
+                                [isDisabled]="true"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -403,7 +452,7 @@
                     </tr>
                     <tr>
                         <td>{{label?.netCashFlow}}</td>
-                        <td><strong>37600.00</strong></td>
+                        <td><strong>{{netFlowCash}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.emiFull}}</td>
@@ -417,12 +466,14 @@
                                 [isRequired]="'Emi Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter EMI '"
+                                (keyup)="calculatePassengerD()"
                                 ></app-custom-input>
                         </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.netEmi}}</strong></td>
-                        <td><strong>2.27</strong></td>
+                        <td><strong>{{netCashFlowEmiPassenger}}</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -463,6 +514,7 @@
                                 [isRequired]="'Application Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'alpha'"
+                                [placeholder]="'Enter Application Details'"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -479,6 +531,8 @@
                                 [isRequired]="'Gross Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Gross Income Per Day'"
+                                (keyup)="calculateStandOperator()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -495,12 +549,14 @@
                                 [isRequired]="'Earnings Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                (keyup)="calculateStandOperator()"
+                                [placeholder]="'Enter Business Earning Per Day'"
                                 ></app-custom-input>
                             </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}</strong></td>
-                        <td><strong>68200</strong></td>
+                        <td><strong>{{montlyStandOperatorIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.expensesPerDay}}</td>
@@ -515,6 +571,8 @@
                                 [isRequired]="'Expenses Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Expenses Per Day'"
+                                (keyup)="calculateStandOperatorB()"
                                 ></app-custom-input>
                              </td>
                     </tr>
@@ -524,6 +582,7 @@
                             <!-- <input type="text" class="form-control" name="avg_tyre_expenses_permonth"
                                 id="avg_tyre_expenses_permonth" formControlName="avgTyreExpenses" /> -->
                                 <app-custom-input
+                                (keyup)="calculateStandOperatorB()"
                                 [id]="avg_tyre_expenses_permonth"
                                 formControlName="avgTyreExpenses"
                                 [patternCheck]="inputValidation"
@@ -531,6 +590,7 @@
                                 [isRequired]="'Avg Tyre Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Avg Tyre Expenses'"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -540,6 +600,7 @@
                             <!-- <input type="text" class="form-control" name="insurance_expenses_permonth"
                                 id="insurance_expenses_permonth" formControlName="insuranceExpenses" /> -->
                                 <app-custom-input
+                                (keyup)="calculateStandOperatorB()"
                                 [id]="insurance_expenses_permonth"
                                 formControlName="insuranceExpenses"
                                 [patternCheck]="inputValidation"
@@ -547,6 +608,7 @@
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter  Insurance Expenses '"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -556,6 +618,7 @@
                             <!-- <input type="text" class="form-control" name="miscellaneous_expenses"
                                 id="miscellaneous_expenses" formControlName="miscellaneousExpenses" /> -->
                                 <app-custom-input
+                                (keyup)="calculateStandOperatorB()"
                                 [id]="miscellaneous_expenses"
                                 formControlName="miscellaneousExpenses"
                                 [patternCheck]="inputValidation"
@@ -563,6 +626,7 @@
                                 [isRequired]="'Miscellaneous Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Miscellaneous Expenses'"
                                 ></app-custom-input>
 
                             </td>
@@ -580,6 +644,10 @@
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter  Total Expenses '"
+                                [isDisabled] = "true"
+                                
+                                
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -600,6 +668,8 @@
                                 [isRequired]="'Net Cash Flow Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Net Cash Flow'"
+                                [isDisabled]="true"
                                 ></app-custom-input>   
                             </td>
                     </tr>
@@ -615,12 +685,14 @@
                             [isRequired]="'EMI Is Required'"
                             [isDirty]="isDirty"
                             [type]="'number'"
+                            [placeholder]="'Enter EMI'"
+                            (keyup) ="calculateStandOperatorC()"
                             ></app-custom-input> 
                         </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td><strong>2.16</strong></td>
+                        <td><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -659,6 +731,7 @@
                             [isRequired]="'Nature Of business Is Required'"
                             [isDirty]="isDirty"
                             [type]="'alpha'"
+                            [placeholder]="'Enter Nature of Business'"
                             ></app-custom-input>
                         </td> 
                     </tr>
@@ -675,11 +748,13 @@
                                 [isRequired]="'Business Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Gross Income Per Day'"
+                                (keyup)="calculateCaptive()"
                                 ></app-custom-input>
                             </td>
                     </tr>
                     <tr>
-                        <td>(b) {{label?.expensesPerDay}} in business</td>
+                        <td>(b) {{label?.earningsPerDay}} in business</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="num_earnings_perday" id="num_earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
@@ -691,15 +766,17 @@
                                 [isRequired]="'Business Earning Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter No of Earnings Per Day'"
+                                (keyup)="calculateCaptive()"
                                 ></app-custom-input> 
                             </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}</strong></td>
-                        <td><strong>125000</strong></td>
+                        <td><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
-                        <td>{{labelCaptive.expensesperdayBusiness}}</td>
+                        <td>{{label?.expensesPerDayBusiness}}  </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday_business"
                                 id="expenses_perday_business" formControlName="busExpensesPerDay" /> -->
@@ -711,6 +788,8 @@
                                 [isRequired]="'Business Expenses Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Business Expenses Per Day'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input> 
                             </td>
                     </tr>
@@ -724,9 +803,11 @@
                                 formControlName="oblicationsPerMonth"
                                 [patternCheck]="inputValidation"
                                 [maxLength]="inputLength10"
-                                [isRequired]="'Obligations Per Day Is Required'"
+                                [isRequired]="'Obligations Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Obligations Per Month '"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input> 
                             </td>
                     </tr>
@@ -743,6 +824,8 @@
                                 [isRequired]="'Bus Tyre Avg Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Avg Tyre Expenses'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -759,6 +842,8 @@
                                 [isRequired]="'Obligations Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Insurance Expenses'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -775,6 +860,8 @@
                                 [isRequired]="'Miscellaneous Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Miscellaneous Expenses'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -782,7 +869,7 @@
                         <td>{{label?.totalExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="total_expenses" id="total_expenses"
-                                formControlName="totalExpenses" /> -->
+                                formControlName="totalExpenses" disabled /> -->
                                 <app-custom-input
                                 [id]="miscellaneous_expenses"
                                 formControlName="totalExpenses"
@@ -791,6 +878,8 @@
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Total Expenses'"
+                                [isDisabled]="true"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -811,6 +900,8 @@
                                 [isRequired]="'NetCashFlowEmi Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Net Cash Flow EMI'"
+                                [isDisabled] = "true"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -827,12 +918,14 @@
                                 [isRequired]="'Emi Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter EMI'"
+                                (keyup)="calculateCaptiveC()"
                                 ></app-custom-input>
                             </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td><strong>2.87</strong></td>
+                        <td><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
