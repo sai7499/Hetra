@@ -102,6 +102,7 @@ export class AddressDetailsComponent implements OnInit {
   };
   mobileLength10 = {
     rule: 10,
+    msg : 'Should be Valid'
   };
   landlinePattern = {
     rule: '^[0-9]{6,15}',
@@ -109,10 +110,11 @@ export class AddressDetailsComponent implements OnInit {
   };
   landlineLength15 = {
     rule: 15,
+    msg : 'Should be Valid'
   };
 
   currentStayMaxLength = {
-    rule: 3,
+    rule: 2,
   };
 
   currentStayPattern = {
@@ -527,6 +529,7 @@ export class AddressDetailsComponent implements OnInit {
 
     const valueCheckbox = this.getAddressObj();
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
+    const currentObjReplace = valueCheckbox[Constant.CURRENT_ADDRESS]
     if (isCurAsPer && isCurAsPer.isCurrAddSameAsPermAdd == '1') {
       this.onPerAsCurChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -572,10 +575,11 @@ export class AddressDetailsComponent implements OnInit {
       };
       const currentAddress = details.get('currentAddress');
       currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+      //const currentReplaceObj= this.getAddressObj[Constant.CURRENT_ADDRESS]
       currentAddress.patchValue({
-        accommodationType: currentAddressObj.accommodationType,
-        periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
-        mobileNumber: currentAddressObj.mobileNumber,
+        accommodationType: currentObjReplace.accommodationType || '',
+        periodOfCurrentStay: currentObjReplace.periodOfCurrentStay,
+        mobileNumber: currentObjReplace.mobileNumber,
       });
     } else {
       this.onPerAsCurChecked = false;
@@ -611,7 +615,7 @@ export class AddressDetailsComponent implements OnInit {
         const currentAddress = details.get('currentAddress');
         currentAddress.patchValue(this.setAddressValues(currentAddressObj));
         currentAddress.patchValue({
-          accommodationType: currentAddressObj.accommodationType,
+          accommodationType: currentAddressObj.accommodationType || '',
           periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
           mobileNumber: currentAddressObj.mobileNumber,
         });
@@ -649,7 +653,7 @@ export class AddressDetailsComponent implements OnInit {
       const officeAddress = details.get('officeAddress');
       officeAddress.patchValue(this.setAddressValues(officeAddressObj));
       officeAddress.patchValue({
-        accommodationType: officeAddressObj.accommodationType,
+        accommodationType: officeAddressObj.accommodationType ||'',
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
       });
@@ -695,6 +699,7 @@ export class AddressDetailsComponent implements OnInit {
     });
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
+    //const commReplaceObj = valueCheckbox[Constant.COMMUNICATION_ADDRESS]
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -925,6 +930,7 @@ export class AddressDetailsComponent implements OnInit {
   onSubmit() {
     
     this.isDirty = true;
+    console.log('this.addressForm', this.addressForm)
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
         return;
@@ -992,10 +998,10 @@ export class AddressDetailsComponent implements OnInit {
       district,
       state,
       addressLineOne: address.addressLineOne,
-      addressLineTwo: address.addressLineTwo,
-      addressLineThree: address.addressLineThree,
+      addressLineTwo: address.addressLineTwo?address.addressLineTwo : '',
+      addressLineThree: address.addressLineThree?address.addressLineThree : '',
       country: address.country,
-      landlineNumber: address.landlineNumber,
+      landlineNumber: address.landlineNumber?address.landlineNumber : '',
     };
   }
 
@@ -1017,20 +1023,35 @@ export class AddressDetailsComponent implements OnInit {
       addressType: Constant.OFFICE_ADDRESS,
       // accommodationType: officeAddressObject.accommodationType,
       // periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
-      mobileNumber: officeAddressObject.mobileNumber,
+      mobileNumber: officeAddressObject.mobileNumber? officeAddressObject.mobileNumber : '',
       //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
     const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
+    
     if (this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '0' : initialCurAsPer == '0') {
       const currentAddressObject = value.details[0].currentAddress;
+      //const periodOfCurrentStay= Number(currentAddressObject.periodOfCurrentStay)
       this.addressDetailsDataArray.push({
         ...this.getAddressFormValues(currentAddressObject),
         addressType: Constant.CURRENT_ADDRESS,
-        accommodationType: officeAddressObject.accommodationType,
-        periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
-        mobileNumber: officeAddressObject.mobileNumber,
+        accommodationType: currentAddressObject.accommodationType?currentAddressObject.accommodationType : '',
+        
+        periodOfCurrentStay: currentAddressObject.periodOfCurrentStay ? Number(currentAddressObject.periodOfCurrentStay) : null,
+        mobileNumber: currentAddressObject.mobileNumber ? currentAddressObject.mobileNumber : '',
       });
+      
+    }else if(this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '1' : initialCurAsPer == '1'){
+      const currentAddressObject = value.details[0].currentAddress;
+    this.addressDetailsDataArray.push({
+      addressType: Constant.CURRENT_ADDRESS,
+      accommodationType: currentAddressObject.accommodationType?currentAddressObject.accommodationType : '',
+      periodOfCurrentStay: currentAddressObject.periodOfCurrentStay? Number(currentAddressObject.periodOfCurrentStay): null,
+      mobileNumber: currentAddressObject.mobileNumber ? currentAddressObject.mobileNumber : '',
+    });
     }
+    
+    
+    
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }

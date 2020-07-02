@@ -187,6 +187,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
+                
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
@@ -211,7 +212,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="convertPassportDate"
+                [min]="this.convertPassportDate"
                  placeholder="Expriy Date"
                 [activeView]="'decade'"
                 
@@ -250,7 +251,7 @@
                 </label>
               </div>
             </div>
-
+            <div class="clearfix"></div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="ration_card_number" class="driving_height"
                 >Driving Licencse Number</label
@@ -349,7 +350,7 @@
                 </label>
               </div>
             </div>
-
+            <div class="clearfix"></div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="passport_number">Voter ID Number</label>
               <input
@@ -362,7 +363,7 @@
               />
             </div>
 
-            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+            <!-- <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="issuance_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -391,7 +392,9 @@
                 ></kendo-datepicker>
                 </div>
               </div>
-            </div>
+            </div> -->
+
+            
             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
@@ -399,28 +402,37 @@
                 ></a
               >
             </div> -->
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+
+            </div>
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <div class="image-upload">
-                <label style="cursor: pointer;" for="file_upload">
-                  <img src="" alt="" class="uploaded-image" />
-
-                  <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell">
-                      <i class="fa fa-upload"></i>
-                    </div>
-                  </div>
-
-                  <!--upload-content-->
-                  <input
-                    data-required="image"
-                    type="file"
-                    name="image_name"
-                    class="image-input"
-                    data-traget-resolution="image_resolution"
-                    value=""
-                  />
-                </label>
+              
+                  <div class="image-upload">
+                    <label style="cursor: pointer;" for="file_upload">
+                      <img src="" alt="" class="" />
+    
+                      <div class="dplay-tbl">
+                        <div class="dplay-tbl-cell">
+                          <i class="fa fa-upload"></i>
+                        </div>
+                      </div>
+    
+                      
+                      <input
+                        data-required="image"
+                        type="file"
+                        name="image_name"
+                        class="image-input"
+                        data-traget-resolution="image_resolution"
+                        value=""
+                      />
+                    </label>
+                  
               </div>
+              
             </div>
           </div>
         </div>

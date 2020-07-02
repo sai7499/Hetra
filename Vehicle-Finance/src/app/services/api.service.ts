@@ -249,9 +249,9 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     submitToCredit: {
-      processId: 'fa99b43aa9a011ea823df2fa9bec3d63',
-      workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      processId: 'a0289928b78111ea8af8f2fa9bec3d63',
+      workflowId: 'a00ac092b78111ea8af8f2fa9bec3d63',
+      projectId: environment.projectIds.submitToCredit
     },
     termsAcceptance: {
       processId: 'cde7ca74abc811ea832af2fa9bec3d63',
@@ -297,6 +297,12 @@ export class ApiService {
       processId: 'e1405c1ab61511ea8a0af2fa9bec3d63',
       workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
       projectId: environment.projectIds.creditProjectId,
+    },
+    submitPdReport: {
+      processId: 'e1479e8ab61511ea8a0af2fa9bec3d63',
+      workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
+      projectId: environment.projectIds.creditProjectId,
+
     },
     approvePd: {
       processId: 'c98b53f4b6b511ea8a46f2fa9bec3d63',
@@ -389,8 +395,8 @@ export class ApiService {
       workflowId: 'a0f5f5b4b45f11ea88a8f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
-    getCreditScoreCard: {
-      processId: 'ff296a30b9e611ea9f1000505695f93b',
+    reInitiateCreditScore: {
+      processId: '7f21b928ba6d11eaaccf00505695f93b',
       workflowId: 'ff0aa956b9e611ea88c300505695f93b',
       projectId: environment.projectIds.salesProjectId
     }
