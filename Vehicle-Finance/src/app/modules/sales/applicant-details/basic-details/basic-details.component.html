@@ -118,7 +118,7 @@
                   formControlName="mobilePhone"
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
-                 [maxLength]='mobileLenght10'
+                  [maxLength]='mobileLenght10'
                  [isDirty]="isDirty"
                  [type]='"number"'
                 ></app-custom-input>
@@ -217,7 +217,7 @@
                 <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
                   <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
                   (click)="checkSenior($event)" disabled [checked]="checkingSenior"> 
-                  <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
+                  <span class="is_senior">Is senior Citizen? </span>
               
                 <!-- <div class="showErrorMessage">
                      {{messageOfSeniorcitizen}}
@@ -231,7 +231,7 @@
               
               <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
                   (click)="checkMinor($event)" disabled [checked]="checkingMinor">
-                  <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
+                  <span class="is_senior">Is Minor?</span>
              <!-- <div class="showErrorMessage">
                {{messageOfMinor}}
              </div>  -->

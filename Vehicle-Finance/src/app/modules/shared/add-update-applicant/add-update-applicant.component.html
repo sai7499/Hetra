@@ -61,7 +61,7 @@
                     [isRequired]="'Name is required'"
                     [maxLength]="maxlength30"
                     [isDirty]="isDirty"
-                    [type]="applicantType == 'INDIVENTTYP'?'alpha' : 'text'"
+                    [type]="applicantType == 'INDIVENTTYP' ? 'alpha' : 'text'"
                   ></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -79,7 +79,7 @@
                     formControlName="name2"
                     [patternCheck]="namePattern"
                     [maxLength]="maxlength30"
-                    [type]="applicantType == 'INDIVENTTYP'?'alpha' : 'text'"
+                    [type]="applicantType == 'INDIVENTTYP' ? 'alpha' : 'text'"
                   >
                   </app-custom-input>
                 </div>
@@ -98,7 +98,7 @@
                     formControlName="name3"
                     [patternCheck]="namePattern"
                     [maxLength]="maxlength30"
-                    [type]="applicantType == 'INDIVENTTYP'?'alpha' : 'text'"
+                    [type]="applicantType == 'INDIVENTTYP' ? 'alpha' : 'text'"
                   >
                   </app-custom-input>
                 </div>
@@ -300,7 +300,6 @@
                     class="form-control mandatory"
                     formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'"
-                    [max]="toDayDate"
                     [min]="drivingLicenseIssueDate"
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseExpiryDate"
@@ -472,23 +471,22 @@
                         formControlName="addressLineOne"
                         [isRequired]="'Address is Required'"
                         [isDirty]="isDirty"
-                        [maxLength]="maxlength40"
+                        [maxLength]="maxLength35"
                         [isDirty]="isDirty"
-                        
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="maxlength40"
+                        [maxLength]="maxLength35"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="maxlength40"
+                        [maxLength]="maxLength35"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -586,6 +584,7 @@
                       id="address_section_checkbox"
                       (click)="onAddress($event)"
                       [checked]="isAddressSame"
+                      [disabled]="isDisabledCheckbox"
                     />
                     <span id="address_section_checkbox_text"
                       >Check If It Is Same As Permanent Address?
@@ -602,7 +601,7 @@
                       <app-custom-input
                         formControlName="addressLineOne"
                         [isRequired]="'Address is Required'"
-                        [maxLength]="maxlength40"
+                        [maxLength]="maxLength35"
                         [isDirty]="isDirty"
                       ></app-custom-input>
                     </div>
@@ -610,14 +609,14 @@
                       <label for="line2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="maxlength40"
+                        [maxLength]="maxLength35"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="maxlength40"
+                        [maxLength]="maxLength35"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -725,7 +724,7 @@
                     <app-custom-input
                       formControlName="addressLineOne"
                       [isRequired]="'Address is Required'"
-                      [maxLength]="maxlength40"
+                      [maxLength]="maxLength35"
                       [isDirty]="isDirty"
                     ></app-custom-input>
                   </div>
@@ -734,14 +733,14 @@
 
                     <app-custom-input
                       formControlName="addressLineTwo"
-                      [maxLength]="maxlength40"
+                      [maxLength]="maxLength35"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.line3 }}</label>
                     <app-custom-input
                       formControlName="addressLineThree"
-                      [maxLength]="maxlength40"
+                      [maxLength]="maxLength35"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">

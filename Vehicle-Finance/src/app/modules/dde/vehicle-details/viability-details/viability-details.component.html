@@ -2,13 +2,13 @@
 
     <form [formGroup]="viabilityForm">
 
-        <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
+        <!-- <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
             (change)="vehicle_viability_navigate($event.target.value)">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
-        </select>
-        <!-- <app-vf-custom-select class="btn btn-primary" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
+        </select> -->
+        <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
-        </app-vf-custom-select> -->
+        </app-vf-custom-select>
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
@@ -28,8 +28,9 @@
                         <td class="text-left">{{label?.route}}</td>
                         <td>
                             <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
-                            <app-custom-input formControlName="route" [patternCheck]="namePattern"
-                                [maxLength]="nameLength30" [isRequired]="'Route Required'" [isDirty]="isDirty"
+                            <app-custom-input formControlName="route" [patternCheck]="label?.validationData?.name?.type"
+                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Route Details'"
                                 [type]="'alpha'"></app-custom-input>
                         </td>
                     </tr>
@@ -38,9 +39,10 @@
                         <td>
                             <!-- <input type="number" name="nature_goods" class="form-control" id="nature_goods"
                                 formControlName="natureOfGoods" /> -->
-                            <app-custom-input formControlName="natureOfGoods" [patternCheck]="namePattern"
-                                [maxLength]="nameLength30" [isRequired]="'Nature Of Goods is Required'"
-                                [isDirty]="isDirty" [type]="'alpha'"></app-custom-input>
+                            <app-custom-input formControlName="natureOfGoods" 
+                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Nature Of Goods is Required'"
+                                [placeholder]="'Enter Nature of Goods'" 
+                                [isDirty]="isDirty" [type]="label?.validationData?.name?.type"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -48,9 +50,11 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="distance_km" id="distance_km"
                                 formControlName="distanceInKm" /> -->
-                            <app-custom-input formControlName="distanceInKm" [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10" [isRequired]="'Distance in kms is Required'"
-                                [isDirty]="isDirty" [type]="'number'"></app-custom-input>
+                            <app-custom-input formControlName="distanceInKm" 
+                                [maxLength]="label?.validationData?.amount?.maxLength" [isRequired]="'Distance in kms is Required'"
+                                [placeholder]="'Enter Distance In Kms'"
+                                (keyup)="calculatePassenger()"
+                                [isDirty]="isDirty" [type]="label?.validationData?.amount?.type"></app-custom-input>
 
                         </td>
                     </tr>
@@ -62,25 +66,29 @@
                                 <app-custom-input
                                 formControlName="tripsPerMonth"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'TripsPerMonth is Required'"
+                                [placeholder]="'Enter Trips Per Month'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="label?.validationData?.amount?.type"
+                                (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
                         <td>(c) {{label?.monthlyRunningInKm}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="monthly_running_km" id="monthly_running_km"
-                                formControlName="monthlyRunningKm" /></td> -->
+                                value="monthlyRunningKm" formControlName="monthlyRunningKm" disabled/></td> -->
 
                                 <app-custom-input
                                 formControlName="monthlyRunningKm"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'monthlyRunningKm is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="' Monthly Running Kms'"
+                                [type]="label?.validationData?.amount?.type"
+                                [isDisabled]=" true"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -92,10 +100,12 @@
                                 [id]="average_load_ton"
                                 formControlName="avgLoadPerTon"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'Average Load Per Ton is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="'Enter Average Load Per Ton'"
+                                [type]="label?.validationData?.amount?.type"
+                                (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -108,16 +118,18 @@
                                 [id]="rate_tonne_kl"
                                 formControlName="rateTonne"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'Tonnage Rate is Required'"
+                                [placeholder]="'Enter Rate of Tonne'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="label?.validationData?.amount?.type"
+                                (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                         </td>
                     </tr>
                     <tr>
                         <td><strong>(g) {{label?.monthlyRevenueInLacs}}</strong></td>
-                        <td><strong>135000.00</strong></td>
+                        <td><strong>{{monthlyIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.validityCheck}}</td>
@@ -132,10 +144,12 @@
                                 [id]="fuel_average_km"
                                 formControlName="fuelAvgPerKm"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'Fuel Avg Per Km is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="label?.validationData?.amount?.type"
+                                [placeholder]="'Enter Fuel Avg Per Km'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -147,10 +161,12 @@
                                 [id]="cost_litre_fuel"
                                 formControlName="costPerLtr"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'Cost Per Litre is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="label?.validationData?.amount?.type"
+                                [placeholder]="'Enter Cost Per Litre'"
+                                (keyup) = " calculatePassengerB()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -162,10 +178,12 @@
                                 [id]="num_tyres"
                                 formControlName="noOfTyres"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'No Of Tyres is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="label?.validationData?.amount?.type"
+                                [placeholder]="'Enter No of Tyres'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -178,10 +196,12 @@
                                 [id]="cost_tyre"
                                 formControlName="perTyreCost"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
                                 [isRequired]="'Cost Per Tyre is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="label?.validationData?.amount?.type"
+                                [placeholder]="'Enter Cost Per Tyre'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -194,10 +214,12 @@
                                 [id]="cost_tyre"
                                 formControlName="newTyreLifeKm"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Life Of Tyre Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="'Enter Life of New Tyre'"
+                                (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
                     </tr>
                     <tr>
@@ -213,10 +235,13 @@
                                 [id]="fuel_cost"
                                 formControlName="fuelCost"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Fuel Cost Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="'Enter Fuel Cost'"
+                                [isDisabled]= "true"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -229,10 +254,14 @@
                                 [id]="fuel_cost"
                                 formControlName="tyreCost"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'tyre Cost Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Cost of Tyre'"
+                                [isDisabled]= "true" 
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -245,11 +274,15 @@
                                 [id]="drivers_salary_allowances"
                                 formControlName="driversSalary"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Drivers Salary Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Driver Salary'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
+                               
                             </td>
                     </tr>
                     <tr>
@@ -261,10 +294,13 @@
                                 [id]="cleaners_salary_allowances"
                                 formControlName="cleanersSalary"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Cleaners Salary Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                               
+                                [placeholder]="'Enter Cleaner Salary'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                              </td>
                     </tr>
@@ -277,10 +313,13 @@
                                 [id]="permit_cost"
                                 formControlName="permitCost"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Permit Cost Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Permit Cost'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -293,10 +332,12 @@
                                 [id]="fc_charge"
                                 formControlName="fcCharge"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'FC-Charge Cost Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="'Enter FC-Charge Cost'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -309,10 +350,13 @@
                                 [id]="toll_tax_paid"
                                 formControlName="paidTollTax"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Paid TollTax Cost Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Toll Tax Paid'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -323,12 +367,15 @@
                                 formControlName="taxes" /> -->
                                 <app-custom-input
                                 [id]="taxes"
+                                (keyup)="calculatePassengerC()"
                                 formControlName="taxes"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Taxes Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Taxes'"
                                 ></app-custom-input>
 
                         </td>
@@ -340,12 +387,15 @@
                                 formControlName="maintanence" /> -->
                                 <app-custom-input
                                 [id]="maintanence"
+                                (keyup)="calculatePassengerC()"
                                 formControlName="maintanence"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Maintanence Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Maintanence'"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -358,10 +408,13 @@
                                 [id]="miscellaneous"
                                 formControlName="busMiscellaneousExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Miscellaneous Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Miscellaneous'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -378,6 +431,8 @@
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 [type]="'number'"
+                                [placeholder]="'Enter Insurance Expenses'"
+                                (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -390,10 +445,13 @@
                                 [id]="total_expensess"
                                 formControlName="totalExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                               
+                                [placeholder]="'Enter Total Expenses'"
+                                [isDisabled]="true"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -403,7 +461,7 @@
                     </tr>
                     <tr>
                         <td>{{label?.netCashFlow}}</td>
-                        <td><strong>37600.00</strong></td>
+                        <td><strong>{{netFlowCash}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.emiFull}}</td>
@@ -413,16 +471,18 @@
                                 [id]="emi"
                                 formControlName="emi"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Emi Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="'Enter EMI '"
+                                (keyup)="calculatePassengerD()"
                                 ></app-custom-input>
                         </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.netEmi}}</strong></td>
-                        <td><strong>2.27</strong></td>
+                        <td><strong>{{netCashFlowEmiPassenger}}</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -459,10 +519,11 @@
                                 [id]="application"
                                 formControlName="application"
                                 [patternCheck]="namePattern"
-                                [maxLength]="nameLength30"
+                                [maxLength]="label?.validationData?.name?.maxLength"
+                                [type]="label?.validationData?.name?.type"
                                 [isRequired]="'Application Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'alpha'"
+                                [placeholder]="'Enter Application Details'"
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -475,10 +536,12 @@
                                 [id]="gross_income_perday"
                                 formControlName="grossIncomePerDay"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Gross Income Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [placeholder]="'Enter Gross Income Per Day'"
+                                (keyup)="calculateStandOperator()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -491,16 +554,18 @@
                                 [id]="gross_income_perday"
                                 formControlName="businessEarningPerDay"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Earnings Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                (keyup)="calculateStandOperator()"
+                                [placeholder]="'Enter Business Earning Per Day'"
                                 ></app-custom-input>
                             </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}</strong></td>
-                        <td><strong>68200</strong></td>
+                        <td><strong>{{montlyStandOperatorIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.expensesPerDay}}</td>
@@ -511,10 +576,13 @@
                                 [id]="expenses_perday"
                                 formControlName="businessIncomePerDay"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Expenses Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Expenses Per Day'"
+                                (keyup)="calculateStandOperatorB()"
                                 ></app-custom-input>
                              </td>
                     </tr>
@@ -524,13 +592,16 @@
                             <!-- <input type="text" class="form-control" name="avg_tyre_expenses_permonth"
                                 id="avg_tyre_expenses_permonth" formControlName="avgTyreExpenses" /> -->
                                 <app-custom-input
+                                (keyup)="calculateStandOperatorB()"
                                 [id]="avg_tyre_expenses_permonth"
                                 formControlName="avgTyreExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Avg Tyre Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Avg Tyre Expenses'"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -540,13 +611,16 @@
                             <!-- <input type="text" class="form-control" name="insurance_expenses_permonth"
                                 id="insurance_expenses_permonth" formControlName="insuranceExpenses" /> -->
                                 <app-custom-input
+                                (keyup)="calculateStandOperatorB()"
                                 [id]="insurance_expenses_permonth"
                                 formControlName="insuranceExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter  Insurance Expenses '"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -556,13 +630,16 @@
                             <!-- <input type="text" class="form-control" name="miscellaneous_expenses"
                                 id="miscellaneous_expenses" formControlName="miscellaneousExpenses" /> -->
                                 <app-custom-input
+                                (keyup)="calculateStandOperatorB()"
                                 [id]="miscellaneous_expenses"
                                 formControlName="miscellaneousExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Miscellaneous Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Miscellaneous Expenses'"
                                 ></app-custom-input>
 
                             </td>
@@ -576,10 +653,15 @@
                                 [id]="total_expenses"
                                 formControlName="totalExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter  Total Expenses '"
+                                [isDisabled] = "true"
+                                
+                                
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -596,10 +678,13 @@
                                 [id]="net_cash_flow"
                                 formControlName="netCashFlow"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Net Cash Flow Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Net Cash Flow'"
+                                [isDisabled]="true"
                                 ></app-custom-input>   
                             </td>
                     </tr>
@@ -611,16 +696,19 @@
                             [id]="emi"
                             formControlName="emi"
                             [patternCheck]="inputValidation"
-                            [maxLength]="inputLength10"
+                            [maxLength]="label?.validationData?.amount?.maxLength"
+                            [type]="label?.validationData?.amount?.type"
                             [isRequired]="'EMI Is Required'"
                             [isDirty]="isDirty"
-                            [type]="'number'"
+                            
+                            [placeholder]="'Enter EMI'"
+                            (keyup) ="calculateStandOperatorC()"
                             ></app-custom-input> 
                         </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td><strong>2.16</strong></td>
+                        <td><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -655,10 +743,11 @@
                             [id]="nature_business"
                             formControlName="natureOfBusiness"
                             [patternCheck]="namePattern"
-                            [maxLength]="nameLength30"
+                            [maxLength]="label?.validationData?.name?.maxLength"
+                            [type]="label?.validationData?.name?.type"
                             [isRequired]="'Nature Of business Is Required'"
                             [isDirty]="isDirty"
-                            [type]="'alpha'"
+                            [placeholder]="'Enter Nature of Business'"
                             ></app-custom-input>
                         </td> 
                     </tr>
@@ -671,15 +760,18 @@
                                 [id]="gross_income_perday_business"
                                 formControlName="businessIncomePerDay"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Business Income Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                        
+                                [placeholder]="'Enter Gross Income Per Day'"
+                                (keyup)="calculateCaptive()"
                                 ></app-custom-input>
                             </td>
                     </tr>
                     <tr>
-                        <td>(b) {{label?.expensesPerDay}} in business</td>
+                        <td>(b) {{label?.earningsPerDay}} in business</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="num_earnings_perday" id="num_earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
@@ -687,19 +779,22 @@
                                 [id]="num_earnings_perday"
                                 formControlName="businessEarningPerDay"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Business Earning Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter No of Earnings Per Day'"
+                                (keyup)="calculateCaptive()"
                                 ></app-custom-input> 
                             </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}</strong></td>
-                        <td><strong>125000</strong></td>
+                        <td><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
-                        <td>{{labelCaptive.expensesperdayBusiness}}</td>
+                        <td>{{label?.expensesPerDayBusiness}}  </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday_business"
                                 id="expenses_perday_business" formControlName="busExpensesPerDay" /> -->
@@ -707,10 +802,13 @@
                                 [id]="expenses_perday_business"
                                 formControlName="busExpensesPerDay"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Business Expenses Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Business Expenses Per Day'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input> 
                             </td>
                     </tr>
@@ -723,10 +821,13 @@
                                 [id]="obligations_business_month"
                                 formControlName="oblicationsPerMonth"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
-                                [isRequired]="'Obligations Per Day Is Required'"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
+                                [isRequired]="'Obligations Per Month Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Obligations Per Month '"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input> 
                             </td>
                     </tr>
@@ -739,10 +840,13 @@
                                 [id]="avgtyre_expenses_permonth"
                                 formControlName="busTyreAvgExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Bus Tyre Avg Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                               
+                                [placeholder]="'Enter Avg Tyre Expenses'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -755,10 +859,13 @@
                                 [id]="insurance_expenses_permonth"
                                 formControlName="busInsurenceExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Obligations Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Insurance Expenses'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -771,10 +878,13 @@
                                 [id]="miscellaneous_expenses"
                                 formControlName="busMiscellaneousExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Miscellaneous Per Day Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Miscellaneous Expenses'"
+                                (keyup)="calculateCaptiveB()"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -782,15 +892,18 @@
                         <td>{{label?.totalExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="total_expenses" id="total_expenses"
-                                formControlName="totalExpenses" /> -->
+                                formControlName="totalExpenses" disabled /> -->
                                 <app-custom-input
                                 [id]="miscellaneous_expenses"
                                 formControlName="totalExpenses"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Total Expenses'"
+                                [isDisabled]="true"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -807,10 +920,13 @@
                                 [id]="net_cash_flow"
                                 formControlName="netCashFlowEmi"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'NetCashFlowEmi Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter Net Cash Flow EMI'"
+                                [isDisabled] = "true"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -823,16 +939,19 @@
                                 [id]="emi"
                                 formControlName="emi"
                                 [patternCheck]="inputValidation"
-                                [maxLength]="inputLength10"
+                                [maxLength]="label?.validationData?.amount?.maxLength"
+                                [type]="label?.validationData?.amount?.type"
                                 [isRequired]="'Emi Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                
+                                [placeholder]="'Enter EMI'"
+                                (keyup)="calculateCaptiveC()"
                                 ></app-custom-input>
                             </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td><strong>2.87</strong></td>
+                        <td><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
