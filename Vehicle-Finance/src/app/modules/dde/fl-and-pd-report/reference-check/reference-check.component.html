@@ -1,0 +1,129 @@
+<form class="multisteps-form__form" [formGroup]="referenceCheckForm" *ngIf="referenceCheckForm">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <h4 class="title">{{labels.referenceCheckTitle}}</h4>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="person_name">{{labels.personName}}</label>
+                <!-- <input type="text" class="form-control" id="person_name"> -->
+                <app-custom-input id="person_name" formControlName="nameOfReference" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="maxlength20" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="address_of_the_person">{{labels.addressOfThePerson}}</label>
+                <!-- <input type="text" class="form-control" id="address_of_the_person"> -->
+                <app-custom-input id="address_of_the_person" formControlName="addressOfReference" [patternCheck]="addressPattern" [isRequired]="'Address is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="contact_number">{{labels.contactNumber}}</label>
+                <!-- <input type="text" class="form-control" id="contact_number"> -->
+                <!-- <app-custom-input id="contact_number" formControlName="referenceMobile" [patternCheck]="mobileNumberPattern" [isRequired]="'contact number is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input> -->
+                <app-custom-input id="contact_number" [type]='"number"' formControlName="referenceMobile" [patternCheck]="mobileNumberPattern" [isRequired]="'Mobile number is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <!-- <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                <p>I hereby declare that the information given above are true to the best of my knowledge and belief and nothing has been concealed therein.</p>
+                <p>Originals are physically seen and verified [OSV] by undersigned </p>
+                <p>Field investigation is conducted by undersigned</p>
+            </div> -->
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Signature">{{labels.signature}}</label>
+                <input type="file" id="file">
+            </div> -->
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="so_name">{{labels.soName}}</label>
+                <!-- <input type="text" class="form-control" id="so_name"> -->
+                <app-custom-input id="so_name" formControlName="soName" [isDisabled]='true' [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="employee_code">{{labels.employeeCode}} </label>
+                <!-- <input type="number" class="form-control" id="employee_code"> -->
+                <app-custom-input id="employee_code" formControlName="employeeCode" [isDisabled]='true' [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="date">{{labels.date}}</label>
+                <div class="input-group input-medium"> -->
+            <!-- <span class="input-group-btn">
+                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                    </span> -->
+            <!-- <input type="date" class="form-control date_caps" id="date"> -->
+            <!-- </div> -->
+            <!-- <kendo-datepicker width="100%" class="form-control mandatory" formControlName="date" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                </kendo-datepicker> -->
+
+            <!-- </div> -->
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="place">{{labels.place}}</label> -->
+            <!-- <input type="text" class="form-control" id="place"> -->
+            <!-- <app-custom-input id="place" formControlName="place" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input> -->
+            <!-- </div> -->
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="time">{{labels.time}}</label>
+                <div class='input-group date' id='datetimepicker3'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                </div> -->
+            <!-- <kendo-timepicker class="form-control mandatory" formControlName="time" [format]="'hh:mm a'">
+                </kendo-timepicker> -->
+            <!-- </div> -->
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="remarks">{{labels.referenceRemarks}}</label>
+                <!-- <input type="text" class="form-control" id="remarks"> -->
+                <app-custom-input id="remarks" formControlName="pdRemarks" [patternCheck]="namePattern" [isRequired]="'remarks are required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
+                <!-- <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address" cols="1"
+                rows="3" placeholder="Vehicle Address" formControlName="address" maxlength="120"
+                style="resize: none;"></textarea> -->
+
+                <!-- <div class="invalid-feedback"
+                *ngIf="obj.controls['address'].touched && !obj.controls['address'].vaild">
+                <div *ngIf="obj.controls['address'].hasError('required')">
+                    Vehicle Address Required
+                </div>
+            </div>
+
+            <div *ngIf="obj.controls['address'].hasError('pattern')">
+                Not Allowed Special Characters !
+            </div> -->
+
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="overall_report">{{labels.overallReport}}</label>
+                <!-- <select class="form-control" formControlName="overallFiReport">
+                    <option>Select</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                </select> -->
+                <app-vf-custom-select [values]="[
+                { key: '0', value: 'Positive' },
+                { key: '1', value: 'Negative' }
+              ]" formControlName="overallFiReport">
+                </app-vf-custom-select>
+            </div>
+
+
+            <div class="btn-sec clear-both">
+                <div class="col-sm-5">
+                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
+                        to PD Summary </button>
+
+                </div>
+                <div class="col-sm-7 text-right">
+                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+                        Back</button>
+                    <p class="btn btn-primary " (click)="onFormSubmit()">{{labels.save}} </p>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="submitToCredit()">{{labels.submit}}</button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
