@@ -110,6 +110,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     msg: '',
   };
 
+  maxLength35 = {
+    rule: 35,
+  };
+
   pincodePattern = {
     rule: '[1-9]{1}[0-9]{5}',
     msg: 'Invalid pincode Number',
@@ -301,8 +305,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.panPattern = {};
       this.panRequired = false;
       dedupe.get('pan').disable();
-      this.isPassportRequired = true;
-      this.isVoterRequired = true;
+      if (!voterId) {
+        this.isPassportRequired = true;
+      }
+      if (!passportValue) {
+        this.isVoterRequired = true;
+      }
       this.toasterService.showInfo(
         'You should enter either passport or voter id',
         ''
@@ -324,12 +332,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (this.passportListener) {
         this.passportListener.unsubscribe();
       }
-      setTimeout(() => {
-        dedupe.patchValue({
-          passportNumber: passportValue || null,
-          voterIdNumber: voterId || null,
-        });
-      });
     }
 
     setTimeout(() => {
@@ -1308,9 +1310,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
     });
     dedupe.get('pan').valueChanges.subscribe((value) => {
+      value = value || '';
       if (!dedupe.get('pan').invalid) {
-        this.enableDedupeBasedOnChanges(value !== this.pan);
-        this.isPanChanged = value !== this.pan;
+        this.enableDedupeBasedOnChanges(value != this.pan);
+        this.isPanChanged = value != this.pan;
       } else {
         this.isEnableDedupe = true;
       }

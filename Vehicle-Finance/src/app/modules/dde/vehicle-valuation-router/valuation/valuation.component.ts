@@ -45,9 +45,13 @@ export class ValuationComponent implements OnInit {
       msg: "Invalid Name /  Special Characters not allowed",
     },
     nameLength: {
-      rule: 40,
+      rule: 30,
       msg: "",
     },
+    // nameLength30: {
+    //   rule: 30,
+    //   msg: "",
+    // },
     numberLength: {
       rule: 10,
       msg: "",
@@ -72,6 +76,18 @@ export class ValuationComponent implements OnInit {
       rule: 2,
       msg: ""
     },
+    numberLength3: {
+      rule: 3,
+      msg: ""
+    },
+    numberLength8: {
+      rule: 8,
+      msg: ""
+    },
+    registrationPattern: {
+      rule: "^[A-Za-z][A-Za-z0-9]+$",
+      msg: "Invalid Name /  Special Characters not allowed",
+    }
   };
 
   constructor(
