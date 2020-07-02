@@ -13,16 +13,19 @@ export class ScoreCardService {
     constructor(
         private apiService: ApiService,
         private httpService: HttpService
-    ) {}
+    ) { }
 
-    getCreditScoreCard() {
-        const processId = this.apiService.api.getCreditScoreCard.processId;
-        const workflowId = this.apiService.api.getCreditScoreCard.workflowId;
+    reInitiateCreditScore(leadId, userId) {
+        const processId = this.apiService.api.reInitiateCreditScore.processId;
+        const workflowId = this.apiService.api.reInitiateCreditScore.workflowId;
         const projectId = environment.projectIds.salesProjectId;
 
         const body: RequestEntity = {
             processId,
-            ProcessVariables: { "leadId": 143, "userId": "1002" },
+            ProcessVariables: {
+                leadId,
+                userId
+            },
             workflowId,
             projectId
         };

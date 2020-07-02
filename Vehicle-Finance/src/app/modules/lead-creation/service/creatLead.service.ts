@@ -17,46 +17,6 @@ export class CreateLeadService {
         private apiService: ApiService
     ) { }
 
-    // createLead(loanLeadDetails, applicantDetails, fromDedupe) {
-    //     const processId = this.apiService.api.createLead.processId;
-    //     const workflowId = this.apiService.api.createLead.workflowId;
-    //     const projectId = this.apiService.api.createLead.projectId;
-
-    //     const userId = storage.getUserId();
-
-    //     if (fromDedupe) {
-    //         console.log("loan", loanLeadDetails)
-    //         console.log("app", applicantDetails)
-    //         const body: RequestEntity = {
-    //             processId: processId,
-    //             ProcessVariables: {
-    //                 loanLeadDetails,
-    //                 applicantDetails,
-    //                 "userId": userId,
-    //                 'toCreateNewLead': true
-    //             },
-    //             workflowId: workflowId,
-    //             projectId: projectId
-    //         };
-    //         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    //         return this.httpService.post(url, body);
-    //     } else {
-    //         const body: RequestEntity = {
-    //             processId: processId,
-    //             ProcessVariables: {
-    //                 "loanLeadDetails": loanLeadDetails,
-    //                 "applicantDetails": applicantDetails,
-    //                 "userId": userId
-    //             },
-    //             workflowId: workflowId,
-    //             projectId: projectId
-    //         };
-    //         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    //         return this.httpService.post(url, body);
-    //     }
-
-    // }
-
     createLead(loanLeadDetails, applicantDetails, fromDedupe, isReject?, rejectReason?) {
         const processId = this.apiService.api.createLead.processId;
         const workflowId = this.apiService.api.createLead.workflowId;
