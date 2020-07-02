@@ -33,26 +33,26 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   custProfileDetails: CustomerProfile;
 
-  employeeSeenPattern = {
-    rule: '^[1-9][0-9]*$',
-    msg: 'Numbers Only Required',
-  };
+  // employeeSeenPattern = {
+  //   rule: '^[1-9][0-9]*$',
+  //   msg: 'Numbers Only Required',
+  // };
 
-  maxlength10 = {
-    rule: 10,
-    msg: '',
-  };
+  // maxlength10 = {
+  //   rule: 10,
+  //   msg: '',
+  // };
 
 
-  mismatchAddressPattern = {
-    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-    msg: 'Invalid Landmark',
-  };
+  // mismatchAddressPattern = {
+  //   rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
+  //   msg: 'Invalid Landmark',
+  // };
 
-  maxlength40 = {
-    rule: 40,
-    msg: '',
-  };
+  // maxlength40 = {
+  //   rule: 40,
+  //   msg: '',
+  // };
   isDirty: boolean;
   applicantId: number;
   version: string;
@@ -61,16 +61,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
   userName: any;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private personalDiscusion: PersonalDiscussionService,
-    private toasterService: ToasterService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private personalDiscussion: PersonalDiscussionService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private personalDiscusion: PersonalDiscussionService,
+              private toasterService: ToasterService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private personalDiscussion: PersonalDiscussionService) { }
 
   async ngOnInit() {
 
