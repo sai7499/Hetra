@@ -16,9 +16,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of pdListDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
+            <tr *ngFor="let item of pdListDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']" >{{item.leadId}}</a></td>
+                <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']">{{item.leadId}}</a></td>
                 <td>{{item.product}}</td>
                 <td>{{item.loanAmt}}</td>
                 <td>{{item.applicants}}</td>
@@ -38,17 +38,17 @@
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>
-                <select class="form-control  input-sm" [(ngModel)]="itemsPerPage">
+                <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
-                    </select>
+                </select>
             </div>
 
         </div>
         <nav class="col-xs-9 col-sm-4 text-center">
-            <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls>
+            <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
         </nav>
     </div>
 
