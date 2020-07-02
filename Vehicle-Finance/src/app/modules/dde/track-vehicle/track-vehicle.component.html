@@ -8,9 +8,7 @@
                 formControlName="clientName"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Client Name'"
-                [maxLength]="regexPattern.nameLength"
-                [isRequired]="'Client Name is mandatory'"
-                [patternCheck]="regexPattern.name"
+            
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -26,9 +24,7 @@
                 formControlName="financierName"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Financier'"
-                [maxLength]="regexPattern.nameLength"
-                [isRequired]="'Financier Name is mandatory'"
-                [patternCheck]="regexPattern.name"
+                
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -43,9 +39,7 @@
                 formControlName="assetFinancied"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Asset Financier'"
-                [maxLength]="regexPattern.nameLength"
-                [isRequired]="'Financier Name is mandatory'"
-                [patternCheck]="regexPattern.vachilePattern"
+                
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -129,9 +123,6 @@
                 formControlName="contNo"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Contract Number'"
-                [maxLength]="regexPattern.contLength"
-                [isRequired]="'Contact No is mandatory'"
-                [patternCheck]="regexPattern.amount"
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -148,7 +139,6 @@
                 formControlName="vehicleNo"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Vehicle Number'"
-               
                 >
               </app-custom-input>
                 <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
@@ -160,11 +150,6 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.typesOfFinance}}<sub class="star_red_col">*</sub></label>
-                <!-- <select class="form-control" formControlName="typesOfFinance">
-                    <option>{{labels.new}}</option>
-                    <option>{{labels.refinance}}</option>
-                    <option>{{labels.used}}</option>
-                </select> -->
                 <app-vf-custom-select [values]="fleetRtrLov?.typesOfFinance" formControlName="financeType">
                 </app-vf-custom-select>
                 <span *ngIf="submitted && f.financeType.errors"style= "color:red;" class="invalid-feedback">
@@ -173,10 +158,6 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.accountStatus}}<sub class="star_red_col">*</sub></label>
-                <!-- <select class="form-control" formControlName="accountStatus">
-                    <option>{{labels.matured}}</option>
-                    <option>{{labels.running}}</option>
-                </select> -->
                 <app-vf-custom-select [values]="fleetRtrLov?.accountStatus" formControlName="accountStatus">
                 </app-vf-custom-select>
                 <span *ngIf="submitted && f.accountStatus.errors"style= "color:red;" class="invalid-feedback">
@@ -227,8 +208,20 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.count}}</label>
                 <div class="row twos">
-                    <input type="number" class="form-control w-50" id="count_30" formControlName="thirtyDpdCount">
-                    <input type="number" class="form-control w-50" id="count_90" formControlName="ninetyDpdCount">
+                    <!-- <input type="number" class="form-control w-50" id="count_30" formControlName="thirtyDpdCount"> -->
+                    <app-custom-input
+                    formControlName="thirtyDpdCount"
+                    [className]="'form-control w-50'"
+                    [placeholder]="''"
+                    >
+                  </app-custom-input>
+                    <!-- <input type="number" class="form-control w-50" id="count_90" formControlName="ninetyDpdCount"> -->
+                    <app-custom-input
+                    formControlName="ninetyDpdCount"
+                    [className]="'form-control w-50'"
+                    [placeholder]="''"
+                    >
+                  </app-custom-input>
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -237,7 +230,6 @@
                 formControlName="noOfEmi"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Total number of Emis'"
-               
                 >
               </app-custom-input>
                 <!-- <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
@@ -263,31 +255,61 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.balanceTenor}}</label>
-                <input type="number" class="form-control" id="balance_tenor" formControlName="balanceTenor">
+                <!-- <input type="number" class="form-control" id="balance_tenor" formControlName="balanceTenor"> -->
+                <app-custom-input
+                formControlName="balanceTenor"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalDelay}}</label>
-                <input type="number" class="form-control" id="total_delay" formControlName="totalDelay">
+                <!-- <input type="number" class="form-control" id="total_delay" formControlName="totalDelay"> -->
+                <app-custom-input
+                formControlName="totalDelay"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.peakDelay}}</label>
-                <input type="number" class="form-control" id="peak_delay" formControlName="peakDelay">
+                <!-- <input type="number" class="form-control" id="peak_delay" formControlName="peakDelay"> -->
+                <app-custom-input
+                formControlName="peakDelay"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.avgDelay}}</label>
-                <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay">
+                <!-- <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay"> -->
+                <app-custom-input
+                formControlName="avgDelay"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.trackStatus}}</label>
-                <input type="number" class="form-control" id="track_status" formControlName="trackStatus">
+                <!-- <input type="number" class="form-control" id="track_status" formControlName="trackStatus"> -->
+                <app-custom-input
+                formControlName="trackStatus"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
-                <input type="number" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid">
+                <!-- <input type="number" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid"> -->
+                <app-custom-input
+                formControlName="totalAmtPaid"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.emiAmount}}</label>
@@ -411,9 +433,22 @@
                                     >
                                   </app-custom-input>
                                 </td>
-                            <td><input type="number" class="form-control input_value auto_cal"
-                                    formControlName="delayDays"></td>
-                            <td><input type="number" class="form-control input_value auto_cal" formControlName="payment">
+                            <td>
+                                <!-- <input type="number" class="form-control input_value auto_cal"
+                                    formControlName="delayDays"> -->
+                                    <app-custom-input
+                                    formControlName="delayDays"
+                                    [className]="'form-control mandatory'"
+                                    >
+                                  </app-custom-input>
+                            </td>
+                            <td>
+                                <!-- <input type="number" class="form-control input_value auto_cal" formControlName="payment"> -->
+                                <app-custom-input
+                                formControlName="payment"
+                                [className]="'form-control mandatory'"
+                                >
+                              </app-custom-input>
                             </td>
                             <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                                     (click)="addNewRow()"></i>&nbsp;

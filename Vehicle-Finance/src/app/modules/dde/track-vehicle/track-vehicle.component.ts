@@ -39,35 +39,35 @@ export class TrackVehicleComponent implements OnInit {
   maturedDate: Date = new Date();
   validationData: any;
 
-  regexPattern = {
-    amount: {
-      rule: "^[1-9][0-9]*$",
-      msg: 'Alphabets and Special Characters not allowed'
-    },
-    nameLength: {
-      rule: '30',
-      msg: ''
-    },
-    contact: {
-      rule: /^\d{10}$/,
-      msg: 'Invalid Number / Alphabets and Special Characters not allowed'
-    },
-    contLength: {
-      rule: '10'
-    },
-    name: {
-      rule: /^[a-zA-Z ]*$/,
-      msg: 'Invalid Name / Numbers and Special Characters not allowed'
-    },
-    vachilePattern: {
-      rule: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
-      msg: 'Invalid Name / Special Characters not allowed'
-    },
-    vechileNoPattern: {
-      rule: /^[ A-Za-z0-9_@./#&+-]*$/,
-      msg: 'Invalid Vechile No / Special Characters not allowed'
-    }
-  }
+  // regexPattern = {
+  //   amount: {
+  //     rule: "^[1-9][0-9]*$",
+  //     msg: 'Alphabets and Special Characters not allowed'
+  //   },
+  //   nameLength: {
+  //     rule: '30',
+  //     msg: ''
+  //   },
+  //   contact: {
+  //     rule: /^\d{10}$/,
+  //     msg: 'Invalid Number / Alphabets and Special Characters not allowed'
+  //   },
+  //   contLength: {
+  //     rule: '10'
+  //   },
+  //   name: {
+  //     rule: /^[a-zA-Z ]*$/,
+  //     msg: 'Invalid Name / Numbers and Special Characters not allowed'
+  //   },
+  //   vachilePattern: {
+  //     rule: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+  //     msg: 'Invalid Name / Special Characters not allowed'
+  //   },
+  //   vechileNoPattern: {
+  //     rule: /^[ A-Za-z0-9_@./#&+-]*$/,
+  //     msg: 'Invalid Vechile No / Special Characters not allowed'
+  //   }
+  // }
 
   constructor(
     private trackVechileService: TrackVechileService,

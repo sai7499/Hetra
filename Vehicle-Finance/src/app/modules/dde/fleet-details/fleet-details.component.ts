@@ -473,7 +473,7 @@ checkPaid(event,i){
     this.fleetDetails = this.fleetForm.value.Rows;
 
     
-
+    this.isDirty = true;
     if (this.fleetForm.valid === true) {
       // this.fleetDetails = this.fleetForm.value.Rows
       // console.log(this.fleetDetails)

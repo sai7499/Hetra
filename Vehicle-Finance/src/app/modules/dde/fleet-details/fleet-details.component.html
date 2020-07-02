@@ -198,12 +198,8 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['purchaseDate'].hasError('required')">
                                             Purchase date is needed
                                         </div>
-
                                     </div>
                                 </div>
-
-
-
                             </td>
                             <td style="min-width: 120px;">
 
@@ -218,11 +214,8 @@
                                 [isDirty]="isDirty"
                                 >
                               </app-custom-input>
-
 <!-- 
                                 <div><input type="number" class="form-control  input_value height" formControlName="tenure" placeholder="Tenure">
-
-
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].touched && !itemrow.controls['tenure'].valid">
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].hasError('required')">
                                             Tenure is required
@@ -230,13 +223,7 @@
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['tenure'].hasError('maxLength')">
                                             Invalid tenure
                                         </div>
-
-
                                     </div>
-
-
-
-
                                 </div> -->
                             </td>
                             <td style="min-width: 120px;">
@@ -270,13 +257,41 @@
                                     </div> -->
                                 </div>
                             </td>
-                            <td><input type="text" class="form-control input_value height" formControlName="seasoning">
+                            <td style="min-width: 120px;">
+                                <!-- <input type="text" class="form-control input_value height" formControlName="seasoning"> -->
+                                <app-custom-input
+                                formControlName="seasoning"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="''"
+                                >
+                                 </app-custom-input>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="ad">
+                            <td style="min-width: 120px;">
+                                <!-- <input type="number" class="form-control input_value height" formControlName="ad"> -->
+                                <app-custom-input
+                                formControlName="ad"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="''"
+                                >
+                                 </app-custom-input>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="pd">
+                            <td style="min-width: 120px;">
+                                <!-- <input type="number" class="form-control input_value height" formControlName="pd"> -->
+                                <app-custom-input
+                                formControlName="pd"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="''"
+                                >
+                                 </app-custom-input>
                             </td>
-                            <td><input type="number" class="form-control input_value height" formControlName="gridValue">
+                            <td style="min-width: 120px;">
+                                <!-- <input type="number" class="form-control input_value height" formControlName="gridValue"> -->
+                                <app-custom-input
+                                formControlName="gridValue"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="''"
+                                >
+                                 </app-custom-input>
                             </td>
                             <td><u><button class="a_tag" (click)="onFormSubmit(i)">RTR</button></u></td>
                             <!-- <td><i class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
