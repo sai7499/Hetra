@@ -251,7 +251,7 @@ export class ApiService {
     submitToCredit: {
       processId: 'fa99b43aa9a011ea823df2fa9bec3d63',
       workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.submitToCredit
     },
     termsAcceptance: {
       processId: 'cde7ca74abc811ea832af2fa9bec3d63',
