@@ -5,7 +5,7 @@
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
 
-            <div id="sales_section_start" *ngIf="roleName === 'Sales Officer'">
+            <div id="sales_section_start" *ngIf="roleType == '1'">
 
                 <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
 
@@ -20,7 +20,7 @@
                             [className]="'form-control mandatory'" 
                             [placeholder]="'Vechical Registration No'"
                             [inputClass]="'input-upper'" 
-                            [maxLength]="label?.validationData.vehicleRegNo.maxLength"
+                            [maxLength]="label.validationData?.vehicleRegNo.maxLength"
                             [patternCheck]="namePattern" 
                             [isRequired]="'Vechical Registration No Required'"
                             [isDirty]="isDirty">
@@ -323,7 +323,7 @@
 
             </div>
 
-            <div id="credit_section_start" *ngIf="roleName === 'Credit Officer'">
+            <div id="credit_section_start" *ngIf="roleType == '2'">
 
                 <div class="" id="new_cv_show" *ngIf="productCatoryCode === 'NCV'">
 
@@ -1060,11 +1060,16 @@
                                     class="star_red_col">*</sub>
                             </label>
 
-                            <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'"
-                                [id]="'vechical_reg'" [className]="'form-control mandatory'"
-                                [inputClass]="'input-upper'" [placeholder]="'Vechical Registration No'"
-                                [maxLength]="regexPattern.nameLength" [patternCheck]="namePattern"
-                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                            <app-custom-input formControlName="vehicleRegNo" 
+                                [type]="'alpha-numeric'"
+                                [id]="'vechical_reg'" 
+                                [className]="'form-control mandatory'"
+                                [inputClass]="'input-upper'" 
+                                [placeholder]="'Vechical Registration No'"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                                [patternCheck]="namePattern"
+                                [isRequired]="'Vechical Registration No Required'" 
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
