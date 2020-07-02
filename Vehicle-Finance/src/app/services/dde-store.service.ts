@@ -15,6 +15,7 @@ export class DdeStoreService {
   public fleetDetails: any;
   public vehicleValuation: any;
   public pslData: any;
+  public customerProfile: any;
 
   constructor() { }
 
@@ -67,7 +68,9 @@ export class DdeStoreService {
   }
 
   setCustomerProfile(customerProfile: CustomerProfile) {
-    this.ddeStore.customerProfile = customerProfile;
+    // console.log("in set custprof", customerProfile)
+
+    this.ddeStore.customerProfile = this.customerProfile;
   }
 
   getCustomerProfile() {
