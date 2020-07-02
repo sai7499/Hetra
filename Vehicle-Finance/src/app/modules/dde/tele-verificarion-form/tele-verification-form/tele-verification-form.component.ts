@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 import { Reference } from '@angular/compiler/src/render3/r3_ast';
 import { ToasterService } from '@services/toaster.service';
+import { OtpServiceService } from '@modules/lead-section/services/otp-details.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -17,6 +18,7 @@ import { ToasterService } from '@services/toaster.service';
 export class TeleVerificationFormComponent implements OnInit {
   referenceData = [];
   teleVerificationForm: FormGroup;
+  otpForm: FormGroup;
 
   labels: any = {};
   LOV: any = [];
@@ -25,14 +27,17 @@ export class TeleVerificationFormComponent implements OnInit {
   tvrDetails;
   tvrData: any;
   isAlert: boolean;
-  tvrDashboardList;
+  tvrDashboardList: any = [];
   applicantId;
-  applicantName;
-  soName;
+  applicantName: any;
+  soName: any;
   dateFormate;
-  applicantType;
+  applicantType: any;
   isDirty: boolean;
-  valueChanges;
+  valueChanges: any = {};
+  isModal = false;
+  referenceNo: any;
+  mobileNo: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -86,6 +91,10 @@ export class TeleVerificationFormComponent implements OnInit {
       rule: '3',
       msg: ''
     },
+    maxLength4: {
+      rule: '4',
+      msg: ''
+    },
     maxLength5: {
       rule: '5',
       msg: ''
@@ -113,16 +122,17 @@ export class TeleVerificationFormComponent implements OnInit {
     private location: Location,
     private router: Router,
     private tvrService: TvrDetailsService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private otpService: OtpServiceService
 
   ) {
     this.getLOV();
 
     this.initForm();
-    this.leadId = this.route.snapshot.params['leadId'];
+    this.leadId = this.route.snapshot.params.leadId;
     console.log(this.leadId);
-    this.applicantId = parseInt(this.route.snapshot.params['applicantId']);
-    this.applicantType = this.route.snapshot.params['applicantType'];
+    this.applicantId = parseInt(this.route.snapshot.params.applicantId);
+    this.applicantType = this.route.snapshot.params.applicantType;
     console.log('applicantId', this.applicantId);
   }
 
@@ -190,7 +200,7 @@ export class TeleVerificationFormComponent implements OnInit {
       applicationReferences: this.fb.group({
         reference1: this.fb.group({
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 0 && this.referenceData[0]['referenceId'] ? this.referenceData[0]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
           firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
           mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
@@ -199,7 +209,7 @@ export class TeleVerificationFormComponent implements OnInit {
         }),
         reference2: this.fb.group({
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 1 && this.referenceData[1]['referenceId'] ? this.referenceData[1]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
           firstName: [this.referenceData.length > 1 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
           mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
           address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
@@ -222,8 +232,21 @@ export class TeleVerificationFormComponent implements OnInit {
     );
     // this.setFormValue();
     this.getTvrDetails();
+    // this.sendOtp();
     // this.saveOrUpdateTvrDetails();
     // this.getTvrDetailsList();
+    this.otpForm = this.fb.group({
+      otp: [
+        '',
+        Validators.compose([
+          Validators.minLength(6),
+          Validators.maxLength(6),
+          Validators.pattern('[0-9]*'),
+          Validators.required,
+        ]),
+      ],
+    });
+    // this.validateOtp();
 
   }
 
@@ -308,6 +331,7 @@ export class TeleVerificationFormComponent implements OnInit {
   //         firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
   //         mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
   //         address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
+  // tslint:disable-next-line: max-line-length
   //         referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '']
   //       }),
   //       reference2: this.fb.group({
@@ -316,6 +340,7 @@ export class TeleVerificationFormComponent implements OnInit {
   //         firstName: [this.referenceData.length > 0 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
   //         mobileNo: [this.referenceData.length > 0 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
   //         address: [this.referenceData.length > 0 && this.referenceData[1].address ? this.referenceData[1].address : ''],
+  // tslint:disable-next-line: max-line-length
   //         referenceStatus: [this.referenceData.length > 0 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
   //       })
   //     })
@@ -355,7 +380,7 @@ export class TeleVerificationFormComponent implements OnInit {
       const applicationReferences = {
         reference1: {
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 0 && this.referenceData[0]['referenceId'] ? this.referenceData[0]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
           firstName: this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : '',
           mobileNo: this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : '',
           address: this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : '',
@@ -364,7 +389,7 @@ export class TeleVerificationFormComponent implements OnInit {
         },
         reference2: {
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 1 && this.referenceData[1]['referenceId'] ? this.referenceData[1]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
           firstName: this.referenceData.length > 1 && this.referenceData[1].firstName ? this.referenceData[1].firstName : '',
           mobileNo: this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : '',
           address: this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : '',
@@ -408,15 +433,15 @@ export class TeleVerificationFormComponent implements OnInit {
             }
           });
           this.valueChanges.applicationReferenceStatus.forEach(element => {
-            if (applicationReferences && element.value === applicationReferences['reference1'].referenceStatus) {
+            if (applicationReferences && element.value === applicationReferences.reference1.referenceStatus) {
               // tslint:disable-next-line: max-line-length
-              this.teleVerificationForm.controls.applicationReferences['controls']['reference1'].get('referenceStatus').setValue(element.key);
+              this.teleVerificationForm.controls.applicationReferences['controls'].reference1.get('referenceStatus').setValue(element.key);
             }
           });
           this.valueChanges.applicationReferenceStatus.forEach(element => {
-            if (applicationReferences && element.value === applicationReferences['reference2'].referenceStatus) {
+            if (applicationReferences && element.value === applicationReferences.reference2.referenceStatus) {
               // tslint:disable-next-line: max-line-length
-              this.teleVerificationForm.controls.applicationReferences['controls']['reference2'].get('referenceStatus').setValue(element.key);
+              this.teleVerificationForm.controls.applicationReferences['controls'].reference2.get('referenceStatus').setValue(element.key);
             }
           });
         }
@@ -434,6 +459,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
       // }
 
+      // tslint:disable-next-line: max-line-length
       // this.teleVerificationForm.controls['residenceStabilityConfirmed'].setValue(this.tvrData ? this.tvrData.residenceStabilityConfirmed : '');
       // this.teleVerificationForm.controls['addressConfirmed'].setValue(this.tvrData ? this.tvrData.residenceStabilityConfirmed : '');
       // this.initForm();
@@ -445,8 +471,8 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   saveOrUpdateTvrDetails() {
-    this.tvrDetails['userId'] = localStorage.getItem('userId');
-    this.tvrDetails['applicantId'] = this.applicantId;
+    this.tvrDetails.userId = localStorage.getItem('userId');
+    this.tvrDetails.applicantId = this.applicantId;
     const data = this.tvrDetails;
     this.tvrService.setTvrDetails(data).subscribe((res: any) => {
       const response = res;
@@ -464,7 +490,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   getTvrDetailsList() {
     const data = {
-      leadId: parseInt(this.leadId),
+      leadId: this.leadId,
       userId: localStorage.getItem('userId')
     };
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
@@ -502,9 +528,9 @@ export class TeleVerificationFormComponent implements OnInit {
     // this.tvrDetails.yrsInEmployment = parseInt(this.teleVerificationForm.value.yrsInEmployment)
     this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
     this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);
-    const data = this.tvrDetails['applicationReferences'];
-    this.tvrDetails.applicationReferences = [this.tvrDetails['applicationReferences'].reference1,
-    this.tvrDetails['applicationReferences'].reference2];
+    const data = this.tvrDetails.applicationReferences;
+    this.tvrDetails.applicationReferences = [this.tvrDetails.applicationReferences.reference1,
+    this.tvrDetails.applicationReferences.reference2];
 
     // console.log(this.tvrDetails);
     this.saveOrUpdateTvrDetails();
@@ -512,5 +538,55 @@ export class TeleVerificationFormComponent implements OnInit {
 
     // this.router.navigateByUrl(`pages/dde/${this.leadId}/tvr-details`);
   }
+
+  sendOtp() {
+    const data = {
+      applicantId: this.applicantId
+    };
+    this.otpService.sendOtp(data).subscribe((res: any) => {
+      const response = res;
+      this.referenceNo = res.ProcessVariables.referenceNo;
+      this.mobileNo = res.ProcessVariables.mobileNo;
+
+      if (
+        res['ProcessVariables']['error']['code'] == '0' &&
+        res['ProcessVariables'].referenceNo != ''
+      ) {
+        this.toasterService.showSuccess('OTP sent successfully !', '');
+      } else {
+        alert(res.ProcessVariables.error.message);
+      }
+
+      console.log('send otp', response);
+    });
+  }
+
+  validateOtp() {
+    const data = {
+      applicantId: this.applicantId,
+      referenceNo: this.referenceNo,
+      otp: this.otpForm.value.otp,
+    };
+
+    this.otpService.validateOtp(data).subscribe((res: any) => {
+      const response = res;
+      console.log('validate otp', response);
+      if (res['ProcessVariables']['error']['code'] == '0') {
+        console.log(res.ProcessVariables.error);
+        this.toasterService.showSuccess('OTP Verified Successfully !', '');
+        this.isModal = false;
+        this.router.navigate([`pages/dde/${this.leadId}/tvr-details`]);
+      } else {
+        // alert(res.ProcessVariables.error.message);
+        this.toasterService.showError('Invalid OTP !', '');
+      }
+    });
+  }
+
+  onSubmit() {
+    this.sendOtp();
+    this.isModal = true;
+  }
+
 
 }
