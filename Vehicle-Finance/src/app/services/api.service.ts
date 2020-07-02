@@ -388,6 +388,11 @@ export class ApiService {
       processId: 'a1220d70b45f11ea88a8f2fa9bec3d63',
       workflowId: 'a0f5f5b4b45f11ea88a8f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
+    },
+    getCreditScoreCard: {
+      processId: 'ff296a30b9e611ea9f1000505695f93b',
+      workflowId: 'ff0aa956b9e611ea88c300505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   }
 }

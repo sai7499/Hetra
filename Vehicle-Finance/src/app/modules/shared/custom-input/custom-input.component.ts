@@ -40,7 +40,7 @@ export class CustomInputComponent
     rule?: number;
     msg?: string;
   };
-  @Input() className = '';
+  @Input() className = 'form-control';
   @Input() minLength: {
     rule?: number;
     msg?: string;
