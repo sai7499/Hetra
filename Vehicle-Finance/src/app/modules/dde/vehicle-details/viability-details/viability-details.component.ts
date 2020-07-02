@@ -307,9 +307,10 @@ getViability(id: any) {
       if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
-        this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
+        // this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
+        this.viabilityForm.controls.type = '1VHCLVBTY';
         this.patchViability(this.viabliityDataToPatch);
         this.calculatePassenger();
         this.calculatePassengerB();
