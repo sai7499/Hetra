@@ -17,7 +17,9 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="contact_number">{{labels.contactNumber}}</label>
                 <!-- <input type="text" class="form-control" id="contact_number"> -->
-                <app-custom-input id="contact_number" formControlName="referenceMobile" [patternCheck]="mobileNumberPattern" [isRequired]="'contact number is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <!-- <app-custom-input id="contact_number" formControlName="referenceMobile" [patternCheck]="mobileNumberPattern" [isRequired]="'contact number is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input> -->
+                <app-custom-input formControlName="referenceMobile" [patternCheck]="mobileNumberPattern" [isRequired]="'Mobile number is required'" [maxLength]="maxlength10" [isDirty]="isDirty" [type]="'number'">
                 </app-custom-input>
             </div>
             <!-- <div class="form-group col-sm-12 col-md-12 col-lg-12">
@@ -41,35 +43,35 @@
                 <app-custom-input id="employee_code" formControlName="employeeCode" [patternCheck]="mobileNumberPattern" [isRequired]="'employee code is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="date">{{labels.date}}</label>
-                <div class="input-group input-medium">
-                    <!-- <span class="input-group-btn">
+                <div class="input-group input-medium"> -->
+            <!-- <span class="input-group-btn">
                         <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
                     </span> -->
-                    <!-- <input type="date" class="form-control date_caps" id="date"> -->
-                </div>
-                <kendo-datepicker width="100%" class="form-control mandatory" formControlName="date" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy" [activeView]="'decade'">
-                </kendo-datepicker>
+            <!-- <input type="date" class="form-control date_caps" id="date"> -->
+            <!-- </div> -->
+            <!-- <kendo-datepicker width="100%" class="form-control mandatory" formControlName="date" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                </kendo-datepicker> -->
 
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="place">{{labels.place}}</label>
-                <!-- <input type="text" class="form-control" id="place"> -->
-                <app-custom-input id="place" formControlName="place" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
-                </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- </div> -->
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="place">{{labels.place}}</label> -->
+            <!-- <input type="text" class="form-control" id="place"> -->
+            <!-- <app-custom-input id="place" formControlName="place" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input> -->
+            <!-- </div> -->
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="time">{{labels.time}}</label>
                 <div class='input-group date' id='datetimepicker3'>
                     <input type='text' class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                     </span>
-                </div>
-                <!-- <kendo-timepicker class="form-control mandatory" formControlName="time" [format]="'hh:mm a'">
+                </div> -->
+            <!-- <kendo-timepicker class="form-control mandatory" formControlName="time" [format]="'hh:mm a'">
                 </kendo-timepicker> -->
-            </div>
+            <!-- </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks">{{labels.referenceRemarks}}</label>
                 <!-- <input type="text" class="form-control" id="remarks"> -->
