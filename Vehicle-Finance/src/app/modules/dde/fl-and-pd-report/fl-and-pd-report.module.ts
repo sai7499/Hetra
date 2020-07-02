@@ -9,13 +9,14 @@ import { CustomerProfileDetailsComponent } from './customer-profile-details/cust
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { SharedModule } from '../../shared/shared.module';
 import { DdeSharedModule } from '../shared/shared.module';
+import { ReferenceCheckComponent } from './reference-check/reference-check.component';
 
 @NgModule({
   declarations: [
     FlAndPdReportComponent, 
     ApplicantDetailComponent, 
     CustomerProfileDetailsComponent, 
-    LoanDetailsComponent
+    LoanDetailsComponent, ReferenceCheckComponent
   ],
   imports: [
     CommonModule, ReactiveFormsModule, FormsModule, FlAndPdReportRouterModule, SharedModule, DdeSharedModule

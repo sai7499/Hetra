@@ -16,11 +16,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of leadDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
+            <tr *ngFor="let item of pdListDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
                 <td><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
-                <td>{{item.leadId}}</td>
+                <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']" >{{item.leadId}}</a></td>
                 <td>{{item.product}}</td>
-                <td>{{item.loanAmount}}</td>
+                <td>{{item.loanAmt}}</td>
                 <td>{{item.applicants}}</td>
                 <td>{{item.createdOn}}</td>
                 <td>{{item.createdBy}}</td>
