@@ -298,6 +298,12 @@ export class ApiService {
       workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
       projectId: environment.projectIds.creditProjectId,
     },
+    submitPdReport: {
+      processId: 'e1479e8ab61511ea8a0af2fa9bec3d63',
+      workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
+      projectId: environment.projectIds.creditProjectId,
+
+    },
     approvePd: {
       processId: 'c98b53f4b6b511ea8a46f2fa9bec3d63',
       workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
