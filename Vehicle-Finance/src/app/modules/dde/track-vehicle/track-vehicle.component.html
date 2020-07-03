@@ -8,7 +8,7 @@
                 formControlName="clientName"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Client Name'"
-            
+                [isDisabled]="true"
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -23,8 +23,7 @@
                 <app-custom-input
                 formControlName="financierName"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Financier'"
-                
+                [placeholder]="'Financier'"                
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -38,8 +37,7 @@
                 <app-custom-input
                 formControlName="assetFinancied"
                 [className]="'form-control mandatory'"
-                [placeholder]="'Asset Financier'"
-                
+                [placeholder]="'Asset Financier'"                
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -434,13 +432,14 @@
                                   </app-custom-input>
                                 </td>
                             <td>
-                                <!-- <input type="number" class="form-control input_value auto_cal"
-                                    formControlName="delayDays"> -->
-                                    <app-custom-input
+                                <input type="number" class="form-control input_value auto_cal"
+                                    formControlName="delayDays">
+                                    <!-- <app-custom-input
                                     formControlName="delayDays"
                                     [className]="'form-control mandatory'"
+                                    [type] = "'text'"
                                     >
-                                  </app-custom-input>
+                                  </app-custom-input> -->
                             </td>
                             <td>
                                 <!-- <input type="number" class="form-control input_value auto_cal" formControlName="payment"> -->
