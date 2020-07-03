@@ -154,8 +154,8 @@ export class PslDataComponent implements OnInit, OnChanges {
         detailActivity: ["", Validators.required],
         purposeOfLoan: ["", Validators.required],
         landHolding: ["", Validators.required],
-        landOwner: ["", Validators.required],
-        relationshipWithLandOwner: ["", Validators.required],
+        landOwner: [""],
+        relationshipWithLandOwner: [""],
         farmerType: ["", Validators.required],
         landArea: [""],
         landProof: [""],
@@ -481,6 +481,9 @@ getActivityLOVS() {
     this.pslDataForm.get("agriculture").patchValue({
       landHolding: "",
     });
+    // this.pslDataForm.get('agriculture.landOwner').patchValue({
+    //   landOwner: ""
+    // });
     this.pslDataForm.get("agriculture").patchValue({
       pslSubCategory: "",
     });
@@ -782,7 +785,7 @@ getActivityLOVS() {
     this.pslSubCategoryValueMap = this.LOV.LOVS.pslSubCategory;
     this.landAreaInAcresValueMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        if (this.landAreaInAcresValue <= 2.5) {
+        if (this.landAreaInAcresValue <= 2.5 && this.landAreaInAcresValue != 0) {
           this.LOV.LOVS.pslSubCategory.filter( (element) => { 
             if(element.key === "1PSLSUBCAT") {
               const data = [{ key: element.key, value: element.value}];
@@ -1052,11 +1055,6 @@ getActivityLOVS() {
         if (element.key === "1PSLFARMER" || element.key === "2PSLFARMER" ||
           element.key === "3PSLFARMER" || element.key === "4PSLFARMER") {
           const data = { key: element.key, value: element.value };
-          // const indexKey = this.LOV.LOVS.pslFarmerType.indexOf(element.key);
-          // if(indexKey === -1) {
-          //   this.farmerTypeValues.push(data);
-          //   console.log("DATA*******", this.farmerTypeValues);
-          // }
           this.farmerTypeValues.push(data);
           console.log("FarmerTypeValues_IF_YES*****", this.farmerTypeValues);
         }
@@ -1070,21 +1068,23 @@ getActivityLOVS() {
         .get("agriculture.landProof")
         .setValidators([Validators.required]);
       this.pslDataForm.get("agriculture.landProof").updateValueAndValidity();
+      this.pslDataForm
+      .get("agriculture.landOwner")
+      .setValidators([Validators.required]);
+    this.pslDataForm.get("agriculture.landOwner").updateValueAndValidity();
+    this.pslDataForm
+      .get("agriculture.relationshipWithLandOwner")
+      .setValidators([Validators.required]);
+    this.pslDataForm.get("agriculture.relationshipWithLandOwner").updateValueAndValidity();
     } 
     else if (this.pslLandHoldingChange === "0") {
       this.LOV.LOVS.pslFarmerType.filter( (element) => { 
         if (element.key === "5PSLFARMER" || element.key === "6PSLFARMER") {
           const data = { key: element.key, value: element.value };
-          // const indexKey = this.LOV.LOVS.pslFarmerType.indexOf(element.key);
-          // if(indexKey === -1) {
-          //   this.farmerTypeValues.push(data);
-          //   console.log("farmerTypeValues*******", this.farmerTypeValues);
-          // }
           this.farmerTypeValues.push(data);
           console.log("FarmerTypeValues_IF_NO>>>>", this.farmerTypeValues);
         }
       });
-
       this.LOV.LOVS.pslSubCategory.filter( (element) => {
         if(element.key === "3PSLSUBCAT") {
           const data = [{ key: element.key, value: element.value }];
@@ -1094,12 +1094,17 @@ getActivityLOVS() {
       this.isLandHoldingYes = false;
       this.landAreaInAcresValue = 0;
       this.plsLandProofChange = "";
-      // console.log("LandAreaInAcresValue***", this.landAreaInAcresValue);
-      // console.log("PlsLandProofChange***", this.plsLandProofChange);
+      // this.landOwnerChange = "";
+      // this.relationshipWithLandOwnerChange = "";
+
       this.pslDataForm.get("agriculture.landArea").clearValidators();
       this.pslDataForm.get("agriculture.landArea").updateValueAndValidity();
       this.pslDataForm.get("agriculture.landProof").clearValidators();
       this.pslDataForm.get("agriculture.landProof").updateValueAndValidity();
+      this.pslDataForm.get("agriculture.landOwner").clearValidators();
+      this.pslDataForm.get("agriculture.landOwner").updateValueAndValidity();
+      this.pslDataForm.get("agriculture.relationshipWithLandOwner").clearValidators();
+      this.pslDataForm.get("agriculture.relationshipWithLandOwner").updateValueAndValidity();
     } 
   }
 
@@ -1144,9 +1149,6 @@ getActivityLOVS() {
   setValueForOtherInvestmentCost() {
     if(this.otherInvestmentCost) {
       this.totalInvestmentCost = this.otherInvestmentCost;
-      // console.log("this.otherInvestmentCost", this.otherInvestmentCost);
-      // console.log("this.totalInvestmentCost", this.totalInvestmentCost);
-      // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
     }
     // this.caCertifiedAmount = 0;
     // if (this.caCertifiedAmount && this.otherInvestmentCost) {
@@ -1161,6 +1163,32 @@ getActivityLOVS() {
     // }
     // // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
   }
+  relationshipWithLandOwner: any = [];
+  landOwnerChange: any;
+  onChangeLandOwner(event: any) {
+     this.landOwnerChange = event.target.value;
+    this.relationshipWithLandOwner = [];
+      if(this.landOwnerChange === "APPAPPRELLEAD") {
+        this.LOV.LOVS.relationship.filter( (element) => { 
+          if(element.key === "5RELATION"){
+            const data = { key: element.key, value: element.value};
+            this.relationshipWithLandOwner.push(data);
+          } 
+        });
+      } else {
+        this.LOV.LOVS.relationship.filter( (element) => { 
+          if(element.key != "5RELATION"){
+            const data = { key: element.key, value: element.value};
+            this.relationshipWithLandOwner.push(data);
+          } 
+        });
+      }
+  }
+
+  // relationshipWithLandOwnerChange:any;
+  // onChangeRelationshipLandOwner(event: any) {
+  //   this.relationshipWithLandOwnerChange = event.target.value;
+  // }
 
   // autoSumTotalInvestment(value1, value2) {
   //   if(this.caCertifiedAmount===0 || this.otherInvestmentCost===0) {

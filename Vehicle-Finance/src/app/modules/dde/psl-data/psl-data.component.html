@@ -364,21 +364,22 @@
                     >
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                 <label for="land_owner">{{labels.landOwner}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.applicantRelationshipWithLead" 
                     formControlName="landOwner"
-                    name="landOwnerApplicant"
+                    (click)="onChangeLandOwner($event)"
+                    name="landOwner"
                     [isRequired]="'Please Select One Option'"
                     [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                 <label for="relationship_with_landowner">{{labels.relWithLandowner}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.relationship" 
+                    [values]="relationshipWithLandOwner" 
                     formControlName="relationshipWithLandOwner"
                     name="relationshipWithLandOwner"
                     [isRequired]="'Please Select One Option'"
