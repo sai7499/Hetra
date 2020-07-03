@@ -26,12 +26,14 @@
                
                 <app-custom-input
                     formControlName="accountNumber"
-                    [patternCheck]="accountNumberPattern"
-                    [maxLength]="labels?.validationData?.amount?.maxLength"
-                    [type]="labels?.validationData?.amount?.type"
+                    
+                    [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+                    [type]="labels?.validationData?.accountNumber?.type"
                     [isRequired]="'Account Number is required'"
                     [isDirty]="isDirty"
+                    [inputClass]="'input-upper'" 
               ></app-custom-input>
+              <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
              </div>
             </div>
             <div class="row">
@@ -256,7 +258,7 @@
         (click)="onBackToApplicant()"> {{labels?.backToApplicantDetails}} </button>
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>
+        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>&nbsp;
         <button class="btn btn-primary" (click)="onSave()"> {{labels?.save}} </button>
         <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
         <!-- (click)="onSave()"  -->

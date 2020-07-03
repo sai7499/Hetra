@@ -34,8 +34,12 @@
 
                             <td>{{i+1}}</td>
                             <td style="min-width: 150px;">
-                                <app-custom-input formControlName="regdNo" [className]="'form-control mandatory'" [placeholder]="'regdNo'" [maxLength]="validationData?.vehicleRegNo['maxLength']" [isRequired]="'Registration number is mandatory'" [type]="validationData?.vehicleRegNo['type']"
-                                    [isDirty]="isDirty">
+                                <app-custom-input formControlName="regdNo" 
+                                    [className]="'form-control mandatory'" 
+                                    [placeholder]="'regdNo'" 
+                                    [maxLength]="validationData?.vehicleRegNo['maxLength']" [isRequired]="'Registration number is mandatory'" [type]="validationData?.vehicleRegNo['type']"
+                                    [isDirty]="isDirty"
+                                    [inputClass]="'input-upper'">
                                 </app-custom-input>
 
                                 <!-- <div>
@@ -132,7 +136,14 @@
                             </td>
                             <td style="min-width: 150px;">
                                 <!-- <div> -->
-                                <app-custom-input formControlName="loanNo" [className]="'form-control mandatory'" [placeholder]="'loanNo'" [maxLength]="validationData?.loanNumber.maxLength" [isRequired]="'Loan No is mandatory'" [type]="validationData?.loanNumber.type" [isDirty]="isDirty">
+                                <app-custom-input formControlName="loanNo" 
+                                    [className]="'form-control mandatory'" 
+                                    [placeholder]="'loanNo'" 
+                                    [maxLength]="validationData?.loanNumber.maxLength" 
+                                    [isRequired]="'Loan No is mandatory'" 
+                                    [type]="validationData?.loanNumber.type" 
+                                    [isDirty]="isDirty"
+                                    [inputClass]="'input-upper'">
                                 </app-custom-input>
                                 <!-- <input type="text" class="form-control  input_value height" placeholder="Loan No" formControlName="loanNo" maxlength="20"></div>
 

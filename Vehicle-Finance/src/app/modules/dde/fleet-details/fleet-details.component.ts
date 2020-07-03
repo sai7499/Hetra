@@ -96,9 +96,9 @@ export class FleetDetailsComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
-    private sharedService: SharedService) {
-    this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Feature year not accepted' }];
-  }
+    private sharedService: SharedService) { 
+      this.yearCheck = [{rule: val => val>this.currentYear,msg:'Future year not accepted'}];
+    }
 
 
   async ngOnInit() {

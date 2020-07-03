@@ -3,7 +3,7 @@
     <div class="tab_content " [formGroup]="trackVehicleForm">
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="clientName"
                 [className]="'form-control mandatory'"
@@ -19,7 +19,7 @@
                 </span> -->
              </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.nameOfTheFinancier}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.nameOfTheFinancier}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="financierName"
                 [className]="'form-control mandatory'"
@@ -30,11 +30,11 @@
               </app-custom-input>
                 <!-- <input type="text" class="form-control" id="financier_name" formControlName="financierName">
                 <span *ngIf="submitted && f.financierName.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.financierName.errors.required">{{labels.nameOfTheFinancier}} is required</span>
+                    <span *ngIf="f.financierName.errors.required">{{labels?.nameOfTheFinancier}} is required</span>
                 </span> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.assetFinanced}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.assetFinanced}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="assetFinancied"
                 [className]="'form-control mandatory'"
@@ -45,28 +45,28 @@
               </app-custom-input>
                 <!-- <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
                 <span *ngIf="submitted && f.assetFinancied.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.assetFinancied.errors.required">{{labels.assetFinanced}} is required</span>
+                    <span *ngIf="f.assetFinancied.errors.required">{{labels?.assetFinanced}} is required</span>
                 </span> -->
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.repaymentMode}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.repaymentMode}}<sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="repaymentMode">
-                    <option>{{labels.ecs}}</option>
-                    <option>{{labels.ach}}</option>
-                    <option>{{labels.pdc}}</option>
-                    <option>{{labels.cash}}</option>
-                    <option>{{labels.others}}</option>
+                    <option>{{labels?.ecs}}</option>
+                    <option>{{labels?.ach}}</option>
+                    <option>{{labels?.pdc}}</option>
+                    <option>{{labels?.cash}}</option>
+                    <option>{{labels?.others}}</option>
                 </select> -->
                 <app-vf-custom-select [values]="fleetRtrLov?.fleetRepaymentMode" formControlName="repaymentMode">
                 </app-vf-custom-select>
                 <span *ngIf="submitted && f.repaymentMode.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.repaymentMode.errors.required">{{labels.repaymentMode}} is required</span>
+                    <span *ngIf="f.repaymentMode.errors.required">{{labels?.repaymentMode}} is required</span>
                 </span>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.financeAmount}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.financeAmount}}<sub class="star_red_col">*</sub></label>
                 <!-- <input type="text" class="form-control" id="finance_amount" 
                     formControlName="financeAmount"
                     
@@ -83,7 +83,7 @@
                 <!-- [inputClass]="'text-uppercase'" -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.financeCharges}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.financeCharges}}<sub class="star_red_col">*</sub></label>
                 <!-- <input type="number" class="form-control" id="finance_charges" formControlName="financeCharges"> -->
                 <app-custom-input
                 formControlName="financeCharges"
@@ -104,7 +104,7 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.contractValue}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.contractValue}}<sub class="star_red_col">*</sub></label>
                 <!-- <input type="number" class="form-control" id="contract_value" formControlName="contractValue"> -->
                 <app-custom-input
                 formControlName="contractValue"
@@ -118,7 +118,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.contNo}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.contNo}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="contNo"
                 [className]="'form-control mandatory'"
@@ -134,7 +134,7 @@
                 </span> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.vehicleNo}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.vehicleNo}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="vehicleNo"
                 [className]="'form-control mandatory'"
@@ -153,7 +153,7 @@
                 <app-vf-custom-select [values]="fleetRtrLov?.typesOfFinance" formControlName="financeType">
                 </app-vf-custom-select>
                 <span *ngIf="submitted && f.financeType.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.financeType.errors.required">{{labels.typesOfFinance}} is required</span>
+                    <span *ngIf="f.financeType.errors.required">{{labels?.typesOfFinance}} is required</span>
                 </span>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -161,11 +161,11 @@
                 <app-vf-custom-select [values]="fleetRtrLov?.accountStatus" formControlName="accountStatus">
                 </app-vf-custom-select>
                 <span *ngIf="submitted && f.accountStatus.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.accountStatus.errors.required">{{labels.accountStatus}} is required</span>
+                    <span *ngIf="f.accountStatus.errors.required">{{labels?.accountStatus}} is required</span>
                 </span>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.loanStartDate}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.loanStartDate}}<sub class="star_red_col">*</sub></label>
                 <div class="form-group date">
                     <div class='input-group date' id='loan_start_date'>
                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
@@ -191,7 +191,7 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
                 <kendo-datepicker width="100%" 
                     class="form-control mandatory" 
                     formControlName="loanMaturityDate"
@@ -201,12 +201,12 @@
                     [activeView]="'decade'"
               ></kendo-datepicker>
               <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
-                <span *ngIf="f.loanMaturityDate.errors.required">{{labels.loanMaturityDate}} is required</span>
+                <span *ngIf="f.loanMaturityDate.errors.required">{{labels?.loanMaturityDate}} is required</span>
             </span>
                 <!-- <input type="date" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate"> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.count}}</label>
+                <label for="Vechical Type">{{labels?.count}}</label>
                 <div class="row twos">
                     <!-- <input type="number" class="form-control w-50" id="count_30" formControlName="thirtyDpdCount"> -->
                     <app-custom-input
@@ -225,7 +225,7 @@
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.totalNoOfEmis}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.totalNoOfEmis}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="noOfEmi"
                 [className]="'form-control mandatory'"
@@ -234,13 +234,13 @@
               </app-custom-input>
                 <!-- <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
                 <span *ngIf="submitted && f.noOfEmi.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.noOfEmi.errors.required">{{labels.totalNoOfEmis}} is required</span>
+                    <span *ngIf="f.noOfEmi.errors.required">{{labels?.totalNoOfEmis}} is required</span>
                 </span> -->
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.noOfEmisPaid}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.noOfEmisPaid}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="emisPaid"
                 [className]="'form-control mandatory'"
@@ -250,7 +250,7 @@
               </app-custom-input>
                 <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
                 <span *ngIf="submitted && f.emisPaid.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.emisPaid.errors.required">{{labels.noOfEmisPaid}} is required</span>
+                    <span *ngIf="f.emisPaid.errors.required">{{labels?.noOfEmisPaid}} is required</span>
                 </span> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -312,7 +312,7 @@
               </app-custom-input>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.emiAmount}}</label>
+                <label for="Vechical Type">{{labels?.emiAmount}}</label>
                 <input type="text" class="form-control" id="emiAmount" formControlName="emiAmount" (change)="changeEmiAmount($event)">
             </div> -->
         </div>
@@ -326,15 +326,15 @@
                 <table class="table" id="POITable">
                     <thead>
                         <tr class="table-head-bg">
-                            <td>{{labels.installmentNo}}</td>
-                            <td>{{labels.installmentAmt}}</td>
-                            <td>{{labels.dueDate}} </td>
-                            <td>{{labels.rcptNo}} </td>
-                            <td>{{labels.recdDate}} </td>
-                            <td>{{labels.rcptAmount}} </td>
-                            <td>{{labels.delayDays}} </td>
-                            <td>{{labels.paymentsExcess}} </td>
-                            <td>{{labels.action}} </td>
+                            <td>{{labels?.installmentNo}}</td>
+                            <td>{{labels?.installmentAmt}}</td>
+                            <td>{{labels?.dueDate}} </td>
+                            <td>{{labels?.rcptNo}} </td>
+                            <td>{{labels?.recdDate}} </td>
+                            <td>{{labels?.rcptAmount}} </td>
+                            <td>{{labels?.delayDays}} </td>
+                            <td>{{labels?.paymentsExcess}} </td>
+                            <td>{{labels?.action}} </td>
                         </tr>
                     </thead>
                     <tbody formArrayName="installment">
