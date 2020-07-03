@@ -493,23 +493,11 @@ getActivityLOVS() {
     this.pslDataForm.get("agriculture").patchValue({
       weakerSection: "",
     });
-    // this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-    //   pslSubCategory: "",
-    // });
-    // this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-    //   pslCCertificate: "",
-    // });
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-      otherInvestmentCost: 0,
+      pslSubCategory: "",
     });
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-      totalInvestmentCost: 0,
-    });
-    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-      investmentInEquipment: 0,
-    });
-    this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-      investmentInPlantAndMachinery: 0,
+      pslCCertificate: "",
     });
 
     this.pslDependentLOVSData.map((element) => {
@@ -574,6 +562,13 @@ getActivityLOVS() {
     //For ACTIVITY--MSME>>>>> Detail Activity SERVICE AND MANUFACTURING
     if (this.detailActivityChange === "5PSLDTLACTVTY") {
       this.isInvestmentInPlantMachinery = true;
+      this.LOV.LOVS.pslCategory.filter( (element) => { 
+        if(element.key === "3PSLCAT") {
+          this.pslCategoryData = [{ key: element.key, value: element.value }];
+          this.pslCategoryValues = this.pslCategoryData;
+          this.formValues.pslCategory = this.pslCategoryData[0].key;
+        }
+      });
       if(this.pslData === null) {
         return;
       }
@@ -584,20 +579,14 @@ getActivityLOVS() {
       } else {
         this.totalInvestmentCost = this.pslData.totalInvestmentCost;
         this.otherInvestmentCost = this.pslData.otherInvestmentCost;
-        this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
+        this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery; 
       }
       // console.log(
       //   "this.investmentInEquipmentValue",
       //   this.investmentInEquipmentValue, this.totalInvestmentCost, this.otherInvestmentCost
       // );
       // this.typeOfService = [{key: 'Not Applicable', value: 'Not Applicable'}]
-      this.LOV.LOVS.pslCategory.filter( (element) => { 
-        if(element.key === "3PSLCAT") {
-          this.pslCategoryData = [{ key: element.key, value: element.value }];
-          this.pslCategoryValues = this.pslCategoryData;
-          this.formValues.pslCategory = this.pslCategoryData[0].key;
-        }
-      });
+
       this.typeOfService = [{key: 'Not Applicable', value: 'Not Applicable'}]
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.goodsManufactured")
@@ -629,24 +618,6 @@ getActivityLOVS() {
 
     if (this.detailActivityChange === "6PSLDTLACTVTY") {
       this.isInvestmentInEquipment = true;
-      // this.investmentInPlantMachineryValue = 0;
-      // console.log(
-      //   "this.investmentInPlantMachineryValue",
-      //   this.investmentInPlantMachineryValue
-      // );
- 
-      if(this.pslData === null) {
-        return;
-      }
-      if(!this.pslData.investmentInEquipment) {
-        this.otherInvestmentCost = 0;
-        this.totalInvestmentCost = 0;
-        this.investmentInPlantMachineryValue = 0;
-      } else {
-        this.totalInvestmentCost = this.pslData.totalInvestmentCost;
-        this.otherInvestmentCost = this.pslData.otherInvestmentCost;
-        this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
-      }
       this.LOV.LOVS.pslCategory.filter( (element) => { 
         if(element.key === "2PSLCAT") {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
@@ -654,6 +625,22 @@ getActivityLOVS() {
           this.formValues.pslCategory = this.pslCategoryData[0].key;
         }
       });
+      // this.investmentInPlantMachineryValue = 0;
+      // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
+ 
+      if(this.pslData === null) {
+        return;
+      }
+      if(this.pslData.investmentInEquipment) {
+        this.totalInvestmentCost = this.pslData.totalInvestmentCost;
+        this.otherInvestmentCost = this.pslData.otherInvestmentCost;
+        this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
+      } else {
+        this.otherInvestmentCost = 0;
+        this.totalInvestmentCost = 0;
+        this.investmentInPlantMachineryValue = 0;
+      }
+
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
         .setValidators([Validators.required]);
@@ -1157,7 +1144,6 @@ getActivityLOVS() {
   setValueForOtherInvestmentCost() {
     if(this.otherInvestmentCost) {
       this.totalInvestmentCost = this.otherInvestmentCost;
-      this.investmentInPlantMachineryValue =  this.totalInvestmentCost;
       // console.log("this.otherInvestmentCost", this.otherInvestmentCost);
       // console.log("this.totalInvestmentCost", this.totalInvestmentCost);
       // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);

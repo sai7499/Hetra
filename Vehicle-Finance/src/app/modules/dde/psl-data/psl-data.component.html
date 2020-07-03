@@ -701,7 +701,8 @@
             [(ngModel)]="totalInvestmentCost" (change)="onChangeTotalInvestmentCost($event)"/> -->
         <app-custom-input
             formControlName="totalInvestmentCost"
-            [(ngModel)]="totalInvestmentCost" 
+            [(ngModel)]="totalInvestmentCost"
+            (change)="onChangeTotalInvestmentCost($event)" 
             [placeholder]="'Total Investment Cost'"
             [maxLength]="labels?.validationData.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
