@@ -37,6 +37,8 @@ export class TrackVehicleComponent implements OnInit {
   isDirty: boolean;
   focusedDate: Date = new Date();
   maturedDate: Date = new Date();
+  validationData: any;
+
   regexPattern = {
     amount: {
       rule: "^[1-9][0-9]*$",
@@ -192,10 +194,12 @@ export class TrackVehicleComponent implements OnInit {
       this.values = res[0].trackVehicle[0];
     });
 
-    this.labelsData.getLabelsFleetData().subscribe(
+    this.labelsData.getLabelsData().subscribe(
 
       data => {
-        this.labels = data;
+        this.labels = data.lablesFleet;
+        this.validationData = data.validationData;
+
       }, error => {
         console.log(error);
 
@@ -204,6 +208,14 @@ export class TrackVehicleComponent implements OnInit {
     //  this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
     this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
+  }
+  checkFinanceCharge(){
+    let financeCharges = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
+    let financeAmount = parseInt(this.trackVehicleForm.controls['financeAmount'].value);
+    if(financeCharges > financeAmount){
+      this.trackVehicleForm.controls['financeCharges'].setErrors({'incorrect': true})
+   
+    }else{ }
   }
   addMonth(date, n) {
     // console.log('in date conversion ' + date);
@@ -474,7 +486,7 @@ export class TrackVehicleComponent implements OnInit {
         this.fleetRtrDetails.push({
           'receivedAmt': parseInt(this.formArr.controls[0].value['receivedAmt']),
           'installmentAmt': parseInt(this.formArr.controls[0].value['installmentAmt']),
-          'receiptNo': parseInt(this.formArr.controls[0].value['receiptNo']),
+          'receiptNo': this.formArr.controls[0].value['receiptNo'],
           'dueDate': this.formArr.controls[0].value['dueDate'],
           'receivedDate': this.formArr.controls[0].value['receivedDate'],
           'payment': receivedAmt - installmentAmount

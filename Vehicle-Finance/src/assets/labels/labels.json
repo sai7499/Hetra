@@ -1,3 +1,4 @@
+  
 {
     "leadCreationTitle": "Create New Lead",
     "businessDivision": "Business Division",
@@ -64,7 +65,6 @@
     "assetBodyType": "Asset Body Type",
     "assetSegement": "Asset Segment",
     "vehicleType": "Vehicle Type",
-    "vehicleNumber": "Vehicle Number",
     "assetVariant": "Asset Variant",
     "assetSubVariant": "Asset Sub-Variant",
     "assetOther": "Asset Variant - Other",
@@ -235,8 +235,6 @@
     "vehicleValTitle": "Valuation",
     "valuatorType": "Valuator Type",
     "valuatorCode": "Valuator Code",
-    "valuatorStatus": "Valuator Status",
-    "VehicleValremarks": "Remarks",
     "valuatorName": "Valuator Name",
     "valuationAmount": "Valuation Amount",
     "valuationDate": "Valuation Date",
@@ -439,12 +437,13 @@
     "totalMonthlySalaryIncome": "Total Monthly Salary Income",
     "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
     "salariedFOIRDeviation": "Salaried FOIR Deviation %",
-    "totalSalariedFOIR":"Total Salaried FOIR %",
+    "totalSalariedFOIR": "Total Salaried FOIR %",
     "consideredSalaryIncome": "Considered Salary Income",
     "totalMonthlyBusinessIncome": "Total Monthly Business Income",
     "totalMonthlyRentalIncome": "Total Monthly Rental Income",
     "totalMonthlyPensionIncome": "Total Monthly Pension Income",
     "totalMonthlyAgriIncome": "Total Monthly Agri Income",
+    "totalMonthlyOtherIncomeOfOthers": "Total Monthly Other Income Of Others",
     "totalMonthlyOtherIncome": "Total Monthly Other Income",
     "totalMontlyObligations": "Total Montly Obligations",
     "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR",
@@ -585,7 +584,7 @@
     "loanamount": "Loan amount",
     "rateApproval": "Rate Approval",
     "branchED": "Branch ED%",
-    "soed ": "SO ED %",
+    "soEd": "SO ED %",
     "propertyOwnership": "Property Ownership",
     "vfScore": "VF score",
     "fiStatus": "FI Status",
@@ -643,6 +642,7 @@
     "lastTwelveMonth": "LAST 12 MONTH",
     "ad": "AD",
     "pd": "PD",
+    "five": "Five",
     "track1": " TRACK 1",
     "track2": "TRACK 2",
     "track3": "TRACK 3",
@@ -709,22 +709,217 @@
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
     "creditBureauCIBIL": "Credit Bureau (CIBIL)",
-    "areYouSureWantToReject":"Are you sure want to reject ?",
-    "fromDate":"From Date",
+    "areYouSureWantToReject": "Are you sure want to reject ?",
+    "fromDate": "From Date",
     "toDate": " To Date",
     "month": "Month",
     "period": "Period",
     "limit": "Limit",
     "inflow": "Inflow",
     "outflow": "Outflow",
-    "noOfInwardBounces" : "No.of.Inward Bounces",
-    "noOfOutwardBounces" : "No.of.Outward Bounces",
+    "noOfInwardBounces": "No.of.Inward Bounces",
+    "noOfOutwardBounces": "No.of.Outward Bounces",
     "balanceOn5th": "Balance as on 5th",
     "balanceOn10th": "Balance as on 10th",
     "balanceOn15th": "Balance as on 15th",
     "balanceOn20th": "Balance as on 20th",
     "abbOfMonth": "ABB Of The Month",
-    "backToApplicantDetails": "Back To Applicant Details"
-
-    
+    "backToApplicantDetails": "Back To Applicant Details",
+    "vehicletitle": "Vehicle Details",
+    "registrationNum": "Registration Num",
+    "addAdditionalCollaterals": " Add Additional Collaterals",
+    "colleteralType": "Colleteral Type",
+    "column2": "Column 2",
+    "column3": "Column 3",
+    "passenger": "Passenger",
+    "passengerTitle": "VIABILITY/NET CASH FLOW",
+    "creditShieldApplicable": "Credit Shield Applicable",
+    "insuranceCompanyName": "Insurance Company Name",
+    "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
+    "creditShieldPremium": "Credit Shield Premium",
+    "creditShieldNominee": "Credit Shield Nominee",
+    "creditShieldNomineeAge": "Credit Shield Nominee Age",
+    "creditShieldNomineeRelationship": "Credit Shield Nominee Relationship",
+    "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount",
+    "passengerStandTitle": "Passanger & Stand Operator",
+    "expirydateofcurrentpolicy": "Expiry date of current policy",
+    "noclaimbonus": "No claim bonus",
+    "owndamagediscount": "own damage discount",
+    "comprehensive-thirdparty": "Comprehensive / third party",
+    "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)",
+    "capativeTitle": "Captive",
+    "income": "INCOME",
+    "route": "ROUTE",
+    "distanceInKm": "Distance in Km",
+    "noOfTripsPeMonth": "No. of Trips per month",
+    "monthlyRunningInKm": " Monthly running in Km",
+    "averageLoadInPerTon": "Average load in per ton",
+    "rate": "Rate / Tonne / KL",
+    "monthlyRevenueInLacs": " Monthly revenue in Rs. Lacs. (A)",
+    "validityCheck": "(To be validated with a bill/ contract Copy)",
+    "fuelPerLitre": " Fuel average in KM per litre",
+    "fuelLitreCost": "Cost per litre of fuel",
+    "noOfTyres": " No. of tyres",
+    "costPerTyre": " Cost of 1 tyre",
+    "tyreLife": "Life of new tyres in Km",
+    "expenses": "EXPENSES",
+    "totalFuelCost": "Fuel Cost (c*h / g)",
+    "totalTyreCost": "Tyre Cost (I*J*c) / (k)",
+    "driverSalary": "Drivers Salary + Allowances",
+    "cleanerSalary": "Cleaners Salary + Allowances",
+    "permitCost": "Permit Cost",
+    "fcCharges": "F.C charges",
+    "tollTaxPaid": "Toll Tax Paid",
+    "taxes": "Taxes",
+    "maintenance": "Maintenance",
+    "miscellaneous": "Miscellaneous",
+    "insuranceExpenses": "Insurance Expenses",
+    "totalExpenses": "Total Expenses (B)",
+    "netCashFlow": "Net Cash Flow (NCF) (A-B)",
+    "emiFull": "Equated Monthly Instalments (EMI)",
+    "netEmi": "Net Cash flow (NCF)/ EMI",
+    "vehicleModel": "Vehicle Model",
+    "application": "Application",
+    "grossIncomePerDay": "Gross income per day",
+    "noOfEarningDays": "No. of earnings per day (No of days)",
+    "expensesPerDay": "Expenses per day",
+    "avgTyreExpenses": "Avg tyre expenses per month",
+    "insuranceExpensePerMonth": "Insurance expenses per month",
+    "miscellaneousExpenses": "Miscellaneous expenses",
+    "monthlyIncome": "Monthly Income",
+    "netCashFlowEMI": " Net Cash Flow  EMI",
+    "obligationsBusinessMonth": "Obligations in business (Loans) per month",
+    "viabilityStatus": "Viability Status",
+    "referenceCheckTitle": "Reference Check",
+    "personName": "Person Name",
+    "addressOfThePerson": "Address of the person",
+    "contactNumber": "Contact Number",
+    "place": "Place",
+    "referenceRemarks": "Remarks",
+    "overallReport": "Overall Report",
+    "sNo": "S.No",
+    "regdNo": "Regd No",
+    "regdOwner": "Regd Owner",
+    "purchaseDate": "Purchase Date",
+    "paid": "Paid",
+    "track": "Track",
+    "coApplicant": "Co-Applicant",
+    "guarantor": "Guarantor",
+    "tatamotors": "Tata Motors",
+    "eicher": "Eicher",
+    "nameOfTheClient": "Name of the client",
+    "bajaj": "Bajaj",
+    "icici": "ICICI",
+    "chola": "Chola",
+    "nameOfTheFinancier": "Name of the Financier",
+    "assetFinanced": "Asset Financed",
+    "repaymentMode": "Repayment Mode",
+    "ecs": "ECS",
+    "ach": "ACH",
+    "pdc": "PDC",
+    "cash": "Cash",
+    "financeCharges": "Finance Charges",
+    "contractValue": "Contract Value(Total)",
+    "contNo": "Contract Number",
+    "vehicleNo": "Vehicle No",
+    "typesOfFinance": "Types Of Finance",
+    "refinance": "Refinance",
+    "accountStatus": "Account Status",
+    "matured": "Matured",
+    "running": "Running",
+    "loanStartDate": "Loan Start Date",
+    "loanMaturityDate": "Loan Maturity Date",
+    "count": "Count on 30's & 90's dpd",
+    "totalNoOfEmis": "Total no of emi's",
+    "noOfEmisPaid": "NO of emi's paid",
+    "totalDelay": "Total Delay",
+    "peakDelay": "Peak Delay",
+    "avgDelay": "Avg Delay",
+    "trackStatus": "Track Status",
+    "totalAmtPaid": "Total Amt Paid",
+    "installmentNo": "Installment No",
+    "installmentAmt": "Installment Amt",
+    "dueDate": "Due Date",
+    "rcptNo": "Rcpt. No.",
+    "recdDate": "Recd. Date",
+    "rcptAmount": "Rcpt Amount",
+    "delayDays": "Delay Days",
+    "paymentsExcess": "Payments excess/short",
+    "emiAmount": "Emi Amount",
+    "reinitiate": "Reinitiate",
+    "validationData": {
+        "name": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "fullName": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "alpha"
+        },
+        "yom": {
+            "maxLength": {
+                "rule": 4,
+                "msg": "Maximum Length 4 digits"
+            },
+            "type": "number"
+        },
+        "loanNumber": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "number"
+        },
+        "amountValue": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "amount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "receiptNo": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "number"
+        },
+        "percentage": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "vehicleRegNo": {
+            "maxLength": {
+                "rule": 11
+            },
+            "type": "alpha-numeric"
+        },
+        "employeeCode": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric"
+        },
+        "tenurePaid": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "contractValue": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        }
+    }
 }

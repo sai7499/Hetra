@@ -9,23 +9,23 @@
                 <th>SCORE</th>
             </tr>       
         </thead>
-        <tbody>
-            <tr>
+        <tbody style="text-align: left;">
+            <tr *ngIf="borrowerAttributes">
                 <td></td>
-                <td>Borrower Attribute</td>
+                <td><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
                 <td>15</td>
                 <td></td>
-                <td>12</td>
+                <td>{{scoreCard.borrowerAttributesScore}}</td>
             </tr>
             
-            <tr>
-                <td>1</td>
-                <td>Age of the borrower(Number of Years)</td>
-                <td>4</td>
-                <td>48</td>
-                <td>4</td>
+            <tr *ngFor = "let borrowerAttribute of borrowerAttributes; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{borrowerAttribute.scoreDescription}}</td>
+                <td>{{borrowerAttribute.weightage}}</td>
+                <td>{{borrowerAttribute.inputValueDescription}}</td>
+                <td>{{borrowerAttribute.score}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>2</td>
                 <td>Martial Status</td>
                 <td>3</td>
@@ -38,22 +38,22 @@
                 <td>8</td>
                 <td>CAT C /Agri Based</td>
                 <td>5</td>
-            </tr>
-            <tr>
+            </tr> -->
+            <tr *ngIf="borrowerAssessments">
                 <td></td>
-                <td>Borrower Assessment</td>
+                <td><strong>{{borrowerAssessments[0].scoreParameterCatDesc}}</strong></td>
                 <td>60</td>
                 <td></td>
-                <td>36</td>
+                <td>{{scoreCard.borrowerAssessmentScore}}</td>
             </tr>
-            <tr>
-                <td>4</td>
-                <td>Vehicle Manufacturer</td>
-                <td>18</td>
-                <td>TATA</td>
-                <td>6</td>
+            <tr *ngFor="let borrowerAssessment of borrowerAssessments; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{borrowerAssessment.scoreDescription}}</td>
+                <td>{{borrowerAssessment.weightage}}</td>
+                <td>{{borrowerAssessment.inputValueDescription}}</td>
+                <td>{{borrowerAssessment.score}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>5</td>
                 <td>Vehicle Type</td>
                 <td>14</td>
@@ -115,22 +115,22 @@
                 <td>3</td>
                 <td>Fully Developed Area</td>
                 <td>3</td>
-            </tr>
-            <tr>
+            </tr> -->
+            <tr *ngIf="fieldVerifications">
                 <td></td>
-                <td>Repayment Assessment</td>
-                <td>15</td>
+                <td><strong>{{fieldVerifications[0].scoreParameterCatDesc}}</strong></td>
+                <td>10</td>
                 <td></td>
-                <td>15</td>
+                <td>{{scoreCard.repaymentAssessmentScore}}</td>
             </tr>
-            <tr>
-                <td>15</td>
-                <td>Bureau Score - (numbers)</td>
-                <td>10</td>
-                <td>732</td>
-                <td>10</td>
+            <tr *ngFor="let fieldVerification of fieldVerifications; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{fieldVerification.scoreDescription}}</td>
+                <td>{{fieldVerification.weightage}}</td>
+                <td>{{fieldVerification.inputValueDescription}}</td>
+                <td>{{fieldVerification.score}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>16</td>
                 <td>60 DPD in last 6 months as per Bureau - Use Dropdown list</td>
                 <td>5</td>
@@ -150,8 +150,21 @@
                 <td>100</td>
                 <td></td>
                 <td>71.0%</td>
+            </tr> -->
+            <tr *ngIf="repaymentAssessments">
+                <td></td>
+                <td><strong>{{repaymentAssessments[0].scoreParameterCatDesc}}</strong></td>
+                <td>15</td>
+                <td></td>
+                <td>{{scoreCard.repaymentAssessmentScore}}</td>
             </tr>
-    
+            <tr *ngFor="let repaymentAssessment of repaymentAssessments; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{repaymentAssessment.scoreDescription}}</td>
+                <td>{{repaymentAssessment.weightage}}</td>
+                <td>{{repaymentAssessment.inputValueDescription}}</td>
+                <td>{{repaymentAssessment.score}}</td>
+            </tr>
         </tbody>
     </table>
     <table class="table cam_table_proposed mt-3">

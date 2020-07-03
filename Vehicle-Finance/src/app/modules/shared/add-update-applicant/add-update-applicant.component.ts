@@ -38,6 +38,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // msg: 'Invalid Pan',
   };
   panFormPattern = {
+    // rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
     rule: '[A-Z]{5}[0-9]{4}[A-Z]{1}',
     msg: 'Pan is invalid',
   };
