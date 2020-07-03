@@ -31,6 +31,7 @@ export class BasicDetailsComponent implements OnInit {
   isIndividual: boolean;
   isSelfEmployed = true;
   labels: any = {};
+  validationData : any
   applicantLov: any = [];
   applicantId: number | string = '';
   applicant: Applicant;
@@ -76,10 +77,10 @@ export class BasicDetailsComponent implements OnInit {
   //   rule: '^[A-Za-z ]{0,99}$',
   //   msg: 'Invalid Name',
   // };
-  nameSpacePattern = {
-    rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
-    msg: 'Invalid Name',
-  };
+  // nameSpacePattern = {
+  //   rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
+  //   msg: 'Invalid Name',
+  // };
 
   //   companyPattern ={
   //    rule : '^[A-Z]*[a-z]*$',
@@ -100,8 +101,9 @@ export class BasicDetailsComponent implements OnInit {
   }
   landlineLength15 = {
     rule: 15,
-    msg : 'Should be Valid'
+    
   }
+  
   public toDayDate: Date = new Date();
   isRequiredSpouse ='Spouse Name is Required';
   isRequiredFather = 'Father Name is Required'
@@ -123,7 +125,8 @@ export class BasicDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        // console.log(this.labels)
+        this.validationData = data.validationData
+        console.log(this.validationData)
       },
       (error) => {
         console.log(error);

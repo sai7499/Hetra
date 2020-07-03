@@ -27,6 +27,7 @@ export class BasicDetailsComponent implements OnInit {
   isIndividual = false;
   isSelfEmployed = true;
   labels: any = {};
+  validationData : any
   LOV: any = [];
   applicantId: number;
   applicant: Applicant;
@@ -98,7 +99,7 @@ export class BasicDetailsComponent implements OnInit {
   }
   landlineLength15={
     rule: 15,
-    msg : 'Should be Valid'
+    
   }
 
   
@@ -117,6 +118,7 @@ export class BasicDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
+        this.validationData = data.validationData;
       },
       (error) => {
         console.log(error);
