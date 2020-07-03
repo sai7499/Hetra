@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { LabelsService } from '@services/labels.service';
 import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
@@ -9,11 +10,11 @@ import { HttpService } from '@services/http.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-branch-tasks',
-  templateUrl: './branch-tasks.component.html',
-  styleUrls: ['./branch-tasks.component.css']
+  selector: 'app-dde-branch-leads',
+  templateUrl: './dde-branch-leads.component.html',
+  styleUrls: ['./dde-branch-leads.component.css']
 })
-export class BranchTasksComponent implements OnInit {
+export class DdeBranchLeadsComponent implements OnInit {
 
   itemsPerPage = '25';
   labels: any = {};
@@ -32,11 +33,9 @@ export class BranchTasksComponent implements OnInit {
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
-    private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
     private router: Router,
     private httpService: HttpService,
-    private http: HttpClient
 
   ) {
   }
@@ -51,12 +50,12 @@ export class BranchTasksComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
-    this.getPdBrabchTask(this.itemsPerPage);
+    this.getDDEBranchLeads(this.itemsPerPage);
   }
 
-  getPdBrabchTask(perPageCount, pageNumber?) {
+  getDDEBranchLeads(perPageCount, pageNumber?) {
     const data = {
-      taskName: 'Personal Discussion',
+      taskName: 'DDE',
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
@@ -81,7 +80,7 @@ export class BranchTasksComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdBrabchTask(this.itemsPerPage, event);
+    this.getDDEBranchLeads(this.itemsPerPage, event);
   }
 
   onAssign(id) {
@@ -92,5 +91,6 @@ export class BranchTasksComponent implements OnInit {
 
   //  return this.httpService.post(url,);
   }
+
 
 }

@@ -21,6 +21,7 @@ export class ExposureDetailsComponent implements OnInit {
   liveloanArray = [];
   proposedArray = [];
   isAlert: boolean;
+  isModelShow;
   currentYear = new Date().getFullYear();
   regexPattern = {
     maxLength4: {

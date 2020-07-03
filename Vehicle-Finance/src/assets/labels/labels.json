@@ -23,11 +23,11 @@
     "ageApplicant": "Age",
     "alternateContactNumber": "Alternate contact Number",
     "senior": "Is Senior Citizen?",
-    "minor" : "Is Minor?",
+    "minor": "Is Minor?",
     "guardianName": "Guardian Name",
-    "guardianRelationship" : "Guardian's Relationship with Minor",
+    "guardianRelationship": "Guardian's Relationship with Minor",
     "politicallyExposedPerson": "Politically Exposed Person [PEP]",
-    "issuanceDate" : "Issuance Date",
+    "issuanceDate": "Issuance Date",
     "companyName1": "Company Name 1",
     "companyName2": "Company Name 2",
     "companyName3": "Company Name 3",
@@ -798,6 +798,14 @@
     "netCashFlowEMI": " Net Cash Flow  EMI",
     "obligationsBusinessMonth": "Obligations in business (Loans) per month",
     "viabilityStatus": "Viability Status",
+    "particulars": "Particulars",
+    "reference1": "Reference-1",
+    "reference2": "Reference-2",
+    "mobileNo": "Mobile No",
+    "cibilRemarks": "CIBIL Remarks",
+    "cibilOverdue": "1. Cibil Overdue",
+    "cibilReport": "2. Clarification on recent enquiries in CIBIL report",
+
     "lablesFleet": {
         "leadCreationTitle": "Create New Lead",
         "businessDivision": "Business Division",
@@ -1679,15 +1687,15 @@
             },
             "type": "number"
         },
-       
+
         "mobileNumber": {
             "maxLength": {
                 "rule": 10,
-                "msg":"10 Digits required"
+                "msg": "10 Digits required"
             },
-            "pattern":{
-            "rule":"^[6-9][0-9]*$",
-            "msg":"Invalid Mobile Number"
+            "pattern": {
+                "rule": "^[6-9][0-9]*$",
+                "msg": "Invalid Mobile Number"
             },
             "type": "number"
         },
@@ -1696,18 +1704,18 @@
                 "rule": 20
             },
             "type": "alpha-numeric-nospace",
-            "pattern":{
+            "pattern": {
                 "rule": "^[0-9A-Za-z]{9,15}$",
-                "msg":"Invalid account Number"
+                "msg": "Invalid account Number"
             }
         },
         "bankName": {
             "maxLength": {
                 "rule": 25
             },
-            "pattern":{
+            "pattern": {
                 "rule": "^[A-Za-z ]{0,99}$",
-                "msg":"Invalid account Number"
+                "msg": "Invalid account Number"
             },
             "type": "alpha"
         },
@@ -1715,9 +1723,9 @@
             "maxLength": {
                 "rule": 15
             },
-            "pattern":{
-            "rule":"^[0-9]{6,15}",
-            "msg":"Invalid Number"
+            "pattern": {
+                "rule": "^[0-9]{6,15}",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },
@@ -1726,8 +1734,8 @@
                 "rule": 40
             },
             "pattern": {
-                "rule":"^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
-                "msg":"Invalid Number"
+                "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+                "msg": "Invalid Number"
             }
         },
         "numberOfEmployeeSeen": {
@@ -1735,12 +1743,12 @@
                 "rule": 10
             },
             "pattern": {
-                "rule":"^[1-9][0-9]*$",
-                "msg":"Invalid Number"
+                "rule": "^[1-9][0-9]*$",
+                "msg": "Invalid Number"
             },
-            "type":"number"
+            "type": "number"
         },
-       
+
         "receiptNo": {
             "maxLength": {
                 "rule": 15
@@ -1841,8 +1849,8 @@
         "pincode": {
             "maxLength": {
                 "rule": 6
-                
-            }, 
+
+            },
             "type": "number",
             "patternCheck": {
                 "rule": "^[1-9][0-9]{5}$",
@@ -1853,13 +1861,13 @@
         "numberOfYears": {
             "maxLength": {
                 "rule": 2
-            }, 
+            },
             "type": "number"
         },
-        "landlineNumber" : {
+        "landlineNumber": {
             "maxLength": {
                 "rule": 15
-            }, 
+            },
             "type": "number"
         },
         "businessEntity": {
@@ -1961,9 +1969,25 @@
                 "rule": 10
             },
             "type": "alpha-numeric"
+        },
+        "contractDetails": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
+        "extn": {
+            "maxLength": {
+                "rule": 4
+            },
+            "type": "number"
+        },
+        "employees": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "number"
         }
+
     }
 }
-
-
-
