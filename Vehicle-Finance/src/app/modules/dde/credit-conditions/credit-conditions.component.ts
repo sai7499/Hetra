@@ -167,6 +167,7 @@ export class CreditConditionsComponent implements OnInit {
       if(creditConditionDetails[i].defferedDate != ''){
         creditConditionDetails[i].defferedDate = this.sendDate(creditConditionDetails[i].defferedDate)
       }
+      console.log(this.formArr)
       creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
       
     }

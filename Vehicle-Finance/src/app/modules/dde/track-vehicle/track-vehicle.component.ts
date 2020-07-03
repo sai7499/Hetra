@@ -102,7 +102,7 @@ export class TrackVehicleComponent implements OnInit {
     if (fleetRtr) {
       this.trackVehicleForm.patchValue({ clientName: fleetRtr.clientName });
       this.trackVehicleForm.patchValue({ financierName: fleetRtr.financierName });
-      this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinancied });
+      this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinanciedDesc });
       this.trackVehicleForm.patchValue({ repaymentMode: fleetRtr.repaymentMode });
       this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount ? fleetRtr.financeAmount : '' });
       this.trackVehicleForm.patchValue({ financeCharges: fleetRtr.financeCharges });
@@ -632,6 +632,8 @@ export class TrackVehicleComponent implements OnInit {
 
       console.log(this.trackVehicleForm.getRawValue());
       let formDetails = this.trackVehicleForm.getRawValue();
+      formDetails['assetFinancied'] = this.fleetDetails['assetFinancied'];
+
       formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
       formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
       formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
