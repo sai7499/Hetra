@@ -6,7 +6,7 @@
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
 
-            <div id="sales_section_start" *ngIf="roleType === 1">
+            <div id="sales_section_start" *ngIf="roleType == '1'">
 
                 <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
 
@@ -16,11 +16,16 @@
                             <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'" [id]="'vechical_reg'"
-                            [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
-                            [inputClass]="'input-upper'" [patternCheck]="namePattern"
-                            [maxLength]="label.validationData.vehicleRegNo.maxLength"
-                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input formControlName="vehicleRegNo" 
+                            [type]="'alpha-numeric'" [id]="'vechical_reg'"
+                            [className]="'form-control mandatory'" 
+                            [placeholder]="'Vechical Registration No'"
+                            [inputClass]="'input-upper'" 
+                            [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                            [patternCheck]="namePattern" 
+                            [isRequired]="'Vechical Registration No Required'"
+                            [isDirty]="isDirty">
+                        </app-custom-input>
 
                     </div>
                 </div>
@@ -200,7 +205,8 @@
                         <label for="ex_showroom_price"> {{ label.exShowroomPrice }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="exShowRoomCost" [type]="'number'" [id]="'ex_showroom_price'"
+                        <app-custom-input formControlName="exShowRoomCost" 
+                            [type]="'number'" [id]="'ex_showroom_price'"
                             [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Price Required'"
                             [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
                             [maxLength]="label.validationData.amountValue.maxLength"
@@ -322,7 +328,7 @@
 
             </div>
 
-            <div id="credit_section_start" *ngIf="roleType === 2">
+            <div id="credit_section_start" *ngIf="roleType == '2'">
 
                 <div class="" id="new_cv_show" *ngIf="productCatoryCode === 'NCV'">
 
@@ -573,10 +579,15 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
 
-                            <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="'alpha-numeric'" [className]="'form-control mandatory'"
-                                [placeholder]="'Proforma Invoice No'" [maxLength]="label.validationData.name.maxlength"
-                                [patternCheck]="label.validationData.bankName.pattern">
+                            <app-custom-input formControlName="invoiceNumber" 
+                                [id]="'proforma_invoice_no'"
+                                [type]="'alpha-numeric'" 
+                                [inputClass]="'input-upper'" 
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Invoice No'" 
+                                [maxLength]="regexPattern.maxlength30"
+                                [patternCheck]="namePattern"
+                                [inputClass]="'input-upper'">
                             </app-custom-input>
                         </div>
 
@@ -1062,11 +1073,16 @@
                                     class="star_red_col">*</sub>
                             </label>
 
-                            <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'"
-                                [id]="'vechical_reg'" [className]="'form-control mandatory'"
-                                [inputClass]="'input-upper'" [placeholder]="'Vechical Registration No'"
-                                [maxLength]="label.validationData.vehicleRegNo.maxLength" [patternCheck]="namePattern"
-                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                            <app-custom-input formControlName="vehicleRegNo" 
+                                [type]="'alpha-numeric'"
+                                [id]="'vechical_reg'" 
+                                [className]="'form-control mandatory'"
+                                [inputClass]="'input-upper'" 
+                                [placeholder]="'Vechical Registration No'"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                                [patternCheck]="namePattern"
+                                [isRequired]="'Vechical Registration No Required'" 
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>

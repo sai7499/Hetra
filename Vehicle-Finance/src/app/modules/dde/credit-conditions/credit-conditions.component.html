@@ -1,5 +1,14 @@
 <div class="mb-50">
-
+  <div class="row">
+    <div class="col-xs-12">
+      <div>
+        <button style="float:right" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new row</button>
+    
+      </div>
+    </div>
+  </div>
+ 
+  <div class="clearfix visible-xs-block"></div>
   <div class="row">
     <div class="col-xs-6 col-sm-3">
       <label> {{labels.creditCondition}} </label>
@@ -9,64 +18,79 @@
       <label> {{labels.supportDocument}} </label>
     </div>
     <div class="col-xs-6" [ngClass]="{
-      'col-sm-2':userType === 'credit',
-      'col-sm-3':userType === 'sales'
+      'col-sm-2':userType === 'Credit Officer',
+      'col-sm-3':userType === 'Sales Officer'
     }">
       <label class="action"> {{labels.action}} </label>
     </div>
-    <div class="col-xs-6 col-sm-1 "  *ngIf="userType == 'credit'">More</div>
+    <div class="col-xs-6 col-sm-1 "  *ngIf="userType == 'Credit Officer'">More</div>
   </div>
-  <form class="multisteps-form__form" [formGroup]="creditConditionForm">
-<div formArrayName="creditConditionControls">
+  <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
+<div formArrayName="Rows">
 
-  <div class="row"  *ngFor="let item of creditConditionForm.get('creditConditionControls')['controls']; let i = index"
-  [formGroupName]="i">
+  <div class="row"  *ngFor="let item of creditConditionForm.get('Rows')['controls']; let i = index"
+  [formGroupName]="i" >
     <div class="col-xs-6 col-sm-3">
               
-        <textarea class="form-control" name="creditConditionResponce" formControlName="creditConditionResponce" >Content Goes here......</textarea>  
+        <textarea class="form-control"  formControlName="creditCondition" placeholder="Content Goes here......" ></textarea>  
       
     </div>
     <div class="col-xs-6 col-sm-3">  
-      <textarea class="form-control" name="salesResponse" formControlName="salesResponse"  >Content Goes here......</textarea>
+      <textarea class="form-control" formControlName="salesResponse"  placeholder="Content Goes here......"></textarea>
     </div>  
     <div class="col-xs-6 col-sm-3">    
-      <a href="#" *ngIf="userType == 'credit'" class="input_design">Ref<span class="text-dec">#123456</span></a>
-      <div *ngIf="userType == 'sales'" class="btn btn-primary uploadsan">Upload
-        <input type="file" name="salesResponseDoc" formControlName="salesResponseDoc"  class="upload_sanction"/>
+      <div class="row m-0">
+        <label class="radio-inline">
+          <input type="radio" value="1" formControlName="isDocReq" > {{labels.yes}}
+        </label>
+        <label class="radio-inline">
+          <input type="radio"  value="0" formControlName="isDocReq" > {{labels.no}}
+        </label>
+        </div>
+      <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a>
+      <div *ngIf="item.get('isDocReq').value == '1' && userType === 'Sales Officer'" class="btn btn-primary uploadsan">Upload
+        <input type="file" formControlName="salesResponseDoc"  class="upload_sanction"/>
         </div>
     </div>
     <div class="col-xs-6 col-sm-2" [ngClass]="{
-      'col-sm-2':userType === 'credit',
-      'col-sm-3':userType === 'sales'
+      'col-sm-2':userType === 'Credit Officer',
+      'col-sm-3':userType === 'Sales Officer'
     }">
       
       <div class="row m-0">
         <label class="radio-inline">
-          <input type="radio" name="action" value="accepted" formControlName="action" > {{labels.accepted}}
+          <input type="radio" value=0 formControlName="creditAction" (change)="dateCheck($event)"> {{labels.accepted}}
         </label>
         <label class="radio-inline">
-          <input type="radio" name="action" value="notAccepted" formControlName="action" > {{labels.notAccepted}}
+          <input type="radio"  value=1 formControlName="creditAction" (change)="dateCheck($event)"> {{labels.notAccepted}}
         </label>
         </div>
         <div class="row m-0">
         <label class="radio-inline">
-          <input type="radio" name="action" value="defferedTillDate" formControlName="action" >{{labels.defferedTillDate}}
+          <input type="radio" value=2 formControlName="creditAction" (change)="dateCheck($event , i)" >{{labels.defferedTillDate}}
         </label>
         <label class="radio-inline p-0 m-0">
           <div class="input-group date check_input" id="dateTimePicker">
-                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
+                 <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                     </span>
-                    <input type="text" class="form-control" name="dateTimePicker" formControlName="dateTimePicker" value="">
-            </div>
+                    <input type="text" class="form-control" formControlName="defferedDate" [disabled]="differDateField" > -->
+                    <kendo-datepicker width="100%"
+                     class="form-control mandatory"
+                      formControlName="defferedDate" 
+                      [format]="'dd/MM/yyyy'"
+                      placeholder="dd/mm/yyyy"
+                      [activeView]="'decade'">
+                    </kendo-datepicker>
+                  </div>
         </label>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-1" *ngIf="userType == 'credit'">
+    <div class="col-xs-6 col-sm-1" *ngIf="userType == 'Credit Officer'">
       <div>
-        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-        (click)="addOtherUnit()"></i>&nbsp;
+        <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+        (click)="addOtherUnit()"></i>&nbsp; -->
       <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-        (click)="removeOtherIndex(i)"></i>
+        (click)="removeOtherIndex(i , creditConditionForm.value.Rows )"></i>
       </div>
     </div>
   </div>
@@ -79,7 +103,7 @@
     </div>
     <div class="col-sm-7 text-right">
         <a href="#"> <button class="btn btn-primary" type="button">Back</button></a>
-       <a href="#"> <button class="btn btn-primary" type="button">Save</button></a>
+       <button class="btn btn-primary" (click) = "saveUpdate()" type="button">Save</button>
         <a href="#"><button class="btn btn-primary" type="button" disabled>Approve</button></a>
         <a href="#"><button class="btn btn-primary" type="button">Reject</button></a>
         <a href="#"><button class="btn btn-primary" type="button">Decline</button></a>
