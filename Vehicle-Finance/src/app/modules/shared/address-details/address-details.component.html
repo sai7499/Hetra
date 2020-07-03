@@ -29,8 +29,8 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="maxLenght40"
-                  [isRequired]="'Address 1 is required'"
+                  [maxLength]="validationData?.fullName?.maxLength"
+                  [isRequired]="'Address is required'"
                   [isDirty]="isDirty"
                 >
                 </app-custom-input>
@@ -40,7 +40,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -49,7 +49,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -60,9 +60,9 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input
                   formControlName="pincode"
-                  [patternCheck]="pincodePattern"
-                  [type]='"number"'
-                  [maxLength]="pincodeLength"
+                  [patternCheck]="validationData?.pincode?.patternCheck"
+                  [type]="validationData?.pincode?.type"
+                  [maxLength]="validationData?.pincode?.maxLength"
                   [isRequired]="'Pincode is required'"
                   [isDirty]="isDirty"
                   (keyup)="inputPincode($event)"
@@ -136,9 +136,8 @@
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="landline" /> -->
                 <app-custom-input
                   formControlName="landlineNumber"
-                  [patternCheck]="landlinePattern"
-                  [maxLength]="landlineLength15"
-                  [type]='"number"'
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
             </div>
@@ -166,8 +165,8 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="maxLenght40"
-                  [isRequired]="'Address 1 is required'"
+                  [maxLength]="validationData?.fullName?.maxLength"
+                  [isRequired]="'Address is required'"
                   [isDirty]="isDirty"
                 >
                 </app-custom-input>
@@ -177,7 +176,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -186,7 +185,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -197,13 +196,13 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="currentPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input
                   formControlName="pincode"
-                  [patternCheck]="pincodePattern"
-                  [maxLength]="pincodeLength"
+                  [patternCheck]="validationData?.pincode?.patternCheck"
+                  [maxLength]="validationData?.pincode?.maxLength"
                   [isRequired]="'Pincode is required'"
                   [isDirty]="isDirty"
                   (keyup)="inputPincode($event)"
                   id="currentPincode"
-                  [type]='"number"'
+                  [type]="validationData?.pincode?.type"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -294,9 +293,9 @@
                 <!-- <app-vf-custom-select formControlName="periodOfCurrentStay"> </app-vf-custom-select> -->
                 <app-custom-input
                   formControlName="periodOfCurrentStay"
-                  [maxLength]="currentStayMaxLength"
-                  [patternCheck]="currentStayPattern"
-                  [type]='"number"'
+                  [maxLength]="validationData?.numberOfYears?.maxLength"
+                  
+                  [type]="validationData?.numberOfYears.type"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -307,22 +306,21 @@
                                 id="current_landline" /> -->
                 <app-custom-input
                   formControlName="landlineNumber"
-                  [patternCheck]="landlinePattern"
-                  [maxLength]="landlineLength15"
-                  [type]='"number"'
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="alternate_mobile">{{
-                  labels.alternateMobileNumber
+                  labels?.alternateContactNumber
                 }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                 id="alternate_mobile" /> -->
                 <app-custom-input
                   formControlName="mobileNumber"
-                  [patternCheck]="mobilePattern"
-                  [maxLength]="mobileLength10"
-                  [type]='"number"'
+                  
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
             </div>
@@ -335,10 +333,10 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="passport" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                   [isRequired]="
                     isDirty && isOfficeAddressMandatory
-                      ? 'Address 1 is required'
+                      ? 'Address is required'
                       : ''
                   "
                   [isDirty]="isDirty && isOfficeAddressMandatory"
@@ -350,7 +348,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="passport" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -359,7 +357,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="passport" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -370,8 +368,8 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="officePincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input
                   formControlName="pincode"
-                  [patternCheck]="pincodePattern"
-                  [maxLength]="pincodeLength"
+                  [patternCheck]="validationData?.pincode?.patternCheck"
+                  [maxLength]="validationData?.pincode?.maxLength"
                   (keyup)="inputPincode($event)"
                   id="officePincode"
                   [isRequired]="
@@ -380,11 +378,11 @@
                       : ''
                   "
                   [isDirty]="isDirty && isOfficeAddressMandatory"
-                  [type]='"number"'
+                  [type]="validationData?.pincode?.type"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">City</label>
+                <label for="passport">{{labels?.city}}</label>
                 <!-- <select class="form-control">
                                         <option>City 1</option>
                                         <option>City 2</option>
@@ -468,14 +466,13 @@
                                     [values]="LOV.LOVS.accomodationType"></app-vf-custom-select>
                             </div> -->
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="current_landline_num">Landline Number</label>
+                <label for="current_landline_num">{{labels?.landLineNumber}}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control"
                                     id="current_landline_num" /> -->
                 <app-custom-input
                   formControlName="landlineNumber"
-                  [patternCheck]="landlinePattern"
-                  [maxLength]="landlineLength15"
-                  [type]='"number"'
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
             </div>
@@ -488,14 +485,14 @@
                             </div> -->
 
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="alternate_mobile_num">Alternate Contact Number</label>
+                <label for="alternate_mobile_num">{{labels?.alternateContactNumber}}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                     id="alternate_mobile_num" /> -->
                 <app-custom-input
                   formControlName="mobileNumber"
-                  [patternCheck]="landlinePattern"
-                  [maxLength]="landlineLength15"
-                  [type]='"number"'
+                  
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
             </div>
@@ -515,8 +512,8 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="maxLenght40"
-                  [isRequired]="'Address 1 is required'"
+                  [maxLength]="validationData?.fullName?.maxLength"
+                  [isRequired]="'Address is required'"
                   [isDirty]="isDirty"
                 >
                 </app-custom-input>
@@ -526,7 +523,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -535,7 +532,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="maxLenght40"
+                  [maxLength]="validationData?.fullName?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -551,13 +548,13 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="registeredPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input
                   formControlName="pincode"
-                  [patternCheck]="pincodePattern"
-                  [maxLength]="pincodeLength"
+                  [patternCheck]="validationData?.pincode?.patternCheck"
+                  [maxLength]="validationData?.pincode?.maxLength"
                   [isRequired]="'Pincode is required'"
                   [isDirty]="isDirty"
                   (keyup)="inputPincode($event)"
                   id="registeredPincode"
-                  [type]='"number"'
+                  [type]="validationData?.pincode?.type"
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -629,22 +626,22 @@
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
                   formControlName="landlineNumber"
-                  [patternCheck]="landlinePattern"
-                  [maxLength]="landlineLength15"
-                  [type]='"number"'
+                  
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
             </div>
 
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.alternateMobileNumber }}</label>
+                <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
                   formControlName="mobileNumber"
-                  [patternCheck]="mobilePattern"
-                  [maxLength]="mobileLength10"
-                  [type]='"number"'
+                  
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
             </div>
@@ -673,8 +670,8 @@
                   <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                   <app-custom-input
                     formControlName="addressLineOne"
-                    [maxLength]="maxLenght40"
-                    [isRequired]="'Address 1 is required'"
+                    [maxLength]="validationData?.fullName?.maxLength"
+                    [isRequired]="'Address is required'"
                     [isDirty]="isDirty"
                   >
                   </app-custom-input>
@@ -684,7 +681,7 @@
                   <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                   <app-custom-input
                     formControlName="addressLineTwo"
-                    [maxLength]="maxLenght40"
+                    [maxLength]="validationData?.fullName?.maxLength"
                   >
                   </app-custom-input>
                 </div>
@@ -693,7 +690,7 @@
                   <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
                   <app-custom-input
                     formControlName="addressLineThree"
-                    [maxLength]="maxLenght40"
+                    [maxLength]="validationData?.fullName?.maxLength"
                   >
                   </app-custom-input>
                 </div>
@@ -705,13 +702,13 @@
                   <!-- <input formControlName="pincode" type="text" class="form-control" id="communicationPincode" (keyup)="inputPincode($event)" /> -->
                   <app-custom-input
                     formControlName="pincode"
-                    [patternCheck]="pincodePattern"
-                    [maxLength]="pincodeLength"
+                    [patternCheck]="validationData?.pincode?.patternCheck"
+                    [maxLength]="validationData?.pincode?.maxLength"
                     [isRequired]="'Pincode is required'"
                     [isDirty]="isDirty"
                     (keyup)="inputPincode($event)"
                     id="communicationPincode"
-                    [type]='"number"'
+                    [type]="validationData?.pincode?.type"
                   >
                   </app-custom-input>
                 </div>
@@ -768,9 +765,9 @@
                   <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="line3" /> -->
                   <app-custom-input
                     formControlName="landlineNumber"
-                    [patternCheck]="landlinePattern"
-                    [maxLength]="landlineLength15"
-                    [type]='"number"'
+                    
+                    [maxLength]="validationData?.landlineNumber?.maxLength"
+                    [type]="validationData?.landlineNumber?.type"
                   ></app-custom-input>
                 </div>
               </div>
