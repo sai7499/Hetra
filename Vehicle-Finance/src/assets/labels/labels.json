@@ -527,7 +527,7 @@
       "contractDetails": "Contract Details",
       "residence": "Residence",
       "otherVehicles": "Other Vehicles Owned",
-      "phoneNo": "Phone No",
+      "mobileNo": "Mobile No",
       "anyOtherLoansAsset": "Any Other Loans: Asset",
       "noOfYears": "No.of Years",
       "cc": "CC",
@@ -989,6 +989,24 @@
                   "rule": 40
               },
               "type": "special-alpha-numeric"
+          },
+          "contractDetails": {
+              "maxLength": {
+                  "rule": 50
+              },
+              "type": "alpha-numeric"
+          },
+          "extn": {
+              "maxLength": {
+                  "rule": 4
+              },
+              "type": "number"
+          },
+          "employees": {
+              "maxLength": {
+                  "rule": 5
+              },
+              "type": "number"
           }
       }
   }

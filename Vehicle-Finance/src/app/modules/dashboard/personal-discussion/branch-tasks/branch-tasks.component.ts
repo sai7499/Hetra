@@ -87,9 +87,10 @@ export class BranchTasksComponent implements OnInit {
   onAssign(id) {
    const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
 
+   const token = localStorage.getItem('token');
+   console.log(token);
 
-
-  //  return this.http.put(url, id);
+  //  return this.httpService.post(url,);
   }
 
 }
