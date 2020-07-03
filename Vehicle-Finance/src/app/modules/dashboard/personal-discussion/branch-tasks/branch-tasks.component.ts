@@ -4,6 +4,9 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { Router } from '@angular/router';
+import { HttpService } from '@services/http.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-branch-tasks',
@@ -22,13 +25,19 @@ export class BranchTasksComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  taskId: any;
+
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private router: Router,
+    private httpService: HttpService,
+    private http: HttpClient
+
   ) {
   }
 
@@ -73,6 +82,14 @@ export class BranchTasksComponent implements OnInit {
 
   setPage(event) {
     this.getPdBrabchTask(this.itemsPerPage, event);
+  }
+
+  onAssign(id) {
+   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
+
+
+
+  //  return this.http.put(url, id);
   }
 
 }
