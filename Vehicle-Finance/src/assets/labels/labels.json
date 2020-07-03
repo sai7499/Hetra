@@ -976,6 +976,12 @@
                 "rule": 10
             },
             "type": "number"
+        },
+        "businessEntity": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "special-alpha-numeric"
         }
     }
 }
