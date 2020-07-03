@@ -58,6 +58,7 @@ export class NewLeadsComponent implements OnInit {
     const data = {
       branchId: this.branchId,
       roleId: this.roleId,
+      // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber)

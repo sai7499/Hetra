@@ -1,8 +1,7 @@
 <div class="container-fluid mar-bottom">
-  <ul class="nav nav-pills nav-justified" id="background_white">
-    <li class="active" id="new_leads" [routerLink]="[ '/pages/dashboard/deviation/deviation-dashboard' ]"
-      routerLinkActive="active"><a data-toggle="tab">Deviations</a></li>
-    <li id="sanction_leads" class="" [routerLink]="[ '/pages/dashboard/deviation/case-summary']"
-      routerLinkActive="active"><a data-toggle="tab">Case Summary</a></li>
-  </ul>
+    <ul class="nav nav-pills nav-justified" id="background_white">
+        <li class="active" id="new_leads" [routerLink]="[ '/pages/dashboard/deviation/deviation-with-me' ]" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Me</a></li>
+        <li id="sanction_leads" class="" [routerLink]="[ '/pages/dashboard/deviation/deviation-with-branch']" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Branch</a></li>
+    </ul>
 </div>
+<router-outlet></router-outlet>

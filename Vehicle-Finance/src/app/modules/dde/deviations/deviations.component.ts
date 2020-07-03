@@ -6,6 +6,7 @@ import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { DeviationService } from '@services/deviation.service';
+import { ToasterService } from '@services/toaster.service';
 @Component({
   selector: 'app-deviations',
   templateUrl: './deviations.component.html',
@@ -19,7 +20,8 @@ export class DeviationsComponent implements OnInit {
   public userId: string;
 
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
-    private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService) { }
+    private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
+    private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -49,10 +51,13 @@ export class DeviationsComponent implements OnInit {
   saveorUpdateDeviationDetails() {
 
     if (this.formValue.valid) {
-      let data = []
-      console.log('value', this.formValue.value)
+      let data = [];
 
       if (this.formValue.value.autoDeviationFormArray.length > 0) {
+
+        
+        data = data.concat(this.formValue.value.autoDeviationFormArray);
+        data = data.concat(this.formValue.value.manualDeviationFormArray);
 
       } else {
         data = this.formValue.value.manualDeviationFormArray
@@ -64,6 +69,7 @@ export class DeviationsComponent implements OnInit {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
           this.sharedService.getUpdatedDeviation(updateDevision)
+          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Deviation Save/Update')
         }
       }, err => {
         console.log('err', err)

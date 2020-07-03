@@ -73,7 +73,7 @@ export class DeviationService {
     return this.httpService.post(url, body);
   }
 
-  getDeleteDeviation(id, userId) {
+  getDeleteDeviation(id) {
 
     const processId = this.apiService.api.deleteDeviation.processId;
     const workflowId = this.apiService.api.deleteDeviation.workflowId;

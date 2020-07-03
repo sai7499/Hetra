@@ -19,13 +19,22 @@ import { ViabilityChecksComponent } from './vehicle-viability/viability-checks/v
 import { ViabilityChecksBranchComponent } from './vehicle-viability/viability-checks-branch/viability-checks-branch.component';
 import { FormsModule } from '@angular/forms';
 import { DeviationComponent } from './deviation/deviation.component';
-import { DeviationDashboardComponent } from './deviation/deviation-dashboard/deviation-dashboard.component';
-import { CaseSummaryComponent } from './deviation/case-summary/case-summary.component';
+import { DeviationWithMeComponent } from './deviation/deviation-with-me/deviation-with-me.component';
+import { DeviationWithBranchComponent } from './deviation/deviation-with-branch/deviation-with-branch.component';
+import { CreditDecisionComponent } from './credit-decision/credit-decision.component';
+import { DecisionWithMeComponent } from './credit-decision/decision-with-me/decision-with-me.component';
+import { DecisionWithBranchComponent } from './credit-decision/decision-with-branch/decision-with-branch.component';
+import { CpcMakerComponent } from './cpc-maker/cpc-maker.component';
+import { CpcCheckerComponent } from './cpc-checker/cpc-checker.component';
+import { CheckerLeadsWithMeComponent } from './cpc-checker/checker-leads-with-me/checker-leads-with-me.component';
+import { CheckerLeadsWithCpcComponent } from './cpc-checker/checker-leads-with-cpc/checker-leads-with-cpc.component';
+import { MakerLeadsWithMeComponent } from './cpc-maker/maker-leads-with-me/maker-leads-with-me.component';
+import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/maker-leads-with-cpc.component';
 import { SharedModule } from '@modules/shared/shared.module';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationDashboardComponent, CaseSummaryComponent],
+  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationWithMeComponent, DeviationWithBranchComponent, CreditDecisionComponent, DecisionWithMeComponent, DecisionWithBranchComponent, CpcMakerComponent, CpcCheckerComponent, CheckerLeadsWithMeComponent, CheckerLeadsWithCpcComponent, MakerLeadsWithMeComponent, MakerLeadsWithCpcComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

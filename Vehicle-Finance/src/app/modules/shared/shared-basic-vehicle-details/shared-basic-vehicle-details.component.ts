@@ -135,12 +135,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     this.labelsData.getLabelsData()
-    .subscribe(data => {
-      this.label = data;
-      console.log(this.label.validationData, 'Aldfndn')
-    }, error => {
-      console.log('error', error)
-    });
+      .subscribe(data => {
+        this.label = data;
+        console.log(this.label.validationData, 'Aldfndn')
+      }, error => {
+        console.log('error', error)
+      });
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
@@ -208,8 +208,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value) {
       formArray.controls[0].patchValue({
-        finalAssetCost: value,
-        exShowRoomCost: Number(value)
+        finalAssetCost: value
       })
     }
 

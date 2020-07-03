@@ -24,6 +24,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   public leadDetails: any;
   public leadId: number;
+  public userId: string;
   public productCatoryId: number;
   public productCatoryCode: string = 'NC';
   public businessDivision: string;
@@ -51,6 +52,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     let roles = roleAndUserDetails.roles;
     this.roleId = roles[0].roleId;
+    this.userId = roleAndUserDetails.userDetails.userId;
 
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.leadDetails = leadData['leadDetails'];
@@ -61,27 +63,67 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
 
     this.deviationsForm = this._fb.group({
-      approvalLevel: [''],
+      approverRole: [''],
       autoDeviationFormArray: this._fb.array([]),
       manualDeviationFormArray: this._fb.array([this.getManualDeviations()])
     })
     this.getDeviationMaster()
     this.sharedService.getFormValidation(this.deviationsForm)
+    this.getTrigurePolicy()
   }
 
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       console.log('value', value)
+      if (value && value.length > 0) {
+        this.getTrigurePolicy()
+      }
     })
+  }
+
+  onApproveDeclineAction(value: any, obj) {
+
+    if (value !== 2) {
+
+      const data = {
+        "leadId": this.leadId,
+        "userId": this.userId,
+        "devRuleId": obj.value.devRuleId,
+        "statusCode": value + ''
+      }
+
+      this.deviationsForm.controls["approverRole"].clearValidators();
+      this.deviationsForm.controls["approverRole"].updateValueAndValidity();
+
+      this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
+        console.log('eeds', res)
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          let DevisionApproveDecline = res.ProcessVariables ? res.ProcessVariables : {}
+
+          obj.patchValue({
+            devRuleId: DevisionApproveDecline ? DevisionApproveDecline.devRuleId : obj.value.devRuleId,
+            statusCode: DevisionApproveDecline ? DevisionApproveDecline.statusCode : value
+          })
+          this.toasterService.showSuccess((value === 1 ? 'Approve' : 'Decline') + 'Deviation Successfully', 'Status of Deviation')
+
+        } else {
+          this.toasterService.showError(res.ErrorMessage, 'Approve Decline Deviation')
+          this.toasterService.showInfo('Please Select Approvel Role', 'Refer Deviation')
+        }
+      })
+
+    } else if (value == 2) {
+      this.deviationsForm.controls["approverRole"].setValidators([Validators.required]);
+    }
+
   }
 
   getDeviationMaster() {
 
     const data = {
-      "bizDivId": "IB",
-      "prodCatCode": "NC"
-      // "bizDivId": this.businessDivision,
-      // "prodCatCode": this.productCatoryCode
+      "bizDivId": this.businessDivision,
+      "prodCatCode": this.productCatoryCode
     };
 
     this.deviationService.getDeviationsMaster(data).subscribe((res: any) => {
@@ -120,10 +162,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           })
           this.deviationLov.deviation = deviationArray;
         }
+      } else {
+        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
       }
     }, err => {
       console.log('err', err)
-      this.toasterService.showError(err, 'Get Deviation Details')
+      this.toasterService.showError(err, 'Get Deviation Master')
     })
   }
 
@@ -134,7 +178,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       return element.key === Number(event.target.value);
     })
     formArray.controls[i].patchValue({
-      devCode: Number(event.target.value),
       devDesc: item.value
     })
   }
@@ -146,7 +189,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       return element.key === Number(event.target.value);
     })
     formArray.controls[i].patchValue({
-      approverRole: item.value
+      approverRoleName: item.value
     })
   }
 
@@ -163,15 +206,16 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   getManualDeviations() {
     return this._fb.group({
-      approverRole: ["", Validators.required],
+      approverRole: ['', Validators.required],
+      approverRoleName: [''],
       devCode: ['', Validators.required],
       devDesc: [""],
       devRuleId: 0,
       justification: ['', Validators.required],
-      approveAction: [{ value: '', disabled: true }],
-      referAction: [{ value: '', disabled: true }],
-      declineAction: [{ value: '', disabled: true }],
-      isManualDev: null,
+      approveAction: [{ value: 1, disabled: true }],
+      referAction: [{ value: 2, disabled: true }],
+      declineAction: [{ value: 0, disabled: true }],
+      isManualDev: true,
       statusCode: null,
     });
   }
@@ -182,47 +226,90 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     memberListForm.insert(add, this.getManualDeviations())
   }
 
-  removeDeviationIndex(i?: any) {
-    const control = this.deviationsForm.controls.manualDeviations as FormArray;
-    if (control.controls.length > 1) {
-      control.removeAt(i);
+  removeDeviationIndex(id, i?: any) {
+    const control = this.deviationsForm.controls.manualDeviationFormArray as FormArray;
+
+    if (id && id !== 0) {
+
+      this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
+        console.log('Test', res)
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') { } else {
+          this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
+        }
+
+      })
+
     } else {
-      alert("Atleast One Row Required");
+      if (control.controls.length > 1) {
+        control.removeAt(i);
+      } else {
+        this.toasterService.showInfo("Atleast One Row Required", 'Remove Deviation');
+      }
     }
   }
 
   getTrigurePolicy() {
     this.deviationService.getDeviationsDetails(this.leadId).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        const formArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
-          this.autoDeviationArray.map((data: any) => {
-
-            formArray.push(
-              this._fb.group({
-                approverRole: data.approverRole,
-                devCode: data.devCode,
-                devDesc: data.devDesc,
-                devRuleId: data.devRuleId,
-                isManualDev: data.isManualDev,
-                justification: data.justification,
-                statusCode: data.statusCode,
-                approveAction: [{ value: '', disabled: true }],
-                referAction: [{ value: '', disabled: true }],
-                declineAction: [{ value: '', disabled: true }]
-              }))
-          })
+          this.onPatchFormArrayValue(this.autoDeviationArray)
+          console.log(this.autoDeviationArray)
         }
         this.sharedService.getFormValidation(this.deviationsForm)
       } else {
-        this.toasterService.showError(res.ProcessVariables.error.message, 'Get Deviation Details')
+        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Details')
       }
     }, err => {
       console.log('err', err)
       this.toasterService.showError(err, 'Get Deviation Details')
     })
+  }
+
+  onPatchFormArrayValue(array) {
+
+    const autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
+
+    const manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
+
+    array.map((data: any) => {
+      if (data.isManualDev === '1') {
+
+        manualDiviationFormArray.controls = [];
+
+        manualDiviationFormArray.push(
+          this._fb.group({
+            approverRole: data.approverRole,
+            approverRoleName: data.approverRoleName,
+            devCode: data.devCode,
+            devDesc: data.devDesc,
+            devRuleId: data.devRuleId,
+            isManualDev: data.isManualDev,
+            justification: data.justification,
+            statusCode: data.statusCode,
+            approveAction: [1],
+            referAction: [2],
+            declineAction: [0]
+          }))
+      } else if (data.isManualDev === '0') {
+        autoDeviationFormArray.push(
+          this._fb.group({
+            approverRole: data.approverRole,
+            approverRoleName: data.approverRoleName,
+            devCode: data.devCode,
+            devDesc: data.devDesc,
+            devRuleId: data.devRuleId,
+            isManualDev: data.isManualDev,
+            justification: data.justification,
+            statusCode: data.statusCode,
+            approveAction: [1],
+            referAction: [2],
+            declineAction: [0]
+          }))
+      }
+    })
+    console.log('FormArray', this.deviationsForm)
   }
 
   formDataOutputMethod(event) {
