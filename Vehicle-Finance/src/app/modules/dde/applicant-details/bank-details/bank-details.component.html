@@ -9,7 +9,8 @@
                 <app-custom-input
                   formControlName="accountHolderName"
                   [patternCheck]="namePattern"
-                  [maxLength]="nameLength30"
+                  [maxLength]="labels?.validationData?.name?.maxLength"
+                    [type]="labels?.validationData?.name?.type"
                   [isRequired]="'Account Holder Name is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
@@ -26,7 +27,8 @@
                 <app-custom-input
                     formControlName="accountNumber"
                     [patternCheck]="accountNumberPattern"
-                    [maxLength]="numberLength20"
+                    [maxLength]="labels?.validationData?.amount?.maxLength"
+                    [type]="labels?.validationData?.amount?.type"
                     [isRequired]="'Account Number is required'"
                     [isDirty]="isDirty"
               ></app-custom-input>
@@ -90,7 +92,8 @@
                 <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
-                [maxLength]="limitLength20"
+                [maxLength]="labels?.validationData?.amount?.maxLength"
+                [type]="labels?.validationData?.amount?.type"
                
                 [isDirty]="isDirty"
               ></app-custom-input>
@@ -145,10 +148,11 @@
                       <app-custom-input
                       formControlName="inflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
+                      [maxLength]="labels?.validationData?.amount?.maxLength"
+                      [type]="labels?.validationData?.amount?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      (keyup)="savetransactionData()"
+                      
                     ></app-custom-input>
                   </td>
                   <td>
@@ -156,10 +160,11 @@
                       <app-custom-input
                       formControlName="outflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amount?.maxLength"
+                      [type]="labels?.validationData?.amount?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      (keyup)="savetransactionData()"
+                      
                       [type]="'number'"
                     ></app-custom-input>
                   </td>
@@ -169,7 +174,8 @@
                     <app-custom-input
                     formControlName="noOfInWardBounces"
                     [patternCheck]="inputValidation"
-                    [maxLength]=" inputLength10"
+                    [maxLength]="labels?.validationData?.amount?.maxLength"
+                    [type]="labels?.validationData?.amount?.type"
                     [isRequired]="'*required'"
                     [isDirty]="isDirty"
                   ></app-custom-input> 
@@ -179,7 +185,8 @@
                       <app-custom-input
                       formControlName="noOfOutWardBounces"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amount?.maxLength"
+                      [type]="labels?.validationData?.amount?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                     ></app-custom-input>
@@ -189,7 +196,8 @@
                       <app-custom-input
                       formControlName="balanceOn5th"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amount?.maxLength"
+                      [type]="labels?.validationData?.amount?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -200,7 +208,8 @@
                       <app-custom-input
                       formControlName="balanceOn15th"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amount?.maxLength"
+                      [type]="labels?.validationData?.amount?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -211,22 +220,23 @@
                       <app-custom-input
                       formControlName="balanceOn20th"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amount?.maxLength"
+                      [type]="labels?.validationData?.amount?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
                     ></app-custom-input>
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled> 
-                      <!-- <app-custom-input
+                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled>  -->
+                      <app-custom-input
                       formControlName="abbOfTheMonth"
                       [patternCheck]="inputValidation"
                       [maxLength]=" inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      [disabled]="isDisabled"
-                    ></app-custom-input> -->
+                      [isDisabled]="true"
+                    ></app-custom-input>
                   </td>
                   <!--  <td><input type="text" class="form-control input_value" value=""></td> -->
               </tr>
