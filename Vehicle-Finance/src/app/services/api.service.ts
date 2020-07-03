@@ -249,8 +249,8 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     submitToCredit: {
-      processId: 'fa99b43aa9a011ea823df2fa9bec3d63',
-      workflowId: '44d8e0d0a9a011ea823df2fa9bec3d63',
+      processId: 'a0289928b78111ea8af8f2fa9bec3d63',
+      workflowId: 'a00ac092b78111ea8af8f2fa9bec3d63',
       projectId: environment.projectIds.submitToCredit
     },
     termsAcceptance: {
@@ -395,9 +395,24 @@ export class ApiService {
       workflowId: 'a0f5f5b4b45f11ea88a8f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
-    getCreditScoreCard: {
-      processId: 'ff296a30b9e611ea9f1000505695f93b',
+    reInitiateCreditScore: {
+      processId: '7f21b928ba6d11eaaccf00505695f93b',
       workflowId: 'ff0aa956b9e611ea88c300505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+     getCreditConditions: {
+      processId: '738484b0b9c311ea8a3f00505695f93b',
+      workflowId: '587a62d4b9c311ea8dd900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    deleteCreditConditions : {      
+      processId: '6531185cba2611eaab9500505695f93b',
+      workflowId: '587a62d4b9c311ea8dd900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveAndUpdateCreditConditions : {      
+      processId: 'ca7ccc2ab9f811ea96fe00505695f93b',
+      workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId
     }
   }
