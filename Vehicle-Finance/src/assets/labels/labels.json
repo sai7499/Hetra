@@ -853,6 +853,7 @@
       "cibilRemarks": "CIBIL Remarks",
       "cibilOverdue": "1. Cibil Overdue",
       "cibilReport": "2. Clarification on recent enquiries in CIBIL report",
+
       "validationData": {
           "name": {
               "maxLength": {
@@ -885,6 +886,7 @@
               },
               "type": "number"
           },
+
           "mobileNumber": {
               "maxLength": {
                   "rule": 10,
@@ -897,6 +899,10 @@
               "type": "number"
           },
           "accountNumber": {
+              "maxLength": {
+                  "rule": 20
+              },
+              "type": "alpha-numeric-nospace",
               "pattern": {
                   "rule": "^[0-9A-Za-z]{9,15}$",
                   "msg": "Invalid account Number"
@@ -941,12 +947,7 @@
               },
               "type": "number"
           },
-          "amount": {
-              "maxLength": {
-                  "rule": 10
-              },
-              "type": "number"
-          },
+
           "receiptNo": {
               "maxLength": {
                   "rule": 15
@@ -982,6 +983,12 @@
                   "rule": 10
               },
               "type": "number"
+          },
+          "businessEntity": {
+              "maxLength": {
+                  "rule": 40
+              },
+              "type": "special-alpha-numeric"
           }
       }
   }

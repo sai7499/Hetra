@@ -86,7 +86,7 @@ export class BankDetailsComponent implements OnInit {
       applicantId: this.applicantId,
       accountHolderName: [null, [Validators.required, Validators.pattern('^[A-Z,a-z, ]*$')]],
       bankId: [null, [Validators.required]],
-      accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      accountNumber: [null, [Validators.required]],
       accountType: [null, [Validators.required]],
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
@@ -239,8 +239,10 @@ export class BankDetailsComponent implements OnInit {
     const abb15th = control.at(i).value.balanceOn15th ? control.at(i).value.balanceOn15th : 0;
     const abb20th = control.at(i).value.balanceOn20th ? control.at(i).value.balanceOn20th : 0;
     const totalAbb = ((Number(abb5th) + Number(abb15th) + Number( abb20th)) / 3).toFixed(2);
-    control.at(i).patchValue ({ abbOfTheMonth : totalAbb});
+    control.at(i).patchValue ({ abbOfTheMonth : Math.round(Number(totalAbb)).toString()});
   }
+
+
   onSave() {
     for (let i = 0; i < this.bankForm.value.transactionDetails.length; i++) {
       // tslint:disable-next-line: max-line-length
@@ -256,21 +258,25 @@ export class BankDetailsComponent implements OnInit {
       this.bankForm.value.toDate
     );
     // this.bankForm.value.year = Number(this.bankForm.value.year);
-    this.bankForm.value.limit = Number(this.bankForm.value.limit);
+    this.bankForm.value.accountNumber = this.bankForm.value.accountNumber.toString();
+    this.bankForm.value.limit = this.bankForm.value.limit.toString();
+    this.bankForm.value.period = this.bankForm.value.period.toString();
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
     const transactionArray = this.bankForm.value.transactionDetails as FormArray;
     console.log(transactionArray, ' transaction data');
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0 ; i < transactionArray.length; i++) {
-    transactionArray[i].year = Number(transactionArray[i].year);
-    transactionArray[i].outflow = Number(transactionArray[i].outflow);
-    transactionArray[i].inflow = Number(transactionArray[i].inflow);
-    transactionArray[i].noOfInWardBounces = Number(transactionArray[i].noOfInWardBounces);
-    transactionArray[i].noOfOutWardBounces = Number(transactionArray[i].noOfOutWardBounces);
-    transactionArray[i].balanceOn5th = Number(transactionArray[i].balanceOn5th);
-    transactionArray[i].balanceOn15th = Number(transactionArray[i].balanceOn15th);
-    transactionArray[i].balanceOn20th = Number(transactionArray[i].balanceOn20th);
+    transactionArray[i].year = transactionArray[i].year.toString();
+    transactionArray[i].outflow = transactionArray[i].outflow.toString();
+    transactionArray[i].inflow = transactionArray[i].inflow.toString();
+    transactionArray[i].noOfInWardBounces = transactionArray[i].noOfInWardBounces.toString();
+    transactionArray[i].noOfOutWardBounces = transactionArray[i].noOfOutWardBounces.toString();
+    transactionArray[i].balanceOn5th = transactionArray[i].balanceOn5th.toString();
+    transactionArray[i].balanceOn15th = transactionArray[i].balanceOn15th.toString();
+    transactionArray[i].balanceOn20th = transactionArray[i].balanceOn20th.toString();
+    transactionArray[i].abbOfTheMonth = transactionArray[i].abbOfTheMonth.toString();
+    
     }
     // console.log(this.bankForm.value.transactionDetails);
     if (this.bankForm.invalid) {
