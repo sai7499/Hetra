@@ -300,7 +300,6 @@
                     class="form-control mandatory"
                     formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'"
-                    [max]="toDayDate"
                     [min]="drivingLicenseIssueDate"
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseExpiryDate"
@@ -585,6 +584,7 @@
                       id="address_section_checkbox"
                       (click)="onAddress($event)"
                       [checked]="isAddressSame"
+                      [disabled]="isDisabledCheckbox"
                     />
                     <span id="address_section_checkbox_text"
                       >Check If It Is Same As Permanent Address?

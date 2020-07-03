@@ -38,7 +38,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // msg: 'Invalid Pan',
   };
   panFormPattern = {
-    rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
+    rule: '[A-Z]{5}[0-9]{4}[A-Z]{1}',
     msg: 'Pan is invalid',
   };
   namePattern = {
@@ -225,6 +225,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   passportListener: Subscription;
   isVoterFirst = true;
   isPassportFirst = true;
+  isDisabledCheckbox : boolean = false;
 
   constructor(
     private labelsData: LabelsService,
@@ -617,10 +618,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       };
 
       if (processVariables.ucic) {
-        this.disablePermanentAddress();
+        this.isDisabledCheckbox= true
+        if(this.coApplicantForm.get('permentAddress')){
+          this.disablePermanentAddress();
+        }
+        if(this.coApplicantForm.get('communicationAddress')){
+          this.disableCommunicationAddress();
+        }
         this.disableRegisteredAddress();
-        this.disableCommunicationAddress();
       }
+
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
 
@@ -720,10 +727,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
       if (aboutIndivProspectDetails.dob) {
         details.dob = aboutIndivProspectDetails.dob
-          .split('/')
-          .reverse()
-          .join('-');
-        details.dob = new Date(details.dob);
+          // .split('/')
+          // .reverse()
+          // .join('-');
+        details.dob = new Date(this.utilityService.getDateFormat(details.dob));
       }
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
       details.passportIssueDate = this.utilityService.getDateFromString(
@@ -751,10 +758,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       if (corporateProspectDetails.dateOfIncorporation) {
         details.dateOfIncorporation = corporateProspectDetails.dateOfIncorporation
-          .split('/')
-          .reverse()
-          .join('-');
-        details.dateOfIncorporation = new Date(details.dateOfIncorporation);
+          // .split('/')
+          // .reverse()
+          // .join('-');
+        details.dateOfIncorporation = new Date(this.utilityService.getDateFormat(details.dateOfIncorporation));
       }
 
       details.passportNumber = corporateProspectDetails.passportNumber;
@@ -861,7 +868,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         } else {
           this.isCurrAddSameAsPermAdd = '0';
           const cummunicationAddressObj =
-            addressObj[Constant.COMMUNICATION_ADDRESS];
+            addressObj[Constant.COMMUNICATION_ADDRESS] || addressObj[Constant.CURRENT_ADDRESS];
           this.currentPincode = this.formatPincodeData(cummunicationAddressObj);
 
           if (!!this.createAddressObject(cummunicationAddressObj)) {
@@ -934,6 +941,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           addressObj[Constant.PERMANENT_ADDRESS] = value;
         } else if (value.addressType === Constant.COMMUNICATION_ADDRESS) {
           addressObj[Constant.COMMUNICATION_ADDRESS] = value;
+        }else if (value.addressType === Constant.CURRENT_ADDRESS) {
+          addressObj[Constant.CURRENT_ADDRESS] = value;
         } else if (value.addressType === Constant.REGISTER_ADDRESS) {
           addressObj[Constant.REGISTER_ADDRESS] = value;
         }
@@ -1143,9 +1152,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         .permentAddress;
       this.currentPincode = this.permanentPincode;
       const permanentAddress = this.coApplicantForm.get('communicationAddress');
-      communicationAddress.patchValue(this.createAddressObject(formValue));
+      communicationAddress.patchValue({
+        ...formValue,
+      });
       communicationAddress.disable();
-    } else {
+    } else if(!eventClicked){
       communicationAddress.enable();
     }
   }
