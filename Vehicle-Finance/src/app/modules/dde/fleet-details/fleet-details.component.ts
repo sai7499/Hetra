@@ -23,7 +23,7 @@ export class FleetDetailsComponent implements OnInit {
 
   public fleetForm: FormGroup;
   labels: any = {};
-  formValidation:any = {};
+  formValidation: any = {};
   values: any = [];
   leadId: number;
   userId: number;
@@ -96,9 +96,9 @@ export class FleetDetailsComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
-    private sharedService: SharedService) { 
-      this.yearCheck = [{rule: val => val>this.currentYear,msg:'Feature year not accepted'}];
-    }
+    private sharedService: SharedService) {
+    this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Feature year not accepted' }];
+  }
 
 
   async ngOnInit() {
@@ -134,7 +134,7 @@ export class FleetDetailsComponent implements OnInit {
 
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data.lablesFleet;
+        this.labels = data;
         this.formValidation = data;
         this.validationData = data.validationData
       },
@@ -147,21 +147,21 @@ export class FleetDetailsComponent implements OnInit {
     })
 
   }
-checkPaid(event,i){
- let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
- let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
- if(paid > tenure){
-  this.formArr.controls[i]['controls']['paid'].setErrors({'incorrect': true})
+  checkPaid(event, i) {
+    let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
+    let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
+    if (paid > tenure) {
+      this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
 
- }else{
-  // this.formArr.controls[i]['controls']['paid'].setErrors({'incorrect': false})
+    } else {
+      // this.formArr.controls[i]['controls']['paid'].setErrors({'incorrect': false})
 
- }
-  // this.paidTenureCheck = [{rule: val => val>tenure,msg:'Paid not grater tenure'}]
-  // this.sharedService.vaildateForm$.subscribe((value) => {
-  //   this.formValue = value;
-  // })
-}
+    }
+    // this.paidTenureCheck = [{rule: val => val>tenure,msg:'Paid not grater tenure'}]
+    // this.sharedService.vaildateForm$.subscribe((value) => {
+    //   this.formValue = value;
+    // })
+  }
   getLeadId() {
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
@@ -180,16 +180,16 @@ checkPaid(event,i){
       FormArray;
   }
 
-  checkManufacturingYear(event ,i){
+  checkManufacturingYear(event, i) {
     const dateFormat: Date = new Date();
     const year = dateFormat.getFullYear();
     let yom = parseInt(event.target.value);
-    if(yom > year){
+    if (yom > year) {
       // formData.form.controls['email'].setErrors({'incorrect': true});
-      this.formArr.controls[i]['controls']['yom'].setErrors({'incorrect': true})
+      this.formArr.controls[i]['controls']['yom'].setErrors({ 'incorrect': true })
       // alert("invalid")
-    }else{
-      
+    } else {
+
     }
   }
 
@@ -217,7 +217,7 @@ checkPaid(event,i){
     //   })
     // }
 
-   
+
     if (rowData) {
       return this.fb.group({
         regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
@@ -228,7 +228,7 @@ checkPaid(event,i){
         financier: new FormControl(rowData.financier, [Validators.required]),
         loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])),
         purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
-        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required] )),
+        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
         paid: new FormControl(rowData.paid, Validators.compose([Validators.required])),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
         ad: new FormControl({ value: rowData.ad, disabled: true }),
@@ -341,7 +341,7 @@ checkPaid(event,i){
       this.fleetDetails[i]['tenure'] = parseInt(this.fleetDetails[i]['tenure'])
       this.fleetDetails[i]['paid'] = parseInt(this.fleetDetails[i]['paid'])
 
-      
+
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
     const data = {

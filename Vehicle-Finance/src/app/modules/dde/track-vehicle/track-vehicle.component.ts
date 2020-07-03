@@ -197,7 +197,7 @@ export class TrackVehicleComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
 
       data => {
-        this.labels = data.lablesFleet;
+        this.labels = data;
         this.validationData = data.validationData;
 
       }, error => {
@@ -577,8 +577,8 @@ export class TrackVehicleComponent implements OnInit {
         receiptNo: [''],
         receivedDate: ['', Validators.required],
         receivedAmt: [],
-        delayDays: [{ disabled: true }],
-        payment: [{ disabled: true }]
+        delayDays: [{value: '', disabled: true }],
+        payment: [{value: '', disabled: true }]
 
       });
     }
@@ -634,12 +634,12 @@ export class TrackVehicleComponent implements OnInit {
       let formDetails = this.trackVehicleForm.getRawValue();
       formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
       formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
-      formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
-      formDetails['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
-      formDetails['financeAmount'] = Number(this.trackVehicleForm.controls['financeAmount'].value);
-      //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
-      formDetails['noOfEmi'] = parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
-      formDetails['emisPaid'] = parseInt(this.trackVehicleForm.controls['emisPaid'].value);
+      // formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
+      // formDetails['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
+      // formDetails['financeAmount'] = Number(this.trackVehicleForm.controls['financeAmount'].value);
+      // //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
+      // formDetails['noOfEmi'] = parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
+      // formDetails['emisPaid'] = parseInt(this.trackVehicleForm.controls['emisPaid'].value);
       //  formDetails['contNo'] =this.trackVehicleForm.controls['contNo'].value.toString();
       for (let i = 0; i < this.formArr.length; i++) {
         formDetails['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
