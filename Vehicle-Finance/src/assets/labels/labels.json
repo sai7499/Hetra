@@ -1683,11 +1683,11 @@
         "mobileNumber": {
             "maxLength": {
                 "rule": 10,
-                "msg": "10 Digits required"
+                "msg":"10 Digits required"
             },
-            "pattern": {
-                "rule": "^[6-9][0-9]*$",
-                "msg": "Invalid Mobile Number"
+            "pattern":{
+            "rule":"^[6-9][0-9]*$",
+            "msg":"Invalid Mobile Number"
             },
             "type": "number"
         },
@@ -1698,16 +1698,16 @@
             "type": "alpha-numeric-nospace",
             "pattern":{
                 "rule": "^[0-9A-Za-z]{9,15}$",
-                "msg": "Invalid account Number"
+                "msg":"Invalid account Number"
             }
         },
         "bankName": {
             "maxLength": {
                 "rule": 25
             },
-            "pattern": {
+            "pattern":{
                 "rule": "^[A-Za-z ]{0,99}$",
-                "msg": "Invalid account Number"
+                "msg":"Invalid account Number"
             },
             "type": "alpha"
         },
@@ -1715,9 +1715,9 @@
             "maxLength": {
                 "rule": 15
             },
-            "pattern": {
-                "rule": "^[0-9]{6,15}",
-                "msg": "Invalid Number"
+            "pattern":{
+            "rule":"^[0-9]{6,15}",
+            "msg":"Invalid Number"
             },
             "type": "number"
         },
@@ -1726,8 +1726,8 @@
                 "rule": 40
             },
             "pattern": {
-                "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
-                "msg": "Invalid Number"
+                "rule":"^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+                "msg":"Invalid Number"
             }
         },
         "numberOfEmployeeSeen": {
@@ -1735,10 +1735,138 @@
                 "rule": 10
             },
             "pattern": {
-                "rule": "^[1-9][0-9]*$",
-                "msg": "Invalid Number"
+                "rule":"^[1-9][0-9]*$",
+                "msg":"Invalid Number"
+            },
+            "type":"number"
+        },
+       
+        "receiptNo": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric"
+        },
+        "percentage": {
+            "maxLength": {
+                "rule": 3
             },
             "type": "number"
+        },
+        "vehicleRegNo": {
+            "maxLength": {
+                "rule": 11
+            },
+            "type": "alpha-numeric"
+        },
+        "employeeCode": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric"
+        },
+        "tenurePaid": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "contractValue": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "mobile": {
+            "maxLength": {
+                "rule": 10,
+                "msg": "Should be 10 Digits"
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[6-9][0-9]*$",
+                "msg": "Invalid Mobile Number"
+            }
+        },
+        "adhaarNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{12}",
+                "msg": "Aadhar Should be 12 Digits"
+            }
+        },
+        "panNumber": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z]{5}[0-9]{4}[A-Z]{1}",
+                "msg": "Pan is invalid"
+            }
+        },
+        "drivingLicense": {
+            "maxLength": {
+                "rule": 16
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{11}",
+                "msg": "Driving License Number is invalid"
+            }
+        },
+        "voterId": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z]{3}[0-9]{7}",
+                "msg": "Voter Number is invalid"
+            }
+        },
+        "passportNumber": {
+            "maxLength": {
+                "rule": 8
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z]{1}[0-9]{7}",
+                "msg": "Passport Number is invalid"
+            }
+        },
+        "pincode": {
+            "maxLength": {
+                "rule": 6
+                
+            }, 
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[1-9][0-9]{5}$",
+                "msg": "Should be Valid and Must be 6 Digits"
+            }
+
+        },
+        "numberOfYears": {
+            "maxLength": {
+                "rule": 2
+            }, 
+            "type": "number"
+        },
+        "landlineNumber" : {
+            "maxLength": {
+                "rule": 15
+            }, 
+            "type": "number"
+        },
+        "businessEntity": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "special-alpha-numeric"
         },
         "landArea": {
             "maxLength": {
@@ -1759,12 +1887,10 @@
             "type": "number"
         },
         "valuationAmount": {
-       
-        "receiptNo": {
             "maxLength": {
                 "rule": 10
             },
-            "type": "alpha-numeric"
+            "type": "number"
         },
         "idv": {
             "maxLength": {
@@ -1836,49 +1962,8 @@
             },
             "type": "alpha-numeric"
         }
-    },
-    "amount": {
-        "maxLength": {
-            "rule": 10
-        },
-        "type": "number"
-    },
-    "receiptNo": {
-        "maxLength": {
-            "rule": 15
-        },
-        "type": "number"
-    },
-    "percentage": {
-        "maxLength": {
-            "rule": 3
-        },
-        "type": "number"
-    },
-    "vehicleRegNo": {
-        "maxLength": {
-            "rule": 11
-        },
-        "type": "alpha-numeric"
-    },
-    "employeeCode": {
-        "maxLength": {
-            "rule": 15
-        },
-        "type": "alpha-numeric"
-    },
-    "tenurePaid": {
-        "maxLength": {
-            "rule": 3
-        },
-        "type": "number"
-    },
-    "contractValue": {
-        "maxLength": {
-            "rule": 10
-        },
-        "type": "number"
-    }
-    
     }
 }
+
+
+
