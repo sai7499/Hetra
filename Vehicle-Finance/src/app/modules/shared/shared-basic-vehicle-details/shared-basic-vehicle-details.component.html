@@ -6,7 +6,7 @@
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
 
-            <div id="sales_section_start" *ngIf="roleName === 'Sales Officer'">
+            <div id="sales_section_start" *ngIf="roleType === 1">
 
                 <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
 
@@ -319,7 +319,7 @@
 
             </div>
 
-            <div id="credit_section_start" *ngIf="roleName === 'Credit Officer'">
+            <div id="credit_section_start" *ngIf="roleType === 2">
 
                 <div class="" id="new_cv_show" *ngIf="productCatoryCode === 'NCV'">
 
