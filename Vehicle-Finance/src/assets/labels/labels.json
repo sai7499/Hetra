@@ -879,6 +879,7 @@
             },
             "type": "number"
         },
+       
         "mobileNumber": {
             "maxLength": {
                 "rule": 10,
@@ -939,12 +940,7 @@
             },
             "type":"number"
         },
-        "amount": {
-            "maxLength": {
-                "rule": 10
-            },
-            "type": "number"
-        },
+       
         "receiptNo": {
             "maxLength": {
                 "rule": 15
