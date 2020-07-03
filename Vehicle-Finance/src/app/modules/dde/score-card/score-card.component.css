@@ -58,4 +58,8 @@
       background-color: currentColor;
       z-index: 1;
     }
+
+    .table tbody tr td {
+      text-align: left;
+    }
     

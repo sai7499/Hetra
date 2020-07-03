@@ -207,7 +207,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (value) {
       formArray.controls[0].patchValue({
         finalAssetCost: value,
-        exShowRoomCost: Number(value)
+        exShowRoomCost: value
       })
     }
 

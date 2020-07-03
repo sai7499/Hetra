@@ -197,7 +197,7 @@ export class TrackVehicleComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
 
       data => {
-        this.labels = data.lablesFleet;
+        this.labels = data;
         this.validationData = data.validationData;
 
       }, error => {
