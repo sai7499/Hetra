@@ -399,6 +399,21 @@ export class ApiService {
       processId: '7f21b928ba6d11eaaccf00505695f93b',
       workflowId: 'ff0aa956b9e611ea88c300505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+     getCreditConditions: {
+      processId: '738484b0b9c311ea8a3f00505695f93b',
+      workflowId: '587a62d4b9c311ea8dd900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    deleteCreditConditions : {      
+      processId: '6531185cba2611eaab9500505695f93b',
+      workflowId: '587a62d4b9c311ea8dd900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveAndUpdateCreditConditions : {      
+      processId: 'ca7ccc2ab9f811ea96fe00505695f93b',
+      workflowId: '587a62d4b9c311ea8dd900505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   }
 }
