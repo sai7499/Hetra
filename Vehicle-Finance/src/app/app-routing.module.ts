@@ -93,6 +93,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'credit-decisions',
+        loadChildren: () =>
+          import('./modules/dde/credit-decisions/credit-decisions.module').then(
+            (m) => m.CreditConditionModule
+          ),
+      },
+      {
         path: 'applicant-details',
         loadChildren: () =>
           import(
