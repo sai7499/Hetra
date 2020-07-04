@@ -229,7 +229,7 @@
               formControlName="nameOne"
               [className]="'form-control mandatory'"
               [placeholder]="'First Name'"
-              [maxLength]="regexPattern.nameLength"
+              [maxLength]="nameLength"
               [isRequired]="nameErrorMessage"
               [isDirty]="isDirty"
               [type]="namePattern"
@@ -244,8 +244,9 @@
               formControlName="nameTwo"
               [className]="'form-control mandatory'"
               [placeholder]="'Middle Name'"
-              [maxLength]="regexPattern.nameLength"
-              [patternCheck]="namePattern"
+              [maxLength]="nameLength"
+              [isDirty]="isDirty"
+              [type]="namePattern"
               >
             </app-custom-input>
           </div>
@@ -257,8 +258,9 @@
               formControlName="nameThree"
               [className]="'form-control mandatory'"
               [placeholder]="'Last Name'"
-              [maxLength]="regexPattern.nameLength"
-              [patternCheck]="namePattern">
+              [maxLength]="nameLength"
+              [isDirty]="isDirty"
+              [type]="namePattern">
             </app-custom-input>
           </div>
         </div>
@@ -270,8 +272,7 @@
               formControlName="mobile"
               [className]="'form-control mandatory'"
               [placeholder]="'Mobile'"
-              [maxLength]="regexPattern.maxLength"
-              [patternCheck]="regexPattern.mobile"
+              [maxLength]="mobileLength"
               [isRequired]="'Contact Number mandatory'"
               [isDirty]="isDirty"
               [type]="'number'">

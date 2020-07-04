@@ -27,6 +27,7 @@ import { CheckerLeadsWithMeComponent } from './cpc-checker/checker-leads-with-me
 import { CheckerLeadsWithCpcComponent } from './cpc-checker/checker-leads-with-cpc/checker-leads-with-cpc.component';
 import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/maker-leads-with-cpc.component';
 import { MakerLeadsWithMeComponent } from './cpc-maker/maker-leads-with-me/maker-leads-with-me.component';
+import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
           {
             path: 'leads',
             component: NewLeadsComponent
+          },
+          {
+            path: 'dde-branch-leads',
+            component: DdeBranchLeadsComponent
           },
           {
             path: 'sanction-leads',

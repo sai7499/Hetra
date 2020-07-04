@@ -26,12 +26,14 @@
                
                 <app-custom-input
                     formControlName="accountNumber"
-                    [patternCheck]="accountNumberPattern"
-                    [maxLength]="labels?.validationData?.amount?.maxLength"
-                    [type]="labels?.validationData?.amount?.type"
+                    
+                    [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+                    [type]="labels?.validationData?.accountNumber?.type"
                     [isRequired]="'Account Number is required'"
                     [isDirty]="isDirty"
+                    [inputClass]="'input-upper'" 
               ></app-custom-input>
+              <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
              </div>
             </div>
             <div class="row">
@@ -92,8 +94,8 @@
                 <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
-                [maxLength]="labels?.validationData?.amount?.maxLength"
-                [type]="labels?.validationData?.amount?.type"
+                [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                [type]="labels?.validationData?.amountValue?.type"
                
                 [isDirty]="isDirty"
               ></app-custom-input>
@@ -148,8 +150,8 @@
                       <app-custom-input
                       formControlName="inflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       
@@ -160,8 +162,8 @@
                       <app-custom-input
                       formControlName="outflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       
@@ -174,8 +176,8 @@
                     <app-custom-input
                     formControlName="noOfInWardBounces"
                     [patternCheck]="inputValidation"
-                    [maxLength]="labels?.validationData?.amount?.maxLength"
-                    [type]="labels?.validationData?.amount?.type"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type"
                     [isRequired]="'*required'"
                     [isDirty]="isDirty"
                   ></app-custom-input> 
@@ -185,8 +187,8 @@
                       <app-custom-input
                       formControlName="noOfOutWardBounces"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                     ></app-custom-input>
@@ -196,8 +198,8 @@
                       <app-custom-input
                       formControlName="balanceOn5th"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -208,8 +210,8 @@
                       <app-custom-input
                       formControlName="balanceOn15th"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -220,8 +222,8 @@
                       <app-custom-input
                       formControlName="balanceOn20th"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -256,7 +258,7 @@
         (click)="onBackToApplicant()"> {{labels?.backToApplicantDetails}} </button>
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>
+        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>&nbsp;
         <button class="btn btn-primary" (click)="onSave()"> {{labels?.save}} </button>
         <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
         <!-- (click)="onSave()"  -->

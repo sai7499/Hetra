@@ -1,5 +1,870 @@
-  
 {
+  "leadCreationTitle": "Create New Lead",
+  "businessDivision": "Business Division",
+  "fundingProgram": "Funding Program",
+  "priority": "Priority",
+  "productCategory": "Product Category",
+  "childLoan": "Child Loan",
+  "scheme_Promotion": "Scheme/Promotion",
+  "subventionApplied": "Subvention Applied",
+  "subvention": "Subvention",
+  "sourcingChannel": "Sourcing Channel",
+  "sourcingType": "Sourcing Type",
+  "sourcingCode": "Sourcing Code",
+  "spokeCodeLocation": "Spoke Code Location",
+  "loanAccountBranch": "Loan Account Branch",
+  "leadHandledBy": "Lead Handled By",
+  "entity": "Entity",
+  "relationshipwithloanapplicant": "Relationship with Lead",
+  "title": "Title",
+  "firstName": "First Name",
+  "middleName": "Middle Name",
+  "lastName": "Last Name",
+  "ageApplicant": "Age",
+  "alternateContactNumber": "Alternate contact Number",
+  "senior": "Is Senior Citizen?",
+  "minor": "Is Minor?",
+  "guardianName": "Guardian Name",
+  "guardianRelationship": "Guardian's Relationship with Minor",
+  "politicallyExposedPerson": "Politically Exposed Person [PEP]",
+  "issuanceDate": "Issuance Date",
+  "companyName1": "Company Name 1",
+  "companyName2": "Company Name 2",
+  "companyName3": "Company Name 3",
+  "mobile": "Mobile",
+  "dateOfBirth": "Date of Birth",
+  "dateofIncorporation": "Date Of Incorporation",
+  "cancel": "Cancel",
+  "createLead": "Create Lead",
+  "leadDedupetitle": "Lead to Lead Dedupe Results",
+  "select": "Select",
+  "applicationId": "Lead ID",
+  "loanCreatedBy": "Created By",
+  "loanCreatedDate": "Created Date",
+  "product": "Product",
+  "loanAmount": "Loan Amount",
+  "branch": "Branch",
+  "stage": "Lead Stage",
+  "status": "Status",
+  "reasonForRejection": "Rejection Reason",
+  "applicantName": "Applicant",
+  "modelTitle": "LOS - Lead Creation",
+  "message": "Are you sure you want to create a new lead?",
+  "proceed": "Proceed",
+  "reject": "Reject",
+  "submit": "Submit",
+  "ok": "OK",
+  "sourceDetailsTitle": "Sourcing Details",
+  "leadNumber": "Lead ID",
+  "leadCreatedDate": "Lead Created Date",
+  "leadCreatedBy": "Lead Created By",
+  "next": "Next",
+  "productDetailsTitle": "Product Details",
+  "schemePromotion": "Scheme/Promotion",
+  "subventionIncentive": "Subvention + Incentive",
+  "vehcileDetailsTitle": "Vehicle Details",
+  "vechicalType": "Vehicle Type",
+  "vechicalUsage": "Vehicle Usage",
+  "vechicalRegion": "Region",
+  "registartionNumber": "Vechical Registration No",
+  "assetMake": "Asset Make",
+  "assetModel": "Asset Model",
+  "assetBodyType": "Asset Body Type",
+  "assetSegement": "Asset Segment",
+  "vehicleType": "Vehicle Type",
+  "assetVariant": "Asset Variant",
+  "assetSubVariant": "Asset Sub-Variant",
+  "assetOther": "Asset Variant - Other",
+  "monthYear": "Month and Year",
+  "ageVehicle": "Age of Vehicle",
+  "assetCostIndian": "Asset Cost basis Indian Bluebook",
+  "assetCostCarwale": "Asset Cost basis Carwale",
+  "assetCostCar": "Asset Cost basis Car Trade",
+  "assetCostLeast": "Asset Cost Least",
+  "exShowroomCost": "Ex Showroom Cost",
+  "exShowroomPrice": "Ex-showroom price",
+  "monthManufacturing": "Month of Manufacturing",
+  "yearManufacturing": "Year of Manufacturing",
+  "yearAndMonthManufacturing": "Year And Month of Manufacturing",
+  "dealerSubventionApplicable": "Dealer Subvention Applicable",
+  "dealerSubventionAmount": "Dealer Subvention Amount",
+  "dealerSubventionIRR": "Dealer Subvention Part of Operating IRR",
+  "dealerSubventionFinance": "Dealer Subvention Part of Finance Charges",
+  "manufacturerSubventionApplicable": "Manufacturer Subvention Applicable",
+  "manufacturerSubventionAmount": "Manufacturer Subvention Amount",
+  "manufacturerSubventionIRR": "Manufacturer Subvention Part of Operating IRR",
+  "manufacturerSubventionFinance": "Manufacturer Subvention Part of Finance Charges",
+  "proformaInvoiceNo": "Proforma Invoice No",
+  "proformaInvoiceDate": "Proforma Invoice Date",
+  "proformaInvoiceAmount": "Proforma Invoice Amount",
+  "insurance": "Insurance",
+  "ageOfAsset": "Age of Asset",
+  "ageOfVehicle": "Age of vehicle at the end of tenor",
+  "assetCostGrid": "Asset cost basis Grid",
+  "vechicleUsage": "Vehicle Usage",
+  "vehicleCategory": "Vehicle Category",
+  "orpFunding": "ORP Funding",
+  "oneTimeTax": "One Time Tax",
+  "pac": "PAC",
+  "vas": "VAS",
+  "emiProtect": "EMI Protect",
+  "fastTag": "Fast Tag",
+  "others": "Others",
+  "discount": "Discount",
+  "variant": "Variant",
+  "finalAssetCost": "Final Asset Cost",
+  "nameOfVehicleOwner": "Name of Vehicle Owner/Dealer",
+  "mobileNumberOfVehicle": "Mobile Number of Vehicle Owner/Dealer",
+  "vehicleAddress": "Vehicle Address",
+  "vehiclePinCode": "Vehicle Address PINCODE",
+  "idv": "IDV",
+  "vehicleNumber": "Vehicle Number",
+  "insuranceValidity": "Insurance Validity",
+  "insuranceCopy": "Insurance",
+  "uploadInsuranceCopy": "Upload Insurance Document",
+  "permitType": "Type of Permit",
+  "permitExpiryDate": "Permit Expiry Date",
+  "permitCopy": "Permit Upload",
+  "permitOthers": "Type of Other Permit",
+  "permitExpireDate": "Permit Expiry Date",
+  "permitUpload": "Upload Permit Document",
+  "vehiclePurchasedCost": "Vehicle Purchased Cost",
+  "vehicleOwnership": "Vehicle Ownership Number",
+  "rcOwnerName": "RC Owner Name",
+  "vehicleRegistrationDate": "Vehicle Registration Date",
+  "grossVehicleWeight": "Gross Vehicle Weight",
+  "reRegisteredVehicle": "Re-Registered Vehicle",
+  "frsdRequired": "FRSD Funding Required",
+  "frsdAmount": "FRSD Premium Amount",
+  "fitnessDate": "Fitness Date",
+  "fitnessCopy": "Fitness Upload",
+  "noVehicle": "No of Vehicles",
+  "back": "Back",
+  "save": "Save",
+  "applicantDetailsTitle": "Applicant Details",
+  "addApplicantTitle": "Add Applicant",
+  "ucicId": "UCIC ID",
+  "name": "NAME",
+  "mobileNumber": "Mobile Number",
+  "applicantType": "Applicant Type",
+  "action": "Action",
+  "company1": "Company Name 1",
+  "company2": "Company Name 2",
+  "company3": "Company Name 3",
+  "dateOfIncorporation": "Date Of Incorporation",
+  "aadharnumber": "Aadhaar Number",
+  "panform": "PAN / Form 60",
+  "pannumber": "PAN Number ",
+  "drivingLicenseNumber": "Driving Licence Number",
+  "passportNumber": "Passport Number",
+  "drivingLicenceIssueDate": "Driving Licence Issue Date",
+  "drivingLicenceExpiryDate": "Driving Licence Expiry Date",
+  "passportIssueDate": "Passport Issue Date",
+  "passportExpiryDate": "Passport Expiry Date",
+  "identityType": "Identity Type",
+  "identityNumber": "Identity Number",
+  "voterIdNumber": "Voter Id Number",
+  "uploadIdentity": "Upload Identity",
+  "address1": "Address 1",
+  "address2": "Address 2",
+  "address3": "Address 3",
+  "permanentAddressPINCode": "Permanent Address PIN Code",
+  "permanentAddressCity": "Permanent Address City",
+  "permanentAddressDistrict": "Permanent Address District",
+  "permanentAddressState": "Permanent Address State",
+  "permanentAddressCountry": "Permanent Address Country",
+  "permanentAddressLandline": "Landline Number",
+  "landLineNumber": "Landline Number",
+  "line1": "Line 1",
+  "line2": "Line 2",
+  "line3": "Line 3",
+  "addressline1": "Address Line 1",
+  "addressline2": "Address Line 2",
+  "addressline3": "Address Line 3",
+  "code": "Pin Code",
+  "city": "City",
+  "district": "District",
+  "state": "State",
+  "country": "Country",
+  "currentAddressPINCode": "Current Address PIN Code",
+  "currentAddressCity": "Current Address City",
+  "currentAddressDistrict": "Current Address District",
+  "currentAddressState": "Current Address State",
+  "currentAddressCountry": "Current Address Country",
+  "landlineNumber": "Landline Number (Residence Phone)",
+  "registeredAddressPinCode": "Registered Address PIN Code",
+  "registeredAddressCity": "Registered Address City",
+  "registeredAddressDistrict": "Registered Address District",
+  "registeredAddressState": "Registered Address State",
+  "registeredAddressCountry": "Registered Address Country",
+  "registeredAddressLandlineNumber": "Registered Address Landline Number (Residence Phone)",
+  "loanDetailsTitle": "Loan Details",
+  "requestedAmount": "Requested Loan Amount",
+  "requestedTenor": "Requested Loan Tenor",
+  "creditBureauTitle": "Credit Bureau",
+  "productOffered": "Product Offered",
+  "customerSegment": "Customer Segment",
+  "loanTenor": "Loan Tenor",
+  "loanAmountRange": "Loan Amount Range",
+  "ageOfCar": "Age of the car at the end of tenor (months)",
+  "loanToValue ": "Loan to Value ",
+  "insuranceCrossSell": "Insurance Cross sell",
+  "loanToValueInsuranceFunded": "Loan to Value Insurance Funded",
+  "equitasFastTagRequired": "Equitas Fast tag required",
+  "OnRoadPricingFunding": "On road pricing funding",
+  "id": "ID",
+  "applicant": "Applicant",
+  "creditBureau": "Credit Bureau",
+  "eligibleLoanAmount": "Eligible Loan Amount",
+  "documentName": "Document Name",
+  "documentNumber": "Document Number",
+  "issueDate": "Issue Date",
+  "documentExpiryDate": "Expiry Date",
+  "mandatoryStage": "Mandatory Stage",
+  "deferralDate": "Deferral Date",
+  "view": "View",
+  "marginMoney": "Margin Money",
+  "emiAffordability": "EMI Affordibility",
+  "sNO": "S.No",
+  "type": "Type",
+  "loanNo": "Loan No",
+  "assets": "Assets",
+  "yom": "YOM",
+  "gridValue": "Grid Value",
+  "ltv": "LTV",
+  "currentPos": "Current POS",
+  "tenure": "Tenure",
+  "emiPaid": "EMI Paid",
+  "flAndpdTitle": "PSL Data",
+  "pdStatus": "PD Status",
+  "pdReport": "PD Report",
+  "flStatus": "Fl Status",
+  "flReport": "Fl Report",
+  "vehicleValTitle": "Valuation",
+  "valuatorType": "Valuator Type",
+  "valuatorCode": "Valuator Code",
+  "valuatorName": "Valuator Name",
+  "valuationAmount": "Valuation Amount",
+  "valuationDate": "Valuation Date",
+  "idvValidityDate": "IDV Validity Date",
+  "vhAvailInGrid": "Vehicle available in Grid",
+  "gridAmount": "Grid Amount",
+  "assetManufacturer": "Asset Manufacturer",
+  "newUsedAsset": "New/Used Asset",
+  "vechicleNoPrefix": " Vehicle No. Prefix ",
+  "vechicleNumber": "Vehicle Number",
+  "chassisNumber": "Chassis Number",
+  "engineNumber": "Engine Number",
+  "yearRegOfAsset": "Year of Manuf/Reg. of Asset",
+  "monthRegOfAsset": "Month of Manuf/Reg. of Asset",
+  "sellerShortDescr": "Seller Short Descr",
+  "secondAsset": "Second Asset",
+  "secondVechicleNoPrefix": "Second Vehicle No Prefix",
+  "secondVechicleNo": "Second Vehicle No",
+  "secondChassisNumber": "Second Chassis Number",
+  "agricultureProof": "Agriculture Proof",
+  "fcExpiryDate": "FC Expiry Date",
+  "vehicleRegDate": "Vehicle Reg.Date",
+  "gvw": "GVW",
+  "reRegisteredVechicle": "Re-Registered Vehicle",
+  "interStateVehicle": "Inter State Vehicle",
+  "duplicateRC": "Duplicate RC",
+  "cubicCapacity": "Cubic Capacity",
+  "seatingCapacity": "Seating Capacity",
+  "existingVechicleOwned": "Existing Vehicles owned",
+  "noOfVehicles": "No. of Vehicles",
+  "existingSelfCostAsset": "Existing self-cost of asset",
+  "total": "Total",
+  "make": "Make",
+  "model": "Model",
+  "year": "Year",
+  "registeredOwner": "RegisteredOwner",
+  "registeredOwnerName": "RegisteredOwnerName",
+  "vhNoPrefix": "VehicleNoPrefix",
+  "vhNumber": "VehicleNumber",
+  "costOfVehicle": "Cost of Vehicle",
+  "pslDataTitle": "PSL Data",
+  "activity": "Activity",
+  "propertyType": "Property Type",
+  "detailActivity": "Detail Activity",
+  "goodsManufactured": "Goods Manufactured",
+  "typeOfService": "Type of Service",
+  "purposeOfLoan": "Purpose of Loan (End Use)",
+  "businessActivity": "Business Activity",
+  "landHolding": "Land Holding",
+  "landOwner": "Land Owner",
+  "relWithLandowner": "Relationship with Landowner",
+  "farmerType": "Farmer Type",
+  "landAreaInAcres": "Land Area in Acres",
+  "landProof": "Land Proof",
+  "landProofUpload": "Land Proof Upload",
+  "proofOfInvestment": "Proof of Investment (MSME)",
+  "investmentProofUpload": "Proof of Investment Upload",
+  "nameOfCa": "Name of CA",
+  "nameOfCaFirm": "Name of CA Firm",
+  "caRegisterNo": "CA Registration number",
+  "udinNo": "UDIN No.",
+  "caCertifiedAmount": "CA Certified amount",
+  "otherInvestmentCost": "Others Investment cost",
+  "totalInvestmentCost": "Total Investment cost",
+  "investInEquipment": "Investment in Equipment",
+  "investPlantMachinery": "Investment in Plant and machinery",
+  "cityTier": "Select City TIER",
+  "investmentSocialInfra": "Proof of Investment (Social Infra)",
+  "investmentOtherBank": "Investment with Other Bank",
+  "totalInvestment": "Total Investment",
+  "propertyLocatedCity": "Property located city",
+  "propertyLocation": "Property Location",
+  "propertyPincode": "Property pincode",
+  "landAmount": "Land Amount",
+  "landCost": "Land cost",
+  "constructionCost": "Construction cost",
+  "totalPropertyCost": "Total Property cost",
+  "registrationCost": "Registration cost",
+  "pslConsiderCost": "PSL Consideration cost",
+  "pslCategory": "PSL Category",
+  "pslSubCategory": "PSL Sub Category",
+  "pslCertificateAg": "PSL(C) Certificate",
+  "pslCertificateMsme": "PSL(C) Certificate",
+  "pslCertificateHos": "PSL(C) Certificate",
+  "weakerSection": "Weaker Section",
+  "registrationNumber": "Registration Number",
+  "address": "Address",
+  "valuationStatus": "Valuation Status",
+  "valuationReport": "Valuation Report",
+  "modalTitle1": "Initiate Vechicle Valuation",
+  "chooseValuator": "Choose Valuator",
+  "modalBody": "Are you sure you want to send Vehicle Valuation request to Valuator 1?",
+  "modalBody2": "Vehcile Valuation request is sent to Valuator 1",
+  "yes": "Yes",
+  "close": "Close",
+  "fatherName": "Father Name",
+  "gender": "Gender",
+  "maritalStatus": "Marital Status",
+  "physicallyChallenged": "Physically Challenged",
+  "residenceNo": "Residence Number(with STD code)",
+  "officeNo": "Office Number(with STD code)",
+  "residenceAddress": "Address as per loan application?",
+  "bankName": "Bank Name",
+  "accountNo": "Bank Account No",
+  "landmark": "Landmark",
+  "locate": "Easy to locate?",
+  "locality": "Residential Locality",
+  "residentialType": "Residential Type",
+  "standardHouse": "Standard House",
+  "sizeOfHouse": "Size of House",
+  "stdOfLiving": "Standard of Living",
+  "houseOwnership": "House Ownership",
+  "ratingBySo": "Rating By SO",
+  "customerProfileTitle": "Customer Profile Details",
+  "addressRecord": "Office Address as per our records",
+  "noEmployees": "No of Employees Seen",
+  "nameBoardSeen": "Name Board Seen",
+  "officePremises": "Office Premises",
+  "sizeOfOffice": "Size of Office",
+  "mismatchAddress": "Mis-Match in Address",
+  "selfieWithHouse": "Selfie with Customer House",
+  "ownershipProof": "Proof of Ownership available",
+  "metCustomer": "Have you met customer?",
+  "modelType": "Model/Type",
+  "loanAmt": "Loan Amt",
+  "avilForUsedVehicle": "Applicable for Used Vehicle",
+  "loanAmtReq": "Loan amount required",
+  "sourcePurchase": "Source of vechicle purchase",
+  "marginMoneyPaid": "Source of margin money paid",
+  "nameOfFinancer": "Name of Financier",
+  "awareMarginMoney": "is the co-applicant aware of source of margin money?",
+  "nameOfChannel": "Name of Channel",
+  "sellerVehicle": "Do you know seller of the vehicle?",
+  "knowAbtVehicle": "How did you come to know about proposed vehicle?",
+  "moneyInvested": "Margin Money/Investment Amount",
+  "moneyBorrowed": "Margin Money/Borrowed Amount",
+  "marketValue": "Market Value",
+  "purchasedValue": "Purchased Value",
+  "vehicleCondition": "Do you know vehicle condition?",
+  "usageFunds": "Usage of Funds",
+  "vehicleConditions": "Application of earlier vehicle",
+  "remarksOthers": "Remarks of others",
+  "earlierDriving": "Applicant driving earlier",
+  "runningAttached": "Where will this vehicle running/attached/plying?",
+  "awareDue": "Customer aware of Due date and EMI Loan amount",
+  "vehicleMake": "Vehicle Make",
+  "model1": "Model(Year)",
+  "addVehicle": "Add Vehicle",
+  "registrationNo": "Registration No",
+  "regCopyVerified": "Reg Copy Verified",
+  "hpaNbfc": "Vehicle HPA with NBFC/Bank",
+  "permitDate": "Permit Valid up to",
+  "fitnessDate1": "Fitness Valid up to",
+  "taxDate": "Tax Valid up to",
+  "insuranceCopyVerfied": "Insurance Copy Verified",
+  "insuranceDate": "Insurance Valid up to",
+  "vehicleVerified": "Vehicle Physically Verified",
+  "physicalCondition": "Condition of Vehicle",
+  "vehicleRoute": "Vehicle Route",
+  "noTrips": "No of Trips",
+  "tripAmt": "Amount Received per trip",
+  "selfDriver": "Self Driven or Drive",
+  "remarks": "Remarks-Not in running condition",
+  "permanentAddress": "Permanent Address",
+  "currentAddress": "Current Address",
+  "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
+  "typeOfAccommmodation": "Type of Accommmodation",
+  "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
+  "alternateMobileNumber": "Alternate Mobile Number",
+  "officeAddress": "Office Address",
+  "registeredAddress": "Registered Address",
+  "documentUpload": "Document upload",
+  "photo": "Photo",
+  "signature": "Signature",
+  "uploadSignature": "Upload signature",
+  "IDproof": "ID Proof",
+  "issuesDate": "Issues Date",
+  "expiryDate": "Expiry Date",
+  "attachment": "Attachment",
+  "additionalDocument": "Additional Document",
+  "businessEntityName": "Business Entity Name",
+  "netProfit": "Net Profit",
+  "depreciation": "Depreciation",
+  "directorsSalary": "Directors salary/Interest to partners + Interest",
+  "grossDerivedIncome": "Gross derived Income",
+  "grossMonthlyIncome": "Gross monthly income",
+  "actions": "Actions",
+  "incomeType": "Income Type",
+  "grossIncome": "Gross Income",
+  "factoring": "Factoring %",
+  "factoredIncome": "Factored Income",
+  "borrowerName": "Borrower Name",
+  "typeOfLoan": "Type of Loan",
+  "financier": "Financier",
+  "tenorInMonths": "Tenor(In Months)",
+  "mob": "MOB",
+  "emi": "EMI",
+  "balanceTenor": "Balance Tenor",
+  "obligationAmount": "Obligation Amount",
+  "totalMonthlySalaryIncome": "Total Monthly Salary Income",
+  "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
+  "salariedFOIRDeviation": "Salaried FOIR Deviation %",
+  "totalSalariedFOIR": "Total Salaried FOIR %",
+  "consideredSalaryIncome": "Considered Salary Income",
+  "totalMonthlyBusinessIncome": "Total Monthly Business Income",
+  "totalMonthlyRentalIncome": "Total Monthly Rental Income",
+  "totalMonthlyPensionIncome": "Total Monthly Pension Income",
+  "totalMonthlyAgriIncome": "Total Monthly Agri Income",
+  "totalMonthlyOtherIncomeOfOthers": "Total Monthly Other Income Of Others",
+  "totalMonthlyOtherIncome": "Total Monthly Other Income",
+  "totalMontlyObligations": "Total Montly Obligations",
+  "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR",
+  "customerBankName": "Customer Bank Name",
+  "bankBranch": "Bank Branch",
+  "bankAddress": "Bank Address",
+  "accountType": "Account Type",
+  "accountNumber": "Account Number",
+  "accountHolderName": "Account Holder Name",
+  "minimumAverageBalance": "Minimum Average Balance",
+  "micrCode": "MICR Code",
+  "ifscCode": "IFSC Code",
+  "seniorCitizen": "Senior Citizen?",
+  "ifMinorIsYesGuardianName": "if Minor is yes Guardian Name",
+  "ifGuardianIsAnExistingCustomer": "If Guardian is an existing customer, UCIC",
+  "spouseName": "Spouse Name",
+  "mothersMaidenName": "Mother's Maiden Name",
+  "occupation": "Occupation",
+  "nationality": "Nationality",
+  "customerCategory": "Customer Category",
+  "emailID": "Email ID",
+  "alternateEmailID": "Alternate email ID",
+  "prefferedLanguageForCommunication": "Preferred Language for Communication",
+  "bankAccountNumber": "Bank Account Number",
+  "accountHoldingBank": "Account Holding Bank",
+  "branchAndCommunicationAddress": "Branch and Communication Address",
+  "spokeAndCommunicationAddress": "Spoke and Communication Address",
+  "designation": "Designation",
+  "officeName": "Office Name",
+  "noOfyearsInCurrEmployment": "No. of years in curr. Employment",
+  "employeeCode": "Employee Code",
+  "employeeType": "Employee Type",
+  "department": "Department",
+  "typeOfBusiness": "Type of Business",
+  "businessName": "Business Name",
+  "businessStartDate": "Business Start Date",
+  "numberOfYearsInCurrentBusiness": "Number of Years in current Business",
+  "turnOver": "Turn Over",
+  "annualIncome": "Annual Income",
+  "numberOfDirections": "Number Of Directions",
+  "nameofDirector": "Name of Director",
+  "directorIdentificationNumber": "Director Identification number (DIN)",
+  "contactPerson": "Contact Person",
+  "contactPersonDesignation": "Contact Person Designation",
+  "contactPersonMobileNumber": "Contact Person mobile number",
+  "ratingIssuerName": "Rating Issuer Name",
+  "externalRatingAssigned": "External Rating Assigned",
+  "extnlRatingIssuedDate": "Extnl. Rating Issued Date",
+  "dealingForeignCurrency": "Dealing In Foreign Currency",
+  "extnlRatingExpiryDate": "Extnl. Rating Expiry Date",
+  "totalExposureInThebankingsystem": "Total Exposure in the banking system(In lakhs)",
+  "creditRiskScore": "Credit Risk Score",
+  "selectIdDetails": "Select Id Details",
+  "identityCardNumber": "Identity Card Number",
+  "identityCardExpiryDate": "Identity Card Expiry Date",
+  "uploadDocumnet": "Upload Documnet",
+  "addMultipleIdentityCardDetails": "Add Multiple Identity Card Details",
+  "tinNumber": "TIN Number",
+  "companyPanNumber": "Company PAN Number",
+  "cinNumber": "CIN Number",
+  "gstNumber": "GST Number",
+  "leadID": "Lead ID",
+  "queue": "Queue",
+  "userName": "User Name",
+  "password": "Password",
+  "enterOtpSharedByCustomer": "Enter the OTP shared by the customer",
+  "offersAccepted": "Offers Accepted",
+  "createdOn": "Created On",
+  "createdBy": "Created By",
+  "promoCode": "Promocode",
+  "history": "History",
+  "tvrStatus": "TVR Status",
+  "tvrReport": "TVR Report",
+  "soName": "SO NAME",
+  "assetCost": "Asset Cost",
+  "financeAmount": "Finance Amount",
+  "tenureInMonths": "TENURE IN MONTHS",
+  "sourceOfProposal": "Source of Proposal",
+  "assetType": "Asset Type",
+  "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion - (applicable for CV).",
+  "routeOfOperation": "Route of operation - Onward and Return (Applicable for CV).",
+  "contractDetails": "Contract Details",
+  "residence": "Residence",
+  "otherVehicles": "Other Vehicles Owned",
+  "phoneNo": "Phone No",
+  "anyOtherLoansAsset": "Any Other Loans: Asset",
+  "noOfYears": "No.of Years",
+  "cc": "CC",
+  "dob": "DOB",
+  "spokenTo": "Spoken to",
+  "familyMembers": "Family Members",
+  "relationWithApplicant": "Relation with Applicant",
+  "time": "Time",
+  "tvrDoneByName": "TVR done by name",
+  "sign": "Sign",
+  "office": "Office",
+  "workExperience": "Work Experience",
+  "extn": "Extn",
+  "workStability": "Work Stability",
+  "natureOfBusiness": "Nature of Business",
+  "transactionType": "Type of Transaction",
+  "businessStability": "Business Stability",
+  "coNameAndAddress": "Co.Name & Address",
+  "industryType": "Type of Industry",
+  "yearsInEmpBusiness": "Yrs in Emp/Business",
+  "ifBusiness": "if Business",
+  "employees": "Employees",
+  "relation": "Relation",
+  "decision": "Decision",
+  "monthlySalaryGross": "Monthly Salary : Gross",
+  "otherSourcesofIncome": "Other Sources of Income, if any",
+  "residenceStability": "Residence Stability Confirmed",
+  "customerAvailability": "Customer Availability",
+  "confirmedAddress": "Address Confirmed",
+  "fundingAmountRequested": "Funding Amount Requested",
+  "endUseFunds": "End Use of Funds",
+  "tenureRequested": "Tenure Requested",
+  "typeofGoodsCarried": "Type of Goods Carried - Onward and return(Applicable for CV).",
+  "new": "New",
+  "used": "Used",
+  "no": "NO",
+  "knowAboutEquitasBank": "How did the customer come to know about Equitas Bank (Existing)",
+  "proposalType": "Proposal Type",
+  "customerType": "Customer Type",
+  "entityType": "Entity Type",
+  "appno": "App no",
+  "camDate": "CAM Date",
+  "existingExposure": "Existing Exposure",
+  "areaName": "Area Name",
+  "branchName": "Branch Name",
+  "proposedExposure": "Proposed Exposure",
+  "sourcingChennal": "Sourcing Chennal",
+  "sourcingSoName": "Sourcing  SO Name",
+  "overallExposure": "Overall Exposure",
+  "payout": "Payout %",
+  "distancefrombranch": "Distance from branch",
+  "creditApproval": "Credit Approval",
+  "loanamount": "Loan amount",
+  "rateApproval": "Rate Approval",
+  "branchED": "Branch ED%",
+  "soEd": "SO ED %",
+  "propertyOwnership": "Property Ownership",
+  "vfScore": "VF score",
+  "fiStatus": "FI Status",
+  "proofCollected": "Proof Collected",
+  "pdstatus": "PD status",
+  "sr": "SR",
+  "assetDiscription": "Asset Discription",
+  "netAssetCost": "Net Asset Cost",
+  "irr": "IRR",
+  "tenureMonth": "Tenure Month",
+  "pf": "PF",
+  "otherRemarks": "Other Remarks",
+  "sourceOfMarginMoney": "SOURCE OF MARGIN MONEY",
+  "anyOtherRemarks": "Any Other Remarks",
+  "remark": "REMARKS",
+  "age": "AGE",
+  "relationShip": "RELATIONSHIP",
+  "coApp1": "COAPP 1",
+  "coApplicant2": "CO-APPLICANT 2",
+  "coApplicant3": "CO-APPLICANT 3",
+  "cibilScore": "CIBIL SCORE",
+  "odIndividual": "OD-INDIVIDUAL",
+  "odInJointAc": "OD IN JOINT A/C",
+  "odAsGuarantor": "OD AS GUARANTOR",
+  "totalOd": "TOTAL OD",
+  "clearanceProof": "CLEARANCE PROOF",
+  "limitIfAny": "LIMIT IF ANY",
+  "from": "FROM",
+  "averageCredit": "AVERAGE CREDIT",
+  "averageDebit": "AVERAGE DEBIT",
+  "averageAccountBalance": "AVERAGE ACCOUNT BALANCE",
+  "noOfInwardBounce": "NO OF INWARD BOUNCE",
+  "noOfOutwardBounce": "NO OF OUTWARD BOUNCE",
+  "to": "TO",
+  "noOfMonth": "NO OF MONTH",
+  "existingFinancers": "Existing Financers",
+  "hdfcIciciCholaIndusind": " HDFC, ICICI, CHOLA, INDUSIND",
+  "firstVeh": "1st Veh",
+  "tataLpk2518": "TATA LPK 2518",
+  "purchasedOn": "Purchased on",
+  "noOfVehOwned": "NO OF VEH OWNED",
+  "expansionAndFfr": "EXPANSION AND FFR",
+  "hcv": "HCV",
+  "lcv": "LCV",
+  "scv": "SCV",
+  "addedInLastOneYr": "ADDED IN LAST 1 YR",
+  "freeAsset": "FREE ASSET",
+  "ffr": "FFR",
+  "trackValidated": "TRACK VALIDATED",
+  "asset": "ASSET",
+  "vehRegNo": " VEH REG NO",
+  "seasoning": "SEASONING",
+  "overAll": "OVERALL",
+  "lastSixMonth": " LAST 6 MONTH",
+  "lastTwelveMonth": "LAST 12 MONTH",
+  "ad": "AD",
+  "pd": "PD",
+  "five": "Five",
+  "track1": " TRACK 1",
+  "track2": "TRACK 2",
+  "track3": "TRACK 3",
+  "track4": "TRACK 4",
+  "track5": "TRACK 5",
+  "track6": "TRACK 6",
+  "appIsInTransportFieldFromLastManyYears": " APP IS IN TRANSPORT FIELD FROM LAST MANY YEARS",
+  "fy": "FY",
+  "eighteenToNineteen": "2018-19",
+  "seventeenToEightteen": "2017-18",
+  "sixteenToSeventeen": "2016-17",
+  "freightPaid": "FREIGHT PAID",
+  "depriciation": "DEPRICIATION",
+  "netProfitPbt": "NET PROFIT(PBT)",
+  "cashGenerationPbtDep": "CASH GENERATION(PBT+DEP)",
+  "creditOfficersRemarks": "CREDIT OFFICER'S REMARKS",
+  "cmRecommendation": "CM RECOMMENDATION",
+  "acmRecommendationApproval": "ACM RECOMMENDATION/APPROVAL",
+  "ncmBhApprovalRecommendation": "NCM/BH APPROVAL-RECOMMENDATION",
+  "incomeAndObligationDetailsTitle": "Income and Obligation Details",
+  "businessIncomeDetailsTitle": "Business Income Details",
+  "otherIncomeDetailsTitle": "Other Income Details",
+  "obligationDetailsTitle": "Obligation Details",
+  "incomeObligationSummaryTitle": "Income & Obligation Summary",
+  "basicDetailsTitle": "Basic Details",
+  "proposedVehicleDetailsTitle": "Proposed Vehicle Details",
+  "partyToAgreementTitle": "PARTY TO AGREEMENT",
+  "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPAFRATE SHEET)",
+  "bankingSummaryTitle": "BANKING SUMMARY",
+  "fleetSummaryTitle": "FLEET SUMMARY",
+  "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
+  "keyFinancialTitle": "KEY FINANCIAL",
+  "creditCondition": "Credit Condition",
+  "salesResponse": "Sales Response",
+  "supportDocument": "Support Document",
+  "accepted": "Accepted",
+  "notAccepted": "Not Accepted",
+  "defferedTillDate": "Deffered till date",
+  "autoDeviation": "Auto Deviation",
+  "manualDeviation": "Manual Deviation",
+  "deviation": "Deviation",
+  "coBorrower": "Co-Borrower / Guarantor - Waiver",
+  "approvalLevel": "Approval Level",
+  "bcm": "BCM",
+  "acm": "ACM",
+  "ncm": "NCM",
+  "justification": "Justification",
+  "refer": "Refer",
+  "referTo": "Refer To",
+  "referToNextLevel": "Refer To next level",
+  "decline": "Decline",
+  "referText2": "For Cat B,C,D & E Repayment <12 Months from us or other financier on CV loans",
+  "referText1": "Co-Borrower / Guarantor - Waiver",
+  "approve": "Approve",
+  "sendBackToCredit": "Send Back To Credit",
+  "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
+  "recommendation": "Recommendation",
+  "referText4": "Text area to input recommendation (max 2000 characters)",
+  "more": "More",
+  "eCode": "E code",
+  "date": "Date",
+  "requestedLoanAmount": "Requested Loan Amount",
+  "ageOfCarEndOfTenor": "Age of the car at the end of tenor ",
+  "bureauScore": "Bureau Score",
+  "eligibleAmount": "Eligible Loan Amount ",
+  "creditBureauCIBIL": "Credit Bureau (CIBIL)",
+  "areYouSureWantToReject": "Are you sure want to reject ?",
+  "fromDate": "From Date",
+  "toDate": " To Date",
+  "month": "Month",
+  "period": "Period",
+  "limit": "Limit",
+  "inflow": "Inflow",
+  "outflow": "Outflow",
+  "noOfInwardBounces": "No.of.Inward Bounces",
+  "noOfOutwardBounces": "No.of.Outward Bounces",
+  "balanceOn5th": "Balance as on 5th",
+  "balanceOn10th": "Balance as on 10th",
+  "balanceOn15th": "Balance as on 15th",
+  "balanceOn20th": "Balance as on 20th",
+  "abbOfMonth": "ABB Of The Month",
+  "backToApplicantDetails": "Back To Applicant Details",
+  "vehicletitle": "Vehicle Details",
+  "registrationNum": "Registration Num",
+  "addAdditionalCollaterals": " Add Additional Collaterals",
+  "colleteralType": "Colleteral Type",
+  "column2": "Column 2",
+  "column3": "Column 3",
+  "passenger": "Passenger",
+  "passengerTitle": "VIABILITY/NET CASH FLOW",
+  "creditShieldApplicable": "Credit Shield Applicable",
+  "insuranceCompanyName": "Insurance Company Name",
+  "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
+  "creditShieldPremium": "Credit Shield Premium",
+  "creditShieldNominee": "Credit Shield Nominee",
+  "creditShieldNomineeAge": "Credit Shield Nominee Age",
+  "creditShieldNomineeRelationship": "Credit Shield Nominee Relationship",
+  "creditShieldaddedtoLoanAmount": "Credit Shield added to Loan Amount",
+  "passengerStandTitle": "Passanger & Stand Operator",
+  "expirydateofcurrentpolicy": "Expiry date of current policy",
+  "noclaimbonus": "No claim bonus",
+  "owndamagediscount": "own damage discount",
+  "comprehensive-thirdparty": "Comprehensive / third party",
+  "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)",
+  "capativeTitle": "Captive",
+  "income": "INCOME",
+  "route": "ROUTE",
+  "distanceInKm": "Distance in Km",
+  "noOfTripsPeMonth": "No. of Trips per month",
+  "monthlyRunningInKm": " Monthly running in Km",
+  "averageLoadInPerTon": "Average load in per ton",
+  "rate": "Rate / Tonne / KL",
+  "monthlyRevenueInLacs": " Monthly revenue in Rs. Lacs. (A)",
+  "validityCheck": "(To be validated with a bill/ contract Copy)",
+  "fuelPerLitre": " Fuel average in KM per litre",
+  "fuelLitreCost": "Cost per litre of fuel",
+  "noOfTyres": " No. of tyres",
+  "costPerTyre": " Cost of 1 tyre",
+  "tyreLife": "Life of new tyres in Km",
+  "expenses": "EXPENSES",
+  "totalFuelCost": "Fuel Cost (c*h / g)",
+  "totalTyreCost": "Tyre Cost (I*J*c) / (k)",
+  "driverSalary": "Drivers Salary + Allowances",
+  "cleanerSalary": "Cleaners Salary + Allowances",
+  "permitCost": "Permit Cost",
+  "fcCharges": "F.C charges",
+  "tollTaxPaid": "Toll Tax Paid",
+  "taxes": "Taxes",
+  "maintenance": "Maintenance",
+  "miscellaneous": "Miscellaneous",
+  "insuranceExpenses": "Insurance Expenses",
+  "totalExpenses": "Total Expenses (B)",
+  "netCashFlow": "Net Cash Flow (NCF) (A-B)",
+  "emiFull": "Equated Monthly Instalments (EMI)",
+  "netEmi": "Net Cash flow (NCF)/ EMI",
+  "vehicleModel": "Vehicle Model",
+  "application": "Application",
+  "grossIncomePerDay": "Gross income per day",
+  "noOfEarningDays": "No. of earnings per day (No of days)",
+  "expensesPerDay": "Expenses per day",
+  "avgTyreExpenses": "Avg tyre expenses per month",
+  "insuranceExpensePerMonth": "Insurance expenses per month",
+  "miscellaneousExpenses": "Miscellaneous expenses",
+  "monthlyIncome": "Monthly Income",
+  "netCashFlowEMI": " Net Cash Flow  EMI",
+  "obligationsBusinessMonth": "Obligations in business (Loans) per month",
+  "viabilityStatus": "Viability Status",
+  "referenceCheckTitle": "Reference Check",
+  "personName": "Person Name",
+  "addressOfThePerson": "Address of the person",
+  "contactNumber": "Contact Number",
+  "place": "Place",
+  "referenceRemarks": "Remarks",
+  "overallReport": "Overall Report",
+  "sNo": "S.No",
+  "regdNo": "Regd No",
+  "regdOwner": "Regd Owner",
+  "purchaseDate": "Purchase Date",
+  "paid": "Paid",
+  "track": "Track",
+  "coApplicant": "Co-Applicant",
+  "guarantor": "Guarantor",
+  "tatamotors": "Tata Motors",
+  "eicher": "Eicher",
+  "nameOfTheClient": "Name of the client",
+  "bajaj": "Bajaj",
+  "icici": "ICICI",
+  "chola": "Chola",
+  "nameOfTheFinancier": "Name of the Financier",
+  "assetFinanced": "Asset Financed",
+  "repaymentMode": "Repayment Mode",
+  "ecs": "ECS",
+  "ach": "ACH",
+  "pdc": "PDC",
+  "cash": "Cash",
+  "financeCharges": "Finance Charges",
+  "contractValue": "Contract Value(Total)",
+  "contNo": "Contract Number",
+  "vehicleNo": "Vehicle No",
+  "typesOfFinance": "Types Of Finance",
+  "refinance": "Refinance",
+  "accountStatus": "Account Status",
+  "matured": "Matured",
+  "running": "Running",
+  "loanStartDate": "Loan Start Date",
+  "loanMaturityDate": "Loan Maturity Date",
+  "count": "Count on 30's & 90's dpd",
+  "totalNoOfEmis": "Total no of emi's",
+  "noOfEmisPaid": "NO of emi's paid",
+  "totalDelay": "Total Delay",
+  "peakDelay": "Peak Delay",
+  "avgDelay": "Avg Delay",
+  "trackStatus": "Track Status",
+  "totalAmtPaid": "Total Amt Paid",
+  "installmentNo": "Installment No",
+  "installmentAmt": "Installment Amt",
+  "dueDate": "Due Date",
+  "rcptNo": "Rcpt. No.",
+  "recdDate": "Recd. Date",
+  "rcptAmount": "Rcpt Amount",
+  "delayDays": "Delay Days",
+  "paymentsExcess": "Payments excess/short",
+  "emiAmount": "Emi Amount",
+  "reinitiate": "Reinitiate",
+  "earningsPerDay": "Expenses per day in business",
+  "particulars": "Particulars",
+  "reference1": "Reference-1",
+  "reference2": "Reference-2",
+  "mobileNo": "Mobile No",
+  "cibilRemarks": "CIBIL Remarks",
+  "cibilOverdue": "1. Cibil Overdue",
+  "cibilReport": "2. Clarification on recent enquiries in CIBIL report",
+
+  "lablesFleet": {
     "leadCreationTitle": "Create New Lead",
     "businessDivision": "Business Division",
     "fundingProgram": "Funding Program",
@@ -846,142 +1711,338 @@
     "delayDays": "Delay Days",
     "paymentsExcess": "Payments excess/short",
     "emiAmount": "Emi Amount",
-    "reinitiate": "Reinitiate",
-    "validationData": {
-        "name": {
-            "maxLength": {
-                "rule": 30
-            },
-            "type": "alpha"
-        },
-        "fullName": {
-            "maxLength": {
-                "rule": 40
-            },
-            "type": "alpha"
-        },
-        "yom": {
-            "maxLength": {
-                "rule": 4,
-                "msg": "Maximum Length 4 digits"
-            },
-            "type": "number"
-        },
-        "loanNumber": {
-            "maxLength": {
-                "rule": 15
-            },
-            "type": "number"
-        },
-        "amountValue": {
-            "maxLength": {
-                "rule": 10
-            },
-            "type": "number"
-        },
-        "mobileNumber": {
-            "maxLength": {
-                "rule": 10,
-                "msg":"10 Digits required"
-            },
-            "pattern":{
-            "rule":"^[6-9][0-9]*$",
-            "msg":"Invalid Mobile Number"
-            },
-            "type": "number"
-        },
-        "accountNumber": {
-            "pattern":{
-                "rule": "^[0-9A-Za-z]{9,15}$",
-                "msg":"Invalid account Number"
-            }
-        },
-        "bankName": {
-            "maxLength": {
-                "rule": 25
-            },
-            "pattern":{
-                "rule": "^[A-Za-z ]{0,99}$",
-                "msg":"Invalid account Number"
-            },
-            "type": "alpha"
-        },
-        "landLine": {
-            "maxLength": {
-                "rule": 15
-            },
-            "pattern":{
-            "rule":"^[0-9]{6,15}",
-            "msg":"Invalid Number"
-            },
-            "type": "number"
-        },
-        "landMark": {
-            "maxLength": {
-                "rule": 40
-            },
-            "pattern": {
-                "rule":"^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
-                "msg":"Invalid Number"
-            }
-        },
-        "numberOfEmployeeSeen": {
-            "maxLength": {
-                "rule": 10
-            },
-            "pattern": {
-                "rule":"^[1-9][0-9]*$",
-                "msg":"Invalid Number"
-            },
-            "type":"number"
-        },
-        "amount": {
-            "maxLength": {
-                "rule": 10
-            },
-            "type": "number"
-        },
-        "receiptNo": {
-            "maxLength": {
-                "rule": 15
-            },
-            "type": "number"
-        },
-        "percentage": {
-            "maxLength": {
-                "rule": 3
-            },
-            "type": "number"
-        },
-        "vehicleRegNo": {
-            "maxLength": {
-                "rule": 11
-            },
-            "type": "alpha-numeric"
-        },
-        "employeeCode": {
-            "maxLength": {
-                "rule": 15
-            },
-            "type": "alpha-numeric"
-        },
-        "tenurePaid": {
-            "maxLength": {
-                "rule": 3
-            },
-            "type": "number"
-        },
-        "contractValue": {
-            "maxLength": {
-                "rule": 10
-            },
-            "type": "number"
-        },
-        "businessEntity": {
-            "maxLength": {
-                "rule": 40
-            },
-            "type": "special-alpha-numeric"
-        }
+    "reinitiate": "Reinitiate"
+  },
+  "validationData": {
+    "name": {
+      "maxLength": {
+        "rule": 30
+      },
+      "type": "alpha"
+    },
+    "fullName": {
+      "maxLength": {
+        "rule": 40
+      },
+      "type": "alpha"
+    },
+    "yom": {
+      "maxLength": {
+        "rule": 4,
+        "msg": "Maximum Length 4 digits"
+      },
+      "type": "number"
+    },
+    "loanNumber": {
+      "maxLength": {
+        "rule": 15
+      },
+      "type": "number"
+    },
+    "amountValue": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "number"
+    },
+
+    "mobileNumber": {
+      "maxLength": {
+        "rule": 10,
+        "msg": "10 Digits required"
+      },
+      "pattern": {
+        "rule": "^[6-9][0-9]*$",
+        "msg": "Invalid Mobile Number"
+      },
+      "type": "number"
+    },
+    "accountNumber": {
+      "maxLength": {
+        "rule": 20
+      },
+      "type": "alpha-numeric-nospace",
+      "pattern": {
+        "rule": "^[0-9A-Za-z]{9,15}$",
+        "msg": "Invalid account Number"
+      }
+    },
+    "bankName": {
+      "maxLength": {
+        "rule": 25
+      },
+      "pattern": {
+        "rule": "^[A-Za-z ]{0,99}$",
+        "msg": "Invalid account Number"
+      },
+      "type": "alpha"
+    },
+    "landLine": {
+      "maxLength": {
+        "rule": 15
+      },
+      "pattern": {
+        "rule": "^[0-9]{6,15}",
+        "msg": "Invalid Number"
+      },
+      "type": "number"
+    },
+    "landMark": {
+      "maxLength": {
+        "rule": 40
+      },
+      "pattern": {
+        "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+        "msg": "Invalid Number"
+      }
+    },
+    "numberOfEmployeeSeen": {
+      "maxLength": {
+        "rule": 10
+      },
+      "pattern": {
+        "rule": "^[1-9][0-9]*$",
+        "msg": "Invalid Number"
+      },
+      "type": "number"
+    },
+
+    "receiptNo": {
+      "maxLength": {
+        "rule": 15
+      },
+      "type": "alpha-numeric"
+    },
+    "percentage": {
+      "maxLength": {
+        "rule": 3
+      },
+      "type": "number"
+    },
+    "vehicleRegNo": {
+      "maxLength": {
+        "rule": 11
+      },
+      "type": "alpha-numeric"
+    },
+    "employeeCode": {
+      "maxLength": {
+        "rule": 15
+      },
+      "type": "alpha-numeric"
+    },
+    "tenurePaid": {
+      "maxLength": {
+        "rule": 3
+      },
+      "type": "number"
+    },
+    "contractValue": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "number"
+    },
+    "mobile": {
+      "maxLength": {
+        "rule": 10,
+        "msg": "Should be 10 Digits"
+      },
+      "type": "number",
+      "patternCheck": {
+        "rule": "^[6-9][0-9]*$",
+        "msg": "Invalid Mobile Number"
+      }
+    },
+    "adhaarNumber": {
+      "maxLength": {
+        "rule": 12
+      },
+      "type": "number",
+      "patternCheck": {
+        "rule": "^[0-9]{12}",
+        "msg": "Aadhar Should be 12 Digits"
+      }
+    },
+    "panNumber": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "alpha-numeric",
+      "patternCheck": {
+        "rule": "[A-Z]{5}[0-9]{4}[A-Z]{1}",
+        "msg": "Pan is invalid"
+      }
+    },
+    "drivingLicense": {
+      "maxLength": {
+        "rule": 16
+      },
+      "type": "alpha-numeric",
+      "patternCheck": {
+        "rule": "[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{11}",
+        "msg": "Driving License Number is invalid"
+      }
+    },
+    "voterId": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "alpha-numeric",
+      "patternCheck": {
+        "rule": "[A-Z]{3}[0-9]{7}",
+        "msg": "Voter Number is invalid"
+      }
+    },
+    "passportNumber": {
+      "maxLength": {
+        "rule": 8
+      },
+      "type": "alpha-numeric",
+      "patternCheck": {
+        "rule": "[A-Z]{1}[0-9]{7}",
+        "msg": "Passport Number is invalid"
+      }
+    },
+    "pincode": {
+      "maxLength": {
+        "rule": 6
+      },
+      "type": "number",
+      "patternCheck": {
+        "rule": "^[1-9][0-9]{5}$",
+        "msg": "Should be Valid and Must be 6 Digits"
+      }
+    },
+    "numberOfYears": {
+      "maxLength": {
+        "rule": 2
+      },
+      "type": "number"
+    },
+    "landlineNumber": {
+      "maxLength": {
+        "rule": 15
+      },
+      "type": "number"
+    },
+    "businessEntity": {
+      "maxLength": {
+        "rule": 40
+      },
+      "type": "special-alpha-numeric"
+    },
+    "landArea": {
+      "maxLength": {
+        "rule": 5
+      },
+      "type": "number"
+    },
+    "goodsManufactured": {
+      "maxLength": {
+        "rule": 50
+      },
+      "type": "alpha"
+    },
+    "pslInvestmentCost": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "number"
+    },
+    "valuationAmount": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "number"
+    },
+    "idv": {
+      "maxLength": {
+        "rule": 8
+      },
+      "type": "number"
+    },
+    "makeModel": {
+      "maxLength": {
+        "rule": 40
+      },
+      "type": "alpha-numeric"
+    },
+    "vehiclePrefixNo": {
+      "maxLength": {
+        "rule": 40
+      },
+      "type": "alpha-numeric"
+    },
+    "registrationNo": {
+      "maxLength": {
+        "rule": 11
+      },
+      "registrationPattern": {
+        "rule": "^[A-Za-z][A-Za-z0-9]+$",
+        "msg": "Invalid Name /  Special Characters not allowed"
+      },
+      "type": "alpha-numeric"
+    },
+    "chasisEngineNo": {
+      "maxLength": {
+        "rule": 30
+      },
+      "type": "alpha-numeric"
+    },
+    "monthOfManuf": {
+      "maxLength": {
+        "rule": 2
+      },
+      "type": "number"
+    },
+    "ageOfAsset": {
+      "maxLength": {
+        "rule": 3
+      },
+      "type": "number"
+    },
+    "sellerShortDesc": {
+      "maxLength": {
+        "rule": 40
+      },
+      "type": "alpha"
+    },
+    "gvw": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "number"
+    },
+    "seatingCapacity": {
+      "maxLength": {
+        "rule": 3
+      },
+      "type": "number"
+    },
+    "cubicCapacity": {
+      "maxLength": {
+        "rule": 10
+      },
+      "type": "alpha-numeric"
+    },
+    "contractDetails": {
+      "maxLength": {
+        "rule": 50
+      },
+      "type": "alpha-numeric"
+    },
+    "extn": {
+      "maxLength": {
+        "rule": 4
+      },
+      "type": "number"
+    },
+    "employees": {
+      "maxLength": {
+        "rule": 5
+      },
+      "type": "number"
     }
+  }
 }

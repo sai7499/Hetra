@@ -21,6 +21,7 @@ export class ExposureDetailsComponent implements OnInit {
   liveloanArray = [];
   proposedArray = [];
   isAlert: boolean;
+  isModelShow;
   currentYear = new Date().getFullYear();
   regexPattern = {
     maxLength4: {
@@ -41,6 +42,7 @@ export class ExposureDetailsComponent implements OnInit {
   };
   yearCheck = [];
   isDirty: boolean;
+  rowIndex;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -48,7 +50,7 @@ export class ExposureDetailsComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private location: Location,
               private toStarService: ToasterService ) {
-                this.yearCheck = [{rule: val => val>this.currentYear,msg:'Feature year not accepted'}];
+                this.yearCheck = [{rule: val => val>this.currentYear,msg:'future year not accepted'}];
               }
   exposureLiveLoan: FormGroup;
   exposureProposedLoan: FormGroup;
@@ -326,5 +328,8 @@ onSubmit() {
       this.validYom = false;
     }
 
+  }
+  showModel(i){
+  this.rowIndex=i;
   }
 }

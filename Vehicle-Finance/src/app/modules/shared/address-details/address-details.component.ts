@@ -40,6 +40,7 @@ export class AddressDetailsComponent implements OnInit {
   values: any = [];
   LOV: any = [];
   labels: any = {};
+  validationData : any;
   address: Applicant;
   applicantId: number;
   leadId: number;
@@ -110,7 +111,6 @@ export class AddressDetailsComponent implements OnInit {
   };
   landlineLength15 = {
     rule: 15,
-    msg : 'Should be Valid'
   };
 
   currentStayMaxLength = {
@@ -366,6 +366,8 @@ export class AddressDetailsComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe((data) => {
       this.labels = data;
+      this.validationData= data.validationData
+      console.log(this.validationData)
     });
   }
 

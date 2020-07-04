@@ -72,21 +72,8 @@ export class LeadCreationComponent implements OnInit {
   public toDayDate: Date = new Date();
 
   namePattern: string;
-
-  regexPattern = {
-    maxLength: {
-      rule: '10',
-      msg: 'Maximum Length 10 digits',
-    },
-    nameLength: {
-      rule: '30',
-      msg: '',
-    },
-    mobile: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Numbers only allowed !',
-    },
-  };
+  nameLength: number;
+  mobileLength: number;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -137,7 +124,11 @@ export class LeadCreationComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.nameLength = this.labels.validationData.name.maxLength;
+        this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
+      },
       (error) => console.log('Lead Creation Label Error', error)
     );
   }
