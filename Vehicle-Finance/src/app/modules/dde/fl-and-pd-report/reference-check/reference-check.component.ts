@@ -125,7 +125,8 @@ export class ReferenceCheckComponent implements OnInit {
       // date: new FormControl('', Validators.required),
       // place: new FormControl('', Validators.required),
       // time: new FormControl('', Validators.required),
-      pdRemarks: new FormControl('', Validators.required),
+      // pdRemarks: new FormControl('', Validators.required),
+      pdRemarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
       overallFiReport: new FormControl('', Validators.required)
 
     })
