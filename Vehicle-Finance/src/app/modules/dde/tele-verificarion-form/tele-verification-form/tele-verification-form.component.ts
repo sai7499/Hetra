@@ -571,7 +571,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.otpService.validateOtp(data).subscribe((res: any) => {
       const response = res;
       console.log('validate otp', response);
-      if (res['ProcessVariables']['error']['code'] == '0') {
+      if (res.ProcessVariables.error.code == '0') {
         console.log(res.ProcessVariables.error);
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         this.isModal = false;
@@ -579,6 +579,7 @@ export class TeleVerificationFormComponent implements OnInit {
       } else {
         // alert(res.ProcessVariables.error.message);
         this.toasterService.showError('Invalid OTP !', '');
+        this.isModal = false;
       }
     });
   }

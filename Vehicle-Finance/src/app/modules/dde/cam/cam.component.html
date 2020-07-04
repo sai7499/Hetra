@@ -460,6 +460,7 @@
         labels?.keyFinancialTitle
       }}
         </caption>
+      
         <tbody>
             <tr >
                 <td class="bank_name">{{ labels?.fy }}</td>
@@ -467,13 +468,13 @@
                 <td>{{ labels?.seventeenToEightteen }}</td>
                 <td>{{ labels?.sixteenToSeventeen }}</td> -->
                 <td *ngFor="let item of keyFinancial">{{item?.fy}}</td>
-               
+                <td>{{ labels?.anyOtherRemarks }}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.turnOver }}</td>
 
                 <td *ngFor="let item of keyFinancial">{{item?.turnOver}}</td>
-         
+                <td rowspan="4"></td> 
             </tr>
 
             <tr>
@@ -491,11 +492,11 @@
             <tr>
                 <td class="bank_name">{{ labels?.cashGenerationPbtDep }}</td>
                 <td *ngFor="let item of keyFinancial">{{item?.cashGeneration}}</td>
-                
+                <td >{{camDetails?.keyFinancialObjAnyOtherRemarks}}</td>
             </tr>
             <tr>
-                <td>{{ labels?.anyOtherRemarks }}</td>
-                <td *ngFor="let item of keyFinancial">{{item?.anyOtherRemarks}}</td>
+               
+                
             </tr>
         </tbody>
     </table>
