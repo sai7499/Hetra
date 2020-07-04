@@ -459,20 +459,18 @@ getActivityLOVS() {
   onActivityChange(event: any) {
     this.detailActivityValues = [];
     this.activityChange = event.target.value;
-    console.log("ACTIVITY_CHANGE----", this.activityChange);
+    console.log("ACTIVITY_CHANGE::::", this.activityChange);
     this.selectFormGroup();
     if (this.detailActivityValues.length === 0) {
       this.detailActivityValues = [
         { key: "Not Applicable", value: "Not Applicable" },
       ];
     }
-    //SHOW ALL OPTIONS_MSME
+    //AT_TIME_OF_PAGE_LOADING
     // this.showInputFieldsCA = true;
     this.showInputFieldsInvestments = true;
-
     this.isInvestmentInEquipment = true;
     this.isInvestmentInPlantMachinery = true;
-
     this.isLandHoldingYes = true;
     this.isGoosManufactured = true;
   }
@@ -561,10 +559,10 @@ getActivityLOVS() {
         }
       });
     }
-
-    //For ACTIVITY--MSME>>>>> Detail Activity SERVICE AND MANUFACTURING
+    // IF DETAIL-ACTIVITY AS "MANUFACTURING"
     if (this.detailActivityChange === "5PSLDTLACTVTY") {
       this.isInvestmentInPlantMachinery = true;
+      this.isInvestmentInEquipment = false;
       this.LOV.LOVS.pslCategory.filter( (element) => { 
         if(element.key === "3PSLCAT") {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
@@ -584,12 +582,6 @@ getActivityLOVS() {
         this.otherInvestmentCost = this.pslData.otherInvestmentCost;
         this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery; 
       }
-      // console.log(
-      //   "this.investmentInEquipmentValue",
-      //   this.investmentInEquipmentValue, this.totalInvestmentCost, this.otherInvestmentCost
-      // );
-      // this.typeOfService = [{key: 'Not Applicable', value: 'Not Applicable'}]
-
       this.typeOfService = [{key: 'Not Applicable', value: 'Not Applicable'}]
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.goodsManufactured")
@@ -618,9 +610,10 @@ getActivityLOVS() {
         .get("microSmallAndMediumEnterprises.investmentInPlantAndMachinery")
         .updateValueAndValidity();
     }
-
+    //IF DETAIL-ACTIVITY AS "SERVICE"
     if (this.detailActivityChange === "6PSLDTLACTVTY") {
       this.isInvestmentInEquipment = true;
+      this.isInvestmentInPlantMachinery = false;
       this.LOV.LOVS.pslCategory.filter( (element) => { 
         if(element.key === "2PSLCAT") {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
@@ -628,9 +621,6 @@ getActivityLOVS() {
           this.formValues.pslCategory = this.pslCategoryData[0].key;
         }
       });
-      // this.investmentInPlantMachineryValue = 0;
-      // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
- 
       if(this.pslData === null) {
         return;
       }
@@ -643,7 +633,6 @@ getActivityLOVS() {
         this.totalInvestmentCost = 0;
         this.investmentInPlantMachineryValue = 0;
       }
-
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
         .setValidators([Validators.required]);
@@ -651,8 +640,6 @@ getActivityLOVS() {
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
         .updateValueAndValidity();
     } else {
-
-      // this.pslDataForm.get('microSmallAndMediumEnterprises.typeOfService').clearValidators();
       this.isInvestmentInEquipment = false;
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
@@ -666,7 +653,7 @@ getActivityLOVS() {
   onChangeDetailActivity(event: any) {
     this.endUseValues = [];
     this.detailActivityChange = event.target.value;
-    // console.log("DETAILACTIVITY_CHANGE ----", this.detailActivityChange);
+    // console.log("DETAILACTIVITY_CHANGE::::", this.detailActivityChange);
     this.getLovForDetailActivity();
   }
 
@@ -835,7 +822,7 @@ getActivityLOVS() {
     // this.investmentInPlantMachineryValue = 0;
     this.investmentInEquipmentValueMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        if (this.investmentInEquipmentValue <= 1000000) {
+        if (this.investmentInEquipmentValue <= 1000000 && this.investmentInEquipmentValue != 0) {
           this.LOV.LOVS.pslSubCategory.filter( (element) => { 
             if(element.key === "4PSLSUBCAT") {
               const data = [{ key: element.key, value: element.value}];
@@ -882,7 +869,7 @@ getActivityLOVS() {
     // this.investmentInEquipmentValue = 0;
     this.investmentInPlantMachineryMap = this.pslSubCategoryValueMap.filter(
       (element) => {
-        if (this.investmentInPlantMachineryValue <= 2500000) {
+        if (this.investmentInPlantMachineryValue <= 2500000 && this.investmentInPlantMachineryValue != 0) {
           this.LOV.LOVS.pslSubCategory.filter( (element) => { 
             if(element.key === "7PSLSUBCAT") {
               const data = [{ key: element.key, value: element.value}];
