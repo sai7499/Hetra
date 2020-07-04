@@ -39,57 +39,6 @@ export class ValuationComponent implements OnInit {
 
   valuesToYesNo: any = [{key: 1, value: 'Yes'}, {key: 0, value: 'No'}];
 
-  regexPattern = {
-    namePattern: {
-      rule: "^[A-Za-z0-9 ]+$",
-      msg: "Invalid Name /  Special Characters not allowed",
-    },
-    nameLength: {
-      rule: 30,
-      msg: "",
-    },
-    // nameLength30: {
-    //   rule: 30,
-    //   msg: "",
-    // },
-    numberLength: {
-      rule: 10,
-      msg: "",
-    },
-    numberPattern: {
-      rule: "^[1-9][0-9]*$",
-      msg: "Invalid Input / Alphabets and Special Characters not allowed",
-    },
-    valuationAmountLength: {
-      rule: 12,
-      msg: "",
-    },
-    pincodeLength: {
-      rule: 6,
-      msg: ""
-    },
-    yearLength: {
-      rule: 4,
-      msg: ""
-    },
-    monthLength: {
-      rule: 2,
-      msg: ""
-    },
-    numberLength3: {
-      rule: 3,
-      msg: ""
-    },
-    numberLength8: {
-      rule: 8,
-      msg: ""
-    },
-    registrationPattern: {
-      rule: "^[A-Za-z][A-Za-z0-9]+$",
-      msg: "Invalid Name /  Special Characters not allowed",
-    }
-  };
-
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -115,8 +64,8 @@ export class ValuationComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
-      (error) => console.log("PSL_DATA Label Error", error)
+      (data: any) => (this.labels = data),
+      (error) => console.log("Vehicle Valuation Label Error", error)
     );
   }
 

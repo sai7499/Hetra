@@ -81,11 +81,10 @@
               /> -->
               <app-custom-input
                   formControlName="name1"
-                  [patternCheck]="nameSpacePattern"
-                  [maxLength]="nameLength30"
-                  [isRequired]="'First Name is required'"
+                  [maxLength]="validationData?.name?.maxLength"
+                  [isRequired]="'Name is required'"
                   [isDirty]="isDirty"
-                  [type]="'alpha'"
+                  [type]="validationData?.name?.type"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -99,9 +98,8 @@
               /> -->
               <app-custom-input
                   formControlName="name2"
-                  [patternCheck]="nameSpacePattern"
-                  [maxLength]="nameLength30"
-                  [type]="'alpha'"
+                  [maxLength]="validationData?.name?.maxLength"
+                  [type]="validationData?.name?.type"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -115,9 +113,8 @@
               /> -->
               <app-custom-input
                   formControlName="name3"
-                  [patternCheck]="nameSpacePattern"
-                  [maxLength]="nameLength30"
-                  [type]="'alpha'"
+                  [maxLength]="validationData?.name?.maxLength"
+                  [type]='validationData?.name?.type'
                 ></app-custom-input>
             </div>
           </div>
@@ -136,11 +133,11 @@
               /> -->
               <app-custom-input
                   formControlName="mobilePhone"
-                  [patternCheck]="mobilePattern"
+                  [patternCheck]="validationData?.mobile?.patternCheck"
                   [isRequired]="'Mobile Number is required'"
-                 [maxLength]='mobileLenght10'
+                  [maxLength]='validationData?.mobile?.maxLength'
                  [isDirty]="isDirty"
-                 [type]="'number'"
+                 [type]="validationData?.mobile?.type"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -173,7 +170,7 @@
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">Age </label>
+              <label for="entity">{{labels?.ageApplicant}} </label>
               <!-- <select class="form-control" id="entity">                                                  
                                
                                 <option value="Mrs" selected>Mrs</option>                                                   
@@ -191,7 +188,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Gender <sub class="star_red_col">*</sub></label>
+              <label for="customer_category">{{labels?.gender}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="gender"
                 [values]="LOV?.LOVS?.gender "
@@ -207,7 +204,7 @@
                     <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
                       <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
                       (click)="checkSenior($event)" disabled [checked]="checkingSenior"> 
-                      <span class="is_senior">Is senior Citizen? <sub class="star_red_col">*</sub></span>
+                      <span class="is_senior">{{labels?.senior}}</span>
                   
                     <!-- <div class="showErrorMessage">
                          {{messageOfSeniorcitizen}}
@@ -218,7 +215,7 @@
               
                     <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
                         (click)="checkMinor($event)" disabled [checked]="checkingMinor">
-                        <span class="is_senior">Is Minor? <sub class="star_red_col">*</sub></span>
+                        <span class="is_senior">{{labels?.minor}}</span>
                    <!-- <div class="showErrorMessage">
                      {{messageOfMinor}}
                    </div>  -->
@@ -227,7 +224,7 @@
                   <div class="row" *ngIf="checkingMinor">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="guardian_name"
-                        >Guardian Name <sub class="star_blue_col">*</sub></label
+                        >{{labels?.guardianName}} <sub class="star_blue_col">*</sub></label
                       >
                       <!-- <input
                         type="text"
@@ -238,16 +235,15 @@
                       /> -->
                       <app-custom-input
                           formControlName="minorGuardianName"
-                          [patternCheck]="nameSpacePattern"
-                          [maxLength]="nameLength30"
+                          [maxLength]="validationData?.name?.maxLength"
                           [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
                           [isDirty]="isDirty"
-                          [type]="'alpha'"
+                          [type]="validationData?.name?.type"
                           ></app-custom-input>
                         
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="entity">Guardian's Relationship with Minor <sub class="star_blue_col">*</sub></label>
+                      <label for="entity">{{labels?.guardianRelationship}} <sub class="star_blue_col">*</sub></label>
                       <!-- <select class="form-control" id="entity">                                                  
                                        
                                         <option value="Mrs" selected>Mrs</option>                                                   
@@ -272,7 +268,7 @@
             </div> -->
             <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="father_name">{{ labels?.fatherName }}  <sub class="star_blue_col">*</sub></label>
+              <label for="father_name">{{ labels?.fatherName }} <sub class="star_blue_col">*</sub></label>
               <!-- <input
                 formControlName="fatherName"
                 type="text"
@@ -282,11 +278,10 @@
               /> -->
               <app-custom-input
                   formControlName="fatherName"
-                  [patternCheck]="nameSpacePattern"
-                  [maxLength]="nameLength30"
+                  [maxLength]="validationData?.fullName?.maxLength"
                   [isDirty]="isDirty"
                   [isRequired]="isRequiredFather"
-                  [type]="'alpha'"
+                  [type]="validationData?.fullName?.type"
             
                 ></app-custom-input>
             </div>
@@ -301,11 +296,10 @@
               /> -->
               <app-custom-input
                   formControlName="spouseName"
-                  [patternCheck]="nameSpacePattern"
-                  [maxLength]="nameLength30"
-                  [isDirty]="isDirty"
+                  [maxLength]="validationData?.fullName?.maxLength"
                   [isRequired]="isRequiredSpouse"
-                  [type]="'alpha'"
+                  [isDirty]="isDirty"
+                  [type]="validationData?.fullName?.type"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -319,17 +313,16 @@
               /> -->
               <app-custom-input
               formControlName="motherMaidenName"
-              [patternCheck]="nameSpacePattern"
-              [maxLength]="nameLength30"
-              [isDirty]="isDirty"
-              [isRequired]="'Mother Name Is Required'"
-              [type]="'alpha'"
+              [maxLength]="validationData?.name?.maxLength"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Mother name is Required'"
+                  [type]="validationData?.name?.type"
             ></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">Alternate contact Number </label>
+              <label for="mobile_number">{{labels?.alternateContactNumber}} </label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -341,13 +334,12 @@
               /> -->
               <app-custom-input
                   formControlName="alternateMobileNumber"
-                  [patternCheck]="landlinePattern"
-                  [type]="'number'"
-                 [maxLength]='landlineLength15'
+                  [type]="validationData?.loanNumber?.type"
+                  [maxLength]="validationData?.loanNumber?.maxLength"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="email_id">Email ID</label>
+              <label for="email_id">{{labels?.emailID}}</label>
               <!-- <input
                 type="email"
                 class="form-control"
@@ -362,7 +354,7 @@
                 ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="alternate_email_id">Alternate email ID</label>
+              <label for="alternate_email_id">{{labels?.alternateEmailID}}</label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -404,7 +396,7 @@
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="preffered_language">Preferred Language for Communication</label>
+              <label for="preffered_language">{{labels?.prefferedLanguageForCommunication}}</label>
               <app-vf-custom-select formControlName="preferredLanguage" [values]="LOV?.LOVS?.preferredLanguage"
               [isRequired]="'Please select one'"
               [isDirty]="isDirty">
@@ -413,7 +405,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Politically Exposed Person [PEP] </label>
+              <label for="customer_category">{{labels?.politicallyExposedPerson}} </label>
               <app-vf-custom-select
                 formControlName="politicallyExposedPerson"
                 [values]="LOV?.LOVS.politicallyExposed"
@@ -426,7 +418,7 @@
             
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Customer Segment <sub class="star_red_col">*</sub></label>
+              <label for="customer_category">{{labels?.customerSegment}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="custSegment"
                 [values]="LOV?.LOVS?.customerSegment"
@@ -439,7 +431,7 @@
             </div>
             
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">Customer category <sub class="star_red_col">*</sub></label>
+              <label for="customer_category">{{labels?.customerCategory}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="customerCategory"
                 [values]="LOV?.LOVS?.customerCategory"
@@ -514,7 +506,7 @@
               <app-custom-input
               formControlName="employerName"
               
-              [maxLength]="nameLength30"
+              [maxLength]="validationData?.name?.maxLength"
               [isRequired]="'Office Name Is Required'"
               [isDirty]="isDirty"
               
@@ -535,11 +527,10 @@
               /> -->
               <app-custom-input
                   formControlName="currentEmpYears"
-                  [patternCheck]="numberPattern"
-                  [maxLength]="length2"
+                  [maxLength]="validationData?.numberOfYears?.maxLength"
                   [isRequired]="'Employeement Year is required'"
                   [isDirty]="isDirty"
-                  [type]="'number'"
+                  [type]="validationData?.numberOfYears?.type"
                   ></app-custom-input>
             </div>
           </div>
@@ -558,8 +549,8 @@
                   formControlName="employeeCode"
                   [isRequired]="'Employee Code is required'"
                   [isDirty]="isDirty"
-                  [maxLength]="labels?.validationData.employeeCode.maxLength"
-                  [type]="labels?.validationData.employeeCode.type"
+                  [maxLength]="validationData?.employeeCode?.maxLength"
+                  [type]="validationData?.employeeCode?.type"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -707,7 +698,7 @@
               /> -->
               <app-custom-input
               formControlName="name2"
-              [maxLength]="nameLength30"
+              [maxLength]="validationData?.name?.maxLength"
              
             ></app-custom-input>
             </div>
@@ -721,7 +712,7 @@
               /> -->
               <app-custom-input
                   formControlName="name3"
-                  [maxLength]="nameLength30"
+                  [maxLength]="validationData?.name?.maxLength"
                  
                 ></app-custom-input>
             </div>

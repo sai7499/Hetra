@@ -2,31 +2,33 @@
     <table class="table">
         <thead>
             <tr class="table-head-bg">
-                <th>{{labels.action}}<i class="fa fa-sort"></i></th>
-                <th>{{labels.leadID}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.product}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.loanAmount}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.applicant}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.createdOn}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.createdBy}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.priority}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.promoCode}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.status}} <i class="fa fa-sort"></i> </th>
-                <th>{{labels.history}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.action}}<i class="fa fa-sort"></i></th>
+                <th>{{labels?.leadID}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.product}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.applicant}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.createdOn}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.createdBy}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.priority}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.promoCode}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.status}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.history}} <i class="fa fa-sort"></i> </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of leadDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: q }">
+            <tr *ngFor="let item of viabilityDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td><input type="button" class="btn-primary" value="Assign" data-toggle="modal" data-target="#assignModel" /></td>
                 <td>{{item.leadId}}</td>
-                <td>{{item.product}}</td>
-                <td>{{item.loanAmount}}</td>
-                <td>{{item.applicants}}</td>
-                <td>{{item.createdOn}}</td>
-                <td>{{item.createdBy}}</td>
-                <td>{{item.priority}}</td>
-                <td>{{item.promoCode}}</td>
-                <td>{{item.status}}</td>
+                <td>{{item.product ? item.product : '--'}}</td>
+                <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
+                <td>{{item.applicants ? item.applicants : '--'}}</td>
+                <td>{{item.createdOn ? item.createdOn : '--'}}</td>
+                <td>{{item.createdBy ? item.createdBy : '--'}}</td>
+                <td *ngIf="item.priority == '1'">Yes</td>
+                <td *ngIf="item.priority == '0' || item.priority == null">No</td>
+                <td>{{item.promoCode ? item.promoCode : '--'}}</td>
+                <td *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
+                <td *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
@@ -38,17 +40,17 @@
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>
-                <select class="form-control  input-sm" [(ngModel)]="itemsPerPage">
+                <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
-                    </select>
+                </select>
             </div>
 
         </div>
         <nav class="col-xs-9 col-sm-4 text-center">
-            <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls>
+            <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
         </nav>
     </div>
 </div>

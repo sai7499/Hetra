@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '@services/api.service';
 import { ScoreCardService } from '../services/score-card.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
     templateUrl: './score-card.component.html',
@@ -9,23 +10,35 @@ import { ScoreCardService } from '../services/score-card.service';
 export class ScoreCardComponent implements OnInit {
 
     borrowerAttributes: any;
+    borrowerAttributesLength: number;
     borrowerAssessments: any;
+    borrowerAssessmentsLength: number;
     fieldVerifications: any;
+    fieldVerificationsLength: number;
     repaymentAssessments: any;
 
     scoreCard: any;
+    userId: string;
+    leadId: number;
 
     constructor(
-        private apiService: ApiService,
-        private scoreCardService: ScoreCardService
+        private scoreCardService: ScoreCardService,
+        private loginStoreService: LoginStoreService,
+        private createLeadDataService: CreateLeadDataService
     ) { }
 
     ngOnInit() {
-        this.getCreditScoreCard();
+        const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+        this.userId = roleAndUserDetails.userDetails.userId;
+
+        const leadData = this.createLeadDataService.getLeadSectionData();
+        this.leadId = (leadData as any).leadId;
+
+        this.reInitiateCreditScore();
     }
 
-    getCreditScoreCard() {
-        this.scoreCardService.getCreditScoreCard().subscribe((res: any) => {
+    reInitiateCreditScore() {
+        this.scoreCardService.reInitiateCreditScore(this.leadId, this.userId).subscribe((res: any) => {
             const response = res;
             const appiyoError = response.Error;
             const apiError = response.ProcessVariables.error.code;
@@ -37,6 +50,13 @@ export class ScoreCardComponent implements OnInit {
                 this.borrowerAssessments = this.scoreCard.borrowerAssessment;
                 this.fieldVerifications = this.scoreCard.fieldVerification;
                 this.repaymentAssessments = this.scoreCard.repaymentAssessment;
+
+                this.borrowerAttributesLength = this.borrowerAttributes.length + 1;
+                this.borrowerAssessmentsLength = this.borrowerAttributes.length +
+                    this.borrowerAssessments.length + 1;
+                this.fieldVerificationsLength = this.borrowerAttributes.length +
+                    this.borrowerAssessments.length +
+                    this.fieldVerifications.length + 1;
             }
         });
     }

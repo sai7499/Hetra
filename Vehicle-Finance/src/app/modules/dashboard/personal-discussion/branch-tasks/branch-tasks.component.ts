@@ -3,6 +3,10 @@ import { LabelsService } from '@services/labels.service';
 import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { Router } from '@angular/router';
+import { HttpService } from '@services/http.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-branch-tasks',
@@ -11,7 +15,6 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 })
 export class BranchTasksComponent implements OnInit {
 
-  leadDetails;
   itemsPerPage = '25';
   labels: any = {};
   roleId: string;
@@ -22,23 +25,20 @@ export class BranchTasksComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  taskId: any;
 
-  constructor(private labelsData: LabelsService,
-              private loginService: LoginService,
-              private loginStoreService: LoginStoreService,
-              private personalDiscussion: PersonalDiscussionService) {
-    this.leadDetails = [
-      {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'},
-      {leadId: 1000002, product: 'Used CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'},
-      {leadId: 1000003, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'},
-      {leadId: 1000004, product: 'Used CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'},
-      {leadId: 1000005, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'PD', history: 'test'}
-    ];
+
+  constructor(
+    private labelsData: LabelsService,
+    private loginService: LoginService,
+    private loginStoreService: LoginStoreService,
+    private personalDiscussion: PersonalDiscussionService,
+    private taskDashboard: TaskDashboard,
+    private router: Router,
+    private httpService: HttpService,
+    private http: HttpClient
+
+  ) {
   }
 
   ngOnInit() {
@@ -50,7 +50,7 @@ export class BranchTasksComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
-     });
+    });
     this.getPdBrabchTask(this.itemsPerPage);
   }
 
@@ -59,13 +59,14 @@ export class BranchTasksComponent implements OnInit {
       taskName: 'Personal Discussion',
       branchId: this.branchId,
       roleId: this.roleId,
+      // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       myLeads: false,
     };
-    this.personalDiscussion.getPdTaskDashboard(data).subscribe((res: any) => {
+    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
-      const processveriables = res.ProcessVariables;
     });
   }
 
@@ -80,7 +81,16 @@ export class BranchTasksComponent implements OnInit {
   }
 
   setPage(event) {
-   this.getPdBrabchTask(this.itemsPerPage, event);
+    this.getPdBrabchTask(this.itemsPerPage, event);
+  }
+
+  onAssign(id) {
+   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
+
+   const token = localStorage.getItem('token');
+   console.log(token);
+
+  //  return this.httpService.post(url,);
   }
 
 }
