@@ -1,4 +1,3 @@
-  
 {
     "leadCreationTitle": "Create New Lead",
     "businessDivision": "Business Division",
@@ -216,6 +215,7 @@
     "deferralDate": "Deferral Date",
     "view": "View",
     "marginMoney": "Margin Money",
+    "sourceMarginMoney": "Source of margin money",
     "emiAffordability": "EMI Affordibility",
     "sNO": "S.No",
     "type": "Type",
@@ -365,7 +365,7 @@
     "sourcePurchase": "Source of vechicle purchase",
     "marginMoneyPaid": "Source of margin money paid",
     "nameOfFinancer": "Name of Financier",
-    "awareMarginMoney": "is the co-applicant aware of source of margin money?",
+    "awareMarginMoney": "Is the co-applicant aware of source of margin money?",
     "nameOfChannel": "Name of Channel",
     "sellerVehicle": "Do you know seller of the vehicle?",
     "knowAbtVehicle": "How did you come to know about proposed vehicle?",
@@ -796,7 +796,7 @@
     "contactNumber": "Contact Number",
     "place": "Place",
     "referenceRemarks": "Remarks",
-    "overallReport": "Overall Report",
+    "overallReport": "Overall SO Report",
     "sNo": "S.No",
     "regdNo": "Regd No",
     "regdOwner": "Regd Owner",
@@ -882,27 +882,27 @@
         "mobileNumber": {
             "maxLength": {
                 "rule": 10,
-                "msg":"10 Digits required"
+                "msg": "10 Digits required"
             },
-            "pattern":{
-            "rule":"^[6-9][0-9]*$",
-            "msg":"Invalid Mobile Number"
+            "pattern": {
+                "rule": "^[6-9][0-9]*$",
+                "msg": "Invalid Mobile Number"
             },
             "type": "number"
         },
         "accountNumber": {
-            "pattern":{
+            "pattern": {
                 "rule": "^[0-9A-Za-z]{9,15}$",
-                "msg":"Invalid account Number"
+                "msg": "Invalid account Number"
             }
         },
         "bankName": {
             "maxLength": {
                 "rule": 25
             },
-            "pattern":{
+            "pattern": {
                 "rule": "^[A-Za-z ]{0,99}$",
-                "msg":"Invalid account Number"
+                "msg": "Invalid account Number"
             },
             "type": "alpha"
         },
@@ -910,9 +910,9 @@
             "maxLength": {
                 "rule": 15
             },
-            "pattern":{
-            "rule":"^[0-9]{6,15}",
-            "msg":"Invalid Number"
+            "pattern": {
+                "rule": "^[0-9]{6,15}",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },
@@ -921,8 +921,8 @@
                 "rule": 40
             },
             "pattern": {
-                "rule":"^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
-                "msg":"Invalid Number"
+                "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+                "msg": "Invalid Number"
             }
         },
         "numberOfEmployeeSeen": {
@@ -930,10 +930,10 @@
                 "rule": 10
             },
             "pattern": {
-                "rule":"^[1-9][0-9]*$",
-                "msg":"Invalid Number"
+                "rule": "^[1-9][0-9]*$",
+                "msg": "Invalid Number"
             },
-            "type":"number"
+            "type": "number"
         },
         "amount": {
             "maxLength": {
@@ -974,6 +974,30 @@
         "contractValue": {
             "maxLength": {
                 "rule": 10
+            },
+            "type": "number"
+        },
+        "engineNo": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
+        "chasisNo": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
+        "noOfTrips": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "noOfEmployeesSeen": {
+            "maxLength": {
+                "rule": 3
             },
             "type": "number"
         }

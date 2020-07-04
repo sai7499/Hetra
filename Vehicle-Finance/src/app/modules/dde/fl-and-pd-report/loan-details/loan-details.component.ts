@@ -37,6 +37,8 @@ export class LoanDetailsComponent implements OnInit {
   applicantId: number;
   version: string;
   data: any;
+  currentYear = new Date().getFullYear();
+  yearCheck = [];
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -70,7 +72,9 @@ export class LoanDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private personalDiscussion: PersonalDiscussionService,
     private pdDataService: PdDataService,
-    private toasterService: ToasterService) { }
+    private toasterService: ToasterService) {
+    this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+  }
 
   async ngOnInit() {
 
@@ -158,14 +162,15 @@ export class LoanDetailsComponent implements OnInit {
       channelSourceName: new FormControl(''),
       vehicleSeller: new FormControl(''),
       proposedVehicle: new FormControl(''),
-      invesmentAmount: new FormControl(''),
+      investmentAmount: new FormControl(''),
       marginMoneyBorrowed: new FormControl(''),
       marketValueProposedVehicle: new FormControl(''),
       purchasePrice: new FormControl(''),
       vehicleCondition: new FormControl(''),
       fundsUsage: new FormControl(''),
       earlierVehicleApplication: new FormControl(''),
-      othersRemarks: new FormControl(''),
+      othersRemarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      // othersRemarks: new FormControl(''),
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
       awareDueDateEmiAmount: new FormControl(''),
@@ -187,9 +192,22 @@ export class LoanDetailsComponent implements OnInit {
       noOfTrips: new FormControl(''),
       amtPerTrip: new FormControl(''),
       selfDrivenOrDriver: new FormControl(''),
-      remarks: new FormControl('')
+      // remarks: new FormControl('')
+      remarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
     });
   }
+  // checkManufacturingYear(event, i) {
+  //   const dateFormat: Date = new Date();
+  //   const year = dateFormat.getFullYear();
+  //   let modelInYear = parseInt(event.target.value);
+  //   if (modelInYear > year) {
+  //     // formData.form.controls['email'].setErrors({'incorrect': true});
+  //     this.loanDetailsForm.controls['controls']['modelInYear'].setErrors({ 'incorrect': true })
+  //     // alert("invalid")
+  //   } else {
+
+  //   }
+  // }
 
   getDateFormat(date) {
 
@@ -326,7 +344,7 @@ export class LoanDetailsComponent implements OnInit {
       channelSourceName: usedVehicleModel.channelSourceName,
       vehicleSeller: usedVehicleModel.vehicleSeller,
       proposedVehicle: usedVehicleModel.proposedVehicle,
-      invesmentAmount: usedVehicleModel.invesmentAmount,
+      investmentAmount: usedVehicleModel.invesmentAmount,
       marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed,
       marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle,
       purchasePrice: usedVehicleModel.purchasePrice,
@@ -453,7 +471,7 @@ export class LoanDetailsComponent implements OnInit {
       channelSourceName: loanDetailsModal.channelSourceName,
       vehicleSeller: loanDetailsModal.vehicleSeller,
       proposedVehicle: loanDetailsModal.proposedVehicle,
-      invesmentAmount: loanDetailsModal.invesmentAmount,
+      investmentAmount: loanDetailsModal.invesmentAmount,
       marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
       marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
       purchasePrice: loanDetailsModal.purchasePrice,

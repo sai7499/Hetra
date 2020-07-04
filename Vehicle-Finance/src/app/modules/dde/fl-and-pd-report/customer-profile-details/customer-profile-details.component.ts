@@ -61,16 +61,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
   userName: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private personalDiscusion: PersonalDiscussionService,
-              private toasterService: ToasterService,
-              private commonLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private personalDiscussion: PersonalDiscussionService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private personalDiscusion: PersonalDiscussionService,
+    private toasterService: ToasterService,
+    private commonLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private personalDiscussion: PersonalDiscussionService) { }
 
   async ngOnInit() {
 
@@ -149,7 +149,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
-      mismatchInAddress: new FormControl('', Validators.required),
+      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       customerHouseSelfie: new FormControl('', Validators.required),
       ownershipAvailable: new FormControl('', Validators.required),
       mandatoryCustMeeting: new FormControl('', Validators.required)
