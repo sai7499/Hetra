@@ -206,8 +206,8 @@ vehicle_viability_navigate(event) {
    privateViability.get('maintanence').setValidators(Validators.required);
    privateViability.get('busMiscellaneousExpenses').setValidators(Validators.required);
    privateViability.get('busInsurenceExpenses').setValidators(Validators.required);
-   privateViability.get('busMonthlyIncome').setValidators(Validators.required);
-   privateViability.get('netCashFlow').setValidators(Validators.required);
+  //  privateViability.get('busMonthlyIncome').setValidators(Validators.required);
+  //  privateViability.get('netCashFlow').setValidators(Validators.required);
    privateViability.get('emi').setValidators(Validators.required);
    privateViability.get('totalExpenses').setValidators(Validators.required);
 
@@ -235,69 +235,35 @@ vehicle_viability_navigate(event) {
     captive.get('busTyreAvgExpenses').setValidators(Validators.required);
     captive.get('busInsurenceExpenses').setValidators(Validators.required);
     captive.get('busMiscellaneousExpenses').setValidators(Validators.required);
-    captive.get('busMonthlyIncome').setValidators(Validators.required);
+    captive.get('busMonthlyIncome').setValidators(null);
     captive.get('totalExpenses').setValidators(Validators.required);
     captive.get('netCashFlowEmi').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
    }
-   private  removePassengerValidators() {
+   public removePassengerValidators() {
     const privateViability = this.viabilityForm.controls.passanger as FormGroup;
-    privateViability.get('route').clearValidators();
-    privateViability.get('natureOfGoods').clearValidators();
-    privateViability.get('distanceInKm').clearValidators();
-    privateViability.get('tripsPerMonth').clearValidators();
-    privateViability.get('monthlyRunningKm').clearValidators();
-    privateViability.get('avgLoadPerTon').clearValidators();
-    privateViability.get('rateTonne').clearValidators();
-    privateViability.get('fuelAvgPerKm').clearValidators();
-    privateViability.get('costPerLtr').clearValidators();
-    privateViability.get('noOfTyres').clearValidators();
-    privateViability.get('perTyreCost').clearValidators();
-    privateViability.get('newTyreLifeKm').clearValidators();
-    privateViability.get('fuelCost').clearValidators();
-    privateViability.get('tyreCost').clearValidators();
-    privateViability.get('driversSalary').clearValidators();
-    privateViability.get('cleanersSalary').clearValidators();
-    privateViability.get('permitCost').clearValidators();
-    privateViability.get('fcCharge').clearValidators();
-    privateViability.get('paidTollTax').clearValidators();
-    privateViability.get('taxes').clearValidators();
-    privateViability.get('maintanence').clearValidators();
-    privateViability.get('busMiscellaneousExpenses').clearValidators();
-    privateViability.get('busInsurenceExpenses').clearValidators();
-    privateViability.get('busMonthlyIncome').clearValidators();
-    privateViability.get('netCashFlow').clearValidators();
-    privateViability.get('emi').clearValidators();
-    privateViability.get('totalExpenses').clearValidators();
-   }
-   private removeStandOverValidators() {
-    const privateStandViability = this.viabilityForm.controls.passangerStandOperator as FormGroup;
-    privateStandViability.get('application').clearValidators();
-    privateStandViability.get('grossIncomePerDay').clearValidators();
-    privateStandViability.get('businessEarningPerDay').clearValidators();
-    privateStandViability.get('businessIncomePerDay').clearValidators();
-    privateStandViability.get('avgTyreExpenses').clearValidators();
-    privateStandViability.get('insuranceExpenses').clearValidators();
-    privateStandViability.get('miscellaneousExpenses').clearValidators();
-    privateStandViability.get('totalExpenses').clearValidators();
-    privateStandViability.get('netCashFlow').clearValidators();
-    privateStandViability.get('emi').clearValidators();
-   }
-   private removeCaptiveValidators() {
-    const captive = this.viabilityForm.controls.captive as FormGroup;
-    captive.get('natureOfBusiness').clearValidators();
-    captive.get('businessIncomePerDay').clearValidators();
-    captive.get('businessEarningPerDay').clearValidators();
-    captive.get('busExpensesPerDay').clearValidators();
-    captive.get('oblicationsPerMonth').clearValidators();
-    captive.get('busTyreAvgExpenses').clearValidators();
-    captive.get('busInsurenceExpenses').clearValidators();
-    captive.get('busMiscellaneousExpenses').clearValidators();
-    captive.get('busMonthlyIncome').clearValidators();
-    captive.get('totalExpenses').clearValidators();
-    captive.get('netCashFlowEmi').clearValidators();
-    captive.get('emi').clearValidators();
-   }
+    // tslint:disable-next-line: forin
+    for (const key in privateViability.controls) {
+      privateViability.get(key).clearValidators();
+      privateViability.get(key).updateValueAndValidity();
+    }
+}
+public removeStandOverValidators() {
+  const privateViability = this.viabilityForm.controls.passangerStandOperator as FormGroup;
+  // tslint:disable-next-line: forin
+  for (const key in privateViability.controls) {
+    privateViability.get(key).clearValidators();
+    privateViability.get(key).updateValueAndValidity();
+  }
+}
+  public removeCaptiveValidators() {
+    const privateViability = this.viabilityForm.controls.captive as FormGroup;
+    // tslint:disable-next-line: forin
+    for (const key in privateViability.controls) {
+      privateViability.get(key).clearValidators();
+      privateViability.get(key).updateValueAndValidity();
+    }
+  }
 getViability(id: any) {
     const body = {
       userId: this.userId,
@@ -307,25 +273,32 @@ getViability(id: any) {
       if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
-        // this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
+        this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
-        this.viabilityForm.controls.type = '1VHCLVBTY';
         this.patchViability(this.viabliityDataToPatch);
         this.calculatePassenger();
         this.calculatePassengerB();
         this.calculatePassengerC();
         this.calculatePassengerD();
+        this.viabilityForm.patchValue ({
+          type: this.viabliityDataToPatch.type
+         }) ;
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '2VHCLVBTY') {
-        this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
+        this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
+        this.viabilityForm.patchValue ({
+          type: this.viabliityDataToPatch.type
+         }) ;
         this.setPassangetStandOperator(this.viabliityDataToPatch);
         this.calculateStandOperator();
         this.calculateStandOperatorB();
         this.calculateStandOperatorC();
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '3VHCLVBTY') {
-        this.viabilityForm.controls.type = this.viabliityDataToPatch.type;
+        this.viabilityForm.patchValue ({
+         type: this.viabliityDataToPatch.type
+        }) ;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.setCapative(this.viabliityDataToPatch);
@@ -334,63 +307,67 @@ getViability(id: any) {
         this.calculateCaptiveC();
        }
     } else {
-      this.viabilityForm.controls.type = '1VHCLVBTY';
+      // this.viabilityForm.controls.type = '1VHCLVBTY';
     }
     });
 
   }
-  // setUpvalidators() {
-  //   if (this.viabilityForm.value.type === 'passanger') {
-  //     this.privateViability();
-  //   } else {
-  //     this.viabilityForm.controls.passanger.clearValidators();
-  //     this.privateStandOverViability();
-  //   }
-  // }
 onSave() {
-    this.vehicle_viability_navigate(this.viabilityForm.controls.type);
+    this.vehicle_viability_navigate(this.viabilityForm.value.type);
     if (this.viabilityForm.invalid) {
       console.log(this.viabilityForm.value);
       return;
     }
-    if (this.viabilityForm.controls.type === '1VHCLVBTY') {
+    if (this.viabilityForm.value.type === '1VHCLVBTY') {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
           collateralId: this.collataralId,
-          type: this.viabilityForm.controls.type,
+          type: this.viabilityForm.value.type,
           ...this.convertPassenger(this.viabilityForm.value.passanger)
         },
       };
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
-       this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+        if ( res.ProcessVariables.error.code === '0') {
+          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+         } else {
+       this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
+      }
     });
-    } else if ( this.viabilityForm.controls.type === '2VHCLVBTY') {
+    } else if ( this.viabilityForm.value.type === '2VHCLVBTY') {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
           collateralId: this.collataralId,
-          type: this.viabilityForm.controls.type,
+          type: this.viabilityForm.value.type,
           ...this.convertStandOperative(this.viabilityForm.value.passangerStandOperator)
         },
       };
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
-        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+        if ( res.ProcessVariables.error.code === '0') {
+          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+         } else {
+       this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
+      }
     });
-     } else if ( this.viabilityForm.controls.type === '3VHCLVBTY') {
+     } else if ( this.viabilityForm.value.type === '3VHCLVBTY') {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
           collateralId: this.collataralId,
-          type: this.viabilityForm.controls.type,
+          type: this.viabilityForm.value.type,
           ...this.convertCapitve(this.viabilityForm.value.captive)
         },
       };
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
-        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+        if ( res.ProcessVariables.error.code === '0') {
+           this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+          } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
+       }
     });
      }
   }
@@ -505,7 +482,7 @@ setPassangetStandOperator(data: any) {
     busTyreAvgExpenses:  dataCaptive.busTyreAvgExpenses ? dataCaptive.busTyreAvgExpenses : null ,
     busInsurenceExpenses:  dataCaptive.busInsurenceExpenses ? dataCaptive.busInsurenceExpenses : null ,
     busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? dataCaptive.busMiscellaneousExpenses : null ,
-    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? dataCaptive.busMonthlyIncome : null ,
+    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(this.montlyCaptiveIncome) : null ,
     totalExpenses: dataCaptive.totalExpenses ? dataCaptive.totalExpenses : null,
     netCashFlowEmi: dataCaptive.netCashFlowEmi ? dataCaptive.netCashFlowEmi : null,
     emi: dataCaptive.emi ? dataCaptive.emi : null
@@ -636,8 +613,10 @@ calculateStandOperatorC() {
   const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : 0;
   const ncf = passengerStandGroup.value.netCashFlow ? Number(passengerStandGroup.value.netCashFlow) : 0;
 
-  const calEMi = ncf / emi;
-  this.standOperatorEmi = calEMi;
+  const calEMI: number = Number( ncf / emi);
+  const emiCal = Number(calEMI.toFixed(2));
+  console.log(calEMI);
+  this.standOperatorEmi = (emiCal);
 }
 calculateCaptive() {
   this.montlyCaptiveIncome = 0;
@@ -673,6 +652,6 @@ calculateCaptiveC() {
   const ncf = passengerStandGroup.value.netCashFlowEmi ? Number(passengerStandGroup.value.netCashFlowEmi) : 0;
 
   const calEMi = ncf / emi;
-  this.captiveEmi = calEMi;
+  this.captiveEmi = Number(calEMi.toFixed(2));
 }
 }

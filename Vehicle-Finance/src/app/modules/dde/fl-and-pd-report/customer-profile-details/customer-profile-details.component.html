@@ -15,7 +15,8 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="no_employees">{{labels.noEmployees}}</label>
                 <!-- <input type="number" class="form-control" id="no_employees" formControlName="noOfEmployeesSeen"> -->
-                <app-custom-input id="no_employees" formControlName="noOfEmployeesSeen" [type]="labels?.validationData?.numberOfEmployeeSeen?.type" [patternCheck]="labels?.validationData?.numberOfEmployeeSeen?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.numberOfEmployeeSeen?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="no_employees" formControlName="noOfEmployeesSeen" placeholder="no of employees" [type]="labels?.validationData?.noOfEmployeesSeen?.type" [isRequired]="'no of employees is required'" [maxLength]="labels?.validationData?.noOfEmployeesSeen?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
 
             </div>
@@ -67,7 +68,22 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mismatch_address">{{labels.mismatchAddress}}</label>
                 <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
-                <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength" [isDirty]="isDirty"></app-custom-input>
+                <!-- <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" placeholder="mismatch in address" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength"
+                    [isDirty]="isDirty"></app-custom-input> -->
+                <textarea class="form-control mandatory" name="mismatchInAddress" id="mismatchInAddress" cols="1" rows="3" placeholder="mismatch in Address" formControlName="mismatchInAddress" maxlength="200" style="resize: none;"></textarea>
+
+                <div class="invalid-feedback " *ngIf="customerProfileForm.controls['mismatchInAddress'].touched && !customerProfileForm.controls['mismatchInAddress'].vaild">
+
+                    <div *ngIf="customerProfileForm.controls['mismatchInAddress'].hasError('required')">
+                        mismatch in address is Required
+                    </div>
+
+
+                    <div *ngIf="customerProfileForm.controls['mismatchInAddress'].hasError('pattern')">
+                        special characters are not allowed
+                    </div>
+                </div>
+
 
 
             </div>
@@ -107,13 +123,13 @@
             <div class="btn-sec clear-both">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
-                    
+
                     <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
                         {{labels.back}} </button> &nbsp;
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../applicant-detail',applicantId]">
                         {{labels.back}} </button> &nbsp; -->
-                        <button class="btn btn-primary" type="button" (click)="onNavigateBack()" >
-                            {{labels.back}} </button>
+                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+                        {{labels.back}} </button>&nbsp;
                     <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
                     <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button> -->

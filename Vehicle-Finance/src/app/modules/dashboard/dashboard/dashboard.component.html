@@ -27,6 +27,22 @@
             <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
                 Filter </button>
         </div>
+        <!-- </li> -->
+        <li>
+            <div class="checkbox"><label><input type="checkbox">Stage <span class="checkmark"></span> </label></div>
+        </li>
+        <li>
+            <div class="checkbox"><label><input type="checkbox">Loan Amount <span class="checkmark"></span> </label>
+            </div>
+        </li>
+        <li>
+            <div class="checkbox"><label><input type="checkbox">Assigned By <span class="checkmark"></span> </label>
+            </div>
+        </li>
+        <!-- </ul> -->
+        <!-- </span> -->
+        <!-- <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button> -->
+    <!-- </div> -->
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
@@ -84,17 +100,23 @@
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
         <ul class="nav nav-pills nav-justified" id="background_white">
-            <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
-            <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
-            <li [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Vehicle Viability</a></li>
+            <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>Leads</a>
+            </li>
+            <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal
+                    Discussion</a></li>
+            <li [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Vehicle
+                    Viability</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
         <ul class="nav nav-pills nav-justified" id="background_white">
-            <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>{{roleType == '1' ? 'Leads' : 'DDE' }}</a></li>
-            <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
+            <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads">
+                <a>{{roleType == '1' ? 'Leads' : 'DDE' }}</a></li>
+            <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal
+                    Discussion</a></li>
             <li [routerLink]="[ '/pages/dashboard/deviation' ]" routerLinkActive="active"><a>Deviation</a></li>
-            <li [routerLink]="[ '/pages/dashboard/credit-decision' ]" routerLinkActive="active"><a>Credit Decision</a></li>
+            <li [routerLink]="[ '/pages/dashboard/credit-decision' ]" routerLinkActive="active"><a>Credit Decision</a>
+            </li>
             <li [routerLink]="[ '/pages/dashboard/cpc-maker' ]" routerLinkActive="active"><a>CPC Maker</a></li>
             <li [routerLink]="[ '/pages/dashboard/cpc-checker' ]" routerLinkActive="active"><a>CPC Checker</a></li>
         </ul>

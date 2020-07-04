@@ -6,7 +6,8 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="cost_of_vehicle">{{labels.costOfVehicle}}</label>
                 <!-- <input type="text" class="form-control" id="cost_of_vehicle" formControlName="costOfVehicle"> -->
-                <app-custom-input id="cost_of_vehicle" formControlName="vehicleCost" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="cost_of_vehicle" formControlName="vehicleCost" placeholder="cost of vehicle" [type]="labels?.validationData?.amountValue?.type" [isRequired]="'vehicle cost is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -18,13 +19,13 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt">{{labels.loanAmt}}</label>
                 <!-- <input type="text" class="form-control" id="loan_amt" formControlName="loanAmt"> -->
-                <app-custom-input id="loan_amt" formControlName="reqLoanAmount" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="loan_amt" formControlName="reqLoanAmount" placeholder="loan amount" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' loan amount is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}</label>
                 <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
-                <app-custom-input id="margin_money" formControlName="marginMoney" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="margin_money" formControlName="marginMoney" placeholder="margin money" [type]="labels?.validationData?.amountValue?.type" [isRequired]="'margin money is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
 
@@ -34,25 +35,27 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt_required">{{labels.loanAmtReq}}</label>
                 <!-- <input type="text" class="form-control" id="loan_amt_required" formControlName="loanAmtReq"> -->
-                <app-custom-input id="loan_amt_required " formControlName="usedVehicleLoanAmountReq" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="loan_amt_required " formControlName="usedVehicleLoanAmountReq" placeholder="loan amount required " [type]="labels?.validationData?.amountValue?.type" [isRequired]="' loan amount is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="source_puchase">{{labels.sourcePurchase}}</label>
                 <!-- <input type="text" class="form-control" id="source_puchase" formControlName="sourcePurchase"> -->
-                <app-custom-input id="source_puchase" formControlName="sourceOfVehiclePurchase" [isRequired]="'required'" [isDirty]="isDirty">
+                <app-custom-input id="source_puchase" formControlName="sourceOfVehiclePurchase" placeholder="source of vehicle purchase    " [isRequired]="'required'" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="margin_money">{{labels.marginMoney}}</label>
+                <label for="margin_money">{{labels.marginMoneyPaid}}</label>
                 <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
-                <app-custom-input id="margin_money" formControlName="marginMoneySource" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="margin_money" formControlName="marginMoneySource" placeholder="source of margin money" [type]="labels?.validationData?.amountValue?.type" [isRequired]="'margin money is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="name_of_financier">{{labels.nameOfFinancer}}</label>
                 <!-- <input type="text" class="form-control" id="name_of_financier" formControlName="nameOfFinancer"> -->
-                <app-custom-input id="name_of_financier" formControlName="financierName" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                <app-custom-input id="name_of_financier" formControlName="financierName" [type]="labels?.validationData?.name?.type" [isRequired]="'financier name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -90,31 +93,35 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="know_abt_vechicle">{{labels.knowAbtVehicle}}</label>
                 <!-- <input type="text" class="form-control" id="know_abt_vechicle" formControlName="knowAbtVehicle"> -->
-                <app-custom-input id="know_abt_vechicle" formControlName="proposedVehicle">
+                <app-custom-input id="know_abt_vechicle" formControlName="proposedVehicle" placeholder="how do you know about proposed vehilcle">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_invested">{{labels.moneyInvested}}</label>
                 <!-- <input type="text" class="form-control" id="money_invested" formControlName="moneyInvested"> -->
-                <app-custom-input id="money_invested" formControlName="invesmentAmount" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="money_invested" formControlName="investmentAmount" placeholder="investment amount" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' investment amount is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_borrowed">{{labels.moneyBorrowed}}</label>
                 <!-- <input type="text" class="form-control" id="money_borrowed" formControlName="moneyBorrowed"> -->
-                <app-custom-input id="money_borrowed" formControlName="marginMoneyBorrowed" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="money_borrowed" formControlName="marginMoneyBorrowed" placeholder="borrowed amount" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' borrowed amount is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="market_value">{{labels.marketValue}}</label>
                 <!-- <input type="text" class="form-control" id="market_value" formControlName="marketValue"> -->
-                <app-custom-input id="market_value" formControlName="marketValueProposedVehicle" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="market_value" formControlName="marketValueProposedVehicle" placeholder="market value" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' market value is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="purchased_value">{{labels.purchasedValue}}</label>
                 <!-- <input type="text" class="form-control" id="purchased_value" formControlName="purchasedValue"> -->
-                <app-custom-input id="purchased_value" formControlName="purchasePrice" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="purchased_value" formControlName="purchasePrice" placeholder="purchased value" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' purchase  value is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -130,7 +137,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="usage_of_funds">{{labels.usageFunds}}</label>
                 <!-- <input type="text" class="form-control" id="usage_of_funds" formControlName="usageFunds"> -->
-                <app-custom-input id="usage_of_funds" formControlName="fundsUsage" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                <app-custom-input id="usage_of_funds" formControlName="fundsUsage" placeholder="usage of funds" [type]="labels?.validationData?.name?.type" [isRequired]="'usge of funds is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -147,8 +154,24 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks_others">{{labels.remarksOthers}}</label>
                 <!-- <input type="text" class="form-control" id="remarks_others" formControlName="remarksOthers"> -->
-                <app-custom-input id="remarks_others" formControlName="othersRemarks" [maxLength]="maxlength30">
-                </app-custom-input>
+                <!-- <app-custom-input id="remarks_others" formControlName="othersRemarks" placeholder="other remarks" [maxLength]="maxlength30">
+                </app-custom-input> -->
+                <textarea class="form-control mandatory" name="othersRemarks" id="othersRemarks" cols="1" rows="3" placeholder="other remarks" formControlName="othersRemarks" maxlength="200" style="resize: none;"></textarea>
+
+                <div class="invalid-feedback " *ngIf="loanDetailsForm.controls['othersRemarks'].touched && !loanDetailsForm.controls['othersRemarks'].vaild">
+
+                    <div *ngIf="loanDetailsForm.controls['othersRemarks'].hasError('required')">
+                        remarks are required
+                    </div>
+
+
+                    <div *ngIf="loanDetailsForm.controls['othersRemarks'].hasError('pattern')">
+                        special characters are not allowed
+                    </div>
+                </div>
+
+
+
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="earlier_driving">{{labels.earlierDriving}}</label>
@@ -166,7 +189,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="running_attached">{{labels.runningAttached}}</label>
                 <!-- <input type="text" class="form-control" id="running_attached" formControlName="runningAttached"> -->
-                <app-custom-input id="running_attached" formControlName="vehicleAttachedPlying" [maxLength]="maxlength30">
+                <app-custom-input id="running_attached" formControlName="vehicleAttachedPlying" placeholder="vehicle running/plying/attached" [maxLength]="maxlength30">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -198,12 +221,15 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model_year">{{labels.model1}}</label>
-                <app-custom-input type="text" id="model_year" formControlName="modelInYear" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength4" [isDirty]="isDirty">
+                <app-custom-input type="text" id="model_year" formControlName="modelInYear" placeholder="model in year" [type]="labels?.validationData?.yom?.type" [isRequired]="'year is required'" [maxLength]="labels?.validationData?.yom?.maxLength" [custom]="yearCheck"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="registration_no">{{labels.registrationNo}}</label>
-                <app-custom-input type="text" id="registration_no" formControlName="regNo" [isRequired]="'required'" [maxLength]="maxlength12" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input type="text" id="registration_no" formControlName="regNo" placeholder="reg no" [type]="labels?.validationData?.vehicleRegNo?.type" [isRequired]="'registration number is required'" [maxLength]="labels?.validationData?.vehicleRegNo?.maxLength"
+                    [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="reg_copy_verified">{{labels.regCopyVerified}}</label>
@@ -227,11 +253,13 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="engine_number">{{labels.engineNumber}}</label>
-                <app-custom-input type="text" id="engine_number" formControlName="engineNumber" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input type="text" id="engine_number" formControlName="engineNumber" placeholder="engine number" [type]="labels?.validationData?.engineNo?.type" [isRequired]="'engine number is required'" [maxLength]="labels?.validationData?.engineNo?.maxLength"
+                    [isDirty]="isDirty"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="chassis_number">{{labels.chassisNumber}}</label>
-                <app-custom-input type="text" id="chassis_number" formControlName="chasisNumber" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input type="text" id="chassis_number" formControlName="chasisNumber" placeholder="chasis number" [type]="labels?.validationData?.chasisNo?.type" [isRequired]="'chasis number is required'" [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+                    [isDirty]="isDirty"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="permit_date">{{labels.permitDate}}</label>
@@ -317,15 +345,17 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vechicle_route">{{labels.vehicleRoute}}</label>
-                <app-custom-input type="text" id="vechicle_route" formControlName="vehicleRoute" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input type="text" id="vechicle_route" formControlName="vehicleRoute" placeholder="vehicle route" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="no_of_trips">{{labels.noTrips}}</label>
-                <app-custom-input type="text" id="no_of_trips" formControlName="noOfTrips" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input type="text" id="no_of_trips" formControlName="noOfTrips" placeholder="no of trips" [type]="labels?.validationData?.noOfTrips?.type" [isRequired]="'no of trips is required'" [maxLength]="labels?.validationData?.noOfTrips?.maxLength" [isDirty]="isDirty"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="trip_amt">{{labels.tripAmt}}</label>
-                <app-custom-input type="text" id="trip_amt" formControlName="amtPerTrip" [patternCheck]="amountPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty"></app-custom-input>
+                <app-custom-input type="text" id="trip_amt" formControlName="amtPerTrip" placeholder="amount per trip" [type]="labels?.validationData?.amountValue?.type" [isRequired]="'amount is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty"></app-custom-input>
             </div>
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -340,7 +370,20 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks">{{labels.remarks}}</label>
-                <app-custom-input rows="1" id="remarks" formControlName="remarks" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
+                <!-- <app-custom-input rows="1" id="remarks" formControlName="remarks" [isRequired]="'required'" placeholder="remarks" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input> -->
+                <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3" placeholder="remarks" formControlName="remarks" maxlength="200" style="resize: none;"></textarea>
+
+                <div class="invalid-feedback " *ngIf="loanDetailsForm.controls['remarks'].touched && !loanDetailsForm.controls['remarks'].vaild">
+
+                    <div *ngIf="loanDetailsForm.controls['remarks'].hasError('required')">
+                        remarks are required
+                    </div>
+
+
+                    <div *ngIf="loanDetailsForm.controls['remarks'].hasError('pattern')">
+                        special characters are not allowed
+                    </div>
+                </div>
             </div>
 
             <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
