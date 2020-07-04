@@ -2,13 +2,13 @@
 
     <form [formGroup]="viabilityForm">
 
-        <!-- <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
+        <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
             (change)="vehicle_viability_navigate($event.target.value)">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
-        </select> -->
-        <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
+        </select>
+        <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
-        </app-vf-custom-select>
+        </app-vf-custom-select> -->
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
