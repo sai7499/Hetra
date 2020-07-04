@@ -20,8 +20,8 @@ export class ExposureDetailsComponent implements OnInit {
   getExposureDetails: any;
   liveloanArray = [];
   proposedArray = [];
+  isModelShow:boolean;
   isAlert: boolean;
-  isModelShow;
   currentYear = new Date().getFullYear();
   regexPattern = {
     maxLength4: {

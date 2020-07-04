@@ -38,6 +38,7 @@ export class TeleVerificationFormComponent implements OnInit {
   isModal = false;
   referenceNo: any;
   mobileNo: any;
+  validationData: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -115,7 +116,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private labelDetails: LabelsService,
+    // private labelDetails: LabelsService,
+    private labelService: LabelsService,
     private commomLovService: CommomLovService,
     private ddeStoreService: DdeStoreService,
     private route: ActivatedRoute,
@@ -126,6 +128,21 @@ export class TeleVerificationFormComponent implements OnInit {
     private otpService: OtpServiceService
 
   ) {
+    // this.labelDetails.getLabelsData().subscribe(
+    //   data => {
+    //     this.labels = data;
+    //     this.validationData = this.labels.validationData;
+    //     console.log('labels', this.labels.validationData);
+
+    //   }
+    this.labelService.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+
+
+    });
+
+    // );
     this.getLOV();
 
     this.initForm();
@@ -225,11 +242,15 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
-    this.labelDetails.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      }
-    );
+    // this.labelDetails.getLabelsData().subscribe(
+    //   data => {
+    //     this.labels = data;
+    //     console.log('labels', this.labels.validationData);
+
+    //   }
+
+    // );
+
     // this.setFormValue();
     this.getTvrDetails();
     // this.sendOtp();

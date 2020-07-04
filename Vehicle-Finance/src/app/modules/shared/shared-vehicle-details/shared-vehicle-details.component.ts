@@ -99,12 +99,12 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.vehicleDetailsService.getDeleteVehicleDetails(this.selectCollateralId, this.userId).subscribe((res: any) => {
       const apiError = res.ProcessVariables.error.message;
 
-      if (res.Error === '0' && res.Error === '0') {
-        this.toasterService.showSuccess(apiError, '');
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
+        this.getVehicleDetails(this.leadId)
       } else {
-        this.toasterService.showError(apiError, '')
+        this.toasterService.showError(apiError, 'Delete Vehicle Details')
       }
-      this.getVehicleDetails(this.leadId)
     }, error => {
       console.log('error', error);
     }
