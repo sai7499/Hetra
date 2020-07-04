@@ -1,6 +1,6 @@
 <h3 class="dashboard m-0">{{ labels?.incomeAndObligationDetailsTitle }}</h3>
 <!--progress bar-->
-<form class="multisteps-form__form" [formGroup]="incomeDetailsForm" *ngIf="this.incomeDetailsForm">
+<form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
     <div class="multisteps-form">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <div class="container-fluid">
@@ -50,9 +50,10 @@
                                         <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center" formControlName="applicantId" (change)="
                         onBusinessApplicantChange($event.target.value, i)
                       ">
-                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
-                        {{ applicants.fullName }}</option>
-                    </select>
+                                            <option *ngFor="let applicants of applicantDetails"
+                                                [value]="applicants.applicantId">
+                                                {{ applicants.fullName }}</option>
+                                        </select>
                                         <div *ngIf="submitted"></div>
                                     </td>
 
@@ -72,7 +73,8 @@
 
                                     <td data-title="Business Entity Name">
                                         <app-custom-input formControlName="businessEnterpriseName" [placeholder]="'Business Entity Name'" [type]="labels?.validationData?.businessEntity?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.businessEntity?.maxLength"
-                                            [isRequired]="'Business Entity Name mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                            [isRequired]="'Business Entity Name mandatory'" [isDirty]="isDirty">
+                                        </app-custom-input>
                                     </td>
                                     <td data-title="Net Profit">
                                         <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Net Profit mandatory'"
@@ -158,9 +160,10 @@
                                     <td data-title="S.no">{{ i + 1 }}</td>
                                     <td>
                                         <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center" formControlName="applicantId" (change)="onOtherApplicantChange($event.target.value, i)">
-                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
-                        {{ applicants.fullName }}</option>
-                    </select>
+                                            <option *ngFor="let applicants of applicantDetails"
+                                                [value]="applicants.applicantId">
+                                                {{ applicants.fullName }}</option>
+                                        </select>
                                         <div *ngIf="submitted"></div>
                                     </td>
                                     <td data-title="Applicant Type">
@@ -271,9 +274,10 @@
                                         <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center" formControlName="applicantId" (change)="
                         onObligationApplicantChange($event.target.value, i)
                       ">
-                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
-                        {{ applicants.fullName }}</option>
-                    </select>
+                                            <option *ngFor="let applicants of applicantDetails"
+                                                [value]="applicants.applicantId">
+                                                {{ applicants.fullName }}</option>
+                                        </select>
                                         <div *ngIf="submitted"></div>
                                     </td>
                                     <td data-title="Applicant Type">
@@ -299,10 +303,11 @@
                                     </td>
                                     <td data-title="Loan Amount">
                                         <app-custom-input formControlName="loanAmount" [placeholder]="'Loan Amount'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Loan Amount mandatory'"
-                                            [isDirty]="isDirty"></app-custom-input>
+                                            [isDirty]="isDirty">
+                                        </app-custom-input>
                                     </td>
                                     <td data-title="Tenor(In Months)">
-                                        <app-custom-input formControlName="tenure" [placeholder]="'Tenor'" [type]="labels?.validationData?.tenurePaid.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isRequired]="'Tenor mandatory'" [isDirty]="isDirty"
+                                        <app-custom-input formControlName="tenure" [placeholder]="'Tenor'" [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isRequired]="'Tenor mandatory'" [isDirty]="isDirty"
                                             (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="MOB">
@@ -373,7 +378,7 @@
                     value="70"
                     formControlName="salariedFOIRaspePolicy"
                   /> -->
-                                    <app-custom-input formControlName="salariedFOIRaspePolicy" [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData.tenurePaid.maxLength" [isDirty]="isDirty" [isDisabled]="true">
+                                    <app-custom-input formControlName="salariedFOIRaspePolicy" [className]="'form-control mandatory'" [isDirty]="isDirty" [isDisabled]="true">
                                     </app-custom-input>
                                 </td>
                             </tr>
@@ -387,6 +392,19 @@
                                         [isDirty]="isDirty" (keyup)="onSalFoirDeviation($event.target.value)"></app-custom-input>
 
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>{{ labels?.totalSalariedFOIR }}</td>
+                                <td>{{ totalSalariedFOIR }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ labels?.consideredSalaryIncome }}</td>
+                                <td>
+                                    {{ (totalMonthlySalaryIncome * (totalSalariedFOIR + salariedFOIRaspePolicy)) / 100 | number: "1.0-0" }}
+                                </td>
+                            </tr>
+
+                            </td>
                             </tr>
                             <tr>
                                 <td>{{ labels?.totalSalariedFOIR }}</td>
@@ -444,14 +462,15 @@
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
-        Back
-      </button>
+                Back
+            </button>
             <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
-        Save
-      </button>
+                Save
+            </button>
             <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
-        Next
-      </button>
+                Next
+            </button>
         </div>
+    </div>
     </div>
 </form>
