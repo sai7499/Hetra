@@ -85,7 +85,7 @@ export class IncomeDetailsComponent implements OnInit {
   isDirty: boolean;
   incomeTypeValue: any;
   SalariedFOIRDeviation: number;
- 
+
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -96,7 +96,7 @@ export class IncomeDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -104,7 +104,7 @@ export class IncomeDetailsComponent implements OnInit {
       (data) => {
         this.labels = data;
       },
-      (error) => {}
+      (error) => { }
     );
 
     this.getLov();
@@ -149,7 +149,7 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
-      
+
     });
   }
   getLeadId() {
@@ -559,7 +559,7 @@ export class IncomeDetailsComponent implements OnInit {
       incomeArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[3].factoring });
-    }else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
+    } else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
       incomeArray
@@ -583,7 +583,7 @@ export class IncomeDetailsComponent implements OnInit {
           if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
             this.totalMonthlySalaryIncome = Math.round(
               this.totalMonthlySalaryIncome +
-                incomeArray.value[i].factoredIncome
+              incomeArray.value[i].factoredIncome
             );
             this.salArray.push(this.totalMonthlySalaryIncome);
           }
@@ -597,7 +597,7 @@ export class IncomeDetailsComponent implements OnInit {
           if (incomeArray.at(i).value.incomeType === 'RENINCTYP') {
             this.totalMonthlyRentalIncome = Math.round(
               this.totalMonthlyRentalIncome +
-                incomeArray.value[i].factoredIncome
+              incomeArray.value[i].factoredIncome
             );
             this.rentArray.push(this.totalMonthlyRentalIncome);
           }
@@ -611,7 +611,7 @@ export class IncomeDetailsComponent implements OnInit {
           if (incomeArray.at(i).value.incomeType === 'PENINCTYP') {
             this.totalMonthlyPensionIncome = Math.round(
               this.totalMonthlyPensionIncome +
-                incomeArray.value[i].factoredIncome
+              incomeArray.value[i].factoredIncome
             );
             this.pensionArray.push(this.totalMonthlyPensionIncome);
           }
@@ -644,7 +644,7 @@ export class IncomeDetailsComponent implements OnInit {
         }
       }
     }
-   
+
     if (incomeArray && incomeArray.length > 0) {
       this.totalMonthlyOtherIncome = 0;
       for (let i = 0; i < incomeArray.length; i++) {
@@ -657,7 +657,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   onTenure(event: any, i: number) {
     let tenure = 0;
-    let  mob = 0;
+    let mob = 0;
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     tenure = Number(obligationArray.value[i].tenure);
@@ -707,7 +707,7 @@ export class IncomeDetailsComponent implements OnInit {
       for (let i = 0; i < businessIncomeArray.length; i++) {
         this.totalBusinessIncomeAmount = Math.round(
           this.totalBusinessIncomeAmount +
-            businessIncomeArray.value[i].grossMonthlyIncome
+          businessIncomeArray.value[i].grossMonthlyIncome
         );
       }
     }
