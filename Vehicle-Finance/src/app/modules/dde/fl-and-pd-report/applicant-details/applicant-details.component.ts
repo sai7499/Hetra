@@ -97,17 +97,17 @@ export class ApplicantDetailComponent implements OnInit {
   leadId: number;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService) { }
 
-     async ngOnInit() {
+  async ngOnInit() {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -124,7 +124,7 @@ export class ApplicantDetailComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-    
+
     this.initForm();
     this.leadId = (await this.getLeadId()) as number;
     console.log('Lead ID in Aplicant Details', this.leadId);
@@ -240,15 +240,15 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.roleName === 'Credit Officer') {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
     } else if (this.roleName === 'Sales Officer') {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
       };
     }
 
@@ -309,8 +309,8 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantFormModal.ratingbySO,
     };
     const data = {
-      leadId: 1,
-      applicantId: 6,
+      leadId: this.leadId,
+      applicantId: this.applicantId,
       userId: this.userId,
       applicantPersonalDiscussionDetails: this.applicantDetails,
       // customerProfileDetails: null,

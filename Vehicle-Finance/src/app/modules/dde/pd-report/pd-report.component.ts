@@ -52,9 +52,9 @@ export class PdReportComponent implements OnInit {
 
   getPdList() {
     const data = {
-      leadId: 153,
+      // leadId: 153,
       //  uncomment this once get proper Pd data for perticular
-      // leadId: this.leadId
+      leadId: this.leadId,
       userId: '1001',
     };
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {

@@ -11,6 +11,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PdDataService } from '../pd-data.service';
 import { valHooks } from 'jquery';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-loan-details',
@@ -267,16 +268,16 @@ export class LoanDetailsComponent implements OnInit {
     if (this.roleName == 'Credit Officer') {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
     }
     else if (this.roleName == 'Sales Officer') {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       };
     }
 
@@ -391,8 +392,8 @@ export class LoanDetailsComponent implements OnInit {
 
   approvePd() {
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1,
+      applicantId: this.applicantId,
+      // applicantId: 1,
       userId: this.userId
     }
     this.personalDiscussion.approvePd(data).subscribe((res: any) => {
@@ -414,8 +415,8 @@ export class LoanDetailsComponent implements OnInit {
 
   reinitiatePd() {
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1,
+      applicantId: this.applicantId,
+      // applicantId: 1,
       userId: this.userId
     }
     this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
@@ -511,8 +512,8 @@ export class LoanDetailsComponent implements OnInit {
     };
 
     const data = {
-      leadId: 1,
-      applicantId: 6,
+      leadId: this.leadId,
+      applicantId: this.applicantId,
       userId: this.userId,
       loanDetailsForNewCv: this.newCvDetails,
       applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
