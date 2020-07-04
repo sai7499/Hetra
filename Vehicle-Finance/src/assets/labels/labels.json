@@ -847,6 +847,7 @@
     "paymentsExcess": "Payments excess/short",
     "emiAmount": "Emi Amount",
     "reinitiate": "Reinitiate",
+    "earningsPerDay": "Expenses per day in business",
     "validationData": {
         "name": {
             "maxLength": {
