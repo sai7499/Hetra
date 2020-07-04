@@ -169,6 +169,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   values: any = [];
   labels: any = {};
+  validationData: any;
   LOV: any = [];
   coApplicantForm: FormGroup;
   isCurrAddSameAsPermAdd: any = '0';
@@ -681,6 +682,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
+        this.validationData = data.validationData
       },
       (error) => {
         console.log(error);
