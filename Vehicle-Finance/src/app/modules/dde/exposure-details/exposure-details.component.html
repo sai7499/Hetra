@@ -34,11 +34,7 @@
                   </app-vf-custom-select>
                 
                 </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="loanNo" 
-                    name="loanNumber"
-                    class="form-control" formControlName="loanNo"
-                    >  -->
+                <td>                 
                     <app-custom-input
                       formControlName="loanNo"
                       [className]="'form-control mandatory'"
@@ -72,14 +68,9 @@
                    
                     <div *ngIf="validYom" class="invalid-feedback">
                       Invalid YOM                     
-                    </div>
-                   
-                    <!-- (input)="checkAmountLimit($event,minMaxValues['Loan_amount'].minValue,minMaxValues['Loan_amount'].maxValue)" -->
+                    </div>                
                   </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="55" 
-                        name="gridValue" class="form-control text-center"
-                        formControlName="gridValue"  min="0"> -->
+                <td>                
                     <app-custom-input
                       formControlName="gridValue"
                       [className]="'form-control mandatory'"
@@ -90,9 +81,7 @@
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="80" name="LTV" class="form-control text-center"
-                    formControlName="ltv"  min="0"> -->
+                <td>                 
                     <app-custom-input
                       formControlName="ltv"
                       [className]="'form-control mandatory'"
@@ -103,22 +92,18 @@
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="34" name="currentPOS" class="form-control text-center"
-                    formControlName="currentPos"  min="0"> -->
+                <td>                 
                     <app-custom-input
                     formControlName="currentPos"
                     [className]="'form-control mandatory'"
                     [placeholder]="'Current Pos'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData.tenurePaid.maxLength"                      
                     [isRequired]="'Current Pos mandatory'"                     
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData.tenurePaid.type"                     
                     [isDirty]="isDirty">
                   </app-custom-input>
                   </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="60" name="tenure" class="form-control text-center"
-                    formControlName="tenure"  min="0"> -->
+                <td>                
                     <app-custom-input
                     formControlName="tenure"
                     [className]="'form-control mandatory'"
@@ -150,17 +135,7 @@
                         *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1"
                        aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
               </tr>
-
-              <!-- <tr class="font-weight">
-                        <td colspan="15">Proposed Asset Cost</td>
-                        <td>720,000.00</td>
-                       </tr>
-                       <tr class="font-weight">
-                           <td colspan="12">if more than above to be attach separte excel</td>
-                           <td colspan="3">Total Fleet Value</td>
-                           <td>720,000.00</td>
-                       </tr> -->
-
+             
             </tbody>
           </table>
           <!-- <i type="button" class="fa fa-plus add-row" aria-hidden="true"></i>
@@ -282,7 +257,7 @@
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
-              <button class="btn btn-success" (click)="removeIndex(rowIndex)">Yes</button>
+              <button class="btn btn-success" (click)="removeIndex(rowIndex)">Yes</button>&nbsp;
               <button class="btn btn-danger" (click)="isModelShow = false">No</button>
             </div>
           </div>
