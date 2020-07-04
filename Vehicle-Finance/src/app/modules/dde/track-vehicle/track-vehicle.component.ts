@@ -37,35 +37,37 @@ export class TrackVehicleComponent implements OnInit {
   isDirty: boolean;
   focusedDate: Date = new Date();
   maturedDate: Date = new Date();
-  regexPattern = {
-    amount: {
-      rule: "^[1-9][0-9]*$",
-      msg: 'Alphabets and Special Characters not allowed'
-    },
-    nameLength: {
-      rule: '30',
-      msg: ''
-    },
-    contact: {
-      rule: /^\d{10}$/,
-      msg: 'Invalid Number / Alphabets and Special Characters not allowed'
-    },
-    contLength: {
-      rule: '10'
-    },
-    name: {
-      rule: /^[a-zA-Z ]*$/,
-      msg: 'Invalid Name / Numbers and Special Characters not allowed'
-    },
-    vachilePattern: {
-      rule: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
-      msg: 'Invalid Name / Special Characters not allowed'
-    },
-    vechileNoPattern: {
-      rule: /^[ A-Za-z0-9_@./#&+-]*$/,
-      msg: 'Invalid Vechile No / Special Characters not allowed'
-    }
-  }
+  validationData: any;
+
+  // regexPattern = {
+  //   amount: {
+  //     rule: "^[1-9][0-9]*$",
+  //     msg: 'Alphabets and Special Characters not allowed'
+  //   },
+  //   nameLength: {
+  //     rule: '30',
+  //     msg: ''
+  //   },
+  //   contact: {
+  //     rule: /^\d{10}$/,
+  //     msg: 'Invalid Number / Alphabets and Special Characters not allowed'
+  //   },
+  //   contLength: {
+  //     rule: '10'
+  //   },
+  //   name: {
+  //     rule: /^[a-zA-Z ]*$/,
+  //     msg: 'Invalid Name / Numbers and Special Characters not allowed'
+  //   },
+  //   vachilePattern: {
+  //     rule: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+  //     msg: 'Invalid Name / Special Characters not allowed'
+  //   },
+  //   vechileNoPattern: {
+  //     rule: /^[ A-Za-z0-9_@./#&+-]*$/,
+  //     msg: 'Invalid Vechile No / Special Characters not allowed'
+  //   }
+  // }
 
   constructor(
     private trackVechileService: TrackVechileService,
@@ -100,7 +102,7 @@ export class TrackVehicleComponent implements OnInit {
     if (fleetRtr) {
       this.trackVehicleForm.patchValue({ clientName: fleetRtr.clientName });
       this.trackVehicleForm.patchValue({ financierName: fleetRtr.financierName });
-      this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinancied });
+      this.trackVehicleForm.patchValue({ assetFinancied: fleetRtr.assetFinanciedDesc });
       this.trackVehicleForm.patchValue({ repaymentMode: fleetRtr.repaymentMode });
       this.trackVehicleForm.patchValue({ financeAmount: fleetRtr.financeAmount ? fleetRtr.financeAmount : '' });
       this.trackVehicleForm.patchValue({ financeCharges: fleetRtr.financeCharges });
@@ -192,10 +194,12 @@ export class TrackVehicleComponent implements OnInit {
       this.values = res[0].trackVehicle[0];
     });
 
-    this.labelsData.getLabelsFleetData().subscribe(
+    this.labelsData.getLabelsData().subscribe(
 
       data => {
         this.labels = data;
+        this.validationData = data.validationData;
+
       }, error => {
         console.log(error);
 
@@ -204,6 +208,14 @@ export class TrackVehicleComponent implements OnInit {
     //  this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
     this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
+  }
+  checkFinanceCharge(){
+    let financeCharges = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
+    let financeAmount = parseInt(this.trackVehicleForm.controls['financeAmount'].value);
+    if(financeCharges > financeAmount){
+      this.trackVehicleForm.controls['financeCharges'].setErrors({'incorrect': true})
+   
+    }else{ }
   }
   addMonth(date, n) {
     // console.log('in date conversion ' + date);
@@ -474,7 +486,7 @@ export class TrackVehicleComponent implements OnInit {
         this.fleetRtrDetails.push({
           'receivedAmt': parseInt(this.formArr.controls[0].value['receivedAmt']),
           'installmentAmt': parseInt(this.formArr.controls[0].value['installmentAmt']),
-          'receiptNo': parseInt(this.formArr.controls[0].value['receiptNo']),
+          'receiptNo': this.formArr.controls[0].value['receiptNo'],
           'dueDate': this.formArr.controls[0].value['dueDate'],
           'receivedDate': this.formArr.controls[0].value['receivedDate'],
           'payment': receivedAmt - installmentAmount
@@ -565,8 +577,8 @@ export class TrackVehicleComponent implements OnInit {
         receiptNo: [''],
         receivedDate: ['', Validators.required],
         receivedAmt: [],
-        delayDays: [{ disabled: true }],
-        payment: [{ disabled: true }]
+        delayDays: [{value: '', disabled: true }],
+        payment: [{value: '', disabled: true }]
 
       });
     }
@@ -620,6 +632,8 @@ export class TrackVehicleComponent implements OnInit {
 
       console.log(this.trackVehicleForm.getRawValue());
       let formDetails = this.trackVehicleForm.getRawValue();
+      formDetails['assetFinancied'] = this.fleetDetails['assetFinancied'];
+
       formDetails['loanStartDate'] = this.sendDate(this.trackVehicleForm.controls['loanStartDate'].value);
       formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
       formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
@@ -628,7 +642,7 @@ export class TrackVehicleComponent implements OnInit {
       //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
       formDetails['noOfEmi'] = parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
       formDetails['emisPaid'] = parseInt(this.trackVehicleForm.controls['emisPaid'].value);
-      //  formDetails['contNo'] =this.trackVehicleForm.controls['contNo'].value.toString();
+       formDetails['contNo'] =this.trackVehicleForm.controls['contNo'].value.toString();
       for (let i = 0; i < this.formArr.length; i++) {
         formDetails['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
         formDetails['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);

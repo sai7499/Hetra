@@ -145,7 +145,7 @@
                 <td>                  
                   <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
                     *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
-                    style="color: red;" (click)="removeIndex(i)"></i>&nbsp;                   
+                    style="color: red;" (click)="showModel(i)"></i>&nbsp;                   
                     <i type="button" class="fa fa-plus"
                         *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1"
                        aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
@@ -270,3 +270,24 @@
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
       aria-hidden="true">&times;</span></button> Souring Details saved Successfully.
 </div> -->
+
+<div id="overlay" *ngIf="isModelShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeIndex(rowIndex)">Yes</button>
+              <button class="btn btn-danger" (click)="isModelShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

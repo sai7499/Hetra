@@ -27,6 +27,7 @@ export class BasicDetailsComponent implements OnInit {
   isIndividual = false;
   isSelfEmployed = true;
   labels: any = {};
+  validationData : any
   LOV: any = [];
   applicantId: number;
   applicant: Applicant;
@@ -66,6 +67,7 @@ export class BasicDetailsComponent implements OnInit {
   }
   mobileLenght10={
     rule: 10,
+    msg : 'Mobile Number Should be 10 Digits'
   }
   namePattern = {
     rule: '^[A-Z]*[a-z]*$',
@@ -97,6 +99,7 @@ export class BasicDetailsComponent implements OnInit {
   }
   landlineLength15={
     rule: 15,
+    
   }
 
   
@@ -115,6 +118,7 @@ export class BasicDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
+        this.validationData = data.validationData;
       },
       (error) => {
         console.log(error);
@@ -142,8 +146,46 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
-
+    this.eitherFather()
+    this.eitherMother()
     this.eitherFathOrspouse()
+  }
+  eitherFather(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    const fatherName= details.get('fatherName').value;
+    const spouseName= details.get('spouseName').value;
+    if(fatherName ){
+        
+      details.get('spouseName').clearValidators()
+      details.get('spouseName').updateValueAndValidity()
+      this.isRequiredSpouse = '';
+      // const spouseName= details.get('spouseName').value || null;
+      setTimeout(() => {
+        details.get('spouseName').setValue(spouseName || null)
+      });
+      
+     
+    }
+  }
+
+  eitherMother(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    const fatherName= details.get('fatherName').value;
+    const spouseName= details.get('spouseName').value;
+    if(spouseName){
+      details.get('fatherName').clearValidators()
+      details.get('fatherName').updateValueAndValidity()
+     this.isRequiredFather = '';
+     //const fatherName= details.get('fatherName').value || null;
+      setTimeout(() => {
+        details.get('fatherName').setValue(fatherName || null)
+      });
+     
+     
+    }
+  
   }
 
   eitherFathOrspouse(){
@@ -349,8 +391,8 @@ export class BasicDetailsComponent implements OnInit {
       name3: applicantDetails.name3,
 
 
-      customerCategory: applicantDetails.customerCategory || '',
-      custSegment: applicantDetails.custSegment || '',
+      customerCategory: applicantDetails.customerCategory || ' ',
+      custSegment: applicantDetails.custSegment || ' ',
     });
   }
 
@@ -454,8 +496,8 @@ export class BasicDetailsComponent implements OnInit {
       minorGuardianName: new FormControl('', Validators.required),
       minorGuardianRelation: new FormControl('', Validators.required),
 
-      fatherName: new FormControl(null, Validators.required),
-      spouseName: new FormControl(null, Validators.required),
+      fatherName: new FormControl('', Validators.required),
+      spouseName: new FormControl('', Validators.required),
       motherMaidenName: new FormControl(null, Validators.required),
       occupation: new FormControl('', Validators.required),
       nationality: new FormControl('', Validators.required),
@@ -632,8 +674,8 @@ export class BasicDetailsComponent implements OnInit {
     const formValue = value.details[0];
     console.log('formValue',formValue)
     applicantDetails.name1 = formValue.name1;
-    applicantDetails.name2 = formValue.name2;
-    applicantDetails.name3 = formValue.name3;
+    applicantDetails.name2 = formValue.name2? formValue.name2: '';
+    applicantDetails.name3 = formValue.name3? formValue.name3: '';
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
@@ -644,33 +686,33 @@ export class BasicDetailsComponent implements OnInit {
 
     const aboutIndivProspectDetails = formValue;
     prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
-    prospectDetails.mobilePhone = `91${aboutIndivProspectDetails.mobilePhone}`;
+    prospectDetails.mobilePhone = aboutIndivProspectDetails.mobilePhone? `91${aboutIndivProspectDetails.mobilePhone}`: '';
     prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
     prospectDetails.isMinor = this.isMinor;
     prospectDetails.minorGuardianName =
-      aboutIndivProspectDetails.minorGuardianName;
+      aboutIndivProspectDetails.minorGuardianName? aboutIndivProspectDetails.minorGuardianName: '';
     // prospectDetails.minorGuardianUcic = Number(
     //   aboutIndivProspectDetails.minorGuardianUcic
     // );
     prospectDetails.age = Number(this.showAge);
     prospectDetails.gender = formValue.gender || '';
     prospectDetails.minorGuardianRelation = formValue.minorGuardianRelation || '';
-    prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber;
+    prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber?formValue.alternateMobileNumber : '';
     prospectDetails.politicallyExposedPerson = formValue.politicallyExposedPerson;
-    prospectDetails.spouseName = aboutIndivProspectDetails.spouseName;
-    prospectDetails.fatherName = aboutIndivProspectDetails.fatherName? aboutIndivProspectDetails.fatherName : ' ';
+    prospectDetails.spouseName = aboutIndivProspectDetails.spouseName? aboutIndivProspectDetails.spouseName: '';
+    prospectDetails.fatherName = aboutIndivProspectDetails.fatherName? aboutIndivProspectDetails.fatherName: '';
     prospectDetails.motherMaidenName =
       aboutIndivProspectDetails.motherMaidenName;
     prospectDetails.nationality = aboutIndivProspectDetails.nationality;
     prospectDetails.occupation = aboutIndivProspectDetails.occupation;
-    prospectDetails.emailId = aboutIndivProspectDetails.emailId;
+    prospectDetails.emailId = aboutIndivProspectDetails.emailId? aboutIndivProspectDetails.emailId: '';
     prospectDetails.alternateEmailId =
-      aboutIndivProspectDetails.alternateEmailId;
+      aboutIndivProspectDetails.alternateEmailId? aboutIndivProspectDetails.spouseName: '';
     prospectDetails.preferredLanguage =
       aboutIndivProspectDetails.preferredLanguage;
     prospectDetails.designation = aboutIndivProspectDetails.designation;
-    prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears;
-    prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode;
+    prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears? aboutIndivProspectDetails.currentEmpYears: '';
+    prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode? aboutIndivProspectDetails.employeeCode: '';
    
     
     // prospectDetails.department = 'department';
@@ -682,9 +724,9 @@ export class BasicDetailsComponent implements OnInit {
     //   ProspectProfileDetails
     // );
 
-    indivProspectProfileDetails.employerType = formValue.employerType;
-    indivProspectProfileDetails.employerName = formValue.employerName;
-    console.log('indivProspectProfileDetails',indivProspectProfileDetails)
+    indivProspectProfileDetails.employerType = formValue.employerType? formValue.employerType: '';
+    indivProspectProfileDetails.employerName = formValue.employerName? formValue.employerName: '';
+    //console.log('indivProspectProfileDetails',indivProspectProfileDetails)
     this.applicantDataService.setindivProspectProfileDetails(
       indivProspectProfileDetails
     );
@@ -697,8 +739,8 @@ export class BasicDetailsComponent implements OnInit {
     const formValue = value.details[0];
 
     applicantDetails.name1 = formValue.name1;
-    applicantDetails.name2 = formValue.name2;
-    applicantDetails.name3 = formValue.name3;
+    applicantDetails.name2 = formValue.name2?formValue.name2 : '';
+    applicantDetails.name3 = formValue.name3?formValue.name3 : '';
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;

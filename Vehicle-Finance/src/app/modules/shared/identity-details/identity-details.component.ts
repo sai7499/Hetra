@@ -46,7 +46,7 @@ export class IdentityDetailsComponent implements OnInit {
     msg: 'Invalid Pan',
   };
   public toDayDate: Date = new Date();
-  convertPassportDate : Date;
+  convertPassportDate : any;
   convertDrivingDate : Date
  
 
@@ -272,9 +272,11 @@ export class IdentityDetailsComponent implements OnInit {
 
   setIndividualValue() {
     const value = this.indivIdentityInfoDetails;
-    this.convertPassportDate= new Date(value.passportIssueDate);
-    this.convertDrivingDate = new Date(value.drivingLicenseIssueDate)
-    console.log('individual', value)
+
+    this.convertPassportDate= this.utilityService.getDateFromString(value.passportIssueDate);
+    this.convertDrivingDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate)
+
+    //console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     // const aadhar= value.aadhar

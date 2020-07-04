@@ -28,7 +28,7 @@
         <div id="individual_section_start" *ngIf="isIndividual">
           <div class="row" formGroupName="0">
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="issuance_date">Aadhaar Number</label>
+              <label for="issuance_date">{{labels?.aadharnumber}}</label>
               <div class="input-group input-medium">
                 <input
                   formControlName="aadhar"
@@ -50,14 +50,14 @@
               class="form-group col-sm-12 col-md-3 col-lg-3 third_width"
               style="visibility: hidden;"
             >
-              <label for="pan_number">PAN Number</label>
+              <label for="pan_number">{{labels?.pannumber}}</label>
               <input type="text" class="form-control m-50" />
             </div>
             <div
               class="form-group col-sm-12 col-md-3 col-lg-3 third_width"
               style="visibility: hidden;"
             >
-              <label for="pan_number">PAN Number</label>
+              <label for="pan_number">{{labels?.pannumber}}</label>
               <input type="text" class="form-control m-50" />
             </div>
             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
@@ -92,7 +92,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="pan_form">PAN / Form 60</label>
+              <label for="pan_form">{{labels?.panform}}</label>
               <!-- <select class="form-control m-50" id="pan_form" name="pan_form" disabled="">
                                     <option value="PAN" selected="selected">PAN</option>
                                     <option value="form60">Form 60</option>
@@ -105,7 +105,7 @@
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="pan_number">PAN Number</label>
+              <label for="pan_number">{{labels?.pannumber}}</label>
               <input
                 formControlName="pan"
                 type="text"
@@ -161,7 +161,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="passport_number">Passport Number</label>
+              <label for="passport_number">{{labels?.passportNumber}}</label>
               <input
                 formControlName="passportNumber"
                 type="text"
@@ -172,7 +172,7 @@
               />
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="passport_expiry_date">Issuance Date</label>
+              <label for="passport_expiry_date">{{labels?.issuanceDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
                   <!-- <span class="input-group-addon"
@@ -187,6 +187,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
+                
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
@@ -196,7 +197,7 @@
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="issuance_date">Expiry Date</label>
+              <label for="issuance_date">{{labels?.expiryDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
                   <!-- <span class="input-group-addon"
@@ -211,7 +212,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="convertPassportDate"
+                [min]="this.convertPassportDate"
                  placeholder="Expriy Date"
                 [activeView]="'decade'"
                 
@@ -250,10 +251,10 @@
                 </label>
               </div>
             </div>
-
+            <div class="clearfix"></div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="ration_card_number" class="driving_height"
-                >Driving Licencse Number</label
+                >{{labels?.drivingLicenseNumber}}</label
               >
               <input
                 formControlName="drivingLicenseNumber"
@@ -267,7 +268,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="issuance_date" class="driving_height"
-                >Issuance Date</label
+                >{{labels?.issuanceDate}}</label
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -295,7 +296,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="expiry_date" class="driving_height"
-                >Expiry Date</label
+                >{{labels?.expiryDate}}</label
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -349,9 +350,9 @@
                 </label>
               </div>
             </div>
-
+            <div class="clearfix"></div>
             <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
-              <label for="passport_number">Voter ID Number</label>
+              <label for="passport_number">{{labels?.voterIdNumber}}</label>
               <input
                 formControlName="voterIdNumber"
                 type="text"
@@ -362,7 +363,7 @@
               />
             </div>
 
-            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+            <!-- <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
               <label for="issuance_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -391,7 +392,9 @@
                 ></kendo-datepicker>
                 </div>
               </div>
-            </div>
+            </div> -->
+
+            
             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
@@ -399,28 +402,37 @@
                 ></a
               >
             </div> -->
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+
+            </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+
+            </div>
             <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <div class="image-upload">
-                <label style="cursor: pointer;" for="file_upload">
-                  <img src="" alt="" class="uploaded-image" />
-
-                  <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell">
-                      <i class="fa fa-upload"></i>
-                    </div>
-                  </div>
-
-                  <!--upload-content-->
-                  <input
-                    data-required="image"
-                    type="file"
-                    name="image_name"
-                    class="image-input"
-                    data-traget-resolution="image_resolution"
-                    value=""
-                  />
-                </label>
+              
+                  <div class="image-upload">
+                    <label style="cursor: pointer;" for="file_upload">
+                      <img src="" alt="" class="" />
+    
+                      <div class="dplay-tbl">
+                        <div class="dplay-tbl-cell">
+                          <i class="fa fa-upload"></i>
+                        </div>
+                      </div>
+    
+                      
+                      <input
+                        data-required="image"
+                        type="file"
+                        name="image_name"
+                        class="image-input"
+                        data-traget-resolution="image_resolution"
+                        value=""
+                      />
+                    </label>
+                  
               </div>
+              
             </div>
           </div>
         </div>

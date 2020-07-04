@@ -58,4 +58,28 @@
       background-color: currentColor;
       z-index: 1;
     }
+
+    .table tbody tr td {
+      text-align: left;
+    }
+
+    .actionTable {
+        width: 50%;
+        text-align: center !important;
+    }
+
+    .lowRisk {
+        background-color: #8bc34a;
+        color:white;
+    }
+
+    .mediumRisk {
+        background-color: #00897b;
+        color:white;
+    }
+
+    .highRisk {
+        background-color: #c62828;
+        color:white;
+    }
     

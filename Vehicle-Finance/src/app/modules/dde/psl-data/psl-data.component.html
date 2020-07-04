@@ -337,6 +337,7 @@
                     (change)="onChangeDetailActivity($event)"
                     name="detailActivity"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     > 
                </app-vf-custom-select>
             </div>
@@ -347,6 +348,7 @@
                     formControlName="purposeOfLoan" 
                     name="purposeOfLoan"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     > 
                </app-vf-custom-select>
             </div>
@@ -358,26 +360,30 @@
                     (change)="onChangePslLandHolding($event)"
                     name="landHolding"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                 <label for="land_owner">{{labels.landOwner}}</label>
                 <app-vf-custom-select 
                     [values]="LOV.LOVS.applicantRelationshipWithLead" 
                     formControlName="landOwner"
-                    name="landOwnerApplicant"
+                    (click)="onChangeLandOwner($event)"
+                    name="landOwner"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                 <label for="relationship_with_landowner">{{labels.relWithLandowner}}</label>
                 <app-vf-custom-select 
-                    [values]="LOV.LOVS.relationship" 
+                    [values]="relationshipWithLandOwner" 
                     formControlName="relationshipWithLandOwner"
                     name="relationshipWithLandOwner"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
@@ -388,6 +394,7 @@
                     formControlName="farmerType"
                     name="farmerType"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
@@ -398,16 +405,14 @@
                     (change)="onLandAreaChange($event)"  
                     /> -->
                     <app-custom-input
-                    [type] ="number"
                     [(ngModel)]="landAreaInAcresValue"
                     (change)="onLandAreaChange($event)"
                     formControlName="landArea"
                     [className]="'form-control mandatory'"
                     [placeholder]="'Land Area in Acres'"
-                    [maxLength]="regexPattern.numberLength"
+                    [maxLength]="labels?.validationData?.landArea.maxLength"
                     [isRequired]="'Required Input is mandatory'"
-                    [patternCheck]="regexPattern.numberPattern"
-                    [type]="'number'"
+                    [type]="labels?.validationData.landArea.type"
                     [isDirty]="isDirty"
                     >
                   </app-custom-input>
@@ -420,6 +425,7 @@
                     formControlName="landProof"
                     name="landProof"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
@@ -443,6 +449,7 @@
                     formControlName="pslCategory"
                     name="pslCategory"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
@@ -454,6 +461,7 @@
                     (change)="onChangePslSubCategory($event)"
                     name="pslSubCategory"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
 
@@ -465,6 +473,7 @@
                     formControlName="pslCCertificate"
                     name="pslCCertificate"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
@@ -476,6 +485,7 @@
                     (change)="onChangeWeakerSection($event)"
                     name="weakerSection"
                     [isRequired]="'Please Select One Option'"
+                    [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
             </div>
@@ -492,6 +502,7 @@
             (change)="onChangeDetailActivity($event)"
             name="detailActivity"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
             > 
        </app-vf-custom-select>
     </div>
@@ -503,6 +514,7 @@
             (change) = "onChangePurposeOfLoan($event)"
             name="purposeOfLoan"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
             > 
        </app-vf-custom-select>
     </div>
@@ -514,12 +526,12 @@
             formControlName="goodsManufactured"
             [className]="'form-control mandatory'"
             [placeholder]="'Goods Manufactured'"
-            [maxLength]="regexPattern.nameLength"
+            [maxLength]="labels?.validationData?.goodsManufactured.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.namePattern"
-            [type]="'alpha-numeric'"
+            [type]="labels?.validationData.goodsManufactured.type"
             [isDirty]="isDirty"
             name="goods_manufactured"
+            [isDirty] = "isDirty"
         >
         </app-custom-input>
     </div>
@@ -530,6 +542,7 @@
             formControlName="typeOfService"
             name="typeOfService"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
             >
         </app-vf-custom-select>
     </div>
@@ -538,7 +551,9 @@
         <app-vf-custom-select 
         [values]="businessActivity" 
         formControlName="businessActivity" 
-        name="businessActivity" > 
+        name="businessActivity" 
+        [isDirty] = "isDirty"
+        > 
    </app-vf-custom-select>
     </div>
     <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
@@ -565,6 +580,7 @@
             (change) = "onChangeProofOfInvestment($event)"
             name="proofOfInvestment"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
             >
         </app-vf-custom-select>
     </div>
@@ -648,7 +664,7 @@
             id="ca_certified_amount" required="required" [(ngModel)]="caCertifiedAmount"
             (change)="onChangeCaCertifiedAmount($event)" /> -->
         <!-- <app-custom-input
-            [type] = "number"
+            [type] = "'number'"
             formControlName="caCertifiedAmount"
             [(ngModel)]="caCertifiedAmount"
             (change)="onChangeCaCertifiedAmount($event)"
@@ -667,16 +683,14 @@
             name="other_investment_cost" id="other_investment_cost" required="required" 
             [(ngModel)]="otherInvestmentCost" (change)="onChangeOtherInvestmentCost($event)" /> -->
         <app-custom-input
-            [type] = "number"
             formControlName="otherInvestmentCost"
             [(ngModel)]="otherInvestmentCost" 
             (change)="onChangeOtherInvestmentCost($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Other Investment Cost'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input>  
@@ -687,15 +701,13 @@
             name="total_investment_cost" id="total_investment_cost" required="required" Placeholder="" 
             [(ngModel)]="totalInvestmentCost" (change)="onChangeTotalInvestmentCost($event)"/> -->
         <app-custom-input
-            [type] = "number"
             formControlName="totalInvestmentCost"
-            [(ngModel)]="totalInvestmentCost" 
-            (keyup)="onChangeTotalInvestmentCost($event)"
+            [(ngModel)]="totalInvestmentCost"
+            (change)="onChangeTotalInvestmentCost($event)" 
             [placeholder]="'Total Investment Cost'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
        >
         </app-custom-input>  
@@ -708,16 +720,14 @@
             (keyup)="onChangeInvestmentInEquipment($event)"/> -->
         <!-- <span style="color: red; font-size: x-small;">*Investmest in Equipment Amount must be equal to Total Investment Amount</span>     -->
         <app-custom-input
-            [type] ="number"
             formControlName="investmentInEquipment"
             [(ngModel)]="investmentInEquipmentValue"
             (keyup)="onChangeInvestmentInEquipment($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Equipment'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
@@ -729,16 +739,14 @@
             Placeholder="" [(ngModel)]="investmentInPlantMachineryValue"
             (keyup)="onChangeInvestmentInPlantAndMachinery($event)"/> -->
         <app-custom-input
-            [type] = "number"
             formControlName="investmentInPlantAndMachinery"
             [(ngModel)]="investmentInPlantMachineryValue"
             (keyup)="onChangeInvestmentInPlantAndMachinery($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Plant and Machinery'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
-            [type]="'number'"
+            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
@@ -750,6 +758,7 @@
             formControlName="pslCategory"
             name="pslCategory"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
             >
         </app-vf-custom-select>
     </div>
@@ -761,6 +770,7 @@
             (change) = "onChangePslSubCategory($event)"
             name="pslSubCategory"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
         >
         </app-vf-custom-select>
     </div>
@@ -771,13 +781,13 @@
             formControlName="pslCCertificate"
             name="pslCCertificate"
             [isRequired]="'Please Select One Option'"
+            [isDirty] = "isDirty"
         >
         </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
         <label for="weaker_section_msme">{{labels.weakerSection}}</label>
         <app-vf-custom-select 
-            [values]="[{key: 'Not Applicable', value: 'Not Applicable'}]" 
             formControlName="weakerSection"
             name="weakerSection"
         >

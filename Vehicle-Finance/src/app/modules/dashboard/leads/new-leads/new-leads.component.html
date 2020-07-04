@@ -2,22 +2,24 @@
     <table class="table">
         <thead>
             <tr class="table-head-bg">
-                <th *ngIf="roleType == '2'">{{labels.action}}<i class="fa fa-sort"></i></th>
-                <th>{{labels.leadID}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.product}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.loanAmount}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.applicant+'s'}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.createdOn}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.createdBy}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.priority}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.promoCode}}<i class="fa fa-sort"></i> </th>
-                <th>{{labels.status}} <i class="fa fa-sort"></i> </th>
-                <th>{{labels.history}} <i class="fa fa-sort"></i> </th>
+                <th *ngIf="roleType == '2'">{{labels?.action}}<i class="fa fa-sort"></i></th>
+                <th>{{labels?.leadID}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.product}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.createdOn}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.createdBy}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.priority}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.promoCode}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.status}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.history}} <i class="fa fa-sort"></i> </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-                <td *ngIf="roleType == '2'"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal" /></td>
+                <td *ngIf="roleType == '2'">
+                    <input type="button" class="btn-primary" (click)="onRelase(item.taskId)" value="Release" data-toggle="modal" data-target="#releaseModal">
+                </td>
                 <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode)" style="cursor: pointer;">{{item.leadId}}</td>
                 <td class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>

@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.roleType = value.roleType;
+       this.roleType = value.roleType;
       });
   }
 

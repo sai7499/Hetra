@@ -31,6 +31,7 @@ export class BasicDetailsComponent implements OnInit {
   isIndividual: boolean;
   isSelfEmployed = true;
   labels: any = {};
+  validationData : any
   applicantLov: any = [];
   applicantId: number | string = '';
   applicant: Applicant;
@@ -67,18 +68,19 @@ export class BasicDetailsComponent implements OnInit {
   }
   mobileLenght10 = {
     rule: 10,
+    msg : 'Mobile Number Should be 10 Digits' 
   }
   numberOfDirectors2={
     rule : 2
   }
-  namePattern = {
-    rule: '^[A-Za-z ]{0,99}$',
-    msg: 'Invalid Name',
-  };
-  nameSpacePattern = {
-    rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
-    msg: 'Invalid Name',
-  };
+  // namePattern = {
+  //   rule: '^[A-Za-z ]{0,99}$',
+  //   msg: 'Invalid Name',
+  // };
+  // nameSpacePattern = {
+  //   rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
+  //   msg: 'Invalid Name',
+  // };
 
   //   companyPattern ={
   //    rule : '^[A-Z]*[a-z]*$',
@@ -99,7 +101,9 @@ export class BasicDetailsComponent implements OnInit {
   }
   landlineLength15 = {
     rule: 15,
+    
   }
+  
   public toDayDate: Date = new Date();
   isRequiredSpouse ='Spouse Name is Required';
   isRequiredFather = 'Father Name is Required'
@@ -121,7 +125,8 @@ export class BasicDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        // console.log(this.labels)
+        this.validationData = data.validationData
+        console.log(this.validationData)
       },
       (error) => {
         console.log(error);
@@ -129,7 +134,7 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
-      title: new FormControl(''),
+      title: new FormControl('', Validators.required),
       entity: new FormControl({ value: '', disabled : true }),
       applicantRelationshipWithLead: new FormControl(''),
 
@@ -146,13 +151,71 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
     details.patchValue({ preferredLanguage: 'ENGPRFLAN' })
+    //console.log('fatherNameValue',details.get('fatherName').value);
+    
     this.eitherFathOrspouse()
+    this.eitherFather()
+    this.eitherMother()
+    
 
 
     // setTimeout(() => { 
     // this.clearFormArray();
     // });
     //this.setGaurdianFieldMandatory()
+  }
+
+  eitherFather(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    const fatherName= details.get('fatherName').value;
+    const spouseName= details.get('spouseName').value;
+    if(fatherName ){
+        
+      details.get('spouseName').clearValidators()
+      details.get('spouseName').updateValueAndValidity()
+      this.isRequiredSpouse = '';
+      // const spouseName= details.get('spouseName').value || null;
+      setTimeout(() => {
+        details.get('spouseName').setValue(spouseName || null)
+      });
+      
+     
+    }
+    // else{
+    //   details.get('spouseName').setValidators([Validators.required])
+    //   details.get('spouseName').updateValueAndValidity()
+    //   this.isRequiredSpouse = 'Spouse name is required';
+    //   setTimeout(() => {
+    //     details.get('spouseName').setValue(spouseName || null)
+    //   });
+    // }
+  }
+
+  eitherMother(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    const fatherName= details.get('fatherName').value;
+    const spouseName= details.get('spouseName').value;
+    if(spouseName){
+      details.get('fatherName').clearValidators()
+      details.get('fatherName').updateValueAndValidity()
+     this.isRequiredFather = '';
+     //const fatherName= details.get('fatherName').value || null;
+      setTimeout(() => {
+        details.get('fatherName').setValue(fatherName || null)
+      });
+     
+     
+    }
+    // else{
+    //   details.get('fatherName').setValidators([Validators.required])
+    //   details.get('fatherName').updateValueAndValidity();
+    //   this.isRequiredFather = 'Father name is required';
+    //   setTimeout(() => {
+    //     details.get('fatherName').setValue(fatherName || null)
+    //   });
+    // }
   }
 
   
@@ -216,6 +279,7 @@ export class BasicDetailsComponent implements OnInit {
     })
 
   }
+  
 
 
 
@@ -528,7 +592,7 @@ export class BasicDetailsComponent implements OnInit {
     if (this.basicForm.invalid) {
       return
     }
-    console.log('basicForm')
+    console.log('basicForm', this.basicForm.controls)
     const rawValue = this.basicForm.getRawValue();
     console.log('FormValue', rawValue)
     if (this.isIndividual) {
@@ -587,8 +651,8 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails: ApplicantDetails = {};
     const formValue = value.details[0];
     applicantDetails.name1 = formValue.name1;
-    applicantDetails.name2 = formValue.name2;
-    applicantDetails.name3 = formValue.name3;
+    applicantDetails.name2 = formValue.name2? formValue.name2 : '';
+    applicantDetails.name3 = formValue.name3? formValue.name3 : '';
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.title = value.title;
@@ -598,13 +662,13 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
-    prospectDetails.emailId = formValue.emailId;
-    prospectDetails.alternateEmailId = formValue.alternateEmailId;
-    prospectDetails.mobilePhone = `91${formValue.mobilePhone}`;
+    prospectDetails.emailId = formValue.emailId? formValue.emailId : '';
+    prospectDetails.alternateEmailId = formValue.alternateEmailId? formValue.alternateEmailId : '';
+    prospectDetails.mobilePhone = formValue.mobilePhone? `91${formValue.mobilePhone}` : '';
     prospectDetails.dob = this.utilityService.getDateFormat(formValue.dob);
-    prospectDetails.minorGuardianName = formValue.minorGuardianName;
-    prospectDetails.fatherName = formValue.fatherName? formValue.fatherName : ' ';
-    prospectDetails.spouseName = formValue.spouseName;
+    prospectDetails.minorGuardianName = formValue.minorGuardianName? formValue.minorGuardianName: '';
+    prospectDetails.fatherName = formValue.fatherName? formValue.fatherName : '';
+    prospectDetails.spouseName = formValue.spouseName? formValue.spouseName : '';
     prospectDetails.motherMaidenName = formValue.motherMaidenName;
     prospectDetails.occupation = formValue.occupation;
     prospectDetails.nationality = formValue.nationality;
@@ -613,7 +677,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.age = Number(this.showAge);
     prospectDetails.gender = formValue.gender || '';
     prospectDetails.minorGuardianRelation = formValue.minorGuardianRelation || '';
-    prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber;
+    prospectDetails.alternateMobileNumber = formValue.alternateMobileNumber? formValue.alternateMobileNumber : '';
     prospectDetails.politicallyExposedPerson = formValue.politicallyExposedPerson;
     prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
     prospectDetails.isMinor = this.isMinor;
@@ -629,8 +693,8 @@ export class BasicDetailsComponent implements OnInit {
     const formValue = value.details[0];
 
     applicantDetails.name1 = formValue.name1;
-    applicantDetails.name2 = formValue.name2;
-    applicantDetails.name3 = formValue.name3;
+    applicantDetails.name2 = formValue.name2? formValue.name2 : '';
+    applicantDetails.name3 = formValue.name3? formValue.name3 : '';
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.title = formValue.title;
