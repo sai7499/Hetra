@@ -73,7 +73,7 @@ export class DeviationService {
     return this.httpService.post(url, body);
   }
 
-  getDeleteDeviation(id, userId) {
+  getDeleteDeviation(id) {
 
     const processId = this.apiService.api.deleteDeviation.processId;
     const workflowId = this.apiService.api.deleteDeviation.workflowId;
@@ -87,6 +87,45 @@ export class DeviationService {
       },
       workflowId: workflowId,
       projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
+  getReferNextLevel(data) {
+
+    const processId = this.apiService.api.getReferDeviation.processId;
+    const workflowId = this.apiService.api.getReferDeviation.workflowId;
+    const projectId = this.apiService.api.getReferDeviation.projectId
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
+  approveDeclineDeviation(data) {
+    const processId = this.apiService.api.approveDecline.processId;
+    const workflowId = this.apiService.api.approveDecline.workflowId;
+    const projectId = this.apiService.api.approveDecline.projectId
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;

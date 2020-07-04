@@ -40,6 +40,6 @@ import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-lea
     DashboardRoutingModule,
     NgxPaginationModule,
     FormsModule
-  ]
+    ]
 })
 export class DashboardModule { }
