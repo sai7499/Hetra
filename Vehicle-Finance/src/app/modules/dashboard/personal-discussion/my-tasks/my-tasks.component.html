@@ -18,7 +18,7 @@
         <tbody>
             <tr *ngFor="let item of pdListDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td>
-                    <a href="http://10.101.10.153/appiyo/d/tasks/{{item.taskId}}/release"><input type="button" class="btn-primary" value="Release" data-toggle="modal" data-target="#releaseModal"></a>
+                    <input type="button" class="btn-primary" (click)="onRelase(item.taskId)" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
                 <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
