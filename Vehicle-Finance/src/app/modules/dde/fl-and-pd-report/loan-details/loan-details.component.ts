@@ -40,6 +40,8 @@ export class LoanDetailsComponent implements OnInit {
   data: any;
   currentYear = new Date().getFullYear();
   yearCheck = [];
+  // productCat: "used";
+  productCat: any;
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -78,6 +80,9 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    // this.productCat = 'new';
+    this.productCat = 'used';
 
     // accessing lead id from route
 

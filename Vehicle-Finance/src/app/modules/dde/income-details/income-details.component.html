@@ -404,19 +404,6 @@
                                 </td>
                             </tr>
 
-                            </td>
-                            </tr>
-                            <tr>
-                                <td>{{ labels?.totalSalariedFOIR }}</td>
-                                <td>{{ totalSalariedFOIR }}</td>
-                            </tr>
-                            <tr>
-                                <td>{{ labels?.consideredSalaryIncome }}</td>
-                                <td>
-                                    {{ (totalMonthlySalaryIncome * (totalSalariedFOIR + salariedFOIRaspePolicy)) / 100 | number: "1.0-0" }}
-                                </td>
-                            </tr>
-
                             <tr>
                                 <td>{{ labels?.totalMonthlyBusinessIncome }}</td>
                                 <td>{{ totalBusinessIncomeAmount }}</td>
@@ -471,6 +458,5 @@
                 Next
             </button>
         </div>
-    </div>
     </div>
 </form>

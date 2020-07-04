@@ -1,8 +1,8 @@
 <form class="multisteps-form__form" [formGroup]="loanDetailsForm" *ngIf="this.loanDetailsForm">
 
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <h3 class="title">{{labels.loanDetailsTitle}}</h3>
-        <div class="row">
+        <h3 class="title" *ngIf="productCat ==='new'">{{labels.loanDetailsTitle}}</h3>
+        <div class="row" *ngIf="productCat ==='new'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="cost_of_vehicle">{{labels.costOfVehicle}}</label>
                 <!-- <input type="text" class="form-control" id="cost_of_vehicle" formControlName="costOfVehicle"> -->
@@ -30,8 +30,8 @@
             </div>
 
         </div>
-        <h3 class="title">{{labels.avilForUsedVehicle}}</h3>
-        <div class="row">
+        <h3 class="title" *ngIf="productCat ==='used'">{{labels.avilForUsedVehicle}}</h3>
+        <div class="row" *ngIf="productCat ==='used'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="loan_amt_required">{{labels.loanAmtReq}}</label>
                 <!-- <input type="text" class="form-control" id="loan_amt_required" formControlName="loanAmtReq"> -->
@@ -213,8 +213,8 @@
                             </div>
                         </div> -->
         </div>
-        <h3 class="title">{{labels.avilForUsedVehicle}}</h3>
-        <div class="row">
+        <h3 class="title" *ngIf="productCat ==='used'">{{labels.avilForUsedVehicle}}</h3>
+        <div class="row" *ngIf="productCat ==='used'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_make">{{labels.vehicleMake}}</label>
                 <app-custom-input type="text" id="vehicle_make" formControlName="vehicleMake" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
@@ -385,47 +385,48 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
-                <div class="col-sm-7"></div>
-                <div class="col-sm-5 text-right">
-                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
-                        {{labels.reinitiate}}
-                    </button>&nbsp;
-                    <button class="btn btn-success " (click)="approvePd()">
-                        {{labels.approve}}
-                    </button>
 
-                </div>
-            </div>
+    </div>
 
-            <div class="btn-sec clear-both">
-                <div class="col-sm-5"></div>
-                <div class="col-sm-7 text-right">
-                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../customer-profile',applicantId,version]">
-                        {{labels.back}}
-                    </button>&nbsp;
-                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../customer-profile',applicantId]">
-                        {{labels.back}}
-                    </button>&nbsp; -->
-                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
-                        {{labels.back}}
-                    </button>&nbsp;
-                    <button class="btn btn-primary " (click)="onFormSubmit()">
-                        {{labels.save}}
-                    </button>&nbsp;
-                    <button class="btn btn-primary" type="button" (click)="onNavigateNext()">
-                        {{labels.next}}
-                    </button>
-                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../pd-report']">
-                        {{labels.next}}
-                    </button>
-                    <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../reference-check',applicantId]">
-                        {{labels.next}}
-                    </button> -->
+    <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+        <div class="col-sm-7"></div>
+        <div class="col-sm-5 text-right">
+            <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                {{labels.reinitiate}}
+            </button>&nbsp;
+            <button class="btn btn-success " (click)="approvePd()">
+                {{labels.approve}}
+            </button>
 
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="btn-sec clear-both">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+            <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../customer-profile',applicantId,version]">
+                {{labels.back}}
+            </button>&nbsp;
+            <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../customer-profile',applicantId]">
+                {{labels.back}}
+            </button>&nbsp; -->
+            <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+                {{labels.back}}
+            </button>&nbsp;
+            <button class="btn btn-primary " (click)="onFormSubmit()">
+                {{labels.save}}
+            </button>&nbsp;
+            <button class="btn btn-primary" type="button" (click)="onNavigateNext()">
+                {{labels.next}}
+            </button>
+            <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../pd-report']">
+                {{labels.next}}
+            </button>
+            <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../reference-check',applicantId]">
+                {{labels.next}}
+            </button> -->
+
         </div>
     </div>
 
