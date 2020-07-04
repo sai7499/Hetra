@@ -30,17 +30,16 @@ import { CheckerLeadsWithMeComponent } from './cpc-checker/checker-leads-with-me
 import { CheckerLeadsWithCpcComponent } from './cpc-checker/checker-leads-with-cpc/checker-leads-with-cpc.component';
 import { MakerLeadsWithMeComponent } from './cpc-maker/maker-leads-with-me/maker-leads-with-me.component';
 import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/maker-leads-with-cpc.component';
-import { SharedModule } from '@modules/shared/shared.module';
+import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationWithMeComponent, DeviationWithBranchComponent, CreditDecisionComponent, DecisionWithMeComponent, DecisionWithBranchComponent, CpcMakerComponent, CpcCheckerComponent, CheckerLeadsWithMeComponent, CheckerLeadsWithCpcComponent, MakerLeadsWithMeComponent, MakerLeadsWithCpcComponent],
+  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationWithMeComponent, DeviationWithBranchComponent, CreditDecisionComponent, DecisionWithMeComponent, DecisionWithBranchComponent, CpcMakerComponent, CpcCheckerComponent, CheckerLeadsWithMeComponent, CheckerLeadsWithCpcComponent, MakerLeadsWithMeComponent, MakerLeadsWithCpcComponent, DdeBranchLeadsComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     NgxPaginationModule,
-    FormsModule,
-    SharedModule
-  ]
+    FormsModule
+    ]
 })
 export class DashboardModule { }

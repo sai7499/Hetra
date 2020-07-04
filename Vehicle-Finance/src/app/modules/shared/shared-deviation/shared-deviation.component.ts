@@ -29,6 +29,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   public productCatoryCode: string = 'NC';
   public businessDivision: string;
   public roleId: number;
+  public isRequired: string = 'Approver Level Required';
+
+  public selectDeviationId: number = 0;
+  public findIndex;
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
@@ -64,6 +68,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     this.deviationsForm = this._fb.group({
       approverRole: [''],
+      recommendation: [''],
       autoDeviationFormArray: this._fb.array([]),
       manualDeviationFormArray: this._fb.array([this.getManualDeviations()])
     })
@@ -74,7 +79,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
-      console.log('value', value)
       if (value && value.length > 0) {
         this.getTrigurePolicy()
       }
@@ -82,6 +86,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   }
 
   onApproveDeclineAction(value: any, obj) {
+
+    this.isRequired = '';
+    this.deviationsForm.controls["approverRole"].clearValidators();
+    this.deviationsForm.controls["approverRole"].updateValueAndValidity();
+
+    this.deviationsForm.controls["recommendation"].clearValidators();
+    this.deviationsForm.controls["recommendation"].updateValueAndValidity();
+
+    const approverRole = this.deviationsForm.controls["approverRole"].value;
+
+    this.deviationsForm.controls["approverRole"].setValue(approverRole);
 
     if (value !== 2) {
 
@@ -92,11 +107,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         "statusCode": value + ''
       }
 
-      this.deviationsForm.controls["approverRole"].clearValidators();
-      this.deviationsForm.controls["approverRole"].updateValueAndValidity();
-
       this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
-        console.log('eeds', res)
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
 
           let DevisionApproveDecline = res.ProcessVariables ? res.ProcessVariables : {}
@@ -109,12 +120,14 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
         } else {
           this.toasterService.showError(res.ErrorMessage, 'Approve Decline Deviation')
-          this.toasterService.showInfo('Please Select Approvel Role', 'Refer Deviation')
         }
       })
 
-    } else if (value == 2) {
+    } else if (value === 2) {
       this.deviationsForm.controls["approverRole"].setValidators([Validators.required]);
+      this.deviationsForm.controls["recommendation"].setValidators([Validators.required, Validators.maxLength(120)]);
+      this.isRequired = 'Approver Level Required';
+      this.toasterService.showInfo('Please Select Approver Role', 'Refer Devision')
     }
 
   }
@@ -215,15 +228,36 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       approveAction: [{ value: 1, disabled: true }],
       referAction: [{ value: 2, disabled: true }],
       declineAction: [{ value: 0, disabled: true }],
-      isManualDev: true,
       statusCode: null,
     });
   }
 
-  addDeviationUnit(obj, i) {
+  addDeviationUnit() {
     const memberListForm = <FormArray>this.deviationsForm.controls['manualDeviationFormArray'];
     const add = memberListForm.value.length + 1;
     memberListForm.insert(add, this.getManualDeviations())
+  }
+
+  softDeleteDeviation(index: number, id) {
+    this.findIndex = index;
+    this.selectDeviationId = Number(id)
+  }
+
+  DeleteVehicleDetails() {
+    //   this.vehicleDetailsService.getDeleteVehicleDetails(this.selectCollateralId, this.userId).subscribe((res: any) => {
+    //     const apiError = res.ProcessVariables.error.message;
+
+    //     if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+    //       this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
+    //       this.getVehicleDetails(this.leadId)
+    //     } else {
+    //       this.toasterService.showError(apiError, 'Delete Vehicle Details')
+    //     }
+    //   }, error => {
+    //     console.log('error', error);
+    //   }
+    //   );
+    // }
   }
 
   removeDeviationIndex(id, i?: any) {
@@ -231,9 +265,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     if (id && id !== 0) {
 
-      this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
-        console.log('Test', res)
-        if (res.Error === '0' && res.ProcessVariables.error.code === '0') { } else {
+      this.deviationService.getDeleteDeviation(26).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          console.log(res.ProcessVariables, 'dkgb')
+          this.getTrigurePolicy()
+        } else {
           this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
         }
 
@@ -255,7 +291,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
           this.onPatchFormArrayValue(this.autoDeviationArray)
-          console.log(this.autoDeviationArray)
         }
         this.sharedService.getFormValidation(this.deviationsForm)
       } else {
@@ -273,10 +308,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     const manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
 
+    autoDeviationFormArray.controls = [];
+    manualDiviationFormArray.controls = [];
+
     array.map((data: any) => {
       if (data.isManualDev === '1') {
-
-        manualDiviationFormArray.controls = [];
 
         manualDiviationFormArray.push(
           this._fb.group({
@@ -293,7 +329,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             declineAction: [0]
           }))
       } else if (data.isManualDev === '0') {
+
         autoDeviationFormArray.push(
+
           this._fb.group({
             approverRole: data.approverRole,
             approverRoleName: data.approverRoleName,
@@ -309,7 +347,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           }))
       }
     })
-    console.log('FormArray', this.deviationsForm)
+
+    if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
+      manualDiviationFormArray.push(this.getManualDeviations())
+    }
   }
 
   formDataOutputMethod(event) {
