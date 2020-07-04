@@ -10,12 +10,14 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 export class ScoreCardComponent implements OnInit {
 
     borrowerAttributes: any;
+    borrowerAttributesLength: number;
     borrowerAssessments: any;
+    borrowerAssessmentsLength: number;
     fieldVerifications: any;
+    fieldVerificationsLength: number;
     repaymentAssessments: any;
 
     scoreCard: any;
-
     userId: string;
     leadId: number;
 
@@ -31,6 +33,8 @@ export class ScoreCardComponent implements OnInit {
 
         const leadData = this.createLeadDataService.getLeadSectionData();
         this.leadId = (leadData as any).leadId;
+
+        this.reInitiateCreditScore();
     }
 
     reInitiateCreditScore() {
@@ -46,6 +50,13 @@ export class ScoreCardComponent implements OnInit {
                 this.borrowerAssessments = this.scoreCard.borrowerAssessment;
                 this.fieldVerifications = this.scoreCard.fieldVerification;
                 this.repaymentAssessments = this.scoreCard.repaymentAssessment;
+
+                this.borrowerAttributesLength = this.borrowerAttributes.length + 1;
+                this.borrowerAssessmentsLength = this.borrowerAttributes.length +
+                    this.borrowerAssessments.length + 1;
+                this.fieldVerificationsLength = this.borrowerAttributes.length +
+                    this.borrowerAssessments.length +
+                    this.fieldVerifications.length + 1;
             }
         });
     }

@@ -30,4 +30,10 @@ export class TaskDashboard {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, requestEntity);
   }
+
+  assignTask(id) {
+   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
+  //  return this.httpService.post(url, );
+  }
+
 }

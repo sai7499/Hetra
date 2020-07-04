@@ -173,7 +173,7 @@
         </caption>
         <thead>
             <tr class="">
-                <th>{{ labels?.entity }}</th>
+                <th>{{ labels?.applicantType }}</th>
                 <th>{{ labels?.name }}</th>
                 <th>{{ labels?.entity }}</th>
                 <th>{{ labels?.age }}</th>
@@ -182,7 +182,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let partyToAgreement of partyToAgreement">
-                <td class="bank_name">{{ partyToAgreement?.entity }}</td>
+                <td class="bank_name">{{ partyToAgreement?.applicantType }}</td>
                 <td>{{ partyToAgreement?.age }}</td>
                 <td>{{ partyToAgreement?.entity }}</td>
                 <td>{{ partyToAgreement?.name }}</td>

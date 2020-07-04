@@ -25,6 +25,7 @@
                     (change)="selectApplicantType($event)"
                     [isRequired]="'Entity type is required'"
                     [isDirty]="isDirty"
+                    [isDisabled]="applicantId"
                   >
                   </app-vf-custom-select>
                 </div>
@@ -57,11 +58,11 @@
                   </label>
                   <app-custom-input
                     formControlName="name1"
-                    [patternCheck]="namePattern"
+                    
                     [isRequired]="'Name is required'"
-                    [maxLength]="maxlength30"
+                    [maxLength]="validationData?.name?.maxLength"
                     [isDirty]="isDirty"
-                    [type]="applicantType == 'INDIVENTTYP' ? 'alpha' : 'text'"
+                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
                   ></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -77,11 +78,9 @@
                   </label>
                   <app-custom-input
                     formControlName="name2"
-                    [patternCheck]="namePattern"
-                    [maxLength]="maxlength30"
-                    [type]="applicantType == 'INDIVENTTYP' ? 'alpha' : 'text'"
-                  >
-                  </app-custom-input>
+                    [maxLength]="validationData?.name?.maxLength"
+                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
+                  ></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label
@@ -96,9 +95,9 @@
                   </label>
                   <app-custom-input
                     formControlName="name3"
-                    [patternCheck]="namePattern"
-                    [maxLength]="maxlength30"
-                    [type]="applicantType == 'INDIVENTTYP' ? 'alpha' : 'text'"
+                    
+                    [maxLength]="validationData?.name?.maxLength"
+                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
                   >
                   </app-custom-input>
                 </div>
@@ -111,11 +110,11 @@
                   >
                   <app-custom-input
                     formControlName="mobilePhone"
-                    [patternCheck]="mobileNumberPattern"
-                    [isRequired]="'Mobile number is required'"
-                    [maxLength]="maxlength10"
-                    [isDirty]="isDirty"
-                    [type]="'number'"
+                    [patternCheck]="validationData?.mobile?.patternCheck"
+                    [isRequired]="'Mobile Number is required'"
+                    [maxLength]='validationData?.mobile?.maxLength'
+                   [isDirty]="isDirty"
+                   [type]="validationData?.mobile?.type"
                   >
                   </app-custom-input>
                 </div>
@@ -180,11 +179,11 @@
                   >
                   <app-custom-input
                     formControlName="aadhar"
-                    [maxLength]="maxlength12"
-                    [patternCheck]="adharNumberPattern"
+                    [maxLength]="validationData?.adhaarNumber?.maxLength"
+                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
                     [isRequired]="'Aadhaar number is required'"
                     [isDirty]="isDirty"
-                    [type]="'number'"
+                    [type]="validationData?.adhaarNumber?.type"
                   >
                   </app-custom-input>
                 </div>
@@ -207,12 +206,12 @@
                   <app-custom-input
                     formControlName="pan"
                     [disabled]="isPanDisabled"
-                    [patternCheck]="panFormPattern"
+                    [patternCheck]="validationData?.panNumber?.patternCheck"
                     [isRequired]="panRequired ? 'Pan is required' : ''"
                     [isDirty]="isDirty"
                     [inputClass]="'text-uppercase'"
-                    [maxLength]="maxlength10"
-                    [type]="'alpha-numeric'"
+                    [maxLength]="validationData?.panNumber?.maxLength"
+                    [type]="validationData?.panNumber?.type"
                   ></app-custom-input>
                 </div>
               </div>
@@ -221,10 +220,11 @@
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
                   <app-custom-input
                     formControlName="drivingLicenseNumber"
-                    [maxLength]="maxlength15"
+                    [patternCheck]="validationData?.drivingLicense?.patternCheck"
+                    [maxLength]="validationData?.drivingLicense?.maxLength"
                     (change)="onDrvingLisenseChange($event)"
                     [inputClass]="'text-uppercase'"
-                    [type]="'alpha-numeric'"
+                    [type]="validationData?.drivingLicense?.type"
                   >
                   </app-custom-input>
                 </div>
@@ -330,15 +330,15 @@
 
                   <app-custom-input
                     formControlName="passportNumber"
-                    [patternCheck]="passportPattern"
+                    [patternCheck]="validationData?.passportNumber?.patternCheck"
                     (change)="onPassportNumberChange($event)"
                     [inputClass]="'text-uppercase'"
-                    [maxLength]="maxlength8"
+                    [maxLength]="validationData?.passportNumber?.maxLength"
                     [isRequired]="
                       isPassportRequired ? 'Passport number is required' : ''
                     "
                     [isDirty]="isPassportRequired && isDirty"
-                    [type]="'alpha-numeric'"
+                    [type]="validationData?.passportNumber?.type"
                   >
                   </app-custom-input>
                 </div>
@@ -403,12 +403,12 @@
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <app-custom-input
                     formControlName="voterIdNumber"
-                    [maxLength]="maxlength15"
-                    [patternCheck]="voterIdPattern"
+                    [maxLength]="validationData?.voterId?.maxLength"
+                    [patternCheck]="validationData?.voterId?.patternCheck"
                     [inputClass]="'text-uppercase'"
                     [isRequired]="isVoterRequired ? 'Voter id is required' : ''"
                     [isDirty]="isVoterRequired && isDirty"
-                    [type]="'alpha-numeric'"
+                    [type]="validationData?.voterId?.type"
                   ></app-custom-input>
                 </div>
 
@@ -469,24 +469,25 @@
                       >
                       <app-custom-input
                         formControlName="addressLineOne"
-                        [isRequired]="'Address is Required'"
+                        [maxLength]="validationData?.fullName?.maxLength"
+                        [isRequired]="'Address is required'"
                         [isDirty]="isDirty"
-                        [maxLength]="maxLength35"
-                        [isDirty]="isDirty"
+
+                        
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="maxLength35"
+                        [maxLength]="validationData?.fullName?.maxLength"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="maxLength35"
+                        [maxLength]="validationData?.fullName?.maxLength"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -498,13 +499,13 @@
                       >
                       <app-custom-input
                         formControlName="pincode"
-                        [maxLength]="maxlength6"
-                        [patternCheck]="pincodePattern"
+                        [maxLength]="validationData?.pincode?.maxLength"
+                        [patternCheck]="validationData?.pincode?.patternCheck"
                         (keyup)="getPincode($event.target)"
                         [id]="'permanentPincode'"
                         [isRequired]="'Pincode is required'"
                         [isDirty]="isDirty"
-                        [type]="'number'"
+                        [type]="validationData?.pincode?.type"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -567,9 +568,9 @@
                       }}</label>
                       <app-custom-input
                         formControlName="landlineNumber"
-                        [patternCheck]="landlLinePattern"
-                        [maxLength]="maxlength15"
-                        [type]="'number'"
+                        
+                        [maxLength]="validationData?.landlineNumber?.maxLength"
+                        [type]="validationData?.landlineNumber?.type"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -600,8 +601,8 @@
                       >
                       <app-custom-input
                         formControlName="addressLineOne"
-                        [isRequired]="'Address is Required'"
-                        [maxLength]="maxLength35"
+                        [maxLength]="validationData?.fullName?.maxLength"
+                        [isRequired]="'Address is required'"
                         [isDirty]="isDirty"
                       ></app-custom-input>
                     </div>
@@ -609,14 +610,14 @@
                       <label for="line2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="maxLength35"
+                        [maxLength]="validationData?.fullName?.maxLength"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="maxLength35"
+                        [maxLength]="validationData?.fullName?.maxLength"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -628,13 +629,13 @@
                       >
                       <app-custom-input
                         formControlName="pincode"
-                        [maxLength]="maxlength6"
-                        [patternCheck]="pincodePattern"
+                        [maxLength]="validationData?.pincode?.maxLength"
+                        [patternCheck]="validationData?.pincode?.patternCheck"
                         (keyup)="getPincode($event.target)"
                         [id]="'currentPincode'"
                         [isRequired]="'Pincode is required'"
                         [isDirty]="isDirty"
-                        [type]="'number'"
+                        [type]="validationData?.pincode?.type"
                       ></app-custom-input>
                     </div>
                     <div
@@ -700,9 +701,9 @@
                       }}</label>
                       <app-custom-input
                         formControlName="landlineNumber"
-                        [patternCheck]="landlLinePattern"
-                        [maxLength]="maxlength15"
-                        [type]="'number'"
+                        
+                        [maxLength]="validationData?.landlineNumber?.maxLength"
+                        [type]="validationData?.landlineNumber?.type"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -723,9 +724,9 @@
                     >
                     <app-custom-input
                       formControlName="addressLineOne"
-                      [isRequired]="'Address is Required'"
-                      [maxLength]="maxLength35"
-                      [isDirty]="isDirty"
+                      [maxLength]="validationData?.fullName?.maxLength"
+                        [isRequired]="'Address is required'"
+                        [isDirty]="isDirty"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -733,14 +734,14 @@
 
                     <app-custom-input
                       formControlName="addressLineTwo"
-                      [maxLength]="maxLength35"
+                      [maxLength]="validationData?.fullName?.maxLength"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.line3 }}</label>
                     <app-custom-input
                       formControlName="addressLineThree"
-                      [maxLength]="maxLength35"
+                      [maxLength]="validationData?.fullName?.maxLength"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -750,13 +751,13 @@
                     >
                     <app-custom-input
                       formControlName="pincode"
-                      [maxLength]="maxlength6"
-                      [patternCheck]="pincodePattern"
+                      [maxLength]="validationData?.pincode?.maxLength"
+                      [patternCheck]="validationData?.pincode?.patternCheck"
                       (keyup)="getPincode($event.target)"
                       [id]="'permanentPincode'"
                       [isRequired]="'Pincode is required'"
                       [isDirty]="isDirty"
-                      [type]="'number'"
+                      [type]="validationData?.pincode?.type"
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -813,13 +814,12 @@
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="reg_mobile">{{ labels?.landlineNumber }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="reg_mobile"
-                      formControlName="landlineNumber"
-                      [type]="'number'"
-                    />
+                    <app-custom-input
+                    formControlName="landlineNumber"
+                    
+                    [maxLength]="validationData?.landlineNumber?.maxLength"
+                    [type]="validationData?.landlineNumber?.type"
+                  ></app-custom-input>
                   </div>
                 </div>
               </div>
