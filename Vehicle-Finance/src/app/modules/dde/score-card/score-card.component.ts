@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '@services/api.service';
 import { ScoreCardService } from '../services/score-card.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
     templateUrl: './score-card.component.html',
@@ -15,17 +16,25 @@ export class ScoreCardComponent implements OnInit {
 
     scoreCard: any;
 
+    userId: string;
+    leadId: number;
+
     constructor(
-        private apiService: ApiService,
-        private scoreCardService: ScoreCardService
+        private scoreCardService: ScoreCardService,
+        private loginStoreService: LoginStoreService,
+        private createLeadDataService: CreateLeadDataService
     ) { }
 
     ngOnInit() {
-        this.getCreditScoreCard();
+        const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+        this.userId = roleAndUserDetails.userDetails.userId;
+
+        const leadData = this.createLeadDataService.getLeadSectionData();
+        this.leadId = (leadData as any).leadId;
     }
 
-    getCreditScoreCard() {
-        this.scoreCardService.getCreditScoreCard().subscribe((res: any) => {
+    reInitiateCreditScore() {
+        this.scoreCardService.reInitiateCreditScore(this.leadId, this.userId).subscribe((res: any) => {
             const response = res;
             const appiyoError = response.Error;
             const apiError = response.ProcessVariables.error.code;
