@@ -75,4 +75,11 @@ export class DeviationWithBranchComponent implements OnInit {
     this.getPdBrabchTask(this.itemsPerPage, event);
   }
 
+  onAssign(id) {
+
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', res);
+    });
+  }
+
 }

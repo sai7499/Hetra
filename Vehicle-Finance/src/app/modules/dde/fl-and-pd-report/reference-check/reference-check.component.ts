@@ -136,8 +136,8 @@ export class ReferenceCheckComponent implements OnInit {
 
     const data = {
 
-      applicantId: 6,
-      // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      // applicantId: 6,
+      applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
 
     }
 
@@ -240,9 +240,9 @@ export class ReferenceCheckComponent implements OnInit {
       overallFiReport: refCheckModal.overallFiReport || '',
     };
     const data = {
-      leadId: 1,
-      applicantId: 6,
-      // applicantId:this.applicantId , /* Uncomment this after getting applicant Id from Lead */
+      leadId: this.leadId,
+      // applicantId: 6,
+      applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
       referenceCheck: this.refCheckDetails
     };
@@ -274,8 +274,9 @@ export class ReferenceCheckComponent implements OnInit {
     const data = {
 
       userId: this.userId,
-      applicantId: 1,
-      // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      // applicantId: 1,
+
+      applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */
 
     }
 

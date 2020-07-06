@@ -22,4 +22,9 @@ export class SharedService {
     getFormValidation(form) {
         this.vaildateForm$.next(form)
     }
+
+    updateDev$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getUpdatedDeviation(data) {
+        this.updateDev$.next(data)
+    }
 }

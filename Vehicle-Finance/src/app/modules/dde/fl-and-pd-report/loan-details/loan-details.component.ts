@@ -156,13 +156,26 @@ export class LoanDetailsComponent implements OnInit {
 
   initForm() {
     this.loanDetailsForm = new FormGroup({
-      vehicleCost: new FormControl(''),
-      model: new FormControl(''),
-      reqLoanAmount: new FormControl(''),
-      marginMoney: new FormControl(''),
+
+      // controls for new vehicle
+
+      newVehicleCost: new FormControl(''),
+      newVehicleModel: new FormControl(''),
+      newVehicleType: new FormControl(''),
+      newVehicleReqLoanAmount: new FormControl(''),
+      newVehicleMarginMoney: new FormControl(''),
+
+      // controls for used vehicle
+
+      usedVehicleCost: new FormControl(''),
+      usedVehModel: new FormControl(''),
+      usedVehicleType: new FormControl(''),
+      usedVehicleMarginMoney: new FormControl(''),
       usedVehicleLoanAmountReq: new FormControl(''),
-      sourceOfVehiclePurchase: new FormControl(''),
-      marginMoneySource: new FormControl(''),
+      // sourceOfVehiclePurchase: new FormControl(''),
+      sourceOfVehiclePurchase: new FormControl('', Validators.compose([Validators.maxLength(40), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      // marginMoneySource: new FormControl(''),
+      marginMoneySource: new FormControl('', Validators.compose([Validators.maxLength(40), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       financierName: new FormControl(''),
       coAapplicantAwareMarginMoney: new FormControl(''),
       channelSourceName: new FormControl(''),
@@ -180,6 +193,9 @@ export class LoanDetailsComponent implements OnInit {
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
       awareDueDateEmiAmount: new FormControl(''),
+
+      // controls for used vehicle asset details
+
       vehicleMake: new FormControl(''),
       modelInYear: new FormControl(''),
       regNo: new FormControl(''),
@@ -327,6 +343,7 @@ export class LoanDetailsComponent implements OnInit {
 
   setFormValue() {
     // const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
+
     const newCvModel = this.newCvDetails || {};
     console.log("new cv model", newCvModel);
     const usedVehicleModel = this.usedVehicleDetails || {};
@@ -335,13 +352,17 @@ export class LoanDetailsComponent implements OnInit {
     this.loanDetailsForm.patchValue({
       // new cv details patching
 
-      vehicleCost: newCvModel.vehicleCost,
-      model: newCvModel.model,
-      // type: loanDetailsModal.model,
-      reqLoanAmount: newCvModel.reqLoanAmount,
-      marginMoney: newCvModel.marginMoney,
+      newVehicleCost: newCvModel.newVehicleCost,
+      newVehicleModel: newCvModel.newVehicleModel,
+      newVehicleType: newCvModel.newVehicleType,
+      newVehicleReqLoanAmount: newCvModel.newVehicleReqLoanAmount,
+      newVehicleMarginMoney: newCvModel.newVehicleMarginMoney,
 
-      // used vehicle details patching
+      // used cv details patching
+      usedVehicleCost: usedVehicleModel.usedVehicleCost,
+      usedVehModel: usedVehicleModel.usedVehModel,
+      usedVehicleType: usedVehicleModel.usedVehicleType,
+      usedVehicleMarginMoney: usedVehicleModel.usedVehicleMarginMoney,
       usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq,
       sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase,
       marginMoneySource: usedVehicleModel.marginMoneySource,
@@ -444,104 +465,142 @@ export class LoanDetailsComponent implements OnInit {
 
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
-    this.isDirty = true;
-    if (this.loanDetailsForm.invalid) {
-      return
-    }
+    // this.isDirty = true;
+    // if (this.loanDetailsForm.invalid) {
+    //   console.log(this.loanDetailsForm)
+    //   return
+    // }
     const loanDetailsModal = { ...formModal };
     console.log("form data", loanDetailsModal)
+    console.log("form data", this.newCvDetails)
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
     // this.router.navigate(['/pages/dde']);
+    if (this.productCat === 'new') {
 
-    this.newCvDetails = {
+      console.log("in new vehicle submit pd")
+      this.newCvDetails = {
 
-      // new vehicle
+        // new vehicle
 
-      vehicleCost: loanDetailsModal.vehicleCost,
-      model: loanDetailsModal.model,
-      type: loanDetailsModal.model,
-      reqLoanAmount: loanDetailsModal.reqLoanAmount,
-      marginMoney: loanDetailsModal.marginMoney,
-
-    }
-
-    // used  vehicle details
-
-    this.usedVehicleDetails = {
-
-      usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
-      sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
-      marginMoneySource: loanDetailsModal.marginMoneySource,
-      financierName: loanDetailsModal.financierName,
-      coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
-      channelSourceName: loanDetailsModal.channelSourceName,
-      vehicleSeller: loanDetailsModal.vehicleSeller,
-      proposedVehicle: loanDetailsModal.proposedVehicle,
-      investmentAmount: loanDetailsModal.invesmentAmount,
-      marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
-      marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
-      purchasePrice: loanDetailsModal.purchasePrice,
-      vehicleCondition: loanDetailsModal.vehicleCondition,
-      fundsUsage: loanDetailsModal.fundsUsage,
-      earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
-      othersRemarks: loanDetailsModal.othersRemarks,
-      drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
-      vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
-      awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
-    }
-
-    // for assetDetails used vehicle
-
-    this.assetDetailsUsedVehicle = {
-
-      vehicleMake: loanDetailsModal.vehicleMake,
-      modelInYear: loanDetailsModal.modelInYear,
-      regNo: loanDetailsModal.regNo,
-      regCopVfd: loanDetailsModal.regCopVfd,
-      vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
-      engineNumber: loanDetailsModal.engineNumber,
-      chasisNumber: loanDetailsModal.chasisNumber,
-      // permitValidity: loanDetailsModal.permitValidity,
-      permitValidity: this.sendDate(loanDetailsModal.permitValidity),
-      fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
-      taxValidity: this.sendDate(loanDetailsModal.taxValidity),
-      insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
-      insuranceValidity: this.sendDate(loanDetailsModal.insuranceValidity),
-      vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
-      conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
-      vehicleRoute: loanDetailsModal.vehicleRoute,
-      noOfTrips: loanDetailsModal.noOfTrips,
-      amtPerTrip: loanDetailsModal.amtPerTrip,
-      selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
-      remarks: loanDetailsModal.remarks
-    };
-
-    const data = {
-      leadId: this.leadId,
-      applicantId: this.applicantId,
-      userId: this.userId,
-      loanDetailsForNewCv: this.newCvDetails,
-      applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
-      applicableForUsedVehicle: this.usedVehicleDetails,
-
-    }
-    console.log("used vehicle data", this.assetDetailsUsedVehicle)
-
-    this.personalDiscussion.savePdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
-        const message = processVariables.error.message;
-        console.log('PD Status', message);
-        console.log("response loan details", value.ProcessVariables)
-        this.toasterService.showSuccess("loan details saved successfully!", '')
+        vehicleCost: loanDetailsModal.newVehicleCost,
+        model: loanDetailsModal.newVehicleModel,
+        type: loanDetailsModal.newVehicleType,
+        reqLoanAmount: loanDetailsModal.newVehicleReqLoanAmount,
+        marginMoney: loanDetailsModal.newVehicleMarginMoney,
       }
-      else {
-        console.log("error", processVariables.error.message);
-        this.toasterService.showError("invalid loan details", 'message')
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        loanDetailsForNewCv: this.newCvDetails,
+        // applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
+        // applicableForUsedVehicle: this.usedVehicleDetails,
+
       }
-    });
+      this.personalDiscussion.savePdData(data).subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0') {
+          const message = processVariables.error.message;
+          console.log('PD Status', message);
+          console.log("response loan details", value.ProcessVariables)
+          this.toasterService.showSuccess("new cv loan details saved successfully!", '')
+        }
+        else {
+          console.log("error", processVariables.error.message);
+          this.toasterService.showError("invalid loan details", 'message')
+        }
+      });
 
 
+
+    }
+    else if (this.productCat == "used") {
+
+      console.log("in used vehicle submit pd")
+
+      // used  vehicle details
+
+      this.usedVehicleDetails = {
+
+        vehicleCost: loanDetailsModal.usedVehiclevehicleCost,
+        model: loanDetailsModal.usedVehModel,
+        type: loanDetailsModal.usedVehicleType,
+        // reqLoanAmount: loanDetailsModal.reqLoanAmount,
+        marginMoney: loanDetailsModal.usedVehiclemarginMoney,
+        usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
+        sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
+        marginMoneySource: loanDetailsModal.marginMoneySource,
+        financierName: loanDetailsModal.financierName,
+        coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
+        channelSourceName: loanDetailsModal.channelSourceName,
+        vehicleSeller: loanDetailsModal.vehicleSeller,
+        proposedVehicle: loanDetailsModal.proposedVehicle,
+        investmentAmount: loanDetailsModal.invesmentAmount,
+        marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
+        marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
+        purchasePrice: loanDetailsModal.purchasePrice,
+        vehicleCondition: loanDetailsModal.vehicleCondition,
+        fundsUsage: loanDetailsModal.fundsUsage,
+        earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
+        othersRemarks: loanDetailsModal.othersRemarks,
+        drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
+        vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
+        awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
+      }
+
+      // for assetDetails used vehicle
+
+      this.assetDetailsUsedVehicle = {
+
+        vehicleMake: loanDetailsModal.vehicleMake,
+        modelInYear: loanDetailsModal.modelInYear,
+        regNo: loanDetailsModal.regNo,
+        regCopVfd: loanDetailsModal.regCopVfd,
+        vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
+        engineNumber: loanDetailsModal.engineNumber,
+        chasisNumber: loanDetailsModal.chasisNumber,
+        // permitValidity: loanDetailsModal.permitValidity,
+        permitValidity: this.sendDate(loanDetailsModal.permitValidity),
+        fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
+        taxValidity: this.sendDate(loanDetailsModal.taxValidity),
+        insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
+        insuranceValidity: this.sendDate(loanDetailsModal.insuranceValidity),
+        vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
+        conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
+        vehicleRoute: loanDetailsModal.vehicleRoute,
+        noOfTrips: loanDetailsModal.noOfTrips,
+        amtPerTrip: loanDetailsModal.amtPerTrip,
+        selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
+        remarks: loanDetailsModal.remarks
+      };
+
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        // loanDetailsForNewCv: this.newCvDetails,
+        applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
+        applicableForUsedVehicle: this.usedVehicleDetails,
+
+      }
+      console.log("used vehicle data", this.assetDetailsUsedVehicle)
+
+      this.personalDiscussion.savePdData(data).subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0') {
+          const message = processVariables.error.message;
+          console.log('PD Status', message);
+          console.log("response loan details", value.ProcessVariables)
+          this.toasterService.showSuccess(" used vehicle loan details saved successfully!", '')
+        }
+        else {
+          console.log("error", processVariables.error.message);
+          this.toasterService.showError("invalid loan details", 'message')
+        }
+      });
+
+
+    }
   }
 
 }
