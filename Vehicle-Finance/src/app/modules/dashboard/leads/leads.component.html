@@ -1,10 +1,10 @@
 <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
     <ul class="nav nav-pills nav-justified" id="background_white">
         <li [routerLink]="[ '/pages/dashboard/leads-section/leads' ]" routerLinkActive="active" id="leads"><a>New Leads</a></li>
-        <li class="disabled" [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Me</a></li>
-        <li class="disabled" [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads-branch' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Branch</a></li>
-        <li class="disabled" [routerLink]="[ '/pages/dashboard/leads-section/declined-leads' ]" routerLinkActive="active"><a>Declined Leads with Me</a></li>
-        <li class="disabled" [routerLink]="['/pages/dashboard/leads-section/declined-branch']" routerLinkActive="active"><a>Declined Leads with Branch</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Me</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/sanction-leads-branch' ]" routerLinkActive="active"><a>Sanctioned Leads Pending with Branch</a></li>
+        <li [routerLink]="[ '/pages/dashboard/leads-section/declined-leads' ]" routerLinkActive="active"><a>Declined Leads with Me</a></li>
+        <li [routerLink]="['/pages/dashboard/leads-section/declined-branch']" routerLinkActive="active"><a>Declined Leads with Branch</a></li>
 
     </ul>
 </div>

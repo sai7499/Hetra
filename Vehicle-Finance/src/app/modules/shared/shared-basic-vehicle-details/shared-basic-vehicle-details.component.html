@@ -1,4 +1,5 @@
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event)">
+<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event)"
+    *ngIf="label.validationData">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -177,8 +178,8 @@
                             [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                             (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
-                            (change)="onCompareFinalAssetCode($event.target.value)" [maxLength]="maxlength10"
-                            [patternCheck]="regexPattern.numberPattern"
+                            (change)="onCompareFinalAssetCode($event.target.value)"
+                            [maxLength]="label.validationData.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Indian Bluebook'">
                         </app-custom-input>
 
@@ -193,7 +194,7 @@
                             [className]="'form-control mandatory'" [isRequired]="'Asset Cost basis Carwale Required'"
                             [isDirty]="isDirty" (keyup)="onCompareFinalAssetCode($event.target.value)"
                             [id]="asset_cost_car" (change)="onCompareFinalAssetCode($event.target.value)"
-                            [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                            [maxLength]="label.validationData.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Carwale'">
                         </app-custom-input>
 
@@ -208,7 +209,7 @@
                             [type]="'number'" [id]="'ex_showroom_price'"
                             [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Price Required'"
                             [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                            [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                            [maxLength]="label.validationData.amountValue.maxLength"
                             [placeholder]="'Ex Showroom Price'">
                         </app-custom-input>
 
@@ -255,9 +256,10 @@
 
                         <app-custom-input formControlName="rcOwnerName" [type]="'alpha'" [id]="'name_vehicle_owner'"
                             [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'"
-                            [maxLength]="regexPattern.maxlength40" [patternCheck]="regexPattern.namePattern"
+                            [maxLength]="label.validationData.fullName.maxLength"
                             [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
+                        <!-- [patternCheck]="regexPattern.namePattern" -->
 
                     </div>
 
@@ -268,8 +270,9 @@
 
                         <app-custom-input formControlName="ownerMobileNo" [type]="'number'"
                             [id]="'mobile_vehicle_owner'" [className]="'form-control mandatory'"
-                            [placeholder]="'Mobile Number of Vehicle Owner/Dealer'" [maxLength]="regexPattern.maxLength"
-                            [patternCheck]="regexPattern.mobNumberPattern"
+                            [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
+                            [maxLength]="label.validationData.mobileNumber.maxLength"
+                            [patternCheck]="label.validationData.mobileNumber.pattern"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -304,7 +307,8 @@
 
                         <app-custom-input formControlName="pincode" [type]="'number'" [id]="'vehicle_pincode'"
                             [className]="'form-control mandatory'" [placeholder]="'Vehicle Address PINCODE'"
-                            [maxLength]="regexPattern.pincodemaxLength" [patternCheck]="regexPattern.numberPattern"
+                            [maxLength]="label.validationData.pincode.maxLength"
+                            [patternCheck]="label.validationData.pincode.pattern"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -315,7 +319,7 @@
 
                         <app-custom-input formControlName="noOfVehicles" [type]="'number'" [id]="'no_vehicle'"
                             [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
-                            [maxLength]="maxLength3" [patternCheck]="regexPattern.numberPattern"
+                            [maxLength]="label.validationData.percentage.maxLength"
                             [isRequired]="'No of vehicles Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -462,8 +466,9 @@
                             <app-custom-input formControlName="exShowRoomCost" [type]="'number'"
                                 [id]="'ex_showroom_price'" [className]="'form-control mandatory'"
                                 [isRequired]="'Ex Showroom Cost Required'" [isDirty]="isDirty"
-                                (keyup)="onPatchFinalAssetCost($event.target.value)" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Ex Showroom Cost'">
+                                (keyup)="onPatchFinalAssetCost($event.target.value)"
+                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
 
                         </div>
@@ -492,8 +497,9 @@
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
 
                             <app-custom-input formControlName="dealerSubventionAmount" [type]="'number'"
-                                [id]="'dealer_subvention_amount'" [className]="'form-control'" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Dealer Subvention Amount'">
+                                [id]="'dealer_subvention_amount'" [className]="'form-control'"
+                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [placeholder]="'Dealer Subvention Amount'">
                             </app-custom-input>
 
                         </div>
@@ -502,8 +508,8 @@
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
 
                             <app-custom-input formControlName="dealerSubventionPartIRR" [type]="'number'"
-                                [id]="'dealer_subvention_irr'" [className]="'form-control'" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern"
+                                [id]="'dealer_subvention_irr'" [className]="'form-control'"
+                                [maxLength]="label.validationData.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Part of Operating IRR'">
                             </app-custom-input>
 
@@ -518,7 +524,7 @@
 
                             <app-custom-input formControlName="dealerSubventionPartFinCharge" [type]="'number'"
                                 [id]="'dealer_subvention_finance'" [className]="'form-control'"
-                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [maxLength]="label.validationData.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Part of Finance Charges'">
                             </app-custom-input>
 
@@ -537,7 +543,7 @@
 
                             <app-custom-input formControlName="manufactureSubventionAmount" [type]="'number'"
                                 [id]="'manufacturer_subvention_amount'" [className]="'form-control'"
-                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [maxLength]="label.validationData.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Amount'">
                             </app-custom-input>
 
@@ -552,7 +558,7 @@
 
                             <app-custom-input formControlName="manuFactureSubventionPartIRR" [type]="'number'"
                                 [id]="'manufacturer_subvention_irr'" [className]="'form-control'"
-                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [maxLength]="label.validationData.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
                             </app-custom-input>
 
@@ -564,7 +570,7 @@
 
                             <app-custom-input formControlName="manufacturesubventionPartFinCharge" [type]="'number'"
                                 [id]="'manufacturer_subvention_finance'" [className]="'form-control'"
-                                [maxLength]="maxlength10" [patternCheck]="regexPattern.numberPattern"
+                                [maxLength]="label.validationData.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
                             </app-custom-input>
 
@@ -600,10 +606,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
 
-                            <app-custom-input formControlName="invoiceAmount" 
-                                [type]="'number'"
-                                [id]="'proforma_invoice_amount'" [className]="'form-control'" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Proforma Invoice Amount'">
+                            <app-custom-input formControlName="invoiceAmount" [type]="'number'"
+                                [id]="'proforma_invoice_amount'" [className]="'form-control'"
+                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [placeholder]="'Proforma Invoice Amount'">
                             </app-custom-input>
 
                         </div>
@@ -623,8 +629,8 @@
                             <label for="insurance">{{label.insurance}} </label>
 
                             <app-custom-input formControlName="insurance" [type]="'number'" [id]="'insurance'"
-                                [className]="'form-control'" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Insurance'">
+                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [placeholder]="'Insurance'">
                             </app-custom-input>
 
                         </div>
@@ -633,8 +639,8 @@
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
 
                             <app-custom-input formControlName="oneTimeTax" [type]="'number'" [id]="'one_time_tax'"
-                                [className]="'form-control'" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'One Time Tax'">
+                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [placeholder]="'One Time Tax'">
                             </app-custom-input>
 
                         </div>
@@ -688,8 +694,8 @@
                             <label for="discount">{{label.discount}} </label>
 
                             <app-custom-input formControlName="discount" [type]="'number'" [id]="'discount'"
-                                [className]="'form-control'" [maxLength]="maxlength10"
-                                [patternCheck]="regexPattern.numberPattern" [placeholder]="'Discount'">
+                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [placeholder]="'Discount'">
                             </app-custom-input>
                         </div>
                     </div>
@@ -1228,7 +1234,8 @@
 
                             <app-custom-input formControlName="rcOwnerName" [type]="'alpha'" [id]="'name_vehicle_owner'"
                                 [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="regexPattern.maxlength40" [patternCheck]="regexPattern.namePattern"
+                                [maxLength]="label.validationData.fullName.maxLength"
+                                [patternCheck]="regexPattern.namePattern"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1241,7 +1248,8 @@
                             <app-custom-input formControlName="ownerMobileNo" [type]="'number'"
                                 [id]="'mobile_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
-                                [maxLength]="regexPattern.maxLength" [patternCheck]="regexPattern.mobNumberPattern"
+                                [maxLength]="label.validationData.mobileNumber.maxLength"
+                                [patternCheck]="label.validationData.mobileNumber.pattern"
                                 [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1273,7 +1281,8 @@
 
                             <app-custom-input formControlName="pincode" [type]="'number'" [id]="'vehicle_pincode'"
                                 [className]="'form-control mandatory'" [placeholder]="'Vehicle Address PINCODE'"
-                                [maxLength]="regexPattern.pincodemaxLength" [patternCheck]="regexPattern.numberPattern"
+                                [maxLength]="label.validationData.pincode.maxLength"
+                                [patternCheck]="label.validationData.pincode.pattern"
                                 [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1500,7 +1509,7 @@
                             <app-custom-input formControlName="vehicleRegNo" [type]="'alpha-numeric'"
                                 [id]="'vechical_reg'" [className]="'form-control mandatory'"
                                 [inputClass]="'input-upper'" [placeholder]="'Vechical Registration No'"
-                                [maxLength]="regexPattern.nameLength" [patternCheck]="namePattern"
+                                [maxLength]="label.validationData.vehicleRegNo.maxLength" [patternCheck]="namePattern"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1752,7 +1761,8 @@
 
                             <app-custom-input formControlName="rcOwnerName" [type]="'alpha'" [id]="'name_vehicle_owner'"
                                 [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="regexPattern.maxlength40" [patternCheck]="regexPattern.namePattern"
+                                [maxLength]="label.validationData.fullName.maxLength"
+                                [patternCheck]="regexPattern.namePattern"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 

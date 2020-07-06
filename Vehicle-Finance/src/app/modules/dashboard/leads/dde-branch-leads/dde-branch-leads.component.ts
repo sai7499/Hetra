@@ -84,13 +84,10 @@ export class DdeBranchLeadsComponent implements OnInit {
   }
 
   onAssign(id) {
-   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
 
-   const token = localStorage.getItem('token');
-   console.log(token);
-
-  //  return this.httpService.post(url,);
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', res);
+    });
   }
-
 
 }

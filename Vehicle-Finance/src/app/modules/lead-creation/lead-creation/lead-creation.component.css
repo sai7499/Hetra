@@ -195,5 +195,27 @@ label{
 .dis-block {
     display: block;
 }
+
+.input-group-btn-mob {
+    border: 1px solid #ccc !important;
+    margin-right: -1% !important;
+    border-radius: 4px !important;
+    background-color: #ccc !important;
+    padding: 6px !important;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.test {
+    position: relative !important;
+    -ms-flex: 1 1 0% !important;
+    flex: 1 1 0% !important;
+}
   
 

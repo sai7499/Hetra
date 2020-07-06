@@ -89,19 +89,19 @@ export class CreditConditionsComponent implements OnInit {
         creditId: new FormControl(''),
         creditCondition: new FormControl({ value: '', disabled: false }),
         salesResponse: new FormControl({ value: '', disabled: true }),
-        salesResponseDoc: new FormControl(),
+        
         isDocReq: new FormControl(),
         creditAction: new FormControl(""),
-        defferedDate: new FormControl("")
+        defferedDate: new FormControl()
       });
     } else {
       return this.formBuilder.group({
         creditCondition: new FormControl({ value: "", disabled: true }),
         salesResponse: new FormControl({ value: "", disabled: false }),
-        salesResponseDoc: new FormControl(),
-        isDocReq: new FormControl(),
+        creditId: new FormControl(''),
+        isDocReq: new FormControl({value: '', disabled:true}),
         creditAction: new FormControl(""),
-        defferedDate: new FormControl("")
+        defferedDate: new FormControl()
       });
     }
 
@@ -115,7 +115,8 @@ export class CreditConditionsComponent implements OnInit {
   }
   getCreditConditions() {
     const data = {
-      leadId: this.leadId
+      "userId":this.userId,
+      "leadId":this.leadId,
     }
     this.creditConditionService.getCreditConditions(data).subscribe(res => {
       console.log(res);
@@ -125,12 +126,12 @@ export class CreditConditionsComponent implements OnInit {
         for (let i = 0; i < creditConditions.length; i++) {
 
           this.formArr.push(this.getcreditConditionControls())
-          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : " ";
-          if (!creditConditions[i]['salesResponseDoc']) {
-            creditConditions[i]['salesResponseDoc'] = '';
+          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : "";
+          // if (!creditConditions[i]['salesResponseDoc']) {
+          //   creditConditions[i]['salesResponseDoc'] = '';
 
-          }
-          
+          // }
+          // creditConditions[i]['creditAction']  = creditConditions[i]['creditAction'] ? creditConditions[i]['creditAction'] : '2';
         }
         this.formArr.setValue(creditConditions);
       } else {
@@ -164,20 +165,33 @@ export class CreditConditionsComponent implements OnInit {
   saveUpdate() {
     let creditConditionDetails = this.creditConditionForm.value['Rows'];
     for(let i=0 ; i< creditConditionDetails.length ; i++){
-      if(creditConditionDetails[i].defferedDate != ''){
-        creditConditionDetails[i].defferedDate = this.sendDate(creditConditionDetails[i].defferedDate)
+      if(this.formArr.controls[i]['controls']['defferedDate'].value != ''){
+        creditConditionDetails[i].defferedDate = this.sendDate(this.formArr.controls[i]['controls']['defferedDate'].value)
+      }
+      // if(creditConditionDetails[i]['creditAction'] == '2'){
+      //   creditConditionDetails[i]['creditAction'] = null;
+      // }
+      if(!creditConditionDetails[i]['salesResponse']){
+       creditConditionDetails[i]['salesResponse'] = '';
+      }
+      if(creditConditionDetails[i]['creditId'] == ""){
+        creditConditionDetails[i]['creditId'] = null;
       }
       console.log(this.formArr)
       creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
       
     }
     let data = {
-      "userId": this.userId,
-      "leadId": this.leadId,
+      "userId":this.userId,
+      "leadId":this.leadId,
       "creditConditionDetails": creditConditionDetails
     }
     this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {
       console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Credit condition Saved successfully!", '')
+
+      }
 
     })
   }

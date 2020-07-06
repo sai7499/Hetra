@@ -134,6 +134,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleFormArray: this._fb.array([])
     })
 
+    this.labelsData.getLabelsData()
+      .subscribe(data => {
+        this.label = data;
+        console.log(this.label.validationData, 'Aldfndn')
+      }, error => {
+        console.log('error', error)
+      });
+
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
@@ -151,12 +159,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.initForms();
     this.getLov();
-    this.labelsData.getLabelsData()
-      .subscribe(data => {
-        this.label = data;
-      }, error => {
-        console.log('error', error)
-      });
 
     if (this.id) {
       this.setFormValue();
@@ -206,8 +208,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value) {
       formArray.controls[0].patchValue({
-        finalAssetCost: value,
-        exShowRoomCost: value
+        finalAssetCost: value
       })
     }
 
@@ -516,10 +517,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: [''],
       assetCostCarTrade: [''],
       exShowRoomCost: [''],
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       vehicleUsage: [''],
       category: [''],
       rcOwnerName: [''],
@@ -722,10 +720,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ageOfAsset: ['', Validators.required],
       ageAfterTenure: ['', Validators.required],
       assetCostGrid: ['', Validators.required],
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
       typeOfPermit: [''],
       typeOfPermitOthers: [''],
@@ -779,10 +774,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: ['', Validators.required],
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],

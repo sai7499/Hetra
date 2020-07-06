@@ -1228,13 +1228,13 @@ getActivityLOVS() {
         leadId: this.leadId,
         pslData: {
           ...this.formValues,
-          loanAmount: Number(this.formValues.loanAmount),
-          udinNo: Number(this.formValues.udinNo),
-          caCertifiedAmount: Number(this.formValues.caCertifiedAmount),
-          otherInvestmentCost: Number(this.formValues.otherInvestmentCost),
-          totalInvestmentCost: Number(this.formValues.totalInvestmentCost),
-          investmentInEquipment: Number(this.formValues.investmentInEquipment),
-          investmentInPlantAndMachinery: Number(this.formValues.investmentInPlantAndMachinery)
+          // loanAmount: Number(this.formValues.loanAmount),
+          // udinNo: Number(this.formValues.udinNo),
+          // caCertifiedAmount: Number(this.formValues.caCertifiedAmount),
+          // otherInvestmentCost: Number(this.formValues.otherInvestmentCost),
+          // totalInvestmentCost: Number(this.formValues.totalInvestmentCost),
+          // investmentInEquipment: Number(this.formValues.investmentInEquipment),
+          // investmentInPlantAndMachinery: Number(this.formValues.investmentInPlantAndMachinery)
         },
       };
       

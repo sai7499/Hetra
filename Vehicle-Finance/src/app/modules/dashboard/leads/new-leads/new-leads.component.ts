@@ -123,4 +123,10 @@ export class NewLeadsComponent implements OnInit {
     this.vehicleDataStoreService.setCreditLeadId(id);
   }
 
+  onRelase(id) {
+    this.taskDashboard.releaseTask(id).subscribe((res: any) => {
+      console.log('release Task', res);
+    });
+  }
+
 }

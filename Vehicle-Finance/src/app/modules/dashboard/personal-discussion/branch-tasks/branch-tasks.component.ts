@@ -4,10 +4,6 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
-import { Router } from '@angular/router';
-import { HttpService } from '@services/http.service';
-import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-branch-tasks',
   templateUrl: './branch-tasks.component.html',
@@ -33,11 +29,7 @@ export class BranchTasksComponent implements OnInit {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard,
-    private router: Router,
-    private httpService: HttpService,
-    private http: HttpClient
-
+    private taskDashboard: TaskDashboard
   ) {
   }
 
@@ -85,12 +77,10 @@ export class BranchTasksComponent implements OnInit {
   }
 
   onAssign(id) {
-   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
 
-   const token = localStorage.getItem('token');
-   console.log(token);
-
-  //  return this.httpService.post(url,);
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', res);
+    });
   }
 
 }

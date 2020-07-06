@@ -18,7 +18,6 @@
         <tbody>
             <tr *ngFor="let item of pdListDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td>
-                    <!-- <a href="http://10.101.10.153/appiyo/d/tasks/{{item.taskId}}/claim"><input type="button" class="btn-primary" value="Assign" data-toggle="modal" data-target="#assignModel" /></a> -->
                     <input type="button" class="btn-primary" (click)="onAssign(item.taskId)" value="Assign" data-toggle="modal" data-target="#assignModel" />
                 </td>
                 <td>{{item.leadId}}</td>

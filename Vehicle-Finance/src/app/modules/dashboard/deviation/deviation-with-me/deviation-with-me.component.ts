@@ -80,4 +80,10 @@ export class DeviationWithMeComponent implements OnInit {
     this.getPdMyTask(this.itemsPerPage, event);
   }
 
+  onRelase(id) {
+    this.taskDashboard.releaseTask(id).subscribe((res: any) => {
+      console.log('release Task', res);
+    });
+  }
+
 }
