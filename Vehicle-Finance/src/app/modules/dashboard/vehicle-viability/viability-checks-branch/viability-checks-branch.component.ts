@@ -74,7 +74,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
   setPage(event) {
     this.getPdBrabchTask(this.itemsPerPage, event);
   }
-  
+
   onAssign(id) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
