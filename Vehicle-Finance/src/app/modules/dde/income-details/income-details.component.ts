@@ -470,42 +470,42 @@ export class IncomeDetailsComponent implements OnInit {
       const businessControl = this.incomeDetailsForm.controls
         .businessIncomeDetails as FormArray;
       for (let i = 0; i < businessControl.length; i++) {
-        const depreciation = Number(
-          businessControl.at(i).get('depreciation').value
-        );
-        businessControl.at(i).get('depreciation').setValue(depreciation);
-        const directorSalary = Number(
-          businessControl.at(i).get('directorSalary').value
-        );
-        businessControl.at(i).get('directorSalary').setValue(directorSalary);
-        const netProfit = Number(businessControl.at(i).get('netProfit').value);
-        businessControl.at(i).get('netProfit').setValue(netProfit);
+        const depreciation = (businessControl.at(i).get('depreciation').value);
+        businessControl.at(i).get('depreciation').setValue(depreciation.toString());
+        const directorSalary = businessControl.at(i).get('directorSalary').value;
+        businessControl.at(i).get('directorSalary').setValue(directorSalary.toString());
+        const netProfit = businessControl.at(i).get('netProfit').value;
+        businessControl.at(i).get('netProfit').setValue(netProfit.toString());
+        businessControl.at(i).get('grossDerivedIncome').setValue(
+          businessControl.at(i).get('grossDerivedIncome').value.toString());
+        businessControl.at(i).get('grossMonthlyIncome').setValue(
+          businessControl.at(i).get('grossMonthlyIncome').value.toString());
       }
       const otherIncomeControl = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
       for (let i = 0; i < otherIncomeControl.length; i++) {
-        const grossIncome = Number(
-          otherIncomeControl.at(i).get('grossIncome').value
-        );
-        otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome);
+        const grossIncome = otherIncomeControl.at(i).get('grossIncome').value;
+        otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome.toString());
+        otherIncomeControl.at(i).get('factoredIncome').setValue(
+          otherIncomeControl.at(i).get('factoredIncome').value.toString());
       }
       const obligationControl = this.incomeDetailsForm.controls
         .obligationDetails as FormArray;
       for (let i = 0; i < obligationControl.length; i++) {
-        const loanAmount = Number(
-          obligationControl.at(i).get('loanAmount').value
-        );
-        obligationControl.at(i).get('loanAmount').setValue(loanAmount);
+        const loanAmount = obligationControl.at(i).get('loanAmount').value;
+        obligationControl.at(i).get('loanAmount').setValue(loanAmount.toString());
         const tenure = Number(obligationControl.at(i).get('tenure').value);
         obligationControl.at(i).get('tenure').setValue(tenure);
         const mob = Number(obligationControl.at(i).get('mob').value);
         obligationControl.at(i).get('mob').setValue(mob);
         const emi = Number(obligationControl.at(i).get('emi').value);
         obligationControl.at(i).get('emi').setValue(emi);
+        obligationControl.at(i).get('obligationAmount').setValue(
+          obligationControl.at(i).get('obligationAmount').value.toString());
       }
       const salaryContol = this.incomeDetailsForm.controls
         .salariedFOIRDeviation as FormControl;
-      const salariedFOIRDeviation = Number(salaryContol.value);
+      const salariedFOIRDeviation = salaryContol.value;
       salaryContol.setValue(salariedFOIRDeviation);
 
       this.incomeDetailsService
@@ -526,7 +526,7 @@ export class IncomeDetailsComponent implements OnInit {
 
             this.toasterService.showSuccess(
               'Applicant Income Details Saved Successfully',
-              ''
+              'Income Details'
             );
             this.getAllIncome();
           }

@@ -71,8 +71,10 @@
                       name="applicant"
                       class="form-control text-center"
                     /> -->
-                    <app-custom-input formControlName="applicantType" [type]="labels?.validationData?.fullName?.type"
-                      [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength"
+                    <app-custom-input formControlName="applicantType" 
+                      [type]="labels?.validationData?.fullName?.type"
+                      [className]="'form-control mandatory'" 
+                      [maxLength]="labels?.validationData?.fullName?.maxLength"
                       [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
 
@@ -83,14 +85,17 @@
                       [isRequired]="'Business Entity Name mandatory'" [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td data-title="Net Profit">
-                    <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'"
+                    <app-custom-input formControlName="netProfit" 
+                      [placeholder]="'Net Profit'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Net Profit mandatory'"
                       [isDirty]="isDirty" (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                   </td>
                   <td data-title="Depreciation">
-                    <app-custom-input formControlName="depreciation" [placeholder]="'Depreciation'"
-                      [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
+                    <app-custom-input formControlName="depreciation" 
+                      [placeholder]="'Depreciation'"
+                      [type]="labels?.validationData?.amountValue?.type" 
+                      [className]="'form-control mandatory'"
                       [maxLength]="labels?.validationData?.amountValue?.maxLength"
                       [isRequired]="'Depreciation mandatory'" [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)"></app-custom-input>
