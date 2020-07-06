@@ -283,9 +283,9 @@
             <label for="dob" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.dateOfBirth }}
               <sub class="star_red_col">*</sub>
             </label>
-            <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{
-              labels.dateOfIncorporation
-            }}</label>
+            <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.dateOfIncorporation }}
+              <sub class="star_red_col">*</sub>
+            </label>
 
             <kendo-datepicker class="form-control mandatory" 
               formControlName="dateOfBirth" 
