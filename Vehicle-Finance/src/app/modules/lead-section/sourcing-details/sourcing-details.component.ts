@@ -92,20 +92,11 @@ export class SourcingDetailsComponent implements OnInit {
     amount: {
       rule: "^[1-9][0-9]*$",
       msg: 'Invalid Amount / Alphabets and Special Characters not allowed'
-    },
-    nameLength: {
-      rule: '30',
-      msg: ''
-    },
-    amountLength: {
-      rule: '10',
-      msg: ''
-    },
-    loanTenor: {
-      rule: '3',
-      msg: ''
     }
   }
+
+  amountLength: number;
+  tenureMonthLength: number;
 
   saveUpdate: {
     bizDivision: string;
@@ -163,7 +154,11 @@ export class SourcingDetailsComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.amountLength = this.labels.validationData.amountValue.maxLength;
+        this.tenureMonthLength = this.labels.validationData.tenurePaid.maxLength;
+      },
       (error) => console.log('Sourcing details Label Error', error)
     );
   }

@@ -115,8 +115,8 @@ export class CreditConditionsComponent implements OnInit {
   }
   getCreditConditions() {
     const data = {
-      "userId":"1001",
-      "leadId":44,
+      "userId":this.userId,
+      "leadId":this.leadId,
     }
     this.creditConditionService.getCreditConditions(data).subscribe(res => {
       console.log(res);
@@ -182,8 +182,8 @@ export class CreditConditionsComponent implements OnInit {
       
     }
     let data = {
-      "userId":"1001",
-      "leadId":44,
+      "userId":this.userId,
+      "leadId":this.leadId,
       "creditConditionDetails": creditConditionDetails
     }
     this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {

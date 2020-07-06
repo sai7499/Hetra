@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { PersonalDiscussionService } from '@services/personal-discussion.service';
-import { DdeStoreService } from '@services/dde-store.service';
-import { LoginStoreService } from '@services/login-store.service';
+// import { PersonalDiscussionService } from '@services/personal-discussion.service';
+// import { DdeStoreService } from '@services/dde-store.service';
+// import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
     templateUrl: './credit-decision.component.html',
@@ -21,9 +21,7 @@ export class CreditDecisionComponent implements OnInit {
     constructor(
         private router: Router,
         private location: Location,
-        private loginStoreService: LoginStoreService,
-        private personalDiscussion: PersonalDiscussionService,
-        private ddeStoreService: DdeStoreService,
+        
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {

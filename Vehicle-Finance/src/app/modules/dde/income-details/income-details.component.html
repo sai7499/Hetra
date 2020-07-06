@@ -88,9 +88,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="applicantType"
-                    [type]="labels?.validationData.fullName.type"                     
+                    [type]="labels?.validationData?.fullName?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.fullName.maxLength"                      
+                    [maxLength]="labels?.validationData?.fullName?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -100,9 +100,9 @@
                     <app-custom-input
                       formControlName="businessEnterpriseName"
                       [placeholder]="'Business Entity Name'"
-                      [type]="labels?.validationData.businessEntity.type"                     
+                      [type]="labels?.validationData?.businessEntity?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.businessEntity.maxLength"                      
+                      [maxLength]="labels?.validationData?.businessEntity?.maxLength"                      
                       [isRequired]="'Business Entity Name mandatory'"
                       
                       [isDirty]="isDirty"
@@ -112,9 +112,9 @@
                     <app-custom-input
                       formControlName="netProfit"
                       [placeholder]="'Net Profit'"
-                      [type]="labels?.validationData.amountValue.type"                     
+                      [type]="labels?.validationData?.amountValue?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                       [isRequired]="'Net Profit mandatory'"
                       [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)"
@@ -124,9 +124,9 @@
                     <app-custom-input
                       formControlName="depreciation"
                       [placeholder]="'Depreciation'"
-                      [type]="labels?.validationData.amountValue.type"                     
+                      [type]="labels?.validationData?.amountValue?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                       [isRequired]="'Depreciation mandatory'"
                       
                       [isDirty]="isDirty"
@@ -139,9 +139,9 @@
                     <app-custom-input
                       formControlName="directorSalary"
                       [placeholder]="'Director Salary'"
-                      [type]="labels?.validationData.amountValue.type"                     
+                      [type]="labels?.validationData?.amountValue?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                       [isRequired]="'Director Salary mandatory'"
                       [isDirty]="isDirty"
                       (keyup)="onIncome($event.target.value, i)"
@@ -159,9 +159,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="grossDerivedIncome"
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData?.amountValue?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -178,9 +178,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="grossMonthlyIncome"
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData?.amountValue?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -284,9 +284,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="applicantType"
-                    [type]="labels?.validationData.fullName.type"                     
+                    [type]="labels?.validationData?.fullName?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.fullName.maxLength"                      
+                    [maxLength]="labels?.validationData?.fullName?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -303,9 +303,9 @@
                     <app-custom-input
                       formControlName="grossIncome"
                       [placeholder]="'Gross Income'"
-                      [type]="labels?.validationData.amountValue.type"                     
+                      [type]="labels?.validationData?.amountValue?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                       [isRequired]="'Gross Income mandatory'"
                       [isDirty]="isDirty"
                       (keyup)="getOtherFactoredIncome(i)"
@@ -324,9 +324,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="factoring"
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData?.amountValue?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -344,9 +344,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="factoredIncome"
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData?.amountValue?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -462,9 +462,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="applicantType"
-                    [type]="labels?.validationData.fullName.type"                     
+                    [type]="labels?.validationData?.fullName?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.fullName.maxLength"                      
+                    [maxLength]="labels?.validationData?.fullName?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -488,9 +488,9 @@
                     <app-custom-input
                       formControlName="loanAmount"
                       [placeholder]="'Loan Amount'"
-                      [type]="labels?.validationData.amountValue.type"                     
+                      [type]="labels?.validationData?.amountValue?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                       [isRequired]="'Loan Amount mandatory'"
                       [isDirty]="isDirty"
                     ></app-custom-input>
@@ -499,9 +499,9 @@
                     <app-custom-input
                       formControlName="tenure"
                       [placeholder]="'Tenor'"
-                      [type]="labels?.validationData.tenurePaid.type"                     
+                      [type]="labels?.validationData?.tenurePaid?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.tenurePaid.maxLength"                      
+                      [maxLength]="labels?.validationData?.tenurePaid?.maxLength"                      
                       [isRequired]="'Tenor mandatory'"
                       [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"
@@ -511,9 +511,9 @@
                     <app-custom-input
                       formControlName="mob"
                       [placeholder]="'MOB'"
-                      [type]="labels?.validationData.tenurePaid.type"                     
+                      [type]="labels?.validationData?.tenurePaid?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.tenurePaid.maxLength"                      
+                      [maxLength]="labels?.validationData?.tenurePaid?.maxLength"                      
                       [isRequired]="'MOB mandatory'"
                       [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"
@@ -523,9 +523,9 @@
                     <app-custom-input
                       formControlName="emi"
                       [placeholder]="'EMI'"
-                      [type]="labels?.validationData.tenurePaid.type"                     
+                      [type]="labels?.validationData?.tenurePaid?.type"                     
                       [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData.tenurePaid.maxLength"                      
+                      [maxLength]="labels?.validationData?.tenurePaid?.maxLength"                      
                       [isRequired]="'EMI mandatory'"
                       [isDirty]="isDirty"
                       (keyup)="onEmi($event.target.value, i)"
@@ -543,9 +543,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="balanceTenure"
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData?.amountValue?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -562,9 +562,9 @@
                     /> -->
                     <app-custom-input
                     formControlName="obligationAmount"
-                    [type]="labels?.validationData.amountValue.type"                     
+                    [type]="labels?.validationData?.amountValue?.type"                     
                     [className]="'form-control mandatory'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"                      
                     [isDirty]="isDirty"
                     [isDisabled]= "true"
                   ></app-custom-input>
@@ -641,9 +641,9 @@
                 <td>
                   <app-custom-input
                     formControlName="salariedFOIRDeviation"
-                    [type]="labels?.validationData.tenurePaid.type"                     
+                    [type]="labels?.validationData?.tenurePaid?.type"                     
                   [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData.tenurePaid.maxLength"                      
+                  [maxLength]="labels?.validationData?.tenurePaid?.maxLength"                      
                   [isRequired]="'salaried FOIR Deviation mandatory'"
                     [isDirty]="isDirty"
                     (keyup)="onSalFoirDeviation($event.target.value)"
