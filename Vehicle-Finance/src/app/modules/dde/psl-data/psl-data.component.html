@@ -381,6 +381,7 @@
                 <app-vf-custom-select 
                     [values]="relationshipWithLandOwner" 
                     formControlName="relationshipWithLandOwner"
+                    (change)="onChangeRelationshipLandOwner($event)"
                     name="relationshipWithLandOwner"
                     [isRequired]="'Please Select One Option'"
                     [isDirty] = "isDirty"
@@ -677,7 +678,7 @@
         >
         </app-custom-input>  
     </div> -->
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="showInputFieldsInvestments">
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
         <label for="other_investment_cost">{{labels.otherInvestmentCost}}</label>
         <!-- <input type="number" formControlName="otherInvestmentCost" class="form-control"
             name="other_investment_cost" id="other_investment_cost" required="required" 
@@ -690,7 +691,7 @@
             [placeholder]="'Other Investment Cost'"
             [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
+            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input>  
@@ -707,7 +708,7 @@
             [placeholder]="'Total Investment Cost'"
             [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
+            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
        >
         </app-custom-input>  
@@ -722,7 +723,7 @@
             [placeholder]="'Investment in Equipment'"
             [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
+            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
@@ -737,7 +738,7 @@
             [placeholder]="'Investment in Plant and Machinery'"
             [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData.pslInvestmentCost.regexPattern"
+            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
