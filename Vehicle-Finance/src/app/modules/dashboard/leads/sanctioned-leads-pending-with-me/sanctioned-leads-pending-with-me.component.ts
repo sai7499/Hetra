@@ -46,12 +46,12 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
       this.branchId = value.branchId;
       console.log('values For User in My Task', value);
     });
-    this.getPdMyTask(this.itemsPerPage);
+    this.getSanctionedLeads(this.itemsPerPage);
   }
 
-  getPdMyTask(perPageCount, pageNumber?) {
+  getSanctionedLeads(perPageCount, pageNumber?) {
     const data = {
-      taskName: 'Personal Discussion',
+      taskName: 'Sanctioned Leads',
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
@@ -76,7 +76,7 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdMyTask(this.itemsPerPage, event);
+    this.getSanctionedLeads(this.itemsPerPage, event);
   }
 
   onRelase(id) {

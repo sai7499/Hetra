@@ -44,12 +44,12 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
-    this.getPdBrabchTask(this.itemsPerPage);
+    this.getDeclinedLeads(this.itemsPerPage);
   }
 
-  getPdBrabchTask(perPageCount, pageNumber?) {
+  getDeclinedLeads(perPageCount, pageNumber?) {
     const data = {
-      taskName: 'Personal Discussion',
+      taskName: 'Declined Leads',
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
@@ -74,7 +74,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdBrabchTask(this.itemsPerPage, event);
+    this.getDeclinedLeads(this.itemsPerPage, event);
   }
 
   onAssign(id) {
