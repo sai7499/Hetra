@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-
-import { LabelsService } from "src/app/services/labels.service";
+import { LabelsService } from '@services/labels.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { DeviationService } from '@services/deviation.service';
 import { ToasterService } from '@services/toaster.service';
+
 @Component({
-  selector: 'app-deviations',
-  templateUrl: './deviations.component.html',
-  styleUrls: ['./deviations.component.css']
+  selector: 'app-dashboard-deviation-details',
+  templateUrl: './dashboard-deviation-details.component.html',
+  styleUrls: ['./dashboard-deviation-details.component.css']
 })
-export class DeviationsComponent implements OnInit {
+export class DashboardDeviationDetailsComponent implements OnInit {
+
   labels: any = {};
   isDirty: boolean = false;
   public formValue: any = {};
@@ -82,5 +83,6 @@ export class DeviationsComponent implements OnInit {
     }
 
   }
+
 
 }

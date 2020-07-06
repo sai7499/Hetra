@@ -86,6 +86,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'deviation-dashboard',
+        loadChildren: () =>
+       import('./modules/dde/deviation-dashboard/deviation-dashoard.module').then(
+        (m) => m.DeviationDashoardModule
+       )
+      },
+      {
         path: 'fl-and-pd-report',
         loadChildren: () =>
           import('./modules/dde/fl-and-pd-report/fl-and-pd-report.module').then(
@@ -140,4 +147,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

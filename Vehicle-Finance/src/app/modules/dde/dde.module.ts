@@ -20,15 +20,12 @@ import { CamComponent } from './cam/cam.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ViabilityDetailsComponent} from './vehicle-details/viability-details/viability-details.component';
 
-// import { DdeRoutingModule } from './dde.routing.module';
-// import { DdeSharedModule } from './shared/shared.module';
 import { ScoreCardComponent } from './score-card/score-card.component';
 // import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
-import { NumberOnlyDirective } from '@services/directives/number-only.directive';
 
 @NgModule({
   declarations: [
@@ -51,7 +48,6 @@ import { NumberOnlyDirective } from '@services/directives/number-only.directive'
     DeviationsComponent,
     VehicleValuationComponent,
     ViabilityDetailsComponent
-
   ],
   imports: [
     DdeRoutingModule,

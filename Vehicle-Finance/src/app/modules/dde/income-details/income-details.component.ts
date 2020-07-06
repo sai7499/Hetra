@@ -85,7 +85,7 @@ export class IncomeDetailsComponent implements OnInit {
   isDirty: boolean;
   incomeTypeValue: any;
   SalariedFOIRDeviation: number;
- 
+
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -96,7 +96,7 @@ export class IncomeDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -104,7 +104,7 @@ export class IncomeDetailsComponent implements OnInit {
       (data) => {
         this.labels = data;
       },
-      (error) => {}
+      (error) => { }
     );
 
     this.getLov();
@@ -149,7 +149,7 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeLov.incomeType = value.LOVS.incomeType;
       this.incomeLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
-      
+
     });
   }
   getLeadId() {
@@ -470,42 +470,42 @@ export class IncomeDetailsComponent implements OnInit {
       const businessControl = this.incomeDetailsForm.controls
         .businessIncomeDetails as FormArray;
       for (let i = 0; i < businessControl.length; i++) {
-        const depreciation = Number(
-          businessControl.at(i).get('depreciation').value
-        );
-        businessControl.at(i).get('depreciation').setValue(depreciation);
-        const directorSalary = Number(
-          businessControl.at(i).get('directorSalary').value
-        );
-        businessControl.at(i).get('directorSalary').setValue(directorSalary);
-        const netProfit = Number(businessControl.at(i).get('netProfit').value);
-        businessControl.at(i).get('netProfit').setValue(netProfit);
+        const depreciation = (businessControl.at(i).get('depreciation').value);
+        businessControl.at(i).get('depreciation').setValue(depreciation.toString());
+        const directorSalary = businessControl.at(i).get('directorSalary').value;
+        businessControl.at(i).get('directorSalary').setValue(directorSalary.toString());
+        const netProfit = businessControl.at(i).get('netProfit').value;
+        businessControl.at(i).get('netProfit').setValue(netProfit.toString());
+        businessControl.at(i).get('grossDerivedIncome').setValue(
+          businessControl.at(i).get('grossDerivedIncome').value.toString());
+        businessControl.at(i).get('grossMonthlyIncome').setValue(
+          businessControl.at(i).get('grossMonthlyIncome').value.toString());
       }
       const otherIncomeControl = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
       for (let i = 0; i < otherIncomeControl.length; i++) {
-        const grossIncome = Number(
-          otherIncomeControl.at(i).get('grossIncome').value
-        );
-        otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome);
+        const grossIncome = otherIncomeControl.at(i).get('grossIncome').value;
+        otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome.toString());
+        otherIncomeControl.at(i).get('factoredIncome').setValue(
+          otherIncomeControl.at(i).get('factoredIncome').value.toString());
       }
       const obligationControl = this.incomeDetailsForm.controls
         .obligationDetails as FormArray;
       for (let i = 0; i < obligationControl.length; i++) {
-        const loanAmount = Number(
-          obligationControl.at(i).get('loanAmount').value
-        );
-        obligationControl.at(i).get('loanAmount').setValue(loanAmount);
+        const loanAmount = obligationControl.at(i).get('loanAmount').value;
+        obligationControl.at(i).get('loanAmount').setValue(loanAmount.toString());
         const tenure = Number(obligationControl.at(i).get('tenure').value);
         obligationControl.at(i).get('tenure').setValue(tenure);
         const mob = Number(obligationControl.at(i).get('mob').value);
         obligationControl.at(i).get('mob').setValue(mob);
         const emi = Number(obligationControl.at(i).get('emi').value);
         obligationControl.at(i).get('emi').setValue(emi);
+        obligationControl.at(i).get('obligationAmount').setValue(
+          obligationControl.at(i).get('obligationAmount').value.toString());
       }
       const salaryContol = this.incomeDetailsForm.controls
         .salariedFOIRDeviation as FormControl;
-      const salariedFOIRDeviation = Number(salaryContol.value);
+      const salariedFOIRDeviation = salaryContol.value;
       salaryContol.setValue(salariedFOIRDeviation);
 
       this.incomeDetailsService
@@ -526,7 +526,7 @@ export class IncomeDetailsComponent implements OnInit {
 
             this.toasterService.showSuccess(
               'Applicant Income Details Saved Successfully',
-              ''
+              'Income Details'
             );
             this.getAllIncome();
           }
@@ -559,7 +559,7 @@ export class IncomeDetailsComponent implements OnInit {
       incomeArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[3].factoring });
-    }else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
+    } else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
       incomeArray
@@ -583,7 +583,7 @@ export class IncomeDetailsComponent implements OnInit {
           if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
             this.totalMonthlySalaryIncome = Math.round(
               this.totalMonthlySalaryIncome +
-                incomeArray.value[i].factoredIncome
+              incomeArray.value[i].factoredIncome
             );
             this.salArray.push(this.totalMonthlySalaryIncome);
           }
@@ -597,7 +597,7 @@ export class IncomeDetailsComponent implements OnInit {
           if (incomeArray.at(i).value.incomeType === 'RENINCTYP') {
             this.totalMonthlyRentalIncome = Math.round(
               this.totalMonthlyRentalIncome +
-                incomeArray.value[i].factoredIncome
+              incomeArray.value[i].factoredIncome
             );
             this.rentArray.push(this.totalMonthlyRentalIncome);
           }
@@ -611,7 +611,7 @@ export class IncomeDetailsComponent implements OnInit {
           if (incomeArray.at(i).value.incomeType === 'PENINCTYP') {
             this.totalMonthlyPensionIncome = Math.round(
               this.totalMonthlyPensionIncome +
-                incomeArray.value[i].factoredIncome
+              incomeArray.value[i].factoredIncome
             );
             this.pensionArray.push(this.totalMonthlyPensionIncome);
           }
@@ -644,7 +644,7 @@ export class IncomeDetailsComponent implements OnInit {
         }
       }
     }
-   
+
     if (incomeArray && incomeArray.length > 0) {
       this.totalMonthlyOtherIncome = 0;
       for (let i = 0; i < incomeArray.length; i++) {
@@ -657,7 +657,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   onTenure(event: any, i: number) {
     let tenure = 0;
-    let  mob = 0;
+    let mob = 0;
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     tenure = Number(obligationArray.value[i].tenure);
@@ -707,7 +707,7 @@ export class IncomeDetailsComponent implements OnInit {
       for (let i = 0; i < businessIncomeArray.length; i++) {
         this.totalBusinessIncomeAmount = Math.round(
           this.totalBusinessIncomeAmount +
-            businessIncomeArray.value[i].grossMonthlyIncome
+          businessIncomeArray.value[i].grossMonthlyIncome
         );
       }
     }
