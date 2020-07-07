@@ -29,6 +29,8 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
 import { NumberOnlyDirective } from '@services/directives/number-only.directive';
+import { CibilOdComponent } from './cibil-od/cibil-od.component';
+import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { NumberOnlyDirective } from '@services/directives/number-only.directive'
     CreditConditionsComponent,
     DeviationsComponent,
     VehicleValuationComponent,
-    ViabilityDetailsComponent
+    ViabilityDetailsComponent,
+    CibilOdComponent,
+    CibilOdListComponent
 
   ],
   imports: [

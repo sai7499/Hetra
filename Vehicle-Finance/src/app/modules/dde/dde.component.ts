@@ -86,18 +86,18 @@ export class DdeComponent implements OnInit {
       return 11;
     } else if (url.includes('viability-dashboard')) {
       return 11;
-    } else if (url.includes('score-card')) {
+    }else if (url.includes('cibil-od')) {
       return 12;
-    } else if (url.includes('cam')) {
+     }else if (url.includes('cibil-od-list')) {
+      return 12;
+     }else if (url.includes('score-card')) {
       return 13;
+    } else if (url.includes('cam')) {
+      return 14;
     } else if (url.includes('deviations')) {
-        return 14;
+        return 15;
     } else if (url.includes('insurance-details')) {
-      return 15;
-    } else if (url.includes('credit_conditions')) {
       return 16;
-    } else if (url.includes('term-sheets')) {
-      return 17;
-    }
+    } 
   }
 }

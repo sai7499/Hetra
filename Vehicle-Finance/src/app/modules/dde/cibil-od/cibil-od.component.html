@@ -1,0 +1,52 @@
+<form class="multisteps-form__form" method="post" style="height: 400px;">
+  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <div class="container controlWidth">
+      <div class="btn-sec clear-both row">
+        <div class="col-sm-5">
+          <h4 class="title">OD Details</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-responsive application" id="applicantTable">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg">
+              <th>{{labels?.applicant}}</th>
+              <th>{{labels?.applicantType}}</th>
+              <th>{{labels?.UCIC}}</th>
+              <th>{{labels?.score}}</th>
+              <th>{{labels?.action}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ram</td>
+              <td>Applicant</td>
+              <td>678234</td>
+              <td>700</td>
+              <td> <a (click)="navigatePage()"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  <!-- back..save..next -->
+
+  <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right">
+      <button class="btn btn-primary mar-right8" type="button" (click)="onBack()">
+        Back
+      </button>
+      <button class="btn btn-primary mar-right8" type="button">
+        Save
+      </button>
+      <button class="btn btn-primary js-btn-next" type="button" (click)="onNext()">
+        Next
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,301 @@
+<div class="container row">
+  <div class="table-responsive application">
+    <table class="table" style="height: 30px;">
+      <tr>
+        <td>{{ labels?.applicant }}</td>
+        <td>applicant</td>
+        <td>{{ labels?.applicantType }}</td>
+        <td>applicant</td>
+        <td>{{ labels?.bureauScore }}</td>
+        <td>applicant</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<form class="multisteps-form__form" [formGroup]="odDetailsForm">
+  <div class="multisteps-form">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="table-responsive application">
+            <div class="od-row">
+              <div class="col-md-10">
+                <h3 class="m-0">{{ labels?.odDetails }}</h3>
+              </div>
+              <div class="col-md-2 text-right">
+                <button type="button" class="btn caption btn-sm" (click)="addOdDetails()"><i
+                    class="fa fa-plus fa-fw"></i> Add Row</button>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <table id="POITable" border="1" class="table mb-15">
+              <thead>
+                <tr class="">
+                  <th role="columnheader" class="caption">{{ labels?.odType }}</th>
+                  <th role="columnheader" class="caption">
+                    {{ labels?.odAmount }}<sub class="star_red_col">*</sub>
+                  </th>
+                  <th role="columnheader" class="caption">{{ labels?.typeOfloan }}</th>
+                  <th role="columnheader" class="caption">
+                    {{ labels?.otherTypeOfloan
+                    }}<sub class="star_red_col">*</sub>
+                  </th>
+                  <th role="columnheader" class="caption">
+                    {{ labels?.odDpd }}<sub class="star_red_col">*</sub>
+                  </th>
+                  <th role="columnheader" class="caption"></th>
+                </tr>
+              </thead>
+              <tbody formArrayName="odDetailsList">
+                <tr class="text-center" id="applicant_1_row" *ngFor="
+                    let item of odDetailsForm.get('odDetailsList')[
+                      'controls'
+                    ];
+                    let i = index
+                  " [formGroupName]="i">
+
+                  <td data-title="OD Type">
+                    <select class="form-control mandatory" formControlName="odType">
+                      <option value="0">Individual</option>
+                      <option value="1">Joint</option>
+                      <option value="2">Guarentor</option>
+
+                    </select>
+                  </td>
+
+                  <td data-title="OD Amount">
+                    <input type="text" formControlName="odAmount" class="form-control mandatory">
+                  </td>
+                  <td data-title="Type of loan">
+                    <select class="form-control mandatory" formControlName="typeOfLoan">
+                      <option value="0">Business Loan</option>
+                      <option value="1">Two Wheeler Loan</option>
+                      <option value="2">Over Draft</option>
+                      <option value="2">Mathura Loan</option>
+                      <option value="2">Agri Loan</option>
+                      <option value="2">Gold Loan</option>
+                      <option value="2">Home Loan</option>
+                      <option value="2">Others</option>
+                    </select>
+                  </td>
+                  <td data-title="Other type of loan">
+                    <input type="text" formControlName="otherTypeOfloan" class="form-control mandatory">
+                  </td>
+                  <td data-title="OD DPD">
+                    <input type="text" formControlName="odDpd" class="form-control mandatory">
+                  </td>
+
+                  <td data-title="Actions">
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      (click)="removeOdDetails(i)"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total OD Amount</td>
+                  <td>25256655</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>DPD in last 6M (under individual or joint status)</label></div>
+              <div class="col-md-2">
+                <select name="" id="" class="form-control form-control-sm">
+                  <option value="0">NA</option>
+                  <option value="1">SUB</option>
+                  <option value="2">DBT</option>
+                  <option value="3">LSS</option>
+                </select>
+              </div>
+              <div class="col-md-2"><label>DPD in last 12M (under individual or joint status)</label></div>
+              <div class="col-md-2">
+                <select name="" id="" class="form-control form-control-sm">
+                  <option value="0">NA</option>
+                  <option value="1">SUB</option>
+                  <option value="2">DBT</option>
+                  <option value="3">LSS</option>
+                </select>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>Count of  written off loans</label></div>
+              <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" >
+              </div>
+              <div class="col-md-2"><label>Count of  written off loans along with suite filed</label></div>
+              <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" >
+              </div>
+              <div class="col-md-2"><label>Count of  loss loans</label></div>
+              <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" >
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>Count of settled loans</label></div>
+              <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" >
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>Clearance Proof Collected</label></div>
+              <div class="col-md-2">
+                <select name="" id="" class="form-control form-control-sm">
+                  <option value="0">NA</option>
+                  <option value="1">SUB</option>
+                  <option value="2">DBT</option>
+                  <option value="3">LSS</option>
+                </select>
+              </div>
+              <div class="col-md-2"><label>Clearance Proof</label></div>
+              <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" >
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>CIBIL OD DPD JUSTIFICATION</label></div>
+              <div class="col-md-10">
+                <textarea class="form-control form-control-sm" placeholder="Text Area"></textarea>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <hr>
+            <div class="table-responsive application mt-3">
+              <div class="caption text-left mb-5 text-bold">{{labels?.loanEnquiriesInLast30DaysWithTypeOfLoan}}</div>
+              <div class="text-right"><button type="button" class="btn caption btn-sm"
+                  (click)="addLastThirtyDaysLoan()"><i class="fa fa-plus fa-fw"></i> Add Row</button></div>
+              <table id="POITable_other" border="0" class="table">
+                <thead>
+                  <tr class="">
+                    <th role="columnheader" class="caption">{{ labels?.member }}</th>
+                    <th role="columnheader" class="caption">
+                      {{ labels?.enquiryDate }}
+                      <sub class="star_red_col">*</sub>
+                    </th>
+                    <th role="columnheader" class="caption">{{ labels?.typeOfloan }}</th>
+                    <th role="columnheader" class="caption">
+                      {{ labels?.enquiryAmount }}<sub class="star_red_col">*</sub>
+                    </th>
+                    <th class="caption"></th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="loanEnquiryInThirtyDays">
+                  <tr *ngFor="
+                    let item of odDetailsForm.get('loanEnquiryInThirtyDays')[
+                      'controls'
+                    ];
+                    let i = index
+                  " [formGroupName]="i">
+                    <td data-title="Member">
+                      <input type="text" formControlName="member" class="form-control mandatory">
+                    </td>
+                    <td data-title="Enquiry date">
+                      <input type="text" formControlName="enquiryDate" class="form-control mandatory">
+                    </td>
+                    <td data-title="Type of loan">
+                      <select class="form-control mandatory" formControlName="typeOfLoan">
+                        <option value="0">Individual</option>
+                        <option value="1">Joint</option>
+                        <option value="2">Guarentor</option>
+
+                      </select>
+
+                    </td>
+                    <td data-title="Enquiry Amount">
+                      <input type="text" formControlName="enquiryAmount" class="form-control mandatory">
+                    </td>
+                    <td data-title="Actions">
+
+                      <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                        (click)="removeLastThirtyDaysLoan()"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+            <div class="table-responsive application mt-3">
+              <div class="caption text-left mb-5 text-bold">{{labels?.loanEnquiriesInLast60DaysWithTypeOfLoan}}</div>
+              <div class="text-right"><button type="button" class="btn caption btn-sm"
+                  (click)="addLastSixtyDaysLoan()"><i class="fa fa-plus fa-fw"></i> Add Row</button></div>
+              <table id="POITable_other" border="0" class="table">
+                <thead>
+                  <tr class="">
+                    <th role="columnheader" class="caption">{{ labels?.member }}</th>
+                    <th role="columnheader" class="caption">
+                      {{ labels?.enquiryDate }}
+                      <sub class="star_red_col">*</sub>
+                    </th>
+                    <th role="columnheader" class="caption">{{ labels?.typeOfloan }}</th>
+                    <th role="columnheader" class="caption">
+                      {{ labels?.enquiryAmount }}<sub class="star_red_col">*</sub>
+                    </th>
+                    <th class="caption"></th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="loanEnquiryInSixtyDays">
+                  <tr *ngFor="
+                    let item of odDetailsForm.get('loanEnquiryInSixtyDays')[
+                      'controls'
+                    ];
+                    let i = index
+                  " [formGroupName]="i">
+                    <td data-title="Member">
+                      <input type="text" formControlName="member" class="form-control mandatory">
+                    </td>
+                    <td data-title="Enquiry date">
+                      <input type="text" formControlName="enquiryDate" class="form-control mandatory">
+                    </td>
+                    <td data-title="Type of loan">
+                      <select class="form-control mandatory" formControlName="typeOfLoan">
+                        <option value="0">Business Loan</option>
+                        <option value="1">Two Wheeler Loan</option>
+                        <option value="2">Over Draft</option>
+                        <option value="2">Mathura Loan</option>
+                        <option value="2">Agri Loan</option>
+                        <option value="2">Gold Loan</option>
+                        <option value="2">Home Loan</option>
+                        <option value="2">Others</option>
+
+                      </select>
+
+                    </td>
+                    <td data-title="Enquiry Amount">
+                      <input type="text" formControlName="enquiryAmount" class="form-control mandatory">
+                    </td>
+                    <td data-title="Actions">
+
+                      <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                        (click)="removeLastSixtyDaysLoan()"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-sec clear-both row cst_btm_btns">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-7 text-right">
+        <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
+          Back
+        </button>
+        <button class="btn btn-primary mar-right8" type="button" >
+          Save
+        </button>
+        <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

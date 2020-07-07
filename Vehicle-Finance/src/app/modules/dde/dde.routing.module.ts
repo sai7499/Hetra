@@ -21,6 +21,8 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { SourcingDetailsComponent } from '@modules/lead-section/sourcing-details/sourcing-details.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
+import { CibilOdComponent } from './cibil-od/cibil-od.component';
+import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 
 const routes: Routes = [
   {
@@ -111,6 +113,14 @@ const routes: Routes = [
       {
         path: 'viability-details',
         component: ViabilityDetailsComponent,
+      },
+      {
+        path: 'cibil-od',
+        component: CibilOdComponent,
+      },
+      {
+        path: 'cibil-od-list',
+        component: CibilOdListComponent,
       },
     ],
   },
