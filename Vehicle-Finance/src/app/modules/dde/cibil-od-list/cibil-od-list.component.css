@@ -1,7 +1,12 @@
 .controlWidth {
     width: 100%;
   }
-  
+  .star_blue_col
+{
+    color:#0000FF;
+    font-size: 25px;
+    margin-left: 4px;
+}
   .pagination > .active > a {
     z-index: 0;
   }

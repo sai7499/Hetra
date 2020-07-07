@@ -11,103 +11,111 @@ import { CommomLovService } from '@services/commom-lov-service';
 export class CibilOdListComponent implements OnInit {
   labels: any;
   odDetailsForm: FormGroup;
-  odDetailsList:FormGroup;
-  loanEnquiryInThirtyDays:FormGroup;
+  odDetailsList: FormGroup;
+  loanEnquiryInThirtyDays: FormGroup;
+  loanEnquiryInSixtyDays: FormGroup;
+  odDetailsListArray: FormArray;
+  loanEnquiryInThirtyDaysArray: FormArray;
+  loanEnquiryInSixtyDaysArray: FormArray;
+  odTypeValues = ["Individual", "Joint", "Guarentor"]
+  loanTypes = ["Business Loan", "Two Wheeler Loan", "Over Draft", "Mathura Loan", "Agri Loan", "Gold Loan", "Home Loan", "Others"]
+  proofs = ["NA", "SUB", "DBT", "LSS"]
+  selctedLoan: any;
   constructor(private labelService: LabelsService,
     private formBuilder: FormBuilder,
     private commonLovService: CommomLovService,
 
-    ) { }
+  ) {
+    this.odDetailsListArray = this.formBuilder.array([])
+    this.loanEnquiryInThirtyDaysArray = this.formBuilder.array([])
+    this.loanEnquiryInSixtyDaysArray = this.formBuilder.array([])
+  }
 
   ngOnInit() {
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
     });
     this.odDetailsForm = this.formBuilder.group({
-      odDetailsList: this.formBuilder.array([this.getodListDetails()]),
-      loanEnquiryInThirtyDays : this.formBuilder.array([this.getLoanEnquiryInThirtyDays()]),
-      loanEnquiryInSixtyDays : this.formBuilder.array([this.getLoanEnquiryInSixtyDays()]),
+      odDetailsList: this.odDetailsListArray,
+      loanEnquiryInThirtyDays: this.loanEnquiryInThirtyDaysArray,
+      loanEnquiryInSixtyDays: this.loanEnquiryInSixtyDaysArray,
+      highestDpdInLastSixMonths: [""],
+      highestDpdInLastTwelveMonths : [""],
+      writtenOffLoans: [""],
+      writtenOffLoansWithSuiteFiled: [""],
+      lossLoans: [""],
+      settledLoans: [""],
+      proofCollected: [""],
+      clearenceProof: [""],
 
     });
     this.getLov();
   }
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-console.log(value)
-
+      console.log(value)
     });
   }
+  onSelectLoan(event){
+console.log(event);
+this.selctedLoan = event
+  }
   private getodListDetails() {
-    
-      return this.formBuilder.group({
-        odType : [""],
-        odAmount:[""],
-        typeOfLoan:[""],
-        otherTypeOfloan:[""],
-        odDpd:[""],
-      });
-    
-     
+
+    return this.formBuilder.group({
+      odType: [""],
+      odAmount: [""],
+      typeOfLoan: [""],
+      otherTypeOfloan: [""],
+      odDpd: [""],
+    });
+
+
   }
   addOdDetails() {
-    const control = this.odDetailsForm.controls
-      .odDetailsList as FormArray;
-      control.push(this.getodListDetails());
-   
+    this.odDetailsListArray.push(this.getodListDetails());
+
   }
   removeOdDetails(i?: any) {
-    const control = this.odDetailsForm.controls
-      .odDetailsList as FormArray;
-    const id = control.at(i).value.id;
-    if (control.controls.length > 1) {
+    if (this.odDetailsListArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-        control.removeAt(i);
-      } 
-     
-     
+      this.odDetailsListArray.removeAt(i);
+    }
+
+
   }
   private getLoanEnquiryInThirtyDays() {
     return this.formBuilder.group({
-    member:[""],
-    enquiryDate:[""],
-    typeOfLoan:[""],
-    enquiryAmount:[""],
+      member: [""],
+      enquiryDate: [""],
+      typeOfLoan: [""],
+      enquiryAmount: [""],
     });
   }
   addLastThirtyDaysLoan() {
-    const control = this.odDetailsForm.controls
-      .loanEnquiryInThirtyDays as FormArray;
-      control.push(this.getodListDetails());
+    this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays());
   }
   removeLastThirtyDaysLoan(i?: any) {
-    const control = this.odDetailsForm.controls
-      .loanEnquiryInThirtyDays as FormArray;
-    const id = control.at(i).value.id;
-    if (control.controls.length > 1) {
+    if (this.loanEnquiryInThirtyDaysArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-        control.removeAt(i);
-      } 
+      this.loanEnquiryInThirtyDaysArray.removeAt(i);
+    }
   }
   private getLoanEnquiryInSixtyDays() {
     return this.formBuilder.group({
-    member:[""],
-    enquiryDate:[""],
-    typeOfLoan:[""],
-    enquiryAmount:[""],
+      member: [""],
+      enquiryDate: [""],
+      typeOfLoan: [""],
+      enquiryAmount: [""],
     });
   }
   addLastSixtyDaysLoan() {
-    const control = this.odDetailsForm.controls
-      .loanEnquiryInSixtyDays as FormArray;
-      control.push(this.getodListDetails());
+    this.loanEnquiryInSixtyDaysArray.push(this.getLoanEnquiryInSixtyDays());
   }
   removeLastSixtyDaysLoan(i?: any) {
-    const control = this.odDetailsForm.controls
-      .loanEnquiryInSixtyDays as FormArray;
-    const id = control.at(i).value.id;
-    if (control.controls.length > 1) {
+    if (this.loanEnquiryInSixtyDaysArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-        control.removeAt(i);
-      } 
+      this.loanEnquiryInSixtyDaysArray.removeAt(i);
+    }
   }
 }

@@ -32,11 +32,11 @@ export class DdeComponent implements OnInit {
       $(".next-second-data").click(function() {
           $(".first-row").css({"display":"none"});
           $(".second-row").css({"display":"block"});
-
       });
+      
     });
-    this.leadId = this.route.snapshot.params['leadId'];
     
+    this.leadId = this.route.snapshot.params['leadId'];
   }
 
   hasRoute(route: string) {
@@ -44,6 +44,7 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
@@ -78,6 +79,7 @@ export class DdeComponent implements OnInit {
       return 7;
     } else if (url.includes('tvr-details')) {
       return 8;
+
     } else if (url.includes('fl-report')) {
       return 9;
     } else if (url.includes('pd-report')) {
