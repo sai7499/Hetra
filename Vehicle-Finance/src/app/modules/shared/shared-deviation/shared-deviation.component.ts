@@ -7,6 +7,8 @@ import { ToasterService } from '@services/toaster.service';
 import { ArrayType } from '@angular/compiler';
 import { SharedService } from '../shared-service/shared-service';
 import { LoginStoreService } from '@services/login-store.service';
+import { Router } from '@angular/router';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -44,7 +46,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -62,7 +64,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let roles = roleAndUserDetails.roles;
     this.roleId = roles[0].roleId;
     this.roleType = roles[0].roleType;
-    console.log('ROles,', this.roleType)
     this.userId = roleAndUserDetails.userDetails.userId;
 
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -124,6 +125,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.toasterService.showError(res.ErrorMessage, 'Approve Decline Deviation')
       }
     })
+
+    console.log(this.deviationsForm.controls['autoDeviationFormArray'])
 
   }
 
@@ -238,15 +241,19 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.selectDeviationId = Number(id)
   }
 
+  onPatchRecommendationModal(value: string) {
+
+  }
+
   removeDeviationIndex(id, i?: any) {
     const control = this.deviationsForm.controls.manualDeviationFormArray as FormArray;
 
     if (id && id !== 0) {
 
-      this.deviationService.getDeleteDeviation(26).subscribe((res: any) => {
+      this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          console.log(res.ProcessVariables, 'dkgb')
           this.getTrigurePolicy()
+          this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation')
         } else {
           this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
         }
@@ -286,8 +293,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     const manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
 
-    autoDeviationFormArray.controls = [];
     manualDiviationFormArray.controls = [];
+    autoDeviationFormArray.controls = [];
 
     array.map((data: any) => {
 
@@ -341,6 +348,37 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   formDataOutputMethod(event) {
     this.sharedService.getFormValidation(this.deviationsForm)
     this.formDataOutput.emit(this.deviationsForm.value)
+  }
+
+  ReferDeviation(recommend) {
+
+    if (this.modalForm.valid) {
+
+      console.log('recommend', recommend)
+
+      const data = {
+        "leadId": this.leadId,
+        "userId": this.userId,
+        "approverRole": this.deviationsForm.controls['approverRole'].value,
+        "recommendation": this.modalForm.controls['recommendation'].value
+      }
+
+      this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
+        console.log('res', res)
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.router.navigate['/pages/dashboard/deviation/deviation-with-me']
+          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Refer Deviation')
+        } else {
+          this.toasterService.showError(res.ErrorMessage, 'Refer Deviation Error')
+        }
+      }, err => {
+        console.log('err', err)
+        this.toasterService.showError(err, 'Refer Error')
+      })
+    } else {
+      this.utilityService.validateAllFormFields(this.modalForm)
+      this.toasterService.showInfo('Please Select Recommend', 'Recommend')
+    }
   }
 
 }
