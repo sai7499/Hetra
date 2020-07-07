@@ -58,7 +58,7 @@
                        placeholder="Select Start Month"
                       [activeView]="'decade'"
                       (valueChange)="getMonths()"
-                      [max]="toDayDate"
+                      [max]="todayDateNew"
                       ></kendo-datepicker>
                    </div>
                 </div>
@@ -74,11 +74,12 @@
                          disabled>
                    </div> -->
                    <kendo-datepicker class="form-control" 
-                   formControlName="toDate" [format]="'dd/MM/yyyy'"
+                   formControlName="toDate" 
+                   [format]="'dd/MM/yyyy'"
                    [max]="toDayDate"
-                    placeholder="Select Latest Month"
+                   placeholder="Select Latest Month"
                    [activeView]="'decade'"
-                   (valueChange)="getMonths()"
+                   (valueChange)="setToDateMax()"
                    ></kendo-datepicker>
                 </div>
              </div>
@@ -143,7 +144,8 @@
               <tbody  formArrayName="transactionDetails">
               <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index " [formGroupName]="i">
                   <td >
-                      <input class="form-control" formControlName = "month" value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" disabled > 
+                      <input class="form-control" formControlName = "month"  disabled > 
+                      <!-- value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" -->
                   </td>
                   <td>
                       <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="inflow"> -->
@@ -154,7 +156,7 @@
                       [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                   </td>
                   <td>
@@ -166,8 +168,7 @@
                       [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      
-                      [type]="'number'"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                   </td>
                   <td>
@@ -180,6 +181,7 @@
                     [type]="labels?.validationData?.amountValue?.type"
                     [isRequired]="'*required'"
                     [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "
                   ></app-custom-input> 
                 </td>
                   <td>
@@ -191,6 +193,7 @@
                       [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                     </td>
                   <td>
