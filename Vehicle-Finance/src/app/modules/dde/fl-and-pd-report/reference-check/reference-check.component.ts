@@ -81,15 +81,23 @@ export class ReferenceCheckComponent implements OnInit {
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
+        this.activatedRoute.params.subscribe((value) => {// calling get lead section data function in line 174
+          if (!value && !value.applicantId) {
+            return;
+          }
+          this.applicantId = Number(value.applicantId);
+          this.getPdDetails();    //for getting the data for pd details on initializing the page
+          console.log('Applicant Id In reference Details Component', this.applicantId);
+
+        });
         // console.log("this labels data", this.labels)
       },
       error => {
         this.errorMsg = error;
       });
     this.initForm();              // for initializing the form
-    this.getPdDetails();          //for getting the data for pd details on initializing the page
+
     this.setFormValue();          // for setting the values what we get when the component gets initialized
-    this.getApplicantId();
   }
   getLeadId() {
     // console.log("in getleadID")
@@ -137,9 +145,12 @@ export class ReferenceCheckComponent implements OnInit {
     const data = {
 
       // applicantId: 6,
-      applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+      applicantId: this.applicantId,
 
+      /* Uncomment this after getting applicant Id from Lead */
     }
+    console.log("applicant id in get detaisl", this.applicantId)
+
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;

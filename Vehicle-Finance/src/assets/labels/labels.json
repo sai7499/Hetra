@@ -1020,6 +1020,12 @@
             },
             "type": "number"
         },
+        "sourceOf": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "alpha"
+        },
         "mobile": {
             "maxLength": {
                 "rule": 10,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -12,6 +12,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PdDataService } from '../pd-data.service';
 import { valHooks } from 'jquery';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -40,7 +41,6 @@ export class LoanDetailsComponent implements OnInit {
   data: any;
   currentYear = new Date().getFullYear();
   yearCheck = [];
-  // productCat: "used";
   productCat: any;
 
   amountPattern = {
@@ -63,10 +63,15 @@ export class LoanDetailsComponent implements OnInit {
     msg: '',
   };
   isDirty: boolean;
+  leadData: any;
+  reqLoanAmount: any;
+  productCatCode: any;
+  productCategoryId: any;
 
 
 
   constructor(private labelsData: LabelsService,
+    private _fb: FormBuilder,
     private lovDataService: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
@@ -75,14 +80,12 @@ export class LoanDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private personalDiscussion: PersonalDiscussionService,
     private pdDataService: PdDataService,
-    private toasterService: ToasterService) {
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
   async ngOnInit() {
-
-    // this.productCat = 'new';
-    this.productCat = 'used';
 
     // accessing lead id from route
 
@@ -121,6 +124,7 @@ export class LoanDetailsComponent implements OnInit {
       });
     this.getLOV();
     this.getPdDetails()
+    this.RemoveAddControls()
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 
@@ -145,6 +149,7 @@ export class LoanDetailsComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
     this.activatedRoute.params.subscribe((value) => {
+      this.getLeadSectionData()
       if (!value && !value.applicantId) {
         return;
       }
@@ -153,19 +158,37 @@ export class LoanDetailsComponent implements OnInit {
       console.log('Applicant Id In Loan Details Component', this.applicantId);
     });
   }
+  async getLeadSectionData() {
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    console.log("in get lead section data", data)
+
+    const leadDetailsFromLead = data['leadDetails']
+
+    // this.applicantFullName = applicantDetailsFromLead['fullName']
+    // this.mobileNo = applicantDetailsFromLead['mobileNumber']
+    // console.log("in lead section data", this.applicantFullName, this.mobileNo)
+    this.reqLoanAmount = leadDetailsFromLead.reqLoanAmt;
+    this.productCatCode = leadDetailsFromLead.productCatCode
+    console.log("in lead section data", leadDetailsFromLead)
+    console.log("prod cat code", this.productCatCode)
+    console.log("req loan amount", this.reqLoanAmount)
+  }
 
   initForm() {
+
+    // controls for new vehicle
+
     this.loanDetailsForm = new FormGroup({
-
-      // controls for new vehicle
-
       newVehicleCost: new FormControl(''),
       newVehicleModel: new FormControl(''),
       newVehicleType: new FormControl(''),
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
 
-      // controls for used vehicle
+      // controls for used vehicle 
 
       usedVehicleCost: new FormControl(''),
       usedVehModel: new FormControl(''),
@@ -216,8 +239,10 @@ export class LoanDetailsComponent implements OnInit {
       selfDrivenOrDriver: new FormControl(''),
       // remarks: new FormControl('')
       remarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
-    });
+    })
   }
+
+
   // checkManufacturingYear(event, i) {
   //   const dateFormat: Date = new Date();
   //   const year = dateFormat.getFullYear();
@@ -279,6 +304,76 @@ export class LoanDetailsComponent implements OnInit {
     return formattedDate;
 
   }
+  RemoveAddControls() {
+    const controls = this.loanDetailsForm as FormGroup
+    console.log("in remove coontrols", controls)
+    console.log("in remove controls", this.productCatCode)
+
+    if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
+
+      controls.removeControl('usedVehicleCost')
+      controls.removeControl('usedVehModel')
+      controls.removeControl('usedVehicleType')
+      controls.removeControl('usedVehicleMarginMoney')
+      controls.removeControl('usedVehicleLoanAmountReq')
+      controls.removeControl('sourceOfVehiclePurchase')
+      controls.removeControl('marginMoneySource')
+      controls.removeControl('financierName')
+      controls.removeControl('coAapplicantAwareMarginMoney')
+      controls.removeControl('channelSourceName')
+      controls.removeControl('vehicleSeller')
+      controls.removeControl('proposedVehicle')
+      controls.removeControl('investmentAmount')
+      controls.removeControl('marginMoneyBorrowed')
+      controls.removeControl('marketValueProposedVehicle')
+      controls.removeControl('purchasePrice')
+      controls.removeControl('vehicleCondition')
+      controls.removeControl('fundsUsage')
+      controls.removeControl('earlierVehicleApplication')
+      controls.removeControl('othersRemarks')
+      controls.removeControl('drivingVehicleEarlier')
+      controls.removeControl('vehicleAttachedPlying')
+      controls.removeControl('awareDueDateEmiAmount')
+      // removing controls for used vehicle asset details
+      controls.removeControl('vehicleMake')
+      controls.removeControl('modelInYear')
+      controls.removeControl('regNo')
+      controls.removeControl('regCopVfd')
+      controls.removeControl('vehicleHpaNbfc')
+      controls.removeControl('engineNumber')
+      controls.removeControl('chasisNumber')
+      controls.removeControl('permitValidity')
+      controls.removeControl('fitnessValidity')
+      controls.removeControl('taxValidity')
+      controls.removeControl('insuranceCopyVerified')
+      controls.removeControl('insuranceValidity')
+      controls.removeControl('vehiclePhsicallyVerified')
+      controls.removeControl('conditionOfVehicle')
+      controls.removeControl('vehicleRoute')
+      controls.removeControl('noOfTrips')
+      controls.removeControl('amtPerTrip')
+      controls.removeControl('selfDrivenOrDriver')
+      controls.removeControl('remarks')
+
+
+
+      console.log("in remove controls", controls)
+
+    }
+    else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+
+      controls.removeControl('newVehicleCost')
+      controls.removeControl('newVehicleModel')
+      controls.removeControl('newVehicleType')
+      controls.removeControl('newVehicleReqLoanAmount')
+      controls.removeControl('newVehicleMarginMoney')
+
+
+      console.log("in remove controls", controls)
+
+    }
+
+  }
 
   getPdDetails() {
     // const data = {
@@ -311,7 +406,7 @@ export class LoanDetailsComponent implements OnInit {
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         console.log("used vehicle details", this.usedVehicleDetails)
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle
-        // console.log("asset details used vehilce", this.assetDetailsUsedVehicle)
+        console.log("asset details used vehilce", this.assetDetailsUsedVehicle)
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
 
         this.setFormValue();
@@ -349,68 +444,79 @@ export class LoanDetailsComponent implements OnInit {
     const usedVehicleModel = this.usedVehicleDetails || {};
     const assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {}
 
-    this.loanDetailsForm.patchValue({
-      // new cv details patching
+    if (this.productCatCode == 'NCV' || 'NC') {
 
-      newVehicleCost: newCvModel.newVehicleCost,
-      newVehicleModel: newCvModel.newVehicleModel,
-      newVehicleType: newCvModel.newVehicleType,
-      newVehicleReqLoanAmount: newCvModel.newVehicleReqLoanAmount,
-      newVehicleMarginMoney: newCvModel.newVehicleMarginMoney,
+      this.loanDetailsForm.patchValue({
+        // new cv details patching
+        newVehicleCost: newCvModel.vehicleCost || '',
+        newVehicleModel: newCvModel.model || '',
+        newVehicleType: newCvModel.type || '',
+        newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
+        newVehicleMarginMoney: newCvModel.marginMoney || ''
+      })
+    }
+    else if (this.productCatCode == 'UCV' || 'UC') {
 
-      // used cv details patching
-      usedVehicleCost: usedVehicleModel.usedVehicleCost,
-      usedVehModel: usedVehicleModel.usedVehModel,
-      usedVehicleType: usedVehicleModel.usedVehicleType,
-      usedVehicleMarginMoney: usedVehicleModel.usedVehicleMarginMoney,
-      usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq,
-      sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase,
-      marginMoneySource: usedVehicleModel.marginMoneySource,
-      financierName: usedVehicleModel.financierName,
-      coAapplicantAwareMarginMoney: usedVehicleModel.coAapplicantAwareMarginMoney,
-      channelSourceName: usedVehicleModel.channelSourceName,
-      vehicleSeller: usedVehicleModel.vehicleSeller,
-      proposedVehicle: usedVehicleModel.proposedVehicle,
-      investmentAmount: usedVehicleModel.invesmentAmount,
-      marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed,
-      marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle,
-      purchasePrice: usedVehicleModel.purchasePrice,
-      vehicleCondition: usedVehicleModel.vehicleCondition,
-      fundsUsage: usedVehicleModel.fundsUsage,
-      earlierVehicleApplication: usedVehicleModel.earlierVehicleApplication,
-      othersRemarks: usedVehicleModel.othersRemarks,
-      drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier,
-      vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying,
-      awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount,
+      this.loanDetailsForm.patchValue({
+        // used cv details patching
+        usedVehicleCost: usedVehicleModel.usedVehicleCost || '',
+        usedVehModel: usedVehicleModel.usedVehModel || '',
+        usedVehicleType: usedVehicleModel.usedVehicleType || '',
+        usedVehicleMarginMoney: usedVehicleModel.usedVehicleMarginMoney || '',
+        usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
+        sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase || '',
+        marginMoneySource: usedVehicleModel.marginMoneySource || '',
+        financierName: usedVehicleModel.financierName || '',
+        coAapplicantAwareMarginMoney: usedVehicleModel.coAapplicantAwareMarginMoney || '',
+        channelSourceName: usedVehicleModel.channelSourceName || '',
+        vehicleSeller: usedVehicleModel.vehicleSeller || '',
+        proposedVehicle: usedVehicleModel.proposedVehicle || '',
+        investmentAmount: usedVehicleModel.invesmentAmount || '',
+        marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed || '',
+        marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle || '',
+        purchasePrice: usedVehicleModel.purchasePrice || '',
+        vehicleCondition: usedVehicleModel.vehicleCondition || '',
+        fundsUsage: usedVehicleModel.fundsUsage || '',
+        earlierVehicleApplication: usedVehicleModel.earlierVehicleApplication || '',
+        othersRemarks: usedVehicleModel.othersRemarks || '',
+        drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier || '',
+        vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying || '',
+        awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount || '',
 
-      // asset Details for used vehicle values patching
+        // asset Details for used vehicle values patching
 
-      vehicleMake: assetDetailsUsedVehicleModel.vehicleMake,
-      modelInYear: assetDetailsUsedVehicleModel.modelInYear,
-      regNo: assetDetailsUsedVehicleModel.regNo,
-      regCopyVerified: assetDetailsUsedVehicleModel.regCopVfd,
-      vehicleHpaNbfc: assetDetailsUsedVehicleModel.vehicleHpaNbfc,
-      regCopVfd: assetDetailsUsedVehicleModel.regCopVfd,
-      engineNumber: assetDetailsUsedVehicleModel.engineNumber,
-      chasisNumber: assetDetailsUsedVehicleModel.chasisNumber,
+        vehicleMake: assetDetailsUsedVehicleModel.vehicleMake || '',
+        modelInYear: assetDetailsUsedVehicleModel.modelInYear || '',
+        regNo: assetDetailsUsedVehicleModel.regNo || '',
+        regCopyVerified: assetDetailsUsedVehicleModel.regCopVfd || '',
+        vehicleHpaNbfc: assetDetailsUsedVehicleModel.vehicleHpaNbfc || '',
+        regCopVfd: assetDetailsUsedVehicleModel.regCopVfd || '',
+        engineNumber: assetDetailsUsedVehicleModel.engineNumber || '',
+        chasisNumber: assetDetailsUsedVehicleModel.chasisNumber || '',
 
-      // permitValidity: assetDetailsUsedVehicleModel.permitValidity,
-      permitValidity: new Date(assetDetailsUsedVehicleModel.permitValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.permitValidity) : ""),
-      // fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
-      fitnessValidity: new Date(assetDetailsUsedVehicleModel.fitnessValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.fitnessValidity) : ""),
-      // taxValidity: assetDetailsUsedVehicleModel.taxValidity,
-      taxValidity: new Date(assetDetailsUsedVehicleModel.taxValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.taxValidity) : ""),
-      insuranceCopyVerified: assetDetailsUsedVehicleModel.insuranceCopyVerified,
-      // insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
-      insuranceValidity: new Date(assetDetailsUsedVehicleModel.insuranceValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.insuranceValidity) : ""),
-      vehiclePhsicallyVerified: assetDetailsUsedVehicleModel.vehiclePhsicallyVerified,
-      conditionOfVehicle: assetDetailsUsedVehicleModel.conditionOfVehicle,
-      vehicleRoute: assetDetailsUsedVehicleModel.vehicleRoute,
-      noOfTrips: assetDetailsUsedVehicleModel.noOfTrips,
-      amtPerTrip: assetDetailsUsedVehicleModel.amtPerTrip,
-      selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver,
-      remarks: assetDetailsUsedVehicleModel.remarks
-    });
+        // permitValidity: assetDetailsUsedVehicleModel.permitValidity,
+        permitValidity: assetDetailsUsedVehicleModel.permitValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.permitValidity)) : "",
+        // fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
+        fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.fitnessValidity)) : "",
+        // taxValidity: assetDetailsUsedVehicleModel.taxValidity,
+        taxValidity: assetDetailsUsedVehicleModel.taxValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.taxValidity)) : "",
+        insuranceCopyVerified: assetDetailsUsedVehicleModel.insuranceCopyVerified,
+        // insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
+        insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.insuranceValidity)) : "",
+        vehiclePhsicallyVerified: assetDetailsUsedVehicleModel.vehiclePhsicallyVerified || '',
+        conditionOfVehicle: assetDetailsUsedVehicleModel.conditionOfVehicle || '',
+        vehicleRoute: assetDetailsUsedVehicleModel.vehicleRoute || '',
+        noOfTrips: assetDetailsUsedVehicleModel.noOfTrips || '',
+        amtPerTrip: assetDetailsUsedVehicleModel.amtPerTrip || '',
+        selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver || '',
+        remarks: assetDetailsUsedVehicleModel.remarks || ''
+      });
+      console.log("loan form", this.loanDetailsForm)
+    }
   }
 
 
@@ -465,17 +571,17 @@ export class LoanDetailsComponent implements OnInit {
 
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
-    // this.isDirty = true;
-    // if (this.loanDetailsForm.invalid) {
-    //   console.log(this.loanDetailsForm)
-    //   return
-    // }
+    this.isDirty = true;
+    if (this.loanDetailsForm.invalid) {
+      console.log(this.loanDetailsForm)
+      return
+    }
     const loanDetailsModal = { ...formModal };
     console.log("form data", loanDetailsModal)
     console.log("form data", this.newCvDetails)
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
     // this.router.navigate(['/pages/dde']);
-    if (this.productCat === 'new') {
+    if (this.productCatCode === 'NCV' || 'NC') {
 
       console.log("in new vehicle submit pd")
       this.newCvDetails = {
@@ -514,7 +620,7 @@ export class LoanDetailsComponent implements OnInit {
 
 
     }
-    else if (this.productCat == "used") {
+    else if (this.productCatCode === 'UCV' || 'UC') {
 
       console.log("in used vehicle submit pd")
 

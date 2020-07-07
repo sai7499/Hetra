@@ -10,6 +10,7 @@ import { ApplicantDetails } from '@model/dde.model';
 import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -27,6 +28,10 @@ export class ApplicantDetailComponent implements OnInit {
   applicantDetails: ApplicantDetails;
   applicantId: any;
   applicantPdDetails: any;
+  leadDetails: any;
+  applicantData: any;
+  applicantFullName: any;
+  mobileNo: any;
 
 
   // namePattern = {
@@ -95,6 +100,7 @@ export class ApplicantDetailComponent implements OnInit {
   userId: number;
   roles: any;
   leadId: number;
+  leadData: {};
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -105,7 +111,8 @@ export class ApplicantDetailComponent implements OnInit {
     private personaldiscussion: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
     private pdDataService: PdDataService,
-    private toasterService: ToasterService) { }
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -150,6 +157,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
     this.activatedRoute.params.subscribe((value) => {
+      this.getLeadSectionData(); // calling get lead section data function in line 174
       if (!value && !value.applicantId) {
         return;
       }
@@ -161,16 +169,34 @@ export class ApplicantDetailComponent implements OnInit {
 
     });
   }
+
+
+  // getting lead data from create lead data service
+
+  async getLeadSectionData() {
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    // console.log("in get lead section data", data['applicantDetails'])
+
+    const applicantDetailsFromLead = data['applicantDetails'][0]
+    this.applicantFullName = applicantDetailsFromLead['fullName']
+    this.mobileNo = applicantDetailsFromLead['mobileNumber']
+    console.log("in lead section data", this.applicantFullName, this.mobileNo)
+  }
   initForm() {
     this.applicantForm = new FormGroup({
-      applicantName: new FormControl(''),
+      // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
+      applicantName: new FormControl({ value: '', disabled: true }),
       fatherName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
       physicallyChallenged: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
       officePhoneNumber: new FormControl('', Validators.required),
-      mobile: new FormControl('', Validators.required),
+      // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
+      mobile: new FormControl({ value: '', disabled: true }),
       residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
       bankName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
@@ -187,17 +213,18 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   setFormValue() {
+    // console.log("in set form value")
     // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
     const applicantModal = this.applicantPdDetails || {};
     this.applicantForm.patchValue({
-      applicantName: applicantModal.applicantName || '',
+      applicantName: applicantModal.applicantName || this.applicantFullName || '',
       fatherName: applicantModal.fatherName || '',
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
       residancePhoneNumber: applicantModal.residancePhoneNumber || '',
       officePhoneNumber: applicantModal.officePhoneNumber || '',
-      mobile: applicantModal.mobile || '',
+      mobile: applicantModal.mobile || this.mobileNo || '',
       residenceAddressAsPerLoanApplication: applicantModal.residenceAddressAsPerLoanApplication || '',
       bankName: applicantModal.bankName || '',
       accountNumber: applicantModal.accountNumber || '',
@@ -287,14 +314,14 @@ export class ApplicantDetailComponent implements OnInit {
     // }
 
     this.applicantDetails = {
-      applicantName: applicantFormModal.applicantName,
+      applicantName: this.applicantFullName,
       fatherName: applicantFormModal.fatherName,
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
       residancePhoneNumber: applicantFormModal.residancePhoneNumber,
       officePhoneNumber: applicantFormModal.officePhoneNumber,
-      mobile: applicantFormModal.mobile,
+      mobile: this.mobileNo,
       residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPerLoanApplication,
       bankName: applicantFormModal.bankName,
       accountNumber: applicantFormModal.accountNumber,
@@ -322,6 +349,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
+      console.log(processVariables)
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Applicant Details saved !', '');
       } else {

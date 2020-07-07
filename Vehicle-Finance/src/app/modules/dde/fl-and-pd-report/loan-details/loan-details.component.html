@@ -1,8 +1,9 @@
 <form class="multisteps-form__form" [formGroup]="loanDetailsForm" *ngIf="this.loanDetailsForm">
 
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <h3 class="title" *ngIf="productCat ==='new'">{{labels.loanDetailsForNewVehicleTitle}}</h3>
-        <div class="row" *ngIf="productCat ==='new'">
+        <h3 class="title" *ngIf="productCatCode === 'NC' || productCatCode === 'NCV'">
+            {{labels.loanDetailsForNewVehicle}}</h3>
+        <div class="row" *ngIf="productCatCode === 'NC' || productCatCode === 'NCV'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="cost_of_vehicle">{{labels.costOfVehicle}}</label>
                 <!-- <input type="text" class="form-control" id="cost_of_vehicle" formControlName="costOfVehicle"> -->
@@ -42,10 +43,41 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+                <div class="col-sm-7"></div>
+                <div class="col-sm-5 text-right">
+                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                        {{labels.reinitiate}}
+                    </button>&nbsp;
+                    <button class="btn btn-success " (click)="approvePd()">
+                        {{labels.approve}}
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="btn-sec clear-both">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7 text-right">
+
+                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+                        {{labels.back}}
+                    </button>&nbsp;
+                    <button class="btn btn-primary " (click)="onFormSubmit()">
+                        {{labels.save}}
+                    </button>&nbsp;
+                    <button class="btn btn-primary" type="button" (click)="onNavigateNext()">
+                        {{labels.next}}
+                    </button>
+
+
+                </div>
+            </div>
 
         </div>
-        <h3 class="title" *ngIf="productCat ==='used'">{{labels.loanDetailsUsedVehicleTitle}}</h3>
-        <div class="row" *ngIf="productCat ==='used'">
+        <h3 class="title" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
+            {{labels.loanDetailsUsedVehicleTitle}}</h3>
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="cost_of_vehicle">{{labels.costOfVehicle}}</label>
@@ -89,12 +121,13 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="source_puchase">{{labels.sourcePurchase}}</label>
                 <!-- <input type="text" class="form-control" id="source_puchase" formControlName="sourcePurchase"> -->
-                <!-- <app-custom-input id="source_puchase" formControlName="sourceOfVehiclePurchase" placeholder="source of vehicle purchase    " [isRequired]="'required'" [isDirty]="isDirty">
-                </app-custom-input> -->
-                <textarea class="form-control mandatory" name="sourceOfVehiclePurchase" id="sourceOfVehiclePurchase" cols="1" rows="3" placeholder="source of vehicle purchase" formControlName="sourceOfVehiclePurchase" maxlength="40" style="resize: none;"></textarea>
+                <app-custom-input id="source_puchase" formControlName="sourceOfVehiclePurchase" placeholder="source of vehicle purchase" [type]="labels?.validationData?.sourceOf?.type" [isRequired]="' source of purchase is required'" [maxLength]="labels?.validationData?.sourceOf?.maxLength"
+                    [isDirty]="isDirty">
+                </app-custom-input>
+                <!-- <textarea class="form-control mandatory" name="sourceOfVehiclePurchase" id="sourceOfVehiclePurchase" cols="1" rows="3" placeholder="source of vehicle purchase" formControlName="sourceOfVehiclePurchase" maxlength="40" style="resize: none;"></textarea>
                 <div class="invalid-feedback " *ngIf="loanDetailsForm.controls['sourceOfVehiclePurchase'].touched && !loanDetailsForm.controls['sourceOfVehiclePurchase'].vaild">
 
-                    <div *ngIf="loanDetailsForm.controls['sourceOfVehiclePurchase'].hasError('required')">
+                    <div *ngIf="loanDetailsForm.controls['sourceOfVehiclePurchase'].hasError('required')">loan amount
                         remarks are required
                     </div>
 
@@ -102,16 +135,16 @@
                     <div *ngIf="loanDetailsForm.controls['sourceOfVehiclePurchase'].hasError('pattern')">
                         special characters are not allowed
                     </div>
-                </div>
+                </div> -->
 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoneyPaid}}</label>
                 <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
-                <!-- <app-custom-input id="margin_money" formControlName="marginMoneySource" placeholder="source of margin money" [type]="labels?.validationData?.amountValue?.type" [isRequired]="'margin money is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                <app-custom-input id="margin_money" formControlName="marginMoneySource" placeholder="source of margin money" [type]="labels?.validationData?.sourceOf?.type" [isRequired]="' source of margin money is required'" [maxLength]="labels?.validationData?.sourceOf?.maxLength"
                     [isDirty]="isDirty">
-                </app-custom-input> -->
-                <textarea class="form-control mandatory" name="marginMoneySource" id="marginMoneySource" cols="1" rows="3" placeholder="source of margin money" formControlName="marginMoneySource" maxlength="40" style="resize: none;"></textarea>
+                </app-custom-input>
+                <!-- <textarea class="form-control mandatory" name="marginMoneySource" id="marginMoneySource" cols="1" rows="3" placeholder="source of margin money" formControlName="marginMoneySource" maxlength="40" style="resize: none;"></textarea>
                 <div class="invalid-feedback " *ngIf="loanDetailsForm.controls['marginMoneySource'].touched && !loanDetailsForm.controls['marginMoneySource'].vaild">
 
                     <div *ngIf="loanDetailsForm.controls['marginMoneySource'].hasError('required')">
@@ -122,7 +155,7 @@
                     <div *ngIf="loanDetailsForm.controls['marginMoneySource'].hasError('pattern')">
                         special characters are not allowed
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="name_of_financier">{{labels.nameOfFinancer}}</label>
@@ -226,28 +259,6 @@
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="remarks_others">{{labels.remarksOthers}}</label>
-                <!-- <input type="text" class="form-control" id="remarks_others" formControlName="remarksOthers"> -->
-                <!-- <app-custom-input id="remarks_others" formControlName="othersRemarks" placeholder="other remarks" [maxLength]="maxlength30">
-                </app-custom-input> -->
-                <textarea class="form-control mandatory" name="othersRemarks" id="othersRemarks" cols="1" rows="3" placeholder="other remarks" formControlName="othersRemarks" maxlength="200" style="resize: none;"></textarea>
-
-                <div class="invalid-feedback " *ngIf="loanDetailsForm.controls['othersRemarks'].touched && !loanDetailsForm.controls['othersRemarks'].vaild">
-
-                    <div *ngIf="loanDetailsForm.controls['othersRemarks'].hasError('required')">
-                        remarks are required
-                    </div>
-
-
-                    <div *ngIf="loanDetailsForm.controls['othersRemarks'].hasError('pattern')">
-                        special characters are not allowed
-                    </div>
-                </div>
-
-
-
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="earlier_driving">{{labels.earlierDriving}}</label>
                 <!-- <select class="form-control">
                     <option>Select</option>
@@ -276,6 +287,28 @@
                 <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareDueDateEmiAmount" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="remarks_others">{{labels.remarksOthers}}</label>
+                <!-- <input type="text" class="form-control" id="remarks_others" formControlName="remarksOthers"> -->
+                <!-- <app-custom-input id="remarks_others" formControlName="othersRemarks" placeholder="other remarks" [maxLength]="maxlength30">
+                </app-custom-input> -->
+                <textarea class="form-control mandatory" name="othersRemarks" id="othersRemarks" cols="1" rows="3" placeholder="other remarks" formControlName="othersRemarks" maxlength="200" style="resize: none;"></textarea>
+
+                <div class="invalid-feedback " *ngIf="loanDetailsForm.controls['othersRemarks'].touched && !loanDetailsForm.controls['othersRemarks'].vaild">
+
+                    <div *ngIf="loanDetailsForm.controls['othersRemarks'].hasError('required')">
+                        remarks are required
+                    </div>
+
+
+                    <div *ngIf="loanDetailsForm.controls['othersRemarks'].hasError('pattern')">
+                        special characters are not allowed
+                    </div>
+                </div>
+
+
+
+            </div>
 
             <!-- <div class="btn-sec clear-both">
                             <div class="col-sm-5">
@@ -287,11 +320,14 @@
                             </div>
                         </div> -->
         </div>
-        <h3 class="title" *ngIf="productCat ==='used'">{{labels.assetDetailsForUsedVehicleTitle}}</h3>
-        <div class="row" *ngIf="productCat ==='used'">
+        <h3 class="title" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
+            {{labels.assetDetailsForUsedVehicleTitle}}</h3>
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_make">{{labels.vehicleMake}}</label>
-                <app-custom-input type="text" id="vehicle_make" formControlName="vehicleMake" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input>
+                <!-- <app-custom-input type="text" id="vehicle_make" formControlName="vehicleMake" [isRequired]="'required'" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input> -->
+                <app-vf-custom-select [values]="LOV?.LOVS['vehicleManufacturer']" formControlName="vehicleMake" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model_year">{{labels.model1}}</label>
@@ -461,12 +497,46 @@
                     </div>
                 </div>
             </div>
+            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+                <div class="col-sm-7"></div>
+                <div class="col-sm-5 text-right">
+                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                        {{labels.reinitiate}}
+                    </button>&nbsp;
+                    <button class="btn btn-success " (click)="approvePd()">
+                        {{labels.approve}}
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="btn-sec clear-both">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7 text-right">
+
+                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+                        {{labels.back}}
+                    </button>&nbsp;
+                    <button class="btn btn-primary " (click)="onFormSubmit()">
+                        {{labels.save}}
+                    </button>&nbsp;
+                    <button class="btn btn-primary" type="button" (click)="onNavigateNext()">
+                        {{labels.next}}
+                    </button>
+
+
+                </div>
+            </div>
+
+
+
+
         </div>
 
 
     </div>
 
-    <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+    <!-- <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
         <div class="col-sm-7"></div>
         <div class="col-sm-5 text-right">
             <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
@@ -477,16 +547,11 @@
             </button>
 
         </div>
-    </div>
-    <div class="btn-sec clear-both">
+    </div> -->
+    <!-- <div class="btn-sec clear-both">
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
-            <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../customer-profile',applicantId,version]">
-                {{labels.back}}
-            </button>&nbsp;
-            <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../customer-profile',applicantId]">
-                {{labels.back}}
-            </button>&nbsp; -->
+
             <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
                 {{labels.back}}
             </button>&nbsp;
@@ -496,15 +561,10 @@
             <button class="btn btn-primary" type="button" (click)="onNavigateNext()">
                 {{labels.next}}
             </button>
-            <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../pd-report']">
-                {{labels.next}}
-            </button>
-            <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../reference-check',applicantId]">
-                {{labels.next}}
-            </button> -->
+
 
         </div>
-    </div>
+    </div> -->
 
 
 </form>
