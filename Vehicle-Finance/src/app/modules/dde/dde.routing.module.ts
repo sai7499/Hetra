@@ -98,10 +98,11 @@ const routes: Routes = [
         path: 'score-card',
         component: ScoreCardComponent,
       },
-      {
-        path: 'credit-conditions',
-        component: CreditConditionsComponent,
-      },
+      // {
+      //   path: 'credit-conditions',
+      //   component: CreditConditionsComponent,
+      // },
+     
       {
         path: 'deviations',
         component: DeviationsComponent,

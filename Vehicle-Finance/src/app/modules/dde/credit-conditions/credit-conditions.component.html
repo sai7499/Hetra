@@ -1,7 +1,7 @@
 <div class="mb-50">
   <div class="row">
     <div class="col-xs-12">
-      <div>
+      <div *ngIf = "userType === 'Credit Officer'">
         <button style="float:right" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new row</button>
     
       </div>
@@ -23,7 +23,7 @@
     }">
       <label class="action"> {{labels.action}} </label>
     </div>
-    <div class="col-xs-6 col-sm-1 "  *ngIf="userType == 'Credit Officer'">More</div>
+    <div class="col-xs-6 col-sm-1 "  *ngIf="userType === 'Credit Officer'">More</div>
   </div>
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
 <div formArrayName="Rows">
@@ -47,9 +47,9 @@
           <input type="radio"  value="0" formControlName="isDocReq" > {{labels.no}}
         </label>
         </div>
-      <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a>
+      <!-- <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a> -->
       <div *ngIf="item.get('isDocReq').value == '1' && userType === 'Sales Officer'" class="btn btn-primary uploadsan">Upload
-        <input type="file" formControlName="salesResponseDoc"  class="upload_sanction"/>
+        <!-- <input type="file" formControlName="salesResponseDoc"  class="upload_sanction"/> -->
         </div>
     </div>
     <div class="col-xs-6 col-sm-2" [ngClass]="{
@@ -59,18 +59,18 @@
       
       <div class="row m-0">
         <label class="radio-inline">
-          <input type="radio" value=0 formControlName="creditAction" (change)="dateCheck($event)"> {{labels.accepted}}
+          <input type="radio" value='1' formControlName="creditAction" (change)="dateCheck($event)" [attr.disabled]="userType === 'Sales Officer'"> {{labels.accepted}}
         </label>
         <label class="radio-inline">
-          <input type="radio"  value=1 formControlName="creditAction" (change)="dateCheck($event)"> {{labels.notAccepted}}
+          <input type="radio"  value='0' formControlName="creditAction" (change)="dateCheck($event)" [attr.disabled]="userType === 'Sales Officer'"> {{labels.notAccepted}}
         </label>
         </div>
         <div class="row m-0">
         <label class="radio-inline">
-          <input type="radio" value=2 formControlName="creditAction" (change)="dateCheck($event , i)" >{{labels.defferedTillDate}}
+          <input type="radio" value='2' formControlName="creditAction" (change)="dateCheck($event , i)" >{{labels.defferedTillDate}}
         </label>
         <label class="radio-inline p-0 m-0">
-          <div class="input-group date check_input" id="dateTimePicker">
+          <div class="input-group date check_input" id="dateTimePicker" *ngIf="item.get('creditAction').value == '2'">
                  <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
                     </span>
                     <input type="text" class="form-control" formControlName="defferedDate" [disabled]="differDateField" > -->

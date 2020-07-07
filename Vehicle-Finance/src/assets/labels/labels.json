@@ -441,8 +441,10 @@
     "accepted": "Accepted",
     "notAccepted": "Not Accepted",
     "defferedTillDate": "Deffered till date",
+    "getTriggerPolicy": "Get Trigger Policy",
     "autoDeviation": "Auto Deviation",
     "manualDeviation": "Manual Deviation",
+    "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
     "approvalLevel": "Approval Level",
@@ -457,6 +459,7 @@
     "referText2": "For Cat B,C,D & E Repayment <12 Months from us or other financier on CV loans",
     "referText1": "Co-Borrower / Guarantor - Waiver",
     "approve": "Approve",
+    "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
@@ -1098,11 +1101,7 @@
             "maxLength": {
                 "rule": 6
             },
-            "type": "number",
-            "patternCheck": {
-                "rule": "^[1-9][0-9]{5}$",
-                "msg": "Should be Valid and Must be 6 Digits"
-            }
+            "type": "number"
         },
         "numberOfYears": {
             "maxLength": {

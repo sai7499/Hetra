@@ -20,10 +20,8 @@ import { CamComponent } from './cam/cam.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ViabilityDetailsComponent} from './vehicle-details/viability-details/viability-details.component';
 
-// import { DdeRoutingModule } from './dde.routing.module';
-// import { DdeSharedModule } from './shared/shared.module';
 import { ScoreCardComponent } from './score-card/score-card.component';
-import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
+// import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
@@ -49,7 +47,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
     TvrDetailsComponent,
     CamComponent,
     ScoreCardComponent,
-    CreditConditionsComponent,
+    // CreditConditionsComponent,
     DeviationsComponent,
     VehicleValuationComponent,
     ViabilityDetailsComponent,

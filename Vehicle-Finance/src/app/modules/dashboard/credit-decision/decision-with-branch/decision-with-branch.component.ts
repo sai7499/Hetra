@@ -43,10 +43,10 @@ export class DecisionWithBranchComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
-    this.getPdBrabchTask(this.itemsPerPage);
+    this.getDecisionLeads(this.itemsPerPage);
   }
 
-  getPdBrabchTask(perPageCount, pageNumber?) {
+  getDecisionLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Credit Decision',
       branchId: this.branchId,
@@ -73,7 +73,14 @@ export class DecisionWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdBrabchTask(this.itemsPerPage, event);
+    this.getDecisionLeads(this.itemsPerPage, event);
+  }
+
+  onAssign(id) {
+
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', res);
+    });
   }
 
 }
