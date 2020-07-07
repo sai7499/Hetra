@@ -434,7 +434,7 @@
                 <td>{{ totalMonthlySalaryIncome }}</td>
               </tr>
               <tr>
-                <td>{{ labels?.salariedFOIRaspePolicy }}</td>
+                <td>{{ labels?.salariedFOIRasperPolicy }}</td>
                 <td>
                   <!-- <input
                     type="number"
@@ -444,9 +444,9 @@
                     name="salariedFOIRDeviation"
                     class="form-control"
                     value="70"
-                    formControlName="salariedFOIRaspePolicy"
+                    formControlName="salariedFOIRasperPolicy"
                   /> -->
-                  <app-custom-input formControlName="salariedFOIRaspePolicy" [className]="'form-control mandatory'"
+                  <app-custom-input formControlName="salariedFOIRasperPolicy" [className]="'form-control mandatory'"
                     [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                 </td>
               </tr>
@@ -473,7 +473,7 @@
                 <td>
                   {{
                     (totalMonthlySalaryIncome *
-                      (totalSalariedFOIR + salariedFOIRaspePolicy)) /
+                      (totalSalariedFOIR + salariedFOIRasperPolicy)) /
                       100 | number: "1.0-0"
                   }}
                 </td>
