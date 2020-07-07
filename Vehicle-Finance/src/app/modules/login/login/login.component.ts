@@ -71,20 +71,22 @@ export class LoginComponent implements OnInit {
   base64Data: any;
   pid: any;
 
+  base64Image: any;
+
 
   appVersion;
   buildDate;
 
-  /*Equitas
+  // Equitas
 
   developerId = "40026336";
 
-  licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";*/
+  licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";
 
-
+ /*Test
   developerId = "0040035464";
 
-  licenseKey = "7669E-A669B-ACAJE-9EFJJ-JJJJJ-JFCC7";
+  licenseKey = "7669E-A669B-ACAJE-9EFJJ-JJJJJ-JFCC7";*/
 
   maas360sdkEventHandler = {
     // Called when app is activating with MaaS360
@@ -272,21 +274,23 @@ export class LoginComponent implements OnInit {
     });
 
     /* Get latitude and longitude from mobile */
-    // if (this.isMobile) {
-    //   this.gpsService.initLatLong().subscribe((res) => {
-    //     if (res) {
-    //       this.gpsService.getLatLong().subscribe((position) => {
-    //         console.log('login position', position);
-    //       });
-    //     } else {
-    //       console.log(res);
-    //     }
-    //   });
-    // } else {
-    //   this.gpsService.getBrowserLatLong().subscribe((position) => {
-    //     console.log('login position', position);
-    //   });
-    // }
+    if (this.isMobile) {
+      this.gpsService.initLatLong().subscribe((res) => {
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+            console.log('login position', position);
+          });
+        } else {
+          console.log(res);
+        }
+      });
+    } else {
+      this.gpsService.getBrowserLatLong().subscribe((position) => {
+        console.log('login position', position);
+      });
+    }
+
+    this.getPolyLine();
   }
 
   enter(event) {
@@ -500,4 +504,13 @@ export class LoginComponent implements OnInit {
       sdkHandler.registerObserver(eventHandler);
       sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
   }
+
+  getPolyLine(){
+    var that = this;
+  this.loginService.getPolyLine(null,null, function(result){
+      that.base64Image = result;
+      console.log("getPolyLine", this.base64Image);
+    });
+  }
+
 }
