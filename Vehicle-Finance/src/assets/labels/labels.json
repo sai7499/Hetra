@@ -804,7 +804,7 @@
     "balanceTenor": "Balance Tenor",
     "obligationAmount": "Obligation Amount",
     "totalMonthlySalaryIncome": "Total Monthly Salary Income",
-    "salariedFOIRaspePolicy": "Salaried FOIR % as per Policy",
+    "salariedFOIRasperPolicy": "Salaried FOIR % as per Policy",
     "salariedFOIRDeviation": "Salaried FOIR Deviation %",
     "totalSalariedFOIR": "Total Salaried FOIR %",
     "consideredSalaryIncome": "Considered Salary Income",
@@ -866,6 +866,24 @@
     "totalExposureInThebankingsystem": "Total Exposure in the banking system(In lakhs)",
     "creditRiskScore": "Credit Risk Score",
     "selectIdDetails": "Select Id Details",
+    "UCIC": "UCIC",
+    "score":"Score",
+    "odDetails":"OD Details",
+    "odType":"OD Type",
+    "odAmount":"OD Amount",
+    "typeOfloan":"Type of loan",
+    "otherTypeOfloan":"Other type of loan",
+    "odDpd":"OD DPD",
+    "loanEnquiriesInLast30DaysWithTypeOfLoan":"Loan enquiries in last 30 Days with type of loan",
+    "member":"Member",
+    "enquiryDate":"Enquiry Date",
+    "enquiryAmount":"Enquiry Amount",
+    "loanEnquiriesInLast60DaysWithTypeOfLoan":"Loan enquiries in last 60 Days with type of loan",
+
+    
+
+
+
     "validationData": {
         "name": {
             "maxLength": {
