@@ -99,7 +99,7 @@ export class CreditConditionsComponent implements OnInit {
         creditCondition: new FormControl({ value: "", disabled: true }),
         salesResponse: new FormControl({ value: "", disabled: false }),
         creditId: new FormControl(''),
-        isDocReq: new FormControl(),
+        isDocReq: new FormControl({value: '', disabled:true}),
         creditAction: new FormControl(""),
         defferedDate: new FormControl()
       });

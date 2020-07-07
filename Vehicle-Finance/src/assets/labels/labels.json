@@ -1091,11 +1091,7 @@
             "maxLength": {
                 "rule": 6
             },
-            "type": "number",
-            "patternCheck": {
-                "rule": "^[1-9][0-9]{5}$",
-                "msg": "Should be Valid and Must be 6 Digits"
-            }
+            "type": "number"
         },
         "numberOfYears": {
             "maxLength": {
