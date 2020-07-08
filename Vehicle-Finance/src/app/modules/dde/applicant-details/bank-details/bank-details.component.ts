@@ -211,7 +211,7 @@ export class BankDetailsComponent implements OnInit {
         ? data.ProcessVariables.bankId
         : null,
       accountNumber: data.ProcessVariables.accountNumber
-        ? Number(data.ProcessVariables.accountNumber)
+        ? data.ProcessVariables.accountNumber
         : null,
       accountType: data.ProcessVariables.accountTypeId
         ? data.ProcessVariables.accountTypeId

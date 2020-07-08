@@ -105,7 +105,7 @@ export class AddressDetailsComponent implements OnInit {
     this.initForm();
     this.getLabels();
     this.getLOV();
-    //this.hasRoute();
+    this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
 

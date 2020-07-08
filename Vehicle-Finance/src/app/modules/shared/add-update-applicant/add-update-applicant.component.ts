@@ -46,12 +46,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   panRequired: boolean;
 
-  isMobileChanged = false;
-  isName1Changed: boolean;
-  isPanChanged: boolean;
-  isAadharChanged: boolean;
-  isPassportChanged: boolean;
-  isDrivingLicenseChanged: boolean;
+  isMobileChanged:boolean = false;
+  isName1Changed: boolean = false;
+  isPanChanged: boolean = false;
+  isAadharChanged: boolean = false;
+  isPassportChanged: boolean = false;
+  isDrivingLicenseChanged: boolean = false;
   isVoterIdChanged : boolean;
   isCinNumberChanged: boolean;
   isCstNumberChanged: boolean;
@@ -598,21 +598,26 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicant: Applicant = {
         ...processVariables,
       };
+      const addressDetails: Array<any> = processVariables.addressDetails || [];
+      const addressStatus =  addressDetails.find(val => val.addressType == "PERMADDADDTYP");
+               
 
-      if (processVariables.ucic) {
-        this.isDisabledCheckbox= true
-        if(this.coApplicantForm.get('permentAddress')){
+      // if (processVariables.ucic) {isCurrAddSameAsPermAdd: "0"
+      if(addressStatus.isCurrAddSameAsPermAdd == "0"){
+        this.isPermanantAddressSame = true;
+        this.isDisabledCheckbox = true;       
+        // if(this.coApplicantForm.get('permentAddress')){
           this.disablePermanentAddress();
-        }
-        if(this.coApplicantForm.get('currentAddress')){
+        // }
+        // if(this.coApplicantForm.get('currentAddress')){
           this.disableCurrentAddress();
-        }
-        if(this.coApplicantForm.get('registeredAddress')){
-          this.disableRegisteredAddress();
-        }
-        if(this.coApplicantForm.get('communicationAddress')){
-          this.disableCommunicationAddress();
-        }
+        // }
+        // if(this.coApplicantForm.get('registeredAddress')){
+        //   this.disableRegisteredAddress();
+        // }
+        // if(this.coApplicantForm.get('communicationAddress')){
+        //   this.disableCommunicationAddress();
+        // }
         
 
       }
@@ -731,7 +736,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // .split('/')
           // .reverse()
           // .join('-');
-        details.dob = new Date(this.utilityService.getDateFormat(details.dob));
+        details.dob = new Date(this.utilityService.getDateFromString(details.dob));
       }
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
       details.passportIssueDate = this.utilityService.getDateFromString(
@@ -813,7 +818,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         name2: applicantValue.applicantDetails.name2 || '',
         name3: applicantValue.applicantDetails.name3 || '',
         mobilePhone: mobile || '',
-        dob: this.utilityService.getDateFromString(details.dob) || '',
+        dob: details.dob ||'',
         dateOfIncorporation: details.dateOfIncorporation || '',
         identity_type: applicantValue.identity_type || '',
         panType: details.panType || '',
@@ -1273,6 +1278,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     const applicantDetails = dedupe.value;
     let mobileNumber = applicantDetails.mobilePhone;
+    this.mobileNumber = mobileNumber;
     if (mobileNumber.length === 10) {
       mobileNumber = '91' + mobileNumber;
     }
@@ -1362,9 +1368,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');
-    if(this.applicantType=='NONINDIVENTTYP'){
+    if(this.applicantType=='INDIVENTTYP'){
     dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
       if (!dedupe.get('mobilePhone').invalid) {
+        console.log("mobiel no",this.mobileNumber)
         if (value !== this.mobileNumber) {
           this.isMobileChanged = true;
           this.isEnableDedupe = true;
