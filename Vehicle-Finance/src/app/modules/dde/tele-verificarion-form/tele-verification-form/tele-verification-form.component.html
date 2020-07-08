@@ -65,6 +65,7 @@
                                 <div>
                                     <label class="radio-inline">
                                         <input type="radio" name="assetType" formControlName="assetType" value="new">New
+                                        
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name="assetType" formControlName="assetType" value="used">Used
@@ -444,7 +445,11 @@
                     </div>
                     <div class="row">
                         <h3 class="dashboard text-center text-underline m-3">{{labels.remark}}</h3>
-                        <textarea type="text" class="form-control text_area" formControlName="remarks" id="" name=""></textarea>
+                        <textarea type="text" class="form-control text_area" formControlName="remarks" required></textarea>
+                        <div style="color:red" *ngIf="teleVerificationForm.get('remarks').errors?.required">
+                            Message is required
+                        </div>
+
                         <!-- <app-custom-input id="remarks" [type]="'alpha-numeric'" formControlName="remarks" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
                         </app-custom-input> -->
                     </div>
@@ -453,10 +458,16 @@
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>{{labels.cibilOverdue}}</h5>
                             <textarea type="text" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name=""></textarea>
+                            <div style="color:red" *ngIf="teleVerificationForm.get('cibilOverDue').errors?.required">
+                                Message is required
+                            </div>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>{{labels.cibilReport}}</h5>
                             <textarea type="text" class="form-control" formControlName="cibilClarification" id="cibilReport" name=""></textarea>
+                            <div style="color:red" *ngIf="teleVerificationForm.get('cibilClarification').errors?.required">
+                                Message is required
+                            </div>
                         </div>
                     </div>
 
@@ -507,7 +518,7 @@
                             <button class="btn btn-primary verifyOyp" id="validateOtp" (click)="validateOtp() ">
                                 Verify
                                 OTP</button>
-                            <!-- <button class="btn btn-primary " id="otp_button " (click)=sendOtp()> Resend OTP </button> -->
+                            <button class="btn btn-primary " data-dismiss="modal" style="display: none;" #otp_button (click)=sendOtp()> close</button>
                         </div>
                         <!-- <div class="col-lg-4">
                             <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>

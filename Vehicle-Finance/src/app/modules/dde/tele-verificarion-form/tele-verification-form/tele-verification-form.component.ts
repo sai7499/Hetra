@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { FormGroup, FormBuilder, FormControl, Form, Validators, FormArray } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -44,6 +44,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
+
+  @ViewChild('otp_button', {static: false}) public otp_button: ElementRef;
 
   maxLenght40 = {
     rule: 40,
@@ -131,13 +133,7 @@ export class TeleVerificationFormComponent implements OnInit {
     private createLeadService: CreateLeadService
 
   ) {
-    // this.labelDetails.getLabelsData().subscribe(
-    //   data => {
-    //     this.labels = data;
-    //     this.validationData = this.labels.validationData;
-    //     console.log('labels', this.labels.validationData);
-
-    //   }
+   
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
@@ -163,7 +159,7 @@ export class TeleVerificationFormComponent implements OnInit {
       applicantName: [{ value: this.applicantName, disabled: true }],
       soName: [{ value: this.soName, disabled: true }],
       assetCost: ['', Validators.required],
-      assetType: ['', Validators.required],
+      assetType: [''],
       financeAmt: ['', Validators.required],
       tenureInMonth: ['', Validators.required],
       srcOfProposal: [{ value: '', disabled: true }],
@@ -191,9 +187,9 @@ export class TeleVerificationFormComponent implements OnInit {
       relationShip: ['', Validators.required],
       tvrDate: ['', Validators.required],
       tvrTime: ['', Validators.required],
-      addressConfirmed: ['', Validators.required],
-      residenceStabilityConfirmed: ['', Validators.required],
-      customerAvailabilty: ['', Validators.required],
+      addressConfirmed: [''],
+      residenceStabilityConfirmed: [''],
+      customerAvailabilty: [''],
       tvrDoneBy: [{ value: '', disabled: true }],
       eCode: [{ value: '', disabled: true }],
       wrkExperience: ['', Validators.required],
@@ -219,7 +215,7 @@ export class TeleVerificationFormComponent implements OnInit {
       applicationReferences: this.fb.group({
         reference1: this.fb.group({
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
           firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
           mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
@@ -228,7 +224,7 @@ export class TeleVerificationFormComponent implements OnInit {
         }),
         reference2: this.fb.group({
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
           firstName: [this.referenceData.length > 1 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
           mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
           address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
@@ -316,7 +312,7 @@ export class TeleVerificationFormComponent implements OnInit {
       const applicationReferences = {
         reference1: {
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
           firstName: this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : '',
           mobileNo: this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : '',
           address: this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : '',
@@ -325,7 +321,7 @@ export class TeleVerificationFormComponent implements OnInit {
         },
         reference2: {
           applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1]['referenceId'] : 0,
+          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
           firstName: this.referenceData.length > 1 && this.referenceData[1].firstName ? this.referenceData[1].firstName : '',
           mobileNo: this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : '',
           address: this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : '',
@@ -390,21 +386,6 @@ export class TeleVerificationFormComponent implements OnInit {
     });
   }
 
-  // getProductCatagory(e) {
-  //   this.createLeadService
-  //     .getProductCategory(e)
-  //     .subscribe((res: any) => {
-  //       const productCategoryList = res.ProcessVariables.productCategoryDetails;
-  //       console.log('product catagory', productCategoryList);
-        
-  //       // this.productCategoryData = this.utilityService.getValueFromJSON(
-  //       //   this.productCategoryList,
-  //       //   'productCatCode',
-  //       //   'prodcutCatName'
-  //       // );
-  //     });
-  // }
-
   saveOrUpdateTvrDetails() {
     this.tvrDetails.userId = localStorage.getItem('userId');
     this.tvrDetails.applicantId = this.applicantId;
@@ -416,7 +397,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
       if (appiyoError === '0' && apiError === '0') {
         this.toasterService.showSuccess('Lead Updated Successfully !', '');
-      } 
+      }
     });
   }
 
@@ -442,15 +423,6 @@ export class TeleVerificationFormComponent implements OnInit {
     } else {
       this.toasterService.showError('Please fill all mandatory fields.', 'TVR Details');
     }
-
-    // this.tvrDetails = this.teleVerificationForm.value;
-
-    // this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
-    // this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);
-    // const data = this.tvrDetails.applicationReferences;
-    // this.tvrDetails.applicationReferences = [this.tvrDetails.applicationReferences.reference1,
-    // this.tvrDetails.applicationReferences.reference2];
-    // this.saveOrUpdateTvrDetails();
 
   }
 
@@ -489,14 +461,12 @@ export class TeleVerificationFormComponent implements OnInit {
       console.log('validate otp', response);
       if (res.ProcessVariables.error.code == '0') {
         console.log(res.ProcessVariables.error);
+        this.otp_button.nativeElement.click();
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
-        // this.isModal = false;
-      //  document.getElementById('validateOtp').click();
         this.router.navigate([`pages/dde/${this.leadId}/tvr-details`]);
       } else {
         // alert(res.ProcessVariables.error.message);
         // this.isModal = true;
-
         this.toasterService.showError('Invalid OTP !', '');
       }
     });
