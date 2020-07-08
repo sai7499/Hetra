@@ -42,6 +42,19 @@
                   >
                   </app-vf-custom-select>
                 </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType =='NONINDIVENTTYP'">
+                  <label for="Vechical Type"
+                    >{{ labels.title
+                    }}<sub class="star_red_col">*</sub></label
+                  >
+                  <app-vf-custom-select
+                    [values]=""
+                    formControlName="title"
+                    
+                  >
+                  </app-vf-custom-select>
+                </div>
               </div>
 
               <div class="row individual_section_leadco">
@@ -103,15 +116,36 @@
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType=='INDIVENTTYP'">
                   <label for="mobile"
+                   
                     >{{ labels?.mobile }}
                     <sub class="star_red_col">*</sub></label
                   >
+                  
                   <app-custom-input
                     formControlName="mobilePhone"
                     [patternCheck]="validationData?.mobile?.patternCheck"
                     [isRequired]="'Mobile Number is required'"
+                    [maxLength]='validationData?.mobile?.maxLength'
+                   [isDirty]="isDirty"
+                   [type]="validationData?.mobile?.type"
+                  >
+                  </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType=='NONINDIVENTTYP'">
+                  <label for="mobile"
+                   
+                    >{{ labels?.contactNumber }}
+                    <sub class="star_red_col">*</sub></label
+                  >
+                  
+                  <app-custom-input
+                    formControlName="companyPhoneNumber"
+                    [patternCheck]="validationData?.mobile?.patternCheck"
+                    [isRequired]="'Contact Number is required'"
                     [maxLength]='validationData?.mobile?.maxLength'
                    [isDirty]="isDirty"
                    [type]="validationData?.mobile?.type"
@@ -165,8 +199,37 @@
                       placeholder="Date of Incorporation"
                     >
                     </kendo-datepicker>
+                    <div
+                      class="ShowError"
+                      *ngIf="
+                        coApplicantForm.get('dedupe').get('dateOfIncorporation').touched ||
+                        isDirty
+                      "
+                    >
+                      <div
+                        *ngIf="coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid"
+                      >
+                        select date
+                      </div>
+                    </div>
                   </div>
                 </div>
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="aadharnumber"
+                    >{{ labels?.contactPerson }}
+                    <sub class="star_red_col">*</sub></label
+                  >
+                  <app-custom-input
+                    formControlName="contactPerson"
+                    [maxLength]=""
+                    [type]=""
+                  >
+                  </app-custom-input>
+                </div>
+
               </div>
               <div class="row">
                 <div
@@ -179,6 +242,24 @@
                   >
                   <app-custom-input
                     formControlName="aadhar"
+                    [maxLength]="validationData?.adhaarNumber?.maxLength"
+                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
+                    [isRequired]="'Aadhaar number is required'"
+                    [isDirty]="isDirty"
+                    [type]="validationData?.adhaarNumber?.type"
+                  >
+                  </app-custom-input>
+                </div>
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="aadharnumber"
+                    >{{ labels?.udyogAdhar }} <sub class="star_red_col">*</sub>
+                    </label
+                  >
+                  <app-custom-input
+                    formControlName="udhyogAadhar"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
                     [patternCheck]="validationData?.adhaarNumber?.patternCheck"
                     [isRequired]="'Aadhaar number is required'"
@@ -216,7 +297,8 @@
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType=='INDIVENTTYP'">
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
                   <app-custom-input
                     formControlName="drivingLicenseNumber"
@@ -228,8 +310,25 @@
                   >
                   </app-custom-input>
                 </div>
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="aadharnumber"
+                    >{{ labels?.cinRegisteredNumber }}
+                    <sub class="star_red_col">*</sub></label
+                  >
+                  <app-custom-input
+                    formControlName="cinNumber"
+                    [maxLength]=""
+                    [type]=""
+                  >
+                  </app-custom-input>
+                </div>
+
                 <!-- [patternCheck]="drivingLicensePattern"  -->
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{
                     labels?.drivingLicenceIssueDate
                   }}</label>
@@ -276,7 +375,24 @@
                     Select Date
                   </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="aadharnumber"
+                    >{{ labels?.cstVatNumber }}
+                    </label
+                  >
+                  <app-custom-input
+                    formControlName="cstNumber"
+                    [maxLength]=""
+                    [type]=""
+                  >
+                  </app-custom-input>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{
                     labels?.drivingLicenceExpiryDate
                   }}</label>
@@ -323,9 +439,25 @@
                     Select date
                   </div>
                 </div>
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="aadharnumber"
+                    >{{ labels?.gstNumber }}
+                    </label
+                  >
+                  <app-custom-input
+                    formControlName="gstNumber"
+                    [maxLength]=""
+                    [type]=""
+                  >
+                  </app-custom-input>
+                </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportNumber }}</label>
 
                   <app-custom-input
@@ -342,7 +474,24 @@
                   >
                   </app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="aadharnumber"
+                    >{{ labels?.tanNumber }}
+                    </label
+                  >
+                  <app-custom-input
+                    formControlName="tanNumber"
+                    [maxLength]=""
+                    [type]=""
+                  >
+                  </app-custom-input>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType == 'INDIVENTTYP'" >
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker
                     class="form-control mandatory"
@@ -370,7 +519,8 @@
                   </div>
                 </div>
 
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                   <kendo-datepicker
                     class="form-control mandatory"
@@ -399,7 +549,8 @@
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <app-custom-input
                     formControlName="voterIdNumber"
@@ -577,14 +728,14 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="title">Current/Communication Address</h3>
+                    <h3 class="title">Current Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
                     <input
                       type="checkbox"
                       id="address_section_checkbox"
                       (click)="onAddress($event)"
-                      [checked]="isAddressSame"
+                      [checked]="isPermanantAddressSame"
                       [disabled]="isDisabledCheckbox"
                     />
                     <span id="address_section_checkbox_text"
@@ -592,7 +743,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="row container" formGroupName="communicationAddress">
+                <div class="row container" formGroupName="currentAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line1"
@@ -746,7 +897,7 @@
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_pincode"
-                      >{{ labels?.registeredAddressPinCode
+                      >{{ labels?.code
                       }}<sub class="star_red_col">*</sub></label
                     >
                     <app-custom-input
@@ -762,7 +913,7 @@
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_address_city"
-                      >{{ labels?.registeredAddressCity
+                      >{{ labels?.city
                       }}<sub class="star_red_col">*</sub></label
                     >
                     <app-vf-custom-select
@@ -775,7 +926,7 @@
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_district"
-                      >{{ labels?.registeredAddressDistrict
+                      >{{ labels?.district
                       }}<sub class="star_red_col">*</sub></label
                     >
                     <app-vf-custom-select
@@ -788,7 +939,7 @@
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state"
-                      >{{ labels?.registeredAddressState
+                      >{{ labels?.state
                       }}<sub class="star_red_col">*</sub></label
                     >
                     <app-vf-custom-select
@@ -801,11 +952,134 @@
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_country"
-                      >{{ labels?.registeredAddressCountry
+                      >{{ labels?.country
                       }}<sub class="star_red_col">*</sub></label
                     >
                     <app-vf-custom-select
                       [values]="registerPincode?.country"
+                      formControlName="country"
+                      [isDirty]="isDirty"
+                      [isDirty]="'Country is required'"
+                    >
+                    </app-vf-custom-select>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="reg_mobile">{{ labels?.landlineNumber }}</label>
+                    <app-custom-input
+                    formControlName="landlineNumber"
+                    
+                    [maxLength]="validationData?.landlineNumber?.maxLength"
+                    [type]="validationData?.landlineNumber?.type"
+                  ></app-custom-input>
+                  </div>
+                </div>
+                <div class="btn-sec clear-both row">
+                  <div class="col-lg-3 col-sm-5">
+                    <h3 class="title">Communication Address</h3>
+                  </div>
+                  <div class="col-lg-3 text-left" id="align_this_checkbox">
+                    <input
+                      type="checkbox"
+                      id="address_section_checkbox"
+                      (click)="onAddressCommunication($event)"
+                      [checked]="isRegAddressSame"
+                      [disabled]="isDisabledCheckbox"
+                    />
+                    <span id="address_section_checkbox_text"
+                      >Check If It Is Same As Register Address?
+                    </span>
+                  </div>
+                </div>
+                <div class="row" formGroupName="communicationAddress">
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_line1"
+                      >{{ labels?.line1
+                      }}<sub class="star_red_col">*</sub></label
+                    >
+                    <app-custom-input
+                      formControlName="addressLineOne"
+                      [maxLength]="validationData?.fullName?.maxLength"
+                        [isRequired]="'Address is required'"
+                        [isDirty]="isDirty"
+                    ></app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_line2">{{ labels?.line2 }}</label>
+
+                    <app-custom-input
+                      formControlName="addressLineTwo"
+                      [maxLength]="validationData?.fullName?.maxLength"
+                    ></app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_line3">{{ labels?.line3 }}</label>
+                    <app-custom-input
+                      formControlName="addressLineThree"
+                      [maxLength]="validationData?.fullName?.maxLength"
+                    ></app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_pincode"
+                      >{{ labels?.code
+                      }}<sub class="star_red_col">*</sub></label
+                    >
+                    <app-custom-input
+                      formControlName="pincode"
+                      [maxLength]="validationData?.pincode?.maxLength"
+                      [patternCheck]="validationData?.pincode?.patternCheck"
+                      (keyup)="getPincode($event.target)"
+                      [id]="'permanentPincode'"
+                      [isRequired]="'Pincode is required'"
+                      [isDirty]="isDirty"
+                      [type]="validationData?.pincode?.type"
+                    ></app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="registered_address_city"
+                      >{{ labels?.city
+                      }}<sub class="star_red_col">*</sub></label
+                    >
+                    <app-vf-custom-select
+                      [values]="communicationPincode?.city"
+                      formControlName="city"
+                      [isDirty]="isDirty"
+                      [isDirty]="'City is required'"
+                    >
+                    </app-vf-custom-select>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="current_address_district"
+                      >{{ labels?.district
+                      }}<sub class="star_red_col">*</sub></label
+                    >
+                    <app-vf-custom-select
+                      [values]="communicationPincode?.district"
+                      formControlName="district"
+                      [isDirty]="isDirty"
+                      [isDirty]="'District is required'"
+                    >
+                    </app-vf-custom-select>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="current_address_state"
+                      >{{ labels?.state
+                      }}<sub class="star_red_col">*</sub></label
+                    >
+                    <app-vf-custom-select
+                      [values]="communicationPincode?.state"
+                      formControlName="state"
+                      [isDirty]="isDirty"
+                      [isDirty]="'State is required'"
+                    >
+                    </app-vf-custom-select>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="current_address_country"
+                      >{{ labels?.country
+                      }}<sub class="star_red_col">*</sub></label
+                    >
+                    <app-vf-custom-select
+                      [values]="communicationPincode?.country"
                       formControlName="country"
                       [isDirty]="isDirty"
                       [isDirty]="'Country is required'"

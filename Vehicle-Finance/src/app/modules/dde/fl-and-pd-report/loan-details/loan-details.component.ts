@@ -68,6 +68,8 @@ export class LoanDetailsComponent implements OnInit {
   reqLoanAmount: any;
   productCatCode: any;
   productCategoryId: any;
+  roleId: any;
+  roleType: any;
 
 
 
@@ -99,10 +101,10 @@ export class LoanDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
-    console.log("this user", this.roleName);
+    this.roleType = this.roles[0].roleType;
+    console.log("this user roleType", this.roleType)
 
     // console.log("user id ==>", this.userId)
 
@@ -192,7 +194,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.loanDetailsForm = new FormGroup({
       newVehicleCost: new FormControl(''),
-      newVehicleModel: new FormControl(''),
+      // newVehicleModel: new FormControl(''),
       newVehicleType: new FormControl(''),
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
@@ -200,7 +202,7 @@ export class LoanDetailsComponent implements OnInit {
       // controls for used vehicle 
 
       usedVehicleCost: new FormControl(''),
-      usedVehModel: new FormControl(''),
+      // usedVehModel: new FormControl(''),
       usedVehicleType: new FormControl(''),
       usedVehicleMarginMoney: new FormControl(''),
       usedVehicleLoanAmountReq: new FormControl(''),
@@ -321,7 +323,7 @@ export class LoanDetailsComponent implements OnInit {
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
       controls.removeControl('usedVehicleCost')
-      controls.removeControl('usedVehModel')
+      // controls.removeControl('usedVehModel')
       controls.removeControl('usedVehicleType')
       controls.removeControl('usedVehicleMarginMoney')
       controls.removeControl('usedVehicleLoanAmountReq')
@@ -370,7 +372,7 @@ export class LoanDetailsComponent implements OnInit {
     else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       controls.removeControl('newVehicleCost')
-      controls.removeControl('newVehicleModel')
+      // controls.removeControl('newVehicleModel')
       controls.removeControl('newVehicleType')
       controls.removeControl('newVehicleReqLoanAmount')
       controls.removeControl('newVehicleMarginMoney')
@@ -382,12 +384,13 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   getPdDetails() {
+    // console.log("in get pd details", this.applicantId);
     // const data = {
     //   applicantId: 6,
     //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
     //   pdVersion: this.version,
     // };
-    if (this.roleName == 'Credit Officer') {
+    if (this.roleType == 2) {
       this.data = {
 
         // applicantId: 6,
@@ -395,11 +398,12 @@ export class LoanDetailsComponent implements OnInit {
         pdVersion: this.version,
       };
     }
-    else if (this.roleName == 'Sales Officer') {
+    else if (this.roleType == 1) {
       this.data = {
 
         // applicantId: 6,
-        applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
+        applicantId: this.applicantId,
+        /* Uncomment this after getting applicant Id from Lead */
       };
     }
 
@@ -422,11 +426,16 @@ export class LoanDetailsComponent implements OnInit {
       }
     });
   }
+  onNavigateToPdSummary() {
 
+
+    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+
+  }
   onNavigateNext() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/reference-check/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       console.log('URL for Loan => Next In Credit Flow', `/pages/fl-and-pd-report/${this.leadId}/pd-report`);
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/pd-report`]);
 
@@ -434,9 +443,9 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   onNavigateBack() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
 
     }
@@ -455,7 +464,7 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.patchValue({
         // new cv details patching
         newVehicleCost: newCvModel.vehicleCost || '',
-        newVehicleModel: newCvModel.model || '',
+        // newVehicleModel: newCvModel.model || '',
         newVehicleType: newCvModel.type || '',
         newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
         newVehicleMarginMoney: newCvModel.marginMoney || ''
@@ -466,7 +475,7 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.patchValue({
         // used cv details patching
         usedVehicleCost: usedVehicleModel.vehicleCost ? usedVehicleModel.vehicleCost : '0',
-        usedVehModel: usedVehicleModel.model || '',
+        // usedVehModel: usedVehicleModel.model || '',
         usedVehicleType: usedVehicleModel.type || '',
         usedVehicleMarginMoney: usedVehicleModel.marginMoney || '',
         usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
@@ -541,6 +550,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess("pd report approved successfully", '')
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
       }
       else {
         this.toasterService.showError("", 'message')
@@ -564,6 +574,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess("pd report reinitiated successfully", '')
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
       }
       else {
         this.toasterService.showError("", 'message')
@@ -597,7 +608,9 @@ export class LoanDetailsComponent implements OnInit {
         // new vehicle
 
         vehicleCost: loanDetailsModal.newVehicleCost,
-        model: loanDetailsModal.newVehicleModel,
+        // model: loanDetailsModal.newVehicleModel,
+        model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
+        // is no lov for model
         type: loanDetailsModal.newVehicleType,
         reqLoanAmount: loanDetailsModal.newVehicleReqLoanAmount,
         marginMoney: loanDetailsModal.newVehicleMarginMoney,
@@ -637,7 +650,8 @@ export class LoanDetailsComponent implements OnInit {
       this.usedVehicleDetails = {
 
         vehicleCost: loanDetailsModal.usedVehicleCost,
-        model: loanDetailsModal.usedVehModel,
+        // model: loanDetailsModal.usedVehModel, 
+        model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
         type: loanDetailsModal.usedVehicleType,
         // reqLoanAmount: loanDetailsModal.reqLoanAmount,
         marginMoney: loanDetailsModal.usedVehicleMarginMoney,

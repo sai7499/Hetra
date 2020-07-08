@@ -59,50 +59,14 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
-  numberPattern = {
-    rule: '^[0-9]',
-    msg: 'Invalid'
-  }
-  nameLength30 = {
-    rule: 30,
-  }
-  mobileLenght10 = {
-    rule: 10,
-    msg : 'Mobile Number Should be 10 Digits' 
-  }
-  numberOfDirectors2={
-    rule : 2
-  }
-  // namePattern = {
-  //   rule: '^[A-Za-z ]{0,99}$',
-  //   msg: 'Invalid Name',
-  // };
-  // nameSpacePattern = {
-  //   rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
-  //   msg: 'Invalid Name',
-  // };
+  
 
-  //   companyPattern ={
-  //    rule : '^[A-Z]*[a-z]*$',
-  //    msg: 'Invalid Name',
-  //  };
-
-  mobilePattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  }
+  
   emailPattern = {
     rule: '^\\w+([\.-]?\\w+)@\\w+([\.-]?\\w+)(\\.\\w{2,10})+$',
     msg: 'Invalid email'
   }
-  landlinePattern = {
-    rule: '^[0-9]{6,15}',
-    msg: "Invalid Number"
-  }
-  landlineLength15 = {
-    rule: 15,
-    
-  }
+  
   
   public toDayDate: Date = new Date();
   isRequiredSpouse ='Spouse Name is Required';
@@ -134,8 +98,8 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      entity: new FormControl({ value: '', disabled : true }),
+      title: new FormControl(''),
+      entity: new FormControl({ value: '' }),
       applicantRelationshipWithLead: new FormControl(''),
 
       details: new FormArray([]),
@@ -143,7 +107,7 @@ export class BasicDetailsComponent implements OnInit {
 
     });
 
-   this.addNonIndividualFormControls();
+   //this.addNonIndividualFormControls();
    
 
 
@@ -151,11 +115,17 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
     details.patchValue({ preferredLanguage: 'ENGPRFLAN' })
-    //console.log('fatherNameValue',details.get('fatherName').value);
+    details.patchValue({ preferredLanguageCommunication: 'ENGPRFLAN' })
     
-    this.eitherFathOrspouse()
-    this.eitherFather()
-    this.eitherMother()
+    
+    //console.log('fatherNameValue',details.get('fatherName').value);
+    if(this.applicant.applicantDetails.entityTypeKey=="INDIVENTTYP"){
+      this.basicForm.get('title').setValidators([Validators.required])
+      this.eitherFathOrspouse()
+      this.eitherFather()
+      this.eitherMother()
+    }
+    
     
 
 
@@ -395,7 +365,7 @@ export class BasicDetailsComponent implements OnInit {
     }
     const dob = this.applicant.aboutIndivProspectDetails.dob;
     console.log('dob', dob)
-    if (dob !== null) {
+    if (this.applicant.applicantDetails.entityTypeKey=="INDIVENTTYP" && dob !== null) {
       this.initiallayAgecal(dob)
 
     }
@@ -418,6 +388,7 @@ export class BasicDetailsComponent implements OnInit {
 
 
   setValuesForIndividual() {
+    const applicantDetails = this.applicant.applicantDetails;
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
@@ -431,9 +402,11 @@ export class BasicDetailsComponent implements OnInit {
     }
     // this.toDayDate = new Date(aboutIndivProspectDetails.dob)
     //console.log('dob changes',new Date(this.utilityService.getDateFromString(aboutIndivProspectDetails.dob)));
+    
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
+      
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
       mobilePhone: this.mobilePhone,
@@ -460,23 +433,39 @@ export class BasicDetailsComponent implements OnInit {
 
   setValuesForNonIndividual() {
     const applicantDetails = this.applicant.applicantDetails;
+    this.basicForm.patchValue({title : 'M/SSALUTATION'})
     const corporateProspectDetails = this.applicant.corporateProspectDetails
       ? this.applicant.corporateProspectDetails
       : {};
+      const contactNumber = corporateProspectDetails.companyPhoneNumber
+      if(contactNumber && contactNumber.length==12){
+          const contactSlice = contactNumber.slice(0,2)
+          //console.log('contactslice', contactSlice)
+          if(contactSlice=='91'){
+            this.mobilePhone=contactNumber.slice(2,12)
+          }
+      }else if(contactNumber && contactNumber.length==10){
+           this.mobilePhone= contactNumber
+      }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
       name1: applicantDetails.name1,
       name2: applicantDetails.name2,
       name3: applicantDetails.name3,
-      // companyEmailId: corporateProspectDetails.companyEmailId || '',
-      // alternateEmailId: corporateProspectDetails.alternateEmailId || '',
+      companyEmailId: corporateProspectDetails.companyEmailId || '',
+      alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
       dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
-      // occupation: '',
-      // nationality: '',
-      // preferredLanguageCommunication:
-      //   corporateProspectDetails.preferredLanguageCommunication,
+      contactPerson : corporateProspectDetails.contactPerson || '',
+      companyPhoneNumber : this.mobilePhone || '',
+      countryOfCorporation : corporateProspectDetails.countryOfCorporation,
+      businessType : corporateProspectDetails.businessType ,
+      industry : corporateProspectDetails.industry || '',
+      alternateContactNumber : corporateProspectDetails.alternateContactNumber || '',
+      contactPersonDesignation : corporateProspectDetails.contactPersonDesignation || '',
+      preferredLanguageCommunication:
+        corporateProspectDetails.preferredLanguageCommunication,
     });
   }
 
@@ -559,16 +548,30 @@ export class BasicDetailsComponent implements OnInit {
   addNonIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null),
-      name2: new FormControl(null),
-      name3: new FormControl(null),
-      // occupation: new FormControl(''),
-      // customerCategory: new FormControl(null),
-      // companyEmailId: new FormControl(null),
-      // alternateEmailId: new FormControl(null),
-      // preferredLanguageCommunication: new FormControl(''),
-      dateOfIncorporation: new FormControl(null),
+      name1: new FormControl(null, Validators.required),
+      name2: new FormControl(null, Validators.required),
+      name3: new FormControl(null, Validators.required),
+      dateOfIncorporation: new FormControl(null, Validators.required),
+      contactPerson: new FormControl(null, Validators.required),
+      companyPhoneNumber: new FormControl(null, Validators.required),
+      countryOfCorporation: new FormControl(null),
+      businessType: new FormControl(''),
+      industry: new FormControl(''),
+      companyEmailId: new FormControl(null),
+      alternateEmailId: new FormControl(null),
+      alternateContactNumber: new FormControl(''),
+      preferredLanguageCommunication: new FormControl(''),
+      contactPersonDesignation: new FormControl('', Validators.required),
       numberOfDirectors: new FormControl(null),
+      // directorName: new FormControl(null),
+      // directorIdentificationNumber: new FormControl(null),
+      // ratingIssuerName: new FormControl(null),
+      // externalRatingAssigned: new FormControl(null),
+      // externalRatingIssueDate: new FormControl(null),
+      // externalRatingExpiryDate: new FormControl(null),
+      // foreignCurrencyDealing: new FormControl(null),
+      // exposureBankingSystem: new FormControl(null),
+      // creditRiskScore: new FormControl(null),
     });
     formArray.push(controls);
   }
@@ -589,10 +592,11 @@ export class BasicDetailsComponent implements OnInit {
 
   async onSave() {
     this.isDirty = true
+    console.log('basicForm', this.basicForm.controls)
     if (this.basicForm.invalid) {
       return
     }
-    console.log('basicForm', this.basicForm.controls)
+    
     const rawValue = this.basicForm.getRawValue();
     console.log('FormValue', rawValue)
     if (this.isIndividual) {
@@ -700,18 +704,24 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.title = formValue.title;
     applicantDetails.entityType = value.entity;
 
-    applicantDetails.customerCategory = formValue.customerCategory;
+    //applicantDetails.customerCategory = formValue.customerCategory;
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
-    prospectDetails.companyEmailId = formValue.companyEmailId;
-
-    prospectDetails.alternateEmailId = formValue.alternateEmailId;
-    // prospectDetails.occupation = formValue.occupation;
     prospectDetails.dateOfIncorporation = this.utilityService.getDateFormat(formValue.dateOfIncorporation);
-    prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
+    prospectDetails.contactPerson = formValue.contactPerson;
+    prospectDetails.companyPhoneNumber = formValue.companyPhoneNumber;
+    prospectDetails.countryOfCorporation = formValue.countryOfCorporation;
+    prospectDetails.businessType = formValue.businessType;
+    prospectDetails.industry = formValue.industry;
+    prospectDetails.companyEmailId = formValue.companyEmailId;
+    prospectDetails.alternateEmailId = formValue.alternateEmailId;
+    prospectDetails.alternateContactNumber = formValue.alternateContactNumber;
     prospectDetails.preferredLanguageCommunication =
       formValue.preferredLanguageCommunication;
+    prospectDetails.contactPersonDesignation = formValue.contactPersonDesignation;
+    prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
+    
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
 

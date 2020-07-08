@@ -6,6 +6,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-new-leads',
@@ -37,6 +38,7 @@ export class NewLeadsComponent implements OnInit {
     private vehicleDataStoreService: VehicleDataStoreService,
     private loginStoreService: LoginStoreService,
     private router: Router,
+    private sharedService: SharedService,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService
   ) { }
@@ -129,13 +131,13 @@ export class NewLeadsComponent implements OnInit {
 
   }
 
-  getLeadId(id) {
-    this.vehicleDataStoreService.setCreditLeadId(id);
+  getLeadId(item) {
+    this.vehicleDataStoreService.setCreditTaskId(item.taskId);
+    this.sharedService.getTaskID(item.taskId)
   }
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
-      console.log('release Task', res);
       const response = res;
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Released Successfully', 'Released');

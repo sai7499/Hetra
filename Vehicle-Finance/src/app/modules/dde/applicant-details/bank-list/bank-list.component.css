@@ -4,3 +4,6 @@
  #btnColor:hover {
     color:white;
 }
+table .rowCollapse {
+    border-collapse: unset !important;
+}

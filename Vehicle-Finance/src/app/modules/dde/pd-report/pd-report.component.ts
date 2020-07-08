@@ -21,6 +21,8 @@ export class PdReportComponent implements OnInit {
   userId: any;
   roles: any;
   roleName: string;
+  roleId: any;
+  roleType: any;
   pdStatus: { [id: string]: any; } = {};
 
   constructor(private labelsData: LabelsService,
@@ -35,10 +37,10 @@ export class PdReportComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
-    console.log("this user", this.roleName)
+    this.roleType = this.roles[0].roleType;
+    console.log("this user roleType", this.roleType)
 
     this.leadId = (await this.getLeadId()) as number;
     console.log('Lead ID', this.leadId);
@@ -86,10 +88,10 @@ export class PdReportComponent implements OnInit {
     );
     const URL = `/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`;
     console.log('URL', URL);
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`]);
     }
-    else if (this.roleName === 'Credit Officer') {
+    else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}/${version}`]);
 
     }
@@ -109,6 +111,16 @@ export class PdReportComponent implements OnInit {
 
   onFormSubmit() {
     this.router.navigate(['/pages/dde/pd-report']);
+  }
+
+  onNavigateBack() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/fl-report'])
+
+  }
+  onNavigateNext() {
+
+    this.router.navigate(['pages/dde/' + this.leadId + '/viability-dashboard'])
+
   }
 
 }
