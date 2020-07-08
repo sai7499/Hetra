@@ -450,6 +450,7 @@
     "manualDeviation": "Manual Deviation",
     "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
+    "description": "Description",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
     "approvalLevel": "Approval Level",
     "bcm": "BCM",
@@ -876,23 +877,18 @@
     "creditRiskScore": "Credit Risk Score",
     "selectIdDetails": "Select Id Details",
     "UCIC": "UCIC",
-    "score":"Score",
-    "odDetails":"OD Details",
-    "odType":"OD Type",
-    "odAmount":"OD Amount",
-    "typeOfloan":"Type of loan",
-    "otherTypeOfloan":"Other type of loan",
-    "odDpd":"OD DPD",
-    "loanEnquiriesInLast30DaysWithTypeOfLoan":"Loan enquiries in last 30 Days with type of loan",
-    "member":"Member",
-    "enquiryDate":"Enquiry Date",
-    "enquiryAmount":"Enquiry Amount",
-    "loanEnquiriesInLast60DaysWithTypeOfLoan":"Loan enquiries in last 60 Days with type of loan",
-
-    
-
-
-
+    "score": "Score",
+    "odDetails": "OD Details",
+    "odType": "OD Type",
+    "odAmount": "OD Amount",
+    "typeOfloan": "Type of loan",
+    "otherTypeOfloan": "Other type of loan",
+    "odDpd": "OD DPD",
+    "loanEnquiriesInLast30DaysWithTypeOfLoan": "Loan enquiries in last 30 Days with type of loan",
+    "member": "Member",
+    "enquiryDate": "Enquiry Date",
+    "enquiryAmount": "Enquiry Amount",
+    "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "validationData": {
         "name": {
             "maxLength": {
@@ -992,6 +988,12 @@
             "type": "alpha-numeric"
         },
         "percentage": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "noOfVehicles": {
             "maxLength": {
                 "rule": 3
             },
