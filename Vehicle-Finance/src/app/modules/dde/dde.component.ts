@@ -32,11 +32,11 @@ export class DdeComponent implements OnInit {
       $(".next-second-data").click(function() {
           $(".first-row").css({"display":"none"});
           $(".second-row").css({"display":"block"});
+          
       });
-      
     });
-    
     this.leadId = this.route.snapshot.params['leadId'];
+    
   }
 
   hasRoute(route: string) {
@@ -44,7 +44,6 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {

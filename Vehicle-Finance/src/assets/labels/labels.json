@@ -729,9 +729,11 @@
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
-    "modelType": "Model/Type",
-    "loanAmt": "Loan Amt",
-    "avilForUsedVehicle": "Applicable for Used Vehicle",
+    "modelType": "Model",
+    "loanAmt": "Loan Amount",
+    "loanDetailsForNewVehicle": "Loan Details For New Vehicle",
+    "loanDetailsUsedVehicleTitle": "Loan Details For Used Vehicle",
+    "assetDetailsForUsedVehicleTitle": "Used Vehicle Asset Details",
     "loanAmtReq": "Loan amount required",
     "sourcePurchase": "Source of vechicle purchase",
     "marginMoneyPaid": "Source of margin money paid",
@@ -1037,6 +1039,12 @@
                 "rule": 3
             },
             "type": "number"
+        },
+        "sourceOf": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "alpha"
         },
         "mobile": {
             "maxLength": {
