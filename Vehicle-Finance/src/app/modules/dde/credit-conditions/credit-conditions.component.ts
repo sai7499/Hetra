@@ -16,7 +16,7 @@ export class CreditConditionsComponent implements OnInit {
   differDateField: boolean = true;
   creditConditionForm: FormGroup;
   leadId;
-  userType: string = "";
+  userType: number;
   creditConditions: any;
   roleAndUserDetails: any;
   userId;
@@ -84,7 +84,7 @@ export class CreditConditionsComponent implements OnInit {
     }
   }
   getcreditConditionControls() {
-    if (this.userType == "Credit Officer") {
+    if (this.userType == 2) {
       return this.formBuilder.group({
         creditId: new FormControl(''),
         creditCondition: new FormControl({ value: '', disabled: false }),
@@ -201,7 +201,7 @@ export class CreditConditionsComponent implements OnInit {
     console.log(this.roleAndUserDetails)
     if (this.roleAndUserDetails) {
       this.userId = this.roleAndUserDetails['userDetails'].userId;
-      this.userType = this.roleAndUserDetails['roles'][0].name;
+      this.userType = this.roleAndUserDetails['roles'][0].roleType;
     }
     this.leadId = (await this.getLeadId()) as number;
     this.creditConditionForm = this.formBuilder.group({
