@@ -150,15 +150,20 @@ export interface CustomerProfile {
 
 export interface LoanDetails {
 
-    // applicabel for new cv
-
+    // applicable for new vehicle
     vehicleCost?: string;
-    model?: string;
-    reqLoanAmount?: string;
-    marginMoney?: string;
+    newvehicleCost?: string;
+    newVehicleModel?: string;
+    newVehicletype?: string;
+    newVehiclereqLoanAmount?: string;
+    newVehiclemarginMoney?: string;
 
     // applicable for used vehicle
 
+    usedVehicleCost?: number;
+    usedVehModel?: string;
+    usedVehicleType?: string;
+    usedVehicleMarginMoney?: string;
     usedVehicleLoanAmountReq?: string;
     sourceOfVehiclePurchase?: string;
     marginMoneySource?: string;
@@ -167,7 +172,7 @@ export interface LoanDetails {
     channelSourceName?: string;
     vehicleSeller?: string;
     proposedVehicle?: string;
-    invesmentAmount?: string;
+    investmentAmount?: string;
     marginMoneyBorrowed?: string;
     marketValueProposedVehicle?: string;
     purchasePrice?: string;

@@ -7,11 +7,13 @@ import { ApplicantDetailComponent } from './applicant-details/applicant-details.
 import { CustomerProfileDetailsComponent } from './customer-profile-details/customer-profile-details.component';
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
 import { ReferenceCheckComponent } from './reference-check/reference-check.component';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
     {
         path: ':leadId',
         component: FlAndPdReportComponent,
+        resolve: { leadData: LeadDataResolverService },
         children: [
             {
                 path: 'applicant-detail/:applicantId',

@@ -10,6 +10,7 @@ export class PdDataService {
   private applicantDetails: any;
   private customerProfile: any;
   private loanDetails: any;
+  pdStatus: any;
 
   constructor() { }
 
@@ -40,6 +41,13 @@ export class PdDataService {
 
   getLoanDetails() {
     return this.loanDetails ? this.loanDetails : {};
+
+  }
+  setPdStatus(data) {
+    data = this.pdStatus
+  }
+  getPdStatus() {
+    return this.pdStatus
 
   }
 
