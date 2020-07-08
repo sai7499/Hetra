@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -21,9 +22,12 @@ export class CibilOdListComponent implements OnInit {
   loanTypes = ["Business Loan", "Two Wheeler Loan", "Over Draft", "Mathura Loan", "Agri Loan", "Gold Loan", "Home Loan", "Others"]
   proofs = ["NA", "SUB", "DBT", "LSS"]
   selctedLoan: any;
+  submitted = null ;
   constructor(private labelService: LabelsService,
     private formBuilder: FormBuilder,
     private commonLovService: CommomLovService,
+    private toasterService: ToasterService
+
 
   ) {
     this.odDetailsListArray = this.formBuilder.array([])
@@ -47,7 +51,7 @@ export class CibilOdListComponent implements OnInit {
       settledLoans: [""],
       proofCollected: [""],
       clearenceProof: [""],
-
+      cibilJustification:[null, Validators.compose([Validators.required, Validators.maxLength(200),Validators.pattern(/[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g )])]
     });
     this.getLov();
   }
@@ -118,4 +122,24 @@ this.selctedLoan = event
       this.loanEnquiryInSixtyDaysArray.removeAt(i);
     }
   }
+  get f() { return this.odDetailsForm.controls; }
+
+  onSubmit() {
+    this.submitted = false;
+    // stop here if form is invalid
+    if (this.odDetailsForm.invalid) {
+      this.toasterService.showError(
+        'Fields Missing Or Invalid Pattern Detected',
+        'Cibil OD Details'
+      );
+      return;
+    }else{
+    this.submitted = true;
+
+      this.toasterService.showSuccess(
+        'Saved Successfully',
+        'Cibil OD Details'
+      );
+    }
+}
 }

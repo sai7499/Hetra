@@ -208,7 +208,7 @@ i.fa.fa-plus.add-row {
   padding: 10px;
   cursor: pointer;
 }
-i.fa.fa-minus.delete-row {
+i.fa.fa-trash.delete-row {
   background-color: #ddd;
   padding: 10px;
   cursor: pointer;
@@ -231,7 +231,7 @@ i.fa.fa-plus.add-row {
   cursor: pointer;
   color: #333;
 }
-i.fa.fa-minus.delete-row {
+i.fa.fa-trash.delete-row {
   /*background-color: #ddd;
       padding: 10px;*/
   cursor: pointer;
@@ -442,3 +442,6 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
   }
+  .error {
+    color: red;
+}
