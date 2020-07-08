@@ -42,7 +42,7 @@
               <textarea class="form-control" value="Justification" formControlName="justification"></textarea>
 
               <div class="invalid-feedback"
-                *ngIf="obj.controls['justification'].touched && !obj.controls['justification'].vaild">
+                *ngIf="obj.controls['justification'].touched && !obj.controls['justification'].valid">
                 <div *ngIf="obj.controls['justification'].hasError('required')">
                   Manual Justfication Required
                 </div>
@@ -51,16 +51,21 @@
             </div>
 
             <div class="form-group col-sm-6 col-md-2 col-lg-2">
-              <div class="row m-0 radio-inline" >
-                <input type="radio" id="approve_action" formControlName="statusCode" value="1"
-                  (click)="onApproveDeclineAction(1, obj)">
-                <label for="approve_action">{{labels?.approve}}</label><br>
-                <input type="radio" id="refer_action" formControlName="statusCode" value="2"
-                  (click)="onApproveDeclineAction(2, obj)">
-                <label for="refer_action">{{labels?.referToNextLevel}}</label><br>
-                <input type="radio" id="decline_action" formControlName="statusCode" value="0"
-                  (click)="onApproveDeclineAction(0, obj)">
-                <label for="decline_action">{{labels?.decline}}</label>
+
+              <div class="row m-0">
+                <label class="radio-inline" [ngClass]="{'disabled': obj.controls['type'].value !== roleType}">
+                  <input type="radio" id="approve_action" formControlName="statusCode" value="1"
+                    (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
+                </label>
+                <label class="radio-inline" [ngClass]="{'disabled': obj.controls['type'].value !== roleType}">
+                  <input type="radio" id="refer_action" formControlName="statusCode" value="2"
+                    (click)="onApproveDeclineAction(2, obj)">{{labels?.referToNextLevel}}
+                  To next level
+                </label>
+                <label class="radio-inline" [ngClass]="{'disabled': obj.controls['type'].value !== roleType}">
+                  <input type="radio" id="decline_action" formControlName="statusCode" value="0"
+                    (click)="onApproveDeclineAction(0, obj)">{{labels?.decline}}
+                </label>
 
               </div>
             </div>
@@ -112,7 +117,7 @@
           <textarea class="form-control" formControlName="justification"></textarea>
 
           <div class="invalid-feedback"
-            *ngIf="item.controls['justification'].touched && !item.controls['justification'].vaild">
+            *ngIf="item.controls['justification'].touched && !item.controls['justification'].valid">
             <div *ngIf="item.controls['justification'].hasError('required')">
               Manual Justfication Required
             </div>
@@ -127,7 +132,7 @@
               <input type="radio" id="approve_action" formControlName="statusCode" value="1"
                 (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
             </label>
-            <label for="refer_action">
+            <label for=" refer_action">
               <input type="radio" id="refer_action" formControlName="statusCode" value="2"
                 (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
             </label>
@@ -174,19 +179,22 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
-              formControlName="approverRole" [isRequired]="isRequired" [isDirty]="isDirty">
+              formControlName="approverRole">
             </app-vf-custom-select>
           </div>
         </div>
-        <button class="btn btn-primary" type="button" data-toggle="modal"
-          data-target="#referRecommedation">{{labels?.refer}}</button>
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
+          [disabled]="!deviationsForm.controls['approverRole'].value"
+          (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
       <div class="col-sm-3 row text-right">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          disabled>{{labels?.approveDeviations}}</button>
-        <button class="btn btn-primary" type="button" data-toggle="modal" *ngIf="isSubmitToCredit"
-          data-target="#referRecommedation">{{labels?.sendBackToCredit}}</button>
+          [disabled]="result === 1"
+          (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
+          [disabled]="result === 0"
+          (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
       </div>
     </div>
 
@@ -228,21 +236,34 @@
 
 <div class="modal fade" id="referRecommedation" role="dialog">
   <div class="modal-dialog">
+    <form class="multisteps-form__form" [formGroup]="modalForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? labels?.recommendation : labels?.commend}}
+          </h4>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
+            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation' : 'Commend'}}"></textarea>
 
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">{{labels?.recommendation}}</h4>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-control" rows="10" cols="5"></textarea>
-      </div>
-      <div class="modal-footer">
+          <div class="invalid-feedback"
+            *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
+            <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
+              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation ' : 'Commend '}}
+              Required
+            </div>
+          </div>
 
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.ok}}</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
-      </div>
-    </div>
+        </div>
+        <div class="modal-footer">
 
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+            (click)="ReferDeviation()">{{labels?.ok}}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

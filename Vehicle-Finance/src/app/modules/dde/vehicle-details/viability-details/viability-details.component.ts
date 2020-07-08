@@ -7,6 +7,7 @@ import { data } from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-viability-details',
@@ -54,6 +55,7 @@ export class ViabilityDetailsComponent implements OnInit {
   captiveEmi = 0;
   netCashFlowEmiPassenger = 0;
   netFlowCash = 0;
+  roleAndUserDetails: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -61,10 +63,13 @@ export class ViabilityDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private toasterService: ToasterService,
               private router: Router,
-              private location: Location) { }
+              private location: Location,
+              private loginStoreService: LoginStoreService) { }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
+    this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    console.log(this.roleAndUserDetails);
     this.labelsData.getLabelsData()
       // tslint:disable-next-line: no-shadowed-variable
       .subscribe(data => {
@@ -307,7 +312,9 @@ getViability(id: any) {
         this.calculateCaptiveC();
        }
     } else {
-      // this.viabilityForm.controls.type = '1VHCLVBTY';
+      this.viabilityForm.controls.patchValue({
+        type: this.vehicle_viability_value
+      }) ;
     }
     });
 

@@ -133,4 +133,22 @@ export class DeviationService {
 
   }
 
+  approveDeviation(data) {
+    const processId = this.apiService.api.approveDeviation.processId;
+    const workflowId = this.apiService.api.approveDeviation.workflowId;
+    const projectId = this.apiService.api.approveDeviation.projectId
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 }
