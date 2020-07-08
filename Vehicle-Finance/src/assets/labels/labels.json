@@ -1062,6 +1062,12 @@
                 "msg": "Invalid Mobile Number"
             }
         },
+        "email": {
+            "maxLength": {
+                "rule": 120
+                
+            }
+        },
         "adhaarNumber": {
             "maxLength": {
                 "rule": 12
