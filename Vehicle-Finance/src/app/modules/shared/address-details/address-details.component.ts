@@ -86,42 +86,7 @@ export class AddressDetailsComponent implements OnInit {
 
   isOfficeAddressMandatory: boolean;
 
-  maxLenght40 = {
-    rule: 40,
-  };
-  pincodePattern = {
-    rule: '^[1-9][0-9]{5}$',
-    msg: 'Pincode Must be 6 Digits',
-  };
-  pincodeLength = {
-    rule: 6,
-    msg: 'Should be 6 digit',
-  };
-  mobilePattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  };
-  mobileLength10 = {
-    rule: 10,
-    msg : 'Should be Valid'
-  };
-  landlinePattern = {
-    rule: '^[0-9]{6,15}',
-    msg: 'Invalid Number',
-  };
-  landlineLength15 = {
-    rule: 15,
-  };
-
-  currentStayMaxLength = {
-    rule: 2,
-  };
-
-  currentStayPattern = {
-    rule: '^[0-9]*$',
-    msg: 'Invalid',
-  };
-
+  
   constructor(
     private lovData: LovDataService,
     private labelsData: LabelsService,
@@ -456,7 +421,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   setAddressData() {
-    this.isIndividual = this.address.applicantDetails.entityType === 'INDIVENTTYP';
+    this.isIndividual = this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     // this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,

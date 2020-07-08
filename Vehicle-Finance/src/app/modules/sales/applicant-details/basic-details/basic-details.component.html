@@ -360,6 +360,7 @@
               <app-custom-input
                   formControlName="emailId"
                   [patternCheck]="emailPattern"
+                  [maxlength]="validationData?.email?.maxLength"
                   
                 ></app-custom-input> 
             </div>
@@ -375,7 +376,7 @@
               <app-custom-input
                   formControlName="alternateEmailId"
                   [patternCheck]="emailPattern"
-
+                  [maxlength]="validationData?.email?.maxLength"
                 ></app-custom-input> 
             </div>
           </div>
@@ -637,7 +638,7 @@
               <app-custom-input
                   formControlName="companyEmailId"
                   [patternCheck]="emailPattern"
-                  
+                  [maxlength]="validationData?.email?.maxLength"
                 ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -653,7 +654,7 @@
               <app-custom-input
                   formControlName="alternateEmailId"
                   [patternCheck]="emailPattern"
-                  
+                  [maxlength]="validationData?.email?.maxLength"
                 ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">

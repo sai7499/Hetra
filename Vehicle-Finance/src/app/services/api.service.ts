@@ -410,6 +410,11 @@ export class ApiService {
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
       projectId: "403a8a12b79511ea8afff2fa9bec3d63"
     },
+    sendBacktoCredit: {
+      processId: "0d8c700abf5e11eab87700505695f93b",
+      workflowId: '2360e01eba0e11ea9d6b00505695f93b',
+      projectId: "403a8a12b79511ea8afff2fa9bec3d63"
+    },
     reInitiateCreditScore: {
       processId: '7f21b928ba6d11eaaccf00505695f93b',
       workflowId: 'ff0aa956b9e611ea88c300505695f93b',
