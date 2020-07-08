@@ -43,7 +43,8 @@ export class BasicDetailsComponent implements OnInit {
   isDirty : boolean;
   public toDayDate: Date = new Date();
   isRequiredSpouse ='Spouse Name is Required';
-  isRequiredFather = 'Father Name is Required'
+  isRequiredFather = 'Father Name is Required';
+  validation : any
 
   designation = [
     {
@@ -126,14 +127,15 @@ export class BasicDetailsComponent implements OnInit {
     );
 
     this.basicForm = new FormGroup({
-      entity: new FormControl({value :'', disabled : true}),
+      entity: new FormControl({value :'', disabled: true}),
       applicantRelationshipWithLead: new FormControl('', Validators.required),
-      title: new FormControl('', Validators.required),
+      title: new FormControl(''),
       details: new FormArray([]),
     });
-    this.addNonIndividualFormControls();
+    //this.addNonIndividualFormControls();
     this.getLOV();
     const formArray = this.basicForm.get('details') as FormArray;
+    this.validation= formArray.at(0)
     const details = formArray.at(0)
     details.patchValue({ preferredLanguage: 'ENGPRFLAN' })
     
@@ -146,9 +148,13 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
-    this.eitherFather()
-    this.eitherMother()
-    this.eitherFathOrspouse()
+    if(this.applicant.applicantDetails.entityTypeKey=="INDIVENTTYP"){
+      this.basicForm.get('title').setValidators([Validators.required])
+      this.eitherFather()
+      this.eitherMother()
+      this.eitherFathOrspouse()
+    }
+    
   }
   eitherFather(){
     const formArray = this.basicForm.get('details') as FormArray;
@@ -377,7 +383,7 @@ export class BasicDetailsComponent implements OnInit {
     }
     const dob = this.applicant.aboutIndivProspectDetails.dob;
     console.log('dob', dob)
-    if (dob !== null) {
+    if (this.applicant.applicantDetails.entityTypeKey=='INDIVENTTYP' && dob !== null) {
       this.initiallayAgecal(dob)
 
     }
@@ -447,31 +453,36 @@ export class BasicDetailsComponent implements OnInit {
 
   setValuesForNonIndividual() {
     const applicantDetails = this.applicant.applicantDetails;
+    this.basicForm.patchValue({title : 'M/SSALUTATION'})
     const corporateProspectDetails = this.applicant.corporateProspectDetails;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
      
-      companyPhoneNumber: corporateProspectDetails.companyPhoneNumber || '',
+      contactPersonMobile: corporateProspectDetails.contactPersonMobile || '',
       companyEmailId: corporateProspectDetails.companyEmailId || '',
       alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
-      dateOfIncorporation: corporateProspectDetails.dateOfIncorporation || '',
+      dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
+      countryOfCorporation : corporateProspectDetails.countryOfCorporation,
+      businessType : corporateProspectDetails.businessType ,
+      industry : corporateProspectDetails.industry || '',
       preferredLanguageCommunication:
         corporateProspectDetails.preferredLanguageCommunication || '',
-      customerCategory: applicantDetails.customerCategory || '',
-      directorName: corporateProspectDetails.directorName || '',
+      //customerCategory: applicantDetails.customerCategory || '',
+      
       directorIdentificationNumber:
         corporateProspectDetails.directorIdentificationNumber || '',
       contactPerson: corporateProspectDetails.contactPerson || '',
       contactPersonDesignation:
         corporateProspectDetails.contactPersonDesignation || '',
-      contactPersonMobile: corporateProspectDetails.contactPersonMobile || '',
+      alternateContactNumber : corporateProspectDetails.alternateContactNumber || '',
+      directorName: corporateProspectDetails.directorName || '',
       ratingIssuerName: corporateProspectDetails.ratingIssuerName || '',
       externalRatingAssigned: corporateProspectDetails.externalRatingAssigned || '',
-      externalRatingIssueDate: corporateProspectDetails.externalRatingIssueDate || '',
+      externalRatingIssueDate: this.utilityService.getDateFromString(corporateProspectDetails.externalRatingIssueDate) || '',
       externalRatingExpiryDate:
-        corporateProspectDetails.externalRatingExpiryDate || '',
+      this.utilityService.getDateFromString(corporateProspectDetails.externalRatingExpiryDate) || '',
       foreignCurrencyDealing: corporateProspectDetails.foreignCurrencyDealing || '',
       exposureBankingSystem: corporateProspectDetails.exposureBankingSystem || '',
       creditRiskScore: corporateProspectDetails.creditRiskScore || '',
@@ -533,33 +544,39 @@ export class BasicDetailsComponent implements OnInit {
   addNonIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null),
-      name2: new FormControl(null),
-      name3: new FormControl(null),
-      companyPhoneNumber: new FormControl(null),
-      dateOfIncorporation: new FormControl(null),
-      // occupation: new FormControl(''),
-      customerCategory: new FormControl(null),
+      name1: new FormControl(null, Validators.required),
+      name2: new FormControl(null, Validators.required),
+      name3: new FormControl(null, Validators.required),
+      //companyPhoneNumber: new FormControl(null),
+      dateOfIncorporation: new FormControl(null, Validators.required),
+      contactPerson: new FormControl(null, Validators.required),
+      contactPersonMobile: new FormControl(null, Validators.required),
+      countryOfCorporation: new FormControl(null, Validators.required),
+      businessType: new FormControl('', Validators.required),
+      industry: new FormControl('', Validators.required),
       companyEmailId: new FormControl(null),
       alternateEmailId: new FormControl(null),
+      alternateContactNumber: new FormControl(''),
       preferredLanguageCommunication: new FormControl(''),
+      contactPersonDesignation: new FormControl('', Validators.required),
       numberOfDirectors: new FormControl(null),
+      directorName: new FormControl(null, Validators.required),
+      directorIdentificationNumber: new FormControl(null, Validators.required),
+      ratingIssuerName: new FormControl(null, Validators.required),
+      externalRatingAssigned: new FormControl(null, Validators.required),
+      externalRatingIssueDate: new FormControl(null, Validators.required),
+      externalRatingExpiryDate: new FormControl(null, Validators.required),
+      foreignCurrencyDealing: new FormControl(null, Validators.required),
+      exposureBankingSystem: new FormControl(null, Validators.required),
+      creditRiskScore: new FormControl(null, Validators.required),
+
+      // occupation: new FormControl(''),
+      //customerCategory: new FormControl(null),
       // accountNumber: new FormControl(null),
       // accountBank: new FormControl(''),
       // branchAddress: new FormControl(null),
       // spokeAddress: new FormControl(null),
-      directorName: new FormControl(null),
-      directorIdentificationNumber: new FormControl(null),
-      contactPerson: new FormControl(null),
-      contactPersonDesignation: new FormControl(''),
-      contactPersonMobile: new FormControl(null),
-      ratingIssuerName: new FormControl(null),
-      externalRatingAssigned: new FormControl(null),
-      externalRatingIssueDate: new FormControl(null),
-      externalRatingExpiryDate: new FormControl(null),
-      foreignCurrencyDealing: new FormControl(null),
-      exposureBankingSystem: new FormControl(null),
-      creditRiskScore: new FormControl(null),
+      
     });
     formArray.push(controls);
   }
@@ -745,49 +762,32 @@ export class BasicDetailsComponent implements OnInit {
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
     applicantDetails.title = value.title;
-    applicantDetails.customerCategory = value.customerCategory;
+    //applicantDetails.customerCategory = value.customerCategory;
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
-    const corporateProspectDetails = formValue;
-
-    prospectDetails.companyEmailId = corporateProspectDetails.companyEmailId;
-
-    prospectDetails.alternateEmailId =
-      corporateProspectDetails.alternateEmailId;
-    // prospectDetails.companyPhoneNumber = '8888888888';
-    prospectDetails.companyPhoneNumber = corporateProspectDetails.mobilePhone;
-    prospectDetails.contactPerson = corporateProspectDetails.contactPerson;
-    prospectDetails.contactPersonMobile =
-      corporateProspectDetails.contactPersonMobile;
-    prospectDetails.contactPersonDesignation =
-      corporateProspectDetails.contactPersonDesignation;
-    prospectDetails.creditRiskScore = corporateProspectDetails.creditRiskScore;
-    prospectDetails.dateOfIncorporation =
-      corporateProspectDetails.dateOfIncorporation;
-    prospectDetails.directorIdentificationNumber =
-      corporateProspectDetails.directorIdentificationNumber;
-    prospectDetails.directorName = corporateProspectDetails.directorName;
-    prospectDetails.exposureBankingSystem =
-      corporateProspectDetails.exposureBankingSystem;
-    prospectDetails.externalRatingAssigned =
-      corporateProspectDetails.externalRatingAssigned;
-    // prospectDetails.externalRatingExpiryDate = '22-Mar-2020';
-    prospectDetails.externalRatingExpiryDate =
-    this.utilityService.getDateFormat(corporateProspectDetails.externalRatingExpiryDate);
-    // prospectDetails.externalRatingIssueDate = '22-Mar-2020';
-    prospectDetails.externalRatingIssueDate =
-    this.utilityService.getDateFormat(corporateProspectDetails.externalRatingIssueDate);
-    prospectDetails.foreignCurrencyDealing =
-      corporateProspectDetails.foreignCurrencyDealing;
-    prospectDetails.numberOfDirectors = Number(
-      corporateProspectDetails.numberOfDirectors
-    );
+    prospectDetails.dateOfIncorporation = this.utilityService.getDateFormat(formValue.dateOfIncorporation);
+    prospectDetails.contactPerson = formValue.contactPerson;
+    prospectDetails.contactPersonMobile = formValue.contactPersonMobile;
+    prospectDetails.countryOfCorporation = formValue.countryOfCorporation;
+    prospectDetails.businessType = formValue.businessType;
+    prospectDetails.industry = formValue.industry;
+    prospectDetails.companyEmailId = formValue.companyEmailId;
+    prospectDetails.alternateEmailId = formValue.alternateEmailId;
     prospectDetails.preferredLanguageCommunication =
-      corporateProspectDetails.preferredLanguageCommunication;
-    prospectDetails.ratingIssuerName =
-      corporateProspectDetails.ratingIssuerName;
-
+      formValue.preferredLanguageCommunication;
+    prospectDetails.alternateContactNumber= formValue.alternateContactNumber;
+    prospectDetails.contactPersonDesignation = formValue.contactPersonDesignation;
+    prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
+    prospectDetails.directorName = formValue.directorName
+    prospectDetails.directorIdentificationNumber = formValue.directorIdentificationNumber
+    prospectDetails.ratingIssuerName = formValue.ratingIssuerName
+    prospectDetails.externalRatingAssigned = formValue.externalRatingAssigned
+    prospectDetails.externalRatingIssueDate = this.utilityService.getDateFormat(formValue.externalRatingIssueDate)
+    prospectDetails.externalRatingExpiryDate = this.utilityService.getDateFormat(formValue.externalRatingExpiryDate)
+    prospectDetails.foreignCurrencyDealing = formValue.foreignCurrencyDealing
+    prospectDetails.exposureBankingSystem = formValue.exposureBankingSystem
+    prospectDetails.creditRiskScore = formValue.creditRiskScore
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
   onBack() {
