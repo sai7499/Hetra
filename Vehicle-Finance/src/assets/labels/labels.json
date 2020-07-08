@@ -728,7 +728,7 @@
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
-    "modelType": "Model",
+    "modelType": "Model/Type",
     "loanAmt": "Loan Amount",
     "loanDetailsForNewVehicle": "Loan Details For New Vehicle",
     "loanDetailsUsedVehicleTitle": "Loan Details For Used Vehicle",
@@ -870,23 +870,18 @@
     "creditRiskScore": "Credit Risk Score",
     "selectIdDetails": "Select Id Details",
     "UCIC": "UCIC",
-    "score":"Score",
-    "odDetails":"OD Details",
-    "odType":"OD Type",
-    "odAmount":"OD Amount",
-    "typeOfloan":"Type of loan",
-    "otherTypeOfloan":"Other type of loan",
-    "odDpd":"OD DPD",
-    "loanEnquiriesInLast30DaysWithTypeOfLoan":"Loan enquiries in last 30 Days with type of loan",
-    "member":"Member",
-    "enquiryDate":"Enquiry Date",
-    "enquiryAmount":"Enquiry Amount",
-    "loanEnquiriesInLast60DaysWithTypeOfLoan":"Loan enquiries in last 60 Days with type of loan",
-
-    
-
-
-
+    "score": "Score",
+    "odDetails": "OD Details",
+    "odType": "OD Type",
+    "odAmount": "OD Amount",
+    "typeOfloan": "Type of loan",
+    "otherTypeOfloan": "Other type of loan",
+    "odDpd": "OD DPD",
+    "loanEnquiriesInLast30DaysWithTypeOfLoan": "Loan enquiries in last 30 Days with type of loan",
+    "member": "Member",
+    "enquiryDate": "Enquiry Date",
+    "enquiryAmount": "Enquiry Amount",
+    "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "validationData": {
         "name": {
             "maxLength": {
