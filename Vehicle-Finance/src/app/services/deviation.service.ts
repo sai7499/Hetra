@@ -151,4 +151,22 @@ export class DeviationService {
     return this.httpService.post(url, body);
   }
 
+  sendBackToCredit(data) {
+    const processId = this.apiService.api.sendBacktoCredit.processId;
+    const workflowId = this.apiService.api.sendBacktoCredit.workflowId;
+    const projectId = this.apiService.api.sendBacktoCredit.projectId
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 }
