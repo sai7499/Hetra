@@ -698,6 +698,7 @@
     "registrationNumber": "Registration Number",
     "address": "Address",
     "valuationStatus": "Valuation Status",
+    "valuatorStatus": "Valuator Status",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
