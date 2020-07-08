@@ -74,6 +74,19 @@
                 </kendo-timepicker> -->
             <!-- </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="overall_report">{{labels.overallReport}}</label>
+                <!-- <select class="form-control" formControlName="overallFiReport">
+                    <option>Select</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                </select> -->
+                <app-vf-custom-select [values]="[
+                { key: '0', value: 'Positive' },
+                { key: '1', value: 'Negative' }
+              ]" formControlName="overallFiReport">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks">{{labels.referenceRemarks}}</label>
                 <!-- <input type="text" class="form-control" id="remarks"> -->
                 <!-- <app-custom-input id="remarks" formControlName="pdRemarks" [patternCheck]="namePattern" [isRequired]="'remarks are required'" [maxLength]="maxlength30" [isDirty]="isDirty">
@@ -92,19 +105,6 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="overall_report">{{labels.overallReport}}</label>
-                <!-- <select class="form-control" formControlName="overallFiReport">
-                    <option>Select</option>
-                    <option value="Positive">Positive</option>
-                    <option value="Negative">Negative</option>
-                </select> -->
-                <app-vf-custom-select [values]="[
-                { key: '0', value: 'Positive' },
-                { key: '1', value: 'Negative' }
-              ]" formControlName="overallFiReport">
-                </app-vf-custom-select>
             </div>
 
 
