@@ -180,16 +180,16 @@ export class CustomerProfileDetailsComponent implements OnInit {
     if (this.roleName == 'Credit Officer') {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
     }
     else if (this.roleName == 'Sales Officer') {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
       };
     }
 
@@ -273,8 +273,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
       mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
     };
     const data = {
-      leadId: 1,
-      applicantId: 6,
+      leadId: this.leadId,
+      // applicantId: 6,
+      applicantId: this.applicantId,
       userId: this.userId,
       customerProfileDetails: this.custProfileDetails
     };
