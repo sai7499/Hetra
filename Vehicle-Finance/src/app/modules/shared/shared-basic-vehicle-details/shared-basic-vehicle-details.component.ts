@@ -75,7 +75,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
-        console.log(this.label.validationData, 'Aldfndn')
       }, error => {
         console.log('error', error)
       });
@@ -85,8 +84,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-
-    console.log('type', this.roleType)
 
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();

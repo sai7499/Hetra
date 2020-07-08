@@ -83,7 +83,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.getTrigurePolicy();
 
     this.sharedService.taskId$.subscribe((id) => {
-      console.log('id', id)
       this.taskId = id ? id : '';
     })
 
@@ -148,8 +147,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.isSendBacktoCredit = false;
         break;
       }
-      // this.result = 2;
-      console.log(this.result)
     }
   }
 
@@ -366,7 +363,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
       }
-      console.log('dsgh', type === this.roleType && hierarchy <= this.hierarchy)
     })
 
     if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
@@ -440,8 +436,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.toasterService.showError(err, 'Approve Error')
         })
       }
-
-
     } else {
       this.utilityService.validateAllFormFields(this.modalForm)
       this.toasterService.showInfo('Please Select Recommend', 'Recommend')
