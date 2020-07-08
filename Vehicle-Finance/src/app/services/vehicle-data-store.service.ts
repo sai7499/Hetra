@@ -11,7 +11,7 @@ export class VehicleDataStoreService {
   vehicleData: any = {};
   basicVehicleDetails = {};
   collateralId: number;
-  CreditLeadId: number;
+  CreditTaskID: number;
   SalesLeadId: number;
 
   constructor() { }
@@ -20,8 +20,8 @@ export class VehicleDataStoreService {
     this.vehicleList.push(vehicleDetails);
   }
 
-  setCreditLeadId(id: number) {
-    this.CreditLeadId = id;
+  setCreditTaskId(id) {
+    this.CreditTaskID = id;
   }
 
   setSalesLeadID(id: number) {
@@ -32,8 +32,8 @@ export class VehicleDataStoreService {
     return this.SalesLeadId;
   }
 
-  getCreditLeadId() {
-    return this.CreditLeadId;
+  getCreditTaskId() {
+    return this.CreditTaskID;
   }
 
   getVehicleDetails() {

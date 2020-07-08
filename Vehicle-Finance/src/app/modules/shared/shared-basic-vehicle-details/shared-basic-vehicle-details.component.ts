@@ -24,7 +24,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Output() formDataOutput = new EventEmitter<ArrayType>();
 
-  maxDate = new Date()
+  maxDate = new Date();
+  initalZeroCheck = []
 
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
@@ -64,7 +65,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
-    private uiLoader: NgxUiLoaderService) { }
+    private uiLoader: NgxUiLoaderService) { 
+      this.initalZeroCheck = [{rule: val => val < 1,msg:'Initial Zero value not accepted'}];
+    }
 
   ngOnInit() {
 
