@@ -19,6 +19,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   deviationsForm: FormGroup;
   modalForm: FormGroup;
+  taskId: any;
 
   public labels: any = {};
   public autoDeviationArray: any = [];
@@ -80,6 +81,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.getDeviationMaster();
     this.sharedService.getFormValidation(this.deviationsForm)
     this.getTrigurePolicy();
+
+    this.sharedService.taskId$.subscribe((id) => {
+      console.log('id', id)
+      this.taskId = id ? id : '';
+    })
+
   }
 
   initForms() {
@@ -381,7 +388,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           "leadId": this.leadId,
           "userId": this.userId,
           "approverRole": this.deviationsForm.controls['approverRole'].value,
-          "recommendation": this.modalForm.controls['recommendation'].value
+          "recommendation": this.modalForm.controls['recommendation'].value,
+          "taskId": this.taskId
         }
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {

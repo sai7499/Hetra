@@ -86,6 +86,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
+    console.log('type', this.roleType)
+
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
@@ -185,7 +187,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
-    this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
+    this.roleType === 1 ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
   getLov() {
@@ -238,7 +240,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         value: VehicleDetail.assetVarient
       }]
 
-      if (this.roleName === 'Sales Officer') {
+      if (this.roleType === 1) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
         formArray.controls[0].patchValue({
@@ -273,7 +275,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         })
         this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
-      } else if (this.roleName === 'Credit Officer') {
+      } else if (this.roleType === 1) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
         this.sharedService.getFormValidation(this.basicVehicleForm)
