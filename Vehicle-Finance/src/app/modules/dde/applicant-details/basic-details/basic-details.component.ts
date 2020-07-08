@@ -455,11 +455,21 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails = this.applicant.applicantDetails;
     this.basicForm.patchValue({title : 'M/SSALUTATION'})
     const corporateProspectDetails = this.applicant.corporateProspectDetails;
+    const contactNumber = corporateProspectDetails.companyPhoneNumber
+    if(contactNumber && contactNumber.length==12){
+        const contactSlice = contactNumber.slice(0,2)
+        //console.log('contactslice', contactSlice)
+        if(contactSlice=='91'){
+          this.mobilePhone=contactNumber.slice(2,12)
+        }
+    }else if(contactNumber && contactNumber.length==10){
+         this.mobilePhone= contactNumber
+    }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
      
-      contactPersonMobile: corporateProspectDetails.contactPersonMobile || '',
+      companyPhoneNumber: this.mobilePhone || '',
       companyEmailId: corporateProspectDetails.companyEmailId || '',
       alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
@@ -550,10 +560,10 @@ export class BasicDetailsComponent implements OnInit {
       //companyPhoneNumber: new FormControl(null),
       dateOfIncorporation: new FormControl(null, Validators.required),
       contactPerson: new FormControl(null, Validators.required),
-      contactPersonMobile: new FormControl(null, Validators.required),
-      countryOfCorporation: new FormControl(null, Validators.required),
-      businessType: new FormControl('', Validators.required),
-      industry: new FormControl('', Validators.required),
+      companyPhoneNumber: new FormControl(null, Validators.required),
+      countryOfCorporation: new FormControl(null),
+      businessType: new FormControl(''),
+      industry: new FormControl(''  ),
       companyEmailId: new FormControl(null),
       alternateEmailId: new FormControl(null),
       alternateContactNumber: new FormControl(''),
@@ -768,7 +778,7 @@ export class BasicDetailsComponent implements OnInit {
 
     prospectDetails.dateOfIncorporation = this.utilityService.getDateFormat(formValue.dateOfIncorporation);
     prospectDetails.contactPerson = formValue.contactPerson;
-    prospectDetails.contactPersonMobile = formValue.contactPersonMobile;
+    prospectDetails.companyPhoneNumber = formValue.companyPhoneNumber;
     prospectDetails.countryOfCorporation = formValue.countryOfCorporation;
     prospectDetails.businessType = formValue.businessType;
     prospectDetails.industry = formValue.industry;

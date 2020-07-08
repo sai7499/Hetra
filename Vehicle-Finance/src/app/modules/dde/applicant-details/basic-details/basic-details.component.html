@@ -792,7 +792,7 @@
               }} <sub class="star_red_col">*</sub></label>
               
               <app-custom-input
-                  formControlName="contactPersonMobile"
+                  formControlName="companyPhoneNumber"
                   [isRequired]="'Contact Number is required'"
                   [isDirty]="isDirty"
                   [maxLength]='validationData?.landlineNumber?.maxLength'
@@ -833,7 +833,7 @@
                 formControlName="industry"
                 [values]=""
                 [isRequired]="'Please select one'"
-                [isDirty]="isDirty">
+                >
               ></app-vf-custom-select>
             </div>
           </div>

@@ -473,6 +473,16 @@ export class BasicDetailsComponent implements OnInit {
     const corporateProspectDetails = this.applicant.corporateProspectDetails
       ? this.applicant.corporateProspectDetails
       : {};
+      const contactNumber = corporateProspectDetails.companyPhoneNumber
+      if(contactNumber && contactNumber.length==12){
+          const contactSlice = contactNumber.slice(0,2)
+          //console.log('contactslice', contactSlice)
+          if(contactSlice=='91'){
+            this.mobilePhone=contactNumber.slice(2,12)
+          }
+      }else if(contactNumber && contactNumber.length==10){
+           this.mobilePhone= contactNumber
+      }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
@@ -484,7 +494,7 @@ export class BasicDetailsComponent implements OnInit {
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
       dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
       contactPerson : corporateProspectDetails.contactPerson || '',
-      contactPersonMobile : corporateProspectDetails.contactPersonMobile || '',
+      companyPhoneNumber : this.mobilePhone || '',
       countryOfCorporation : corporateProspectDetails.countryOfCorporation,
       businessType : corporateProspectDetails.businessType ,
       industry : corporateProspectDetails.industry || '',
@@ -579,7 +589,7 @@ export class BasicDetailsComponent implements OnInit {
       name3: new FormControl(null, Validators.required),
       dateOfIncorporation: new FormControl(null, Validators.required),
       contactPerson: new FormControl(null, Validators.required),
-      contactPersonMobile: new FormControl(null, Validators.required),
+      companyPhoneNumber: new FormControl(null, Validators.required),
       countryOfCorporation: new FormControl(null),
       businessType: new FormControl(''),
       industry: new FormControl(''),
@@ -736,7 +746,7 @@ export class BasicDetailsComponent implements OnInit {
 
     prospectDetails.dateOfIncorporation = this.utilityService.getDateFormat(formValue.dateOfIncorporation);
     prospectDetails.contactPerson = formValue.contactPerson;
-    prospectDetails.contactPersonMobile = formValue.contactPersonMobile;
+    prospectDetails.companyPhoneNumber = formValue.companyPhoneNumber;
     prospectDetails.countryOfCorporation = formValue.countryOfCorporation;
     prospectDetails.businessType = formValue.businessType;
     prospectDetails.industry = formValue.industry;

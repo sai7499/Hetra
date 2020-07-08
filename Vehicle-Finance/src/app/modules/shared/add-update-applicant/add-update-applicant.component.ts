@@ -304,6 +304,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
       dedupe.addControl('aadhar', new FormControl(''));
       dedupe.addControl('dob', new FormControl(''));
+      dedupe.addControl('mobilePhone', new FormControl(''));
       dedupe.addControl('drivingLicenseNumber', new FormControl(''));
       dedupe.addControl('drivingLicenseIssueDate', new FormControl(''));
       dedupe.addControl('drivingLicenseExpiryDate', new FormControl(''));
@@ -314,6 +315,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   addNonIndFormControls(){
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
+    dedupe.addControl('companyPhoneNumber', new FormControl(''));
       dedupe.addControl('udhyogAadhar', new FormControl(''));
       dedupe.addControl('dateOfIncorporation', new FormControl(''));
       dedupe.addControl('contactPerson', new FormControl(''));
@@ -327,6 +329,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
       dedupe.removeControl('aadhar');
       dedupe.removeControl('dob');
+      dedupe.removeControl('mobilePhone');
       dedupe.removeControl('drivingLicenseNumber');
       dedupe.removeControl('drivingLicenseIssueDate');
       dedupe.removeControl('drivingLicenseExpiryDate');
@@ -337,6 +340,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   removeNonIndFormControls() {
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
+    dedupe.removeControl('companyPhoneNumber');
       dedupe.removeControl('dateOfIncorporation');
       dedupe.removeControl ('udhyogAadhar')
       dedupe.removeControl('contactPerson');
@@ -732,6 +736,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       name2: new FormControl(''),
       name3: new FormControl(''),
       mobilePhone: new FormControl('', Validators.required),
+      companyPhoneNumber : new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       voterIdNumber: new FormControl(null),
       aadhar: new FormControl('', Validators.required),
@@ -1338,6 +1343,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   checkDedupe() {
     const dedupe = this.coApplicantForm.get('dedupe');
+    console.log('dedupe', dedupe)
     this.isDirty = true;
     if (dedupe.invalid) {
       return;
