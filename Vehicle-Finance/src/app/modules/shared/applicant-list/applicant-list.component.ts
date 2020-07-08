@@ -84,6 +84,7 @@ export class ApplicantListComponent implements OnInit {
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
+      console.log('getapplicants', this.applicantList)
     });
   }
 

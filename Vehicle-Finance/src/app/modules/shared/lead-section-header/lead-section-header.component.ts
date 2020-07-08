@@ -32,13 +32,14 @@ export class LeadSectionHeaderComponent implements OnInit {
     private leadStoreService: LeadStoreService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
-      this.leadId = this.aRoute.snapshot.params["leadId"];
-   }
+    this.leadId = this.aRoute.snapshot.params["leadId"];
+  }
 
-   ngOnInit() {
+  ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
     this.getLabels();
     if (this.leadId) {
+      // console.log(this.aRoute.snapshot)
       const gotLeadData = this.aRoute.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
         const leadData = gotLeadData.ProcessVariables;
@@ -59,22 +60,23 @@ export class LeadSectionHeaderComponent implements OnInit {
   getUserDetails() {
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = (data as any);
-    console.log('leadSectionData',leadSectionData);
+    // console.log('leadSectionData', leadSectionData);
     this.leadId = leadSectionData.leadId;
     // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
                       // leadSectionData.leadDetails.reqLoanAmt : 0;
-    this.applicantName = leadSectionData.applicantDetails[0].fullName;
+    const applicantDetails= leadSectionData.applicantDetails? leadSectionData.applicantDetails[0] : ''
+    this.applicantName = applicantDetails.fullName;
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt'];
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
-    
+
     this.sharedService.leadData$.subscribe(value => {
       this.productId = value;
     });
-    if (!this.productId){
+    if (!this.productId) {
       this.productId = leadSectionData['leadDetails']['productCatName'];
     }
-    this.sharedService.loanAmount$.subscribe(value => 
-        this.loanAmount = value)
+    this.sharedService.loanAmount$.subscribe(value =>
+      this.loanAmount = value)
   }
   getLeadId() {
     return new Promise((resolve, reject) => {

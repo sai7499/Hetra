@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
@@ -11,6 +11,9 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PdDataService } from '../pd-data.service';
 import { valHooks } from 'jquery';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-loan-details',
@@ -39,6 +42,7 @@ export class LoanDetailsComponent implements OnInit {
   data: any;
   currentYear = new Date().getFullYear();
   yearCheck = [];
+  productCat: any;
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -60,10 +64,17 @@ export class LoanDetailsComponent implements OnInit {
     msg: '',
   };
   isDirty: boolean;
+  leadData: any;
+  reqLoanAmount: any;
+  productCatCode: any;
+  productCategoryId: any;
+  roleId: any;
+  roleType: any;
 
 
 
   constructor(private labelsData: LabelsService,
+    private _fb: FormBuilder,
     private lovDataService: LovDataService,
     private router: Router,
     private ddeStoreService: DdeStoreService,
@@ -72,7 +83,9 @@ export class LoanDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private personalDiscussion: PersonalDiscussionService,
     private pdDataService: PdDataService,
-    private toasterService: ToasterService) {
+    private toasterService: ToasterService,
+    public sharedService: SharedService,
+    private createLeadDataService: CreateLeadDataService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
@@ -88,10 +101,10 @@ export class LoanDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
-    console.log("this user", this.roleName);
+    this.roleType = this.roles[0].roleType;
+    console.log("this user roleType", this.roleType)
 
     // console.log("user id ==>", this.userId)
 
@@ -115,6 +128,8 @@ export class LoanDetailsComponent implements OnInit {
       });
     this.getLOV();
     this.getPdDetails()
+    this.RemoveAddControls()
+    this.getPdStatus()
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 
@@ -139,6 +154,7 @@ export class LoanDetailsComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
     this.activatedRoute.params.subscribe((value) => {
+      this.getLeadSectionData()
       if (!value && !value.applicantId) {
         return;
       }
@@ -147,16 +163,53 @@ export class LoanDetailsComponent implements OnInit {
       console.log('Applicant Id In Loan Details Component', this.applicantId);
     });
   }
+  async getLeadSectionData() {
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    console.log("in get lead section data", data)
+
+    const leadDetailsFromLead = data['leadDetails']
+
+    // this.applicantFullName = applicantDetailsFromLead['fullName']
+    // this.mobileNo = applicantDetailsFromLead['mobileNumber']
+    // console.log("in lead section data", this.applicantFullName, this.mobileNo)
+    this.reqLoanAmount = leadDetailsFromLead.reqLoanAmt;
+    this.productCatCode = leadDetailsFromLead.productCatCode
+    console.log("in lead section data", leadDetailsFromLead)
+    console.log("prod cat code", this.productCatCode)
+    console.log("req loan amount", this.reqLoanAmount)
+  }
+  getPdStatus() {
+    this.sharedService.pdStatus$.subscribe((value: any) => {
+
+      console.log("in get pd status", value)
+    })
+  }
 
   initForm() {
+
+    // controls for new vehicle
+
     this.loanDetailsForm = new FormGroup({
-      vehicleCost: new FormControl(''),
-      model: new FormControl(''),
-      reqLoanAmount: new FormControl(''),
-      marginMoney: new FormControl(''),
+      newVehicleCost: new FormControl(''),
+      // newVehicleModel: new FormControl(''),
+      newVehicleType: new FormControl(''),
+      newVehicleReqLoanAmount: new FormControl(''),
+      newVehicleMarginMoney: new FormControl(''),
+
+      // controls for used vehicle 
+
+      usedVehicleCost: new FormControl(''),
+      // usedVehModel: new FormControl(''),
+      usedVehicleType: new FormControl(''),
+      usedVehicleMarginMoney: new FormControl(''),
       usedVehicleLoanAmountReq: new FormControl(''),
-      sourceOfVehiclePurchase: new FormControl(''),
-      marginMoneySource: new FormControl(''),
+      // sourceOfVehiclePurchase: new FormControl(''),
+      sourceOfVehiclePurchase: new FormControl('', Validators.compose([Validators.maxLength(40), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      // marginMoneySource: new FormControl(''),
+      marginMoneySource: new FormControl('', Validators.compose([Validators.maxLength(40), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       financierName: new FormControl(''),
       coAapplicantAwareMarginMoney: new FormControl(''),
       channelSourceName: new FormControl(''),
@@ -174,6 +227,9 @@ export class LoanDetailsComponent implements OnInit {
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
       awareDueDateEmiAmount: new FormControl(''),
+
+      // controls for used vehicle asset details
+
       vehicleMake: new FormControl(''),
       modelInYear: new FormControl(''),
       regNo: new FormControl(''),
@@ -194,8 +250,10 @@ export class LoanDetailsComponent implements OnInit {
       selfDrivenOrDriver: new FormControl(''),
       // remarks: new FormControl('')
       remarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
-    });
+    })
   }
+
+
   // checkManufacturingYear(event, i) {
   //   const dateFormat: Date = new Date();
   //   const year = dateFormat.getFullYear();
@@ -257,26 +315,95 @@ export class LoanDetailsComponent implements OnInit {
     return formattedDate;
 
   }
+  RemoveAddControls() {
+    const controls = this.loanDetailsForm as FormGroup
+    console.log("in remove coontrols", controls)
+    console.log("in remove controls", this.productCatCode)
+
+    if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
+
+      controls.removeControl('usedVehicleCost')
+      // controls.removeControl('usedVehModel')
+      controls.removeControl('usedVehicleType')
+      controls.removeControl('usedVehicleMarginMoney')
+      controls.removeControl('usedVehicleLoanAmountReq')
+      controls.removeControl('sourceOfVehiclePurchase')
+      controls.removeControl('marginMoneySource')
+      controls.removeControl('financierName')
+      controls.removeControl('coAapplicantAwareMarginMoney')
+      controls.removeControl('channelSourceName')
+      controls.removeControl('vehicleSeller')
+      controls.removeControl('proposedVehicle')
+      controls.removeControl('investmentAmount')
+      controls.removeControl('marginMoneyBorrowed')
+      controls.removeControl('marketValueProposedVehicle')
+      controls.removeControl('purchasePrice')
+      controls.removeControl('vehicleCondition')
+      controls.removeControl('fundsUsage')
+      controls.removeControl('earlierVehicleApplication')
+      controls.removeControl('othersRemarks')
+      controls.removeControl('drivingVehicleEarlier')
+      controls.removeControl('vehicleAttachedPlying')
+      controls.removeControl('awareDueDateEmiAmount')
+      // removing controls for used vehicle asset details
+      controls.removeControl('vehicleMake')
+      controls.removeControl('modelInYear')
+      controls.removeControl('regNo')
+      controls.removeControl('regCopVfd')
+      controls.removeControl('vehicleHpaNbfc')
+      controls.removeControl('engineNumber')
+      controls.removeControl('chasisNumber')
+      controls.removeControl('permitValidity')
+      controls.removeControl('fitnessValidity')
+      controls.removeControl('taxValidity')
+      controls.removeControl('insuranceCopyVerified')
+      controls.removeControl('insuranceValidity')
+      controls.removeControl('vehiclePhsicallyVerified')
+      controls.removeControl('conditionOfVehicle')
+      controls.removeControl('vehicleRoute')
+      controls.removeControl('noOfTrips')
+      controls.removeControl('amtPerTrip')
+      controls.removeControl('selfDrivenOrDriver')
+      controls.removeControl('remarks')
+
+      console.log("in remove controls", controls)
+
+    }
+    else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+
+      controls.removeControl('newVehicleCost')
+      // controls.removeControl('newVehicleModel')
+      controls.removeControl('newVehicleType')
+      controls.removeControl('newVehicleReqLoanAmount')
+      controls.removeControl('newVehicleMarginMoney')
+
+      console.log("in remove controls", controls)
+
+    }
+
+  }
 
   getPdDetails() {
+    // console.log("in get pd details", this.applicantId);
     // const data = {
     //   applicantId: 6,
     //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
     //   pdVersion: this.version,
     // };
-    if (this.roleName == 'Credit Officer') {
+    if (this.roleType == 2) {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
     }
-    else if (this.roleName == 'Sales Officer') {
+    else if (this.roleType == 1) {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,
+        /* Uncomment this after getting applicant Id from Lead */
       };
     }
 
@@ -289,7 +416,7 @@ export class LoanDetailsComponent implements OnInit {
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         console.log("used vehicle details", this.usedVehicleDetails)
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle
-        // console.log("asset details used vehilce", this.assetDetailsUsedVehicle)
+        console.log("asset details used vehilce", this.assetDetailsUsedVehicle)
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
 
         this.setFormValue();
@@ -299,11 +426,16 @@ export class LoanDetailsComponent implements OnInit {
       }
     });
   }
+  onNavigateToPdSummary() {
 
+
+    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+
+  }
   onNavigateNext() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/reference-check/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       console.log('URL for Loan => Next In Credit Flow', `/pages/fl-and-pd-report/${this.leadId}/pd-report`);
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/pd-report`]);
 
@@ -311,9 +443,9 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   onNavigateBack() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
 
     }
@@ -321,69 +453,85 @@ export class LoanDetailsComponent implements OnInit {
 
   setFormValue() {
     // const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
+
     const newCvModel = this.newCvDetails || {};
     console.log("new cv model", newCvModel);
     const usedVehicleModel = this.usedVehicleDetails || {};
     const assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {}
 
-    this.loanDetailsForm.patchValue({
-      // new cv details patching
+    if (this.productCatCode == 'NCV' || this.productCatCode === 'NC') {
 
-      vehicleCost: newCvModel.vehicleCost,
-      model: newCvModel.model,
-      // type: loanDetailsModal.model,
-      reqLoanAmount: newCvModel.reqLoanAmount,
-      marginMoney: newCvModel.marginMoney,
+      this.loanDetailsForm.patchValue({
+        // new cv details patching
+        newVehicleCost: newCvModel.vehicleCost || '',
+        // newVehicleModel: newCvModel.model || '',
+        newVehicleType: newCvModel.type || '',
+        newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
+        newVehicleMarginMoney: newCvModel.marginMoney || ''
+      })
+    }
+    else if (this.productCatCode == 'UCV' || this.productCatCode === 'UC') {
 
-      // used vehicle details patching
-      usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq,
-      sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase,
-      marginMoneySource: usedVehicleModel.marginMoneySource,
-      financierName: usedVehicleModel.financierName,
-      coAapplicantAwareMarginMoney: usedVehicleModel.coAapplicantAwareMarginMoney,
-      channelSourceName: usedVehicleModel.channelSourceName,
-      vehicleSeller: usedVehicleModel.vehicleSeller,
-      proposedVehicle: usedVehicleModel.proposedVehicle,
-      investmentAmount: usedVehicleModel.invesmentAmount,
-      marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed,
-      marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle,
-      purchasePrice: usedVehicleModel.purchasePrice,
-      vehicleCondition: usedVehicleModel.vehicleCondition,
-      fundsUsage: usedVehicleModel.fundsUsage,
-      earlierVehicleApplication: usedVehicleModel.earlierVehicleApplication,
-      othersRemarks: usedVehicleModel.othersRemarks,
-      drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier,
-      vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying,
-      awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount,
+      this.loanDetailsForm.patchValue({
+        // used cv details patching
+        usedVehicleCost: usedVehicleModel.vehicleCost ? usedVehicleModel.vehicleCost : '0',
+        // usedVehModel: usedVehicleModel.model || '',
+        usedVehicleType: usedVehicleModel.type || '',
+        usedVehicleMarginMoney: usedVehicleModel.marginMoney || '',
+        usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
+        sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase || '',
+        marginMoneySource: usedVehicleModel.marginMoneySource || '',
+        financierName: usedVehicleModel.financierName || '',
+        coAapplicantAwareMarginMoney: usedVehicleModel.coAapplicantAwareMarginMoney || '',
+        channelSourceName: usedVehicleModel.channelSourceName || '',
+        vehicleSeller: usedVehicleModel.vehicleSeller || '',
+        proposedVehicle: usedVehicleModel.proposedVehicle || '',
+        investmentAmount: usedVehicleModel.investmentAmount || '',
+        marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed || '',
+        marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle || '',
+        purchasePrice: usedVehicleModel.purchasePrice || '',
+        vehicleCondition: usedVehicleModel.vehicleCondition || '',
+        fundsUsage: usedVehicleModel.fundsUsage || '',
+        earlierVehicleApplication: usedVehicleModel.earlierVehicleApplication || '',
+        othersRemarks: usedVehicleModel.othersRemarks || '',
+        drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier || '',
+        vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying || '',
+        awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount || '',
 
-      // asset Details for used vehicle values patching
+        // asset Details for used vehicle values patching
 
-      vehicleMake: assetDetailsUsedVehicleModel.vehicleMake,
-      modelInYear: assetDetailsUsedVehicleModel.modelInYear,
-      regNo: assetDetailsUsedVehicleModel.regNo,
-      regCopyVerified: assetDetailsUsedVehicleModel.regCopVfd,
-      vehicleHpaNbfc: assetDetailsUsedVehicleModel.vehicleHpaNbfc,
-      regCopVfd: assetDetailsUsedVehicleModel.regCopVfd,
-      engineNumber: assetDetailsUsedVehicleModel.engineNumber,
-      chasisNumber: assetDetailsUsedVehicleModel.chasisNumber,
+        vehicleMake: assetDetailsUsedVehicleModel.vehicleMake || '',
+        modelInYear: assetDetailsUsedVehicleModel.modelInYear || '',
+        regNo: assetDetailsUsedVehicleModel.regNo || '',
+        regCopyVerified: assetDetailsUsedVehicleModel.regCopVfd || '',
+        vehicleHpaNbfc: assetDetailsUsedVehicleModel.vehicleHpaNbfc || '',
+        regCopVfd: assetDetailsUsedVehicleModel.regCopVfd || '',
+        engineNumber: assetDetailsUsedVehicleModel.engineNumber || '',
+        chasisNumber: assetDetailsUsedVehicleModel.chasisNumber || '',
 
-      // permitValidity: assetDetailsUsedVehicleModel.permitValidity,
-      permitValidity: new Date(assetDetailsUsedVehicleModel.permitValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.permitValidity) : ""),
-      // fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
-      fitnessValidity: new Date(assetDetailsUsedVehicleModel.fitnessValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.fitnessValidity) : ""),
-      // taxValidity: assetDetailsUsedVehicleModel.taxValidity,
-      taxValidity: new Date(assetDetailsUsedVehicleModel.taxValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.taxValidity) : ""),
-      insuranceCopyVerified: assetDetailsUsedVehicleModel.insuranceCopyVerified,
-      // insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
-      insuranceValidity: new Date(assetDetailsUsedVehicleModel.insuranceValidity ? this.getDateFormat(assetDetailsUsedVehicleModel.insuranceValidity) : ""),
-      vehiclePhsicallyVerified: assetDetailsUsedVehicleModel.vehiclePhsicallyVerified,
-      conditionOfVehicle: assetDetailsUsedVehicleModel.conditionOfVehicle,
-      vehicleRoute: assetDetailsUsedVehicleModel.vehicleRoute,
-      noOfTrips: assetDetailsUsedVehicleModel.noOfTrips,
-      amtPerTrip: assetDetailsUsedVehicleModel.amtPerTrip,
-      selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver,
-      remarks: assetDetailsUsedVehicleModel.remarks
-    });
+        // permitValidity: assetDetailsUsedVehicleModel.permitValidity,
+        permitValidity: assetDetailsUsedVehicleModel.permitValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.permitValidity)) : "",
+        // fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,
+        fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.fitnessValidity)) : "",
+        // taxValidity: assetDetailsUsedVehicleModel.taxValidity,
+        taxValidity: assetDetailsUsedVehicleModel.taxValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.taxValidity)) : "",
+        insuranceCopyVerified: assetDetailsUsedVehicleModel.insuranceCopyVerified,
+        // insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity,
+        insuranceValidity: assetDetailsUsedVehicleModel.insuranceValidity ?
+          new Date(this.getDateFormat(assetDetailsUsedVehicleModel.insuranceValidity)) : "",
+        vehiclePhsicallyVerified: assetDetailsUsedVehicleModel.vehiclePhsicallyVerified || '',
+        conditionOfVehicle: assetDetailsUsedVehicleModel.conditionOfVehicle || '',
+        vehicleRoute: assetDetailsUsedVehicleModel.vehicleRoute || '',
+        noOfTrips: assetDetailsUsedVehicleModel.noOfTrips || '',
+        amtPerTrip: assetDetailsUsedVehicleModel.amtPerTrip || '',
+        selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver || '',
+        remarks: assetDetailsUsedVehicleModel.remarks || ''
+      });
+      console.log("loan form", this.loanDetailsForm)
+    }
   }
 
 
@@ -391,8 +539,8 @@ export class LoanDetailsComponent implements OnInit {
 
   approvePd() {
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1,
+      applicantId: this.applicantId,
+      // applicantId: 1,
       userId: this.userId
     }
     this.personalDiscussion.approvePd(data).subscribe((res: any) => {
@@ -402,6 +550,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess("pd report approved successfully", '')
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
       }
       else {
         this.toasterService.showError("", 'message')
@@ -414,8 +563,8 @@ export class LoanDetailsComponent implements OnInit {
 
   reinitiatePd() {
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1,
+      applicantId: this.applicantId,
+      // applicantId: 1,
       userId: this.userId
     }
     this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
@@ -425,6 +574,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess("pd report reinitiated successfully", '')
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
       }
       else {
         this.toasterService.showError("", 'message')
@@ -439,103 +589,146 @@ export class LoanDetailsComponent implements OnInit {
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
     this.isDirty = true;
+    console.log(this.loanDetailsForm.controls)
+    // working fine now i think
     if (this.loanDetailsForm.invalid) {
+      console.log(this.loanDetailsForm)
       return
     }
     const loanDetailsModal = { ...formModal };
     console.log("form data", loanDetailsModal)
+    console.log("form data", this.newCvDetails)
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
     // this.router.navigate(['/pages/dde']);
+    if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
-    this.newCvDetails = {
+      console.log("in new vehicle submit pd")
+      this.newCvDetails = {
 
-      // new vehicle
+        // new vehicle
 
-      vehicleCost: loanDetailsModal.vehicleCost,
-      model: loanDetailsModal.model,
-      type: loanDetailsModal.model,
-      reqLoanAmount: loanDetailsModal.reqLoanAmount,
-      marginMoney: loanDetailsModal.marginMoney,
-
-    }
-
-    // used  vehicle details
-
-    this.usedVehicleDetails = {
-
-      usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
-      sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
-      marginMoneySource: loanDetailsModal.marginMoneySource,
-      financierName: loanDetailsModal.financierName,
-      coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
-      channelSourceName: loanDetailsModal.channelSourceName,
-      vehicleSeller: loanDetailsModal.vehicleSeller,
-      proposedVehicle: loanDetailsModal.proposedVehicle,
-      investmentAmount: loanDetailsModal.invesmentAmount,
-      marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
-      marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
-      purchasePrice: loanDetailsModal.purchasePrice,
-      vehicleCondition: loanDetailsModal.vehicleCondition,
-      fundsUsage: loanDetailsModal.fundsUsage,
-      earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
-      othersRemarks: loanDetailsModal.othersRemarks,
-      drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
-      vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
-      awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
-    }
-
-    // for assetDetails used vehicle
-
-    this.assetDetailsUsedVehicle = {
-
-      vehicleMake: loanDetailsModal.vehicleMake,
-      modelInYear: loanDetailsModal.modelInYear,
-      regNo: loanDetailsModal.regNo,
-      regCopVfd: loanDetailsModal.regCopVfd,
-      vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
-      engineNumber: loanDetailsModal.engineNumber,
-      chasisNumber: loanDetailsModal.chasisNumber,
-      // permitValidity: loanDetailsModal.permitValidity,
-      permitValidity: this.sendDate(loanDetailsModal.permitValidity),
-      fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
-      taxValidity: this.sendDate(loanDetailsModal.taxValidity),
-      insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
-      insuranceValidity: this.sendDate(loanDetailsModal.insuranceValidity),
-      vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
-      conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
-      vehicleRoute: loanDetailsModal.vehicleRoute,
-      noOfTrips: loanDetailsModal.noOfTrips,
-      amtPerTrip: loanDetailsModal.amtPerTrip,
-      selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
-      remarks: loanDetailsModal.remarks
-    };
-
-    const data = {
-      leadId: 1,
-      applicantId: 6,
-      userId: this.userId,
-      loanDetailsForNewCv: this.newCvDetails,
-      applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
-      applicableForUsedVehicle: this.usedVehicleDetails,
-
-    }
-    console.log("used vehicle data", this.assetDetailsUsedVehicle)
-
-    this.personalDiscussion.savePdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
-        const message = processVariables.error.message;
-        console.log('PD Status', message);
-        console.log("response loan details", value.ProcessVariables)
-        this.toasterService.showSuccess("loan details saved successfully!", '')
+        vehicleCost: loanDetailsModal.newVehicleCost,
+        // model: loanDetailsModal.newVehicleModel,
+        model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
+        // is no lov for model
+        type: loanDetailsModal.newVehicleType,
+        reqLoanAmount: loanDetailsModal.newVehicleReqLoanAmount,
+        marginMoney: loanDetailsModal.newVehicleMarginMoney,
       }
-      else {
-        console.log("error", processVariables.error.message);
-        this.toasterService.showError("invalid loan details", 'message')
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        loanDetailsForNewCv: this.newCvDetails,
+        // applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
+        // applicableForUsedVehicle: this.usedVehicleDetails,
+
       }
-    });
+      this.personalDiscussion.savePdData(data).subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0') {
+          const message = processVariables.error.message;
+          console.log('PD Status', message);
+          console.log("response loan details", value.ProcessVariables)
+          this.toasterService.showSuccess("new cv loan details saved successfully!", '')
+        }
+        else {
+          console.log("error", processVariables.error.message);
+          this.toasterService.showError("invalid loan details", 'message')
+        }
+      });
 
 
+
+    }
+    else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+
+      console.log("in used vehicle submit pd")
+
+      // used  vehicle details
+
+      this.usedVehicleDetails = {
+
+        vehicleCost: loanDetailsModal.usedVehicleCost,
+        // model: loanDetailsModal.usedVehModel, 
+        model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
+        type: loanDetailsModal.usedVehicleType,
+        // reqLoanAmount: loanDetailsModal.reqLoanAmount,
+        marginMoney: loanDetailsModal.usedVehicleMarginMoney,
+        usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
+        sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
+        marginMoneySource: loanDetailsModal.marginMoneySource,
+        financierName: loanDetailsModal.financierName,
+        coAapplicantAwareMarginMoney: loanDetailsModal.coAapplicantAwareMarginMoney,
+        channelSourceName: loanDetailsModal.channelSourceName,
+        vehicleSeller: loanDetailsModal.vehicleSeller,
+        proposedVehicle: loanDetailsModal.proposedVehicle,
+        investmentAmount: loanDetailsModal.investmentAmount,
+        marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
+        marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
+        purchasePrice: loanDetailsModal.purchasePrice,
+        vehicleCondition: loanDetailsModal.vehicleCondition,
+        fundsUsage: loanDetailsModal.fundsUsage,
+        earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
+        othersRemarks: loanDetailsModal.othersRemarks,
+        drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
+        vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
+        awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
+      }
+
+      // for assetDetails used vehicle
+
+      this.assetDetailsUsedVehicle = {
+
+        vehicleMake: loanDetailsModal.vehicleMake,
+        modelInYear: loanDetailsModal.modelInYear,
+        regNo: loanDetailsModal.regNo,
+        regCopVfd: loanDetailsModal.regCopVfd,
+        vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
+        engineNumber: loanDetailsModal.engineNumber,
+        chasisNumber: loanDetailsModal.chasisNumber,
+        // permitValidity: loanDetailsModal.permitValidity,
+        permitValidity: this.sendDate(loanDetailsModal.permitValidity),
+        fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
+        taxValidity: this.sendDate(loanDetailsModal.taxValidity),
+        insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,
+        insuranceValidity: this.sendDate(loanDetailsModal.insuranceValidity),
+        vehiclePhsicallyVerified: loanDetailsModal.vehiclePhsicallyVerified,
+        conditionOfVehicle: loanDetailsModal.conditionOfVehicle,
+        vehicleRoute: loanDetailsModal.vehicleRoute,
+        noOfTrips: loanDetailsModal.noOfTrips,
+        amtPerTrip: loanDetailsModal.amtPerTrip,
+        selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
+        remarks: loanDetailsModal.remarks
+      };
+
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        // loanDetailsForNewCv: this.newCvDetails,
+        applicableForAssetDetailsUsedVehicle: this.assetDetailsUsedVehicle,
+        applicableForUsedVehicle: this.usedVehicleDetails,
+
+      }
+      console.log("used vehicle data in request", this.usedVehicleDetails)
+
+      this.personalDiscussion.savePdData(data).subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0') {
+          const message = processVariables.error.message;
+          console.log('PD Status', message);
+          console.log("response loan details", value.ProcessVariables)
+          this.toasterService.showSuccess(" used vehicle loan details saved successfully!", '')
+        }
+        else {
+          console.log("error", processVariables.error.message);
+          this.toasterService.showError("invalid loan details", 'message')
+        }
+      });
+
+
+    }
   }
 
 }

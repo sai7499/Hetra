@@ -25,7 +25,7 @@
           <div formGroupName="permanantAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pan">{{ labels.addressline1 }}</label>
+                <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
@@ -56,7 +56,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pincode">{{ labels.code }}</label>
+                <label for="pincode">{{ labels.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input
                   formControlName="pincode"
@@ -70,7 +70,7 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.city }}</label>
+                <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="permanent_address_city">
                                         <option>City 1</option>
                                         <option>City 2</option>
@@ -85,7 +85,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.district }}</label>
+                <label for="passport">{{ labels.district }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="permanent_address_district">
                                         <option>District 1</option>
                                         <option>District 2</option>
@@ -102,7 +102,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.state }}</label>
+                <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="permanent_address_state">
                                         <option>State 1</option>
                                         <option>State 2</option>
@@ -117,7 +117,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.country }}</label>
+                <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="permanent_address_country">
                                         <option>Country 1</option>
                                         <option>Country 2</option>
@@ -161,7 +161,7 @@
           <div formGroupName="currentAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pan">{{ labels.addressline1 }}</label>
+                <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
@@ -172,7 +172,7 @@
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.addressline2 }}</label>
+                <label for="passport">{{ labels.addressline2 }} </label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
@@ -192,7 +192,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="current_pincode">{{ labels.code }}</label>
+                <label for="current_pincode">{{ labels.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="currentPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input
                   formControlName="pincode"
@@ -206,7 +206,7 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.city }}</label>
+                <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_city">
                                         <option>City 1</option>
                                         <option>City 2</option>
@@ -221,7 +221,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.district }}</label>
+                <label for="passport">{{ labels.district }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_district">
                                         <option>District 1</option>
                                         <option>District 2</option>
@@ -238,7 +238,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.state }}</label>
+                <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_state">
                                         <option>State 1</option>
                                         <option>State 2</option>
@@ -253,7 +253,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.country }}</label>
+                <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_country">
                                         <option>Country 1</option>
                                         <option>Country 2</option>
@@ -268,17 +268,16 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.typeOfAccommmodation }}</label>
-                <!-- <select class="form-control">
-                                        <option>Own House</option>
-                                        <option>Rented House</option>
-                                        
-                                    </select> -->
-                <app-vf-custom-select
-                  formControlName="accommodationType"
-                  [values]="LOV.LOVS.accomodationType"
-                >
-                </app-vf-custom-select>
+                <label for="current_landline">{{
+                  labels.landLineNumber
+                }}</label>
+                <!-- <input formControlName="landlineNumber" type="text" class="form-control"
+                                id="current_landline" /> -->
+                <app-custom-input
+                  formControlName="landlineNumber"
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
+                ></app-custom-input>
               </div>
             </div>
             <div class="row">
@@ -299,17 +298,20 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="current_landline">{{
-                  labels.landlineNumber
-                }}</label>
-                <!-- <input formControlName="landlineNumber" type="text" class="form-control"
-                                id="current_landline" /> -->
-                <app-custom-input
-                  formControlName="landlineNumber"
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                ></app-custom-input>
+                <label for="passport">{{ labels.typeOfAccommmodation }}</label>
+                <!-- <select class="form-control">
+                                        <option>Own House</option>
+                                        <option>Rented House</option>
+                                        
+                                    </select> -->
+                <app-vf-custom-select
+                  formControlName="accommodationType"
+                  [values]="LOV.LOVS.accomodationType"
+                >
+                </app-vf-custom-select>
               </div>
+
+
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="alternate_mobile">{{
                   labels?.alternateContactNumber
@@ -508,7 +510,7 @@
           <div class="" formGroupName="registeredAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pan">{{ labels.addressline1 }}</label>
+                <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
@@ -539,7 +541,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.code }}</label>
+                <label for="passport">{{ labels.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_pin_code">
                                     <option>pincode 1</option>
                                     <option>pincode 2</option>
@@ -558,7 +560,7 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.city }}</label>
+                <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_city">
                                     <option>City 1</option>
                                     <option>City 2</option>
@@ -573,7 +575,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.district }}</label>
+                <label for="passport">{{ labels.district }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_district">
                                     <option>District 1</option>
                                     <option>District 2</option>
@@ -590,7 +592,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.state }}</label>
+                <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_state">
                                         <option>State 1</option>
                                         <option>State 2</option>
@@ -605,7 +607,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.country }}</label>
+                <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" id="current_address_country">
                                         <option>Country 1</option>
                                         <option>Country 2</option>
@@ -621,7 +623,7 @@
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="passport">{{
-                  labels.registeredAddressLandlineNumber
+                  labels.landlineNumber
                 }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
@@ -646,7 +648,8 @@
               </div>
             </div>
           </div>
-          <div *ngIf="isSalesOrCredit == 'sales'">
+          <!-- <div *ngIf="isSalesOrCredit == 'sales'"> -->
+            <div >
             <div class="btn-sec clear-both row">
               <div class="col-sm-5">
                 <h4 class="title">Communication Address</h4>
@@ -666,7 +669,7 @@
             <div class="" formGroupName="communicationAddress">
               <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="pan">{{ labels.addressline1 }}</label>
+                  <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                   <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                   <app-custom-input
                     formControlName="addressLineOne"
@@ -697,7 +700,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="passport">{{ labels.code }}</label>
+                  <label for="passport">{{ labels.code }} <sub class="star_red_col">*</sub></label>
 
                   <!-- <input formControlName="pincode" type="text" class="form-control" id="communicationPincode" (keyup)="inputPincode($event)" /> -->
                   <app-custom-input
@@ -713,7 +716,7 @@
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="passport">{{ labels.city }}</label>
+                  <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
 
                   <app-vf-custom-select
                     formControlName="city"
@@ -724,7 +727,7 @@
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="passport">{{ labels.district }}</label>
+                  <label for="passport">{{ labels.district }} <sub class="star_red_col">*</sub></label>
                   <!-- <select class="form-control" id="current_address_district">
                                         <option>District 1</option>
                                         <option>District 2</option>
@@ -740,7 +743,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="passport">{{ labels.state }}</label>
+                  <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
 
                   <app-vf-custom-select
                     formControlName="state"
@@ -751,7 +754,7 @@
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="passport">{{ labels.country }}</label>
+                  <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
 
                   <app-vf-custom-select
                     formControlName="country"

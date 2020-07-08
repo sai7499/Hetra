@@ -3,6 +3,7 @@ import { LabelsService } from '@services/labels.service';
 import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { ToasterService } from '@services/toaster.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 
 @Component({
@@ -28,7 +29,8 @@ export class DeviationWithBranchComponent implements OnInit {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
   ) {
   }
 
@@ -42,10 +44,14 @@ export class DeviationWithBranchComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
-    this.getPdBrabchTask(this.itemsPerPage);
+    this.getBranchLeads(this.itemsPerPage);
   }
 
-  getPdBrabchTask(perPageCount, pageNumber?) {
+  onClick() {
+    this.getBranchLeads(this.itemsPerPage);
+  }
+
+  getBranchLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Deviation',
       branchId: this.branchId,
@@ -72,13 +78,21 @@ export class DeviationWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdBrabchTask(this.itemsPerPage, event);
+    this.getBranchLeads(this.itemsPerPage, event);
   }
 
   onAssign(id) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+      } else {
+        this.toasterService.showError(response.Error, '');
+
+      }
     });
   }
 

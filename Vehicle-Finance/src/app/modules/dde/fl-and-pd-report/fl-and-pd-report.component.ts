@@ -19,6 +19,8 @@ export class FlAndPdReportComponent implements OnInit {
     userId: any;
     roleName: any;
     roles: any = [];
+    roleId: any;
+    roleType: any;
     constructor(
         private router: Router,
         private location: Location,
@@ -33,9 +35,10 @@ export class FlAndPdReportComponent implements OnInit {
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
         this.roles = roleAndUserDetails.roles;
+        this.roleId = this.roles[0].roleId;
         this.roleName = this.roles[0].name;
-        // this.roleName = 'Sales Officer';
-        console.log("this user", this.roleName)
+        this.roleType = this.roles[0].roleType;
+        console.log("this user roleType", this.roleType)
 
 
         const currentUrl = this.location.path();
@@ -66,7 +69,8 @@ export class FlAndPdReportComponent implements OnInit {
     }
     getPdDetails() {
         const data = {
-            applicantId: 6,
+            // applicantId: 6,
+            applicantId: this.applicantId
         };
 
         this.personalDiscussion.getPdData(data).subscribe((value: any) => {
@@ -83,14 +87,14 @@ export class FlAndPdReportComponent implements OnInit {
 
     }
     onNavigate(url: string) {
-        if (this.roleName == "Credit Officer") {
+        if (this.roleType == 2) {
             this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}/${this.version}`]);
 
             // this.router.navigate([
             //     '/pages/fl-and-pd-report/${this.leadId}/${url}/',this.applicantId,
             // ]);
 
-        } else if (this.roleName == "Sales Officer") {
+        } else if (this.roleType == 1) {
             // } else if (this.roleName == "Credit Officer") {
 
             this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/${url}/${this.applicantId}`]);

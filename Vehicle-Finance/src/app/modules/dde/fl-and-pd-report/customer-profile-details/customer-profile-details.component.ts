@@ -59,6 +59,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
   roleName: string;
   roles: any;
   userName: any;
+  roleId: any;
+  roleType: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -83,11 +85,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
-    this.userName = roleAndUserDetails.userDetails.firstName;
     this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
+    this.roleType = this.roles[0].roleType;
+    console.log("this user roleType", this.roleType)
     console.log("user name", this.userName)
     console.log("user id ==>", this.userId)
 
@@ -177,19 +179,19 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   getPdDetails() {
 
-    if (this.roleName == 'Credit Officer') {
+    if (this.roleType == 1) {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
     }
-    else if (this.roleName == 'Sales Officer') {
+    else if (this.roleType == 2) {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
       };
     }
 
@@ -209,17 +211,17 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onNavigateNext() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }
   }
   onNavigateBack() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`]);
 
     }
@@ -273,8 +275,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
       mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
     };
     const data = {
-      leadId: 1,
-      applicantId: 6,
+      leadId: this.leadId,
+      // applicantId: 6,
+      applicantId: this.applicantId,
       userId: this.userId,
       customerProfileDetails: this.custProfileDetails
     };

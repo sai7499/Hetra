@@ -8,6 +8,7 @@ import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { Router } from '@angular/router';
 import { HttpService } from '@services/http.service';
 import { HttpClient } from '@angular/common/http';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-dde-branch-leads',
@@ -36,6 +37,7 @@ export class DdeBranchLeadsComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private router: Router,
     private httpService: HttpService,
+    private toasterService: ToasterService
 
   ) {
   }
@@ -50,6 +52,10 @@ export class DdeBranchLeadsComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
+    this.getDDEBranchLeads(this.itemsPerPage);
+  }
+
+  onClick() {
     this.getDDEBranchLeads(this.itemsPerPage);
   }
 
@@ -87,6 +93,13 @@ export class DdeBranchLeadsComponent implements OnInit {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
     });
   }
 

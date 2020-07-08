@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 @Component({
   selector: 'app-declined-leads-with-branch',
   templateUrl: './declined-leads-with-branch.component.html',
@@ -29,7 +30,8 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
 
   ) {
   }
@@ -45,6 +47,11 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       this.branchId = value.branchId;
     });
     this.getDeclinedLeads(this.itemsPerPage);
+  }
+
+  onClick() {
+    this.getDeclinedLeads(this.itemsPerPage);
+
   }
 
   getDeclinedLeads(perPageCount, pageNumber?) {
@@ -81,6 +88,13 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
     });
   }
 

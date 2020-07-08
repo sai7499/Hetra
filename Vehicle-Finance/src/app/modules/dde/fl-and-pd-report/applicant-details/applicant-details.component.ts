@@ -10,6 +10,7 @@ import { ApplicantDetails } from '@model/dde.model';
 import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -27,6 +28,10 @@ export class ApplicantDetailComponent implements OnInit {
   applicantDetails: ApplicantDetails;
   applicantId: any;
   applicantPdDetails: any;
+  leadDetails: any;
+  applicantData: any;
+  applicantFullName: any;
+  mobileNo: any;
 
 
   // namePattern = {
@@ -95,28 +100,31 @@ export class ApplicantDetailComponent implements OnInit {
   userId: number;
   roles: any;
   leadId: number;
+  leadData: {};
+  roleId: any;
+  roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
-     async ngOnInit() {
+  async ngOnInit() {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
-    console.log("roles", this.roles)
-    console.log("user id ==>", this.userId)
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
+    this.roleType = this.roles[0].roleType;
+    console.log("this user roleType", this.roleType)
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -124,7 +132,7 @@ export class ApplicantDetailComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-    
+
     this.initForm();
     this.leadId = (await this.getLeadId()) as number;
     console.log('Lead ID in Aplicant Details', this.leadId);
@@ -150,6 +158,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
     this.activatedRoute.params.subscribe((value) => {
+      this.getLeadSectionData(); // calling get lead section data function in line 174
       if (!value && !value.applicantId) {
         return;
       }
@@ -161,16 +170,34 @@ export class ApplicantDetailComponent implements OnInit {
 
     });
   }
+
+
+  // getting lead data from create lead data service
+
+  async getLeadSectionData() {
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    // console.log("in get lead section data", data['applicantDetails'])
+
+    const applicantDetailsFromLead = data['applicantDetails'][0]
+    this.applicantFullName = applicantDetailsFromLead['fullName']
+    this.mobileNo = applicantDetailsFromLead['mobileNumber']
+    console.log("in lead section data", this.applicantFullName, this.mobileNo)
+  }
   initForm() {
     this.applicantForm = new FormGroup({
-      applicantName: new FormControl(''),
+      // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
+      applicantName: new FormControl({ value: '', disabled: true }),
       fatherName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
       physicallyChallenged: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
       officePhoneNumber: new FormControl('', Validators.required),
-      mobile: new FormControl('', Validators.required),
+      // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
+      mobile: new FormControl({ value: '', disabled: true }),
       residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
       bankName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
@@ -187,17 +214,18 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   setFormValue() {
+    // console.log("in set form value")
     // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
     const applicantModal = this.applicantPdDetails || {};
     this.applicantForm.patchValue({
-      applicantName: applicantModal.applicantName || '',
+      applicantName: applicantModal.applicantName || this.applicantFullName || '',
       fatherName: applicantModal.fatherName || '',
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
       residancePhoneNumber: applicantModal.residancePhoneNumber || '',
       officePhoneNumber: applicantModal.officePhoneNumber || '',
-      mobile: applicantModal.mobile || '',
+      mobile: applicantModal.mobile || this.mobileNo || '',
       residenceAddressAsPerLoanApplication: applicantModal.residenceAddressAsPerLoanApplication || '',
       bankName: applicantModal.bankName || '',
       accountNumber: applicantModal.accountNumber || '',
@@ -213,19 +241,20 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
 
     }
   }
 
   onNavigateBack() {
-    if (this.roleName === 'Sales Officer') {
-      this.router.navigate([`/../../../customer-profile/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
-      this.router.navigate([`../../../customer-profile/${this.applicantId}/${this.version}`]);
+    if (this.roleType === 1) {
+      // routerLink="/pages/dde/leadId/pd-report/"
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
+    } else if (this.roleType === 2) {
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
 
     }
   }
@@ -237,18 +266,18 @@ export class ApplicantDetailComponent implements OnInit {
     //   pdVersion: this.version,
 
     // };
-    if (this.roleName === 'Credit Officer') {
+    if (this.roleType === 2) {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
-    } else if (this.roleName === 'Sales Officer') {
+    } else if (this.roleType === 1) {
       this.data = {
 
-        applicantId: 6,
-        // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
+        // applicantId: 6,
+        applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
       };
     }
 
@@ -287,14 +316,14 @@ export class ApplicantDetailComponent implements OnInit {
     // }
 
     this.applicantDetails = {
-      applicantName: applicantFormModal.applicantName,
+      applicantName: this.applicantFullName,
       fatherName: applicantFormModal.fatherName,
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
       residancePhoneNumber: applicantFormModal.residancePhoneNumber,
       officePhoneNumber: applicantFormModal.officePhoneNumber,
-      mobile: applicantFormModal.mobile,
+      mobile: this.mobileNo,
       residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPerLoanApplication,
       bankName: applicantFormModal.bankName,
       accountNumber: applicantFormModal.accountNumber,
@@ -309,8 +338,8 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantFormModal.ratingbySO,
     };
     const data = {
-      leadId: 1,
-      applicantId: 6,
+      leadId: this.leadId,
+      applicantId: this.applicantId,
       userId: this.userId,
       applicantPersonalDiscussionDetails: this.applicantDetails,
       // customerProfileDetails: null,
@@ -322,6 +351,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
+      console.log(processVariables)
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Applicant Details saved !', '');
       } else {

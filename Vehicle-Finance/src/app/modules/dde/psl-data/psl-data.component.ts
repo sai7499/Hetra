@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -10,18 +10,15 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 import { LabelsService } from "@services/labels.service";
 import { CommomLovService } from "@services/commom-lov-service";
-import { DdeStoreService } from "@services/dde-store.service";
 import { PslDataService } from "../services/psl-data.service";
-import { Location } from "@angular/common";
 import { ToasterService } from "@services/toaster.service";
-import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: "app-psl-data",
   templateUrl: "./psl-data.component.html",
   styleUrls: ["./psl-data.component.css"],
 })
-export class PslDataComponent implements OnInit, OnChanges {
+export class PslDataComponent implements OnInit {
   pslDataForm: FormGroup;
 
   microSmallAndMediumEnterprises: any;
@@ -106,17 +103,10 @@ export class PslDataComponent implements OnInit, OnChanges {
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
     private pslDataService: PslDataService,
-    private ddeStoreService: DdeStoreService,
     private router: Router,
     private aRoute: ActivatedRoute,
     private toasterService: ToasterService,
-    private utilityService: UtilityService,
-    private location: Location
   ) {}
-
-  ngOnChanges() {
-    console.log(this.test);
-  }
 
   ngOnInit() {
     this.getLabels();
@@ -127,7 +117,7 @@ export class PslDataComponent implements OnInit, OnChanges {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => (this.labels = data),
-      (error) => console.log("PSL_DATA Label Error", error)
+      // (error) => console.log("PSL_DATA Label Error", error)
     );
   }
 
@@ -146,6 +136,20 @@ export class PslDataComponent implements OnInit, OnChanges {
       this.getProofOfInvestmentLOVS();
     });
     console.log("PSL-DATA_LOV::::", this.LOV);
+  }
+
+  getDependentDropdownLOV() {
+    this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
+      console.log(
+        "RESPONSE FROM APPIYO_SERVER_PSLDATA_Dependent_LOVS_API_RESPONSE",
+        res
+      );
+      const response = res.ProcessVariables.pslDataLovObj;
+      console.log("PSLDATA_Dependent_LOVS_API", response);
+      this.pslDependentLOVSData = response;
+      this.getLeadId();
+      this.getActivityLOVS();
+    });
   }
 
   initForm() {
@@ -294,20 +298,6 @@ export class PslDataComponent implements OnInit, OnChanges {
         weakerSection: [""],
         // weakerSection: [""],
       }),
-    });
-  }
-
-  getDependentDropdownLOV() {
-    this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
-      console.log(
-        "RESPONSE FROM APPIYO_SERVER_PSLDATA_Dependent_LOVS_API_RESPONSE",
-        res
-      );
-      const response = res.ProcessVariables.pslDataLovObj;
-      console.log("PSLDATA_Dependent_LOVS_API", response);
-      this.pslDependentLOVSData = response;
-      this.getLeadId();
-      this.getActivityLOVS();
     });
   }
 
@@ -993,6 +983,7 @@ getActivityLOVS() {
         .updateValueAndValidity();
     }
   }
+  
   onSelectPslLandHolding() {
     this.pslDataForm.get("agriculture").patchValue({
       landOwner: "",
