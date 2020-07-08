@@ -140,7 +140,7 @@ export class AddressDetailsComponent implements OnInit {
     this.initForm();
     this.getLabels();
     this.getLOV();
-    this.hasRoute();
+    //this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
 
@@ -324,6 +324,7 @@ export class AddressDetailsComponent implements OnInit {
       .subscribe((value) => {
         if (id == 'permanantPincode') {
           this.permanantPincode = value;
+         this.addressValidations.get('permanantAddress').get('city').setValidators(Validators.required)
           return;
         }
         if (id == 'currentPincode') {
@@ -455,7 +456,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   setAddressData() {
-    this.isIndividual = this.address.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.address.applicantDetails.entityType === 'INDIVENTTYP';
     // this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
@@ -1059,7 +1060,7 @@ export class AddressDetailsComponent implements OnInit {
   }
   storeNonIndividualValueInService(value) {
     const applicantDetails: ApplicantDetails = {};
-    // applicantDetails.entityType = value.entity;
+    applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const registeredAddressObject = value.details[0].registeredAddress;
     this.addressDetailsDataArray = [];
