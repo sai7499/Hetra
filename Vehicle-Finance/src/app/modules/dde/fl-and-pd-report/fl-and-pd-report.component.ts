@@ -21,6 +21,7 @@ export class FlAndPdReportComponent implements OnInit {
     roles: any = [];
     roleId: any;
     roleType: any;
+    show: boolean;
     constructor(
         private router: Router,
         private location: Location,
@@ -31,6 +32,15 @@ export class FlAndPdReportComponent implements OnInit {
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
+        console.log("in router url", this.router.url)
+        if (this.router.url.includes('/pd-dashboard')) {
+
+            console.log(" pd-dashboard ")
+            this.show = false;
+
+        } else {
+            this.show = true;
+        }
 
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;

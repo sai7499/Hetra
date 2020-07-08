@@ -20,7 +20,8 @@
                 <td>
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
-                <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']">{{item.leadId}}</a></td>
+                <td class="text-underline" style="cursor: pointer; " *ngIf="roleType == 1"><a [routerLink]="['/pages/fl-and-pd-report', item.leadId, 'pd-dashboard']">{{item.leadId}}</a></td>
+                <td class="text-underline" style="cursor: pointer;" *ngIf="roleType == 2"><a [routerLink]="['/pages/fl-and-pd-report', item.leadId, 'pd-report']">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
                 <td>{{item.applicants ? item.applicants : '--'}}</td>
@@ -29,8 +30,8 @@
                 <td *ngIf="item.priority == '1'">Yes</td>
                 <td *ngIf="item.priority == '0' || item.priority == null">No</td>
                 <td>{{item.promoCode ? item.promoCode : '--'}}</td>
-                <td *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
-                <td *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
+                <td *ngIf="roleType == 1">{{item.stage ? item.stage : '--'}}</td>
+                <td *ngIf="roleType == 2">{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>

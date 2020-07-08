@@ -1,5 +1,5 @@
 <form class="multisteps-form__form" [formGroup]="applicantForm" *ngIf="this.applicantForm">
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
         <h3 class="title"> {{labels.applicantDetailsTitle}} </h3>
 
 
