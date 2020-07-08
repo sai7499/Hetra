@@ -23,6 +23,7 @@ export class CibilOdListComponent implements OnInit {
   proofs = ["NA", "SUB", "DBT", "LSS"]
   selctedLoan: any;
   submitted = null ;
+  totalOdAmount = 0;
   constructor(private labelService: LabelsService,
     private formBuilder: FormBuilder,
     private commonLovService: CommomLovService,
