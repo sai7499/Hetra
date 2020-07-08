@@ -314,9 +314,11 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                         <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
 
+                        <!-- [patternCheck]="label.validationData.noOfVehicles.pattern" -->
+
                         <app-custom-input formControlName="noOfVehicles" [type]="label.validationData.noOfVehicles.type"
                             [id]="'no_vehicle'" [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
-                            [maxLength]="label.validationData.noOfVehicles.maxLength"
+                            [maxLength]="label.validationData.noOfVehicles.maxLength" [custom]="initalZeroCheck"
                             [isRequired]="'No of vehicles Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
