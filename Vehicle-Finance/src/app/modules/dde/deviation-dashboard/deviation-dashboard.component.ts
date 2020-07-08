@@ -20,9 +20,9 @@ export class DeviationDashboardComponent implements OnInit {
     }
   
     getLocationIndex(url: string) {
-      if (url.includes('basic-vehicle-details')) {
+      if (url.includes('dashboard-deviation-details')) {
         return 0;
-      } else if (url.includes('viability-details')) {
+      } else if (url.includes('case-summary')) {
         return 1;
       }
     }

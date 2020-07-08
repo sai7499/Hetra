@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-declined-leads-with-me',
@@ -28,7 +29,8 @@ export class DeclinedLeadsWithMeComponent implements OnInit {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
     ) {
 
   }
@@ -46,10 +48,14 @@ export class DeclinedLeadsWithMeComponent implements OnInit {
       this.branchId = value.branchId;
       console.log('values For User in My Task', value);
     });
-    this.getDeclinedLeads(this.itemsPerPage);
+    this.getBranchDeclinedLeads(this.itemsPerPage);
   }
 
-  getDeclinedLeads(perPageCount, pageNumber?) {
+  onClick() {
+    this.getBranchDeclinedLeads(this.itemsPerPage);
+  }
+
+  getBranchDeclinedLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Declined Leads',
       branchId: this.branchId,
@@ -76,12 +82,18 @@ export class DeclinedLeadsWithMeComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getDeclinedLeads(this.itemsPerPage, event);
+    this.getBranchDeclinedLeads(this.itemsPerPage, event);
   }
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
       console.log('release Task', res);
+      const response = res;
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
     });
   }
 

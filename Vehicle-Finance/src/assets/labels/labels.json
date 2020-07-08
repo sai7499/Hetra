@@ -165,6 +165,10 @@
     "identityNumber": "Identity Number",
     "voterIdNumber": "Voter Id Number",
     "uploadIdentity": "Upload Identity",
+    "udyogAdhar" : "Udyog Aadhaar",
+    "cinRegisteredNumber" : "CIN/Registered Number",
+    "cstVatNumber" : "CST/VAT Number",
+    "tanNumber": "TAN Number", 
     "address1": "Address 1",
     "address2": "Address 2",
     "address3": "Address 3",
@@ -446,6 +450,7 @@
     "manualDeviation": "Manual Deviation",
     "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
+    "description": "Description",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
     "approvalLevel": "Approval Level",
     "bcm": "BCM",
@@ -855,12 +860,14 @@
     "numberOfYearsInCurrentBusiness": "Number of Years in current Business",
     "turnOver": "Turn Over",
     "annualIncome": "Annual Income",
-    "numberOfDirections": "Number Of Directions",
+    "numberOfDirectors": "Number Of Directors",
     "nameofDirector": "Name of Director",
     "directorIdentificationNumber": "Director Identification number (DIN)",
-    "contactPerson": "Contact Person",
+    "contactPerson": "Contact Person Name",
     "contactPersonDesignation": "Contact Person Designation",
     "contactPersonMobileNumber": "Contact Person mobile number",
+    "countryOfCorporation" : "Country Of Corporation",
+    "industry" : "Industry",
     "ratingIssuerName": "Rating Issuer Name",
     "externalRatingAssigned": "External Rating Assigned",
     "extnlRatingIssuedDate": "Extnl. Rating Issued Date",
@@ -870,23 +877,18 @@
     "creditRiskScore": "Credit Risk Score",
     "selectIdDetails": "Select Id Details",
     "UCIC": "UCIC",
-    "score":"Score",
-    "odDetails":"OD Details",
-    "odType":"OD Type",
-    "odAmount":"OD Amount",
-    "typeOfloan":"Type of loan",
-    "otherTypeOfloan":"Other type of loan",
-    "odDpd":"OD DPD",
-    "loanEnquiriesInLast30DaysWithTypeOfLoan":"Loan enquiries in last 30 Days with type of loan",
-    "member":"Member",
-    "enquiryDate":"Enquiry Date",
-    "enquiryAmount":"Enquiry Amount",
-    "loanEnquiriesInLast60DaysWithTypeOfLoan":"Loan enquiries in last 60 Days with type of loan",
-
-    
-
-
-
+    "score": "Score",
+    "odDetails": "OD Details",
+    "odType": "OD Type",
+    "odAmount": "OD Amount",
+    "typeOfloan": "Type of loan",
+    "otherTypeOfloan": "Other type of loan",
+    "odDpd": "OD DPD",
+    "loanEnquiriesInLast30DaysWithTypeOfLoan": "Loan enquiries in last 30 Days with type of loan",
+    "member": "Member",
+    "enquiryDate": "Enquiry Date",
+    "enquiryAmount": "Enquiry Amount",
+    "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "validationData": {
         "name": {
             "maxLength": {
@@ -986,6 +988,12 @@
             "type": "alpha-numeric"
         },
         "percentage": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "noOfVehicles": {
             "maxLength": {
                 "rule": 3
             },
@@ -1123,6 +1131,18 @@
                 "rule": 15
             },
             "type": "number"
+        },
+        "directorName" : {
+            "maxLength": {
+                "rule": 60
+            },
+            "type": "alpha"
+        },
+        "dinNumber" : {
+            "maxLength": {
+                "rule": 25
+            },
+            "type": "alpha-numeric"
         },
         "businessEntity": {
             "maxLength": {

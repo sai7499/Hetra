@@ -445,50 +445,92 @@
 
         <div
           id="non_individual_section_start"
-          class="clearfix"
+          
           *ngIf="!isIndividual"
+          formGroupName="0"
         >
-          <div class="row mt-5" formGroupName="0">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="email">TIN Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="tinNumber"
-              />
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="adhar">Company PAN Number</label>
-              <!-- <input
-                type="text"
-                class="form-control"
-                formControlName="panNumber"
-              /> -->
-               <app-custom-input
-                  formControlName="panNumber"
-                  [patternCheck]="panPattern"
-               
-                  [isRequired]="'Pan Number is required'"
-                ></app-custom-input>
-              
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="adhar">CIN Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="corporateIdentificationNumber"
-              />
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="adhar">GST Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="gstNumber"
-              />
+          <!-- <div class="row" > -->
+            <div class="row">
+            <div class="form-group col-sm-12 col-md-3 col-lg-3 third_width">
+              <label for="issuance_date">{{labels?.udyogAdhar}}</label>
+              <div class="input-group input-medium">
+                <input
+                  formControlName="aadhar"
+                  type="text"
+                  class="form-control date_caps"
+                  id="passport_expiry_date"
+                  name="passport_expiry_date"
+                  value="3456 1239 0987"
+                  disabled
+                />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" disabled="">
+                    <i class="fa fa-credit-card"></i>
+                  </button>
+                </span>
+              </div>
             </div>
           </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 " >
+              <label for="identity_number"
+                >{{ labels?.panform }}
+                </label
+              >
+              <app-vf-custom-select
+                [values]="lov?.LOVS?.applicantPanType"
+                formControlName="panType"
+                
+              >
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="mobile">{{ labels?.pannumber }}</label>
+              <app-custom-input
+                formControlName="pan"
+               isDisabled
+              ></app-custom-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">{{labels?.cinRegisteredNumber}}</label>
+              <app-custom-input
+                formControlName="corporateIdentificationNumber"
+                [inputClass]="'text-uppercase'"
+                isDisabled
+                
+              ></app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">{{labels?.cstVatNumber}}</label>
+              <app-custom-input
+                formControlName="cstVatNumber"
+                [inputClass]="'text-uppercase'"
+                isDisabled
+              ></app-custom-input>
+            </div>
+            
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">{{labels?.gstNumber}}</label>
+              <app-custom-input
+                formControlName="gstNumber"
+                [inputClass]="'text-uppercase'"
+                isDisabled
+              ></app-custom-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="adhar">{{labels?.tanNumber}}</label>
+              <app-custom-input
+                formControlName="tanNumber"
+                [inputClass]="'text-uppercase'"
+                isDisabled
+              ></app-custom-input>
+            </div>
+          </div>
+          <!-- </div> -->
         </div>
       </ng-container>
     </div>

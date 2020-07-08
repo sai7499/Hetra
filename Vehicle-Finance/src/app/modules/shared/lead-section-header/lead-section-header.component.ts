@@ -63,9 +63,9 @@ export class LeadSectionHeaderComponent implements OnInit {
     // console.log('leadSectionData', leadSectionData);
     this.leadId = leadSectionData.leadId;
     // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
-    // leadSectionData.leadDetails.reqLoanAmt : 0;
-    this.applicantName = leadSectionData.applicantDetails[0].fullName;
-    console.log("in lead section header applicant name", this.applicantName)
+                      // leadSectionData.leadDetails.reqLoanAmt : 0;
+    const applicantDetails= leadSectionData.applicantDetails? leadSectionData.applicantDetails[0] : ''
+    this.applicantName = applicantDetails.fullName;
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt'];
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
