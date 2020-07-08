@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-deviation-with-me',
@@ -29,7 +30,8 @@ export class DeviationWithMeComponent implements OnInit {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
     ) {
 
   }
@@ -47,10 +49,14 @@ export class DeviationWithMeComponent implements OnInit {
       this.branchId = value.branchId;
       console.log('values For User in My Task', value);
     });
-    this.getPdMyTask(this.itemsPerPage);
+    this.getMyDeviationLeads(this.itemsPerPage);
   }
 
-  getPdMyTask(perPageCount, pageNumber?) {
+  onClick() {
+    this.getMyDeviationLeads(this.itemsPerPage);
+  }
+
+  getMyDeviationLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Deviation',
       branchId: this.branchId,
@@ -77,12 +83,18 @@ export class DeviationWithMeComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdMyTask(this.itemsPerPage, event);
+    this.getMyDeviationLeads(this.itemsPerPage, event);
   }
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
       console.log('release Task', res);
+      const response = res;
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
     });
   }
 
