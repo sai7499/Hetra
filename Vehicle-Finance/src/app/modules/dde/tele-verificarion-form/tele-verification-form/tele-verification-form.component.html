@@ -54,6 +54,8 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="product" class="ellipsify">{{labels.product}}</label>
                                 <input type="text" class="form-control mar-top19" id="product" name="product" formControlName="product">
+                                <!-- <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="product" [isRequired]="'Select any product'" [isDirty]="isDirty"> </app-vf-custom-select> -->
+
                             </div>
                         </div>
                         <div class="row">
@@ -63,6 +65,7 @@
                                 <div>
                                     <label class="radio-inline">
                                         <input type="radio" name="assetType" formControlName="assetType" value="new">New
+                                        
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name="assetType" formControlName="assetType" value="used">Used
@@ -332,7 +335,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="sourcing_type" class="asset_type">{{labels.ifBusiness}}</label>
-                                    <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness" [isDirty]="isDirty" [isRequired]="'Select any Bussiness Type'"> </app-vf-custom-select>
+                                    <app-vf-custom-select [values]="LOV.LOVS.tvrBusiness" formControlName="ifBusiness" [isRequired]="'Select any Bussiness Type'" [isDirty]="isDirty"> </app-vf-custom-select>
 
                                 </div>
 
@@ -345,7 +348,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="relation">{{labels.relation}}</label>
-                                    <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="relation" [isDirty]="isDirty" [isRequired]="'Select any relation Type'"> </app-vf-custom-select>
+                                    <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="relation" [isRequired]="'Select any relation Type'" [isDirty]="isDirty"> </app-vf-custom-select>
 
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -364,7 +367,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="decision">{{labels.decision}}</label>
-                                    <app-vf-custom-select [values]="LOV.LOVS.tvrDecision" formControlName="decision" [isDirty]="isDirty" [isRequired]="'Select any decision Type'"> </app-vf-custom-select>
+                                    <app-vf-custom-select [values]="LOV.LOVS.tvrDecision" formControlName="decision" [isRequired]="'Select any decision Type'" [isDirty]="isDirty"> </app-vf-custom-select>
                                 </div>
                             </div>
                         </div>
@@ -429,10 +432,10 @@
 
                                     <th class="bank_name">{{labels.status}}</th>
                                     <td formGroupName="reference1">
-                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isDirty]="isDirty" [isRequired]="'Select any status'"> </app-vf-custom-select>
+                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isRequired]="'Select any status'" [isDirty]="isDirty"> </app-vf-custom-select>
 
                                         <td formGroupName="reference2">
-                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isDirty]="isDirty" [isRequired]="'Select any status'"> </app-vf-custom-select>
+                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isRequired]="'Select any status'" [isDirty]="isDirty"> </app-vf-custom-select>
 
                                         </td>
 
@@ -442,7 +445,11 @@
                     </div>
                     <div class="row">
                         <h3 class="dashboard text-center text-underline m-3">{{labels.remark}}</h3>
-                        <textarea type="text" class="form-control text_area" formControlName="remarks" id="" name=""></textarea>
+                        <textarea type="text" class="form-control text_area" formControlName="remarks" required></textarea>
+                        <div style="color:red" *ngIf="teleVerificationForm.get('remarks').errors?.required">
+                            Message is required
+                        </div>
+
                         <!-- <app-custom-input id="remarks" [type]="'alpha-numeric'" formControlName="remarks" [className]="'form-control mandatory'" [maxLength]="regexPattern.maxLength50" [isDirty]="isDirty">
                         </app-custom-input> -->
                     </div>
@@ -450,11 +457,17 @@
                         <h3 class="dashboard text-center text-underline m-3">{{labels.cibilRemarks}}</h3>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>{{labels.cibilOverdue}}</h5>
-                            <textarea type="text" [maxLength]="regexPattern.maxLength50" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name=""></textarea>
+                            <textarea type="text" class="form-control" formControlName="cibilOverDue" id="cibilOverdur" name=""></textarea>
+                            <div style="color:red" *ngIf="teleVerificationForm.get('cibilOverDue').errors?.required">
+                                Message is required
+                            </div>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>{{labels.cibilReport}}</h5>
                             <textarea type="text" class="form-control" formControlName="cibilClarification" id="cibilReport" name=""></textarea>
+                            <div style="color:red" *ngIf="teleVerificationForm.get('cibilClarification').errors?.required">
+                                Message is required
+                            </div>
                         </div>
                     </div>
 
@@ -462,8 +475,9 @@
                 <div class="row mar-top19">
                     <div class="col-sm-5"></div>
                     <div class="col-sm-7 padding-10 text-right">
-                        <button type="submit" class="btn btn-primary" (click)="onSave()"> {{labels.save}} </button>
-                        <button class="btn btn-primary dash_href" type="button" (click)="onSubmit()" data-toggle="modal" data-target="#myModal">{{labels.submit}}</button>
+                        <button type="button" class="btn btn-primary dash_href" (click)="onBack()"> {{labels.back}} </button>
+                        <button type="submit" class="btn btn-primary dash_href" (click)="onSave()"> {{labels.save}} </button>
+                        <button class="btn btn-primary dash_href" [disabled]="!isSaved" type="button" (click)="onSubmit()" data-toggle="modal" data-target="#myModal">{{labels.submit}}</button>
                     </div>
                 </div>
             </div>
@@ -501,10 +515,10 @@
                     <div class="row">
                         <div class="col-lg-3"></div>
                         <div class=" col-lg-2" style="margin-left: 150px;">
-                            <button class="btn btn-primary" data-dismiss="modal" id="validateOtp_button " (click)="validateOtp() ">
+                            <button class="btn btn-primary verifyOyp" id="validateOtp" (click)="validateOtp() ">
                                 Verify
                                 OTP</button>
-                            <!-- <button class="btn btn-primary " id="otp_button " (click)=sendOtp()> Resend OTP </button> -->
+                            <button class="btn btn-primary " data-dismiss="modal" style="display: none;" #otp_button (click)=sendOtp()> close</button>
                         </div>
                         <!-- <div class="col-lg-4">
                             <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>

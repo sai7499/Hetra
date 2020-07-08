@@ -18,7 +18,7 @@
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td>
-                    <input type="button" class="btn-primary" (click)="onRelase(item.taskId)" value="Release" data-toggle="modal" data-target="#releaseModal">
+                    <input type="button" class="btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
                 <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
