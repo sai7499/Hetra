@@ -165,10 +165,10 @@
     "identityNumber": "Identity Number",
     "voterIdNumber": "Voter Id Number",
     "uploadIdentity": "Upload Identity",
-    "udyogAdhar" : "Udyog Aadhaar",
-    "cinRegisteredNumber" : "CIN/Registered Number",
-    "cstVatNumber" : "CST/VAT Number",
-    "tanNumber": "TAN Number", 
+    "udyogAdhar": "Udyog Aadhaar",
+    "cinRegisteredNumber": "CIN/Registered Number",
+    "cstVatNumber": "CST/VAT Number",
+    "tanNumber": "TAN Number",
     "address1": "Address 1",
     "address2": "Address 2",
     "address3": "Address 3",
@@ -866,8 +866,8 @@
     "contactPerson": "Contact Person Name",
     "contactPersonDesignation": "Contact Person Designation",
     "contactPersonMobileNumber": "Contact Person mobile number",
-    "countryOfCorporation" : "Country Of Corporation",
-    "industry" : "Industry",
+    "countryOfCorporation": "Country Of Corporation",
+    "industry": "Industry",
     "ratingIssuerName": "Rating Issuer Name",
     "externalRatingAssigned": "External Rating Assigned",
     "extnlRatingIssuedDate": "Extnl. Rating Issued Date",
@@ -996,6 +996,10 @@
         "noOfVehicles": {
             "maxLength": {
                 "rule": 3
+            },
+            "pattern": {
+                "rule": "^[1-9][0-9]*$",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },
@@ -1132,13 +1136,13 @@
             },
             "type": "number"
         },
-        "directorName" : {
+        "directorName": {
             "maxLength": {
                 "rule": 60
             },
             "type": "alpha"
         },
-        "dinNumber" : {
+        "dinNumber": {
             "maxLength": {
                 "rule": 25
             },
