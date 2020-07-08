@@ -986,7 +986,7 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric-nospace"
         },
         "percentage": {
             "maxLength": {
