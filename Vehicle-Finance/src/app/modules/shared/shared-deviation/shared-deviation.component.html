@@ -53,7 +53,9 @@
 
             <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
-              <div class="row m-0 radio-inline" [ngClass]="{'disabled': obj.controls['type'].value !== roleType}">
+              <div class="row m-0 radio-inline"
+                [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value === hierarchy)}">
+                <!-- !(type === this.roleType && hierarchy <= this.hierarchy) -->
                 <label for="approve_action">
                   <input type="radio" id="approve_action" formControlName="statusCode" value="1"
                     (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
@@ -137,7 +139,8 @@
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
             <label for="end" class="action">{{labels?.action}}</label>
-            <div class="row m-0 radio-inline" [ngClass]="{'disabled': item.controls['devRuleId'].value === 0}">
+            <div class="row m-0 radio-inline"
+              [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value === hierarchy)}">
               <label for="approve_action">
                 <input type="radio" id="approve_action" formControlName="statusCode" value="1"
                   (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}

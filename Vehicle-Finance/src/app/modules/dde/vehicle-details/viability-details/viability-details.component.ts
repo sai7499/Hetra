@@ -312,7 +312,7 @@ getViability(id: any) {
         this.calculateCaptiveC();
        }
     } else {
-      this.viabilityForm.controls.patchValue({
+      this.viabilityForm.patchValue({
         type: this.vehicle_viability_value
       }) ;
     }
