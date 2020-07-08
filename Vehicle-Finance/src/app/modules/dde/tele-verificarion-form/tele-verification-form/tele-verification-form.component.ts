@@ -144,7 +144,7 @@ export class TeleVerificationFormComponent implements OnInit {
     // );
     this.getLOV();
 
-    this.initForm();
+    // this.initForm();
     this.leadId = this.route.snapshot.params.leadId;
     console.log(this.leadId);
     this.applicantId = parseInt(this.route.snapshot.params.applicantId);
@@ -153,7 +153,7 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   initForm() {
-    // this.referenceData =  this.referenceData || [];
+    this.referenceData =  this.referenceData || [];
     this.teleVerificationForm = this.fb.group({
       leadId: [{ value: this.leadId, disabled: true }],
       applicantName: [{ value: this.applicantName, disabled: true }],
@@ -229,7 +229,7 @@ export class TeleVerificationFormComponent implements OnInit {
           mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
           address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
           // tslint:disable-next-line: max-line-length
-          referenceStatus: [this.referenceData.length > 0 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
+          referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
         })
       })
     });
@@ -249,12 +249,9 @@ export class TeleVerificationFormComponent implements OnInit {
 
     // );
 
-    // this.setFormValue();
-    // this.getProductCatagory(event);
     this.getTvrDetails();
-    // this.sendOtp();
-    // this.saveOrUpdateTvrDetails();
-    // this.getTvrDetailsList();
+    this.initForm();
+
     this.otpForm = this.fb.group({
       otp: [
         '',
