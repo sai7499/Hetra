@@ -815,7 +815,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         name2: applicantValue.applicantDetails.name2 || '',
         name3: applicantValue.applicantDetails.name3 || '',
         mobilePhone: mobile || '',
-        dob: details.dob || '',
+        dob: this.utilityService.getDateFromString(details.dob) || '',
         dateOfIncorporation: details.dateOfIncorporation || '',
         identity_type: applicantValue.identity_type || '',
         panType: details.panType || '',
