@@ -118,7 +118,6 @@ export class AddvehicleComponent implements OnInit {
         this.toasterService.showError(error, '')
       })
     } else {
-      console.log(this.formValue, 'error')
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
     }
