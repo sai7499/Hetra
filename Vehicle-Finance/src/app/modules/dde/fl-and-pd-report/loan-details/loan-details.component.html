@@ -12,17 +12,15 @@
                 </app-custom-input>
             </div>
 
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3"> -->
+            <!-- <label for="model/type">{{labels.modelType}}</label> -->
+            <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
+            <!-- <app-vf-custom-select [values]="LOV?.LOVS?.vehicleManufacturer" formControlName="newVehicleModel" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                </app-vf-custom-select> -->
+
+            <!-- </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model/type">{{labels.modelType}}</label>
-                <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
-                <!-- <app-custom-input id="model_type" formControlName="model" [patternCheck]="modelPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
-                </app-custom-input> -->
-                <app-vf-custom-select [values]="LOV?.LOVS?.vehicleManufacturer" formControlName="newVehicleModel" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="model/type">{{labels.type}}</label>
                 <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
                 <!-- <app-custom-input id="model_type" formControlName="model" [patternCheck]="modelPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
                 </app-custom-input> -->
@@ -43,7 +41,7 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
-            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+            <div class="btn-sec clear-both" *ngIf="roleType === 2">
                 <div class="col-sm-7"></div>
                 <div class="col-sm-5 text-right">
                     <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
@@ -57,7 +55,11 @@
             </div>
 
             <div class="btn-sec clear-both">
-                <div class="col-sm-5"></div>
+                <div class="col-sm-5" *ngIf="roleType === 1"></div>
+                <div class="col-sm-5" *ngIf="roleType === 2">
+                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
+                        to PD Summary </button>
+                </div>
                 <div class="col-sm-7 text-right">
 
                     <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
@@ -87,17 +89,17 @@
                 </app-custom-input>
             </div>
 
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="model/type">{{labels.modelType}}</label> -->
+            <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
+            <!-- <app-custom-input id="model_type" formControlName="model" [patternCheck]="modelPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
+                </app-custom-input> -->
+            <!-- <app-vf-custom-select [values]="LOV?.LOVS['vehicleManufacturer']" formControlName="usedVehModel" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                </app-vf-custom-select> -->
+
+            <!-- </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model/type">{{labels.modelType}}</label>
-                <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
-                <!-- <app-custom-input id="model_type" formControlName="model" [patternCheck]="modelPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
-                </app-custom-input> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['vehicleManufacturer']" formControlName="usedVehModel" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="model/type">{{labels.type}}</label>
                 <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
                 <!-- <app-custom-input id="model_type" formControlName="model" [patternCheck]="modelPattern" [isRequired]="'required'" [maxLength]="maxlength10" [isDirty]="isDirty">
                 </app-custom-input> -->
@@ -497,7 +499,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
+            <div class="btn-sec clear-both" *ngIf="roleType === 2">
                 <div class="col-sm-7"></div>
                 <div class="col-sm-5 text-right">
                     <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
@@ -511,7 +513,11 @@
             </div>
 
             <div class="btn-sec clear-both">
-                <div class="col-sm-5"></div>
+                <div class="col-sm-5" *ngIf="roleType === 1"></div>
+                <div class="col-sm-5" *ngIf="roleType === 2">
+                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
+                        to PD Summary </button>
+                </div>
                 <div class="col-sm-7 text-right">
 
                     <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
