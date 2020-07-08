@@ -17,7 +17,7 @@
                 <table class="table">
                     <thead>
                         <tr class="table-head-bg">
-                            <th>{{labels?.registrationNum}} </th>
+                            <th>{{labels?.registrationNum   }} </th>
                             <th>{{labels?.make}} </th>
                             <th>{{labels?.model}} </th>
                             <th>{{labels?.viabilityStatus}} </th>
@@ -26,11 +26,11 @@
                     </thead>
                     <tbody>
                         <tr id="applicant_1_row" *ngFor=" let viability of viabilityData; let i = index">
-                            <td>{{viability?.registerNo}}</td>
+                            <td>{{viability?.registerNo | uppercase}}</td>
                             <td>{{viability?.make}}</td>
                             <td>{{viability?.model}}</td>
                             <td>{{viability?.viabilityStatus}}</td>
-                            <td><u><a class="a_tag" 
+                            <td><u><a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId, i )">View</a></u></td>
                         </tr>
                         <!-- <tr id="applicant_2_row">
