@@ -405,22 +405,27 @@ export class ApiService {
       workflowId: 'a6c0829eba2111ea988900505695f93b',
       projectId: "8bfa8dba945b11eabdcaf2fa9bec3d63"
     },
+    approveDeviation: {
+      processId: "624b5f50ba8811ea9bd500505695f93b",
+      workflowId: '2360e01eba0e11ea9d6b00505695f93b',
+      projectId: "403a8a12b79511ea8afff2fa9bec3d63"
+    },
     reInitiateCreditScore: {
       processId: '7f21b928ba6d11eaaccf00505695f93b',
       workflowId: 'ff0aa956b9e611ea88c300505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-     getCreditConditions: {
+    getCreditConditions: {
       processId: '738484b0b9c311ea8a3f00505695f93b',
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    deleteCreditConditions : {      
+    deleteCreditConditions: {
       processId: '6531185cba2611eaab9500505695f93b',
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    saveAndUpdateCreditConditions : {      
+    saveAndUpdateCreditConditions: {
       processId: 'ca7ccc2ab9f811ea96fe00505695f93b',
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId

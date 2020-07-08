@@ -172,7 +172,7 @@ export interface LoanDetails {
     channelSourceName?: string;
     vehicleSeller?: string;
     proposedVehicle?: string;
-    invesmentAmount?: string;
+    investmentAmount?: string;
     marginMoneyBorrowed?: string;
     marketValueProposedVehicle?: string;
     purchasePrice?: string;

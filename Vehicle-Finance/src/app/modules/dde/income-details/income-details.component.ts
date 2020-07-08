@@ -81,7 +81,7 @@ export class IncomeDetailsComponent implements OnInit {
     rule: '^[A-Z, ]*[a-z, ]*[0-9, ]*$',
     msg: 'Invalid Name',
   };
-  salariedFOIRaspePolicy: number;
+  salariedFOIRasperPolicy: number;
   isDirty: boolean;
   incomeTypeValue: any;
   SalariedFOIRDeviation: number;
@@ -123,7 +123,7 @@ export class IncomeDetailsComponent implements OnInit {
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
-      salariedFOIRaspePolicy: Number(70),
+      salariedFOIRasperPolicy: Number(70),
       salariedFOIRDeviation: [
         null,
         [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -131,7 +131,7 @@ export class IncomeDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId,
     });
-    this.salariedFOIRaspePolicy = 70;
+    this.salariedFOIRasperPolicy = 70;
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     this.productCode = leadSectionData.leadDetails['productCatCode'];
@@ -713,13 +713,13 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   onSalFoirDeviation(event: any) {
-    const salariedFOIRaspePolicy = this.incomeDetailsForm.controls
-      .salariedFOIRaspePolicy.value;
+    const salariedFOIRasperPolicy = this.incomeDetailsForm.controls
+      .salariedFOIRasperPolicy.value;
 
-    if (Number(event) + Number(salariedFOIRaspePolicy) <= 150) {
+    if (Number(event) + Number(salariedFOIRasperPolicy) <= 150) {
       this.SalariedFOIRDeviation = Math.round(Number(event));
       this.totalSalariedFOIR =
-        this.SalariedFOIRDeviation + salariedFOIRaspePolicy;
+        this.SalariedFOIRDeviation + salariedFOIRasperPolicy;
     } else {
       this.toasterService.showWarning('should not exceed 150', '');
       this.totalSalariedFOIR = 0;
