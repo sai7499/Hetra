@@ -35,7 +35,8 @@
                   <th role="columnheader" class="caption">
                     {{ labels?.odAmount }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub></th>
+                  <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub>
+                  </th>
                   <ng-container *ngIf="selctedLoan !== 'Others'">
                     <th role="columnheader" class="caption">
                       {{ labels?.otherTypeOfloan
@@ -75,7 +76,8 @@
                     </app-custom-input>
                   </td>
                   <td data-title="Type of loan">
-                    <select class="form-control mandatory" formControlName="typeOfLoan" (change)="onSelectLoan($event.target.value)">
+                    <select class="form-control mandatory" formControlName="typeOfLoan"
+                      (change)="onSelectLoan($event.target.value)">
                       <option [value]="loanType" *ngFor="let loanType of loanTypes">{{loanType}}</option>
                     </select>
                   </td>
@@ -83,7 +85,8 @@
                     <td data-title="Other type of loan">
                       <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
+                        [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
+                        [isDisabled]="'true'">
                       </app-custom-input>
                     </td>
                     <td data-title="OD DPD">
@@ -97,13 +100,15 @@
                     <td data-title="Other type of loan">
                       <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty" [isRequired]="'Other type of loan mandatory'" >
+                        [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
+                        [isRequired]="'Other type of loan mandatory'">
                       </app-custom-input>
                     </td>
                     <td data-title="OD DPD">
                       <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
                         [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.yom?.maxLength" [isDirty]="isDirty" [isRequired]="'OD DPD mandatory'">
+                        [maxLength]="labels?.validationData?.yom?.maxLength" [isDirty]="isDirty"
+                        [isRequired]="'OD DPD mandatory'">
                       </app-custom-input>
                     </td>
                   </ng-container>
@@ -155,7 +160,7 @@
               <div class="col-md-2">
                 <app-custom-input formControlName="writtenOffLoans" [placeholder]="'Count of  written off loans'"
                   [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength" >
+                  [maxLength]="labels?.validationData?.yom?.maxLength">
                 </app-custom-input>
               </div>
               <div class="col-md-2"><label>Count of  written off loans along with suite filed</label></div>
@@ -163,14 +168,14 @@
                 <app-custom-input formControlName="writtenOffLoansWithSuiteFiled"
                   [placeholder]="'Count of  written off loans with Suite filed'"
                   [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength" >
+                  [maxLength]="labels?.validationData?.yom?.maxLength">
                 </app-custom-input>
               </div>
               <div class="col-md-2"><label>Count of  loss loans</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="lossLoans" [placeholder]="'Count of  loss loans'"
                   [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength" >
+                  [maxLength]="labels?.validationData?.yom?.maxLength">
                 </app-custom-input>
               </div>
               <div class="clearfix"></div>
@@ -180,7 +185,7 @@
               <div class="col-md-2">
                 <app-custom-input formControlName="settledLoans" [placeholder]="'Count of settled loans'"
                   [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength" >
+                  [maxLength]="labels?.validationData?.yom?.maxLength">
                 </app-custom-input>
               </div>
               <div class="clearfix"></div>
@@ -210,7 +215,15 @@
                 [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
                  [isDirty]="isDirty" >
               </app-custom-input> -->
-                <textarea class="form-control form-control-sm" placeholder="Text Area" for></textarea>
+                <textarea class="form-control form-control-sm" placeholder="Text Area"
+                  formControlName="cibilJustification"
+                  [ngClass]="{'has-error':!odDetailsForm.controls['cibilJustification'].valid}"></textarea>
+                  <div *ngIf="odDetailsForm.controls['cibilJustification'].hasError('pattern')" [ngClass]="'error'">
+                    Invalid Message /  Special Characters not allowed
+                  </div>
+                  <div *ngIf="odDetailsForm.controls['cibilJustification'].hasError('maxlength')" [ngClass]="'error'">
+                    CIBIL OD DPD JUSTIFICATION can not exceed 200 characters long.
+                  </div>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -227,7 +240,8 @@
                       {{ labels?.enquiryDate }}
                       <sub class="star_blue_col">*</sub>
                     </th>
-                    <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub></th>
+                    <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub>
+                    </th>
                     <th role="columnheader" class="caption">
                       {{ labels?.enquiryAmount }}<sub class="star_blue_col">*</sub>
                     </th>
@@ -249,12 +263,11 @@
                       </app-custom-input>
                     </td>
                     <td data-title="Enquiry date">
-                      <kendo-datepicker class="form-control" formControlName="enquiryDate" 
-                      [activeView]="'decade'"  [format]="'dd/MM/yyyy'" 
-                      [max]="toDayDate" placeholder="Valuation Date">
-                  </kendo-datepicker>
+                      <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
+                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Valuation Date">
+                      </kendo-datepicker>
                     </td>
-                      <td data-title="Type of loan">
+                    <td data-title="Type of loan">
                       <select class="form-control mandatory" formControlName="typeOfLoan">
                         <option [value]="loanType" *ngFor="let loanType of loanTypes">{{loanType}}</option>
                       </select>
@@ -289,7 +302,8 @@
                       {{ labels?.enquiryDate }}
                       <sub class="star_blue_col">*</sub>
                     </th>
-                    <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub></th>
+                    <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub>
+                    </th>
                     <th role="columnheader" class="caption">
                       {{ labels?.enquiryAmount }}<sub class="star_blue_col">*</sub>
                     </th>
@@ -304,31 +318,30 @@
                     ];
                     let i = index
                   " [formGroupName]="i">
-                  <td data-title="Member">
-                    <app-custom-input formControlName="member" [placeholder]="'Member'"
-                      [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
-                    </app-custom-input>
-                  </td>
-                  <td data-title="Enquiry date">
-                    <kendo-datepicker class="form-control" formControlName="enquiryDate" 
-                    [activeView]="'decade'"  [format]="'dd/MM/yyyy'" 
-                    [max]="toDayDate" placeholder="Valuation Date">
-                </kendo-datepicker>
-                  </td>
+                    <td data-title="Member">
+                      <app-custom-input formControlName="member" [placeholder]="'Member'"
+                        [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
+                        [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
+                      </app-custom-input>
+                    </td>
+                    <td data-title="Enquiry date">
+                      <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
+                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Valuation Date">
+                      </kendo-datepicker>
+                    </td>
                     <td data-title="Type of loan">
-                    <select class="form-control mandatory" formControlName="typeOfLoan">
-                      <option [value]="loanType" *ngFor="let loanType of loanTypes">{{loanType}}</option>
-                    </select>
+                      <select class="form-control mandatory" formControlName="typeOfLoan">
+                        <option [value]="loanType" *ngFor="let loanType of loanTypes">{{loanType}}</option>
+                      </select>
 
-                  </td>
-                  <td data-title="Enquiry Amount">
-                    <app-custom-input formControlName="enquiryAmount" [placeholder]="'Enquiry Amount'"
-                      [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
-                    </app-custom-input>
+                    </td>
+                    <td data-title="Enquiry Amount">
+                      <app-custom-input formControlName="enquiryAmount" [placeholder]="'Enquiry Amount'"
+                        [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
+                        [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                      </app-custom-input>
 
-                  </td>
+                    </td>
                     <td data-title="Actions">
 
                       <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -351,7 +364,7 @@
         <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
           Back
         </button>
-        <button class="btn btn-primary mar-right8" type="button">
+        <button class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
         </button>
         <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">

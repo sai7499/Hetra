@@ -58,7 +58,8 @@
             formControlName="title"
             [values]="LOV.LOVS.salutation"
             [isRequired]="'Please select one'"
-                        [isDirty]="isDirty"
+            [isDirty]="isDirty"
+            [isDisabled]="this.applicant.applicantDetails.entityTypeKey=='NONINDIVENTTYP'"
           ></app-vf-custom-select>
         </div>
       </div>
@@ -350,7 +351,7 @@
               <app-custom-input
                   formControlName="emailId"
                   [patternCheck]="emailPattern"
-                  
+                  [maxlength]="validationData?.email?.maxLength"
                 ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -365,7 +366,7 @@
               <app-custom-input
                   formControlName="alternateEmailId"
                   [patternCheck]="emailPattern"
-
+                  [maxlength]="validationData?.email?.maxLength"
                 ></app-custom-input> 
             </div>
           </div>
@@ -674,7 +675,7 @@
           <!-- <h3>Basic Customer Data - Non individual</h3> -->
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="channel">{{ labels?.company1 }}</label>
+              <label for="channel">{{ labels?.company1 }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="name1"
                 type="text"
@@ -683,13 +684,13 @@
               /> -->
               <app-custom-input
                   formControlName="name1"
+                  [maxLength]="validationData?.name?.maxLength"
+                  [isRequired]="'Company1 Name is required'"
                   [isDirty]="isDirty"
-                  [maxLength]="nameLength30"
-                  [isRequired]="'Company Name is required'"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing type">{{ labels?.company2 }}</label>
+              <label for="sourcing type">{{ labels?.company2 }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="name2"
                 type="text"
@@ -699,11 +700,13 @@
               <app-custom-input
               formControlName="name2"
               [maxLength]="validationData?.name?.maxLength"
+                  [isRequired]="'Company1 Name is required'"
+                  [isDirty]="isDirty"
              
             ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing code">{{ labels?.company3 }}</label>
+              <label for="sourcing code">{{ labels?.company3 }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="name3"
                 type="text"
@@ -713,11 +716,15 @@
               <app-custom-input
                   formControlName="name3"
                   [maxLength]="validationData?.name?.maxLength"
+                  [isRequired]="'Company1 Name is required'"
+                  [isDirty]="isDirty"
                  
                 ></app-custom-input>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">{{ labels?.mobileNumber }}</label>
+          </div>
+          <div class="row">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="mobile_number">{{ labels?.mobileNumber }}</label> -->
               <!-- <input
                 formControlName="companyPhoneNumber"
                 type="text"
@@ -727,7 +734,7 @@
                 value="8974563210"
                 readonly=""
               /> -->
-              <app-custom-input
+              <!-- <app-custom-input
                   formControlName="companyPhoneNumber"
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
@@ -735,15 +742,16 @@
                  [isDirty]="isDirty"
                  [type]="'number'"
                 ></app-custom-input>
-            </div>
+            </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">{{ labels?.dateOfIncorporation }}</label>
-              <div class="input-group input-medium">
-                <span class="input-group-btn">
+              <label for="entity">{{ labels?.dateOfIncorporation }} <sub class="star_red_col">*</sub></label>
+              <div class="input-group input-medium"
+              id="date_of_birth">
+                <!-- <span class="input-group-btn">
                   <button class="btn btn-default" disabled="">
                     <i class="fa fa-calendar"></i>
                   </button>
-                </span>
+                </span> -->
                 <!-- <input
                   formControlName="dateOfIncorporation"
                   type="text"
@@ -754,43 +762,112 @@
                 <kendo-datepicker class="form-control" 
                 formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date"
+                 placeholder="Date of Incorporation"
                 [activeView]="'decade'"
                 ></kendo-datepicker>
               </div>
             </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="contact_person">{{ labels?.contactPerson }} <sub class="star_red_col">*</sub></label>
+              <!-- <input
+                formControlName="contactPerson"
+                type="text"
+                class="form-control"
+                name="contact_person"
+                id="contact_person"
+                required="required"
+              /> -->
+              <app-custom-input
+              formControlName="contactPerson"
+              [maxLength]="validationData?.name?.maxLength"
+              [isRequired]="'Contact Person Name is required'"
+              [isDirty]="isDirty"
+              [type]="validationData?.name?.type"
+              
+            ></app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="contact_person_mobile_number">{{
+                labels?.contactNumber
+              }} <sub class="star_red_col">*</sub></label>
+              
+              <app-custom-input
+                  formControlName="companyPhoneNumber"
+                  [isRequired]="'Contact Number is required'"
+                  [isDirty]="isDirty"
+                  [maxLength]='validationData?.landlineNumber?.maxLength'
+                 [type]="validationData?.landlineNumber?.type"
+                 
+                ></app-custom-input>
+            </div>
+          </div>
 
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{
-                labels?.customerCategory
-              }}</label>
+              <label for="countryOfCorporation">{{
+                labels?.countryOfCorporation
+              }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
-                formControlName="customerCategory"
-                [values]="LOV.LOVS.customerCategory"
+                formControlName="countryOfCorporation"
+                [values]=""
                 [isRequired]="'Please select one'"
-                [isDirty]="isDirty">
+                
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="businessType">{{
+                labels?.typeOfBusiness
+              }} <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="businessType"
+                [values]=""
+                [isRequired]="'Please select one'"
+                
+              ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="industry">{{
+                labels?.industry
+              }} <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                formControlName="industry"
+                [values]=""
+                [isRequired]="'Please select one'"
+                >
+              ></app-vf-custom-select>
+            </div>
+          </div>
+
+            <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">{{ labels?.emailID }}</label>
-              <input
-                formControlName="companyEmailId"
-                type="text"
-                class="form-control"
-                id="amount"
-              />
+              <app-custom-input
+                  formControlName="companyEmailId"
+                  [patternCheck]="emailPattern"
+                  [maxlength]="validationData?.email?.maxLength"
+                ></app-custom-input> 
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created By">{{
                 labels?.alternateEmailID
               }}</label>
-              <input
-                formControlName="alternateEmailId"
-                type="text"
-                class="form-control"
-                id="amount"
-              />
+              <app-custom-input
+                  formControlName="alternateEmailId"
+                  [patternCheck]="emailPattern"
+                  [maxlength]="validationData?.email?.maxLength"
+                ></app-custom-input> 
             </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="mobile_number">{{labels?.alternateContactNumber}} </label>
+             
+              <app-custom-input
+                  formControlName="alternateContactNumber"
+                  [type]="validationData?.landlineNumber?.type"
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                ></app-custom-input>
+            </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">{{
                 labels?.prefferedLanguageForCommunication
@@ -805,47 +882,32 @@
                 [isDirty]="isDirty">
               ></app-vf-custom-select>
             </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="contactPersonDesignation">{{
+                labels?.contactPersonDesignation
+              }} <sub class="star_red_col">*</sub></label>
+              
+              <app-vf-custom-select
+                formControlName="contactPersonDesignation"
+                [values]="LOV.LOVS.occupation"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty">
+              ></app-vf-custom-select>
+            </div>
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="title">{{ labels?.numberOfDirections }}</label>
-              <!-- <input
-                formControlName="numberOfDirectors"
-                type="text"
-                class="form-control"
-                id="amount"
-              /> -->
+              <label for="title">{{ labels?.numberOfDirectors }}</label>
               <app-custom-input
                   formControlName="numberOfDirectors"
-                  [patternCheck]="numberPattern"
-                  [type]="'number'"
+                  [maxLength]="validationData?.numberOfYears?.maxLength"
+                  [type]="validationData?.numberOfYears?.type"
                   ></app-custom-input>
             </div>
           </div>
-          <!-- <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="bank_account_number">{{labels?.bankAccountNumber}}</label>
-                        <input formControlName="accountNumber" type="text" class="form-control" name="bank_account_number" id="bank_account_number" required="required">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="account_holding_bank">{{labels?.accountHoldingBank}}</label>
-                        <select class="form-control" id="account_holding_bank" name="account_holding_bank" required="required">
-                            <option value="">Select</option>
-                        </select>
-                        <app-vf-custom-select formControlName="accountBank"></app-vf-custom-select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="branch_and_communication_address">{{labels?.branchAndCommunicationAddress}}</label>
-                        <textarea formControlName="branchAddress" class="form-control" rows="1" id="branch_and_communication_address" name="branch_and_communication_address"></textarea>											
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="spoke_and_communication_address">{{labels?.spokeAndCommunicationAddress}}</label>
-                        <textarea formControlName="spokeAddress" class="form-control" rows="1" id="spoke_and_communication_address" name="spoke_and_communication_address"></textarea>					
-                    </div>
-
-                </div> -->
+          
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="name_of_director">{{ labels?.nameofDirector }}</label>
+              <label for="name_of_director">{{ labels?.nameofDirector }} <sub class="star_blue_col">*</sub></label>
               <!-- <input
                 formControlName="directorName"
                 type="text"
@@ -855,16 +917,16 @@
               /> -->
               <app-custom-input
               formControlName="directorName"
-              [patternCheck]="nameSpacePattern"
-              [maxLength]="nameLength30"
-              [type]="'alpha'"
+             
+              [maxLength]="validationData?.directorName?.maxLength"
+              [type]="validationData?.directorName?.type"
               
             ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="din">{{
                 labels?.directorIdentificationNumber
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="directorIdentificationNumber"
                 type="text"
@@ -874,65 +936,17 @@
               /> -->
               <app-custom-input
                   formControlName="directorIdentificationNumber"
-                  [patternCheck]="numberPattern"
-                  [type]="'number'"
+                  [maxLength]="validationData?.dinNumber?.maxLength"
+                  [type]="validationData?.dinNumber?.type"
                   ></app-custom-input>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="contact_person">{{ labels?.contactPerson }}</label>
-              <!-- <input
-                formControlName="contactPerson"
-                type="text"
-                class="form-control"
-                name="contact_person"
-                id="contact_person"
-                required="required"
-              /> -->
-              <app-custom-input
-              formControlName="contactPerson"
-              [patternCheck]="nameSpacePattern"
-              [maxLength]="nameLength30"
-              [type]="'alpha'"
-              
-            ></app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="contact_person_designation">{{
-                labels?.contactPersonDesignation
-              }}</label>
-              <!-- <select class="form-control" id="contact_person_designation" name="contact_person_designation">
-                            <option value="">Select</option>
-                        </select> -->
-              <app-vf-custom-select
-                formControlName="contactPersonDesignation"
-                [values]="LOV.LOVS.designation"
-              ></app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="contact_person_mobile_number">{{
-                labels?.contactPersonMobileNumber
-              }}</label>
-              <!-- <input
-                formControlName="contactPersonMobile"
-                type="text"
-                class="form-control"
-                name="contact_person_mobile_number"
-                id="contact_person_mobile_number"
-                required="required"
-              /> -->
-              <app-custom-input
-                  formControlName="contactPersonMobile"
-                  [patternCheck]="mobilePattern"
-                  
-                 [maxLength]='mobileLenght10'
-                 [type]="'number'"
-                 
-                ></app-custom-input>
-            </div>
+            
+            
+            
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="rating_issuer_name">{{
                 labels?.ratingIssuerName
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="ratingIssuerName"
                 type="text"
@@ -942,109 +956,121 @@
               /> -->
               <app-custom-input
               formControlName="ratingIssuerName"
-              [patternCheck]="nameSpacePattern"
-              [maxLength]="nameLength30"
-              
-              
-            ></app-custom-input>
+              [maxLength]="validationData?.name?.maxLength"
+              [isRequired]="'Rating Issuer Name is Required'"
+              [isDirty]="isDirty"
+              [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
+          </div>
+            
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="external_rating_assigned">{{labels?.ratingIssuerName}}</label>
                         <input formControlName="ratingAssigned" type="text" class="form-control" name="external_rating_assigned" id="external_rating_assigned">
                     </div> -->
+            <div class="row">        
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="extnl_rating_issued_date">{{
                 labels?.externalRatingAssigned
-              }}</label>
-              <input
+              }} <sub class="star_red_col">*</sub></label>
+              <!-- <input
                 formControlName="externalRatingAssigned"
                 type="text"
                 class="form-control"
                 name="rating_Assigned"
                 id="rating_Assigned"
-              />
+              /> -->
+              <app-custom-input
+              formControlName="externalRatingAssigned"
+             [isRequired]="'Required'"
+             [isDirty]="isDirty"
+              ></app-custom-input>
+              
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="extnl_rating_expiry_date">{{
                 labels?.extnlRatingIssuedDate
-              }}</label>
-              <div class="input-group input-medium">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" disabled="">
-                    <i class="fa fa-calendar"></i>
-                  </button>
-                </span>
-                <!-- <input
-                  formControlName="externalRatingIssueDate"
-                  type="text"
-                  class="form-control"
-                  id="extnl_rating_expiry_date"
-                  name="extnl_rating_expiry_date"
-                  disabled=""
-                /> -->
+              }} <sub class="star_red_col">*</sub></label>
+              <div class="input-group input-medium"
+              id="date_of_birth">
+                
                 <kendo-datepicker class="form-control" 
                 formControlName="externalRatingIssueDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date"
+                 placeholder="Issue Date"
                 [activeView]="'decade'"
                 ></kendo-datepicker>
+                    <!-- <div *ngIf="validation.get('externalRatingIssueDate').touched"> -->
+                      <div class="ShowError"
+                        *ngIf="isDirty && validation.get('externalRatingIssueDate').errors?.required"
+                      >
+                        select date
+                      </div>
+                    <!-- </div> -->
+                    
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="extnl_rating_expiry_date">{{
                 labels?.extnlRatingExpiryDate
-              }}</label>
-              <div class="input-group input-medium">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" disabled="">
-                    <i class="fa fa-calendar"></i>
-                  </button>
-                </span>
-                <!-- <input
-                  formControlName="externalRatingExpiryDate"
-                  type="text"
-                  class="form-control"
-                  id="extnl_rating_expiry_date"
-                  name="extnl_rating_expiry_date"
-                  disabled=""
-                /> -->
+              }} <sub class="star_red_col">*</sub></label>
+              <div class="input-group input-medium"
+              id="date_of_birth">
+                
                 <kendo-datepicker class="form-control" 
                 formControlName="externalRatingExpiryDate" [format]="'dd/MM/yyyy'"
                 [max]="toDayDate"
-                 placeholder="Date"
+                 placeholder="Expiry Date"
                 [activeView]="'decade'"
                
                 ></kendo-datepicker>
+                <div class="ShowError"
+                *ngIf="isDirty && validation.get('externalRatingExpiryDate').errors?.required"
+              >
+                select date
+              </div>
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="dealing_foreign_currency">{{
                 labels?.dealingForeignCurrency
-              }}</label>
-              <input
+              }} <sub class="star_red_col">*</sub></label>
+              <!-- <input
                 formControlName="foreignCurrencyDealing"
                 type="text"
                 class="form-control"
                 name="dealing_foreign_currency"
                 id="dealing_foreign_currency"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="foreignCurrencyDealing"
+                  [isRequired]="'Required'"
+                  [isDirty]="isDirty"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="exposure_banking_system">{{
                 labels?.totalExposureInThebankingsystem
-              }}</label>
-              <input
+              }} <sub class="star_red_col">*</sub></label>
+              <!-- <input
                 formControlName="exposureBankingSystem"
                 type="text"
                 class="form-control"
                 name="exposure_banking_system"
                 id="exposure_banking_system"
-              />
+              /> -->
+              <app-custom-input
+                  formControlName="exposureBankingSystem"
+                  [isRequired]="'Required'"
+                  [isDirty]="isDirty"
+                  ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="credit_risk_score">{{
                 labels?.creditRiskScore
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <!-- <input
                 formControlName="creditRiskScore"
                 type="text"
@@ -1055,8 +1081,8 @@
               /> -->
               <app-custom-input
                   formControlName="creditRiskScore"
-                  [patternCheck]="numberPattern"
-                  [type]="'number'"
+                  [isRequired]="'Credit Score is Required'"
+                  [isDirty]="isDirty"
                   ></app-custom-input>
             </div>
           </div>
