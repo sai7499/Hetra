@@ -268,17 +268,16 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="passport">{{ labels.typeOfAccommmodation }}</label>
-                <!-- <select class="form-control">
-                                        <option>Own House</option>
-                                        <option>Rented House</option>
-                                        
-                                    </select> -->
-                <app-vf-custom-select
-                  formControlName="accommodationType"
-                  [values]="LOV.LOVS.accomodationType"
-                >
-                </app-vf-custom-select>
+                <label for="current_landline">{{
+                  labels.landLineNumber
+                }}</label>
+                <!-- <input formControlName="landlineNumber" type="text" class="form-control"
+                                id="current_landline" /> -->
+                <app-custom-input
+                  formControlName="landlineNumber"
+                  [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"
+                ></app-custom-input>
               </div>
             </div>
             <div class="row">
@@ -299,17 +298,20 @@
                 ></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="current_landline">{{
-                  labels.landlineNumber
-                }}</label>
-                <!-- <input formControlName="landlineNumber" type="text" class="form-control"
-                                id="current_landline" /> -->
-                <app-custom-input
-                  formControlName="landlineNumber"
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                ></app-custom-input>
+                <label for="passport">{{ labels.typeOfAccommmodation }}</label>
+                <!-- <select class="form-control">
+                                        <option>Own House</option>
+                                        <option>Rented House</option>
+                                        
+                                    </select> -->
+                <app-vf-custom-select
+                  formControlName="accommodationType"
+                  [values]="LOV.LOVS.accomodationType"
+                >
+                </app-vf-custom-select>
               </div>
+
+
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="alternate_mobile">{{
                   labels?.alternateContactNumber

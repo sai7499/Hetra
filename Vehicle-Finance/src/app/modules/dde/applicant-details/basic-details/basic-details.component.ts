@@ -56,52 +56,13 @@ export class BasicDetailsComponent implements OnInit {
       value: 'Self Employed',
     },
   ];
-  nameLength30={
-    rule: 30,
-  }
-  length2 ={
-    rule : 2
-  }
   
-  length20 ={
-    rule : 20
-  }
-  mobileLenght10={
-    rule: 10,
-    msg : 'Mobile Number Should be 10 Digits'
-  }
-  namePattern = {
-    rule: '^[A-Z]*[a-z]*$',
-    msg: 'Invalid Name',
-  };
-  nameSpacePattern = {
-    rule: '^[A-Za-z]{1}[A-Z ]*[a-z ]*$',
-    msg: 'Invalid Name',
-  };
-//   companyPattern ={
-//    rule : '^[A-Z]*[a-z]*$',
-//    msg: 'Invalid Name',
-//  };
-  numberPattern={
-    rule : '^[0-9]',
-    msg : 'Invalid'
-  }
-  mobilePattern={
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  }
+
   emailPattern={
     rule : '^\\w+([\.-]?\\w+)@\\w+([\.-]?\\w+)(\\.\\w{2,10})+$',
     msg : 'Invalid email'
   }
-  landlinePattern={
-    rule : '^[0-9]{6,15}',
-    msg : "Invalid Number"
-  }
-  landlineLength15={
-    rule: 15,
-    
-  }
+  
 
   
   constructor(
