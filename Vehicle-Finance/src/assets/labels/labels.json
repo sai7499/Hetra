@@ -698,6 +698,7 @@
     "registrationNumber": "Registration Number",
     "address": "Address",
     "valuationStatus": "Valuation Status",
+    "valuatorStatus": "Valuator Status",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
@@ -733,7 +734,7 @@
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
-    "modelType": "Model",
+    "modelType": "Model/Type",
     "loanAmt": "Loan Amount",
     "loanDetailsForNewVehicle": "Loan Details For New Vehicle",
     "loanDetailsUsedVehicleTitle": "Loan Details For Used Vehicle",
@@ -1066,6 +1067,12 @@
             "patternCheck": {
                 "rule": "^[6-9][0-9]*$",
                 "msg": "Invalid Mobile Number"
+            }
+        },
+        "email": {
+            "maxLength": {
+                "rule": 120
+                
             }
         },
         "adhaarNumber": {

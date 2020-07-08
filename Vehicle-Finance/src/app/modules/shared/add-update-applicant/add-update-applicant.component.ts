@@ -42,103 +42,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     rule: '[A-Z]{5}[0-9]{4}[A-Z]{1}',
     msg: 'Pan is invalid',
   };
-  namePattern = {
-    rule: '^[A-Z ]*[a-z ]*$',
-    msg: 'Invalid Name',
-  };
-  namePatternIdv = {
-    rule: '^[A-Z]*[a-z]*$',
-    msg: 'Invalid Name',
-  };
-  namePatternNonIdv = {
-    rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-    msg: 'Invalid  Name',
-  };
-  maxlength30 = {
-    rule: 30,
-    msg: '',
-  };
-  maxlength9 = {
-    rule: 9,
-    msg: '',
-  };
-
-  drivingLicensePattern = {
-    rule: '[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}',
-    msg: 'Invalid',
-  };
+ 
 
   panRequired: boolean;
-
-  mobileNumberPattern = {
-    rule: '^[1-9][0-9]*$',
-    msg: 'Numbers Only Required',
-  };
-
-  maxlength10 = {
-    rule: 10,
-    msg: 'Max Required Length 10',
-  };
-
-  adharNumberPattern = {
-    rule: '^[0-9]{12}',
-    msg: 'Invalid Aadhaar Number',
-  };
-
-  maxlength12 = {
-    rule: 12,
-    msg: '',
-  };
-
-  passportPattern = {
-    rule: '[A-Z]{1}[0-9]{7}',
-    msg: 'Invalid Passport Number',
-  };
-
-  voterIdPattern = {
-    // rule: '[A-Z]{3}[0-9]{6}',
-    rule: '^[a-zA-Z0-9]*$',
-    msg: 'Invalid VoterId Number',
-  };
-
-  // addressLineOnePattern = {
-  //   rule: '^[0-9A-Za-z, _&*#/\\-]{0,99}$' ,
-  //   msg: 'Invalid Address'
-  // };
-
-  maxlength40 = {
-    rule: 40,
-    msg: '',
-  };
-
-  maxLength35 = {
-    rule: 35,
-  };
-
-  pincodePattern = {
-    rule: '[1-9]{1}[0-9]{5}',
-    msg: 'Invalid pincode Number',
-  };
-
-  landlLinePattern = {
-    // rule: '^[0-9]\d{2,4}-\d{6,8}$' ,
-    // msg: 'Invalid Landline Number'
-    rule: '^[0-9]{6,15}',
-    msg: 'Invalid Landline Number',
-  };
-
-  maxlength15 = {
-    rule: 15,
-    msg: '',
-  };
-  maxlength8 = {
-    rule: 8,
-    msg: '',
-  };
-  maxlength6 = {
-    rule: 6,
-    msg: '',
-  };
 
   isMobileChanged = false;
   isName1Changed: boolean;
@@ -291,11 +197,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantType = event.target.value;
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
     if (this.applicantType == 'INDIVENTTYP') {
-      this.namePattern = this.namePatternNonIdv;
+      //this.namePattern = this.namePatternNonIdv;
       this.addIndFormControls();
       this.removeNonIndFormControls();
     } else {
-      this.namePattern = { ...this.namePatternIdv };
+      //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
     }

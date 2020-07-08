@@ -1,7 +1,7 @@
 <div class="mb-50">
   <div class="row">
     <div class="col-xs-12">
-      <div *ngIf = "userType === 'Credit Officer'">
+      <div *ngIf = "userType === 2">
         <button style="float:right" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new row</button>
     
       </div>
@@ -18,12 +18,12 @@
       <label> {{labels.supportDocument}} </label>
     </div>
     <div class="col-xs-6" [ngClass]="{
-      'col-sm-2':userType === 'Credit Officer',
-      'col-sm-3':userType === 'Sales Officer'
+      'col-sm-2':userType === 2,
+      'col-sm-3':userType === 1
     }">
       <label class="action"> {{labels.action}} </label>
     </div>
-    <div class="col-xs-6 col-sm-1 "  *ngIf="userType === 'Credit Officer'">More</div>
+    <div class="col-xs-6 col-sm-1 "  *ngIf="userType === 2">More</div>
   </div>
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
 <div formArrayName="Rows">
@@ -48,21 +48,21 @@
         </label>
         </div>
       <!-- <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a> -->
-      <div *ngIf="item.get('isDocReq').value == '1' && userType === 'Sales Officer'" class="btn btn-primary uploadsan">Upload
+      <div *ngIf="item.get('isDocReq').value == '1' && userType === 1" class="btn btn-primary uploadsan">Upload
         <!-- <input type="file" formControlName="salesResponseDoc"  class="upload_sanction"/> -->
         </div>
     </div>
     <div class="col-xs-6 col-sm-2" [ngClass]="{
-      'col-sm-2':userType === 'Credit Officer',
-      'col-sm-3':userType === 'Sales Officer'
+      'col-sm-2':userType === 2,
+      'col-sm-3':userType === 1
     }">
       
       <div class="row m-0">
         <label class="radio-inline">
-          <input type="radio" value='1' formControlName="creditAction" (change)="dateCheck($event)" [attr.disabled]="userType === 'Sales Officer'"> {{labels.accepted}}
+          <input type="radio" value='1' formControlName="creditAction" (change)="dateCheck($event)" [disabled]="userType == 1"> {{labels.accepted}}
         </label>
         <label class="radio-inline">
-          <input type="radio"  value='0' formControlName="creditAction" (change)="dateCheck($event)" [attr.disabled]="userType === 'Sales Officer'"> {{labels.notAccepted}}
+          <input type="radio"  value='0' formControlName="creditAction" (change)="dateCheck($event)" [disabled]="userType == 1"> {{labels.notAccepted}}
         </label>
         </div>
         <div class="row m-0">
@@ -85,7 +85,7 @@
         </label>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-1" *ngIf="userType == 'Credit Officer'">
+    <div class="col-xs-6 col-sm-1" *ngIf="userType == 2">
       <div>
         <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
         (click)="addOtherUnit()"></i>&nbsp; -->
