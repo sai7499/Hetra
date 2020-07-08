@@ -27,4 +27,8 @@ export class SharedService {
     getUpdatedDeviation(data) {
         this.updateDev$.next(data)
     }
+    pdStatus$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getPdStatus(data) {
+        this.pdStatus$.next(data)
+    }
 }

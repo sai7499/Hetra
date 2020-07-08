@@ -13,6 +13,7 @@ import { PdDataService } from '../pd-data.service';
 import { valHooks } from 'jquery';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-loan-details',
@@ -81,6 +82,7 @@ export class LoanDetailsComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private pdDataService: PdDataService,
     private toasterService: ToasterService,
+    public sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
@@ -125,6 +127,7 @@ export class LoanDetailsComponent implements OnInit {
     this.getLOV();
     this.getPdDetails()
     this.RemoveAddControls()
+    this.getPdStatus()
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 
@@ -176,6 +179,12 @@ export class LoanDetailsComponent implements OnInit {
     console.log("prod cat code", this.productCatCode)
     console.log("req loan amount", this.reqLoanAmount)
   }
+  getPdStatus() {
+    this.sharedService.pdStatus$.subscribe((value: any) => {
+
+      console.log("in get pd status", value)
+    })
+  }
 
   initForm() {
 
@@ -204,7 +213,7 @@ export class LoanDetailsComponent implements OnInit {
       channelSourceName: new FormControl(''),
       vehicleSeller: new FormControl(''),
       proposedVehicle: new FormControl(''),
-      investmentAmount: new FormControl(''),
+      invesmentAmount: new FormControl(''),
       marginMoneyBorrowed: new FormControl(''),
       marketValueProposedVehicle: new FormControl(''),
       purchasePrice: new FormControl(''),
@@ -355,8 +364,6 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('selfDrivenOrDriver')
       controls.removeControl('remarks')
 
-
-
       console.log("in remove controls", controls)
 
     }
@@ -367,7 +374,6 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('newVehicleType')
       controls.removeControl('newVehicleReqLoanAmount')
       controls.removeControl('newVehicleMarginMoney')
-
 
       console.log("in remove controls", controls)
 
@@ -444,7 +450,7 @@ export class LoanDetailsComponent implements OnInit {
     const usedVehicleModel = this.usedVehicleDetails || {};
     const assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {}
 
-    if (this.productCatCode == 'NCV' || 'NC') {
+    if (this.productCatCode == 'NCV' || this.productCatCode === 'NC') {
 
       this.loanDetailsForm.patchValue({
         // new cv details patching
@@ -455,14 +461,14 @@ export class LoanDetailsComponent implements OnInit {
         newVehicleMarginMoney: newCvModel.marginMoney || ''
       })
     }
-    else if (this.productCatCode == 'UCV' || 'UC') {
+    else if (this.productCatCode == 'UCV' || this.productCatCode === 'UC') {
 
       this.loanDetailsForm.patchValue({
         // used cv details patching
-        usedVehicleCost: usedVehicleModel.usedVehicleCost || '',
-        usedVehModel: usedVehicleModel.usedVehModel || '',
-        usedVehicleType: usedVehicleModel.usedVehicleType || '',
-        usedVehicleMarginMoney: usedVehicleModel.usedVehicleMarginMoney || '',
+        usedVehicleCost: usedVehicleModel.vehicleCost ? usedVehicleModel.vehicleCost : '0',
+        usedVehModel: usedVehicleModel.model || '',
+        usedVehicleType: usedVehicleModel.type || '',
+        usedVehicleMarginMoney: usedVehicleModel.marginMoney || '',
         usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
         sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase || '',
         marginMoneySource: usedVehicleModel.marginMoneySource || '',
@@ -471,7 +477,7 @@ export class LoanDetailsComponent implements OnInit {
         channelSourceName: usedVehicleModel.channelSourceName || '',
         vehicleSeller: usedVehicleModel.vehicleSeller || '',
         proposedVehicle: usedVehicleModel.proposedVehicle || '',
-        investmentAmount: usedVehicleModel.invesmentAmount || '',
+        invesmentAmount: usedVehicleModel.invesmentAmount || '',
         marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed || '',
         marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle || '',
         purchasePrice: usedVehicleModel.purchasePrice || '',
@@ -572,6 +578,8 @@ export class LoanDetailsComponent implements OnInit {
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
     this.isDirty = true;
+    console.log(this.loanDetailsForm.controls)
+    // working fine now i think
     if (this.loanDetailsForm.invalid) {
       console.log(this.loanDetailsForm)
       return
@@ -581,7 +589,7 @@ export class LoanDetailsComponent implements OnInit {
     console.log("form data", this.newCvDetails)
     // this.ddeStoreService.setLoanDetails(loanDetailsModal);
     // this.router.navigate(['/pages/dde']);
-    if (this.productCatCode === 'NCV' || 'NC') {
+    if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
       console.log("in new vehicle submit pd")
       this.newCvDetails = {
@@ -620,7 +628,7 @@ export class LoanDetailsComponent implements OnInit {
 
 
     }
-    else if (this.productCatCode === 'UCV' || 'UC') {
+    else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       console.log("in used vehicle submit pd")
 
@@ -628,11 +636,11 @@ export class LoanDetailsComponent implements OnInit {
 
       this.usedVehicleDetails = {
 
-        vehicleCost: loanDetailsModal.usedVehiclevehicleCost,
+        vehicleCost: loanDetailsModal.usedVehicleCost,
         model: loanDetailsModal.usedVehModel,
         type: loanDetailsModal.usedVehicleType,
         // reqLoanAmount: loanDetailsModal.reqLoanAmount,
-        marginMoney: loanDetailsModal.usedVehiclemarginMoney,
+        marginMoney: loanDetailsModal.usedVehicleMarginMoney,
         usedVehicleLoanAmountReq: loanDetailsModal.usedVehicleLoanAmountReq,
         sourceOfVehiclePurchase: loanDetailsModal.sourceOfVehiclePurchase,
         marginMoneySource: loanDetailsModal.marginMoneySource,
@@ -641,7 +649,7 @@ export class LoanDetailsComponent implements OnInit {
         channelSourceName: loanDetailsModal.channelSourceName,
         vehicleSeller: loanDetailsModal.vehicleSeller,
         proposedVehicle: loanDetailsModal.proposedVehicle,
-        investmentAmount: loanDetailsModal.invesmentAmount,
+        invesmentAmount: loanDetailsModal.invesmentAmount,
         marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
         marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
         purchasePrice: loanDetailsModal.purchasePrice,
@@ -689,7 +697,7 @@ export class LoanDetailsComponent implements OnInit {
         applicableForUsedVehicle: this.usedVehicleDetails,
 
       }
-      console.log("used vehicle data", this.assetDetailsUsedVehicle)
+      console.log("used vehicle data in request", this.usedVehicleDetails)
 
       this.personalDiscussion.savePdData(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;

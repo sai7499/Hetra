@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-pd-report',
@@ -20,9 +21,11 @@ export class PdReportComponent implements OnInit {
   userId: any;
   roles: any;
   roleName: string;
+  pdStatus: { [id: string]: any; } = {};
 
   constructor(private labelsData: LabelsService,
     private router: Router,
+    public sharedService: SharedService,
     private loginStoreService: LoginStoreService,
     private personalDiscussionService: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute) { }
@@ -61,6 +64,18 @@ export class PdReportComponent implements OnInit {
       const processveriables = value.ProcessVariables;
       this.pdList = processveriables.finalPDList;
       console.log('PD List', this.pdList);
+      for (var i in this.pdList) {
+        console.log("in for pd list", i)
+        if (this.pdList[i]['pdStatusValue'] == "Submitted") {
+          this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
+
+          console.log("pd status array", this.pdStatus)
+          this.sharedService.getPdStatus(this.pdStatus)
+        }
+
+      }
+      // this.pdStatus = 
+      // this.sharedService.getPdStatus(updateDevision)
     });
   }
 

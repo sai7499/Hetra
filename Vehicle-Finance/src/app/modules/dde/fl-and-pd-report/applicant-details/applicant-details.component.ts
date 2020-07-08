@@ -250,7 +250,8 @@ export class ApplicantDetailComponent implements OnInit {
 
   onNavigateBack() {
     if (this.roleName === 'Sales Officer') {
-      this.router.navigate([`/../../../customer-profile/${this.applicantId}`]);
+      // routerLink="/pages/dde/leadId/pd-report/"
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
     } else if (this.roleName === 'Credit Officer') {
       this.router.navigate([`../../../customer-profile/${this.applicantId}/${this.version}`]);
 
