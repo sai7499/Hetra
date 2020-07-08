@@ -18,7 +18,7 @@
         <tbody>
             <tr *ngFor="let item of viabilityDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                 <td>
-                    <input type="button" class="btn-primary" (click)="onAssign(item.taskId)" value="Assign" data-toggle="modal" data-target="#assignModel" />
+                    <input type="button" class="btn-primary" (click)="onAssign(item.taskId); onClick()" value="Assign" data-toggle="modal" data-target="#assignModel" />
                 </td>
                 <td>{{item.leadId}}</td>
                 <td>{{item.product ? item.product : '--'}}</td>

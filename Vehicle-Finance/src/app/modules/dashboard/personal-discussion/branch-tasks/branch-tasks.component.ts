@@ -64,6 +64,10 @@ export class BranchTasksComponent implements OnInit {
     });
   }
 
+  onClick() {
+    this.getPdBrabchTask(this.itemsPerPage);
+  }
+
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
     this.pdListDashboard = response;
@@ -82,22 +86,14 @@ export class BranchTasksComponent implements OnInit {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', typeof res);
-      console.log('assignResponse', res.ErrorCode);
-      const response = new Object(res);
+      const response = JSON.parse(res);
       console.log(response);
-      // if (response.ErrorCode == 0 ) {
-      //   this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
-      // } else {
-      //   this.toasterService.showError(response.Error, '');
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+      } else {
+        this.toasterService.showError(response.Error, '');
 
-      // }
-      // if (response.ErrorCode == 1 ) {
-      //   this.toasterService.showError(response.Error, '');
-
-      // } else {
-      //   this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
-
-      // }
+      }
     });
   }
 

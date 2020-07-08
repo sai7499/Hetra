@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class DecisionWithBranchComponent implements OnInit {
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
   ) {
   }
 
@@ -44,6 +46,11 @@ export class DecisionWithBranchComponent implements OnInit {
       this.branchId = value.branchId;
     });
     this.getDecisionLeads(this.itemsPerPage);
+  }
+
+  onClick() {
+    this.getDecisionLeads(this.itemsPerPage);
+
   }
 
   getDecisionLeads(perPageCount, pageNumber?) {
@@ -80,6 +87,14 @@ export class DecisionWithBranchComponent implements OnInit {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+      } else {
+        this.toasterService.showError(response.Error, '');
+
+      }
     });
   }
 

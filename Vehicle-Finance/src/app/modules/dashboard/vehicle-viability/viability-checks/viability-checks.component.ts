@@ -4,6 +4,7 @@ import { LoginService } from '@modules/login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-viability-checks',
@@ -27,7 +28,8 @@ export class ViabilityChecksComponent implements OnInit {
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
   ) {
   }
 
@@ -41,6 +43,10 @@ export class ViabilityChecksComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
+    this.getViabilityDashboard(this.itemsPerPage);
+  }
+
+  onClick() {
     this.getViabilityDashboard(this.itemsPerPage);
   }
 
@@ -77,6 +83,12 @@ export class ViabilityChecksComponent implements OnInit {
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
       console.log('release Task', res);
+      const response = res;
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
     });
   }
 

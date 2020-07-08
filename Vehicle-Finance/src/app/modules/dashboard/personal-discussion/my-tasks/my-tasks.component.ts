@@ -88,8 +88,6 @@ export class MyTasksComponent implements OnInit {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
       console.log('release Task', res);
       const response = res;
-      console.log(response.ErrorCode);
-      
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Released Successfully', 'Released');
       } else {
