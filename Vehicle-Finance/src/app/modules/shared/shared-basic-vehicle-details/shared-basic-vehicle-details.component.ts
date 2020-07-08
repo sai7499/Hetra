@@ -43,69 +43,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
 
-  maxlength10 = {
-    rule: 10,
-    msg: '',
-  };
-
-  maxLength3 = {
-    rule: 3,
-    msg: '',
-  };
-
-  maxlength2 = {
-    rule: 2,
-    msg: '',
-  };
-
-  maxlength5 = {
-    rule: 5,
-    msg: '',
-  };
-
-  namePattern = {
-    rule: '^[A-Za-z-0-9]{0,99}$',
-    msg: 'Special Characters not allowed',
-  };
-
-  regexPattern = {
-    maxLength: {
-      rule: '10',
-      msg: 'Maximum Length 10 digits',
-    },
-    pincodemaxLength: {
-      rule: '6',
-      msg: 'Maximum Length 6 digits',
-    },
-    maxlength30: {
-      rule: '30',
-      msg: '',
-    },
-    nameLength: {
-      rule: '50',
-      msg: '',
-    },
-    namePattern: {
-      rule: '^[A-Z ]*[a-z ]*$',
-      msg: 'Invalid Name',
-    },
-    maxlength40: {
-      rule: '40',
-      msg: '',
-    },
-    mobNumberPattern: {
-      rule: "^[6-9]{1}[0-9]{9}",
-      msg: 'Invalid Mobile Number',
-    },
-    numberPattern: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Numbers only allowed !',
-    },
-  };
-
   public minDate = new Date('01/01/2010')
-
-  mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
 
   // LovData
   public assetMake: any = [];
@@ -258,6 +196,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       // this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.vehicleCategory = value.LOVS.customerCategory;
+      this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
 
       this.vehicleLov.YesORNoValue = [
         {
@@ -437,8 +376,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  // event emitter for giving output to parent add vehicle component
-
   formDataOutputMethod(event) {
     this.sharedService.getFormValidation(this.basicVehicleForm)
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
@@ -606,7 +543,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
-    // this.isDirty = true;
   }
 
   addCreditFormControls() {
