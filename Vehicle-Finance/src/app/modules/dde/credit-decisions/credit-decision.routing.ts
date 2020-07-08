@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {CreditDecisionComponent} from './credit-decision.component';
 import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.component';
-// import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+ import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
     {
         path: ':leadId',
         component: CreditDecisionComponent,
-        // resolve: { leadData: LeadDataResolverService },
+        resolve: { leadData: LeadDataResolverService },
         children: [
           {
                path: '',
