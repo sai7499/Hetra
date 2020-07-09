@@ -433,20 +433,23 @@ export class LoanDetailsComponent implements OnInit {
 
   }
   onNavigateNext() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/reference-check/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      console.log('URL for Loan => Next In Credit Flow', `/pages/fl-and-pd-report/${this.leadId}/pd-report`);
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/pd-report`]);
+    if (this.version) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+
+    } else {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }
   }
 
   onNavigateBack() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
+    if (this.version) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
 
     }
   }
@@ -535,56 +538,56 @@ export class LoanDetailsComponent implements OnInit {
   }
 
 
-  // method for approving pd report
+  // // method for approving pd report
 
-  approvePd() {
-    const data = {
-      applicantId: this.applicantId,
-      // applicantId: 1,
-      userId: this.userId
-    }
-    this.personalDiscussion.approvePd(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      console.log("response approve pd", processVariables)
-      const message = processVariables.error.message
-      if (processVariables.error.code === '0') {
+  // approvePd() {
+  //   const data = {
+  //     applicantId: this.applicantId,
+  //     // applicantId: 1,
+  //     userId: this.userId
+  //   }
+  //   this.personalDiscussion.approvePd(data).subscribe((res: any) => {
+  //     const processVariables = res.ProcessVariables;
+  //     console.log("response approve pd", processVariables)
+  //     const message = processVariables.error.message
+  //     if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report approved successfully", '')
-        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+  //       this.toasterService.showSuccess("pd report approved successfully", '')
+  //       this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
+  //     }
+  //     else {
+  //       this.toasterService.showError("", 'message')
 
-      }
-    })
+  //     }
+  //   })
 
-  }
-  // method for re-initating pd report
+  // }
+  // // method for re-initating pd report
 
-  reinitiatePd() {
-    const data = {
-      applicantId: this.applicantId,
-      // applicantId: 1,
-      userId: this.userId
-    }
-    this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      console.log("response reinitiate pd", processVariables)
-      const message = processVariables.error.message
-      if (processVariables.error.code === '0') {
+  // reinitiatePd() {
+  //   const data = {
+  //     applicantId: this.applicantId,
+  //     // applicantId: 1,
+  //     userId: this.userId
+  //   }
+  //   this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
+  //     const processVariables = res.ProcessVariables;
+  //     console.log("response reinitiate pd", processVariables)
+  //     const message = processVariables.error.message
+  //     if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report reinitiated successfully", '')
-        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+  //       this.toasterService.showSuccess("pd report reinitiated successfully", '')
+  //       this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
+  //     }
+  //     else {
+  //       this.toasterService.showError("", 'message')
 
-      }
-    })
+  //     }
+  //   })
 
 
 
-  }
+  // }
 
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;

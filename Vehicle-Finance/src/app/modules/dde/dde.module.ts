@@ -11,14 +11,14 @@ import { IncomeDetailsComponent } from './income-details/income-details.componen
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
-import { PdReportComponent } from './pd-report/pd-report.component';
+import { PdListComponent } from './pd-list/pd-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { CamComponent } from './cam/cam.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { ViabilityDetailsComponent} from './vehicle-details/viability-details/viability-details.component';
+import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
 
 import { ScoreCardComponent } from './score-card/score-card.component';
 // import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
@@ -34,7 +34,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
   declarations: [
     DdeComponent,
     FlReportComponent,
-    PdReportComponent,
+    PdListComponent,
     ViabilityListComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
@@ -52,7 +52,8 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
     VehicleValuationComponent,
     ViabilityDetailsComponent,
     CibilOdComponent,
-    CibilOdListComponent
+    CibilOdListComponent,
+
 
   ],
   imports: [
@@ -67,4 +68,4 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
     DateInputsModule
   ],
 })
-export class DdeModule {}
+export class DdeModule { }

@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
-declare var jquery:any;
-declare var $:any;
+declare var jquery: any;
+declare var $: any;
 
 @Component({
   templateUrl: './dde.component.html',
@@ -14,6 +14,7 @@ declare var $:any;
 export class DdeComponent implements OnInit {
   locationIndex: number;
   leadId: number;
+  show: boolean;
   constructor(
     public router: Router,
     private location: Location,
@@ -22,21 +23,21 @@ export class DdeComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private cds: CommonDataService
   ) {
-    $(document).ready(function() {
+    $(document).ready(function () {
       $(".second-row").css("display", "none");
-      $(".prev-first-data").click(function() {
-          $(".first-row").css({"display":"block"});
-          $(".second-row").css({"display":"none"});
+      $(".prev-first-data").click(function () {
+        $(".first-row").css({ "display": "block" });
+        $(".second-row").css({ "display": "none" });
 
       });
-      $(".next-second-data").click(function() {
-          $(".first-row").css({"display":"none"});
-          $(".second-row").css({"display":"block"});
-          
+      $(".next-second-data").click(function () {
+        $(".first-row").css({ "display": "none" });
+        $(".second-row").css({ "display": "block" });
+
       });
     });
     this.leadId = this.route.snapshot.params['leadId'];
-    
+
   }
 
   hasRoute(route: string) {
@@ -57,7 +58,20 @@ export class DdeComponent implements OnInit {
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
+
+
+    console.log("in router url", this.router.url)
+    if (this.router.url.includes('/pd-dashboard')) {
+
+      console.log(" pd-dashboard ")
+      this.show = false;
+
+    } else {
+      this.show = true;
+    }
   }
+
+
 
   getLocationIndex(url: string) {
     if (url.includes('lead-details')) {
@@ -86,18 +100,18 @@ export class DdeComponent implements OnInit {
       return 11;
     } else if (url.includes('viability-dashboard')) {
       return 11;
-    }else if (url.includes('cibil-od')) {
+    } else if (url.includes('cibil-od')) {
       return 12;
-     }else if (url.includes('cibil-od-list')) {
+    } else if (url.includes('cibil-od-list')) {
       return 12;
-     }else if (url.includes('score-card')) {
+    } else if (url.includes('score-card')) {
       return 13;
     } else if (url.includes('cam')) {
       return 14;
     } else if (url.includes('deviations')) {
-        return 15;
+      return 15;
     } else if (url.includes('insurance-details')) {
       return 16;
-    } 
+    }
   }
 }

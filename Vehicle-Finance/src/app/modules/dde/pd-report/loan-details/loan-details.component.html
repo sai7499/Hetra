@@ -41,25 +41,9 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
-            <div class="btn-sec clear-both" *ngIf="roleType === 2">
-                <div class="col-sm-7"></div>
-                <div class="col-sm-5 text-right">
-                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
-                        {{labels.reinitiate}}
-                    </button>&nbsp;
-                    <button class="btn btn-success " (click)="approvePd()">
-                        {{labels.approve}}
-                    </button>
-
-                </div>
-            </div>
 
             <div class="btn-sec clear-both">
-                <div class="col-sm-5" *ngIf="roleType === 1"></div>
-                <div class="col-sm-5" *ngIf="roleType === 2">
-                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
-                        to PD Summary </button>
-                </div>
+                <div class="col-sm-5"></div>
                 <div class="col-sm-7 text-right">
 
                     <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
@@ -497,25 +481,10 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-sec clear-both" *ngIf="roleType === 2">
-                <div class="col-sm-7"></div>
-                <div class="col-sm-5 text-right">
-                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
-                        {{labels.reinitiate}}
-                    </button>&nbsp;
-                    <button class="btn btn-success " (click)="approvePd()">
-                        {{labels.approve}}
-                    </button>
-
-                </div>
-            </div>
 
             <div class="btn-sec clear-both">
-                <div class="col-sm-5" *ngIf="roleType === 1"></div>
-                <div class="col-sm-5" *ngIf="roleType === 2">
-                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
-                        to PD Summary </button>
-                </div>
+                <div class="col-sm-5"></div>
+
                 <div class="col-sm-7 text-right">
 
                     <button class="btn btn-primary" type="button" (click)="onNavigateBack()">

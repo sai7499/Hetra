@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
-import { FlAndPdReportComponent } from './fl-and-pd-report.component';
+import { PdReportComponent } from './pd-report.component';
 import { ApplicantDetailComponent } from './applicant-details/applicant-details.component';
 import { CustomerProfileDetailsComponent } from './customer-profile-details/customer-profile-details.component';
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
@@ -12,35 +12,39 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 const routes: Routes = [
     {
         path: ':leadId',
-        component: FlAndPdReportComponent,
+        component: PdReportComponent,
         resolve: { leadData: LeadDataResolverService },
         children: [
             {
-                path: 'applicant-detail/:applicantId',
+                path: ':applicantId/applicant-details',
                 component: ApplicantDetailComponent
             },
             {
-                path: 'applicant-detail/:applicantId/:version',
+                path: ':applicantId/applicant-details/:version',
                 component: ApplicantDetailComponent
             },
             {
-                path: 'customer-profile/:applicantId',
+                path: ':applicantId/customer-profile',
                 component: CustomerProfileDetailsComponent
             },
             {
-                path: 'customer-profile/:applicantId/:version',
+                path: ':applicantId/customer-profile/:version',
                 component: CustomerProfileDetailsComponent
             },
             {
-                path: 'loan-details/:applicantId',
+                path: ':applicantId/loan-details',
                 component: LoanDetailsComponent
             },
             {
-                path: 'loan-details/:applicantId/:version',
+                path: ':applicantId/loan-details/:version',
                 component: LoanDetailsComponent
             },
             {
-                path: 'reference-check/:applicantId',
+                path: ':applicantId/reference-check',
+                component: ReferenceCheckComponent
+            },
+            {
+                path: ':applicantId/reference-check/:version',
                 component: ReferenceCheckComponent
             }
         ]

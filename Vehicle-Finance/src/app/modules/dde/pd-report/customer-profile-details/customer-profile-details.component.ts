@@ -211,18 +211,22 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onNavigateNext() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+    if (this.version != undefined) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
+
+    } else {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }
   }
   onNavigateBack() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`]);
+    if (this.version != undefined) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details/${this.version}`]);
+
+    } else {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }
   }

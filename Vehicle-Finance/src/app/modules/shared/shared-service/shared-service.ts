@@ -36,6 +36,7 @@ export class SharedService {
 
     taskId$: BehaviorSubject<any> = new BehaviorSubject('');
     getTaskID(data) {
+        console.log("in shared service", data)
         this.taskId$.next(data)
     }
 }

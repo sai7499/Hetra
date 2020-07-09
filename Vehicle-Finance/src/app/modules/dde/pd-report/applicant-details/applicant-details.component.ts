@@ -241,45 +241,29 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
+    if (this.version) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
 
     }
   }
 
   onNavigateBack() {
-    if (this.roleType === 1) {
-      // routerLink="/pages/dde/leadId/pd-report/"
-      this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-    } else if (this.roleType === 2) {
-      this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
 
-    }
+    this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/pd-list`]);
   }
 
   getPdDetails() {
-    // const data = {
-    //   applicantId: 6,
-    //   //applicantId: this.applicantId
-    //   pdVersion: this.version,
 
-    // };
-    if (this.roleType === 2) {
-      this.data = {
+    const data = {
 
-        // applicantId: 6,
-        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
-        pdVersion: this.version,
-      };
-    } else if (this.roleType === 1) {
-      this.data = {
-
-        // applicantId: 6,
-        applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-      };
+      applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
+      pdVersion: this.version,
     }
+
 
     this.personaldiscussion.getPdData(this.data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
