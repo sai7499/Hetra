@@ -65,9 +65,13 @@ export class DdeComponent implements OnInit {
 
       console.log(" pd-dashboard ")
       this.show = false;
+      console.log(" pd-dashboard ", this.show)
+
 
     } else {
+
       this.show = true;
+      console.log(" pd-dashboard ", this.show)
     }
   }
 

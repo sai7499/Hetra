@@ -29,6 +29,7 @@ export class MyTasksComponent implements OnInit {
   roleName: any;
   roleType: any;
 
+
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,

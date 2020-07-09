@@ -101,6 +101,13 @@ export class PdListComponent implements OnInit {
       // this.sharedService.getPdStatus(updateDevision)
     });
   }
+  onNavigateToPdSummary() {
+
+    // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
+
+    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+
+  }
 
   navigatePage(applicantId: string, version) {
     console.log(

@@ -128,11 +128,21 @@
 
 <!-- </div> -->
 
-<div class="btn-sec clear-both ">
+<div class="btn-sec clear-both " *ngIf="show">
     <div class="col-sm-5 "> </div>
     <div class="col-sm-7 text-right cst_btm_btns "> <br> <br>
-        <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
+            to PD Summary </button>
+        <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
         <!-- <p class="btn btn-primary save "> Save </p> -->
+        <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
+    </div>
+</div>
+<div class="btn-sec clear-both " *ngIf="showStatus">
+    <div class="col-sm-5 "> </div>
+    <div class="col-sm-7 text-right cst_btm_btns "> <br> <br>
+
+        <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp;
         <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button>
     </div>
 </div>

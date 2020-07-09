@@ -52,6 +52,8 @@ export class ReferenceCheckComponent implements OnInit {
   version: string;
   show: boolean;
   taskId: any;
+  roleId: any;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -86,13 +88,11 @@ export class ReferenceCheckComponent implements OnInit {
     // calling login store service to retrieve the user data 
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userDetails = roleAndUserDetails.userDetails
     this.userId = roleAndUserDetails.userDetails.userId;
-    this.userName = roleAndUserDetails.userDetails.firstName;
     this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
+    this.roleType = this.roles[0].roleType;
     console.log("user details ==> ", this.userDetails)
     console.log("user id ==>", this.userId)
     console.log("user name", this.userName)
@@ -148,8 +148,8 @@ export class ReferenceCheckComponent implements OnInit {
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
       referenceMobile: new FormControl('', Validators.required),
-      soName: new FormControl('', Validators.required),
-      employeeCode: new FormControl('', Validators.required),
+      // soName: new FormControl('', Validators.required),
+      // employeeCode: new FormControl('', Validators.required),
       // date: new FormControl('', Validators.required),
       // place: new FormControl('', Validators.required),
       // time: new FormControl('', Validators.required),
@@ -252,7 +252,7 @@ export class ReferenceCheckComponent implements OnInit {
     const formModal = this.referenceCheckForm.value;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
-      // console.log("")
+      console.log("in invalid ref checkform", this.referenceCheckForm)
       this.toasterService.showWarning("please enter required details", '')
       return;
     }
@@ -276,6 +276,8 @@ export class ReferenceCheckComponent implements OnInit {
       // applicantId: 6,
       applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
+      pdVersion: this.version,
+
       referenceCheck: this.refCheckDetails
     };
 
@@ -335,7 +337,7 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess("pd report reinitiated successfully", '')
-        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+        // this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
       }
       else {
         this.toasterService.showError("", 'message')
@@ -375,7 +377,7 @@ export class ReferenceCheckComponent implements OnInit {
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
       }
       else {
-        this.toasterService.showError("invalid submit", '')
+        this.toasterService.showError("pd report is not saved", '')
         console.log("error", processVariables.error.message);
 
       }
@@ -392,7 +394,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   }
   onNavigateBack() {
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {

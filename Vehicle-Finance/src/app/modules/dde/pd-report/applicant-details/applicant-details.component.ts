@@ -241,7 +241,7 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
@@ -252,11 +252,20 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onNavigateBack() {
+    console.log("in nav back", this.version)
+    if (this.version != 'undefined') {
 
-    this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/pd-list`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+    }
+    else {
+      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
+
+
+    }
   }
 
   getPdDetails() {
+    console.log("pd version", this.version)
 
     const data = {
 
@@ -265,7 +274,7 @@ export class ApplicantDetailComponent implements OnInit {
     }
 
 
-    this.personaldiscussion.getPdData(this.data).subscribe((value: any) => {
+    this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 

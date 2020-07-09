@@ -211,7 +211,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onNavigateNext() {
-    if (this.version != undefined) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
@@ -221,7 +221,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     }
   }
   onNavigateBack() {
-    if (this.version != undefined) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details/${this.version}`]);
 
     } else {

@@ -26,6 +26,8 @@
                 </select> -->
                 <app-vf-custom-select [values]="LOV?.LOVS['fi/PdGender']" formControlName="gender" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
             </div>
+        </div>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="marital_status"> {{labels.maritalStatus}} </label>
                 <!-- <select class="form-control">
@@ -46,6 +48,7 @@
                 <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="physicallyChallenged" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
+
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="residence_number">{{labels.residenceNo}}</label>
                 <!-- <input type="number" class="form-control" id="residence_number" formControlName="residancePhoneNumber"> -->
@@ -53,6 +56,9 @@
                     [maxLength]="labels?.validationData?.landLine?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+        <div class="row">
+
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="office_number">{{labels.officeNo}}</label>
                 <!-- <input type="number" class="form-control" id="office_number" formControlName="officePhoneNumber"> -->
@@ -78,6 +84,9 @@
                 <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="residenceAddressAsPerLoanApplication" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
+        </div>
+        <div class="row">
+
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="bank_name">{{labels.bankName}}</label>
                 <!-- <input type="text" class="form-control" id="bank_name" formControlName="bankName"> -->
@@ -98,6 +107,10 @@
                 <app-custom-input id="landmark" [placeholder]="'Enter Landmark'" formControlName="landmark" [patternCheck]="labels?.validationData?.landMark?.pattern" [maxLength]="labels?.validationData?.landMark?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+        <div class="row">
+
+
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="locate">{{labels.locate}}</label>
                 <!-- <select class="form-control">
@@ -132,31 +145,32 @@
                 <app-vf-custom-select [values]="LOV?.LOVS['fi/PdResidentialType']" formControlName="residentialType" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="standard_house">{{labels.standardHouse}}</label>
-                <!-- <select class="form-control">
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="standard_house">{{labels.standardHouse}}</label>
+                    <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Good">Good</option>
                     <option value="Average">Average</option>
                     <option value="Poor">Poor</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseStandard']" formControlName="houseType" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="size_of_house">{{labels.sizeOfHouse}}</label>
-                <!-- <select class="form-control">
+                    <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseStandard']" formControlName="houseType" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="size_of_house">{{labels.sizeOfHouse}}</label>
+                    <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Good">Less than 500 Sft</option>
                     <option value="Average">500 to 1000 Sft</option>
                     <option value="Poor">More than 1000 Sft</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseSize']" formControlName="sizeOfHouse" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="standard_of_living">{{labels.stdOfLiving}}</label>
-                <!-- <select class="form-control">
+                    <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseSize']" formControlName="sizeOfHouse" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="standard_of_living">{{labels.stdOfLiving}}</label>
+                    <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="TV">Tv</option>
                     <option value="Fridge">Fridge</option>
@@ -164,50 +178,53 @@
                     <option value="Car">Car</option>
                     <option value="TW">Tw</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdLivingStandard']" formControlName="standardOfLiving" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
+                    <app-vf-custom-select [values]="LOV?.LOVS['fi/PdLivingStandard']" formControlName="standardOfLiving" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                </div>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="house_ownership">{{labels.houseOwnership}}</label>
-                <!-- <select class="form-control">
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="house_ownership">{{labels.houseOwnership}}</label>
+                    <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Own House">Own House</option>
                     <option value="Rented">Rented</option>
                     <option value="Family Owned">Family Owned</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseOwnership']" formControlName="houseOwnership" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="rating_by_so">{{labels.ratingBySo}}</label>
-                <!-- <select class="form-control">
+                    <app-vf-custom-select [values]="LOV?.LOVS['fi/PdHouseOwnership']" formControlName="houseOwnership" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <label for="rating_by_so">{{labels.ratingBySo}}</label>
+                    <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Poor">Poor</option>
                     <option value="Average">Average</option>
                     <option value="Good">Good</option>
                     <option value="Very Good">Very Good</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdRating']" formControlName="ratingbySO" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
+                    <app-vf-custom-select [values]="LOV?.LOVS['fi/PdRating']" formControlName="ratingbySO" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                </div>
 
-            <div class="btn-sec clear-both">
-                <div class="col-sm-5"></div>
-                <div class="col-sm-7 text-right">
-                    <button class="btn btn-primary" type="button" (click)=onNavigateBack()>
-                        {{labels.back}}
-                    </button> &nbsp;
-                    <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../customer-profile',applicantId,version]">
+                <div class="btn-sec clear-both">
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-7 text-right">
+                        <button class="btn btn-primary" type="button" (click)=onNavigateBack()>
+                            {{labels.back}}
+                        </button> &nbsp;
+                        <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
+                        <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../customer-profile',applicantId,version]">
                         {{labels.next}} </button>
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../customer-profile',applicantId]">
                         {{labels.next}} </button> -->
-                    <button class="btn btn-primary" type="button" (click)=onNavigateNext()>
-                        {{labels.next}} </button>
+                        <button class="btn btn-primary" type="button" (click)=onNavigateNext()>
+                            {{labels.next}} </button>
 
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
 

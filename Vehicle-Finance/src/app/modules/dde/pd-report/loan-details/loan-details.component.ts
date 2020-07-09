@@ -194,7 +194,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.loanDetailsForm = new FormGroup({
       newVehicleCost: new FormControl(''),
-      // newVehicleModel: new FormControl(''),
+      newVehicleModel: new FormControl(''),
       newVehicleType: new FormControl(''),
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
@@ -202,7 +202,7 @@ export class LoanDetailsComponent implements OnInit {
       // controls for used vehicle 
 
       usedVehicleCost: new FormControl(''),
-      // usedVehModel: new FormControl(''),
+      usedVehModel: new FormControl(''),
       usedVehicleType: new FormControl(''),
       usedVehicleMarginMoney: new FormControl(''),
       usedVehicleLoanAmountReq: new FormControl(''),
@@ -323,7 +323,7 @@ export class LoanDetailsComponent implements OnInit {
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
       controls.removeControl('usedVehicleCost')
-      // controls.removeControl('usedVehModel')
+      controls.removeControl('usedVehModel')
       controls.removeControl('usedVehicleType')
       controls.removeControl('usedVehicleMarginMoney')
       controls.removeControl('usedVehicleLoanAmountReq')
@@ -372,7 +372,7 @@ export class LoanDetailsComponent implements OnInit {
     else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       controls.removeControl('newVehicleCost')
-      // controls.removeControl('newVehicleModel')
+      controls.removeControl('newVehicleModel')
       controls.removeControl('newVehicleType')
       controls.removeControl('newVehicleReqLoanAmount')
       controls.removeControl('newVehicleMarginMoney')
@@ -433,7 +433,7 @@ export class LoanDetailsComponent implements OnInit {
 
   }
   onNavigateNext() {
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
 
     } else {
@@ -444,7 +444,7 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   onNavigateBack() {
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
@@ -467,7 +467,7 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.patchValue({
         // new cv details patching
         newVehicleCost: newCvModel.vehicleCost || '',
-        // newVehicleModel: newCvModel.model || '',
+        newVehicleModel: newCvModel.model || '',
         newVehicleType: newCvModel.type || '',
         newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
         newVehicleMarginMoney: newCvModel.marginMoney || ''
@@ -478,7 +478,7 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.patchValue({
         // used cv details patching
         usedVehicleCost: usedVehicleModel.vehicleCost ? usedVehicleModel.vehicleCost : '0',
-        // usedVehModel: usedVehicleModel.model || '',
+        usedVehModel: usedVehicleModel.model || '',
         usedVehicleType: usedVehicleModel.type || '',
         usedVehicleMarginMoney: usedVehicleModel.marginMoney || '',
         usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
@@ -611,8 +611,8 @@ export class LoanDetailsComponent implements OnInit {
         // new vehicle
 
         vehicleCost: loanDetailsModal.newVehicleCost,
-        // model: loanDetailsModal.newVehicleModel,
-        model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
+        model: loanDetailsModal.newVehicleModel,
+        // model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
         // is no lov for model
         type: loanDetailsModal.newVehicleType,
         reqLoanAmount: loanDetailsModal.newVehicleReqLoanAmount,
@@ -653,8 +653,8 @@ export class LoanDetailsComponent implements OnInit {
       this.usedVehicleDetails = {
 
         vehicleCost: loanDetailsModal.usedVehicleCost,
-        // model: loanDetailsModal.usedVehModel, 
-        model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
+        model: loanDetailsModal.usedVehModel,
+        // model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
         type: loanDetailsModal.usedVehicleType,
         // reqLoanAmount: loanDetailsModal.reqLoanAmount,
         marginMoney: loanDetailsModal.usedVehicleMarginMoney,
