@@ -1048,8 +1048,8 @@ getActivityLOVS() {
       this.plsLandProofChange = "";
       this.landOwnerChange = "";
       this.relationshipWithLandOwnerChange = "";
-      console.log("VALUES_IF_LANDHOLDING_AS_NO::::",this.landAreaInAcresValue, this.plsLandProofChange, 
-                   this.landOwnerChange, this.relationshipWithLandOwnerChange);
+      // console.log("VALUES_IF_LANDHOLDING_AS_NO::::",this.landAreaInAcresValue, this.plsLandProofChange, 
+      //              this.landOwnerChange, this.relationshipWithLandOwnerChange);
       this.pslDataForm.get("agriculture.landArea").clearValidators();
       this.pslDataForm.get("agriculture.landArea").updateValueAndValidity();
       this.pslDataForm.get("agriculture.landProof").clearValidators();
