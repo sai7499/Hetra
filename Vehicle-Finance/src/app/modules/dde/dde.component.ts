@@ -14,6 +14,7 @@ declare var $: any;
 export class DdeComponent implements OnInit {
   locationIndex: number;
   leadId: number;
+  show: boolean;
   constructor(
     public router: Router,
     private location: Location,
@@ -63,12 +64,23 @@ export class DdeComponent implements OnInit {
       this.locationIndex = this.getLocationIndex(url);
     });
 
-    if (this.locationIndex >= 8) {
-      console.log(this.locationIndex, 'sg')
-      $(".second-row").css({ "display": "block" });
-    }
 
+    console.log("in router url", this.router.url)
+    if (this.router.url.includes('/pd-dashboard')) {
+
+      console.log(" pd-dashboard ")
+      this.show = false;
+      console.log(" pd-dashboard ", this.show)
+
+
+    } else {
+
+      this.show = true;
+      console.log(" pd-dashboard ", this.show)
+    }
   }
+
+
 
   getLocationIndex(url: string) {
     if (url.includes('lead-details')) {

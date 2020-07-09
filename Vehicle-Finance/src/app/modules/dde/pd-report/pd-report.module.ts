@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { FlAndPdReportComponent } from './fl-and-pd-report.component';
-import { FlAndPdReportRouterModule } from './fl-and-pd-report.routing';
+import { PdReportComponent } from './pd-report.component';
+import { FlAndPdReportRouterModule } from './pd-report.routing';
 import { ApplicantDetailComponent } from './applicant-details/applicant-details.component';
 import { CustomerProfileDetailsComponent } from './customer-profile-details/customer-profile-details.component';
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
@@ -13,13 +13,13 @@ import { ReferenceCheckComponent } from './reference-check/reference-check.compo
 
 @NgModule({
   declarations: [
-    FlAndPdReportComponent, 
-    ApplicantDetailComponent, 
-    CustomerProfileDetailsComponent, 
+    PdReportComponent,
+    ApplicantDetailComponent,
+    CustomerProfileDetailsComponent,
     LoanDetailsComponent, ReferenceCheckComponent
   ],
   imports: [
     CommonModule, ReactiveFormsModule, FormsModule, FlAndPdReportRouterModule, SharedModule, DdeSharedModule
   ]
 })
-export class FlAndPdReportModule { }
+export class PdReportModule { }
