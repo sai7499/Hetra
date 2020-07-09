@@ -170,12 +170,12 @@
                         <label for="asset_cost_indian"> {{ label.assetCostIndian }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="assetCostIBB" [type]="label.validationData.amountValue.type"
+                        <app-custom-input formControlName="assetCostIBB" [type]="label.validationData?.amountValue.type"
                             [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                             (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
                             (change)="onCompareFinalAssetCode($event.target.value)"
-                            [maxLength]="label.validationData.amountValue.maxLength"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Indian Bluebook'">
                         </app-custom-input>
 
@@ -187,11 +187,11 @@
                         </label>
 
                         <app-custom-input formControlName="assetCostCarTrade"
-                            [type]="label.validationData.amountValue.type" [className]="'form-control mandatory'"
+                            [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
                             (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
                             (change)="onCompareFinalAssetCode($event.target.value)"
-                            [maxLength]="label.validationData.amountValue.maxLength"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Carwale'">
                         </app-custom-input>
 
@@ -203,10 +203,10 @@
                         </label>
 
                         <app-custom-input formControlName="exShowRoomCost"
-                            [type]="label.validationData.amountValue.type" [id]="'ex_showroom_price'"
+                            [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
                             [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Price Required'"
                             [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                            [maxLength]="label.validationData.amountValue.maxLength"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Ex Showroom Price'">
                         </app-custom-input>
 
@@ -251,10 +251,10 @@
                                 class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData.fullName.type"
+                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
                             [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                             [placeholder]="'Name of Vehicle Owner/Dealer'"
-                            [maxLength]="label.validationData.fullName.maxLength"
+                            [maxLength]="label.validationData?.fullName.maxLength"
                             [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -266,11 +266,11 @@
                                 class="star_red_col">*</sub> </label>
 
                         <app-custom-input formControlName="ownerMobileNo"
-                            [type]="label.validationData.mobileNumber.type" [id]="'mobile_vehicle_owner'"
+                            [type]="label.validationData?.mobileNumber.type" [id]="'mobile_vehicle_owner'"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
-                            [maxLength]="label.validationData.mobileNumber.maxLength"
-                            [patternCheck]="label.validationData.mobileNumber.pattern"
+                            [maxLength]="label.validationData?.mobileNumber.maxLength"
+                            [patternCheck]="label.validationData?.mobileNumber.pattern"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -302,10 +302,10 @@
                         <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="pincode" [type]="label.validationData.pincode.type"
+                        <app-custom-input formControlName="pincode" [type]="label.validationData?.pincode.type"
                             [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                             [placeholder]="'Vehicle Address PINCODE'"
-                            [maxLength]="label.validationData.pincode.maxLength"
+                            [maxLength]="label.validationData?.pincode.maxLength"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -314,11 +314,11 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
                         <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
 
-                        <!-- [patternCheck]="label.validationData.noOfVehicles.pattern" -->
+                        <!-- [patternCheck]="label.validationData?.noOfVehicles.pattern" -->
 
-                        <app-custom-input formControlName="noOfVehicles" [type]="label.validationData.noOfVehicles.type"
+                        <app-custom-input formControlName="noOfVehicles" [type]="label.validationData?.noOfVehicles.type"
                             [id]="'no_vehicle'" [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
-                            [maxLength]="label.validationData.noOfVehicles.maxLength" [custom]="initalZeroCheck"
+                            [maxLength]="label.validationData?.noOfVehicles.maxLength" [custom]="initalZeroCheck"
                             [isRequired]="'No of vehicles Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -463,10 +463,10 @@
                             </label>
 
                             <app-custom-input formControlName="exShowRoomCost"
-                                [type]="label.validationData.amountValue.type" [id]="'ex_showroom_price'"
+                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
                                 [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
                                 [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
 
@@ -496,8 +496,8 @@
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
 
                             <app-custom-input formControlName="dealerSubventionAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'dealer_subvention_amount'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'dealer_subvention_amount'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Amount'">
                             </app-custom-input>
 
@@ -507,8 +507,8 @@
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
 
                             <app-custom-input formControlName="dealerSubventionPartIRR"
-                                [type]="label.validationData.amountValue.type" [id]="'dealer_subvention_irr'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'dealer_subvention_irr'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Part of Operating IRR'">
                             </app-custom-input>
 
@@ -522,8 +522,8 @@
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
 
                             <app-custom-input formControlName="dealerSubventionPartFinCharge"
-                                [type]="label.validationData.amountValue.type" [id]="'dealer_subvention_finance'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'dealer_subvention_finance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Part of Finance Charges'">
                             </app-custom-input>
 
@@ -541,8 +541,8 @@
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
 
                             <app-custom-input formControlName="manufactureSubventionAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'manufacturer_subvention_amount'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_amount'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Amount'">
                             </app-custom-input>
 
@@ -556,8 +556,8 @@
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
 
                             <app-custom-input formControlName="manuFactureSubventionPartIRR"
-                                [type]="label.validationData.amountValue.type" [id]="'manufacturer_subvention_irr'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_irr'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
                             </app-custom-input>
 
@@ -568,8 +568,8 @@
                             </label>
 
                             <app-custom-input formControlName="manufacturesubventionPartFinCharge"
-                                [type]="label.validationData.amountValue.type" [id]="'manufacturer_subvention_finance'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_finance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
                             </app-custom-input>
 
@@ -579,9 +579,9 @@
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
 
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData.chasisEngineNo.type" [inputClass]="'input-upper'"
+                                [type]="label.validationData?.chasisEngineNo.type" [inputClass]="'input-upper'"
                                 [className]="'form-control mandatory'" [placeholder]="'Invoice No'"
-                                [maxLength]="label.validationData.chasisEngineNo.maxLength"
+                                [maxLength]="label.validationData?.chasisEngineNo.maxLength"
                                 [inputClass]="'input-upper'">
                             </app-custom-input>
                         </div>
@@ -602,8 +602,8 @@
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
 
                             <app-custom-input formControlName="invoiceAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'proforma_invoice_amount'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'proforma_invoice_amount'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Proforma Invoice Amount'">
                             </app-custom-input>
 
@@ -623,9 +623,9 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
 
-                            <app-custom-input formControlName="insurance" [type]="label.validationData.amountValue.type"
+                            <app-custom-input formControlName="insurance" [type]="label.validationData?.amountValue.type"
                                 [id]="'insurance'" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'Insurance'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
                             </app-custom-input>
 
                         </div>
@@ -634,8 +634,8 @@
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
 
                             <app-custom-input formControlName="oneTimeTax"
-                                [type]="label.validationData.amountValue.type" [id]="'one_time_tax'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'one_time_tax'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'One Time Tax'">
                             </app-custom-input>
 
@@ -681,17 +681,17 @@
                             <label for="others">{{label.others}} </label>
 
                             <app-custom-input formControlName="others" [id]="'others'"
-                                [type]="label.validationData.name.type" [className]="'form-control'"
-                                [maxLength]="label.validationData.name.maxLength" [placeholder]="'Others'">
+                                [type]="label.validationData?.name.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.name.maxLength" [placeholder]="'Others'">
                             </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
 
-                            <app-custom-input formControlName="discount" [type]="label.validationData.amountValue.type"
+                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
                                 [id]="'discount'" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'Discount'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
                             </app-custom-input>
                         </div>
                     </div>
@@ -831,10 +831,10 @@
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="exShowRoomCost"
-                                [type]="label.validationData.amountValue.type" [id]="'ex_showroom_price'"
+                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
                                 [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
                                 [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
 
@@ -875,8 +875,8 @@
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
 
                             <app-custom-input formControlName="dealerSubventionAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'dealer_subvention_amount'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'dealer_subvention_amount'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Amount'">
                             </app-custom-input>
 
@@ -890,8 +890,8 @@
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
 
                             <app-custom-input formControlName="dealerSubventionPartIRR"
-                                [type]="label.validationData.amountValue.type" [id]="'dealer_subvention_irr'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'dealer_subvention_irr'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Part of Operating IRR'">
                             </app-custom-input>
 
@@ -901,8 +901,8 @@
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
 
                             <app-custom-input formControlName="dealerSubventionPartFinCharge"
-                                [type]="label.validationData.amountValue.type" [id]="'dealer_subvention_finance'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'dealer_subvention_finance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Dealer Subvention Part of Finance Charges'">
                             </app-custom-input>
 
@@ -923,8 +923,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
                             <app-custom-input formControlName="manufactureSubventionAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'manufacturer_subvention_amount'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_amount'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Amount'">
                             </app-custom-input>
                         </div>
@@ -933,8 +933,8 @@
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
 
                             <app-custom-input formControlName="manuFactureSubventionPartIRR"
-                                [type]="label.validationData.amountValue.type" [id]="'manufacturer_subvention_irr'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_irr'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
                             </app-custom-input>
 
@@ -943,8 +943,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
                             <app-custom-input formControlName="manufacturesubventionPartFinCharge"
-                                [type]="label.validationData.amountValue.type" [id]="'manufacturer_subvention_finance'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_finance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
                             </app-custom-input>
                         </div>
@@ -956,9 +956,9 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData.chasisEngineNo.type" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.chasisEngineNo.type" [className]="'form-control mandatory'"
                                 [placeholder]="'Proforma Invoice No'"
-                                [maxLength]="label.validationData.chasisEngineNo.maxLength">
+                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
                         </div>
 
@@ -973,8 +973,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                             <app-custom-input formControlName="invoiceAmount" [id]="'proforma_invoice_amount'"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Proforma Invoice Amount'">
                             </app-custom-input>
                         </div>
@@ -993,8 +993,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
                             <app-custom-input formControlName="insurance" [id]="'insurance'"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'Insurance'">
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
                             </app-custom-input>
 
                         </div>
@@ -1002,8 +1002,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'One Time Tax'">
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'One Time Tax'">
                             </app-custom-input>
 
                         </div>
@@ -1046,17 +1046,17 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
-                            <app-custom-input formControlName="others" [type]="label.validationData.name.type"
-                                [maxLength]="label.validationData.name.maxLength" [id]="'others'"
+                            <app-custom-input formControlName="others" [type]="label.validationData?.name.type"
+                                [maxLength]="label.validationData?.name.maxLength" [id]="'others'"
                                 [className]="'form-control'" [placeholder]="'Others'">
                             </app-custom-input>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                             <label for="discount">{{label.discount}} </label>
-                            <app-custom-input formControlName="discount" [type]="label.validationData.amountValue.type"
+                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
                                 [id]="'discount'" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'Discount'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
                             </app-custom-input>
                         </div>
                     </div>
@@ -1227,10 +1227,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub> </label>
 
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData.fullName.type"
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData.fullName.maxLength"
+                                [maxLength]="label.validationData?.fullName.maxLength"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1241,11 +1241,11 @@
                                     class="star_red_col">*</sub> </label>
 
                             <app-custom-input formControlName="ownerMobileNo"
-                                [type]="label.validationData.mobileNumber.type" [id]="'mobile_vehicle_owner'"
+                                [type]="label.validationData?.mobileNumber.type" [id]="'mobile_vehicle_owner'"
                                 [className]="'form-control mandatory'"
                                 [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData.mobileNumber.maxLength"
-                                [patternCheck]="label.validationData.mobileNumber.pattern"
+                                [maxLength]="label.validationData?.mobileNumber.maxLength"
+                                [patternCheck]="label.validationData?.mobileNumber.pattern"
                                 [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1275,10 +1275,10 @@
                             <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-custom-input formControlName="pincode" [type]="label.validationData.pincode.type"
+                            <app-custom-input formControlName="pincode" [type]="label.validationData?.pincode.type"
                                 [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                                 [placeholder]="'Vehicle Address PINCODE'"
-                                [maxLength]="label.validationData.pincode.maxLength"
+                                [maxLength]="label.validationData?.pincode.maxLength"
                                 [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1309,8 +1309,8 @@
                             <label for="permit_other">{{label.permitOthers}} </label>
 
                             <app-custom-input formControlName="typeOfPermitOthers"
-                                [type]="label.validationData.fullName.type" [id]="'permit_other'"
-                                [className]="'form-control'" [maxLength]="label.validationData.fullName.maxLength"
+                                [type]="label.validationData?.fullName.type" [id]="'permit_other'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.fullName.maxLength"
                                 [placeholder]="'Type of Permit Other'">
                             </app-custom-input>
                         </div>
@@ -1338,10 +1338,10 @@
                             <label for="chassis_number">{{label.chassisNumber}}</label>
 
                             <app-custom-input formControlName="chasisNumber"
-                                [type]="label.validationData.chasisEngineNo.type" [id]="'chassis_number'"
+                                [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                 [className]="'form-control'" [placeholder]="'Chassis Number'"
                                 [inputClass]="'input-upper'"
-                                [maxLength]="label.validationData.chasisEngineNo.maxLength">
+                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
 
                         </div>
@@ -1350,10 +1350,10 @@
                             <label for="engine_number">{{label.engineNumber}} </label>
 
                             <app-custom-input formControlName="engineNumber"
-                                [type]="label.validationData.chasisEngineNo.type" [id]="'engine_number'"
+                                [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                 [className]="'form-control'" [placeholder]="'Engine Number'"
                                 [inputClass]="'input-upper'"
-                                [maxLength]="label.validationData.chasisEngineNo.maxLength">
+                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
 
                         </div>
@@ -1362,8 +1362,8 @@
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
 
                             <app-custom-input formControlName="vehiclePurchasedCost"
-                                [type]="label.validationData.amountValue.type" [id]="'vehicle_purchased_cost'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'vehicle_purchased_cost'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Vehicle Purchased Cost'">
                             </app-custom-input>
 
@@ -1377,8 +1377,8 @@
                             <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
 
                             <app-custom-input formControlName="vehicleOwnerShipNumber"
-                                [type]="label.validationData.monthOfManuf.type" [id]="'vehicle_ownership'"
-                                [className]="'form-control'" [maxLength]="label.validationData.monthOfManuf.maxLength"
+                                [type]="label.validationData?.monthOfManuf.type" [id]="'vehicle_ownership'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.monthOfManuf.maxLength"
                                 [placeholder]="'Vehicle Ownership Number'">
                             </app-custom-input>
                         </div>
@@ -1421,8 +1421,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}} </label>
                             <app-custom-input formControlName="cubicCapacity"
-                                [type]="label.validationData.cubicCapacity.type" [id]="'cubic_capacity'"
-                                [className]="'form-control'" [maxLength]="label.validationData.cubicCapacity.maxLength"
+                                [type]="label.validationData?.cubicCapacity.type" [id]="'cubic_capacity'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.cubicCapacity.maxLength"
                                 [placeholder]="'Cubic Capacity'">
                             </app-custom-input>
 
@@ -1436,9 +1436,9 @@
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
 
                             <app-custom-input formControlName="seatingCapacity"
-                                [type]="label.validationData.seatingCapacity.type" [id]="'seating_capacity'"
+                                [type]="label.validationData?.seatingCapacity.type" [id]="'seating_capacity'"
                                 [className]="'form-control'"
-                                [maxLength]="label.validationData.seatingCapacity.maxLength"
+                                [maxLength]="label.validationData?.seatingCapacity.maxLength"
                                 [placeholder]="'Seating Capacity'">
                             </app-custom-input>
 
@@ -1456,8 +1456,8 @@
                             <label for="idv">{{label.idv}} </label>
 
                             <app-custom-input formControlName="idv" [id]="'idv'"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'IDV'">
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'IDV'">
                             </app-custom-input>
 
                         </div>
@@ -1490,9 +1490,9 @@
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
 
                             <app-custom-input formControlName="fsrdPremiumAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'frsd_amount'"
+                                [type]="label.validationData?.amountValue.type" [id]="'frsd_amount'"
                                 [className]="'form-control mandatory'" [isRequired]="'FRSD Premium Amount Required'"
-                                [isDirty]="isDirty" [maxLength]="label.validationData.amountValue.maxLength"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'FRSD Premium Amount'">
                             </app-custom-input>
 
@@ -1515,7 +1515,7 @@
                                 [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                                 [className]="'form-control mandatory'" [inputClass]="'input-upper'"
                                 [placeholder]="'Vechical Registration No'"
-                                [maxLength]="label.validationData.vehicleRegNo.maxLength"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1675,10 +1675,10 @@
                             </label>
 
                             <app-custom-input formControlName="assetCostIBB"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                                 (keyup)="onCompareFinalAssetCode($event.target.value)"
-                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [maxLength]="label.validationData?.amountValue.maxLength"
                                 (change)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
                                 [placeholder]="'Asset Cost basis Indian Bluebook'">
                             </app-custom-input>
@@ -1690,11 +1690,11 @@
                             </label>
 
                             <app-custom-input formControlName="assetCostCarTrade"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
                                 (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
                                 (change)="onCompareFinalAssetCode($event.target.value)"
-                                [maxLength]="label.validationData.amountValue.maxLength"
+                                [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Asset Cost basis Carwale'">
                             </app-custom-input>
 
@@ -1727,10 +1727,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
                             <app-custom-input formControlName="chasisNumber"
-                                [type]="label.validationData.chasisEngineNo.type" [id]="'chassis_number'"
+                                [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                 [className]="'form-control'" [placeholder]="'Chassis Number'"
                                 [inputClass]="'input-upper'"
-                                [maxLength]="label.validationData.chasisEngineNo.maxLength">
+                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
 
                         </div>
@@ -1738,10 +1738,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}}</label>
                             <app-custom-input formControlName="engineNumber"
-                                [type]="label.validationData.chasisEngineNo.type" [id]="'engine_number'"
+                                [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                 [className]="'form-control'" [placeholder]="'Engine Number'"
                                 [inputClass]="'input-upper'"
-                                [maxLength]="label.validationData.chasisEngineNo.maxLength">
+                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
                         </div>
 
@@ -1752,8 +1752,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
                             <app-custom-input formControlName="vehiclePurchasedCost"
-                                [type]="label.validationData.amountValue.type" [id]="'vehicle_purchased_cost'"
-                                [className]="'form-control'" [maxLength]="label.validationData.amountValue.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'vehicle_purchased_cost'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Vehicle Purchased Cost'">
                             </app-custom-input>
                         </div>
@@ -1761,9 +1761,9 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
                             <app-custom-input formControlName="vehicleOwnerShipNumber"
-                                [type]="label.validationData.amountValue.numberOfYears.type" [id]="'vehicle_ownership'"
+                                [type]="label.validationData?.amountValue.numberOfYears.type" [id]="'vehicle_ownership'"
                                 [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.numberOfYears.maxLength"
+                                [maxLength]="label.validationData?.amountValue.numberOfYears.maxLength"
                                 [placeholder]="'Vehicle Ownership Number'">
                             </app-custom-input>
                         </div>
@@ -1771,10 +1771,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}}</label>
 
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData.fullName.type"
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData.fullName.maxLength"
+                                [maxLength]="label.validationData?.fullName.maxLength"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1798,8 +1798,8 @@
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
                             <app-custom-input formControlName="gorssVehicleWeight"
-                                [type]="label.validationData.fullName.type" [id]="'gross_vehicle_weight'"
-                                [className]="'form-control'" [maxLength]="label.validationData.fullName.maxLength"
+                                [type]="label.validationData?.fullName.type" [id]="'gross_vehicle_weight'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.fullName.maxLength"
                                 [placeholder]="'Gross Vehicle Weight'">
                             </app-custom-input>
                         </div>
@@ -1832,8 +1832,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}}</label>
                             <app-custom-input formControlName="cubicCapacity"
-                                [type]="label.validationData.cubicCapacity.type" [id]="'cubic_capacity'"
-                                [className]="'form-control'" [maxLength]="label.validationData.cubicCapacity.maxLength"
+                                [type]="label.validationData?.cubicCapacity.type" [id]="'cubic_capacity'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.cubicCapacity.maxLength"
                                 [placeholder]="'Cubic Capacity'">
                             </app-custom-input>
                         </div>
@@ -1845,9 +1845,9 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
                             <app-custom-input formControlName="seatingCapacity"
-                                [type]="label.validationData.seatingCapacity.type" [id]="'seating_capacity'"
+                                [type]="label.validationData?.seatingCapacity.type" [id]="'seating_capacity'"
                                 [className]="'form-control'"
-                                [maxLength]="label.validationData.seatingCapacity.maxLength"
+                                [maxLength]="label.validationData?.seatingCapacity.maxLength"
                                 [placeholder]="'Seating Capacity'">
                             </app-custom-input>
 
@@ -1864,8 +1864,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}}</label>
                             <app-custom-input formControlName="idv" [id]="'idv'"
-                                [type]="label.validationData.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData.amountValue.maxLength" [placeholder]="'IDV'">
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'IDV'">
                             </app-custom-input>
 
                         </div>
@@ -1891,9 +1891,9 @@
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
                             <app-custom-input formControlName="fsrdPremiumAmount"
-                                [type]="label.validationData.amountValue.type" [id]="'frsd_amount'"
+                                [type]="label.validationData?.amountValue.type" [id]="'frsd_amount'"
                                 [className]="'form-control mandatory'" [isRequired]="'FRSD Premium Amount Required'"
-                                [isDirty]="isDirty" [maxLength]="label.validationData.amountValue.maxLength"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'FRSD Premium Amount'">
                             </app-custom-input>
                         </div>
