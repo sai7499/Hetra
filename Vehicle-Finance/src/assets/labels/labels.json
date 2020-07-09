@@ -986,7 +986,7 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric-nospace"
         },
         "percentage": {
             "maxLength": {
@@ -1072,7 +1072,6 @@
         "email": {
             "maxLength": {
                 "rule": 120
-                
             }
         },
         "adhaarNumber": {

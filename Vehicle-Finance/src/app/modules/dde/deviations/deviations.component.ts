@@ -55,7 +55,7 @@ export class DeviationsComponent implements OnInit {
 
       if (this.formValue.value.autoDeviationFormArray.length > 0) {
 
-        
+
         data = data.concat(this.formValue.value.autoDeviationFormArray);
         data = data.concat(this.formValue.value.manualDeviationFormArray);
 
@@ -64,8 +64,6 @@ export class DeviationsComponent implements OnInit {
       }
 
       this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
-        console.log('res', res)
-
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
           this.sharedService.getUpdatedDeviation(updateDevision)

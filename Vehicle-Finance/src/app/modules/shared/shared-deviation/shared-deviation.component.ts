@@ -248,6 +248,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       devCode: ['', Validators.required],
       devDesc: [""],
       devRuleId: 0,
+      type: 0,
+      hierarchy: ['0'],
       justification: ['', Validators.required],
       statusCode: [{ value: null, disabled: true }],
     });
