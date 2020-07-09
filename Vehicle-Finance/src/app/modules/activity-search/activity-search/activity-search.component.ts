@@ -6,6 +6,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '../../../services/commom-lov-service';
 import { commonRoutingUrl } from '../../shared/routing.constant';
 import * as moment from 'moment';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { environment } from 'src/environments/environment';
+import { storage } from '../../../storage/localstorage';
+
+
+
+
 
 declare var identi5: any;
 
@@ -35,6 +44,12 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   isMobile: any;
   pid: any;
 
+  imageURI: any;
+  cameraImage: any;
+  fileName: string;
+
+
+
 
   bodyClickEvent = event => {
     if (event.target.id === 'profileDropDown') {
@@ -47,7 +62,9 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   constructor(
     private loginStoreService: LoginStoreService,
     private dashboardService: DashboardService,
-    private route: Router
+    private route: Router,
+    private camera: Camera,
+    private transfer: FileTransfer
     ) {
   }
 
@@ -182,6 +199,102 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     this.dashboardService.getKycDetails(data).subscribe((res: any) => {
       console.log("KYC result"+JSON.stringify(res));
     });
+
+  }
+
+  async takePicture() {
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.PNG,
+      targetWidth: 100,
+      targetHeight: 100,
+      saveToPhotoAlbum: false,
+    };
+
+    return this.camera.getPicture(options);
+  }
+
+   openCamera() {
+    this.takePicture().then((uri) => {
+      console.log('imageData', uri);
+      this.imageURI = uri;
+
+      let url = uri.split('/');
+      url = url[url.length - 1];
+
+      this.cameraImage = (window as any).Ionic.WebView.convertFileSrc(
+        this.imageURI
+      )
+        .toString()
+        .split('cache/')[1];
+
+      console.log('Camera Image', this.cameraImage);
+
+      let applicationId = "1234";
+
+      let applicantId = "56";
+
+      this.fileName =
+      applicationId +
+      '-' +
+      applicantId +
+      '-' +
+      new Date().getTime();
+
+      console.log('fileName', this.fileName);
+      
+      let response: any;
+
+
+      this.uploadToAppiyoDriveMobile(this.fileName, this.imageURI).then(data => {
+        console.log("Data", data);
+      }).catch(error => {
+        console.log("error", error);
+      });
+    });
+  }
+
+  async uploadToAppiyoDriveMobile(fileName, imageURI) {
+    return new Promise((resolve, reject) => {
+      this.uploadFile(fileName, imageURI)
+        .then(data => {
+          if (data['responseCode'] == 200) {
+            var result = JSON.parse(data['response']);
+            resolve(result);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  uploadFile(fileName, imageURI) {
+
+    let trustAllHosts = true;
+
+    const fileTransfer: FileTransferObject = this.transfer.create();
+
+    console.log("fileTransfer", fileTransfer);
+
+    let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: fileName,
+        chunkedMode: false,
+        headers: {
+        "X-Requested-With":"XMLHttpRequest",
+        'authentication-token':
+        storage.getToken() ? storage.getToken() : ''
+        }
+    }
+
+
+    console.log("FileUploadOptions", fileTransfer);
+
+    return fileTransfer.upload(imageURI, encodeURI(environment.host + environment.appiyoDrive) , options, true)
 
   }
 }

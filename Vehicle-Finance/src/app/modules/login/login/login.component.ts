@@ -14,6 +14,8 @@ import { LoginStoreService } from '../../../services/login-store.service';
 import { storage } from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
 
+
+
 import * as moment from 'moment';
 
 
@@ -44,6 +46,7 @@ declare var cordova:any;
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  fileName: string;
   direction: any;
   labels: any = {};
 
@@ -290,7 +293,7 @@ export class LoginComponent implements OnInit {
       });
     }
 
-    this.getPolyLine();
+    this.getRouteMap();
   }
 
   enter(event) {
@@ -369,38 +372,7 @@ export class LoginComponent implements OnInit {
     window.open(dirUrl, '_blank', 'location=yes');
   }
 
-  async takePicture() {
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      allowEdit: true,
-      encodingType: this.camera.EncodingType.PNG,
-      targetWidth: 100,
-      targetHeight: 100,
-      saveToPhotoAlbum: false,
-    };
-
-    return this.camera.getPicture(options);
-  }
-
-  openCamera() {
-    this.takePicture().then((uri) => {
-      console.log('imageData', uri);
-      this.imageURI = uri;
-
-      let url = uri.split('/');
-      url = url[url.length - 1];
-
-      this.cameraImage = (window as any).Ionic.WebView.convertFileSrc(
-        this.imageURI
-      )
-        .toString()
-        .split('cache/')[1];
-
-      console.log('Camera Image', this.cameraImage);
-    });
-  }
+  
 
   initMaaS360() {
     let value = this.initM360SDKWithAnalytics(this.developerId, this.licenseKey, true, this.maas360sdkEventHandler);
@@ -505,12 +477,13 @@ export class LoginComponent implements OnInit {
       sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
   }
 
-  getPolyLine(){
+  getRouteMap(){
     var that = this;
-  this.loginService.getPolyLine(null,null, function(result){
+    this.loginService.getPolyLine(function(result){
       that.base64Image = result;
-      console.log("getPolyLine", this.base64Image);
-    });
+      console.log("getPolyLine", that.base64Image);
+    }, null, null);
   }
+
 
 }

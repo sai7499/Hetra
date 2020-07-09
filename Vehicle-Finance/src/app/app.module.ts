@@ -1,3 +1,6 @@
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
+
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { HTTP } from '@ionic-native/http/ngx';
@@ -114,6 +117,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     LocationAccuracy,
     Geolocation,
     Camera,
+    File,
+    FileTransfer,
+    FileTransferObject,
   ],
 
   bootstrap: [AppComponent],

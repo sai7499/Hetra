@@ -47,6 +47,12 @@ MIT
 @ionic-native/core
 MIT
 
+@ionic-native/file
+MIT
+
+@ionic-native/file-transfer
+MIT
+
 @ionic-native/geolocation
 MIT
 
