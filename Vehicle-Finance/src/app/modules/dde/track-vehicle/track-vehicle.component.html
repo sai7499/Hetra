@@ -397,8 +397,7 @@
                                             [max]="toDayDate" 
                                             placeholder="dd/MM/yyyy"
                                             (valueChange)="delayDays($event ,i , itemrow)"
-                                            
-                                            >
+                                            [focusedDate]="focusedDate[i]">
                                         </kendo-datepicker>
                                         <!-- [focusedDate]="focusedDate" -->
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">

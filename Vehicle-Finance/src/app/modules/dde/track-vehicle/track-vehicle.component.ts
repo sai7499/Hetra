@@ -35,7 +35,7 @@ export class TrackVehicleComponent implements OnInit {
   public trackVehicleForm: FormGroup;
   leadId: number;
   isDirty: boolean;
-  focusedDate: Date = new Date();
+  focusedDate: any;
   maturedDate: Date = new Date();
   validationData: any;
 
@@ -244,19 +244,22 @@ export class TrackVehicleComponent implements OnInit {
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = new Date(year + '/' + month1 + '/' + day);
-    this.focusedDate = formattedDate;
+   this.focusedDate.push(formattedDate);
     return formattedDate;
   }
   loanStartDate(event) {
     //  const confirmed = confirm("Are you sure to loan start date");
     // if (confirmed) {
-    this.loanEmiDate = this.dateDbFormat(event)
+      this.focusedDate = []
+    this.loanEmiDate = this.dateDbFormat(event);
+    this.focusedDate.push(event)
     this.formArr.controls = [];
     let addDueDate = this.dateDbFormat(event);
     this.maturedDate = event
     if (this.fleetRtrDetails && this.fleetRtrDetails.length != 0) {
       for (let i = 0; i < this.fleetRtrDetails.length; i++) {
         if (i < this.fleetRtrDetails.length) {
+
           if (i == 0) {
             this.fleetRtrDetails[i].dueDate = addDueDate;
             if (this.fleetRtrDetails[i]['receivedDate'] != "") {
@@ -268,6 +271,7 @@ export class TrackVehicleComponent implements OnInit {
             let addDueDate2 = this.addMonth(addDueDate, i)
             this.fleetRtrDetails[i].dueDate = addDueDate2;
             this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+            this.focusedDate.push(addDueDate2) 
             this.addNewRow(this.fleetRtrDetails[i]);
           }
         } else {
@@ -391,19 +395,22 @@ export class TrackVehicleComponent implements OnInit {
         if (installments) {
           noOfEmi = installments.length;
           this.fleetRtrDetails = res['ProcessVariables'].installment;
+          this.focusedDate = []
           for (let i = 0; i < this.fleetRtrDetails.length; i++) {
 
             if (i < installments.length) {
               if (i == 0) {
                 installments[i]['dueDate'] = this.getDateFormat(installments[i]['dueDate'])
                 installments[i]['receivedDate'] = this.getDateFormat(installments[i]['receivedDate'])
-
+                this.focusedDate.push(installments[i]['receivedDate']);
                 this.formArr.push(this.initRows(installments[i]));
               }
               else {
                 installments[i]['dueDate'] = this.getDateFormat(installments[i]['dueDate'])
                 installments[i]['receivedDate'] = this.getDateFormat(installments[i]['receivedDate'])
+                this.focusedDate.push(installments[i]['receivedDate']);
                 this.addNewRow(installments[i]);
+
               }
             } else {
               let rowData = {
