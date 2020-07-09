@@ -968,6 +968,6 @@
     <div class="col-sm-12">
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label.back}}</button> &nbsp;
         <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label.save}} </p>&nbsp;
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onNext()">{{label.next}}</button>&nbsp;
+        <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()" *ngIf="hideSubmit">{{label.submit}}</button>&nbsp;
     </div>
 </div>

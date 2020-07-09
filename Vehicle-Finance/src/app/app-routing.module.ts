@@ -140,7 +140,7 @@ const routes: Routes = [
           ).then((m) => m.ApplicantDetailsModule),
       },
       {
-        path: 'viability-dashboard',
+        path: 'viability-list',
         loadChildren: () =>
           import(
             './modules/dde/viability-dashboard/viability-dashboard.module'
