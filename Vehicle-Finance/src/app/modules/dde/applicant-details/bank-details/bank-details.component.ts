@@ -114,7 +114,7 @@ export class BankDetailsComponent implements OnInit {
       'Nov',
       'Dec',
     ];
-    
+
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
     this.labelsService.getLabelsData().subscribe((res: any) => {
@@ -313,7 +313,7 @@ export class BankDetailsComponent implements OnInit {
         'Mandatory Fields Missing Or Invalid Pattern Detected',
         'Bank Transactions'
       );
-      console.log(this.bankForm.value,'Invalid Form');
+      console.log(this.bankForm.value, 'Invalid Form');
       return;
     }
     this.bankTransaction

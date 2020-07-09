@@ -18,12 +18,12 @@ import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { CamComponent } from './cam/cam.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { ViabilityDetailsComponent} from './vehicle-details/viability-details/viability-details.component';
+// import { ViabilityDetailsComponent} from './vehicle-details/viability-details/viability-details.component';
 
 import { ScoreCardComponent } from './score-card/score-card.component';
 // import {CreditConditionsComponent} from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
-import { ViabilityListComponent } from './viability-list/viability-list.component';
+// import { ViabilityListComponent } from './viability-list/viability-list.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
 import { NumberOnlyDirective } from '@services/directives/number-only.directive';
@@ -35,7 +35,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
     DdeComponent,
     FlReportComponent,
     PdReportComponent,
-    ViabilityListComponent,
+    // ViabilityListComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
     ExposureDetailsComponent,
@@ -50,7 +50,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
     // CreditConditionsComponent,
     DeviationsComponent,
     VehicleValuationComponent,
-    ViabilityDetailsComponent,
+    // ViabilityDetailsComponent,
     CibilOdComponent,
     CibilOdListComponent
 

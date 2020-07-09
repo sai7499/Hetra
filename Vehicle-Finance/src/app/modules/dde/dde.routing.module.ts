@@ -19,8 +19,8 @@ import { DeviationsComponent } from './deviations/deviations.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SourcingDetailsComponent } from '@modules/lead-section/sourcing-details/sourcing-details.component';
-import { ViabilityListComponent } from './viability-list/viability-list.component';
-import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
+// import { ViabilityListComponent } from './viability-list/viability-list.component';
+// import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 
@@ -102,18 +102,9 @@ const routes: Routes = [
       //   path: 'credit-conditions',
       //   component: CreditConditionsComponent,
       // },
-     
       {
         path: 'deviations',
         component: DeviationsComponent,
-      },
-      {
-        path: 'viability-dashboard',
-        component: ViabilityListComponent,
-      },
-      {
-        path: 'viability-details',
-        component: ViabilityDetailsComponent,
       },
       {
         path: 'cibil-od',
