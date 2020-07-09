@@ -523,11 +523,8 @@ getActivityLOVS() {
         if(element.key === "3PSLSUBCAT") {
           const data = [{ key: element.key, value: element.value}];
           this.pslSubCategoryValues = data;
-          // this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
         }
-      });
-      console.log("LANDAREA::::", this.landAreaInAcresValue);
-      
+      });      
     } else if (this.detailActivityChange === "1PSLDTLACTVTY") {
       this.pslLandHolding = [
         { key: 1, value: "Yes" },
@@ -762,14 +759,14 @@ getActivityLOVS() {
               this.pslSubCategoryValues = data;
             }
           });
-        } else {
+        } else if(this.landAreaInAcresValue > 5) {
           this.LOV.LOVS.pslSubCategory.filter( (element) => { 
             if(element.key === "3PSLSUBCAT") {
               const data = [{ key: element.key, value: element.value}];
               this.pslSubCategoryValues = data;
             }
           });
-        }
+        } 
       });
       this.pslDataForm.get("agriculture").patchValue({
       pslSubCategory: "",
@@ -822,7 +819,7 @@ getActivityLOVS() {
               this.pslSubCategoryValues = data;
             }
           });
-        }
+        } 
       });
       this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       pslSubCategory: "",
@@ -869,9 +866,8 @@ getActivityLOVS() {
               this.pslSubCategoryValues = data;
             }
           });
-        }
-      }
-    );
+        } 
+      });
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       pslSubCategory: "",
     });
@@ -997,6 +993,7 @@ getActivityLOVS() {
     this.pslDataForm.get("agriculture").patchValue({
       landOwner: "",
       relationshipWithLandOwner: "",
+      landProof: "",
       farmerType: "",
       landArea: 0,
       pslSubCategory: "",
@@ -1048,12 +1045,11 @@ getActivityLOVS() {
       });
       this.isLandHoldingYes = false;
       this.landAreaInAcresValue = 0;
-      console.log("LANDAREA::::", this.landAreaInAcresValue);
       this.plsLandProofChange = "";
       this.landOwnerChange = "";
       this.relationshipWithLandOwnerChange = "";
-      // console.log("VALUES_IF_LANDHOLDING_AS_NO::::",this.landAreaInAcresValue, this.plsLandProofChange, 
-      //              this.landOwnerChange, this.relationshipWithLandOwnerChange);
+      console.log("VALUES_IF_LANDHOLDING_AS_NO::::",this.landAreaInAcresValue, this.plsLandProofChange, 
+                   this.landOwnerChange, this.relationshipWithLandOwnerChange);
       this.pslDataForm.get("agriculture.landArea").clearValidators();
       this.pslDataForm.get("agriculture.landArea").updateValueAndValidity();
       this.pslDataForm.get("agriculture.landProof").clearValidators();
@@ -1067,7 +1063,7 @@ getActivityLOVS() {
 
   onChangePslLandHolding(event: any) {
     this.pslLandHoldingChange = event.target.value;
-    console.log("PSL_LANDHOLDING_CHANGE_ID-----", this.pslLandHoldingChange);
+    // console.log("PSL_LANDHOLDING_CHANGE_ID-----", this.pslLandHoldingChange);
     this.onSelectPslLandHolding();
     // console.log("FARMER_TYPE_VALUES---", this.farmerTypeValues);
   }
@@ -1188,7 +1184,6 @@ getActivityLOVS() {
       }
       this.formValues.activity = this.activityChange;
       this.formValues.pslCategory = this.pslCategoryData[0].key;
-      // this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;  
       this.formValues.pslCCertificate = this.data[0].key;
       const data = {
         userId: localStorage.getItem("userId"),
