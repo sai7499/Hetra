@@ -9,7 +9,7 @@ import { CustomSelectComponent } from './custom-select/custom-select.component';
 import { TextOnlyModalComponent } from './Modals/text-only-modal/text-only-modal.component';
 import { LeadSectionHeaderComponent } from './lead-section-header/lead-section-header.component';
 import { ProfileComponent } from './profile/profile.component';
-import { } from './applicant-list/applicant-list.component';
+import {} from './applicant-list/applicant-list.component';
 import { IdentityDetailsComponent } from './identity-details/identity-details.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { AddOrUpdateApplicantComponent } from './add-update-applicant/add-update-applicant.component';
@@ -21,6 +21,9 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { CustomInputComponent } from './custom-input/custom-input.component';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { SalesExactMatchComponent } from './sales-exact-match/sales-exact-match.component';
+import { UploadModalComponent } from './upload-modal/upload-modal.component';
+import { CommonDocsUploadComponent } from './common-docs-upload/common-docs-upload.component';
+import { DocsUploadPipe } from './pipes/docs-upload.pipe';
 
 import {
   BsDatepickerModule,
@@ -47,6 +50,9 @@ setTheme('bs4');
     CustomInputComponent,
     SalesExactMatchComponent,
     SharedDeviationComponent,
+    UploadModalComponent,
+    CommonDocsUploadComponent,
+    DocsUploadPipe,
   ],
   imports: [
     CommonModule,
@@ -56,7 +62,7 @@ setTheme('bs4');
     ReactiveFormsModule,
     DdeSharedModule,
     NgxPaginationModule,
-    DatePickerModule
+    DatePickerModule,
   ],
   exports: [
     CustomSelectComponent,
@@ -72,7 +78,9 @@ setTheme('bs4');
     SearchBarComponent,
     CustomInputComponent,
     SalesExactMatchComponent,
-    DatePickerModule
+    DatePickerModule,
+    UploadModalComponent,
+    CommonDocsUploadComponent,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}
