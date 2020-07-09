@@ -37,9 +37,9 @@
 
                         <a
                             (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"><i
-                                class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                                class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>&nbsp;
                         <a data-toggle="modal" data-target="#exampleModal"
-                            (click)="softDeleteCollateral(i, item.collateralId)"><i class="fa fa-trash"
+                            (click)="softDeleteCollateral(i, item.collateralId)"><i class="fa fa-trash cursor-pointer"
                                 aria-hidden="true"></i></a>
                     </td>
                 </tr>

@@ -20,8 +20,8 @@ export const environment = {
     
   },
   // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
-  // hostingEnvironment: 'Production',
+  // hostingEnvironment: 'UAT',
+  hostingEnvironment: 'Production',
 
   host: '/appiyo/',
   //  host: 'http://128.199.164.250/appiyo/',
