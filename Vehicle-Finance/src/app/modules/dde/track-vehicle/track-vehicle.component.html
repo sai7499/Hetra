@@ -398,7 +398,7 @@
                                             placeholder="dd/mm/yyyy"
                                             (valueChange)="delayDays($event ,i , itemrow)"
                                             
-                                            [focusedDate]="focusedDate">
+                                            [focusedDate]="focusedDate[i]">
                                         </kendo-datepicker>
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
