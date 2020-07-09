@@ -216,6 +216,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
+
+      console.log(res, 'res')
+
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
       this.vehicleLov.assetMake = [{
@@ -275,7 +278,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         })
         this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
-      } else if (this.roleType === 1) {
+      } else if (this.roleType === 2) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
         this.sharedService.getFormValidation(this.basicVehicleForm)
