@@ -72,7 +72,7 @@
                   <td data-title="OD Amount">
                     <app-custom-input formControlName="odAmount" [placeholder]="'OD Amount'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" (keyup)="onOdAmount($event.target.value, i)">
                     </app-custom-input>
                   </td>
                   <td data-title="Type of loan">

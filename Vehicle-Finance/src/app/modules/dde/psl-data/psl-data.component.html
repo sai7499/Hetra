@@ -689,9 +689,9 @@
             (change)="onChangeOtherInvestmentCost($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Other Investment Cost'"
-            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
+            [type]="labels?.validationData?.amountValue.type"
             [isDirty]="isDirty"
         >
         </app-custom-input>  
@@ -706,9 +706,9 @@
             [(ngModel)]="totalInvestmentCost"
             (change)="onChangeTotalInvestmentCost($event)" 
             [placeholder]="'Total Investment Cost'"
-            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
+            [type]="labels?.validationData?.amountValue.type"
             [isDirty]="isDirty"
        >
         </app-custom-input>  
@@ -721,9 +721,9 @@
             (keyup)="onChangeInvestmentInEquipment($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Equipment'"
-            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
+            [type]="labels?.validationData?.amountValue.type"
             [isDirty]="isDirty"
         >
         </app-custom-input> 
@@ -736,9 +736,9 @@
             (keyup)="onChangeInvestmentInPlantAndMachinery($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Plant and Machinery'"
-            [maxLength]="labels?.validationData?.pslInvestmentCost.maxLength"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="labels?.validationData?.pslInvestmentCost.regexPattern"
+            [type]="labels?.validationData?.amountValue.type"
             [isDirty]="isDirty"
         >
         </app-custom-input> 

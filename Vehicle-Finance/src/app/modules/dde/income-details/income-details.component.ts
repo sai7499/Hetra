@@ -414,6 +414,8 @@ export class IncomeDetailsComponent implements OnInit {
       .getAllIncomeDetails(body)
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
+        console.log(this.applicantResponse);
+        
         this.incomeDetailsForm.patchValue({
           salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation,
         });
@@ -511,8 +513,8 @@ export class IncomeDetailsComponent implements OnInit {
       }
       const salaryContol = this.incomeDetailsForm.controls
         .salariedFOIRDeviation as FormControl;
-      const salariedFOIRDeviation = salaryContol.value;
-      salaryContol.setValue(Number(salariedFOIRDeviation));
+      const salariedFOIRDeviation = Number(salaryContol.value);
+      salaryContol.setValue(salariedFOIRDeviation);
 
       this.incomeDetailsService
         .setAllIncomeDetails(this.incomeDetailsForm.value)

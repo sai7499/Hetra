@@ -22,7 +22,7 @@ export class CibilOdListComponent implements OnInit {
   loanTypes = ["Business Loan", "Two Wheeler Loan", "Over Draft", "Mathura Loan", "Agri Loan", "Gold Loan", "Home Loan", "Others"]
   proofs = ["NA", "SUB", "DBT", "LSS"]
   selctedLoan: any;
-  submitted = null ;
+  submitted = null;
   totalOdAmount = 0;
   constructor(private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -45,14 +45,14 @@ export class CibilOdListComponent implements OnInit {
       loanEnquiryInThirtyDays: this.loanEnquiryInThirtyDaysArray,
       loanEnquiryInSixtyDays: this.loanEnquiryInSixtyDaysArray,
       highestDpdInLastSixMonths: [""],
-      highestDpdInLastTwelveMonths : [""],
+      highestDpdInLastTwelveMonths: [""],
       writtenOffLoans: [""],
       writtenOffLoansWithSuiteFiled: [""],
       lossLoans: [""],
       settledLoans: [""],
       proofCollected: [""],
       clearenceProof: [""],
-      cibilJustification:[null, Validators.compose([Validators.required, Validators.maxLength(200),Validators.pattern(/[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g )])]
+      cibilJustification: [null, Validators.compose([Validators.required, Validators.maxLength(200), Validators.pattern(/[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g)])]
     });
     this.getLov();
   }
@@ -61,9 +61,9 @@ export class CibilOdListComponent implements OnInit {
       console.log(value)
     });
   }
-  onSelectLoan(event){
-console.log(event);
-this.selctedLoan = event
+  onSelectLoan(event) {
+    console.log(event);
+    this.selctedLoan = event
   }
   private getodListDetails() {
 
@@ -134,13 +134,27 @@ this.selctedLoan = event
         'Cibil OD Details'
       );
       return;
-    }else{
-    this.submitted = true;
+    } else {
+      this.submitted = true;
 
       this.toasterService.showSuccess(
         'Saved Successfully',
         'Cibil OD Details'
       );
     }
-}
+  }
+  onOdAmount(event: any, i: number) {
+ 
+    const odAmount = this.odDetailsListArray.value[i].odAmount;
+    const totalOdAmount = odAmount;
+    this.odDetailsListArray.at(i).patchValue({ totalOdAmount });
+    if (this.odDetailsListArray && this.odDetailsListArray.length > 0) {
+      this.totalOdAmount = 0;
+      for (let i = 0; i < this.odDetailsListArray.length; i++) {
+        this.totalOdAmount = Math.round(
+          this.totalOdAmount + Number(this.odDetailsListArray.value[i].odAmount)
+        );
+      }
+    }
+  }
 }
