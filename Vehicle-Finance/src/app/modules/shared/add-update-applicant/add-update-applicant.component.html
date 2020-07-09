@@ -49,9 +49,9 @@
                     }}<sub class="star_red_col">*</sub></label
                   >
                   <app-vf-custom-select
-                    [values]=""
+                    [values]="LOV?.LOVS?.salutation"
                     formControlName="title"
-                    
+                    isDisabled
                   >
                   </app-vf-custom-select>
                 </div>
@@ -199,7 +199,7 @@
                       placeholder="Date of Incorporation"
                     >
                     </kendo-datepicker>
-                    <div
+                    <!-- <div
                       class="ShowError"
                       *ngIf="
                         coApplicantForm.get('dedupe').get('dateOfIncorporation').touched ||
@@ -211,7 +211,7 @@
                       >
                         select date
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div
@@ -259,7 +259,7 @@
                     </label
                   >
                   <app-custom-input
-                    formControlName="udhyogAadhar"
+                    formControlName="aadhar"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
                     [patternCheck]="validationData?.adhaarNumber?.patternCheck"
                     [isRequired]="'Aadhaar number is required'"
@@ -319,7 +319,7 @@
                     <sub class="star_red_col">*</sub></label
                   >
                   <app-custom-input
-                    formControlName="cinNumber"
+                    formControlName="corporateIdentificationNumber"
                     [maxLength]=""
                     [type]=""
                   >
@@ -384,7 +384,7 @@
                     </label
                   >
                   <app-custom-input
-                    formControlName="cstNumber"
+                    formControlName="cstVatNumber"
                     [maxLength]=""
                     [type]=""
                   >
