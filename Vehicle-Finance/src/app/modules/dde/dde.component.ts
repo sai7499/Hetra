@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -21,10 +21,15 @@ export class DdeComponent implements OnInit {
     private route: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private leadStoreService: LeadStoreService,
-    private cds: CommonDataService
+    private cds: CommonDataService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
+
     $(document).ready(function () {
-      $(".second-row").css("display", "none");
+
+      $(".second-row").css({ "display": "none" });
+
       $(".prev-first-data").click(function () {
         $(".first-row").css({ "display": "block" });
         $(".second-row").css({ "display": "none" });
@@ -37,7 +42,6 @@ export class DdeComponent implements OnInit {
       });
     });
     this.leadId = this.route.snapshot.params['leadId'];
-
   }
 
   hasRoute(route: string) {
@@ -53,6 +57,7 @@ export class DdeComponent implements OnInit {
         this.leadStoreService.setLeadCreation(leadData);
       }
     }
+
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {

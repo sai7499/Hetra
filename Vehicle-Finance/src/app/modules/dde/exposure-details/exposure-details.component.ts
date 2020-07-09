@@ -34,7 +34,8 @@ export class ExposureDetailsComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private location: Location,
               private toStarService: ToasterService ) {
-                this.yearCheck = [{rule: val => val>this.currentYear,msg:'Future year not accepted'}];
+                this.yearCheck = [{rule: val => val>this.currentYear,
+                                   msg:'Future year not accepted'}];
                 this.labelService.getLabelsData().subscribe(res => {
                   this.labels = res;
                 });

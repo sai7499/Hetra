@@ -642,4 +642,7 @@ h4.table-head-bg.m-0.p-02 {
 .mar-top19 {
     margin-top: 16px;
 }
+.cursor-pointer{
+    cursor: pointer;
+}
 

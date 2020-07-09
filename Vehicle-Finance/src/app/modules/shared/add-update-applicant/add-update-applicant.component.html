@@ -571,9 +571,8 @@
                     isPanChanged ||
                     isAadharChanged ||
                     isPassportChanged ||
-                    isDrivingLicenseChanged
-                  "
-                >
+                    isDrivingLicenseChanged"
+                >              
                   <button
                     class="btn btn-primary mar-right8"
                     type="button"
@@ -734,7 +733,7 @@
                     <input
                       type="checkbox"
                       id="address_section_checkbox"
-                      (click)="onAddress($event)"
+                      (click)="onAddress($event)"                      
                       [checked]="isPermanantAddressSame"
                       [disabled]="isDisabledCheckbox"
                     />
@@ -1162,7 +1161,7 @@
           id="reject_dlead"
           (click)="navigateToSamePage()"
         >
-          OKAY
+          OK
         </button>
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
           Cancel
