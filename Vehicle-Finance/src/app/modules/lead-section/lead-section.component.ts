@@ -14,7 +14,7 @@ import { CreateLeadDataService } from '../lead-creation/service/createLead-data.
 export class LeadSectionComponent implements OnInit {
   applicantName: string;
   applicantMobile: string;
-  currentPage = 0;
+  currentPage: number = 0;
   public labels: any;
   public hideElement: boolean = false;
   public leadId: any;
@@ -50,23 +50,24 @@ export class LeadSectionComponent implements OnInit {
       this.applicantName = `${leadValue.firstName} ${leadValue.lastName}`;
       this.applicantMobile = leadValue.mobile;
     }
-    this.location.onUrlChange((url, state) => {
-      if (url.includes('product-details')) {
-        this.currentPage = 1;
-      } else if (url.includes('vehicle-details')) {
-        this.currentPage = 2;
-      } else if (url.includes('applicant-details')) {
-        this.currentPage = 1;
-      } else if (url.includes('loan-details')) {
-        this.currentPage = 4;
-      } else if (url.includes('add-vehicle')) {
-        this.currentPage = 2;
-      } else if (url.includes('co-applicant')) {
-        this.currentPage = 1;
-      } else {
-        this.currentPage = 0;
-      }
+
+    const currentUrl = this.location.path();
+    this.currentPage = this.getLocationIndex(currentUrl);
+    this.location.onUrlChange((url: string) => {
+      this.currentPage = this.getLocationIndex(url);
     });
+  }
+
+  getLocationIndex(url: string) {
+
+    if (url.includes('applicant-details')) {
+      return 1
+    } else if (url.includes('vehicle-details')) {
+      return 2
+    } else {
+      return 0
+    }
+
   }
 
   onHideRoute() {

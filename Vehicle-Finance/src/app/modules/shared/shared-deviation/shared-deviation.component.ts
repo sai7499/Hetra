@@ -83,6 +83,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.getFormValidation(this.deviationsForm)
     this.getTrigurePolicy();
 
+    console.log(this.vehicleDataStoreService.getCreditTaskId())
+
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
