@@ -91,7 +91,7 @@
                 </app-vf-custom-select>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}</label>
                 <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
@@ -127,7 +127,7 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="margin_money">{{labels.marginMoneyPaid}}</label>
                 <!-- <input type="text" class="form-control" id="margin_money" formControlName="marginMoney"> -->
@@ -166,7 +166,7 @@
                 </app-vf-custom-select>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="name_of_channel">{{labels.nameOfChannel}}</label>
                 <!-- <select class="form-control">
@@ -196,7 +196,7 @@
                 </app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="money_invested">{{labels.moneyInvested}}</label>
                 <!-- <input type="text" class="form-control" id="money_invested" formControlName="moneyInvested"> -->
@@ -219,7 +219,7 @@
                 </app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="purchased_value">{{labels.purchasedValue}}</label>
                 <!-- <input type="text" class="form-control" id="purchased_value" formControlName="purchasedValue"> -->
@@ -244,7 +244,7 @@
                 </app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_conditions">{{labels.vehicleConditions}}</label>
                 <!-- <select class="form-control">
@@ -276,7 +276,7 @@
                 </app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="aware_of_due">{{labels.awareDue}}</label>
                 <!-- <select class="form-control">
@@ -341,7 +341,7 @@
                 </app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="reg_copy_verified">{{labels.regCopyVerified}}</label>
                 <!-- <select class="form-control">
@@ -368,7 +368,7 @@
                     [isDirty]="isDirty"></app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="chassis_number">{{labels.chassisNumber}}</label>
                 <app-custom-input formControlName="chasisNumber" placeholder="chasis number" [inputClass]="'input-upper'" [type]="labels?.validationData?.chasisNo?.type" [isRequired]="'chasis number is required'" [maxLength]="labels?.validationData?.chasisNo?.maxLength"
@@ -403,7 +403,7 @@
                 </kendo-datepicker>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="tax_date">{{labels.taxDate}}</label>
                 <!-- <div class="input-group input-medium">
@@ -441,7 +441,7 @@
                 </kendo-datepicker>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="vehicle_verified">{{labels.vehicleVerified}}</label>
                 <!-- <select class="form-control">
@@ -468,7 +468,7 @@
                 </app-custom-input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="no_of_trips">{{labels.noTrips}}</label>
                 <app-custom-input formControlName="noOfTrips" placeholder="no of trips" [type]="labels?.validationData?.noOfTrips?.type" [isRequired]="'no of trips is required'" [maxLength]="labels?.validationData?.noOfTrips?.maxLength" [isDirty]="isDirty"></app-custom-input>
@@ -489,7 +489,7 @@
                 </app-vf-custom-select>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="remarks">{{labels.remarks}}</label>
                 <!-- <app-custom-input rows="1" id="remarks" formControlName="remarks" [isRequired]="'required'" placeholder="remarks" [maxLength]="maxlength30" [isDirty]="isDirty"></app-custom-input> -->
