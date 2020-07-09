@@ -83,8 +83,7 @@ export class CustomInputComponent
   }
   private checkIsFirst = true;
   private propagateChange = (event) => {
-    // this.change.emit(event);
-    console.log("change event",event);
+    // this.change.emit(event); 
   };
 
   constructor(private elementRef: ElementRef) {}

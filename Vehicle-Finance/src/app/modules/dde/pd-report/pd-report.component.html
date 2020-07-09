@@ -33,7 +33,7 @@
                                     {{ labels.applicantType }}
                                     <!-- <i class="fa fa-sort"></i> -->
                                 </th>
-                                <th *ngIf="roleType === 1">
+                                <th >
                                     {{ labels.pdStatus }}
                                     <!-- <i class="fa fa-sort"></i> -->
                                 </th>
@@ -51,7 +51,8 @@
                                 <td>{{ item.applicantName ? item.applicantName : '-' }}</td>
                                 <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
                                 <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
-                                <td *ngIf="roleType === 1" style="cursor:pointer" (click)="navigatePage(item.applicantId)">
+                                <td  style="cursor:pointer" 
+                                    (click)="navigatePage(item.applicantId)">
                                     {{ item.pdStatusValue ? item.pdStatusValue : '-' }}</td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                                 <ng-container *ngIf="roleType === 2">

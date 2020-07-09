@@ -603,7 +603,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
                
 
       // if (processVariables.ucic) {isCurrAddSameAsPermAdd: "0"
-      if(addressStatus.isCurrAddSameAsPermAdd == "0"){
+      if(addressDetails.length>0 && addressStatus.isCurrAddSameAsPermAdd == "1"){
         this.isPermanantAddressSame = true;
         this.isDisabledCheckbox = true;       
         // if(this.coApplicantForm.get('permentAddress')){
