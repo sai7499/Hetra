@@ -17,8 +17,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="table-responsive application" id="applicantTable">
-                        <table class="table">
+                    <div class=" application" id="applicantTable">
+                        <table class="table table-responsive ">
                             <thead>
                                 <tr class="table-head-bg">
 
@@ -32,7 +32,17 @@
                                     <td class="text-center">Action</td>
                                 </tr>
                             </thead>
+                            <tbody class=" rowCollapse" *ngIf="bankDetails === null">
+                                <!-- <div  >
+                                    <p> No records found...</p> 
+                                </div> -->
+                                <tr>
+                                    <td colspan="8">NO RECORDS FOUND</td>
+                                </tr>
+                            </tbody>
+                            
                             <tbody>
+                               
                                 <tr id="" *ngFor="let item of bankDetails">
 
                                     <td class="text-center">{{item?.accountHolderName}}</td>

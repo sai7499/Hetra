@@ -296,6 +296,7 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
         console.log("message", processVariables.error.message);
         this.toasterService.showSuccess('submitted to credit successfully', '')
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
       }
       else {
         this.toasterService.showError("invalid submit", '')

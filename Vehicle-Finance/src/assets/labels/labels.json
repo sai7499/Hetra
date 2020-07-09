@@ -165,10 +165,10 @@
     "identityNumber": "Identity Number",
     "voterIdNumber": "Voter Id Number",
     "uploadIdentity": "Upload Identity",
-    "udyogAdhar" : "Udyog Aadhaar",
-    "cinRegisteredNumber" : "CIN/Registered Number",
-    "cstVatNumber" : "CST/VAT Number",
-    "tanNumber": "TAN Number", 
+    "udyogAdhar": "Udyog Aadhaar",
+    "cinRegisteredNumber": "CIN/Registered Number",
+    "cstVatNumber": "CST/VAT Number",
+    "tanNumber": "TAN Number",
     "address1": "Address 1",
     "address2": "Address 2",
     "address3": "Address 3",
@@ -698,6 +698,7 @@
     "registrationNumber": "Registration Number",
     "address": "Address",
     "valuationStatus": "Valuation Status",
+    "valuatorStatus": "Valuator Status",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
@@ -733,7 +734,7 @@
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
-    "modelType": "Model",
+    "modelType": "Model/Type",
     "loanAmt": "Loan Amount",
     "loanDetailsForNewVehicle": "Loan Details For New Vehicle",
     "loanDetailsUsedVehicleTitle": "Loan Details For Used Vehicle",
@@ -866,8 +867,8 @@
     "contactPerson": "Contact Person Name",
     "contactPersonDesignation": "Contact Person Designation",
     "contactPersonMobileNumber": "Contact Person mobile number",
-    "countryOfCorporation" : "Country Of Corporation",
-    "industry" : "Industry",
+    "countryOfCorporation": "Country Of Corporation",
+    "industry": "Industry",
     "ratingIssuerName": "Rating Issuer Name",
     "externalRatingAssigned": "External Rating Assigned",
     "extnlRatingIssuedDate": "Extnl. Rating Issued Date",
@@ -985,7 +986,7 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric-nospace"
         },
         "percentage": {
             "maxLength": {
@@ -996,6 +997,10 @@
         "noOfVehicles": {
             "maxLength": {
                 "rule": 3
+            },
+            "pattern": {
+                "rule": "^[1-9][0-9]*$",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },
@@ -1062,6 +1067,11 @@
             "patternCheck": {
                 "rule": "^[6-9][0-9]*$",
                 "msg": "Invalid Mobile Number"
+            }
+        },
+        "email": {
+            "maxLength": {
+                "rule": 120
             }
         },
         "adhaarNumber": {
@@ -1132,13 +1142,13 @@
             },
             "type": "number"
         },
-        "directorName" : {
+        "directorName": {
             "maxLength": {
                 "rule": 60
             },
             "type": "alpha"
         },
-        "dinNumber" : {
+        "dinNumber": {
             "maxLength": {
                 "rule": 25
             },

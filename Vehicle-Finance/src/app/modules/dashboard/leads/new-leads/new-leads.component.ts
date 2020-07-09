@@ -132,8 +132,7 @@ export class NewLeadsComponent implements OnInit {
   }
 
   getLeadId(item) {
-    console.log('item', item)
-    this.vehicleDataStoreService.setCreditLeadId(item.leadId);
+    this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId)
   }
 

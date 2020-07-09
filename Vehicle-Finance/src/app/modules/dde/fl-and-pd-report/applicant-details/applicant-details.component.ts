@@ -101,6 +101,8 @@ export class ApplicantDetailComponent implements OnInit {
   roles: any;
   leadId: number;
   leadData: {};
+  roleId: any;
+  roleType: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -119,11 +121,10 @@ export class ApplicantDetailComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
-    console.log("roles", this.roles)
-    console.log("user id ==>", this.userId)
+    this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
-    // this.roleName = 'Sales Officer';
-    // this.roleName = 'Credit Officer';
+    this.roleType = this.roles[0].roleType;
+    console.log("this user roleType", this.roleType)
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -240,20 +241,20 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleName === 'Credit Officer') {
+    } else if (this.roleType === 2) {
       this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
 
     }
   }
 
   onNavigateBack() {
-    if (this.roleName === 'Sales Officer') {
+    if (this.roleType === 1) {
       // routerLink="/pages/dde/leadId/pd-report/"
       this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-    } else if (this.roleName === 'Credit Officer') {
-      this.router.navigate([`../../../customer-profile/${this.applicantId}/${this.version}`]);
+    } else if (this.roleType === 2) {
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
 
     }
   }
@@ -265,14 +266,14 @@ export class ApplicantDetailComponent implements OnInit {
     //   pdVersion: this.version,
 
     // };
-    if (this.roleName === 'Credit Officer') {
+    if (this.roleType === 2) {
       this.data = {
 
         // applicantId: 6,
         applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
         pdVersion: this.version,
       };
-    } else if (this.roleName === 'Sales Officer') {
+    } else if (this.roleType === 1) {
       this.data = {
 
         // applicantId: 6,
