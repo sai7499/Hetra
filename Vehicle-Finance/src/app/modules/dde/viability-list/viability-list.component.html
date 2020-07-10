@@ -17,7 +17,7 @@
                 <table class="table">
                     <thead>
                         <tr class="table-head-bg">
-                            <th>{{labels?.registrationNum   }} </th>
+                            <th>{{labels?.registrationNum }} </th>
                             <th>{{labels?.make}} </th>
                             <th>{{labels?.model}} </th>
                             <th>{{labels?.viabilityStatus}} </th>
@@ -30,14 +30,17 @@
                             <td>{{viability?.make}}</td>
                             <td>{{viability?.model}}</td>
                             <td>{{viability?.viabilityStatus}}</td>
-                            <td *ngIf="viability?.viabilityStatus !== 'Submitted' && showNext === false"><u ><a class="a_tag" style="cursor:pointer"
-                                (click)="getViability(viability?.collateralId )">Start</a></u></td>
-                            <td *ngIf="viability?.viabilityStatus === 'Submitted' && showNext === true"><u ><a class="a_tag" style="cursor:pointer"
-                                        (click)="getViability(viability?.collateralId )">View</a></u></td>
-                                        
-                                        <td colspan="1" *ngIf="viability?.viabilityStatus === 'Submitted' && showNext === false"></td>
-                        </tr>
-                        <!-- <tr id="applicant_2_row">
+                            <td><u><a class="a_tag" style="cursor:pointer"
+                                        (click)="getViability(viability?.collateralId )"
+                                        *ngIf="(viability?.viabilityStatus !== 'Submitted' && viability?.viabilityStatus !== 'Completed')&& showNext == false">Start</a>
+                                    <a class="a_tag" style="cursor:pointer"
+                                        (click)="getViability(viability?.collateralId )"
+                                        *ngIf="(viability?.viabilityStatus == 'Completed' || viability?.viabilityStatus == 'Submitted') && showNext == false">View</a>
+                                    <a class="a_tag" style="cursor:pointer"
+                                        (click)="getViability(viability?.collateralId )"
+                                        *ngIf="(viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Completed') && showNext == true">View</a></u>
+                            </td>
+                            <!-- <tr id="applicant_2_row">
                             <td>KL-05-AG-1191</td>
                             <td>TATA</td>
                             <td>SUMO</td>
@@ -58,7 +61,8 @@
 
     <button class="btn btn-primary mar-right8" type="button" (click)="onBack()">{{labels?.back}} </button>
 
-    <button class="btn btn-primary js-btn-next" type="button" routerLink="../cibil-od" *ngIf="showNext"> {{labels?.next}}
+    <button class="btn btn-primary js-btn-next" type="button" routerLink="../cibil-od" *ngIf="showNext">
+        {{labels?.next}}
     </button>
 
 </div>

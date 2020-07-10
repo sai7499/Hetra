@@ -361,8 +361,7 @@
                                     <div class='input-group date' id='datetimepicker1'>
                                         <kendo-datepicker class="form-control mandatory" 
                                             formControlName="dueDate"
-                                            [format]="'dd/MM/yyyy'" 
-                                            [max]="toDayDate" 
+                                            [format]="'dd/MM/yyyy'"
                                             placeholder="dd/mm/yyyy"
                                             [activeView]="'decade'"
                                         ></kendo-datepicker>
@@ -387,6 +386,7 @@
                                     (change)="receiptNumber($event ,i)"
                                     >
                                   </app-custom-input>
+                            </td>
                                     <td>
                                 <div class="form-group date">
                                     <div class='input-group date'>
@@ -397,7 +397,7 @@
                                             [max]="toDayDate" 
                                             placeholder="dd/MM/yyyy"
                                             (blur)="delayDays($event ,i , itemrow)"
-                                            [focusedDate]="focusedDate[i]">
+                                            [focusedDate]="focusedDate ? focusedDate[i] : ''">
                                         </kendo-datepicker>
                                         <!-- [focusedDate]="focusedDate" -->
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">
