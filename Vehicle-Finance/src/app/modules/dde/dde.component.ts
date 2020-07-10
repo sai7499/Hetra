@@ -103,7 +103,7 @@ export class DdeComponent implements OnInit {
       return 8;
     } else if (url.includes('fl-report')) {
       return 9;
-    } else if (url.includes('pd-report')) {
+    } else if (url.includes('pd-list')) {
       return 10;
     } else if (url.includes('viability')) {
       return 11;

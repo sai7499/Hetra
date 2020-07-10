@@ -54,7 +54,7 @@
           Viability
         </button>
                 <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability" [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 12 }">
-          Cibil OD
+          OD Details
         </button>
                 <button class="multisteps-form__progress-btn second-row" type="button" id="credit_score_card" [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
           Score Card
@@ -73,15 +73,12 @@
                 <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_document_upload">Document Details</button> -->
                 <!-- <button class="multisteps-form__progress-btn " type="button" id="credit_reference">Reference</button> -->
             </div>
-            <!-- <div class="content" style="margin-top:100px;" *ngIf!="show">
-                <router-outlet>
-                </router-outlet>
-
-            </div> -->
+            &nbsp;
 
             <div class="content">
                 <router-outlet> </router-outlet>
             </div>
+
         </div>
     </div>
 </main>

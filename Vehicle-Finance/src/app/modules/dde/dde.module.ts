@@ -29,6 +29,7 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
 import { NumberOnlyDirective } from '@services/directives/number-only.directive';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
+import { PdReportModule } from './pd-report/pd-report.module';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,9 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
     SharedModule,
     DdeSharedModule,
     LeadSectionModule,
-    DateInputsModule
+    DateInputsModule,
+    PdReportModule
+
   ],
 })
 export class DdeModule { }
