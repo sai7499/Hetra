@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TvrDetailsService } from '@services/tvr/tvr-details.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-tvr-details',
@@ -20,7 +21,8 @@ export class TvrDetailsComponent implements OnInit {
     private labelDetails: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private tvrService: TvrDetailsService
+    private tvrService: TvrDetailsService,
+    private location: Location
   ) { }
 
   async ngOnInit() {
@@ -61,19 +63,18 @@ export class TvrDetailsComponent implements OnInit {
 
   }
 
-  // getTvrDetails() {
-  //   this.tvrService.getTvrDetails().subscribe((res: any) => {
-  //     this.tvrData = res.ProcessVariables.tvr;
-  //     console.log(this.tvrData);
-  //     this.tableData = this.tvrData;
-  //   });
-  // }
-
   async onViewClick(applicantId: string, applicantType: string) {
 
     const leadId = (await this.getLeadId()) as number;
     this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${applicantType}/${applicantId}`);
   }
 
+  onBack() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+  }
+
+  onNext() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/fl-report']);
+  }
 
 }
