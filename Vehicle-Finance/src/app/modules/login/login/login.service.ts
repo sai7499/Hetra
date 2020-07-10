@@ -70,8 +70,8 @@ export class LoginService {
 
     directionsService.route(request, function(result, status) {
       if (status == 'OK') {
-        console.log(result);
-        console.log(result.routes[0].overview_polyline);
+        // console.log(result);
+        // console.log(result.routes[0].overview_polyline);
         let polyline = result.routes[0].overview_polyline;
 
         let mapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400"+
@@ -82,7 +82,7 @@ export class LoginService {
           "enc:"+polyline+
           "&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
         that.getBase64ImageFromURL(mapUrl).subscribe(base64data => {    
-          console.log(base64data);
+          //console.log(base64data);
           // this is the image as dataUrl
           this.base64Image = 'data:image/jpg;base64,' + base64data;
           return fn(this.base64Image);

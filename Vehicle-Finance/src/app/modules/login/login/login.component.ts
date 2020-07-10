@@ -289,7 +289,7 @@ export class LoginComponent implements OnInit {
       });
     } else {
       this.gpsService.getBrowserLatLong().subscribe((position) => {
-        console.log('login position', position);
+        //console.log('login position', position);
       });
     }
 
@@ -481,7 +481,7 @@ export class LoginComponent implements OnInit {
     var that = this;
     this.loginService.getPolyLine(function(result){
       that.base64Image = result;
-      console.log("getPolyLine", that.base64Image);
+     // console.log("getPolyLine", that.base64Image);
     }, null, null);
   }
 
