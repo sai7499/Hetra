@@ -212,7 +212,7 @@ export class BankDetailsComponent implements OnInit {
         ? data.ProcessVariables.bankId
         : null,
       accountNumber: data.ProcessVariables.accountNumber
-        ? Number(data.ProcessVariables.accountNumber)
+        ? data.ProcessVariables.accountNumber
         : null,
       accountType: data.ProcessVariables.accountTypeId
         ? data.ProcessVariables.accountTypeId
@@ -363,6 +363,8 @@ export class BankDetailsComponent implements OnInit {
   }
 
   getMonths() {
+    const tempArray: Array<any> = this.listArray.value;
+    console.log("temp array", tempArray);
     if (this.OldToDate && this.OldFromDate) {
       const txt = confirm('Are You Sure Want To Change Dates ?');
       if (txt === false) {
@@ -393,10 +395,9 @@ export class BankDetailsComponent implements OnInit {
     this.OldToDate = toDateNew;
     const diff = toDate.getMonth() - fromDate.getMonth();
     const numberOfMonths = Math.round(
-      (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-        (toDate.getMonth() - fromDate.getMonth()) +
-        1
-    );
+                            (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+                            (toDate.getMonth() - fromDate.getMonth()) + 1);
+ 
     if (
       diff === undefined ||
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
@@ -464,7 +465,15 @@ export class BankDetailsComponent implements OnInit {
           this.listArray.push(this.initRows(i));
         }
       }
-    }
+    }  
+      // this.assignedArray.forEach(
+      //   monName =>
+      //     {
+      //       this.listArray.push( this.initRows(
+      //         tempArray.filter(val => val.month == monName)))
+      //     }
+      // );
+    
   }
 
   onBack() {

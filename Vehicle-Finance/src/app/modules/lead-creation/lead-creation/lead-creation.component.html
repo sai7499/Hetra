@@ -275,7 +275,8 @@
               [maxLength]="mobileLength"
               [isRequired]="'Contact Number mandatory'"
               [isDirty]="isDirty"
-              [type]="'number'">
+              [type]="'number'"
+              [patternCheck]="labels.validationData?.mobileNumber.pattern">
             </app-custom-input>
           </div>
 

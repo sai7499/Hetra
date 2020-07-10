@@ -194,7 +194,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.loanDetailsForm = new FormGroup({
       newVehicleCost: new FormControl(''),
-      // newVehicleModel: new FormControl(''),
+      newVehicleModel: new FormControl(''),
       newVehicleType: new FormControl(''),
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
@@ -202,7 +202,7 @@ export class LoanDetailsComponent implements OnInit {
       // controls for used vehicle 
 
       usedVehicleCost: new FormControl(''),
-      // usedVehModel: new FormControl(''),
+      usedVehModel: new FormControl(''),
       usedVehicleType: new FormControl(''),
       usedVehicleMarginMoney: new FormControl(''),
       usedVehicleLoanAmountReq: new FormControl(''),
@@ -323,7 +323,7 @@ export class LoanDetailsComponent implements OnInit {
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
       controls.removeControl('usedVehicleCost')
-      // controls.removeControl('usedVehModel')
+      controls.removeControl('usedVehModel')
       controls.removeControl('usedVehicleType')
       controls.removeControl('usedVehicleMarginMoney')
       controls.removeControl('usedVehicleLoanAmountReq')
@@ -372,7 +372,7 @@ export class LoanDetailsComponent implements OnInit {
     else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       controls.removeControl('newVehicleCost')
-      // controls.removeControl('newVehicleModel')
+      controls.removeControl('newVehicleModel')
       controls.removeControl('newVehicleType')
       controls.removeControl('newVehicleReqLoanAmount')
       controls.removeControl('newVehicleMarginMoney')
@@ -433,20 +433,23 @@ export class LoanDetailsComponent implements OnInit {
 
   }
   onNavigateNext() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/reference-check/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      console.log('URL for Loan => Next In Credit Flow', `/pages/fl-and-pd-report/${this.leadId}/pd-report`);
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/pd-report`]);
+    if (this.version != 'undefined') {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+
+    } else {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }
   }
 
   onNavigateBack() {
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}`]);
-    } else if (this.roleType === 2) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/customer-profile/${this.applicantId}/${this.version}`]);
+    if (this.version != 'undefined') {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
 
     }
   }
@@ -464,7 +467,7 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.patchValue({
         // new cv details patching
         newVehicleCost: newCvModel.vehicleCost || '',
-        // newVehicleModel: newCvModel.model || '',
+        newVehicleModel: newCvModel.model || '',
         newVehicleType: newCvModel.type || '',
         newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
         newVehicleMarginMoney: newCvModel.marginMoney || ''
@@ -475,7 +478,7 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.patchValue({
         // used cv details patching
         usedVehicleCost: usedVehicleModel.vehicleCost ? usedVehicleModel.vehicleCost : '0',
-        // usedVehModel: usedVehicleModel.model || '',
+        usedVehModel: usedVehicleModel.model || '',
         usedVehicleType: usedVehicleModel.type || '',
         usedVehicleMarginMoney: usedVehicleModel.marginMoney || '',
         usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
@@ -535,56 +538,56 @@ export class LoanDetailsComponent implements OnInit {
   }
 
 
-  // method for approving pd report
+  // // method for approving pd report
 
-  approvePd() {
-    const data = {
-      applicantId: this.applicantId,
-      // applicantId: 1,
-      userId: this.userId
-    }
-    this.personalDiscussion.approvePd(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      console.log("response approve pd", processVariables)
-      const message = processVariables.error.message
-      if (processVariables.error.code === '0') {
+  // approvePd() {
+  //   const data = {
+  //     applicantId: this.applicantId,
+  //     // applicantId: 1,
+  //     userId: this.userId
+  //   }
+  //   this.personalDiscussion.approvePd(data).subscribe((res: any) => {
+  //     const processVariables = res.ProcessVariables;
+  //     console.log("response approve pd", processVariables)
+  //     const message = processVariables.error.message
+  //     if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report approved successfully", '')
-        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+  //       this.toasterService.showSuccess("pd report approved successfully", '')
+  //       this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
+  //     }
+  //     else {
+  //       this.toasterService.showError("", 'message')
 
-      }
-    })
+  //     }
+  //   })
 
-  }
-  // method for re-initating pd report
+  // }
+  // // method for re-initating pd report
 
-  reinitiatePd() {
-    const data = {
-      applicantId: this.applicantId,
-      // applicantId: 1,
-      userId: this.userId
-    }
-    this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      console.log("response reinitiate pd", processVariables)
-      const message = processVariables.error.message
-      if (processVariables.error.code === '0') {
+  // reinitiatePd() {
+  //   const data = {
+  //     applicantId: this.applicantId,
+  //     // applicantId: 1,
+  //     userId: this.userId
+  //   }
+  //   this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
+  //     const processVariables = res.ProcessVariables;
+  //     console.log("response reinitiate pd", processVariables)
+  //     const message = processVariables.error.message
+  //     if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report reinitiated successfully", '')
-        this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+  //       this.toasterService.showSuccess("pd report reinitiated successfully", '')
+  //       this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
+  //     }
+  //     else {
+  //       this.toasterService.showError("", 'message')
 
-      }
-    })
+  //     }
+  //   })
 
 
 
-  }
+  // }
 
   onFormSubmit() {
     const formModal = this.loanDetailsForm.value;
@@ -608,8 +611,8 @@ export class LoanDetailsComponent implements OnInit {
         // new vehicle
 
         vehicleCost: loanDetailsModal.newVehicleCost,
-        // model: loanDetailsModal.newVehicleModel,
-        model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
+        model: loanDetailsModal.newVehicleModel,
+        // model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
         // is no lov for model
         type: loanDetailsModal.newVehicleType,
         reqLoanAmount: loanDetailsModal.newVehicleReqLoanAmount,
@@ -650,8 +653,8 @@ export class LoanDetailsComponent implements OnInit {
       this.usedVehicleDetails = {
 
         vehicleCost: loanDetailsModal.usedVehicleCost,
-        // model: loanDetailsModal.usedVehModel, 
-        model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
+        model: loanDetailsModal.usedVehModel,
+        // model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
         type: loanDetailsModal.usedVehicleType,
         // reqLoanAmount: loanDetailsModal.reqLoanAmount,
         marginMoney: loanDetailsModal.usedVehicleMarginMoney,

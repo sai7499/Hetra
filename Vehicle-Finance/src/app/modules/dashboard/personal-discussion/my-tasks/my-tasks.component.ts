@@ -5,7 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-// import { LoginStoreService } from '@services/login-store.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-my-tasks',
@@ -29,13 +29,15 @@ export class MyTasksComponent implements OnInit {
   roleName: any;
   roleType: any;
 
+
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private sharedService: SharedService,
   ) {
 
   }
@@ -106,6 +108,10 @@ export class MyTasksComponent implements OnInit {
         this.toasterService.showError(response.Error, '');
       }
     });
+  }
+  assignTaskId(taskId) {
+    this.sharedService.getTaskID(taskId)
+    console.log("in assign task", taskId)
   }
 
 }

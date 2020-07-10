@@ -46,13 +46,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   panRequired: boolean;
 
-  isMobileChanged = false;
-  isName1Changed: boolean;
-  isPanChanged: boolean;
-  isAadharChanged: boolean;
-  isPassportChanged: boolean;
-  isDrivingLicenseChanged: boolean;
-  isVoterIdChanged: boolean;
+  isMobileChanged: boolean = false;
+  isName1Changed: boolean = false;
+  isPanChanged: boolean = false;
+  isAadharChanged: boolean = false;
+  isPassportChanged: boolean = false;
+  isDrivingLicenseChanged: boolean = false;
+  isVoterIdChanged : boolean;
   isCinNumberChanged: boolean;
   isCstNumberChanged: boolean;
   isGstNumberChanged: boolean;
@@ -598,21 +598,26 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicant: Applicant = {
         ...processVariables,
       };
+      const addressDetails: Array<any> = processVariables.addressDetails || [];
+      const addressStatus =  addressDetails.find(val => val.addressType == "PERMADDADDTYP");
 
-      if (processVariables.ucic) {
-        this.isDisabledCheckbox = true
-        if (this.coApplicantForm.get('permentAddress')) {
-          this.disablePermanentAddress();
-        }
-        if (this.coApplicantForm.get('currentAddress')) {
-          this.disableCurrentAddress();
-        }
-        if (this.coApplicantForm.get('registeredAddress')) {
-          this.disableRegisteredAddress();
-        }
-        if (this.coApplicantForm.get('communicationAddress')) {
-          this.disableCommunicationAddress();
-        }
+
+      // if (processVariables.ucic) {isCurrAddSameAsPermAdd: "0"
+      if (addressDetails.length > 0 && addressStatus.isCurrAddSameAsPermAdd == "1"){
+        this.isPermanantAddressSame = true;
+        this.isDisabledCheckbox = true;
+        // if(this.coApplicantForm.get('permentAddress')){
+        this.disablePermanentAddress();
+        // }
+        // if(this.coApplicantForm.get('currentAddress')){
+        this.disableCurrentAddress();
+        // }
+        // if(this.coApplicantForm.get('registeredAddress')){
+        //   this.disableRegisteredAddress();
+        // }
+        // if(this.coApplicantForm.get('communicationAddress')){
+        //   this.disableCommunicationAddress();
+        // }
 
 
       }
@@ -728,10 +733,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
       if (aboutIndivProspectDetails.dob) {
         details.dob = aboutIndivProspectDetails.dob
-        // .split('/')
-        // .reverse()
-        // .join('-');
-        details.dob = (this.utilityService.getDateFormat(details.dob));
+          // .split('/')
+          // .reverse()
+          // .join('-');
+        details.dob = new Date(this.utilityService.getDateFromString(details.dob));
       }
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
       details.passportIssueDate = this.utilityService.getDateFromString(
@@ -1275,6 +1280,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     const applicantDetails = dedupe.value;
     let mobileNumber = applicantDetails.mobilePhone;
+    this.mobileNumber = mobileNumber;
     if (mobileNumber.length === 10) {
       mobileNumber = '91' + mobileNumber;
     }
@@ -1364,22 +1370,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');
-    if (this.applicantType == 'NONINDIVENTTYP') {
-      dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
-        if (!dedupe.get('mobilePhone').invalid) {
-          if (value !== this.mobileNumber) {
-            this.isMobileChanged = true;
-            this.isEnableDedupe = true;
-          } else {
-            this.isEnableDedupe = false;
-            this.isMobileChanged = false;
-          }
-        } else {
+    if (this.applicantType == 'INDIVENTTYP'){
+    dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
+      if (!dedupe.get('mobilePhone').invalid) {
+        console.log("mobiel no", this.mobileNumber)
+        if (value !== this.mobileNumber) {
+          this.isMobileChanged = true;
           this.isEnableDedupe = true;
           // this.isMobileChanged = false;
         }
+      }
       });
-      dedupe.get('name1').valueChanges.subscribe((value) => {
+
+    dedupe.get('name1').valueChanges.subscribe((value) => {
         if (!dedupe.get('name1').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.firstName);
           this.isName1Changed = value !== this.firstName;
@@ -1387,7 +1390,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
-      dedupe.get('pan').valueChanges.subscribe((value) => {
+    dedupe.get('pan').valueChanges.subscribe((value) => {
         value = value || '';
         if (!dedupe.get('pan').invalid) {
           this.enableDedupeBasedOnChanges(value != this.pan);
@@ -1396,7 +1399,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
-      dedupe.get('aadhar').valueChanges.subscribe((value) => {
+    dedupe.get('aadhar').valueChanges.subscribe((value) => {
         if (!dedupe.get('aadhar').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.aadhar);
           this.isAadharChanged = value !== this.aadhar;
@@ -1404,7 +1407,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
-      dedupe.get('passportNumber').valueChanges.subscribe((value) => {
+    dedupe.get('passportNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('passportNumber').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.passportNumber);
           this.isPassportChanged = value !== this.passportNumber;
@@ -1412,7 +1415,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
-      dedupe.get('drivingLicenseNumber').valueChanges.subscribe((value) => {
+    dedupe.get('drivingLicenseNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('drivingLicenseNumber').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.drivingLicenseNumber);
           this.isDrivingLicenseChanged = value !== this.drivingLicenseNumber;
@@ -1420,7 +1423,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
-      dedupe.get('voterIdNumber').valueChanges.subscribe((value) => {
+    dedupe.get('voterIdNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('voterIdNumber').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.voterIdNumber);
           this.isDrivingLicenseChanged = value !== this.voterIdNumber;

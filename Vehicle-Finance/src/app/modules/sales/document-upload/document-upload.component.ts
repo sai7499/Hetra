@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentUploadService } from '@services/document-upload.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   templateUrl: './document-upload.component.html',
@@ -10,7 +11,8 @@ export class DocumentUploadComponent implements OnInit {
 
   constructor(private aRoute: ActivatedRoute,
               private router: Router,
-              private doucmentUploadService: DocumentUploadService) {
+              private doucmentUploadService: DocumentUploadService,
+              private toStarService: ToasterService) {
 
   }
   leadId;
@@ -32,6 +34,8 @@ export class DocumentUploadComponent implements OnInit {
           && response['ProcessVariables'].error['code'] == 0) {
           this.errorMessage = 'Submit to Credit Sucessful';
           this.isModelShow = true;
+        } else{
+          this.toStarService.showError(response['ProcessVariables'].error['message'],"Submit To Credit")
         }
       }
     );

@@ -1,126 +1,112 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
-import { LabelsService } from '@services/labels.service';
+import { Location } from '@angular/common';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { DdeStoreService } from '@services/dde-store.service';
+import { PdDataService } from './pd-data.service';
 import { LoginStoreService } from '@services/login-store.service';
-import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
-  selector: 'app-pd-report',
-  templateUrl: './pd-report.component.html',
-  styleUrls: ['./pd-report.component.css']
+    templateUrl: './pd-report.component.html',
+    styleUrls: ['./pd-report.component.css']
 })
 export class PdReportComponent implements OnInit {
+    locationIndex = 0;
+    pdDetail: any;
+    leadId: any;
+    applicantId: any;
+    version: any;
+    userId: any;
+    roleName: any;
+    roles: any = [];
+    roleId: any;
+    roleType: any;
+    constructor(
+        private router: Router,
+        private location: Location,
+        private loginStoreService: LoginStoreService,
+        private personalDiscussion: PersonalDiscussionService,
+        private ddeStoreService: DdeStoreService,
+        private pdDataService: PdDataService,
+        private activatedRoute: ActivatedRoute) { }
 
-  public labels: any = {};
-  public errorMsg;
-  public getLabels;
-  pdList: [];
-  leadId: number;
-  userId: any;
-  roles: any;
-  roleName: string;
-  roleId: any;
-  roleType: any;
-  pdStatus: { [id: string]: any; } = {};
+    ngOnInit() {
 
-  constructor(private labelsData: LabelsService,
-    private router: Router,
-    public sharedService: SharedService,
-    private loginStoreService: LoginStoreService,
-    private personalDiscussionService: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute) { }
+        const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+        this.userId = roleAndUserDetails.userDetails.userId;
+        this.roles = roleAndUserDetails.roles;
+        this.roleId = this.roles[0].roleId;
+        this.roleName = this.roles[0].name;
+        this.roleType = this.roles[0].roleType;
+        console.log("this user roleType", this.roleType)
 
-  async ngOnInit() {
 
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userId = roleAndUserDetails.userDetails.userId;
-    this.roles = roleAndUserDetails.roles;
-    this.roleId = this.roles[0].roleId;
-    this.roleName = this.roles[0].name;
-    this.roleType = this.roles[0].roleType;
-    console.log("this user roleType", this.roleType)
-
-    this.leadId = (await this.getLeadId()) as number;
-    console.log('Lead ID', this.leadId);
-    this.getLabels = this.labelsData.getLabelsData()
-      .subscribe(data => {
-        this.labels = data;
-      },
-        error => {
-          this.errorMsg = error;
+        const currentUrl = this.location.path();
+        this.locationIndex = this.getLocationIndex(currentUrl);
+        this.location.onUrlChange((url: string) => {
+            this.locationIndex = this.getLocationIndex(url);
         });
-    console.log("in pd report")
-    this.getPdList();
-  }
-
-  getPdList() {
-    const data = {
-      // leadId: 153,
-      //  uncomment this once get proper Pd data for perticular
-      leadId: this.leadId,
-      userId: '1001',
-    };
-    this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
-      const processveriables = value.ProcessVariables;
-      this.pdList = processveriables.finalPDList;
-      console.log('PD List', this.pdList);
-      for (var i in this.pdList) {
-        console.log("in for pd list", i)
-        if (this.pdList[i]['pdStatusValue'] == "Submitted") {
-          this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
-
-          console.log("pd status array", this.pdStatus)
-          this.sharedService.getPdStatus(this.pdStatus)
-        }
-
-      }
-      // this.pdStatus = 
-      // this.sharedService.getPdStatus(updateDevision)
-    });
-  }
-
-  navigatePage(applicantId: string, version) {
-    console.log(
-      'applicantId',
-      applicantId,
-    );
-    const URL = `/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`;
-    console.log('URL', URL);
-    if (this.roleType === 1) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}`]);
+        this.getPdDetails();
+        this.activatedRoute.params.subscribe((value: any) => {
+            console.log('params', value);
+            this.leadId = Number(value.leadId);
+            // if (!this.leadId) {
+            //   const data: any = this.createLeadDataService.getLeadData();
+            //   this.leadId = data.leadId;
+            // }
+            // this.leadStoreService.setLeadId(this.leadId);
+            // console.log(
+            //   ' this.createLeadDataService.getLeadData()',
+            //   this.createLeadDataService.getLeadData()
+            // );
+        });
+        this.activatedRoute.firstChild.params.subscribe((value: any) => {
+            this.applicantId = value.applicantId;
+            this.version = value.version;
+            console.log('applicant ID', value.applicantId);
+            console.log('version in fi and pd report', this.version);
+        });
     }
-    else if (this.roleType === 2) {
-      this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${applicantId}/${version}`]);
+    getPdDetails() {
+        const data = {
+            // applicantId: 6,
+            applicantId: this.applicantId
+        };
+
+        this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+            const processVariables = value.ProcessVariables;
+            if (processVariables.error.code === '0') {
+                this.pdDetail = value.ProcessVariables;
+                console.log('PD Details', this.pdDetail);
+
+                if (this.pdDetail) {
+                    this.pdDataService.setCustomerProfile(this.pdDetail.customerProfileDetails);
+                }
+            }
+        });
 
     }
-    // routerLink="/pages/fl-and-pd-report/applicant-detail"
-  }
+    onNavigate(url: string) {
 
-  getLeadId() {
-    return new Promise((resolve, reject) => {
-      this.activatedRoute.parent.params.subscribe((value) => {
-        if (value && value.leadId) {
-          resolve(Number(value.leadId));
+        if (this.version) {
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+            // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
+
+        } else {
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}`]);
+            // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
         }
-        resolve(null);
-      });
-    });
-  }
 
-  onFormSubmit() {
-    this.router.navigate(['/pages/dde/pd-report']);
-  }
-
-  onNavigateBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fl-report'])
-
-  }
-  onNavigateNext() {
-
-    this.router.navigate(['pages/dde/' + this.leadId + '/viability-dashboard'])
-
-  }
-
+    }
+    getLocationIndex(url: string) {
+        if (url.includes('applicant-details')) {
+            return 0;
+        } else if (url.includes('customer-profile')) {
+            return 1;
+        } else if (url.includes('loan-details')) {
+            return 2;
+        } else if (url.includes('reference-check')) {
+            return 3;
+        }
+    }
 }
