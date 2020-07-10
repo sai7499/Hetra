@@ -29,14 +29,15 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
 import { NumberOnlyDirective } from '@services/directives/number-only.directive';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
+import { PdReportModule } from './pd-report/pd-report.module';
 import { ViabilityDashboardModule } from './viability-dashboard/viability-dashboard.module';
-import { PdReportComponent } from './pd-report/pd-report.component';
+// import { PdReportComponent } from './pd-report/pd-report.component';
 
 @NgModule({
   declarations: [
     DdeComponent,
     FlReportComponent,
-    PdReportComponent,
+    // PdReportComponent,
     // ViabilityListComponent,
     PdListComponent,
     // ViabilityListComponent,
@@ -70,6 +71,8 @@ import { PdReportComponent } from './pd-report/pd-report.component';
     DdeSharedModule,
     LeadSectionModule,
     DateInputsModule,
+    PdReportModule,
+
     ViabilityDashboardModule
   ],
   exports: [ViabilityDashboardModule]
