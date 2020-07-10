@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TeleVerificationFormComponent } from './tele-verification-form/tele-verification-form.component';
 import { TeleVerificationFormRoutingModule } from './tele-verification-form.routing';
-import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
+import { SharedModule } from '@shared/shared.module';
+
 
 @NgModule({
   declarations: [TeleVerificationFormComponent],
@@ -14,7 +14,6 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    LeadSectionModule,
 
   ]
 })

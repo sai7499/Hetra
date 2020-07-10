@@ -1,7 +1,7 @@
 <main class="mar-top90">
-    <app-lead-section-header></app-lead-section-header>
 
     <div class="container overflow-hidden">
+        <app-lead-section-header></app-lead-section-header>
 
 
         <h3 class="dashboard m-0">Tele Verification Form</h3>
@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="sourceOfProposal" class="ellipsify">{{labels.sourceOfProposal}}</label>
-                                <input type="text" class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal">
+                                <input type="text" readonly class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal">
 
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="product" class="ellipsify">{{labels.product}}</label>
-                                <input type="text" class="form-control mar-top19" id="product" name="product" formControlName="product">
+                                <input type="text" readonly class="form-control mar-top19" id="product" name="product" formControlName="product">
                                 <!-- <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="product" [isRequired]="'Select any product'" [isDirty]="isDirty"> </app-vf-custom-select> -->
 
                             </div>
@@ -481,19 +481,20 @@
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="lead_created_date">{{labels.date}}</label>
-                            <kendo-datepicker class="form-control mandatory" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"></kendo-datepicker>
+                            <kendo-datepicker class="form-control mandatory" [readonly]="true" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"></kendo-datepicker>
+                            <!-- <input type="date" readonly class="form-control" id="lead_created_Date" name="lead_created_Date" formControlName="tvrDate"> -->
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="lead_created_time"> {{labels.time}}</label>
-                            <input type="text" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
+                            <input type="text" readonly class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
-                            <input type="text" class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy">
+                            <input type="text" readonly class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy">
                         </div>
                         <div class="form-group col-sm-6 col-md-3 col-lg-3">
                             <label for="eCode">{{labels.eCode}}</label>
-                            <input type="text" class="form-control" id="eCode" name="eCode" formControlName="eCode">
+                            <input type="text" readonly class="form-control" id="eCode" name="eCode" formControlName="eCode">
                         </div>
                     </div>
                 </form>
@@ -507,7 +508,6 @@
                 </div>
             </div>
         </div>
-
 
     </div>
 </main>

@@ -42,6 +42,11 @@ export class TeleVerificationFormComponent implements OnInit {
   mobileNo: any;
   validationData: any;
   isSaved = false;
+  leadDetails: any;
+  product: any;
+  sourcingChannelDesc: any;
+  sourcingTypeDesc: any;
+  sourcingCodeDesc: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -72,7 +77,6 @@ export class TeleVerificationFormComponent implements OnInit {
 
 
     });
-
     // );
     this.getLOV();
 
@@ -81,7 +85,16 @@ export class TeleVerificationFormComponent implements OnInit {
     console.log(this.leadId);
     this.applicantId = parseInt(this.route.snapshot.params.applicantId);
     this.applicantType = this.route.snapshot.params.applicantType;
-    console.log('applicantId', this.applicantId);
+    this.leadDetails = this.route.snapshot.data.leadData;
+    this.product = this.leadDetails.ProcessVariables.leadDetails.assetProdutName;
+    this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
+    this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
+    this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
+    console.log(this.sourcingChannelDesc + '-' + this.sourcingTypeDesc + '-' + this.sourcingCodeDesc)
+    // console.log('leadDetauls', this.leadDetails);
+    // console.log('product name', this.leadDetails.ProcessVariables.leadDetails.assetProdutName);
+
+    // console.log('applicantId', this.applicantId);
   }
 
   initForm() {
@@ -94,9 +107,9 @@ export class TeleVerificationFormComponent implements OnInit {
       assetType: [''],
       financeAmt: ['', Validators.required],
       tenureInMonth: ['', Validators.required],
-      srcOfProposal: [{ value: '', disabled: true }],
+      srcOfProposal: [''],
       referredBy: ['', Validators.required],
-      product: [{ value: '', disabled: true }],
+      product: [''],
       emi: ['', Validators.required],
       ndForProposedVehicle: ['', Validators.required],
       route: ['', Validators.required],
@@ -118,13 +131,13 @@ export class TeleVerificationFormComponent implements OnInit {
       spokenTo: ['', Validators.required],
       familyMembers: ['', Validators.required],
       relationShip: ['', Validators.required],
-      tvrDate: [{value: new Date(), disabled: true}],
-      tvrTime: [{ value: this.time, disabled: true }],
+      tvrDate: [''],
+      tvrTime: [''],
       addressConfirmed: [''],
       residenceStabilityConfirmed: [''],
       customerAvailabilty: [''],
-      tvrDoneBy: [{ value: '', disabled: true }],
-      eCode: [{ value: '', disabled: true }],
+      tvrDoneBy: [''],
+      eCode: [''],
       wrkExperience: ['', Validators.required],
       officePhnNo: ['', Validators.required],
       officePhnExt: ['', Validators.required],
@@ -182,7 +195,7 @@ export class TeleVerificationFormComponent implements OnInit {
     // );
     this.getTvrDetails();
     this.initForm();
-
+    // this.getSourcingChannel();
     this.otpForm = this.fb.group({
       otp: [
         '',
@@ -195,6 +208,12 @@ export class TeleVerificationFormComponent implements OnInit {
       ],
     });
 
+  }
+
+  getSourcingChannel() {
+    this.createLeadService.getSourcingChannel().subscribe((res: any) => {
+      console.log('sourcing channel',res);
+    });
   }
 
   getLOV() {
@@ -261,7 +280,7 @@ export class TeleVerificationFormComponent implements OnInit {
       // console.log(tvr);
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
-        this.teleVerificationForm.get('tvrDoneBy').setValue(res.ProcessVariables.applicantName);
+        this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc}`);
         if (this.valueChanges) {
           this.valueChanges.relationship.forEach(element => {
             if (tvr && element.value === tvr.relationShip) {
@@ -306,6 +325,10 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('soName').setValue(res.ProcessVariables.soName ? res.ProcessVariables.soName : '');
         this.teleVerificationForm.get('leadId').setValue(res.ProcessVariables.leadId);
         this.teleVerificationForm.get('tvrDoneBy').setValue(res.ProcessVariables.applicantName);
+        this.teleVerificationForm.get('tvrTime').setValue(this.time);
+        this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
+        this.teleVerificationForm.get('product').setValue(this.product);
+        this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc}`);
       }
 
     });
