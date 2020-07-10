@@ -205,7 +205,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   async takePicture() {
     const options: CameraOptions = {
       quality: 50,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.CAMERA,
       allowEdit: true,
       encodingType: this.camera.EncodingType.PNG,
