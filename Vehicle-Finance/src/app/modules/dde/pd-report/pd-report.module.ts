@@ -14,6 +14,12 @@ import { PdListComponent } from '../pd-list/pd-list.component';
 
 @NgModule({
   declarations: [
+    // FlAndPdReportComponent,
+    ApplicantDetailComponent,
+    CustomerProfileDetailsComponent,
+    LoanDetailsComponent,
+    ReferenceCheckComponent,
+    // PdDashboardComponent,
     PdReportComponent,
     ApplicantDetailComponent,
     CustomerProfileDetailsComponent,

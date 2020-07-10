@@ -3,7 +3,7 @@
     <form [formGroup]="viabilityForm">
 
         <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
-            (change)="vehicle_viability_navigate($event.target.value)">
+            (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
         </select>
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
@@ -968,6 +968,6 @@
     <div class="col-sm-12">
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label.back}}</button> &nbsp;
         <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label.save}} </p>&nbsp;
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onNext()">{{label.next}}</button>&nbsp;
+        <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()" *ngIf="hideSubmit">{{label.submit}}</button>&nbsp;
     </div>
 </div>
