@@ -23,6 +23,8 @@
                     [maxLength]="labels?.validationData?.mobileNumber?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+        <div class="row">
             <!-- <div class="form-group col-sm-12 col-md-12 col-lg-12">
                 <p>I hereby declare that the information given above are true to the best of my knowledge and belief and nothing has been concealed therein.</p>
                 <p>Originals are physically seen and verified [OSV] by undersigned </p>
@@ -105,6 +107,18 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="btn-sec clear-both">
+                <div class="col-sm-7"></div>
+                <div class="col-sm-5 text-right" *ngIf="roleType == '2' && version!='undefined'">
+                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                        {{labels.reinitiate}}
+                    </button>&nbsp;
+                    <button class="btn btn-success " (click)="approvePd()">
+                        {{labels.approve}}
+                    </button>
+
+                </div>
             </div>
 
 
