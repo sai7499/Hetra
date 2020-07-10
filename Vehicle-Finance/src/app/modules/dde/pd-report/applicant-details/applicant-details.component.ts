@@ -269,7 +269,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     const data = {
 
-      applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
+      applicantId: this.applicantId,
       pdVersion: this.version,
     }
 

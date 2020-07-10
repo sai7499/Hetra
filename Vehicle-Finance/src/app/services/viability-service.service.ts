@@ -71,6 +71,24 @@ export class ViabilityServiceService {
       const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
       return this.httpService.post(url, requestEntity);
     }
+    submitViabilityTask(data) {
+
+      const processData = data;
+      const processId = this.apiService.api.submitViabilityTask.processId;
+      const workflowId = this.apiService.api.submitViabilityTask.workflowId;
+      const projectId = this.apiService.api.submitViabilityTask.projectId;
+
+      const requestEntity: RequestEntity = {
+        processId,
+        ProcessVariables: processData,
+        workflowId,
+        projectId
+      };
+
+      // tslint:disable-next-line: max-line-length
+      const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+      return this.httpService.post(url, requestEntity);
+    }
      CollateralId(data) {
       this.CollateralObj = data;
     }

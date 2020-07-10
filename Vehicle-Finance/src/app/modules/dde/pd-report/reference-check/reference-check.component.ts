@@ -54,6 +54,7 @@ export class ReferenceCheckComponent implements OnInit {
   taskId: any;
   roleId: any;
   roleType: any;
+  showReinitiate: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -166,6 +167,8 @@ export class ReferenceCheckComponent implements OnInit {
 
       // applicantId: 6,
       applicantId: this.applicantId,
+      pdVersion: this.version,
+
 
       /* Uncomment this after getting applicant Id from Lead */
     }
@@ -177,6 +180,8 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck;
+        this.showReinitiate = value.ProcessVariables.showReinitiate;
+        console.log('in ref check show renitiate', this.showReinitiate)
         console.log('calling get api ', this.refCheckDetails);
         if (this.refCheckDetails) {
           this.setFormValue()
@@ -202,8 +207,8 @@ export class ReferenceCheckComponent implements OnInit {
       addressOfReference: refCheckModal.addressOfReference || '',
       referenceMobile: refCheckModal.referenceMobile || '',
       // soName: refCheckModal.soName || '',
-      soName: this.userName,
-      employeeCode: refCheckModal.employeeCode || '',
+      // soName: this.userName,
+      // employeeCode: refCheckModal.employeeCode || '',
       // date: refCheckModal.date || '',
       // place: refCheckModal.place || '',
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
@@ -262,8 +267,8 @@ export class ReferenceCheckComponent implements OnInit {
       nameOfReference: refCheckModal.nameOfReference || '',
       addressOfReference: refCheckModal.addressOfReference || '',
       referenceMobile: refCheckModal.referenceMobile || '',
-      soName: this.userName || '',
-      employeeCode: refCheckModal.employeeCode || '',
+      // soName: this.userName || '',
+      // employeeCode: refCheckModal.employeeCode || '',
       // date: refCheckModal.date || '',
       // place: refCheckModal.place || '',
       // time: this.sendDate(refCheckModal.time),
@@ -276,7 +281,6 @@ export class ReferenceCheckComponent implements OnInit {
       // applicantId: 6,
       applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
-      pdVersion: this.version,
 
       referenceCheck: this.refCheckDetails
     };
