@@ -11,11 +11,11 @@ import { SharedModule } from '../../shared/shared.module';
 import { DdeSharedModule } from '../shared/shared.module';
 import { ReferenceCheckComponent } from './reference-check/reference-check.component';
 import { PdDashboardComponent } from './pd-dashboard/pd-dashboard.component';
-import { FlAndPdReportComponent } from '../fl-and-pd-report/fl-and-pd-report.component';
+// import { FlAndPdReportComponent } from '../fl-and-pd-report/fl-and-pd-report.component';
 
 @NgModule({
   declarations: [
-    FlAndPdReportComponent,
+    // FlAndPdReportComponent,
     ApplicantDetailComponent,
     CustomerProfileDetailsComponent,
     LoanDetailsComponent,

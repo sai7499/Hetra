@@ -20,6 +20,7 @@ export class ViabilityListComponent {
   roleName: any;
   roleType: any;
   showNext = true;
+  taskId: any;
 
     constructor(private labelsData: LabelsService,
                 private router: Router,
@@ -27,10 +28,15 @@ export class ViabilityListComponent {
                 private viabilityService: ViabilityServiceService,
                 private toasterService: ToasterService,
                 private loginStoreService: LoginStoreService,
-                private location: Location) { }
+                private location: Location) {
+                  this.route.queryParams.subscribe((res: any) => {
+                    this.taskId = res.taskId;
+                  });
+                 }
 
     // tslint:disable-next-line: use-lifecycle-interface
    async ngOnInit() {
+        console.log(this.taskId, 'task id onInit');
         this.leadId = (await this.getLeadId()) as number;
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
@@ -54,10 +60,12 @@ export class ViabilityListComponent {
         } else {
           this.showNext = false;
         }
+        console.log(this.route, 'queryParams Check');
     }
     getViability(data: any, taskId?: any ) {
       const body = {
         data: Number(data),
+        taskId: taskId
       };
       console.log(body);
       this.viabilityService.CollateralId(body);
@@ -66,7 +74,7 @@ export class ViabilityListComponent {
         this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details/${data}`);
       // tslint:disable-next-line: triple-equals
       } else  {
-        this.router.navigateByUrl(`pages/viability-list/${this.leadId}/viability-details/${data}`);
+        this.router.navigate([`pages/viability-list/${this.leadId}/viability-details/${data}`], {queryParams: taskId});
       }
     }
     onBack() {

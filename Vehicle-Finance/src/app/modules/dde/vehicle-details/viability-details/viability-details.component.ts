@@ -58,6 +58,7 @@ export class ViabilityDetailsComponent implements OnInit {
   roleAndUserDetails: any;
   routerUrl: any;
   hideSubmit = true;
+  taskId: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -66,7 +67,11 @@ export class ViabilityDetailsComponent implements OnInit {
               private toasterService: ToasterService,
               private router: Router,
               private location: Location,
-              private loginStoreService: LoginStoreService) { }
+              private loginStoreService: LoginStoreService) {
+                this.route.queryParams.subscribe((res: any) => {
+                  this.taskId = res.taskId;
+                });
+               }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
@@ -177,8 +182,9 @@ export class ViabilityDetailsComponent implements OnInit {
   }
   submitViability() {
     const body = {
+      leadId : this.leadId,
       collateralId: this.collataralId,
-      taskId: 'a'
+      taskId: this.taskId
     };
     this.viabilityService.submitViabilityTask(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
