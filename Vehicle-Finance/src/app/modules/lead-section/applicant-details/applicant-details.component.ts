@@ -99,12 +99,18 @@ export class ApplicantDetailsComponent implements OnInit {
       leadId: this.leadId,
     };
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
-      console.log('Applicantlist', value);
+      //console.log('Applicantlist', value);
       const processVariables = value.ProcessVariables;
-      console.log('ProcessVariables', processVariables);
+      //console.log('ProcessVariables', processVariables);
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
     });
+  }
+  navigateAddApplicant(){
+    this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
+    // this.applicantList.map((val)=>{
+      
+    // })
   }
 
   onSubmit() {
