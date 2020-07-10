@@ -88,7 +88,7 @@ export class NewLeadsComponent implements OnInit {
       this.getDDELeads(this.itemsPerPage, event);
     } else {
       this.getMyLeads(this.itemsPerPage, event);
-      }
+    }
   }
 
   ngOnInit() {
@@ -102,25 +102,26 @@ export class NewLeadsComponent implements OnInit {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
       this.roleType = value.roleType;
-      });
+    });
     if (this.roleType == '2') {
-        this.getDDELeads(this.itemsPerPage);
-        } else {
-        this.getMyLeads(this.itemsPerPage);
-        }
-
+      this.getDDELeads(this.itemsPerPage);
+    } else {
+      this.getMyLeads(this.itemsPerPage);
     }
 
-    onClick() {
-      if (this.roleType == '2') {
-        this.getDDELeads(this.itemsPerPage);
-        } else {
-          return;
-        }
-    }
+  }
 
-  getLeadIdSales(Id, stageCode?) {
+  onClick() {
+    if (this.roleType == '2') {
+      this.getDDELeads(this.itemsPerPage);
+    } else {
+      return;
+    }
+  }
+
+  getLeadIdSales(Id, stageCode?, taskId?) {
     this.vehicleDataStoreService.setSalesLeadID(Id);
+    this.sharedService.getTaskID(taskId)
 
     if (stageCode == '10') {
       this.router.navigateByUrl(`/pages/lead-section/${Id}`);
@@ -132,15 +133,14 @@ export class NewLeadsComponent implements OnInit {
   }
 
   getLeadId(item) {
-    console.log('item', item)
-    this.vehicleDataStoreService.setCreditLeadId(item.leadId);
+    this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId)
   }
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
       const response = res;
-      if (response.ErrorCode == 0 ) {
+      if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Lead Released Successfully', 'Released');
       } else {
         this.toasterService.showError(response.Error, '');

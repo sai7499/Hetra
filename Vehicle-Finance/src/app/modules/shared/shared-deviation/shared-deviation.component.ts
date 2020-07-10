@@ -9,6 +9,7 @@ import { SharedService } from '../shared-service/shared-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -50,7 +51,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private vehicleDataStoreService: VehicleDataStoreService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -81,6 +82,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.getDeviationMaster();
     this.sharedService.getFormValidation(this.deviationsForm)
     this.getTrigurePolicy();
+
+    console.log(this.vehicleDataStoreService.getCreditTaskId())
 
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
@@ -247,6 +250,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       devCode: ['', Validators.required],
       devDesc: [""],
       devRuleId: 0,
+      type: 0,
+      hierarchy: ['0'],
       justification: ['', Validators.required],
       statusCode: [{ value: null, disabled: true }],
     });
@@ -342,7 +347,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             hierarchy: hierarchy,
             justification: data.justification,
             shortDeDesc: data.short_dev_desc,
-            statusCode: data.statusCode
+            statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             // statusCode: [{ value: data.statusCode, disabled: (type !== this.roleType) ? true : false }]
           }))
       } else if (data.isManualDev === '0') {

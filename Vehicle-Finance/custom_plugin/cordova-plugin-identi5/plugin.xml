@@ -24,14 +24,14 @@
     id="cordova-plugin-identi5"
     version="1.0.0-dev">
     <name>Identi5</name>
-    <description>Cordova Device Plugin</description>
+    <description>Cordova identi5 Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,Identi5</keywords>
     <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git</repo>
     <issue>https://issues.apache.org/jira/browse/CB/component/12320648</issue>
 
-    <js-module src="www/device.js" name="device">
-        <clobbers target="device" />
+    <js-module src="www/identi5.js" name="identi5">
+        <clobbers target="identi5" />
     </js-module>
 
     <!-- android -->
@@ -41,10 +41,12 @@
         </config-file>
 
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Device" >
-                <param name="android-package" value="org.apache.cordova.device.Device"/>
+            <feature name="Identi5" >
+                <param name="android-package" value="org.apache.cordova.identi5.Identi5"/>
             </feature>
         </config-file>
+
+        <source-file src="src/android/Identi5.java" target-dir="src/org/apache/cordova/identi5" />
 
    <!--     <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:name="org.apache.cordova.device.evolute.lilygendemoapp.GlobalPool"/>
@@ -59,11 +61,11 @@
         </edit-config>-->
 
 
-        <source-file src="src/android/Device.java" target-dir="src/org/apache/cordova/device" />
-	<source-file src="src/android/XmlSigner.java" target-dir="src/org/apache/cordova/device" />
+
+        <!--<source-file src="src/android/XmlSigner.java" target-dir="src/org/apache/cordova/device" />
 
 
-     <!--   <source-file src="src/android/SetupModel.java" target-dir="src/org/apache/cordova/device" />
+        <source-file src="src/android/SetupModel.java" target-dir="src/org/apache/cordova/device" />
         <source-file src="src/android/SetupProwess.java" target-dir="src/org/apache/cordova/device" />
         <source-file src="src/android/evolute/bluetooth/BluetoothComm.java" target-dir="src/org/apache/cordova/device/evolute/bluetooth" />
         <source-file src="src/android/evolute/bluetooth/BluetoothPair.java" target-dir="src/org/apache/cordova/device/evolute/bluetooth" />
@@ -82,14 +84,14 @@
         <source-file src="src/android/drawable/bt2.png" target-dir="res/drawable"/>
         <source-file src="src/android/drawable/hetra_logo.png" target-dir="res/drawable"/>
 
-        <lib-file src="src/android/libs/ProwessLilyGenSdk-V0.04.jar" target-dir="libs" />-->
+        <lib-file src="src/android/libs/ProwessLilyGenSdk-V0.04.jar" target-dir="libs" />
 
         <source-file src="src/android/assets/errCode.properties" target-dir="assets"/>
         <source-file src="src/android/assets/staging.properties" target-dir="assets"/>
         <source-file src="src/android/assets/Staging_Signature_PrivateKey.p12" target-dir="assets"/>
         <source-file src="src/android/assets/uidai_auth_stage.cer" target-dir="assets"/>
 
- 	<lib-file src="src/android/libs/xom-1.2.10.jar" target-dir="libs" />
+ 	<lib-file src="src/android/libs/xom-1.2.10.jar" target-dir="libs" />-->
     </platform>
 
     <!-- ios -->

@@ -1,0 +1,9 @@
+cus-mandatory-field {
+    color: red;
+    font-style: oblique;
+    font-size: 12px;
+}
+
+.input-upper {
+    text-transform: uppercase;
+}

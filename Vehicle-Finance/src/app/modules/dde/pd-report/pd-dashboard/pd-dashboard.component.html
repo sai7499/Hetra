@@ -1,0 +1,134 @@
+<!-- <div class="content"> -->
+<form class="multisteps-form__form" method="post">
+
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <div class="container">
+            <div class="btn-sec clear-both row">
+                <!-- <div class="col-sm-5">
+                        <h3 class="title"> {{ labels.flAndpdTitle }} </h3>
+                    </div> -->
+                <div class="col-sm-7 text-right">
+                    <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
+                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive application" id="applicantTable">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <th>
+                                    {{ labels.ucicId }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.applicantName }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.mobileNumber }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.applicantType }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th *ngIf="roleType === 1">
+                                    {{ labels.pdStatus }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th *ngIf="roleType === 2">
+                                    {{ labels.pdReport }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let item of pdList;let i = index">
+                                <td>{{ item.ucic ? item.ucic : '-' }}</td>
+                                <td>{{ item.applicantName ? item.applicantName : '-' }}</td>
+                                <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
+                                <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
+                                <td *ngIf="roleType === 1" style="cursor:pointer" (click)="navigatePage(item.applicantId)">
+                                    {{ item.pdStatusValue ? item.pdStatusValue : '-' }}</td>
+                                <!-- <ng-container *ngIf='item.pdReportValue'> -->
+                                <ng-container *ngIf="roleType === 2">
+                                    <td>
+                                        <ng-container *ngFor="let version of item.pdReportValue.split(',')">
+                                            <u><a class="a_tag" style="cursor:pointer"
+                          (click)="navigatePage(item.applicantId,version)">Version
+                          -
+                          {{version}}</a></u><br />
+                                        </ng-container>
+                                    </td>
+
+                                </ng-container>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <!-- <div class="btn-sec clear-both">
+                            <div class="records col-sm-6">
+                                <select class="form-control input-sm">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+                                <nav class="col-sm-12 col-md-12 col-lg-12 page">
+                                    <ul class="pagination">
+                                        <li class="disabled">
+                                            <a href="#">
+                                                <span>«</span>
+                                            </a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="#">
+                                                1
+                                                <span class="sr-only">(current)</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">2</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">3</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">4</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">5</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span>»</span>
+                                            </a>
+                                        </li>
+                                    </ul> -->
+                    <!-- <pagination-controls class="pagination" previousLabel="" nextLabel="" (pageChange)="p = $event">
+                                    </pagination-controls> -->
+                    <!-- </nav>
+                            </div>
+                        </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<!-- </div> -->
+
+<div class="btn-sec clear-both">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
+        <button class="btn btn-primary" type="button" (click)=onNavigateBack()> {{labels.back}} </button> &nbsp;
+        <!-- <p class="btn btn-primary save"> Save </p> -->
+        <button class="btn btn-primary" type="button" (click)="onNavigateNext()"> {{labels.next}} </button>
+    </div>
+</div>

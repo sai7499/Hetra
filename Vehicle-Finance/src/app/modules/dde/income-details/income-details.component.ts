@@ -414,6 +414,8 @@ export class IncomeDetailsComponent implements OnInit {
       .getAllIncomeDetails(body)
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
+        console.log(this.applicantResponse);
+        
         this.incomeDetailsForm.patchValue({
           salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation,
         });
@@ -480,6 +482,8 @@ export class IncomeDetailsComponent implements OnInit {
           businessControl.at(i).get('grossDerivedIncome').value.toString());
         businessControl.at(i).get('grossMonthlyIncome').setValue(
           businessControl.at(i).get('grossMonthlyIncome').value.toString());
+        businessControl.at(i).get('applicantId').setValue(
+            Number(businessControl.at(i).get('applicantId').value));
       }
       const otherIncomeControl = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
@@ -488,6 +492,8 @@ export class IncomeDetailsComponent implements OnInit {
         otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome.toString());
         otherIncomeControl.at(i).get('factoredIncome').setValue(
           otherIncomeControl.at(i).get('factoredIncome').value.toString());
+          otherIncomeControl.at(i).get('applicantId').setValue(
+            Number(otherIncomeControl.at(i).get('applicantId').value))
       }
       const obligationControl = this.incomeDetailsForm.controls
         .obligationDetails as FormArray;
@@ -502,10 +508,12 @@ export class IncomeDetailsComponent implements OnInit {
         obligationControl.at(i).get('emi').setValue(emi);
         obligationControl.at(i).get('obligationAmount').setValue(
           obligationControl.at(i).get('obligationAmount').value.toString());
+          obligationControl.at(i).get('applicantId').setValue(
+            Number(obligationControl.at(i).get('applicantId').value));
       }
       const salaryContol = this.incomeDetailsForm.controls
         .salariedFOIRDeviation as FormControl;
-      const salariedFOIRDeviation = salaryContol.value;
+      const salariedFOIRDeviation = Number(salaryContol.value);
       salaryContol.setValue(salariedFOIRDeviation);
 
       this.incomeDetailsService

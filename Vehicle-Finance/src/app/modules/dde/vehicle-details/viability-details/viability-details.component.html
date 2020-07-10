@@ -3,7 +3,7 @@
     <form [formGroup]="viabilityForm">
 
         <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
-            (change)="vehicle_viability_navigate($event.target.value)">
+            (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
         </select>
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
@@ -456,12 +456,12 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
+                        <td >&nbsp;</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>{{label?.netCashFlow}}</td>
-                        <td><strong>{{netFlowCash}}</strong></td>
+                        <td ><strong>{{netFlowCash}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.emiFull}}</td>
@@ -482,10 +482,10 @@
                     </tr>
                     <tr>
                         <td><strong>{{label?.netEmi}}</strong></td>
-                        <td><strong>{{netCashFlowEmiPassenger}}</strong></td>
+                        <td colspan="1"><strong>{{netCashFlowEmiPassenger}}</strong></td>
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
+                        <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -708,10 +708,10 @@
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td><strong>{{standOperatorEmi}}</strong></td>
+                        <td colspan="1"><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
+                        <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -752,7 +752,7 @@
                         </td> 
                     </tr>
                     <tr>
-                        <td>(a) {{label?.noOfEarningDays}} </td>
+                        <td>(a) {{label?.grossIncomePerDay}} on business </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="gross_income_perday_business"
                                 id="gross_income_perday_business" formControlName="businessIncomePerDay" /> -->
@@ -771,7 +771,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>(b) {{label?.earningsPerDay}} in business</td>
+                        <td>(b) {{label?.noOfEarningDays}} </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="num_earnings_perday" id="num_earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
@@ -790,11 +790,11 @@
                             </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.monthlyIncome}}</strong></td>
+                        <td><strong>{{label?.monthlyIncome}}(A)</strong></td>
                         <td><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
-                        <td>{{label?.expensesPerDayBusiness}}  </td>
+                        <td>{{label?.expensesPerDay}}  </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday_business"
                                 id="expenses_perday_business" formControlName="busExpensesPerDay" /> -->
@@ -951,10 +951,10 @@
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td><strong>{{captiveEmi}}</strong></td>
+                        <td colspan="1"><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
+                        <td colspan="2" >&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -968,6 +968,6 @@
     <div class="col-sm-12">
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label.back}}</button> &nbsp;
         <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label.save}} </p>&nbsp;
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onNext()">{{label.next}}</button>&nbsp;
+        <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()" *ngIf="hideSubmit">{{label.submit}}</button>&nbsp;
     </div>
 </div>
