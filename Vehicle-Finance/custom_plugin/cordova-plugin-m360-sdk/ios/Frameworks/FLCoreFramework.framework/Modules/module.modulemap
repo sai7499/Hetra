@@ -1,0 +1,6 @@
+framework module FLCoreFramework {
+  umbrella header "FLCoreFramework.h"
+
+  export *
+  module * { export * }
+}

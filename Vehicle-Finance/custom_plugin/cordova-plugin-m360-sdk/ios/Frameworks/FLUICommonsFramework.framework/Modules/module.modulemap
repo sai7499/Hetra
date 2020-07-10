@@ -1,0 +1,6 @@
+framework module FLUICommonsFramework {
+  umbrella header "FLUICommonsFramework.h"
+
+  export *
+  module * { export * }
+}
