@@ -550,6 +550,7 @@
                   formControlName="employeeCode"
                   [isRequired]="'Employee Code is required'"
                   [isDirty]="isDirty"
+                  [inputClass]="'text-uppercase'"
                   [maxLength]="validationData?.employeeCode?.maxLength"
                   [type]="validationData?.employeeCode?.type"
                   ></app-custom-input>
@@ -809,9 +810,9 @@
               }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="countryOfCorporation"
-                [values]=""
+                [values]="countryList"
                 [isRequired]="'Please select one'"
-                
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -820,12 +821,12 @@
               }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="businessType"
-                [values]=""
+                [values]="LOV.LOVS.businessType"
                 [isRequired]="'Please select one'"
-                
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3" >
               <label for="industry">{{
                 labels?.industry
               }} <sub class="star_red_col">*</sub></label>
@@ -835,7 +836,7 @@
                 [isRequired]="'Please select one'"
                 >
               ></app-vf-custom-select>
-            </div>
+            </div> -->
           </div>
 
             <div class="row">

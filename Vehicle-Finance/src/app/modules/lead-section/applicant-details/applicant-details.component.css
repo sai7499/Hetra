@@ -183,4 +183,7 @@ select#select_main_button_leadco {
 #clickButton{
     margin-right: 2px;
 }
+td i{
+    cursor: pointer;
+  }
 

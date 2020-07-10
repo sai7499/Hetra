@@ -199,7 +199,7 @@
                       placeholder="Date of Incorporation"
                     >
                     </kendo-datepicker>
-                    <!-- <div
+                    <div
                       class="ShowError"
                       *ngIf="
                         coApplicantForm.get('dedupe').get('dateOfIncorporation').touched ||
@@ -211,7 +211,7 @@
                       >
                         select date
                       </div>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
                 <div
@@ -224,8 +224,10 @@
                   >
                   <app-custom-input
                     formControlName="contactPerson"
-                    [maxLength]=""
-                    [type]=""
+                    [maxLength]="validationData?.directorName?.maxLength"
+                    [type]="validationData?.directorName?.type"
+                    [isRequired]="'Contact Person Name is Required'"
+                    [isDirty]="isDirty"
                   >
                   </app-custom-input>
                 </div>
@@ -320,8 +322,11 @@
                   >
                   <app-custom-input
                     formControlName="corporateIdentificationNumber"
-                    [maxLength]=""
-                    [type]=""
+                    [maxLength]="validationData?.cinRegNumber?.maxLength"
+                    [type]="validationData?.cinRegNumber?.type"
+                    [inputClass]="'text-uppercase'"
+                    [isRequired]="'Select One'"
+                    [isDirty]="isDirty"
                   >
                   </app-custom-input>
                 </div>
@@ -385,8 +390,9 @@
                   >
                   <app-custom-input
                     formControlName="cstVatNumber"
-                    [maxLength]=""
-                    [type]=""
+                    [maxLength]="validationData?.cstVatNumber?.maxLength"
+                    [type]="validationData?.cstVatNumber?.type"
+                    [inputClass]="'text-uppercase'"
                   >
                   </app-custom-input>
                 </div>
@@ -449,8 +455,10 @@
                   >
                   <app-custom-input
                     formControlName="gstNumber"
-                    [maxLength]=""
-                    [type]=""
+                    [maxLength]="validationData?.gstNumber?.maxLength"
+                    [type]="validationData?.gstNumber?.type"
+                    [patternCheck]="validationData?.gstNumber?.patternCheck"
+                    [inputClass]="'text-uppercase'"
                   >
                   </app-custom-input>
                 </div>
@@ -484,8 +492,9 @@
                   >
                   <app-custom-input
                     formControlName="tanNumber"
-                    [maxLength]=""
-                    [type]=""
+                    [maxLength]="validationData?.tanNumber?.max"
+                    [type]="validationData?.tanNumber?.type"
+                    [inputClass]="'text-uppercase'"
                   >
                   </app-custom-input>
                 </div>
@@ -905,7 +914,7 @@
                       [maxLength]="validationData?.pincode?.maxLength"
                       [patternCheck]="validationData?.pincode?.patternCheck"
                       (keyup)="getPincode($event.target)"
-                      [id]="'permanentPincode'"
+                      [id]="'registerPincode'"
                       [isRequired]="'Pincode is required'"
                       [isDirty]="isDirty"
                       [type]="validationData?.pincode?.type"
@@ -1028,7 +1037,7 @@
                       [maxLength]="validationData?.pincode?.maxLength"
                       [patternCheck]="validationData?.pincode?.patternCheck"
                       (keyup)="getPincode($event.target)"
-                      [id]="'permanentPincode'"
+                      [id]="'communicationPincode'"
                       [isRequired]="'Pincode is required'"
                       [isDirty]="isDirty"
                       [type]="validationData?.pincode?.type"
