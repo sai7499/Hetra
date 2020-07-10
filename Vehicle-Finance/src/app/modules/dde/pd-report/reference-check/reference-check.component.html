@@ -11,7 +11,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="address_of_the_person">{{labels.addressOfThePerson}}</label>
                 <!-- <input type="text" class="form-control" id="address_of_the_person"> -->
-                <app-custom-input id="address_of_the_person" formControlName="addressOfReference" placeholder="address" [patternCheck]="addressPattern" [isRequired]="'Address is required'" [maxLength]="maxlength30" [isDirty]="isDirty">
+                <app-custom-input id="address_of_the_person" formControlName="addressOfReference" placeholder="address" [isRequired]="'Address is required'" [maxLength]="validationData?.fullName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -34,18 +34,18 @@
                 <label for="Signature">{{labels.signature}}</label>
                 <input type="file" id="file">
             </div> -->
-            <div class="form-group col-sm-6 col-md-3 col-lg-3" hidden="true">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3" hidden="true">
                 <label for="so_name">{{labels.soName}}</label>
-                <!-- <input type="text" class="form-control" id="so_name"> -->
+                
                 <app-custom-input id="so_name" formControlName="soName" [isDisabled]='true' [maxLength]="maxlength30" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3" hidden="true">
                 <label for="employee_code">{{labels.employeeCode}} </label>
-                <!-- <input type="number" class="form-control" id="employee_code"> -->
+                
                 <app-custom-input id="employee_code" formControlName="employeeCode" [isDisabled]='true' [isDirty]="isDirty">
                 </app-custom-input>
-            </div>
+            </div> -->
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="date">{{labels.date}}</label>
                 <div class="input-group input-medium"> -->
@@ -110,7 +110,7 @@
             </div>
             <div class="btn-sec clear-both">
                 <div class="col-sm-7"></div>
-                <div class="col-sm-5 text-right" *ngIf="roleType == '2' && version!='undefined'">
+                <div class="col-sm-5 text-right" *ngIf="roleType == '2' && version!='undefined'&& showReinitiate == true">
                     <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                         {{labels.reinitiate}}
                     </button>&nbsp;

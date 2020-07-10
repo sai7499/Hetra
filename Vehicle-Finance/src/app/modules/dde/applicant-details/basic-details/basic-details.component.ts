@@ -44,7 +44,8 @@ export class BasicDetailsComponent implements OnInit {
   public toDayDate: Date = new Date();
   isRequiredSpouse ='Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
-  validation : any
+  validation : any;
+  countryList = [];
 
   designation = [
     {
@@ -95,6 +96,7 @@ export class BasicDetailsComponent implements OnInit {
     });
     //this.addNonIndividualFormControls();
     this.getLOV();
+    this.getCountryList();
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation= formArray.at(0)
     const details = formArray.at(0)
@@ -117,6 +119,27 @@ export class BasicDetailsComponent implements OnInit {
     }
     
   }
+
+  getCountryList(){
+    this.applicantService.getCountryList().subscribe((res: any)=>{
+      //console.log('responce Country list', res)
+      const response = res
+      const responseError = response.Error;
+      if(responseError=='0'){
+        const list = response.ProcessVariables.countries;
+        if(list){
+          list.map((element)=>{
+            const datas= {
+              key : element.countryCode,
+              value : element.countryName
+            };
+            this.countryList.push(datas)
+          });
+        }
+      }
+    })
+  }
+
   eitherFather(){
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
@@ -435,9 +458,9 @@ export class BasicDetailsComponent implements OnInit {
       alternateEmailId: corporateProspectDetails.alternateEmailId || '',
       numberOfDirectors: corporateProspectDetails.numberOfDirectors || '',
       dateOfIncorporation: this.utilityService.getDateFromString(corporateProspectDetails.dateOfIncorporation) || '',
-      countryOfCorporation : corporateProspectDetails.countryOfCorporation,
-      businessType : corporateProspectDetails.businessType ,
-      industry : corporateProspectDetails.industry || '',
+      countryOfCorporation : corporateProspectDetails.countryOfCorporation || '',
+      businessType : corporateProspectDetails.businessType || '',
+      //industry : corporateProspectDetails.industry || '',
       preferredLanguageCommunication:
         corporateProspectDetails.preferredLanguageCommunication || '',
       //customerCategory: applicantDetails.customerCategory || '',
@@ -516,22 +539,22 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
       name1: new FormControl(null, Validators.required),
-      name2: new FormControl(null, Validators.required),
-      name3: new FormControl(null, Validators.required),
+      name2: new FormControl(null),
+      name3: new FormControl(null),
       //companyPhoneNumber: new FormControl(null),
       dateOfIncorporation: new FormControl(null, Validators.required),
       contactPerson: new FormControl(null, Validators.required),
       companyPhoneNumber: new FormControl(null, Validators.required),
-      countryOfCorporation: new FormControl(null),
-      businessType: new FormControl(''),
-      industry: new FormControl(''  ),
+      countryOfCorporation: new FormControl(null, Validators.required),
+      businessType: new FormControl('', Validators.required),
+      //industry: new FormControl(''  ),
       companyEmailId: new FormControl(null),
       alternateEmailId: new FormControl(null),
       alternateContactNumber: new FormControl(''),
       preferredLanguageCommunication: new FormControl(''),
       contactPersonDesignation: new FormControl('', Validators.required),
       numberOfDirectors: new FormControl(null),
-      directorName: new FormControl(null, Validators.required),
+      directorName: new FormControl(null),
       directorIdentificationNumber: new FormControl(null, Validators.required),
       ratingIssuerName: new FormControl(null, Validators.required),
       externalRatingAssigned: new FormControl(null, Validators.required),
@@ -742,7 +765,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.companyPhoneNumber = formValue.companyPhoneNumber;
     prospectDetails.countryOfCorporation = formValue.countryOfCorporation;
     prospectDetails.businessType = formValue.businessType;
-    prospectDetails.industry = formValue.industry;
+    //prospectDetails.industry = formValue.industry;
     prospectDetails.companyEmailId = formValue.companyEmailId;
     prospectDetails.alternateEmailId = formValue.alternateEmailId;
     prospectDetails.preferredLanguageCommunication =

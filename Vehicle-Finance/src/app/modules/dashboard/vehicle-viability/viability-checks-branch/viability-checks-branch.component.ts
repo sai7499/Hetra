@@ -5,6 +5,8 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
+import { query } from '@angular/animations';
 
 
 @Component({
@@ -23,6 +25,10 @@ export class ViabilityChecksBranchComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  userId: any;
+  roles: any;
+  roleName: any;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -30,11 +36,18 @@ export class ViabilityChecksBranchComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -93,6 +106,14 @@ export class ViabilityChecksBranchComponent implements OnInit {
         this.toasterService.showError(response.Error, '');
       }
     });
+  }
+  onRoute(leadId: any, taskId: any) {
+    const body = {
+      // tslint:disable-next-line: object-literal-shorthand
+      taskId: taskId,
+    };
+    this.router.navigate([`pages/viability-list/${leadId}/viability-list`], {queryParams: body, skipLocationChange : false});
+
   }
 
 }

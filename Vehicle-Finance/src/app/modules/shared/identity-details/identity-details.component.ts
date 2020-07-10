@@ -181,7 +181,7 @@ export class IdentityDetailsComponent implements OnInit {
     const controls = new FormGroup({
       aadhar: new FormControl(null),
       panType: new FormControl({value :'', disabled : true}),
-      pan: new FormControl(null),
+      panNumber: new FormControl(null),
       
       corporateIdentificationNumber: new FormControl(null),
       cstVatNumber: new FormControl(null),
@@ -278,6 +278,7 @@ export class IdentityDetailsComponent implements OnInit {
       cstVatNumber: value.cstVatNumber,
       corporateIdentificationNumber: value.corporateIdentificationNumber,
       gstNumber: value.gstNumber,
+      aadhar : value.aadhar
     });
   }
 

@@ -1,0 +1,22 @@
+{
+  "activationInfoForContainer" : {
+    "pinInfo" : {
+      "allowedAttemptsBeforeWipe" : "10",
+      "disablePasscodeValidation" : "0",
+      "authType" : "3",
+      "minLength" : "4",
+      "profileSource" : "1",
+      "maxOfflineAllowedAuthInterval" : "0",
+      "isSimplePasscode" : "1",
+      "allowTouchIDUse" : "1",
+      "allowedIdleTime" : "0",
+      "isAlphanumeric" : "0",
+      "isWipeAllowed" : "1",
+      "passcodeExpiry" : "0",
+      "maxTouchIDUseAllowedInterval" : "24",
+      "offlineAuthInterval" : "0",
+      "numOfComplexChars" : "0",
+      "passcodeHistory" : "10"
+    }
+  }
+}

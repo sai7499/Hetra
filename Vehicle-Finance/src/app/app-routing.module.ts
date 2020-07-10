@@ -144,6 +144,13 @@ const routes: Routes = [
             './modules/sales/applicant-details/applicant-details.module'
           ).then((m) => m.ApplicantDetailsModule),
       },
+      {
+        path: 'viability-list',
+        loadChildren: () =>
+          import(
+            './modules/dde/viability-dashboard/viability-dashboard.module'
+          ).then((m) => m.ViabilityDashboardModule),
+      },
     ],
   },
 ];

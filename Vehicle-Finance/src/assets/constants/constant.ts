@@ -7,6 +7,7 @@ export abstract class Constant {
   public static readonly OFFICE_ADDRESS = 'OFFADDADDTYP';
   public static readonly REGISTER_ADDRESS = 'REGADDADDTYP';
   public static readonly PDTASKNAME = 'Personal Discussion';
+  public static readonly VDTASKNAME = 'Vehicle Viability ';
 
 
 }
