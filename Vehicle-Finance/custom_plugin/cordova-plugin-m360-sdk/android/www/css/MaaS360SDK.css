@@ -1,0 +1,157 @@
+
+/* Stylesheet content from css/MaaS360SDK.css in folder iphone */
+
+/* Stylesheet content from css/MaaS360SDK.css in folder iphone */
+
+/* Stylesheet content from css/MaaS360SDK.css in folder iphone */
+@CHARSET "UTF-8";
+
+.modalBlockingWrap { /* The div that shows/hides. */
+	display: inline; /* starts out hidden */
+	z-index: 40002;
+	/* High z-index to ensure it appears above all content */
+}
+
+.modalBlockingOverlay {
+	/* Shades out background when selector is active */
+	position: fixed;
+	width: 100%;
+	height: 100%;
+    top:0;
+    bottom:0;
+	background-color: black;
+	opacity: 1; /* Sets opacity so it's partly transparent */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	/* IE transparency */
+	filter: alpha(opacity = 50); /* More IE transparency */
+	z-index: 40002;
+}
+
+.vertical-offset { /* Fixed position to provide the vertical offset */
+	position: fixed;
+	top: 0%;
+	width: 100%;
+	z-index: 40003; /* ensures box appears above overlay */
+}
+
+.modalBlockingBox {
+	/* The actual box, centered in the fixed-position div */
+	position: absolute;
+	margin: 0 auto; /* Everything below is just visual styling */
+	background-color: black;
+	padding: 0px;
+	border: 0px solid black;
+}
+
+.loading-gif { /* The actual box, centered in the fixed-position div */
+	position: absolute;
+	top: 62%;
+    margin : auto;
+    left: 0;
+    right :0;
+	border: 0px solid black;
+    z-index:40005;
+}
+
+.progress-reason { /* The actual box, centered in the fixed-position div */
+	position: absolute;
+    margin : auto;
+    left: 0;
+    right:0;
+	top: 60%;
+	left: 10%;
+    border-style:solid;
+    border-color: whitesmoke;	
+    opacity: 0.5;
+    background-color: black;
+    color: white;
+    text-align:center;
+    line-height: 100px;
+    vertical-align:bottom;
+	z-index: 40002;
+}
+
+.blocking-reason { /* The actual box, centered in the fixed-position div */
+	position: absolute;
+    margin : auto;
+    left : 0;
+    right : 0;
+	top: 60%;
+    border-style:solid;
+    border-color: whitesmoke;	
+    opacity: 0.5;
+    background-color: black;
+    color: white;
+    text-align:center;
+    line-height: 100px;
+    vertical-align:middle;
+	z-index: 40004;
+}
+
+.blocking-reason-progress { /* The actual box, centered in the fixed-position div */
+	position: absolute;
+	top: 60%;
+    margin : auto;
+    width : 40%
+    border-style:solid;
+    border-color: whitesmoke;	
+    opacity: 0.5;
+    background-color: black;
+    color: white;
+    text-align:center;
+    line-height: 150px;
+    vertical-align:middle;
+	z-index: 40004;
+    left : 0;
+    right : 0;
+}
+
+.loginform {
+    position: absolute;
+	width: 200%;
+	height: 200%;
+    margin: 0px;
+    top: 0%;
+	opacity: 1; /* Sets opacity so it's partly transparent */
+    background: white;
+    -moz-background-size:100% 100%;
+    -webkit-background-size:100% 100%;
+    background-size:100% 100%;
+    margin: 0px;
+    z-index: 40003;
+}
+
+#usertext, #passtext, #domaintext {
+text-align: left;
+float: left;
+clear: left;
+height: 30px;
+margin-top: 3px;
+margin-left: 10px;
+color: white;
+}
+
+#EGUName, #EGPass, #EGDName {
+text-align: left;
+margin-left:18%;
+width: 60%;
+height: 25px;
+margin-bottom: 10px;
+}
+
+.loginbutton {
+text-align: center;
+width: 64%;
+margin-left: 18%;
+height: 30px;
+margin-top: 10px;
+}
+
+.cancelbutton {
+text-align: center;
+width: 64%;
+margin-left: 18%;
+height: 30px;
+margin-top: 10px;
+
+}
