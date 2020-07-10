@@ -47,6 +47,7 @@ export class TeleVerificationFormComponent implements OnInit {
   sourcingChannelDesc: any;
   sourcingTypeDesc: any;
   sourcingCodeDesc: any;
+  sourcingCode: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -70,17 +71,14 @@ export class TeleVerificationFormComponent implements OnInit {
     private createLeadService: CreateLeadService
 
   ) {
-   
+
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
-
-
     });
     // );
     this.getLOV();
 
-    // this.initForm();
     this.leadId = this.route.snapshot.params.leadId;
     console.log(this.leadId);
     this.applicantId = parseInt(this.route.snapshot.params.applicantId);
@@ -90,11 +88,9 @@ export class TeleVerificationFormComponent implements OnInit {
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
-    console.log(this.sourcingChannelDesc + '-' + this.sourcingTypeDesc + '-' + this.sourcingCodeDesc)
-    // console.log('leadDetauls', this.leadDetails);
-    // console.log('product name', this.leadDetails.ProcessVariables.leadDetails.assetProdutName);
 
-    // console.log('applicantId', this.applicantId);
+    this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
+
   }
 
   initForm() {
@@ -185,17 +181,9 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
-    // this.labelDetails.getLabelsData().subscribe(
-    //   data => {
-    //     this.labels = data;
-    //     console.log('labels', this.labels.validationData);
 
-    //   }
-
-    // );
     this.getTvrDetails();
     this.initForm();
-    // this.getSourcingChannel();
     this.otpForm = this.fb.group({
       otp: [
         '',
@@ -208,12 +196,6 @@ export class TeleVerificationFormComponent implements OnInit {
       ],
     });
 
-  }
-
-  getSourcingChannel() {
-    this.createLeadService.getSourcingChannel().subscribe((res: any) => {
-      console.log('sourcing channel',res);
-    });
   }
 
   getLOV() {
@@ -236,10 +218,7 @@ export class TeleVerificationFormComponent implements OnInit {
     return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
   }
 
-
-
   getTvrDetails() {
-    // console.log(this.teleVerificationForm.value);
 
     const data = {
       applicantId: this.applicantId
@@ -247,7 +226,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.tvrService.getTvrDetails(data).subscribe((res: any) => {
       this.applicantName = res.ProcessVariables.applicantName;
       this.soName = res.ProcessVariables.soName;
-      this.leadId = res.ProcessVariables.leadId;
+      // this.leadId = res.ProcessVariables.leadId;
       this.tvrData = res.ProcessVariables.tvr;
       this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences : [];
       // this.dateFormate = res.ProcessVariables.tvr.dob;
@@ -278,9 +257,10 @@ export class TeleVerificationFormComponent implements OnInit {
       };
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
       // console.log(tvr);
+      this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc} ${this.sourcingCode}`);
+
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
-        this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc}`);
         if (this.valueChanges) {
           this.valueChanges.relationship.forEach(element => {
             if (tvr && element.value === tvr.relationShip) {
@@ -323,12 +303,11 @@ export class TeleVerificationFormComponent implements OnInit {
       } else {
         this.teleVerificationForm.get('applicantName').setValue(res.ProcessVariables.applicantName);
         this.teleVerificationForm.get('soName').setValue(res.ProcessVariables.soName ? res.ProcessVariables.soName : '');
-        this.teleVerificationForm.get('leadId').setValue(res.ProcessVariables.leadId);
+        this.teleVerificationForm.get('leadId').setValue(this.leadId);
         this.teleVerificationForm.get('tvrDoneBy').setValue(res.ProcessVariables.applicantName);
         this.teleVerificationForm.get('tvrTime').setValue(this.time);
         this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
         this.teleVerificationForm.get('product').setValue(this.product);
-        this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc}`);
       }
 
     });
