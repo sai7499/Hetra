@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.4.1',
-  buildDate: '04/07/2020',
+  version: '0.4.2',
+  buildDate: '09/07/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -32,6 +32,7 @@ export const environment = {
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
+  isMobile: false
 };
 
 /*

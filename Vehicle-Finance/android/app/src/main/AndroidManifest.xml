@@ -41,6 +41,52 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
+
+        <receiver
+            android:name="com.fiberlink.maas360.android.appSdkSampleApp.MaaS360UpdatesReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fiberlink.maas360.android.MAAS360_ACTIVATED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.fiberlink.maas360sdk.ipc.service.RemoteIntentHandler"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fiberlink.maas360sdk.ipc.service.REMOTE_MAAS_INTENT" />
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.fiberlink.maas360sdk.ipc.service.MaaS360SecureViewerCallbackReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fiberlink.maas360.android.secureviewer.SAVE_TO_DOCSTORE" />
+                <action android:name="com.fiberlink.maas360.android.secureviewer.SECURE_EDIT" />
+                <action android:name="com.fiberlink.maas360.android.secureviewer.EMAIL" />
+                <action android:name="com.fiberlink.maas360.android.secureviewer.SHAREFILE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.fiberlink.maas360sdk.ipc.service.MaaS360SecureViewerCallbackProxyActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:theme="@android:style/Theme.Holo.Light.Panel" >
+        </activity>
+
+        <provider
+            android:name="com.fiberlink.maas360.android.app.analytics.sdk.provider.AnalyticsSDKContentProvider"
+            android:authorities="${applicationId}.app.analytics.sdk.provider"
+            android:exported="true" />
+
+
     </application>
 
     <!-- Permissions -->
@@ -61,4 +107,12 @@
     <!-- Audio -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
 </manifest>

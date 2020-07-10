@@ -1,0 +1,26 @@
+{
+  "name": "cordova-plugin-m360-sdk",
+  "version": "1.3.3",
+  "description": "MaaS360 SDK Plugin",
+  "cordova": {
+    "id": "cordova-plugin-m360-sdk",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "dependencies": {
+    "cordova-plugin-console": "",
+    "cordova-plugin-device": ""
+  },
+  "keywords": [
+    "cordova",
+    "MaaS360",
+    "SDK",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "IBM"
+}
