@@ -36,7 +36,7 @@ import { PdReportComponent } from './pd-report/pd-report.component';
   declarations: [
     DdeComponent,
     FlReportComponent,
-    PdReportComponent,
+    // PdReportComponent,
     // ViabilityListComponent,
     PdListComponent,
     // ViabilityListComponent,
