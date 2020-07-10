@@ -393,7 +393,7 @@ export class LoanDetailsComponent implements OnInit {
     }
 
 
-    this.personalDiscussion.getPdData(this.data).subscribe((value: any) => {
+    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
