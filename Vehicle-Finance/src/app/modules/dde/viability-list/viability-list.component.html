@@ -30,8 +30,12 @@
                             <td>{{viability?.make}}</td>
                             <td>{{viability?.model}}</td>
                             <td>{{viability?.viabilityStatus}}</td>
-                            <td><u ><a class="a_tag" style="cursor:pointer"
+                            <td *ngIf="viability?.viabilityStatus !== 'Submitted' && showNext === false"><u ><a class="a_tag" style="cursor:pointer"
+                                (click)="getViability(viability?.collateralId )">Start</a></u></td>
+                            <td *ngIf="viability?.viabilityStatus === 'Submitted' && showNext === true"><u ><a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId )">View</a></u></td>
+                                        
+                                        <td colspan="1" *ngIf="viability?.viabilityStatus === 'Submitted' && showNext === false"></td>
                         </tr>
                         <!-- <tr id="applicant_2_row">
                             <td>KL-05-AG-1191</td>

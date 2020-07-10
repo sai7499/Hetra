@@ -188,8 +188,11 @@ export class ViabilityDetailsComponent implements OnInit {
     };
     this.viabilityService.submitViabilityTask(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
-      if ( res.ProcessVariables.error.code == '1') {
-       this.toasterService.showSuccess(res.ProcessVariables.error, 'Viability');
+      if ( res.ProcessVariables.error.code == '0') {
+       this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+       this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+      } else if (res.ProcessVariables.error.code == '1') {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
       }
     });
   }

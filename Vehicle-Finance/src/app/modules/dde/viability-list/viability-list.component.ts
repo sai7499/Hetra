@@ -29,9 +29,6 @@ export class ViabilityListComponent {
                 private toasterService: ToasterService,
                 private loginStoreService: LoginStoreService,
                 private location: Location) {
-                  this.route.queryParams.subscribe((res: any) => {
-                    this.taskId = res.taskId;
-                  });
                  }
 
     // tslint:disable-next-line: use-lifecycle-interface
