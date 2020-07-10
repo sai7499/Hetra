@@ -272,23 +272,38 @@ select#select_main_button_match {
         color:white;
         background-color: #272264;;
     }
-    
+    .multisteps-form{
+        height:100px;
+        display:block;
+    }
     .fa.fa-angle-left {
         font-size: 30px;
     }
     .fa.fa-angle-right {
         font-size: 30px;
     }
-    /* .prev-first-data {
-      display: flex;
+    .prev-first-data{
+     float: left;
+      width:100px;
       justify-content: end;
-  } */
-    .multisteps-form__progress {
+      margin: 30px 0;
+  }
+  .next-second-data {
+      float:right;
+      width:100px;
+      justify-content: end;
+      margin: 30px 0;
+  }
+
+    .progress-box {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         margin: 30px 0;
       }
-      
+   
+      .second-box>.multisteps-form__progress-btn:first-child:after{
+        display: none;
+      }
       .multisteps-form__progress-btn {
         transition-property: all;
         transition-duration: 0.15s;
@@ -343,7 +358,7 @@ select#select_main_button_match {
         z-index: 1;
       }
       .multisteps-form__progress-btn:first-child:after {
-        display: none;
+        display: block;
       }
       .multisteps-form__progress-btn.js-active {
         color: #272264;
@@ -436,7 +451,7 @@ select#select_main_button_match {
     
     #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;} */
 
-    #credit_sourcing_details:after,#credit_tvr_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
+    #credit_sourcing_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
 
     #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;}
 
@@ -451,3 +466,36 @@ select#select_main_button_match {
     overflow-x: hidden;
 }
 
+
+/* kendoooo */
+.example {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.k-stepper {
+    align-self: center;
+
+}
+.k-button.prev {
+    margin-right: 16px;
+}
+.example .content {
+    align-self: center;
+}
+.k-form-separator {
+    margin-top: 40px;
+}
+.k-buttons-end {
+    justify-content: space-between;
+    align-content: center;
+}
+.page {
+    align-self: center;
+}
+.k-form {
+    width: 450px;
+}
+.k-stepper .k-step-current .k-step-indicator {
+    color: #272264;
+}

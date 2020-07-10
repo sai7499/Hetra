@@ -11,6 +11,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { DdeSharedModule } from '../shared/shared.module';
 import { ReferenceCheckComponent } from './reference-check/reference-check.component';
 import { PdListComponent } from '../pd-list/pd-list.component';
+import { PdDashboardComponent } from './pd-dashboard/pd-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { PdListComponent } from '../pd-list/pd-list.component';
     CustomerProfileDetailsComponent,
     LoanDetailsComponent,
     ReferenceCheckComponent,
-    // PdDashboardComponent,
+    PdDashboardComponent,
     PdReportComponent,
     ApplicantDetailComponent,
     CustomerProfileDetailsComponent,
