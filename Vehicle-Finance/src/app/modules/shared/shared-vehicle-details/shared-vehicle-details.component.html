@@ -1,9 +1,8 @@
 <div class="multisteps-form__form">
-    <h4 class="title"><b>{{ roleName === 'Sales Officer' ? label.vehcileDetailsTitle : '' }}</b></h4>
+    <h4 class="title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
         <button class="btn mar-right8 btn-primary" type="button"
-            [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
-        <!--  [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'" -->
+            [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -34,13 +33,46 @@
                     <td data-title="FinalAssetCost">
                         {{item.finalAssetCost}}
                     </td>
-                    <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                            (click)="roleName === 'Sales Officer' ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"></i>&nbsp;<i class="fa fa-minus" aria-hidden="true"
-                            id="remove_item_applicant" (click)="DeleteVehicleDetails(item)"></i>
+                    <td data-title="Action">
+
+                        <a
+                            (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"><i
+                                class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>&nbsp;
+                        <a data-toggle="modal" data-target="#exampleModal"
+                            (click)="softDeleteCollateral(i, item.collateralId)"><i class="fa fa-trash cursor-pointer"
+                                aria-hidden="true"></i></a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Collateral
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure want delete
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="DeleteVehicleDetails()">
+                    Yes
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,2 +1,6 @@
 node_modules
 android.zip
+/hetra
+/www
+/dist
+package-lock.json

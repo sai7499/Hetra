@@ -55,19 +55,15 @@ export class BasicVehicleDetailsComponent implements OnInit {
 
       let data = this.formValue.value.vehicleFormArray[0];
 
-      data.fsrdPremiumAmount = data.fsrdPremiumAmount ? Number(data.fsrdPremiumAmount) : null;
-      data.manufacturerSubventionAmount = data.manufacturerSubventionAmount ? Number(data.manufacturerSubventionAmount) : null;
-      data.insurance = data.insurance ? Number(data.insurance) : null;
-
-      data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') :  null;
-      data.invoiceDate= data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') :  null;
+      data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
+      data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
 
       data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
       data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
       data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
       data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
 
-      data.fsrdFundingReq =  data.fsrdFundingReq === true ? '1' : '0'
+      data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0'
 
       this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         const apiError = res.ProcessVariables.error.message;
@@ -85,6 +81,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
       })
     } else {
       this.isDirty = true;
+      console.log('error', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }

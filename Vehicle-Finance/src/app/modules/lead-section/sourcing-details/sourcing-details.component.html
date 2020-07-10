@@ -214,10 +214,11 @@
               formControlName="requestedAmount"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Amount'"
-              [maxLength]="regexPattern.amountLength"
+              [maxLength]="amountLength"
               [isRequired]="'Required Amount is mandatory'"
               [patternCheck]="regexPattern.amount"
               [isDirty]="isDirty"
+              [type]="'number'"
               >
             </app-custom-input>
         </div>
@@ -228,10 +229,11 @@
               formControlName="requestedTenor"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Tenor'"
-              [maxLength]="regexPattern.loanTenor"
+              [maxLength]="tenureMonthLength"
               [isRequired]="'Required Tenor is mandatory'"
               [patternCheck]="regexPattern.amount"
               [isDirty]="isDirty"
+              [type]="'number'"
               >
             </app-custom-input>
         </div>

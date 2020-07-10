@@ -17,8 +17,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="table-responsive application" id="applicantTable">
-                        <table class="table">
+                    <div class=" application" id="applicantTable">
+                        <table class="table table-responsive ">
                             <thead>
                                 <tr class="table-head-bg">
 
@@ -32,19 +32,29 @@
                                     <td class="text-center">Action</td>
                                 </tr>
                             </thead>
+                            <tbody class=" rowCollapse" *ngIf="bankDetails === null">
+                                <!-- <div  >
+                                    <p> No records found...</p> 
+                                </div> -->
+                                <tr>
+                                    <td colspan="8">NO RECORDS FOUND</td>
+                                </tr>
+                            </tbody>
+                            
                             <tbody>
+                               
                                 <tr id="" *ngFor="let item of bankDetails">
 
                                     <td class="text-center">{{item?.accountHolderName}}</td>
                                     <td class="text-center">{{item?.bankName}}</td>
-                                    <td class="text-center">{{item?.accountNumber}}</td>
+                                    <td class="text-center">{{item?.accountNumber | uppercase}}</td>
                                     <td class="text-center">{{item?.accountType}}</td>
                                     <td class="text-center">{{item?.fromDate }}</td>
                                     <td class="text-center">{{item?.toDate }}</td>
                                     <td class="text-center">{{item?.period}}</td>
-                                    <td class="text-center"><i class="fa fa-pencil"
+                                    <td class="text-center cursor-pointer"><i class="fa fa-pencil"
                                             (click)="routeDetails(item.applicantId);"
-                                            aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus" aria-hidden="true"
+                                            aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus cursor-pointer" aria-hidden="true"
                                             id="remove_item_applicant" (click)="onDelete()"></i></td>
                                 </tr>
 

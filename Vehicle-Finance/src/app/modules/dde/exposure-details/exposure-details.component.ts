@@ -19,17 +19,34 @@ export class ExposureDetailsComponent implements OnInit {
   userId: string;
   getExposureDetails: any;
   liveloanArray = [];
-  proposedArray = [];
+  proposedArray = [];  
   isAlert: boolean;
+  currentYear = new Date().getFullYear(); 
+  yearCheck = [];
+  isDirty: boolean;
+  rowIndex;
+  isModelShow: boolean;
+  errorMessage;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
               private route: Router,
               private activatedRoute: ActivatedRoute,
               private location: Location,
-              private toStarService: ToasterService ) { }
+              private toStarService: ToasterService ) {
+                this.yearCheck = [{rule: val => val>this.currentYear,
+                                   msg:'Future year not accepted'}];
+                this.labelService.getLabelsData().subscribe(res => {
+                  this.labels = res;
+                });
+                this.commonservice.getLovData().subscribe((res: any) => {
+                  console.log(res.LOVS);
+                  this.lovData = res.LOVS['loanType-Exposure'];
+                });
+                this.userId = localStorage.getItem('userId');
+              }
   exposureLiveLoan: FormGroup;
-  exposureProposedLoan: FormGroup;
+  // exposureProposedLoan: FormGroup;
   labels: any = {};
   lovData: any;
  productCategory = [
@@ -52,42 +69,25 @@ export class ExposureDetailsComponent implements OnInit {
   ];
    ngOnInit() {
     this.exposureLiveLoan = this.formBuilder.group({
-      loanTable: this.formBuilder.array([]),
-      proposedTable: this.formBuilder.array([])
+      loanTable: this.formBuilder.array([]),      
     });
-    // this.exposureProposedLoan = this.formBuilder.group({
-    //   proposedTable: this.formBuilder.array([this.getProposedLoan()])
-    // });
-    this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-    });
-    this.commonservice.getLovData().subscribe((res: any) => {
-      console.log(res.LOVS);
-      this.lovData = res.LOVS['loanType-Exposure'];
-    });
-    this.userId = localStorage.getItem('userId');
     this.getExposure();
+    }
 
-  }
   async getExposure() {
     this.leadId = (await this.getLeadId()) as number;
     this.exposureservice.getExposureDetails({leadId : this.leadId}).subscribe((res: any) => {
       this.getExposureDetails = res.ProcessVariables.exposure;
       console.log(this.getExposureDetails);
-      if (this.getExposureDetails && this.getExposureDetails.length > 0 ) {
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < this.getExposureDetails.length; i++) {
-          // if (this.getExposureDetails[i].loanDesc === 'Proposed') {
-          this.proposedArray.push(this.getExposureDetails[i]);
-          // // } else {
-            this.liveloanArray.push(this.getExposureDetails[i]);
-          // }
+      if (this.getExposureDetails && this.getExposureDetails.length > 0 ) {        
+        for (let i = 0; i < this.getExposureDetails.length; i++) {         
+            this.liveloanArray.push(this.getExposureDetails[i]);          
         }
         this.addUnit(this.liveloanArray);
-        this.addProposedUnit(this.proposedArray);
+        // this.addProposedUnit(this.proposedArray);
       } else {
         this.addUnit(null);
-        this.addProposedUnit(null);
+        // this.addProposedUnit(null);
        }
     });
     console.log(this.liveloanArray, 'live loan');
@@ -107,15 +107,16 @@ export class ExposureDetailsComponent implements OnInit {
   public getProposedLoan(data?: any) {
     if (!data || data === null || undefined) {
       return this.formBuilder.group({
-        loanType: [''],
+        loanType: ['',[Validators.required]],
         loanNo: ['', [Validators.minLength(0)] ],
         assetType: [''],
-        yom: ['' ],
-        gridValue: ['' ],
-        ltv: ['' ],
-        currentPos: ['' ],
-        tenure: ['' ],
-        emiPaid: ['' ]
+        yom: ['' ,[Validators.minLength(4),Validators.maxLength(4),
+                    Validators.max(this.currentYear)]],
+        gridValue: ['',[Validators.required] ],
+        ltv: ['',[Validators.required] ],
+        currentPos: ['',[Validators.required] ],
+        tenure: ['',[Validators.required] ],
+        emiPaid: ['',[Validators.required]]
       });
     } else {
     return this.formBuilder.group({
@@ -136,14 +137,14 @@ export class ExposureDetailsComponent implements OnInit {
     if (!data || data === null || undefined) {
       return this.formBuilder.group({
         loanType: [''],
-        loanNo: ['' ],
-        assetType: [''],
-        yom: ['' ],
-        gridValue: ['' ],
-        ltv: ['' ],
-        currentPos: ['' ],
-        tenure: ['' ],
-        emiPaid: ['' ]
+        loanNo: ['',[Validators.required] ],
+        assetType: ['',[Validators.required]],
+        yom: ['',[Validators.minLength(4),Validators.maxLength(4),Validators.max(this.currentYear)] ],
+        gridValue: ['',[Validators.required] ],
+        ltv: ['',[Validators.required] ],
+        currentPos: ['',[Validators.required] ],
+        tenure: ['',[Validators.required] ],
+        emiPaid: ['',[Validators.required] ]
       });
     } else {
     return this.formBuilder.group({
@@ -165,51 +166,47 @@ export class ExposureDetailsComponent implements OnInit {
     if (data && data.length > 0 ) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0 ; i < data.length; i++) {
-        control.push(this.getProposedLoan(data[i]));
-      }
-    } else {
-      control.push(this.getProposedLoan(null));
-    }
-  }
-
-  removeIndex(i?: any,rowId?:any) {
-    const control = this.exposureLiveLoan.controls.loanTable as FormArray;
-    console.log(control.controls.length,rowId);
-    
-    // if (this.liveloanArray.length >0 ){
-      // const  id = this.proposedArray[i].id ? this.proposedArray[i].id : null;
-      const  id = control.controls[i].value.id;
-      const body = {
-        id,
-        userId: this.userId
-      };
-      if(id){
-        this.exposureservice.deleteExposureDetails(body).subscribe((res: any) => {
-            console.log(res);
-            control.removeAt(i);
-            // alert(res.ProcessVariables.error.message);
-            this.toStarService.showInfo(res.ProcessVariables.error.message,"Exposure Details")
-          });
-        } else{
-          control.removeAt(i);
-          this.toStarService.showInfo("Row is Removed","Exposure Details")
-        }
-      // }
-    // if (control.controls.length === 1) {
-    //     this.addUnit(null);
-    //   }
-  }
-addProposedUnit(data?: any) {
-    const control = this.exposureLiveLoan.controls.proposedTable as FormArray;
-    if (data && data.length > 0 ) {
-      // tslint:disable-next-line: prefer-for-of
-      for (let i = 0 ; i < data.length; i++) {
         control.push(this.getLiveLoan(data[i]));
       }
     } else {
       control.push(this.getLiveLoan(null));
     }
   }
+
+  removeIndex(i?: any,rowId?:any) {
+    const control = this.exposureLiveLoan.controls.loanTable as FormArray;
+    console.log(control.controls.length,rowId);
+    const  id = control.controls[i].value.id;
+    const body = {
+        id,
+        userId: this.userId
+      };
+      if(id){
+        this.exposureservice.deleteExposureDetails(body).subscribe((res: any) => {
+            console.log(res);
+            control.removeAt(i);            
+            this.toStarService.showInfo(res.ProcessVariables.error.message,"Exposure Details")
+            this.isModelShow = false;
+          });
+        } else{
+          control.removeAt(i);
+          this.toStarService.showInfo("Row is Removed","Exposure Details")
+          this.isModelShow = false;
+        }  
+  }
+
+
+addProposedUnit(data?: any) {
+    const control = this.exposureLiveLoan.controls.proposedTable as FormArray;
+    if (data && data.length > 0 ) {    
+      for (let i = 0 ; i < data.length; i++) {
+        
+      }
+    } else {
+      // control.push(this.getLiveLoan(null));
+    }
+  }
+  
 removeProposedIndex(i?: any) {
     const control = this.exposureLiveLoan.controls.proposedTable as FormArray;
     const id = this.proposedArray[i].id;
@@ -231,53 +228,78 @@ removeProposedIndex(i?: any) {
 
 onSubmit() {
     // tslint:disable-next-line: prefer-const
-    let arrayData = [];
+    this.isDirty = true;
+    if (this.exposureLiveLoan.valid && !this.validYom){
+      let arrayData = [];
 
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i <  this.exposureLiveLoan.value.loanTable.length; i++ ) {
-     arrayData.push(this.exposureLiveLoan.value.loanTable[i]);
-     
-    }
-    // tslint:disable-next-line: prefer-for-of
-    // for (let i = 0; i <  this.exposureLiveLoan.value.proposedTable.length; i++ ) {
-    //   arrayData.push(this.exposureLiveLoan.value.proposedTable[i]);
-    //  }
-    arrayData.forEach(ele =>
-      {ele.loanNo = (ele.loanNo).toString();
-       ele.yom = (ele.yom).toString();
-      })
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i <  this.exposureLiveLoan.value.loanTable.length; i++ ) {
+      arrayData.push(this.exposureLiveLoan.value.loanTable[i]);
+      
+      }     
+      arrayData.forEach(ele =>
+        {ele.loanNo = (ele.loanNo).toString();
+        ele.yom = (ele.yom).toString();
+        ele.gridValue = ele.gridValue;
+        ele.ltv = ele.ltv;
+        ele.currentPos = Number(ele.currentPos);
+        ele.tenure = ele.tenure;
+        ele.emiPaid = ele.emiPaid;
+        })
 
 
-    const body = {
-       leadId: this.leadId,
-       userId: this.userId,
-       exposures : arrayData
-    };
-    if (this.exposureLiveLoan.invalid) {
-    return;
-    }
-    this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
-      console.log(res, ' response in exposure');
-      if (res.ProcessVariables.error.code === '0') {
-        const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
-        const proposedControl = this.exposureLiveLoan.controls.proposedTable as FormArray;
-        liveloanControl.controls = [];
-        proposedControl.controls = [];
-        this.liveloanArray = [];
-        this.proposedArray = [];
-        this.getExposure();
-      this.toStarService.showSuccess("Exposure Saved Successfuly","Exposuer Details")
-      }else{
-        this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
+      const body = {
+        leadId: this.leadId,
+        userId: this.userId,
+        exposures : arrayData
+      };
+      if (this.exposureLiveLoan.invalid) {
+      return;
       }
+      this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
+        console.log(res, ' response in exposure');
+        if (res.ProcessVariables.error.code === '0') {
+          const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
+          const proposedControl = this.exposureLiveLoan.controls.proposedTable as FormArray;
+          liveloanControl.controls = [];
+          // proposedControl.controls = [];
+          this.liveloanArray = [];
+          this.proposedArray = [];
+          this.getExposure();
+        this.toStarService.showSuccess("Exposure Saved Successfuly","Exposuer Details")
+        }else{
+          this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
+        }
 
-    });
+      });
+    } else {
+      this.toStarService.showError("Please Enter Mandatory Data","Exposuer Details")
+    }
   }
+
 
   onBack() {
   this.location.back();
   }
   onNext() {
     this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`);
+  }
+  validYom:boolean ;
+  checkYear(event){
+    const getYom = event.target.value;
+    console.log("yom",getYom)
+    if(getYom > this.currentYear){
+      this.toStarService.showError("given year should lessthan or equtal to current year",
+                                    "Income Details")
+      this.validYom = true;
+    }else{
+      this.validYom = false;
+    }
+
+  }
+  showModel(i){
+  this.rowIndex=i;
+  this.isModelShow = true;
+  this.errorMessage = "Are sure to remove row";
   }
 }

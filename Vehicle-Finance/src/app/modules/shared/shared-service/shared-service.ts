@@ -13,6 +13,7 @@ export class SharedService {
         console.log('prd', data)
         this.leadData$.next(data);
     }
+
     loanAmount$: BehaviorSubject<number> = new BehaviorSubject(0);
     changeLoanAmount(amount: number) {
         this.loanAmount$.next(amount)
@@ -21,5 +22,21 @@ export class SharedService {
     vaildateForm$: BehaviorSubject<any> = new BehaviorSubject([]);
     getFormValidation(form) {
         this.vaildateForm$.next(form)
+    }
+
+    updateDev$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getUpdatedDeviation(data) {
+        this.updateDev$.next(data)
+    }
+
+    pdStatus$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getPdStatus(data) {
+        this.pdStatus$.next(data)
+    }
+
+    taskId$: BehaviorSubject<any> = new BehaviorSubject('');
+    getTaskID(data) {
+        console.log("in shared service", data)
+        this.taskId$.next(data)
     }
 }

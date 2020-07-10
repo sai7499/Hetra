@@ -9,7 +9,8 @@
                 <app-custom-input
                   formControlName="accountHolderName"
                   [patternCheck]="namePattern"
-                  [maxLength]="nameLength30"
+                  [maxLength]="labels?.validationData?.name?.maxLength"
+                    [type]="labels?.validationData?.name?.type"
                   [isRequired]="'Account Holder Name is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
@@ -25,11 +26,14 @@
                
                 <app-custom-input
                     formControlName="accountNumber"
-                    [patternCheck]="accountNumberPattern"
-                    [maxLength]="numberLength20"
+                    
+                    [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+                    [type]="labels?.validationData?.accountNumber?.type"
                     [isRequired]="'Account Number is required'"
                     [isDirty]="isDirty"
+                    [inputClass]="'input-upper'" 
               ></app-custom-input>
+              <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
              </div>
             </div>
             <div class="row">
@@ -54,7 +58,7 @@
                        placeholder="Select Start Month"
                       [activeView]="'decade'"
                       (valueChange)="getMonths()"
-                      [max]="toDayDate"
+                      [max]="todayDateNew"
                       ></kendo-datepicker>
                    </div>
                 </div>
@@ -70,11 +74,12 @@
                          disabled>
                    </div> -->
                    <kendo-datepicker class="form-control" 
-                   formControlName="toDate" [format]="'dd/MM/yyyy'"
+                   formControlName="toDate" 
+                   [format]="'dd/MM/yyyy'"
                    [max]="toDayDate"
-                    placeholder="Select Latest Month"
+                   placeholder="Select Latest Month"
                    [activeView]="'decade'"
-                   (valueChange)="getMonths()"
+                   (valueChange)="setToDateMax()"
                    ></kendo-datepicker>
                 </div>
              </div>
@@ -90,7 +95,8 @@
                 <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
-                [maxLength]="limitLength20"
+                [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                [type]="labels?.validationData?.amountValue?.type"
                
                 [isDirty]="isDirty"
               ></app-custom-input>
@@ -138,17 +144,19 @@
               <tbody  formArrayName="transactionDetails">
               <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index " [formGroupName]="i">
                   <td >
-                      <input class="form-control" formControlName = "month" value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" disabled > 
+                      <input class="form-control" formControlName = "month"  disabled > 
+                      <!-- value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" -->
                   </td>
                   <td>
                       <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="inflow"> -->
                       <app-custom-input
                       formControlName="inflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]="inputLength10"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      (keyup)="savetransactionData()"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                   </td>
                   <td>
@@ -156,11 +164,11 @@
                       <app-custom-input
                       formControlName="outflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      (keyup)="savetransactionData()"
-                      [type]="'number'"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                   </td>
                   <td>
@@ -169,9 +177,11 @@
                     <app-custom-input
                     formControlName="noOfInWardBounces"
                     [patternCheck]="inputValidation"
-                    [maxLength]=" inputLength10"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type"
                     [isRequired]="'*required'"
                     [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "
                   ></app-custom-input> 
                 </td>
                   <td>
@@ -179,9 +189,11 @@
                       <app-custom-input
                       formControlName="noOfOutWardBounces"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                     </td>
                   <td>
@@ -189,7 +201,8 @@
                       <app-custom-input
                       formControlName="balanceOn5th"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -200,7 +213,8 @@
                       <app-custom-input
                       formControlName="balanceOn15th"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -211,22 +225,23 @@
                       <app-custom-input
                       formControlName="balanceOn20th"
                       [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
                     ></app-custom-input>
                   </td>
                   <td>
-                      <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled> 
-                      <!-- <app-custom-input
+                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled>  -->
+                      <app-custom-input
                       formControlName="abbOfTheMonth"
                       [patternCheck]="inputValidation"
                       [maxLength]=" inputLength10"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      [disabled]="isDisabled"
-                    ></app-custom-input> -->
+                      [isDisabled]="true"
+                    ></app-custom-input>
                   </td>
                   <!--  <td><input type="text" class="form-control input_value" value=""></td> -->
               </tr>
@@ -246,7 +261,7 @@
         (click)="onBackToApplicant()"> {{labels?.backToApplicantDetails}} </button>
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>
+        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>&nbsp;
         <button class="btn btn-primary" (click)="onSave()"> {{labels?.save}} </button>
         <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
         <!-- (click)="onSave()"  -->

@@ -1,3 +1,5 @@
+import { ReferenceCheckComponent } from '@modules/dde/pd-report/reference-check/reference-check.component';
+
 export interface Dde {
     vehicleValuation?: VehicleValuation;
     pslData?: PslData;
@@ -6,6 +8,7 @@ export interface Dde {
     loanDetails?: LoanDetails;
     fleetDetails?: FleetDetails;
     trackVehicle?: TrackVehicle;
+    referenceCheck?: ReferenceCheck;
 }
 
 export interface VehicleValuation {
@@ -115,77 +118,92 @@ export interface ApplicantDetails {
     gender?: string;
     maritalStatus?: string;
     physicallyChallenged?: string;
-    residenceNo?: string;
-    officeNo?: string;
+    residancePhoneNumber?: string;
+    officePhoneNumber?: string;
     mobile?: string;
-    residenceAddress?: string;
+    residenceAddressAsPerLoanApplication?: string;
     bankName?: string;
-    accountNo?: string;
+    accountNumber?: string;
     landmark?: string;
-    locate?: string;
-    locality?: string;
+    addressAccessibility?: string;
+    residentialLocality?: string;
     residentialType?: string;
-    standardHouse?: string;
+    houseType?: string;
     sizeOfHouse?: string;
-    stdOfLiving?: string;
+    standardOfLiving?: string;
     houseOwnership?: string;
-    ratingBySo?: string;
+    ratingbySO?: string;
 }
 
 export interface CustomerProfile {
-    addressRecord?: string;
-    noEmployees?: string;
+    offAddSameAsRecord?: string;
+    noOfEmployeesSeen?: string;
     nameBoardSeen?: string;
     officePremises?: string;
-    sizeOfOffice?: string;
-    ratingBySo?: string;
-    mismatchAddress?: string;
-    selfieWithHouse?: string;
-    ownershipProof?: string;
-    metCustomer?: string;
+    sizeofOffice?: string;
+    customerProfileRatingSo?: string;
+    mismatchInAddress?: string;
+    customerHouseSelfie?: string;
+    ownershipAvailable?: string;
+    mandatoryCustMeeting?: string;
 }
 
 export interface LoanDetails {
-    costOfVehicle?: string;
-    modelType?: string;
-    loanAmt?: string;
-    marginMoney?: string;
-    loanAmtReq?: string;
-    sourcePurchase?: string;
-    nameOfFinancer?: string;
-    awareMarginMoney?: string;
-    nameOfChannel?: string;
-    sellerVehicle?: string;
-    knowAbtVehicle?: string;
-    moneyInvested?: string;
-    moneyBorrowed?: string;
-    marketValue?: string;
-    purchasedValue?: string;
+
+    // applicable for new vehicle
+    vehicleCost?: string;
+    newvehicleCost?: string;
+    newVehicleModel?: string;
+    newVehicletype?: string;
+    newVehiclereqLoanAmount?: string;
+    newVehiclemarginMoney?: string;
+
+    // applicable for used vehicle
+
+    usedVehicleCost?: number;
+    usedVehModel?: string;
+    usedVehicleType?: string;
+    usedVehicleMarginMoney?: string;
+    usedVehicleLoanAmountReq?: string;
+    sourceOfVehiclePurchase?: string;
+    marginMoneySource?: string;
+    financierName?: string;
+    coAapplicantAwareMarginMoney?: string;
+    channelSourceName?: string;
+    vehicleSeller?: string;
+    proposedVehicle?: string;
+    investmentAmount?: string;
+    marginMoneyBorrowed?: string;
+    marketValueProposedVehicle?: string;
+    purchasePrice?: string;
     vehicleCondition?: string;
-    usageFunds?: string;
-    vehicleConditions?: string;
-    remarksOthers?: string;
-    earlierDriving?: string;
-    runningAttached?: string;
-    awareDue?: string;
+    fundsUsage?: string;
+    earlierVehicleApplication?: string;
+    othersRemarks?: string;
+    drivingVehicleEarlier?: string;
+    vehicleAttachedPlying?: string;
+    awareDueDateEmiAmount?: string;
+
+    // applicable for assetDetails used Vehicle
+
     vehicleMake?: string;
-    model1?: string;
-    registrationNo?: string;
-    regCopyVerified?: string;
-    hpaNbfc?: string;
+    modelInYear?: string;
+    regNo?: string;
+    regCopVfd?: string;
+    vehicleHpaNbfc?: string;
     engineNumber?: string;
-    chassisNumber?: string;
-    permitDate?: string;
-    fitnessDate1?: string;
-    taxDate?: string;
-    insuranceCopy?: string;
-    insuranceDate?: string;
-    vehicleVerified?: string;
-    physicalCondition?: string;
+    chasisNumber?: string;
+    permitValidity?: string;
+    fitnessValidity?: string;
+    taxValidity?: string;
+    insuranceCopyVerified?: string;
+    insuranceValidity?: string;
+    vehiclePhsicallyVerified?: string;
+    conditionOfVehicle?: string;
     vehicleRoute?: string;
-    noTrips?: string;
-    tripAmt?: string;
-    selfDriver?: string;
+    noOfTrips?: string;
+    amtPerTrip?: string;
+    selfDrivenOrDriver?: string;
     remarks?: string;
 }
 
@@ -237,4 +255,20 @@ export interface TrackVehicle {
     rcptAmount?: string;
     delayDays?: string;
     paymentsExcess?: string;
+}
+
+export interface ReferenceCheck {
+    addressOfReference?: string,
+    nameOfReference?: string,
+    overallFiReport?: string,
+    pdRemarks?: string,
+    referenceMobile?: string,
+    soName?: string;
+    employeeCode?: string;
+    date?: string;
+    place?: string;
+    time?: string;
+    // referenceType?: string,
+    // routeMapId?: string,
+    // stage?: string
 }

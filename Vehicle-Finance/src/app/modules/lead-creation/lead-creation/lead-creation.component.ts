@@ -63,6 +63,7 @@ export class LeadCreationComponent implements OnInit {
   isMobile: any;
   isSourchingCode: boolean;
   isDirty: boolean;
+  nameErrorMessage: string;
 
   obj = {};
   test = [];
@@ -70,25 +71,9 @@ export class LeadCreationComponent implements OnInit {
   public dateValue: Date = new Date(2000, 2, 10);
   public toDayDate: Date = new Date();
 
-  namePattern: {
-    rule: string;
-    msg: string;
-  };
-
-  regexPattern = {
-    maxLength: {
-      rule: '10',
-      msg: 'Maximum Length 10 digits',
-    },
-    nameLength: {
-      rule: '30',
-      msg: '',
-    },
-    mobile: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Numbers only allowed !',
-    },
-  };
+  namePattern: string;
+  nameLength: number;
+  mobileLength: number;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -139,7 +124,11 @@ export class LeadCreationComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.nameLength = this.labels.validationData.name.maxLength;
+        this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
+      },
       (error) => console.log('Lead Creation Label Error', error)
     );
   }
@@ -407,15 +396,11 @@ export class LeadCreationComponent implements OnInit {
     this.applicantType = bool ? event : event.target.value;
     console.log(this.applicantType);
     if (this.applicantType === 'INDIVENTTYP') {
-      this.namePattern = {
-        rule: '^[A-Za-z ]{0,99}$',
-        msg: 'Special Characters not allowed',
-      };
+      this.namePattern = 'alpha';
+      this.nameErrorMessage = 'First Name is mandatory';
     } else {
-      this.namePattern = {
-        rule: "^[0-9A-Za-z, _&*#' /\\-@]{ 0, 49 } $",
-        msg: 'Invalid organization name',
-      };
+      this.namePattern = 'text';
+      this.nameErrorMessage = 'Company Name is mandatory';
     }
   }
 
@@ -434,14 +419,8 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log(
-      'isNgAutoCompleteDealer',
-      this.createLeadForm.controls.dealerCode.value
-    );
-    console.log(
-      'isNgAutoCompleteSourcing',
-      this.createLeadForm.controls.sourcingCode.value
-    );
+    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
+    console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
 
     this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
     this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
@@ -464,7 +443,7 @@ export class LeadCreationComponent implements OnInit {
         fundingProgram: leadModel.fundingProgram,
         sourcingChannel: leadModel.sourcingChannel,
         sourcingType: leadModel.sourcingType,
-        sourcingCode: leadModel.sourcingCode.key
+        sourcingCode: leadModel.sourcingCode
           ? leadModel.sourcingCode.key
           : '',
         dealorCode: leadModel.dealerCode.dealorCode,
@@ -472,7 +451,7 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
-        sourcingCodeDescription: leadModel.sourcingCode.value
+        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value:''
       };
 
       this.applicantDetails = {

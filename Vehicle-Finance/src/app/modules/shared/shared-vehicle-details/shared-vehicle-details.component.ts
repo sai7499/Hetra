@@ -27,6 +27,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public userId: number;
 
   locationIndex: any;
+  findInedx: any;
+  selectCollateralId: any;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -88,21 +90,24 @@ export class SharedVehicleDetailsComponent implements OnInit {
     });
   }
 
-  DeleteVehicleDetails(vehicle: any) {
-    if (vehicle) {
-      this.vehicleDetailsService.getDeleteVehicleDetails(Number(vehicle.collateralId), this.userId).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
+  softDeleteCollateral(index: number, id) {
+    this.findInedx = index;
+    this.selectCollateralId = Number(id)
+  }
 
-        if (res.Error === '0' && res.Error === '0') {
-          this.toasterService.showSuccess(apiError, '');
-        } else {
-          this.toasterService.showError(apiError, '')
-        }
+  DeleteVehicleDetails() {
+    this.vehicleDetailsService.getDeleteVehicleDetails(this.selectCollateralId, this.userId).subscribe((res: any) => {
+      const apiError = res.ProcessVariables.error.message;
+
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
         this.getVehicleDetails(this.leadId)
-      }, error => {
-        console.log('error', error);
+      } else {
+        this.toasterService.showError(apiError, 'Delete Vehicle Details')
       }
-      );
+    }, error => {
+      console.log('error', error);
     }
+    );
   }
 }

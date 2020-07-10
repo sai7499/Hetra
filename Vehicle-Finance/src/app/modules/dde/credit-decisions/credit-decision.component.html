@@ -1,0 +1,37 @@
+<main class="mar-top90">
+    <div class="container overflow-hidden">
+        <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
+
+        <!-- <app-dde-header></app-dde-header> -->
+        <app-lead-section-header></app-lead-section-header>
+        <div class="multisteps-form">
+            <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn "
+                 [ngClass]="{'js-active': locationIndex >= 0}" 
+                 type="button" id="applicant_basic_details" 
+                 >
+                    Credit Condition </button>
+                <button class="multisteps-form__progress-btn "
+                 [ngClass]="{'js-active': locationIndex >= 1}" 
+                 type="button" id="applicant_bank_details"
+                 >
+                    Term Sheet</button>
+                <button class="multisteps-form__progress-btn " 
+                [ngClass]="{'js-active': locationIndex >= 2}"
+                 type="button" id="applicant_identity_details"
+                 >
+                    Sanction Details
+                    </button>
+                <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}" type="button" id="applicant_identity_details">
+                    Customer Feedback
+                    </button>
+            </div>
+
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+    </div>
+
+</main>

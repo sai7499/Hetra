@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { LoginService } from '@modules/login/login/login.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-viability-checks',
@@ -8,24 +13,24 @@ import { LabelsService } from '@services/labels.service';
 })
 export class ViabilityChecksComponent implements OnInit {
 
-  leadDetails;
-  itemsPerPage = 5;
+  itemsPerPage = '25';
   labels: any = {};
-  q;
+  roleId: string;
+  branchId: any;
+  newArray: any;
+  limit: any;
+  count: any;
+  pageNumber: any;
+  currentPage: any;
+  totalItems: any;
 
-  constructor(private labelsData: LabelsService) {
-    this.leadDetails = [
-      {leadId: 1000001, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'Declined', history: 'test'},
-      {leadId: 1000002, product: 'Used CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'Declined', history: 'test'},
-      {leadId: 1000003, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'Declined', history: 'test'},
-      {leadId: 1000004, product: 'Used CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'Declined', history: 'test'},
-      {leadId: 1000005, product: 'New CV	', loanAmount: 500000, applicants: 2, createdOn: '26-Feb-2020	', createdBy: 'Aravind Kumar',
-      priority: 'Yes', promoCode: 'PROMO001', status: 'Declined', history: 'test'}
-    ];
+  constructor(
+    private labelsData: LabelsService,
+    private loginService: LoginService,
+    private loginStoreService: LoginStoreService,
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
+  ) {
   }
 
   ngOnInit() {
@@ -34,6 +39,57 @@ export class ViabilityChecksComponent implements OnInit {
         this.labels = data;
       }
     );
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = String(value.roleId);
+      this.branchId = value.branchId;
+    });
+    this.getViabilityDashboard(this.itemsPerPage);
+  }
+
+  onClick() {
+    this.getViabilityDashboard(this.itemsPerPage);
+  }
+
+  getViabilityDashboard(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Vehicle Viability',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+    };
+    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+      this.setPageData(res);
+    });
+  }
+
+  setPageData(res) {
+    const response = res.ProcessVariables.loanLead;
+    this.newArray = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+  }
+
+  setPage(event) {
+    this.getViabilityDashboard(this.itemsPerPage, event);
+  }
+
+  onRelase(id) {
+    this.taskDashboard.releaseTask(id).subscribe((res: any) => {
+      console.log('release Task', res);
+      const response = res;
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
   }
 
 }

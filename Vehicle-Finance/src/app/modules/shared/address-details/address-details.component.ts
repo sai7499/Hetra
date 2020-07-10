@@ -40,6 +40,7 @@ export class AddressDetailsComponent implements OnInit {
   values: any = [];
   LOV: any = [];
   labels: any = {};
+  validationData : any;
   address: Applicant;
   applicantId: number;
   leadId: number;
@@ -85,41 +86,7 @@ export class AddressDetailsComponent implements OnInit {
 
   isOfficeAddressMandatory: boolean;
 
-  maxLenght40 = {
-    rule: 40,
-  };
-  pincodePattern = {
-    rule: '^[1-9][0-9]{5}$',
-    msg: 'Invalid pincode',
-  };
-  pincodeLength = {
-    rule: 6,
-    msg: 'Should be 6 digit',
-  };
-  mobilePattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  };
-  mobileLength10 = {
-    rule: 10,
-  };
-  landlinePattern = {
-    rule: '^[0-9]{6,15}',
-    msg: 'Invalid Number',
-  };
-  landlineLength15 = {
-    rule: 15,
-  };
-
-  currentStayMaxLength = {
-    rule: 3,
-  };
-
-  currentStayPattern = {
-    rule: '^[0-9]*$',
-    msg: 'Invalid',
-  };
-
+  
   constructor(
     private lovData: LovDataService,
     private labelsData: LabelsService,
@@ -322,6 +289,7 @@ export class AddressDetailsComponent implements OnInit {
       .subscribe((value) => {
         if (id == 'permanantPincode') {
           this.permanantPincode = value;
+         this.addressValidations.get('permanantAddress').get('city').setValidators(Validators.required)
           return;
         }
         if (id == 'currentPincode') {
@@ -364,6 +332,8 @@ export class AddressDetailsComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe((data) => {
       this.labels = data;
+      this.validationData= data.validationData
+      console.log(this.validationData)
     });
   }
 
@@ -451,7 +421,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   setAddressData() {
-    this.isIndividual = this.address.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     // this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
@@ -527,6 +497,7 @@ export class AddressDetailsComponent implements OnInit {
 
     const valueCheckbox = this.getAddressObj();
     const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
+    const currentObjReplace = valueCheckbox[Constant.CURRENT_ADDRESS]
     if (isCurAsPer && isCurAsPer.isCurrAddSameAsPermAdd == '1') {
       this.onPerAsCurChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -572,10 +543,11 @@ export class AddressDetailsComponent implements OnInit {
       };
       const currentAddress = details.get('currentAddress');
       currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+      //const currentReplaceObj= this.getAddressObj[Constant.CURRENT_ADDRESS]
       currentAddress.patchValue({
-        accommodationType: currentAddressObj.accommodationType,
-        periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
-        mobileNumber: currentAddressObj.mobileNumber,
+        accommodationType: currentObjReplace.accommodationType || '',
+        periodOfCurrentStay: currentObjReplace.periodOfCurrentStay,
+        mobileNumber: currentObjReplace.mobileNumber,
       });
     } else {
       this.onPerAsCurChecked = false;
@@ -611,7 +583,7 @@ export class AddressDetailsComponent implements OnInit {
         const currentAddress = details.get('currentAddress');
         currentAddress.patchValue(this.setAddressValues(currentAddressObj));
         currentAddress.patchValue({
-          accommodationType: currentAddressObj.accommodationType,
+          accommodationType: currentAddressObj.accommodationType || '',
           periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
           mobileNumber: currentAddressObj.mobileNumber,
         });
@@ -649,7 +621,7 @@ export class AddressDetailsComponent implements OnInit {
       const officeAddress = details.get('officeAddress');
       officeAddress.patchValue(this.setAddressValues(officeAddressObj));
       officeAddress.patchValue({
-        accommodationType: officeAddressObj.accommodationType,
+        accommodationType: officeAddressObj.accommodationType ||'',
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
       });
@@ -695,6 +667,7 @@ export class AddressDetailsComponent implements OnInit {
     });
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
+    //const commReplaceObj = valueCheckbox[Constant.COMMUNICATION_ADDRESS]
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -925,6 +898,7 @@ export class AddressDetailsComponent implements OnInit {
   onSubmit() {
     
     this.isDirty = true;
+    console.log('this.addressForm', this.addressForm)
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
         return;
@@ -992,10 +966,10 @@ export class AddressDetailsComponent implements OnInit {
       district,
       state,
       addressLineOne: address.addressLineOne,
-      addressLineTwo: address.addressLineTwo,
-      addressLineThree: address.addressLineThree,
+      addressLineTwo: address.addressLineTwo?address.addressLineTwo : '',
+      addressLineThree: address.addressLineThree?address.addressLineThree : '',
       country: address.country,
-      landlineNumber: address.landlineNumber,
+      landlineNumber: address.landlineNumber?address.landlineNumber : '',
     };
   }
 
@@ -1017,26 +991,41 @@ export class AddressDetailsComponent implements OnInit {
       addressType: Constant.OFFICE_ADDRESS,
       // accommodationType: officeAddressObject.accommodationType,
       // periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
-      mobileNumber: officeAddressObject.mobileNumber,
+      mobileNumber: officeAddressObject.mobileNumber? officeAddressObject.mobileNumber : '',
       //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
     const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
+    
     if (this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '0' : initialCurAsPer == '0') {
       const currentAddressObject = value.details[0].currentAddress;
+      //const periodOfCurrentStay= Number(currentAddressObject.periodOfCurrentStay)
       this.addressDetailsDataArray.push({
         ...this.getAddressFormValues(currentAddressObject),
         addressType: Constant.CURRENT_ADDRESS,
-        accommodationType: officeAddressObject.accommodationType,
-        periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
-        mobileNumber: officeAddressObject.mobileNumber,
+        accommodationType: currentAddressObject.accommodationType?currentAddressObject.accommodationType : '',
+        
+        periodOfCurrentStay: currentAddressObject.periodOfCurrentStay ? Number(currentAddressObject.periodOfCurrentStay) : null,
+        mobileNumber: currentAddressObject.mobileNumber ? currentAddressObject.mobileNumber : '',
       });
+      
+    }else if(this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '1' : initialCurAsPer == '1'){
+      const currentAddressObject = value.details[0].currentAddress;
+    this.addressDetailsDataArray.push({
+      addressType: Constant.CURRENT_ADDRESS,
+      accommodationType: currentAddressObject.accommodationType?currentAddressObject.accommodationType : '',
+      periodOfCurrentStay: currentAddressObject.periodOfCurrentStay? Number(currentAddressObject.periodOfCurrentStay): null,
+      mobileNumber: currentAddressObject.mobileNumber ? currentAddressObject.mobileNumber : '',
+    });
     }
+    
+    
+    
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
   storeNonIndividualValueInService(value) {
     const applicantDetails: ApplicantDetails = {};
-    // applicantDetails.entityType = value.entity;
+    applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const registeredAddressObject = value.details[0].registeredAddress;
     this.addressDetailsDataArray = [];
