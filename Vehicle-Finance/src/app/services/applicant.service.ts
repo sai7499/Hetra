@@ -40,6 +40,11 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   };
+  private countryList: {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  };
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -53,6 +58,7 @@ export class ApplicantService {
     this.geoMasterService = this.apiService.api.geoMasterService;
     this.applicantDedupe = this.apiService.api.salesApplicantDedupe;
     this.applicantUcic = this.apiService.api.salesApplicantUcic;
+    this.countryList = this.apiService.api.getCountryList
   }
 
   getApplicantList(data) {
@@ -188,4 +194,19 @@ export class ApplicantService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+
+  getCountryList(){
+    const projectId = this.countryList.projectId;
+    const processId = this.countryList.processId;
+    const workflowId = this.countryList.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables :{}
+    };
+    const url =`${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url,body);
+  }
+  
 }

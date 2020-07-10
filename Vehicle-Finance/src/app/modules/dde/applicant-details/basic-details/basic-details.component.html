@@ -550,6 +550,7 @@
                   formControlName="employeeCode"
                   [isRequired]="'Employee Code is required'"
                   [isDirty]="isDirty"
+                  [inputClass]="'text-uppercase'"
                   [maxLength]="validationData?.employeeCode?.maxLength"
                   [type]="validationData?.employeeCode?.type"
                   ></app-custom-input>
@@ -685,12 +686,12 @@
               <app-custom-input
                   formControlName="name1"
                   [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company1 Name is required'"
+                  [isRequired]="'Company Name is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing type">{{ labels?.company2 }} <sub class="star_red_col">*</sub></label>
+              <label for="sourcing type">{{ labels?.company2 }}</label>
               <!-- <input
                 formControlName="name2"
                 type="text"
@@ -700,13 +701,12 @@
               <app-custom-input
               formControlName="name2"
               [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company1 Name is required'"
-                  [isDirty]="isDirty"
+                  
              
             ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing code">{{ labels?.company3 }} <sub class="star_red_col">*</sub></label>
+              <label for="sourcing code">{{ labels?.company3 }}</label>
               <!-- <input
                 formControlName="name3"
                 type="text"
@@ -716,8 +716,7 @@
               <app-custom-input
                   formControlName="name3"
                   [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company1 Name is required'"
-                  [isDirty]="isDirty"
+                  
                  
                 ></app-custom-input>
             </div>
@@ -809,9 +808,9 @@
               }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="countryOfCorporation"
-                [values]=""
+                [values]="countryList"
                 [isRequired]="'Please select one'"
-                
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -820,12 +819,12 @@
               }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 formControlName="businessType"
-                [values]=""
+                [values]="LOV.LOVS.businessType"
                 [isRequired]="'Please select one'"
-                
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3" >
               <label for="industry">{{
                 labels?.industry
               }} <sub class="star_red_col">*</sub></label>
@@ -835,7 +834,7 @@
                 [isRequired]="'Please select one'"
                 >
               ></app-vf-custom-select>
-            </div>
+            </div> -->
           </div>
 
             <div class="row">
@@ -938,6 +937,8 @@
                   formControlName="directorIdentificationNumber"
                   [maxLength]="validationData?.dinNumber?.maxLength"
                   [type]="validationData?.dinNumber?.type"
+                  [isRequired]="'Direction Identification Number is Required'"
+                  [isDirty]="isDirty"
                   ></app-custom-input>
             </div>
             
@@ -956,10 +957,11 @@
               /> -->
               <app-custom-input
               formControlName="ratingIssuerName"
-              [maxLength]="validationData?.name?.maxLength"
+              
               [isRequired]="'Rating Issuer Name is Required'"
               [isDirty]="isDirty"
-              [type]="validationData?.name?.type"
+              [maxLength]="validationData?.externalRating?.maxLength"
+              [type]="validationData?.externalRating?.type"
               ></app-custom-input>
             </div>
           </div>
@@ -984,6 +986,8 @@
               formControlName="externalRatingAssigned"
              [isRequired]="'Required'"
              [isDirty]="isDirty"
+             [maxLength]="validationData?.externalRating?.maxLength"
+                  [type]="validationData?.externalRating?.type"
               ></app-custom-input>
               
             </div>
@@ -1048,6 +1052,8 @@
                   formControlName="foreignCurrencyDealing"
                   [isRequired]="'Required'"
                   [isDirty]="isDirty"
+                  [maxLength]="validationData?.externalRating?.maxLength"
+                  [type]="validationData?.externalRating?.type"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1065,6 +1071,8 @@
                   formControlName="exposureBankingSystem"
                   [isRequired]="'Required'"
                   [isDirty]="isDirty"
+                  [maxLength]="validationData?.totalExposure?.maxLength"
+                  [type]="validationData?.totalExposure?.type"
                   ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1083,6 +1091,8 @@
                   formControlName="creditRiskScore"
                   [isRequired]="'Credit Score is Required'"
                   [isDirty]="isDirty"
+                  [maxLength]="validationData?.creditRiskScore?.maxLength"
+                  [type]="validationData?.creditRiskScore?.type"
                   ></app-custom-input>
             </div>
           </div>
