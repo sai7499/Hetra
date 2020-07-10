@@ -48,6 +48,7 @@ export class TeleVerificationFormComponent implements OnInit {
   sourcingTypeDesc: any;
   sourcingCodeDesc: any;
   sourcingCode: any;
+  changeLabels: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -76,7 +77,6 @@ export class TeleVerificationFormComponent implements OnInit {
       this.labels = res;
       this.validationData = res.validationData;
     });
-    // );
     this.getLOV();
 
     this.leadId = this.route.snapshot.params.leadId;
@@ -90,7 +90,6 @@ export class TeleVerificationFormComponent implements OnInit {
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
 
     this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
-
   }
 
   initForm() {
@@ -181,6 +180,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
+
 
     this.getTvrDetails();
     this.initForm();
