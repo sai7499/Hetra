@@ -26,21 +26,21 @@ export class DdeComponent implements OnInit {
     private elementRef: ElementRef
   ) {
 
-    $(document).ready(function () {
+    // $(document).ready(function () {
 
-      $(".second-row").css({ "display": "none" });
+    //   $(".second-row").css({ "display": "none" });
 
-      $(".prev-first-data").click(function () {
-        $(".first-row").css({ "display": "block" });
-        $(".second-row").css({ "display": "none" });
+    //   $(".prev-first-data").click(function () {
+    //     $(".first-row").css({ "display": "block" });
+    //     $(".second-row").css({ "display": "none" });
 
-      });
-      $(".next-second-data").click(function () {
-        $(".first-row").css({ "display": "none" });
-        $(".second-row").css({ "display": "block" });
+    //   });
+    //   $(".next-second-data").click(function () {
+    //     $(".first-row").css({ "display": "none" });
+    //     $(".second-row").css({ "display": "block" });
 
-      });
-    });
+    //   });
+    // });
     this.leadId = this.route.snapshot.params['leadId'];
   }
 
@@ -65,21 +65,31 @@ export class DdeComponent implements OnInit {
     });
 
     if (this.locationIndex >= 8) {
-      console.log(this.locationIndex, 'sg')
-      console.log(this.elementRef.nativeElement.classList.contains('second-row'))
-
-      $(".second-row").css({ "display": "block" });
-    }
-
-    console.log("in router url", this.router.url)
-    if (this.router.url.includes('/pd-dashboard')) {
-      console.log(" pd-dashboard ")
       this.show = false;
-      console.log(" pd-dashboard ", this.show)
+      // console.log(this.locationIndex, 'sg')
+      // console.log(this.elementRef.nativeElement.classList.contains('second-row'))
+
+      // $(".second-row").css({ "display": "block" });
     } else {
       this.show = true;
-      console.log(" pd-dashboard ", this.show)
     }
+
+    // console.log("in router url", this.router.url)
+    // if (this.router.url.includes('/pd-dashboard')) {
+    //   console.log(" pd-dashboard ")
+    //   this.show = false;
+    //   console.log(" pd-dashboard ", this.show)
+    // } else {
+    //   this.show = true;
+    //   console.log(" pd-dashboard ", this.show)
+    // }
+  }
+
+  onPrevious() {
+    this.show = true;
+  }
+  onNext() {
+    this.show = false;
   }
 
   getLocationIndex(url: string) {
