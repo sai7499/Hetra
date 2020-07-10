@@ -384,28 +384,14 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   getPdDetails() {
-    // console.log("in get pd details", this.applicantId);
-    // const data = {
-    //   applicantId: 6,
-    //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-    //   pdVersion: this.version,
-    // };
-    if (this.roleType == 2) {
-      this.data = {
+    console.log("pd version", this.version)
 
-        // applicantId: 6,
-        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
-        pdVersion: this.version,
-      };
-    }
-    else if (this.roleType == 1) {
-      this.data = {
+    const data = {
 
-        // applicantId: 6,
-        applicantId: this.applicantId,
-        /* Uncomment this after getting applicant Id from Lead */
-      };
+      applicantId: this.applicantId,
+      pdVersion: this.version,
     }
+
 
     this.personalDiscussion.getPdData(this.data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
