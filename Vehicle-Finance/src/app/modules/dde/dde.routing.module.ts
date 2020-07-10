@@ -10,7 +10,6 @@ import { ExposureDetailsComponent } from './exposure-details/exposure-details.co
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
-import { PdReportComponent } from './pd-report/pd-report.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
@@ -23,6 +22,7 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
 import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
+import { PdListComponent } from './pd-list/pd-list.component';
 
 const routes: Routes = [
   {
@@ -71,8 +71,8 @@ const routes: Routes = [
         component: InsuranceDetailsComponent,
       },
       {
-        path: 'pd-report',
-        component: PdReportComponent,
+        path: 'pd-list',
+        component: PdListComponent,
       },
       {
         path: 'vehicle-valuation',
@@ -102,7 +102,7 @@ const routes: Routes = [
       //   path: 'credit-conditions',
       //   component: CreditConditionsComponent,
       // },
-     
+
       {
         path: 'deviations',
         component: DeviationsComponent,
@@ -131,4 +131,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DdeRoutingModule {}
+export class DdeRoutingModule { }

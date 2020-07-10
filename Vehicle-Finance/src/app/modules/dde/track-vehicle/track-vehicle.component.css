@@ -12,7 +12,9 @@
     margin: 0px;
     padding-bottom: 15px;
 }
-
+.fa-plus , .fa-minus{
+    cursor: pointer;
+}
 .form-group.mb-0 {
     margin-bottom: 0px;
 }
