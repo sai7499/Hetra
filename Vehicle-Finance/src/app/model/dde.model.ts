@@ -183,6 +183,7 @@ export interface LoanDetails {
     drivingVehicleEarlier?: string;
     vehicleAttachedPlying?: string;
     awareDueDateEmiAmount?: string;
+    vehicleContract?: string;
 
     // applicable for assetDetails used Vehicle
 
@@ -258,16 +259,22 @@ export interface TrackVehicle {
 }
 
 export interface ReferenceCheck {
-    addressOfReference?: string,
-    nameOfReference?: string,
-    overallFiReport?: string,
-    pdRemarks?: string,
-    referenceMobile?: string,
+    addressOfReference?: string;
+    nameOfReference?: string;
+    overallFiReport?: string;
+    pdRemarks?: string;
+    referenceMobile?: string;
     soName?: string;
     employeeCode?: string;
     date?: string;
     place?: string;
     time?: string;
+    longitude?: number;
+    latitude?: number;
+    negativeProfile?: string;
+    distanceFromBranch?: number;
+    // routeMap?:i
+
     // referenceType?: string,
     // routeMapId?: string,
     // stage?: string
