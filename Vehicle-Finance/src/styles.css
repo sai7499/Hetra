@@ -646,3 +646,12 @@ h4.table-head-bg.m-0.p-02 {
     cursor: pointer;
 }
 
+@media screen and (max-width: 800px) {
+    .invalid-feedback {
+        font-size: 3vw;
+        font-family: zurich-bold;
+        letter-spacing: 0.5px;
+        color: red;
+        padding-top: 0.5vw;
+    }
+}
