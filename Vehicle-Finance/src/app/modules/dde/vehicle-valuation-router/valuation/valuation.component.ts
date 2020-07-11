@@ -55,17 +55,17 @@ export class ValuationComponent implements OnInit {
     this.getLOV();
     this.leadId = (await this.getLeadId()) as number;
     // this.getLeadId();
-    console.log("LEADID--->", this.leadId);
+    console.log("LEADID::::", this.leadId);
     this.colleteralId = (await this.getCollateralId()) as Number;
     // this.getCollateralId();
-    console.log("COLLATERALID*****", this.colleteralId);
+    console.log("COLLATERALID::::", this.colleteralId);
     this.getVehicleValuation();
   }
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data: any) => (this.labels = data),
-      (error) => console.log("Vehicle Valuation Label Error", error)
+      // (error) => console.log("Vehicle Valuation Label Error", error)
     );
   }
 
@@ -102,7 +102,7 @@ export class ValuationComponent implements OnInit {
 
   getVehicleValuation() {
     const data = this.colleteralId;
-    console.log("DATA****", data);
+    console.log("DATA::::", data);
     this.vehicleValuationService.getVehicleValuation(data).subscribe( (res: any) => { 
       const response = res;
       // console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);

@@ -30,10 +30,12 @@ export class VehicleValuationComponent implements OnInit {
 
   vendorDetails; any = [];
   vendorDetailsData: any = [];
+  vendorName: any;
 
   isModal: boolean;
   isOk: boolean;
   isYes: boolean;
+  isDirty: boolean;
   
   constructor(
     private labelsData: LabelsService,
@@ -72,13 +74,13 @@ export class VehicleValuationComponent implements OnInit {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
     });
-    console.log(" LOV**** --->", this.LOV);
+    console.log(" LOV::::", this.LOV);
   }
 
   initForm() {
     this.modelDataForm = this.formBuilder.group({
       remarks: ["",[Validators.required]],
-      valuatorCode: ["", Validators.required]
+      valuatorCode: ["", [Validators.required]]
     });
   }
 
@@ -139,7 +141,7 @@ export class VehicleValuationComponent implements OnInit {
       this.make = this.collateralDetailsData[0].make;
       this.model = this.collateralDetailsData[0].model;
       this.address = this.collateralDetailsData[0].address;
-      console.log("MODEL_DATA*****", this.regNo, this.make, this.model, this.address);
+      console.log("MODEL-DATA::::", this.regNo, this.make, this.model, this.address);
     }
   }
 
@@ -151,21 +153,43 @@ export class VehicleValuationComponent implements OnInit {
        const data = {
         key: element.vendorCode,
         value: element.vendorName
-       }
+       }; 
        this.vendorDetailsData.push(data)
      });
-      console.log("VENDOR_DETAIL_LIST******", this.vendorDetailsData);
+      console.log("VENDOR_DETAIL_LIST::::", this.vendorDetailsData);     
     });
   }
 
+onChangeVendorName(event: any) {
+  const vendorNameChange = event.target.value;
+  this.vendorDetailsData.filter(element => {
+    // console.log("ELEMENT:::", element);
+    if(element.key == vendorNameChange) {
+      this.vendorName = element.value;
+    }
+    console.log("VENDORNAME::::", this.vendorName);
+  }); 
+}
   initiateVehicleValuation() {
+    this.isDirty = true;
     const formValues = this.modelDataForm.getRawValue();
-    console.log("FORMVALUES*****", formValues);
+    console.log("FORMVALUES::", formValues);
     const data = {
       userId: localStorage.getItem('userId'),
       collateralId: this.colleteralId,
       ...formValues
     };
+    // if(this.modelDataForm.valid === true) {
+    //   this.vehicleValuationService.initiateVehicleValuation(data).subscribe( (res) => { 
+    //     const response = res;
+    //     console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
+    //     if (response["Error"] == 0) {
+    //       this.toasterService.showSuccess("Vehicle Valuation Model DATA Saved Successfully", "");
+    //     } 
+    //   });
+    // } else {
+    //   this.toasterService.showError("Please fill all mandatory fields.", "");
+    // }
     if(this.modelDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe( (res) => { 
         const response = res;
