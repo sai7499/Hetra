@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentUploadService } from '@services/document-upload.service';
 import { UploadService } from '@services/upload.service';
 
+import { FormGroup, FormControl } from '@angular/forms';
+
 @Component({
   templateUrl: './document-upload.component.html',
   styleUrls: ['./document-upload.component.css'],
@@ -20,7 +22,13 @@ export class DocumentUploadComponent implements OnInit {
   isModelShow = false;
   errorMessage: string;
   addDocReq = [];
+
+  uploadForm: FormGroup;
+
   ngOnInit() {
+    this.uploadForm = new FormGroup({
+      details: new FormControl(''),
+    });
     this.aRoute.parent.params.subscribe((val) => (this.leadId = val.leadId));
   }
 

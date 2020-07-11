@@ -1,34 +1,342 @@
-<div class="content"></div>
+<div class="content">
+  <form
+    class="multisteps-form__form"
+    style="height: 400px;"
+    [formGroup]="uploadForm"
+  >
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+      <h4 class="title">Document upload</h4>
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default active">
+          <div class="panel-heading" id="headingOne">
+            <h4 class="panel-title">
+              <a
+                data-toggle="collapse"
+                data-parent="#accordion"
+                href="#collapseOne"
+                aria-expanded="false"
+                class="collapsed"
+              >
+                <i class="fa fa-image"></i> &nbsp; Photo
+                <i class="fa fa-angle-down"></i>
+              </a>
+            </h4>
+          </div>
+          <div
+            id="collapseOne"
+            class="panel-collapse collapse"
+            aria-expanded="false"
+            style="height: 0px;"
+          >
+            <div class="panel-body">
+              <div class="photo">
+                <img
+                  src="../../../../../assets/images/user.jpg"
+                  alt="[Image: Photo]"
+                  width="100"
+                />
+              </div>
+              <div class="form-group col-sm-6 col-md-3">
+                <label for="file">Upload photo</label>
+                <input type="file" id="file" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingTwo">
+            <h4 class="panel-title">
+              <a
+                class=""
+                data-toggle="collapse"
+                data-parent="#accordion"
+                href="#collapseTwo"
+                aria-expanded="true"
+              >
+                <i class="fa fa-image"></i>&nbsp; Signature
+                <i class="fa fa-angle-down"></i>
+              </a>
+            </h4>
+          </div>
+          <div
+            id="collapseTwo"
+            class="panel-collapse collapse"
+            aria-expanded="true"
+            style=""
+          >
+            <div class="panel-body">
+              <div class="form-group col-sm-6 col-md-3">
+                <label for="file">Upload signature</label>
+                <input type="file" id="file" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingThree">
+            <h4 class="panel-title">
+              <a
+                class="collapsed"
+                data-toggle="collapse"
+                data-parent="#accordion"
+                href="#collapseThree"
+                aria-expanded="false"
+              >
+                <i class="fa fa-address-card"></i>&nbsp; ID Proof
+                <i class="fa fa-angle-down"></i>
+              </a>
+            </h4>
+          </div>
+          <div
+            id="collapseThree"
+            class="panel-collapse collapse"
+            aria-expanded="false"
+            style="height: 0px;"
+          >
+            <div
+              formArrayName="idProofs"
+              *ngFor="
+                let detail of uploadForm.get('idProofs')['controls'];
+                let i = index
+              "
+            >
+              <div class="panel-body" id="show_1st_diva" [formGroupName]="i">
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="document">Document Name</label>
+                  <app-vf-custom-select
+                    formControlName="documentName"
+                  ></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="documentnumber">Document Number</label>
+                  <app-custom-input
+                    formControlName="documentNumber"
+                  ></app-custom-input>
+                </div>
+
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="idate">Issues Date</label>
+                  <div class="input-group input-medium">
+                    <kendo-datepicker
+                      class="form-control mandatory"
+                      formControlName="issueDate"
+                      [format]="'dd/MM/yyyy'"
+                      [max]="toDayDate"
+                      [activeView]="'decade'"
+                      placeholder="Issues Date"
+                      formControlName="issueDate"
+                    >
+                    </kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="edate">Expiry Date</label>
+                  <div class="input-group input-medium">
+                    <kendo-datepicker
+                      class="form-control mandatory"
+                      formControlName="dob"
+                      [format]="'dd/MM/yyyy'"
+                      [activeView]="'decade'"
+                      placeholder="Expiry Date"
+                      formControlName="expiryDate"
+                      [min]="uploadForm.get('idProofs').value | docsUpload: i"
+                    >
+                    </kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label>File</label>
+                  <input
+                    formControlName="file"
+                    name="input"
+                    type="text"
+                    class="form-control"
+                    [value]="
+                      idProofs[i]?.docIndx ? 'ID : ' + idProofs[i]?.docIndx : ''
+                    "
+                  />
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label>Actions </label>
+                  <p>
+                    <label
+                      ><i
+                        class="fa fa-upload fa-3 custom-file-label"
+                        aria-hidden="true"
+                        id="add_more_documents_upload1a"
+                        (click)="uploadDocument('idProofs', i)"
+                      ></i></label
+                    >&nbsp;
+                    <i
+                      class="fa fa-plus fa-3"
+                      aria-hidden="true"
+                      id="add_more_documents1a"
+                      (click)="addDocumentFormControls('idProofs')"
+                    ></i>
+                    &nbsp;
+                    <i
+                      class="fa fa-minus fa-3"
+                      aria-hidden="true"
+                      id="add_more_documents_remove1a"
+                      (click)="removeDocumentFormControls('idProofs', i)"
+                    ></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingTwo1">
+            <h4 class="panel-title">
+              <a
+                class="collapsed"
+                data-toggle="collapse"
+                data-parent="#accordion"
+                href="#collapseTwo1"
+                aria-expanded="false"
+              >
+                <i class="fa fa-plus-circle"></i>&nbsp; Additional Document
+                <i class="fa fa-angle-down"></i>
+              </a>
+            </h4>
+          </div>
+          <div
+            id="collapseTwo1"
+            class="panel-collapse collapse"
+            aria-expanded="false"
+            style="height: 0px;"
+          >
+            <div
+              formArrayName="additionalDocs"
+              *ngFor="
+                let detail of uploadForm.get('additionalDocs')['controls'];
+                let i = index
+              "
+            >
+              <div class="panel-body" id="show_1st_div" [formGroupName]="i">
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="document">Document Name</label>
+                  <app-vf-custom-select
+                    formControlName="documentName"
+                  ></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="documentnumber">Document Number</label>
+                  <app-custom-input
+                    formControlName="documentNumber"
+                  ></app-custom-input>
+                </div>
+
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="idate">Issues Date</label>
+                  <div class="input-group input-medium">
+                    <kendo-datepicker
+                      class="form-control mandatory"
+                      formControlName="issueDate"
+                      [format]="'dd/MM/yyyy'"
+                      [max]="toDayDate"
+                      [activeView]="'decade'"
+                      placeholder="Issues Date"
+                      formControlName="issueDate"
+                    >
+                    </kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label for="edate">Expiry Date</label>
+                  <div class="input-group input-medium">
+                    <kendo-datepicker
+                      class="form-control mandatory"
+                      formControlName="dob"
+                      [format]="'dd/MM/yyyy'"
+                      [activeView]="'decade'"
+                      placeholder="Expiry Date"
+                      formControlName="expiryDate"
+                      [min]="
+                        uploadForm.get('additionalDocs').value | docsUpload: i
+                      "
+                    >
+                    </kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label>File</label>
+                  <input
+                    name="input"
+                    type="text"
+                    class="form-control"
+                    [value]="idProofs[i]?.docIndx"
+                    autocomplete="off"
+                    disabled
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="form-group col-sm-3 col-md-2">
+                  <label>Actions </label>
+                  <p>
+                    <label
+                      ><i
+                        class="fa fa-upload fa-3 custom-file-label"
+                        aria-hidden="true"
+                        id="add_more_documents_upload1"
+                      ></i></label
+                    >&nbsp;
+                    <i
+                      class="fa fa-plus fa-3"
+                      aria-hidden="true"
+                      id="add_more_documents1"
+                      (click)="addDocumentFormControls('additionalDocs')"
+                    ></i>
+                    &nbsp;
+                    <i
+                      class="fa fa-minus fa-3"
+                      aria-hidden="true"
+                      id="add_more_documents_remove1"
+                      (click)="removeDocumentFormControls('additionalDocs', i)"
+                    ></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
-    <button
-      class="btn btn-primary dash_href"
-      (click)="navigateToApplicantList()"
-    >
-      <a>Back To Applicant Details</a>
-    </button>
-  </div>
-  <div class="col-sm-7 text-right">
-    <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onBack()">
-        Back
+    <a href="sales_applicant_details.html"
+      ><button class="btn btn-primary dash_href" type="button">
+        Back to Applicant Summury
       </button></a
     >
-    <p
-      class="btn btn-primary save"
-      id="save_vehicle_details"
+  </div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary js-btn-prev dash_href" type="button">
+      <a href="sales_additional_applicant_address.html">Back</a>
+    </button>
+    <button
+      class="btn btn-primary dash_href"
+      type="button"
+      id="submit"
       (click)="onSubmit()"
     >
       Save
-    </p>
-    <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onSubmit()">
-        Next
-      </button></a
-    >
+    </button>
     <br />
-    <br />
-    <br />
+    <br /><br />
   </div>
 </div>
+
+<app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+></app-upload-modal>

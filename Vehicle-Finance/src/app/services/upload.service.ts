@@ -17,7 +17,6 @@ export class UploadService {
     const dateFormat = `${appId}${today}${unix}`;
     const data = {
       addDocumentReq: {
-        addDocRq,
         msgHdr: {
           appId,
           cnvId: dateFormat,
@@ -36,9 +35,11 @@ export class UploadService {
             usrNm: '1',
             usrPwd: '1',
           },
+          addDocRq,
         },
       },
     };
+    console.log(JSON.stringify(data));
     return this.httpService.docUpload(
       'http://10.101.10.153/addDigiDocument/',
       data

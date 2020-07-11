@@ -1,7 +1,15 @@
-import { Component, Input, Output, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { UploadService } from '@services/upload.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload-modal',
@@ -14,6 +22,8 @@ export class UploadModalComponent {
   fileName: string;
   @Input() showModal: boolean;
   @Input() file: File;
+  @Output() close = new EventEmitter();
+  @Output() uploadSuccess = new EventEmitter();
 
   @ViewChild('fileInput', { static: false })
   fileInput: ElementRef;
@@ -81,13 +91,33 @@ export class UploadModalComponent {
         ],
       },
     ];
-    this.uploadService.constructUploadModel(addDocReq).subscribe(
-      (value) => {
-        console.log('value', value);
-      },
-      (error) => {
-        console.log('error', error);
-      }
-    );
+    this.uploadService
+      .constructUploadModel(addDocReq)
+      .pipe(
+        map((value: any) => {
+          if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+            const body = value.addDocumentRep.msgBdy;
+            const docsRes = body.addDocResp[0];
+            const docsDetails = {
+              ...docsRes,
+            };
+            return docsDetails;
+          }
+          throw new Error('error');
+        })
+      )
+      .subscribe(
+        (value) => {
+          console.log('value', value);
+          this.uploadSuccess.emit(value);
+        },
+        (error) => {
+          console.log('error', error);
+        }
+      );
+  }
+
+  onClose() {
+    this.close.emit();
   }
 }

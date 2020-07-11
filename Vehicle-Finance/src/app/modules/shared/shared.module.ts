@@ -81,6 +81,7 @@ setTheme('bs4');
     DatePickerModule,
     UploadModalComponent,
     CommonDocsUploadComponent,
+    DocsUploadPipe,
   ],
 })
 export class SharedModule {}

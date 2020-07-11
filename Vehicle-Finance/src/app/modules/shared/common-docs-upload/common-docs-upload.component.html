@@ -15,11 +15,10 @@
       </div>
       <div class="form-group col-sm-3 col-md-2">
         <label for="documentnumber">Document Number</label>
-        <input
-          type="text"
-          class="form-control"
+        <app-custom-input
           formControlName="documentNumber"
-        />
+          [placeholder]="'Document Number'"
+        ></app-custom-input>
       </div>
 
       <div class="form-group col-sm-3 col-md-2">
@@ -65,7 +64,7 @@
       <div class="form-group col-sm-3 col-md-2">
         <label>Actions </label>
         <p>
-          <label for="upload_files" (click)="onSubmit()"
+          <label (click)="onSubmit(); showModal = true"
             ><i
               class="fa fa-upload fa-3 custom-file-label"
               aria-hidden="true"
@@ -76,15 +75,21 @@
             class="fa fa-plus fa-3"
             aria-hidden="true"
             id="add_more_documents1"
+            (click)="addDocumentFormControls()"
           ></i>
           &nbsp;
           <i
             class="fa fa-minus fa-3"
             aria-hidden="true"
             id="add_more_documents_remove1"
+            (click)="removeDocumentFormControls(i)"
           ></i>
         </p>
       </div>
     </div>
   </div>
 </div>
+<app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+></app-upload-modal>
