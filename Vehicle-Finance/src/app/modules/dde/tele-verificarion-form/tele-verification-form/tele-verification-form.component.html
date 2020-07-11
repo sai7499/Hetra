@@ -87,12 +87,12 @@
                         <div class="row">
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="needForProposedVehicle" class="ellipsify">{{labels.needForProposedVehicle}}</label>
+                                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
                                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="routeOfOperation" class="ellipsify">{{labels.routeOfOperation}}</label>
+                                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
                                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                                     </app-custom-input>
                                 </div>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="typeofGoodsCarried" class="ellipsify">{{labels.typeofGoodsCarried}}</label>
+                                    <label for="typeofGoodsCarried" class="ellipsify">{{changeLabelsForGoods}}</label>
                                     <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried" formControlName="typeOfGoods">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
