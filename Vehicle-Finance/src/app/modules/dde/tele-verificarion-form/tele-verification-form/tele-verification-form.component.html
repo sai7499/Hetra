@@ -1,7 +1,7 @@
 <main class="mar-top90">
-    <app-lead-section-header></app-lead-section-header>
 
     <div class="container overflow-hidden">
+        <app-lead-section-header></app-lead-section-header>
 
 
         <h3 class="dashboard m-0">Tele Verification Form</h3>
@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="sourceOfProposal" class="ellipsify">{{labels.sourceOfProposal}}</label>
-                                <input type="text" class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal">
+                                <input type="text" readonly class="form-control mar-top19" id="sourceOfProposal" name="sourceOfProposal" formControlName="srcOfProposal">
 
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="product" class="ellipsify">{{labels.product}}</label>
-                                <input type="text" class="form-control mar-top19" id="product" name="product" formControlName="product">
+                                <input type="text" readonly class="form-control mar-top19" id="product" name="product" formControlName="product">
                                 <!-- <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="product" [isRequired]="'Select any product'" [isDirty]="isDirty"> </app-vf-custom-select> -->
 
                             </div>
@@ -87,22 +87,24 @@
                         <div class="row">
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="needForProposedVehicle" class="ellipsify">{{labels.needForProposedVehicle}}</label>
-                                    <input type="text" class="form-control" id="needForProposedVehicle" name="needForProposedVehicle" formControlName="ndForProposedVehicle">
+                                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                                    <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
+                                    </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="routeOfOperation" class="ellipsify">{{labels.routeOfOperation}}</label>
-                                    <input type="text" class="form-control mar-top19" id="routeOfOperation" name="routeOfOperation" formControlName="route">
+                                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                                    <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
+                                    </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
-                                    <app-custom-input id="contractDetails" formControlName="contractDetails" [inputClass]="'mar-top19'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Contract details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
+                                    <app-custom-input id="contractDetails" formControlName="contractDetails" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Contract details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                                     </app-custom-input>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="typeofGoodsCarried" class="ellipsify">{{labels.typeofGoodsCarried}}</label>
+                                    <label for="typeofGoodsCarried" class="ellipsify">{{changeLabelsForGoods}}</label>
                                     <input type="text" class="form-control" id="typeofGoodsCarried" name="typeofGoodsCarried" formControlName="typeOfGoods">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -112,7 +114,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="endUseFunds" class="ellipsify">{{labels.endUseFunds}}</label>
-                                    <app-custom-input id="endUseFunds" formControlName="fundEndUse" [className]="'form-control mandatory'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Other Vehicle details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
+                                    <app-custom-input id="endUseFunds" formControlName="fundEndUse" [className]="'form-control mandatory'" [maxLength]="validationData?.endUseOfFunds.maxLength" [isRequired]="'Other Vehicle details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                                     </app-custom-input>
                                 </div>
                             </div>
@@ -136,10 +138,6 @@
                         <div class="row">
                             <h4>Residence</h4>
                             <div class="row">
-                                <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="residence" class="">{{labels.residence}}</label>
-                                    <input type="text" class="form-control" id="residence" name="residence" formControlName="residentType">
-                                </div> -->
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="otherVehicles">{{labels.otherVehicles}}</label>
                                     <app-custom-input id="otherVehicles" formControlName="otherVehiclesOwned" [className]="'form-control mandatory'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Other Vehicle details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
@@ -170,16 +168,20 @@
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="noOfYears">{{labels.noOfYears}}</label>
-                                    <app-custom-input id="noOfYears" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of years is required'" [isDirty]="isDirty" [type]="validationData?.percentage.type">
+                                    <label for="emi">{{labels.noOfEmi}}</label>
+                                    <app-custom-input id="noOfEmi" formControlName="otherLoanNoOfEmi" [className]="'form-control mandatory'" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of years is required'" [isDirty]="isDirty" [type]="validationData?.percentage.type">
                                     </app-custom-input>
                                 </div>
                             </div>
                             <div class="row">
-
+                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="noOfYears">{{labels.noOfYears}}</label>
+                                    <app-custom-input id="noOfYears" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of years is required'" [isDirty]="isDirty" [type]="validationData?.percentage.type">
+                                    </app-custom-input>
+                                </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="teleVerification-CC">{{labels.cc}}</label>
-                                    <app-custom-input id="teleVerificationCC" [type]="'alpha-numeric'" formControlName="cc" [isRequired]="'CC is required'" [isDirty]="isDirty">
+                                    <app-custom-input id="teleVerificationCC" formControlName="cc" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'CC is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -187,13 +189,12 @@
                                     <app-custom-input id="status" formControlName="tvrStatus" [maxLength]="validationData?.name.maxLength" [isRequired]="'Status is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
                                     </app-custom-input>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="dob">{{labels.dob}}</label>
                                     <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
                                 </div>
-                            </div>
-                            <div class="row">
-
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="spokenTo">{{labels.spokenTo}}</label>
                                     <app-custom-input id="spokenTo" formControlName="spokenTo" [maxLength]="validationData?.name.maxLength" [isRequired]="'name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
@@ -204,20 +205,11 @@
                                     <app-custom-input id="familyMembers" formControlName="familyMembers" [maxLength]="validationData?.fullName.maxLength" [isRequired]="'Family Members is required'" [isDirty]="isDirty" [type]="validationData?.fullName.type">
                                     </app-custom-input>
                                 </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="relationWithApplicant">{{labels.relationWithApplicant}}</label>
-                                    <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead" formControlName="relationShip" [isDirty]="isDirty" [isRequired]="'Select any relationship Type'"></app-vf-custom-select>
-                                </div>
                             </div>
                             <div class="row">
-
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="lead_created_date">{{labels.date}}</label>
-                                    <kendo-datepicker class="form-control mandatory" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="lead_created_time"> {{labels.time}}</label>
-                                    <input type="time" class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
+                                    <label for="relationWithApplicant">{{labels.relationWithApplicant}}</label>
+                                    <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="relationShip" [isDirty]="isDirty" [isRequired]="'Select any relationship Type'"></app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
@@ -230,25 +222,24 @@
                                     </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-
-
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
-                                    <input type="text" class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy">
-                                </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="sourcing_type" class="asset_type">{{labels.residenceStability}}</label>
                                     <div>
                                         <label class="radio-inline">
                                         <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes
+                                        <!-- <div *ngIf="isDirty">
+                                            <div style="color:red" *ngIf="teleVerificationForm.get('residenceStabilityConfirmed').errors?.required">
+                                                Message is required
+                                            </div>
+                                        </div> -->
                                     </label>
                                         <label class="radio-inline">
                                         <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="0">No
                                     </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="sourcing_type" class="asset_type">{{labels.customerAvailability}}</label>
                                     <div>
@@ -260,13 +251,6 @@
                                 </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="eCode">{{labels.eCode}}</label>
-                                    <input type="text" class="form-control" id="eCode" name="eCode" formControlName="eCode">
-                                </div>
-
                             </div>
                             <h4>Office</h4>
                             <div class="row">
@@ -347,24 +331,18 @@
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="relation">{{labels.relation}}</label>
-                                    <app-vf-custom-select [values]="LOV.LOVS.relationship" formControlName="relation" [isRequired]="'Select any relation Type'" [isDirty]="isDirty"> </app-vf-custom-select>
-
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="monthlySalaryGross">{{labels.monthlySalaryGross}}</label>
                                     <app-custom-input id="monthlySalaryGross" formControlName="monthlyGrossSalary" [className]="'form-control mandatory'" [maxLength]="validationData?.amountValue.maxLength" [isRequired]="'Salary is required'" [isDirty]="isDirty" [type]="validationData?.loanNumber.type">
                                     </app-custom-input>
                                 </div>
-
-                            </div>
-
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="otherSourcesofIncome">{{labels.otherSourcesofIncome}}</label>
                                     <app-custom-input id="otherSourcesofIncome" formControlName="otherIncome" [className]="'form-control mandatory'" [maxLength]="validationData?.amountValue.maxLength" [isRequired]="'Ohter Source Income is required'" [isDirty]="isDirty" [type]="validationData?.loanNumber.type">
                                     </app-custom-input>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="decision">{{labels.decision}}</label>
                                     <app-vf-custom-select [values]="LOV.LOVS.tvrDecision" formControlName="decision" [isRequired]="'Select any decision Type'" [isDirty]="isDirty"> </app-vf-custom-select>
@@ -444,7 +422,7 @@
                         </table>
                     </div>
                     <div class="row">
-                        <h3 class="dashboard text-center text-underline m-3">{{labels.remark}}</h3>
+                        <h3 class="dashboard text-center text-underline m-3">{{labels.referenceRemarks}}</h3>
                         <textarea type="text" class="form-control text_area" formControlName="remarks" required></textarea>
                         <div *ngIf="isDirty || teleVerificationForm.get('remarks').touched">
 
@@ -479,7 +457,25 @@
 
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="lead_created_date">{{labels.date}}</label>
+                            <kendo-datepicker class="form-control mandatory" [readonly]="true" formControlName="tvrDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"></kendo-datepicker>
+                            <!-- <input type="date" readonly class="form-control" id="lead_created_Date" name="lead_created_Date" formControlName="tvrDate"> -->
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="lead_created_time"> {{labels.time}}</label>
+                            <input type="text" readonly class="form-control" id="lead_created_time" name="lead_created_time" formControlName="tvrTime">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="tvrDoneByName">{{labels.tvrDoneByName}}</label>
+                            <input type="text" readonly class="form-control" id="tvrDoneByName" name="tvrDoneByName" formControlName="tvrDoneBy">
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="eCode">{{labels.eCode}}</label>
+                            <input type="text" readonly class="form-control" id="eCode" name="eCode" formControlName="eCode">
+                        </div>
+                    </div>
                 </form>
                 <div class="row mar-top19">
                     <div class="col-sm-5"></div>
@@ -492,7 +488,6 @@
             </div>
         </div>
 
-
     </div>
 </main>
 
@@ -501,11 +496,10 @@
         <div class="modal-content">
             <form [formGroup]="otpForm">
                 <div class="content">
-                    <h3 class="title">Credit Report Authorization</h3>
+                    <h3 class="title">TVR OTP Verification</h3>
                     <hr />
-                    <div id="">
-                        <p>As part of your application for loan with Equitas Small Finnance Bank, We request your authorization to pull your credit report.</p>
-                        <p>By Sharing the OTP send to your mobile number, you authorize Equitas Small Finanace Bank to verify information in your application, and you agree the Equitas Small Finanace Bank may contact third parties to verify any such infromation.</p>
+                    <div id="tvrOtp">
+                        <p>Please enter OTP shared by customer</p>
                     </div>
 
                     <div class="row">
@@ -524,14 +518,11 @@
                     <div class="row">
                         <div class="col-lg-3"></div>
                         <div class=" col-lg-2" style="margin-left: 150px;">
-                            <button class="btn btn-primary verifyOyp" id="validateOtp" (click)="validateOtp() ">
+                            <button class="btn btn-primary" id="validateOtp" (click)="validateOtp() ">
                                 Verify
                                 OTP</button>
-                            <button class="btn btn-primary " data-dismiss="modal" style="display: none;" #otp_button (click)=sendOtp()> close</button>
+                            <button class="btn btn-primary " data-dismiss="modal" style="display: none;" #closeModal (click)=sendOtp()> close</button>
                         </div>
-                        <!-- <div class="col-lg-4">
-                            <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
-                        </div> -->
                     </div>
                 </div>
             </form>

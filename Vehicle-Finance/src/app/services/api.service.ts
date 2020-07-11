@@ -396,24 +396,24 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     getReferDeviation: {
-      processId: "238d9050ba0e11eab53500505695f93b",
+      processId: '238d9050ba0e11eab53500505695f93b',
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
-      projectId: "403a8a12b79511ea8afff2fa9bec3d63"
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     },
     approveDecline: {
-      processId: "a6e7db78ba2111ea964000505695f93b",
+      processId: 'a6e7db78ba2111ea964000505695f93b',
       workflowId: 'a6c0829eba2111ea988900505695f93b',
-      projectId: "8bfa8dba945b11eabdcaf2fa9bec3d63"
+      projectId: '8bfa8dba945b11eabdcaf2fa9bec3d63'
     },
     approveDeviation: {
-      processId: "624b5f50ba8811ea9bd500505695f93b",
+      processId: '624b5f50ba8811ea9bd500505695f93b',
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
-      projectId: "403a8a12b79511ea8afff2fa9bec3d63"
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     },
     sendBacktoCredit: {
-      processId: "0d8c700abf5e11eab87700505695f93b",
+      processId: '0d8c700abf5e11eab87700505695f93b',
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
-      projectId: "403a8a12b79511ea8afff2fa9bec3d63"
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     },
     reInitiateCreditScore: {
       processId: '7f21b928ba6d11eaaccf00505695f93b',
@@ -434,6 +434,16 @@ export class ApiService {
       processId: 'ca7ccc2ab9f811ea96fe00505695f93b',
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getCountryList: {
+      processId: '6c3f2eb0c1d611ea80d600505695f93b',
+      workflowId: '6c1d6dd4c1d611eaa89700505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    submitViabilityTask : {
+      processId: '740f2e4ec1d911ea930600505695f93b',
+      workflowId: 'e063568aa23d11eabe47f2fa9bec3d63',
+      projectId: environment.projectIds.viabilityApi
     }
-  }
+  };
 }

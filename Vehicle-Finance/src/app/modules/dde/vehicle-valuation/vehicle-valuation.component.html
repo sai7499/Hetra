@@ -33,11 +33,17 @@
                                 <td> {{data.model}} </td>
                                 <td> {{data.address}} </td>
                                 <td> {{data.valuationStatus}} </td>
-                                <td> {{valuatorStatus}} </td>
+                                <td> <span *ngIf="data.valuationStatus !='NOT INITIATED'">
+                                    {{data.valuatorStatus == 0 ? 'Offline': 'Online' }} </span></td>
                                 <td>
                                     <u>
-                                        <a class="a_tag" (click)="onClickValuationReport()" data-toggle="modal"
-                                           data-target="#myModal"> {{valuationReport}} </a>
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == 1" (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                           data-target="#myModal"> {{data.valuationStatus == 'INITIATED'? '------': 'View'}} </a>
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == 0"  (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                           data-target="#myModal"> {{data.valuationStatus == 'NOT INITIATED'? 'Initiate' :'View' }} </a>
+                                           <!-- {{data.valuationStatus == 'INITIATED'? 'View' :}} -->
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == null"  (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                           data-target="#myModal"> {{data.valuationStatus == 'NOT INITIATED'? 'Initiate' :''}} </a>
                                     </u>
                                 </td>
                             </tr>
@@ -99,7 +105,9 @@
                     <form class="multisteps-form__form" [formGroup]="modelDataForm">
 
                         <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
-                            <label for="remarks">{{labels.referenceRemarks}}</label>
+                            <label for="remarks" >{{labels.referenceRemarks}}
+                                <sub class="star_red_col">*</sub>
+                            </label>
                             <textarea class="form-control" formControlName="remarks"> 
                             </textarea>     
                             <!-- <div *ngIf="isDirty && modelDataForm.remarks.errors" class="invalid-feedback">

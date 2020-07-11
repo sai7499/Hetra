@@ -1,0 +1,6 @@
+framework module MaaS360SDKFramework {
+  umbrella header "MaaS360SDKFramework.h"
+
+  export *
+  module * { export * }
+}

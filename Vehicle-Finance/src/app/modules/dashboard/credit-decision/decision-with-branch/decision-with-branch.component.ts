@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class DecisionWithBranchComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  isLoadLead: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -31,7 +33,8 @@ export class DecisionWithBranchComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private router: Router
   ) {
   }
 
@@ -66,6 +69,11 @@ export class DecisionWithBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead !== null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -83,7 +91,7 @@ export class DecisionWithBranchComponent implements OnInit {
     this.getDecisionLeads(this.itemsPerPage, event);
   }
 
-  onAssign(id) {
+  onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
@@ -91,6 +99,7 @@ export class DecisionWithBranchComponent implements OnInit {
       console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['pages/credit-decisions/' + leadId + '/credit-condition']);
       } else {
         this.toasterService.showError(response.Error, '');
 

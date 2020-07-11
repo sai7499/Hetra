@@ -361,8 +361,7 @@
                                     <div class='input-group date' id='datetimepicker1'>
                                         <kendo-datepicker class="form-control mandatory" 
                                             formControlName="dueDate"
-                                            [format]="'dd/MM/yyyy'" 
-                                            [max]="toDayDate" 
+                                            [format]="'dd/MM/yyyy'"
                                             placeholder="dd/mm/yyyy"
                                             [activeView]="'decade'"
                                         ></kendo-datepicker>
@@ -387,6 +386,7 @@
                                     (change)="receiptNumber($event ,i)"
                                     >
                                   </app-custom-input>
+                            </td>
                                     <td>
                                 <div class="form-group date">
                                     <div class='input-group date'>
@@ -395,16 +395,23 @@
                                             formControlName="receivedDate"
                                             [format]="'dd/MM/yyyy'" 
                                             [max]="toDayDate" 
-                                            placeholder="dd/mm/yyyy"
-                                            (valueChange)="delayDays($event ,i , itemrow)"
-                                            
-                                            [focusedDate]="focusedDate">
+                                            placeholder="dd/MM/yyyy"
+                                            (blur)="delayDays($event ,i , itemrow)"
+                                            [focusedDate]="focusedDate ? focusedDate[i] : ''">
                                         </kendo-datepicker>
+                                        <!-- [focusedDate]="focusedDate" -->
                                         <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
                                                 Received date is mandatory
                                             </div>
+                                            <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].errors && itemrow.controls['receivedDate'].errors['minError']">
+                                                Please Enter Valid Date
+                                            </div>
+                                            <div class="cus-mandatory-field" *ngIf="dateExceeded">
+                                                Future date not accepted
+                                               </div>
                                         </div>
+                                       
                                         <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
                                                 Received date is mandatory

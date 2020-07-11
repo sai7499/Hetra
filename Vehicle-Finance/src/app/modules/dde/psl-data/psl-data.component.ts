@@ -820,14 +820,14 @@ getActivityLOVS() {
             }
           });
         } 
-        // else {
-        //   this.LOV.LOVS.pslSubCategory.filter( (element) => { 
-        //     if(element.key === "6PSLSUBCAT") {
-        //       const data = [{ key: element.key, value: element.value}];
-        //       this.pslSubCategoryValues = data;
-        //     }
-        //   });
-        // }
+        else {
+          this.LOV.LOVS.pslSubCategory.filter( (element) => { 
+            if(element.key === "6PSLSUBCAT") {
+              const data = [{ key: element.key, value: element.value}];
+              this.pslSubCategoryValues = data;
+            }
+          });
+        }
       });
       this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       pslSubCategory: "",
@@ -875,14 +875,14 @@ getActivityLOVS() {
             }
           });
         } 
-        // else {
-        //   this.LOV.LOVS.pslSubCategory.filter( (element) => { 
-        //     if(element.key === "8PSLSUBCAT") {
-        //       const data = [{ key: element.key, value: element.value}];
-        //       this.pslSubCategoryValues = data;
-        //     }
-        //   });
-        // }
+        else {
+          this.LOV.LOVS.pslSubCategory.filter( (element) => { 
+            if(element.key === "8PSLSUBCAT") {
+              const data = [{ key: element.key, value: element.value}];
+              this.pslSubCategoryValues = data;
+            }
+          });
+        }
       });
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       pslSubCategory: "",

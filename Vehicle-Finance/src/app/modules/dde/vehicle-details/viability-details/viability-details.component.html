@@ -3,7 +3,7 @@
     <form [formGroup]="viabilityForm">
 
         <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
-            (change)="vehicle_viability_navigate($event.target.value)">
+            (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
         </select>
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
@@ -966,8 +966,36 @@
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label.back}}</button> &nbsp;
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label.save}} </p>&nbsp;
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onNext()">{{label.next}}</button>&nbsp;
+        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> &nbsp;
+        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>&nbsp;
+        <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
+        <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="hideSubmit">
+            <p type="button" class="btn btn-primary">{{label?.submit}}</p>
+        </a>
+    </div>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <p>{{label?.submitToCredit}}</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
+                    value="Yes" (click)="submitViability()">{{label?.yes}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{label?.cancel}}</button>
+            </div>
+
+        </div>
     </div>
 </div>

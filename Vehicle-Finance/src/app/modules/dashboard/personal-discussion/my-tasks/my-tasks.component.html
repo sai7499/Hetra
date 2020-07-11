@@ -20,7 +20,7 @@
                 <td>
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
-                <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/dde', item.leadId, 'pd-report']">{{item.leadId}}</a></td>
+                <td class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/pd-dashboard', item.leadId, 'pd-list']" (click)="assignTaskId(item.taskId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
                 <td>{{item.applicants ? item.applicants : '--'}}</td>
@@ -29,8 +29,8 @@
                 <td *ngIf="item.priority == '1'">Yes</td>
                 <td *ngIf="item.priority == '0' || item.priority == null">No</td>
                 <td>{{item.promoCode ? item.promoCode : '--'}}</td>
-                <td *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
-                <td *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
+                <td *ngIf="roleType == 1">{{item.stage ? item.stage : '--'}}</td>
+                <td *ngIf="roleType == 2">{{item.status ? item.status : '--'}}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
@@ -38,7 +38,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="row clearfix marBottom-45">
+    <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>

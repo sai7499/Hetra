@@ -79,22 +79,23 @@ export class VehicleValuationComponent implements OnInit {
 
   initForm() {
     this.modelDataForm = this.formBuilder.group({
-      remarks: ["", Validators.required],
-      valuatorCode: ["", Validators.required]
+      remarks: ["",[Validators.required]],
+      valuatorCode: ["", [Validators.required]]
     });
   }
 
   getCollateralDetailsForVehicleValuation() {
     const data = this.leadId;
-    this.vehicleValuationService.getCollateralDetailsForVehicleValuation(data).subscribe( (res: any) => {
-      const response = res;
-      this.collateralDetailsData = response.ProcessVariables.collateralDetails;
-      this.colleteralId = this.collateralDetailsData[0].collateralId;
-      console.log("COLLETERALID::::", this.colleteralId);
-      console.log("COLLATERALDETAILSDATA::::", this.collateralDetailsData);
-      this.getModelData();
-      this. getValuatorStatus();
-      this.getValuationReport();
+    this.vehicleValuationService.getCollateralDetailsForVehicleValuation(data).
+      subscribe( (res: any) => {
+        const response = res;
+        this.collateralDetailsData = response.ProcessVariables.collateralDetails;
+        this.colleteralId = this.collateralDetailsData[0].collateralId;
+        console.log("COLLETERALID******", this.colleteralId);
+        console.log("COLLATERALDETAILSDATA*****", this.collateralDetailsData);
+        this.getModelData();
+        this. getValuatorStatus();
+        this.getValuationReport();
     });
   }
 
@@ -197,14 +198,15 @@ onChangeVendorName(event: any) {
 
           this.toasterService.showSuccess("Vehicle Valuation Model DATA Saved Successfully",
                                            "Vehicle Valuation");
-          const getData = response["ProcessVariables"]["collateralDetails"];
-          return this.collateralDetailsData.forEach(element => {
+          const getData = response["ProcessVariables"]["collateralDetails"]
+           return this.collateralDetailsData.forEach(element => {
             if(element.collateralId == getData.collateralId){
               element.valuationStatus = getData.valuationStatus;
               element.valuatorStatus = getData.valuatorStatus;
-              console.log("collateralDetailsData", this.collateralDetailsData);
             }
+            console.log("collateralDetailsData",this.collateralDetailsData)
           });
+
         } else {
           this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
                                                   "Vehicle Valuation");
@@ -216,11 +218,13 @@ onChangeVendorName(event: any) {
 
   }
 
-  onClickValuationReport() {
-    if(this.valuationReport === 'Initiate') {
+  onClickValuationReport(status) {
+    console.log("vStatus",status);
+    if(status == 'NOT INITIATED') {
       this.isModal = true;
     }
-    else if( this.valuationReport === 'View') {
+    else {
+      this.isModal = false;
       this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${this.colleteralId}`);
     }
   }

@@ -10,6 +10,7 @@ import { Reference } from '@angular/compiler/src/render3/r3_ast';
 import { ToasterService } from '@services/toaster.service';
 import { OtpServiceService } from '@modules/lead-section/services/otp-details.service';
 import { CreateLeadService } from '@modules/lead-creation/service/creatLead.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -41,82 +42,22 @@ export class TeleVerificationFormComponent implements OnInit {
   mobileNo: any;
   validationData: any;
   isSaved = false;
+  leadDetails: any;
+  product: any;
+  sourcingChannelDesc: any;
+  sourcingTypeDesc: any;
+  sourcingCodeDesc: any;
+  sourcingCode: any;
+  changeLabelsForProposed: any;
+  changeLabelsForRoute: any
+  changeLabelsForGoods: any
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
+  public time: any =  new Date(new Date().getTime()).toLocaleTimeString();
 
-  @ViewChild('otp_button', {static: false}) public otp_button: ElementRef;
 
-  maxLenght40 = {
-    rule: 40,
-  };
-  regexPattern = {
-    assetFinanceLength: {
-      rule: '12',
-      msg: ''
-    },
-    amount: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Invalid Amount / Alphabets and Special Characters not allowed'
-    },
-    amountLength: {
-      rule: '10',
-      msg: ''
-    },
-    nameLength: {
-      rule: '30',
-      msg: ''
-    },
-    namePattern: {
-      rule: '^[A-Za-z0-9 ]+$',
-      msg: 'Invalid Name /  Special Characters not allowed',
-    },
-    maxLength: {
-      rule: '10',
-      msg: 'Maximum Length 10 digits',
-    },
-    maxLength20: {
-      rule: 20,
-    },
-    maxLength50: {
-      rule: 50,
-    },
-    maxLength100: {
-      rule: 100,
-    },
-    mobile: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Numbers only allowed !',
-    },
-    tenure: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Invalid Months / Alphabets and Special Characters not allowed'
-    },
-    maxLength3: {
-      rule: '3',
-      msg: ''
-    },
-    maxLength4: {
-      rule: '4',
-      msg: ''
-    },
-    maxLength5: {
-      rule: '5',
-      msg: ''
-    },
-    years: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Invalid Years / Alphabets and Special Characters not allowed'
-    },
-    emi: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Invalid EMI / Alphabets and Special Characters not allowed'
-    },
-    employees: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Invalid employees / Alphabets and Special Characters not allowed'
-    }
-  };
+  @ViewChild('closeModal', {static: false}) public closeModal: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -133,23 +74,24 @@ export class TeleVerificationFormComponent implements OnInit {
     private createLeadService: CreateLeadService
 
   ) {
-   
-    this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.validationData = res.validationData;
 
-
-    });
-
-    // );
+    // this.labelService.getLabelsData().subscribe(res => {
+    //   this.labels = res;
+    //   this.validationData = res.validationData;
+    // });
     this.getLOV();
 
-    // this.initForm();
     this.leadId = this.route.snapshot.params.leadId;
     console.log(this.leadId);
     this.applicantId = parseInt(this.route.snapshot.params.applicantId);
     this.applicantType = this.route.snapshot.params.applicantType;
-    console.log('applicantId', this.applicantId);
+    this.leadDetails = this.route.snapshot.data.leadData;
+    this.product = this.leadDetails.ProcessVariables.leadDetails.assetProdutName;
+    this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
+    this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
+    this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
+
+    this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
   }
 
   initForm() {
@@ -162,12 +104,12 @@ export class TeleVerificationFormComponent implements OnInit {
       assetType: [''],
       financeAmt: ['', Validators.required],
       tenureInMonth: ['', Validators.required],
-      srcOfProposal: [{ value: '', disabled: true }],
+      srcOfProposal: [''],
       referredBy: ['', Validators.required],
-      product: [{ value: '', disabled: true }],
+      product: [''],
       emi: ['', Validators.required],
-      ndForProposedVehicle: [{ value: '', disabled: true }],
-      route: [{ value: '', disabled: true }],
+      ndForProposedVehicle: ['', Validators.required],
+      route: ['', Validators.required],
       contractDetails: ['', Validators.required],
       typeOfGoods: [{ value: '', disabled: true }],
       amountRequested: ['', Validators.required],
@@ -178,6 +120,7 @@ export class TeleVerificationFormComponent implements OnInit {
       residentAddress: ['', Validators.required],
       otherLoans: ['', Validators.required],
       otherLoanEmi: ['', Validators.required],
+      otherLoanNoOfEmi: ['', Validators.required],
       residentNoOfYrs: ['', Validators.required],
       cc: ['', Validators.required],
       tvrStatus: ['', Validators.required],
@@ -185,13 +128,13 @@ export class TeleVerificationFormComponent implements OnInit {
       spokenTo: ['', Validators.required],
       familyMembers: ['', Validators.required],
       relationShip: ['', Validators.required],
-      tvrDate: ['', Validators.required],
-      tvrTime: ['', Validators.required],
+      tvrDate: [''],
+      tvrTime: [''],
       addressConfirmed: [''],
       residenceStabilityConfirmed: [''],
       customerAvailabilty: [''],
-      tvrDoneBy: [{ value: '', disabled: true }],
-      eCode: [{ value: '', disabled: true }],
+      tvrDoneBy: [''],
+      eCode: [''],
       wrkExperience: ['', Validators.required],
       officePhnNo: ['', Validators.required],
       officePhnExt: ['', Validators.required],
@@ -205,7 +148,6 @@ export class TeleVerificationFormComponent implements OnInit {
       yrsInEmployment: ['', Validators.required],
       ifBusiness: ['', Validators.required],
       employees: ['', Validators.required],
-      relation: ['', Validators.required],
       monthlyGrossSalary: ['', Validators.required],
       otherIncome: ['', Validators.required],
       decision: ['', Validators.required],
@@ -240,18 +182,24 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
-    // this.labelDetails.getLabelsData().subscribe(
-    //   data => {
-    //     this.labels = data;
-    //     console.log('labels', this.labels.validationData);
+    this.labelService.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+      console.log(this.product);
+      if (this.product === 'Used Commercial Vehicle' || this.product === 'New Commercial Vehicle') {
+        this.changeLabelsForProposed = this.labels.needForProposedVehicle + '(applicable for CV)';
+        this.changeLabelsForRoute = this.labels.routeOfOperation + '(applicable for CV)';
+        this.changeLabelsForGoods = this.labels.typeofGoodsCarried + '(applicable for CV)';
+      } else {
+        this.changeLabelsForProposed = this.labels.needForProposedVehicle;
+        this.changeLabelsForRoute = this.labels.routeOfOperation;
+        this.changeLabelsForGoods = this.labels.typeofGoodsCarried;
+      }
 
-    //   }
-
-    // );
+    });
 
     this.getTvrDetails();
     this.initForm();
-
     this.otpForm = this.fb.group({
       otp: [
         '',
@@ -286,10 +234,7 @@ export class TeleVerificationFormComponent implements OnInit {
     return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
   }
 
-
-
   getTvrDetails() {
-    // console.log(this.teleVerificationForm.value);
 
     const data = {
       applicantId: this.applicantId
@@ -297,7 +242,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.tvrService.getTvrDetails(data).subscribe((res: any) => {
       this.applicantName = res.ProcessVariables.applicantName;
       this.soName = res.ProcessVariables.soName;
-      this.leadId = res.ProcessVariables.leadId;
+      // this.leadId = res.ProcessVariables.leadId;
       this.tvrData = res.ProcessVariables.tvr;
       this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences : [];
       // this.dateFormate = res.ProcessVariables.tvr.dob;
@@ -328,10 +273,12 @@ export class TeleVerificationFormComponent implements OnInit {
       };
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
       // console.log(tvr);
+      this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc} ${this.sourcingCode}`);
+
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
         if (this.valueChanges) {
-          this.valueChanges.applicantRelationshipWithLead.forEach(element => {
+          this.valueChanges.relationship.forEach(element => {
             if (tvr && element.value === tvr.relationShip) {
               this.teleVerificationForm.get('relationShip').setValue(element.key);
             }
@@ -344,11 +291,6 @@ export class TeleVerificationFormComponent implements OnInit {
           this.valueChanges.tvrBusiness.forEach(element => {
             if (tvr && element.value === tvr.ifBusiness) {
               this.teleVerificationForm.get('ifBusiness').setValue(element.key);
-            }
-          });
-          this.valueChanges.relationship.forEach(element => {
-            if (tvr && element.value === tvr.relation) {
-              this.teleVerificationForm.get('relation').setValue(element.key);
             }
           });
           this.valueChanges.tvrDecision.forEach(element => {
@@ -377,7 +319,11 @@ export class TeleVerificationFormComponent implements OnInit {
       } else {
         this.teleVerificationForm.get('applicantName').setValue(res.ProcessVariables.applicantName);
         this.teleVerificationForm.get('soName').setValue(res.ProcessVariables.soName ? res.ProcessVariables.soName : '');
-        this.teleVerificationForm.get('leadId').setValue(res.ProcessVariables.leadId);
+        this.teleVerificationForm.get('leadId').setValue(this.leadId);
+        this.teleVerificationForm.get('tvrDoneBy').setValue(res.ProcessVariables.applicantName);
+        this.teleVerificationForm.get('tvrTime').setValue(this.time);
+        this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
+        this.teleVerificationForm.get('product').setValue(this.product);
       }
 
     });
@@ -458,7 +404,7 @@ export class TeleVerificationFormComponent implements OnInit {
       console.log('validate otp', response);
       if (res.ProcessVariables.error.code == '0') {
         console.log(res.ProcessVariables.error);
-        this.otp_button.nativeElement.click();
+        this.closeModal.nativeElement.click();
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         this.router.navigate([`pages/dde/${this.leadId}/tvr-details`]);
       } else {

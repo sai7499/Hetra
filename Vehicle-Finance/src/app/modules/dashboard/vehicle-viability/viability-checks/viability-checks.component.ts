@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-viability-checks',
@@ -23,17 +24,34 @@ export class ViabilityChecksComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  userId: any;
+  roles: any;
+  roleName: any;
+  roleType: any;
+  leadId: any;
+  isLoadLead: boolean;
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
   }
 
-  ngOnInit() {
+ async  ngOnInit() {
+    this.leadId = (await this.getLeadId()) as number;
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
+    console.log('this user roleType', this.roleType);
+
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -44,6 +62,16 @@ export class ViabilityChecksComponent implements OnInit {
       this.branchId = value.branchId;
     });
     this.getViabilityDashboard(this.itemsPerPage);
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
   }
 
   onClick() {
@@ -63,6 +91,11 @@ export class ViabilityChecksComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead !== null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -79,11 +112,18 @@ export class ViabilityChecksComponent implements OnInit {
   setPage(event) {
     this.getViabilityDashboard(this.itemsPerPage, event);
   }
+  routeToViabilityList(taskIdFromList) {
+  const body = {
+    taskId: taskIdFromList
+  };
+  this.router.navigate([`/pages/viability-list/${this.leadId}/viability-list`]);
+  }
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
       console.log('release Task', res);
       const response = res;
+      // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Released Successfully', 'Released');
       } else {

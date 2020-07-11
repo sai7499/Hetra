@@ -1,9 +1,5 @@
 <div class="content">
-  <form
-    class="multisteps-form__form"
-    method="POST"
-    [formGroup]="basicForm"
-  >
+  <form class="multisteps-form__form" method="POST" [formGroup]="basicForm">
     <div
       class="multisteps-form__panel js-active js-active"
       id="form-class"
@@ -11,54 +7,74 @@
     >
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="Vechical Type">{{ labels?.entity }} <sub class="star_red_col">*</sub></label>
+          <label for="Vechical Type"
+            >{{ labels?.entity }} <sub class="star_red_col">*</sub></label
+          >
           <app-vf-custom-select
             [values]="applicantLov?.entityType"
             (valueChange)="onIndividualChange($event)"
             formControlName="entity"
             [isRequired]="'Please select one'"
-           [isDirty]="isDirty"
+            [isDirty]="isDirty"
           ></app-vf-custom-select>
-          
-          
         </div>
+        <div
+          class="form-group col-sm-6 col-md-3 col-lg-3"
+          *ngIf="!isIndividual"
+        >
+          <label for="Vechical Type"
+            >Business Entity Type <sub class="star_red_col">*</sub></label
+          >
+          <app-vf-custom-select
+            [values]="applicantLov?.bussinessEntityType"
+            [isRequired]="'Please select one'"
+            [isDirty]="isDirty"
+            formControlName="bussinessEntityType"
+          ></app-vf-custom-select>
+        </div>
+
+        <div class="col-sm-7 text-right"></div>
+      </div>
+      <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="Vechical Type">{{
-            labels?.relationWithApplicant
-          }} <sub class="star_red_col">*</sub></label>
+          <label for="Vechical Type"
+            >{{ labels?.relationWithApplicant }}
+            <sub class="star_red_col">*</sub></label
+          >
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
             [values]="applicantLov?.applicantRelationshipWithLead"
             [isRequired]="'Please select one'"
-                        [isDirty]="isDirty"
+            [isDirty]="isDirty"
           ></app-vf-custom-select>
-           
-          
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="entity">{{ labels?.title }} <sub class="star_red_col">*</sub></label>
-                        <app-vf-custom-select
-                        formControlName="title"
-                        [values]="applicantLov?.salutation"
-                        [isRequired]="'Please select one'"
-                        [isDirty]="isDirty"
-                        [isDisabled]="this.applicant.applicantDetails.entityTypeKey=='NONINDIVENTTYP'"
-                      ></app-vf-custom-select>
-                
-
+          <label for="entity"
+            >{{ labels?.title }} <sub class="star_red_col">*</sub></label
+          >
+          <app-vf-custom-select
+            formControlName="title"
+            [values]="applicantLov?.salutation"
+            [isRequired]="'Please select one'"
+            [isDirty]="isDirty"
+            [isDisabled]="
+              this.applicant.applicantDetails.entityTypeKey == 'NONINDIVENTTYP'
+            "
+          ></app-vf-custom-select>
         </div>
-        <div class="col-sm-7 text-right"></div>
       </div>
       <ng-container formArrayName="details">
-        <div 
+        <div
           id="individual_section_start"
           [formGroupName]="0"
           *ngIf="isIndividual"
         >
-          <div class="row" 
-          >
+          <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="first_name">{{ labels?.firstName }} <sub class="star_red_col">*</sub></label>
+              <label for="first_name"
+                >{{ labels?.firstName }}
+                <sub class="star_red_col">*</sub></label
+              >
               <!-- <input
                 type="text"
                 class="form-control"
@@ -66,12 +82,12 @@
                 formControlName="name1"
               /> -->
               <app-custom-input
-                  formControlName="name1"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Name is required'"
-                  [isDirty]="isDirty"
-                  [type]="validationData?.name?.type"
-                ></app-custom-input>
+                formControlName="name1"
+                [maxLength]="validationData?.name?.maxLength"
+                [isRequired]="'Name is required'"
+                [isDirty]="isDirty"
+                [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">{{ labels?.middleName }}</label>
@@ -82,10 +98,10 @@
                 formControlName="name2"
               /> -->
               <app-custom-input
-                  formControlName="name2"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [type]="validationData?.name?.type"
-                ></app-custom-input>
+                formControlName="name2"
+                [maxLength]="validationData?.name?.maxLength"
+                [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="last_name">{{ labels?.lastName }}</label>
@@ -96,15 +112,18 @@
                 formControlName="name3"
               /> -->
               <app-custom-input
-                  formControlName="name3"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [type]='validationData?.name?.type'
-                ></app-custom-input>
+                formControlName="name3"
+                [maxLength]="validationData?.name?.maxLength"
+                [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">{{ labels?.mobileNumber }} <sub class="star_red_col">*</sub></label>
+              <label for="mobile_number"
+                >{{ labels?.mobileNumber }}
+                <sub class="star_red_col">*</sub></label
+              >
               <!-- <input
                 type="text"
                 class="form-control"
@@ -115,19 +134,21 @@
                 formControlName="mobilePhone"
               /> -->
               <app-custom-input
-                  formControlName="mobilePhone"
-                  [patternCheck]="validationData?.mobile?.patternCheck"
-                  [isRequired]="'Mobile Number is required'"
-                  [maxLength]='validationData?.mobile?.maxLength'
-                 [isDirty]="isDirty"
-                 [type]="validationData?.mobile?.type"
-                ></app-custom-input>
+                formControlName="mobilePhone"
+                [patternCheck]="validationData?.mobile?.patternCheck"
+                [isRequired]="'Mobile Number is required'"
+                [maxLength]="validationData?.mobile?.maxLength"
+                [isDirty]="isDirty"
+                [type]="validationData?.mobile?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="date_of_birth">{{ labels?.dateOfBirth }} <sub class="star_red_col">*</sub></label>
+              <label for="date_of_birth"
+                >{{ labels?.dateOfBirth }}
+                <sub class="star_red_col">*</sub></label
+              >
               <div
-                class="input-group input-medium "
-
+                class="input-group input-medium"
                 id="date_of_birth"
                 name="date_of_birth"
               >
@@ -144,43 +165,45 @@
                   (change)="ageCalculation($event)"
                   formControlName="dob"
                 /> -->
-                <kendo-datepicker class="form-control" 
-                formControlName="dob" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
-                 placeholder="Date of birth"
-                [activeView]="'decade'"
-                (valueChange)="ageCalculation($event)"
+                <kendo-datepicker
+                  class="form-control"
+                  formControlName="dob"
+                  [format]="'dd/MM/yyyy'"
+                  [max]="toDayDate"
+                  placeholder="Date of birth"
+                  [activeView]="'decade'"
+                  (valueChange)="ageCalculation($event)"
                 ></kendo-datepicker>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">{{labels?.ageApplicant}} </label>
+              <label for="entity">{{ labels?.ageApplicant }} </label>
               <!-- <select class="form-control" id="entity">                                                  
                                
                                 <option value="Mrs" selected>Mrs</option>                                                   
                             </select>  -->
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="age"
-                            name="age"
-                            [value]="showAge ? showAge : initialAge"
-                            formControlName="age"
-                            disabled
-                          />
+              <input
+                type="text"
+                class="form-control"
+                id="age"
+                name="age"
+                [value]="showAge ? showAge : initialAge"
+                formControlName="age"
+                disabled
+              />
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{labels?.gender}} <sub class="star_red_col">*</sub></label>
+              <label for="customer_category"
+                >{{ labels?.gender }} <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="gender"
-                [values]="applicantLov?.gender "
+                [values]="applicantLov?.gender"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-
-
 
               <!-- <div class="cus-mandatory-field"
               *ngIf="obj.controls['gender'].touched && !obj.controls['gender'].valid">
@@ -201,38 +224,47 @@
               *ngIf="validation.get('gender').errors && (validation.get('gender').touched || validation.get('gender').invalid)">
                   select gender
               </div> -->
-
-             
-              
-              
             </div>
 
-            
-             
-              
-              <!-- <input type="checkbox" formControlName="isSeniorCitizen"
+            <!-- <input type="checkbox" formControlName="isSeniorCitizen"
                 (click)="checkSenior($event)" />
                 <label for="senior_citizen">Is Senior Citizen? <sub class="star_red_col">*</sub></label> -->
 
-                <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
-                  <input type="checkbox" id="" formControlName="isSeniorCitizen" class="senior_minor"
-                  (click)="checkSenior($event)" disabled [checked]="checkingSenior"> 
-                  <span class="is_senior">{{labels?.senior}} </span>
-              
-                <!-- <div class="showErrorMessage">
+            <div
+              class="form-group col-sm-6 col-md-3 col-lg-3"
+              id="align_this_checkbox"
+            >
+              <input
+                type="checkbox"
+                id=""
+                formControlName="isSeniorCitizen"
+                class="senior_minor"
+                (click)="checkSenior($event)"
+                disabled
+                [checked]="checkingSenior"
+              />
+              <span class="is_senior">{{ labels?.senior }} </span>
+
+              <!-- <div class="showErrorMessage">
                      {{messageOfSeniorcitizen}}
                 </div> -->
-              </div>
+            </div>
 
-            
-
-            <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
-              
-              
-              <input type="checkbox" id="" formControlName="isMinor" class="senior_minor"
-                  (click)="checkMinor($event)" disabled [checked]="checkingMinor">
-                  <span class="is_senior">{{labels?.minor}}</span>
-             <!-- <div class="showErrorMessage">
+            <div
+              class="form-group col-sm-6 col-md-3 col-lg-3"
+              id="align_this_checkbox"
+            >
+              <input
+                type="checkbox"
+                id=""
+                formControlName="isMinor"
+                class="senior_minor"
+                (click)="checkMinor($event)"
+                disabled
+                [checked]="checkingMinor"
+              />
+              <span class="is_senior">{{ labels?.minor }}</span>
+              <!-- <div class="showErrorMessage">
                {{messageOfMinor}}
              </div>  -->
             </div>
@@ -240,7 +272,8 @@
           <div class="row" *ngIf="checkingMinor">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="guardian_name"
-                >{{labels?.guardianName}} <sub class="star_blue_col">*</sub></label
+                >{{ labels?.guardianName }}
+                <sub class="star_blue_col">*</sub></label
               >
               <!-- <input
                 type="text"
@@ -250,31 +283,36 @@
                 formControlName="minorGuardianName"
               /> -->
               <app-custom-input
-                  formControlName="minorGuardianName"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
-                  [isDirty]="isDirty"
-                  [type]="validationData?.name?.type"
-                  ></app-custom-input>
-                
+                formControlName="minorGuardianName"
+                [maxLength]="validationData?.name?.maxLength"
+                [isRequired]="'If Minor, Gaurdian Name is Mandatory'"
+                [isDirty]="isDirty"
+                [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">{{labels?.guardianRelationship}} <sub class="star_blue_col">*</sub></label>
+              <label for="entity"
+                >{{ labels?.guardianRelationship }}
+                <sub class="star_blue_col">*</sub></label
+              >
               <!-- <select class="form-control" id="entity">                                                  
                                
                                 <option value="Mrs" selected>Mrs</option>                                                   
                             </select>  -->
-                            <app-vf-custom-select
-                            formControlName="minorGuardianRelation"
-                            [values]="applicantLov.relationship"
-                            [isRequired]="'Please select one'"
-                            [isDirty]="isDirty"
-                          ></app-vf-custom-select>
+              <app-vf-custom-select
+                formControlName="minorGuardianRelation"
+                [values]="applicantLov.relationship"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
+              ></app-vf-custom-select>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="father_name">{{ labels?.fatherName }} <sub class="star_blue_col">*</sub></label>
+              <label for="father_name"
+                >{{ labels?.fatherName }}
+                <sub class="star_blue_col">*</sub></label
+              >
               <!-- <input
                 type="text"
                 class="form-control"
@@ -283,18 +321,18 @@
                 formControlName="fatherName"
               /> -->
               <app-custom-input
-                  formControlName="fatherName"
-                  [maxLength]="validationData?.fullName?.maxLength"
-                  [isDirty]="isDirty"
-                  [isRequired]="isRequiredFather"
-                  [type]="validationData?.fullName?.type"
-                  
-            
-                ></app-custom-input>
-                
+                formControlName="fatherName"
+                [maxLength]="validationData?.fullName?.maxLength"
+                [isDirty]="isDirty"
+                [isRequired]="isRequiredFather"
+                [type]="validationData?.fullName?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="spouse_name">{{ labels?.spouseName }} <sub class="star_blue_col">*</sub></label>
+              <label for="spouse_name"
+                >{{ labels?.spouseName }}
+                <sub class="star_blue_col">*</sub></label
+              >
               <!-- <input
                 type="text"
                 class="form-control"
@@ -303,15 +341,18 @@
                 formControlName="spouseName"
               /> -->
               <app-custom-input
-                  formControlName="spouseName"
-                  [maxLength]="validationData?.fullName?.maxLength"
-                  [isRequired]="isRequiredSpouse"
-                  [isDirty]="isDirty"
-                  [type]="validationData?.fullName?.type"
-                ></app-custom-input>
+                formControlName="spouseName"
+                [maxLength]="validationData?.fullName?.maxLength"
+                [isRequired]="isRequiredSpouse"
+                [isDirty]="isDirty"
+                [type]="validationData?.fullName?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="maiden_name">{{ labels?.mothersMaidenName }} <sub class="star_red_col">*</sub></label>
+              <label for="maiden_name"
+                >{{ labels?.mothersMaidenName }}
+                <sub class="star_red_col">*</sub></label
+              >
               <!-- <input
                 type="text"
                 class="form-control"
@@ -320,18 +361,19 @@
                 formControlName="motherMaidenName"
               /> -->
               <app-custom-input
-                  formControlName="motherMaidenName"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [isDirty]="isDirty"
-                  [isRequired]="'Mother name is Required'"
-                  [type]="validationData?.name?.type"
-                  
-                ></app-custom-input>
+                formControlName="motherMaidenName"
+                [maxLength]="validationData?.name?.maxLength"
+                [isDirty]="isDirty"
+                [isRequired]="'Mother name is Required'"
+                [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">{{labels?.alternateContactNumber}} </label>
+              <label for="mobile_number"
+                >{{ labels?.alternateContactNumber }}
+              </label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -342,14 +384,13 @@
                 formControlName="mobilePhone"
               /> -->
               <app-custom-input
-                  formControlName="alternateMobileNumber"
-                  
-                  [type]="validationData?.landlineNumber?.type"
-                 [maxLength]="validationData?.landlineNumber?.maxLength"
-                ></app-custom-input>
+                formControlName="alternateMobileNumber"
+                [type]="validationData?.landlineNumber?.type"
+                [maxLength]="validationData?.landlineNumber?.maxLength"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="email_id">{{labels?.emailID}}</label>
+              <label for="email_id">{{ labels?.emailID }}</label>
               <!-- <input
                 type="email"
                 class="form-control"
@@ -358,14 +399,15 @@
                 formControlName="emailId"
               /> -->
               <app-custom-input
-                  formControlName="emailId"
-                  [patternCheck]="emailPattern"
-                  [maxlength]="validationData?.email?.maxLength"
-                  
-                ></app-custom-input> 
+                formControlName="emailId"
+                [patternCheck]="emailPattern"
+                [maxlength]="validationData?.email?.maxLength"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="alternate_email_id">{{labels?.alternateEmailID}}</label>
+              <label for="alternate_email_id">{{
+                labels?.alternateEmailID
+              }}</label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -374,44 +416,47 @@
                 formControlName="alternateEmailId"
               /> -->
               <app-custom-input
-                  formControlName="alternateEmailId"
-                  [patternCheck]="emailPattern"
-                  [maxlength]="validationData?.email?.maxLength"
-                ></app-custom-input> 
+                formControlName="alternateEmailId"
+                [patternCheck]="emailPattern"
+                [maxlength]="validationData?.email?.maxLength"
+              ></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="occupation">{{ labels?.occupation }} <sub class="star_red_col">*</sub></label>
+              <label for="occupation"
+                >{{ labels?.occupation }}
+                <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="occupation"
                 [values]="applicantLov?.occupation"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-              
-              
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="nationality">{{ labels?.nationality }} <sub class="star_red_col">*</sub></label>
+              <label for="nationality"
+                >{{ labels?.nationality }}
+                <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="nationality"
                 [values]="applicantLov?.nationality"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-              
 
               <!-- <span class="showErrorMessage" 
               *ngIf="validation.get('nationality').errors?.value !== '' 
               && validation.get('nationality').errors?.required">                  
                 Select Nationality
             </span> -->
-            
-            
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="preffered_language">{{labels?.prefferedLanguageForCommunication}}</label>
+              <label for="preffered_language">{{labels?.prefferedLanguageForCommunication}}
+                <sub class="star_red_col">*</sub>
+              </label>
               <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage"
               [isRequired]="'Please select one'"
               [isDirty]="isDirty">
@@ -419,53 +464,57 @@
             </div>
           </div>
           <div class="row">
-            
-            
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{labels?.politicallyExposedPerson}} </label>
+              <label for="customer_category">{{labels?.politicallyExposedPerson}} <sub class="star_red_col">*</sub> </label>
               <app-vf-custom-select
                 formControlName="politicallyExposedPerson"
                 [values]="applicantLov?.politicallyExposed"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
               <!-- <span class="showErrorMessage"  
               *ngIf="validation.get('customerCategory').errors?.value !== ''
                && validation.get('customerCategory').errors?.required">                  
                 Select customer category
             </span> -->
-            
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{labels?.customerSegment}} <sub class="star_red_col">*</sub></label>
+              <label for="customer_category"
+                >{{ labels?.customerSegment }}
+                <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="custSegment"
                 [values]="applicantLov?.customerSegment"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-              
-              
-            
             </div>
-            
+
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{labels?.customerCategory}} <sub class="star_red_col">*</sub></label>
+              <label for="customer_category"
+                >{{ labels?.customerCategory }}
+                <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="customerCategory"
                 [values]="applicantLov?.customerCategory"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-              
-              
             </div>
-    
-
           </div>
         </div>
-        <div id="non_individual_section_start" *ngIf="!isIndividual" [formGroupName]="0">
+        <div
+          id="non_individual_section_start"
+          *ngIf="!isIndividual"
+          [formGroupName]="0"
+        >
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="channel">{{ labels?.company1 }} <sub class="star_red_col">*</sub></label>
+              <label for="channel"
+                >{{ labels?.company1 }} <sub class="star_red_col">*</sub></label
+              >
               <!-- <input
                 formControlName="name1"
                 type="text"
@@ -473,14 +522,14 @@
                 id="amount"
               /> -->
               <app-custom-input
-                  formControlName="name1"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company1 Name is required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
+                formControlName="name1"
+                [maxLength]="validationData?.name?.maxLength"
+                [isRequired]="'Company Name is required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing type">{{ labels?.company2 }} <sub class="star_red_col">*</sub></label>
+              <label for="sourcing type">{{ labels?.company2 }}</label>
               <!-- <input
                 formControlName="name2"
                 type="text"
@@ -488,14 +537,12 @@
                 id="amount"
               /> -->
               <app-custom-input
-              formControlName="name2"
-              [maxLength]="validationData?.name?.maxLength"
-              [isRequired]="'Company2 Name is required'"
-              [isDirty]="isDirty"
-            ></app-custom-input>
+                formControlName="name2"
+                [maxLength]="validationData?.name?.maxLength"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing code">{{ labels?.company3 }} <sub class="star_red_col">*</sub></label>
+              <label for="sourcing code">{{ labels?.company3 }}</label>
               <!-- <input
                 formControlName="name3"
                 type="text"
@@ -503,18 +550,16 @@
                 id="amount"
               /> -->
               <app-custom-input
-                  formControlName="name3"
-                  [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company3 Name is required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
+                formControlName="name3"
+                [maxLength]="validationData?.name?.maxLength"
+              ></app-custom-input>
             </div>
           </div>
 
-            <div class="row">
+          <div class="row">
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="mobile_number">{{ labels?.mobileNumber }}</label> -->
-              <!-- <input
+            <!-- <input
                 formControlName="companyPhoneNumber"
                 type="text"
                 class="form-control"
@@ -523,7 +568,7 @@
                 value="8974563210"
                 readonly=""
               /> -->
-              <!-- <app-custom-input
+            <!-- <app-custom-input
                   formControlName="companyPhoneNumber"
                   [patternCheck]="mobilePattern"
                   [isRequired]="'Mobile Number is required'"
@@ -533,9 +578,11 @@
                 ></app-custom-input>
             </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="entity">{{ labels?.dateOfIncorporation }} <sub class="star_red_col">*</sub></label>
-              <div class="input-group input-medium"
-              id="date_of_birth">
+              <label for="entity"
+                >{{ labels?.dateOfIncorporation }}
+                <sub class="star_red_col">*</sub></label
+              >
+              <div class="input-group input-medium" id="date_of_birth">
                 <!-- <span class="input-group-btn">
                   <button class="btn btn-default" disabled="">
                     <i class="fa fa-calendar"></i>
@@ -548,16 +595,21 @@
                   id="date"
                   disabled=""
                 /> -->
-                <kendo-datepicker class="form-control" 
-                formControlName="dateOfIncorporation" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
-                 placeholder="Date of Incorporation"
-                [activeView]="'decade'"
+                <kendo-datepicker
+                  class="form-control"
+                  formControlName="dateOfIncorporation"
+                  [format]="'dd/MM/yyyy'"
+                  [max]="toDayDate"
+                  placeholder="Date of Incorporation"
+                  [activeView]="'decade'"
                 ></kendo-datepicker>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="contact_person">{{ labels?.contactPerson }} <sub class="star_red_col">*</sub></label>
+              <label for="contact_person"
+                >{{ labels?.contactPerson }}
+                <sub class="star_red_col">*</sub></label
+              >
               <!-- <input
                 formControlName="contactPerson"
                 type="text"
@@ -567,53 +619,54 @@
                 required="required"
               /> -->
               <app-custom-input
-              formControlName="contactPerson"
-              [maxLength]="validationData?.name?.maxLength"
-              [isRequired]="'Contact Person Name is required'"
-              [isDirty]="isDirty"
-              [type]="validationData?.name?.type"
-              
-            ></app-custom-input>
+                formControlName="contactPerson"
+                [maxLength]="validationData?.name?.maxLength"
+                [isRequired]="'Contact Person Name is required'"
+                [isDirty]="isDirty"
+                [type]="validationData?.name?.type"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="contact_person_mobile_number">{{
-                labels?.contactNumber
-              }} <sub class="star_red_col">*</sub></label>
-              
+              <label for="contact_person_mobile_number"
+                >{{ labels?.contactNumber }}
+                <sub class="star_red_col">*</sub></label
+              >
+
               <app-custom-input
-                  formControlName="companyPhoneNumber"
-                  [isRequired]="'Contact Number is required'"
-                  [isDirty]="isDirty"
-                  [maxLength]='validationData?.landlineNumber?.maxLength'
-                 [type]="validationData?.landlineNumber?.type"
-                 
-                ></app-custom-input>
+                formControlName="companyPhoneNumber"
+                [isRequired]="'Contact Number is required'"
+                [isDirty]="isDirty"
+                [maxLength]="validationData?.landlineNumber?.maxLength"
+                [type]="validationData?.landlineNumber?.type"
+              ></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="countryOfCorporation">{{
-                labels?.countryOfCorporation
-              }} <sub class="star_red_col">*</sub></label>
+              <label for="countryOfCorporation"
+                >{{ labels?.countryOfCorporation }}
+                <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="countryOfCorporation"
-                [values]=""
+                [values]="countryList"
                 [isRequired]="'Please Select one'"
-                
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="businessType">{{
-                labels?.typeOfBusiness
-              }} <sub class="star_red_col">*</sub></label>
+              <label for="businessType"
+                >{{ labels?.typeOfBusiness }}
+                <sub class="star_red_col">*</sub></label
+              >
               <app-vf-custom-select
                 formControlName="businessType"
-                [values]=""
+                [values]="applicantLov?.businessType"
                 [isRequired]="'Please Select one'"
-               
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3" >
               <label for="industry">{{
                 labels?.industry
               }} <sub class="star_red_col">*</sub></label>
@@ -623,10 +676,10 @@
                 [isRequired]="'Please Select one'"
                 
               ></app-vf-custom-select>
-            </div>
+            </div> -->
           </div>
 
-            <div class="row">
+          <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created">{{ labels?.emailID }}</label>
               <!-- <input
@@ -636,10 +689,10 @@
                 id="amount"
               /> -->
               <app-custom-input
-                  formControlName="companyEmailId"
-                  [patternCheck]="emailPattern"
-                  [maxlength]="validationData?.email?.maxLength"
-                ></app-custom-input> 
+                formControlName="companyEmailId"
+                [patternCheck]="emailPattern"
+                [maxlength]="validationData?.email?.maxLength"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="Lead Created By">{{
@@ -652,26 +705,29 @@
                 id="amount"
               /> -->
               <app-custom-input
-                  formControlName="alternateEmailId"
-                  [patternCheck]="emailPattern"
-                  [maxlength]="validationData?.email?.maxLength"
-                ></app-custom-input> 
+                formControlName="alternateEmailId"
+                [patternCheck]="emailPattern"
+                [maxlength]="validationData?.email?.maxLength"
+              ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="mobile_number">{{labels?.alternateContactNumber}} </label>
-             
+              <label for="mobile_number"
+                >{{ labels?.alternateContactNumber }}
+              </label>
+
               <app-custom-input
-                  formControlName="alternateContactNumber"
-                  [type]="validationData?.landlineNumber?.type"
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                ></app-custom-input>
+                formControlName="alternateContactNumber"
+                [type]="validationData?.landlineNumber?.type"
+                [maxLength]="validationData?.landlineNumber?.maxLength"
+              ></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="title">{{
-                labels?.prefferedLanguageForCommunication
-              }} <sub class="star_red_col">*</sub></label>
+              <label for="title"
+                >{{ labels?.prefferedLanguageForCommunication }}
+                <sub class="star_red_col">*</sub></label
+              >
               <!-- <select class="form-control">
                                 <option>Select</option>
                             </select> -->
@@ -679,14 +735,17 @@
                 formControlName="preferredLanguageCommunication"
                 [values]="applicantLov?.preferredLanguage"
                 [isRequired]="'Please select one'"
-                [isDirty]="isDirty">
-              ></app-vf-custom-select>
+                [isDirty]="isDirty"
+              >
+                ></app-vf-custom-select
+              >
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="contactPersonDesignation">{{
-                labels?.contactPersonDesignation
-              }} <sub class="star_red_col">*</sub></label>
-              
+              <label for="contactPersonDesignation"
+                >{{ labels?.contactPersonDesignation }}
+                <sub class="star_red_col">*</sub></label
+              >
+
               <app-vf-custom-select
                 formControlName="contactPersonDesignation"
                 [values]="applicantLov?.occupation"
@@ -698,20 +757,15 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">{{ labels?.numberOfDirectors }}</label>
               <app-custom-input
-                  formControlName="numberOfDirectors"
-                  [maxLength]="validationData?.numberOfYears?.maxLength"
-                  [type]="validationData?.numberOfYears?.type"
-                  ></app-custom-input>
+                formControlName="numberOfDirectors"
+                [maxLength]="validationData?.numberOfYears?.maxLength"
+                [type]="validationData?.numberOfYears?.type"
+              ></app-custom-input>
             </div>
           </div>
-
         </div>
       </ng-container>
     </div>
-
-
-
-    
   </form>
 </div>
 
@@ -719,18 +773,25 @@
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
+    <a id="back_vehicle_details"
+      ><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
-      </button></a>
-    <a  id="save_vehicle_details"  ><button class="btn btn-primary" type="button" (click)="onSave()" >
-      Save
-    </button>
-      
+      </button></a
+    >
+    <a id="save_vehicle_details"
+      ><button class="btn btn-primary" type="button" (click)="onSave()">
+        Save
+      </button>
     </a>
-    <a id="next_vehicle_details"><button class="btn btn-primary" type="button"
-        [routerLink]="['../../identity-details', applicantId]">
+    <a id="next_vehicle_details"
+      ><button
+        class="btn btn-primary"
+        type="button"
+        [routerLink]="['../../identity-details', applicantId]"
+      >
         Next
-      </button></a>
+      </button></a
+    >
     <br />
     <br />
     <br />

@@ -20,7 +20,8 @@
                 <td *ngIf="roleType == '2'">
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
-                <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode)" style="cursor: pointer;">{{item.leadId}}</td>
+                <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode,item.taskId)" style="cursor: pointer;">
+                    {{item.leadId}}</td>
                 <td class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
@@ -38,7 +39,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="row clearfix marBottom-45">
+    <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>

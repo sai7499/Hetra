@@ -103,6 +103,7 @@
               class="btn btn-primary mar-right8"
               type="button"
               [routerLink]="['/pages/lead-section/', leadId, 'co-applicant']"
+              (click)="navigateAddApplicant()"
             >
               {{ labels.addApplicantTitle }}
             </button>

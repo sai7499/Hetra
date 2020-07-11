@@ -105,7 +105,7 @@ export class AddressDetailsComponent implements OnInit {
     this.initForm();
     this.getLabels();
     this.getLOV();
-    //this.hasRoute();
+    this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
 
@@ -632,8 +632,10 @@ export class AddressDetailsComponent implements OnInit {
     const addressObj = this.getAddressObj();
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
-    this.registeredPincode = {
+    const registeredAddressObj =  addressObj[Constant.REGISTER_ADDRESS] ;
+    console.log('resg obj', registeredAddressObj)
+    if(registeredAddressObj){
+    this.registeredPincode =  {
       city: [
         {
           key: registeredAddressObj.city,
@@ -665,9 +667,11 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.patchValue({
       mobileNumber: registeredAddressObj.mobileNumber,
     });
+  }
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     //const commReplaceObj = valueCheckbox[Constant.COMMUNICATION_ADDRESS]
+  
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -715,10 +719,12 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.patchValue(
         this.setAddressValues(communicationAddressObj)
       );
-    } else {
+    }
+     else {
       this.onRegAsCommChecked = false;
       const communicationAddressObj =
         addressObj[Constant.COMMUNICATION_ADDRESS];
+      if(communicationAddressObj){  
       this.communicationPincode = {
         city: [
           {
@@ -750,6 +756,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.patchValue(
         this.setAddressValues(communicationAddressObj)
       );
+    }
     }
 
     // }

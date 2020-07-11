@@ -65,9 +65,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
-    private uiLoader: NgxUiLoaderService) { 
-      this.initalZeroCheck = [{rule: val => val < 1,msg:'Initial Zero value not accepted'}];
-    }
+    private uiLoader: NgxUiLoaderService) {
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+  }
 
   ngOnInit() {
 
@@ -154,7 +154,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
-  onCompareFinalAssetCode(value) {
+  onCompareFinalAssetCode(event) {
+    const value = event.target.value;
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
     if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
@@ -216,6 +217,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
+
+      console.log(res, 'res')
+
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
       this.vehicleLov.assetMake = [{
@@ -275,7 +279,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         })
         this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
-      } else if (this.roleType === 1) {
+      } else if (this.roleType === 2) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
         this.sharedService.getFormValidation(this.basicVehicleForm)
@@ -667,7 +671,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [null],
-      vehicleOwnerShipNumber: [null],
+      vehicleOwnerShipNumber: null,
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
       ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -716,7 +720,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
-      vehicleOwnerShipNumber: [''],
+      vehicleOwnerShipNumber: null,
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       vehicleRegDate: '',
       gorssVehicleWeight: [''],
