@@ -894,10 +894,11 @@
     "submitToCredit": "Are You Want To Submit Credit?",
     "longitude": "Longitude",
     "latitude": "Latitude",
-    "addVehicleContact": "Add Vehicle Contact",
+    "vehicleContract": "Vehicle Contract",
     "negativeProfile": "Negative Profile",
     "distFromBranch": "Distance from branch",
     "routeMap": "RouteMap",
+    
     "validationData": {
         "name": {
             "maxLength": {

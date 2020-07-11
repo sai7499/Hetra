@@ -227,6 +227,7 @@ export class LoanDetailsComponent implements OnInit {
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
       awareDueDateEmiAmount: new FormControl(''),
+      vehicleContract: new FormControl(''),
 
       // controls for used vehicle asset details
 
@@ -365,6 +366,7 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('amtPerTrip');
       controls.removeControl('selfDrivenOrDriver');
       controls.removeControl('remarks');
+      controls.removeControl('vehicleContract');
 
       console.log('in remove controls', controls);
 
@@ -485,6 +487,7 @@ export class LoanDetailsComponent implements OnInit {
         drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier || '',
         vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying || '',
         awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount || '',
+        vehicleContract: usedVehicleModel.vehicleContract || '',
 
         // asset Details for used vehicle values patching
 
@@ -662,6 +665,7 @@ export class LoanDetailsComponent implements OnInit {
         drivingVehicleEarlier: loanDetailsModal.drivingVehicleEarlier,
         vehicleAttachedPlying: loanDetailsModal.vehicleAttachedPlying,
         awareDueDateEmiAmount: loanDetailsModal.awareDueDateEmiAmount,
+        vehicleContract: loanDetailsModal.vehicleContract,
       };
 
       // for assetDetails used vehicle

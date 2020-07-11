@@ -183,6 +183,7 @@ export interface LoanDetails {
     drivingVehicleEarlier?: string;
     vehicleAttachedPlying?: string;
     awareDueDateEmiAmount?: string;
+    vehicleContract?: string;
 
     // applicable for assetDetails used Vehicle
 
