@@ -37,6 +37,8 @@ export interface ApplicantDetails {
   custSegment?: string;
   applicantTypeKey?: string;
   entityTypeKey?: string;
+  bussinessEntityType?: string;
+
 }
 
 export interface ApplicantList {

@@ -48,7 +48,9 @@ export class TeleVerificationFormComponent implements OnInit {
   sourcingTypeDesc: any;
   sourcingCodeDesc: any;
   sourcingCode: any;
-  changeLabels: any;
+  changeLabelsForProposed: any;
+  changeLabelsForRoute: any
+  changeLabelsForGoods: any
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -73,10 +75,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
   ) {
 
-    this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.validationData = res.validationData;
-    });
+    // this.labelService.getLabelsData().subscribe(res => {
+    //   this.labels = res;
+    //   this.validationData = res.validationData;
+    // });
     this.getLOV();
 
     this.leadId = this.route.snapshot.params.leadId;
@@ -180,7 +182,21 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
+    this.labelService.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+      console.log(this.product);
+      if (this.product === 'Used Commercial Vehicle' || this.product === 'New Commercial Vehicle') {
+        this.changeLabelsForProposed = this.labels.needForProposedVehicle + '(applicable for CV)';
+        this.changeLabelsForRoute = this.labels.routeOfOperation + '(applicable for CV)';
+        this.changeLabelsForGoods = this.labels.typeofGoodsCarried + '(applicable for CV)';
+      } else {
+        this.changeLabelsForProposed = this.labels.needForProposedVehicle;
+        this.changeLabelsForRoute = this.labels.routeOfOperation;
+        this.changeLabelsForGoods = this.labels.typeofGoodsCarried;
+      }
 
+    });
 
     this.getTvrDetails();
     this.initForm();
