@@ -1310,9 +1310,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const applicantDetails = dedupe.value;
     let mobileNumber = applicantDetails.mobilePhone;
     this.mobileNumber = mobileNumber;
-    if (mobileNumber.length === 10) {
-      mobileNumber = '91' + mobileNumber;
-    }
+    // if (this.mobileNumber.length == 10) {
+      this.mobileNumber = '91' + this.mobileNumber;
+    // }
 
     if (applicantDetails.dob) {
       const date = new Date(applicantDetails.dob);
@@ -1361,7 +1361,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
-        if (value.Error === '0') {
+        if (value.Error === '0' && value.ProcessVariables.error.code ==0) {
           const processVariables = value.ProcessVariables;
           if (!processVariables.dedupeFound) {
             this.applicantId = processVariables.applicantId;
@@ -1373,6 +1373,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.router.navigateByUrl(
             `/pages/lead-section/${this.leadId}/sales-exact-match`
           );
+        }else{
+          this.toasterService.showError(value.ProcessVariables.error.message,"Dedupe")
         }
       });
   }
