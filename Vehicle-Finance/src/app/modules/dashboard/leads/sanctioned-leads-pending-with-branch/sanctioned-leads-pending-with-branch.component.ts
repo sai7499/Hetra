@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sanctioned-leads-pending-with-branch',
   templateUrl: './sanctioned-leads-pending-with-branch.component.html',
@@ -23,6 +24,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
+  isLoadLead: boolean;
 
 
   constructor(
@@ -31,7 +33,8 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private router: Router
 
   ) {
   }
@@ -66,6 +69,11 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead !== null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -83,7 +91,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
     this.getSanctionedLeads(this.itemsPerPage, event);
   }
 
-  onAssign(id) {
+  onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
@@ -91,6 +99,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
       console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['/pages/credit-decisions/' + leadId + '/credit-condition']);
       } else {
         this.toasterService.showError(response.Error, '');
       }

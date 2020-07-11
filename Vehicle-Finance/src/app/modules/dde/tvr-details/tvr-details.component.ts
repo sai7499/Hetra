@@ -34,7 +34,6 @@ export class TvrDetailsComponent implements OnInit {
     this.getLeadId();
     this.leadId = (await this.getLeadId()) as number;
     console.log(this.leadId);
-    // this.getTvrDetails();
     this.getTvrDetailsList();
   }
 
@@ -43,7 +42,6 @@ export class TvrDetailsComponent implements OnInit {
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
-          // console.log(Number(value.leadId));
         }
         resolve(null);
       });

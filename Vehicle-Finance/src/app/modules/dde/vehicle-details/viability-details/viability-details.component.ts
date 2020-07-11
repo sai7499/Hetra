@@ -190,7 +190,7 @@ export class ViabilityDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if ( res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
-       this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+       this.router.navigateByUrl(`pages/dashboard/vehicle-viability/viability-checks`);
       } else if (res.ProcessVariables.error.code == '1') {
         this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
       }
@@ -379,7 +379,7 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
-          if (this.router.url.includes('/dde')){
+          if (this.router.url.includes('/dde')) {
             this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
           } else {
             this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
@@ -563,7 +563,12 @@ convertCapitve(dataCaptive) {
    this.router.navigateByUrl(`pages/dde/${this.leadId}/score-card`);
  }
  onBack() {
-this.location.back();
+// this.location.back();
+if (this.router.url.includes('/dde')) {
+  this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`);
+} else {
+  this.router.navigateByUrl(`pages/viability-list/${this.leadId}/viability-list`);
+}
  }
  calculatePassenger() {
    this.monthlyRunningKm = 0 ;
