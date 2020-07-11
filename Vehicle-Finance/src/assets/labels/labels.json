@@ -891,6 +891,7 @@
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "noOfEmi": "No.of Emi",
+    "submitToCredit" : "Are You Want To Submit Credit?",
     "validationData": {
         "name": {
             "maxLength": {
