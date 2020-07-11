@@ -53,29 +53,57 @@
           <thead>
             <tr class="table-head-bg">
               <td>Name</td>
-              <td>DOB</td>
-              <td>Mother Maiden Name</td>
+              <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
+              <td *ngIf="isIndividual">Mother Maiden Name</td>
               <td>Mobile Number</td>
               <td>PAN</td>
-              <td>Adhaar</td>
-              <td>Passport</td>
-              <td>Voter ID</td>
-              <td>Driving License</td>
-              <td>CKYC Number</td>
+              <td>{{ isIndividual ? 'Adhaar' : 'Udyog Adhaar' }}</td>
+              <ng-container *ngIf="isIndividual">
+                <td>Passport</td>
+                <td>Voter ID</td>
+                <td>Driving License</td>
+              </ng-container>
+              <ng-container *ngIf="!isIndividual">
+                <td>CIN</td>
+                <td>CST/VAT</td>
+                <td>GST</td>
+                <td>TAN</td>
+              </ng-container>
+              <td *ngIf="isIndividual">CKYC Number</td>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{{ dedupeParameter?.firstName }}</td>
-              <td>{{ dedupeParameter?.dob }}</td>
-              <td></td>
-              <td>{{ dedupeParameter?.mobileNumber }}</td>
+              <td>
+                {{
+                  isIndividual
+                    ? dedupeParameter?.dob
+                    : dedupeParameter?.dateOfIncorporation
+                }}
+              </td>
+              <td *ngIf="isIndividual"></td>
+              <td>
+                {{
+                  isIndividual
+                    ? dedupeParameter?.mobileNumber
+                    : dedupeParameter?.companyPhoneNumber
+                }}
+              </td>
               <td>{{ dedupeParameter?.pan }}</td>
-              <td></td>
-              <td>{{ dedupeParameter?.passport }}</td>
-              <td>{{ dedupeParameter?.voterId }}</td>
-              <td>{{ dedupeParameter?.drivingLicense }}</td>
-              <td></td>
+              <td>{{ dedupeParameter?.aadhar }}</td>
+              <ng-container *ngIf="isIndividual">
+                <td>{{ dedupeParameter?.passportNumber }}</td>
+                <td>{{ dedupeParameter?.voterIdNumber }}</td>
+                <td>{{ dedupeParameter?.drivingLicenseNumber }}</td>
+                <td>{{ dedupeParameter?.ckycNumber }}</td>
+              </ng-container>
+              <ng-container *ngIf="!isIndividual">
+                <td>{{ dedupeParameter?.corporateIdentificationNumber }}</td>
+                <td>{{ dedupeParameter?.cstVatNumber }}</td>
+                <td>{{ dedupeParameter?.gstNumber }}</td>
+                <td>{{ dedupeParameter?.tanNumber }}</td>
+              </ng-container>
             </tr>
           </tbody>
         </table>
@@ -91,15 +119,23 @@
             <td>UCIC</td>
             <td>Name</td>
             <td>Matched Criteria</td>
-            <td>DOB</td>
-            <td>Mother Maiden Name</td>
+            <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
+            <td *ngIf="isIndividual">Mother Maiden Name</td>
             <td>Mobile Number</td>
             <td>PAN</td>
-            <td>Adhaar</td>
-            <td>Passport</td>
-            <td>Voter ID</td>
-            <td>Driving License</td>
-            <td>CKYC Number</td>
+            <td>{{ isIndividual ? 'Adhaar' : 'Udyog Adhaar' }}</td>
+            <ng-container *ngIf="isIndividual">
+              <td>Passport</td>
+              <td>Voter ID</td>
+              <td>Driving License</td>
+            </ng-container>
+            <ng-container *ngIf="!isIndividual">
+              <td>CIN</td>
+              <td>CST/VAT</td>
+              <td>GST</td>
+              <td>TAN</td>
+            </ng-container>
+            <td *ngIf="isIndividual">CKYC Number</td>
           </tr>
         </thead>
         <tbody>
@@ -122,15 +158,26 @@
             <td>{{ exactMatch.ucic }}</td>
             <td>{{ exactMatch.fullName }}</td>
             <td>{{ exactMatch.matchedCriteria }}</td>
-            <td>{{ exactMatch.dob }}</td>
-            <td></td>
+            <td>{{ isIndividual ? exactMatch.dob : exactMatch.doi }}</td>
+            <td *ngIf="isIndividual"></td>
             <td>{{ exactMatch.mobile }}</td>
             <td>{{ exactMatch.pan }}</td>
-            <td>{{ exactMatch.aadhar }}</td>
-            <td>{{ exactMatch.passport }}</td>
-            <td>{{ exactMatch.voterID }}</td>
-            <td>{{ exactMatch.prospectDrivingLicense }}</td>
-            <td>{{ exactMatch.prospectCkycNumber }}</td>
+            <td>
+              {{ isIndividual ? exactMatch.aadhar : exactMatch.udhyogAadhar }}
+            </td>
+            <ng-container *ngIf="isIndividual">
+              <td>{{ exactMatch.passport }}</td>
+              <td>{{ exactMatch.voterIdNumber }}</td>
+              <td>{{ exactMatch.prospectDrivingLicense }}</td>
+            </ng-container>
+
+            <ng-container *ngIf="!isIndividual">
+              <td>{{ exactMatch?.cinOrRegNo }}</td>
+              <td>{{ exactMatch?.cstOrVatNo }}</td>
+              <td>{{ exactMatch?.gst }}</td>
+              <td>{{ exactMatch?.tan }}</td>
+            </ng-container>
+            <td *ngIf="isIndividual">{{ exactMatch.prospectCkycNumber }}</td>
           </tr>
         </tbody>
       </table>
@@ -146,15 +193,23 @@
               <td>UCIC</td>
               <td>Name</td>
               <td>Matched Criteria</td>
-              <td>DOB</td>
-              <td>Mother Maiden Name</td>
+              <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
+              <td *ngIf="isIndividual">Mother Maiden Name</td>
               <td>Mobile Number</td>
               <td>PAN</td>
-              <td>Adhaar</td>
-              <td>Passport</td>
-              <td>Voter ID</td>
-              <td>Driving License</td>
-              <td>CKYC Number</td>
+              <td>{{ isIndividual ? 'Adhaar' : 'Udyog Adhaar' }}</td>
+              <ng-container *ngIf="isIndividual">
+                <td>Passport</td>
+                <td>Voter ID</td>
+                <td>Driving License</td>
+              </ng-container>
+              <ng-container *ngIf="!isIndividual">
+                <td>CIN</td>
+                <td>CST/VAT</td>
+                <td>GST</td>
+                <td>TAN</td>
+              </ng-container>
+              <td *ngIf="isIndividual">CKYC Number</td>
             </tr>
           </thead>
           <tbody>
@@ -177,15 +232,27 @@
               <td>{{ probable.ucic }}</td>
               <td>{{ probable.fullName }}</td>
               <td>{{ probable.matchedCriteria }}</td>
-              <td>{{ probable.dob }}</td>
-              <td></td>
+              <td>{{ isIndividual ? probable.dob : probable.doi }}</td>
+              <td *ngIf="isIndividual"></td>
               <td>{{ probable.mobile }}</td>
               <td>{{ probable.pan }}</td>
               <td>{{ probable.aadhar }}</td>
-              <td>{{ probable.passport }}</td>
-              <td>{{ probable.voterID }}</td>
-              <td>{{ probable.prospectDrivingLicense }}</td>
-              <td>{{ probable.prospectCkycNumber }}</td>
+              <td>
+                {{ isIndividual ? probable.aadhar : probable.udhyogAadhar }}
+              </td>
+              <ng-container *ngIf="isIndividual">
+                <td>{{ probable.passport }}</td>
+                <td>{{ probable.voterID }}</td>
+                <td>{{ probable.prospectDrivingLicense }}</td>
+              </ng-container>
+
+              <ng-container *ngIf="!isIndividual">
+                <td>{{ probable?.cinOrRegNo }}</td>
+                <td>{{ probable?.cstOrVatNo }}</td>
+                <td>{{ probable?.gst }}</td>
+                <td>{{ probable?.tan }}</td>
+              </ng-container>
+              <td *ngIf="isIndividual">{{ probable.prospectCkycNumber }}</td>
             </tr>
           </tbody>
         </table>
