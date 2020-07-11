@@ -105,16 +105,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commomLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private personaldiscussion: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commomLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private personaldiscussion: PersonalDiscussionService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService,
+              private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -124,7 +124,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log("this user roleType", this.roleType)
+    console.log('this user roleType', this.roleType)
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -184,7 +184,7 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantDetailsFromLead = data['applicantDetails'][0]
     this.applicantFullName = applicantDetailsFromLead['fullName']
     this.mobileNo = applicantDetailsFromLead['mobileNumber']
-    console.log("in lead section data", this.applicantFullName, this.mobileNo)
+    console.log('in lead section data', this.applicantFullName, this.mobileNo)
   }
   initForm() {
     this.applicantForm = new FormGroup({
@@ -241,7 +241,7 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
-    if (this.version != 'undefined') {
+    if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
@@ -252,12 +252,11 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onNavigateBack() {
-    console.log("in nav back", this.version)
-    if (this.version != 'undefined') {
+    console.log('in nav back', this.version);
+    if (this.version !== 'undefined') {
 
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-    }
-    else {
+    } else {
       this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
 
 
@@ -265,13 +264,13 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   getPdDetails() {
-    console.log("pd version", this.version)
+    console.log('pd version', this.version);
 
     const data = {
 
       applicantId: this.applicantId,
       pdVersion: this.version,
-    }
+    };
 
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
