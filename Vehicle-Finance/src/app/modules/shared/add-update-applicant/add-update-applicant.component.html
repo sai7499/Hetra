@@ -210,7 +210,7 @@
                       <div
                         *ngIf="coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid"
                       >
-                        select date
+                        Select valid date
                       </div>
                     </div>
                   </div>
@@ -328,7 +328,7 @@
                     [maxLength]="validationData?.cinRegNumber?.maxLength"
                     [type]="validationData?.cinRegNumber?.type"
                     [inputClass]="'text-uppercase'"
-                    [isRequired]="'Select One'"
+                    [isRequired]="'CIN Number is Required'"
                     [isDirty]="isDirty"
                   >
                   </app-custom-input>

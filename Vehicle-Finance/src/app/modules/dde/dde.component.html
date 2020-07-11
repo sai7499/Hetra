@@ -2,10 +2,11 @@
   <div class="container-fluid">
     <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
     <app-lead-section-header></app-lead-section-header>
+ 
     <div class="multisteps-form">
-      <div class="multisteps-form__progress">
+      <div class="multisteps-form__progress" *ngIf ="showNav == true">
       <div class="col-md-1"><a class="prev-first-data" (click) = "onPrevious()" ><i class="fa fa-angle-left"></i></a></div>
-      <div class="col-md-10 text-center">
+      <div class="col-md-10 text-center">        
         <div *ngIf="show == true" class="progress-box">
           <button class="multisteps-form__progress-btn first-row" type="button" id="credit_sourcing_details"
             [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
@@ -54,19 +55,19 @@
             PD Report
           </button>
           <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-            [routerLink]="['./viability-dashboard']" [ngClass]="{ 'js-active': locationIndex >= 11 }">
+            [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }">
             Viability
-          </button>
+          </button>   
           <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-            [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 12 }">
-            Cibil OD
+            [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 12 }" disabled>
+            OD Details 
           </button>
           <button class="multisteps-form__progress-btn second-row" type="button" id="credit_score_card"
             [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
             Score Card
           </button>
           <button class="multisteps-form__progress-btn second-row" type="button" id="credit_cam" [routerLink]="['./cam']"
-            [ngClass]="{ 'js-active': locationIndex >= 14 }">
+            [ngClass]="{ 'js-active': locationIndex >= 14 }" disabled>
             CAM
           </button>
           <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
@@ -74,14 +75,14 @@
             Deviations
           </button>
           <button class="multisteps-form__progress-btn second-row" type="button" id="credit_insurance"
-            [routerLink]="['./insurance-details']" [ngClass]="{ 'js-active': locationIndex >= 16 }">
+            [routerLink]="['./insurance-details']" [ngClass]="{ 'js-active': locationIndex >= 16 }" disabled>
             Insurance
           </button>
         </div>
       </div>
       <div class="col-md-1"><a class="next-second-data text-right" href="javascript:void(0)" (click)= "onNext()"><i class="fa fa-angle-right"></i></a></div>
       <div class="clearfix"></div>
-      </div>
+      </div>&nbsp;
       <div class="content">
         <router-outlet> </router-outlet>
       </div>

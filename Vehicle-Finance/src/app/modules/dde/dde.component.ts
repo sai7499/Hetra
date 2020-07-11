@@ -15,6 +15,7 @@ export class DdeComponent implements OnInit {
   locationIndex: number;
   leadId: number;
   show: boolean;
+  showNav: boolean = false;
   constructor(
     public router: Router,
     private location: Location,
@@ -74,15 +75,15 @@ export class DdeComponent implements OnInit {
       this.show = true;
     }
 
-    // console.log("in router url", this.router.url)
-    // if (this.router.url.includes('/pd-dashboard')) {
-    //   console.log(" pd-dashboard ")
-    //   this.show = false;
-    //   console.log(" pd-dashboard ", this.show)
-    // } else {
-    //   this.show = true;
-    //   console.log(" pd-dashboard ", this.show)
-    // }
+    console.log("in router url", this.router.url)
+    if (this.router.url.includes('/pd-dashboard')) {
+      console.log(" pd-dashboard ")
+      this.showNav = false;
+      console.log(" pd-dashboard ", this.show)
+    } else {
+      this.showNav = true;
+      console.log(" pd-dashboard ", this.show)
+    }
   }
 
   onPrevious() {

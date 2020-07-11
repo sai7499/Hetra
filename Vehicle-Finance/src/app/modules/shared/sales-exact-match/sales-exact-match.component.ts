@@ -98,6 +98,7 @@ export class SalesExactMatchComponent implements OnInit {
       ucic: Number(this.selectedDetails.ucic),
       leadId,
       applicantId: this.dedupeParameter.applicantId,
+      loanApplicationRelation: this.dedupeParameter.loanApplicationRelation
     };
 
     this.applicantService

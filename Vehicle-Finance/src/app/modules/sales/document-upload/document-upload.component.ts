@@ -32,7 +32,7 @@ export class DocumentUploadComponent implements OnInit {
       response => {
         if (response['Error'] && response['Error'] == 0
           && response['ProcessVariables'].error['code'] == 0) {
-          this.errorMessage = 'Submit to Credit Sucessful';
+          this.errorMessage = 'Lead is submitted to Credit sucessfully';
           this.isModelShow = true;
         } else{
           this.toStarService.showError(response['ProcessVariables'].error['message'],"Submit To Credit")
