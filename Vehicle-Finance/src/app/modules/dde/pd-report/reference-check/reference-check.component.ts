@@ -26,7 +26,7 @@ export class ReferenceCheckComponent implements OnInit {
   labels: any = {};
   errorMsg: any;
   applicantId: number;
-  refCheckDetails: any = {}
+  refCheckDetails: any = {};
   isDirty: boolean;
   isSoNameEnable: true;
   userDetails: any;
@@ -50,7 +50,7 @@ export class ReferenceCheckComponent implements OnInit {
     msg: 'Invalid Address',
   };
   version: string;
-  show: boolean;
+  show = true;
   taskId: any;
   roleId: any;
   roleType: any;
@@ -69,8 +69,8 @@ export class ReferenceCheckComponent implements OnInit {
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
       this.taskId = value;
-      console.log("in ref check task id", this.taskId)
-    })
+      console.log('in ref check task id', this.taskId);
+    });
   }
 
   async ngOnInit() {
@@ -78,15 +78,16 @@ export class ReferenceCheckComponent implements OnInit {
 
     if (this.router.url.includes('/pd-dashboard')) {
 
-      console.log(" pd-dashboard ")
-      this.show = true;
+      console.log(' pd-dashboard ');
+      this.show = false;
     }
     // accessing lead if from route
 
     this.leadId = (await this.getLeadId()) as number;
     // console.log("leadID =>", this.leadId)
 
-    // calling login store service to retrieve the user data 
+
+    // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -94,9 +95,9 @@ export class ReferenceCheckComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log("user details ==> ", this.userDetails)
-    console.log("user id ==>", this.userId)
-    console.log("user name", this.userName)
+    console.log('user details ==> ', this.userDetails);
+    console.log('user id ==>', this.userId);
+    console.log('user name', this.userName);
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -107,7 +108,7 @@ export class ReferenceCheckComponent implements OnInit {
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          this.getPdDetails();    //for getting the data for pd details on initializing the page
+          this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -155,10 +156,16 @@ export class ReferenceCheckComponent implements OnInit {
       // place: new FormControl('', Validators.required),
       // time: new FormControl('', Validators.required),
       // pdRemarks: new FormControl('', Validators.required),
-      pdRemarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
+      negativeProfile: new FormControl('', Validators.required),
+      latitude: new FormControl({ value: '', disabled: true }),
+      longitude: new FormControl({ value: '', disabled: true }),
+      distanceFromBranch: new FormControl({ value: '', disabled: true }),
+      routeMap: new FormControl(''),
+      pdRemarks: new FormControl('', Validators.compose
+        ([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
       overallFiReport: new FormControl('', Validators.required)
 
-    })
+    });
   }
 
   getPdDetails() {
@@ -171,8 +178,8 @@ export class ReferenceCheckComponent implements OnInit {
 
 
       /* Uncomment this after getting applicant Id from Lead */
-    }
-    console.log("applicant id in get detaisl", this.applicantId)
+    };
+    console.log('applicant id in get detaisl', this.applicantId);
 
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
@@ -181,15 +188,14 @@ export class ReferenceCheckComponent implements OnInit {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck;
         this.showReinitiate = value.ProcessVariables.showReinitiate;
-        console.log('in ref check show renitiate', this.showReinitiate)
+        console.log('in ref check show renitiate', this.showReinitiate);
         console.log('calling get api ', this.refCheckDetails);
         if (this.refCheckDetails) {
-          this.setFormValue()
+          this.setFormValue();
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
-      }
-      else {
-        console.log("error", processVariables.error.message);
+      } else {
+        console.log('error', processVariables.error.message);
 
       }
     });
@@ -200,7 +206,7 @@ export class ReferenceCheckComponent implements OnInit {
     // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
     const refCheckModal = this.refCheckDetails || {};
 
-    console.log('in form value', refCheckModal)
+    console.log('in form value', refCheckModal);
 
     this.referenceCheckForm.patchValue({
       nameOfReference: refCheckModal.nameOfReference || '',
@@ -213,10 +219,14 @@ export class ReferenceCheckComponent implements OnInit {
       // place: refCheckModal.place || '',
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
       // time: refCheckModal.time || '',
+      negativeRemarks: refCheckModal.negativeRemarks || '',
+      latitude: refCheckModal.latitude || '',
+      longitude: refCheckModal.longitude || '',
       pdRemarks: refCheckModal.pdRemarks || '',
+      distanceFromBranch: refCheckModal.distanceFromBranch || '',
       overallFiReport: refCheckModal.overallFiReport || ''
     });
-    console.log("patched form", this.referenceCheckForm);
+    console.log('patched form', this.referenceCheckForm);
   }
   // getDateFormat(date) {
 
@@ -253,12 +263,12 @@ export class ReferenceCheckComponent implements OnInit {
   // }
 
   onFormSubmit() {
-    console.log("in save api")
+    console.log('in save api');
     const formModal = this.referenceCheckForm.value;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
-      console.log("in invalid ref checkform", this.referenceCheckForm)
-      this.toasterService.showWarning("please enter required details", '')
+      console.log('in invalid ref checkform', this.referenceCheckForm);
+      this.toasterService.showWarning('please enter required details', '');
       return;
     }
     const refCheckModal = { ...formModal };
@@ -273,6 +283,10 @@ export class ReferenceCheckComponent implements OnInit {
       // place: refCheckModal.place || '',
       // time: this.sendDate(refCheckModal.time),
       // time: refCheckModal.time || '',
+      negativeRemarks: refCheckModal.negativeRemarks || '',
+      latitude: refCheckModal.latitude || '',
+      longitude: refCheckModal.longitude || '',
+      distanceFromBranch: refCheckModal.distanceFromBranch || '',
       pdRemarks: refCheckModal.pdRemarks || '',
       overallFiReport: refCheckModal.overallFiReport || '',
     };
@@ -308,21 +322,20 @@ export class ReferenceCheckComponent implements OnInit {
       applicantId: this.applicantId,
       // applicantId: 1,
       userId: this.userId
-    }
+    };
     this.personalDiscussion.approvePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log("response approve pd", processVariables)
-      const message = processVariables.error.message
+      console.log('response approve pd', processVariables);
+      const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report approved successfully", '')
+        this.toasterService.showSuccess('pd report approved successfully', '');
         this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+      } else {
+        this.toasterService.showError('', 'message');
 
       }
-    })
+    });
 
   }
 
@@ -333,21 +346,20 @@ export class ReferenceCheckComponent implements OnInit {
       applicantId: this.applicantId,
       // applicantId: 1,
       userId: this.userId
-    }
+    };
     this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log("response reinitiate pd", processVariables)
-      const message = processVariables.error.message
+      console.log('response reinitiate pd', processVariables);
+      const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report reinitiated successfully", '')
+        this.toasterService.showSuccess('pd report reinitiated successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+      } else {
+        this.toasterService.showError('', 'message');
 
       }
-    })
+    });
 
 
 
@@ -371,18 +383,18 @@ export class ReferenceCheckComponent implements OnInit {
 
       applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */
 
-    }
+    };
 
     this.personalDiscussion.submitPdReport(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-        console.log("message", processVariables.error.message);
-        this.toasterService.showSuccess('submitted to credit successfully', '')
+        console.log('message', processVariables.error.message);
+        this.toasterService.showSuccess('submitted to credit successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-      }
-      else {
-        this.toasterService.showError("pd report is not saved", '')
-        console.log("error", processVariables.error.message);
+        this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+      } else {
+        this.toasterService.showError('pd report is not saved', '');
+        console.log('error', processVariables.error.message);
 
       }
     });
@@ -392,13 +404,21 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateToPdSummary() {
 
-    // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
+    if (this.version !== 'undefined') {
 
-    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+      // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
+
+    }
   }
+
   onNavigateBack() {
-    if (this.version != 'undefined') {
+    if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {

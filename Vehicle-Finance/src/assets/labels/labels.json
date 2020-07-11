@@ -891,7 +891,13 @@
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "noOfEmi": "No.of Emi",
-    "submitToCredit" : "Are You Want To Submit Credit?",
+    "submitToCredit": "Are You Want To Submit Credit?",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "addVehicleContact": "Add Vehicle Contact",
+    "negativeProfile": "NegativeProfile",
+    "distFromBranch": "Distance from branch",
+    "routeMap": "RouteMap",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1074,7 +1080,6 @@
         "email": {
             "maxLength": {
                 "rule": 120
-
             }
         },
         "adhaarNumber": {
@@ -1132,14 +1137,12 @@
                 "rule": 26
             },
             "type": "alpha-numeric"
-            
         },
         "cstVatNumber": {
             "maxLength": {
                 "rule": 11
             },
             "type": "alpha-numeric"
-            
         },
         "gstNumber": {
             "maxLength": {
@@ -1150,14 +1153,12 @@
                 "rule": "[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}",
                 "msg": "Invalid GST Number. Valid format-12AAAAAA1234A1A1"
             }
-            
         },
         "tanNumber": {
             "maxLength": {
                 "rule": 10
             },
             "type": "alpha-numeric"
-            
         },
         "pincode": {
             "maxLength": {
@@ -1207,7 +1208,6 @@
             },
             "type": "number"
         },
-        
         "businessEntity": {
             "maxLength": {
                 "rule": 40
@@ -1319,6 +1319,5 @@
                 "rule": 100
             }
         }
-
     }
 }
