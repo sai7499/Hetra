@@ -205,7 +205,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.removeNonIndFormControls();
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-
       dedupe.patchValue({
         title: 'M/SSALUTATION'
         })
@@ -215,8 +214,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
   }
   addIndFormControls(){
-    const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
-      
+    const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;      
       dedupe.addControl('dob', new FormControl(''));
       dedupe.addControl('mobilePhone', new FormControl(''));
       dedupe.addControl('drivingLicenseNumber', new FormControl(''));
@@ -229,7 +227,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   addNonIndFormControls(){
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
-    dedupe.addControl('companyPhoneNumber', new FormControl(''));
+      dedupe.addControl('companyPhoneNumber', new FormControl(''));
       dedupe.addControl('dateOfIncorporation', new FormControl(''));
       dedupe.addControl('contactPerson', new FormControl(''));
       dedupe.addControl('corporateIdentificationNumber', new FormControl(''));
@@ -239,8 +237,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   
   removeIndFormControls() {
-    const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
-      
+    const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;      
       dedupe.removeControl('dob');
       dedupe.removeControl('mobilePhone');
       dedupe.removeControl('drivingLicenseNumber');
@@ -253,9 +250,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   removeNonIndFormControls() {
     const dedupe = this.coApplicantForm.get('dedupe') as FormGroup;
-    dedupe.removeControl('companyPhoneNumber');
-      dedupe.removeControl('dateOfIncorporation');
-      
+      dedupe.removeControl('companyPhoneNumber');
+      dedupe.removeControl('dateOfIncorporation');      
       dedupe.removeControl('contactPerson');
       dedupe.removeControl ('corporateIdentificationNumber')
       dedupe.removeControl('cstVatNumber');
