@@ -79,6 +79,11 @@ const routes: Routes = [
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
+        path: 'pd-dashboard', // added another routing for dde module to load from pd-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+      {
         path: 'vehicle-details',
         loadChildren: () =>
           import('./modules/dde/vehicle-details/vehicle-details.module').then(
@@ -88,15 +93,15 @@ const routes: Routes = [
       {
         path: 'deviation-dashboard',
         loadChildren: () =>
-       import('./modules/dde/deviation-dashboard/deviation-dashoard.module').then(
-        (m) => m.DeviationDashoardModule
-       )
+          import('./modules/dde/deviation-dashboard/deviation-dashoard.module').then(
+            (m) => m.DeviationDashoardModule
+          )
       },
       {
-        path: 'fl-and-pd-report',
+        path: 'pd-dashboard',
         loadChildren: () =>
-          import('./modules/dde/fl-and-pd-report/fl-and-pd-report.module').then(
-            (m) => m.FlAndPdReportModule
+          import('./modules/dde/pd-report/pd-report.module').then(
+            (m) => m.PdReportModule
           ),
       },
       {
@@ -138,6 +143,13 @@ const routes: Routes = [
           import(
             './modules/sales/applicant-details/applicant-details.module'
           ).then((m) => m.ApplicantDetailsModule),
+      },
+      {
+        path: 'viability-list',
+        loadChildren: () =>
+          import(
+            './modules/dde/viability-dashboard/viability-dashboard.module'
+          ).then((m) => m.ViabilityDashboardModule),
       },
     ],
   },

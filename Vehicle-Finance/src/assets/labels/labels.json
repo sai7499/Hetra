@@ -287,8 +287,8 @@
     "tenureInMonths": "TENURE IN MONTHS",
     "sourceOfProposal": "Source of Proposal",
     "assetType": "Asset Type",
-    "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion - (applicable for CV).",
-    "routeOfOperation": "Route of operation - Onward and Return (Applicable for CV).",
+    "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion).",
+    "routeOfOperation": "Route of operation - Onward and Return.",
     "contractDetails": "Contract Details",
     "residence": "Residence",
     "otherVehicles": "Other Vehicles Owned",
@@ -734,7 +734,7 @@
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
-    "modelType": "Model/Type",
+    "modelType": "Type",
     "loanAmt": "Loan Amount",
     "loanDetailsForNewVehicle": "Loan Details For New Vehicle",
     "loanDetailsUsedVehicleTitle": "Loan Details For Used Vehicle",
@@ -890,6 +890,7 @@
     "enquiryDate": "Enquiry Date",
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
+    "noOfEmi": "No.of Emi",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1072,6 +1073,7 @@
         "email": {
             "maxLength": {
                 "rule": 120
+
             }
         },
         "adhaarNumber": {
@@ -1310,6 +1312,12 @@
                 "rule": 5
             },
             "type": "number"
+        },
+        "endUseOfFunds": {
+            "maxLength": {
+                "rule": 100
+            }
         }
+
     }
 }

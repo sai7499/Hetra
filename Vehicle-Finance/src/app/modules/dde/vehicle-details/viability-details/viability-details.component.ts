@@ -56,6 +56,9 @@ export class ViabilityDetailsComponent implements OnInit {
   netCashFlowEmiPassenger = 0;
   netFlowCash = 0;
   roleAndUserDetails: any;
+  routerUrl: any;
+  hideSubmit = true;
+  taskId: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -64,12 +67,18 @@ export class ViabilityDetailsComponent implements OnInit {
               private toasterService: ToasterService,
               private router: Router,
               private location: Location,
-              private loginStoreService: LoginStoreService) { }
+              private loginStoreService: LoginStoreService) {
+                this.route.queryParams.subscribe((res: any) => {
+                  this.taskId = res.taskId;
+                });
+               }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     console.log(this.roleAndUserDetails);
+    this.routerUrl = this.router;
+
     this.labelsData.getLabelsData()
       // tslint:disable-next-line: no-shadowed-variable
       .subscribe(data => {
@@ -140,19 +149,51 @@ export class ViabilityDetailsComponent implements OnInit {
       }),
     });
     this.leadId = (await this.getLeadId()) as number;
+    this.collataralId = (await this.getCollateralId()) as number;
     console.log(this.collataralId);
+    this.getViability(Number(this.collataralId));
     // this.getViabilityList(Number(this.leadId));
     console.log(this.viabilityForm.controls);
+    console.log(this.route.parent.firstChild.params);
+    if (this.router.url.includes('/dde')) {
+      this.hideSubmit = false;
+      console.log('dde url found', this.router);
+    }
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
-          this.getViabilityList(Number(value.leadId));
         }
         resolve(null);
       });
+    });
+  }
+  getCollateralId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.firstChild.params.subscribe((value) => {
+        if (value && value.collateralId) {
+          resolve(Number(value.collateralId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  submitViability() {
+    const body = {
+      leadId : this.leadId,
+      collateralId: this.collataralId,
+      taskId: this.taskId
+    };
+    this.viabilityService.submitViabilityTask(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if ( res.ProcessVariables.error.code == '0') {
+       this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+       this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+      } else if (res.ProcessVariables.error.code == '1') {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+      }
     });
   }
   getViabilityList(id) {
@@ -338,6 +379,11 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+          if (this.router.url.includes('/dde')){
+            this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+          } else {
+            this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+          }
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }

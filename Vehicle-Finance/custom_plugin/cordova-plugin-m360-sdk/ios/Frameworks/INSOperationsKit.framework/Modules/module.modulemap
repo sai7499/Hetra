@@ -1,0 +1,6 @@
+framework module INSOperationsKit {
+  umbrella header "INSOperationsKit.h"
+
+  export *
+  module * { export * }
+}

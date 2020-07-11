@@ -1,0 +1,6 @@
+framework module FLProtocolBuffers {
+  umbrella header "FLProtocolBuffers.h"
+
+  export *
+  module * { export * }
+}

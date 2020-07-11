@@ -34,11 +34,10 @@ export class CreditConditionsComponent implements OnInit {
     this.formArr.push(this.getcreditConditionControls())
   }
   removeOtherIndex(index, credit) {
-    if (this.formArr.length > 1) {
       // console.log("inside del fun", fleets)
 
       // console.log("vehicleId", fleets[index].id)
-      if (credit.length > 1 && this.creditConditions && this.creditConditions[index].creditId) {
+      if (credit.length >= 1 && this.creditConditions && this.creditConditions[index].creditId) {
         const data = {
           creditId: this.creditConditions[index].creditId,
           "userId": this.userId
@@ -50,10 +49,7 @@ export class CreditConditionsComponent implements OnInit {
       this.formArr.removeAt(index);
       this.toasterService.showSuccess("Credit condition deleted successfully!", '')
 
-    } else {
-      this.toasterService.showError("atleast one row required !", '')
-
-    }
+    
 
   }
   getLeadId() {
@@ -163,37 +159,40 @@ export class CreditConditionsComponent implements OnInit {
 
   }
   saveUpdate() {
-    let creditConditionDetails = this.creditConditionForm.value['Rows'];
-    for(let i=0 ; i< creditConditionDetails.length ; i++){
-      if(this.formArr.controls[i]['controls']['defferedDate'].value != ''){
-        creditConditionDetails[i].defferedDate = this.sendDate(this.formArr.controls[i]['controls']['defferedDate'].value)
+    if(this.formArr.length >= 1){
+      let creditConditionDetails = this.creditConditionForm.value['Rows'];
+      for(let i=0 ; i< creditConditionDetails.length ; i++){
+        if(this.formArr.controls[i]['controls']['defferedDate'].value != ''){
+          creditConditionDetails[i].defferedDate = this.sendDate(this.formArr.controls[i]['controls']['defferedDate'].value)
+        }
+        // if(creditConditionDetails[i]['creditAction'] == '2'){
+        //   creditConditionDetails[i]['creditAction'] = null;
+        // }
+        if(!creditConditionDetails[i]['salesResponse']){
+         creditConditionDetails[i]['salesResponse'] = '';
+        }
+        if(creditConditionDetails[i]['creditId'] == ""){
+          creditConditionDetails[i]['creditId'] = null;
+        }
+        console.log(this.formArr)
+        creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
+        
       }
-      // if(creditConditionDetails[i]['creditAction'] == '2'){
-      //   creditConditionDetails[i]['creditAction'] = null;
-      // }
-      if(!creditConditionDetails[i]['salesResponse']){
-       creditConditionDetails[i]['salesResponse'] = '';
+      let data = {
+        "userId":this.userId,
+        "leadId":this.leadId,
+        "creditConditionDetails": creditConditionDetails
       }
-      if(creditConditionDetails[i]['creditId'] == ""){
-        creditConditionDetails[i]['creditId'] = null;
-      }
-      console.log(this.formArr)
-      creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
-      
+      this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {
+        console.log(res);
+        if(res['ProcessVariables'].error['code'] == 0){
+          this.toasterService.showSuccess("Credit condition Saved successfully!", '')
+  
+        }
+  
+      })
     }
-    let data = {
-      "userId":this.userId,
-      "leadId":this.leadId,
-      "creditConditionDetails": creditConditionDetails
-    }
-    this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {
-      console.log(res);
-      if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Credit condition Saved successfully!", '')
-
-      }
-
-    })
+   
   }
   async ngOnInit() {
     this.getLabelData();
