@@ -67,6 +67,11 @@ export class ApplicantListComponent implements OnInit {
     });
   }
 
+  navigateAddapplicant(){
+    this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`)
+  }
+  
+
   navigatePage(applicantId: string) {
     console.log(
       'applicantId',

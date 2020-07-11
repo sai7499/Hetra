@@ -490,7 +490,10 @@ export class BasicDetailsComponent implements OnInit {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
       console.log('applicantlov', this.applicantLov)
-      // this.applicantLov.salutation = 
+      // this.applicantLov.applicantRelationshipWithLead.map((val)=>{
+        
+      // })
+      
       this.activatedRoute.params.subscribe((value) => {
         if (!value && !value.applicantId) {
           return;
@@ -561,8 +564,8 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
       name1: new FormControl(null, Validators.required),
-      name2: new FormControl(null, Validators.required),
-      name3: new FormControl(null, Validators.required),
+      name2: new FormControl(null),
+      name3: new FormControl(null),
       dateOfIncorporation: new FormControl(null, Validators.required),
       contactPerson: new FormControl(null, Validators.required),
       companyPhoneNumber: new FormControl(null, Validators.required),

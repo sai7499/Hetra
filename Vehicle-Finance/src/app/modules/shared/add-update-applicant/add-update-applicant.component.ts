@@ -46,13 +46,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   panRequired: boolean;
 
-  isMobileChanged = false;
-  isName1Changed: boolean;
-  isPanChanged: boolean;
-  isAadharChanged: boolean;
-  isPassportChanged: boolean;
-  isDrivingLicenseChanged: boolean;
+  isMobileChanged:boolean = false;
+  isName1Changed: boolean = false;
+  isPanChanged: boolean = false;
+  isAadharChanged: boolean = false;
+  isPassportChanged: boolean = false;
+  isDrivingLicenseChanged: boolean = false;
   isVoterIdChanged : boolean;
+
+  isContactNumberChanged : boolean= false
   isCinNumberChanged: boolean;
   isCstNumberChanged: boolean;
   isGstNumberChanged: boolean;
@@ -170,8 +172,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   async ngOnInit() {
     this.initForm();
-    
-    
     this.getLOV();
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].addApplicant[0];
@@ -274,11 +274,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (!this.isPanDisabled) {
       this.panPattern = {};
       this.panRequired = false;
+      dedupe.patchValue({
+        pan: null,
+      })
       dedupe.get('pan').disable();
+      
     }else{
       dedupe.get('pan').enable();
       this.panPattern = this.panFormPattern;
       this.panRequired = true;
+      setTimeout(() => {
+        dedupe.patchValue({
+          pan: null,
+          
+        });
+      });
     }
   }else{
     const passportValue = dedupe.get('passportNumber').value;
@@ -606,23 +616,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicant: Applicant = {
         ...processVariables,
       };
+     
+      const addressDetails: Array<any> = processVariables.addressDetails || [];
+      console.log('addressDetails', addressDetails)
+      const addressStatus = addressDetails.find(val => val.addressType === "PERMADDADDTYP");
+      
+      // if (processVariables.ucic) {isCurrAddSameAsPermAdd: "0"
+      if(addressStatus && addressDetails.length>0 && addressStatus.isCurrAddSameAsPermAdd == "1"){
+        this.isPermanantAddressSame = true;
+        this.isDisabledCheckbox = true;   
 
-      if (processVariables.ucic) {
-        this.isDisabledCheckbox= true
-        // if(this.coApplicantForm.get('permentAddress')){
-           this.disablePermanentAddress();
-        // }
-        // if(this.coApplicantForm.get('currentAddress')){
-           this.disableCurrentAddress();
-        // }
-        // if(this.coApplicantForm.get('registeredAddress')){
-           this.disableRegisteredAddress();
-        // }
-        // if(this.coApplicantForm.get('communicationAddress')){
-        this.disableCommunicationAddress();
-        // }
+        this.disablePermanentAddress();
+        this.disableCurrentAddress();
         
-
+      //this.disableRegisteredAddress();
+      //this.disableCommunicationAddress();
       }
 
       this.applicantDataService.setApplicant(applicant);
@@ -736,7 +744,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
       if (aboutIndivProspectDetails.dob) {
         details.dob = aboutIndivProspectDetails.dob
-        details.dob = this.utilityService.getDateFromString(details.dob);
+          // .split('/')
+          // .reverse()
+          // .join('-');
+        details.dob = new Date(this.utilityService.getDateFromString(details.dob));
       }
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
       details.passportIssueDate = this.utilityService.getDateFromString(
@@ -769,7 +780,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       if (corporateProspectDetails.dateOfIncorporation) {
         details.dateOfIncorporation = corporateProspectDetails.dateOfIncorporation
-        details.dateOfIncorporation = new Date(this.utilityService.getDateFormat(details.dateOfIncorporation));
+        details.dateOfIncorporation = new Date(this.utilityService.getDateFromString(details.dateOfIncorporation));
       }
     }
     return details;
@@ -808,6 +819,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         name2: applicantValue.applicantDetails.name2 || '',
         name3: applicantValue.applicantDetails.name3 || '',
         panType: details.panType || '',
+        aadhar: details.aadhar || '',
         
       });
       if (details.panType === '2PANTYPE') {
@@ -827,7 +839,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         mobilePhone: mobile || '',
          dob: details.dob || '',
         identity_type: applicantValue.identity_type || '',
-        aadhar: details.aadhar || '',
+        //aadhar: details.aadhar || '',
         voterIdNumber: details.voterIdNumber,
         drivingLicenseNumber: details.drivingLicenseNumber || '',
         drivingLicenseIssueDate: details.drivingLicenseIssueDate || '',
@@ -884,7 +896,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         mobile = mobile.slice(2, 12);
       }
        dedupe.patchValue({
-         aadhar : details.aadhar,
+         //aadhar : details.aadhar,
          companyPhoneNumber : companyPhoneNumber,
          dateOfIncorporation: details.dateOfIncorporation,
          contactPerson : details.contactPerson,
@@ -1261,6 +1273,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   checkDedupe() {
     const dedupe = this.coApplicantForm.get('dedupe');
     console.log('dedupe', dedupe)
+    
     this.isDirty = true;
     if (dedupe.invalid) {
       return;
@@ -1377,6 +1390,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if(this.applicantType=='INDIVENTTYP'){
     dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
       if (!dedupe.get('mobilePhone').invalid) {
+        console.log("mobiel no",this.mobileNumber)
         if (value !== this.mobileNumber) {
           this.isMobileChanged = true;
           this.isEnableDedupe = true;
@@ -1475,6 +1489,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       );
       return;
     }
-    this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
   }
 }

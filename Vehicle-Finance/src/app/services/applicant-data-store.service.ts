@@ -14,6 +14,7 @@ import {
   providedIn: 'root',
 })
 export class ApplicantDataStoreService {
+  applicantRelation : any;
   applicant: Applicant = {};
   applicantId = '';
   setApplicant(applicant: Applicant) {
@@ -109,5 +110,12 @@ export class ApplicantDataStoreService {
       ...value,
     };
     this.applicant.indivIdentityInfoDetails = newDetails;
+  }
+
+  setApplicantRelation(value){
+    this.applicantRelation= value;
+  }
+  getApplicantRelation(){
+    return this.applicantRelation;
   }
 }

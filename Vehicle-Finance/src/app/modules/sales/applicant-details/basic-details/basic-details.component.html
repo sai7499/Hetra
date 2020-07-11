@@ -475,12 +475,12 @@
               <app-custom-input
                   formControlName="name1"
                   [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company1 Name is required'"
+                  [isRequired]="'Company Name is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing type">{{ labels?.company2 }} <sub class="star_red_col">*</sub></label>
+              <label for="sourcing type">{{ labels?.company2 }}</label>
               <!-- <input
                 formControlName="name2"
                 type="text"
@@ -490,12 +490,11 @@
               <app-custom-input
               formControlName="name2"
               [maxLength]="validationData?.name?.maxLength"
-              [isRequired]="'Company2 Name is required'"
-              [isDirty]="isDirty"
+              
             ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sourcing code">{{ labels?.company3 }} <sub class="star_red_col">*</sub></label>
+              <label for="sourcing code">{{ labels?.company3 }}</label>
               <!-- <input
                 formControlName="name3"
                 type="text"
@@ -505,8 +504,7 @@
               <app-custom-input
                   formControlName="name3"
                   [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Company3 Name is required'"
-                  [isDirty]="isDirty"
+                  
                 ></app-custom-input>
             </div>
           </div>

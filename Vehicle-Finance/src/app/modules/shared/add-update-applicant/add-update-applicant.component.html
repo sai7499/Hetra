@@ -91,6 +91,7 @@
                   </label>
                   <app-custom-input
                     formControlName="name2"
+                    
                     [maxLength]="validationData?.name?.maxLength"
                     [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
                   ></app-custom-input>
@@ -284,8 +285,9 @@
                   >
                   </app-vf-custom-select>
                 </div>
+                <!-- [patternCheck]="validationData?.panNumber?.patternCheck" -->
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="mobile">{{ labels?.pannumber }}</label>
+                  <label for="mobile">{{ labels?.pannumber }} <sub class="star_blue_col">*</sub></label>
                   <app-custom-input
                     formControlName="pan"
                     [disabled]="isPanDisabled"
@@ -298,6 +300,7 @@
                   ></app-custom-input>
                 </div>
               </div>
+              <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
               <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3"
                 *ngIf="applicantType=='INDIVENTTYP'">
@@ -455,9 +458,9 @@
                   >
                   <app-custom-input
                     formControlName="gstNumber"
+                    [patternCheck]="validationData?.gstNumber?.patternCheck"
                     [maxLength]="validationData?.gstNumber?.maxLength"
                     [type]="validationData?.gstNumber?.type"
-                    [patternCheck]="validationData?.gstNumber?.patternCheck"
                     [inputClass]="'text-uppercase'"
                   >
                   </app-custom-input>
@@ -467,7 +470,7 @@
                 <div class="form-group col-sm-6 col-md-3 col-lg-3"
                 *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportNumber }}</label>
-
+                  <!-- [patternCheck]="validationData?.passportNumber?.patternCheck" -->
                   <app-custom-input
                     formControlName="passportNumber"
                     [patternCheck]="validationData?.passportNumber?.patternCheck"
@@ -561,6 +564,7 @@
                 <div class="form-group col-sm-6 col-md-3 col-lg-3"
                 *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
+                  <!-- [patternCheck]="validationData?.voterId?.patternCheck" -->
                   <app-custom-input
                     formControlName="voterIdNumber"
                     [maxLength]="validationData?.voterId?.maxLength"
@@ -580,9 +584,9 @@
                     isPanChanged ||
                     isAadharChanged ||
                     isPassportChanged ||
-                    isDrivingLicenseChanged
-                  "
-                >
+                    isDrivingLicenseChanged ||
+                    isContactNumberChanged"
+                >              
                   <button
                     class="btn btn-primary mar-right8"
                     type="button"
@@ -743,7 +747,7 @@
                     <input
                       type="checkbox"
                       id="address_section_checkbox"
-                      (click)="onAddress($event)"
+                      (click)="onAddress($event)"                      
                       [checked]="isPermanantAddressSame"
                       [disabled]="isDisabledCheckbox"
                     />
@@ -879,8 +883,7 @@
                 <div class="row" formGroupName="registeredAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1"
-                      >{{ labels?.line1
-                      }}<sub class="star_red_col">*</sub></label
+                      >{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label
                     >
                     <app-custom-input
                       formControlName="addressLineOne"
@@ -890,7 +893,7 @@
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_line2">{{ labels?.line2 }}</label>
+                    <label for="registered_line2">{{ labels?.addressline2 }}</label>
 
                     <app-custom-input
                       formControlName="addressLineTwo"
@@ -898,7 +901,7 @@
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_line3">{{ labels?.line3 }}</label>
+                    <label for="registered_line3">{{ labels?.addressline3 }}</label>
                     <app-custom-input
                       formControlName="addressLineThree"
                       [maxLength]="validationData?.fullName?.maxLength"
@@ -929,7 +932,7 @@
                       [values]="registerPincode?.city"
                       formControlName="city"
                       [isDirty]="isDirty"
-                      [isDirty]="'City is required'"
+                      [isRequired]="'City is required'"
                     >
                     </app-vf-custom-select>
                   </div>
@@ -942,7 +945,7 @@
                       [values]="registerPincode?.district"
                       formControlName="district"
                       [isDirty]="isDirty"
-                      [isDirty]="'District is required'"
+                      [isRequired]="'District is required'"
                     >
                     </app-vf-custom-select>
                   </div>
@@ -955,7 +958,7 @@
                       [values]="registerPincode?.state"
                       formControlName="state"
                       [isDirty]="isDirty"
-                      [isDirty]="'State is required'"
+                      [isRequired]="'State is required'"
                     >
                     </app-vf-custom-select>
                   </div>
@@ -968,12 +971,12 @@
                       [values]="registerPincode?.country"
                       formControlName="country"
                       [isDirty]="isDirty"
-                      [isDirty]="'Country is required'"
+                      [isRequired]="'Country is required'"
                     >
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="reg_mobile">{{ labels?.landlineNumber }}</label>
+                    <label for="reg_mobile">{{ labels?.landLineNumber }}</label>
                     <app-custom-input
                     formControlName="landlineNumber"
                     
@@ -1002,8 +1005,7 @@
                 <div class="row" formGroupName="communicationAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1"
-                      >{{ labels?.line1
-                      }}<sub class="star_red_col">*</sub></label
+                      >{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label
                     >
                     <app-custom-input
                       formControlName="addressLineOne"
@@ -1013,7 +1015,7 @@
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_line2">{{ labels?.line2 }}</label>
+                    <label for="registered_line2">{{ labels?.addressline2 }}</label>
 
                     <app-custom-input
                       formControlName="addressLineTwo"
@@ -1021,7 +1023,7 @@
                     ></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_line3">{{ labels?.line3 }}</label>
+                    <label for="registered_line3">{{ labels?.addressline3 }}</label>
                     <app-custom-input
                       formControlName="addressLineThree"
                       [maxLength]="validationData?.fullName?.maxLength"
@@ -1052,7 +1054,7 @@
                       [values]="communicationPincode?.city"
                       formControlName="city"
                       [isDirty]="isDirty"
-                      [isDirty]="'City is required'"
+                      [isRequired]="'City is required'"
                     >
                     </app-vf-custom-select>
                   </div>
@@ -1065,7 +1067,7 @@
                       [values]="communicationPincode?.district"
                       formControlName="district"
                       [isDirty]="isDirty"
-                      [isDirty]="'District is required'"
+                      [isRequired]="'District is required'"
                     >
                     </app-vf-custom-select>
                   </div>
@@ -1078,7 +1080,7 @@
                       [values]="communicationPincode?.state"
                       formControlName="state"
                       [isDirty]="isDirty"
-                      [isDirty]="'State is required'"
+                      [isRequired]="'State is required'"
                     >
                     </app-vf-custom-select>
                   </div>
@@ -1091,12 +1093,12 @@
                       [values]="communicationPincode?.country"
                       formControlName="country"
                       [isDirty]="isDirty"
-                      [isDirty]="'Country is required'"
+                      [isRequired]="'Country is required'"
                     >
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="reg_mobile">{{ labels?.landlineNumber }}</label>
+                    <label for="reg_mobile">{{ labels?.landLineNumber }}</label>
                     <app-custom-input
                     formControlName="landlineNumber"
                     
@@ -1130,8 +1132,9 @@
         type="button"
         (click)="navigateToApplicantList()"
       >
-        <a class="back_color">Back</a></button
-      >&nbsp;
+        <a class="back_color">Back</a>
+      </button>
+      &nbsp;
       <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
         <a class="back_color">Save</a>
       </button>
@@ -1171,7 +1174,7 @@
           id="reject_dlead"
           (click)="navigateToSamePage()"
         >
-          OKAY
+          OK
         </button>
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
           Cancel

@@ -539,8 +539,8 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
       name1: new FormControl(null, Validators.required),
-      name2: new FormControl(null, Validators.required),
-      name3: new FormControl(null, Validators.required),
+      name2: new FormControl(null),
+      name3: new FormControl(null),
       //companyPhoneNumber: new FormControl(null),
       dateOfIncorporation: new FormControl(null, Validators.required),
       contactPerson: new FormControl(null, Validators.required),
@@ -554,7 +554,7 @@ export class BasicDetailsComponent implements OnInit {
       preferredLanguageCommunication: new FormControl(''),
       contactPersonDesignation: new FormControl('', Validators.required),
       numberOfDirectors: new FormControl(null),
-      directorName: new FormControl(null, Validators.required),
+      directorName: new FormControl(null),
       directorIdentificationNumber: new FormControl(null, Validators.required),
       ratingIssuerName: new FormControl(null, Validators.required),
       externalRatingAssigned: new FormControl(null, Validators.required),
