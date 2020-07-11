@@ -203,7 +203,6 @@ onChangeVendorName(event: any) {
               element.valuationStatus = getData.valuationStatus;
               element.valuatorStatus = getData.valuatorStatus;
               console.log("collateralDetailsData", this.collateralDetailsData);
-              
             }
           });
         } else {
