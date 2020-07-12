@@ -76,6 +76,8 @@ export class SalesExactMatchComponent implements OnInit {
     const data = {
       ...this.dedupeParameter,
       ignoreProbablematch: true,
+      isIndividual : !(this.dedupeDetails.entityType !=='INDIVENTTYP'),
+      loanApplicationRelation : this.dedupeDetails.loanApplicationRelation
     };
 
     this.applicantService
@@ -98,7 +100,9 @@ export class SalesExactMatchComponent implements OnInit {
       ucic: Number(this.selectedDetails.ucic),
       leadId,
       applicantId: this.dedupeParameter.applicantId,
-      loanApplicationRelation: this.dedupeParameter.loanApplicationRelation
+      loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
+      isIndividual : !(this.dedupeDetails.entityType !=='INDIVENTTYP'),
+      
     };
 
     this.applicantService

@@ -536,7 +536,7 @@ export class BasicDetailsComponent implements OnInit {
       emailId: new FormControl(''),
       alternateEmailId: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
-      politicallyExposedPerson: new FormControl(null),
+      politicallyExposedPerson: new FormControl(null, Validators.required),
       customerCategory: new FormControl('', Validators.required),
       custSegment: new FormControl('', Validators.required),
     });

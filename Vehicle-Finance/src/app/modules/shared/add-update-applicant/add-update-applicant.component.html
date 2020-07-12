@@ -29,7 +29,10 @@
                   >
                   </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  *ngIf="applicantType == 'INDIVENTTYP'"
+                >
                   <label for="Vechical Type"
                     >{{ labels.relationshipwithloanapplicant
                     }}<sub class="star_red_col">*</sub></label
@@ -42,11 +45,48 @@
                   >
                   </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType =='NONINDIVENTTYP'">
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  *ngIf="applicantType !== 'INDIVENTTYP'"
+                >
+                  <label
+                    >Business Entity Type<sub class="star_red_col"
+                      >*</sub
+                    ></label
+                  >
+                  <app-vf-custom-select
+                    [values]="LOV?.LOVS?.bussinessEntityType"
+                    formControlName="bussinessEntityType"
+                    [isRequired]="'Entity type is required'"
+                    [isDirty]="isDirty"
+                    [isDisabled]="applicantId"
+                  >
+                  </app-vf-custom-select>
+                </div>
+              </div>
+              <div class="row">
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
                   <label for="Vechical Type"
-                    >{{ labels.title
+                    >{{ labels.relationshipwithloanapplicant
                     }}<sub class="star_red_col">*</sub></label
+                  >
+                  <app-vf-custom-select
+                    [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                    formControlName="loanApplicationRelation"
+                    [isRequired]="'Please select one'"
+                    [isDirty]="isDirty"
+                  >
+                  </app-vf-custom-select>
+                </div>
+                <div
+                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                >
+                  <label for="Vechical Type"
+                    >{{ labels.title }}<sub class="star_red_col">*</sub></label
                   >
                   <app-vf-custom-select
                     [values]="LOV?.LOVS?.salutation"
@@ -210,7 +250,7 @@
                       <div
                         *ngIf="coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid"
                       >
-                        Select valid date
+                        select date
                       </div>
                     </div>
                   </div>
@@ -328,7 +368,7 @@
                     [maxLength]="validationData?.cinRegNumber?.maxLength"
                     [type]="validationData?.cinRegNumber?.type"
                     [inputClass]="'text-uppercase'"
-                    [isRequired]="'CIN Number is Required'"
+                    [isRequired]="'Cin/Reg Number is Required'"
                     [isDirty]="isDirty"
                   >
                   </app-custom-input>
@@ -579,13 +619,12 @@
                 <div
                   class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20"
                   *ngIf="
-                    isMobileChanged ||
+                    (isMobileChanged ||
                     isName1Changed ||
                     isPanChanged ||
                     isAadharChanged ||
                     isPassportChanged ||
-                    isDrivingLicenseChanged ||
-                    isContactNumberChanged"
+                    isDrivingLicenseChanged)"
                 >              
                   <button
                     class="btn btn-primary mar-right8"
@@ -615,7 +654,7 @@
                 !isPanChanged &&
                 !isAadharChanged &&
                 !isPassportChanged &&
-                !isDrivingLicenseChanged) || !isContactNumberChanged
+                !isDrivingLicenseChanged) 
               "
             >
               <div
@@ -1117,12 +1156,13 @@
   <div
     class="btn-sec clear-both"
     *ngIf="
-      !isMobileChanged &&
+      (!isMobileChanged &&
       !isName1Changed &&
       !isPanChanged &&
       !isAadharChanged &&
       !isPassportChanged &&
-      !isDrivingLicenseChanged
+      !isDrivingLicenseChanged)
+      
     "
   >
     <div class="col-sm-5"></div>

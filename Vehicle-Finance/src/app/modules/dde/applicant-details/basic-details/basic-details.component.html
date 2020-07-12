@@ -397,7 +397,7 @@
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="preffered_language">{{labels?.prefferedLanguageForCommunication}}</label>
+              <label for="preffered_language">{{labels?.prefferedLanguageForCommunication}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select formControlName="preferredLanguage" [values]="LOV?.LOVS?.preferredLanguage"
               [isRequired]="'Please select one'"
               [isDirty]="isDirty">
@@ -406,10 +406,12 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category">{{labels?.politicallyExposedPerson}} </label>
+              <label for="customer_category">{{labels?.politicallyExposedPerson}} <sub class="star_red_col">*</sub> </label>
               <app-vf-custom-select
                 formControlName="politicallyExposedPerson"
                 [values]="LOV?.LOVS.politicallyExposed"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
               ></app-vf-custom-select>
               <!-- <span class="showErrorMessage"  
               *ngIf="validation.get('customerCategory').errors?.value !== ''
@@ -870,7 +872,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="title">{{
                 labels?.prefferedLanguageForCommunication
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <!-- <select class="form-control">
                                 <option>Select</option>
                             </select> -->
