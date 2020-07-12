@@ -1197,6 +1197,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       name2: coApplicantModel.dedupe.name2,
       name3: coApplicantModel.dedupe.name3,
       loanApplicationRelation: coApplicantModel.dedupe.loanApplicationRelation,
+      bussinessEntityType : coApplicantModel.dedupe.bussinessEntityType
       //customerCategory: 'SALCUSTCAT',
     };
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dedupe.dob);
