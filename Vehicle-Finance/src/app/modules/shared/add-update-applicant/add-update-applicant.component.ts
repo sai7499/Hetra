@@ -56,11 +56,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isVoterIdChanged: boolean;
 
   isContactNumberChanged: boolean = false;
-  isCinNumberChanged: boolean;
-  isCstNumberChanged: boolean;
-  isGstNumberChanged: boolean;
-  isTanNumberChanged: boolean;
-  isUdhyogChanged: boolean;
+  isCinNumberChanged: boolean = false;
+  isCstNumberChanged: boolean = false;
+  isGstNumberChanged: boolean = false;
+  isTanNumberChanged: boolean = false;
+  isUdhyogChanged: boolean = false;
 
 
   firstName: string;
@@ -82,6 +82,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   tanNumber: string;
   contactNumber: string;
+  corporateIdentificationNumber : string;
+  cstVatNumber : string;
+  gstNumber : string;
 
   toDayDate: Date = new Date();
 
@@ -212,7 +215,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       dedupe.patchValue({
         title: 'M/SSALUTATION'
-      })
+      });
+      this.coApplicantForm.get('dedupe').get('aadhar').clearValidators()
       //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -828,7 +832,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         name3: applicantValue.applicantDetails.name3 || '',
         panType: details.panType || '',
         aadhar: details.aadhar || '',
-      bussinessEntityType: details.bussinessEntityType || '',
+      bussinessEntityType: applicantValue.applicantDetails.bussinessEntityType || '',
 
 
       });
@@ -900,6 +904,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         // }
       }
       else {
+        this.coApplicantForm.get('dedupe').get('aadhar').clearValidators()
+        this.coApplicantForm.get('dedupe').get('aadhar').updateValueAndValidity()
         this.addNonIndFormControls();
         this.removeIndFormControls();
         if (mobile && mobile.length === 12) {
@@ -1288,6 +1294,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (this.applicantType == "NONINDIVENTTYP") {
       this.addNonIndFormControls();
       this.removeIndFormControls();
+      this.isDirty = true;
       if (dedupe.invalid) {
         return;
       }
@@ -1307,7 +1314,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       const data = {
         leadId: this.leadId,
-        entityType: applicantDetails.entityType,
+        entityType: applicantDetails.entityType || '',
+        bussinessEntityType : applicantDetails.bussinessEntityType || '',
         ignoreProbablematch: 'false',
         firstName: applicantDetails.name1,
         middleName: applicantDetails.name2,
@@ -1463,11 +1471,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isDrivingLicenseChanged = false;
     this.isVoterIdChanged = false;
     this.isContactNumberChanged = false;
-    // this.isUdhyogChanged = false;
-    // this.isCstNumberChanged= false;
-    // this.isCinNumberChanged= false;
-    // this.isGstNumberChanged= false;
-    // this.isTanNumberChanged= false;
+    this.isCstNumberChanged= false;
+    this.isCinNumberChanged= false;
+    this.isGstNumberChanged= false;
+    this.isTanNumberChanged= false;
   }
 
   listenerForUnique() {
@@ -1553,6 +1560,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
     }
+    dedupe.get('aadhar').valueChanges.subscribe((value) => {
+      if (!dedupe.get('aadhar').invalid) {
+        this.enableDedupeBasedOnChanges(value !== this.aadhar);
+        this.isAadharChanged = value !== this.aadhar;
+      } else {
+        this.isEnableDedupe = true;
+      }
+    });
+    dedupe.get('pan').valueChanges.subscribe((value) => {
+      value = value || '';
+      if (!dedupe.get('pan').invalid) {
+        this.enableDedupeBasedOnChanges(value != this.pan);
+        this.isPanChanged = value != this.pan;
+      } else {
+        this.isEnableDedupe = true;
+      }
+    });
     dedupe.get('name1').valueChanges.subscribe((value) => {
       if (!dedupe.get('name1').invalid) {
         this.enableDedupeBasedOnChanges(value !== this.firstName);
@@ -1561,7 +1585,40 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isEnableDedupe = true;
       }
     });
+    dedupe.get('corporateIdentificationNumber').valueChanges.subscribe((value) => {
+      if (!dedupe.get('corporateIdentificationNumber').invalid) {
+        this.enableDedupeBasedOnChanges(value !== this.corporateIdentificationNumber);
+        this.isCinNumberChanged = value !== this.corporateIdentificationNumber;
+      } else {
+        this.isEnableDedupe = true;
+      }
+    });
+    dedupe.get('cstVatNumber').valueChanges.subscribe((value) => {
+      if (!dedupe.get('cstVatNumber').invalid) {
+        this.enableDedupeBasedOnChanges(value !== this.cstVatNumber);
+        this.isCstNumberChanged = value !== this.cstVatNumber;
+      } else {
+        this.isEnableDedupe = true;
+      }
+    });
+    dedupe.get('gstNumber').valueChanges.subscribe((value) => {
+      if (!dedupe.get('gstNumber').invalid) {
+        this.enableDedupeBasedOnChanges(value !== this.gstNumber);
+        this.isGstNumberChanged = value !== this.gstNumber;
+      } else {
+        this.isEnableDedupe = true;
+      }
+    });
+    dedupe.get('tanNumber').valueChanges.subscribe((value) => {
+      if (!dedupe.get('tanNumber').invalid) {
+        this.enableDedupeBasedOnChanges(value !== this.tanNumber);
+        this.isTanNumberChanged = value !== this.tanNumber;
+      } else {
+        this.isEnableDedupe = true;
+      }
+    });
   }
+  
 
   enableDedupeBasedOnChanges(condition: boolean) {
     if (condition) {
