@@ -34,16 +34,16 @@ export class TaskDashboard {
   }
 
   assignTask(id) {
-   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
+   const url = `${environment.host}d/tasks/${id}/claim`;
    const requestBody = {
     id
    };
-   return this.httpService.post(url, requestBody);
+   return this.http.post(url, requestBody);
 
   }
 
   releaseTask(id) {
-    const url = `http://10.101.10.153/appiyo/d/tasks/${id}/release`;
+    const url = `${environment.host}d/tasks/${id}/release`;
     const requestBody = {
       id
     };
