@@ -487,7 +487,7 @@ export class LoanDetailsComponent implements OnInit {
         drivingVehicleEarlier: usedVehicleModel.drivingVehicleEarlier || '',
         vehicleAttachedPlying: usedVehicleModel.vehicleAttachedPlying || '',
         awareDueDateEmiAmount: usedVehicleModel.awareDueDateEmiAmount || '',
-        vehicleContract: usedVehicleModel.vehicleContract || '',
+        vehicleContract: usedVehicleModel.vehicleContractKey || '',
 
         // asset Details for used vehicle values patching
 
