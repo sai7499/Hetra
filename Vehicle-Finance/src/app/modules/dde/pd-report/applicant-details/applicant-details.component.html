@@ -6,9 +6,9 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="applicant_name"> {{labels.applicantName}} </label>
-                <!-- <input type="text" class="form-control" id="applicant_name" formControlName="applicantName"> -->
-                <app-custom-input id="applicant_name" [type]="labels?.validationData?.name?.type" formControlName="applicantName" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
-                </app-custom-input>
+                <input type="text" class="form-control" id="applicant_name" formControlName="applicantName">
+                <!-- <app-custom-input id="applicant_name" [type]="labels?.validationData?.name?.type" formControlName="applicantName" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                </app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="father_name">{{labels.fatherName}}</label>
@@ -69,10 +69,10 @@
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{labels.mobile}}</label>
-                <!-- <input type="number" class="form-control" id="mobile" formControlName="mobile"> -->
-                <app-custom-input id="mobile" [placeholder]="'Enter Mobile Number'" [type]="labels?.validationData?.mobileNumber?.type" formControlName="mobile" [patternCheck]="labels?.validationData?.mobileNumber?.pattern" [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
+                <input type="number" class="form-control" id="mobile" formControlName="mobile">
+                <!-- <app-custom-input id="mobile" [placeholder]="'Enter Mobile Number'" [type]="labels?.validationData?.mobileNumber?.type" formControlName="mobile" [patternCheck]="labels?.validationData?.mobileNumber?.pattern" [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
                     [isDirty]="isDirty">
-                </app-custom-input>
+                </app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="residence_address">{{labels.residenceAddress}}</label>

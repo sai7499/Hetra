@@ -173,8 +173,8 @@
                         <app-custom-input formControlName="assetCostIBB" [type]="label.validationData?.amountValue.type"
                             [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
-                            (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
-                            (change)="onCompareFinalAssetCode($event.target.value)"
+                            (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
+                            (change)="onCompareFinalAssetCode($event)"
                             [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Indian Bluebook'">
                         </app-custom-input>
@@ -189,8 +189,8 @@
                         <app-custom-input formControlName="assetCostCarTrade"
                             [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                            (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
-                            (change)="onCompareFinalAssetCode($event.target.value)"
+                            (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
+                            (change)="onCompareFinalAssetCode($event)"
                             [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Carwale'">
                         </app-custom-input>
@@ -1208,7 +1208,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis">
                             <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
                             </label>
-                            <app-custom-input formControlName="assetCostGrid" [id]="asset_cost_basis"
+                            <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
                                 [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
                                 [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
@@ -1680,9 +1680,9 @@
                             <app-custom-input formControlName="assetCostIBB"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event.target.value)"
+                                (keyup)="onCompareFinalAssetCode($event)"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
-                                (change)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
+                                (change)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
                                 [placeholder]="'Asset Cost basis Indian Bluebook'">
                             </app-custom-input>
 
@@ -1695,8 +1695,8 @@
                             <app-custom-input formControlName="assetCostCarTrade"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
-                                (change)="onCompareFinalAssetCode($event.target.value)"
+                                (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
+                                (change)="onCompareFinalAssetCode($event)"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Asset Cost basis Carwale'">
                             </app-custom-input>
@@ -1763,10 +1763,10 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
-                            <app-custom-input formControlName="vehicleOwnerShipNumber" [id]="'vehicle_ownership'"
-                                [type]="label.validationData?.monthOfManuf.type" [className]="'form-control'"
-                                [placeholder]="'Vehicle Ownership Number'"
-                                [maxLength]="label.validationData?.monthOfManuf.maxLength">
+                            <app-custom-input formControlName="vehicleOwnerShipNumber"
+                                [type]="label.validationData?.monthOfManuf.type" [id]="'vehicle_ownership'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.monthOfManuf.maxLength"
+                                [placeholder]="'Vehicle Ownership Number'">
                             </app-custom-input>
                         </div>
 

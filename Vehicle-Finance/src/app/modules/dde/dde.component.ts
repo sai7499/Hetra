@@ -1,22 +1,22 @@
-import { Component, OnInit, Renderer2, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-declare var jquery: any;
-declare var $: any;
 
 @Component({
   templateUrl: './dde.component.html',
   styleUrls: ['./dde.component.css'],
 })
-export class DdeComponent implements OnInit, AfterViewInit {
+export class DdeComponent implements OnInit{
   locationIndex: number;
   leadId: number;
   show: boolean;
   showNav: boolean = false;
+
+
   constructor(
     public router: Router,
     private location: Location,
@@ -29,21 +29,6 @@ export class DdeComponent implements OnInit, AfterViewInit {
     private sharedService: SharedService
   ) {
 
-    // $(document).ready(function () {
-
-    //   $(".second-row").css({ "display": "none" });
-
-    //   $(".prev-first-data").click(function () {
-    //     $(".first-row").css({ "display": "block" });
-    //     $(".second-row").css({ "display": "none" });
-
-    //   });
-    //   $(".next-second-data").click(function () {
-    //     $(".first-row").css({ "display": "none" });
-    //     $(".second-row").css({ "display": "block" });
-
-    //   });
-    // });
     this.leadId = this.route.snapshot.params['leadId'];
   }
 
@@ -84,23 +69,13 @@ export class DdeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    console.log('ngOnChanges')
-    this.sharedService.progressbar$.subscribe((data) => {
-      console.log(data, 'gj')
-      // return data
-      if (data) {
-        this.show = data;
-        this.locationIndex = 8;
-      }
-    })
-  }
-
   onPrevious() {
     this.show = true;
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
   }
   onNext() {
     this.show = false;
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
 
   getLocationIndex(url: string) {

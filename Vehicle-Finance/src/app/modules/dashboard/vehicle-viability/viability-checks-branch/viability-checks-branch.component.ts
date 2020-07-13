@@ -29,6 +29,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
   roles: any;
   roleName: any;
   roleType: any;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -77,6 +78,11 @@ export class ViabilityChecksBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -94,7 +100,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
     this.getBranchLeads(this.itemsPerPage, event);
   }
 
-  onAssign(id) {
+  onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
@@ -102,18 +108,11 @@ export class ViabilityChecksBranchComponent implements OnInit {
       console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['/pages/viability-list/' + leadId + '/viability-list']);
       } else {
         this.toasterService.showError(response.Error, '');
       }
     });
-  }
-  onRoute(leadId: any, taskId: any) {
-    const body = {
-      // tslint:disable-next-line: object-literal-shorthand
-      taskId: taskId,
-    };
-    this.router.navigate([`pages/viability-list/${leadId}/viability-list`], {queryParams: body, skipLocationChange : false});
-
   }
 
 }

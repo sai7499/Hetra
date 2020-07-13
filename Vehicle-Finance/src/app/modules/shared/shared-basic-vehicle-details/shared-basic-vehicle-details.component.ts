@@ -65,9 +65,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
-    private uiLoader: NgxUiLoaderService) { 
-      this.initalZeroCheck = [{rule: val => val < 1,msg:'Initial Zero value not accepted'}];
-    }
+    private uiLoader: NgxUiLoaderService) {
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+  }
 
   ngOnInit() {
 
@@ -154,7 +154,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
-  onCompareFinalAssetCode(value) {
+  onCompareFinalAssetCode(event) {
+    const value = event.target.value;
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
     if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {

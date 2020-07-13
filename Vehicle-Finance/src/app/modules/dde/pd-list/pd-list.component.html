@@ -52,11 +52,11 @@
                                 <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
                                 <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
                                 <td *ngIf="showStatus">
-                                    {{ item.pdStatusValue ? item.pdStatusValue : '-' }}</td>
+                                    <u>{{ item.pdStatusValue ? item.pdStatusValue : '-' }}</u></td>
                                 <td style="cursor:pointer" *ngIf="show && pdStatusValue !='Submitted' " (click)=" navigatePage(item.applicantId) ">
-                                    {{ item.pdStatusValue ? item.pdStatusValue : '-' }}</td>
+                                    <u>{{ item.pdStatusValue ? item.pdStatusValue : '-' }}</u></td>
                                 <td style="cursor:pointer " *ngIf="show && pdStatusValue==='Submitted' ">
-                                    {{ item.pdStatusValue ? item.pdStatusValue : '-' }}</td>
+                                    <u>{{ item.pdStatusValue ? item.pdStatusValue : '-' }}</u></td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                                 <ng-container *ngIf="pdStatusValue==='Submitted' ">
                                     <td>
