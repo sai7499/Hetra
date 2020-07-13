@@ -209,7 +209,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.removeNonIndFormControls();
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-
       dedupe.patchValue({
         title: 'M/SSALUTATION'
       });

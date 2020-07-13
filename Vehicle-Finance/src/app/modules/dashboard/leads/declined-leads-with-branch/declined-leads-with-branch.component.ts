@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-declined-leads-with-branch',
   templateUrl: './declined-leads-with-branch.component.html',
@@ -23,6 +24,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
+  isLoadLead = true;
 
 
   constructor(
@@ -31,8 +33,8 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
-
+    private toasterService: ToasterService,
+    private router: Router
   ) {
   }
 
@@ -67,6 +69,11 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -84,7 +91,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     this.getDeclinedLeads(this.itemsPerPage, event);
   }
 
-  onAssign(id) {
+  onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
@@ -92,6 +99,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        // this.router.navigate([])
       } else {
         this.toasterService.showError(response.Error, '');
       }

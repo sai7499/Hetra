@@ -28,6 +28,7 @@ export class DdeBranchLeadsComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
+  isLoadLead = true;
 
 
   constructor(
@@ -72,6 +73,11 @@ export class DdeBranchLeadsComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -89,7 +95,7 @@ export class DdeBranchLeadsComponent implements OnInit {
     this.getDDEBranchLeads(this.itemsPerPage, event);
   }
 
-  onAssign(id) {
+  onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
@@ -97,6 +103,7 @@ export class DdeBranchLeadsComponent implements OnInit {
       console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
       } else {
         this.toasterService.showError(response.Error, '');
       }

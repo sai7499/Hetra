@@ -1,21 +1,23 @@
 <form class="multisteps-form__form" [formGroup]="referenceCheckForm" *ngIf="referenceCheckForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <h4 class="title">{{labels.referenceCheckTitle}}</h4>
+        <h4 class="title">{{ labels.referenceCheckTitle }}</h4>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="person_name">{{labels.personName}}</label>
+                <label for="person_name">{{ labels.personName }}</label>
                 <!-- <input type="text" class="form-control" id="person_name"> -->
                 <app-custom-input id="person_name" formControlName="nameOfReference" placeholder="name of the person" [type]="labels?.validationData?.name?.type" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="address_of_the_person">{{labels.addressOfThePerson}}</label>
+                <label for="address_of_the_person">{{
+          labels.addressOfThePerson
+        }}</label>
                 <!-- <input type="text" class="form-control" id="address_of_the_person"> -->
                 <app-custom-input id="address_of_the_person" formControlName="addressOfReference" placeholder="address" [isRequired]="'Address is required'" [maxLength]="validationData?.fullName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="contact_number">{{labels.contactNumber}}</label>
+                <label for="contact_number">{{ labels.contactNumber }}</label>
                 <!-- <input type="text" class="form-control" id="contact_number"> -->
                 <!-- <app-custom-input id="contact_number" formControlName="referenceMobile" [patternCheck]="mobileNumberPattern" [isRequired]="'contact number is required'" [maxLength]="maxlength10" [isDirty]="isDirty">
                 </app-custom-input> -->
@@ -25,11 +27,6 @@
             </div>
         </div>
         <div class="row">
-            <!-- <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                <p>I hereby declare that the information given above are true to the best of my knowledge and belief and nothing has been concealed therein.</p>
-                <p>Originals are physically seen and verified [OSV] by undersigned </p>
-                <p>Field investigation is conducted by undersigned</p>
-            </div> -->
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Signature">{{labels.signature}}</label>
                 <input type="file" id="file">
@@ -76,68 +73,142 @@
                 </kendo-timepicker> -->
             <!-- </div> -->
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="overall_report">{{labels.overallReport}}</label>
+                <label for="mobile">{{ labels.longitude }}</label>
+                <input type="text" class="form-control" id="negativeProfile" formControlName="longitude" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="mobile">{{ labels.latitude }}</label>
+                <input type="text" class="form-control" id="negativeProfile" formControlName="latitude" />
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="mobile">{{ labels.distFromBranch }}</label>
+                <input type="text" class="form-control" id="negativeProfile" formControlName="distanceFromBranch" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="mobile">{{ labels.negativeProfile }}</label>
+                <app-vf-custom-select [values]="[
+            { key: '0', value: 'Yes' },
+            { key: '1', value: 'No' }
+          ]" formControlName="negativeProfile">
+                </app-vf-custom-select>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="overall_report">{{ labels.overallReport }}</label>
                 <!-- <select class="form-control" formControlName="overallFiReport">
                     <option>Select</option>
                     <option value="Positive">Positive</option>
                     <option value="Negative">Negative</option>
                 </select> -->
                 <app-vf-custom-select [values]="[
-                { key: '0', value: 'Positive' },
-                { key: '1', value: 'Negative' }
-              ]" formControlName="overallFiReport">
+            { key: '0', value: 'Positive' },
+            { key: '1', value: 'Negative' }
+          ]" formControlName="overallFiReport">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="remarks">{{labels.referenceRemarks}}</label>
+                <label for="remarks">{{ labels.referenceRemarks }}</label>
                 <!-- <input type="text" class="form-control" id="remarks"> -->
                 <!-- <app-custom-input id="remarks" formControlName="pdRemarks" [patternCheck]="namePattern" [isRequired]="'remarks are required'" [maxLength]="maxlength30" [isDirty]="isDirty">
                 </app-custom-input> -->
                 <textarea class="form-control mandatory" name="pdRemarks" id="pdRemarks" cols="1" rows="3" placeholder="remarks" formControlName="pdRemarks" maxlength="120" style="resize: none;"></textarea>
 
-                <div class="invalid-feedback " *ngIf="referenceCheckForm.controls['pdRemarks'].touched && !referenceCheckForm.controls['pdRemarks'].vaild">
-
-                    <div *ngIf="referenceCheckForm.controls['pdRemarks'].hasError('required')">
+                <div class="invalid-feedback" *ngIf="
+            referenceCheckForm.controls['pdRemarks'].touched &&
+            !referenceCheckForm.controls['pdRemarks'].vaild
+          ">
+                    <div *ngIf="
+              referenceCheckForm.controls['pdRemarks'].hasError('required')
+            ">
                         remarks are required
                     </div>
-
 
                     <div *ngIf="referenceCheckForm.controls['pdRemarks'].hasError('pattern')">
                         special characters are not allowed
                     </div>
                 </div>
-
             </div>
+        </div>
+        <p>{{ labels.routeMap }}</p>
+        <div class="row">
+            <!-- <label for="remarks">{{ labels.routeMap }}</label> -->
+            <!-- src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13&path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?sKDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw" -->
+            <img [src]="" alt="route map" width="800" height="400" />
+        </div>
+        &nbsp;
+        <div class="row">
             <div class="btn-sec clear-both">
                 <div class="col-sm-7"></div>
-                <div class="col-sm-5 text-right" *ngIf="roleType == '2' && version!='undefined'&& showReinitiate == true">
+                <div class="col-sm-5 text-right" *ngIf="
+            roleType == '2' && version != 'undefined' && showReinitiate == true
+          ">
                     <!-- <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                         {{labels.reinitiate}}
                     </button>&nbsp; -->
-                    <button class="btn btn-success " (click)="approvePd()">
-                        {{labels.approve}}
-                    </button>
-
+                    <button class="btn btn-success" (click)="approvePd()">
+            {{ labels.approve }}
+          </button>
                 </div>
             </div>
 
-
             <div class="btn-sec clear-both">
                 <div class="col-sm-5">
-                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">Back
-                        to PD Summary </button>
-
+                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">
+            Back to PD List
+          </button>
                 </div>
                 <div class="col-sm-7 text-right">
                     <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
-                        Back</button>
-                    <p class="btn btn-primary " (click)="onFormSubmit()">{{labels.save}} </p>
+            Back
+          </button>
+                    <p class="btn btn-primary" (click)="onFormSubmit()">
+                        {{ labels.save }}
+                    </p>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="submitToCredit()">{{labels.submit}}</button>
-
-
+                    <!-- <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#myModal"
+            (click)="submitToCredit()"
+          >
+            {{ labels.submit }}
+          </button> -->
+                    <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="showSubmit">
+                        <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </form>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <p>{{ labels.submitToCredit }}</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes" (click)="submitToCredit()">
+          {{ labels.yes }}
+        </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+          {{ labels.cancel }}
+        </button>
+            </div>
+        </div>
+    </div>
+</div>
