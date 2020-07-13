@@ -435,10 +435,13 @@ export class BasicDetailsComponent implements OnInit {
       //console.log('contactslice', contactSlice)
       if (contactSlice == '91') {
         this.mobilePhone = contactNumber.slice(2, 12);
+      }else {
+        this.mobilePhone= contactNumber;
       }
-    } else if (contactNumber && contactNumber.length == 10) {
-      this.mobilePhone = contactNumber;
+    } else {
+      this.mobilePhone= contactNumber;
     }
+
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
