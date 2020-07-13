@@ -25,12 +25,22 @@
                 </tr>
                 <tbody>
                     <tr>
-                        <td class="text-left">{{label?.route}}</td>
+                        <td class="text-left">{{label?.onwardRoute}}</td>
                         <td>
                             <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
-                            <app-custom-input formControlName="route" [patternCheck]="label?.validationData?.name?.type"
+                            <app-custom-input formControlName="onwardRoute" [patternCheck]="label?.validationData?.name?.type"
                                 [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
-                                [placeholder]="'Enter Route Details'"
+                                [placeholder]="'Enter Onward Route Details'"
+                                [type]="'alpha'"></app-custom-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"> {{label?.returnRoute}}</td>
+                        <td>
+                            <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
+                            <app-custom-input formControlName="returnRoute" [patternCheck]="label?.validationData?.name?.type"
+                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter  Return Route Details'"
                                 [type]="'alpha'"></app-custom-input>
                         </td>
                     </tr>
@@ -124,6 +134,41 @@
                                 [isDirty]="isDirty"
                                 [type]="label?.validationData?.amountValue?.type"
                                 (keyup)="calculatePassenger()"
+                                ></app-custom-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>(f) {{label?.otherRevenue}}</td>
+                        <td>
+                            <!-- <input type="number" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"
+                                formControlName="otherIncome" placeholder="Enter Rate of Tonne" (keyup)="calculatePassenger()" /> -->
+                                <app-custom-input
+                                [id]="rate_tonne_kl"
+                                formControlName="otherIncome"
+                                [patternCheck]="inputValidation"
+                                [maxLength]="label?.validationData?.amountValue?.maxLength"  
+                                [placeholder]="'Enter Other Revenue'"
+                               
+                                [type]="label?.validationData?.amountValue?.type"
+                                (keyup)="calculatePassenger()"
+                                ></app-custom-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> {{label?.otherRevenueRemarks}}</td>
+                        <td>
+                            <!-- <input type="text" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"    
+                                formControlName="otherIncomeRemarks" placeholder="Enter Other Renvenue Remarks" /> -->
+                                <app-custom-input
+                                [id]="rate_tonne_kl"
+                                formControlName="otherIncomeRemarks"
+                                [patternCheck]="label?.validationData?.landMark?.pattern"
+                                [maxLength]="label?.validationData?.landMark?.maxLength"
+                                
+                                [placeholder]="'Enter Other Renvenue Remarks If Any'"
+                               
+                               
+                                
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -437,6 +482,60 @@
                             </td>
                     </tr>
                     <tr>
+                        <td>{{label?.otherExpenses}}</td>
+                        <td>
+                            <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="busInsurenceExpenses" /> -->
+                                <app-custom-input
+                                [id]="insurance_expenses"
+                                formControlName="otherExpenses"
+                                [patternCheck]="inputValidation"
+                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [isRequired]="'Other Expenses Is Required'"
+                                [isDirty]="isDirty"
+                                [type]="label?.validationData?.amountValue?.type"
+                                [placeholder]="'Enter Other Expenses If Any'"
+                                (keyup)="calculatePassengerC()"
+                                ></app-custom-input>
+                            </td>
+                    </tr>
+                   
+                    <tr>
+                        <td>{{label?.otherExpesesRemark}}</td>
+                        <td>
+                            <!-- <input type="textarea" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="otherExpensesRemarks" /> -->
+                                <app-custom-input
+                                [id]="insurance_expenses"
+                                formControlName="otherExpensesRemarks"
+                                
+                                [maxLength]="label?.validationData?.remark?.maxLength"
+                                
+                                [type]="label?.validationData?.landMark?.type"
+                                [placeholder]="'Enter Other Expenses Remarks If Any'"
+                                
+                                ></app-custom-input>
+                            </td>
+                    </tr> 
+                    <tr>
+                        <td>{{label?.operationExpenses}}</td>
+                        <td>
+                            <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="busInsurenceExpenses" /> -->
+                                <app-custom-input
+                                [id]="insurance_expenses"
+                                formControlName="operationsExpenses"
+                                [patternCheck]="inputValidation"
+                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                               
+                                
+                                [type]="label?.validationData?.amountValue?.type"
+                                [placeholder]="'Enter Operational Expenses If  Any'"
+                                (keyup)="calculatePassengerC()"
+                                ></app-custom-input>
+                            </td>
+                    </tr>
+                    <tr>
                         <td>{{label?.totalExpenses}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="total_expenses" id="total_expenses"
@@ -455,6 +554,7 @@
                                 ></app-custom-input>
                             </td>
                     </tr>
+                    
                     <tr>
                         <td >&nbsp;</td>
                         <td></td>
