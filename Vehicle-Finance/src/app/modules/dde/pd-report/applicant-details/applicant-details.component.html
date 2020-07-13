@@ -11,7 +11,7 @@
                 </app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="father_name">{{labels.fatherName}}</label>
+                <label for="father_name">{{labels.fatherNameHusbandName}}</label>
                 <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
                 <app-custom-input id="father_name" [placeholder]="'Enter Fathers Name'" [type]="labels?.validationData?.name?.type" formControlName="fatherName" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
                     [isDirty]="isDirty">

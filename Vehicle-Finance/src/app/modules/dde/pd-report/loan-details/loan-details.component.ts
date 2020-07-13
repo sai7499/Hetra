@@ -194,7 +194,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.loanDetailsForm = new FormGroup({
       newVehicleCost: new FormControl(''),
-      newVehicleModel: new FormControl(''),
+      newVehModel: new FormControl(''),
       newVehicleType: new FormControl(''),
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
@@ -374,7 +374,7 @@ export class LoanDetailsComponent implements OnInit {
     else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       controls.removeControl('newVehicleCost');
-      controls.removeControl('newVehicleModel');
+      controls.removeControl('newVehModel');
       controls.removeControl('newVehicleType');
       controls.removeControl('newVehicleReqLoanAmount');
       controls.removeControl('newVehicleMarginMoney');
@@ -400,11 +400,11 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
-        // console.log("new cv details", this.newCvDetails)
+        console.log("new cv details", this.newCvDetails)
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
-        console.log('used vehicle details', this.usedVehicleDetails);
+        // console.log('used vehicle details', this.usedVehicleDetails);
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
-        console.log('asset details used vehilce', this.assetDetailsUsedVehicle);
+        // console.log('asset details used vehilce', this.assetDetailsUsedVehicle);
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
 
         this.setFormValue();
@@ -452,10 +452,13 @@ export class LoanDetailsComponent implements OnInit {
 
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
+      console.log("in value patching", newCvModel)
+
       this.loanDetailsForm.patchValue({
         // new cv details patching
+
         newVehicleCost: newCvModel.vehicleCost || '',
-        newVehicleModel: newCvModel.model || '',
+        newVehModel: newCvModel.model || '',
         newVehicleType: newCvModel.type || '',
         newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
         newVehicleMarginMoney: newCvModel.marginMoney || ''
@@ -599,7 +602,7 @@ export class LoanDetailsComponent implements OnInit {
         // new vehicle
 
         vehicleCost: loanDetailsModal.newVehicleCost,
-        model: loanDetailsModal.newVehicleModel,
+        model: loanDetailsModal.newVehModel,
         // model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
         // is no lov for model
         type: loanDetailsModal.newVehicleType,
