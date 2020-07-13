@@ -316,8 +316,9 @@
 
                         <!-- [patternCheck]="label.validationData?.noOfVehicles.pattern" -->
 
-                        <app-custom-input formControlName="noOfVehicles" [type]="label.validationData?.noOfVehicles.type"
-                            [id]="'no_vehicle'" [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
+                        <app-custom-input formControlName="noOfVehicles"
+                            [type]="label.validationData?.noOfVehicles.type" [id]="'no_vehicle'"
+                            [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
                             [maxLength]="label.validationData?.noOfVehicles.maxLength" [custom]="initalZeroCheck"
                             [isRequired]="'No of vehicles Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -623,9 +624,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
 
-                            <app-custom-input formControlName="insurance" [type]="label.validationData?.amountValue.type"
-                                [id]="'insurance'" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
+                            <app-custom-input formControlName="insurance"
+                                [type]="label.validationData?.amountValue.type" [id]="'insurance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Insurance'">
                             </app-custom-input>
 
                         </div>
@@ -956,8 +958,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData?.chasisEngineNo.type" [className]="'form-control mandatory'"
-                                [placeholder]="'Proforma Invoice No'"
+                                [type]="label.validationData?.chasisEngineNo.type"
+                                [className]="'form-control mandatory'" [placeholder]="'Proforma Invoice No'"
                                 [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
                         </div>
@@ -1003,7 +1005,8 @@
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'One Time Tax'">
+                                [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'One Time Tax'">
                             </app-custom-input>
 
                         </div>
@@ -1760,11 +1763,10 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
-                            <app-custom-input formControlName="vehicleOwnerShipNumber"
-                                [type]="label.validationData?.amountValue.numberOfYears.type" [id]="'vehicle_ownership'"
-                                [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.numberOfYears.maxLength"
-                                [placeholder]="'Vehicle Ownership Number'">
+                            <app-custom-input formControlName="vehicleOwnerShipNumber" [id]="'vehicle_ownership'"
+                                [type]="label.validationData?.monthOfManuf.type" [className]="'form-control'"
+                                [placeholder]="'Vehicle Ownership Number'"
+                                [maxLength]="label.validationData?.monthOfManuf.maxLength">
                             </app-custom-input>
                         </div>
 

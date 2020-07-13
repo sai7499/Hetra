@@ -1,9 +1,10 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 declare var jquery: any;
 declare var $: any;
 
@@ -11,7 +12,7 @@ declare var $: any;
   templateUrl: './dde.component.html',
   styleUrls: ['./dde.component.css'],
 })
-export class DdeComponent implements OnInit {
+export class DdeComponent implements OnInit, AfterViewInit {
   locationIndex: number;
   leadId: number;
   show: boolean;
@@ -24,7 +25,8 @@ export class DdeComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private cds: CommonDataService,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private sharedService: SharedService
   ) {
 
     // $(document).ready(function () {
@@ -67,10 +69,6 @@ export class DdeComponent implements OnInit {
 
     if (this.locationIndex >= 8) {
       this.show = false;
-      // console.log(this.locationIndex, 'sg')
-      // console.log(this.elementRef.nativeElement.classList.contains('second-row'))
-
-      // $(".second-row").css({ "display": "block" });
     } else {
       this.show = true;
     }
@@ -84,6 +82,18 @@ export class DdeComponent implements OnInit {
       this.showNav = true;
       console.log(" pd-dashboard ", this.show)
     }
+  }
+
+  ngAfterViewInit() {
+    console.log('ngOnChanges')
+    this.sharedService.progressbar$.subscribe((data) => {
+      console.log(data, 'gj')
+      // return data
+      if (data) {
+        this.show = data;
+        this.locationIndex = 8;
+      }
+    })
   }
 
   onPrevious() {
