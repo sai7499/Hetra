@@ -368,11 +368,10 @@ export class PslDataComponent implements OnInit {
           // this.totalInvestmentCost = this.pslData.totalInvestmentCost;
           this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
           this.setValueForPslSubCategoryByInvestmentInEquipment();
-          // if (!this.investmentInEquipmentValue) {
+          if (this.investmentInEquipmentValue == 0) {
             this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
             this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
-          // }
-
+          }
           this.pslDataForm.patchValue({
             activity: this.pslData.activity,
             microSmallAndMediumEnterprises: {
@@ -485,6 +484,7 @@ getActivityLOVS() {
     });
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       purposeOfLoan: "",
+      goodsManufactured: "",
       proofOfInvestment: "",
       otherInvestmentCost: 0,
       totalInvestmentCost: 0,
