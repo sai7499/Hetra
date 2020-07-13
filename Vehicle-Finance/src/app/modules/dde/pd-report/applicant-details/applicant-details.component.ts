@@ -105,16 +105,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService,
-              private createLeadDataService: CreateLeadDataService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -128,6 +128,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
+        console.log("in labels data", this.labels)
       },
       error => {
         this.errorMsg = error;
