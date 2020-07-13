@@ -24,7 +24,7 @@ export class BranchTasksComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
 
   constructor(

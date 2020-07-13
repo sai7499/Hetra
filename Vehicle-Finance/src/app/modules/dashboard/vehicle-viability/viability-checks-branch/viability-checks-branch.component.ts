@@ -29,7 +29,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
   roles: any;
   roleName: any;
   roleType: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,

@@ -23,7 +23,7 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,

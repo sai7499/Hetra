@@ -28,7 +28,7 @@ export class DdeBranchLeadsComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
 
   constructor(

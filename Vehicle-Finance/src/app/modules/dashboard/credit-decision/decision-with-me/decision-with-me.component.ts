@@ -25,7 +25,7 @@ export class DecisionWithMeComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,

@@ -31,7 +31,7 @@ export class NewLeadsComponent implements OnInit {
   branchId;
   roleId;
   roleType;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,

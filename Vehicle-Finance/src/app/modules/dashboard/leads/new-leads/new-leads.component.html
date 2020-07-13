@@ -39,6 +39,9 @@
             </tr>
         </tbody>
     </table>
+    <div class="noDataFound" *ngIf="!isLoadLead">
+        <h3>No data found</h3>
+    </div>
     <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
         <div class="records col-xs-3 col-sm-4">
 

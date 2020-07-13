@@ -642,7 +642,13 @@ h4.table-head-bg.m-0.p-02 {
 .mar-top19 {
     margin-top: 16px;
 }
-.cursor-pointer{
+
+.noDataFound {
+    text-align: center;
+    opacity: 0.7;
+}
+
+.cursor-pointer {
     cursor: pointer;
 }
 
