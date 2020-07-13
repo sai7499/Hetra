@@ -34,7 +34,7 @@
         <div class="row">
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="office_premises">{{labels.officePremises}}</label>
+                <label for="office_premises">{{labels.officePremisesType}}</label>
                 <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Owned">Owned</option>
@@ -107,10 +107,7 @@
                 <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
                 <!-- <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" placeholder="mismatch in address" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength"
                     [isDirty]="isDirty"></app-custom-input> -->
-                <textarea class="form-control mandatory" name="mismatchInAddress" 
-                    id="mismatchInAddress" cols="1" rows="3" 
-                    placeholder="mismatch in Address" formControlName="mismatchInAddress" 
-                    maxlength="200" style="resize: none;"></textarea>
+                <textarea class="form-control mandatory" name="mismatchInAddress" id="mismatchInAddress" cols="1" rows="3" placeholder="mismatch in Address" formControlName="mismatchInAddress" maxlength="200" style="resize: none;"></textarea>
 
                 <div class="invalid-feedback " *ngIf="customerProfileForm.controls['mismatchInAddress'].touched && !customerProfileForm.controls['mismatchInAddress'].vaild">
 

@@ -112,11 +112,8 @@ export class ViabilityChecksComponent implements OnInit {
   setPage(event) {
     this.getViabilityDashboard(this.itemsPerPage, event);
   }
-  routeToViabilityList(taskIdFromList) {
-  const body = {
-    taskId: taskIdFromList
-  };
-  this.router.navigate([`/pages/viability-list/${this.leadId}/viability-list`]);
+  routeToViabilityList(leadId: any) {
+  this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
   }
 
   onRelase(id) {

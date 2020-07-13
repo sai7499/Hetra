@@ -94,7 +94,9 @@ export class ViabilityDetailsComponent implements OnInit {
     // this.createForm();
     this.viabilityForm = this.fb.group({
       type: ['', Validators.required],
-      passanger: this.fb.group({ route: [],
+      passanger: this.fb.group({
+        onwardRoute : [],
+        returnRoute: [],
         natureOfGoods: [],
         distanceInKm: [],
         tripsPerMonth: [],
@@ -120,7 +122,14 @@ export class ViabilityDetailsComponent implements OnInit {
         busMonthlyIncome: [this.monthlyIncome],
         netCashFlow: [],
         emi: [],
-        totalExpenses: []}),
+        totalExpenses: [],
+        otherIncome: [],
+        otherIncomeRemarks: [],
+        otherExpenses: [],
+        otherExpensesRemarks: [],
+        operationsExpenses: []
+
+      }),
       passangerStandOperator: this.fb.group({
         application: [],
         grossIncomePerDay: [],
@@ -159,6 +168,23 @@ export class ViabilityDetailsComponent implements OnInit {
       this.hideSubmit = false;
       console.log('dde url found', this.router);
     }
+    // this.viabilityForm.controls.passanger.get('otherIncome').valueChanges.subscribe(x => {
+    //   setTimeout( () => {
+    //     if ( x != null || undefined ) {
+    //       // let i = this.label?.validationData?.amountValue;
+    //       // tslint:disable-next-line: max-line-length
+    //       this.viabilityForm.controls.passanger.addControl('otherIncomeRemarks');
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').setValidators([Validators.required, Validators.maxLength(40)]);
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').updateValueAndValidity();
+    //       // alert('control added');
+    //      } else {
+    //       this.viabilityForm.controls.passanger.removeControl('otherIncomeRemarks');
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').clearValidators();
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').updateValueAndValidity();
+    //       alert('control cleared');
+    //      }
+    //   }, 500);
+    // });
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -229,7 +255,8 @@ vehicle_viability_navigate(event) {
   }
   private  passengerViability() {
    const privateViability = this.viabilityForm.controls.passanger as FormGroup;
-   privateViability.get('route').setValidators(Validators.required);
+   privateViability.get('onwardRoute').setValidators(Validators.required);
+   privateViability.get('returnRoute').setValidators(Validators.required);
    privateViability.get('natureOfGoods').setValidators(Validators.required);
   //  privateViability.get('distanceInKm').setValidators(Validators.required);
    privateViability.get('tripsPerMonth').setValidators(Validators.required);
@@ -252,7 +279,7 @@ vehicle_viability_navigate(event) {
    privateViability.get('maintanence').setValidators(Validators.required);
    privateViability.get('busMiscellaneousExpenses').setValidators(Validators.required);
    privateViability.get('busInsurenceExpenses').setValidators(Validators.required);
-  //  privateViability.get('busMonthlyIncome').setValidators(Validators.required);
+  //  privateViability.get('otherIncome').setValidators(null);
   //  privateViability.get('netCashFlow').setValidators(Validators.required);
    privateViability.get('emi').setValidators(Validators.required);
    privateViability.get('totalExpenses').setValidators(Validators.required);
@@ -382,7 +409,7 @@ onSave() {
           if (this.router.url.includes('/dde')) {
             this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
           } else {
-            this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+            // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
           }
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
@@ -430,8 +457,10 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ? data.route : null,
-     natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
+    //  route: data.route ? data.route : null,
+        onwardRoute : data.onwardRoute ? data.onwardRoute : null,
+        returnRoute: data.returnRoute ?  data.returnRoute : null,
+        natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
         distanceInKm: data.distanceInKm ? data.distanceInKm : 45,
         tripsPerMonth: data.tripsPerMonth ? data.tripsPerMonth : null,
         monthlyRunningKm: data.monthlyRunningKm ? data.monthlyRunningKm : null,
@@ -456,15 +485,25 @@ patchViability(data: any) {
         busMonthlyIncome: data.busMonthlyIncome ? data.busMonthlyIncome : null,
         netCashFlow: data.netCashFlow ? data.netCashFlow : null,
         emi: data.emi ? data.emi : null,
-        totalExpenses: data.totalExpenses ? data.totalExpenses : null
+        totalExpenses: data.totalExpenses ? data.totalExpenses : null,
+        otherIncome: data.otherIncome ? data.otherIncome : null,
+        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : null,
+        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
+        otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
+        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+
+
     });
  }
  // tslint:disable-next-line: no-shadowed-variable
  convertPassenger(data: any) {
    const body = {
-    route: data.route ? data.route : null,
-    natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
-    distanceInKm: data.distanceInKm ? Number (data.distanceInKm) : null,
+       otherIncome: data.otherIncome ? data.otherIncome : null,
+       otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : '',
+       onwardRoute : data.onwardRoute ? data.onwardRoute : null,
+       returnRoute: data.returnRoute ?  data.returnRoute : null,
+       natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
+       distanceInKm: data.distanceInKm ? Number (data.distanceInKm) : null,
        tripsPerMonth: data.tripsPerMonth ? Number (data.tripsPerMonth) : null,
        monthlyRunningKm: data.monthlyRunningKm ? Number(data.monthlyRunningKm) : null,
        avgLoadPerTon: data.avgLoadPerTon ? Number(data.avgLoadPerTon) : null,
@@ -488,7 +527,10 @@ patchViability(data: any) {
        busMonthlyIncome: data.busMonthlyIncome ? Number(data.busMonthlyIncome) : null,
        netCashFlow: data.netCashFlow ? Number(data.netCashFlow) : null,
        emi: data.emi ? Number(data.emi) : null,
-       totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null
+       totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
+       otherExpenses: data.otherExpenses ? data.otherExpenses : null,
+       otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
+       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
    };
    return body;
  }
@@ -577,12 +619,13 @@ if (this.router.url.includes('/dde')) {
    console.log(passengerGroup);
    const distanceInKm = passengerGroup.value.distanceInKm ? Number(passengerGroup.value.distanceInKm) : 0;
    const tripsPerMonth = passengerGroup.value.tripsPerMonth ? Number(passengerGroup.value.tripsPerMonth) : 0;
+   const otherIncome = passengerGroup.value.otherIncome ? Number(passengerGroup.value.otherIncome) : 0;
    const monthlyRunningKm = distanceInKm * tripsPerMonth;
    this.monthlyRunningKm = monthlyRunningKm ;
    const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
    const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
    const tonnageCalc =  avgLoadPerTon * rateTonne;
-   this.monthlyIncome = tripsPerMonth * tonnageCalc;
+   this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
    passengerGroup.value.busMonthlyIncome = this.monthlyIncome;
   //  this.viabilityForm.value.passanger.patchValue({
   //   busMonthlyIncome : this.monthlyIncome
@@ -619,12 +662,14 @@ if (this.router.url.includes('/dde')) {
   const paidTollTax =  passengerGroup.value.paidTollTax ? Number(passengerGroup.value.paidTollTax) : 0;
   const taxes = passengerGroup.value.taxes ? Number(passengerGroup.value.taxes) : 0 ;
   const maintanence =  passengerGroup.value.maintanence ? Number( passengerGroup.value.maintanence ) : 0 ;
+  const otherExpenses =  passengerGroup.value.otherExpenses ? Number( passengerGroup.value.otherExpenses ) : 0 ;
+  const operationsExpenses =  passengerGroup.value.operationsExpenses ? Number( passengerGroup.value.operationsExpenses ) : 0 ;
   // tslint:disable-next-line: max-line-length
   const  busMiscellaneousExpenses =  passengerGroup.value.busMiscellaneousExpenses ? Number( passengerGroup.value.busMiscellaneousExpenses) : 0 ;
   const busInsurenceExpenses = passengerGroup.value.busInsurenceExpenses ? Number(passengerGroup.value.busInsurenceExpenses) : 0;
   // const busMonthlyIncome = passengerGroup.value.busMonthlyIncome ? Number(passengerGroup.value.busMonthlyIncome) : 0;
   // tslint:disable-next-line: max-line-length
-  const expense = tyreCost + fuelCost + driversSalary + cleanersSalary + permitCost + fcCharge + paidTollTax + taxes + maintanence + busInsurenceExpenses;
+  const expense = tyreCost + fuelCost + driversSalary + busMiscellaneousExpenses + cleanersSalary + permitCost + fcCharge + paidTollTax + taxes + maintanence + busInsurenceExpenses + operationsExpenses + otherExpenses;
   passengerGroup.patchValue({
   totalExpenses : expense
   });

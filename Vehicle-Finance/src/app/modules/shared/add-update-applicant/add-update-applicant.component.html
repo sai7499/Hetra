@@ -188,11 +188,12 @@
                   
                   <app-custom-input
                     formControlName="companyPhoneNumber"
-                    [patternCheck]="validationData?.mobile?.patternCheck"
+                    [patternCheck]="validationData?.landlineNumber?.patternCheck"
                     [isRequired]="'Contact Number is required'"
-                    [maxLength]='validationData?.mobile?.maxLength'
+                    [maxLength]='validationData?.landlineNumber?.maxLength'
+                    
                    [isDirty]="isDirty"
-                   [type]="validationData?.mobile?.type"
+                   [type]="validationData?.landlineNumber?.type"
                   >
                   </app-custom-input>
                 </div>
