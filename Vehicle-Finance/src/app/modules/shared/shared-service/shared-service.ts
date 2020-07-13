@@ -39,4 +39,10 @@ export class SharedService {
         console.log("in shared service", data)
         this.taskId$.next(data)
     }
+
+    progressBar$: BehaviorSubject<any> = new BehaviorSubject(true);
+    onProgressBarChange(data) {
+        this.progressBar$.next(data);
+    }
+
 }
