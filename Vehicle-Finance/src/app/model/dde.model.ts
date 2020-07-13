@@ -153,7 +153,7 @@ export interface LoanDetails {
     // applicable for new vehicle
     vehicleCost?: string;
     newvehicleCost?: string;
-    newVehicleModel?: string;
+    newVehModel?: string;
     newVehicletype?: string;
     newVehiclereqLoanAmount?: string;
     newVehiclemarginMoney?: string;

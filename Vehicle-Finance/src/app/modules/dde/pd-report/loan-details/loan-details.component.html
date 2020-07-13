@@ -15,7 +15,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="model/type">{{labels.model}}</label>
                 <!-- <input type="text" class="form-control" id="model_type" formControlName="modelType"> -->
-                <app-vf-custom-select [values]="LOV?.LOVS?.vehicleManufacturer" formControlName="newVehicleModel" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="LOV?.LOVS?.vehicleManufacturer" formControlName="newVehModel" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
 
             </div>
@@ -214,8 +214,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="market_value">{{labels.marketValue}}</label>
                 <!-- <input type="text" class="form-control" id="market_value" formControlName="marketValue"> -->
-                <app-custom-input id="market_value" formControlName="marketValueProposedVehicle" 
-                placeholder="market value" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' market value is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                <app-custom-input id="market_value" formControlName="marketValueProposedVehicle" placeholder="market value" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' market value is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
@@ -224,8 +223,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="purchased_value">{{labels.purchasedValue}}</label>
                 <!-- <input type="text" class="form-control" id="purchased_value" formControlName="purchasedValue"> -->
-                <app-custom-input id="purchased_value" formControlName="purchasePrice"
-                 placeholder="purchased value" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' purchase  value is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                <app-custom-input id="purchased_value" formControlName="purchasePrice" placeholder="purchased value" [type]="labels?.validationData?.amountValue?.type" [isRequired]="' purchase  value is required'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
@@ -242,8 +240,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="usage_of_funds">{{labels.usageFunds}}</label>
                 <!-- <input type="text" class="form-control" id="usage_of_funds" formControlName="usageFunds"> -->
-                <app-custom-input id="usage_of_funds" formControlName="fundsUsage" 
-                placeholder="usage of funds" [type]="labels?.validationData?.name?.type" [isRequired]="'usge of funds is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="usage_of_funds" formControlName="fundsUsage" placeholder="usage of funds" [type]="labels?.validationData?.name?.type" [isRequired]="'usge of funds is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
         </div>
@@ -256,8 +253,7 @@
                     <option value="Trailer">Trailer</option>
                     <option value="Others">Others</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" 
-                formControlName="earlierVehicleApplication" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdEarlierVehicleApplication']" formControlName="earlierVehicleApplication" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -270,15 +266,13 @@
                     <option value="LCV">LCV</option>
                     <option value="HCV">HCV</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']"
-                 formControlName="drivingVehicleEarlier" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdApplicantEarlierVehicle']" formControlName="drivingVehicleEarlier" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="running_attached">{{labels.runningAttached}}</label>
                 <!-- <input type="text" class="form-control" id="running_attached" formControlName="runningAttached"> -->
-                <app-custom-input id="running_attached" 
-                formControlName="vehicleAttachedPlying" placeholder="vehicle running/plying/attached" [maxLength]="maxlength30">
+                <app-custom-input id="running_attached" formControlName="vehicleAttachedPlying" placeholder="vehicle running/plying/attached" [maxLength]="maxlength30">
                 </app-custom-input>
             </div>
         </div>
@@ -290,14 +284,12 @@
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" 
-                formControlName="awareDueDateEmiAmount" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="awareDueDateEmiAmount" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="aware_of_due">{{labels.vehicleContract}}</label>
-                <app-vf-custom-select [values]="LOV?.LOVS['vehicleContract']"
-                 formControlName="vehicleContract" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="LOV?.LOVS['vehicleContract']" formControlName="vehicleContract" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
 
