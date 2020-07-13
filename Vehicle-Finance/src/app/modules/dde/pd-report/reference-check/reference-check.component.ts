@@ -56,7 +56,7 @@ export class ReferenceCheckComponent implements OnInit {
   roleId: any;
   roleType: any;
   showReinitiate: boolean;
-
+  showSubmit = true;
   constructor(
     private labelsData: LabelsService,
     private personalDiscussion: PersonalDiscussionService,
@@ -82,6 +82,8 @@ export class ReferenceCheckComponent implements OnInit {
       console.log(' pd-dashboard ');
       this.show = false;
     }
+
+
     // accessing lead if from route
 
     this.leadId = (await this.getLeadId()) as number;
@@ -109,6 +111,10 @@ export class ReferenceCheckComponent implements OnInit {
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
+          if (this.version !== 'undefined') {
+            this.showSubmit = false
+          }
+
           this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
