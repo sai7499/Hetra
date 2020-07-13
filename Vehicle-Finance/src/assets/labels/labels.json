@@ -1301,19 +1301,19 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 10
+                "rule": 2
             },
             "type": "number"
         },
         "seatingCapacity": {
             "maxLength": {
-                "rule": 3
+                "rule": 2
             },
             "type": "number"
         },
         "cubicCapacity": {
             "maxLength": {
-                "rule": 10
+                "rule": 5
             },
             "type": "alpha-numeric"
         },
