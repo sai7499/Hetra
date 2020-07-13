@@ -707,6 +707,7 @@
     "yes": "Yes",
     "close": "Close",
     "fatherName": "Father Name",
+    "fatherNameHusbandName": "Father Name / Husband Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
     "physicallyChallenged": "Physically Challenged",
@@ -728,7 +729,7 @@
     "addressRecord": "Office Address as per our records",
     "noEmployees": "No of Employees Seen",
     "nameBoardSeen": "Name Board Seen",
-    "officePremises": "Office Premises",
+    "officePremisesType": "Office Premises Type",
     "sizeOfOffice": "Size of Office",
     "mismatchAddress": "Mis-Match in Address",
     "selfieWithHouse": "Selfie with Customer House",
@@ -898,7 +899,13 @@
     "negativeProfile": "Negative Profile",
     "distFromBranch": "Distance from branch",
     "routeMap": "RouteMap",
-    
+    "otherRevenue": "Other Revenue",
+    "otherRevenueRemarks": "Other Revenue Remarks",
+    "onwardRoute": "Onward Route",
+    "returnRoute": "Return Route",
+    "otherExpenses": "Other Expenses",
+    "otherExpesesRemark": "Other Expenses Remarks",
+    "operationExpenses":"Operations Expenses",
     "validationData": {
         "name": {
             "maxLength": {
@@ -978,6 +985,15 @@
             },
             "pattern": {
                 "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+                "msg": "Invalid Number"
+            }
+        },
+        "remark": {
+            "maxLength": {
+                "rule": 40
+            },
+            "pattern": {
+                "rule": " ",
                 "msg": "Invalid Number"
             }
         },
@@ -1177,7 +1193,11 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{10}",
+                "msg": "Number Should be valid and atleast 10 Digits"
+            }
         },
         "directorName": {
             "maxLength": {

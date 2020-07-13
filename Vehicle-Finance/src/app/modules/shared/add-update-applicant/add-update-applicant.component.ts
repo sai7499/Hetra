@@ -617,26 +617,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...processVariables,
       };
 
-      const addressDetails: Array<any> = processVariables.addressDetails || [];
-      console.log('addressDetails', addressDetails);
-      const addressStatus = addressDetails.find(
-        (val) => val.addressType === 'PERMADDADDTYP'
-      );
+      // const addressDetails: Array<any> = processVariables.addressDetails || [];
+      // console.log('addressDetails', addressDetails);
+      // const addressStatus = addressDetails.find(
+      //   (val) => val.addressType === 'PERMADDADDTYP'
+      // );
 
       // if (processVariables.ucic) {isCurrAddSameAsPermAdd: "0"
       if (
-        addressStatus &&
-        addressDetails.length > 0 &&
-        addressStatus.isCurrAddSameAsPermAdd == '1'
+        processVariables.ucic
       ) {
         this.isPermanantAddressSame = true;
         this.isDisabledCheckbox = true;
+        this.isRegAddressSame = true
 
         this.disablePermanentAddress();
         this.disableCurrentAddress();
 
-        //this.disableRegisteredAddress();
-        //this.disableCommunicationAddress();
+        this.disableRegisteredAddress();
+        this.disableCommunicationAddress();
       }
 
       this.applicantDataService.setApplicant(applicant);
@@ -824,9 +823,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ? details.companyPhoneNumber
         : '';
       if (companyPhoneNumber && companyPhoneNumber.length == 12) {
-        companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+        //companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+        if(companyPhoneNumber.slice(0,2)=='91'){
+          companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+        }
       }
-      //this.contactNumber = companyPhoneNumber;
+      this.contactNumber = companyPhoneNumber;
       this.setValueForFormControl('pan', details.pan);
 
       const dedupe = this.coApplicantForm.get('dedupe');
@@ -957,7 +959,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         } else {
           this.isCommAddSameAsRegAdd = '0';
           const communicationAddressObj =
-            addressObj[Constant.COMMUNICATION_ADDRESS];
+            addressObj[Constant.CURRENT_ADDRESS] || addressObj[Constant.COMMUNICATION_ADDRESS] ;
           this.communicationPincode = this.formatPincodeData(
             communicationAddressObj
           );
@@ -1312,7 +1314,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       let companyPhoneNumber = applicantDetails.companyPhoneNumber;
       this.contactNumber = companyPhoneNumber;
       // if (this.mobileNumber.length == 10) {
-      this.contactNumber = '91' + this.contactNumber;
+      this.contactNumber = this.contactNumber;
       // }
 
       if (applicantDetails.dateOfIncorporation) {

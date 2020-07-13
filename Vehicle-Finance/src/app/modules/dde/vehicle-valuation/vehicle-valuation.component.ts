@@ -81,7 +81,7 @@ export class VehicleValuationComponent implements OnInit {
 
   initForm() {
     this.modelDataForm = this.formBuilder.group({
-      remarks: ["", [Validators.required]],
+      remarks: ["",[Validators.required, Validators.pattern('^[a-zA-Z]*$')]],
       valuatorCode: ["", [Validators.required]]
     });
   }
