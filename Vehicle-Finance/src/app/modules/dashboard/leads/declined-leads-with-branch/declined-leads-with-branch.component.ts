@@ -24,7 +24,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
 
   constructor(
