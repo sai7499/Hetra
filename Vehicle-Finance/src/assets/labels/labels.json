@@ -728,7 +728,7 @@
     "addressRecord": "Office Address as per our records",
     "noEmployees": "No of Employees Seen",
     "nameBoardSeen": "Name Board Seen",
-    "officePremises": "Office Premises",
+    "officePremisesType": "Office Premises Type",
     "sizeOfOffice": "Size of Office",
     "mismatchAddress": "Mis-Match in Address",
     "selfieWithHouse": "Selfie with Customer House",
@@ -898,7 +898,6 @@
     "negativeProfile": "Negative Profile",
     "distFromBranch": "Distance from branch",
     "routeMap": "RouteMap",
-    
     "validationData": {
         "name": {
             "maxLength": {
