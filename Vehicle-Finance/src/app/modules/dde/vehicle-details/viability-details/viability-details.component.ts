@@ -409,7 +409,7 @@ onSave() {
           if (this.router.url.includes('/dde')) {
             this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
           } else {
-            this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+            // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
           }
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');

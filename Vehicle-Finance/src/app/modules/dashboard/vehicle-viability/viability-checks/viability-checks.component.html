@@ -20,7 +20,7 @@
                 <td>
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
-                <td class="text-underline" style="cursor: pointer; "><a [routerLink]="['/pages/viability-list', item.leadId, 'viability-list']">{{item.leadId}}</a></td>
+                <td class="text-underline" style="cursor: pointer; "><a (click)="routeToViabilityList(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
                 <td>{{item.applicants ? item.applicants : '--'}}</td>
