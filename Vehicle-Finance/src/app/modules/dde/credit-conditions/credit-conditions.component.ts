@@ -194,6 +194,30 @@ export class CreditConditionsComponent implements OnInit {
     }
    
   }
+  approveCreditCondition(){
+    let data = {
+      "userId":this.userId,
+      "leadId":this.leadId,
+    }
+    this.creditConditionService.approveCreditConditions(data).subscribe(res=> {
+      console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Credit condition Approved successfully!", '')
+      }
+    })
+  }
+  rejectCreditCondition(){
+    let data = {
+      "userId":this.userId,
+      "leadId":this.leadId,
+    }
+    this.creditConditionService.rejectCreditConditions(data).subscribe(res=> {
+      console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Credit condition Approved successfully!", '')
+      }
+    })
+  }
   async ngOnInit() {
     this.getLabelData();
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
