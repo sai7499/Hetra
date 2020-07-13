@@ -29,7 +29,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
   roles: any;
   roleName: any;
   roleType: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -78,7 +78,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.loanLead !== null) {
+      if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;

@@ -25,7 +25,7 @@ export class DecisionWithMeComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -72,7 +72,7 @@ export class DecisionWithMeComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.loanLead !== null) {
+      if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;

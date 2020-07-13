@@ -24,7 +24,7 @@ export class BranchTasksComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   taskId: any;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
 
   constructor(
@@ -64,7 +64,7 @@ export class BranchTasksComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.loanLead !== null) {
+      if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;

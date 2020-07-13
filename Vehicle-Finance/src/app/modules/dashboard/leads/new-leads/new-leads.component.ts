@@ -31,7 +31,7 @@ export class NewLeadsComponent implements OnInit {
   branchId;
   roleId;
   roleType;
-  isLoadLead: boolean;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -56,7 +56,7 @@ export class NewLeadsComponent implements OnInit {
 
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.loanLead !== null) {
+      if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
@@ -77,7 +77,7 @@ export class NewLeadsComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.loanLead !== null) {
+      if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
