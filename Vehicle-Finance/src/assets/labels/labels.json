@@ -1177,7 +1177,11 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{10}",
+                "msg": "Number Should be valid and atleast 10 Digits"
+            }
         },
         "directorName": {
             "maxLength": {
