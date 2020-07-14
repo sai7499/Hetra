@@ -3,6 +3,9 @@ import { LabelsService } from '@services/labels.service';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ToasterService } from '@services/toaster.service';
+import { OdDetailsService } from '@services/od-details.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -24,10 +27,21 @@ export class CibilOdListComponent implements OnInit {
   selctedLoan: any;
   submitted = null;
   totalOdAmount = 0;
+  leadId: number;
+  userId: string;
+  odListLov: any = [];
+  applicantId: number;
+  odApplicantList: any;
   constructor(private labelService: LabelsService,
     private formBuilder: FormBuilder,
     private commonLovService: CommomLovService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private odDetailsService: OdDetailsService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private applicantDataService: ApplicantDataStoreService,
+
+
 
 
   ) {
@@ -40,27 +54,59 @@ export class CibilOdListComponent implements OnInit {
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
     });
+    this.getLeadId();
+    this.userId = localStorage.getItem('userId');
+
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      console.log('applicant id -->',this.applicantId);
+      
+      this.applicantDataService.setApplicantId(this.applicantId);
+    });
+
     this.odDetailsForm = this.formBuilder.group({
       odDetailsList: this.odDetailsListArray,
       loanEnquiryInThirtyDays: this.loanEnquiryInThirtyDaysArray,
       loanEnquiryInSixtyDays: this.loanEnquiryInSixtyDaysArray,
-      highestDpdInLastSixMonths: [""],
-      highestDpdInLastTwelveMonths: [""],
+      totalAmount:[""],
+      highDpd6m: [""],
+      highDpd12m: [""],
       writtenOffLoans: [""],
-      writtenOffLoansWithSuiteFiled: [""],
+      writtenOffLoansWithSuite: [""],
       lossLoans: [""],
       settledLoans: [""],
-      proofCollected: [""],
+      clearanceProofCollected: [""],
       clearenceProof: [""],
-      cibilJustification: [null, Validators.compose([Validators.required, Validators.maxLength(200), Validators.pattern(/[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g)])]
+      justification: [null, Validators.compose([Validators.required, Validators.maxLength(200), Validators.pattern(/[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g)])]
     });
     this.getLov();
+    this.getOdDetails();
   }
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
       console.log(value)
+      this.odListLov.odApplicantType = value.LOVS.odApplicantType
+      this.odListLov.typeOfLoan = value.LOVS.typeOfLoan
+      this.odListLov.clearanceProof = value.LOVS.clearanceProof
+
+
     });
   }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+          this.leadId = Number(value.leadId);
+        }
+        resolve(null);
+      });
+    });
+  }
+  
   onSelectLoan(event) {
     console.log(event);
     this.selctedLoan = event
@@ -91,10 +137,10 @@ export class CibilOdListComponent implements OnInit {
   }
   private getLoanEnquiryInThirtyDays() {
     return this.formBuilder.group({
-      member: [""],
+      memberType: [""],
       enquiryDate: [""],
       typeOfLoan: [""],
-      enquiryAmount: [""],
+      amount: [""],
     });
   }
   addLastThirtyDaysLoan() {
@@ -108,10 +154,10 @@ export class CibilOdListComponent implements OnInit {
   }
   private getLoanEnquiryInSixtyDays() {
     return this.formBuilder.group({
-      member: [""],
+      memberType: [""],
       enquiryDate: [""],
       typeOfLoan: [""],
-      enquiryAmount: [""],
+      amount: [""],
     });
   }
   addLastSixtyDaysLoan() {
@@ -124,9 +170,33 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   get f() { return this.odDetailsForm.controls; }
+  getParentOdDetails(){
+    const body = {
+     leadId : this.leadId
+
+    };
+    this.odDetailsService.getOdApplicantList(body).subscribe((res: any) => {
+        console.log('get od details by applicnat id........>',res)
+        this.odApplicantList = res.ProcessVariables.applicantList
+        console.log(this.odApplicantList);
+        
+      });
+  }
+  getOdDetails() {
+    const body = {
+      userId: this.userId,
+      applicantId: this.applicantId,
+
+    };
+    this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
+        console.log(res)
+      });
+  }
 
   onSubmit() {
     this.submitted = false;
+    console.log(this.odDetailsForm);
+    
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
       this.toasterService.showError(
@@ -141,10 +211,32 @@ export class CibilOdListComponent implements OnInit {
         'Saved Successfully',
         'Cibil OD Details'
       );
+const body={
+  userId: this.userId,
+  applicantId: this.applicantId,
+  assetAppOdDetails: {
+    clearanceProof: this.odDetailsForm.controls.clearenceProof.value,
+    clearanceProofCollected: this.odDetailsForm.controls.clearanceProofCollected.value,
+    highDpd12m: this.odDetailsForm.controls.highDpd12m.value,
+    highDpd6m: this.odDetailsForm.controls.highDpd6m.value,
+    justification: this.odDetailsForm.controls.justification.value,
+    lossLoans: this.odDetailsForm.controls.lossLoans.value,
+   settledLoans: this.odDetailsForm.controls.settledLoans.value,
+    writtenOffLoans: this.odDetailsForm.controls.writtenOffLoans.value,
+   writtenOffLoansWithSuite: this.odDetailsForm.controls.writtenOffLoansWithSuite.value,
+    totalAmount: this.odDetailsForm.controls.totalAmount.value,
+  }
+}
+console.log(body)
+      this.odDetailsService
+        .saveParentOdDetails(this.odDetailsForm.value)
+        .subscribe((res: any) => {
+          console.log('post od details--->', res)
+        });
     }
   }
   onOdAmount(event: any, i: number) {
- 
+
     const odAmount = this.odDetailsListArray.value[i].odAmount;
     const totalOdAmount = odAmount;
     this.odDetailsListArray.at(i).patchValue({ totalOdAmount });
@@ -156,5 +248,8 @@ export class CibilOdListComponent implements OnInit {
         );
       }
     }
+  }
+  onBackToApplicant() {
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
 }

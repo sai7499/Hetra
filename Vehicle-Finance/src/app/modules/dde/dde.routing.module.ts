@@ -116,7 +116,7 @@ const routes: Routes = [
         component: CibilOdComponent,
       },
       {
-        path: 'cibil-od-list',
+        path: 'cibil-od-list/:applicantId',
         component: CibilOdListComponent,
       },
     ],
