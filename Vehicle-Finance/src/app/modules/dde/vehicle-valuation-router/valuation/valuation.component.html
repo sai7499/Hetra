@@ -269,6 +269,11 @@
                         <label for="reg_of_asset">{{labels.yearRegOfAsset}} 
                             <sub class="star_red_col">*</sub>
                         </label>
+                        <!-- <kendo-datepicker class="form-control" 
+                            formControlName="yearOfManufacturer" 
+                            [activeView]="'decade'" [format]="'yyyy'"
+                            placeholder="Year Of Manufacturer">
+                        </kendo-datepicker> -->
                         <app-custom-input
                             formControlName="yearOfManufacturer"
                             [className]="'form-control mandatory'"
@@ -284,6 +289,11 @@
                         <label for="month_reg_of_asset">{{labels.monthRegOfAsset}} 
                             <sub class="star_red_col">*</sub>
                         </label>
+                        <!-- <kendo-datepicker class="form-control" 
+                            formControlName="monthOfManufacturer" 
+                            [activeView]="'decade'" [format]="'MM'"
+                            placeholder="Month Of Manufacturer">
+                        </kendo-datepicker> -->
                         <app-custom-input
                             formControlName="monthOfManufacturer"
                             [className]="'form-control mandatory'"
@@ -438,7 +448,14 @@
                         <label for="re_registered_vechicle">{{labels.reRegisteredVechicle}} 
                             <sub class="star_red_col">*</sub>
                         </label>
-                        <app-custom-input
+                        <app-vf-custom-select 
+                            [values]="valuesToYesNo" 
+                            formControlName="preReRegNumber"
+                            [isRequired]="'Please Select One Option'" 
+                            [isDirty]="isDirty"
+                            > 
+                        </app-vf-custom-select>
+                        <!-- <app-custom-input
                             formControlName="preReRegNumber"
                             [className]="'form-control mandatory'"
                             [inputClass]="'text-uppercase'"
@@ -449,7 +466,7 @@
                             [type]="labels?.validationData?.registrationNo.type"
                             [isDirty]="isDirty"
                         >
-                        </app-custom-input>
+                        </app-custom-input> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="inner_state_vechicle">{{labels.interStateVehicle}} 
