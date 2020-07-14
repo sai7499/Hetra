@@ -6,11 +6,9 @@ import { DdeStoreService } from '@services/dde-store.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TvrDetailsService } from '@services/tvr/tvr-details.service';
-import { Reference } from '@angular/compiler/src/render3/r3_ast';
 import { ToasterService } from '@services/toaster.service';
 import { OtpServiceService } from '@modules/lead-section/services/otp-details.service';
-import { CreateLeadService } from '@modules/lead-creation/service/creatLead.service';
-import { log } from 'console';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -49,8 +47,9 @@ export class TeleVerificationFormComponent implements OnInit {
   sourcingCodeDesc: any;
   sourcingCode: any;
   changeLabelsForProposed: any;
-  changeLabelsForRoute: any
-  changeLabelsForGoods: any
+  changeLabelsForRoute: any;
+  changeLabelsForGoods: any;
+  userName: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -71,7 +70,7 @@ export class TeleVerificationFormComponent implements OnInit {
     private tvrService: TvrDetailsService,
     private toasterService: ToasterService,
     private otpService: OtpServiceService,
-    private createLeadService: CreateLeadService
+    private loginStoreService: LoginStoreService
 
   ) {
 
@@ -182,10 +181,14 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.userName = value.userName;
+     });
+
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
-      console.log(this.product);
       if (this.product === 'Used Commercial Vehicle' || this.product === 'New Commercial Vehicle') {
         this.changeLabelsForProposed = this.labels.needForProposedVehicle + '(applicable for CV)';
         this.changeLabelsForRoute = this.labels.routeOfOperation + '(applicable for CV)';
@@ -320,7 +323,7 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('applicantName').setValue(res.ProcessVariables.applicantName);
         this.teleVerificationForm.get('soName').setValue(res.ProcessVariables.soName ? res.ProcessVariables.soName : '');
         this.teleVerificationForm.get('leadId').setValue(this.leadId);
-        this.teleVerificationForm.get('tvrDoneBy').setValue(res.ProcessVariables.applicantName);
+        this.teleVerificationForm.get('tvrDoneBy').setValue(this.userName);
         this.teleVerificationForm.get('tvrTime').setValue(this.time);
         this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
         this.teleVerificationForm.get('product').setValue(this.product);
@@ -339,7 +342,7 @@ export class TeleVerificationFormComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
 
       if (appiyoError === '0' && apiError === '0') {
-        this.toasterService.showSuccess('Lead Updated Successfully !', '');
+        this.toasterService.showSuccess('TVR details saved Successfully !', '');
       }
     });
   }

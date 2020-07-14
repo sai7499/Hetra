@@ -55,7 +55,6 @@ export class TvrDetailsComponent implements OnInit {
     };
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
       this.tvrList = res.ProcessVariables.tvrApplicantsList;
-      // this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
       console.log('TVR-Dashboard_list', this.tvrList);
     });
 
@@ -68,7 +67,7 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+    this.location.back();
   }
 
   onNext() {

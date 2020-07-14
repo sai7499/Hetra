@@ -10,7 +10,7 @@ import { DashboardService } from './dashboard/dashboard.service';
 export class LoginStoreService {
 
     constructor(private cds: CommonDataService,
-                private dashBoardService: DashboardService) { }
+        private dashBoardService: DashboardService) { }
 
     roleAndUserDetails;
     emailId: string;
@@ -26,9 +26,11 @@ export class LoginStoreService {
         }
         this.cds.changeCdsStatus(true);
         this.creditDashboardMethod({
-            branchId:userDetails["branchId"],
-            roleId:roles[0].roleId,
-            roleType:roles[0].roleType});
+            branchId: userDetails["branchId"],
+            roleId: roles[0].roleId,
+            roleType: roles[0].roleType,
+            userName: userDetails.firstName
+        });
     }
 
     getRolesAndUserDetails() {
@@ -43,9 +45,9 @@ export class LoginStoreService {
         return this.emailId;
     }
 
-    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({branchId: '', roleId: '', roleType: ''});
+    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({ branchId: '', roleId: '', roleType: '', userName: '' });
     isCreditDashboard = this.creditDashboard.asObservable();
     creditDashboardMethod(value: object) {
         this.creditDashboard.next(value);
-      }
+    }
 }
