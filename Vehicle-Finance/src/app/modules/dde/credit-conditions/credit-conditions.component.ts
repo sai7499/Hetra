@@ -85,7 +85,6 @@ export class CreditConditionsComponent implements OnInit {
         creditId: new FormControl(''),
         creditCondition: new FormControl({ value: '', disabled: false }),
         salesResponse: new FormControl({ value: '', disabled: true }),
-        
         isDocReq: new FormControl(),
         creditAction: new FormControl(""),
         defferedDate: new FormControl()
@@ -95,7 +94,7 @@ export class CreditConditionsComponent implements OnInit {
         creditCondition: new FormControl({ value: "", disabled: true }),
         salesResponse: new FormControl({ value: "", disabled: false }),
         creditId: new FormControl(''),
-        isDocReq: new FormControl({value: '', disabled:true}),
+        isDocReq: new FormControl(),
         creditAction: new FormControl(""),
         defferedDate: new FormControl()
       });
@@ -193,6 +192,42 @@ export class CreditConditionsComponent implements OnInit {
       })
     }
    
+  }
+  approveCreditCondition(){
+    let data = {
+      "userId":this.userId,
+      "leadId":this.leadId,
+    }
+    this.creditConditionService.approveCreditConditions(data).subscribe(res=> {
+      console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Credit condition Approved successfully!", '')
+      }
+    })
+  }
+  rejectCreditCondition(){
+    let data = {
+      "userId":this.userId,
+      "leadId":this.leadId,
+    }
+    this.creditConditionService.rejectCreditConditions(data).subscribe(res=> {
+      console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Credit condition Rejected successfully!", '')
+      }
+    })
+  }
+  declineCreditCondition(){
+    let data = {
+      "userId":this.userId,
+      "leadId":this.leadId,
+    }
+    this.creditConditionService.declinedCreditConditions(data).subscribe(res=> {
+      console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Credit condition Declined successfully!", '')
+      }
+    })
   }
   async ngOnInit() {
     this.getLabelData();

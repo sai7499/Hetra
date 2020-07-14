@@ -899,6 +899,13 @@
     "negativeProfile": "Negative Profile",
     "distFromBranch": "Distance from branch",
     "routeMap": "RouteMap",
+    "otherRevenue": "Other Revenue",
+    "otherRevenueRemarks": "Other Revenue Remarks",
+    "onwardRoute": "Onward Route",
+    "returnRoute": "Return Route",
+    "otherExpenses": "Other Expenses",
+    "otherExpesesRemark": "Other Expenses Remarks",
+    "operationExpenses":"Operations Expenses",
     "validationData": {
         "name": {
             "maxLength": {
@@ -978,6 +985,15 @@
             },
             "pattern": {
                 "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
+                "msg": "Invalid Number"
+            }
+        },
+        "remark": {
+            "maxLength": {
+                "rule": 40
+            },
+            "pattern": {
+                "rule": " ",
                 "msg": "Invalid Number"
             }
         },
@@ -1285,19 +1301,19 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 10
+                "rule": 2
             },
             "type": "number"
         },
         "seatingCapacity": {
             "maxLength": {
-                "rule": 3
+                "rule": 2
             },
             "type": "number"
         },
         "cubicCapacity": {
             "maxLength": {
-                "rule": 10
+                "rule": 5
             },
             "type": "alpha-numeric"
         },
