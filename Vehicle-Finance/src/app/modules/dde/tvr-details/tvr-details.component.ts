@@ -69,9 +69,8 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
     this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
-     this.sharedService.onProgressBarChange(true);
+    this.sharedService.onProgressBarChange(true);
   }
 
   onNext() {
