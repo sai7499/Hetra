@@ -7,10 +7,8 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 const routes: Routes = [
     {
         path: ':leadId/tele-verification-form/:applicantType/:applicantId',
-
         component: TeleVerificationFormComponent,
         resolve: { leadData: LeadDataResolverService },
-
     }
 ];
 

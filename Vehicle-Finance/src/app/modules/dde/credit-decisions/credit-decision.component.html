@@ -1,7 +1,6 @@
 <main class="mar-top90">
     <div class="container overflow-hidden">
         <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
-
         <!-- <app-dde-header></app-dde-header> -->
         <app-lead-section-header></app-lead-section-header>
         <div class="multisteps-form">
@@ -13,7 +12,7 @@
                     type="button" id="applicant_bank_details">
                     Term Sheet</button>
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
-                    type="button" id="applicant_identity_details">
+                    type="button" id="applicant_identity_details" [routerLink]="['./sanction-details']">
                     Sanction Details
                 </button>
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}"
@@ -22,9 +21,9 @@
                 </button>
             </div>
 
-            <div class="content">
+            <!-- <div class="content" > -->
                 <router-outlet></router-outlet>
-            </div>
+            <!-- </div> -->
 
         </div>
     </div>
