@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '../../../../services/labels.service';
 
 @Component({
   selector: 'app-term-sheet',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./term-sheet.component.css']
 })
 export class TermSheetComponent implements OnInit {
+  labels: any = {};
 
-  constructor() { }
-
+  constructor(   
+     public labelsService: LabelsService,
+    ) { }
+  getLabelData() {
+    this.labelsService.getLabelsData().subscribe(labelsData => {
+      this.labels = labelsData;
+      console.log(this.labels);
+    })
+  }
   ngOnInit() {
+    this.getLabelData();
   }
 
 }

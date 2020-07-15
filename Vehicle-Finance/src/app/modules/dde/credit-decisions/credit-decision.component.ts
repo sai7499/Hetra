@@ -57,13 +57,13 @@ export class CreditDecisionComponent implements OnInit {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/${url}`]);
         }
     getLocationIndex(url: string) {
-        if (url.includes('credit-decisions')) {
+        if (url.includes('credit-condition')) {
             return 0;
         } else if (url.includes('term-sheet')) {
-            return 0;
-        } else if (url.includes('loan-details')) {
+            return 1;
+        } else if (url.includes('sanction-details')) {
             return 2;
-        } else if (url.includes('reference-check')) {
+        } else if (url.includes('customer-feedback')) {
             return 3;
         }
     }
