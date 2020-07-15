@@ -6,6 +6,7 @@ import { ToasterService } from '@services/toaster.service';
 import { OdDetailsService } from '@services/od-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -14,11 +15,11 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 })
 export class CibilOdListComponent implements OnInit {
   labels: any;
-  odDetailsForm: FormGroup;
-  odDetailsList: FormGroup;
+  odDetailsForm: any;
+  odAccountDetails: FormGroup;
   loanEnquiryInThirtyDays: FormGroup;
   loanEnquiryInSixtyDays: FormGroup;
-  odDetailsListArray: FormArray;
+  odAccountDetailsArray: FormArray;
   loanEnquiryInThirtyDaysArray: FormArray;
   loanEnquiryInSixtyDaysArray: FormArray;
   odTypeValues = ["Individual", "Joint", "Guarentor"]
@@ -32,6 +33,10 @@ export class CibilOdListComponent implements OnInit {
   odListLov: any = [];
   applicantId: number;
   odApplicantList: any;
+  thirtyDays: any = 1;
+  sixtyDays: any = 0;
+  OdDetails: any;
+
   constructor(private labelService: LabelsService,
     private formBuilder: FormBuilder,
     private commonLovService: CommomLovService,
@@ -40,12 +45,12 @@ export class CibilOdListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicantDataService: ApplicantDataStoreService,
-
+    private utilityService: UtilityService,
 
 
 
   ) {
-    this.odDetailsListArray = this.formBuilder.array([])
+    this.odAccountDetailsArray = this.formBuilder.array([])
     this.loanEnquiryInThirtyDaysArray = this.formBuilder.array([])
     this.loanEnquiryInSixtyDaysArray = this.formBuilder.array([])
   }
@@ -62,16 +67,16 @@ export class CibilOdListComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
-      console.log('applicant id -->',this.applicantId);
-      
+      console.log('applicant id -->', this.applicantId);
+
       this.applicantDataService.setApplicantId(this.applicantId);
     });
 
     this.odDetailsForm = this.formBuilder.group({
-      odDetailsList: this.odDetailsListArray,
+      odAccountDetails: this.odAccountDetailsArray,
       loanEnquiryInThirtyDays: this.loanEnquiryInThirtyDaysArray,
       loanEnquiryInSixtyDays: this.loanEnquiryInSixtyDaysArray,
-      totalAmount:[""],
+      totalAmount: [""],
       highDpd6m: [""],
       highDpd12m: [""],
       writtenOffLoans: [""],
@@ -84,6 +89,18 @@ export class CibilOdListComponent implements OnInit {
     });
     this.getLov();
     this.getOdDetails();
+    this.odDetailsForm.get('loanEnquiryInThirtyDays').valueChanges.subscribe((res: any) => {
+      for (let i = 0; i < res.length; i++) {
+        res[i].isSixtyDays = 0;
+      }
+      console.log(res);
+    })
+    this.odDetailsForm.get('loanEnquiryInSixtyDays').valueChanges.subscribe((res: any) => {
+      for (let i = 0; i < res.length; i++) {
+        res[i].isSixtyDays = 1;
+      }
+      console.log(res);
+    })
   }
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -106,7 +123,7 @@ export class CibilOdListComponent implements OnInit {
       });
     });
   }
-  
+
   onSelectLoan(event) {
     console.log(event);
     this.selctedLoan = event
@@ -124,13 +141,13 @@ export class CibilOdListComponent implements OnInit {
 
   }
   addOdDetails() {
-    this.odDetailsListArray.push(this.getodListDetails());
+    this.odAccountDetailsArray.push(this.getodListDetails());
 
   }
   removeOdDetails(i?: any) {
-    if (this.odDetailsListArray.controls.length > 0) {
+    if (this.odAccountDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-      this.odDetailsListArray.removeAt(i);
+      this.odAccountDetailsArray.removeAt(i);
     }
 
 
@@ -141,6 +158,7 @@ export class CibilOdListComponent implements OnInit {
       enquiryDate: [""],
       typeOfLoan: [""],
       amount: [""],
+      isSixtyDays: this.thirtyDays
     });
   }
   addLastThirtyDaysLoan() {
@@ -158,6 +176,8 @@ export class CibilOdListComponent implements OnInit {
       enquiryDate: [""],
       typeOfLoan: [""],
       amount: [""],
+      isSixtyDays: this.thirtyDays
+
     });
   }
   addLastSixtyDaysLoan() {
@@ -170,17 +190,17 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   get f() { return this.odDetailsForm.controls; }
-  getParentOdDetails(){
+  getParentOdDetails() {
     const body = {
-     leadId : this.leadId
+      leadId: this.leadId
 
     };
     this.odDetailsService.getOdApplicantList(body).subscribe((res: any) => {
-        console.log('get od details by applicnat id........>',res)
-        this.odApplicantList = res.ProcessVariables.applicantList
-        console.log(this.odApplicantList);
-        
-      });
+      console.log('get od details by applicnat id........>', res)
+      this.odApplicantList = res.ProcessVariables.applicantList
+      console.log(this.odApplicantList);
+
+    });
   }
   getOdDetails() {
     const body = {
@@ -189,14 +209,21 @@ export class CibilOdListComponent implements OnInit {
 
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
-        console.log(res)
-      });
+      console.log(res)
+      this.OdDetails = res.ProcessVariables;
+      console.log(this.OdDetails);
+      
+      // this.addOdDetails(res.ProcessVariables.businessIncomeList);
+      // this.addLastThirtyDaysLoan {
+      //   (res.ProcessVariables.otherIncomeList);
+      // this.addLastSixtyDaysLoan(res.ProcessVariables.obligationsList);
+    });
   }
 
   onSubmit() {
     this.submitted = false;
     console.log(this.odDetailsForm);
-    
+
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
       this.toasterService.showError(
@@ -211,26 +238,59 @@ export class CibilOdListComponent implements OnInit {
         'Saved Successfully',
         'Cibil OD Details'
       );
-const body={
-  userId: this.userId,
-  applicantId: this.applicantId,
-  assetAppOdDetails: {
-    clearanceProof: this.odDetailsForm.controls.clearenceProof.value,
-    clearanceProofCollected: this.odDetailsForm.controls.clearanceProofCollected.value,
-    highDpd12m: this.odDetailsForm.controls.highDpd12m.value,
-    highDpd6m: this.odDetailsForm.controls.highDpd6m.value,
-    justification: this.odDetailsForm.controls.justification.value,
-    lossLoans: this.odDetailsForm.controls.lossLoans.value,
-   settledLoans: this.odDetailsForm.controls.settledLoans.value,
-    writtenOffLoans: this.odDetailsForm.controls.writtenOffLoans.value,
-   writtenOffLoansWithSuite: this.odDetailsForm.controls.writtenOffLoansWithSuite.value,
-    totalAmount: this.odDetailsForm.controls.totalAmount.value,
-  }
-}
-console.log(body)
+      const AssetBureauEnquiry = []
+      this.odDetailsForm.value.loanEnquiryInThirtyDays.forEach(element => {
+        console.log(element);
+        AssetBureauEnquiry.push(element)
+      });
+      this.odDetailsForm.value.loanEnquiryInSixtyDays.forEach(element => {
+        console.log(element);
+        AssetBureauEnquiry.push(element)
+      });
+      console.log('AssetBureauEnquiry', AssetBureauEnquiry);
+      AssetBureauEnquiry.forEach(ele =>{
+        console.log(ele);
+        ele.memberType = (ele.memberType).toString();
+        ele.enquiryDate= this.utilityService.convertDateTimeTOUTC(ele.enquiryDate, 'DD/MM/YYYY');
+        ele.typeOfLoan= (ele.typeOfLoan).toString();
+        ele.amount= Number(ele.amount);
+        ele.isSixtyDays= ele.isSixtyDays;
+        })
+        this.odDetailsForm.value.odAccountDetails.forEach(ele => {
+          ele.odType = (ele.odType).toString();
+        ele.otherTypeOfloan= (ele.otherTypeOfloan).toString();
+        ele.typeOfLoan= (ele.typeOfLoan).toString();
+        ele.odAmount= Number(ele.odAmount);
+        ele.odDpd= Number(ele.odDpd);
+        });
+
+      const body = {
+        userId: this.userId,
+        applicantId: this.applicantId,
+        odAccountDetails: this.odDetailsForm.controls.odAccountDetails.value,
+        AssetBureauEnquiry: AssetBureauEnquiry,
+
+        assetAppOdDetails: {
+          clearanceProof: this.odDetailsForm.controls.clearenceProof.value,
+          clearanceProofCollected: this.odDetailsForm.controls.clearanceProofCollected.value,
+          highDpd12m: this.odDetailsForm.controls.highDpd12m.value,
+          highDpd6m: this.odDetailsForm.controls.highDpd6m.value,
+          justification: this.odDetailsForm.controls.justification.value,
+          lossLoans: Number(this.odDetailsForm.controls.lossLoans.value),
+          settledLoans:  Number(this.odDetailsForm.controls.settledLoans.value),
+          writtenOffLoans:  Number(this.odDetailsForm.controls.writtenOffLoans.value),
+          writtenOffLoansWithSuite:  Number(this.odDetailsForm.controls.writtenOffLoansWithSuite.value),
+          totalAmount: (this.totalOdAmount).toString(),
+        },
+
+        // odAccountDetails : { ...this.odAccountDetailsArray.value} 
+
+
+      }
+      console.log(body)
 
       this.odDetailsService
-        .saveParentOdDetails(this.odDetailsForm.value)
+        .saveParentOdDetails(body)
         .subscribe((res: any) => {
           console.log('post od details--->', res)
         });
@@ -238,14 +298,14 @@ console.log(body)
   }
   onOdAmount(event: any, i: number) {
 
-    const odAmount = this.odDetailsListArray.value[i].odAmount;
+    const odAmount = this.odAccountDetailsArray.value[i].odAmount;
     const totalOdAmount = odAmount;
-    this.odDetailsListArray.at(i).patchValue({ totalOdAmount });
-    if (this.odDetailsListArray && this.odDetailsListArray.length > 0) {
+    this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
+    if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalOdAmount = 0;
-      for (let i = 0; i < this.odDetailsListArray.length; i++) {
+      for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
         this.totalOdAmount = Math.round(
-          this.totalOdAmount + Number(this.odDetailsListArray.value[i].odAmount)
+          this.totalOdAmount + Number(this.odAccountDetailsArray.value[i].odAmount)
         );
       }
     }

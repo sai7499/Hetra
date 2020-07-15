@@ -56,9 +56,9 @@
                   <th role="columnheader" class="caption">{{labels?.action}}</th>
                 </tr>
               </thead>
-              <tbody formArrayName="odDetailsList">
+              <tbody formArrayName="odAccountDetails">
                 <tr class="text-center" id="applicant_1_row" *ngFor="
-                    let item of odDetailsForm.get('odDetailsList')[
+                    let item of odDetailsForm.get('odAccountDetails')[
                       'controls'
                     ];
                     let i = index
@@ -88,7 +88,7 @@
                       (change)="onSelectLoan($event.target.value)">
                     </app-vf-custom-select>
                   </td>
-                  <ng-container *ngIf="selctedLoan !== 'Others'">
+                  <ng-container *ngIf="selctedLoan !== 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
                       <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
@@ -98,12 +98,12 @@
                     </td>
                     <td data-title="OD DPD">
                       <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
-                        [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.yom?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
+                        [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                        [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
                       </app-custom-input>
                     </td>
                   </ng-container>
-                  <ng-container *ngIf="selctedLoan === 'Others'">
+                  <ng-container *ngIf="selctedLoan === 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
                       <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
@@ -113,8 +113,8 @@
                     </td>
                     <td data-title="OD DPD">
                       <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
-                        [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.yom?.maxLength" [isDirty]="isDirty"
+                        [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                        [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty"
                         [isRequired]="'OD DPD mandatory'">
                       </app-custom-input>
                     </td>
@@ -127,8 +127,8 @@
                   </td>
                   <td data-title="OD DPD">
                     <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
-                      [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData?.yom?.maxLength" [isDirty]="isDirty">
+                      [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                      [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                     </app-custom-input>
                   </td> -->
 
@@ -137,9 +137,9 @@
                       (click)="removeOdDetails(i)"></i>
                   </td>
                 </tr>
-                <tr *ngIf="odDetailsListArray.length > 0">
+                <tr *ngIf="odAccountDetailsArray.length > 0">
                   <td>Total OD Amount</td>
-                  <td formControlName="totalAmount">{{totalOdAmount}}</td>
+                  <td >{{totalOdAmount}}</td>
                 </tr>
               </tbody>
             </table>
@@ -170,23 +170,23 @@
               <div class="col-md-2"><label>Count of  written off loans</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="writtenOffLoans" [placeholder]="'Count of  written off loans'"
-                  [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength">
+                  [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="col-md-2"><label>Count of  written off loans along with suite filed</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="writtenOffLoansWithSuite"
                   [placeholder]="'Count of  written off loans with Suite filed'"
-                  [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength">
+                  [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="col-md-2"><label>Count of  loss loans</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="lossLoans" [placeholder]="'Count of  loss loans'"
-                  [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength">
+                  [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="clearfix"></div>
@@ -195,8 +195,8 @@
               <div class="col-md-2"><label>Count of settled loans</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="settledLoans" [placeholder]="'Count of settled loans'"
-                  [type]="labels?.validationData?.yom?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.yom?.maxLength">
+                  [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="clearfix"></div>
@@ -216,7 +216,7 @@
               <div class="col-md-2">
                 <app-custom-input formControlName="clearenceProof" [placeholder]="'Clearence Proof'"
                   [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength">
+                  [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="clearfix"></div>
