@@ -1585,6 +1585,38 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
+      dedupe.get('corporateIdentificationNumber').valueChanges.subscribe((value) => {
+        if (!dedupe.get('corporateIdentificationNumber').invalid) {
+          this.enableDedupeBasedOnChanges(value !== this.corporateIdentificationNumber);
+          this.isCinNumberChanged = value !== this.corporateIdentificationNumber;
+        } else {
+          this.isEnableDedupe = true;
+        }
+      });
+      dedupe.get('cstVatNumber').valueChanges.subscribe((value) => {
+        if (!dedupe.get('cstVatNumber').invalid) {
+          this.enableDedupeBasedOnChanges(value !== this.cstVatNumber);
+          this.isCstNumberChanged = value !== this.cstVatNumber;
+        } else {
+          this.isEnableDedupe = true;
+        }
+      });
+      dedupe.get('gstNumber').valueChanges.subscribe((value) => {
+        if (!dedupe.get('gstNumber').invalid) {
+          this.enableDedupeBasedOnChanges(value !== this.gstNumber);
+          this.isGstNumberChanged = value !== this.gstNumber;
+        } else {
+          this.isEnableDedupe = true;
+        }
+      });
+      dedupe.get('tanNumber').valueChanges.subscribe((value) => {
+        if (!dedupe.get('tanNumber').invalid) {
+          this.enableDedupeBasedOnChanges(value !== this.tanNumber);
+          this.isTanNumberChanged = value !== this.tanNumber;
+        } else {
+          this.isEnableDedupe = true;
+        }
+      });
     }
     dedupe.get('aadhar').valueChanges.subscribe((value) => {
       if (!dedupe.get('aadhar').invalid) {
@@ -1611,38 +1643,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isEnableDedupe = true;
       }
     });
-    dedupe.get('corporateIdentificationNumber').valueChanges.subscribe((value) => {
-      if (!dedupe.get('corporateIdentificationNumber').invalid) {
-        this.enableDedupeBasedOnChanges(value !== this.corporateIdentificationNumber);
-        this.isCinNumberChanged = value !== this.corporateIdentificationNumber;
-      } else {
-        this.isEnableDedupe = true;
-      }
-    });
-    dedupe.get('cstVatNumber').valueChanges.subscribe((value) => {
-      if (!dedupe.get('cstVatNumber').invalid) {
-        this.enableDedupeBasedOnChanges(value !== this.cstVatNumber);
-        this.isCstNumberChanged = value !== this.cstVatNumber;
-      } else {
-        this.isEnableDedupe = true;
-      }
-    });
-    dedupe.get('gstNumber').valueChanges.subscribe((value) => {
-      if (!dedupe.get('gstNumber').invalid) {
-        this.enableDedupeBasedOnChanges(value !== this.gstNumber);
-        this.isGstNumberChanged = value !== this.gstNumber;
-      } else {
-        this.isEnableDedupe = true;
-      }
-    });
-    dedupe.get('tanNumber').valueChanges.subscribe((value) => {
-      if (!dedupe.get('tanNumber').invalid) {
-        this.enableDedupeBasedOnChanges(value !== this.tanNumber);
-        this.isTanNumberChanged = value !== this.tanNumber;
-      } else {
-        this.isEnableDedupe = true;
-      }
-    });
+   
   }
   
 
