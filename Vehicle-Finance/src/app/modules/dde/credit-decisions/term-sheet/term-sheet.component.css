@@ -1,0 +1,289 @@
+.row.top_bar {
+    margin: 0px;
+    border: 1px solid #ddd;
+    font-weight: 100;
+    border-radius: 6px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    background: white;
+    }
+      
+          .row.top_bar {
+      margin: 0px;
+      border: 1px solid #ddd;
+      font-weight: 100;
+      border-radius: 6px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      background: white;
+    }
+    
+    .fa.fa-angle-left {
+      font-size: 30px;
+    }
+    .fa.fa-angle-right {
+      font-size: 30px;
+    }
+    .prev-first-data {
+      display: flex;
+      justify-content: end;
+    }
+    
+    
+    
+    .multisteps-form__progress-btn:after {
+    position: absolute;
+    top: 5px;
+    /*left: calc(-50% - 13px / 2);*/
+    transition-property: all;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    transition-delay: 0s;
+    display: block;
+    /*width: 100%;*/
+    height: 2px;
+    content: '';
+    background-color: currentColor;
+    z-index: 1;
+    }
+    
+    .table tbody tr td{
+        text-align: left !important;
+    }
+    
+    #credit_sourcing_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
+    
+    #credit_tvr_details:after, #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;}
+    #print_section_starts
+{
+	font-size: 15px;
+}
+#terms_sheet_headline
+{
+	
+	text-align: center;
+}
+#table_section_bottom
+{
+	border-bottom: 2px dashed #c6c2c2;
+}
+#terms_sheet_headline1
+{
+	text-align: center;
+	border-bottom: 2px dashed #c6c2c2;
+	margin-top: -20px;
+	font-size: 13px;
+	width: 85px;
+	margin-left: 400px;
+}
+#terms_sheet_headline_right
+{
+
+}
+#terms_sheet_headline_right1
+{
+	margin-top: -20px;
+}
+#table_header_top
+{
+	font-weight: inherit;
+	border-top: 2px dashed #c6c2c2;	
+	border-bottom: 2px dashed #c6c2c2;
+}
+#table_header_top_tag1,#table_header_top_tag2,#table_header_top_tag3,#table_header_top_tag4
+{
+	font-weight: inherit;
+}
+.table td, .table th{
+	padding: 0 !important;
+	font-size: 15px;
+}
+#table_column_width15
+{
+	width: 15%;
+}
+#table_column_width10
+{
+	width: 10%;
+}
+#tearms_sheet_header2_top
+{
+	margin-left: 400px;
+	margin-top: 10px;
+}
+#tearm_sheet_ul
+{
+	  margin-top: -18px;
+}
+#tearm_sheet_li2,#tearm_sheet_li3,#tearm_sheet_li4
+{
+border: none !important;
+/*padding-left: 230px;*/
+}
+#tearm_sheet_li1
+{
+	border: none !important;
+	padding-left: 0px !important;
+}
+#tearms_sheet_header2
+{
+	border-bottom: 2px dashed #c6c2c2;
+}
+#tearms_sheet_header3_top
+{
+	margin-left: 400px;
+	margin-top: 10px;
+}
+#tearm_sheet1_ul
+{
+	margin-top: -21px;
+}
+#tearm_sheet1_li2,#tearm_sheet1_li3,#tearm_sheet1_li4
+{
+border: none !important;
+/*padding-left: 230px;*/
+}
+#tearm_sheet1_li1
+{
+	border: none !important;
+	padding-left: 0px !important;
+}
+#tearms_sheet_header3
+{
+	border-bottom: 2px dashed #c6c2c2;
+}
+#tearms_sheet_header4
+{
+	border-bottom: 2px dashed #c6c2c2;
+	margin-top: 10px;
+}
+#tearms_sheet_header5
+{
+	border-bottom: 2px dashed #c6c2c2;
+	margin-top: 10px;
+}
+#tearms_sheet_header4_ta2,#tearms_sheet_header4_tag5
+{
+	margin-left: 90px;
+}
+#tearms_sheet_header6
+{
+	border-bottom: 2px dashed #c6c2c2;
+	margin-top: 10px;
+}
+#tearms_sheet_header5_tag2
+{
+	margin-left: 90px;
+}
+#tearms_sheet_header5_tag5
+{
+	margin-left: 165px;
+}
+#tearms_sheet_header6_tag2,#tearms_sheet_header6_tag4
+{
+	margin-left: 20px;
+}
+#tearms_sheet_header7
+{
+	border-bottom: 2px dashed #c6c2c2;
+}
+#tearms_sheet_header8
+{
+	border-bottom: 2px dashed #c6c2c2;
+}
+#terms_sheet_headline9
+{
+	border-bottom: 2px dashed #c6c2c2;
+	padding-top: 10px;
+}
+#terms_sheet_headline9_tag2
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline10
+{
+	border-bottom: 2px dashed #c6c2c2;
+	padding-top: 10px;
+}
+#terms_sheet_headline10_tag
+{
+	margin-left: 400px;
+}
+#terms_sheet_headline10_tag3
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline10_tag3a
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline10_tag6
+{
+	margin-left: 220px;
+}
+#terms_sheet_headline10_tag7
+{
+	margin-left: 180px;
+}
+#terms_sheet_headline10_tag8
+{
+	margin-left: 699px;
+}
+#terms_sheet_headline11_header
+{
+	
+}
+#terms_sheet_headline11
+{
+	margin-left: 400px;
+}
+#terms_sheet_headline11_tag2
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline11_tag5
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline12_tag
+{
+	margin-left: 400px;
+	
+}
+#terms_sheet_headline12_tag1
+{
+	
+}
+#terms_sheet_headline12_tag0
+{
+	border-bottom: 2px dashed #c6c2c2;
+	margin-top: -8px;
+}
+#terms_sheet_headline12_tag3
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline12_tag10
+{
+	margin-left: 200px;
+}
+#terms_sheet_headline13_tag
+{
+	margin-left: 400px;
+}
+#terms_sheet_headline14_tag
+{
+	margin-left: 300px;
+}
+#terms_sheet_headline15
+{
+	margin-top: 10px;
+}
+#print_button_div_mdl
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 90px;
+}
+    
+    
