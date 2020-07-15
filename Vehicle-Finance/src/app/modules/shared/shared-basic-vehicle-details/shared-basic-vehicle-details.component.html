@@ -1,5 +1,6 @@
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event)"
-    *ngIf="label.validationData">
+<form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
+
+    <!-- (change)="formDataOutputMethod($event)" -->
 
     <ng-container formArrayName="vehicleFormArray">
 

@@ -31,7 +31,6 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
 
-
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
     })
@@ -39,9 +38,6 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
    this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-  }
-
-  FormDataParentMethod(value: any) {
   }
 
   onSubmit() {
