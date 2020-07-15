@@ -37,10 +37,4 @@ export class SharedService {
     getTaskID(data) {
         this.taskId$.next(data)
     }
-
-    progressBar$: BehaviorSubject<any> = new BehaviorSubject(true);
-    onProgressBarChange(data) {
-        this.progressBar$.next(data);
-    }
-
 }
