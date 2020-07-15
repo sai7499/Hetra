@@ -126,6 +126,13 @@ const routes: Routes = [
           ).then((m) => m.TeleVerificarionFormModule),
       },
       {
+        path: 'fi-list',
+        loadChildren: () =>
+        import(
+          './modules/dde/fi-report/fi-report.module'
+          ).then((m) => m.FiReportModule),
+      },
+      {
         path: 'vehicle-valuation',
         loadChildren: () =>
           import(

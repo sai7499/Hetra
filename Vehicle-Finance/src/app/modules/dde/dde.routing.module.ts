@@ -9,7 +9,6 @@ import { IncomeDetailsComponent } from './income-details/income-details.componen
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
-import { FlReportComponent } from './fl-report/fl-report.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
@@ -23,6 +22,7 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { PdListComponent } from './pd-list/pd-list.component';
+import { FiListComponent } from './fi-list/fi-list.component';
 
 const routes: Routes = [
   {
@@ -63,10 +63,6 @@ const routes: Routes = [
         component: ExposureDetailsComponent,
       },
       {
-        path: 'fl-report',
-        component: FlReportComponent,
-      },
-      {
         path: 'insurance-details',
         component: InsuranceDetailsComponent,
       },
@@ -89,6 +85,10 @@ const routes: Routes = [
       {
         path: 'tvr-details',
         component: TvrDetailsComponent,
+      },
+      {
+        path: 'fi-list',
+        component: FiListComponent
       },
       {
         path: 'cam',
