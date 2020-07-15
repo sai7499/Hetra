@@ -10,7 +10,6 @@ import { ExposureDetailsComponent } from './exposure-details/exposure-details.co
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
-import { FlReportComponent } from './fl-report/fl-report.component';
 import { PdListComponent } from './pd-list/pd-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
@@ -31,12 +30,12 @@ import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { PdReportModule } from './pd-report/pd-report.module';
 import { ViabilityDashboardModule } from './viability-dashboard/viability-dashboard.module';
+import { FiListComponent } from './fi-list/fi-list.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
 
 @NgModule({
   declarations: [
     DdeComponent,
-    FlReportComponent,
     // PdReportComponent,
     // ViabilityListComponent,
     PdListComponent,
@@ -58,6 +57,7 @@ import { ViabilityDashboardModule } from './viability-dashboard/viability-dashbo
     // ViabilityDetailsComponent,
     CibilOdComponent,
     CibilOdListComponent,
+    FiListComponent,
 
 
   ],
