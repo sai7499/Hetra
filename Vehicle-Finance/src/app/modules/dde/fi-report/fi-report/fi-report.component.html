@@ -1,0 +1,231 @@
+<main class="mar-top90">
+    <div class="container overflow-hidden">
+        <app-lead-section-header></app-lead-section-header>
+        <div class="multisteps-form">
+            <div class="content">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="nameOfExternalAgency">{{labels?.nameOfExternalAgency}}</label>
+                            <app-vf-custom-select [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="contactPoint">{{labels?.contactPointVerification}}</label>
+                            <app-vf-custom-select [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="referenceNo">{{labels?.referenceNo}}</label>
+                            <app-custom-input id="referenceNo" [placeholder]="'Enter reference number'" [type]="labels?.validationData?.name?.type" formControlName="fatherName" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="cpv_date">{{labels?.cpvIntiatedDate}}</label>
+                            <app-custom-input id="cpv_date" [placeholder]="'Enter Date'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="cpv_time">{{labels?.cpvIntiatedTime}}</label>
+                            <app-custom-input id="cpv_time" [placeholder]="'Enter Time'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="report_date">{{labels?.reportSubmitDate}}</label>
+                            <app-custom-input id="report_date" [placeholder]="'Enter report date'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="report_time">{{labels?.reportSubmitTime}}</label>
+                            <app-custom-input id="report_time" [placeholder]="'Enter report time'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="applicantsName">{{labels?.applicantsName}}</label>
+                            <app-custom-input id="applicantsName" [placeholder]="'Enter applicant Name'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="residenceAddressline1">{{labels?.residenceAddressline1}}</label>
+                            <app-custom-input id="residenceAddressline1" [placeholder]="'Enter address'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="residenceAddressline2">{{labels?.residenceAddressline2}}</label>
+                            <app-custom-input id="residenceAddressline2" [placeholder]="'Enter address'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="residenceAddressline3">{{labels?.residenceAddressline3}}</label>
+                            <app-custom-input id="residenceAddressline3" [placeholder]="'Enter address'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="pincode">{{labels?.pincode}}</label>
+                            <app-vf-custom-select id="pincode" [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="city">{{labels?.city}}</label>
+                            <app-vf-custom-select id="city" [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="state">{{labels?.state}}</label>
+                            <app-vf-custom-select id="state" [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                    </div>
+
+                    <h3>Residence Observation</h3>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="residenceApproach">{{labels?.residenceApproach}}</label>
+                            <app-custom-input id="residenceApproach" [placeholder]="'Enter residence Approach'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="detailsOfResidence">{{labels?.detailsOfResidence}}</label>
+                            <app-vf-custom-select id="detailsOfResidence" [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="rentAmount">{{labels?.rentAmount}}</label>
+                            <app-custom-input id="rentAmount" [placeholder]="'Enter rent Amount'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="residenceName">{{labels?.residenceName}}</label>
+                            <app-custom-input id="residenceName" [placeholder]="'Enter residence name'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="verifiedFrom">{{labels?.verifiedFrom}}</label>
+                            <app-custom-input id="verifiedFrom" [placeholder]="'Enter rent Amount'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="personMetName">{{labels?.personMetName}}</label>
+                            <app-custom-input id="personMetName" [placeholder]="'Enter person met name'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="YearsStayinCity">{{labels?.YearsStayinCity}}</label>
+                            <app-custom-input id="YearsStayinCity" [placeholder]="'Enter years of stay in city'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="YearsStayinResi">{{labels?.YearsStayinResi}}</label>
+                            <app-custom-input id="YearsStayinResi" [placeholder]="'Enter years of stay in residence'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="areainSquarefeet">{{labels?.areainSquarefeet}}</label>
+                            <app-custom-input id="areainSquarefeet" [placeholder]="'Enter Area in Square feet'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="fi_locality">{{labels?.fiLocality}}</label>
+                            <app-vf-custom-select id="fi_locality" [values]="" formControlName="" [isRequired]="'Please select one'" [isDirty]="isDirty"> </app-vf-custom-select>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="assetsVisibleAtHome">{{labels?.assetsVisibleAtHome}}</label>
+                            <app-custom-input id="assetsVisibleAtHome" [placeholder]="'Enter assets visible at Home'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="locatingResidence">{{labels?.locatingResidence}}</label>
+                            <app-custom-input id="locatingResidence" [placeholder]="'Enter locating residence'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+
+                    <h3>Asset & family member details</h3>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="propertyOwned">{{labels?.propertyOwned}}</label>
+                            <app-custom-input id="propertyOwned" [placeholder]="'Enter property owned details'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="noOffamilyMembers">{{labels?.noOffamilyMembers}}</label>
+                            <app-custom-input id="noOffamilyMembers" [placeholder]="'Enter family members name'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="noOfEarningMembers">{{labels?.noOfEarningMembers}}</label>
+                            <app-custom-input id="noOfEarningMembers" [placeholder]="'Enter earning members name'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="vehiclesDetails">{{labels?.vehiclesDetails}}</label>
+                            <app-custom-input id="vehiclesDetails" [placeholder]="'Enter vehicle details'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="comments">{{labels?.commentsAndRecommendations}}</label>
+                            <app-custom-input id="comments" [placeholder]="'Enter comments'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="distance">{{labels?.distanceinKMs}}</label>
+                            <app-custom-input id="distance" [placeholder]="'Enter distance in KMs'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="verifiedBy">{{labels?.verifiedBy}}</label>
+                            <app-custom-input id="verifiedBy" [placeholder]="'Enter details'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label>{{labels.date}}</label>
+                            <kendo-datepicker class="form-control mandatory" formControlName="" [format]="'dd/MM/yyyy'" placeholder="Enter Date" [activeView]="'decade'"></kendo-datepicker>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="">{{labels?.time}}</label>
+                            <app-custom-input [placeholder]="'Enter time'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>

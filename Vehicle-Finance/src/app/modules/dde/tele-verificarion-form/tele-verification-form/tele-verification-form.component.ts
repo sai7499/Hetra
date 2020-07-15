@@ -62,7 +62,7 @@ export class TeleVerificationFormComponent implements OnInit {
     private fb: FormBuilder,
     // private labelDetails: LabelsService,
     private labelService: LabelsService,
-    private commomLovService: CommomLovService,
+    private commonLovService: CommomLovService,
     private ddeStoreService: DdeStoreService,
     private route: ActivatedRoute,
     private location: Location,
@@ -218,7 +218,7 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   getLOV() {
-    this.commomLovService.getLovData().subscribe((value) => {
+    this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
     });
 
