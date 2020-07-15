@@ -21,7 +21,7 @@ export class BankListComponent {
         this.userId = localStorage.getItem('userId');
         this.leadId = (await this.getLeadId()) as number;
         this.applicantId = (await this.getApplicantId()) as number;
-        this.bankService.getBankList({ leadId: this.leadId }).subscribe((res: any) => {
+        this.bankService.getBankList({ applicantId: this.applicantId }).subscribe((res: any) => {
             this.bankDetails = res.ProcessVariables.applicantBankDetails;
         });
 
