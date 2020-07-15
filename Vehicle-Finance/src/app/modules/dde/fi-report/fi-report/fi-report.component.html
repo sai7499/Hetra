@@ -1,6 +1,8 @@
 <main class="mar-top90">
     <div class="container overflow-hidden">
         <app-lead-section-header></app-lead-section-header>
+
+        <h3>Field Investigation Form</h3>
         <div class="multisteps-form">
             <div class="content">
                 <form>
@@ -217,6 +219,16 @@
                             <label for="">{{labels?.time}}</label>
                             <app-custom-input [placeholder]="'Enter time'" [type]="labels?.validationData?.name?.type" formControlName="" [patternCheck]="namePattern" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                             </app-custom-input>
+                        </div>
+                    </div>
+
+                    <div class="mar-bot25">
+                        <div class="col-sm-5"></div>
+                        <div class="col-sm-7 text-right">
+                            <button class="btn btn-primary" type="button" (click)=onBack()>{{labels.back}}</button> &nbsp;
+                            <button class="btn btn-primary" (click)="onSave()"> {{labels.save}} </button> &nbsp;
+                            <button class="btn btn-primary" type="button" (click)="onNext()">{{labels.next}} </button>
+
                         </div>
                     </div>
 

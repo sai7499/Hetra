@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-fi-report',
@@ -14,16 +16,20 @@ export class FiReportComponent implements OnInit {
 
   constructor(
     private labelService: LabelsService,
-    private commonLovService: CommomLovService
+    private commonLovService: CommomLovService,
+    private activatedRoute: ActivatedRoute,
+    private location: Location,
+    private router: Router
   ) {
     this.getLOV();
-   }
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
     });
   }
+
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
@@ -33,4 +39,15 @@ export class FiReportComponent implements OnInit {
     console.log(this.LOV);
   }
 
+  onBack() {
+    this.location.back();
+  }
+
+  onSave() {
+
+  }
+
+  onNext() {
+
+  }
 }

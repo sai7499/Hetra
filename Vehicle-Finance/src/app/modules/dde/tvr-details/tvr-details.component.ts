@@ -74,7 +74,7 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onNext() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fl-report']);
+    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
   }
 
 }
