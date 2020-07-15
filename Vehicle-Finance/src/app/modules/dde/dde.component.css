@@ -499,3 +499,6 @@ select#select_main_button_match {
 .k-stepper .k-step-current .k-step-indicator {
     color: #272264;
 }
+.isDisabled {
+    pointer-events: none;
+}

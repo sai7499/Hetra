@@ -21,7 +21,6 @@ export class CreditDecisionComponent implements OnInit {
     constructor(
         private router: Router,
         private location: Location,
-        
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
@@ -29,13 +28,13 @@ export class CreditDecisionComponent implements OnInit {
     }
    
     getLocationIndex(url: string) {
-        if (url.includes('applicant-details')) {
+        if (url.includes('credit-condition')) {
             return 0;
-        } else if (url.includes('customer-profile')) {
+        } else if (url.includes('term-sheet')) {
             return 1;
-        } else if (url.includes('loan-details')) {
+        } else if (url.includes('sanction-details')) {
             return 2;
-        } else if (url.includes('reference-check')) {
+        } else if (url.includes('customer-feedback')) {
             return 3;
         }
     }

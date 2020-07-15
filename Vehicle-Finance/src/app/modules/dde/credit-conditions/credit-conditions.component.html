@@ -43,12 +43,12 @@
         </div>
         <div class="col-xs-6 col-sm-3">
           <div class="row m-0">
-            <label class="radio-inline">
+           
               <input type="radio" value="1" formControlName="isDocReq"> {{labels.yes}}
-            </label>
-            <label class="radio-inline">
+            
+           
               <input type="radio" value="0" formControlName="isDocReq"> {{labels.no}}
-            </label>
+         
           </div>
           <!-- <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a> -->
           <div *ngIf="item.get('isDocReq').value == '1'" class="btn btn-primary uploadsan">Upload
@@ -105,12 +105,12 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-      <a href="#"> <button class="btn btn-primary" type="button">Back</button></a>
+       <button class="btn btn-primary" type="button">Back</button>
       <button class="btn btn-primary" (click)="saveUpdate()" type="button">Save</button>
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="approveCreditCondition()" type="button">Approve</button>
-      <a href="#"><button class="btn btn-primary" *ngIf="userType === 2" (click) ="rejectCreditCondition()" type="button">Reject</button></a>
-      <a href="#"><button class="btn btn-primary" *ngIf="userType === 2" type="button">Decline</button></a>
-      <a href="#"><button class="btn btn-primary"  type="button">Next</button></a>
+     <button class="btn btn-primary" *ngIf="userType === 2" (click) ="rejectCreditCondition()" type="button">Reject</button>
+      <button class="btn btn-primary" *ngIf="userType === 2" (click) ="declineCreditCondition()" type="button">Decline</button>
+      <button class="btn btn-primary"  type="button">Next</button>
     </div>
   </div>
 </div>
