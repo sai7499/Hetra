@@ -17,7 +17,12 @@ import { SanctionDetailsComponent } from './sanction-details/sanction-details.co
     SanctionDetailsComponent
   ],
   imports: [
-    CommonModule,CreditDecisionRouterModule, ReactiveFormsModule, FormsModule, SharedModule, DdeSharedModule
+    CommonModule,
+    CreditDecisionRouterModule, 
+    ReactiveFormsModule, 
+    FormsModule, 
+    SharedModule, 
+    DdeSharedModule
   ]
 })
 export class CreditConditionModule { }
