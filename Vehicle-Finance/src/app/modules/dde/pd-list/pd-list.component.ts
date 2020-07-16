@@ -140,12 +140,12 @@ export class PdListComponent implements OnInit {
   }
 
   onNavigateBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fl-report'])
+    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list'])
 
   }
   onNavigateNext() {
 
-    this.router.navigate(['pages/dde/' + this.leadId + '/viability-dashboard'])
+    this.router.navigate(['pages/dde/' + this.leadId + '/viability-list'])
 
   }
 

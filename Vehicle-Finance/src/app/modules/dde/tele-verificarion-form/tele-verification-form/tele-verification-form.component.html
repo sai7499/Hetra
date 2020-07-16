@@ -510,16 +510,12 @@
                             <div *ngIf="otpForm.get('otp').errors?.minlength || otpForm.get('otp').errors?.maxlength">
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
-                        </div>
+
                     </div>&nbsp;
                     <div class="row">
-                        <div class="col-lg-3"></div>
-                        <div class=" col-lg-2" style="margin-left: 150px;">
-                            <button class="btn btn-primary" id="validateOtp" (click)="validateOtp() ">
-                                Verify
-                                OTP</button>
+                        <div class="col-md-4" style="margin-left: 150px;">
+                            <button class="btn  btn-primary" style="margin-right: 5px;" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
+                            <button class="btn btn-primary" id="validateOtp" (click)="validateOtp() ">Verify OTP</button>
                             <button class="btn btn-primary " data-dismiss="modal" style="display: none;" #closeModal (click)=sendOtp()> close</button>
                         </div>
                     </div>
