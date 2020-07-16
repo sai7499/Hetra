@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {TermSheetComponent} from './term-sheet/term-sheet.component';
 import {CreditDecisionComponent} from './credit-decision.component';
 import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.component';
  import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
@@ -18,6 +19,10 @@ const routes: Routes = [
             {
                 path: 'credit-condition',
                 component: CreditConditionsComponent
+            },
+            {
+                path: 'term-sheet',
+                component: TermSheetComponent
             },
             {
                 path: 'sanction-details',
