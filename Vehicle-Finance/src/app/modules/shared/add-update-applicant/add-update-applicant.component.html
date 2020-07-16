@@ -15,56 +15,29 @@
             <div formGroupName="dedupe">
               <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="Vechical Type"
-                    >{{ labels?.entity
-                    }}<sub class="star_red_col">*</sub></label
-                  >
-                  <app-vf-custom-select
-                    [values]="LOV?.LOVS?.entityType"
-                    formControlName="entityType"
-                    (change)="selectApplicantType($event)"
-                    [isRequired]="'Entity type is required'"
-                    [isDirty]="isDirty"
-                    [isDisabled]="applicantId"
-                  >
+                  <label for="Vechical Type">{{ labels?.entity
+                    }}<sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.entityType" formControlName="entityType"
+                    (change)="selectApplicantType($event)" [isRequired]="'Entity type is required'" [isDirty]="isDirty"
+                    [isDisabled]="applicantId">
                   </app-vf-custom-select>
                 </div>
-                
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
-                  
-                >
-                  <label for="Vechical Type"
-                    >{{ labels.relationshipwithloanapplicant
-                    }}<sub class="star_red_col">*</sub></label
-                  >
-                  <app-vf-custom-select
-                    [values]="LOV?.LOVS?.applicantRelationshipWithLead"
-                    formControlName="loanApplicationRelation"
-                    [isRequired]="'Please select one'"
-                    [isDirty]="isDirty"
-                  >
+
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <label for="Vechical Type">{{ labels.relationshipwithloanapplicant
+                    }}<sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                    formControlName="loanApplicationRelation" [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
-                  *ngIf="applicantType !== 'INDIVENTTYP'"
-                >
-                  <label
-                    >Business Entity Type<sub class="star_red_col"
-                      >*</sub
-                    ></label
-                  >
-                  <app-vf-custom-select
-                    [values]="LOV?.LOVS?.bussinessEntityType"
-                    formControlName="bussinessEntityType"
-                    [isRequired]="'Entity type is required'"
-                    [isDirty]="isDirty"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType !== 'INDIVENTTYP'">
+                  <label>Business Entity Type<sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.bussinessEntityType" formControlName="bussinessEntityType"
+                    [isRequired]="'Entity type is required'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
-              
-              
+
+
                 <!-- <div
                   class="form-group col-sm-6 col-md-3 col-lg-3"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
@@ -82,341 +55,334 @@
                   </app-vf-custom-select>
                 </div> -->
               </div>
-             
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                  hidden
-                >
-                  <label for="Vechical Type"
-                    >{{ labels.title }}<sub class="star_red_col">*</sub></label
-                  >
-                  <app-vf-custom-select
-                    [values]="LOV?.LOVS?.salutation"
-                    formControlName="title"
-                    isDisabled
-                  >
-                  </app-vf-custom-select>
-                </div>
-              
+
+              <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'NONINDIVENTTYP'" hidden>
+                <label for="Vechical Type">{{ labels.title }}<sub class="star_red_col">*</sub></label>
+                <app-vf-custom-select [values]="LOV?.LOVS?.salutation" formControlName="title" isDisabled>
+                </app-vf-custom-select>
+              </div>
+
 
               <div class="row individual_section_leadco">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'"
-                    >{{ labels?.firstName }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  <label
-                    for="first_name"
-                    *ngIf="applicantType == 'NONINDIVENTTYP'"
-                    >{{ labels.companyName1 }}
+                  <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.firstName }}
+                    <sub class="star_red_col">*</sub></label>
+                  <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-custom-input
-                    formControlName="name1"
-                    
-                    [isRequired]="'Name is required'"
-                    [maxLength]="validationData?.name?.maxLength"
-                    [isDirty]="isDirty"
-                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
-                  ></app-custom-input>
+                  <app-custom-input formControlName="name1" [isRequired]="'Name is required'"
+                    [maxLength]="validationData?.name?.maxLength" [isDirty]="isDirty"
+                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label
-                    for="first_name"
-                    *ngIf="applicantType == 'INDIVENTTYP'"
-                    >{{ labels?.middleName }}</label
-                  >
-                  <label
-                    for="first_name"
-                    *ngIf="applicantType == 'NONINDIVENTTYP'"
-                    >{{ labels.companyName2 }}
+                  <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.middleName }}</label>
+                  <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}
                   </label>
-                  <app-custom-input
-                    formControlName="name2"
-                    
-                    [maxLength]="validationData?.name?.maxLength"
-                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
-                  ></app-custom-input>
+                  <app-custom-input formControlName="name2" [maxLength]="validationData?.name?.maxLength"
+                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label
-                    for="first_name"
-                    *ngIf="applicantType == 'INDIVENTTYP'"
-                    >{{ labels?.lastName }}</label
-                  >
-                  <label
-                    for="first_name"
-                    *ngIf="applicantType == 'NONINDIVENTTYP'"
-                    >{{ labels.companyName3 }}
+                  <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.lastName }}</label>
+                  <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
                   </label>
-                  <app-custom-input
-                    formControlName="name3"
-                    
-                    [maxLength]="validationData?.name?.maxLength"
-                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"
-                  >
+                  <app-custom-input formControlName="name3" [maxLength]="validationData?.name?.maxLength"
+                    [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'">
                   </app-custom-input>
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType=='INDIVENTTYP'">
-                  <label for="mobile"
-                   
-                    >{{ labels?.mobile }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  
-                  <app-custom-input
-                    formControlName="mobilePhone"
-                    [patternCheck]="validationData?.mobile?.patternCheck"
-                    [isRequired]="'Mobile Number is required'"
-                    [maxLength]='validationData?.mobile?.maxLength'
-                   [isDirty]="isDirty"
-                   [type]="validationData?.mobile?.type"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType=='INDIVENTTYP'">
+                  <label for="mobile">{{ labels?.mobile }}
+                    <sub class="star_red_col">*</sub></label>
+
+                  <app-custom-input formControlName="mobilePhone" [patternCheck]="validationData?.mobile?.patternCheck"
+                    [isRequired]="'Mobile Number is required'" [maxLength]='validationData?.mobile?.maxLength'
+                    [isDirty]="isDirty" [type]="validationData?.mobile?.type">
                   </app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType=='NONINDIVENTTYP'">
-                  <label for="mobile"
-                   
-                    >{{ labels?.contactNumber }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  
-                  <app-custom-input
-                    formControlName="companyPhoneNumber"
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType=='NONINDIVENTTYP'">
+                  <label for="mobile">{{ labels?.contactNumber }}
+                    <sub class="star_red_col">*</sub></label>
+
+                  <app-custom-input formControlName="companyPhoneNumber"
                     [patternCheck]="validationData?.landlineNumber?.patternCheck"
-                    [isRequired]="'Contact Number is required'"
-                    [maxLength]='validationData?.landlineNumber?.maxLength'
-                    
-                   [isDirty]="isDirty"
-                   [type]="validationData?.landlineNumber?.type"
-                  >
+                    [isRequired]="'Contact Number is required'" [maxLength]='validationData?.landlineNumber?.maxLength'
+                    [isDirty]="isDirty" [type]="validationData?.landlineNumber?.type">
                   </app-custom-input>
                 </div>
 
-                <div  *ngIf="applicantType == 'INDIVENTTYP'">
+                <div *ngIf="applicantType == 'INDIVENTTYP'">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="date_of_birth"
-                      >{{ labels?.dateOfBirth }}
-                      <sub class="star_red_col">*</sub></label
-                    >
-                    <kendo-datepicker
-                      class="form-control mandatory"
-                      formControlName="dob"
-                      [format]="'dd/MM/yyyy'"
-                      [max]="toDayDate"
-                      [activeView]="'decade'"
-                      placeholder="Date of birth"
-                    >
+                    <label for="date_of_birth">{{ labels?.dateOfBirth }}
+                      <sub class="star_red_col">*</sub></label>
+                    <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
+                      [max]="toDayDate" [activeView]="'decade'" placeholder="Date of birth">
                     </kendo-datepicker>
 
-                    <div
-                      class="ShowError"
-                      *ngIf="
+                    <div class="ShowError" *ngIf="
                         coApplicantForm.get('dedupe').get('dob').touched ||
                         isDirty
-                      "
-                    >
-                      <div
-                        *ngIf="coApplicantForm.get('dedupe').get('dob').invalid"
-                      >
+                      ">
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid">
                         select date
                       </div>
                     </div>
                   </div>
-                  
+
                 </div>
-               
-                <div  *ngIf="applicantType == 'NONINDIVENTTYP'">
+
+                <div *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="date_of_incorporation"
-                      >{{ labels?.dateOfIncorporation }}
-                      <sub class="star_red_col">*</sub></label
-                    >
-                    <kendo-datepicker
-                      class="form-control mandatory"
-                      formControlName="dateOfIncorporation"
-                      [format]="'dd/MM/yyyy'"
-                      [max]="toDayDate"
-                      [activeView]="'decade'"
-                      placeholder="Date of Incorporation"
-                    >
+                    <label for="date_of_incorporation">{{ labels?.dateOfIncorporation }}
+                      <sub class="star_red_col">*</sub></label>
+                    <kendo-datepicker class="form-control mandatory" formControlName="dateOfIncorporation"
+                      [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
+                      placeholder="Date of Incorporation">
                     </kendo-datepicker>
-                    <div
-                      class="ShowError"
-                      *ngIf="
+                    <div class="ShowError" *ngIf="
                         coApplicantForm.get('dedupe').get('dateOfIncorporation').touched ||
                         isDirty
-                      "
-                    >
-                      <div
-                        *ngIf="coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid"
-                      >
+                      ">
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid">
                         select date
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                *ngIf="applicantType == 'INDIVENTTYP'" >
-                  
-                <label for="customer_category"
-                >{{ labels?.customerCategory }}
-                <sub class="star_red_col">*</sub></label
-              >
-              <app-vf-custom-select
-                formControlName="customerCategory"
-                [values]="LOV?.LOVS?.customerSegment"
-                [isRequired]="'Please select one'"
-                [isDirty]="isDirty"
-              ></app-vf-custom-select>
-                  
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco">
+
+                  <label for="customer_category">{{ labels?.customerCategory }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select formControlName="customerCategory" [values]="LOV?.LOVS?.customerSegment"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.contactPerson }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  <app-custom-input
-                    formControlName="contactPerson"
-                    [maxLength]="validationData?.directorName?.maxLength"
-                    [type]="validationData?.directorName?.type"
-                    [isRequired]="'Contact Person Name is Required'"
-                    [isDirty]="isDirty"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.contactPerson }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="contactPerson"
+                    [maxLength]="validationData?.directorName?.maxLength" [type]="validationData?.directorName?.type"
+                    [isRequired]="'Contact Person Name is Required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
-                <div *ngIf="applicantType=='INDIVENTTYP'">
-                  <div class="row" 
+              </div>
+
+              <div class="row">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 "
                   *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
-                      HWYYYYYYYYYYYYYYYY
-                  </div>
+                  <label for="aadharnumber">Monthly Income Amount
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="monthlyIncomeAmount"
+                    (keyup)="calculateIncome($event.target.value)"
+                    [maxLength]="validationData?.amountValue.maxLength" 
+                    [type]="validationData?.amountValue.type"
+                    [isRequired]="'Monthly Income is Required'" 
+                    [isDirty]="isDirty">
+                  </app-custom-input>
                 </div>
-                
 
-
-
-
-
-
-
-
-
-
-
-
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 "
+                  *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
+                  <label for="aadharnumber">Annual Income Amount
+                    </label>
+                  <app-custom-input formControlName="annualIncomeAmount"
+                  [isRequired]="'Annual Income is Required'" [isDirty]="isDirty"
+                  isDisabled>
+                  </app-custom-input>
+                  <!-- <input
+                type="text"
+                class="form-control"
+                id="age"
+                name="age"
+                [value]=""
+                formControlName="age"
+                disabled
+              /> -->
+                </div>
 
 
 
               </div>
-              <div class="row">
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'INDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.aadharnumber }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  <app-custom-input
-                    formControlName="aadhar"
-                    [maxLength]="validationData?.adhaarNumber?.maxLength"
-                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
-                    [isRequired]="'Aadhaar number is required'"
-                    [isDirty]="isDirty"
-                    [type]="validationData?.adhaarNumber?.type"
-                  >
+
+              <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+                  <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
+                    (click)="onOwnHouseAvailable($event)" />
+                  <span class="is_senior">Own House Proof Available? </span>
+
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <label for="Vechical Type">Owner of the Property <sub class="star_blue_col">*</sub></label>
+                  <app-vf-custom-select [values]="ownerPropertyRelation"
+                    formControlName="houseOwnerProperty"  [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <label for="Vechical Type">Relationship with Applicant <sub class="star_blue_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                    formControlName="ownHouseAppRelationship" 
+                     
+                    [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+              <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                  <label for="aadharnumber">Average Bank Balance
+                    </label>
+                  <app-custom-input formControlName="averageBankBalance">
                   </app-custom-input>
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.udyogAdhar }}
-                    </label
-                  >
-                  <app-custom-input
-                    formControlName="aadhar"
-                    [maxLength]="validationData?.adhaarNumber?.maxLength"
-                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
-                    [type]="validationData?.adhaarNumber?.type"
-                  >
+              </div>
+
+              <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <label for="Vechical Type">RTR Type<sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.typeOfLoan"
+                    formControlName="rtrType" 
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                  <label for="aadharnumber">Previous Loan Amount
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="prevLoanAmount"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                  <label for="aadharnumber">Loan Tenor Service(in months)
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="loanTenorServiced"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+
+
+              </div>
+
+              <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                  <label for="aadharnumber">EMI of the Current Loan
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="currentEMILoan"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='29'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                  <label for="aadharnumber">Agri(No of Acres)
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="agriNoOfAcres">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="identity_number"
-                    >{{ labels?.panform }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  <app-vf-custom-select
-                    [values]="LOV?.LOVS?.applicantPanType"
-                    formControlName="panType"
-                    (change)="getPanValue($event)"
-                    [isRequired]="'Please select one'"
-                    [isDirty]="isDirty"
-                  >
+                  <label for="Vechical Type">Owner of the Property<sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="ownerPropertyRelation"
+                    formControlName="agriOwnerProperty" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <label for="Vechical Type">Relationship with Applicant<sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                    formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+
+              </div>
+
+              <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='30'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                  <label for="aadharnumber">Gross Receipt
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="grossReceipt">
+                  </app-custom-input>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="row">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'INDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.aadharnumber }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="aadhar" [maxLength]="validationData?.adhaarNumber?.maxLength"
+                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
+                    [isRequired]="'Aadhaar number is required'" [isDirty]="isDirty"
+                    [type]="validationData?.adhaarNumber?.type">
+                  </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.udyogAdhar }}
+                  </label>
+                  <app-custom-input formControlName="aadhar" [maxLength]="validationData?.adhaarNumber?.maxLength"
+                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
+                    [type]="validationData?.adhaarNumber?.type">
+                  </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <label for="identity_number">{{ labels?.panform }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.applicantPanType" formControlName="panType"
+                    (change)="getPanValue($event)" [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <!-- [patternCheck]="validationData?.panNumber?.patternCheck" -->
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="mobile">{{ labels?.pannumber }} <sub class="star_blue_col">*</sub></label>
-                  <app-custom-input
-                    formControlName="pan"
-                    [disabled]="isPanDisabled"
+                  <app-custom-input formControlName="pan" [disabled]="isPanDisabled"
                     [patternCheck]="validationData?.panNumber?.patternCheck"
-                    [isRequired]="panRequired ? 'Pan is required' : ''"
-                    [isDirty]="isDirty"
-                    [inputClass]="'text-uppercase'"
-                    [maxLength]="validationData?.panNumber?.maxLength"
-                    [type]="validationData?.panNumber?.type"
-                  ></app-custom-input>
+                    [isRequired]="panRequired ? 'Pan is required' : ''" [isDirty]="isDirty"
+                    [inputClass]="'text-uppercase'" [maxLength]="validationData?.panNumber?.maxLength"
+                    [type]="validationData?.panNumber?.type"></app-custom-input>
                 </div>
               </div>
               <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType=='INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType=='INDIVENTTYP'">
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
-                  <app-custom-input
-                    formControlName="drivingLicenseNumber"
+                  <app-custom-input formControlName="drivingLicenseNumber"
                     [patternCheck]="validationData?.drivingLicense?.patternCheck"
-                    [maxLength]="validationData?.drivingLicense?.maxLength"
-                    (change)="onDrvingLisenseChange($event)"
-                    [inputClass]="'text-uppercase'"
-                    [type]="validationData?.drivingLicense?.type"
-                  >
+                    [maxLength]="validationData?.drivingLicense?.maxLength" (change)="onDrvingLisenseChange($event)"
+                    [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type">
                   </app-custom-input>
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.cinRegisteredNumber }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  <app-custom-input
-                    formControlName="corporateIdentificationNumber"
-                    [maxLength]="validationData?.cinRegNumber?.maxLength"
-                    [type]="validationData?.cinRegNumber?.type"
-                    [inputClass]="'text-uppercase'"
-                    [isRequired]="'Cin/Reg Number is Required'"
-                    [isDirty]="isDirty"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.cinRegisteredNumber }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="corporateIdentificationNumber"
+                    [maxLength]="validationData?.cinRegNumber?.maxLength" [type]="validationData?.cinRegNumber?.type"
+                    [inputClass]="'text-uppercase'" [isRequired]="'Cin/Reg Number is Required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
 
                 <!-- [patternCheck]="drivingLicensePattern"  -->
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType == 'INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{
                     labels?.drivingLicenceIssueDate
                   }}</label>
@@ -436,20 +402,12 @@
                       (ngModelChange)="dateSelected()"
                     />
                   </div> -->
-                  <kendo-datepicker
-                    class="form-control mandatory"
-                    formControlName="drivingLicenseIssueDate"
-                    [format]="'dd/MM/yyyy'"
-                    [max]="drivingLicenseExpiryDate || toDayDate"
-                    [activeView]="'decade'"
-                    [(ngModel)]="drivingLicenseIssueDate"
-                    (ngModelChange)="dateSelected()"
-                    placeholder="Driving License Issue Date"
-                  >
+                  <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
+                    [format]="'dd/MM/yyyy'" [max]="drivingLicenseExpiryDate || toDayDate" [activeView]="'decade'"
+                    [(ngModel)]="drivingLicenseIssueDate" (ngModelChange)="dateSelected()"
+                    placeholder="Driving License Issue Date">
                   </kendo-datepicker>
-                  <div
-                    class="ShowError"
-                    *ngIf="
+                  <div class="ShowError" *ngIf="
                       mandatory['drivingLicenseIssueDate'] &&
                       (isDirty ||
                         coApplicantForm
@@ -458,30 +416,20 @@
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseIssueDate').touched)
-                    "
-                  >
+                    ">
                     Select Date
                   </div>
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.cstVatNumber }}
-                    </label
-                  >
-                  <app-custom-input
-                    formControlName="cstVatNumber"
-                    [maxLength]="validationData?.cstVatNumber?.maxLength"
-                    [type]="validationData?.cstVatNumber?.type"
-                    [inputClass]="'text-uppercase'"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.cstVatNumber }}
+                  </label>
+                  <app-custom-input formControlName="cstVatNumber" [maxLength]="validationData?.cstVatNumber?.maxLength"
+                    [type]="validationData?.cstVatNumber?.type" [inputClass]="'text-uppercase'">
                   </app-custom-input>
                 </div>
 
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType == 'INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{
                     labels?.drivingLicenceExpiryDate
                   }}</label>
@@ -501,20 +449,12 @@
                       (ngModelChange)="expiryDateSelected()"
                     />
                   </div> -->
-                  <kendo-datepicker
-                    class="form-control mandatory"
-                    formControlName="drivingLicenseExpiryDate"
-                    [format]="'dd/MM/yyyy'"
-                    [min]="drivingLicenseIssueDate"
-                    [activeView]="'decade'"
-                    [(ngModel)]="drivingLicenseExpiryDate"
-                    (ngModelChange)="expiryDateSelected()"
-                    placeholder="Driving License Expiry Date"
-                  >
+                  <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseExpiryDate"
+                    [format]="'dd/MM/yyyy'" [min]="drivingLicenseIssueDate" [activeView]="'decade'"
+                    [(ngModel)]="drivingLicenseExpiryDate" (ngModelChange)="expiryDateSelected()"
+                    placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
-                  <div
-                    class="ShowError"
-                    *ngIf="
+                  <div class="ShowError" *ngIf="
                       mandatory['drivingLicenseExpiryDate'] &&
                       (isDirty ||
                         coApplicantForm
@@ -523,142 +463,90 @@
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseExpiryDate').touched)
-                    "
-                  >
+                    ">
                     Select date
                   </div>
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.gstNumber }}
-                    </label
-                  >
-                  <app-custom-input
-                    formControlName="gstNumber"
-                    [patternCheck]="validationData?.gstNumber?.patternCheck"
-                    [maxLength]="validationData?.gstNumber?.maxLength"
-                    [type]="validationData?.gstNumber?.type"
-                    [inputClass]="'text-uppercase'"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.gstNumber }}
+                  </label>
+                  <app-custom-input formControlName="gstNumber" [patternCheck]="validationData?.gstNumber?.patternCheck"
+                    [maxLength]="validationData?.gstNumber?.maxLength" [type]="validationData?.gstNumber?.type"
+                    [inputClass]="'text-uppercase'">
                   </app-custom-input>
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType == 'INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportNumber }}</label>
                   <!-- [patternCheck]="validationData?.passportNumber?.patternCheck" -->
-                  <app-custom-input
-                    formControlName="passportNumber"
+                  <app-custom-input formControlName="passportNumber"
                     [patternCheck]="validationData?.passportNumber?.patternCheck"
-                    (change)="onPassportNumberChange($event)"
-                    [inputClass]="'text-uppercase'"
-                    [maxLength]="validationData?.passportNumber?.maxLength"
-                    [isRequired]="
+                    (change)="onPassportNumberChange($event)" [inputClass]="'text-uppercase'"
+                    [maxLength]="validationData?.passportNumber?.maxLength" [isRequired]="
                       isPassportRequired ? 'Passport number is required' : ''
-                    "
-                    [isDirty]="isPassportRequired && isDirty"
-                    [type]="validationData?.passportNumber?.type"
-                  >
+                    " [isDirty]="isPassportRequired && isDirty" [type]="validationData?.passportNumber?.type">
                   </app-custom-input>
                 </div>
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
-                >
-                  <label for="aadharnumber"
-                    >{{ labels?.tanNumber }}
-                    </label
-                  >
-                  <app-custom-input
-                    formControlName="tanNumber"
-                    [maxLength]="validationData?.tanNumber?.max"
-                    [type]="validationData?.tanNumber?.type"
-                    [inputClass]="'text-uppercase'"
-                  >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  *ngIf="applicantType == 'NONINDIVENTTYP'">
+                  <label for="aadharnumber">{{ labels?.tanNumber }}
+                  </label>
+                  <app-custom-input formControlName="tanNumber" [maxLength]="validationData?.tanNumber?.max"
+                    [type]="validationData?.tanNumber?.type" [inputClass]="'text-uppercase'">
                   </app-custom-input>
                 </div>
 
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType == 'INDIVENTTYP'" >
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
-                  <kendo-datepicker
-                    class="form-control mandatory"
-                    formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'"
-                    [max]="passportExpiryDate || toDayDate"
-                    [activeView]="'decade'"
-                    [(ngModel)]="passportIssueDate"
-                    (ngModelChange)="passportDateSelected()"
-                    placeholder="Passport Issue Date"
-                  >
+                  <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
+                    [format]="'dd/MM/yyyy'" [max]="passportExpiryDate || toDayDate" [activeView]="'decade'"
+                    [(ngModel)]="passportIssueDate" (ngModelChange)="passportDateSelected()"
+                    placeholder="Passport Issue Date">
                   </kendo-datepicker>
-                  <div
-                    class="ShowError"
-                    *ngIf="
+                  <div class="ShowError" *ngIf="
                       passportMandatory['passportIssueDate'] &&
                       (isDirty ||
                         coApplicantForm.get('dedupe').get('passportIssueDate')
                           .dirty ||
                         coApplicantForm.get('dedupe').get('passportIssueDate')
                           .touched)
-                    "
-                  >
+                    ">
                     Select Date
                   </div>
                 </div>
 
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType == 'INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
-                  <kendo-datepicker
-                    class="form-control mandatory"
-                    formControlName="passportExpiryDate"
-                    [format]="'dd/MM/yyyy'"
-                    [min]="passportIssueDate"
-                    [activeView]="'decade'"
-                    [(ngModel)]="passportExpiryDate"
-                    (ngModelChange)="passportExpiryDateSelected()"
-                    placeholder="Passport Expiry Date"
-                  >
+                  <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
+                    [format]="'dd/MM/yyyy'" [min]="passportIssueDate" [activeView]="'decade'"
+                    [(ngModel)]="passportExpiryDate" (ngModelChange)="passportExpiryDateSelected()"
+                    placeholder="Passport Expiry Date">
                   </kendo-datepicker>
-                  <div
-                    class="ShowError"
-                    *ngIf="
+                  <div class="ShowError" *ngIf="
                       passportMandatory['passportExpiryDate'] &&
                       (isDirty ||
                         coApplicantForm.get('dedupe').get('passportExpiryDate')
                           .dirty ||
                         coApplicantForm.get('dedupe').get('passportExpiryDate')
                           .touched)
-                    "
-                  >
+                    ">
                     Select Date
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                *ngIf="applicantType == 'INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <!-- [patternCheck]="validationData?.voterId?.patternCheck" -->
-                  <app-custom-input
-                    formControlName="voterIdNumber"
-                    [maxLength]="validationData?.voterId?.maxLength"
-                    [patternCheck]="validationData?.voterId?.patternCheck"
-                    [inputClass]="'text-uppercase'"
-                    [isRequired]="isVoterRequired ? 'Voter id is required' : ''"
-                    [isDirty]="isVoterRequired && isDirty"
-                    [type]="validationData?.voterId?.type"
-                  ></app-custom-input>
+                  <app-custom-input formControlName="voterIdNumber" [maxLength]="validationData?.voterId?.maxLength"
+                    [patternCheck]="validationData?.voterId?.patternCheck" [inputClass]="'text-uppercase'"
+                    [isRequired]="isVoterRequired ? 'Voter id is required' : ''" [isDirty]="isVoterRequired && isDirty"
+                    [type]="validationData?.voterId?.type"></app-custom-input>
                 </div>
 
-                <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20"
-                  *ngIf="
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20" *ngIf="
                     (applicantType == 'INDIVENTTYP' && isMobileChanged ||
                     isName1Changed ||
                     isPanChanged ||
@@ -671,31 +559,19 @@
                     isCinNumberChanged ||
                     isAadharChanged ||
                     isPanChanged ||
-                    isName1Changed)"
-                >              
-                  <button
-                    class="btn btn-primary mar-right8"
-                    type="button"
-                    (click)="checkDedupe()"
-                  >
+                    isName1Changed)">
+                  <button class="btn btn-primary mar-right8" type="button" (click)="checkDedupe()">
                     <a class="back_color">Check Dedupe</a>
                   </button>
                   &nbsp;&nbsp;
-                  <button
-                    class="btn btn-primary mar-right8"
-                    type="button"
-                    (click)="navigateToApplicantList()"
-                  >
+                  <button class="btn btn-primary mar-right8" type="button" (click)="navigateToApplicantList()">
                     <a class="back_color">Back</a>
                   </button>
                 </div>
               </div>
             </div>
 
-            <div
-              class="multisteps-form__panel"
-              data-animation="scaleIn"
-              *ngIf="
+            <div class="multisteps-form__panel" data-animation="scaleIn" *ngIf="
                 (applicantType == 'INDIVENTTYP' && !isMobileChanged &&
                 !isName1Changed &&
                 !isPanChanged &&
@@ -708,127 +584,76 @@
                 !isCinNumberChanged &&
                 !isAadharChanged &&
                 !isPanChanged &&
-                !isName1Changed)"
-              
-            >
-              <div
-                id="individual_section_address"
-                class="individual_section_leadco"
-                *ngIf="applicantType == 'INDIVENTTYP'"
-              >
+                !isName1Changed)">
+              <div id="individual_section_address" class="individual_section_leadco"
+                *ngIf="applicantType == 'INDIVENTTYP'">
                 <h3 class="title">Permanent Address</h3>
                 <div class="row container" formGroupName="permentAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="address1"
-                        >{{ labels?.addressline1 }}
-                        <sub class="star_red_col">*</sub></label
-                      >
-                      <app-custom-input
-                        formControlName="addressLineOne"
-                        [maxLength]="validationData?.fullName?.maxLength"
-                        [isRequired]="'Address is required'"
-                        [isDirty]="isDirty"
-
-                        
-                      ></app-custom-input>
+                      <label for="address1">{{ labels?.addressline1 }}
+                        <sub class="star_red_col">*</sub></label>
+                      <app-custom-input formControlName="addressLineOne"
+                        [maxLength]="validationData?.fullName?.maxLength" [isRequired]="'Address is required'"
+                        [isDirty]="isDirty"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address2">{{ labels?.addressline2 }}</label>
-                      <app-custom-input
-                        formControlName="addressLineTwo"
-                        [maxLength]="validationData?.fullName?.maxLength"
-                      ></app-custom-input>
+                      <app-custom-input formControlName="addressLineTwo"
+                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address3">{{ labels?.addressline3 }}</label>
-                      <app-custom-input
-                        formControlName="addressLineThree"
-                        [maxLength]="validationData?.fullName?.maxLength"
-                      ></app-custom-input>
+                      <app-custom-input formControlName="addressLineThree"
+                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="pincode"
-                        >{{ labels?.code }}
-                        <sub class="star_red_col">*</sub></label
-                      >
-                      <app-custom-input
-                        formControlName="pincode"
-                        [maxLength]="validationData?.pincode?.maxLength"
-                        [patternCheck]="validationData?.pincode?.patternCheck"
-                        (keyup)="getPincode($event.target)"
-                        [id]="'permanentPincode'"
-                        [isRequired]="'Pincode is required'"
-                        [isDirty]="isDirty"
-                        [type]="validationData?.pincode?.type"
-                      ></app-custom-input>
+                      <label for="pincode">{{ labels?.code }}
+                        <sub class="star_red_col">*</sub></label>
+                      <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
+                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                        [id]="'permanentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
+                        [type]="validationData?.pincode?.type"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="permanent_address_city"
-                        >{{ labels?.city }}
-                        <sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="permanentPincode?.city"
-                        formControlName="city"
-                        [isDirty]="isDirty"
-                        [isRequired]="'City is required'"
-                      >
+                      <label for="permanent_address_city">{{ labels?.city }}
+                        <sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city" [isDirty]="isDirty"
+                        [isRequired]="'City is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="permanent_address_district"
-                        >{{ labels?.district
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="permanentPincode?.district"
-                        formControlName="district"
-                        [isDirty]="isDirty"
-                        [isRequired]="'District is required'"
-                      >
+                      <label for="permanent_address_district">{{ labels?.district
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="permanentPincode?.district" formControlName="district"
+                        [isDirty]="isDirty" [isRequired]="'District is required'">
                       </app-vf-custom-select>
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="permanent_address_state"
-                        >{{ labels?.state
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="permanentPincode?.state"
-                        formControlName="state"
-                        [isDirty]="isDirty"
-                        [isRequired]="'State is required'"
-                      >
+                      <label for="permanent_address_state">{{ labels?.state
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="permanentPincode?.state" formControlName="state"
+                        [isDirty]="isDirty" [isRequired]="'State is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="permanent_address_country"
-                        >{{ labels.country
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="permanentPincode?.country"
-                        formControlName="country"
-                        [isDirty]="isDirty"
-                        [isRequired]="'Country is required'"
-                      >
+                      <label for="permanent_address_country">{{ labels.country
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="permanentPincode?.country" formControlName="country"
+                        [isDirty]="isDirty" [isRequired]="'Country is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="landline">{{
                         labels?.permanentAddressLandline
                       }}</label>
-                      <app-custom-input
-                        formControlName="landlineNumber"
-                        
+                      <app-custom-input formControlName="landlineNumber"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
-                        [type]="validationData?.landlineNumber?.type"
-                      ></app-custom-input>
+                        [type]="validationData?.landlineNumber?.type"></app-custom-input>
                     </div>
                   </div>
                 </div>
@@ -837,118 +662,69 @@
                     <h3 class="title">Current Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
-                    <input
-                      type="checkbox"
-                      id="address_section_checkbox"
-                      (click)="onAddress($event)"                      
-                      [checked]="isPermanantAddressSame"
-                      [disabled]="isDisabledCheckbox"
-                    />
-                    <span id="address_section_checkbox_text"
-                      >Check If It Is Same As Permanent Address?
+                    <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)"
+                      [checked]="isPermanantAddressSame" [disabled]="isDisabledCheckbox" />
+                    <span id="address_section_checkbox_text">Check If It Is Same As Permanent Address?
                     </span>
                   </div>
                 </div>
                 <div class="row container" formGroupName="currentAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="line1"
-                        >{{ labels?.addressline1
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-custom-input
-                        formControlName="addressLineOne"
-                        [maxLength]="validationData?.fullName?.maxLength"
-                        [isRequired]="'Address is required'"
-                        [isDirty]="isDirty"
-                      ></app-custom-input>
+                      <label for="line1">{{ labels?.addressline1
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-custom-input formControlName="addressLineOne"
+                        [maxLength]="validationData?.fullName?.maxLength" [isRequired]="'Address is required'"
+                        [isDirty]="isDirty"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line2">{{ labels?.addressline2 }}</label>
-                      <app-custom-input
-                        formControlName="addressLineTwo"
-                        [maxLength]="validationData?.fullName?.maxLength"
-                      ></app-custom-input>
+                      <app-custom-input formControlName="addressLineTwo"
+                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line3">{{ labels?.addressline3 }}</label>
-                      <app-custom-input
-                        formControlName="addressLineThree"
-                        [maxLength]="validationData?.fullName?.maxLength"
-                      ></app-custom-input>
+                      <app-custom-input formControlName="addressLineThree"
+                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="current_pincode"
-                        >{{ labels?.code
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-custom-input
-                        formControlName="pincode"
-                        [maxLength]="validationData?.pincode?.maxLength"
-                        [patternCheck]="validationData?.pincode?.patternCheck"
-                        (keyup)="getPincode($event.target)"
-                        [id]="'currentPincode'"
-                        [isRequired]="'Pincode is required'"
-                        [isDirty]="isDirty"
-                        [type]="validationData?.pincode?.type"
-                      ></app-custom-input>
+                      <label for="current_pincode">{{ labels?.code
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
+                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                        [id]="'currentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
+                        [type]="validationData?.pincode?.type"></app-custom-input>
                     </div>
-                    <div
-                      class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3"
-                    >
-                      <label for="current_address_city"
-                        >{{ labels?.city
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="currentPincode?.city"
-                        formControlName="city"
-                        [isRequired]="'City is required'"
-                        [isDirty]="isDirty"
-                      >
+                    <div class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3">
+                      <label for="current_address_city">{{ labels?.city
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="currentPincode?.city" formControlName="city"
+                        [isRequired]="'City is required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="current_address_district"
-                        >{{ labels?.district
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="currentPincode?.district"
-                        formControlName="district"
-                        [isRequired]="'District is required'"
-                        [isDirty]="isDirty"
-                      >
+                      <label for="current_address_district">{{ labels?.district
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="currentPincode?.district" formControlName="district"
+                        [isRequired]="'District is required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="current_address_state"
-                        >{{ labels?.state
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="currentPincode?.state"
-                        formControlName="state"
-                        [isRequired]="'State is required'"
-                        [isDirty]="isDirty"
-                      >
+                      <label for="current_address_state">{{ labels?.state
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="currentPincode?.state" formControlName="state"
+                        [isRequired]="'State is required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                      <label for="current_address_country"
-                        >{{ labels?.country
-                        }}<sub class="star_red_col">*</sub></label
-                      >
-                      <app-vf-custom-select
-                        [values]="currentPincode?.country"
-                        formControlName="country"
-                        [isRequired]="'Country is required'"
-                        [isDirty]="isDirty"
-                      >
+                      <label for="current_address_country">{{ labels?.country
+                        }}<sub class="star_red_col">*</sub></label>
+                      <app-vf-custom-select [values]="currentPincode?.country" formControlName="country"
+                        [isRequired]="'Country is required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
                     </div>
 
@@ -956,126 +732,75 @@
                       <label for="current_landline">{{
                         labels?.landlineNumber
                       }}</label>
-                      <app-custom-input
-                        formControlName="landlineNumber"
-                        
+                      <app-custom-input formControlName="landlineNumber"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
-                        [type]="validationData?.landlineNumber?.type"
-                      ></app-custom-input>
+                        [type]="validationData?.landlineNumber?.type"></app-custom-input>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div
-                id="non_individual_section_address"
-                class="non_individual_section_leadco"
-                *ngIf="applicantType == 'NONINDIVENTTYP'"
-              >
+              <div id="non_individual_section_address" class="non_individual_section_leadco"
+                *ngIf="applicantType == 'NONINDIVENTTYP'">
                 <h3 class="title">Registered Address</h3>
                 <div class="row" formGroupName="registeredAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_line1"
-                      >{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-custom-input
-                      formControlName="addressLineOne"
-                      [maxLength]="validationData?.fullName?.maxLength"
-                        [isRequired]="'Address is required'"
-                        [isDirty]="isDirty"
-                    ></app-custom-input>
+                    <label for="registered_line1">{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label>
+                    <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.fullName?.maxLength"
+                      [isRequired]="'Address is required'" [isDirty]="isDirty"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line2">{{ labels?.addressline2 }}</label>
 
-                    <app-custom-input
-                      formControlName="addressLineTwo"
-                      [maxLength]="validationData?.fullName?.maxLength"
-                    ></app-custom-input>
+                    <app-custom-input formControlName="addressLineTwo"
+                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.addressline3 }}</label>
-                    <app-custom-input
-                      formControlName="addressLineThree"
-                      [maxLength]="validationData?.fullName?.maxLength"
-                    ></app-custom-input>
+                    <app-custom-input formControlName="addressLineThree"
+                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_pincode"
-                      >{{ labels?.code
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-custom-input
-                      formControlName="pincode"
-                      [maxLength]="validationData?.pincode?.maxLength"
-                      [patternCheck]="validationData?.pincode?.patternCheck"
-                      (keyup)="getPincode($event.target)"
-                      [id]="'registerPincode'"
-                      [isRequired]="'Pincode is required'"
-                      [isDirty]="isDirty"
-                      [type]="validationData?.pincode?.type"
-                    ></app-custom-input>
+                    <label for="registered_pincode">{{ labels?.code
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
+                      [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                      [id]="'registerPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
+                      [type]="validationData?.pincode?.type"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_address_city"
-                      >{{ labels?.city
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="registerPincode?.city"
-                      formControlName="city"
-                      [isDirty]="isDirty"
-                      [isRequired]="'City is required'"
-                    >
+                    <label for="registered_address_city">{{ labels?.city
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="registerPincode?.city" formControlName="city" [isDirty]="isDirty"
+                      [isRequired]="'City is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="current_address_district"
-                      >{{ labels?.district
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="registerPincode?.district"
-                      formControlName="district"
-                      [isDirty]="isDirty"
-                      [isRequired]="'District is required'"
-                    >
+                    <label for="current_address_district">{{ labels?.district
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="registerPincode?.district" formControlName="district"
+                      [isDirty]="isDirty" [isRequired]="'District is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="current_address_state"
-                      >{{ labels?.state
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="registerPincode?.state"
-                      formControlName="state"
-                      [isDirty]="isDirty"
-                      [isRequired]="'State is required'"
-                    >
+                    <label for="current_address_state">{{ labels?.state
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="registerPincode?.state" formControlName="state" [isDirty]="isDirty"
+                      [isRequired]="'State is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="current_address_country"
-                      >{{ labels?.country
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="registerPincode?.country"
-                      formControlName="country"
-                      [isDirty]="isDirty"
-                      [isRequired]="'Country is required'"
-                    >
+                    <label for="current_address_country">{{ labels?.country
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="registerPincode?.country" formControlName="country"
+                      [isDirty]="isDirty" [isRequired]="'Country is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="reg_mobile">{{ labels?.landLineNumber }}</label>
-                    <app-custom-input
-                    formControlName="landlineNumber"
-                    
-                    [maxLength]="validationData?.landlineNumber?.maxLength"
-                    [type]="validationData?.landlineNumber?.type"
-                  ></app-custom-input>
+                    <app-custom-input formControlName="landlineNumber"
+                      [maxLength]="validationData?.landlineNumber?.maxLength"
+                      [type]="validationData?.landlineNumber?.type"></app-custom-input>
                   </div>
                 </div>
                 <div class="btn-sec clear-both row">
@@ -1083,121 +808,70 @@
                     <h3 class="title">Communication Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
-                    <input
-                      type="checkbox"
-                      id="address_section_checkbox"
-                      (click)="onAddressCommunication($event)"
-                      [checked]="isRegAddressSame"
-                      [disabled]="isDisabledCheckbox"
-                    />
-                    <span id="address_section_checkbox_text"
-                      >Check If It Is Same As Register Address?
+                    <input type="checkbox" id="address_section_checkbox" (click)="onAddressCommunication($event)"
+                      [checked]="isRegAddressSame" [disabled]="isDisabledCheckbox" />
+                    <span id="address_section_checkbox_text">Check If It Is Same As Register Address?
                     </span>
                   </div>
                 </div>
                 <div class="row" formGroupName="communicationAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_line1"
-                      >{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-custom-input
-                      formControlName="addressLineOne"
-                      [maxLength]="validationData?.fullName?.maxLength"
-                        [isRequired]="'Address is required'"
-                        [isDirty]="isDirty"
-                    ></app-custom-input>
+                    <label for="registered_line1">{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label>
+                    <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.fullName?.maxLength"
+                      [isRequired]="'Address is required'" [isDirty]="isDirty"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line2">{{ labels?.addressline2 }}</label>
 
-                    <app-custom-input
-                      formControlName="addressLineTwo"
-                      [maxLength]="validationData?.fullName?.maxLength"
-                    ></app-custom-input>
+                    <app-custom-input formControlName="addressLineTwo"
+                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.addressline3 }}</label>
-                    <app-custom-input
-                      formControlName="addressLineThree"
-                      [maxLength]="validationData?.fullName?.maxLength"
-                    ></app-custom-input>
+                    <app-custom-input formControlName="addressLineThree"
+                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_pincode"
-                      >{{ labels?.code
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-custom-input
-                      formControlName="pincode"
-                      [maxLength]="validationData?.pincode?.maxLength"
-                      [patternCheck]="validationData?.pincode?.patternCheck"
-                      (keyup)="getPincode($event.target)"
-                      [id]="'communicationPincode'"
-                      [isRequired]="'Pincode is required'"
-                      [isDirty]="isDirty"
-                      [type]="validationData?.pincode?.type"
-                    ></app-custom-input>
+                    <label for="registered_pincode">{{ labels?.code
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
+                      [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                      [id]="'communicationPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
+                      [type]="validationData?.pincode?.type"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="registered_address_city"
-                      >{{ labels?.city
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="communicationPincode?.city"
-                      formControlName="city"
-                      [isDirty]="isDirty"
-                      [isRequired]="'City is required'"
-                    >
+                    <label for="registered_address_city">{{ labels?.city
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="communicationPincode?.city" formControlName="city"
+                      [isDirty]="isDirty" [isRequired]="'City is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="current_address_district"
-                      >{{ labels?.district
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="communicationPincode?.district"
-                      formControlName="district"
-                      [isDirty]="isDirty"
-                      [isRequired]="'District is required'"
-                    >
+                    <label for="current_address_district">{{ labels?.district
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="communicationPincode?.district" formControlName="district"
+                      [isDirty]="isDirty" [isRequired]="'District is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="current_address_state"
-                      >{{ labels?.state
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="communicationPincode?.state"
-                      formControlName="state"
-                      [isDirty]="isDirty"
-                      [isRequired]="'State is required'"
-                    >
+                    <label for="current_address_state">{{ labels?.state
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="communicationPincode?.state" formControlName="state"
+                      [isDirty]="isDirty" [isRequired]="'State is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                    <label for="current_address_country"
-                      >{{ labels?.country
-                      }}<sub class="star_red_col">*</sub></label
-                    >
-                    <app-vf-custom-select
-                      [values]="communicationPincode?.country"
-                      formControlName="country"
-                      [isDirty]="isDirty"
-                      [isRequired]="'Country is required'"
-                    >
+                    <label for="current_address_country">{{ labels?.country
+                      }}<sub class="star_red_col">*</sub></label>
+                    <app-vf-custom-select [values]="communicationPincode?.country" formControlName="country"
+                      [isDirty]="isDirty" [isRequired]="'Country is required'">
                     </app-vf-custom-select>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="reg_mobile">{{ labels?.landLineNumber }}</label>
-                    <app-custom-input
-                    formControlName="landlineNumber"
-                    
-                    [maxLength]="validationData?.landlineNumber?.maxLength"
-                    [type]="validationData?.landlineNumber?.type"
-                  ></app-custom-input>
+                    <app-custom-input formControlName="landlineNumber"
+                      [maxLength]="validationData?.landlineNumber?.maxLength"
+                      [type]="validationData?.landlineNumber?.type"></app-custom-input>
                   </div>
                 </div>
               </div>
@@ -1207,9 +881,7 @@
       </div>
     </form>
   </div>
-  <div
-    class="btn-sec clear-both"
-    *ngIf="
+  <div class="btn-sec clear-both" *ngIf="
       (applicantType == 'INDIVENTTYP'&& !isMobileChanged &&
       !isName1Changed &&
       !isPanChanged &&
@@ -1222,17 +894,10 @@
                 !isCinNumberChanged &&
                 !isAadharChanged &&
                 !isPanChanged &&
-                !isName1Changed)"
-      
-    
-  >
+                !isName1Changed)">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right" id="clickButton">
-      <button
-        class="btn btn-primary mar-right8"
-        type="button"
-        (click)="navigateToApplicantList()"
-      >
+      <button class="btn btn-primary mar-right8" type="button" (click)="navigateToApplicantList()">
         <a class="back_color">Back</a>
       </button>
       &nbsp;
@@ -1247,12 +912,7 @@
   </div>
 </main>
 
-<div
-  class="modal"
-  data-dismiss="modal"
-  id="myModal"
-  [ngClass]="{ 'dis-block': showDedupeModal }"
->
+<div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showDedupeModal }">
   <div class="modal-dialog">
     <div class="modal-content">
       <!-- Modal Header -->
@@ -1268,13 +928,8 @@
 
       <!-- Modal footer -->
       <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          id="reject_dlead"
-          (click)="navigateToSamePage()"
-        >
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_dlead"
+          (click)="navigateToSamePage()">
           OK
         </button>
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">

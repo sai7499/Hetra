@@ -295,10 +295,7 @@
                 >{{ labels?.guardianRelationship }}
                 <sub class="star_blue_col">*</sub></label
               >
-              <!-- <select class="form-control" id="entity">                                                  
-                               
-                                <option value="Mrs" selected>Mrs</option>                                                   
-                            </select>  -->
+              
               <app-vf-custom-select
                 formControlName="minorGuardianRelation"
                 [values]="applicantLov.relationship"
@@ -313,13 +310,7 @@
                 >{{ labels?.fatherName }}
                 <sub class="star_blue_col">*</sub></label
               >
-              <!-- <input
-                type="text"
-                class="form-control"
-                id="father_name"
-                name="father_name"
-                formControlName="fatherName"
-              /> -->
+              
               <app-custom-input
                 formControlName="fatherName"
                 [maxLength]="validationData?.fullName?.maxLength"

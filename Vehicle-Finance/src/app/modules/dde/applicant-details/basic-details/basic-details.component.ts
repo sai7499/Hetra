@@ -571,7 +571,7 @@ export class BasicDetailsComponent implements OnInit {
       currentEmpYears: new FormControl(null, Validators.required),
       employeeCode: new FormControl(null, Validators.required),
       employerType: new FormControl('', Validators.required),
-      
+
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -630,14 +630,17 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray
     const details = formArray.at(0)
     details.get('numberOfDirectors').valueChanges.subscribe((val) => {
-      console.log('din', this.basicForm.get('directors')['controls'])
+      console.log('val', val)
       this.addDirectorControls(val)
     })
   }
 
 
   addDirectorControls(value) {
-    if (value === '' || value === null) {
+    const director = this.basicForm.get('directors') as FormArray;
+    if (value === '' || value == null) {
+      
+      // director.controls = [];
       return;
     }
     let directorValue = Number(value);
@@ -647,7 +650,7 @@ export class BasicDetailsComponent implements OnInit {
 
     const form = <FormArray>this.basicForm.controls['directors'];
     if (directorValue === 0) {
-      return;
+      director.controls = [];
     }
 
     const remainingCount = this.directorCount - directorValue;

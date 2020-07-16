@@ -92,6 +92,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   expiryMandatory: any = {};
   productCategory: string;
   fundingProgram: string;
+  isChecked : boolean;
+  ownerPropertyRelation
 
   values: any = [];
   labels: any = {};
@@ -678,7 +680,37 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov: any) => {
       this.LOV = lov;
+      console.log('this.lov', this.LOV)
+      const relation = this.LOV.LOVS.applicantRelationshipWithLead
+      this.ownerPropertyRelation =relation.splice(0,2)
+      
+ 
     });
+  }
+
+  calculateIncome(value){
+    const annualIncome= 12*value;
+    this.coApplicantForm.get('dedupe').patchValue({
+      annualIncomeAmount : annualIncome
+    })
+  }
+
+  onOwnHouseAvailable(event){
+    console.log('event', event)
+   this.isChecked= event.target.checked;
+    if(this.isChecked=== true){
+      
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').updateValueAndValidity();
+     
+    }else{
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').clearValidators();
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').clearValidators();
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').updateValueAndValidity();
+    }
   }
 
   getDedupeFormControls() {
@@ -701,7 +733,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       drivingLicenseExpiryDate: new FormControl(''),
       passportIssueDate: new FormControl(''),
       passportExpiryDate: new FormControl(''),
-      customerCategory : new FormControl(''),
+      
+      customerCategory : new FormControl('', Validators.required),
+      monthlyIncomeAmount : new FormControl(''),
+      annualIncomeAmount : new FormControl(''),
+      ownHouseProofAvail : new FormControl(''),
+      houseOwnerProperty : new FormControl(''),
+      ownHouseAppRelationship : new FormControl(''),
+      averageBankBalance : new FormControl(''),
+      rtrType : new FormControl(''),
+      prevLoanAmount : new FormControl(''),
+      loanTenorServiced : new FormControl(''),
+      currentEMILoan : new FormControl(''),
+      agriNoOfAcres : new FormControl(''),
+      agriOwnerProperty : new FormControl(''),
+      agriAppRelationship : new FormControl(''),
+      grossReceipt : new FormControl(''),
+
 
       title: new FormControl(''),
       dateOfIncorporation: new FormControl('', Validators.required),
@@ -758,6 +806,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     date = date.split('/').reverse().join('-');
     return date;
   }
+
+ 
+
   getDetails() {
     const details: any = {};
     if (this.applicantType === Constant.ENTITY_INDIVIDUAL_TYPE) {
@@ -1179,6 +1230,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   onFormSubmit() {
     const formValue = this.coApplicantForm.getRawValue();
+    this.setDedupeValidators();
     const coApplicantModel = {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
@@ -1191,6 +1243,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('permentAddress').invalid
       ) {
         this.isDirty = true;
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Applicant Details'
+        );
         return;
       }
       this.storeIndividualValueInService(coApplicantModel);
@@ -1202,6 +1258,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('communicationAddress').invalid
       ) {
         this.isDirty = true;
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Applicant Details'
+        );
         return;
       }
       this.storeNonIndividualValueInService(coApplicantModel);
@@ -1325,15 +1385,56 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   getValidStatus(controlName: string) {
     return this.coApplicantForm.get('dedupe').get(controlName).status;
   }
+  setDedupeValidators(){
+    const dedupe = this.coApplicantForm.get('dedupe');
+    if(this.productCategory=='1003' && (this.fundingProgram=='25' || this.fundingProgram=='24')){
+        dedupe.get('monthlyIncomeAmount').setValidators([Validators.required]);
+        dedupe.get('monthlyIncomeAmount').updateValueAndValidity();
+        // dedupe.get('annualIncomeAmount').setValidators([Validators.required]);
+        // dedupe.get('annualIncomeAmount').updateValueAndValidity();
+    }
+    
+    if(this.productCategory=='1003' && this.fundingProgram=='27'){
+      dedupe.get('rtrType').setValidators([Validators.required]);
+        dedupe.get('rtrType').updateValueAndValidity();
+        dedupe.get('prevLoanAmount').setValidators([Validators.required]);
+        dedupe.get('prevLoanAmount').updateValueAndValidity();
+        dedupe.get('loanTenorServiced').setValidators([Validators.required]);
+        dedupe.get('loanTenorServiced').updateValueAndValidity();
+        dedupe.get('currentEMILoan').setValidators([Validators.required]);
+        dedupe.get('currentEMILoan').updateValueAndValidity();
+    }
+    if(this.productCategory=='1003' && this.fundingProgram=='29'){
+      dedupe.get('agriNoOfAcres').setValidators([Validators.required]);
+      dedupe.get('agriNoOfAcres').updateValueAndValidity();
+      dedupe.get('agriOwnerProperty').setValidators([Validators.required]);
+      dedupe.get('agriOwnerProperty').updateValueAndValidity();
+      dedupe.get('agriAppRelationship').setValidators([Validators.required]);
+      dedupe.get('agriAppRelationship').updateValueAndValidity();
+      
+    }
+    if(this.productCategory=='1003' && this.fundingProgram=='30'){
+      dedupe.get('grossReceipt').setValidators([Validators.required]);
+      dedupe.get('grossReceipt').updateValueAndValidity();
+     
+    }
+    
+  }
 
   checkDedupe() {
+  
     const dedupe = this.coApplicantForm.get('dedupe');
+    this.setDedupeValidators();
     console.log('dedupe', dedupe);
     if (this.applicantType == 'NONINDIVENTTYP') {
       this.addNonIndFormControls();
       this.removeIndFormControls();
       this.isDirty = true;
       if (dedupe.invalid) {
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Applicant Details'
+        );
         return;
       }
       const applicantDetails = dedupe.value;
@@ -1409,6 +1510,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.isDirty = true;
       if (dedupe.invalid) {
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Applicant Details'
+        );
         return;
       }
 

@@ -39,6 +39,20 @@ export interface ApplicantDetails {
   applicantTypeKey?: string;
   entityTypeKey?: string;
   bussinessEntityType?: string;
+  monthlyIncomeAmount?: string;
+  annualIncomeAmount?: string;
+  ownHouseProofAvail?: string; 
+  houseOwnerProperty?: string;
+  ownHouseAppRelationship?: string;
+  averageBankBalance?: string;
+  rtrType?: string;
+  prevLoanAmount?: string;
+  loanTenorServiced?: number;
+  currentEMILoan?: string;
+  agriNoOfAcres?: number;
+  agriOwnerProperty?: string;
+  agriAppRelationship?: string;
+  grossReceipt?: number;
 
 }
 
