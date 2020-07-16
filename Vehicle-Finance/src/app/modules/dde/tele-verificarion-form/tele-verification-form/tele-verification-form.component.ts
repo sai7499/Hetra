@@ -58,6 +58,13 @@ export class TeleVerificationFormComponent implements OnInit {
 
   @ViewChild('closeModal', {static: false}) public closeModal: ElementRef;
 
+  regexPattern = {
+    amount: {
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid Characters not allowed'
+    }
+  }
+
   constructor(
     private fb: FormBuilder,
     // private labelDetails: LabelsService,
@@ -100,7 +107,7 @@ export class TeleVerificationFormComponent implements OnInit {
       applicantName: [{ value: this.applicantName, disabled: true }],
       soName: [{ value: this.soName, disabled: true }],
       assetCost: ['', Validators.required],
-      assetType: [''],
+      assetType: ['', Validators.required],
       financeAmt: ['', Validators.required],
       tenureInMonth: ['', Validators.required],
       srcOfProposal: [''],
@@ -129,9 +136,9 @@ export class TeleVerificationFormComponent implements OnInit {
       relationShip: ['', Validators.required],
       tvrDate: [''],
       tvrTime: [''],
-      addressConfirmed: [''],
-      residenceStabilityConfirmed: [''],
-      customerAvailabilty: [''],
+      addressConfirmed: ['', Validators.required],
+      residenceStabilityConfirmed: ['', Validators.required],
+      customerAvailabilty: ['', Validators.required],
       tvrDoneBy: [''],
       eCode: [''],
       wrkExperience: ['', Validators.required],
