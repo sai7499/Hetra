@@ -2,3 +2,8 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.cst_btm_btns {
+    margin-bottom: 55px;
+    padding-bottom: 10px;
+}
