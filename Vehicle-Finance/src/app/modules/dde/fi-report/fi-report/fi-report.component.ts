@@ -13,6 +13,7 @@ export class FiReportComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
+  isDirty: boolean;
 
   constructor(
     private labelService: LabelsService,
