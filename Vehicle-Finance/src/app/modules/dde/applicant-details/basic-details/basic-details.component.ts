@@ -51,7 +51,7 @@ export class BasicDetailsComponent implements OnInit {
   isDirectorName: any;
   isDin: any = [];
   directorCount = 1;
-  
+
 
 
   designation = [
@@ -93,10 +93,6 @@ export class BasicDetailsComponent implements OnInit {
       }
     );
 
-    // this.basicForm = this.fb.group({
-    //   entity: [{ value: '', disabled: true }],
-    //   bussinessEntityType : ['']
-    // })
 
     this.basicForm = new FormGroup({
       entity: new FormControl({ value: '', disabled: true }),
@@ -104,9 +100,8 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationshipWithLead: new FormControl('', Validators.required),
       title: new FormControl(''),
       details: new FormArray([]),
-      directors: new FormArray([
-        this.getDirectorsControls()
-      ]),
+      directors: new FormArray([this.getDirectorsControls()]),
+
 
     });
     //this.addNonIndividualFormControls();
@@ -134,7 +129,7 @@ export class BasicDetailsComponent implements OnInit {
       this.eitherMother();
       this.eitherFathOrspouse();
     }
-    
+
 
   }
 
@@ -377,10 +372,10 @@ export class BasicDetailsComponent implements OnInit {
       this.addNonIndividualFormControls();
       //this.getDirectorsControls();
       this.setValuesForNonIndividual();
-      setTimeout(()=>{
+      setTimeout(() => {
         this.listerForDirectors();
       })
-      
+
     }
     const dob = this.applicant.aboutIndivProspectDetails.dob;
     console.log('dob', dob);
@@ -472,17 +467,9 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       this.mobilePhone = contactNumber;
     }
-    const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
-    if(this.applicant.directorDetails.length==0){
-      this.addDirectorControls(directorValue);
-    }
-    
-
     const formArray = this.basicForm.get('details') as FormArray;
-    //console.log('formArray-->', formArray)
 
     const details = formArray.at(0);
-    //console.log('details-->', details)
 
     details.patchValue({
       companyPhoneNumber: this.mobilePhone || '',
@@ -525,22 +512,28 @@ export class BasicDetailsComponent implements OnInit {
         corporateProspectDetails.exposureBankingSystem || '',
       creditRiskScore: corporateProspectDetails.creditRiskScore || '',
     });
-    const directorArray = this.applicant.directorDetails
 
+    const directorArray = this.applicant.directorDetails;
     const director = this.basicForm.get('directors') as FormArray;
-     if(directorArray.length> 0){
-      director.controls= [];
-      directorArray.forEach((value)=>{
-        director.push(new FormGroup(
-          {
-            directorName: new FormControl(value.directorName),
-            din: new FormControl(value.din)
-        }
-        ))
-      })
-      
+    const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
+
+    if (directorValue > 0) {
+      //director.clear();
+      this.addDirectorControls(directorValue);
     }
-    
+    //director.controls= [];
+    directorArray.forEach((value, index) => {
+      // director.push(new FormGroup(
+      //   {
+      //     directorName: new FormControl(value.directorName),
+      //     din: new FormControl(value.din)
+      // }
+      // ))
+      director.at(index).patchValue({
+        directorName: value.directorName,
+        din: value.din
+      })
+    })
   }
 
   addIndividualFormControls() {
@@ -573,21 +566,12 @@ export class BasicDetailsComponent implements OnInit {
       alternateMobileNumber: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null, Validators.required),
-      // accountNumber: new FormControl(null),
-      // accountBank: new FormControl(''),
-      // branchAddress: new FormControl(null),
-      // spokeAddress: new FormControl(null),
       designation: new FormControl(''),
       employerName: new FormControl(null, Validators.required),
       currentEmpYears: new FormControl(null, Validators.required),
       employeeCode: new FormControl(null, Validators.required),
       employerType: new FormControl('', Validators.required),
-      // department: new FormControl(''),
-      // businessType: new FormControl(''),
-      // businessName: new FormControl(null),
-      // businessStartDate: new FormControl(null),
-      // currentBusinessYear: new FormControl(null),
-      // turnOver: new FormControl(null),
+      
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -642,30 +626,30 @@ export class BasicDetailsComponent implements OnInit {
     });
   }
 
-  listerForDirectors(){
-    const formArray=this.basicForm.get('details') as FormArray
+  listerForDirectors() {
+    const formArray = this.basicForm.get('details') as FormArray
     const details = formArray.at(0)
-    details.get('numberOfDirectors').valueChanges.subscribe((val)=>{
-      //console.log('din', this.basicForm.get('directors')['controls'])
+    details.get('numberOfDirectors').valueChanges.subscribe((val) => {
+      console.log('din', this.basicForm.get('directors')['controls'])
       this.addDirectorControls(val)
     })
   }
 
 
   addDirectorControls(value) {
-    if(value==='' || value===null){
-     return;
+    if (value === '' || value === null) {
+      return;
     }
     let directorValue = Number(value);
     if (directorValue == this.directorCount) {
       return;
     }
-    
+
     const form = <FormArray>this.basicForm.controls['directors'];
     if (directorValue === 0) {
       return;
     }
-    
+
     const remainingCount = this.directorCount - directorValue;
     if (remainingCount < 0) {
       for (let i = this.directorCount; i < directorValue; i++) {
@@ -675,15 +659,15 @@ export class BasicDetailsComponent implements OnInit {
 
     }
     if (remainingCount > 0) {
-      for (let i = this.directorCount-1; i >= directorValue; i--) {
+      for (let i = this.directorCount - 1; i >= directorValue; i--) {
         // form.push(this.getDirectorsControls())
         console.log('value', form.at(i), 'index', i)
         form.removeAt(i);
 
       }
     }
-    this.directorCount=directorValue;
-    
+    this.directorCount = directorValue;
+
 
   }
 
