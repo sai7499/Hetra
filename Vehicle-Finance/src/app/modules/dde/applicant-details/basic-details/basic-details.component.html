@@ -59,7 +59,7 @@
                         </select> -->
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
-            [values]="LOV.LOVS.applicantRelationshipWithLead"
+            [values]="LOV?.LOVS?.applicantRelationshipWithLead"
             [isRequired]="'Please select one'"
                         [isDirty]="isDirty"
           ></app-vf-custom-select>
@@ -73,10 +73,10 @@
                         </select>  -->
           <app-vf-custom-select
             formControlName="title"
-            [values]="LOV.LOVS.salutation"
+            [values]="LOV?.LOVS?.salutation"
             [isRequired]="'Please select one'"
             [isDirty]="isDirty"
-            [isDisabled]="this.applicant.applicantDetails.entityTypeKey=='NONINDIVENTTYP'"
+            [isDisabled]="this.applicant?.applicantDetails?.entityTypeKey=='NONINDIVENTTYP'"
           ></app-vf-custom-select>
         </div>
       </div>
@@ -815,7 +815,7 @@
                   [isDirty]="isDirty"
                   [maxLength]='validationData?.landlineNumber?.maxLength'
                  [type]="validationData?.landlineNumber?.type"
-                 [patternCheck]="validationData?.landlineNumber?.patternCheck"
+                 [patternCheck]= "validationData?.landlineNumber?.patternCheck"
                  
                 ></app-custom-input>
             </div>
@@ -920,20 +920,15 @@
                   formControlName="numberOfDirectors"
                   [maxLength]="validationData?.numberOfYears?.maxLength"
                   [type]="validationData?.numberOfYears?.type"
+                  
                   ></app-custom-input>
             </div>
           </div>
           
           <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="name_of_director">{{ labels?.nameofDirector }} <sub class="star_blue_col">*</sub></label>
-              <!-- <input
-                formControlName="directorName"
-                type="text"
-                class="form-control"
-                name="name_of_director"
-                id="name_of_director"
-              /> -->
+             
               <app-custom-input
               formControlName="directorName"
              
@@ -946,13 +941,7 @@
               <label for="din">{{
                 labels?.directorIdentificationNumber
               }} <sub class="star_red_col">*</sub></label>
-              <!-- <input
-                formControlName="directorIdentificationNumber"
-                type="text"
-                class="form-control"
-                name="din"
-                id="din"
-              /> -->
+              
               <app-custom-input
                   formControlName="directorIdentificationNumber"
                   [maxLength]="validationData?.dinNumber?.maxLength"
@@ -961,7 +950,7 @@
                   [isDirty]="isDirty"
                   ></app-custom-input>
             </div>
-            
+             -->
             
             
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1116,8 +1105,38 @@
                   ></app-custom-input>
             </div>
           </div>
+          
         </div>
       </ng-container>
+    <ng-container formArrayName="directors" >
+      <div class="row" *ngIf="!isIndividual"
+      >
+        <table class="table table-responsive" >
+          <thead>
+            <tr class="table-head-bg text-center">
+              <td>S.No</td>
+              <td>Name Of director</td>
+              <td>Director Identification Number</td>
+            </tr>
+          </thead>
+          <tbody *ngFor="let obj of basicForm.get('directors')['controls']; let i= index"> 
+            <tr class=" text-center" [formGroupName]="i">
+              <td>{{i+1}}</td>
+              <td>
+                <app-custom-input formControlName="directorName">
+
+                </app-custom-input>
+              </td>
+              <td>
+                 <app-custom-input formControlName="din">
+
+                 </app-custom-input>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+     </div>
+    </ng-container>
       <!-- Non-Individual Section End-->
     </div>
   </form>

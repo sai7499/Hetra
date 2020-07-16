@@ -198,7 +198,7 @@
                   </app-custom-input>
                 </div>
 
-                <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
+                <div  *ngIf="applicantType == 'INDIVENTTYP'">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="date_of_birth"
                       >{{ labels?.dateOfBirth }}
@@ -228,8 +228,10 @@
                       </div>
                     </div>
                   </div>
+                  
                 </div>
-                <div class="row" *ngIf="applicantType == 'NONINDIVENTTYP'">
+               
+                <div  *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="date_of_incorporation"
                       >{{ labels?.dateOfIncorporation }}
@@ -259,6 +261,21 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                *ngIf="applicantType == 'INDIVENTTYP'" >
+                  
+                <label for="customer_category"
+                >{{ labels?.customerCategory }}
+                <sub class="star_red_col">*</sub></label
+              >
+              <app-vf-custom-select
+                formControlName="customerCategory"
+                [values]="LOV?.LOVS?.customerSegment"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
+              ></app-vf-custom-select>
+                  
+                </div>
                 <div
                   class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
@@ -276,6 +293,27 @@
                   >
                   </app-custom-input>
                 </div>
+                <div *ngIf="applicantType=='INDIVENTTYP'">
+                  <div class="row" 
+                  *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
+                      HWYYYYYYYYYYYYYYYY
+                  </div>
+                </div>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
               </div>
               <div class="row">

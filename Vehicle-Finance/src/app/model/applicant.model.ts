@@ -8,6 +8,7 @@ export interface Applicant {
   indivProspectProfileDetails?: IndivProspectProfileDetails;
   corporateProspectDetails?: CorporateProspectDetails;
   addressDetails?: AddressDetails[];
+  directorDetails?: DirectorDetails[];
 }
 
 export interface ApplicantList {
@@ -191,4 +192,9 @@ export interface ApplicantDedupe {
   prospectVoterID?: string;
   ucic?: string;
   voterID?: string;
+}
+
+export interface DirectorDetails{
+  directorName?: string;
+  din?: string;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -16,6 +16,7 @@ import {
   CorporateProspectDetails,
   IndividualProspectDetails,
   IndivProspectProfileDetails,
+  DirectorDetails
 } from '@model/applicant.model';
 
 @Component({
@@ -46,6 +47,12 @@ export class BasicDetailsComponent implements OnInit {
   isRequiredFather = 'Father Name is Required';
   validation: any;
   countryList = [];
+  directorObject: any = [];
+  isDirectorName: any;
+  isDin: any = [];
+  directorCount = 1;
+  
+
 
   designation = [
     {
@@ -68,12 +75,13 @@ export class BasicDetailsComponent implements OnInit {
     private commomLovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private fb: FormBuilder,
     private applicantService: ApplicantService,
     private applicantDataService: ApplicantDataStoreService,
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService
-  ) {}
+  ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
@@ -85,16 +93,27 @@ export class BasicDetailsComponent implements OnInit {
       }
     );
 
+    // this.basicForm = this.fb.group({
+    //   entity: [{ value: '', disabled: true }],
+    //   bussinessEntityType : ['']
+    // })
+
     this.basicForm = new FormGroup({
       entity: new FormControl({ value: '', disabled: true }),
       bussinessEntityType: new FormControl(''),
       applicantRelationshipWithLead: new FormControl('', Validators.required),
       title: new FormControl(''),
       details: new FormArray([]),
+      directors: new FormArray([
+        this.getDirectorsControls()
+      ]),
+
     });
     //this.addNonIndividualFormControls();
+    console.log('this.basicForm', this.basicForm)
     this.getLOV();
     this.getCountryList();
+
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
     const details = formArray.at(0);
@@ -115,7 +134,11 @@ export class BasicDetailsComponent implements OnInit {
       this.eitherMother();
       this.eitherFathOrspouse();
     }
+    
+
   }
+
+
 
   getCountryList() {
     this.applicantService.getCountryList().subscribe((res: any) => {
@@ -280,11 +303,11 @@ export class BasicDetailsComponent implements OnInit {
 
     this.basicForm
       .get('details')
-      ['controls'][0].get('isMinor').value = this.checkingMinor =
+    ['controls'][0].get('isMinor').value = this.checkingMinor =
       this.showAge < 18 ? true : false;
     this.basicForm
       .get('details')
-      ['controls'][0].get('isSeniorCitizen').value = this.checkingSenior =
+    ['controls'][0].get('isSeniorCitizen').value = this.checkingSenior =
       this.showAge > 70 ? true : false;
 
     // console.log(this.basicForm.get('details')['controls'][0].get('isMinor').value)
@@ -352,7 +375,12 @@ export class BasicDetailsComponent implements OnInit {
       this.setValuesForIndividual();
     } else {
       this.addNonIndividualFormControls();
+      //this.getDirectorsControls();
       this.setValuesForNonIndividual();
+      setTimeout(()=>{
+        this.listerForDirectors();
+      })
+      
     }
     const dob = this.applicant.aboutIndivProspectDetails.dob;
     console.log('dob', dob);
@@ -431,20 +459,31 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails = this.applicant.applicantDetails;
     this.basicForm.patchValue({ title: 'M/SSALUTATION' });
     const corporateProspectDetails = this.applicant.corporateProspectDetails;
+    const directorDetails = this.applicant.directorDetails;
     const contactNumber = corporateProspectDetails.companyPhoneNumber;
     if (contactNumber && contactNumber.length == 12) {
       const contactSlice = contactNumber.slice(0, 2);
       //console.log('contactslice', contactSlice)
       if (contactSlice == '91') {
         this.mobilePhone = contactNumber.slice(2, 12);
-      }else {
-        this.mobilePhone= contactNumber;
+      } else {
+        this.mobilePhone = contactNumber;
       }
-    } else  {
+    } else {
       this.mobilePhone = contactNumber;
     }
+    const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
+    if(this.applicant.directorDetails.length==0){
+      this.addDirectorControls(directorValue);
+    }
+    
+
     const formArray = this.basicForm.get('details') as FormArray;
+    //console.log('formArray-->', formArray)
+
     const details = formArray.at(0);
+    //console.log('details-->', details)
+
     details.patchValue({
       companyPhoneNumber: this.mobilePhone || '',
       companyEmailId: corporateProspectDetails.companyEmailId || '',
@@ -486,6 +525,22 @@ export class BasicDetailsComponent implements OnInit {
         corporateProspectDetails.exposureBankingSystem || '',
       creditRiskScore: corporateProspectDetails.creditRiskScore || '',
     });
+    const directorArray = this.applicant.directorDetails
+
+    const director = this.basicForm.get('directors') as FormArray;
+     if(directorArray.length> 0){
+      director.controls= [];
+      directorArray.forEach((value)=>{
+        director.push(new FormGroup(
+          {
+            directorName: new FormControl(value.directorName),
+            din: new FormControl(value.din)
+        }
+        ))
+      })
+      
+    }
+    
   }
 
   addIndividualFormControls() {
@@ -559,8 +614,8 @@ export class BasicDetailsComponent implements OnInit {
       preferredLanguageCommunication: new FormControl('', Validators.required),
       contactPersonDesignation: new FormControl('', Validators.required),
       numberOfDirectors: new FormControl(null),
-      directorName: new FormControl(null),
-      directorIdentificationNumber: new FormControl(null, Validators.required),
+      // directorName: new FormControl(null),
+      // din: new FormControl(null, Validators.required),
       ratingIssuerName: new FormControl(null, Validators.required),
       externalRatingAssigned: new FormControl(null, Validators.required),
       externalRatingIssueDate: new FormControl(null, Validators.required),
@@ -579,6 +634,59 @@ export class BasicDetailsComponent implements OnInit {
     formArray.push(controls);
   }
 
+
+  getDirectorsControls() {
+    return new FormGroup({
+      directorName: new FormControl(''),
+      din: new FormControl('')
+    });
+  }
+
+  listerForDirectors(){
+    const formArray=this.basicForm.get('details') as FormArray
+    const details = formArray.at(0)
+    details.get('numberOfDirectors').valueChanges.subscribe((val)=>{
+      //console.log('din', this.basicForm.get('directors')['controls'])
+      this.addDirectorControls(val)
+    })
+  }
+
+
+  addDirectorControls(value) {
+    if(value==='' || value===null){
+     return;
+    }
+    let directorValue = Number(value);
+    if (directorValue == this.directorCount) {
+      return;
+    }
+    
+    const form = <FormArray>this.basicForm.controls['directors'];
+    if (directorValue === 0) {
+      return;
+    }
+    
+    const remainingCount = this.directorCount - directorValue;
+    if (remainingCount < 0) {
+      for (let i = this.directorCount; i < directorValue; i++) {
+        form.push(this.getDirectorsControls())
+
+      }
+
+    }
+    if (remainingCount > 0) {
+      for (let i = this.directorCount-1; i >= directorValue; i--) {
+        // form.push(this.getDirectorsControls())
+        console.log('value', form.at(i), 'index', i)
+        form.removeAt(i);
+
+      }
+    }
+    this.directorCount=directorValue;
+    
+
+  }
+
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
@@ -586,10 +694,9 @@ export class BasicDetailsComponent implements OnInit {
 
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
-
       this.setBasicData();
     });
-    console.log('LOvs', this.LOV);
+
   }
   clearFormArray() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -634,11 +741,12 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   async onSubmit() {
+    const value = this.basicForm.getRawValue();
     this.isDirty = true;
     if (this.basicForm.invalid) {
       return;
     }
-    const value = this.basicForm.getRawValue();
+
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
@@ -658,11 +766,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.ProcessVariables.error.code === '0') {
-        //console.log('RESPONSE', response);
-        // this.router.navigate([
-        //   `/pages/applicant-details/${this.leadId}/identity-details`,
-        //   this.applicantId,
-        // ]);
+
         this.toasterService.showSuccess(
           'Applicant Basic Details Saved Successfully',
           ''
@@ -770,6 +874,7 @@ export class BasicDetailsComponent implements OnInit {
   storeNonIndividualValueInService(value) {
     const prospectDetails: CorporateProspectDetails = {};
     const applicantDetails: ApplicantDetails = {};
+    const directorDetails: DirectorDetails = {}
 
     const formValue = value.details[0];
 
@@ -801,9 +906,9 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.contactPersonDesignation =
       formValue.contactPersonDesignation;
     prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
-    prospectDetails.directorName = formValue.directorName;
-    prospectDetails.directorIdentificationNumber =
-      formValue.directorIdentificationNumber;
+    // prospectDetails.directorName = formValue.directorName;
+    // prospectDetails.directorIdentificationNumber =
+    //   formValue.directorIdentificationNumber;
     prospectDetails.ratingIssuerName = formValue.ratingIssuerName;
     prospectDetails.externalRatingAssigned = formValue.externalRatingAssigned;
     prospectDetails.externalRatingIssueDate = this.utilityService.getDateFormat(
@@ -816,6 +921,19 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.exposureBankingSystem = formValue.exposureBankingSystem;
     prospectDetails.creditRiskScore = formValue.creditRiskScore;
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
+
+
+    const items = this.basicForm.get('directors').value
+    //console.log('itemsssss-->',items)
+    items.map((value) => {
+      const data = {
+        directorName: value.directorName,
+        din: value.din
+      }
+      this.directorObject.push(data)
+    })
+
+    this.applicantDataService.setDirectorDetails(this.directorObject)
   }
   onBack() {
     this.location.back();
