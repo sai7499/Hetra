@@ -128,20 +128,37 @@ export class CibilOdListComponent implements OnInit {
     console.log(event);
     this.selctedLoan = event
   }
-  private getodListDetails() {
-
+  private getodListDetails(data?: any) {
+    if (data === undefined) {
+      return this.formBuilder.group({
+        odType: [""],
+        odAmount: [""],
+        typeOfLoan: [""],
+        otherTypeOfloan: [""],
+        odDpd: [""],
+      });
+    } else{
     return this.formBuilder.group({
-      odType: [""],
-      odAmount: [""],
-      typeOfLoan: [""],
-      otherTypeOfloan: [""],
-      odDpd: [""],
+      id: [data.id ? data.id : null],
+      odType: [data.odType ? data.odType : ''],
+      odAmount: [data.odAmount ? data.odAmount : ''],
+      typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ''],
+      otherTypeOfloan: [data.otherTypeOfloan ? data.otherTypeOfloan : ''],
+      odDpd: [data.odDpd ? data.odDpd : ''],
     });
-
-
   }
-  addOdDetails() {
-    this.odAccountDetailsArray.push(this.getodListDetails());
+  }
+  addOdDetails(data?: any) {
+    if (data && data.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < data.length; i++) {
+        this.odAccountDetailsArray.push(this.getodListDetails(data[i]));
+      }
+    } else {
+      this.odAccountDetailsArray.push(this.getodListDetails());
+
+    }
+    // this.odAccountDetailsArray.push(this.getodListDetails());
 
   }
   removeOdDetails(i?: any) {
@@ -152,7 +169,8 @@ export class CibilOdListComponent implements OnInit {
 
 
   }
-  private getLoanEnquiryInThirtyDays() {
+  private getLoanEnquiryInThirtyDays(data?:any) {
+    if (data === undefined) {
     return this.formBuilder.group({
       memberType: [""],
       enquiryDate: [""],
@@ -160,9 +178,29 @@ export class CibilOdListComponent implements OnInit {
       amount: [""],
       isSixtyDays: this.thirtyDays
     });
+  }else{
+    return this.formBuilder.group({
+      id: [data.id ? data.id : null],
+      memberType: [data.memberType ? data.memberType : ''],
+      enquiryDate: [data.enquiryDate ? data.enquiryDate : ''],
+      typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ''],
+      amount: [data.amount ? data.amount : ''],
+      isSixtyDays: [data.isSixtyDays ? data.isSixtyDays : this.thirtyDays],
+      
+    })
   }
-  addLastThirtyDaysLoan() {
-    this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays());
+  }
+  addLastThirtyDaysLoan(data?:any) {
+    if (data && data.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < data.length; i++) {
+        this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays(data[i]));
+      }
+    } else {
+      this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays());
+
+    }
+    // this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays());
   }
   removeLastThirtyDaysLoan(i?: any) {
     if (this.loanEnquiryInThirtyDaysArray.controls.length > 0) {
@@ -190,7 +228,7 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   get f() { return this.odDetailsForm.controls; }
-  getParentOdDetails() {
+  getOdApplicantList() {
     const body = {
       leadId: this.leadId
 
@@ -202,6 +240,7 @@ export class CibilOdListComponent implements OnInit {
 
     });
   }
+  
   getOdDetails() {
     const body = {
       userId: this.userId,
@@ -209,17 +248,32 @@ export class CibilOdListComponent implements OnInit {
 
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
-      console.log(res)
+      console.log('get od details---->',res)
       this.OdDetails = res.ProcessVariables;
       console.log(this.OdDetails);
-      
-      // this.addOdDetails(res.ProcessVariables.businessIncomeList);
-      // this.addLastThirtyDaysLoan {
-      //   (res.ProcessVariables.otherIncomeList);
-      // this.addLastSixtyDaysLoan(res.ProcessVariables.obligationsList);
+
+      this.addOdDetails(res.ProcessVariables.odAccountDetails);
+      this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnquiries);
+      // this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnquiries);
     });
   }
+  
+  getParentOdDetails() {
+    const body = {
+      userId: this.userId,
+      applicantId: this.applicantId,
 
+    };
+    this.odDetailsService.getParentOdDetails(body).subscribe((res: any) => {
+      console.log('get parent od details---->',res)
+      // this.OdDetails = res.ProcessVariables;
+      // console.log(this.OdDetails);
+
+      // this.addOdDetails(res.ProcessVariables.odAccountDetails);
+      // this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnquiries);
+      // this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnquiries);
+    });
+  }
   onSubmit() {
     this.submitted = false;
     console.log(this.odDetailsForm);
@@ -248,21 +302,21 @@ export class CibilOdListComponent implements OnInit {
         AssetBureauEnquiry.push(element)
       });
       console.log('AssetBureauEnquiry', AssetBureauEnquiry);
-      AssetBureauEnquiry.forEach(ele =>{
+      AssetBureauEnquiry.forEach(ele => {
         console.log(ele);
         ele.memberType = (ele.memberType).toString();
-        ele.enquiryDate= this.utilityService.convertDateTimeTOUTC(ele.enquiryDate, 'DD/MM/YYYY');
-        ele.typeOfLoan= (ele.typeOfLoan).toString();
-        ele.amount= Number(ele.amount);
-        ele.isSixtyDays= ele.isSixtyDays;
-        })
-        this.odDetailsForm.value.odAccountDetails.forEach(ele => {
-          ele.odType = (ele.odType).toString();
-        ele.otherTypeOfloan= (ele.otherTypeOfloan).toString();
-        ele.typeOfLoan= (ele.typeOfLoan).toString();
-        ele.odAmount= Number(ele.odAmount);
-        ele.odDpd= Number(ele.odDpd);
-        });
+        ele.enquiryDate = this.utilityService.convertDateTimeTOUTC(ele.enquiryDate, 'DD/MM/YYYY');
+        ele.typeOfLoan = (ele.typeOfLoan).toString();
+        ele.amount = Number(ele.amount);
+        ele.isSixtyDays = ele.isSixtyDays;
+      })
+      this.odDetailsForm.value.odAccountDetails.forEach(ele => {
+        ele.odType = (ele.odType).toString();
+        ele.otherTypeOfloan = (ele.otherTypeOfloan).toString();
+        ele.typeOfLoan = (ele.typeOfLoan).toString();
+        ele.odAmount = Number(ele.odAmount);
+        ele.odDpd = Number(ele.odDpd);
+      });
 
       const body = {
         userId: this.userId,
@@ -277,9 +331,9 @@ export class CibilOdListComponent implements OnInit {
           highDpd6m: this.odDetailsForm.controls.highDpd6m.value,
           justification: this.odDetailsForm.controls.justification.value,
           lossLoans: Number(this.odDetailsForm.controls.lossLoans.value),
-          settledLoans:  Number(this.odDetailsForm.controls.settledLoans.value),
-          writtenOffLoans:  Number(this.odDetailsForm.controls.writtenOffLoans.value),
-          writtenOffLoansWithSuite:  Number(this.odDetailsForm.controls.writtenOffLoansWithSuite.value),
+          settledLoans: Number(this.odDetailsForm.controls.settledLoans.value),
+          writtenOffLoans: Number(this.odDetailsForm.controls.writtenOffLoans.value),
+          writtenOffLoansWithSuite: Number(this.odDetailsForm.controls.writtenOffLoansWithSuite.value),
           totalAmount: (this.totalOdAmount).toString(),
         },
 
