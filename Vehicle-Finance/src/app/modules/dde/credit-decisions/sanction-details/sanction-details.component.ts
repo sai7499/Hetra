@@ -38,11 +38,11 @@ labels: any = {};
   }
 
   onNext() {
-    this.router.navigate([`/pages/dde/${this.leadId}/customer-feedback`]);
+    this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
   }
 
   onBack() {
-    this.router.navigate([`/pages/dde/${this.leadId}/term-sheet`]);
+    this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
 
   }
 
