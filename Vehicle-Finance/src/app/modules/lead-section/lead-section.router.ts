@@ -12,6 +12,7 @@ import { ExactMatchComponent } from './exact-match/exact-match.component';
 import { OtpSectionComponent } from './otp-section/otp-section.component';
 import { LeadDataResolverService } from './services/leadDataResolver.service';
 import { SalesExactMatchComponent } from '@shared/sales-exact-match/sales-exact-match.component';
+import { CanActivateService } from '@services/can-activate.service';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
   {
     path: ':leadId',
     component: LeadSectionComponent,
+    // canActivate: [CanActivateService],
     resolve: { leadData: LeadDataResolverService },
     children: [
       {
