@@ -13,6 +13,8 @@ export class FiReportComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
+  isDirty:boolean;
+  namePattern;
 
   constructor(
     private labelService: LabelsService,
@@ -22,6 +24,7 @@ export class FiReportComponent implements OnInit {
     private router: Router
   ) {
     this.getLOV();
+    this.isDirty = true;
   }
 
   async ngOnInit() {
