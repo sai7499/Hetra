@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" style="overflow: scroll;">
   <form
     class="multisteps-form__form"
     style="height: 400px;"
@@ -7,97 +7,37 @@
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <h4 class="title">Document upload</h4>
       <div class="panel-group" id="accordion">
-        <div class="panel panel-default active">
-          <div class="panel-heading" id="headingOne">
-            <h4 class="panel-title">
-              <a
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapseOne"
-                aria-expanded="false"
-                class="collapsed"
-              >
-                <i class="fa fa-image"></i> &nbsp; Photo
-                <i class="fa fa-angle-down"></i>
-              </a>
-            </h4>
-          </div>
-          <div
-            id="collapseOne"
-            class="panel-collapse collapse"
-            aria-expanded="false"
-            style="height: 0px;"
-          >
-            <div class="panel-body">
-              <div class="photo">
-                <img
-                  src="../../../../../assets/images/user.jpg"
-                  alt="[Image: Photo]"
-                  width="100"
-                />
-              </div>
-              <div class="form-group col-sm-6 col-md-3">
-                <label for="file">Upload photo</label>
-                <input type="file" id="file" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" id="headingTwo">
-            <h4 class="panel-title">
-              <a
-                class=""
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapseTwo"
-                aria-expanded="true"
-              >
-                <i class="fa fa-image"></i>&nbsp; Signature
-                <i class="fa fa-angle-down"></i>
-              </a>
-            </h4>
-          </div>
-          <div
-            id="collapseTwo"
-            class="panel-collapse collapse"
-            aria-expanded="true"
-            style=""
-          >
-            <div class="panel-body">
-              <div class="form-group col-sm-6 col-md-3">
-                <label for="file">Upload signature</label>
-                <input type="file" id="file" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
+        <div
+          class="panel panel-default"
+          *ngFor="let subCat of subCategories; let i = index"
+        >
           <div class="panel-heading" id="headingThree">
             <h4 class="panel-title">
               <a
                 class="collapsed"
                 data-toggle="collapse"
                 data-parent="#accordion"
-                href="#collapseThree"
+                href="#collapse{{ subCat.code }}"
                 aria-expanded="false"
               >
-                <i class="fa fa-address-card"></i>&nbsp; ID Proof
+                <!-- <i class="fa fa-address-card"></i>&nbsp; -->
+                {{ subCat.displayName }}
                 <i class="fa fa-angle-down"></i>
               </a>
             </h4>
           </div>
           <div
-            id="collapseThree"
+            id="collapse{{ subCat.code }}"
             class="panel-collapse collapse"
             aria-expanded="false"
             style="height: 0px;"
           >
             <div
-              formArrayName="idProofs"
+              formArrayName="{{ FORM_ARRAY_NAME }}_{{ subCat.code }}"
               *ngFor="
-                let detail of uploadForm.get('idProofs')['controls'];
+                let detail of uploadForm.get(
+                  FORM_ARRAY_NAME + '_' + subCat.code
+                )['controls'];
                 let i = index
               "
             >
@@ -106,120 +46,10 @@
                   <label for="document">Document Name</label>
                   <app-vf-custom-select
                     formControlName="documentName"
-                  ></app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-3 col-md-2">
-                  <label for="documentnumber">Document Number</label>
-                  <app-custom-input
-                    formControlName="documentNumber"
-                  ></app-custom-input>
-                </div>
-
-                <div class="form-group col-sm-3 col-md-2">
-                  <label for="idate">Issues Date</label>
-                  <div class="input-group input-medium">
-                    <kendo-datepicker
-                      class="form-control mandatory"
-                      formControlName="issueDate"
-                      [format]="'dd/MM/yyyy'"
-                      [max]="toDayDate"
-                      [activeView]="'decade'"
-                      placeholder="Issues Date"
-                      formControlName="issueDate"
-                    >
-                    </kendo-datepicker>
-                  </div>
-                </div>
-                <div class="form-group col-sm-3 col-md-2">
-                  <label for="edate">Expiry Date</label>
-                  <div class="input-group input-medium">
-                    <kendo-datepicker
-                      class="form-control mandatory"
-                      formControlName="dob"
-                      [format]="'dd/MM/yyyy'"
-                      [activeView]="'decade'"
-                      placeholder="Expiry Date"
-                      formControlName="expiryDate"
-                      [min]="uploadForm.get('idProofs').value | docsUpload: i"
-                    >
-                    </kendo-datepicker>
-                  </div>
-                </div>
-                <div class="form-group col-sm-3 col-md-2">
-                  <label>File</label>
-                  <input
-                    formControlName="file"
-                    name="input"
-                    type="text"
-                    class="form-control"
-                    [value]="
-                      idProofs[i]?.docIndx ? 'ID : ' + idProofs[i]?.docIndx : ''
-                    "
-                  />
-                </div>
-                <div class="form-group col-sm-3 col-md-2">
-                  <label>Actions </label>
-                  <p>
-                    <label
-                      ><i
-                        class="fa fa-upload fa-3 custom-file-label"
-                        aria-hidden="true"
-                        id="add_more_documents_upload1a"
-                        (click)="uploadDocument('idProofs', i)"
-                      ></i></label
-                    >&nbsp;
-                    <i
-                      class="fa fa-plus fa-3"
-                      aria-hidden="true"
-                      id="add_more_documents1a"
-                      (click)="addDocumentFormControls('idProofs')"
-                    ></i>
-                    &nbsp;
-                    <i
-                      class="fa fa-minus fa-3"
-                      aria-hidden="true"
-                      id="add_more_documents_remove1a"
-                      (click)="removeDocumentFormControls('idProofs', i)"
-                    ></i>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" id="headingTwo1">
-            <h4 class="panel-title">
-              <a
-                class="collapsed"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapseTwo1"
-                aria-expanded="false"
-              >
-                <i class="fa fa-plus-circle"></i>&nbsp; Additional Document
-                <i class="fa fa-angle-down"></i>
-              </a>
-            </h4>
-          </div>
-          <div
-            id="collapseTwo1"
-            class="panel-collapse collapse"
-            aria-expanded="false"
-            style="height: 0px;"
-          >
-            <div
-              formArrayName="additionalDocs"
-              *ngFor="
-                let detail of uploadForm.get('additionalDocs')['controls'];
-                let i = index
-              "
-            >
-              <div class="panel-body" id="show_1st_div" [formGroupName]="i">
-                <div class="form-group col-sm-3 col-md-2">
-                  <label for="document">Document Name</label>
-                  <app-vf-custom-select
-                    formControlName="documentName"
+                    [values]="subCat.docList"
+                    [keyField]="'code'"
+                    [valueField]="'displayName'"
+                    (valueChange)="onDocumentSelect($event, subCat.code)"
                   ></app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-3 col-md-2">
@@ -255,7 +85,8 @@
                       placeholder="Expiry Date"
                       formControlName="expiryDate"
                       [min]="
-                        uploadForm.get('additionalDocs').value | docsUpload: i
+                        uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                          .value | docsUpload: i
                       "
                     >
                     </kendo-datepicker>
@@ -264,17 +95,11 @@
                 <div class="form-group col-sm-3 col-md-2">
                   <label>File</label>
                   <input
+                    formControlName="file"
                     name="input"
                     type="text"
                     class="form-control"
-                    [value]="idProofs[i]?.docIndx"
-                    autocomplete="off"
                     disabled
-                    autocomplete="off"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    spellcheck="false"
-                    autocomplete="off"
                   />
                 </div>
                 <div class="form-group col-sm-3 col-md-2">
@@ -284,21 +109,33 @@
                       ><i
                         class="fa fa-upload fa-3 custom-file-label"
                         aria-hidden="true"
-                        id="add_more_documents_upload1"
+                        id="add_more_documents_upload1a"
+                        (click)="
+                          uploadDocument(
+                            FORM_ARRAY_NAME + '_' + subCat.code,
+                            i,
+                            subCat
+                          )
+                        "
                       ></i></label
                     >&nbsp;
                     <i
                       class="fa fa-plus fa-3"
                       aria-hidden="true"
-                      id="add_more_documents1"
-                      (click)="addDocumentFormControls('additionalDocs')"
+                      id="add_more_documents1a"
+                      (click)="addDocumentFormControls(subCat.code)"
                     ></i>
                     &nbsp;
                     <i
                       class="fa fa-minus fa-3"
                       aria-hidden="true"
-                      id="add_more_documents_remove1"
-                      (click)="removeDocumentFormControls('additionalDocs', i)"
+                      id="add_more_documents_remove1a"
+                      (click)="
+                        removeDocumentFormControls(
+                          FORM_ARRAY_NAME + '_' + subCat.code,
+                          i
+                        )
+                      "
                     ></i>
                   </p>
                 </div>
@@ -339,4 +176,5 @@
   [showModal]="showModal"
   (close)="showModal = false"
   (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
 ></app-upload-modal>

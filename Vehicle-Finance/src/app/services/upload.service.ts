@@ -45,4 +45,6 @@ export class UploadService {
       data
     );
   }
+
+  saveOrUpdateDocument() {}
 }

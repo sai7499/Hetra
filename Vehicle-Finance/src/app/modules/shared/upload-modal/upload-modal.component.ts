@@ -6,10 +6,12 @@ import {
   ElementRef,
   EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
+
+import * as moment from 'moment';
 
 import { UploadService } from '@services/upload.service';
-import { map } from 'rxjs/operators';
+import { DocRequest } from '@model/upload-model';
 
 @Component({
   selector: 'app-upload-modal',
@@ -20,8 +22,9 @@ export class UploadModalComponent {
   imageUrl: string;
   fileSize: string;
   fileName: string;
+  fileType: string;
   @Input() showModal: boolean;
-  @Input() file: File;
+  @Input() docsDetails: DocRequest;
   @Output() close = new EventEmitter();
   @Output() uploadSuccess = new EventEmitter();
 
@@ -36,6 +39,7 @@ export class UploadModalComponent {
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
+    this.fileType = files.type;
   }
 
   toBase64(file) {
@@ -67,30 +71,43 @@ export class UploadModalComponent {
   }
 
   uploadFile() {
+    this.docsDetails.bsPyld = this.imageUrl;
+    let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+    fileName =
+      this.docsDetails.docNm +
+      new Date().getFullYear() +
+      +new Date() +
+      '.' +
+      'pdf';
+    this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
-        docTp: 'LEAD',
-        docSbCtgry: 'ACCOUNT OPENING FORM',
-        docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
-        docCtgryCd: 70,
-        docCatg: 'KYC - I',
-        docTypCd: 276,
-        flLoc: '',
-        docCmnts: 'Addition of document for Lead Creation',
-        bsPyld: this.imageUrl,
-        docSbCtgryCd: 204,
-        docRefId: [
-          {
-            idTp: 'LEDID',
-            id: 20059563,
-          },
-          {
-            idTp: 'BRNCH',
-            id: 1001,
-          },
-        ],
+        ...this.docsDetails,
       },
+      // {
+      //   docTp: 'LEAD',
+      //   docSbCtgry: 'ACCOUNT OPENING FORM',
+      //   docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
+      //   docCtgryCd: 70,
+      //   docCatg: 'KYC - I',
+      //   docTypCd: 276,
+      //   flLoc: '',
+      //   docCmnts: 'Addition of document for Lead Creation',
+      //   bsPyld: this.imageUrl,
+      //   docSbCtgryCd: 204,
+      //   docRefId: [
+      //     {
+      //       idTp: 'LEDID',
+      //       id: 20059563,
+      //     },
+      //     {
+      //       idTp: 'BRNCH',
+      //       id: 1001,
+      //     },
+      //   ],
+      // },
     ];
+    console.log('docsDetails', this.docsDetails);
     this.uploadService
       .constructUploadModel(addDocReq)
       .pipe(
