@@ -63,7 +63,8 @@ export class LeadCreationComponent implements OnInit {
   isMobile: any;
   isSourchingCode: boolean;
   isDirty: boolean;
-  nameErrorMessage: string;
+  nameFirstErrorMessage: string;
+  nameLastErrorMessage: string;
 
   obj = {};
   test = [];
@@ -162,7 +163,7 @@ export class LeadCreationComponent implements OnInit {
       entity: new FormControl('', Validators.required),
       nameOne: new FormControl('', Validators.required),
       nameTwo: new FormControl(''),
-      nameThree: new FormControl(''),
+      nameThree: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
     });
@@ -397,10 +398,12 @@ export class LeadCreationComponent implements OnInit {
     console.log(this.applicantType);
     if (this.applicantType === 'INDIVENTTYP') {
       this.namePattern = 'alpha';
-      this.nameErrorMessage = 'First Name is mandatory';
+      this.nameFirstErrorMessage = 'First Name is mandatory';
+      this.nameLastErrorMessage = 'Last Name is mandatory';
     } else {
       this.namePattern = 'text';
-      this.nameErrorMessage = 'Company Name is mandatory';
+      this.nameFirstErrorMessage = 'Company Name 1 is mandatory';
+      this.nameLastErrorMessage = 'Company Name 3 is mandatory';
     }
   }
 
