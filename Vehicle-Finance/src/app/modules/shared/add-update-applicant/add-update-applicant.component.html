@@ -153,10 +153,12 @@
 
                   <label for="customer_category">{{ labels?.customerCategory }}
                     <sub class="star_red_col">*</sub></label>
-                  <app-vf-custom-select formControlName="customerCategory" [values]="LOV?.LOVS?.customerSegment"
+                  <app-vf-custom-select formControlName="custSegment" [values]="LOV?.LOVS?.customerSegment"
                     [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
 
                 </div>
+              </div>
+              <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <label for="aadharnumber">{{ labels?.contactPerson }}
@@ -190,15 +192,6 @@
                   [isRequired]="'Annual Income is Required'" [isDirty]="isDirty"
                   isDisabled>
                   </app-custom-input>
-                  <!-- <input
-                type="text"
-                class="form-control"
-                id="age"
-                name="age"
-                [value]=""
-                formControlName="age"
-                disabled
-              /> -->
                 </div>
 
 
@@ -208,7 +201,8 @@
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
                   <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
-                    (click)="onOwnHouseAvailable($event)" />
+                    (click)="onOwnHouseAvailable($event)" 
+                    [checked]="checkedBoxHouse==true"/>
                   <span class="is_senior">Own House Proof Available? </span>
 
                 </div>
@@ -302,26 +296,6 @@
                   </app-custom-input>
                 </div>
               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
               <div class="row">

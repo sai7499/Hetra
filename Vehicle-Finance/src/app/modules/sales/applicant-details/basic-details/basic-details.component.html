@@ -413,6 +413,147 @@
               ></app-custom-input>
             </div>
           </div>
+          
+
+
+
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 "
+              *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
+              <label for="aadharnumber">Monthly Income Amount
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="monthlyIncomeAmount"
+              (keyup)="calculateIncome($event.target.value)"
+                [maxLength]="validationData?.amountValue.maxLength" 
+                [type]="validationData?.amountValue.type"
+                [isRequired]="'Monthly Income is Required'" 
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+
+            
+
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 "
+              *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
+              <label for="aadharnumber">Annual Income Amount
+                </label>
+              <app-custom-input formControlName="annualIncomeAmount"
+              [isRequired]="'Annual Income is Required'" [isDirty]="isDirty"
+              isDisabled>
+              </app-custom-input>
+            </div>
+
+
+
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+              <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
+              (click)="onOwnHouseAvailable($event)" 
+              [checked]="checkedBoxHouse==true"/>
+              <span class="is_senior">Own House Proof Available? </span>
+
+              
+
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Owner of the Property <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.applicantRelationshipWithLead"
+                formControlName="houseOwnerProperty"  [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Relationship with Applicant <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.applicantRelationshipWithLead"
+                formControlName="ownHouseAppRelationship" 
+                 
+                [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+          </div>
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Average Bank Balance
+                </label>
+              <app-custom-input formControlName="averageBankBalance">
+              </app-custom-input>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">RTR Type<sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.typeOfLoan"
+                formControlName="rtrType" 
+                [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Previous Loan Amount
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="prevLoanAmount"
+              [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Loan Tenor Service(in months)
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="loanTenorServiced"
+              [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+
+
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">EMI of the Current Loan
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="currentEMILoan"
+              [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='29'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Agri(No of Acres)
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="agriNoOfAcres">
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Owner of the Property<sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.applicantRelationshipWithLead"
+                formControlName="agriOwnerProperty" [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Relationship with Applicant<sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.applicantRelationshipWithLead"
+                formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='30'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Gross Receipt
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="grossReceipt">
+              </app-custom-input>
+            </div>
+          </div>
+
+
+
+
+
+
+
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="occupation"
@@ -634,6 +775,153 @@
               ></app-custom-input>
             </div>
           </div>
+          <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco">
+
+            <label for="customer_category">{{ labels?.customerCategory }}
+              <sub class="star_red_col">*</sub></label>
+            <app-vf-custom-select formControlName="custSegment" [values]="applicantLov?.customerSegment"
+              [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+
+          </div>
+        </div>
+
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 "
+              *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
+              <label for="aadharnumber">Monthly Income Amount
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="monthlyIncomeAmount"
+              (keyup)="calculateIncome($event.target.value)"
+                [maxLength]="validationData?.amountValue.maxLength" 
+                [type]="validationData?.amountValue.type"
+                [isRequired]="'Monthly Income is Required'" 
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+
+            
+
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 "
+              *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
+              <label for="aadharnumber">Annual Income Amount
+                </label>
+              <app-custom-input formControlName="annualIncomeAmount"
+              [isRequired]="'Annual Income is Required'" [isDirty]="isDirty"
+              isDisabled>
+              </app-custom-input>
+            </div>
+
+
+
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3" id="align_this_checkbox">
+              <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
+              (click)="onOwnHouseAvailable($event)" 
+              [checked]="checkedBoxHouse==true" />
+              <span class="is_senior">Own House Proof Available? </span>
+
+              
+
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Owner of the Property <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="ownerPropertyRelation"
+                formControlName="houseOwnerProperty"  [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Relationship with Applicant <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.applicantRelationshipWithLead"
+                formControlName="ownHouseAppRelationship" 
+                 
+                [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+          </div>
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Average Bank Balance
+                </label>
+              <app-custom-input formControlName="averageBankBalance">
+              </app-custom-input>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">RTR Type<sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.typeOfLoan"
+                formControlName="rtrType" 
+                [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Previous Loan Amount
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="prevLoanAmount"
+              [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Loan Tenor Service(in months)
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="loanTenorServiced"
+              [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+
+
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">EMI of the Current Loan
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="currentEMILoan"
+              [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='29'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Agri(No of Acres)
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="agriNoOfAcres">
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Owner of the Property<sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select [values]="ownerPropertyRelation"
+                formControlName="agriOwnerProperty" [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="Vechical Type">Relationship with Applicant<sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.applicantRelationshipWithLead"
+                formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='30'">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+              <label for="aadharnumber">Gross Receipt
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="grossReceipt">
+              </app-custom-input>
+            </div>
+          </div>
+
+
+
+
+
+
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="countryOfCorporation"

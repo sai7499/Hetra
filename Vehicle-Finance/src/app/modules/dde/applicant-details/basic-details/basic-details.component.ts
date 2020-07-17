@@ -518,8 +518,15 @@ export class BasicDetailsComponent implements OnInit {
     const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
 
     if (directorValue > 0) {
+      
       //director.clear();
       this.addDirectorControls(directorValue);
+      for (let i= 0 ; i< directorValue; i++){
+        this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
+        this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
+        this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
+         this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
+       }
     }
     //director.controls= [];
     directorArray.forEach((value, index) => {
@@ -630,8 +637,18 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray
     const details = formArray.at(0)
     details.get('numberOfDirectors').valueChanges.subscribe((val) => {
-      console.log('val', val)
+     
       this.addDirectorControls(val)
+      if(val!==''){
+        console.log('valuessss', val)
+        for (let i= 0 ; i< val; i++){
+         this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
+         this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
+         this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
+         this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
+        }
+       
+     }
     })
   }
 
@@ -731,7 +748,9 @@ export class BasicDetailsComponent implements OnInit {
     const value = this.basicForm.getRawValue();
     this.isDirty = true;
     if (this.basicForm.invalid) {
+      console.log('details valid status', this.basicForm)
       return;
+      
     }
 
     console.log('GETRAWVALUE', value);
