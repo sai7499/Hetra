@@ -41,7 +41,7 @@ export interface ApplicantDetails {
   bussinessEntityType?: string;
   monthlyIncomeAmount?: string;
   annualIncomeAmount?: string;
-  ownHouseProofAvail?: string; 
+  ownHouseProofAvail?: string;
   houseOwnerProperty?: string;
   ownHouseAppRelationship?: string;
   averageBankBalance?: string;

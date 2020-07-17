@@ -18,6 +18,7 @@ import {
   IndivProspectProfileDetails,
   DirectorDetails
 } from '@model/applicant.model';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -51,6 +52,9 @@ export class BasicDetailsComponent implements OnInit {
   isDirectorName: any;
   isDin: any = [];
   directorCount = 1;
+  productCategory: string;
+  fundingProgram: string;
+  isChecked: boolean;
 
 
 
@@ -80,7 +84,8 @@ export class BasicDetailsComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService,
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -92,6 +97,7 @@ export class BasicDetailsComponent implements OnInit {
         console.log(error);
       }
     );
+    this.getLeadSectiondata();  // function call to get the required funding program and product category
 
 
     this.basicForm = new FormGroup({
@@ -104,7 +110,7 @@ export class BasicDetailsComponent implements OnInit {
 
 
     });
-    //this.addNonIndividualFormControls();
+    // this.addNonIndividualFormControls();
     console.log('this.basicForm', this.basicForm)
     this.getLOV();
     this.getCountryList();
@@ -123,21 +129,60 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadId', this.leadId);
-    if (this.applicant.applicantDetails.entityTypeKey == 'INDIVENTTYP') {
+    if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
       this.basicForm.get('title').setValidators([Validators.required]);
       this.eitherFather();
       this.eitherMother();
       this.eitherFathOrspouse();
     }
 
+    console.log('basic form', this.basicForm.get('details'));
 
+  }
+
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    console.log('data-->', leadData);
+    this.productCategory = leadData['leadDetails'].productId;
+    this.fundingProgram = leadData['leadDetails'].fundingProgram;
+    console.log('prod cat', this.productCategory);
+    console.log('funding prgm cat', this.fundingProgram);
+    this.fundingProgram = '24';
+    this.productCategory = '1003';
+  }
+  // method for calculating annual income based on input monthy income
+
+  calculateIncome(value) {
+    const annualIncome = 12 * value;
+    this.basicForm.get('details').patchValue({
+      annualIncomeAmount: annualIncome
+    });
   }
 
 
 
+  onOwnHouseAvailable(event) {
+    console.log('event', event);
+    this.isChecked = event.target.checked;
+    if (this.isChecked === true) {
+
+      this.basicForm.get('details').get('houseOwnerProperty').setValidators([Validators.required]);
+      this.basicForm.get('details').get('ownHouseAppRelationship').setValidators([Validators.required]);
+      this.basicForm.get('details').get('houseOwnerProperty').updateValueAndValidity();
+      this.basicForm.get('details').get('ownHouseAppRelationship').updateValueAndValidity();
+
+    } else {
+      this.basicForm.get('details').get('houseOwnerProperty').clearValidators();
+      this.basicForm.get('details').get('ownHouseAppRelationship').clearValidators();
+      this.basicForm.get('details').get('houseOwnerProperty').updateValueAndValidity();
+      this.basicForm.get('details').get('ownHouseAppRelationship').updateValueAndValidity();
+    }
+  }
+
+
   getCountryList() {
     this.applicantService.getCountryList().subscribe((res: any) => {
-      //console.log('responce Country list', res)
+      // console.log('responce Country list', res)
       const response = res;
       const responseError = response.Error;
       if (responseError == '0') {
@@ -180,7 +225,7 @@ export class BasicDetailsComponent implements OnInit {
       details.get('fatherName').clearValidators();
       details.get('fatherName').updateValueAndValidity();
       this.isRequiredFather = '';
-      //const fatherName= details.get('fatherName').value || null;
+      // const fatherName= details.get('fatherName').value || null;
       setTimeout(() => {
         details.get('fatherName').setValue(fatherName || null);
       });
@@ -197,7 +242,7 @@ export class BasicDetailsComponent implements OnInit {
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe((value1) => {
         console.log('value', value1);
-        if (fatherName == value1) {
+        if (fatherName === value1) {
           return;
         }
         fatherName = value1;
@@ -213,7 +258,7 @@ export class BasicDetailsComponent implements OnInit {
           details.get('spouseName').setValidators([Validators.required]);
           details.get('spouseName').updateValueAndValidity();
           this.isRequiredSpouse = 'Spouse name is required';
-          //const spouseName= details.get('spouseName').value || null;
+          // const spouseName= details.get('spouseName').value || null;
           setTimeout(() => {
             details.get('spouseName').setValue(spouseName || null);
           });
@@ -221,7 +266,7 @@ export class BasicDetailsComponent implements OnInit {
       });
 
     details.get('spouseName').valueChanges.subscribe((value) => {
-      if (spouseName == value) {
+      if (spouseName === value) {
         return;
       }
       spouseName = value;
@@ -229,7 +274,7 @@ export class BasicDetailsComponent implements OnInit {
         details.get('fatherName').clearValidators();
         details.get('fatherName').updateValueAndValidity();
         this.isRequiredFather = '';
-        //const fatherName= details.get('fatherName').value || null;
+        // const fatherName= details.get('fatherName').value || null;
         setTimeout(() => {
           details.get('fatherName').setValue(fatherName || null);
         });
@@ -281,9 +326,9 @@ export class BasicDetailsComponent implements OnInit {
     details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
     this.isMinor = this.checkingMinor == true ? '1' : '0';
-    //console.log('isminor',details.get('isMinor').value)
+    // console.log('isminor',details.get('isMinor').value)
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
-    //console.log('issenior', this.isSeniorCitizen)
+    // console.log('issenior', this.isSeniorCitizen)
     this.setGaurdianFieldMandatory();
   }
   ageCalculation(event) {
@@ -308,7 +353,7 @@ export class BasicDetailsComponent implements OnInit {
     // console.log(this.basicForm.get('details')['controls'][0].get('isMinor').value)
     // console.log(this.basicForm.get('details')['controls'][0].get('isSeniorCitizen').value)
 
-    //this.checkMinorOrSenior(this.showAge)
+    // this.checkMinorOrSenior(this.showAge)
 
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
     this.isMinor = this.checkingMinor == true ? '1' : '0';
@@ -370,17 +415,17 @@ export class BasicDetailsComponent implements OnInit {
       this.setValuesForIndividual();
     } else {
       this.addNonIndividualFormControls();
-      //this.getDirectorsControls();
+      // this.getDirectorsControls();
       this.setValuesForNonIndividual();
       setTimeout(() => {
         this.listerForDirectors();
-      })
+      });
 
     }
     const dob = this.applicant.aboutIndivProspectDetails.dob;
     console.log('dob', dob);
     if (
-      this.applicant.applicantDetails.entityTypeKey == 'INDIVENTTYP' &&
+      this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP' &&
       dob !== null
     ) {
       this.initiallayAgecal(dob);
@@ -393,7 +438,20 @@ export class BasicDetailsComponent implements OnInit {
       name1: applicantDetails.name1,
       name2: applicantDetails.name2,
       name3: applicantDetails.name3,
-
+      monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount,
+      annualIncomeAmount: applicantDetails.annualIncomeAmount,
+      ownHouseProofAvail: applicantDetails.ownHouseProofAvail,
+      houseOwnerProperty: applicantDetails.houseOwnerProperty,
+      ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship,
+      averageBankBalance: applicantDetails.averageBankBalance,
+      rtrType: applicantDetails.rtrType,
+      prevLoanAmount: applicantDetails.prevLoanAmount,
+      loanTenorServiced: applicantDetails.loanTenorServiced,
+      currentEMILoan: applicantDetails.currentEMILoan,
+      agriNoOfAcres: applicantDetails.agriNoOfAcres,
+      agriOwnerProperty: applicantDetails.agriOwnerProperty,
+      agriAppRelationship: applicantDetails.agriAppRelationship,
+      grossReceipt: applicantDetails.grossReceipt,
       customerCategory: applicantDetails.customerCategory || ' ',
       custSegment: applicantDetails.custSegment || ' ',
     });
@@ -403,12 +461,12 @@ export class BasicDetailsComponent implements OnInit {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
-    //console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
+    // console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
     this.showAge = aboutIndivProspectDetails.age;
     const mobile = aboutIndivProspectDetails.mobilePhone;
-    if (mobile && mobile.length == 12) {
+    if (mobile && mobile.length === 12) {
       this.mobilePhone = mobile.slice(2, 12);
-    } else if (mobile && mobile.length == 10) {
+    } else if (mobile && mobile.length === 10) {
       this.mobilePhone = mobile;
     }
     const formArray = this.basicForm.get('details') as FormArray;
@@ -446,7 +504,7 @@ export class BasicDetailsComponent implements OnInit {
       department: aboutIndivProspectDetails.department || '',
       employerName: aboutIndivProspectDetails.employerName || '',
 
-      //employerType : aboutIndivProspectDetails.employerType,
+      // employerType : aboutIndivProspectDetails.employerType,
     });
   }
 
@@ -458,7 +516,7 @@ export class BasicDetailsComponent implements OnInit {
     const contactNumber = corporateProspectDetails.companyPhoneNumber;
     if (contactNumber && contactNumber.length == 12) {
       const contactSlice = contactNumber.slice(0, 2);
-      //console.log('contactslice', contactSlice)
+      // console.log('contactslice', contactSlice)
       if (contactSlice == '91') {
         this.mobilePhone = contactNumber.slice(2, 12);
       } else {
@@ -482,10 +540,10 @@ export class BasicDetailsComponent implements OnInit {
         ) || '',
       countryOfCorporation: corporateProspectDetails.countryOfCorporation || '',
       businessType: corporateProspectDetails.businessType || '',
-      //industry : corporateProspectDetails.industry || '',
+      // industry : corporateProspectDetails.industry || '',
       preferredLanguageCommunication:
         corporateProspectDetails.preferredLanguageCommunication || '',
-      //customerCategory: applicantDetails.customerCategory || '',
+      // customerCategory: applicantDetails.customerCategory || '',
 
       directorIdentificationNumber:
         corporateProspectDetails.directorIdentificationNumber || '',
@@ -518,10 +576,10 @@ export class BasicDetailsComponent implements OnInit {
     const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
 
     if (directorValue > 0) {
-      //director.clear();
+      // director.clear();
       this.addDirectorControls(directorValue);
     }
-    //director.controls= [];
+    // director.controls= [];
     directorArray.forEach((value, index) => {
       // director.push(new FormGroup(
       //   {
@@ -572,6 +630,22 @@ export class BasicDetailsComponent implements OnInit {
       employeeCode: new FormControl(null, Validators.required),
       employerType: new FormControl('', Validators.required),
 
+      // added new form controls  on 16-07-2020
+      monthlyIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl(''),
+      ownHouseProofAvail: new FormControl(''),
+      houseOwnerProperty: new FormControl(''),
+      ownHouseAppRelationship: new FormControl(''),
+      averageBankBalance: new FormControl(''),
+      rtrType: new FormControl(''),
+      prevLoanAmount: new FormControl(''),
+      loanTenorServiced: new FormControl(''),
+      currentEMILoan: new FormControl(''),
+      agriNoOfAcres: new FormControl(''),
+      agriOwnerProperty: new FormControl(''),
+      agriAppRelationship: new FormControl(''),
+      grossReceipt: new FormControl(''),
+
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -585,13 +659,13 @@ export class BasicDetailsComponent implements OnInit {
       name1: new FormControl(null, Validators.required),
       name2: new FormControl(null),
       name3: new FormControl(null),
-      //companyPhoneNumber: new FormControl(null),
+      // companyPhoneNumber: new FormControl(null),
       dateOfIncorporation: new FormControl(null, Validators.required),
       contactPerson: new FormControl(null, Validators.required),
       companyPhoneNumber: new FormControl(null, Validators.required),
       countryOfCorporation: new FormControl(null, Validators.required),
       businessType: new FormControl('', Validators.required),
-      //industry: new FormControl(''  ),
+      // industry: new FormControl(''  ),
       companyEmailId: new FormControl(null),
       alternateEmailId: new FormControl(null),
       alternateContactNumber: new FormControl(''),
@@ -608,8 +682,26 @@ export class BasicDetailsComponent implements OnInit {
       exposureBankingSystem: new FormControl(null, Validators.required),
       creditRiskScore: new FormControl(null, Validators.required),
 
+      // added new form controls on 16-07-2020
+      customerCategory: new FormControl('', Validators.required),
+      monthlyIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl(''),
+      ownHouseProofAvail: new FormControl(''),
+      houseOwnerProperty: new FormControl(''),
+      ownHouseAppRelationship: new FormControl(''),
+      averageBankBalance: new FormControl(''),
+      rtrType: new FormControl(''),
+      prevLoanAmount: new FormControl(''),
+      loanTenorServiced: new FormControl(''),
+      currentEMILoan: new FormControl(''),
+      agriNoOfAcres: new FormControl(''),
+      agriOwnerProperty: new FormControl(''),
+      agriAppRelationship: new FormControl(''),
+      grossReceipt: new FormControl(''),
+
+
       // occupation: new FormControl(''),
-      //customerCategory: new FormControl(null),
+      // customerCategory: new FormControl(null),
       // accountNumber: new FormControl(null),
       // accountBank: new FormControl(''),
       // branchAddress: new FormControl(null),
@@ -627,24 +719,24 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   listerForDirectors() {
-    const formArray = this.basicForm.get('details') as FormArray
-    const details = formArray.at(0)
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
     details.get('numberOfDirectors').valueChanges.subscribe((val) => {
-      console.log('val', val)
-      this.addDirectorControls(val)
-    })
+      console.log('val', val);
+      this.addDirectorControls(val);
+    });
   }
 
 
   addDirectorControls(value) {
     const director = this.basicForm.get('directors') as FormArray;
     if (value === '' || value == null) {
-      
+
       // director.controls = [];
       return;
     }
     let directorValue = Number(value);
-    if (directorValue == this.directorCount) {
+    if (directorValue === this.directorCount) {
       return;
     }
 
@@ -677,7 +769,7 @@ export class BasicDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
-      //console.log('lovs', this.LOV)
+      // console.log('lovs', this.LOV)
 
       this.applicant = this.applicantDataService.getApplicant();
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
@@ -782,6 +874,22 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2 ? formValue.name2 : '';
     applicantDetails.name3 = formValue.name3 ? formValue.name3 : '';
+
+    applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
+    applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
+    applicantDetails.ownHouseProofAvail = formValue.ownHouseProofAvail;
+    applicantDetails.houseOwnerProperty = formValue.houseOwnerProperty;
+    applicantDetails.ownHouseAppRelationship = formValue.ownHouseAppRelationship;
+    applicantDetails.averageBankBalance = formValue.averageBankBalance;
+    applicantDetails.rtrType = formValue.rtrType;
+    applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
+    applicantDetails.loanTenorServiced = formValue.loanTenorServiced;
+    applicantDetails.currentEMILoan = formValue.currentEMILoan;
+    applicantDetails.agriNoOfAcres = formValue.agriNoOfAcres;
+    applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
+    applicantDetails.agriAppRelationship = formValue.agriAppRelationship;
+    applicantDetails.grossReceipt = formValue.grossReceipt;
+
     applicantDetails.loanApplicationRelation =
       value.applicantRelationshipWithLead;
     applicantDetails.entityType = value.entity;
@@ -852,7 +960,7 @@ export class BasicDetailsComponent implements OnInit {
     indivProspectProfileDetails.employerName = formValue.employerName
       ? formValue.employerName
       : '';
-    //console.log('indivProspectProfileDetails',indivProspectProfileDetails)
+    // console.log('indivProspectProfileDetails',indivProspectProfileDetails)
     this.applicantDataService.setindivProspectProfileDetails(
       indivProspectProfileDetails
     );
@@ -873,7 +981,24 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     applicantDetails.bussinessEntityType = value.bussinessEntityType || '';
     applicantDetails.title = value.title;
-    //applicantDetails.customerCategory = value.customerCategory;
+
+    // added new form controls on 15-07-2020
+
+    applicantDetails.customerCategory = formValue.customerCategory;
+    applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
+    applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
+    applicantDetails.ownHouseProofAvail = formValue.ownHouseProofAvail;
+    applicantDetails.houseOwnerProperty = formValue.houseOwnerProperty;
+    applicantDetails.ownHouseAppRelationship = formValue.ownHouseAppRelationship;
+    applicantDetails.averageBankBalance = formValue.averageBankBalance;
+    applicantDetails.rtrType = formValue.rtrType;
+    applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
+    applicantDetails.loanTenorServiced = formValue.loanTenorServiced;
+    applicantDetails.currentEMILoan = formValue.currentEMILoan;
+    applicantDetails.agriNoOfAcres = formValue.agriNoOfAcres;
+    applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
+    applicantDetails.agriAppRelationship = formValue.customerCategory;
+    applicantDetails.grossReceipt = formValue.grossReceipt;
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
@@ -884,7 +1009,7 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.companyPhoneNumber = formValue.companyPhoneNumber;
     prospectDetails.countryOfCorporation = formValue.countryOfCorporation;
     prospectDetails.businessType = formValue.businessType;
-    //prospectDetails.industry = formValue.industry;
+    // prospectDetails.industry = formValue.industry;
     prospectDetails.companyEmailId = formValue.companyEmailId;
     prospectDetails.alternateEmailId = formValue.alternateEmailId;
     prospectDetails.preferredLanguageCommunication =
@@ -910,17 +1035,17 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
 
 
-    const items = this.basicForm.get('directors').value
-    //console.log('itemsssss-->',items)
+    const items = this.basicForm.get('directors').value;
+    // console.log('itemsssss-->',items)
     items.map((value) => {
       const data = {
         directorName: value.directorName,
         din: value.din
-      }
-      this.directorObject.push(data)
-    })
+      };
+      this.directorObject.push(data);
+    });
 
-    this.applicantDataService.setDirectorDetails(this.directorObject)
+    this.applicantDataService.setDirectorDetails(this.directorObject);
   }
   onBack() {
     this.location.back();
