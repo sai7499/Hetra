@@ -4,6 +4,9 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
+import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-new-leads',
@@ -28,13 +31,17 @@ export class NewLeadsComponent implements OnInit {
   branchId;
   roleId;
   roleType;
+  isLoadLead: boolean;
 
   constructor(
     private labelsData: LabelsService,
     private dashboardService: DashboardService,
     private vehicleDataStoreService: VehicleDataStoreService,
     private loginStoreService: LoginStoreService,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService,
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
   ) { }
 
   getMyLeads(perPageCount, pageNumber?) {
@@ -49,22 +56,32 @@ export class NewLeadsComponent implements OnInit {
 
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
-
-
-  getCreditDashboard(perPageCount, pageNumber?) {
+  getDDELeads(perPageCount, pageNumber?) {
     const data = {
+      taskName: 'DDE',
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
+      currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber)
+      perPage: parseInt(perPageCount),
+      myLeads: true
     };
-    this.dashboardService.getCreditDashboard(data).subscribe((res: any) => {
+    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
   setPageData(res) {
@@ -79,10 +96,10 @@ export class NewLeadsComponent implements OnInit {
   }
   setPage(event) {
     if (this.roleType == '2') {
-      this.getCreditDashboard(this.itemsPerPage, event);
+      this.getDDELeads(this.itemsPerPage, event);
     } else {
       this.getMyLeads(this.itemsPerPage, event);
-      }
+    }
   }
 
   ngOnInit() {
@@ -96,17 +113,26 @@ export class NewLeadsComponent implements OnInit {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
       this.roleType = value.roleType;
-      });
+    });
     if (this.roleType == '2') {
-        this.getCreditDashboard(this.itemsPerPage);
-        } else {
-        this.getMyLeads(this.itemsPerPage);
-        }
-
+      this.getDDELeads(this.itemsPerPage);
+    } else {
+      this.getMyLeads(this.itemsPerPage);
     }
 
-  getLeadIdSales(Id, stageCode?) {
+  }
+
+  onClick() {
+    if (this.roleType == '2') {
+      this.getDDELeads(this.itemsPerPage);
+    } else {
+      return;
+    }
+  }
+
+  getLeadIdSales(Id, stageCode?, taskId?) {
     this.vehicleDataStoreService.setSalesLeadID(Id);
+    this.sharedService.getTaskID(taskId)
 
     if (stageCode == '10') {
       this.router.navigateByUrl(`/pages/lead-section/${Id}`);
@@ -117,8 +143,20 @@ export class NewLeadsComponent implements OnInit {
 
   }
 
-  getLeadId(id) {
-    this.vehicleDataStoreService.setCreditLeadId(id);
+  getLeadId(item) {
+    this.vehicleDataStoreService.setCreditTaskId(item.taskId);
+    this.sharedService.getTaskID(item.taskId)
+  }
+
+  onRelase(id) {
+    this.taskDashboard.releaseTask(id).subscribe((res: any) => {
+      const response = res;
+      if (response.ErrorCode == 0) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
   }
 
 }

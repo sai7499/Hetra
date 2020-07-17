@@ -16,9 +16,6 @@ export const environment = {
     otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
-    // otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    // salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    //creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',  
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
@@ -36,6 +33,7 @@ export const environment = {
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
+  isMobile: false
 
 };
 

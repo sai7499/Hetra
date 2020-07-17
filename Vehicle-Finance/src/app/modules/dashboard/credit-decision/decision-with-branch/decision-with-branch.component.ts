@@ -4,6 +4,8 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,13 +25,16 @@ export class DecisionWithBranchComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  isLoadLead: boolean;
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService,
+    private router: Router
   ) {
   }
 
@@ -43,10 +48,15 @@ export class DecisionWithBranchComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
     });
-    this.getPdBrabchTask(this.itemsPerPage);
+    this.getDecisionLeads(this.itemsPerPage);
   }
 
-  getPdBrabchTask(perPageCount, pageNumber?) {
+  onClick() {
+    this.getDecisionLeads(this.itemsPerPage);
+
+  }
+
+  getDecisionLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Credit Decision',
       branchId: this.branchId,
@@ -59,6 +69,11 @@ export class DecisionWithBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -73,7 +88,23 @@ export class DecisionWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdBrabchTask(this.itemsPerPage, event);
+    this.getDecisionLeads(this.itemsPerPage, event);
+  }
+
+  onAssign(id, leadId) {
+
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['pages/credit-decisions/' + leadId + '/credit-condition']);
+      } else {
+        this.toasterService.showError(response.Error, '');
+
+      }
+    });
   }
 
 }

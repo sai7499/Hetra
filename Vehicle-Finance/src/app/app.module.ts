@@ -1,3 +1,6 @@
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
+
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { HTTP } from '@ionic-native/http/ngx';
@@ -32,8 +35,6 @@ import { AgmDirectionModule } from 'agm-direction'; // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { DdeSharedModule } from './modules/dde/shared/shared.module';
-import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-
 
 import {
   NgxUiLoaderModule,
@@ -52,7 +53,6 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { NumberOnlyDirective } from './services/directives/number-only.directive';
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
-
 
 setTheme('bs4');
 
@@ -116,6 +116,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     LocationAccuracy,
     Geolocation,
     Camera,
+    File,
+    FileTransfer,
+    FileTransferObject,
   ],
   
 

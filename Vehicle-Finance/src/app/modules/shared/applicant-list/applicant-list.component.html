@@ -11,11 +11,7 @@
             *ngIf="showAddApplicant"
             class="btn btn-primary mar-right8"
             type="button"
-            [routerLink]="[
-              '/pages/sales-applicant-details',
-              leadId,
-              'add-applicant'
-            ]"
+            (click)="navigateAddapplicant()"
           >
             Add Applicant
           </button>
@@ -28,6 +24,7 @@
           <thead>
             <tr class="table-head-bg">
               <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.dateOfBirth }} <i class="fa fa-sort"></i></th>
@@ -44,6 +41,7 @@
               "
             >
               <td>{{ item.ucic ? item.ucic : '-' }}</td>
+              <td>{{ item.entity ? item.entity : '-' }}</td>
               <td>{{ item.fullName ? item.fullName : '-' }}</td>
               <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
                 <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>

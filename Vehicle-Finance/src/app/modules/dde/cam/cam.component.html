@@ -331,7 +331,7 @@
                 <td>{{ fleetSummary?.noOfVehOwnedLCV }}</td>
                 <td>{{ fleetSummary?.noOfVehOwnedSCV }}</td>
                 <td>{{ fleetSummary?.noOfVehOwnedOthers }}</td>
-                <td>0</td>
+                <td>{{ fleetSummary?.total }}</td>
                 <td>{{ fleetSummary?.expansionAndFfrAddedInLastOneYr }}</td>
                 <td>{{ fleetSummary?.expansionAndFfrFreeAsset }}</td>
                 <td>{{ fleetSummary?.expansionAndFfrFFR }}</td>
@@ -460,42 +460,43 @@
         labels?.keyFinancialTitle
       }}
         </caption>
+      
         <tbody>
             <tr >
                 <td class="bank_name">{{ labels?.fy }}</td>
                 <!-- <td>{{ labels?.eighteenToNineteen }}</td>
                 <td>{{ labels?.seventeenToEightteen }}</td>
                 <td>{{ labels?.sixteenToSeventeen }}</td> -->
-                <td *ngFor="let item of keyFinancial">{{item?.fy}}</td>
-               
+                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.fy}}</td>
+                <td>{{ labels?.anyOtherRemarks }}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.turnOver }}</td>
 
-                <td *ngFor="let item of keyFinancial">{{item?.turnOver}}</td>
-         
+                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
+                <td rowspan="4"></td> 
             </tr>
 
             <tr>
                 <td class="bank_name">{{ labels?.freightPaid }}</td>
-                <td *ngFor="let item of keyFinancial">{{item?.freightPaid}}</td>
+                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.freightPaid}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.depriciation }}</td>
-                <td *ngFor="let item of keyFinancial">{{item?.depriciation}}</td>
+                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.depriciation}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.netProfitPbt }}</td>
-                <td *ngFor="let item of keyFinancial">{{item?.netProfit}}</td>
+                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.netProfit}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.cashGenerationPbtDep }}</td>
-                <td *ngFor="let item of keyFinancial">{{item?.cashGeneration}}</td>
-                
+                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
+                <td >{{camDetails?.keyFinancialObjAnyOtherRemarks}}</td>
             </tr>
             <tr>
-                <td>{{ labels?.anyOtherRemarks }}</td>
-                <td *ngFor="let item of keyFinancial">{{item?.anyOtherRemarks}}</td>
+               
+                
             </tr>
         </tbody>
     </table>

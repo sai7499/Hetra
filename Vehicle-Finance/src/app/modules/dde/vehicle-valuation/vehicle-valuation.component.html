@@ -33,11 +33,17 @@
                                 <td> {{data.model}} </td>
                                 <td> {{data.address}} </td>
                                 <td> {{data.valuationStatus}} </td>
-                                <td> {{valuatorStatus}} </td>
+                                <td> <span *ngIf="data.valuationStatus !='NOT INITIATED'">
+                                    {{data.valuatorStatus == 0 ? 'Offline': 'Online' }} </span></td>
                                 <td>
                                     <u>
-                                        <a class="a_tag" (click)="onClickValuationReport()" data-toggle="modal"
-                                           data-target="#myModal"> {{valuationReport}} </a>
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == 1" (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                           data-target="#myModal"> {{data.valuationStatus == 'INITIATED'? '------': 'View'}} </a>
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == 0"  (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                           data-target="#myModal"> {{data.valuationStatus == 'NOT INITIATED'? 'Initiate' :'View' }} </a>
+                                           <!-- {{data.valuationStatus == 'INITIATED'? 'View' :}} -->
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == null"  (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                           data-target="#myModal"> {{data.valuationStatus == 'NOT INITIATED'? 'Initiate' :''}} </a>
                                     </u>
                                 </td>
                             </tr>
@@ -78,35 +84,43 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
                         <label for="registration_cost"> {{labels.registrationNumber}} </label>
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" [value]="regNo | uppercase">
+                            required="required" [value]="regNo | uppercase" disabled>
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
                         <label for="registration_cost"> {{labels.make}}</label>
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" [value]="make">
+                            required="required" [value]="make" disabled>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
                         <label for="registration_cost"> {{labels.model}} </label>
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" [value]="model">
+                            required="required" [value]="model" disabled>
                     </div>
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
                         <label for="registration_cost">{{labels.address}}</label>
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
-                            required="required" [value]="address">
+                            required="required" [value]="address" disabled>
                     </div>
                     <form class="multisteps-form__form" [formGroup]="modelDataForm">
 
                         <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
-                            <label for="remarks">{{labels.VehicleValremarks}}</label>
+                            <label for="remarks" >{{labels.referenceRemarks}}
+                                <sub class="star_red_col">*</sub>
+                            </label>
                             <textarea class="form-control" formControlName="remarks"> 
-                            </textarea>
+                            </textarea>     
+                            <!-- <div *ngIf="isDirty && modelDataForm.remarks.errors" class="invalid-feedback">
+                                <div class="invalid-feedback" *ngIf="modelDataForm.remarks.errors.required && modelDataForm.remarks.touched">Remarks is required</div>
+                            </div>                      -->
                         </div>
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-                            <label for="property_located_city"> {{labels.chooseValuator}} </label>
+                            <label for="property_located_city"> {{labels.chooseValuator}} 
+                                <sub class="star_red_col">*</sub>
+                            </label>
                             <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
-                                [isRequired]="'Please Select One Option'">
+                                [isRequired]="'Please Select One Option'" (change)="onChangeVendorName($event)"
+                                [isDirty]="isDirty">
                             </app-vf-custom-select>
                         </div>
 
@@ -117,7 +131,7 @@
                 <button type="button" class="btn btn-default table-head-bg" data-dismiss="modal" data-toggle="modal"
                     data-target="#myModal_one" (click)="okModal()" id="model_ok">{{labels.ok}}</button>
                 <button type="button" (click)="closeModal()" class="btn btn-default table-head-bg"
-                    data-dismiss="modal">{{labels.close}}</button>
+                    data-dismiss="modal">{{labels.cancel}}</button>
             </div>
         </div>
     </div>
@@ -135,13 +149,13 @@
                 <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
             </div>
             <div class="modal-body">
-                <p>{{labels.modalBody}}</p>
+                <p>{{labels.modalBody}} {{vendorName}}?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default table-head-bg" data-dismiss="modal" data-toggle="modal"
-                    data-target="#myModal_two" (click)="yesModal()" id="model_ok">{{labels.yes}}</button>
+                    data-target="#myModal_two" (click)="initiateVehicleValuation()" id="model_ok">{{labels.yes}}</button>
                 <button type="button" (click)="closeModal()" class="btn btn-default table-head-bg"
-                    data-dismiss="modal">{{labels.close}}</button>
+                    data-dismiss="modal">{{labels.cancel}}</button>
             </div>
         </div>
 
@@ -159,13 +173,13 @@
                 <h4 class="modal-title"> {{labels.modalTitle1}} </h4>
             </div>
             <div class="modal-body">
-                <p>{{labels.modalBody2}}</p>
+                <p>{{labels.modalBody2}} {{vendorName}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default table-head-bg" (click)="initiateVehicleValuation()"
+                <button type="button" class="btn btn-default table-head-bg" (click)="okModal()"
                     data-dismiss="modal">{{labels.ok}}</button>
                 <button type="button" class="btn btn-default table-head-bg" (click)="closeModal()"
-                    data-dismiss="modal">{{labels.close}}</button>
+                    data-dismiss="modal">{{labels.cancel}}</button>
             </div>
         </div>
 

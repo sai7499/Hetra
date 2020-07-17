@@ -37,6 +37,8 @@ export interface ApplicantDetails {
   custSegment?: string;
   applicantTypeKey?: string;
   entityTypeKey?: string;
+  bussinessEntityType?: string;
+
 }
 
 export interface ApplicantList {
@@ -103,6 +105,9 @@ export interface AddressDetails {
 export interface CorporateProspectDetails {
   dateOfIncorporation?: string;
   countryOfCorporation?: string;
+  businessType? : string;
+  industry? : string;
+  alternateContactNumber? : string;
   companyEmailId?: string;
   alternateEmailId?: string;
   preferredLanguageCommunication?: string;
@@ -120,6 +125,8 @@ export interface CorporateProspectDetails {
   exposureBankingSystem?: string;
   creditRiskScore?: string;
   tinNumber?: string;
+  tanNumber? : string;
+  cstVatNumber?: string;
   corporateIdentificationNumber?: string;
   gstNumber?: string;
   panNumber?: string;

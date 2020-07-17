@@ -67,6 +67,11 @@ export class ApplicantListComponent implements OnInit {
     });
   }
 
+  navigateAddapplicant(){
+    this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`)
+  }
+  
+
   navigatePage(applicantId: string) {
     console.log(
       'applicantId',
@@ -84,6 +89,7 @@ export class ApplicantListComponent implements OnInit {
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
+      console.log('getapplicants', this.applicantList)
     });
   }
 

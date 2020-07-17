@@ -17,6 +17,7 @@ export class SalesExactMatchComponent implements OnInit {
   selectedApplicant: string;
   selectedDetails;
   isExactAvailable: boolean;
+  isIndividual: boolean;
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
@@ -28,6 +29,7 @@ export class SalesExactMatchComponent implements OnInit {
     this.dedupeDetails = this.salesDedupeService.getDedupeDetails();
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
+    this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
     console.log(
       'this.isExactAvailable ',
       this.isExactAvailable,
@@ -76,6 +78,8 @@ export class SalesExactMatchComponent implements OnInit {
     const data = {
       ...this.dedupeParameter,
       ignoreProbablematch: true,
+      isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
+      loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
     };
 
     this.applicantService
@@ -98,6 +102,8 @@ export class SalesExactMatchComponent implements OnInit {
       ucic: Number(this.selectedDetails.ucic),
       leadId,
       applicantId: this.dedupeParameter.applicantId,
+      loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
+      isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
     };
 
     this.applicantService

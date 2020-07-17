@@ -3,6 +3,7 @@ import { ApiService } from '@services/api.service';
 import RequestEntity from '@model/request.entity';
 import { environment } from '../../../environments/environment';
 import { HttpService } from '../http.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class TaskDashboard {
 
   constructor(
     private apiService: ApiService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private http: HttpClient
   ) { }
 
   taskDashboard(data) {
@@ -30,4 +32,23 @@ export class TaskDashboard {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, requestEntity);
   }
+
+  assignTask(id) {
+   const url = `http://10.101.10.153/appiyo/d/tasks/${id}/claim`;
+   const requestBody = {
+    id
+   };
+   return this.httpService.post(url, requestBody);
+
+  }
+
+  releaseTask(id) {
+    const url = `http://10.101.10.153/appiyo/d/tasks/${id}/release`;
+    const requestBody = {
+      id
+    };
+    // return this.httpService.post(url, requestBody);
+    return this.http.put(url, requestBody);
+  }
+
 }

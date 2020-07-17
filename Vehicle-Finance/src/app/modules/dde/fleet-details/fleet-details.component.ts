@@ -82,7 +82,7 @@ export class FleetDetailsComponent implements OnInit {
   currentYear = new Date().getFullYear();
   yearCheck = [];
   paidTenureCheck = [];
-
+  fleetArrayList: FormArray;
   constructor(
 
     private labelsData: LabelsService,
@@ -96,9 +96,10 @@ export class FleetDetailsComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
-    private sharedService: SharedService) { 
-      this.yearCheck = [{rule: val => val>this.currentYear,msg:'Future year not accepted'}];
-    }
+    private sharedService: SharedService) {
+    this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    this.fleetArrayList = this.fb.array([]);
+  }
 
 
   async ngOnInit() {
@@ -123,7 +124,7 @@ export class FleetDetailsComponent implements OnInit {
 
     this.fleetForm = this.fb.group(
       {
-        Rows: this.fb.array([])
+        Rows: this.fleetArrayList
       }
     );
 
@@ -355,6 +356,12 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetIDs = res.ProcessVariables.ids
       console.log("saveFleetDetailsResponse", this.fleetIDs)
       this.toasterService.showSuccess('Fleet saved successfully!', '');
+      const fleetList:Array<any> = res.ProcessVariables.fleets;
+      this.fleetArrayList.controls = [];
+      fleetList.forEach(val =>
+        this.fleetArrayList.push(this.initRows(val)) );     
+
+      console.log("fletds", this.fleetArrayList);
       if (index != null && index != 'next') {
         console.log(" in rtr function index", index)
         // console.log("fletds", this.fleetIDs)
@@ -472,7 +479,7 @@ export class FleetDetailsComponent implements OnInit {
 
     this.fleetDetails = this.fleetForm.value.Rows;
 
-    
+
     this.isDirty = true;
     if (this.fleetForm.valid === true) {
       // this.fleetDetails = this.fleetForm.value.Rows

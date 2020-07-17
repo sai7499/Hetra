@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { LovDataService } from '@services/lov-data.service';
-import { element } from 'protractor';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantList } from '@model/applicant.model';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -32,7 +32,7 @@ export class ApplicantDetailsComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private lovData: LovDataService,
     private applicantService: ApplicantService,
-    private activatedRoute: ActivatedRoute,
+    private applicantDataStoreService: ApplicantDataStoreService,
     private createLeadDataService: CreateLeadDataService
   ) {}
 
@@ -99,12 +99,20 @@ export class ApplicantDetailsComponent implements OnInit {
       leadId: this.leadId,
     };
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
-      console.log('Applicantlist', value);
+      //console.log('Applicantlist', value);
       const processVariables = value.ProcessVariables;
-      console.log('ProcessVariables', processVariables);
+      //console.log('ProcessVariables', processVariables);
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
     });
+  }
+  navigateAddApplicant(){
+    this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
+    if (this.applicantList.length > 0) {
+      this.applicantList.filter((val: any) => {
+        this.applicantDataStoreService.setApplicantRelation(val['applicantType'])
+      })
+    }
   }
 
   onSubmit() {

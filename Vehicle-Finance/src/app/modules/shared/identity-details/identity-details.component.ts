@@ -31,6 +31,7 @@ import { ToasterService } from '@services/toaster.service'
 })
 export class IdentityDetailsComponent implements OnInit {
   labels: any = {};
+  validationData : any ={}
   lov: any = {};
   applicant: Applicant;
   applicantId: number;
@@ -81,6 +82,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
+        this.validationData = data.validationData
       },
       (error) => {
         console.log(error);
@@ -177,10 +179,14 @@ export class IdentityDetailsComponent implements OnInit {
   
   addNonIndividualFormControls() {
     const controls = new FormGroup({
-      tinNumber: new FormControl(null),
+      aadhar: new FormControl(null),
+      panType: new FormControl({value :'', disabled : true}),
       panNumber: new FormControl(null),
+      
       corporateIdentificationNumber: new FormControl(null),
+      cstVatNumber: new FormControl(null),
       gstNumber: new FormControl(null),
+      tanNumber: new FormControl(null),
     });
     (this.identityForm.get('details') as FormArray).push(controls);
   }
@@ -214,11 +220,14 @@ export class IdentityDetailsComponent implements OnInit {
     const value = this.identityForm.getRawValue();
     const details: CorporateProspectDetails = {};
     const formValue = value.details[0];
+    details.aadhar = formValue.aadhar;
     details.gstNumber = formValue.gstNumber;
     details.panNumber = formValue.panNumber;
+    details.panType = formValue.panType;
+    details.cstVatNumber = formValue.cstVatNumber;
     details.corporateIdentificationNumber =
       formValue.corporateIdentificationNumber;
-    details.tinNumber = formValue.tinNumber;
+    details.tanNumber = formValue.tanNumber;
     this.applicantDataService.setCorporateProspectDetails(details);
   }
 
@@ -263,10 +272,13 @@ export class IdentityDetailsComponent implements OnInit {
     const details = formArray.at(0);
     const value = this.corporateProspectDetails;
     details.patchValue({
-      tinNumber: value.tinNumber,
+      tanNumber: value.tanNumber,
       panNumber: value.panNumber,
+      panType: value.panType,
+      cstVatNumber: value.cstVatNumber,
       corporateIdentificationNumber: value.corporateIdentificationNumber,
       gstNumber: value.gstNumber,
+      aadhar : value.aadhar
     });
   }
 
@@ -279,17 +291,7 @@ export class IdentityDetailsComponent implements OnInit {
     //console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    // const aadhar= value.aadhar
-    // const passportExpiryDate = this.utilityService.getDateFromString(value.passportExpiryDate) || '';
-    // const passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
-    // const drivingLicenseIssueDate = this.utilityService.getDateFromString(
-    //   value.drivingLicenseIssueDate)
-    // ;
-    // const drivingLicenseExpiryDate = this.utilityService.getDateFromString(
-    //   value.drivingLicenseExpiryDate)
-    // ;
-    // const voterIdIssueDate = this.getFormateDate(value.voterIdIssueDate);
-    // const voterIdExpiryDate = this.getFormateDate(value.voterIdExpiryDate);
+    
     details.patchValue({
       passportIssueDate: this.utilityService.getDateFromString(value.passportIssueDate),
       passportExpiryDate: this.utilityService.getDateFromString(value.passportExpiryDate),

@@ -24,7 +24,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Output() formDataOutput = new EventEmitter<ArrayType>();
 
-  maxDate = new Date()
+  maxDate = new Date();
+  initalZeroCheck = []
 
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
@@ -43,69 +44,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
 
-  maxlength10 = {
-    rule: 10,
-    msg: '',
-  };
-
-  maxLength3 = {
-    rule: 3,
-    msg: '',
-  };
-
-  maxlength2 = {
-    rule: 2,
-    msg: '',
-  };
-
-  maxlength5 = {
-    rule: 5,
-    msg: '',
-  };
-
-  namePattern = {
-    rule: '^[A-Za-z-0-9]{0,99}$',
-    msg: 'Special Characters not allowed',
-  };
-
-  regexPattern = {
-    maxLength: {
-      rule: '10',
-      msg: 'Maximum Length 10 digits',
-    },
-    pincodemaxLength: {
-      rule: '6',
-      msg: 'Maximum Length 6 digits',
-    },
-    maxlength30: {
-      rule: '30',
-      msg: '',
-    },
-    nameLength: {
-      rule: '50',
-      msg: '',
-    },
-    namePattern: {
-      rule: '^[A-Z ]*[a-z ]*$',
-      msg: 'Invalid Name',
-    },
-    maxlength40: {
-      rule: '40',
-      msg: '',
-    },
-    mobNumberPattern: {
-      rule: "^[6-9]{1}[0-9]{9}",
-      msg: 'Invalid Mobile Number',
-    },
-    numberPattern: {
-      rule: '^[1-9][0-9]*$',
-      msg: 'Numbers only allowed !',
-    },
-  };
-
   public minDate = new Date('01/01/2010')
-
-  mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
 
   // LovData
   public assetMake: any = [];
@@ -126,13 +65,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
-    private uiLoader: NgxUiLoaderService) { }
+    private uiLoader: NgxUiLoaderService) {
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+  }
 
   ngOnInit() {
 
     this.basicVehicleForm = this._fb.group({
       vehicleFormArray: this._fb.array([])
     })
+
+    this.labelsData.getLabelsData()
+      .subscribe(data => {
+        this.label = data;
+      }, error => {
+        console.log('error', error)
+      });
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
@@ -151,12 +99,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.initForms();
     this.getLov();
-    this.labelsData.getLabelsData()
-      .subscribe(data => {
-        this.label = data;
-      }, error => {
-        console.log('error', error)
-      });
 
     if (this.id) {
       this.setFormValue();
@@ -206,14 +148,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value) {
       formArray.controls[0].patchValue({
-        finalAssetCost: value,
-        exShowRoomCost: value
+        finalAssetCost: value
       })
     }
 
   }
 
-  onCompareFinalAssetCode(value) {
+  onCompareFinalAssetCode(event) {
+    const value = event.target.value;
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
     if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
@@ -246,7 +188,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   initForms() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
-    this.roleName === 'Sales Officer' ? this.addSalesFormControls() : this.addCreditFormControls();
+    this.roleType === 1 ? this.addSalesFormControls() : this.addCreditFormControls();
   }
 
   getLov() {
@@ -257,6 +199,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       // this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.vehicleCategory = value.LOVS.customerCategory;
+      this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
 
       this.vehicleLov.YesORNoValue = [
         {
@@ -274,6 +217,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
+
+      console.log(res, 'res')
+
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
       this.vehicleLov.assetMake = [{
@@ -298,7 +244,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         value: VehicleDetail.assetVarient
       }]
 
-      if (this.roleName === 'Sales Officer') {
+      if (this.roleType === 1) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
         formArray.controls[0].patchValue({
@@ -333,7 +279,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         })
         this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
-      } else if (this.roleName === 'Credit Officer') {
+      } else if (this.roleType === 2) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
         this.sharedService.getFormValidation(this.basicVehicleForm)
@@ -436,8 +382,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  // event emitter for giving output to parent add vehicle component
-
   formDataOutputMethod(event) {
     this.sharedService.getFormValidation(this.basicVehicleForm)
     this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
@@ -516,10 +460,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: [''],
       assetCostCarTrade: [''],
       exShowRoomCost: [''],
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       vehicleUsage: [''],
       category: [''],
       rcOwnerName: [''],
@@ -608,7 +549,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
-    // this.isDirty = true;
   }
 
   addCreditFormControls() {
@@ -722,10 +662,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ageOfAsset: ['', Validators.required],
       ageAfterTenure: ['', Validators.required],
       assetCostGrid: ['', Validators.required],
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
       typeOfPermit: [''],
       typeOfPermitOthers: [''],
@@ -734,7 +671,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [null],
-      vehicleOwnerShipNumber: [null],
+      vehicleOwnerShipNumber: null,
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
       ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -779,14 +716,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: ['', Validators.required],
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
-      finalAssetCost: ['', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]{0,17}\.[0-9]{1,4}?$')
-      ])],
+      finalAssetCost: ['', Validators.required],
       chasisNumber: [''],
       engineNumber: [''],
       vehiclePurchasedCost: [''],
-      vehicleOwnerShipNumber: [''],
+      vehicleOwnerShipNumber: null,
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       vehicleRegDate: '',
       gorssVehicleWeight: [''],

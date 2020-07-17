@@ -4,7 +4,8 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
-
+import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-branch-tasks',
   templateUrl: './branch-tasks.component.html',
@@ -22,13 +23,18 @@ export class BranchTasksComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  taskId: any;
+  isLoadLead: boolean;
+
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService,
+    private router: Router
   ) {
   }
 
@@ -58,7 +64,16 @@ export class BranchTasksComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
+  }
+
+  onClick() {
+    this.getPdBrabchTask(this.itemsPerPage);
   }
 
   setPageData(res) {
@@ -73,6 +88,22 @@ export class BranchTasksComponent implements OnInit {
 
   setPage(event) {
     this.getPdBrabchTask(this.itemsPerPage, event);
+  }
+
+  onAssign(id, leadId) {
+
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', typeof res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['/pages/pd-dashboard/' + leadId + '/pd-list']);
+      } else {
+        this.toasterService.showError(response.Error, '');
+
+      }
+    });
   }
 
 }

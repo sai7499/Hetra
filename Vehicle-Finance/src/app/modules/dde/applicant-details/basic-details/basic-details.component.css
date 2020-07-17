@@ -36,3 +36,10 @@ kendo-datepicker{
 .col-sm-7 button{
     margin-left: 2px;
 }
+.ShowError{
+  font-size: 1.2vw;
+  font-family: zurich-bold;
+  letter-spacing: 0.5px;
+  color: red;
+  padding-top: 0.5vw;
+}

@@ -86,42 +86,7 @@ export class AddressDetailsComponent implements OnInit {
 
   isOfficeAddressMandatory: boolean;
 
-  maxLenght40 = {
-    rule: 40,
-  };
-  pincodePattern = {
-    rule: '^[1-9][0-9]{5}$',
-    msg: 'Pincode Must be 6 Digits',
-  };
-  pincodeLength = {
-    rule: 6,
-    msg: 'Should be 6 digit',
-  };
-  mobilePattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  };
-  mobileLength10 = {
-    rule: 10,
-    msg : 'Should be Valid'
-  };
-  landlinePattern = {
-    rule: '^[0-9]{6,15}',
-    msg: 'Invalid Number',
-  };
-  landlineLength15 = {
-    rule: 15,
-  };
-
-  currentStayMaxLength = {
-    rule: 2,
-  };
-
-  currentStayPattern = {
-    rule: '^[0-9]*$',
-    msg: 'Invalid',
-  };
-
+  
   constructor(
     private lovData: LovDataService,
     private labelsData: LabelsService,
@@ -324,6 +289,7 @@ export class AddressDetailsComponent implements OnInit {
       .subscribe((value) => {
         if (id == 'permanantPincode') {
           this.permanantPincode = value;
+         this.addressValidations.get('permanantAddress').get('city').setValidators(Validators.required)
           return;
         }
         if (id == 'currentPincode') {
@@ -455,7 +421,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   setAddressData() {
-    this.isIndividual = this.address.applicantDetails.entity === 'Individual';
+    this.isIndividual = this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     // this.clearFormArray();
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
@@ -666,8 +632,10 @@ export class AddressDetailsComponent implements OnInit {
     const addressObj = this.getAddressObj();
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
-    this.registeredPincode = {
+    const registeredAddressObj =  addressObj[Constant.REGISTER_ADDRESS] ;
+    console.log('resg obj', registeredAddressObj)
+    if(registeredAddressObj){
+    this.registeredPincode =  {
       city: [
         {
           key: registeredAddressObj.city,
@@ -699,9 +667,11 @@ export class AddressDetailsComponent implements OnInit {
     registeredAddress.patchValue({
       mobileNumber: registeredAddressObj.mobileNumber,
     });
+  }
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     //const commReplaceObj = valueCheckbox[Constant.COMMUNICATION_ADDRESS]
+  
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -749,10 +719,12 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.patchValue(
         this.setAddressValues(communicationAddressObj)
       );
-    } else {
+    }
+     else {
       this.onRegAsCommChecked = false;
       const communicationAddressObj =
         addressObj[Constant.COMMUNICATION_ADDRESS];
+      if(communicationAddressObj){  
       this.communicationPincode = {
         city: [
           {
@@ -784,6 +756,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.patchValue(
         this.setAddressValues(communicationAddressObj)
       );
+    }
     }
 
     // }
@@ -1059,7 +1032,7 @@ export class AddressDetailsComponent implements OnInit {
   }
   storeNonIndividualValueInService(value) {
     const applicantDetails: ApplicantDetails = {};
-    // applicantDetails.entityType = value.entity;
+    applicantDetails.entityType = value.entity;
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const registeredAddressObject = value.details[0].registeredAddress;
     this.addressDetailsDataArray = [];

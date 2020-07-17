@@ -22,6 +22,7 @@ export class MakerLeadsWithCpcComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  isLoadLead: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -58,6 +59,11 @@ export class MakerLeadsWithCpcComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 

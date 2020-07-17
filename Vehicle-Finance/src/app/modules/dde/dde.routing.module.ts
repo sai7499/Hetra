@@ -10,7 +10,6 @@ import { ExposureDetailsComponent } from './exposure-details/exposure-details.co
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
 import { FlReportComponent } from './fl-report/fl-report.component';
-import { PdReportComponent } from './pd-report/pd-report.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
@@ -20,7 +19,10 @@ import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SourcingDetailsComponent } from '@modules/lead-section/sourcing-details/sourcing-details.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
-import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
+// import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
+import { CibilOdComponent } from './cibil-od/cibil-od.component';
+import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
+import { PdListComponent } from './pd-list/pd-list.component';
 
 const routes: Routes = [
   {
@@ -69,8 +71,8 @@ const routes: Routes = [
         component: InsuranceDetailsComponent,
       },
       {
-        path: 'pd-report',
-        component: PdReportComponent,
+        path: 'pd-list',
+        component: PdListComponent,
       },
       {
         path: 'vehicle-valuation',
@@ -96,21 +98,26 @@ const routes: Routes = [
         path: 'score-card',
         component: ScoreCardComponent,
       },
+      // {
+      //   path: 'credit-conditions',
+      //   component: CreditConditionsComponent,
+      // },
+
       {
-        path: 'credit-conditions',
-        component: CreditConditionsComponent,
+        path: 'viability-list',
+        component: ViabilityListComponent,
       },
       {
         path: 'deviations',
         component: DeviationsComponent,
       },
       {
-        path: 'viability-dashboard',
-        component: ViabilityListComponent,
+        path: 'cibil-od',
+        component: CibilOdComponent,
       },
       {
-        path: 'viability-details',
-        component: ViabilityDetailsComponent,
+        path: 'cibil-od-list',
+        component: CibilOdListComponent,
       },
     ],
   },
@@ -120,4 +127,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DdeRoutingModule {}
+export class DdeRoutingModule { }

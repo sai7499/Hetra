@@ -1,9 +1,8 @@
 <div class="multisteps-form__form">
-    <h4 class="title"><b>{{ roleName === 'Sales Officer' ? label.vehcileDetailsTitle : '' }}</b></h4>
+    <h4 class="title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
         <button class="btn mar-right8 btn-primary" type="button"
-            [routerLink]="roleName === 'Sales Officer' ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
-        <!--  [ngClass]="roleName === 'Sales Officer' ? 'btn-primary' : 'btn-secondary'" -->
+            [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div class="table-responsive">
         <table class="table" id="add_vhd_table">
@@ -37,10 +36,10 @@
                     <td data-title="Action">
 
                         <a
-                            (click)="roleName === 'Sales Officer' ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"><i
-                                class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                            (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"><i
+                                class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>&nbsp;
                         <a data-toggle="modal" data-target="#exampleModal"
-                            (click)="softDeleteCollateral(i, item.collateralId)"><i class="fa fa-trash"
+                            (click)="softDeleteCollateral(i, item.collateralId)"><i class="fa fa-trash cursor-pointer"
                                 aria-hidden="true"></i></a>
                     </td>
                 </tr>

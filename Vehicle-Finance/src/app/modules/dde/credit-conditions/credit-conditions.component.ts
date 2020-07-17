@@ -16,7 +16,7 @@ export class CreditConditionsComponent implements OnInit {
   differDateField: boolean = true;
   creditConditionForm: FormGroup;
   leadId;
-  userType: string = "";
+  userType: number;
   creditConditions: any;
   roleAndUserDetails: any;
   userId;
@@ -34,11 +34,10 @@ export class CreditConditionsComponent implements OnInit {
     this.formArr.push(this.getcreditConditionControls())
   }
   removeOtherIndex(index, credit) {
-    if (this.formArr.length > 1) {
       // console.log("inside del fun", fleets)
 
       // console.log("vehicleId", fleets[index].id)
-      if (credit.length > 1 && this.creditConditions && this.creditConditions[index].creditId) {
+      if (credit.length >= 1 && this.creditConditions && this.creditConditions[index].creditId) {
         const data = {
           creditId: this.creditConditions[index].creditId,
           "userId": this.userId
@@ -50,10 +49,7 @@ export class CreditConditionsComponent implements OnInit {
       this.formArr.removeAt(index);
       this.toasterService.showSuccess("Credit condition deleted successfully!", '')
 
-    } else {
-      this.toasterService.showError("atleast one row required !", '')
-
-    }
+    
 
   }
   getLeadId() {
@@ -84,24 +80,24 @@ export class CreditConditionsComponent implements OnInit {
     }
   }
   getcreditConditionControls() {
-    if (this.userType == "Credit Officer") {
+    if (this.userType == 2) {
       return this.formBuilder.group({
         creditId: new FormControl(''),
         creditCondition: new FormControl({ value: '', disabled: false }),
         salesResponse: new FormControl({ value: '', disabled: true }),
-        salesResponseDoc: new FormControl(),
+        
         isDocReq: new FormControl(),
         creditAction: new FormControl(""),
-        defferedDate: new FormControl("")
+        defferedDate: new FormControl()
       });
     } else {
       return this.formBuilder.group({
         creditCondition: new FormControl({ value: "", disabled: true }),
         salesResponse: new FormControl({ value: "", disabled: false }),
-        salesResponseDoc: new FormControl(),
-        isDocReq: new FormControl(),
+        creditId: new FormControl(''),
+        isDocReq: new FormControl({value: '', disabled:true}),
         creditAction: new FormControl(""),
-        defferedDate: new FormControl("")
+        defferedDate: new FormControl()
       });
     }
 
@@ -115,7 +111,8 @@ export class CreditConditionsComponent implements OnInit {
   }
   getCreditConditions() {
     const data = {
-      leadId: this.leadId
+      "userId":this.userId,
+      "leadId":this.leadId,
     }
     this.creditConditionService.getCreditConditions(data).subscribe(res => {
       console.log(res);
@@ -125,12 +122,12 @@ export class CreditConditionsComponent implements OnInit {
         for (let i = 0; i < creditConditions.length; i++) {
 
           this.formArr.push(this.getcreditConditionControls())
-          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : " ";
-          if (!creditConditions[i]['salesResponseDoc']) {
-            creditConditions[i]['salesResponseDoc'] = '';
+          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : "";
+          // if (!creditConditions[i]['salesResponseDoc']) {
+          //   creditConditions[i]['salesResponseDoc'] = '';
 
-          }
-          
+          // }
+          // creditConditions[i]['creditAction']  = creditConditions[i]['creditAction'] ? creditConditions[i]['creditAction'] : '2';
         }
         this.formArr.setValue(creditConditions);
       } else {
@@ -162,24 +159,40 @@ export class CreditConditionsComponent implements OnInit {
 
   }
   saveUpdate() {
-    let creditConditionDetails = this.creditConditionForm.value['Rows'];
-    for(let i=0 ; i< creditConditionDetails.length ; i++){
-      if(creditConditionDetails[i].defferedDate != ''){
-        creditConditionDetails[i].defferedDate = this.sendDate(creditConditionDetails[i].defferedDate)
+    if(this.formArr.length >= 1){
+      let creditConditionDetails = this.creditConditionForm.value['Rows'];
+      for(let i=0 ; i< creditConditionDetails.length ; i++){
+        if(this.formArr.controls[i]['controls']['defferedDate'].value != ''){
+          creditConditionDetails[i].defferedDate = this.sendDate(this.formArr.controls[i]['controls']['defferedDate'].value)
+        }
+        // if(creditConditionDetails[i]['creditAction'] == '2'){
+        //   creditConditionDetails[i]['creditAction'] = null;
+        // }
+        if(!creditConditionDetails[i]['salesResponse']){
+         creditConditionDetails[i]['salesResponse'] = '';
+        }
+        if(creditConditionDetails[i]['creditId'] == ""){
+          creditConditionDetails[i]['creditId'] = null;
+        }
+        console.log(this.formArr)
+        creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
+        
       }
-      console.log(this.formArr)
-      creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
-      
+      let data = {
+        "userId":this.userId,
+        "leadId":this.leadId,
+        "creditConditionDetails": creditConditionDetails
+      }
+      this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {
+        console.log(res);
+        if(res['ProcessVariables'].error['code'] == 0){
+          this.toasterService.showSuccess("Credit condition Saved successfully!", '')
+  
+        }
+  
+      })
     }
-    let data = {
-      "userId": this.userId,
-      "leadId": this.leadId,
-      "creditConditionDetails": creditConditionDetails
-    }
-    this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {
-      console.log(res);
-
-    })
+   
   }
   async ngOnInit() {
     this.getLabelData();
@@ -187,7 +200,7 @@ export class CreditConditionsComponent implements OnInit {
     console.log(this.roleAndUserDetails)
     if (this.roleAndUserDetails) {
       this.userId = this.roleAndUserDetails['userDetails'].userId;
-      this.userType = this.roleAndUserDetails['roles'][0].name;
+      this.userType = this.roleAndUserDetails['roles'][0].roleType;
     }
     this.leadId = (await this.getLeadId()) as number;
     this.creditConditionForm = this.formBuilder.group({

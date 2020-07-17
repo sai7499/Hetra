@@ -35,10 +35,10 @@ export class TrackVehicleComponent implements OnInit {
   public trackVehicleForm: FormGroup;
   leadId: number;
   isDirty: boolean;
-  focusedDate: Date = new Date();
+  focusedDate: any;
   maturedDate: Date = new Date();
   validationData: any;
-
+  dateExceeded : boolean = false;
   // regexPattern = {
   //   amount: {
   //     rule: "^[1-9][0-9]*$",
@@ -244,19 +244,22 @@ export class TrackVehicleComponent implements OnInit {
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = new Date(year + '/' + month1 + '/' + day);
-    this.focusedDate = formattedDate;
+   this.focusedDate.push(formattedDate);
     return formattedDate;
   }
   loanStartDate(event) {
     //  const confirmed = confirm("Are you sure to loan start date");
     // if (confirmed) {
-    this.loanEmiDate = this.dateDbFormat(event)
+      this.focusedDate = []
+    this.loanEmiDate = this.dateDbFormat(event);
+    this.focusedDate.push(event)
     this.formArr.controls = [];
     let addDueDate = this.dateDbFormat(event);
     this.maturedDate = event
     if (this.fleetRtrDetails && this.fleetRtrDetails.length != 0) {
       for (let i = 0; i < this.fleetRtrDetails.length; i++) {
         if (i < this.fleetRtrDetails.length) {
+
           if (i == 0) {
             this.fleetRtrDetails[i].dueDate = addDueDate;
             if (this.fleetRtrDetails[i]['receivedDate'] != "") {
@@ -268,6 +271,7 @@ export class TrackVehicleComponent implements OnInit {
             let addDueDate2 = this.addMonth(addDueDate, i)
             this.fleetRtrDetails[i].dueDate = addDueDate2;
             this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+            this.focusedDate.push(addDueDate2) 
             this.addNewRow(this.fleetRtrDetails[i]);
           }
         } else {
@@ -391,19 +395,23 @@ export class TrackVehicleComponent implements OnInit {
         if (installments) {
           noOfEmi = installments.length;
           this.fleetRtrDetails = res['ProcessVariables'].installment;
+          this.focusedDate = []
           for (let i = 0; i < this.fleetRtrDetails.length; i++) {
 
             if (i < installments.length) {
               if (i == 0) {
                 installments[i]['dueDate'] = this.getDateFormat(installments[i]['dueDate'])
                 installments[i]['receivedDate'] = this.getDateFormat(installments[i]['receivedDate'])
-
+                this.focusedDate.push(installments[i]['receivedDate']);
+                console.log(this.focusedDate);
                 this.formArr.push(this.initRows(installments[i]));
               }
               else {
                 installments[i]['dueDate'] = this.getDateFormat(installments[i]['dueDate'])
                 installments[i]['receivedDate'] = this.getDateFormat(installments[i]['receivedDate'])
+                this.focusedDate.push(installments[i]['receivedDate']);
                 this.addNewRow(installments[i]);
+
               }
             } else {
               let rowData = {
@@ -426,24 +434,42 @@ export class TrackVehicleComponent implements OnInit {
     this.fleetRtrDetails[i] = { 'receiptNo': event.target.value };
   }
   delayDays(event, i, rowData) {
-    console.log(event);
-    const dueDate = new Date(this.trackVehicleForm.value['installment'][i]['dueDate']);
-    const recDate = new Date(event);
-    let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
-    this.trackVehicleForm.value['installment'][i]['delayDays'] = delayedDays;
-    rowData.value['payment'] = this.formArr.controls[i]['controls']['payment'].value
-    rowData.value['dueDate'] = this.formArr.controls[i]['controls']['dueDate'].value
+    console.log(rowData['receivedDate'])
+    if(rowData['controls']['receivedDate'] && rowData['controls']['receivedDate'].status != "INVALID"){
+      console.log( rowData.value['receivedDate']);
+      this.dateExceeded = false;
+      const dueDate = new Date(this.trackVehicleForm.value['installment'][i]['dueDate']);
+      const recDate = new Date(rowData.value['receivedDate']);
+      let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+      this.trackVehicleForm.value['installment'][i]['delayDays'] = delayedDays;
+      rowData.value['payment'] = this.formArr.controls[i]['controls']['payment'].value
+      rowData.value['dueDate'] = this.formArr.controls[i]['controls']['dueDate'].value
+  
+      rowData.value['delayDays'] = delayedDays;
+  
+      this.fleetRtrDetails[i] = {
+        'receivedDate': this.dateDbFormat(rowData.value['receivedDate']),
+        "delayDays": delayedDays
+      }
+      //  this.fleetRtrDetails[i]['delayDays'] = delayedDays
+  
+      this.formArr['controls'].splice(i, 1, this.initRows(rowData.value))
+      // totaldelay days
+     this.delayDaysCalc();
 
-    rowData.value['delayDays'] = delayedDays;
-
-    this.fleetRtrDetails[i] = {
-      'receivedDate': this.dateDbFormat(event),
-      "delayDays": delayedDays
+    } else{
+      console.log(rowData['receivedDate'])
+      this.dateExceeded = true;
     }
-    //  this.fleetRtrDetails[i]['delayDays'] = delayedDays
 
-    this.formArr['controls'].splice(i, 1, this.initRows(rowData.value))
-    // totaldelay days
+    //  this.fleetRtrForm(this.fleetDetails);
+  }
+  dateDiff(d1, d2) {
+    const dueDate = new Date(d1);
+    const recDate = new Date(d2);
+    return (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+  }
+  delayDaysCalc(){
     this.totalDelayDays = 0;
     let allDelayDays = []
     for (let i = 0; i < this.formArr.length; i++) {
@@ -456,27 +482,23 @@ export class TrackVehicleComponent implements OnInit {
     this.trackVehicleForm.get("peakDelay").setValue(peakDelay)
     this.trackVehicleForm.get("avgDelay").setValue(avgDelay)
     this.trackVehicleForm.get("totalDelay").setValue(this.totalDelayDays)
-    //  this.fleetRtrForm(this.fleetDetails);
+    
   }
-  dateDiff(d1, d2) {
-    const dueDate = new Date(d1);
-    const recDate = new Date(d2);
-    return (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
-  }
+
   paymentExcessOrShort(event, index) {
     let toalExcess = 0;
     let installmentAmount = 0;
     let receivedAmt = 0;
     if(this.formArr.controls[index]['controls']['receivedAmt'].value && this.formArr.controls[index]['controls']['receivedAmt'].value != '' ){
       if (this.fleetRtrDetails) {
-        if (event != null && index < this.fleetRtrDetails.length) {
+        if (this.formArr.controls[index]['controls']['receivedAmt'].value != null && index < this.fleetRtrDetails.length) {
           this.fleetRtrDetails[index].installmentAmt = parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value);
           this.fleetRtrDetails[index].dueDate = this.dateDbFormat(this.formArr.controls[index]['controls']['dueDate'].value)
           this.fleetRtrDetails[index].receiptNo = this.formArr.controls[index]['controls']['receiptNo'].value
           this.fleetRtrDetails[index].receivedAmt = parseInt(this.formArr.controls[index]['controls']['receivedAmt'].value);
-        } else if (event != null && index >= this.fleetRtrDetails.length) {
+        } else if (this.formArr.controls[index]['controls']['receivedAmt'].value != null && index >= this.fleetRtrDetails.length) {
           this.fleetRtrDetails.push({
-            'receivedAmt': parseInt(event.target['value']),
+            'receivedAmt': parseInt(this.formArr.controls[index]['controls']['receivedAmt'].value),
             'installmentAmt': parseInt(this.formArr.controls[index]['controls']['installmentAmt'].value),
           })
         }
@@ -494,36 +516,40 @@ export class TrackVehicleComponent implements OnInit {
         //     this.fleetRtrDetails[0]['paymentExcess'] = receivedAmt - installmentAmount;
         this.formArr.push(this.initRows(this.fleetRtrDetails[0]));
       }
-  
-      this.formArr.controls = [];
-      let totalAmount = 0;
-      for (let i = 0; i < this.fleetRtrDetails.length; i++) {
-        if (i < this.fleetRtrDetails.length) {
-          installmentAmount = installmentAmount + parseInt(this.fleetRtrDetails[i].installmentAmt);
-          if (this.fleetRtrDetails[i].receivedAmt) {
-            receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
-            toalExcess = receivedAmt - installmentAmount;
-            this.fleetRtrDetails[i].payment = toalExcess;
-            totalAmount = receivedAmt;
-          }
-          if (i == 0) {
-            this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
-          }
-          else {
-            this.addNewRow(this.fleetRtrDetails[i]);
-          }
-        } else {
-          let rowData = {
-            // installmentAmt: this.trackVehicleForm.value['emiAmount'],
-            dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
-          }
-          this.formArr.push(this.initRows(rowData));
-        }
-  
-      }
-      this.trackVehicleForm.get('totalAmtPaid').setValue(totalAmount)
+      this.paymentCalc(installmentAmount , receivedAmt);
     }
     else{ }
+  }
+  paymentCalc(installmentAmount , receivedAmt){
+    
+    this.formArr.controls = [];
+    let totalAmount = 0;
+    let toalExcess = 0 ;
+    for (let i = 0; i < this.fleetRtrDetails.length; i++) {
+      if (i < this.fleetRtrDetails.length) {
+        installmentAmount = installmentAmount + parseInt(this.fleetRtrDetails[i].installmentAmt);
+        if (this.fleetRtrDetails[i].receivedAmt) {
+          receivedAmt = receivedAmt + parseInt(this.fleetRtrDetails[i].receivedAmt);
+          toalExcess = receivedAmt - installmentAmount;
+          this.fleetRtrDetails[i].payment = toalExcess;
+          totalAmount = receivedAmt;
+        }
+        if (i == 0) {
+          this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
+        }
+        else {
+          this.addNewRow(this.fleetRtrDetails[i]);
+        }
+      } else {
+        let rowData = {
+          // installmentAmt: this.trackVehicleForm.value['emiAmount'],
+          dueDate: this.getDateFormat(this.trackVehicleForm.value['loanStartDate'])
+        }
+        this.formArr.push(this.initRows(rowData));
+      }
+
+    }
+    this.trackVehicleForm.get('totalAmtPaid').setValue(totalAmount)
   }
   getDateFormat(date) {
     if (date) {
@@ -588,8 +614,9 @@ export class TrackVehicleComponent implements OnInit {
     if (rowData) {
       this.formArr.push(this.initRows(rowData));
     } else {
-      let intialDate = this.dateDbFormat(this.trackVehicleForm.controls['loanStartDate'].value);
-      let duedate = this.addMonth(intialDate, this.formArr.length);
+      console.log(this.formArr['controls'][this.formArr.length -1]['controls']['dueDate'].value)
+      let intialDate = this.dateDbFormat(this.formArr['controls'][this.formArr.length -1]['controls']['dueDate'].value);
+      let duedate = this.addMonth(intialDate, 1);
       rowData = {
         'dueDate': duedate
       }
@@ -603,15 +630,23 @@ export class TrackVehicleComponent implements OnInit {
     console.log(item)
     if (this.trackVehicleForm.get('installment')['controls'].length > 1) {
       if (item.value['id'] != null || item.value['id'] != undefined) {
-        console.log(item.value);
+     //   console.log(item.value);
         this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res) => {
           console.log(res);
           this.formArr.removeAt(index);
+          this.fleetRtrDetails.splice(index , 1)
+        this.paymentCalc(0 , 0);
+        this.delayDaysCalc();
           this.toasterService.showSuccess('Instalment deleted successfully!', '');
 
         })
+       // this.formArr.removeAt(index);
       } else {
-        this.formArr.removeAt(index);
+         this.formArr.removeAt(index);
+        this.fleetRtrDetails.splice(index , 1)
+        this.paymentCalc(0 , 0);
+        this.delayDaysCalc();
+
       }
     } else {
       this.toasterService.showError("At least one row required !", '')

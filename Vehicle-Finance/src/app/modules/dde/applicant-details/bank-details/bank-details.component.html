@@ -58,7 +58,7 @@
                        placeholder="Select Start Month"
                       [activeView]="'decade'"
                       (valueChange)="getMonths()"
-                      [max]="toDayDate"
+                      [max]="todayDateNew"
                       ></kendo-datepicker>
                    </div>
                 </div>
@@ -74,11 +74,12 @@
                          disabled>
                    </div> -->
                    <kendo-datepicker class="form-control" 
-                   formControlName="toDate" [format]="'dd/MM/yyyy'"
+                   formControlName="toDate" 
+                   [format]="'dd/MM/yyyy'"
                    [max]="toDayDate"
-                    placeholder="Select Latest Month"
+                   placeholder="Select Latest Month"
                    [activeView]="'decade'"
-                   (valueChange)="getMonths()"
+                   (valueChange)="setToDateMax()"
                    ></kendo-datepicker>
                 </div>
              </div>
@@ -94,8 +95,8 @@
                 <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
-                [maxLength]="labels?.validationData?.amount?.maxLength"
-                [type]="labels?.validationData?.amount?.type"
+                [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                [type]="labels?.validationData?.amountValue?.type"
                
                 [isDirty]="isDirty"
               ></app-custom-input>
@@ -143,18 +144,19 @@
               <tbody  formArrayName="transactionDetails">
               <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index " [formGroupName]="i">
                   <td >
-                      <input class="form-control" formControlName = "month" value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" disabled > 
+                      <input class="form-control" formControlName = "month"  disabled > 
+                      <!-- value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" -->
                   </td>
                   <td>
                       <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="inflow"> -->
                       <app-custom-input
                       formControlName="inflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                   </td>
                   <td>
@@ -162,12 +164,11 @@
                       <app-custom-input
                       formControlName="outflow"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
-                      
-                      [type]="'number'"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                   </td>
                   <td>
@@ -176,10 +177,11 @@
                     <app-custom-input
                     formControlName="noOfInWardBounces"
                     [patternCheck]="inputValidation"
-                    [maxLength]="labels?.validationData?.amount?.maxLength"
-                    [type]="labels?.validationData?.amount?.type"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type"
                     [isRequired]="'*required'"
                     [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "
                   ></app-custom-input> 
                 </td>
                   <td>
@@ -187,10 +189,11 @@
                       <app-custom-input
                       formControlName="noOfOutWardBounces"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
+                      (keyup)="savetransactionData() "
                     ></app-custom-input>
                     </td>
                   <td>
@@ -198,8 +201,8 @@
                       <app-custom-input
                       formControlName="balanceOn5th"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -210,8 +213,8 @@
                       <app-custom-input
                       formControlName="balanceOn15th"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
@@ -222,8 +225,8 @@
                       <app-custom-input
                       formControlName="balanceOn20th"
                       [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amount?.maxLength"
-                      [type]="labels?.validationData?.amount?.type"
+                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [isRequired]="'*required'"
                       [isDirty]="isDirty"
                       (keyup)="calculateAbb(i)"
