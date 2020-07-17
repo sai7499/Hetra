@@ -193,42 +193,45 @@ export class CreditConditionsComponent implements OnInit {
     }
    
   }
-  approveCreditCondition(){
-    let data = {
+  approveRejectDeclineCreditCondition(data){
+    let reject;
+    let approve;
+    switch(data) {
+      case 'approved':
+        {
+          approve = true;
+          reject= false;
+        }
+        break;
+      case 'rejected':
+        {
+          approve = false;
+          reject= true;
+        }
+        break;
+      case 'declined':
+      {
+        approve = false;
+        reject= false;
+      }
+      break;
+      default:
+        // code block
+    }
+    let processData = {
       "userId":this.userId,
       "leadId":this.leadId,
+      "isReject" : reject,
+      "isApprove" : approve
     }
-    this.creditConditionService.approveCreditConditions(data).subscribe(res=> {
+      this.creditConditionService.approveRejectDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Credit condition Approved successfully!", '')
+        this.toasterService.showSuccess("Credit condition " + data + " successfully!", '')
       }
     })
   }
-  rejectCreditCondition(){
-    let data = {
-      "userId":this.userId,
-      "leadId":this.leadId,
-    }
-    this.creditConditionService.rejectCreditConditions(data).subscribe(res=> {
-      console.log(res);
-      if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Credit condition Rejected successfully!", '')
-      }
-    })
-  }
-  declineCreditCondition(){
-    let data = {
-      "userId":this.userId,
-      "leadId":this.leadId,
-    }
-    this.creditConditionService.declinedCreditConditions(data).subscribe(res=> {
-      console.log(res);
-      if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Credit condition Declined successfully!", '')
-      }
-    })
-  }
+  
   async ngOnInit() {
     this.getLabelData();
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();

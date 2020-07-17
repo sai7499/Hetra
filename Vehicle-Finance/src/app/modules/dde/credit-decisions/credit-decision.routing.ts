@@ -7,7 +7,7 @@ import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.
  import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
-
+ 
 const routes: Routes = [
     {
         path: ':leadId',
