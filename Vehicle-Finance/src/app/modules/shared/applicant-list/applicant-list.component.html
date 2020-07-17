@@ -56,13 +56,13 @@
               <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td>
                 <a (click)="navigatePage(item.applicantId)"
-                  ><i class="fa fa-pencil" aria-hidden="true"></i
+                  ><i title="Edit" class="fa fa-pencil" aria-hidden="true"></i
                 ></a>
                 &nbsp;&nbsp;<a
                   data-toggle="modal"
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
-                  ><i class="fa fa-trash" aria-hidden="true"></i
+                  ><i title="Delete" class="fa fa-trash" aria-hidden="true"></i
                 ></a>
               </td>
             </tr>
