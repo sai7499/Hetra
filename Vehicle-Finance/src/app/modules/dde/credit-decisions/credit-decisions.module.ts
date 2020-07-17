@@ -4,15 +4,19 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../shared/shared.module';
 import { DdeSharedModule } from '../shared/shared.module';
+import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.component';
 import {CreditDecisionRouterModule} from './credit-decision.routing';
 import {CreditDecisionComponent} from './credit-decision.component';
-import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.component';
-import { SanctionDetailsComponent } from './sanction-details/sanction-details.component'
+import {TermSheetComponent} from './term-sheet/term-sheet.component';
+import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
+import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component'
 @NgModule({
   declarations: [
     CreditDecisionComponent,
+    TermSheetComponent,
     CreditConditionsComponent,
-    SanctionDetailsComponent
+    SanctionDetailsComponent,
+    CustomerFeedbackComponent
   ],
   imports: [
     CommonModule,

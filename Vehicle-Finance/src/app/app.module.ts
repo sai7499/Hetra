@@ -53,6 +53,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { NumberOnlyDirective } from './services/directives/number-only.directive';
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
+import { CanActivateService } from '@services/can-activate.service';
 
 setTheme('bs4');
 
@@ -119,6 +120,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     File,
     FileTransfer,
     FileTransferObject,
+    CanActivateService
   ],
   
 
