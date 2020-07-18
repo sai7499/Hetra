@@ -149,13 +149,13 @@
                   </ng-container>
                   <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
                   <td>
-                    <i
+                    <i title="Edit"
                       (click)="editApplicant(item.applicantId)"
                       class="fa fa-pencil"
                       aria-hidden="true"
                     ></i
                     >&nbsp;&nbsp;<a data-toggle="modal" data-target="#myModal"
-                      ><i
+                      ><i title="Delete"
                         class="fa fa-trash"
                         aria-hidden="true"
                         (click)="softDeleteApplicant(i, item.applicantId)"

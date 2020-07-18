@@ -1037,6 +1037,20 @@
     "paymentType": "PAYMENT TYPE:",
     "payeeName": "PAYEE NAME:",
     "paymentAmount": "PAYMENT AMOUNT:",
+    "monthlyIncomeAmount" : "Monthly Income Amount",
+    "annualIncomeAmount" : "Annual Income Amount",
+    "ownHouseProofAvail" : "Own House Proof Available?",
+    "houseOwnerProperty" : "Owner of the Property",
+    "ownHouseAppRelationship" : "Relationship with the Applicant ",
+    "averageBankBalance" : "Average Bank Balance",
+    "rtrType" : "RTR Type",
+    "prevLoanAmount": "Previous Loan Amount",
+    "loanTenorServiced" : "Loan Tenor Service(in months)",
+    "currentEMILoan" : "EMI of the Current Loan",
+    "agriNoOfAcres": "Agri(No of Acres)",
+    "grossReceipt" : "Gross Receipt",
+
+
 
     "validationData": {
         "name": {

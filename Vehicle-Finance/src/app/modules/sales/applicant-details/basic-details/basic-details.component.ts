@@ -140,6 +140,7 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
+    
 
   }
 
@@ -321,6 +322,7 @@ export class BasicDetailsComponent implements OnInit {
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+    details.get('age').setValue(this.initialAge);
     this.checkingMinor = this.initialAge < 18;
     details.get('isMinor').setValue(this.checkingMinor);
 
@@ -335,7 +337,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   ageCalculation(event) {
-    console.log('event', event);
+    //console.log('event', event);
     const value = event;
 
     const convertDate = new Date(this.utilityService.getNewDateFormat(value));
@@ -343,20 +345,16 @@ export class BasicDetailsComponent implements OnInit {
     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
     this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
     console.log('showAge', this.showAge);
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('age').setValue(this.showAge)
+    this.checkingMinor = this.showAge < 18;
+    details.get('isMinor').setValue(this.checkingMinor);
 
-    this.basicForm
-      .get('details')
-    ['controls'][0].get('isMinor').value = this.checkingMinor =
-      this.showAge < 18 ? true : false;
-    this.basicForm
-      .get('details')
-    ['controls'][0].get('isSeniorCitizen').value = this.checkingSenior =
-      this.showAge > 70 ? true : false;
+    this.checkingSenior = this.showAge > 70;
+    details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
-    // console.log(this.basicForm.get('details')['controls'][0].get('isMinor').value)
-    // console.log(this.basicForm.get('details')['controls'][0].get('isSeniorCitizen').value)
-
-    //this.checkMinorOrSenior(this.showAge)
+    
 
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
     this.isMinor = this.checkingMinor == true ? '1' : '0';
@@ -386,6 +384,7 @@ export class BasicDetailsComponent implements OnInit {
   setBasicData() {
     this.isIndividual =
       this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
+      
     // this.clearFormArray();
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
@@ -399,6 +398,9 @@ export class BasicDetailsComponent implements OnInit {
       this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
+      this.basicForm.get('bussinessEntityType').clearValidators();
+      this.basicForm.get('bussinessEntityType').updateValueAndValidity();
+
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
@@ -422,21 +424,21 @@ export class BasicDetailsComponent implements OnInit {
       name2: applicantDetails.name2,
       name3: applicantDetails.name3,
 
-      customerCategory: applicantDetails.customerCategory || '',
+      //customerCategory: applicantDetails.customerCategory || '',
       custSegment: applicantDetails.custSegment || '',
-      monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount ||'',
+      monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount,
       annualIncomeAmount:applicantDetails.annualIncomeAmount ,
     
-      houseOwnerProperty:applicantDetails.houseOwnerProperty,
-      ownHouseAppRelationship:applicantDetails.ownHouseAppRelationship,
+      houseOwnerProperty:applicantDetails.houseOwnerProperty ||'',
+      ownHouseAppRelationship:applicantDetails.ownHouseAppRelationship ||'',
       averageBankBalance:applicantDetails.averageBankBalance,
-      rtrType :applicantDetails.rtrType,
+      rtrType :applicantDetails.rtrType ||'',
       prevLoanAmount :applicantDetails.prevLoanAmount,
       loanTenorServiced :applicantDetails.loanTenorServiced,
       currentEMILoan :applicantDetails.currentEMILoan,
       agriNoOfAcres: applicantDetails.agriNoOfAcres,
-      agriOwnerProperty :applicantDetails.agriOwnerProperty,
-      agriAppRelationship :applicantDetails.agriAppRelationship,
+      agriOwnerProperty :applicantDetails.agriOwnerProperty ||'',
+      agriAppRelationship :applicantDetails.agriAppRelationship ||'',
       grossReceipt:applicantDetails.grossReceipt,
     });
   }
@@ -560,7 +562,7 @@ export class BasicDetailsComponent implements OnInit {
     const controls = new FormGroup({
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
-      name3: new FormControl(''),
+      name3: new FormControl('', Validators.required),
       mobilePhone: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       age: new FormControl(''),
@@ -585,7 +587,7 @@ export class BasicDetailsComponent implements OnInit {
       alternateEmailId: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null, Validators.required),
-      customerCategory: new FormControl('', Validators.required),
+      //customerCategory: new FormControl('', Validators.required),
       custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
@@ -788,7 +790,7 @@ export class BasicDetailsComponent implements OnInit {
       value.applicantRelationshipWithLead;
     applicantDetails.title = value.title;
     applicantDetails.entityType = value.entity;
-    applicantDetails.customerCategory = formValue.customerCategory || '';
+    //applicantDetails.customerCategory = formValue.customerCategory || '';
     applicantDetails.custSegment = formValue.custSegment || '';
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
@@ -897,7 +899,7 @@ export class BasicDetailsComponent implements OnInit {
       formValue.preferredLanguageCommunication;
     prospectDetails.contactPersonDesignation =
       formValue.contactPersonDesignation;
-    prospectDetails.numberOfDirectors = Number(formValue.numberOfDirectors);
+    prospectDetails.numberOfDirectors = formValue.numberOfDirectors ? Number(formValue.numberOfDirectors) : 0;
 
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }

@@ -70,7 +70,8 @@
                   <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-custom-input formControlName="name1" [isRequired]="'Name is required'"
+                  <app-custom-input formControlName="name1" 
+                  [isRequired]="applicantType == 'INDIVENTTYP' ?'First Name is required' : 'Name is required'"
                     [maxLength]="validationData?.name?.maxLength" [isDirty]="isDirty"
                     [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"></app-custom-input>
                 </div>
@@ -82,10 +83,15 @@
                     [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'"></app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.lastName }}</label>
+                  <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels?.lastName }}
+                    <sub class="star_red_col">*</sub>
+                  </label>
                   <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
                   </label>
-                  <app-custom-input formControlName="name3" [maxLength]="validationData?.name?.maxLength"
+                  <app-custom-input formControlName="name3" 
+                  [isRequired]="applicantType == 'INDIVENTTYP' ?'Last Name is required' : ''"
+                  [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                  [maxLength]="validationData?.name?.maxLength"
                     [type]="applicantType == 'INDIVENTTYP' ? validationData?.name?.type : 'text'">
                   </app-custom-input>
                 </div>
@@ -173,7 +179,7 @@
               <div class="row">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 "
                   *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
-                  <label for="aadharnumber">Monthly Income Amount
+                  <label for="aadharnumber">{{ labels?.monthlyIncomeAmount }}
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="monthlyIncomeAmount"
                     (keyup)="calculateIncome($event.target.value)"
@@ -186,10 +192,10 @@
 
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 "
                   *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
-                  <label for="aadharnumber">Annual Income Amount
+                  <label for="aadharnumber">{{labels?.annualIncomeAmount}}
                     </label>
                   <app-custom-input formControlName="annualIncomeAmount"
-                  [isRequired]="'Annual Income is Required'" [isDirty]="isDirty"
+                  
                   isDisabled>
                   </app-custom-input>
                 </div>
@@ -203,17 +209,17 @@
                   <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
                     (click)="onOwnHouseAvailable($event)" 
                     [checked]="checkedBoxHouse==true"/>
-                  <span class="is_senior">Own House Proof Available? </span>
+                  <span class="is_senior">{{labels?.ownHouseProofAvail}} </span>
 
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="Vechical Type">Owner of the Property <sub class="star_blue_col">*</sub></label>
+                  <label for="Vechical Type">{{labels?.houseOwnerProperty}}<sub class="star_blue_col">*</sub></label>
                   <app-vf-custom-select [values]="ownerPropertyRelation"
                     formControlName="houseOwnerProperty"  [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="Vechical Type">Relationship with Applicant <sub class="star_blue_col">*</sub></label>
+                  <label for="Vechical Type">{{labels?.ownHouseAppRelationship}}<sub class="star_blue_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.applicantRelationshipWithLead"
                     formControlName="ownHouseAppRelationship" 
                      
@@ -223,33 +229,41 @@
               </div>
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">Average Bank Balance
+                  <label for="aadharnumber">{{labels?.averageBankBalance}}
                     </label>
-                  <app-custom-input formControlName="averageBankBalance">
+                  <app-custom-input formControlName="averageBankBalance"
+                  [maxLength]="validationData?.amountValue.maxLength" 
+                    [type]="validationData?.amountValue.type">
                   </app-custom-input>
                 </div>
               </div>
 
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="Vechical Type">RTR Type<sub class="star_red_col">*</sub></label>
+                  <label for="Vechical Type">{{labels?.rtrType}}<sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.typeOfLoan"
                     formControlName="rtrType" 
                     [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">Previous Loan Amount
+                  <label for="aadharnumber">{{labels?.prevLoanAmount}}
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="prevLoanAmount"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [maxLength]="validationData?.amountValue.maxLength" 
+                    [type]="validationData?.amountValue.type"
+                    [isRequired]="'Previous Loan Amount is Required'" 
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">Loan Tenor Service(in months)
+                  <label for="aadharnumber">{{labels?.loanTenorServiced}}
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="loanTenorServiced"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [maxLength]="validationData?.creditRiskScore.maxLength" 
+                  [type]="validationData?.creditRiskScore.type"
+                  [isRequired]="'Loan Tenor Service is Required'" 
+                  [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
 
@@ -258,29 +272,36 @@
 
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">EMI of the Current Loan
+                  <label for="aadharnumber">{{labels?.currentEMILoan}}
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="currentEMILoan"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [maxLength]="validationData?.amountValue.maxLength" 
+                    [type]="validationData?.amountValue.type"
+                    [isRequired]="'EMI of the Current Loan is Required'" 
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
               </div>
 
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='29'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">Agri(No of Acres)
+                  <label for="aadharnumber">{{labels?.agriNoOfAcres}}
                     <sub class="star_red_col">*</sub></label>
-                  <app-custom-input formControlName="agriNoOfAcres">
+                  <app-custom-input formControlName="agriNoOfAcres"
+                  [maxLength]="validationData?.creditRiskScore.maxLength" 
+                    [type]="validationData?.creditRiskScore.type"
+                    [isRequired]="'Agri(No of Acres) is Required'" 
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="Vechical Type">Owner of the Property<sub class="star_red_col">*</sub></label>
+                  <label for="Vechical Type">{{labels?.houseOwnerProperty}}<sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="ownerPropertyRelation"
                     formControlName="agriOwnerProperty" [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                  <label for="Vechical Type">Relationship with Applicant<sub class="star_red_col">*</sub></label>
+                  <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.applicantRelationshipWithLead"
                     formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
@@ -290,9 +311,12 @@
 
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='30'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">Gross Receipt
+                  <label for="aadharnumber">{{labels?.grossReceipt}}
                     <sub class="star_red_col">*</sub></label>
-                  <app-custom-input formControlName="grossReceipt">
+                  <app-custom-input formControlName="grossReceipt"
+                  
+                    [isRequired]="'Gross Receipt is Required'" 
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
               </div>
@@ -381,7 +405,7 @@
                     [(ngModel)]="drivingLicenseIssueDate" (ngModelChange)="dateSelected()"
                     placeholder="Driving License Issue Date">
                   </kendo-datepicker>
-                  <div class="ShowError" *ngIf="
+                  <div class="ShowError" *ngIf=" !drivingLicenseIssueDate && 
                       mandatory['drivingLicenseIssueDate'] &&
                       (isDirty ||
                         coApplicantForm
@@ -428,7 +452,7 @@
                     [(ngModel)]="drivingLicenseExpiryDate" (ngModelChange)="expiryDateSelected()"
                     placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
-                  <div class="ShowError" *ngIf="
+                  <div class="ShowError" *ngIf="!drivingLicenseExpiryDate &&
                       mandatory['drivingLicenseExpiryDate'] &&
                       (isDirty ||
                         coApplicantForm
@@ -479,7 +503,7 @@
                     [(ngModel)]="passportIssueDate" (ngModelChange)="passportDateSelected()"
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
-                  <div class="ShowError" *ngIf="
+                  <div class="ShowError" *ngIf=" !passportIssueDate &&
                       passportMandatory['passportIssueDate'] &&
                       (isDirty ||
                         coApplicantForm.get('dedupe').get('passportIssueDate')
@@ -498,7 +522,7 @@
                     [(ngModel)]="passportExpiryDate" (ngModelChange)="passportExpiryDateSelected()"
                     placeholder="Passport Expiry Date">
                   </kendo-datepicker>
-                  <div class="ShowError" *ngIf="
+                  <div class="ShowError" *ngIf=" !passportExpiryDate &&
                       passportMandatory['passportExpiryDate'] &&
                       (isDirty ||
                         coApplicantForm.get('dedupe').get('passportExpiryDate')

@@ -95,6 +95,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isChecked : boolean;
   ownerPropertyRelation: any;
   checkedBoxHouse : boolean;
+  savedChecking : boolean;
 
   values: any = [];
   labels: any = {};
@@ -188,6 +189,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   async ngOnInit() {
     this.initForm();
+    
 
     this.getLOV();
     // if (this.leadId) {
@@ -436,9 +438,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
       'VALID'
     ) {
+      this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.mandatory['drivingLicenseIssueDate'] = true;
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
+      this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').clearValidators();;
+      this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').clearValidators();;
+      this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.mandatory['drivingLicenseIssueDate'] = false;
       this.mandatory['drivingLicenseExpiryDate'] = false;
     }
@@ -453,13 +461,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onPassportNumberChange($formCtrl) {
+    
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
       'VALID'
     ) {
+      this.coApplicantForm.get('dedupe').get('passportIssueDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
+      this.coApplicantForm.get('dedupe').get('passportIssueDate').clearValidators();
+      this.coApplicantForm.get('dedupe').get('passportExpiryDate').clearValidators();
+      this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.passportMandatory['passportIssueDate'] = false;
     }
   }
@@ -670,6 +685,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.applicant = this.applicantDataService.getApplicant();
 
       this.applicantType = this.applicant.applicantDetails.entityTypeKey;
+      if(this.applicantType=="INDIVENTTYP"){
+        this.coApplicantForm.get('dedupe').get('name').setValidators([Validators.required])
+        this.coApplicantForm.get('dedupe').get('name').updateValueAndValidity()
+      }
 
       // if( this.applicant.addressDetails){
       //   this.isAddressSame = this.applicant.addressDetails[0].isCurrAddSameAsPermAdd === '1' ? true :  false;
@@ -1133,13 +1152,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onNext() {
-    if (this.isMobileChanged || !this.applicant.otpVerified) {
+    // if (this.isMobileChanged || !this.applicant.otpVerified) {
+      if(this.savedChecking== true){
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );
-    } else {
-      this.navigateToApplicantList();
-    }
+    } 
+    // else {
+    //   this.navigateToApplicantList();
+    // }
   }
 
   getEntityObject(key: string) {
@@ -1345,6 +1366,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
       if (response.Error === '0') {
+        this.savedChecking= true;
         const message = response.ProcessVariables.error.message;
       }
       const url = this.location.path();
