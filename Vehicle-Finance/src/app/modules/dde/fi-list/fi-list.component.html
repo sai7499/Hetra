@@ -29,13 +29,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>55464</td>
-                                <td>Deepika Malhotra</td>
-                                <td>7894561230</td>
-                                <td>Applicant</td>
-                                <td>Submitted</td>
-                                <td class="cursor-pointer"><u><a class="a_tag" (click)="onClick()">Version -
+                            <tr *ngFor="let item of fiList">
+                                <td>{{item.applicantId}}</td>
+                                <td>{{item.applicantName}}</td>
+                                <td>{{item.mobileNumber}}</td>
+                                <td>{{item.applicantType}}</td>
+                                <td>{{item.pdStatusValue}}</td>
+                                <td><u><a class="a_tag cursor-pointer" (click)="onClick()" title="View/update">Version -
                                           1</a></u></td>
                             </tr>
 

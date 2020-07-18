@@ -24,6 +24,7 @@ export class FiReportComponent implements OnInit {
     private router: Router
   ) {
     this.getLOV();
+    this.isDirty = true;
     this.leadId = this.activatedRoute.snapshot.params.leadId;
     console.log(this.leadId);
   }
