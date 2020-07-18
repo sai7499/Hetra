@@ -8,7 +8,7 @@
       }}
         </caption>
 
-        <tr>
+        <tr  *ngIf="!usedCvCam">
             <td>{{ labels?.leadCreatedBy }}</td>
             <td>{{ basicDetails?.leadCreatedBy }}</td>
             <td>{{ labels?.leadCreatedDate }}</td>
@@ -16,7 +16,7 @@
             <td>{{ labels?.product }}</td>
             <td>{{ basicDetails?.product }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="!usedCvCam">
             <td>{{ labels?.loanAmount }}</td>
             <td>{{ basicDetails?.loanAmount }}</td>
             <td>{{ labels?.applicant }}</td>
@@ -31,11 +31,13 @@
             <td>{{ basicDetails?.customerType }}</td>
             <td>{{ labels?.applicantType }}</td>
             <td>{{ basicDetails?.applicantType }}</td>
+            <td>{{ labels?.entityType }}</td>
+            <td>{{ basicDetails?.entityType }}</td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td>{{ labels?.entityType }}</td>
             <td colspan="5">{{ basicDetails?.entityType }}</td>
-        </tr>
+        </tr> -->
     </table>
     <!--basic table ends here-->
 
@@ -149,8 +151,12 @@
             <tr>
                 <td colspan="2"></td>
                 <td class="readonly">{{ labels?.total }}</td>
-                <td *ngFor="let proposedDetails of proposedVehicleDetails" class="readonly">{{proposedDetails?.total}}</td>
-                <td class="" colspan="4"></td>
+                <!-- <td *ngFor="let proposedDetails of proposedVehicleDetails" class="readonly">{{proposedDetails?.total}}</td> -->
+                <td class="" colspan="">24</td>
+                <td class="" colspan="">324</td>
+                <td class="" colspan="">234</td>
+
+
             </tr>
             <tr>
                 <td colspan="2">{{ labels?.sourceOfMarginMoney }}</td>
@@ -183,9 +189,9 @@
         <tbody>
             <tr *ngFor="let partyToAgreement of partyToAgreement">
                 <td class="bank_name">{{ partyToAgreement?.applicantType }}</td>
-                <td>{{ partyToAgreement?.age }}</td>
-                <td>{{ partyToAgreement?.entity }}</td>
                 <td>{{ partyToAgreement?.name }}</td>
+                <td>{{ partyToAgreement?.entity }}</td>
+                <td>{{ partyToAgreement?.age}}</td>
                 <td>{{ partyToAgreement?.relationship }}</td>
             </tr>
             <tr>
@@ -243,7 +249,7 @@
       }}
         </caption>
 
-        <tbody>
+        <tbody *ngFor="let bankingSummary of bankingSummary">
             <tr>
                 <td class="bank_name">{{ labels?.bankName }}</td>
                 <td>{{ bankingSummary?.bankName }}</td>
@@ -321,7 +327,7 @@
                 <td>{{ labels?.addedInLastOneYr }}</td>
                 <td>{{ labels?.freeAsset }}</td>
                 <td>{{ labels?.ffr }}</td>
-<td></td>
+                <td></td>
 
             </tr>
 
@@ -435,9 +441,9 @@
                 <td>{{trackValidation?.lastTwelveMonthAD}}</td>
                 <td>{{trackValidation?.lastTwelveMonthPD}}</td>
                 <td colspan="2">{{trackValidation?.remarks}}</td>
-               
+
             </tr>
-        
+
             <tr>
                 <td>
                     {{ labels?.anyOtherRemarks }}
@@ -460,9 +466,9 @@
         labels?.keyFinancialTitle
       }}
         </caption>
-      
+
         <tbody>
-            <tr >
+            <tr>
                 <td class="bank_name">{{ labels?.fy }}</td>
                 <!-- <td>{{ labels?.eighteenToNineteen }}</td>
                 <td>{{ labels?.seventeenToEightteen }}</td>
@@ -474,7 +480,7 @@
                 <td class="bank_name">{{ labels?.turnOver }}</td>
 
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
-                <td rowspan="4"></td> 
+                <td rowspan="4"></td>
             </tr>
 
             <tr>
@@ -492,11 +498,11 @@
             <tr>
                 <td class="bank_name">{{ labels?.cashGenerationPbtDep }}</td>
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
-                <td >{{camDetails?.keyFinancialObjAnyOtherRemarks}}</td>
+                <td>{{camDetails?.keyFinancialObjAnyOtherRemarks}}</td>
             </tr>
             <tr>
-               
-                
+
+
             </tr>
         </tbody>
     </table>

@@ -463,7 +463,7 @@ export class ApiService {
     getOdDetails: {
       processId: '3886d4dcc12311ea8cf300505695f93b',
       workflowId: '385b249ac12311eab5a500505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getOdApplicantList:{
       processId: '959c5a74c5b611ea830200505695f93b',

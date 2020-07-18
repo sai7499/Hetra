@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { CamService } from '@services/cam.service';
 import { ActivatedRoute } from '@angular/router';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-cam',
@@ -28,10 +29,14 @@ export class CamComponent implements OnInit {
   cmRecommendation: any;
   acmRecommendation: any;
   ncmBhApprovalRecommendation: any;
+  usedCvCam: boolean;
+  productCategoryName: string;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
+    private createLeadDataService: CreateLeadDataService,
+
   ) { }
 
   ngOnInit() {
@@ -43,10 +48,22 @@ export class CamComponent implements OnInit {
       }
     );
     this.getLeadId();
-    this.getCamDetails();
-  }
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const leadSectionData = leadData as any;
+    console.log('getting lead data...>',leadSectionData);
+    
+    this.productCategoryName = leadSectionData.leadDetails['productCatName'];
+    console.log('getting productCategoryName...>',this.productCategoryName);
 
-  getCamDetails() {
+    // this.getCamUsedCvDetails();
+if(this.productCategoryName == "Used Commercial Vehicle"){
+  this.usedCvCam = true;
+  this.getCamUsedCvDetails();
+}
+
+  }
+  getCamUsedCvDetails() {
+  // this.usedCvCam = true
     const data = {
       leadId: this.leadId,
     };
@@ -69,10 +86,6 @@ export class CamComponent implements OnInit {
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-
-
-
-
 
     })
   }
