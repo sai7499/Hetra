@@ -1537,10 +1537,28 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ).toUpperCase(),
         cstVatNumber: String(applicantDetails.cstVatNumber || '').toUpperCase(),
         applicantId: 0,
+        custSegment: applicantDetails.custSegment || '',
+        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+        averageBankBalance: applicantDetails.averageBankBalance || '',
+        rtrType: applicantDetails.rtrType || '',
+        prevLoanAmount: applicantDetails.prevLoanAmount || '',
+        loanTenorServiced: applicantDetails.loanTenorServiced ? 
+                            Number(applicantDetails.loanTenorServiced):0,
+        currentEMILoan: applicantDetails.currentEMILoan || '',
+        agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres):0,
+        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+        agriAppRelationship: applicantDetails.agriAppRelationship || '',
+        grossReceipt: applicantDetails.grossReceipt ? Number(applicantDetails.grossReceipt):0
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
       }
+
+      
       this.applicantService
         .checkSalesApplicantDedupe(data)
         .subscribe((value: any) => {
@@ -1642,6 +1660,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           applicantDetails.passportExpiryDate
         ),
         applicantId: 0,
+        custSegment: applicantDetails.custSegment || '',
+        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+        averageBankBalance: applicantDetails.averageBankBalance || '',
+        rtrType: applicantDetails.rtrType || '',
+        prevLoanAmount: applicantDetails.prevLoanAmount || '',
+        loanTenorServiced: applicantDetails.loanTenorServiced ? 
+                            Number(applicantDetails.loanTenorServiced):0,
+        currentEMILoan: applicantDetails.currentEMILoan || '',
+        agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres):0,
+        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+        agriAppRelationship: applicantDetails.agriAppRelationship || '',
+        grossReceipt: applicantDetails.grossReceipt ? Number(applicantDetails.grossReceipt):0
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
