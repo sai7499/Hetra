@@ -65,16 +65,17 @@ export class FiListComponent implements OnInit {
       //   this.pdStatusValue = this.pdList[i]['pdStatusValue']
       //   console.log("pd status value", this.pdStatusValue)
 
-      //   if (this.pdList[i]['pdStatusValue'] == "Submitted") {
-      //     this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
+    // this.leadId = (await this.getLeadId()) as number;
+    // this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
+  });
+}
 
-      //     console.log("pd status array", this.pdStatus)
-      //     this.sharedService.getPdStatus(this.pdStatus)
-      //   }
+  onBack() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
 
-      // }
-      // this.pdStatus = 
-      // this.sharedService.getPdStatus(updateDevision)
-    });
+  }
+
+  onNext() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
   }
 }
