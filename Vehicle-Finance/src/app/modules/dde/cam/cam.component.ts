@@ -50,7 +50,7 @@ export class CamComponent implements OnInit {
     const data = {
       leadId: this.leadId,
     };
-    this.camService.getCamDetails(data).subscribe((res: any) => {
+    this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
       console.log(res)
       this.camDetails = res.ProcessVariables
       this.basicDetails = res.ProcessVariables['basicDetailsObj'];

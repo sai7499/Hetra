@@ -479,6 +479,11 @@ export class ApiService {
       processId: '7111c1acc04e11eab9eb00505695f93b',
       workflowId: '033c3050bf8011eab85000505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getCamUsedCvDetails:{
+      processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
+      workflowId: 'b06ab746bf4a11eab26100505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
 
   };

@@ -72,7 +72,7 @@ export class CibilOdListComponent implements OnInit {
     this.loanEnquiryInSixtyDaysArray = this.formBuilder.array([]);
   }
 
-  async ngOnInit()  {
+  ngOnInit() {
     // this.applicantType = "hai this.applicantType"
     this.labelService.getLabelsData().subscribe((res) => {
       this.labels = res;
@@ -80,7 +80,7 @@ export class CibilOdListComponent implements OnInit {
     this.getLeadId();
     this.userId = localStorage.getItem("userId");
 
-   await this.activatedRoute.params.subscribe((value) => {
+    this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
       }
@@ -90,7 +90,7 @@ export class CibilOdListComponent implements OnInit {
       this.applicantDataService.setApplicantId(this.applicantId);
       this.getApplicantData();
 
-      console.log('this.odApplicantList-->',this.odApplicantList)
+      console.log('this.odApplicantList-->', this.odApplicantList)
     });
 
     this.odDetailsForm = this.formBuilder.group({
@@ -106,6 +106,16 @@ export class CibilOdListComponent implements OnInit {
       settledLoans: [""],
       clearanceProofCollected: [""],
       clearenceProof: [""],
+      // justification: [
+      //   null,
+      //   Validators.compose([
+      //     Validators.required,
+      //     Validators.maxLength(200),
+      //     Validators.pattern(
+      //       /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/
+      //     ),
+      //   ]),
+      // ],
       justification: [
         null,
         Validators.compose([
@@ -139,13 +149,13 @@ export class CibilOdListComponent implements OnInit {
         }
       });
   }
-  getApplicantData(){
+  getApplicantData() {
     this.cibilOdService.$isApplicantList.subscribe((data) => {
       console.log("i got data", data)
       this.odApplicantList = data
       console.log(this.odApplicantList.applicantType)
       this.applicantType = this.odApplicantList.applicantType;
-      
+
 
     })
   }
@@ -224,7 +234,7 @@ export class CibilOdListComponent implements OnInit {
             this.toasterService.showSuccess(message, '');
           });
       }
-    } 
+    }
     // if (this.odAccountDetailsArray.controls.length > 0) {
     //   // tslint:disable-next-line: triple-equals
     //   this.odAccountDetailsArray.removeAt(i);
@@ -264,29 +274,29 @@ export class CibilOdListComponent implements OnInit {
     // this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays());
   }
   removeLastThirtyDaysLoan(i?: any) {
-    const id = this.loanEnquiryInThirtyDaysArray.at(i).value.id;
-    if (this.loanEnquiryInThirtyDaysArray.controls.length > 0) {
-      // tslint:disable-next-line: triple-equals
-      if (id == undefined) {
-        this.loanEnquiryInThirtyDaysArray.removeAt(i);
-      } else {
-        const body = {
-          id: id,
-          userId: this.userId,
-        };
-        this.odDetailsService
-          .softDeleteOdDetails(body)
-          .subscribe((res: any) => {
-            this.loanEnquiryInThirtyDaysArray.removeAt(i);
-            const message = res.ProcessVariables.error.message;
-            this.toasterService.showSuccess(message, '');
-          });
-      }
-    } 
+    // const id = this.loanEnquiryInThirtyDaysArray.at(i).value.id;
     // if (this.loanEnquiryInThirtyDaysArray.controls.length > 0) {
     //   // tslint:disable-next-line: triple-equals
-    //   this.loanEnquiryInThirtyDaysArray.removeAt(i);
-    // }
+    //   if (id == undefined) {
+    //     this.loanEnquiryInThirtyDaysArray.removeAt(i);
+    //   } else {
+    //     const body = {
+    //       id: id,
+    //       userId: this.userId,
+    //     };
+    //     this.odDetailsService
+    //       .softDeleteOdDetails(body)
+    //       .subscribe((res: any) => {
+    //         this.loanEnquiryInThirtyDaysArray.removeAt(i);
+    //         const message = res.ProcessVariables.error.message;
+    //         this.toasterService.showSuccess(message, '');
+    //       });
+    //   }
+    // } 
+    if (this.loanEnquiryInThirtyDaysArray.controls.length > 0) {
+      // tslint:disable-next-line: triple-equals
+      this.loanEnquiryInThirtyDaysArray.removeAt(i);
+    }
   }
   private getLoanEnquiryInSixtyDays(data?: any) {
     if (data === undefined) {
@@ -301,7 +311,7 @@ export class CibilOdListComponent implements OnInit {
       return this.formBuilder.group({
         id: [data.id ? data.id : null],
         memberType: [data.memberType ? data.memberType : ""],
-        enquiryDate: [data.enquiryDate ? data.enquiryDate : ""],
+        enquiryDate: [data.enquiryDate ?this.utilityService.getDateFromString(data.enquiryDate) : ""],
         typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
         amount: [data.amount ? data.amount : ""],
         // isSixtyDays: [data.isSixtyDays ? data.isSixtyDays : this.thirtyDays],
@@ -339,20 +349,23 @@ export class CibilOdListComponent implements OnInit {
       console.log("get od details---->", res);
       this.odDetails = res.ProcessVariables;
       console.log(this.odDetails);
-      this.odDetails.bureauEnquiries.filter((ele) => {
-        var isthirty = true;
-        var isSixty = true
-        console.log(ele.isSixtyDays == isthirty);
-        console.log(ele.isSixtyDays == isSixty);
+      // this.odDetails.bureauEnquiries.filter((ele) => {
+      //   var isthirty = true;
+      //   var isSixty = true
+      //   console.log(ele.isSixtyDays == isthirty);
+      //   console.log(ele.isSixtyDays == isSixty);
 
-        if (ele.isSixtyDays == isthirty || !null) {
-          console.log("hai");
-          this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnquiries);
-        } else if ((ele.isSixtyDays == isSixty || !null)) {
-          console.log("hello");
-          this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnquiries);
-        }
-      });
+      //   if (ele.isSixtyDays == isthirty || !null) {
+      //     console.log("hai");
+      //     this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnquiries);
+      //   } else if ((ele.isSixtyDays == isSixty || !null)) {
+      //     console.log("hello");
+      //     this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnquiries);
+      //   }
+      // });
+      this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
+      this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
+
 
       this.addOdDetails(res.ProcessVariables.odAccountDetails);
       this.odDetailsForm.patchValue({
@@ -422,7 +435,6 @@ export class CibilOdListComponent implements OnInit {
     } else {
       this.submitted = true;
 
-      this.toasterService.showSuccess("Saved Successfully", "Cibil OD Details");
       const AssetBureauEnquiry = [];
       this.odDetailsForm.value.loanEnquiryInThirtyDays.forEach((element) => {
         AssetBureauEnquiry.push(element);
@@ -482,6 +494,22 @@ export class CibilOdListComponent implements OnInit {
 
       this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
         console.log("post od details--->", res);
+        // tslint:disable-next-line: triple-equals
+        if (res && res.ProcessVariables.error.code == '0') {
+          // tslint:disable-next-line: prefer-const
+          let odAccountDetailsControls = this.odDetailsForm.controls
+            .odAccountDetailsControls as FormArray;
+            odAccountDetailsControls.controls = [];
+          const loanEnquiryInThirtyDaysControls = this.odDetailsForm.controls
+            .otherIncomeDetails as FormArray;
+            loanEnquiryInThirtyDaysControls.controls = [];
+          const loanEnquiryInSixtyDaysControls = this.odDetailsForm.controls
+            .obligationDetails as FormArray;
+            loanEnquiryInSixtyDaysControls.controls = [];
+            this.toasterService.showSuccess("Saved Successfully", "Cibil OD Details");
+
+        this.getOdDetails();
+        }
       });
     }
   }

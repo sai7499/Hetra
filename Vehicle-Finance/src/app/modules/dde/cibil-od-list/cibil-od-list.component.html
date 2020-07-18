@@ -1,18 +1,15 @@
 <div class="container row">
   <div class="table-responsive application">
     <table class="table" style="height: 30px;">
-      <tr *ngIf="odApplicantList">
+      <tr>
         <td>{{ labels?.applicant }}</td>
         <td>{{odApplicantList?.fullName}}</td>
         <td>{{ labels?.applicantType }}</td>
         <td>{{odApplicantList?.applicantType}}</td>
         <td>{{ labels?.bureauScore }}</td>
         <td>{{odApplicantList?.cibilScore}}</td>
-       
       </tr>
-
     </table>
-    {{applicantType}}
   </div>
 </div>
 <form class="multisteps-form__form" [formGroup]="odDetailsForm">
@@ -98,12 +95,12 @@
                         [isDisabled]="'true'">
                       </app-custom-input>
                     </td>
-                    <td data-title="OD DPD">
+                    <!-- <td data-title="OD DPD">
                       <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
                         [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
                       </app-custom-input>
-                    </td>
+                    </td> -->
                   </ng-container>
                   <ng-container *ngIf="selctedLoan === 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
