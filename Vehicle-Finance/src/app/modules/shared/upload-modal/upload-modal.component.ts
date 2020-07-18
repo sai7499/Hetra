@@ -11,7 +11,9 @@ import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { UploadService } from '@services/upload.service';
+import { UtilityService } from '@services/utility.service';
 import { DocRequest } from '@model/upload-model';
+import { DocumentDetails } from '@model/upload-model';
 
 @Component({
   selector: 'app-upload-modal',
@@ -31,7 +33,10 @@ export class UploadModalComponent {
   @ViewChild('fileInput', { static: false })
   fileInput: ElementRef;
 
-  constructor(private uploadService: UploadService) {}
+  constructor(
+    private uploadService: UploadService,
+    private utilityService: UtilityService
+  ) {}
 
   async onFileSelect(event) {
     const files: File = event.target.files[0];
@@ -84,28 +89,6 @@ export class UploadModalComponent {
       {
         ...this.docsDetails,
       },
-      // {
-      //   docTp: 'LEAD',
-      //   docSbCtgry: 'ACCOUNT OPENING FORM',
-      //   docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
-      //   docCtgryCd: 70,
-      //   docCatg: 'KYC - I',
-      //   docTypCd: 276,
-      //   flLoc: '',
-      //   docCmnts: 'Addition of document for Lead Creation',
-      //   bsPyld: this.imageUrl,
-      //   docSbCtgryCd: 204,
-      //   docRefId: [
-      //     {
-      //       idTp: 'LEDID',
-      //       id: 20059563,
-      //     },
-      //     {
-      //       idTp: 'BRNCH',
-      //       id: 1001,
-      //     },
-      //   ],
-      // },
     ];
     console.log('docsDetails', this.docsDetails);
     this.uploadService
@@ -125,8 +108,29 @@ export class UploadModalComponent {
       )
       .subscribe(
         (value) => {
-          console.log('value', value);
-          this.uploadSuccess.emit(value);
+          this.imageUrl = '';
+          this.fileName = '';
+          this.fileSize = '';
+          this.fileInput.nativeElement.value = '';
+          const documentDetails: DocumentDetails = {
+            documentId: this.docsDetails.documentId,
+            documentType: String(this.docsDetails.docTypCd),
+            documentName: String(this.docsDetails.docTypCd),
+            documentNumber: this.docsDetails.documentNumber,
+            dmsDocumentId: value.docIndx,
+            categoryCode: String(this.docsDetails.docCtgryCd),
+            issuedAt: 'check',
+            subCategoryCode: String(this.docsDetails.docSbCtgryCd),
+            issueDate: this.utilityService.getDateFormat(
+              this.docsDetails.issueDate
+            ),
+            expiryDate: this.utilityService.getDateFormat(
+              this.docsDetails.expiryDate
+            ),
+            associatedId: this.docsDetails.associatedId,
+            associatedWith: this.docsDetails.associatedWith,
+          };
+          this.uploadSuccess.emit(documentDetails);
         },
         (error) => {
           console.log('error', error);

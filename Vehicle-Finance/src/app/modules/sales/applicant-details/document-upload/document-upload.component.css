@@ -9,3 +9,7 @@
 h4 {
   cursor: pointer;
 }
+
+.dis-block {
+  display: block;
+}

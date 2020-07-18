@@ -178,3 +178,39 @@
   (uploadSuccess)="onUploadSuccess($event)"
   [docsDetails]="selectedDocDetails"
 ></app-upload-modal>
+
+<div class="modal" id="myModal" [ngClass]="{ 'dis-block': !!selectedDocsId }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        Are you Sure Want to Delete?
+      </div>
+
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          (click)="deleteDocument()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="selectedDocsId = null"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

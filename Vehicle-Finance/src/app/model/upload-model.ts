@@ -33,6 +33,12 @@ export interface DocRequest {
     idTp?: string;
     id?: number;
   }[];
+  issueDate?: string;
+  expiryDate?: string;
+  associatedId?: string;
+  associatedWith?: string;
+  documentNumber?: string;
+  documentId?: number;
 }
 
 export interface DocumentDetails {
@@ -44,8 +50,8 @@ export interface DocumentDetails {
   categoryCode?: string;
   subCategoryCode?: string;
   issuedAt?: string;
-  issueDate?: string;
-  expiryDate?: string;
+  issueDate?: string | Date;
+  expiryDate?: string | Date;
   associatedId?: string;
   associatedWith?: string;
 }

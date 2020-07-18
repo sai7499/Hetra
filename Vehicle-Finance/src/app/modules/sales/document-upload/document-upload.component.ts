@@ -3,31 +3,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentUploadService } from '@services/document-upload.service';
 import { ToasterService } from '@services/toaster.service';
 
-import { FormGroup, FormControl } from '@angular/forms';
-
 @Component({
   templateUrl: './document-upload.component.html',
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
-
-  constructor(private aRoute: ActivatedRoute,
-              private router: Router,
-              private doucmentUploadService: DocumentUploadService,
-              private toStarService: ToasterService) {
-
-  }
+  constructor(
+    private aRoute: ActivatedRoute,
+    private router: Router,
+    private doucmentUploadService: DocumentUploadService,
+    private toStarService: ToasterService
+  ) {}
   leadId;
   isModelShow = false;
   errorMessage: string;
-  addDocReq = [];
-
-  uploadForm: FormGroup;
-
   ngOnInit() {
-    this.uploadForm = new FormGroup({
-      details: new FormControl(''),
-    });
     this.aRoute.parent.params.subscribe((val) => (this.leadId = val.leadId));
   }
 
@@ -37,15 +27,19 @@ export class DocumentUploadComponent implements OnInit {
       leadId: Number(this.leadId),
     };
     console.log('submit call');
-    this.doucmentUploadService.submitToCredit(data).subscribe(
-      response => {
-        if (response['Error'] && response['Error'] == 0
-          && response['ProcessVariables'].error['code'] == 0) {
-          this.errorMessage = 'Lead is submitted to Credit sucessfully';
-          this.isModelShow = true;
-        } else{
-          this.toStarService.showError(response['ProcessVariables'].error['message'],"Submit To Credit")
-        }
+    this.doucmentUploadService.submitToCredit(data).subscribe((response) => {
+      if (
+        response['Error'] &&
+        response['Error'] == 0 &&
+        response['ProcessVariables'].error['code'] == 0
+      ) {
+        this.errorMessage = 'Lead is submitted to Credit sucessfully';
+        this.isModelShow = true;
+      } else {
+        this.toStarService.showError(
+          response['ProcessVariables'].error['message'],
+          'Submit To Credit'
+        );
       }
     });
   }
@@ -53,56 +47,5 @@ export class DocumentUploadComponent implements OnInit {
   navigateToDashBoard() {
     this.isModelShow = false;
     this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
-  }
-  uploadFile() {
-    this.uploadService.constructUploadModel(this.addDocReq).subscribe(
-      (value) => {
-        console.log('value', value);
-      },
-      (error) => {
-        console.log('error', error);
-      }
-    );
-  }
-
-  async onFileSelect(event) {
-    console.log('event', event);
-    const files = event.target.files[0];
-    const base64: any = await this.toBase64(files);
-    this.imageUrl = base64;
-    this.showModal = true;
-    this.addDocReq = [
-      {
-        docTp: 'LEAD',
-        docSbCtgry: 'ACCOUNT OPENING FORM',
-        docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
-        docCtgryCd: 70,
-        docCatg: 'KYC - I',
-        docTypCd: 276,
-        flLoc: '',
-        docCmnts: 'Addition of document for Lead Creation',
-        bsPyld: base64,
-        docSbCtgryCd: 204,
-        docRefId: [
-          {
-            idTp: 'LEDID',
-            id: 20059563,
-          },
-          {
-            idTp: 'BRNCH',
-            id: 1001,
-          },
-        ],
-      },
-    ];
-  }
-
-  toBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   }
 }
