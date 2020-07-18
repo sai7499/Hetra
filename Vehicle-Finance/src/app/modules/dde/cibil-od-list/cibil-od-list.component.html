@@ -1,16 +1,18 @@
 <div class="container row">
   <div class="table-responsive application">
     <table class="table" style="height: 30px;">
-      <tr >
+      <tr *ngIf="odApplicantList">
         <td>{{ labels?.applicant }}</td>
-        <td>{{odApplicant?.fullName}}</td>
+        <td>{{odApplicantList?.fullName}}</td>
         <td>{{ labels?.applicantType }}</td>
-        <td>{{odApplicant?.applicantType}}</td>
+        <td>{{odApplicantList?.applicantType}}</td>
         <td>{{ labels?.bureauScore }}</td>
-        <td>{{odApplicant?.cibilScore}}</td>
+        <td>{{odApplicantList?.cibilScore}}</td>
        
       </tr>
+
     </table>
+    {{applicantType}}
   </div>
 </div>
 <form class="multisteps-form__form" [formGroup]="odDetailsForm">
@@ -111,6 +113,7 @@
                         [isRequired]="'Other type of loan mandatory'">
                       </app-custom-input>
                     </td>
+                  </ng-container>
                     <td data-title="OD DPD">
                       <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
                         [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
@@ -118,7 +121,6 @@
                         [isRequired]="'OD DPD mandatory'">
                       </app-custom-input>
                     </td>
-                  </ng-container>
                   <!-- <td data-title="Other type of loan">
                     <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
                       [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
@@ -278,8 +280,9 @@
                     </td>
                     <td data-title="Enquiry date">
                       <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
-                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Valuation Date">
+                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
                       </kendo-datepicker>
+                      
                     </td>
                     <td data-title="Type of loan">
                       <!-- <select class="form-control mandatory" formControlName="typeOfLoan">
@@ -341,7 +344,7 @@
                     </td>
                     <td data-title="Enquiry date">
                       <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
-                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Valuation Date">
+                        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
                       </kendo-datepicker>
                     </td>
                     <td data-title="Type of loan">

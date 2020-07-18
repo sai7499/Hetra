@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter,  } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { OdDetailsService } from '@services/od-details.service';
+import { CibilOdService } from './cibil-od.service';
 
 @Component({
   selector: 'app-cibil-od',
@@ -20,8 +21,8 @@ export class CibilOdComponent implements OnInit {
     private router: Router,
     private labelService: LabelsService,
     private activatedRoute: ActivatedRoute,
-    private odDetailsService:OdDetailsService
-
+    private odDetailsService:OdDetailsService,
+    private cibbilOdService : CibilOdService
   ) { }
 
   ngOnInit() {
@@ -56,12 +57,17 @@ export class CibilOdComponent implements OnInit {
         
       });
   }
-  navigatePage(applicantId: string){
-    console.log(
-      'applicantId', applicantId,
-      `${this.applicantUrl}/${applicantId}`
-    );
-    this.router.navigate([`${this.applicantUrl}/${applicantId}`]);
+  navigatePage(applicantList){
+    for (let i = 0; i < applicantList.length; i++) {
+      console.log(applicantList[i]);
+      console.log(
+        'applicantId', applicantList,
+        `${this.applicantUrl}/${applicantList[i].applicantId}`
+      );
+    this.router.navigate([`${this.applicantUrl}/${applicantList[i].applicantId}`]);
+    this.cibbilOdService.getOdApplicant(applicantList);
+   }
+   
   }
   onBack() {
     this.location.back();
@@ -69,4 +75,9 @@ export class CibilOdComponent implements OnInit {
   onNext() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/score-card`);
   }
+}
+export interface odApplicantArgs {
+  applicantType:string
+  cibilScore:string
+  fullName:string
 }

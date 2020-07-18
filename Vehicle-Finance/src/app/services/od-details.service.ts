@@ -92,7 +92,45 @@ export class OdDetailsService {
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     
     return this.httpService.post(url, requestEntity);
-
+  }
+  softDeleteBureauEnquiry(data){
+    const processData = data;
+    const processId = this.apiService.api.softDeleteBureauEnquiry.processId;
+    const workflowId = this.apiService.api.softDeleteBureauEnquiry.workflowId;
+    const projectId = this.apiService.api.softDeleteBureauEnquiry.projectId;
+    const userId = localStorage.getItem('userId');
+    console.log('userid in service', userId);
   
+    const requestEntity: RequestEntity = {
+        processId,
+        ProcessVariables:  processData,
+        workflowId,
+        projectId
+    };
+    console.log(requestEntity, 'delete BureauEnquiry');
+  
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+   
+    return this.httpService.post(url, requestEntity);
+  }
+  softDeleteOdDetails(data){
+    const processData = data;
+    const processId = this.apiService.api.softDeleteOdDetails.processId;
+    const workflowId = this.apiService.api.softDeleteOdDetails.workflowId;
+    const projectId = this.apiService.api.softDeleteOdDetails.projectId;
+    const userId = localStorage.getItem('userId');
+    console.log('userid in service', userId);
+  
+    const requestEntity: RequestEntity = {
+        processId,
+        ProcessVariables:  processData,
+        workflowId,
+        projectId
+    };
+    console.log(requestEntity, 'delete OdDetails');
+  
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+   
+    return this.httpService.post(url, requestEntity);
   }
 }

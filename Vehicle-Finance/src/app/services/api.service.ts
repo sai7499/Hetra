@@ -479,6 +479,16 @@ export class ApiService {
       processId: '959c5a74c5b611ea830200505695f93b',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteBureauEnquiry:{
+      processId: 'ef18b8f6c04b11eabd0f00505695f93b',
+      workflowId: '47596532bf9911eaa6de00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteOdDetails:{
+      processId: '7111c1acc04e11eab9eb00505695f93b',
+      workflowId: '033c3050bf8011eab85000505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
 
   };
