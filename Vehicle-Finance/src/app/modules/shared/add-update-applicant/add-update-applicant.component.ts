@@ -1153,7 +1153,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onNext() {
     // if (this.isMobileChanged || !this.applicant.otpVerified) {
-      if(this.savedChecking== true){
+      if(this.savedChecking == true){
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );
@@ -1339,7 +1339,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriNoOfAcres: Number(coApplicantModel.dedupe.agriNoOfAcres),
       agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
       agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
-      grossReceipt: Number(coApplicantModel.dedupe.grossReceipt),
+      grossReceipt: coApplicantModel.dedupe.grossReceipt,
 
       //customerCategory: 'SALCUSTCAT',
     };
@@ -1366,7 +1366,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
       if (response.Error === '0') {
-        this.savedChecking= true;
+        this.savedChecking = true;
         const message = response.ProcessVariables.error.message;
       }
       const url = this.location.path();
@@ -1552,7 +1552,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres):0,
         agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
         agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt ? Number(applicantDetails.grossReceipt):0
+        grossReceipt: applicantDetails.grossReceipt || ''
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
@@ -1675,7 +1675,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres):0,
         agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
         agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt ? Number(applicantDetails.grossReceipt):0
+        grossReceipt: applicantDetails.grossReceipt || ''
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
