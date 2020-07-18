@@ -65,6 +65,7 @@ export class DdeComponent implements OnInit{
 
     this.sharedService.progressBar$.subscribe(value => {
       this.show = value;
+      
     });
 
     const currentUrl = this.location.path();
