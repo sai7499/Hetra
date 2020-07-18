@@ -686,8 +686,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       this.applicantType = this.applicant.applicantDetails.entityTypeKey;
       if(this.applicantType=="INDIVENTTYP"){
-        this.coApplicantForm.get('dedupe').get('name').setValidators([Validators.required])
-        this.coApplicantForm.get('dedupe').get('name').updateValueAndValidity()
+        this.coApplicantForm.get('dedupe').get('name3').setValidators([Validators.required])
+        this.coApplicantForm.get('dedupe').get('name3').updateValueAndValidity()
       }
 
       // if( this.applicant.addressDetails){
