@@ -31,7 +31,7 @@
                             <td>{{viability?.model}}</td>
                             <td>{{viability?.viabilityStatus}}</td>
                             <td><u><a class="a_tag" style="cursor:pointer"
-                                        (click)="getViability(viability?.collateralId )"
+                                        (click)="getViability(viability?.collateralId, viability?.make,viability?.model, viability?.applicantName)"
                                         *ngIf="(viability?.viabilityStatus !== 'Submitted' && viability?.viabilityStatus !== 'Completed')&& showNext == false">Start</a>
                                     <a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId )"
