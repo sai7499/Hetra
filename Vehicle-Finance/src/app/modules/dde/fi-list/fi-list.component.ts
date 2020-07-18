@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
 
 @Component({
   selector: 'app-fi-list',
@@ -10,11 +11,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FiListComponent implements OnInit {
 
   labels: any;
-
+  leadId: number;
+  fiList: Array<any>;
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private personalDiscussionService: PersonalDiscussionService
     ) { }
 
   getLeadId() {
@@ -28,17 +31,50 @@ export class FiListComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.labelDetails.getLabelsData().subscribe(
       data => {
         this.labels = data;
       }
     );
+    this.leadId = (await this.getLeadId()) as number;
+    this.getFiList();
   }
 
-  async onClick() {
+   onClick() {
+    
+    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
+  }
 
-    const leadId = (await this.getLeadId()) as number;
-    this.router.navigateByUrl(`pages/fi-list/${leadId}/fi-report`);
+  getFiList()  {
+    
+    
+    const data = {
+      // leadId: 153,
+      //  uncomment this once get proper Pd data for perticular
+      leadId: this.leadId,
+      userId: '1001',
+    };
+    this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
+      const processveriables = value.ProcessVariables;
+      this.fiList = processveriables.finalPDList;
+      console.log('PD List', this.fiList);
+
+      // for (var i in this.pdList) {
+      //   console.log("in for pd list", i)
+      //   this.pdStatusValue = this.pdList[i]['pdStatusValue']
+      //   console.log("pd status value", this.pdStatusValue)
+
+      //   if (this.pdList[i]['pdStatusValue'] == "Submitted") {
+      //     this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
+
+      //     console.log("pd status array", this.pdStatus)
+      //     this.sharedService.getPdStatus(this.pdStatus)
+      //   }
+
+      // }
+      // this.pdStatus = 
+      // this.sharedService.getPdStatus(updateDevision)
+    });
   }
 }
