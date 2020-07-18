@@ -40,6 +40,7 @@ export class CibilOdListComponent implements OnInit {
   odDetails: any;
   applicantType: any;
   odApplicantData: any;
+  isDirty = false
 
   constructor(
     private labelService: LabelsService,
