@@ -35,4 +35,28 @@ export class CamService {
     return this.httpService.post(url, requestEntity);
 }
 
+getCamUsedCvDetails(data) {
+  const processData = data;
+  const processId = this.apiService.api.getCamUsedCvDetails.processId;
+  const workflowId = this.apiService.api.getCamUsedCvDetails.workflowId;
+  const projectId = this.apiService.api.getCamUsedCvDetails.projectId;
+
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'cam used cv details');
+
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
+
+
 }
