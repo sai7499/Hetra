@@ -250,3 +250,13 @@ select#select_main_button_match {
   color: red;
   padding-top: 0.5vw;
 }
+#align_this_checkbox{
+  margin-top: 16px;
+  font-weight: 600;
+}
+.senior_minor{
+  margin-top: 15px;
+}
+.is_senior{
+  padding-left: 10px ;
+}
