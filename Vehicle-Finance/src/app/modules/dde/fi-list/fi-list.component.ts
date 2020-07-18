@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FiListComponent implements OnInit {
 
   labels: any;
+  leadId: number;
 
   constructor(
     private labelDetails: LabelsService,
@@ -38,7 +39,16 @@ export class FiListComponent implements OnInit {
 
   async onClick() {
 
-    const leadId = (await this.getLeadId()) as number;
-    this.router.navigateByUrl(`pages/fi-list/${leadId}/fi-report`);
+    this.leadId = (await this.getLeadId()) as number;
+    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
+  }
+
+  onBack() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+
+  }
+
+  onNext() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
   }
 }

@@ -35,7 +35,7 @@
                                 <td>7894561230</td>
                                 <td>Applicant</td>
                                 <td>Submitted</td>
-                                <td><u><a class="a_tag" (click)="onClick()">Version -
+                                <td class="cursor-pointer"><u><a class="a_tag" (click)="onClick()">Version -
                                           1</a></u></td>
                             </tr>
 
@@ -52,7 +52,7 @@
 <div class="btn-sec clear-both">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
-        <button class="btn btn-primary" type="button"> {{labels?.back}} </button> &nbsp;
-        <button class="btn btn-primary" type="button"> {{labels?.next}} </button>
+        <button class="btn btn-primary" type="button" (click)="onBack()"> {{labels?.back}} </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onNext()"> {{labels?.next}} </button>
     </div>
 </div>
