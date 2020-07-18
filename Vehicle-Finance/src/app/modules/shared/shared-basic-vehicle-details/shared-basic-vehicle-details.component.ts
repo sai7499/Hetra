@@ -388,13 +388,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onVehicleRegion(value: any) {
+    console.log("prod code ",this.productCatoryCode, this.productCatoryId)
     const region = value ? value : '';
     let assetMakeArray = [];
     this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
       this.uiLoader.start();
       this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
+      let produdctFillterArray = this.regionDataArray.filter(val => val.prodCatCode == this.productCatoryCode);
       this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'uniqueMFRCode')
       assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "uniqueMFRCode", "mfrCode") : []
+      // assetMakeArray = this.regionDataArray.length > 0 ? 
+      //   this.utilityService.getValueFromJSON(produdctFillterArray, "uniqueMFRCode", "mfrCode") : []
+      this.vehicleLov.assetMake = assetMakeArray;
       this.vehicleLov.assetMake = assetMakeArray;
       this.uiLoader.stop();
     }, error => {

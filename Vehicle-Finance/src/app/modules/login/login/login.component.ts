@@ -293,7 +293,7 @@ export class LoginComponent implements OnInit {
       });
     }
 
-    this.getRouteMap();
+    // this.getRouteMap();
   }
 
   enter(event) {
