@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import {TermSheetComponent} from './term-sheet/term-sheet.component';
 import {CreditDecisionComponent} from './credit-decision.component';
 import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.component';
  import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
-
+import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
+ 
 const routes: Routes = [
     {
         path: ':leadId',
@@ -27,6 +29,10 @@ const routes: Routes = [
             {
                 path: 'sanction-details',
                 component: SanctionDetailsComponent
+            },
+            {
+                path: 'customer-feedback',
+                component: CustomerFeedbackComponent
             },
         ]
     }

@@ -8,6 +8,7 @@ import {
   AddressDetails,
   IndivIdentityInfoDetails,
   IndivProspectProfileDetails,
+  DirectorDetails
 } from '@model/applicant.model';
 
 @Injectable({
@@ -36,6 +37,10 @@ export class ApplicantDataStoreService {
     const indivProspectProfileDetails = applicant.indivProspectProfileDetails
       ? applicant.indivProspectProfileDetails
       : {};
+    const directorDetails = applicant.directorDetails
+      ? applicant.directorDetails
+      : [];
+
     this.applicant = {
       aboutIndivProspectDetails,
       addressDetails,
@@ -43,6 +48,7 @@ export class ApplicantDataStoreService {
       corporateProspectDetails,
       indivIdentityInfoDetails,
       indivProspectProfileDetails,
+      directorDetails,
       otpVerified: applicant.otpVerified,
     };
   }
@@ -93,6 +99,10 @@ export class ApplicantDataStoreService {
 
   setAddressDetails(value: AddressDetails[]) {
     this.applicant.addressDetails = value;
+  }
+
+  setDirectorDetails(value : DirectorDetails[]){
+    this.applicant.directorDetails = value;
   }
 
   setApplicantId(applicantId) {
