@@ -117,6 +117,7 @@ export class CibilOdListComponent implements OnInit {
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
+      this.odListLov.highestDpd = value.LOVS.highestDpd;
     });
   }
   getLeadId() {
@@ -314,6 +315,7 @@ export class CibilOdListComponent implements OnInit {
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
 
       this.addOdDetails(res.ProcessVariables.odAccountDetails);
+      if(this.odDetails.assetAppOdDetails){
       this.odDetailsForm.patchValue({
         totalAmount: this.odDetails.assetAppOdDetails.totalAmount
           ? this.odDetails.assetAppOdDetails.totalAmount
@@ -347,7 +349,7 @@ export class CibilOdListComponent implements OnInit {
       });
       this.odDetailsForm.patchValue({
         justification: this.odDetails.assetAppOdDetails.justification,
-      });
+      });}
     });
   }
   getOdApplicant() {
@@ -365,7 +367,7 @@ export class CibilOdListComponent implements OnInit {
     if (this.odDetailsForm.invalid) {
       this.toasterService.showError(
         "Fields Missing Or Invalid Pattern Detected",
-        "Cibil OD Details"
+        "OD Details"
       );
       return;
     } else {
@@ -375,7 +377,7 @@ export class CibilOdListComponent implements OnInit {
         ele.odType = ele.odType.toString();
         ele.otherTypeOfloan = ele.otherTypeOfloan.toString();
         ele.typeOfLoan = ele.typeOfLoan.toString();
-        ele.odAmount = Number(ele.odAmount);
+        ele.odAmount = ele.odAmount.toString();
         ele.odDpd = Number(ele.odDpd);
       });
       this.odDetailsForm.value.AssetBureauEnquiry.forEach((ele) => {
@@ -441,7 +443,7 @@ export class CibilOdListComponent implements OnInit {
           AssetBureauEnquirySixtyDaysControls.controls = [];
           this.toasterService.showSuccess(
             "Saved Successfully",
-            "Cibil OD Details"
+            "OD Details"
           );
           this.getOdDetails();
         }
