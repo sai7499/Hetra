@@ -92,7 +92,7 @@ export class GpsService {
       }
       
       function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
+       // console.warn(`ERROR(${err.code}): ${err.message}`);
         observer.next(err);
         observer.complete();
     }
