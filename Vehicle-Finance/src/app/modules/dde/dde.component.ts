@@ -65,6 +65,7 @@ export class DdeComponent implements OnInit{
 
     this.sharedService.progressBar$.subscribe(value => {
       this.show = value;
+      
     });
 
     const currentUrl = this.location.path();
@@ -122,7 +123,7 @@ export class DdeComponent implements OnInit{
       return 7;
     } else if (url.includes('tvr-details')) {
       return 8;
-    } else if (url.includes('fl-report')) {
+    } else if (url.includes('fi-list')) {
       return 9;
     } else if (url.includes('pd-list')) {
       return 10;

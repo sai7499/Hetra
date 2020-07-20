@@ -509,7 +509,7 @@
               <app-vf-custom-select
                 [values]="ownerPropertyRelation"
                 formControlName="houseOwnerProperty"
-                [isDirty]="isDirty"
+                [isDirty]="isDirty"                
               >
               </app-vf-custom-select>
             </div>
@@ -651,8 +651,10 @@
                 >{{labels?.grossReceipt}} <sub class="star_red_col">*</sub></label
               >
               <app-custom-input formControlName="grossReceipt"
-              [isRequired]="'Gross Receipt is Required'" 
-              [isDirty]="isDirty">
+                [maxLength]="validationData?.amountValue.maxLength" 
+                [type]="validationData?.amountValue.type"
+                [isRequired]="'Gross Receipt is Required'" 
+                [isDirty]="isDirty">
               </app-custom-input>
             </div>
           </div>
@@ -1245,9 +1247,10 @@
                 <label for="aadharnumber">{{labels?.grossReceipt}}
                   <sub class="star_red_col">*</sub></label>
                 <app-custom-input formControlName="grossReceipt"
-                
-                      [isRequired]="'Gross Receipt is Required'" 
-                      [isDirty]="isDirty">
+                  [maxLength]="validationData?.amountValue.maxLength" 
+                  [type]="validationData?.amountValue.type"
+                  [isRequired]="'Gross Receipt is Required'" 
+                  [isDirty]="isDirty">
                 </app-custom-input>
               </div>
   

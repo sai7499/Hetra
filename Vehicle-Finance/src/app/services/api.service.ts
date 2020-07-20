@@ -449,6 +449,42 @@ export class ApiService {
       processId: '740f2e4ec1d911ea930600505695f93b',
       workflowId: 'e063568aa23d11eabe47f2fa9bec3d63',
       projectId: environment.projectIds.viabilityApi
+    },
+    saveParentOdDetails: {
+      processId: '6b6158b6c05e11eaa7f600505695f93b',
+      workflowId: '6b42973cc05e11eaba4500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getParentOdDetails: {
+      processId: '4685cc72c1b511ea9c2a00505695f93b',
+      workflowId: '6b42973cc05e11eaba4500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getOdDetails: {
+      processId: '3886d4dcc12311ea8cf300505695f93b',
+      workflowId: '385b249ac12311eab5a500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getOdApplicantList:{
+      processId: '959c5a74c5b611ea830200505695f93b',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteBureauEnquiry:{
+      processId: 'ef18b8f6c04b11eabd0f00505695f93b',
+      workflowId: '47596532bf9911eaa6de00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteOdDetails:{
+      processId: '7111c1acc04e11eab9eb00505695f93b',
+      workflowId: '033c3050bf8011eab85000505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getCamUsedCvDetails:{
+      processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
+      workflowId: 'b06ab746bf4a11eab26100505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
+
   };
 }

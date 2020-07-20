@@ -1,160 +1,470 @@
-import { Component, OnInit } from '@angular/core';
-import { LabelsService } from '@services/labels.service';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
-import { CommomLovService } from '@services/commom-lov-service';
-import { ToasterService } from '@services/toaster.service';
+import { Component, OnInit } from "@angular/core";
+import { LabelsService } from "@services/labels.service";
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  FormControl,
+} from "@angular/forms";
+import { CommomLovService } from "@services/commom-lov-service";
+import { ToasterService } from "@services/toaster.service";
+import { OdDetailsService } from "@services/od-details.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ApplicantDataStoreService } from "@services/applicant-data-store.service";
+import { UtilityService } from "@services/utility.service";
 
 @Component({
-  selector: 'app-cibil-od-list',
-  templateUrl: './cibil-od-list.component.html',
-  styleUrls: ['./cibil-od-list.component.css']
+  selector: "app-cibil-od-list",
+  templateUrl: "./cibil-od-list.component.html",
+  styleUrls: ["./cibil-od-list.component.css"],
 })
 export class CibilOdListComponent implements OnInit {
   labels: any;
-  odDetailsForm: FormGroup;
-  odDetailsList: FormGroup;
-  loanEnquiryInThirtyDays: FormGroup;
-  loanEnquiryInSixtyDays: FormGroup;
-  odDetailsListArray: FormArray;
-  loanEnquiryInThirtyDaysArray: FormArray;
-  loanEnquiryInSixtyDaysArray: FormArray;
-  odTypeValues = ["Individual", "Joint", "Guarentor"]
-  loanTypes = ["Business Loan", "Two Wheeler Loan", "Over Draft", "Mathura Loan", "Agri Loan", "Gold Loan", "Home Loan", "Others"]
-  proofs = ["NA", "SUB", "DBT", "LSS"]
+  odDetailsForm: any;
+  odAccountDetails: FormGroup;
+  AssetBureauEnquiry: FormGroup;
+  AssetBureauEnquirySixtyDays: FormGroup;
+  odAccountDetailsArray: FormArray;
+  AssetBureauEnquiryArray: FormArray;
+  AssetBureauEnquirySixtyDaysArray: FormArray;
   selctedLoan: any;
   submitted = null;
   totalOdAmount = 0;
-  constructor(private labelService: LabelsService,
+  leadId: number;
+  userId: string;
+  odListLov: any = [];
+  applicantId: number;
+  odApplicantList: any;
+  public toDayDate: Date = new Date();
+  odDetails: any;
+  applicantType: any;
+  odApplicantData: any;
+  isDirty = false
+
+  constructor(
+    private labelService: LabelsService,
     private formBuilder: FormBuilder,
     private commonLovService: CommomLovService,
-    private toasterService: ToasterService
-
-
+    private toasterService: ToasterService,
+    private odDetailsService: OdDetailsService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private applicantDataService: ApplicantDataStoreService,
+    private utilityService: UtilityService,
   ) {
-    this.odDetailsListArray = this.formBuilder.array([])
-    this.loanEnquiryInThirtyDaysArray = this.formBuilder.array([])
-    this.loanEnquiryInSixtyDaysArray = this.formBuilder.array([])
+    this.odAccountDetailsArray = this.formBuilder.array([]);
+    this.AssetBureauEnquiryArray = this.formBuilder.array([]);
+    this.AssetBureauEnquirySixtyDaysArray = this.formBuilder.array([]);
   }
 
   ngOnInit() {
-    this.labelService.getLabelsData().subscribe(res => {
+    this.labelService.getLabelsData().subscribe((res) => {
       this.labels = res;
     });
+    this.getLeadId();
+    this.userId = localStorage.getItem("userId");
+
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      this.applicantDataService.setApplicantId(this.applicantId);
+    });
+
     this.odDetailsForm = this.formBuilder.group({
-      odDetailsList: this.odDetailsListArray,
-      loanEnquiryInThirtyDays: this.loanEnquiryInThirtyDaysArray,
-      loanEnquiryInSixtyDays: this.loanEnquiryInSixtyDaysArray,
-      highestDpdInLastSixMonths: [""],
-      highestDpdInLastTwelveMonths: [""],
+      odAccountDetails: this.odAccountDetailsArray,
+      AssetBureauEnquiry: this.AssetBureauEnquiryArray,
+      AssetBureauEnquirySixtyDays: this.AssetBureauEnquirySixtyDaysArray,
+      totalAmount: this.totalOdAmount,
+      highDpd6m: [""],
+      highDpd12m: [""],
       writtenOffLoans: [""],
-      writtenOffLoansWithSuiteFiled: [""],
+      writtenOffLoansWithSuite: [""],
       lossLoans: [""],
       settledLoans: [""],
-      proofCollected: [""],
-      clearenceProof: [""],
-      cibilJustification: [null, Validators.compose([Validators.required, Validators.maxLength(200), Validators.pattern(/[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g)])]
+      clearanceProofCollected: [""],
+      clearanceProof: [""],
+      // justification: [
+      //   null,
+      //   Validators.compose([
+      //     Validators.required,
+      //     Validators.maxLength(200),
+      //     Validators.pattern(
+      //       /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/
+      //     ),
+      //   ]),
+      // ],
+      justification: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g
+          ),
+        ]),
+      ],
     });
     this.getLov();
+    this.getOdDetails();
+    this.getOdApplicant();
   }
+
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      console.log(value)
+      this.odListLov.odApplicantType = value.LOVS.odApplicantType;
+      this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
+      this.odListLov.clearanceProof = value.LOVS.clearanceProof;
+      this.odListLov.highestDpd = value.LOVS.highestDpd;
     });
   }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+          this.leadId = Number(value.leadId);
+        }
+        resolve(null);
+      });
+    });
+  }
+
   onSelectLoan(event) {
-    console.log(event);
-    this.selctedLoan = event
+    this.selctedLoan = event;
   }
-  private getodListDetails() {
-
-    return this.formBuilder.group({
-      odType: [""],
-      odAmount: [""],
-      typeOfLoan: [""],
-      otherTypeOfloan: [""],
-      odDpd: [""],
-    });
-
-
+  private getodListDetails(data?: any) {
+    if (data === undefined) {
+      return this.formBuilder.group({
+        odType: [""],
+        odAmount: [""],
+        typeOfLoan: [""],
+        otherTypeOfloan: [""],
+        odDpd: [""],
+      });
+    } else {
+      return this.formBuilder.group({
+        id: [data.id ? data.id : null],
+        odType: [data.odType ? data.odType : ""],
+        odAmount: [data.odAmount ? data.odAmount : ""],
+        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
+        otherTypeOfloan: [data.otherTypeOfloan ? data.otherTypeOfloan : ""],
+        odDpd: [data.odDpd ? data.odDpd : ""],
+      });
+    }
   }
-  addOdDetails() {
-    this.odDetailsListArray.push(this.getodListDetails());
-
+  addOdDetails(data?: any) {
+    if (data && data.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < data.length; i++) {
+        this.odAccountDetailsArray.push(this.getodListDetails(data[i]));
+      }
+    } else {
+      this.odAccountDetailsArray.push(this.getodListDetails());
+    }
   }
+
   removeOdDetails(i?: any) {
-    if (this.odDetailsListArray.controls.length > 0) {
+    const id = this.odAccountDetailsArray.at(i).value.id;
+    if (this.odAccountDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-      this.odDetailsListArray.removeAt(i);
+      if (id == undefined) {
+        this.odAccountDetailsArray.removeAt(i);
+      } else {
+        const body = {
+          id: id,
+          userId: this.userId,
+        };
+        this.odDetailsService
+          .softDeleteOdDetails(body)
+          .subscribe((res: any) => {
+            this.odAccountDetailsArray.removeAt(i);
+            const message = res.ProcessVariables.error.message;
+            this.toasterService.showSuccess(message, "");
+          });
+      }
     }
 
-
   }
-  private getLoanEnquiryInThirtyDays() {
-    return this.formBuilder.group({
-      member: [""],
-      enquiryDate: [""],
-      typeOfLoan: [""],
-      enquiryAmount: [""],
-    });
+  private getAssetBureauEnquiry(data?: any) {
+    if (data === undefined) {
+      return this.formBuilder.group({
+        memberType: [""],
+        enquiryDate: [""],
+        typeOfLoan: [""],
+        amount: [""],
+      });
+    } else {
+      return this.formBuilder.group({
+        id: [data.id ? data.id : null],
+        memberType: [data.memberType ? data.memberType : ""],
+        enquiryDate: [
+          data.enquiryDate
+            ? this.utilityService.getDateFromString(data.enquiryDate)
+            : "",
+        ],
+        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
+        amount: [data.amount ? data.amount : ""],
+      });
+    }
   }
-  addLastThirtyDaysLoan() {
-    this.loanEnquiryInThirtyDaysArray.push(this.getLoanEnquiryInThirtyDays());
+  addLastThirtyDaysLoan(data?: any) {
+    if (data && data.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < data.length; i++) {
+        this.AssetBureauEnquiryArray.push(this.getAssetBureauEnquiry(data[i]));
+      }
+    } else {
+      this.AssetBureauEnquiryArray.push(this.getAssetBureauEnquiry());
+    }
   }
   removeLastThirtyDaysLoan(i?: any) {
-    if (this.loanEnquiryInThirtyDaysArray.controls.length > 0) {
+    const id = this.AssetBureauEnquiryArray.at(i).value.id;
+    if (this.AssetBureauEnquiryArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-      this.loanEnquiryInThirtyDaysArray.removeAt(i);
+      if (id == undefined) {
+        this.AssetBureauEnquiryArray.removeAt(i);
+      } else {
+        const body = {
+          id: id,
+          userId: this.userId,
+        };
+        this.odDetailsService
+          .softDeleteBureauEnquiry(body)
+          .subscribe((res: any) => {
+            this.AssetBureauEnquiryArray.removeAt(i);
+            const message = res.ProcessVariables.error.message;
+            this.toasterService.showSuccess(message, '');
+          });
+      }
+    }
+   
+  }
+  private getAssetBureauEnquirySixtyDays(data?: any) {
+    if (data === undefined) {
+      return this.formBuilder.group({
+        memberType: [""],
+        enquiryDate: [""],
+        typeOfLoan: [""],
+        amount: [""],
+      });
+    } else {
+      return this.formBuilder.group({
+        id: [data.id ? data.id : null],
+        memberType: [data.memberType ? data.memberType : ""],
+        enquiryDate: [
+          data.enquiryDate
+            ? this.utilityService.getDateFromString(data.enquiryDate)
+            : "",
+        ],
+        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
+        amount: [data.amount ? data.amount : ""],
+      });
     }
   }
-  private getLoanEnquiryInSixtyDays() {
-    return this.formBuilder.group({
-      member: [""],
-      enquiryDate: [""],
-      typeOfLoan: [""],
-      enquiryAmount: [""],
-    });
-  }
-  addLastSixtyDaysLoan() {
-    this.loanEnquiryInSixtyDaysArray.push(this.getLoanEnquiryInSixtyDays());
+  addLastSixtyDaysLoan(data?: any) {
+    if (data && data.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < data.length; i++) {
+        this.AssetBureauEnquirySixtyDaysArray.push(
+          this.getAssetBureauEnquirySixtyDays(data[i])
+        );
+      }
+    } else {
+      this.AssetBureauEnquirySixtyDaysArray.push(
+        this.getAssetBureauEnquirySixtyDays()
+      );
+    }
   }
   removeLastSixtyDaysLoan(i?: any) {
-    if (this.loanEnquiryInSixtyDaysArray.controls.length > 0) {
+    const id = this.AssetBureauEnquirySixtyDaysArray.at(i).value.id;
+    if (this.AssetBureauEnquirySixtyDaysArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
-      this.loanEnquiryInSixtyDaysArray.removeAt(i);
+      if (id == undefined) {
+        this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
+      } else {
+        const body = {
+          id: id,
+          userId: this.userId,
+        };
+        this.odDetailsService
+          .softDeleteBureauEnquiry(body)
+          .subscribe((res: any) => {
+            this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
+            const message = res.ProcessVariables.error.message;
+            this.toasterService.showSuccess(message, '');
+          });
+      }
     }
+  
   }
-  get f() { return this.odDetailsForm.controls; }
+  get f() {
+    return this.odDetailsForm.controls;
+  }
 
+  getOdDetails() {
+    const body = {
+      userId: this.userId,
+      applicantId: this.applicantId,
+    };
+    this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
+      this.odDetails = res.ProcessVariables;
+      this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
+      this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
+
+      this.addOdDetails(res.ProcessVariables.odAccountDetails);
+      if(this.odDetails.assetAppOdDetails){
+      this.odDetailsForm.patchValue({
+        totalAmount: this.odDetails.assetAppOdDetails.totalAmount
+          ? this.odDetails.assetAppOdDetails.totalAmount
+          : null,
+      });
+      this.odDetailsForm.patchValue({
+        highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
+      });
+      this.odDetailsForm.patchValue({
+        highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
+      });
+      this.odDetailsForm.patchValue({
+        writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
+      });
+      this.odDetailsForm.patchValue({
+        writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
+          .writtenOffLoansWithSuite,
+      });
+      this.odDetailsForm.patchValue({
+        lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
+      });
+      this.odDetailsForm.patchValue({
+        settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
+      });
+      this.odDetailsForm.patchValue({
+        clearanceProofCollected: this.odDetails.assetAppOdDetails
+          .clearanceProofCollected,
+      });
+      this.odDetailsForm.patchValue({
+        clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
+      });
+      this.odDetailsForm.patchValue({
+        justification: this.odDetails.assetAppOdDetails.justification,
+      });}
+    });
+  }
+  getOdApplicant() {
+    const body = {
+      userId: this.userId,
+      applicantId: this.applicantId,
+    };
+    this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
+      this.odApplicantData = res.ProcessVariables;
+    });
+  }
   onSubmit() {
-    this.submitted = false;
+    this.submitted = true;
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
       this.toasterService.showError(
-        'Fields Missing Or Invalid Pattern Detected',
-        'Cibil OD Details'
+        "Fields Missing Or Invalid Pattern Detected",
+        "OD Details"
       );
       return;
     } else {
       this.submitted = true;
 
-      this.toasterService.showSuccess(
-        'Saved Successfully',
-        'Cibil OD Details'
-      );
+      this.odDetailsForm.value.odAccountDetails.forEach((ele) => {
+        ele.odType = ele.odType.toString();
+        ele.otherTypeOfloan = ele.otherTypeOfloan.toString();
+        ele.typeOfLoan = ele.typeOfLoan.toString();
+        ele.odAmount = ele.odAmount.toString();
+        ele.odDpd = Number(ele.odDpd);
+      });
+      this.odDetailsForm.value.AssetBureauEnquiry.forEach((ele) => {
+        ele.memberType = ele.memberType.toString();
+        ele.enquiryDate = this.utilityService.convertDateTimeTOUTC(
+          ele.enquiryDate,
+          "DD/MM/YYYY"
+        );
+        ele.typeOfLoan = ele.typeOfLoan.toString();
+        ele.amount = ele.amount.toString();
+      });
+
+      this.odDetailsForm.value.AssetBureauEnquirySixtyDays.forEach((ele) => {
+        ele.memberType = ele.memberType.toString();
+        ele.enquiryDate = this.utilityService.convertDateTimeTOUTC(
+          ele.enquiryDate,
+          "DD/MM/YYYY"
+        );
+        ele.typeOfLoan = ele.typeOfLoan.toString();
+        ele.amount = ele.amount.toString();
+      });
+      const body = {
+        userId: this.userId,
+        applicantId: this.applicantId,
+        odAccountDetails: this.odDetailsForm.controls.odAccountDetails.value,
+        AssetBureauEnquiry: this.odDetailsForm.controls.AssetBureauEnquiry
+          .value,
+        AssetBureauEnquirySixtyDays: this.odDetailsForm.controls
+          .AssetBureauEnquirySixtyDays.value,
+
+        assetAppOdDetails: {
+          clearanceProof: this.odDetailsForm.controls.clearanceProof.value,
+          clearanceProofCollected: this.odDetailsForm.controls
+            .clearanceProofCollected.value,
+          highDpd12m: this.odDetailsForm.controls.highDpd12m.value,
+          highDpd6m: this.odDetailsForm.controls.highDpd6m.value,
+          justification: this.odDetailsForm.controls.justification.value,
+          lossLoans: Number(this.odDetailsForm.controls.lossLoans.value),
+          settledLoans: Number(this.odDetailsForm.controls.settledLoans.value),
+          writtenOffLoans: Number(
+            this.odDetailsForm.controls.writtenOffLoans.value
+          ),
+          writtenOffLoansWithSuite: Number(
+            this.odDetailsForm.controls.writtenOffLoansWithSuite.value
+          ),
+          totalAmount: this.totalOdAmount.toString(),
+        },
+      };
+
+      this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res && res.ProcessVariables.error.code == "0") {
+          // tslint:disable-next-line: prefer-const
+
+          let odAccountDetailsControls = this.odDetailsForm.controls
+            .odAccountDetails as FormArray;
+          odAccountDetailsControls.controls = [];
+          const AssetBureauEnquiryControls = this.odDetailsForm.controls
+            .AssetBureauEnquiry as FormArray;
+          AssetBureauEnquiryControls.controls = [];
+          const AssetBureauEnquirySixtyDaysControls = this.odDetailsForm
+            .controls.AssetBureauEnquirySixtyDays as FormArray;
+          AssetBureauEnquirySixtyDaysControls.controls = [];
+          this.toasterService.showSuccess(
+            "Saved Successfully",
+            "OD Details"
+          );
+          this.getOdDetails();
+        }
+      });
     }
   }
   onOdAmount(event: any, i: number) {
- 
-    const odAmount = this.odDetailsListArray.value[i].odAmount;
+    const odAmount = this.odAccountDetailsArray.value[i].odAmount;
     const totalOdAmount = odAmount;
-    this.odDetailsListArray.at(i).patchValue({ totalOdAmount });
-    if (this.odDetailsListArray && this.odDetailsListArray.length > 0) {
+    this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
+    if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalOdAmount = 0;
-      for (let i = 0; i < this.odDetailsListArray.length; i++) {
+      for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
         this.totalOdAmount = Math.round(
-          this.totalOdAmount + Number(this.odDetailsListArray.value[i].odAmount)
+          this.totalOdAmount +
+          Number(this.odAccountDetailsArray.value[i].odAmount)
         );
       }
     }
+  }
+  onBackToApplicant() {
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
 }

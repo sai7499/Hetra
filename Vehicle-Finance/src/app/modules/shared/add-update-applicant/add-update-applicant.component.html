@@ -215,7 +215,8 @@
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="Vechical Type">{{labels?.houseOwnerProperty}}<sub class="star_blue_col">*</sub></label>
                   <app-vf-custom-select [values]="ownerPropertyRelation"
-                    formControlName="houseOwnerProperty"  [isDirty]="isDirty">
+                    formControlName="houseOwnerProperty"  [isDirty]="isDirty"
+                    >
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -311,12 +312,14 @@
 
               <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='30'">
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                  <label for="aadharnumber">{{labels?.grossReceipt}}
+                  <label >{{labels?.grossReceipt}}
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="grossReceipt"
-                  
+                    [maxLength]="validationData?.amountValue.maxLength" 
+                    [type]="validationData?.amountValue.type"
                     [isRequired]="'Gross Receipt is Required'" 
-                    [isDirty]="isDirty">
+                    [isDirty]="isDirty"                    
+                    >
                   </app-custom-input>
                 </div>
               </div>

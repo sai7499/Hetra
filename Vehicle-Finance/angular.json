@@ -29,7 +29,7 @@
               },
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/bootstrap.min.css",
-              "./src/styles.css",
+              "src/styles.css",
               "src/assets/css/style-responsive.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "./node_modules/font-awesome/css/font-awesome.min.css"

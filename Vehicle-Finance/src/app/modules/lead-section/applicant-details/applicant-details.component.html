@@ -126,8 +126,7 @@
               <tbody>
                 <tr
                   *ngFor="
-                    let item of applicantList
-                      | paginate: { itemsPerPage: 5, currentPage: p };
+                    let item of applicantList;                     
                     let i = index
                   "
                 >
@@ -149,13 +148,13 @@
                   </ng-container>
                   <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
                   <td>
-                    <i title="Edit"
+                    <i title="Edit applicant"
                       (click)="editApplicant(item.applicantId)"
                       class="fa fa-pencil"
                       aria-hidden="true"
                     ></i
-                    >&nbsp;&nbsp;<a data-toggle="modal" data-target="#myModal"
-                      ><i title="Delete"
+                    >&nbsp;&nbsp;<a data-toggle="modal" data-target="#myModal" title="Delete applicant"
+                      ><i 
                         class="fa fa-trash"
                         aria-hidden="true"
                         (click)="softDeleteApplicant(i, item.applicantId)"

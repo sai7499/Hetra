@@ -1154,7 +1154,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onNext() {
     // if (this.isMobileChanged || !this.applicant.otpVerified) {
-      if(this.savedChecking== true){
+      if(this.savedChecking == true){
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );
@@ -1340,7 +1340,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriNoOfAcres: Number(coApplicantModel.dedupe.agriNoOfAcres),
       agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
       agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
-      grossReceipt: Number(coApplicantModel.dedupe.grossReceipt),
+      grossReceipt: coApplicantModel.dedupe.grossReceipt,
 
       //customerCategory: 'SALCUSTCAT',
     };
@@ -1367,7 +1367,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
       if (response.Error === '0') {
-        this.savedChecking= true;
+        this.savedChecking = true;
         const message = response.ProcessVariables.error.message;
       }
       const url = this.location.path();
@@ -1538,10 +1538,28 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ).toUpperCase(),
         cstVatNumber: String(applicantDetails.cstVatNumber || '').toUpperCase(),
         applicantId: 0,
+        custSegment: applicantDetails.custSegment || '',
+        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+        averageBankBalance: applicantDetails.averageBankBalance || '',
+        rtrType: applicantDetails.rtrType || '',
+        prevLoanAmount: applicantDetails.prevLoanAmount || '',
+        loanTenorServiced: applicantDetails.loanTenorServiced ? 
+                            Number(applicantDetails.loanTenorServiced):0,
+        currentEMILoan: applicantDetails.currentEMILoan || '',
+        agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres):0,
+        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+        agriAppRelationship: applicantDetails.agriAppRelationship || '',
+        grossReceipt: applicantDetails.grossReceipt || ''
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
       }
+
+      
       this.applicantService
         .checkSalesApplicantDedupe(data)
         .subscribe((value: any) => {
@@ -1643,6 +1661,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           applicantDetails.passportExpiryDate
         ),
         applicantId: 0,
+        custSegment: applicantDetails.custSegment || '',
+        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+        averageBankBalance: applicantDetails.averageBankBalance || '',
+        rtrType: applicantDetails.rtrType || '',
+        prevLoanAmount: applicantDetails.prevLoanAmount || '',
+        loanTenorServiced: applicantDetails.loanTenorServiced ? 
+                            Number(applicantDetails.loanTenorServiced):0,
+        currentEMILoan: applicantDetails.currentEMILoan || '',
+        agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres):0,
+        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+        agriAppRelationship: applicantDetails.agriAppRelationship || '',
+        grossReceipt: applicantDetails.grossReceipt || ''
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
