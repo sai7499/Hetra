@@ -23,11 +23,13 @@ import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { PdListComponent } from './pd-list/pd-list.component';
 import { FiListComponent } from './fi-list/fi-list.component';
+import { CanActivateService } from '@services/can-activate.service';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: DdeComponent,
+    // canActivate: [CanActivateService],
     resolve: { leadData: LeadDataResolverService },
     children: [
       {
@@ -116,7 +118,7 @@ const routes: Routes = [
         component: CibilOdComponent,
       },
       {
-        path: 'cibil-od-list',
+        path: 'cibil-od-list/:applicantId',
         component: CibilOdListComponent,
       },
     ],

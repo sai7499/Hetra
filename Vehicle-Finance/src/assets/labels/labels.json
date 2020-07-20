@@ -66,7 +66,7 @@
     "vechicalType": "Vehicle Type",
     "vechicalUsage": "Vehicle Usage",
     "vechicalRegion": "Region",
-    "registartionNumber": "Vechical Registration No",
+    "registartionNumber": "Vehicle Registration No",
     "assetMake": "Asset Make",
     "assetModel": "Asset Model",
     "assetBodyType": "Asset Body Type",
@@ -886,6 +886,15 @@
     "typeOfloan": "Type of loan",
     "otherTypeOfloan": "Other type of loan",
     "odDpd": "OD DPD",
+    "totalODAmount": "Total OD Amount",
+    "highestDPDInLastSixM": "Highest DPD in last 6M (under individual or joint status)",
+    "highestDPDInLastTwelveM": "Highest DPD in last 12M (under individual or joint status)",
+    "countOfWrittenOffLoans": "Count of  written off loans",
+    "countOfWrittenOffLoansAlongWithSuiteFiled": "Count of  written off loans along with suite filed",
+    "countOfLossloans": "Count of loss loans",
+    "countOfSettledLoans": "Count of settled loans",
+    "clearanceProofCollected": "Clearance Proof Collected",
+    "cibilODDPDJustification": "CIBIL OD DPD JUSTIFICATION",
     "loanEnquiriesInLast30DaysWithTypeOfLoan": "Loan enquiries in last 30 Days with type of loan",
     "member": "Member",
     "enquiryDate": "Enquiry Date",
@@ -1036,11 +1045,27 @@
     "vfSheetTag82": "All the terms and conditions of sanction of the above loan facility have been explained to me/us Mr / Mrs / Miss KUMAR. (EQK7507 )(Employees / DSA Name and employee ID/DSA, code has to be mentioned)and I/we have understood the same",
     "paymentType": "PAYMENT TYPE:",
     "payeeName": "PAYEE NAME:",
+    "acNo": "A/c No",
     "paymentAmount": "PAYMENT AMOUNT:",
+    "monthlyIncomeAmount" : "Monthly Income Amount",
+    "annualIncomeAmount" : "Annual Income Amount",
+    "ownHouseProofAvail" : "Own House Proof Available?",
+    "houseOwnerProperty" : "Owner of the Property",
+    "ownHouseAppRelationship" : "Relationship with the Applicant ",
+    "averageBankBalance" : "Average Bank Balance",
+    "rtrType" : "RTR Type",
+    "prevLoanAmount": "Previous Loan Amount",
+    "loanTenorServiced" : "Loan Tenor Service(in months)",
+    "currentEMILoan" : "EMI of the Current Loan",
+    "agriNoOfAcres": "Agri(No of Acres)",
+    "grossReceipt" : "Gross Receipt",
+
+
+
     "termSheetTag1" : "Equitas Small Finance Bank Limited",
     "termSheet": "TERM SHEET",
     "page" : "Page",
-    "ProposalNo": "Proposal No",
+    "proposalNo": "Proposal No",
     "applicationNo" : "Application No",
     "scheme" : "Scheme",
     "manufacturer": "Manufacturer",
@@ -1055,7 +1080,7 @@
     "schemeDescr": "Scheme Descr.",
     "permitStatus" : "Permit Status",
     "fcExpiryGapDays":"FC Expiry Gap Days",
-    "adv.AdjustmentIMC": "Adv.Adjustment IMC",
+    "advAdjustmentIMC": "Adv.Adjustment IMC",
     "collateralApplicable":"Collateral Applicable",
     "collateralName": "Collateral Name",
     "spokeLocation" : "Spoke Location",
@@ -1071,7 +1096,7 @@
     "genderOfCustomer" : "Gender Of Customer",
     "distance": "Distance",
     "residenceStability2" : "Residence Stability",
-    "co-ApplicantDetails" : "Co-Applicant Details",
+    "coApplicantDetails" : "Co-Applicant Details",
     "guarantorDetails" : "Guarantor Details",
     "applicantBankName" : "Applicant Bank Name",
     "MICRNO" : "MICR NO",
@@ -1095,7 +1120,7 @@
     "plcyLapseDays" : "Plcy Lapse Days",
     "processingFee%" : "Processing Fee%",
     "processingFee" : "Processing Fee",
-    "Asset Age" : "Asset Age",
+    "assetAge" : "Asset Age",
     "vintageDeviation" : "Vintage Deviation",
     "vintageDeviationClassification" : "Vintage Deviation Classification",
     "repayableMonths" : "Repayable Months",
@@ -1108,7 +1133,7 @@
     "npdcMethod": "NPDC Method",
     "noOfPdc" : "No. of PDC",
     "noSecPdc" : "No.Sec.PDC",
-    "No 0f Adv.EMI" : "No 0f Adv.EMI",
+    "no0fAdvEMI" : "No 0f Adv.EMI",
     "advEmiAmt" : "Adv.EMI Amt",
     "proposalDt" :"Proposal Dt",
     "emiStartDt" : "EMI Start Dt.",
@@ -1151,6 +1176,7 @@
    "repayInMonths" : "Repay in Months",
    "recoveryStatus" : "Recovery Status",
    "closedCancelledDate" : "Closed / Cancelled Date",
+   "dateTime": "Date & Time",
    "dpd" : "DPD",
     "validationData": {
         "name": {
@@ -1427,7 +1453,11 @@
             "maxLength": {
                 "rule": 6
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[5-6]{1}[0-9]{5}",
+                "msg": "Invalid Pincode"
+            }
         },
         "numberOfYears": {
             "maxLength": {

@@ -11,9 +11,12 @@
         </app-vf-custom-select> -->
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
             <h3 class="title">{{label?.passengerTitle}}</h3>
-
-            <!-- <p id="">Customer Name: Nixon</p>  -->
-            <p id="">{{label?.vehicleModel}}:{{vehicleModel}}</p>
+             
+            
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
+            
+            
             <!-- <form action="" method="POST"> -->
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
@@ -597,8 +600,8 @@
             *ngIf="vehicle_viability_value === '2VHCLVBTY'">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
-            <!-- <p id="">Customer Name: ANTONY</p>  -->
-            <p id="">{{label?.vehicleModel}}:{{vehicleModel}}</p>
+            <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
             <table
@@ -821,8 +824,8 @@
         <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === '3VHCLVBTY'">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
-            <!-- <p id="">Customer Name: BALAJI</p>  -->
-            <p id="">{{label?.vehicleModel}}: {{vehicleModel}}</p>
+            <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
             <table

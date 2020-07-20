@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiListComponent } from './fi-list.component';
+import { CustomerFeedbackComponent } from './customer-feedback.component';
 
-describe('FiListComponent', () => {
-  let component: FiListComponent;
-  let fixture: ComponentFixture<FiListComponent>;
+describe('CustomerFeedbackComponent', () => {
+  let component: CustomerFeedbackComponent;
+  let fixture: ComponentFixture<CustomerFeedbackComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiListComponent ]
+      declarations: [ CustomerFeedbackComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiListComponent);
+    fixture = TestBed.createComponent(CustomerFeedbackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

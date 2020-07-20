@@ -92,7 +92,7 @@ export class DdeComponent implements OnInit {
       return 7;
     } else if (url.includes('tvr-details')) {
       return 8;
-    } else if (url.includes('fl-report')) {
+    } else if (url.includes('fi-list')) {
       return 9;
     } else if (url.includes('pd-list')) {
       return 10;
@@ -102,9 +102,7 @@ export class DdeComponent implements OnInit {
       return 11;
     } else if (url.includes('cibil-od')) {
       return 12;
-    } else if (url.includes('cibil-od-list')) {
-      return 12;
-    } else if (url.includes('score-card')) {
+    }  else if (url.includes('score-card')) {
       return 13;
     } else if (url.includes('cam')) {
       return 14;

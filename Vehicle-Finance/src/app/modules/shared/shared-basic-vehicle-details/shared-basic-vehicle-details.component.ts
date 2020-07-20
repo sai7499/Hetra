@@ -5,7 +5,6 @@ import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { VehicleDataStoreService } from '../../../services/vehicle-data-store.service';
-import { ArrayType } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { SharedService } from '../shared-service/shared-service';
@@ -21,8 +20,6 @@ import { ToasterService } from '@services/toaster.service';
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
-
-  // @Output() formDataOutput = new EventEmitter<ArrayType>();
 
   maxDate = new Date();
   initalZeroCheck = []
@@ -382,20 +379,36 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  // formDataOutputMethod(event) {
-  //   this.sharedService.getFormValidation(this.basicVehicleForm)
-  //   this.formDataOutput.emit(this.basicVehicleForm.value.vehicleFormArray)
-  // }
-
   onVehicleRegion(value: any) {
+    console.log("prod code ", this.productCatoryCode, this.productCatoryId)
     const region = value ? value : '';
     let assetMakeArray = [];
-    this.vehicleDetailService.getVehicleMasterFromRegion(region).subscribe((data: any) => {
+
+    const data = {
+      "region": region,
+      "productCategory": this.productCatoryCode
+    }
+
+    this.vehicleDetailService.getVehicleMasterFromRegion(data).subscribe((res: any) => {
       this.uiLoader.start();
-      this.regionDataArray = data.ProcessVariables.vehicleMasterDetails ? data.ProcessVariables.vehicleMasterDetails : [];
-      this.assetMake = this.utilityService.getCommonUniqueValue(this.regionDataArray, 'uniqueMFRCode')
-      assetMakeArray = this.regionDataArray.length > 0 ? this.utilityService.getValueFromJSON(this.regionDataArray, "uniqueMFRCode", "mfrCode") : []
-      this.vehicleLov.assetMake = assetMakeArray;
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+        if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+          assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+            "uniqueMFRCode", "mfrCode")
+          console.log(assetMakeArray, 'make')
+          this.vehicleLov.assetMake = assetMakeArray;
+
+          console.log(this.vehicleLov, 'make')
+        } else {
+          this.vehicleLov.assetMake = []
+          this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Asset Make')
+        }
+      } else {
+        this.vehicleLov.assetMake = []
+        this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+      }
       this.uiLoader.stop();
     }, error => {
       console.log(error, 'error')
@@ -403,24 +416,96 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onAssetMake(value) {
+  onAssetMake(value, obj) {
+
+    console.log(value, 'value', obj)
+
+    let VehicleTypeArray = []
+
     if (value) {
-      this.vehicleType = this.regionDataArray.filter(data => data.uniqueMFRCode === value)
 
-      let vehicleTypeArray = this.assetMake.filter(data => data.uniqueMFRCode === value)
+      const data = {
+        "region": obj.value.region,
+        "productCategory": this.productCatoryCode,
+        "make": value
+      }
 
-      this.vehicleLov.vehicleType = this.utilityService.getValueFromJSON(this.vehicleType,
-        "vehicleTypeUniqueCode", "vehicleTypeDescription");
+      this.vehicleDetailService.getVehicleMasterFromAssetMake(data).subscribe((res: any) => {
+        this.uiLoader.start();
+        console.log(res.ProcessVariables.vehicleMasterDetails, 'make')
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+            VehicleTypeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+              "vehicleTypeUniqueCode", "vehicleTypeCode");
+
+            console.log(VehicleTypeArray, 'type')
+
+            this.vehicleLov.vehicleType = VehicleTypeArray;
+
+          } else {
+            this.vehicleLov.vehicleType = []
+            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Asset Make')
+          }
+        } else {
+          this.vehicleLov.vehicleType = []
+          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+        }
+        this.uiLoader.stop();
+      }, error => {
+        console.log(error, 'error')
+        this.uiLoader.stop();
+      });
     }
 
   }
 
-  onVehicleType(value) {
+  onVehicleType(value, obj) {
 
-    this.assetBodyType = this.vehicleType.filter(data => data.vehicleTypeUniqueCode === value)
+    let assetBodyType = []
 
-    this.vehicleLov.assetBodyType = this.utilityService.getValueFromJSON(this.assetBodyType,
-      "uniqueSegmentCode", "segmentCode");
+    if (value) {
+
+      const data =
+      {
+        "region": obj.value.region,
+        "productCategory": this.productCatoryCode,
+        "make": obj.value.assetMake,
+        "vehicleType": value
+      }
+
+      this.vehicleDetailService.getVehicleMasterFromVehicleType(data).subscribe((res: any) => {
+        this.uiLoader.start();
+        console.log(res.ProcessVariables.vehicleMasterDetails, 'make')
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+            assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+              "uniqueSegmentCode", "segmentCode");
+
+            this.vehicleLov.assetBodyType = assetBodyType;
+
+          } else {
+            this.vehicleLov.assetBodyType = []
+            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Asset Make')
+          }
+        } else {
+          this.vehicleLov.assetBodyType = []
+          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+        }
+        this.uiLoader.stop();
+      }, error => {
+        console.log(error, 'error')
+        this.uiLoader.stop();
+      });
+    }
+
+    // this.assetBodyType = this.vehicleType.filter(data => data.vehicleTypeUniqueCode === value)
+
+    // this.vehicleLov.assetBodyType = this.utilityService.getValueFromJSON(this.assetBodyType,
+    //   "uniqueSegmentCode", "segmentCode");
   }
 
   onAssetBodyType(value) {

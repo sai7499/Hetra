@@ -13,12 +13,8 @@ export class FiReportComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
-  isDirty: boolean = false;
-
-  namePattern = {
-    rule: '^[A-Z, ]*[a-z, ]*[0-9, ]*$',
-    msg: 'Invalid Name',
-  };
+  isDirty: boolean;
+  leadId: number;
 
   constructor(
     private labelService: LabelsService,
@@ -28,6 +24,9 @@ export class FiReportComponent implements OnInit {
     private router: Router
   ) {
     this.getLOV();
+    this.isDirty = true;
+    this.leadId = this.activatedRoute.snapshot.params.leadId;
+    console.log(this.leadId);
   }
 
   async ngOnInit() {
@@ -46,7 +45,8 @@ export class FiReportComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list'])
+
   }
 
   onSave() {
@@ -54,6 +54,7 @@ export class FiReportComponent implements OnInit {
   }
 
   onNext() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
 
   }
 }

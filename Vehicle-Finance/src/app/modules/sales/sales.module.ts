@@ -14,7 +14,6 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { DatePickerModule} from '@progress/kendo-angular-dateinputs'
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
-// import { DndListModule } from 'ngx-drag-and-drop-lists';
 
 @NgModule({
   imports: [
@@ -25,7 +24,6 @@ import { AddvehicleComponent } from './addvehicle/addvehicle.component';
     CommonModule,
     SharedModule,
     LeadSectionModule,
-    // DndListModule,
     DatePickerModule
   ],
   providers: [LeadDataResolverService],

@@ -46,6 +46,7 @@ export class TvrDetailsComponent implements OnInit {
     });
   }
 
+  // getting TVR applicant details method
   getTvrDetailsList() {
     const data = {
       leadId: this.leadId,

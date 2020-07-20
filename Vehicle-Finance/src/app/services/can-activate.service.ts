@@ -4,7 +4,9 @@ import { LoginStoreService } from './login-store.service';
 import { Location } from '@angular/common';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 
 export class CanActivateService implements CanActivate {
 
@@ -18,10 +20,16 @@ export class CanActivateService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const userDetails = this.loginStoreService.getRolesAndUserDetails();
-        const currentUser = userDetails[0].roleType;
+        const currentUser = (userDetails.roles) ? userDetails.roles[0].roleType : null;
 
         const currentUrl = this.location.path();
-        this.user = currentUrl.includes('dde') ? 2 : 1;
+        // this.user = currentUrl.includes('dde') ? 2 : 1;
+        if (currentUrl.includes('dde')) {
+            this.user = 2;
+        } else if (currentUrl.includes('sales')) {
+            this.user = 1;
+        }
+
         if (currentUser === this.user) {
             return true;
         } else {
