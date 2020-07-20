@@ -1151,6 +1151,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onNext() {
+  
     // if (this.isMobileChanged || this.applicant.otpVerified) {
 
     //   this.router.navigateByUrl(
@@ -1162,15 +1163,50 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     //   this.navigateToApplicantList();
     // }
 
-    if (this.savedChecking == true) {
+    // if (this.savedChecking == true) {
+    //   this.router.navigateByUrl(
+    //     `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+    //   );
+    // }
+    // else {
+    //   this.toasterService.showInfo(
+    //     'You should save First',
+    //     ''
+    //   );
+    // }
+
+    if (this.applicantType === 'INDIVENTTYP') {
+      if (
+        this.coApplicantForm.get('dedupe').invalid ||
+        this.coApplicantForm.get('currentAddress').invalid ||
+        this.coApplicantForm.get('permentAddress').invalid
+      ) {
+        this.isDirty = true;
+        this.toasterService.showInfo(
+          'Please fill all mandatory fields.',
+          'For Next'
+        );
+        return;
+      }
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );
-    }
-    else {
-      this.toasterService.showInfo(
-        'You should save First',
-        ''
+     
+    } else {
+      if (
+        this.coApplicantForm.get('dedupe').invalid ||
+        this.coApplicantForm.get('registeredAddress').invalid ||
+        this.coApplicantForm.get('communicationAddress').invalid
+      ) {
+        this.isDirty = true;
+        this.toasterService.showInfo(
+          'Please fill all mandatory fields.',
+          'For Next'
+        );
+        return;
+      }
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );
     }
 

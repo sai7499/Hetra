@@ -388,6 +388,7 @@
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="corporateIdentificationNumber"
                     [maxLength]="validationData?.cinRegNumber?.maxLength" [type]="validationData?.cinRegNumber?.type"
+                    [patternCheck]="validationData?.cinRegNumber?.patternCheck"
                     [inputClass]="'text-uppercase'" [isRequired]="'Cin/Reg Number is Required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -436,7 +437,8 @@
                   <label for="aadharnumber">{{ labels?.cstVatNumber }}
                   </label>
                   <app-custom-input formControlName="cstVatNumber" [maxLength]="validationData?.cstVatNumber?.maxLength"
-                    [type]="validationData?.cstVatNumber?.type" [inputClass]="'text-uppercase'">
+                    [type]="validationData?.cstVatNumber?.type" [inputClass]="'text-uppercase'"
+                    [patternCheck]="validationData?.cstVatNumber?.patternCheck">
                   </app-custom-input>
                 </div>
 
@@ -505,7 +507,8 @@
                   <label for="aadharnumber">{{ labels?.tanNumber }}
                   </label>
                   <app-custom-input formControlName="tanNumber" [maxLength]="validationData?.tanNumber?.max"
-                    [type]="validationData?.tanNumber?.type" [inputClass]="'text-uppercase'">
+                    [type]="validationData?.tanNumber?.type" 
+                    [patternCheck]="validationData?.tanNumber?.patternCheck" [inputClass]="'text-uppercase'">
                   </app-custom-input>
                 </div>
 
