@@ -590,10 +590,10 @@ export class IncomeDetailsComponent implements OnInit {
   getOtherFactoredIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
       .otherIncomeDetails as FormArray;
-    // const factoringPerc = incomeArray.at(i).value.factoring;
-    // const grossIncome = incomeArray.at(i).value.grossIncome;
-    // const value = Math.round(grossIncome * (factoringPerc / 100));
-    // incomeArray.at(i).patchValue({ factoredIncome: value });
+    const factoringPerc = incomeArray.at(i).value.factoring;
+    const grossIncome = incomeArray.at(i).value.grossIncome;
+    const value = Math.round(grossIncome * (factoringPerc / 100));
+    incomeArray.at(i).patchValue({ factoredIncome: value });
 
     if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
       if (incomeArray && incomeArray.length > 0) {
@@ -672,10 +672,10 @@ export class IncomeDetailsComponent implements OnInit {
         );
       }
     }
-    const factoringPerc = incomeArray.at(i).value.factoring;
-    const grossIncome = incomeArray.at(i).value.grossIncome;
-    const value = Math.round(grossIncome * (factoringPerc / 100));
-    incomeArray.at(i).patchValue({ factoredIncome: value });
+    // const factoringPerc = incomeArray.at(i).value.factoring;
+    // const grossIncome = incomeArray.at(i).value.grossIncome;
+    // const value = Math.round(grossIncome * (factoringPerc / 100));
+    // incomeArray.at(i).patchValue({ factoredIncome: value });
   }
 
   onTenure(event: any, i: number) {
