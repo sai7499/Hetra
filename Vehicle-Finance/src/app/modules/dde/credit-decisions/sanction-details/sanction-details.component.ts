@@ -26,7 +26,7 @@ labels: any = {};
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => (this.labels = data),
-      // (error) => console.log("PSL_DATA Label Error", error)
+      // (error) => console.log("Sanction-Details Label Error", error)
     );
   }
 
@@ -43,7 +43,6 @@ labels: any = {};
 
   onBack() {
     this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
-
   }
 
 }

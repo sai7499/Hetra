@@ -59,19 +59,21 @@ export class ViabilityListComponent {
         }
         console.log(this.route, 'queryParams Check');
     }
-    getViability(data: any, taskId?: any ) {
+    getViability(data: any, make: any, model: any, applicantName: any) {
       const body = {
         data: Number(data),
-        taskId: taskId
+        // tslint:disable-next-line: object-literal-shorthand
       };
+      const details = { make , model, applicantName };
       console.log(body);
-      this.viabilityService.CollateralId(body);
+      // this.viabilityService.CollateralId(body);
+      this.viabilityService.CollateralId(details);
       // tslint:disable-next-line: triple-equals
       if (this.router.url.includes('/dde')) {
         this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details/${data}`);
       // tslint:disable-next-line: triple-equals
       } else  {
-        this.router.navigate([`pages/viability-list/${this.leadId}/viability-details/${data}`], {queryParams: taskId});
+        this.router.navigate([`pages/viability-list/${this.leadId}/viability-details/${data}`]);
       }
     }
     onBack() {
