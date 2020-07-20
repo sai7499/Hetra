@@ -214,9 +214,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
-
-      console.log(res, 'res')
-
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
       this.vehicleLov.assetMake = [{
@@ -380,7 +377,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onVehicleRegion(value: any) {
-    console.log("prod code ", this.productCatoryCode, this.productCatoryId)
     const region = value ? value : '';
     let assetMakeArray = [];
 
@@ -397,13 +393,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
           assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
             "uniqueMFRCode", "mfrCode")
-          console.log(assetMakeArray, 'make')
           this.vehicleLov.assetMake = assetMakeArray;
-
-          console.log(this.vehicleLov, 'make')
         } else {
           this.vehicleLov.assetMake = []
-          this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Asset Make')
+          this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region')
         }
       } else {
         this.vehicleLov.assetMake = []
@@ -417,9 +410,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onAssetMake(value, obj) {
-
-    console.log(value, 'value', obj)
-
     let VehicleTypeArray = []
 
     if (value) {
@@ -432,7 +422,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       this.vehicleDetailService.getVehicleMasterFromAssetMake(data).subscribe((res: any) => {
         this.uiLoader.start();
-        console.log(res.ProcessVariables.vehicleMasterDetails, 'make')
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
 
           if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
@@ -440,17 +429,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             VehicleTypeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "vehicleTypeUniqueCode", "vehicleTypeCode");
 
-            console.log(VehicleTypeArray, 'type')
-
             this.vehicleLov.vehicleType = VehicleTypeArray;
 
           } else {
             this.vehicleLov.vehicleType = []
-            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Asset Make')
+            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Vehicle Master Asset Make')
           }
         } else {
           this.vehicleLov.vehicleType = []
-          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Asset Make')
         }
         this.uiLoader.stop();
       }, error => {
@@ -477,10 +464,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       this.vehicleDetailService.getVehicleMasterFromVehicleType(data).subscribe((res: any) => {
         this.uiLoader.start();
-        console.log(res.ProcessVariables.vehicleMasterDetails, 'make')
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
 
           if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+            this.assetBodyType = res.ProcessVariables.vehicleMasterDetails;
 
             assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "uniqueSegmentCode", "segmentCode");
@@ -489,11 +477,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
           } else {
             this.vehicleLov.assetBodyType = []
-            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Asset Make')
+            this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type')
           }
         } else {
           this.vehicleLov.assetBodyType = []
-          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Vehicle Type')
         }
         this.uiLoader.stop();
       }, error => {
@@ -501,11 +489,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.uiLoader.stop();
       });
     }
-
-    // this.assetBodyType = this.vehicleType.filter(data => data.vehicleTypeUniqueCode === value)
-
-    // this.vehicleLov.assetBodyType = this.utilityService.getValueFromJSON(this.assetBodyType,
-    //   "uniqueSegmentCode", "segmentCode");
   }
 
   onAssetBodyType(value) {
