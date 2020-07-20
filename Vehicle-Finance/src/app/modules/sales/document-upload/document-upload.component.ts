@@ -47,4 +47,20 @@ export class DocumentUploadComponent implements OnInit {
 
   }
 
+  onUploadFile(event: any) {
+
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const maxFileSize = 1024 * 1024 * 2;
+      if (file.size < maxFileSize) {
+        // this.imageChangedEvent = event;
+        // form.patchValue({
+        //   isImageCropped: true
+        // })
+      } else {
+        this.toStarService.showError('File size is exceeded..., File Size Should be 2MB', '');
+      }
+    }
+  }
+
 }

@@ -131,7 +131,9 @@
               </div>
               <div class="form-group col-sm-3 col-md-2">
                 <label>Attachment</label>
-                <input type="file" class="custom-file-input" multiple="" id="upload_files" name="filename" />
+                <!-- <input type="file" class="custom-file-input" multiple="" id="upload_files" name="filename" /> -->
+                <input type="file" accept=".jpg, .png, .jpeg, .pdf, .xsl" id="upload_files" class="custom-file-input"
+                  multiple="" (change)="onUploadFile($event)" #uploadFile>
               </div>
               <div class="form-group col-sm-3 col-md-2">
                 <label>Actions </label>
@@ -625,7 +627,7 @@
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
       <button class="btn btn-primary dash_href" type="button">
-       <a [routerLink]="['../vehicle-list']" >Back</a>
+        <a [routerLink]="['../vehicle-list']">Back</a>
       </button>
       <button class="btn btn-primary" id="submit">Save</button>
       <button class="btn btn-primary dash_href" type="button" data-toggle="modal" data-target="#myModal"
@@ -636,15 +638,14 @@
   </div>
 </div>
 
-
 <div id="overlay" *ngIf="isModelShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
+      <div class="panel-body">
         <!-- <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
           <span aria-hidden="true">&times;</span>
         </button> -->
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
