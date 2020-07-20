@@ -29,6 +29,7 @@ export class CibilOdListComponent implements OnInit {
   AssetBureauEnquiryArray: FormArray;
   AssetBureauEnquirySixtyDaysArray: FormArray;
   selctedLoan = [];
+  selectedLoanType: any;
   submitted = null;
   totalOdAmount = 0;
   leadId: number;
@@ -141,11 +142,11 @@ export class CibilOdListComponent implements OnInit {
     });
   }
 
-  onSelectLoan(event,i, j) {
-    console.log(i, j);
-    
+  onSelectLoan(event,i) {
     this.selctedLoan[i] = event;
     console.log(this.selctedLoan);
+    this.selectedLoanType = this.selctedLoan[i]
+    
     
   }
   onSelectProof(event) {

@@ -37,13 +37,13 @@
                   </th>
                   <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <ng-container *ngIf="selctedLoan !== 'OTRSLONTYP'">
+                  <ng-container *ngIf="selectedLoanType !== 'OTRSLONTYP'">
                     <th role="columnheader" class="caption">
                       {{ labels?.otherTypeOfloan
                       }}<sub class="star_blue_col">*</sub>
                     </th>
                   </ng-container>
-                  <ng-container *ngIf="selctedLoan === 'OTRSLONTYP'">
+                  <ng-container *ngIf="selectedLoanType === 'OTRSLONTYP'">
                     <th role="columnheader" class="caption">
                       {{ labels?.otherTypeOfloan
                       }}<sub class="star_red_col">*</sub>
