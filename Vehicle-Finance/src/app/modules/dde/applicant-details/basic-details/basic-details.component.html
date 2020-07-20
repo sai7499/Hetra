@@ -509,7 +509,7 @@
               <app-vf-custom-select
                 [values]="ownerPropertyRelation"
                 formControlName="houseOwnerProperty"
-                [isDirty]="isDirty"
+                [isDirty]="isDirty"                
               >
               </app-vf-custom-select>
             </div>
@@ -519,7 +519,7 @@
                 <sub class="star_blue_col">*</sub></label
               >
               <app-vf-custom-select
-                [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                [values]="LOV?.LOVS?.relationship"
                 formControlName="ownHouseAppRelationship"
                 [isDirty]="isDirty"
               >
@@ -634,7 +634,7 @@
                 ></label
               >
               <app-vf-custom-select
-                [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                [values]="LOV?.LOVS?.relationship"
                 formControlName="agriAppRelationship"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -651,8 +651,10 @@
                 >{{labels?.grossReceipt}} <sub class="star_red_col">*</sub></label
               >
               <app-custom-input formControlName="grossReceipt"
-              [isRequired]="'Gross Receipt is Required'" 
-              [isDirty]="isDirty">
+                [maxLength]="validationData?.amountValue.maxLength" 
+                [type]="validationData?.amountValue.type"
+                [isRequired]="'Gross Receipt is Required'" 
+                [isDirty]="isDirty">
               </app-custom-input>
             </div>
           </div>
@@ -1245,9 +1247,10 @@
                 <label for="aadharnumber">{{labels?.grossReceipt}}
                   <sub class="star_red_col">*</sub></label>
                 <app-custom-input formControlName="grossReceipt"
-                
-                      [isRequired]="'Gross Receipt is Required'" 
-                      [isDirty]="isDirty">
+                  [maxLength]="validationData?.amountValue.maxLength" 
+                  [type]="validationData?.amountValue.type"
+                  [isRequired]="'Gross Receipt is Required'" 
+                  [isDirty]="isDirty">
                 </app-custom-input>
               </div>
   
@@ -1343,7 +1346,7 @@
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select [values]="LOV.LOVS?.applicantRelationshipWithLead"
+                <app-vf-custom-select [values]="LOV.LOVS?.relationship"
                   formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
