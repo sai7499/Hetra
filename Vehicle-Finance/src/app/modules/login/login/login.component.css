@@ -261,6 +261,7 @@ h3 {
 
 .logo {
     margin: 0 0 25px 0;
+    width:60%;
 }
 
 .vertical-middle {
@@ -492,7 +493,7 @@ form .form-control {
 
 /* responsive login box*/
 
-@media (min-width:767px) {
+@media (min-width:400px) {
     .search {
         width: 360px;
         margin: 0 auto;

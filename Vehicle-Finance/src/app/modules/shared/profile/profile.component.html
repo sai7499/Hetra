@@ -1,13 +1,13 @@
 <nav id="bs-navbar" class="collapse navbar-collapse" style="text-align: center;">
-    <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown" [ngClass]="{'open-profile': openProfile}">
-            <a href="#" class="dropdown-toggle name" data-toggle="dropdown">
+    <ul class="nav navbar-nav navbar-right profile-header "  [ngClass]="{'profile-style': activityClass }" >
+        <li class="dropdown" [ngClass]="{'open-profile': openProfile}" >
+            <a href="#" class="dropdown-toggle name" data-toggle="dropdown"  >
                 <span class="name-circle"><span class="name-circle-txt"> {{firstLetter}} </span></span>{{userName}} <b
                     class="fa fa-angle-down"></b>
             </a>
             <ul class="dropdown-menu">
                 <li><a>{{userName}}</a></li>
-                <li><a>
+                <li><a class="user_name">
                         <select class="form-control" id="roles">
                             <option *ngFor="let role of roles" value="{{role.name}}" selected="selected">{{role.name}}
                             </option>
