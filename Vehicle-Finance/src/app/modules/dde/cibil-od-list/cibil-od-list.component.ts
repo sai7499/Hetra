@@ -45,6 +45,8 @@ export class CibilOdListComponent implements OnInit {
   rowIndex;
   errorMessage;
   isThirtyModelShow: boolean;
+  rowoIndex: any;
+  isSixtyModelShow: boolean;
 
   constructor(
     private labelService: LabelsService,
@@ -176,7 +178,7 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.odAccountDetailsArray.removeAt(i);
-        this.toasterService.showInfo("Row is Removed","OD Details")
+        this.toasterService.showInfo("Row is Removed", "OD Details")
         this.isODModelShow = false;
       } else {
         const body = {
@@ -189,7 +191,7 @@ export class CibilOdListComponent implements OnInit {
             this.odAccountDetailsArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, "");
-             this.isODModelShow = false;
+            this.isODModelShow = false;
 
           });
       }
@@ -234,7 +236,7 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquiryArray.removeAt(i);
-        this.toasterService.showInfo("Row is Removed","Last Thirty Days Loan Details")
+        this.toasterService.showInfo("Row is Removed", "Last Thirty Days Loan Details")
         this.isThirtyModelShow = false;
       } else {
         const body = {
@@ -247,12 +249,12 @@ export class CibilOdListComponent implements OnInit {
             this.AssetBureauEnquiryArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
-             this.isThirtyModelShow = false;
+            this.isThirtyModelShow = false;
 
           });
       }
     }
-   
+
   }
   private getAssetBureauEnquirySixtyDays(data?: any) {
     if (data === undefined) {
@@ -296,6 +298,8 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
+        this.toasterService.showInfo("Row is Removed", "Last Thirty Days Loan Details")
+        this.isSixtyModelShow = false;
       } else {
         const body = {
           id: id,
@@ -307,10 +311,12 @@ export class CibilOdListComponent implements OnInit {
             this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+        this.isSixtyModelShow = false;
+
           });
       }
     }
-  
+
   }
   get f() {
     return this.odDetailsForm.controls;
@@ -327,41 +333,42 @@ export class CibilOdListComponent implements OnInit {
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
 
       this.addOdDetails(res.ProcessVariables.odAccountDetails);
-      if(this.odDetails.assetAppOdDetails){
-      this.odDetailsForm.patchValue({
-        totalAmount: this.odDetails.assetAppOdDetails.totalAmount
-          ? this.odDetails.assetAppOdDetails.totalAmount
-          : null,
-      });
-      this.odDetailsForm.patchValue({
-        highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
-      });
-      this.odDetailsForm.patchValue({
-        highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
-      });
-      this.odDetailsForm.patchValue({
-        writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
-      });
-      this.odDetailsForm.patchValue({
-        writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
-          .writtenOffLoansWithSuite,
-      });
-      this.odDetailsForm.patchValue({
-        lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
-      });
-      this.odDetailsForm.patchValue({
-        settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
-      });
-      this.odDetailsForm.patchValue({
-        clearanceProofCollected: this.odDetails.assetAppOdDetails
-          .clearanceProofCollected,
-      });
-      this.odDetailsForm.patchValue({
-        clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
-      });
-      this.odDetailsForm.patchValue({
-        justification: this.odDetails.assetAppOdDetails.justification,
-      });}
+      if (this.odDetails.assetAppOdDetails) {
+        this.odDetailsForm.patchValue({
+          totalAmount: this.odDetails.assetAppOdDetails.totalAmount
+            ? this.odDetails.assetAppOdDetails.totalAmount
+            : null,
+        });
+        this.odDetailsForm.patchValue({
+          highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
+        });
+        this.odDetailsForm.patchValue({
+          highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
+        });
+        this.odDetailsForm.patchValue({
+          writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
+        });
+        this.odDetailsForm.patchValue({
+          writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
+            .writtenOffLoansWithSuite,
+        });
+        this.odDetailsForm.patchValue({
+          lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
+        });
+        this.odDetailsForm.patchValue({
+          settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
+        });
+        this.odDetailsForm.patchValue({
+          clearanceProofCollected: this.odDetails.assetAppOdDetails
+            .clearanceProofCollected,
+        });
+        this.odDetailsForm.patchValue({
+          clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
+        });
+        this.odDetailsForm.patchValue({
+          justification: this.odDetails.assetAppOdDetails.justification,
+        });
+      }
     });
   }
   getOdApplicant() {
@@ -375,23 +382,15 @@ export class CibilOdListComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.odDetailsForm);
-    
+
     this.submitted = true;
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
-<<<<<<< HEAD
-      // this.toasterService.showError(
-      //   "Fields Missing Or Invalid Pattern Detected",
-      //   "Cibil OD Details"
-      // );
-      // return;
-=======
       this.toasterService.showError(
         "Fields Missing Or Invalid Pattern Detected",
         "OD Details"
       );
       return;
->>>>>>> 6d9157f4087a6ee4043e3bd5aed314bd12d98e1c
     } else {
       this.submitted = true;
 
@@ -486,13 +485,22 @@ export class CibilOdListComponent implements OnInit {
       }
     }
   }
-  onBackToApplicant() {
+  onBackToODDetails() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
-  showModel(i){
-    this.rowIndex=i;
+  showOdModel(i) {
+    this.rowIndex = i;
     this.isODModelShow = true;
-    this.isThirtyModelShow = true
     this.errorMessage = "Are sure to remove row";
-    }
+  }
+  showThirtyModel(i) {
+    this.rowoIndex = i;
+    this.isThirtyModelShow = true;
+    this.errorMessage = "Are sure to remove row";
+  }
+  showSixtyModel(i) {
+    this.rowIndex = i;
+    this.isSixtyModelShow = true;
+    this.errorMessage = "Are sure to remove row";
+  }
 }

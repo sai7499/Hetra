@@ -133,9 +133,7 @@ export class DdeComponent implements OnInit{
       return 11;
     } else if (url.includes('cibil-od')) {
       return 12;
-    } else if (url.includes('cibil-od-list')) {
-      return 12;
-    } else if (url.includes('score-card')) {
+    }  else if (url.includes('score-card')) {
       return 13;
     } else if (url.includes('cam')) {
       return 14;
