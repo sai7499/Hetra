@@ -28,7 +28,7 @@ export class CibilOdListComponent implements OnInit {
   odAccountDetailsArray: FormArray;
   AssetBureauEnquiryArray: FormArray;
   AssetBureauEnquirySixtyDaysArray: FormArray;
-  selctedLoan: any;
+  selctedLoan = [];
   submitted = null;
   totalOdAmount = 0;
   leadId: number;
@@ -47,6 +47,7 @@ export class CibilOdListComponent implements OnInit {
   isThirtyModelShow: boolean;
   rowoIndex: any;
   isSixtyModelShow: boolean;
+  selctedProof: any;
 
   constructor(
     private labelService: LabelsService,
@@ -123,6 +124,8 @@ export class CibilOdListComponent implements OnInit {
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
+      console.log(this.odListLov.clearanceProof);
+      
       this.odListLov.highestDpd = value.LOVS.highestDpd;
     });
   }
@@ -138,8 +141,18 @@ export class CibilOdListComponent implements OnInit {
     });
   }
 
-  onSelectLoan(event) {
-    this.selctedLoan = event;
+  onSelectLoan(event,i, j) {
+    console.log(i, j);
+    
+    this.selctedLoan[i] = event;
+    console.log(this.selctedLoan);
+    
+  }
+  onSelectProof(event) {
+    this.selctedProof = null;
+    this.selctedProof = event;
+    console.log(event);
+    
   }
   private getodListDetails(data?: any) {
     if (data === undefined) {
@@ -177,9 +190,12 @@ export class CibilOdListComponent implements OnInit {
     if (this.odAccountDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
+        
         this.odAccountDetailsArray.removeAt(i);
         this.toasterService.showInfo("Row is Removed", "OD Details")
         this.isODModelShow = false;
+    this.onOdAmount(null,i);
+        
       } else {
         const body = {
           id: id,
@@ -192,6 +208,7 @@ export class CibilOdListComponent implements OnInit {
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, "");
             this.isODModelShow = false;
+            this.onOdAmount(null,i);
 
           });
       }
@@ -472,9 +489,9 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   onOdAmount(event: any, i: number) {
-    const odAmount = this.odAccountDetailsArray.value[i].odAmount;
-    const totalOdAmount = odAmount;
-    this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
+    // const odAmount = this.odAccountDetailsArray.value[i].odAmount;
+    // const totalOdAmount = odAmount;
+    // this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
     if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalOdAmount = 0;
       for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
