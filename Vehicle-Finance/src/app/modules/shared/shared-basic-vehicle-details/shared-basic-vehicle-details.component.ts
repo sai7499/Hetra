@@ -237,7 +237,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ]
 
       this.vehicleLov.assetVariant = [{
-        key: 0,
+        key: VehicleDetail.assetVarient,
         value: VehicleDetail.assetVarient
       }]
 
@@ -251,7 +251,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           vehicleType: VehicleDetail.vehicleTypeCode || '',
           assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
           assetModel: VehicleDetail.vehicleModelCode || '',
-          assetVariant: VehicleDetail.assetVarient === 'Petrol' ? '0' : '',
+          assetVariant: VehicleDetail.assetVarient || '',
           assetSubVariant: VehicleDetail.assetSubVariant || '',
           manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
           ageOfAsset: VehicleDetail.ageOfAsset || null,
@@ -300,7 +300,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostRef: VehicleDetail.assetCostRef || null,
       assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
       assetModel: VehicleDetail.vehicleModelCode || '',
-      assetVariant: VehicleDetail.assetVarient === 'Petrol' ? '0' : '',
+      assetVariant: VehicleDetail.assetVarient || '',
       assetSubVariant: VehicleDetail.assetSubVariant || '',
       category: VehicleDetail.category || '',
       chasisNumber: VehicleDetail.chasisNumber || null,
@@ -481,7 +481,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
 
           if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
-
+            this.assetBodyType = res.ProcessVariables.vehicleMasterDetails;
             assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "uniqueSegmentCode", "segmentCode");
 
