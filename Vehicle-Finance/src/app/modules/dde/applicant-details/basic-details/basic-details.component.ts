@@ -601,13 +601,13 @@ export class BasicDetailsComponent implements OnInit {
     if (directorValue >= 0) {
       
       //director.clear();
-      this.addDirectorControls(directorValue);
-      for (let i= 0 ; i< directorValue; i++){
-        this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
-        this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
-        this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
-         this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
-       }
+      // this.addDirectorControls(directorValue);
+      // for (let i= 0 ; i< directorValue; i++){
+      //   this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
+      //   this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
+      //   this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
+      //    this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
+      //  }
     }
     // director.controls= [];
     directorArray.forEach((value, index) => {
@@ -617,10 +617,12 @@ export class BasicDetailsComponent implements OnInit {
       //     din: new FormControl(value.din)
       // }
       // ))
-      director.at(index).patchValue({
-        directorName: value.directorName,
-        din: value.din
-      })
+      // director.at(index).patchValue({
+      //   directorName: value.directorName,
+      //   din: value.din
+      // })
+      director.push(this.getDirectorsControls(value)) 
+
     })
   }
 
@@ -741,10 +743,11 @@ export class BasicDetailsComponent implements OnInit {
   }
 
 
-  getDirectorsControls() {
+  getDirectorsControls(data?) {
+    console.log('data in dirtor control',data)
     return new FormGroup({
-      directorName: new FormControl(''),
-      din: new FormControl('')
+      directorName: new FormControl(),
+      din: new FormControl()
     });
   }
 
@@ -756,12 +759,12 @@ export class BasicDetailsComponent implements OnInit {
       this.addDirectorControls(val)
       if(val!==''){
         console.log('valuessss', val)
-        for (let i= 0 ; i< val; i++){
-         this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
-         this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
-         this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
-         this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
-        }
+        // for (let i= 0 ; i< val; i++){
+        //  this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
+        //  this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
+        //  this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
+        //  this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
+        // }
        
      }
     })
