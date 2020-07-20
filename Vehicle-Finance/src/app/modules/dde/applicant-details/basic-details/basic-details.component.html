@@ -519,7 +519,7 @@
                 <sub class="star_blue_col">*</sub></label
               >
               <app-vf-custom-select
-                [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                [values]="LOV?.LOVS?.relationship"
                 formControlName="ownHouseAppRelationship"
                 [isDirty]="isDirty"
               >
@@ -634,7 +634,7 @@
                 ></label
               >
               <app-vf-custom-select
-                [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+                [values]="LOV?.LOVS?.relationship"
                 formControlName="agriAppRelationship"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -1266,7 +1266,7 @@
               <div class="form-group col-sm-6 col-md-3 col-lg-3"
               *ngIf="productCategory=='1003' && fundingProgram=='26'">
                 <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_blue_col">*</sub></label>
-                <app-vf-custom-select [values]="LOV.LOVS?.applicantRelationshipWithLead"
+                <app-vf-custom-select [values]="LOV.LOVS?.relationship"
                   formControlName="ownHouseAppRelationship" 
                    
                   [isDirty]="isDirty">
@@ -1343,7 +1343,7 @@
               </div>
               <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select [values]="LOV.LOVS?.applicantRelationshipWithLead"
+                <app-vf-custom-select [values]="LOV.LOVS?.relationship"
                   formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>

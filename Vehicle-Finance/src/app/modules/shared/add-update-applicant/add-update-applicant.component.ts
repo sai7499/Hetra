@@ -226,7 +226,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData()
     console.log('data-->', leadData);
     this.productCategory= leadData['leadDetails'].productId;
-    this.fundingProgram= leadData['leadDetails'].fundingProgram
+    this.fundingProgram= leadData['leadDetails'].fundingProgram;
   }
 
   selectApplicantType(event: any) {
@@ -930,7 +930,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.contactNumber = companyPhoneNumber;
       this.setValueForFormControl('pan', details.pan);
 
-      this.checkedBoxHouse=applicantValue.applicantDetails.ownHouseProofAvail=='1' ? true : false
+      this.checkedBoxHouse=applicantValue.applicantDetails.ownHouseProofAvail=='1' ? true : false;
+      const monthlyIncome = applicantValue.applicantDetails.monthlyIncome;
       console.log('this.checkedBoxHouse',this.checkedBoxHouse)
 
       const dedupe = this.coApplicantForm.get('dedupe');
