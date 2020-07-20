@@ -70,14 +70,14 @@ export class ReferenceCheckComponent implements OnInit {
   showReinitiate: boolean;
   showSubmit = true;
   constructor(
-    private labelsData: LabelsService,
+    private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sharedSercive: SharedService,
     private pdDataService: PdDataService,
-    private toasterService: ToasterService,
+    private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
@@ -96,7 +96,7 @@ export class ReferenceCheckComponent implements OnInit {
     }
 
 
-    // accessing lead if from route
+    // accessing lead id from route
 
     this.leadId = (await this.getLeadId()) as number;
     // console.log("leadID =>", this.leadId)
@@ -124,7 +124,7 @@ export class ReferenceCheckComponent implements OnInit {
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
           if (this.version !== 'undefined') {
-            this.showSubmit = false
+            this.showSubmit = false;
           }
 
           this.getPdDetails();    // for getting the data for pd details on initializing the page
@@ -140,7 +140,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     this.setFormValue();          // for setting the values what we get when the component gets initialized
   }
-  getLeadId() {
+  getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -153,7 +153,7 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
-  getApplicantId() {
+  getApplicantId() { // function to access respective applicant id from the routing
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -164,7 +164,7 @@ export class ReferenceCheckComponent implements OnInit {
     });
   }
 
-  initForm() {
+  initForm() {  // fun that intializes the form group
     this.referenceCheckForm = new FormGroup({
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
@@ -187,7 +187,7 @@ export class ReferenceCheckComponent implements OnInit {
     });
   }
 
-  getPdDetails() {
+  getPdDetails() { // function calling get pd report api to get respective pd details
 
     const data = {
 
@@ -247,41 +247,9 @@ export class ReferenceCheckComponent implements OnInit {
     });
     console.log('patched form', this.referenceCheckForm);
   }
-  // getDateFormat(date) {
 
-  //   // console.log("in getDateFormat", date)
 
-  //   var datePart = date.match(/\d+/g);
-  //   var month = datePart[1];
-  //   var day = datePart[0];
-  //   var year = datePart[2];
-  //   const dateFormat: Date = new Date(year + '/' + month + '/' + day);
-
-  //   // year = dateFormat.getFullYear();
-  //   // month = Number(dateFormat.getMonth()) + 1;
-  //   // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-  //   // day = dateFormat.getDate().toString();
-  //   // day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-  //   // const formattedDate = year + '-' + month1 + '-' + day;
-  //   // //   const formattedDate = day + '-' + month1 + '-' + year;
-  //   // console.log("formattedDate", formattedDate)
-  //   return dateFormat;
-  // }
-  // sendDate(date) {
-  //   const dateFormat: Date = new Date(date);
-  //   let year = dateFormat.getFullYear();
-  //   let month = Number(dateFormat.getMonth()) + 1;
-  //   let day = dateFormat.getDate().toString();
-  //   let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-
-  //   day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-
-  //   const formattedDate = day + "/" + month1 + "/" + year;
-  //   return formattedDate;
-
-  // }
-
-  onFormSubmit() {
+  onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
     console.log('in save api');
     const formModal = this.referenceCheckForm.value;
     this.isDirty = true;
@@ -329,14 +297,12 @@ export class ReferenceCheckComponent implements OnInit {
 
       }
     });
-    // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
-    // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`])
+
 
 
   }
-  // method for approving pd report
 
-  approvePd() {
+  approvePd() { // function that calls approve pd report api for approving pd report
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1,
@@ -360,7 +326,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   // method for re-initating pd report
 
-  reinitiatePd() {
+  reinitiatePd() {  // fun calling reinitiate pd report  api for reinitiating the respective pd report
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1,
@@ -384,13 +350,13 @@ export class ReferenceCheckComponent implements OnInit {
 
   }
 
-  submitToCredit() {
+  submitToCredit() { // fun calling submit to credit api for submitting pd report
 
     this.isDirty = true;
-    // if (this.referenceCheckForm.invalid) {
-    //   this.toasterService.showWarning("please enter required details", '')
-    //   return;
-    // }
+    if (this.referenceCheckForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
 
     const data = {
       taskName: Constant.PDTASKNAME,
@@ -421,7 +387,7 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
 
-  onNavigateToPdSummary() {
+  onNavigateToPdSummary() { // fun to navigate to pd summary
 
     if (this.version !== 'undefined') {
 
@@ -436,7 +402,7 @@ export class ReferenceCheckComponent implements OnInit {
     }
   }
 
-  onNavigateBack() {
+  onNavigateBack() { // fun to navigate to back page
     if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
 
