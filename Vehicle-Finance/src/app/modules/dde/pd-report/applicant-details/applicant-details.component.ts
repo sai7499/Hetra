@@ -105,38 +105,39 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commomLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private personaldiscussion: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commomLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private personaldiscussion: PersonalDiscussionService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService,
+              private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
+                                                                                //  details from loginstore service
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log('this user roleType', this.roleType)
+    // console.log('this user roleType', this.roleType);
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        console.log("in labels data", this.labels)
+        // console.log('in labels data', this.labels);
       },
       error => {
         this.errorMsg = error;
       });
 
     this.initForm();
-    this.leadId = (await this.getLeadId()) as number;
-    console.log('Lead ID in Aplicant Details', this.leadId);
+    this.leadId = (await this.getLeadId()) as number; // calling get lead id fun at line 148
+    // console.log('Lead ID in Aplicant Details', this.leadId);
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
@@ -144,7 +145,7 @@ export class ApplicantDetailComponent implements OnInit {
     });
 
   }
-  getLeadId() {
+  getLeadId() {  // fun to get lead id from router
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
@@ -155,9 +156,9 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
 
-  getLOV() {
+  getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOVs', this.LOV);
+    // console.log('LOVs', this.LOV);
     this.activatedRoute.params.subscribe((value) => {
       this.getLeadSectionData(); // calling get lead section data function in line 174
       if (!value && !value.applicantId) {
@@ -175,7 +176,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   // getting lead data from create lead data service
 
-  async getLeadSectionData() {
+  async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
     // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
@@ -185,9 +186,9 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantDetailsFromLead = data['applicantDetails'][0]
     this.applicantFullName = applicantDetailsFromLead['fullName']
     this.mobileNo = applicantDetailsFromLead['mobileNumber']
-    console.log('in lead section data', this.applicantFullName, this.mobileNo)
+    // console.log('in lead section data', this.applicantFullName, this.mobileNo);
   }
-  initForm() {
+  initForm() { // initialising the form group
     this.applicantForm = new FormGroup({
       // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
       applicantName: new FormControl({ value: '', disabled: true }),
@@ -214,7 +215,7 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
 
-  setFormValue() {
+  setFormValue() { // patching the form values
     // console.log("in set form value")
     // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
     const applicantModal = this.applicantPdDetails || {};
@@ -264,7 +265,7 @@ export class ApplicantDetailComponent implements OnInit {
     }
   }
 
-  getPdDetails() {
+  getPdDetails() { // function to get the pd details with respect to applicant id 
     console.log('pd version', this.version);
 
     const data = {
@@ -279,7 +280,7 @@ export class ApplicantDetailComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
-        console.log('Applicant Details in calling get api ', this.applicantPdDetails);
+        // console.log('Applicant Details in calling get api ', this.applicantPdDetails);
         if (this.applicantPdDetails) {
           this.setFormValue();
           this.pdDataService.setCustomerProfile(this.applicantPdDetails);
@@ -289,11 +290,11 @@ export class ApplicantDetailComponent implements OnInit {
 
   }
 
-  onFormSubmit() {
+  onFormSubmit() { // fun that submits all the pd data
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
-    console.log('Form Data', applicantFormModal);
-    console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
+    // console.log('Form Data', applicantFormModal);
+    // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     this.isDirty = true;
     if (this.applicantForm.invalid) {
       return;
@@ -344,11 +345,11 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
-      console.log(processVariables)
+      // console.log(processVariables)
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Applicant Details saved !', '');
       } else {
-        console.log('error', processVariables.error.message);
+        // console.log('error', processVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
 
       }
