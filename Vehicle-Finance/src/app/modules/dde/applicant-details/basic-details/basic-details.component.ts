@@ -27,7 +27,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 export class BasicDetailsComponent implements OnInit {
   basicForm: FormGroup;
   isIndividual = false;
-  isSelfEmployed = true;
+  //isSelfEmployed = true;
   labels: any = {};
   validationData: any;
   LOV: any = [];
@@ -35,7 +35,6 @@ export class BasicDetailsComponent implements OnInit {
   applicant: Applicant;
   leadId: number;
   showAge: any;
-  initialAge: any;
   isSeniorCitizen: any = '0';
   isMinor: any = '0';
   gaurdianNamemandatory: any = {};
@@ -49,27 +48,25 @@ export class BasicDetailsComponent implements OnInit {
   validation: any;
   countryList = [];
   directorObject: any = [];
-  isDirectorName: any;
-  isDin: any = [];
   directorCount = 1;
   productCategory: string;
   fundingProgram: string;
   isChecked: boolean;
-  ownerPropertyRelation : any;
-  checkedBoxHouse : boolean;
+  ownerPropertyRelation: any;
+  checkedBoxHouse: boolean;
 
 
 
-  designation = [
-    {
-      key: 1,
-      value: 'Salaried',
-    },
-    {
-      key: 2,
-      value: 'Self Employed',
-    },
-  ];
+  // designation = [
+  //   {
+  //     key: 1,
+  //     value: 'Salaried',
+  //   },
+  //   {
+  //     key: 2,
+  //     value: 'Self Employed',
+  //   },
+  // ];
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -109,11 +106,8 @@ export class BasicDetailsComponent implements OnInit {
       title: new FormControl(''),
       details: new FormArray([]),
       directors: new FormArray([this.getDirectorsControls()]),
-
-
     });
-    // this.addNonIndividualFormControls();
-    //console.log('this.basicForm', this.basicForm)
+
     this.getLOV();
     this.getCountryList();
 
@@ -131,15 +125,7 @@ export class BasicDetailsComponent implements OnInit {
       this.applicantDataService.setApplicantId(this.applicantId);
     });
     this.leadId = (await this.getLeadId()) as number;
-    console.log('leadId', this.leadId);
-    if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
-      this.basicForm.get('title').setValidators([Validators.required]);
-      this.eitherFather();
-      this.eitherMother();
-      this.eitherFathOrspouse();
-    }
-
-    console.log('basic form', this.basicForm.get('details'));
+    //console.log('leadId', this.leadId);
 
   }
 
@@ -150,36 +136,34 @@ export class BasicDetailsComponent implements OnInit {
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
     console.log('prod cat', this.productCategory);
     console.log('funding prgm cat', this.fundingProgram);
-    // this.fundingProgram = '24';
-    // this.productCategory = '1003';
+
   }
-  // method for calculating annual income based on input monthy income
 
   calculateIncome(value) {
     const annualIncome = 12 * value;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
-      annualIncomeAmount : annualIncome
+      annualIncomeAmount: annualIncome
     })
-    
+
   }
 
 
 
-  onOwnHouseAvailable(event){
+  onOwnHouseAvailable(event) {
     console.log('event', event)
-   this.isChecked= event.target.checked;
-   const formArray = this.basicForm.get('details') as FormArray;
+    this.isChecked = event.target.checked;
+    const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    if(this.isChecked=== true){
-      
+    if (this.isChecked === true) {
+
       details.get('houseOwnerProperty').setValidators([Validators.required]);
       details.get('ownHouseAppRelationship').setValidators([Validators.required]);
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
-     
-    }else{
+
+    } else {
       details.get('houseOwnerProperty').clearValidators();
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
@@ -209,23 +193,8 @@ export class BasicDetailsComponent implements OnInit {
     });
   }
 
-  eitherFather() {
-    const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0);
-    const fatherName = details.get('fatherName').value;
-    const spouseName = details.get('spouseName').value;
-    if (fatherName) {
-      details.get('spouseName').clearValidators();
-      details.get('spouseName').updateValueAndValidity();
-      this.isRequiredSpouse = '';
-      // const spouseName= details.get('spouseName').value || null;
-      setTimeout(() => {
-        details.get('spouseName').setValue(spouseName || null);
-      });
-    }
-  }
 
-  eitherMother() {
+  clearFatherOrSpouseValidation() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     const fatherName = details.get('fatherName').value;
@@ -239,6 +208,15 @@ export class BasicDetailsComponent implements OnInit {
         details.get('fatherName').setValue(fatherName || null);
       });
     }
+    if (fatherName) {
+      details.get('spouseName').clearValidators();
+      details.get('spouseName').updateValueAndValidity();
+      this.isRequiredSpouse = '';
+      // const spouseName= details.get('spouseName').value || null;
+      setTimeout(() => {
+        details.get('spouseName').setValue(spouseName || null);
+      });
+    }
   }
 
   eitherFathOrspouse() {
@@ -250,7 +228,6 @@ export class BasicDetailsComponent implements OnInit {
       .get('fatherName')
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe((value1) => {
-        console.log('value', value1);
         if (fatherName === value1) {
           return;
         }
@@ -298,56 +275,19 @@ export class BasicDetailsComponent implements OnInit {
     });
   }
 
-  getApplicantDetails() {
-    const data = {
-      applicantId: this.applicantId,
-    };
-    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
-      const processVariables = res.ProcessVariables;
-      const error = processVariables.error;
-      if (error && error.code !== '0') {
-        alert(error.message);
-        return;
-      }
-      const applicant: Applicant = {
-        ...processVariables,
-      };
-      this.applicantDataService.setApplicant(applicant);
-      this.applicant = this.applicantDataService.getApplicant();
-      console.log('DDE COMING APPLICANT DATAS ', this.applicant);
-
-      this.setBasicData();
-    });
-  }
   initiallayAgecal(dob) {
     const convertDate = new Date(this.utilityService.getDateFromString(dob));
-    const convertAge = new Date(convertDate);
-    const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-    this.initialAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
-    console.log('initially age', this.initialAge);
+    this.setDateAndAge(convertDate)
 
-    const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0);
-
-    details.get('age').setValue(this.initialAge)
-    this.checkingMinor = this.initialAge < 18;
-    details.get('isMinor').setValue(this.checkingMinor);
-
-    this.checkingSenior = this.initialAge > 70;
-    details.get('isSeniorCitizen').setValue(this.checkingSenior);
-
-    this.isMinor = this.checkingMinor == true ? '1' : '0';
-    // console.log('isminor',details.get('isMinor').value)
-    this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
-    // console.log('issenior', this.isSeniorCitizen)
-    this.setGaurdianFieldMandatory();
   }
   ageCalculation(event) {
-    console.log('event', event);
     const value = event;
-
     const convertDate = new Date(this.utilityService.getNewDateFormat(value));
-    const convertAge = new Date(convertDate);
+    this.setDateAndAge(convertDate)
+  }
+
+  setDateAndAge(value) {
+    const convertAge = new Date(value);
     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
     this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
     console.log('showAge', this.showAge);
@@ -362,27 +302,13 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingSenior = this.showAge > 70;
     details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
-    // this.basicForm
-    //   .get('details')
-    // ['controls'][0].get('isMinor').value = this.checkingMinor =
-    //   this.showAge < 18 ? true : false;
-    // this.basicForm
-    //   .get('details')
-    // ['controls'][0].get('isSeniorCitizen').value = this.checkingSenior =
-    //   this.showAge > 70 ? true : false;
-
-    // console.log(this.basicForm.get('details')['controls'][0].get('isMinor').value)
-    // console.log(this.basicForm.get('details')['controls'][0].get('isSeniorCitizen').value)
-
-    // this.checkMinorOrSenior(this.showAge)
-
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
     this.isMinor = this.checkingMinor == true ? '1' : '0';
 
     this.setGaurdianFieldMandatory();
   }
   checkSenior(event) {
-    if (event.target.checked && (this.showAge < 70 || this.initialAge < 70)) {
+    if (event.target.checked && (this.showAge < 70 )) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -392,7 +318,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   checkMinor(event) {
-    if (event.target.checked && (this.showAge > 18 || this.initialAge > 18)) {
+    if (event.target.checked && (this.showAge > 18)) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -413,16 +339,11 @@ export class BasicDetailsComponent implements OnInit {
     }
   }
 
-  // onCheckSenior(event){
-  //   if(event.target.checked && (this.showAge < 70 || this.initialageCal< 70)){
-  //     event.target.checked= false;
-  //    }
-  //   else{event.target.checked = true;}
-  // }
+
 
   setBasicData() {
-    this.isIndividual =
-      this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
+    this.isIndividual = this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
+    const dob = this.applicant.aboutIndivProspectDetails.dob;
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       bussinessEntityType: this.applicant.applicantDetails.bussinessEntityType,
@@ -434,28 +355,22 @@ export class BasicDetailsComponent implements OnInit {
       this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
+      this.initiallayAgecal(dob);
     } else {
       this.addNonIndividualFormControls();
-      // this.getDirectorsControls();
       this.setValuesForNonIndividual();
-      setTimeout(() => {
-        this.listerForDirectors();
-      });
+      // setTimeout(() => {
+      //   this.listerForDirectors();
+      // });
 
     }
-    const dob = this.applicant.aboutIndivProspectDetails.dob;
-    console.log('dob', dob);
-    if (
-      this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP' &&
-      dob !== null
-    ) {
-      this.initiallayAgecal(dob);
-    }
+
+
     const applicantDetails = this.applicant.applicantDetails;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
-    this.checkedBoxHouse= applicantDetails.ownHouseProofAvail=='1'? true : false;
+    this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
     details.patchValue({
       name1: applicantDetails.name1,
@@ -464,16 +379,16 @@ export class BasicDetailsComponent implements OnInit {
       monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount,
       annualIncomeAmount: applicantDetails.annualIncomeAmount,
       //ownHouseProofAvail: applicantDetails.ownHouseProofAvail,
-      houseOwnerProperty: applicantDetails.houseOwnerProperty ||'',
+      houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
       ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship,
       averageBankBalance: applicantDetails.averageBankBalance,
-      rtrType: applicantDetails.rtrType ||'',
+      rtrType: applicantDetails.rtrType || '',
       prevLoanAmount: applicantDetails.prevLoanAmount,
       loanTenorServiced: applicantDetails.loanTenorServiced,
       currentEMILoan: applicantDetails.currentEMILoan,
       agriNoOfAcres: applicantDetails.agriNoOfAcres,
-      agriOwnerProperty: applicantDetails.agriOwnerProperty ||'',
-      agriAppRelationship: applicantDetails.agriAppRelationship ||'',
+      agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+      agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
       //customerCategory: applicantDetails.customerCategory || ' ',
       custSegment: applicantDetails.custSegment || ' ',
@@ -484,8 +399,10 @@ export class BasicDetailsComponent implements OnInit {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
-    // console.log('aboutIndivProspectDetails', aboutIndivProspectDetails)
-    this.showAge = aboutIndivProspectDetails.age;
+    this.basicForm.get('title').setValidators([Validators.required]);
+    this.basicForm.get('bussinessEntityType').clearValidators();
+    this.basicForm.updateValueAndValidity();
+    //this.showAge = aboutIndivProspectDetails.age;
     const mobile = aboutIndivProspectDetails.mobilePhone;
     if (mobile && mobile.length === 12) {
       this.mobilePhone = mobile.slice(2, 12);
@@ -494,7 +411,6 @@ export class BasicDetailsComponent implements OnInit {
     }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const applicantDetails = this.applicant.applicantDetails;
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
@@ -529,17 +445,16 @@ export class BasicDetailsComponent implements OnInit {
 
       // employerType : aboutIndivProspectDetails.employerType,
     });
+    this.clearFatherOrSpouseValidation();
+    this.eitherFathOrspouse();
   }
 
   setValuesForNonIndividual() {
-    const applicantDetails = this.applicant.applicantDetails;
     this.basicForm.patchValue({ title: 'M/SSALUTATION' });
     const corporateProspectDetails = this.applicant.corporateProspectDetails;
-    const directorDetails = this.applicant.directorDetails;
     const contactNumber = corporateProspectDetails.companyPhoneNumber;
     if (contactNumber && contactNumber.length == 12) {
       const contactSlice = contactNumber.slice(0, 2);
-      // console.log('contactslice', contactSlice)
       if (contactSlice == '91') {
         this.mobilePhone = contactNumber.slice(2, 12);
       } else {
@@ -549,9 +464,7 @@ export class BasicDetailsComponent implements OnInit {
       this.mobilePhone = contactNumber;
     }
     const formArray = this.basicForm.get('details') as FormArray;
-
     const details = formArray.at(0);
-
     details.patchValue({
       companyPhoneNumber: this.mobilePhone || '',
       companyEmailId: corporateProspectDetails.companyEmailId || '',
@@ -598,33 +511,18 @@ export class BasicDetailsComponent implements OnInit {
     const director = this.basicForm.get('directors') as FormArray;
     const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
 
-    if (directorValue >= 0) {
-      
-      //director.clear();
-      this.addDirectorControls(directorValue);
-      for (let i= 0 ; i< directorValue; i++){
-        this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
-        this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
-        this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
-         this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
-       }
-    }
-    // director.controls= [];
-    directorArray.forEach((value, index) => {
-      // director.push(new FormGroup(
-      //   {
-      //     directorName: new FormControl(value.directorName),
-      //     din: new FormControl(value.din)
-      // }
-      // ))
-      // director.at(index).patchValue({
-      //   directorName: value.directorName,
-      //   din: value.din
-      // })
-      director.push(this.getDirectorsControls(value)) 
+    this.addDirectorControls(directorValue);
 
+    directorArray.forEach((value, index) => {         //patching directorDetails
+      director.at(index).patchValue({
+        directorName: value.directorName,
+        din: value.din
+      })
     })
   }
+
+
+
 
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -730,53 +628,32 @@ export class BasicDetailsComponent implements OnInit {
       agriOwnerProperty: new FormControl(''),
       agriAppRelationship: new FormControl(''),
       grossReceipt: new FormControl(''),
-
-
-      // occupation: new FormControl(''),
-      // customerCategory: new FormControl(null),
-      // accountNumber: new FormControl(null),
-      // accountBank: new FormControl(''),
-      // branchAddress: new FormControl(null),
-      // spokeAddress: new FormControl(null),
     });
     formArray.push(controls);
   }
 
 
-  getDirectorsControls(data?) {
-    data = data || {};
-    console.log('data in dirtor control',data)
+  getDirectorsControls() {                      // director array controls
     return new FormGroup({
       directorName: new FormControl(),
       din: new FormControl()
     });
   }
 
-  listerForDirectors() {
-    const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0);
-    details.get('numberOfDirectors').valueChanges.subscribe((val) => {
-     
-      this.addDirectorControls(val)
-      if(val!==''){
-        console.log('valuessss', val)
-        for (let i= 0 ; i< val; i++){
-         this.basicForm.get('directors')['controls'][i].get('directorName').setValidators([Validators.required]);
-         this.basicForm.get('directors')['controls'][i].get('directorName').updateValueAndValidity();
-         this.basicForm.get('directors')['controls'][i].get('din').setValidators([Validators.required]);
-         this.basicForm.get('directors')['controls'][i].get('din').updateValueAndValidity();
-        }
-       
-     }
-    })
-  }
+  // listerForDirectors() {                         
+  //   const formArray = this.basicForm.get('details') as FormArray;
+  //   const details = formArray.at(0);
+  //   details.get('numberOfDirectors').valueChanges.subscribe((val) => {
+
+  //     this.addDirectorControls(val)
+
+  //   })
+  // }
 
 
-  addDirectorControls(value) {
+  addDirectorControls(value) {                      // adding director controls based on no of directors
     const director = this.basicForm.get('directors') as FormArray;
     if (value === '' || value == null) {
-
-      // director.controls = [];
       return;
     }
     let directorValue = Number(value);
@@ -806,17 +683,25 @@ export class BasicDetailsComponent implements OnInit {
       }
     }
     this.directorCount = directorValue;
-
-
+    this.setDirectorsValidators(value);
   }
 
+  setDirectorsValidators(value) {                  // set validators in director array only for Non individual
+    if (value !== '' || value == null) {
+      for (let i = 0; i < value; i++) {
+        this.basicForm.get('directors')['controls'][i].get('directorName').setValidators(Validators.required);
+        this.basicForm.get('directors')['controls'][i].get('din').setValidators(Validators.required);
+        this.basicForm.get('directors').updateValueAndValidity();
+      }
+    }
+  }
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
       // console.log('lovs', this.LOV)
-      this.ownerPropertyRelation=this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
+      this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
 
-      this.applicant = this.applicantDataService.getApplicant();
+      this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
       this.setBasicData();
     });
@@ -827,82 +712,54 @@ export class BasicDetailsComponent implements OnInit {
     formArray.clear();
   }
 
-  onDesignationChange(event) {
-    const value = event.target.value;
+  // onIndividualChange(event) {
+  //   const value = event.target.value;
+  //   this.isIndividual = value === 'INDIVENTTYP';
+  //   const formArray = this.basicForm.get('details') as FormArray;
+  //   formArray.clear();
+  //   this.isIndividual
+  //     ? this.addIndividualFormControls()
+  //     : this.addNonIndividualFormControls();
+  // }
 
-    this.addOrRemoveSelfEmployedFormControls(value === '2');
-  }
-
-  addOrRemoveSelfEmployedFormControls(isAdd: boolean) {
-    const formArray = this.basicForm.get('details') as FormArray;
-    const controls = formArray.at(0) as FormGroup;
-
-    if (isAdd) {
-      this.isSelfEmployed = true;
-      controls.addControl('businessType', new FormControl(''));
-      controls.addControl('businessName', new FormControl(null));
-      controls.addControl('businessStartDate', new FormControl(null));
-      controls.addControl('currentBusinessYear', new FormControl(null));
-      controls.addControl('turnOver', new FormControl(null));
-    } else {
-      this.isSelfEmployed = false;
-      controls.removeControl('businessType');
-      controls.removeControl('businessName');
-      controls.removeControl('businessStartDate');
-      controls.removeControl('currentBusinessYear');
-      controls.removeControl('turnOver');
-    }
-  }
-
-  onIndividualChange(event) {
-    const value = event.target.value;
-    this.isIndividual = value === 'INDIVENTTYP';
-    const formArray = this.basicForm.get('details') as FormArray;
-    formArray.clear();
-    this.isIndividual
-      ? this.addIndividualFormControls()
-      : this.addNonIndividualFormControls();
-  }
-
-  setDedupeValidators(){
+  setValidation() {                    // set validators based upon product aanf funding program
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    if(this.productCategory=='1003' && (this.fundingProgram=='25' || this.fundingProgram=='24')){
-        details.get('monthlyIncomeAmount').setValidators([Validators.required]);
-        details.get('monthlyIncomeAmount').updateValueAndValidity();
-        // details.get('annualIncomeAmount').setValidators([Validators.required]);
-        // details.get('annualIncomeAmount').updateValueAndValidity();
+
+    if (this.productCategory == '1003' && (this.fundingProgram == '25' || this.fundingProgram == '24')) {
+      details.get('monthlyIncomeAmount').setValidators([Validators.required]);
+      details.get('monthlyIncomeAmount').updateValueAndValidity();
     }
-    
-    if(this.productCategory=='1003' && this.fundingProgram=='27'){
+
+    if (this.productCategory == '1003' && this.fundingProgram == '27') {
       details.get('rtrType').setValidators([Validators.required]);
-        details.get('rtrType').updateValueAndValidity();
-        details.get('prevLoanAmount').setValidators([Validators.required]);
-        details.get('prevLoanAmount').updateValueAndValidity();
-        details.get('loanTenorServiced').setValidators([Validators.required]);
-        details.get('loanTenorServiced').updateValueAndValidity();
-        details.get('currentEMILoan').setValidators([Validators.required]);
-        details.get('currentEMILoan').updateValueAndValidity();
+      details.get('rtrType').updateValueAndValidity();
+      details.get('prevLoanAmount').setValidators([Validators.required]);
+      details.get('prevLoanAmount').updateValueAndValidity();
+      details.get('loanTenorServiced').setValidators([Validators.required]);
+      details.get('loanTenorServiced').updateValueAndValidity();
+      details.get('currentEMILoan').setValidators([Validators.required]);
+      details.get('currentEMILoan').updateValueAndValidity();
     }
-    if(this.productCategory=='1003' && this.fundingProgram=='29'){
+    if (this.productCategory == '1003' && this.fundingProgram == '29') {
       details.get('agriNoOfAcres').setValidators([Validators.required]);
       details.get('agriNoOfAcres').updateValueAndValidity();
       details.get('agriOwnerProperty').setValidators([Validators.required]);
       details.get('agriOwnerProperty').updateValueAndValidity();
       details.get('agriAppRelationship').setValidators([Validators.required]);
       details.get('agriAppRelationship').updateValueAndValidity();
-      
+
     }
-    if(this.productCategory=='1003' && this.fundingProgram=='30'){
+    if (this.productCategory == '1003' && this.fundingProgram == '30') {
       details.get('grossReceipt').setValidators([Validators.required]);
       details.get('grossReceipt').updateValueAndValidity();
-     
+
     }
-    
+
   }
 
   async onSubmit() {
-    this.setDedupeValidators();
+    this.setValidation();
     const value = this.basicForm.getRawValue();
     this.isDirty = true;
     if (this.basicForm.invalid) {
@@ -912,7 +769,7 @@ export class BasicDetailsComponent implements OnInit {
       );
       console.log('details valid status', this.basicForm)
       return;
-      
+
     }
 
     console.log('GETRAWVALUE', value);
@@ -966,8 +823,8 @@ export class BasicDetailsComponent implements OnInit {
 
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
-    applicantDetails.ownHouseProofAvail = this.isChecked== true? '1' : '0',
-    applicantDetails.houseOwnerProperty = formValue.houseOwnerProperty;
+    applicantDetails.ownHouseProofAvail = this.isChecked == true ? '1' : '0',
+      applicantDetails.houseOwnerProperty = formValue.houseOwnerProperty;
     applicantDetails.ownHouseAppRelationship = formValue.ownHouseAppRelationship;
     applicantDetails.averageBankBalance = formValue.averageBankBalance;
     applicantDetails.rtrType = formValue.rtrType;
@@ -1076,8 +933,8 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
-    applicantDetails.ownHouseProofAvail = this.isChecked== true? '1' : '0',
-    applicantDetails.houseOwnerProperty = formValue.houseOwnerProperty;
+    applicantDetails.ownHouseProofAvail = this.isChecked == true ? '1' : '0',
+      applicantDetails.houseOwnerProperty = formValue.houseOwnerProperty;
     applicantDetails.ownHouseAppRelationship = formValue.ownHouseAppRelationship;
     applicantDetails.averageBankBalance = formValue.averageBankBalance;
     applicantDetails.rtrType = formValue.rtrType;

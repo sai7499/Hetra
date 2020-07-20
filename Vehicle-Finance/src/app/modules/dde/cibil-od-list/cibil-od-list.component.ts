@@ -28,7 +28,8 @@ export class CibilOdListComponent implements OnInit {
   odAccountDetailsArray: FormArray;
   AssetBureauEnquiryArray: FormArray;
   AssetBureauEnquirySixtyDaysArray: FormArray;
-  selctedLoan: any;
+  selctedLoan = [];
+  selectedLoanType: any;
   submitted = null;
   totalOdAmount = 0;
   leadId: number;
@@ -41,6 +42,13 @@ export class CibilOdListComponent implements OnInit {
   applicantType: any;
   odApplicantData: any;
   isDirty = false
+  isODModelShow: boolean;
+  rowIndex;
+  errorMessage;
+  isThirtyModelShow: boolean;
+  rowoIndex: any;
+  isSixtyModelShow: boolean;
+  selctedProof: any;
 
   constructor(
     private labelService: LabelsService,
@@ -117,6 +125,8 @@ export class CibilOdListComponent implements OnInit {
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
+      console.log(this.odListLov.clearanceProof);
+      
       this.odListLov.highestDpd = value.LOVS.highestDpd;
     });
   }
@@ -132,8 +142,18 @@ export class CibilOdListComponent implements OnInit {
     });
   }
 
-  onSelectLoan(event) {
-    this.selctedLoan = event;
+  onSelectLoan(event,i) {
+    this.selctedLoan[i] = event;
+    console.log(this.selctedLoan);
+    this.selectedLoanType = this.selctedLoan[i]
+    
+    
+  }
+  onSelectProof(event) {
+    this.selctedProof = null;
+    this.selctedProof = event;
+    console.log(event);
+    
   }
   private getodListDetails(data?: any) {
     if (data === undefined) {
@@ -171,7 +191,12 @@ export class CibilOdListComponent implements OnInit {
     if (this.odAccountDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
+        
         this.odAccountDetailsArray.removeAt(i);
+        this.toasterService.showInfo("Row is Removed", "OD Details")
+        this.isODModelShow = false;
+    this.onOdAmount(null,i);
+        
       } else {
         const body = {
           id: id,
@@ -183,6 +208,9 @@ export class CibilOdListComponent implements OnInit {
             this.odAccountDetailsArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, "");
+            this.isODModelShow = false;
+            this.onOdAmount(null,i);
+
           });
       }
     }
@@ -226,6 +254,8 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquiryArray.removeAt(i);
+        this.toasterService.showInfo("Row is Removed", "Last Thirty Days Loan Details")
+        this.isThirtyModelShow = false;
       } else {
         const body = {
           id: id,
@@ -237,10 +267,12 @@ export class CibilOdListComponent implements OnInit {
             this.AssetBureauEnquiryArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+            this.isThirtyModelShow = false;
+
           });
       }
     }
-   
+
   }
   private getAssetBureauEnquirySixtyDays(data?: any) {
     if (data === undefined) {
@@ -284,6 +316,8 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
+        this.toasterService.showInfo("Row is Removed", "Last Thirty Days Loan Details")
+        this.isSixtyModelShow = false;
       } else {
         const body = {
           id: id,
@@ -295,10 +329,12 @@ export class CibilOdListComponent implements OnInit {
             this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+        this.isSixtyModelShow = false;
+
           });
       }
     }
-  
+
   }
   get f() {
     return this.odDetailsForm.controls;
@@ -315,42 +351,42 @@ export class CibilOdListComponent implements OnInit {
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
 
       this.addOdDetails(res.ProcessVariables.odAccountDetails);
-      if(this.odDetails.assetAppOdDetails){
-      this.odDetailsForm.patchValue({
-        totalAmount: this.odDetails.assetAppOdDetails.totalAmount
-          ? this.odDetails.assetAppOdDetails.totalAmount
-          : null,
-      });
-      this.odDetailsForm.patchValue({
-        highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
-      });
-      this.odDetailsForm.patchValue({
-        highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
-      });
-      this.odDetailsForm.patchValue({
-        writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
-      });
-      this.odDetailsForm.patchValue({
-        writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
-          .writtenOffLoansWithSuite,
-      });
-      this.odDetailsForm.patchValue({
-        lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
-      });
-      this.odDetailsForm.patchValue({
-        settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
-      });
-      this.odDetailsForm.patchValue({
-        clearanceProofCollected: this.odDetails.assetAppOdDetails
-          .clearanceProofCollected,
-      });
-      this.odDetailsForm.patchValue({
-        clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
-      });
-      this.odDetailsForm.patchValue({
-        justification: this.odDetails.assetAppOdDetails.justification,
-      });}
-      this.totalOdAmount = this.odDetails.assetAppOdDetails.totalAmount
+      if (this.odDetails.assetAppOdDetails) {
+        this.odDetailsForm.patchValue({
+          totalAmount: this.odDetails.assetAppOdDetails.totalAmount
+            ? this.odDetails.assetAppOdDetails.totalAmount
+            : null,
+        });
+        this.odDetailsForm.patchValue({
+          highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
+        });
+        this.odDetailsForm.patchValue({
+          highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
+        });
+        this.odDetailsForm.patchValue({
+          writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
+        });
+        this.odDetailsForm.patchValue({
+          writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
+            .writtenOffLoansWithSuite,
+        });
+        this.odDetailsForm.patchValue({
+          lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
+        });
+        this.odDetailsForm.patchValue({
+          settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
+        });
+        this.odDetailsForm.patchValue({
+          clearanceProofCollected: this.odDetails.assetAppOdDetails
+            .clearanceProofCollected,
+        });
+        this.odDetailsForm.patchValue({
+          clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
+        });
+        this.odDetailsForm.patchValue({
+          justification: this.odDetails.assetAppOdDetails.justification,
+        });
+      }
     });
    
   }
@@ -364,6 +400,8 @@ export class CibilOdListComponent implements OnInit {
     });
   }
   onSubmit() {
+    console.log(this.odDetailsForm);
+
     this.submitted = true;
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
@@ -453,9 +491,9 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   onOdAmount(event: any, i: number) {
-    const odAmount = this.odAccountDetailsArray.value[i].odAmount;
-    const totalOdAmount = odAmount;
-    this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
+    // const odAmount = this.odAccountDetailsArray.value[i].odAmount;
+    // const totalOdAmount = odAmount;
+    // this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
     if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalOdAmount = 0;
       for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
@@ -466,7 +504,22 @@ export class CibilOdListComponent implements OnInit {
       }
     }
   }
-  onBackToApplicant() {
+  onBackToODDetails() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
+  }
+  showOdModel(i) {
+    this.rowIndex = i;
+    this.isODModelShow = true;
+    this.errorMessage = "Are sure to remove row";
+  }
+  showThirtyModel(i) {
+    this.rowoIndex = i;
+    this.isThirtyModelShow = true;
+    this.errorMessage = "Are sure to remove row";
+  }
+  showSixtyModel(i) {
+    this.rowIndex = i;
+    this.isSixtyModelShow = true;
+    this.errorMessage = "Are sure to remove row";
   }
 }
