@@ -41,6 +41,10 @@ export class CibilOdListComponent implements OnInit {
   applicantType: any;
   odApplicantData: any;
   isDirty = false
+  isODModelShow: boolean;
+  rowIndex;
+  errorMessage;
+  isThirtyModelShow: boolean;
 
   constructor(
     private labelService: LabelsService,
@@ -171,6 +175,8 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.odAccountDetailsArray.removeAt(i);
+        this.toasterService.showInfo("Row is Removed","OD Details")
+        this.isODModelShow = false;
       } else {
         const body = {
           id: id,
@@ -182,6 +188,8 @@ export class CibilOdListComponent implements OnInit {
             this.odAccountDetailsArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, "");
+             this.isODModelShow = false;
+
           });
       }
     }
@@ -225,6 +233,8 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquiryArray.removeAt(i);
+        this.toasterService.showInfo("Row is Removed","Last Thirty Days Loan Details")
+        this.isThirtyModelShow = false;
       } else {
         const body = {
           id: id,
@@ -236,6 +246,8 @@ export class CibilOdListComponent implements OnInit {
             this.AssetBureauEnquiryArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+             this.isThirtyModelShow = false;
+
           });
       }
     }
@@ -360,14 +372,16 @@ export class CibilOdListComponent implements OnInit {
     });
   }
   onSubmit() {
+    console.log(this.odDetailsForm);
+    
     this.submitted = true;
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
-      this.toasterService.showError(
-        "Fields Missing Or Invalid Pattern Detected",
-        "Cibil OD Details"
-      );
-      return;
+      // this.toasterService.showError(
+      //   "Fields Missing Or Invalid Pattern Detected",
+      //   "Cibil OD Details"
+      // );
+      // return;
     } else {
       this.submitted = true;
 
@@ -465,4 +479,10 @@ export class CibilOdListComponent implements OnInit {
   onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
+  showModel(i){
+    this.rowIndex=i;
+    this.isODModelShow = true;
+    this.isThirtyModelShow = true
+    this.errorMessage = "Are sure to remove row";
+    }
 }
