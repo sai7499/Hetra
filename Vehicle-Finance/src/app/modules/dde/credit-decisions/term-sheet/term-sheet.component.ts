@@ -8,6 +8,7 @@ import { LabelsService } from '../../../../services/labels.service';
 })
 export class TermSheetComponent implements OnInit {
   labels: any = {};
+  manufacturer: any = '';
 
   constructor(   
      public labelsService: LabelsService,
