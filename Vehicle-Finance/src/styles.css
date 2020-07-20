@@ -373,9 +373,9 @@ form .form-control {
 
 /**los style**/
 
-.container.overflow-hidden {
-    /* overflow-y: hidden; */
-}
+/* .container.overflow-hidden {
+   
+} */
 
 .page-select-width {
     padding: 6px !important;
