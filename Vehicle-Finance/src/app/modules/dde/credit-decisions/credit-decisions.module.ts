@@ -9,14 +9,18 @@ import {CreditDecisionRouterModule} from './credit-decision.routing';
 import {CreditDecisionComponent} from './credit-decision.component';
 import {TermSheetComponent} from './term-sheet/term-sheet.component';
 import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
-import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component'
+import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
+import { CheckListComponent } from './check-list/check-list.component';
+import {AccordionComponent } from './accordion/accordion.component';
 @NgModule({
   declarations: [
     CreditDecisionComponent,
     TermSheetComponent,
     CreditConditionsComponent,
     SanctionDetailsComponent,
-    CustomerFeedbackComponent
+    CustomerFeedbackComponent,
+    CheckListComponent,
+    AccordionComponent
   ],
   imports: [
     CommonModule,

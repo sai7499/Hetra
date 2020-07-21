@@ -85,7 +85,7 @@
                   </td>
                   <ng-container *ngIf="selctedLoan[i] !== 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
-                      <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
+                      <app-custom-input formControlName="otherTypeOfLoan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
                         [isDisabled]="'true'">
@@ -94,7 +94,7 @@
                   </ng-container>
                   <ng-container *ngIf="selctedLoan[i] === 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
-                      <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
+                      <app-custom-input formControlName="otherTypeOfLoan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
                         [isRequired]="'Other type of loan mandatory'">

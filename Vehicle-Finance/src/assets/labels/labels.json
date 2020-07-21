@@ -66,7 +66,7 @@
     "vechicalType": "Vehicle Type",
     "vechicalUsage": "Vehicle Usage",
     "vechicalRegion": "Region",
-    "registartionNumber": "Vechical Registration No",
+    "registartionNumber": "Vehicle Registration No",
     "assetMake": "Asset Make",
     "assetModel": "Asset Model",
     "assetBodyType": "Asset Body Type",
@@ -1377,8 +1377,8 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[0-9]{12}",
-                "msg": "Aadhar Should be 12 Digits"
+                "rule": "^[1-9][0-9]*$",
+                "msg": "Aadhar Number Should be Valid"
             }
         },
         "panNumber": {
@@ -1425,13 +1425,21 @@
             "maxLength": {
                 "rule": 26
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{1}",
+                "msg": "Should be Valid"
+            }
         },
         "cstVatNumber": {
             "maxLength": {
                 "rule": 11
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{1}",
+                "msg": "Should be Valid"
+            }
         },
         "gstNumber": {
             "maxLength": {
@@ -1447,13 +1455,21 @@
             "maxLength": {
                 "rule": 10
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{1}",
+                "msg": "Should be Valid"
+            }
         },
         "pincode": {
             "maxLength": {
                 "rule": 6
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[5-6]{1}[0-9]{5}",
+                "msg": "Invalid Pincode"
+            }
         },
         "numberOfYears": {
             "maxLength": {

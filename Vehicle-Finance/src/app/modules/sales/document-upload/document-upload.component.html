@@ -625,7 +625,7 @@
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
       <button class="btn btn-primary dash_href" type="button">
-       <a [routerLink]="['../vehicle-list']" >Back</a>
+        <a [routerLink]="['../vehicle-list']">Back</a>
       </button>
       <button class="btn btn-primary" id="submit">Save</button>
       <button class="btn btn-primary dash_href" type="button" data-toggle="modal" data-target="#myModal"
@@ -636,15 +636,14 @@
   </div>
 </div>
 
-
 <div id="overlay" *ngIf="isModelShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
+      <div class="panel-body">
         <!-- <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
           <span aria-hidden="true">&times;</span>
         </button> -->
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">

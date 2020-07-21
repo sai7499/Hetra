@@ -151,7 +151,7 @@ export class CibilOdListComponent implements OnInit {
         odType: [""],
         odAmount: [""],
         typeOfLoan: [""],
-        otherTypeOfloan: [""],
+        otherTypeOfLoan: [""],
         odDpd: [""],
       });
     } else {
@@ -160,7 +160,7 @@ export class CibilOdListComponent implements OnInit {
         odType: [data.odType ? data.odType : ""],
         odAmount: [data.odAmount ? data.odAmount : ""],
         typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
-        otherTypeOfloan: [data.otherTypeOfloan ? data.otherTypeOfloan : ""],
+        otherTypeOfLoan: [data.otherTypeOfLoan ? data.otherTypeOfLoan : ""],
         odDpd: [data.odDpd ? data.odDpd : ""],
       });
     }
@@ -378,6 +378,7 @@ export class CibilOdListComponent implements OnInit {
         });
       }
     });
+   
   }
   getOdApplicant() {
     const body = {
@@ -404,7 +405,7 @@ export class CibilOdListComponent implements OnInit {
 
       this.odDetailsForm.value.odAccountDetails.forEach((ele) => {
         ele.odType = ele.odType.toString();
-        ele.otherTypeOfloan = ele.otherTypeOfloan.toString();
+        ele.otherTypeOfLoan = ele.otherTypeOfLoan.toString();
         ele.typeOfLoan = ele.typeOfLoan.toString();
         ele.odAmount = ele.odAmount.toString();
         ele.odDpd = Number(ele.odDpd);

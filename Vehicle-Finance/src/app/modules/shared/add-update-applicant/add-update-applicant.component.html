@@ -304,8 +304,7 @@
                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                   <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.relationship"
-                    formControlName="agriAppRelationship" [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
+                    formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
 
@@ -370,15 +369,26 @@
                   <app-custom-input formControlName="drivingLicenseNumber"
                     [patternCheck]="validationData?.drivingLicense?.patternCheck"
                     [maxLength]="validationData?.drivingLicense?.maxLength" (change)="onDrvingLisenseChange($event)"
-                    [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type">
+                    [inputClass]="'text-uppercase'" 
+                     [type]="validationData?.drivingLicense?.type"
+                     [isRequired]="(drivingLicenseIssueDate !== '' &&
+                     drivingLicenseIssueDate !== undefined) ||
+                     (drivingLicenseExpiryDate !== undefined &&
+                       drivingLicenseExpiryDate !== '') ? 'Please Fill' : ''"
+                     >
                   </app-custom-input>
+                  
+                  
                 </div>
+
+                
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <label for="aadharnumber">{{ labels?.cinRegisteredNumber }}
                     <sub class="star_red_col">*</sub></label>
                   <app-custom-input formControlName="corporateIdentificationNumber"
                     [maxLength]="validationData?.cinRegNumber?.maxLength" [type]="validationData?.cinRegNumber?.type"
+                    [patternCheck]="validationData?.cinRegNumber?.patternCheck"
                     [inputClass]="'text-uppercase'" [isRequired]="'Cin/Reg Number is Required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -427,7 +437,8 @@
                   <label for="aadharnumber">{{ labels?.cstVatNumber }}
                   </label>
                   <app-custom-input formControlName="cstVatNumber" [maxLength]="validationData?.cstVatNumber?.maxLength"
-                    [type]="validationData?.cstVatNumber?.type" [inputClass]="'text-uppercase'">
+                    [type]="validationData?.cstVatNumber?.type" [inputClass]="'text-uppercase'"
+                    [patternCheck]="validationData?.cstVatNumber?.patternCheck">
                   </app-custom-input>
                 </div>
 
@@ -496,7 +507,8 @@
                   <label for="aadharnumber">{{ labels?.tanNumber }}
                   </label>
                   <app-custom-input formControlName="tanNumber" [maxLength]="validationData?.tanNumber?.max"
-                    [type]="validationData?.tanNumber?.type" [inputClass]="'text-uppercase'">
+                    [type]="validationData?.tanNumber?.type" 
+                    [patternCheck]="validationData?.tanNumber?.patternCheck" [inputClass]="'text-uppercase'">
                   </app-custom-input>
                 </div>
 

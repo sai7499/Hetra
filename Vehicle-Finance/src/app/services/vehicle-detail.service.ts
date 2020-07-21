@@ -124,7 +124,7 @@ export class VehicleDetailService {
 
   // 4. method for getting vehicleMasterDetails from region
 
-  getVehicleMasterFromRegion(region) {
+  getVehicleMasterFromRegion(data) {
 
     const processId = this.apiService.api.getVehicleMasterFromRegion.processId;
     const workflowId = this.apiService.api.getVehicleMasterFromRegion.workflowId;
@@ -133,10 +133,43 @@ export class VehicleDetailService {
     const body: RequestEntity = {
 
       processId: processId,
-      ProcessVariables: {
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
 
-        "region": region
-      },
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  getVehicleMasterFromAssetMake(data) {
+
+    const processId = this.apiService.api.getVehicleMasterFromAssetMake.processId;
+    const workflowId = this.apiService.api.getVehicleMasterFromAssetMake.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  getVehicleMasterFromVehicleType(data) {
+
+    const processId = this.apiService.api.getVehicleMasterFromVehicleType.processId;
+    const workflowId = this.apiService.api.getVehicleMasterFromVehicleType.workflowId;
+    const projectId = this.apiService.api.getVehicleMasterFromVehicleType.projectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
       workflowId: workflowId,
       projectId: projectId
     };

@@ -53,7 +53,7 @@ export class CreditDecisionComponent implements OnInit {
             console.log('version in fi and pd report', this.version);
         });
     }
-    onNavigate(url: string) {       
+    onNavigate(url: string) {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/${url}`]);
         }
     getLocationIndex(url: string) {
@@ -65,6 +65,8 @@ export class CreditDecisionComponent implements OnInit {
             return 2;
         } else if (url.includes('customer-feedback')) {
             return 3;
+        } else if (url.includes('check-list')) {
+            return 4;
         }
     }
 }
