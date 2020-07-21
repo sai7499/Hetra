@@ -57,9 +57,19 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     getVehicleMasterFromRegion: {
-      workflowId: '385f090a957e11eabdcff2fa9bec3d63',
-      processId: '3bed6af898f311eabdcff2fa9bec3d63',
+      workflowId: '3bcee0ba98f311eabdcff2fa9bec3d63',
+      processId: 'c986cec6ca9a11ea8b4900505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getVehicleMasterFromAssetMake: {
+      workflowId: '3bcee0ba98f311eabdcff2fa9bec3d63',
+      processId: '57b0eaf8ca9e11eab08000505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getVehicleMasterFromVehicleType: {
+      workflowId: 'b0a9ef02939d11eabdc6f2fa9bec3d63',
+      processId: '3bed6af898f311eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.camProjectId
     },
     getDeleteVehicleDetails: {
       workflowId: '385f090a957e11eabdcff2fa9bec3d63',
@@ -435,19 +445,9 @@ export class ApiService {
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    approveCreditConditions:{
-      processId: 'f582d3c0bba011ea90ae00505695f93b',
-      workflowId: 'f53fdf3ebba011ea9a3e00505695f93b',
-      projectId: environment.projectIds.submitToCredit
-    },
-    rejectCreditConditions : {
-      processId: '323923b0bd1711ea8fc600505695f93b',
-      workflowId: '587a62d4b9c311ea8dd900505695f93b',
-      projectId: environment.projectIds.salesProjectId
-    },
-    declineCreditConditions : {
-      processId: '8b2e8348bd1211eab45d00505695f93b',
-      workflowId: 'f53fdf3ebba011ea9a3e00505695f93b',
+    approveRejectDeclineCreditConditions: {
+      processId: '0e709facc67311ea954700505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit
     },
     getCountryList: {
@@ -455,10 +455,46 @@ export class ApiService {
       workflowId: '6c1d6dd4c1d611eaa89700505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    submitViabilityTask : {
+    submitViabilityTask: {
       processId: '740f2e4ec1d911ea930600505695f93b',
       workflowId: 'e063568aa23d11eabe47f2fa9bec3d63',
       projectId: environment.projectIds.viabilityApi
+    },
+    saveParentOdDetails: {
+      processId: '6b6158b6c05e11eaa7f600505695f93b',
+      workflowId: '6b42973cc05e11eaba4500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getParentOdDetails: {
+      processId: '4685cc72c1b511ea9c2a00505695f93b',
+      workflowId: '6b42973cc05e11eaba4500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getOdDetails: {
+      processId: '3886d4dcc12311ea8cf300505695f93b',
+      workflowId: '385b249ac12311eab5a500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getOdApplicantList: {
+      processId: '959c5a74c5b611ea830200505695f93b',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteBureauEnquiry: {
+      processId: 'ef18b8f6c04b11eabd0f00505695f93b',
+      workflowId: '47596532bf9911eaa6de00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    softDeleteOdDetails: {
+      processId: '7111c1acc04e11eab9eb00505695f93b',
+      workflowId: '033c3050bf8011eab85000505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getCamUsedCvDetails: {
+      processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
+      workflowId: 'b06ab746bf4a11eab26100505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
+
   };
 }

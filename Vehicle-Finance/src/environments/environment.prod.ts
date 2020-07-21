@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.5',
-  buildDate: '11/07/2020',
+  version: '0.6.1',
+  buildDate: '21/07/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -20,8 +20,8 @@ export const environment = {
     
   },
   // hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
-  hostingEnvironment: 'Production',
+  hostingEnvironment: 'UAT',
+  // hostingEnvironment: 'Production',
 
   host: '/appiyo/',
   //  host: 'http://128.199.164.250/appiyo/',

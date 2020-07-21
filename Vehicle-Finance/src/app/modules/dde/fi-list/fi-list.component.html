@@ -1,11 +1,7 @@
-<form class="multisteps-form__form" method="post">
+<form class="multisteps-form__form">
 
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <div class="container">
-            <div class="btn-sec clear-both row">
-                <div class="col-sm-7 text-right">
-                </div>
-            </div>
             <div class="row">
                 <div class="table-responsive application" id="applicantTable">
                     <table class="table">
@@ -33,13 +29,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>55464</td>
-                                <td>Deepika Malhotra</td>
-                                <td>7894561230</td>
-                                <td>Applicant</td>
-                                <td>Submitted</td>
-                                <td><u><a class="a_tag" (click)="onClick()">Version -
+                            <tr *ngFor="let item of fiList">
+                                <td>{{item.applicantId}}</td>
+                                <td>{{item.applicantName}}</td>
+                                <td>{{item.mobileNumber}}</td>
+                                <td>{{item.applicantType}}</td>
+                                <td>{{item.pdStatusValue}}</td>
+                                <td><u><a class="a_tag cursor-pointer" (click)="onClick()" title="View/update">Version -
                                           1</a></u></td>
                             </tr>
 
@@ -56,7 +52,7 @@
 <div class="btn-sec clear-both">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
-        <button class="btn btn-primary" type="button"> {{labels?.back}} </button> &nbsp;
-        <button class="btn btn-primary" type="button"> {{labels?.next}} </button>
+        <button class="btn btn-primary" type="button" (click)="onBack()"> {{labels?.back}} </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onNext()"> {{labels?.next}} </button>
     </div>
 </div>

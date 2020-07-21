@@ -59,6 +59,8 @@ export class ViabilityDetailsComponent implements OnInit {
   routerUrl: any;
   hideSubmit = true;
   taskId: any;
+  viabilityDataObj = {};
+  viabilityDataObjArray: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -160,7 +162,7 @@ export class ViabilityDetailsComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
     this.collataralId = (await this.getCollateralId()) as number;
     console.log(this.collataralId);
-    this.getViability(Number(this.collataralId));
+    this.getViability();
     // this.getViabilityList(Number(this.leadId));
     console.log(this.viabilityForm.controls);
     console.log(this.route.parent.firstChild.params);
@@ -201,10 +203,26 @@ export class ViabilityDetailsComponent implements OnInit {
       this.route.parent.firstChild.params.subscribe((value) => {
         if (value && value.collateralId) {
           resolve(Number(value.collateralId));
+          this.viabilityDataObj = this.viabilityService.getCollateralId();
+          console.log(this.viabilityDataObj);
+          if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
+             this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+              res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) =>{
+              if ( dataRes.collateralId === value.collateralId) {
+                this.viabilityDataObj = dataRes;
+                console.log(this.viabilityDataObj);
+              }
+            });
+             }
+             );
+
+          }
         }
         resolve(null);
       });
+      console.log(this.viabilityDataObj);
     });
+
   }
   submitViability() {
     const body = {
@@ -222,18 +240,18 @@ export class ViabilityDetailsComponent implements OnInit {
       }
     });
   }
-  getViabilityList(id) {
-    const body = {
-      leadId : id
-  };
-    this.viabilityService.getViabilityList(body).subscribe((res: any) => {
-    if (res.ProcessVariables.error.code === '0') {
-   this.collataralId = Number(res.ProcessVariables.vehicleViabilityDashboardList[0].collateralId) ;
-   this.getViability(this.collataralId);
-   }
-  });
+  // getViabilityList(id) {
+  //   const body = {
+  //     leadId : id
+  // };
+  //   this.viabilityService.getViabilityList(body).subscribe((res: any) => {
+  //   if (res.ProcessVariables.error.code === '0') {
+  //  this.collataralId = Number(res.ProcessVariables.vehicleViabilityDashboardList[0].collateralId) ;
+  // //  this.getViability(this.collataralId);
+  //  }
+  // });
 
-  }
+  // }
 vehicle_viability_navigate(event) {
     console.log(event);
     this.vehicle_viability_value = event ? event : event;
@@ -337,7 +355,7 @@ public removeStandOverValidators() {
       privateViability.get(key).updateValueAndValidity();
     }
   }
-getViability(id: any) {
+getViability() {
     const body = {
       userId: this.userId,
       collateralId: this.collataralId

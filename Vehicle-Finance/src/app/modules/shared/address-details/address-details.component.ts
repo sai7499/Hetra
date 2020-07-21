@@ -671,7 +671,7 @@ export class AddressDetailsComponent implements OnInit {
     const valueCheckbox = this.getAddressObj();
     const isCommAsReg = valueCheckbox[Constant.REGISTER_ADDRESS];
     //const commReplaceObj = valueCheckbox[Constant.COMMUNICATION_ADDRESS]
-  
+  if(isCommAsReg){
     if (isCommAsReg.isCurrAddSameAsPermAdd == '1') {
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -720,6 +720,7 @@ export class AddressDetailsComponent implements OnInit {
         this.setAddressValues(communicationAddressObj)
       );
     }
+  }
      else {
       this.onRegAsCommChecked = false;
       const communicationAddressObj =
@@ -908,6 +909,10 @@ export class AddressDetailsComponent implements OnInit {
     console.log('this.addressForm', this.addressForm)
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Applicant Details'
+        );
         return;
       }
       const value = this.addressForm.value;
