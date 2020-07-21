@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SanctionDetailsService } from '@services/sanction-details.service';
 
 @Component({
   selector: 'app-sanction-details',
@@ -8,19 +9,27 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./sanction-details.component.css']
 })
 export class SanctionDetailsComponent implements OnInit {
+
 leadId;
 
 labels: any = {};
+sanctionDetailsObject: any = {};
+applicantList: any;
+vehicleDetails: any = {};
+loanApprovedDetails: any = {};
+generalTermsAndConditions: string;
 
   constructor(
         private labelsData: LabelsService,
         private router: Router,
-        private aRoute: ActivatedRoute
+        private aRoute: ActivatedRoute,
+        private sanctionDetailsService: SanctionDetailsService,
   ) { }
 
   ngOnInit() {
     this.getLabels();
     this.getLeadId();
+    this.getSanctionDetails();
   }
 
   getLabels() {
@@ -35,6 +44,20 @@ labels: any = {};
       this.leadId = Number(val.leadId);
     });
     console.log("LEADID::::", this.leadId);
+  }
+
+  //FUNCTION FOR GET API of SANCTION-DETAILS
+  getSanctionDetails() {
+    const data = this.leadId;
+    this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
+      const response = res;
+      this.sanctionDetailsObject = response.ProcessVariables;
+      this.applicantList = this.sanctionDetailsObject.applicantList[0];
+      this.vehicleDetails = this.sanctionDetailsObject.vehicleDetails;
+      this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
+      const generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
+      this.generalTermsAndConditions = generalTermsAndConditions.replace(/<[^>]*>/g, '');
+    });    
   }
 
   onNext() {
