@@ -1318,7 +1318,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     console.log('addressDetails', this.addressDetails);
   }
   onFormSubmit() {
-    console.log('Form', this.coApplicantForm)
+    //console.log('Form', this.coApplicantForm)
     const formValue = this.coApplicantForm.getRawValue();
     this.setDedupeValidators();
     const coApplicantModel = {
@@ -1730,7 +1730,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
-        if (value.Error === '0' && value.ProcessVariables.error.code == 0) {
+        if (value.Error === '0' && value.ProcessVariables.error.code == '0') {
           const processVariables = value.ProcessVariables;
           if (!processVariables.dedupeFound) {
             this.applicantId = processVariables.applicantId;
