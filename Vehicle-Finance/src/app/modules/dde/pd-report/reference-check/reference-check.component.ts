@@ -378,7 +378,7 @@ export class ReferenceCheckComponent implements OnInit {
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
         this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
       } else {
-        this.toasterService.showError('pd report is not saved', '');
+        this.toasterService.showError( processVariables.error.message, '');
         console.log('error', processVariables.error.message);
 
       }

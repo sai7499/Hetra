@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
@@ -22,7 +22,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   @Input() id: any;
 
   maxDate = new Date();
-  initalZeroCheck = []
+  initalZeroCheck = [];
+  customFutureDate: boolean;
 
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
@@ -64,6 +65,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     public sharedService: SharedService, private toasterService: ToasterService,
     private uiLoader: NgxUiLoaderService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+    // this.customFutureDate = [{ rule: val => val > this.minDate, msg: 'Invalid Date' }];
   }
 
   ngOnInit() {
@@ -103,18 +105,27 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onGetDateValue(event) {
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    formArray.controls[0].patchValue({
-      ageOfAsset: Number(this.utilityService.ageFromAsset(event))
-    })
 
-    formArray.controls[0].patchValue({
-      ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
-    })
+    if (event > this.minDate) {
+      this.customFutureDate = true;
+      // this.customFutureDate = [{ rule: val => val > this.minDate, msg: 'Invalid Date' }];
+    } else {
+      this.customFutureDate = false;
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      formArray.controls[0].patchValue({
+        ageOfAsset: Number(this.utilityService.ageFromAsset(event))
+      })
 
-    if (this.productCatoryCode === 'UCV') {
-      this.getVehicleGridValue(formArray)
+      formArray.controls[0].patchValue({
+        ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
+      })
+
+      if (this.productCatoryCode === 'UCV') {
+        this.getVehicleGridValue(formArray)
+      }
     }
+
+
   }
 
   getVehicleGridValue(formArray: any) {
@@ -234,7 +245,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ]
 
       this.vehicleLov.assetVariant = [{
-        key: 0,
+        key: VehicleDetail.assetVarient,
         value: VehicleDetail.assetVarient
       }]
 
@@ -248,7 +259,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           vehicleType: VehicleDetail.vehicleTypeCode || '',
           assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
           assetModel: VehicleDetail.vehicleModelCode || '',
-          assetVariant: VehicleDetail.assetVarient === 'Petrol' ? '0' : '',
+          assetVariant: VehicleDetail.assetVarient || '',
           assetSubVariant: VehicleDetail.assetSubVariant || '',
           manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
           ageOfAsset: VehicleDetail.ageOfAsset || null,
@@ -297,7 +308,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostRef: VehicleDetail.assetCostRef || null,
       assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
       assetModel: VehicleDetail.vehicleModelCode || '',
-      assetVariant: VehicleDetail.assetVarient === 'Petrol' ? '0' : '',
+      assetVariant: VehicleDetail.assetVarient || '',
       assetSubVariant: VehicleDetail.assetSubVariant || '',
       category: VehicleDetail.category || '',
       chasisNumber: VehicleDetail.chasisNumber || null,
@@ -467,9 +478,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
 
           if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
-
             this.assetBodyType = res.ProcessVariables.vehicleMasterDetails;
-
             assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "uniqueSegmentCode", "segmentCode");
 
