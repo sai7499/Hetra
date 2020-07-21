@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TvrDetailsService } from '@services/tvr/tvr-details.service';
-import { Location } from '@angular/common';
-import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-tvr-details',
@@ -22,9 +20,7 @@ export class TvrDetailsComponent implements OnInit {
     private labelDetails: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private tvrService: TvrDetailsService,
-    private location: Location,
-    private sharedService: SharedService
+    private tvrService: TvrDetailsService
   ) { }
 
   async ngOnInit() {
@@ -71,7 +67,6 @@ export class TvrDetailsComponent implements OnInit {
 
   onBack() {
     this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
-    this.sharedService.onProgressBarChange(true);
   }
 
   onNext() {

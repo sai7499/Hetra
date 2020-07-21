@@ -1,5 +1,5 @@
 <div class="content">
-    <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId" (formDataOutput)="FormDataParentMethod($event)">
+    <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId">
     </app-shared-basic-vehicle-details>
 </div>
 
@@ -9,7 +9,7 @@
         <button class="btn btn-primary js-btn-prev" type="button" [routerLink]="['../vehicle-details']">
             {{ label.back }}
         </button> &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()" >
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()">
             {{ label.save }} </button>
         &nbsp;
     </div>

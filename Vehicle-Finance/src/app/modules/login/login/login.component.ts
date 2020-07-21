@@ -304,7 +304,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginData = this.loginForm.value;      
-    if (environment.hostingEnvironment === 'Production') {
+    if (environment.hostingEnvironment === 'DEV') {
       this.loginData.email = `${this.loginData.email}@equitasbank.in`;
     } else if(environment.hostingEnvironment === 'UAT'){
       this.loginData.email = `${this.loginData.email}@esfbuat.in`;

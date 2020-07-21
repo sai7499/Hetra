@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { UtilityService } from '@services/utility.service';
@@ -12,13 +12,14 @@ import { ToasterService } from '@services/toaster.service';
   templateUrl: './dashboard-deviation-details.component.html',
   styleUrls: ['./dashboard-deviation-details.component.css']
 })
-export class DashboardDeviationDetailsComponent implements OnInit {
+export class DashboardDeviationDetailsComponent implements OnInit, OnDestroy {
 
   labels: any = {};
   isDirty: boolean = false;
   public formValue: any = {};
   public leadId: number;
   public userId: string;
+  public subscription: any;
 
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
@@ -40,13 +41,9 @@ export class DashboardDeviationDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
 
-    this.sharedService.vaildateForm$.subscribe((value) => {
+    this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-  }
-
-  FormDataParentMethod(event) {
-
   }
 
   saveorUpdateDeviationDetails() {
@@ -55,8 +52,6 @@ export class DashboardDeviationDetailsComponent implements OnInit {
       let data = [];
 
       if (this.formValue.value.autoDeviationFormArray.length > 0) {
-
-        
         data = data.concat(this.formValue.value.autoDeviationFormArray);
         data = data.concat(this.formValue.value.manualDeviationFormArray);
 
@@ -79,7 +74,10 @@ export class DashboardDeviationDetailsComponent implements OnInit {
       console.log('error', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
     }
+  }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 
