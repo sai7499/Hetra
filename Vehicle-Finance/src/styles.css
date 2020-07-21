@@ -667,7 +667,13 @@ h4.table-head-bg.m-0.p-02 {
         color: red;
         padding-top: 0.5vw;
     }
+    td::before {
+        content: attr(data-label);
+        }
+        
+
 }
+
 
 @media (min-width:400px) and (max-width:767px) {
     .search{    

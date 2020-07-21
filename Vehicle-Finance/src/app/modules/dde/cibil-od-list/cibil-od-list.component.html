@@ -31,25 +31,26 @@
             <table id="POITable" border="1" class="table mb-15">
               <thead>
                 <tr class="">
-                  <th role="columnheader" class="caption">{{ labels?.odType }}<sub class="star_red_col">*</sub></th>
+                  <th role="columnheader" class="caption">{{ labels?.odType }}<sub class="star_blue_col">*</sub></th>
                   <th role="columnheader" class="caption">
-                    {{ labels?.odAmount }}<sub class="star_red_col">*</sub>
+                    {{ labels?.odAmount }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_red_col">*</sub>
+                  <th role="columnheader" class="caption">{{ labels?.typeOfloan }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <ng-container *ngIf="selctedLoan !== 'OTRSLONTYP'">
+                  <ng-container *ngIf="selectedLoanType !== 'OTRSLONTYP'">
+                    <th role="columnheader" class="caption">
+                      {{ labels?.otherTypeOfloan
+                      }}<sub class="star_blue_col">*</sub>
+                    </th>
+                  </ng-container>
+                  <ng-container *ngIf="selectedLoanType === 'OTRSLONTYP'">
                     <th role="columnheader" class="caption">
                       {{ labels?.otherTypeOfloan
                       }}<sub class="star_red_col">*</sub>
                     </th>
                   </ng-container>
-                  <ng-container *ngIf="selctedLoan === 'OTRSLONTYP'">
-                    <th role="columnheader" class="caption">
-                      {{ labels?.otherTypeOfloan }}<sub class="star_blue_col">*</sub>
-                    </th>
-                  </ng-container>
                   <th role="columnheader" class="caption">
-                    {{ labels?.odDpd }}<sub class="star_red_col">*</sub>
+                    {{ labels?.odDpd }}<sub class="star_blue_col">*</sub>
                   </th>
                   <th role="columnheader" class="caption">{{labels?.action}}</th>
                 </tr>
@@ -76,71 +77,75 @@
                   </td>
                   <td data-title="Type of loan">
                     <app-vf-custom-select [values]="odListLov?.typeOfLoan" formControlName="typeOfLoan"
-                      (change)="onSelectLoan($event.target.value)">
+                      (change)="onSelectLoan($event.target.value,i)">
                     </app-vf-custom-select>
+                    <!-- <select (change)="onSelectLoan($event.target.value,i,j)" formControlName="typeOfLoan">
+                      <option *ngFor="let item of odListLov?.typeOfLoan; let j = index " value ={{item?.key}} >{{item?.value}}</option>
+                    </select> -->
                   </td>
-                  <ng-container *ngIf="selctedLoan !== 'OTRSLONTYP'">
+                  <ng-container *ngIf="selctedLoan[i] !== 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
-                      <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
+                      <app-custom-input formControlName="otherTypeOfLoan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
                         [isDisabled]="'true'">
                       </app-custom-input>
                     </td>
                   </ng-container>
-                  <ng-container *ngIf="selctedLoan === 'OTRSLONTYP'">
+                  <ng-container *ngIf="selctedLoan[i] === 'OTRSLONTYP'">
                     <td data-title="Other type of loan">
-                      <app-custom-input formControlName="otherTypeOfloan" [placeholder]="'Other type of loan'"
+                      <app-custom-input formControlName="otherTypeOfLoan" [placeholder]="'Other type of loan'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
                         [isRequired]="'Other type of loan mandatory'">
                       </app-custom-input>
                     </td>
                   </ng-container>
-                    <td data-title="OD DPD">
-                      <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
-                        [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty"
-                        [isRequired]="'OD DPD mandatory'">
-                      </app-custom-input>
-                    </td>
+                  <td data-title="OD DPD">
+                    <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
+                      [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                      [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty"
+                      [isRequired]="'OD DPD mandatory'">
+                    </app-custom-input>
+                  </td>
                   <td data-title="Actions">
+                    <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      (click)="removeOdDetails(i)"></i> -->
                     <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
-                      (click)="removeOdDetails(i)"></i>
+                      (click)="showOdModel(i)"></i>
                   </td>
                 </tr>
                 <tr *ngIf="odAccountDetailsArray.length > 0">
-                  <td>Total OD Amount</td>
-                  <td >{{totalOdAmount}}</td>
+                  <td>{{ labels?.totalODAmount }}</td>
+                  <td>{{totalOdAmount}}</td>
                 </tr>
               </tbody>
             </table>
             <hr>
-            <div class="form-group od-row" >
-              <div class="col-md-2"><label>Highest DPD in last 6M (under individual or joint status)</label></div>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>{{labels?.highestDPDInLastSixM}}</label></div>
               <div class="col-md-2">
-               
-                <app-vf-custom-select [values]="odListLov?.highestDpd" formControlName="highDpd6m">
+
+                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="highDpd6m">
                 </app-vf-custom-select>
               </div>
-              <div class="col-md-2"><label>Highest DPD in last 12M (under individual or joint status)</label></div>
+              <div class="col-md-2"><label>{{labels?.highestDPDInLastTwelveM}}</label></div>
               <div class="col-md-2">
-               
-                <app-vf-custom-select [values]="odListLov?.highestDpd"
-                  formControlName="highDpd12m">
+
+                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="highDpd12m">
                 </app-vf-custom-select>
               </div>
               <div class="clearfix"></div>
             </div>
             <div class="form-group od-row">
-              <div class="col-md-2"><label>Count of  written off loans</label></div>
+              <div class="col-md-2"><label>{{labels?.countOfWrittenOffLoans}}</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="writtenOffLoans" [placeholder]="'Count of  written off loans'"
                   [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
                   [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
-              <div class="col-md-2"><label>Count of  written off loans along with suite filed</label></div>
+              <div class="col-md-2"><label>{{labels?.countOfWrittenOffLoansAlongWithSuiteFiled}}</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="writtenOffLoansWithSuite"
                   [placeholder]="'Count of  written off loans with Suite filed'"
@@ -148,7 +153,7 @@
                   [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
-              <div class="col-md-2"><label>Count of  loss loans</label></div>
+              <div class="col-md-2"><label>{{labels?.countOfLossloans}}</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="lossLoans" [placeholder]="'Count of  loss loans'"
                   [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
@@ -158,7 +163,7 @@
               <div class="clearfix"></div>
             </div>
             <div class="form-group od-row">
-              <div class="col-md-2"><label>Count of settled loans</label></div>
+              <div class="col-md-2"><label>{{labels?.countOfSettledLoans}}</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="settledLoans" [placeholder]="'Count of settled loans'"
                   [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
@@ -168,34 +173,41 @@
               <div class="clearfix"></div>
             </div>
             <div class="form-group od-row">
-              <div class="col-md-2"><label>Clearance Proof Collected</label></div>
+              <div class="col-md-2"><label>{{labels?.clearanceProofCollected}}</label></div>
               <div class="col-md-2">
-                
-                <app-vf-custom-select [values]="odListLov?.clearanceProof"
-                  formControlName="clearanceProofCollected">
-                </app-vf-custom-select>
+                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="clearanceProofCollected" (change)="onSelectProof($event.target.value)">
+                </app-vf-custom-select >
               </div>
-              <div class="col-md-2"><label>Clearance Proof</label></div>
+              <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
+              <ng-container *ngIf="selctedProof === 'ODCLCLDODCLRPRF' || selctedProof === 'ODCLPRTCLDODCLRPRF'">
               <div class="col-md-2">
                 <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
                   [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                   [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
+            </ng-container>
+            <ng-container *ngIf="selctedProof == 'ODCLNAODCLRPRF' || selctedProof == 'ODCLNTCLDODCLRPRF' || selctedProof == 'ODCLNTCLDODCLRPRF'">
+              <div class="col-md-2">
+                <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
+                  [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
+                </app-custom-input>
+              </div>
+            </ng-container>
               <div class="clearfix"></div>
             </div>
             <div class="form-group od-row">
-              <div class="col-md-2"><label>OD DPD Justification</label></div>
+              <div class="col-md-2"><label>{{labels?.cibilODDPDJustification}}</label></div>
               <div class="col-md-10">
-              
-                <textarea class="form-control form-control-sm" placeholder="Text Area"
-                  formControlName="justification"
-                  [ngClass]="{'has-error':!odDetailsForm.controls['justification'].valid}"></textarea>
+
+                <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="justification"
+                  [ngClass]="{'has-error':odDetailsForm.controls['justification'].invalid}"></textarea>
                 <div *ngIf="odDetailsForm.controls['justification'].hasError('pattern')" [ngClass]="'error'">
                   Invalid Message / Special Characters not allowed
                 </div>
                 <div *ngIf="odDetailsForm.controls['justification'].hasError('maxlength')" [ngClass]="'error'">
-                  OD DPD Justification can not exceed 200 characters long.
+                  CIBIL OD DPD JUSTIFICATION can not exceed 200 characters long.
                 </div>
               </div>
               <div class="clearfix"></div>
@@ -230,7 +242,7 @@
                     let i = index
                   " [formGroupName]="i">
                     <td data-title="Member">
-                      <app-custom-input formControlName="memberType"memberType [placeholder]="'Member'"
+                      <app-custom-input formControlName="memberType" memberType [placeholder]="'Member'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
                       </app-custom-input>
@@ -239,10 +251,10 @@
                       <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
                         [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
                       </kendo-datepicker>
-                      
+
                     </td>
                     <td data-title="Type of loan">
-                      
+
                       <app-vf-custom-select [values]="odListLov?.typeOfLoan" formControlName="typeOfLoan">
                       </app-vf-custom-select>
                     </td>
@@ -255,8 +267,10 @@
                     </td>
                     <td data-title="Actions">
 
+                      <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
+                        (click)="removeLastThirtyDaysLoan(i)"></i> -->
                       <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
-                        (click)="removeLastThirtyDaysLoan(i)"></i>
+                        (click)="showThirtyModel(i)"></i>
                     </td>
                   </tr>
                 </tbody>
@@ -292,7 +306,7 @@
                     let i = index
                   " [formGroupName]="i">
                     <td data-title="Member">
-                      <app-custom-input formControlName="memberType"memberType [placeholder]="'Member'"
+                      <app-custom-input formControlName="memberType" memberType [placeholder]="'Member'"
                         [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                         [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
                       </app-custom-input>
@@ -303,7 +317,7 @@
                       </kendo-datepicker>
                     </td>
                     <td data-title="Type of loan">
-                    
+
                       <app-vf-custom-select [values]="odListLov?.typeOfLoan" formControlName="typeOfLoan">
                       </app-vf-custom-select>
 
@@ -318,7 +332,7 @@
                     <td data-title="Actions">
 
                       <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
-                        (click)="removeLastSixtyDaysLoan(i)"></i>
+                        (click)="showSixtyModel(i)"></i>
                     </td>
                   </tr>
                 </tbody>
@@ -333,8 +347,8 @@
 
     <div class="btn-sec clear-both row cst_btm_btns">
       <div class="col-sm-5">
-        <button class="btn btn-primary dash_href" (click)="onBackToApplicant()">
-          Back To Applicant Details
+        <button class="btn btn-primary dash_href" (click)="onBackToODDetails()">
+          Back To OD Details
         </button>
       </div>
       <div class="col-sm-7 text-right">
@@ -351,3 +365,66 @@
     </div>
   </div>
 </form>
+<div id="overlay" *ngIf="isODModelShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isODModelShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeOdDetails(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isODModelShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="overlay" *ngIf="isThirtyModelShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isThirtyModelShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeLastThirtyDaysLoan(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isThirtyModelShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="overlay" *ngIf="isSixtyModelShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isSixtyModelShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeLastSixtyDaysLoan(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isSixtyModelShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ 

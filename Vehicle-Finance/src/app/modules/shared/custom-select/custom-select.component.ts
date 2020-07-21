@@ -101,6 +101,7 @@ export class CustomSelectComponent
     this.val = val;
     if ((!val && this.isFirst) || (this.isFirst)) {
       this.isFirst = false;
+      this.inputError= false;
       return;
     }
     if (!this.val) {

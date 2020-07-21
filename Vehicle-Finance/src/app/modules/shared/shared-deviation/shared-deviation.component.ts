@@ -80,10 +80,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.productCatoryId = this.leadDetails['productId'];
 
     this.getDeviationMaster();
-    this.sharedService.getFormValidation(this.deviationsForm)
     this.getTrigurePolicy();
-
-    console.log(this.vehicleDataStoreService.getCreditTaskId())
 
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
@@ -103,7 +100,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: [''],
       recommendation: ['', Validators.required]
     })
-
+    this.sharedService.getFormValidation(this.deviationsForm)
   }
 
   ngOnChanges() {
@@ -299,13 +296,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   getTrigurePolicy() {
     this.deviationService.getDeviationsDetails(this.leadId).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
           this.onPatchFormArrayValue(this.autoDeviationArray)
           this.isApproveDeviation()
         }
-        this.sharedService.getFormValidation(this.deviationsForm)
       } else {
         this.toasterService.showError(res.ErrorMessage, 'Get Deviation Details')
       }
@@ -373,12 +368,13 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
       manualDiviationFormArray.push(this.getManualDeviations())
     }
+    this.sharedService.getFormValidation(this.deviationsForm)
   }
 
-  formDataOutputMethod(event) {
-    this.sharedService.getFormValidation(this.deviationsForm)
-    this.formDataOutput.emit(this.deviationsForm.value)
-  }
+  // formDataOutputMethod(event) {
+  //   this.sharedService.getFormValidation(this.deviationsForm)
+  //   this.formDataOutput.emit(this.deviationsForm.value)
+  // }
 
   ReferDeviation() {
 

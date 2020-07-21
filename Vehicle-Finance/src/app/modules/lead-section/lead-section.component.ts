@@ -62,7 +62,7 @@ export class LeadSectionComponent implements OnInit {
 
     if (url.includes('applicant-details')) {
       return 1
-    } else if (url.includes('vehicle-details')) {
+    } else if (url.includes('vehicle-details') || url.includes('add-vehicle') ) {
       return 2
     } else {
       return 0
