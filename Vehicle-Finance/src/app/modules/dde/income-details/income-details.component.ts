@@ -310,6 +310,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
+        this.onIncome(null,i)
       } else {
         const body = {
           userId: this.userId,
@@ -321,6 +322,8 @@ export class IncomeDetailsComponent implements OnInit {
             control.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+        this.onIncome(null,i)
+
           });
       }
     } else {
@@ -350,6 +353,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
+        this.getOtherFactoredIncome(i);
       } else {
         const body = {
           userId: this.userId,
@@ -361,6 +365,8 @@ export class IncomeDetailsComponent implements OnInit {
             control.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+        this.getOtherFactoredIncome(i);
+
           });
       }
     } else {
@@ -388,6 +394,8 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
+        this.onEmi(null, i);
+
       } else {
         const body = {
           userId: this.userId,
@@ -399,11 +407,14 @@ export class IncomeDetailsComponent implements OnInit {
             control.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+            this.onEmi(null, i);
+
           });
       }
     } else {
       this.toasterService.showError('Atleast One Row Required', '');
     }
+
   }
 
   getAllIncome() {
@@ -415,7 +426,7 @@ export class IncomeDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
         console.log(this.applicantResponse);
-        
+
         this.incomeDetailsForm.patchValue({
           salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation,
         });
@@ -483,7 +494,7 @@ export class IncomeDetailsComponent implements OnInit {
         businessControl.at(i).get('grossMonthlyIncome').setValue(
           businessControl.at(i).get('grossMonthlyIncome').value.toString());
         businessControl.at(i).get('applicantId').setValue(
-            Number(businessControl.at(i).get('applicantId').value));
+          Number(businessControl.at(i).get('applicantId').value));
       }
       const otherIncomeControl = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
@@ -492,8 +503,8 @@ export class IncomeDetailsComponent implements OnInit {
         otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome.toString());
         otherIncomeControl.at(i).get('factoredIncome').setValue(
           otherIncomeControl.at(i).get('factoredIncome').value.toString());
-          otherIncomeControl.at(i).get('applicantId').setValue(
-            Number(otherIncomeControl.at(i).get('applicantId').value))
+        otherIncomeControl.at(i).get('applicantId').setValue(
+          Number(otherIncomeControl.at(i).get('applicantId').value))
       }
       const obligationControl = this.incomeDetailsForm.controls
         .obligationDetails as FormArray;
@@ -508,8 +519,8 @@ export class IncomeDetailsComponent implements OnInit {
         obligationControl.at(i).get('emi').setValue(emi);
         obligationControl.at(i).get('obligationAmount').setValue(
           obligationControl.at(i).get('obligationAmount').value.toString());
-          obligationControl.at(i).get('applicantId').setValue(
-            Number(obligationControl.at(i).get('applicantId').value));
+        obligationControl.at(i).get('applicantId').setValue(
+          Number(obligationControl.at(i).get('applicantId').value));
       }
       const salaryContol = this.incomeDetailsForm.controls
         .salariedFOIRDeviation as FormControl;
@@ -661,6 +672,10 @@ export class IncomeDetailsComponent implements OnInit {
         );
       }
     }
+    // const factoringPerc = incomeArray.at(i).value.factoring;
+    // const grossIncome = incomeArray.at(i).value.grossIncome;
+    // const value = Math.round(grossIncome * (factoringPerc / 100));
+    // incomeArray.at(i).patchValue({ factoredIncome: value });
   }
 
   onTenure(event: any, i: number) {
@@ -685,22 +700,44 @@ export class IncomeDetailsComponent implements OnInit {
   onEmi(event: any, i: number) {
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
-    const emi = obligationArray.value[i].emi;
-    const obligationAmount = emi;
-    obligationArray.at(i).patchValue({ obligationAmount });
+    // const emi = obligationArray.value[i].emi;
+    // const obligationAmount = emi;
+    // obligationArray.at(i).patchValue({ obligationAmount });
     if (obligationArray && obligationArray.length > 0) {
       this.totalObligationAmount = 0;
       for (let i = 0; i < obligationArray.length; i++) {
         this.totalObligationAmount = Math.round(
           this.totalObligationAmount + Number(obligationArray.value[i].emi)
+
         );
+        const emi = obligationArray.value[i].emi;
+        const obligationAmount = emi;
+        obligationArray.at(i).patchValue({ obligationAmount });
       }
     }
   }
   onIncome(event: any, i: number) {
     const businessIncomeArray = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
-    const netProfit = businessIncomeArray.value[i].netProfit;
+    // const netProfit = businessIncomeArray.value[i].netProfit;
+    // const depreciation = businessIncomeArray.value[i].depreciation;
+    // const directorSalary = businessIncomeArray.value[i].directorSalary;
+
+    // const grossDerivedIncome = Math.round(
+    //   Number(netProfit * 3) + Number(depreciation) + Number(directorSalary)
+    // );
+    // businessIncomeArray.at(i).patchValue({ grossDerivedIncome });
+    // const grossMonthlyIncome = Math.round(grossDerivedIncome / 12);
+    // businessIncomeArray.at(i).patchValue({ grossMonthlyIncome });
+    if (businessIncomeArray && businessIncomeArray.length > 0) {
+      this.totalBusinessIncomeAmount = 0;
+      for (let i = 0; i < businessIncomeArray.length; i++) {
+        this.totalBusinessIncomeAmount = Math.round(
+          this.totalBusinessIncomeAmount +
+          businessIncomeArray.value[i].grossMonthlyIncome
+        );
+      }
+      const netProfit = businessIncomeArray.value[i].netProfit;
     const depreciation = businessIncomeArray.value[i].depreciation;
     const directorSalary = businessIncomeArray.value[i].directorSalary;
 
@@ -710,14 +747,6 @@ export class IncomeDetailsComponent implements OnInit {
     businessIncomeArray.at(i).patchValue({ grossDerivedIncome });
     const grossMonthlyIncome = Math.round(grossDerivedIncome / 12);
     businessIncomeArray.at(i).patchValue({ grossMonthlyIncome });
-    if (businessIncomeArray && businessIncomeArray.length > 0) {
-      this.totalBusinessIncomeAmount = 0;
-      for (let i = 0; i < businessIncomeArray.length; i++) {
-        this.totalBusinessIncomeAmount = Math.round(
-          this.totalBusinessIncomeAmount +
-          businessIncomeArray.value[i].grossMonthlyIncome
-        );
-      }
     }
   }
   onSalFoirDeviation(event: any) {
