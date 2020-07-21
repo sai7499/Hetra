@@ -635,8 +635,8 @@ export class BasicDetailsComponent implements OnInit {
 
   getDirectorsControls() {                      // director array controls
     return new FormGroup({
-      directorName: new FormControl(''),
-      din: new FormControl('')
+      directorName: new FormControl(),
+      din: new FormControl()
     });
   }
 
@@ -712,15 +712,15 @@ export class BasicDetailsComponent implements OnInit {
     formArray.clear();
   }
 
-  // onIndividualChange(event) {
-  //   const value = event.target.value;
-  //   this.isIndividual = value === 'INDIVENTTYP';
-  //   const formArray = this.basicForm.get('details') as FormArray;
-  //   formArray.clear();
-  //   this.isIndividual
-  //     ? this.addIndividualFormControls()
-  //     : this.addNonIndividualFormControls();
-  // }
+  onIndividualChange(event) {
+    const value = event.target.value;
+    this.isIndividual = value === 'INDIVENTTYP';
+    const formArray = this.basicForm.get('details') as FormArray;
+    formArray.clear();
+    this.isIndividual
+      ? this.addIndividualFormControls()
+      : this.addNonIndividualFormControls();
+  }
 
   setValidation() {                    // set validators based upon product aanf funding program
     const formArray = this.basicForm.get('details') as FormArray;
