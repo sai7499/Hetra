@@ -49,7 +49,7 @@ export class CibilOdListComponent implements OnInit {
   rowoIndex: any;
   isSixtyModelShow: boolean;
   selctedProof: any;
-
+  unamePattern = "^[a-z0-9_-]{8,15}$";
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -93,31 +93,21 @@ export class CibilOdListComponent implements OnInit {
       lossLoans: [""],
       settledLoans: [""],
       clearanceProofCollected: [""],
-      clearanceProof: [""],
-      // justification: [
-      //   null,
-      //   Validators.compose([
-      //     Validators.required,
-      //     Validators.maxLength(200),
-      //     Validators.pattern(
-      //       /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/
-      //     ),
-      //   ]),
-      // ],
-      justification: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /[^@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\? ]/g
-          ),
-        ]),
-      ],
-    });
+      clearanceProof: [null],
+      justification: new FormControl(null,[
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+              ),
+    ])
+      
+      });
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
+    console.log(this.odDetailsForm.value.clearanceProof);
+    
   }
 
   getLov() {
@@ -126,7 +116,7 @@ export class CibilOdListComponent implements OnInit {
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
       console.log(this.odListLov.clearanceProof);
-      
+
       this.odListLov.highestDpd = value.LOVS.highestDpd;
     });
   }
@@ -142,18 +132,18 @@ export class CibilOdListComponent implements OnInit {
     });
   }
 
-  onSelectLoan(event,i) {
+  onSelectLoan(event, i) {
     this.selctedLoan[i] = event;
     console.log(this.selctedLoan);
     this.selectedLoanType = this.selctedLoan[i]
-    
-    
+
+
   }
   onSelectProof(event) {
-    this.selctedProof = null;
+    // this.selctedProof = null;
     this.selctedProof = event;
     console.log(event);
-    
+
   }
   private getodListDetails(data?: any) {
     if (data === undefined) {
@@ -191,12 +181,12 @@ export class CibilOdListComponent implements OnInit {
     if (this.odAccountDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
-        
+
         this.odAccountDetailsArray.removeAt(i);
         this.toasterService.showInfo("Row is Removed", "OD Details")
         this.isODModelShow = false;
-    this.onOdAmount(null,i);
-        
+        this.onOdAmount(null, i);
+
       } else {
         const body = {
           id: id,
@@ -209,7 +199,7 @@ export class CibilOdListComponent implements OnInit {
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, "");
             this.isODModelShow = false;
-            this.onOdAmount(null,i);
+            this.onOdAmount(null, i);
 
           });
       }
@@ -329,7 +319,7 @@ export class CibilOdListComponent implements OnInit {
             this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
-        this.isSixtyModelShow = false;
+            this.isSixtyModelShow = false;
 
           });
       }
