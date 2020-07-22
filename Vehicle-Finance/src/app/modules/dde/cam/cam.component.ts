@@ -3,7 +3,14 @@ import { LabelsService } from '@services/labels.service';
 import { CamService } from '@services/cam.service';
 import { ActivatedRoute } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  FormControl,
+} from "@angular/forms";
+import { ToasterService } from '@services/toaster.service';
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -31,12 +38,17 @@ export class CamComponent implements OnInit {
   ncmBhApprovalRecommendation: any;
   usedCvCam: boolean;
   productCategoryName: string;
+  otherDeviation: any;
+  camDetailsForm: any;
+  submitted: boolean;
+  userId: string;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
-
+private formBuilder : FormBuilder,
+private toasterService : ToasterService
   ) { }
 
   ngOnInit() {
@@ -48,39 +60,68 @@ export class CamComponent implements OnInit {
       }
     );
     this.getLeadId();
+    this.userId = localStorage.getItem("userId");
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
-    console.log('getting lead data...>',leadSectionData);
-    
+    console.log('getting lead data...>', leadSectionData);
     this.productCategoryName = leadSectionData.leadDetails['productCatName'];
-    console.log('getting productCategoryName...>',this.productCategoryName);
+    console.log('getting productCategoryName...>', this.productCategoryName);
 
     // this.getCamUsedCvDetails();
-if(this.productCategoryName == "Used Commercial Vehicle"){
-  this.usedCvCam = true;
-  this.getCamUsedCvDetails();
-}
+    if (this.productCategoryName == "Used Commercial Vehicle") {
+      this.usedCvCam = true;
+      this.getCamUsedCvDetails();
+    }
 
+    this.camDetailsForm = this.formBuilder.group({
+      proposedVehicleRemarks : new FormControl(null,[
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+              ),
+    ]),
+      cibilSynopsisRemarks : new FormControl(null,[
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+              ),
+    ]),
+      trackValidationRemarks: new FormControl(null,[
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+              ),
+    ]),
+      fleetRemarks: new FormControl(null,[
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+              ),
+    ]),
+
+    })
   }
   getCamUsedCvDetails() {
-  // this.usedCvCam = true
+    // this.usedCvCam = true
     const data = {
       leadId: this.leadId,
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
-      console.log(res)
+      // console.log(res)
       this.camDetails = res.ProcessVariables
       this.basicDetails = res.ProcessVariables['basicDetailsObj'];
       this.sourcingDetails = res.ProcessVariables['sourcingObj'];
       this.proposedVehicleDetails = res.ProcessVariables['proposedVehiclesObj'];
-      this.proposedToAnyOtherRemarks = res.ProcessVariables['proposedToAnyOtherRemarks']
       this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
-      this.partyToAnyOtherRemarks = res.ProcessVariables['partyToAnyOtherRemarks']
       this.cibilSynopsys = res.ProcessVariables['cibilSynopsysObj'];
-      this.cibilSynopsysToAnyOtherRemark = res.ProcessVariables['cibilSynopsysToAnyOtherRemark']
       this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
       this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
       this.trackValidation = res.ProcessVariables['trackValidationObj']
+      this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
       this.keyFinancial = res.ProcessVariables['keyFinancialObj']
       this.creditOfficersRemarks = res.ProcessVariables['creditOfficersRemarksObj']
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
@@ -88,6 +129,47 @@ if(this.productCategoryName == "Used Commercial Vehicle"){
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
 
     })
+  }
+  onSubmit() {
+    console.log(this.camDetailsForm);
+
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.camDetailsForm.invalid) {
+      this.toasterService.showError(
+        "Fields Missing Or Invalid Pattern Detected",
+        "OD Details"
+      );
+      return;
+    } else {
+      this.submitted = true;
+
+      const body = {
+        leadId: this.leadId,
+        userId: this.userId,
+
+        anyOtherRemarks: {
+          proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
+          cibilSynopsisRemarks: this.camDetailsForm.controls
+            .cibilSynopsisRemarks.value,
+            trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
+            fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value
+        }
+      };
+
+      this.camService.saveCamRemarks(body).subscribe((res: any) => {
+        console.log(res);
+        
+        // tslint:disable-next-line: triple-equals
+        if (res && res.ProcessVariables.error.code == "0") {
+          // tslint:disable-next-line: prefer-const
+          this.toasterService.showSuccess(
+            "Saved Successfully",
+            "OD Details"
+          );
+        }
+      });
+    }
   }
   getLeadId() {
     return new Promise((resolve, reject) => {

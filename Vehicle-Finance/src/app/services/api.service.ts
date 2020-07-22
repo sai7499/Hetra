@@ -494,7 +494,11 @@ export class ApiService {
       processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
       projectId: environment.projectIds.salesProjectId
-    }
-
+    },
+saveCamRemarks:{
+  processId: 'b099b6aac71e11ea8c4800505695f93b',
+  workflowId: 'b0689796c71e11ea8df900505695f93b',
+  projectId: environment.projectIds.salesProjectId
+}
   };
 }
