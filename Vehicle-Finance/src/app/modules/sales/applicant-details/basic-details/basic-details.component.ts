@@ -78,6 +78,7 @@ export class BasicDetailsComponent implements OnInit {
   isChecked: boolean;
   ownerPropertyRelation: any;
   checkedBoxHouse: boolean;
+  validation: any;
 
 
   constructor(
@@ -114,10 +115,13 @@ export class BasicDetailsComponent implements OnInit {
       details: new FormArray([]),
     });
 
+
     //this.addNonIndividualFormControls();
     this.getLovData();
     this.getLeadSectiondata();
     this.getCountryList();
+    const formArray = this.basicForm.get('details') as FormArray;
+    this.validation = formArray.at(0);
 
   }
   getLeadSectiondata() {
@@ -227,18 +231,21 @@ export class BasicDetailsComponent implements OnInit {
           setTimeout(() => {
             details.get('spouseName').setValue(spouseName || null);
           });
-        } else {
+        } 
+        else {
           details.get('spouseName').setValidators([Validators.required]);
           details.get('spouseName').updateValueAndValidity();
-          this.isRequiredSpouse = 'Spouse name is required';
+          this.isRequiredSpouse = 'Spouse Name is Required';
           //const spouseName= details.get('spouseName').value || null;
           setTimeout(() => {
             details.get('spouseName').setValue(spouseName || null);
           });
         }
       });
+      
 
-    details.get('spouseName').valueChanges.subscribe((value) => {
+    details.get('spouseName').valueChanges
+    .subscribe((value) => {
       if (spouseName == value) {
         return;
       }
@@ -251,10 +258,11 @@ export class BasicDetailsComponent implements OnInit {
         setTimeout(() => {
           details.get('fatherName').setValue(fatherName || null);
         });
-      } else {
+      } 
+      else {
         details.get('fatherName').setValidators([Validators.required]);
         details.get('fatherName').updateValueAndValidity();
-        this.isRequiredFather = 'Father name is required';
+        this.isRequiredFather = 'Father Name is Required';
         setTimeout(() => {
           details.get('fatherName').setValue(fatherName || null);
         });
@@ -287,7 +295,7 @@ export class BasicDetailsComponent implements OnInit {
     const convertAge = new Date(value);
     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
     this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
-    console.log('showAge', this.showAge);
+    //console.log('showAge', this.showAge);
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -547,7 +555,7 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0) as FormGroup;
     if (details.get('isMinor').value) {
-      console.log('isminorgaur', details.get('isMinor').value);
+     // console.log('isminorgaur', details.get('isMinor').value);
       details.addControl('minorGuardianName', new FormControl());
       details.addControl('minorGuardianRelation', new FormControl());
     } else {
@@ -602,19 +610,19 @@ export class BasicDetailsComponent implements OnInit {
     formArray.push(controls);
   }
 
-  onIndividualChange(event) {
-    //console.log('OnIndividdaulevent',event )
-    if (!event) {
-      return;
-    }
-    const value = event.key;
-    this.isIndividual = value === 'INDIVENTTYP';
-    const formArray = this.basicForm.get('details') as FormArray;
-    formArray.clear();
-    this.isIndividual
-      ? this.addIndividualFormControls()
-      : this.addNonIndividualFormControls();
-  }
+  // onIndividualChange(event) {
+  //   //console.log('OnIndividdaulevent',event )
+  //   if (!event) {
+  //     return;
+  //   }
+  //   const value = event.key;
+  //   this.isIndividual = value === 'INDIVENTTYP';
+  //   const formArray = this.basicForm.get('details') as FormArray;
+  //   formArray.clear();
+  //   this.isIndividual
+  //     ? this.addIndividualFormControls()
+  //     : this.addNonIndividualFormControls();
+  // }
 
   async onSave() {
     this.setDedupeValidators();
