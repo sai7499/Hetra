@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SanctionDetailsService } from '@services/sanction-details.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-sanction-details',
@@ -14,22 +15,27 @@ leadId;
 
 labels: any = {};
 sanctionDetailsObject: any = {};
-applicantList: any;
+applicantList: any = [];
+coApplicantList: any = [];
 vehicleDetails: any = {};
 loanApprovedDetails: any = {};
 generalTermsAndConditions: string;
+date: Date = new Date();
+todayDate;
 
   constructor(
         private labelsData: LabelsService,
         private router: Router,
         private aRoute: ActivatedRoute,
         private sanctionDetailsService: SanctionDetailsService,
+        private utilityService: UtilityService,
   ) { }
 
   ngOnInit() {
     this.getLabels();
     this.getLeadId();
     this.getSanctionDetails();
+    this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY')
   }
 
   getLabels() {
@@ -52,16 +58,46 @@ generalTermsAndConditions: string;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
       const response = res;
       this.sanctionDetailsObject = response.ProcessVariables;
-      this.applicantList = this.sanctionDetailsObject.applicantList[0];
+      this.sanctionDetailsObject.applicantList.filter( (element) => {
+        // console.log("ELEMENT-OBJ::::", element);
+        if(element.applicantType === "Applicant") {
+          const data = {
+            applicantType: element.applicantType,
+            name: element.name,
+            addressLine1: element.addressLine1,
+            addressLine2: element.addressLine2,
+            addressLine3: element.addressLine3,
+            district: element.district,
+            country: element.country,
+            pincode: element.pincode,
+            mobileNo: element.mobileNo,
+          };
+          this.applicantList.push(data);
+        }
+        if(element.applicantType === "Co-Applicant") {
+          const data = {
+            applicantType: element.applicantType,
+            name: element.name,
+            addressLine1: element.addressLine1,
+            addressLine2: element.addressLine2,
+            addressLine3: element.addressLine3,
+            district: element.district,
+            country: element.country,
+            pincode: element.pincode,
+            mobileNo: element.mobileNo,
+          };
+          this.coApplicantList.push(data);
+        }
+      });
+      // this.coApplicantList = this.sanctionDetailsObject.applicantList[1];
       this.vehicleDetails = this.sanctionDetailsObject.vehicleDetails;
       this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
-      const generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
-      this.generalTermsAndConditions = generalTermsAndConditions.replace(/<[^>]*>/g, '');
+      this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
     });    
   }
 
   onNext() {
-    this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
+    this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
   }
 
   onBack() {
