@@ -136,11 +136,9 @@ export class CibilOdListComponent implements OnInit {
     this.selctedLoan[i] = event;
     console.log(this.selctedLoan);
     this.selectedLoanType = this.selctedLoan[i]
-
-
   }
   onSelectProof(event) {
-    // this.selctedProof = null;
+    this.selctedProof = null;
     this.selctedProof = event;
     console.log(event);
 
@@ -337,6 +335,8 @@ export class CibilOdListComponent implements OnInit {
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
       this.odDetails = res.ProcessVariables;
+      console.log(this.odDetails);
+      
       this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
 
@@ -373,6 +373,9 @@ export class CibilOdListComponent implements OnInit {
         this.odDetailsForm.patchValue({
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
         });
+        this.onSelectProof(event);
+        console.log(this.onSelectProof(event));
+        
         this.odDetailsForm.patchValue({
           justification: this.odDetails.assetAppOdDetails.justification,
         });
@@ -476,6 +479,7 @@ export class CibilOdListComponent implements OnInit {
             "OD Details"
           );
           this.getOdDetails();
+          
         }
       });
     }

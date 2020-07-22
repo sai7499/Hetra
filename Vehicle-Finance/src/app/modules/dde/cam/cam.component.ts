@@ -47,8 +47,8 @@ export class CamComponent implements OnInit {
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
-private formBuilder : FormBuilder,
-private toasterService : ToasterService
+    private formBuilder: FormBuilder,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
@@ -74,34 +74,34 @@ private toasterService : ToasterService
     }
 
     this.camDetailsForm = this.formBuilder.group({
-      proposedVehicleRemarks : new FormControl(null,[
+      proposedVehicleRemarks: new FormControl(null, [
         Validators.required,
         Validators.maxLength(200),
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
-              ),
-    ]),
-      cibilSynopsisRemarks : new FormControl(null,[
+        ),
+      ]),
+      cibilSynopsisRemarks: new FormControl(null, [
         Validators.required,
         Validators.maxLength(200),
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
-              ),
-    ]),
-      trackValidationRemarks: new FormControl(null,[
+        ),
+      ]),
+      trackValidationRemarks: new FormControl(null, [
         Validators.required,
         Validators.maxLength(200),
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
-              ),
-    ]),
-      fleetRemarks: new FormControl(null,[
+        ),
+      ]),
+      fleetRemarks: new FormControl(null, [
         Validators.required,
         Validators.maxLength(200),
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
-              ),
-    ]),
+        ),
+      ]),
 
     })
   }
@@ -111,7 +111,7 @@ private toasterService : ToasterService
       leadId: this.leadId,
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
-      // console.log(res)
+      console.log(res)
       this.camDetails = res.ProcessVariables
       this.basicDetails = res.ProcessVariables['basicDetailsObj'];
       this.sourcingDetails = res.ProcessVariables['sourcingObj'];
@@ -127,7 +127,19 @@ private toasterService : ToasterService
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-
+      
+      this.camDetailsForm.patchValue({
+        proposedVehicleRemarks:this.camDetails.proposedToAnyOtherRemarks? this.camDetails.proposedToAnyOtherRemarks : null,
+      })
+      this.camDetailsForm.patchValue({
+        cibilSynopsisRemarks:this.camDetails.cibilSynopsysToAnyOtherRemark? this.camDetails.cibilSynopsysToAnyOtherRemark : null,
+      })
+      this.camDetailsForm.patchValue({
+        trackValidationRemarks:this.camDetails.trackValidationToAnyOtherRemarks? this.camDetails.trackValidationToAnyOtherRemarks : null,
+      })
+      this.camDetailsForm.patchValue({
+        fleetRemarks:this.camDetails.fleetSummaryToAnyOtherRemarks? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
+      })
     })
   }
   onSubmit() {
@@ -152,21 +164,23 @@ private toasterService : ToasterService
           proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
           cibilSynopsisRemarks: this.camDetailsForm.controls
             .cibilSynopsisRemarks.value,
-            trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
-            fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value
+          trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
+          fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value
         }
       };
 
       this.camService.saveCamRemarks(body).subscribe((res: any) => {
         console.log(res);
-        
+
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == "0") {
           // tslint:disable-next-line: prefer-const
           this.toasterService.showSuccess(
             "Saved Successfully",
-            "OD Details"
+            "Cam Remarks"
           );
+          this.getCamUsedCvDetails();
+
         }
       });
     }
