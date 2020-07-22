@@ -113,9 +113,6 @@ export class BasicDetailsComponent implements OnInit {
 
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
-    const details = formArray.at(0);
-    details.patchValue({ preferredLanguage: 'ENGPRFLAN' });
-    details.patchValue({ preferredLanguageCommunication: 'ENGPRFLAN' });
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -243,7 +240,7 @@ export class BasicDetailsComponent implements OnInit {
         } else {
           details.get('spouseName').setValidators([Validators.required]);
           details.get('spouseName').updateValueAndValidity();
-          this.isRequiredSpouse = 'Spouse name is required';
+          this.isRequiredSpouse = 'Spouse name is Required';
           // const spouseName= details.get('spouseName').value || null;
           setTimeout(() => {
             details.get('spouseName').setValue(spouseName || null);
@@ -267,7 +264,7 @@ export class BasicDetailsComponent implements OnInit {
       } else {
         details.get('fatherName').setValidators([Validators.required]);
         details.get('fatherName').updateValueAndValidity();
-        this.isRequiredFather = 'Father name is required';
+        this.isRequiredFather = 'Father Name is Required';
         setTimeout(() => {
           details.get('fatherName').setValue(fatherName || null);
         });
@@ -290,7 +287,7 @@ export class BasicDetailsComponent implements OnInit {
     const convertAge = new Date(value);
     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
     this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
-    console.log('showAge', this.showAge);
+    //console.log('showAge', this.showAge);
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -380,7 +377,7 @@ export class BasicDetailsComponent implements OnInit {
       annualIncomeAmount: applicantDetails.annualIncomeAmount,
       //ownHouseProofAvail: applicantDetails.ownHouseProofAvail,
       houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
-      ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship,
+      ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
       averageBankBalance: applicantDetails.averageBankBalance,
       rtrType: applicantDetails.rtrType || '',
       prevLoanAmount: applicantDetails.prevLoanAmount,
@@ -422,7 +419,7 @@ export class BasicDetailsComponent implements OnInit {
       fatherName: aboutIndivProspectDetails.fatherName || '',
       spouseName: aboutIndivProspectDetails.spouseName || '',
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
-      preferredLanguage: aboutIndivProspectDetails.preferredLanguage || '',
+      preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
       nationality: aboutIndivProspectDetails.nationality || '',
       age: this.showAge,
@@ -478,7 +475,7 @@ export class BasicDetailsComponent implements OnInit {
       businessType: corporateProspectDetails.businessType || '',
       // industry : corporateProspectDetails.industry || '',
       preferredLanguageCommunication:
-        corporateProspectDetails.preferredLanguageCommunication || '',
+        corporateProspectDetails.preferredLanguageCommunication || 'ENGPRFLAN',
       // customerCategory: applicantDetails.customerCategory || '',
 
       directorIdentificationNumber:
@@ -712,15 +709,15 @@ export class BasicDetailsComponent implements OnInit {
     formArray.clear();
   }
 
-  onIndividualChange(event) {
-    const value = event.target.value;
-    this.isIndividual = value === 'INDIVENTTYP';
-    const formArray = this.basicForm.get('details') as FormArray;
-    formArray.clear();
-    this.isIndividual
-      ? this.addIndividualFormControls()
-      : this.addNonIndividualFormControls();
-  }
+  // onIndividualChange(event) {
+  //   const value = event.target.value;
+  //   this.isIndividual = value === 'INDIVENTTYP';
+  //   const formArray = this.basicForm.get('details') as FormArray;
+  //   formArray.clear();
+  //   this.isIndividual
+  //     ? this.addIndividualFormControls()
+  //     : this.addNonIndividualFormControls();
+  // }
 
   setValidation() {                    // set validators based upon product aanf funding program
     const formArray = this.basicForm.get('details') as FormArray;
