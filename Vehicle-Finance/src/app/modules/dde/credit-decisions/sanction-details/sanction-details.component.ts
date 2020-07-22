@@ -20,6 +20,7 @@ coApplicantList: any = [];
 vehicleDetails: any = {};
 loanApprovedDetails: any = {};
 generalTermsAndConditions: string;
+
 date: Date = new Date();
 todayDate;
 
@@ -58,8 +59,8 @@ todayDate;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
       const response = res;
       this.sanctionDetailsObject = response.ProcessVariables;
+      //Filter Out Applicant And Co-Applicant List
       this.sanctionDetailsObject.applicantList.filter( (element) => {
-        // console.log("ELEMENT-OBJ::::", element);
         if(element.applicantType === "Applicant") {
           const data = {
             applicantType: element.applicantType,
@@ -89,7 +90,6 @@ todayDate;
           this.coApplicantList.push(data);
         }
       });
-      // this.coApplicantList = this.sanctionDetailsObject.applicantList[1];
       this.vehicleDetails = this.sanctionDetailsObject.vehicleDetails;
       this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
       this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
