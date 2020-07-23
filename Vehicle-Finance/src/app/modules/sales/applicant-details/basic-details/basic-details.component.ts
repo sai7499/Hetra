@@ -304,7 +304,7 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingMinor = this.showAge < 18;
     details.get('isMinor').setValue(this.checkingMinor);
 
-    this.checkingSenior = this.showAge > 70;
+    this.checkingSenior = this.showAge >= 70;
     details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
@@ -314,13 +314,13 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   checkSenior(event) {
-    if (event.target.checked && (this.showAge < 70 )) {
+    if (event.target.checked && (this.showAge <= 70 )) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
     }
-    if (event.target.checked == true) {
-    }
+    // if (event.target.checked == true) {
+    // }
   }
 
   checkMinor(event) {
@@ -663,7 +663,7 @@ export class BasicDetailsComponent implements OnInit {
         //   this.applicantId,
         // ]);
         this.toasterService.showSuccess(
-          'Applicant Basic Details Saved Successfully',
+          'Record Saved Successfully',
           ''
         );
       }
