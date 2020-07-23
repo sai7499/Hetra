@@ -95,6 +95,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   ownerPropertyRelation: any;
   checkedBoxHouse: boolean;
   savedChecking: boolean;
+  dedupeMobile: boolean;
 
   values: any = [];
   labels: any = {};
@@ -670,7 +671,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ) {
         this.isPermanantAddressSame = true;
         this.isDisabledCheckbox = true;
-        this.isRegAddressSame = true
+        this.isRegAddressSame = true;
+        
 
         this.disablePermanentAddress();
         this.disableCurrentAddress();
@@ -678,6 +680,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disableRegisteredAddress();
         this.disableCommunicationAddress();
       }
+      
 
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
@@ -1150,18 +1153,60 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return addressObj;
   }
 
+  clearDrivingExpiryDate (){
+    this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null)
+  }
+
+  clearPassportExpiryDate(){
+    this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null)
+  }
   onNext() {
-  
-    // if (this.isMobileChanged || this.applicant.otpVerified) {
 
-    //   this.router.navigateByUrl(
-    //     `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-    //   );
+    if (this.applicantType === 'INDIVENTTYP') {
+      if (
+        this.coApplicantForm.get('dedupe').invalid ||
+        this.coApplicantForm.get('currentAddress').invalid ||
+        this.coApplicantForm.get('permentAddress').invalid
+      ) {
+        this.toasterService.showInfo(
+          'Please fill all mandatory fields.',
+          'For OTP Verification'
+        );
 
-    // }
-    // else {
-    //   this.navigateToApplicantList();
-    // }
+      }
+      else {
+        if (this.dedupeMobile || !this.applicant.otpVerified) {
+          this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+          );
+        }
+        else {
+          this.navigateToApplicantList();
+        }
+      }
+    } else {
+      if (
+        this.coApplicantForm.get('dedupe').invalid ||
+        this.coApplicantForm.get('registeredAddress').invalid ||
+        this.coApplicantForm.get('communicationAddress').invalid
+      ) {
+        this.toasterService.showInfo(
+          'Please fill all mandatory fields.',
+          'For OTP Verification'
+        );
+
+      }
+      else {
+        if (this.dedupeMobile || !this.applicant.otpVerified) {
+          this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+          );
+        }
+        else {
+          this.navigateToApplicantList();
+        }
+      }
+    }
 
     // if (this.savedChecking == true) {
     //   this.router.navigateByUrl(
@@ -1175,40 +1220,53 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     //   );
     // }
 
-    if (this.applicantType === 'INDIVENTTYP') {
-      if (
-        this.coApplicantForm.get('dedupe').invalid ||
-        this.coApplicantForm.get('currentAddress').invalid ||
-        this.coApplicantForm.get('permentAddress').invalid
-      ) {
-        this.isDirty = true;
-        this.toasterService.showInfo(
-          'Please fill all mandatory fields.',
-          'For Next'
-        );
-        return;
-      }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-      );
-     
-    } else {
-      if (
-        this.coApplicantForm.get('dedupe').invalid ||
-        this.coApplicantForm.get('registeredAddress').invalid ||
-        this.coApplicantForm.get('communicationAddress').invalid
-      ) {
-        this.isDirty = true;
-        this.toasterService.showInfo(
-          'Please fill all mandatory fields.',
-          'For Next'
-        );
-        return;
-      }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-      );
-    }
+    // if (this.applicantType === 'INDIVENTTYP') {
+    //   if (
+    //     this.coApplicantForm.get('dedupe').invalid ||
+    //     this.coApplicantForm.get('currentAddress').invalid ||
+    //     this.coApplicantForm.get('permentAddress').invalid
+    //   ) {
+    //     this.isDirty = true;
+    //     this.toasterService.showInfo(
+    //       'Please fill all mandatory fields.',
+    //       'For Next'
+    //     );
+    //     return;
+    //   } else{
+
+
+    //     if (this.isMobileChanged || !this.applicant.otpVerified) {
+
+    //       this.router.navigateByUrl(
+    //         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+    //       );
+
+    //     }
+    //     else {
+    //       this.navigateToApplicantList();
+    //     }
+    //   }
+
+
+
+
+    // } else {
+    //   if (
+    //     this.coApplicantForm.get('dedupe').invalid ||
+    //     this.coApplicantForm.get('registeredAddress').invalid ||
+    //     this.coApplicantForm.get('communicationAddress').invalid
+    //   ) {
+    //     this.isDirty = true;
+    //     this.toasterService.showInfo(
+    //       'Please fill all mandatory fields.',
+    //       'For Next'
+    //     );
+    //     return;
+    //   }
+    //   this.router.navigateByUrl(
+    //     `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+    //   );
+    // }
 
 
 
@@ -1339,6 +1397,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
         return;
       }
+      
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
     } else {
@@ -1771,17 +1830,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isCinNumberChanged = false;
     this.isGstNumberChanged = false;
     this.isTanNumberChanged = false;
+
   }
 
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'INDIVENTTYP') {
+      // console.log('dedube Mobile', dedupe.get('mobilePhone').value)
+      // console.log('mobiel no', this.mobileNumber);
       dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
         if (!dedupe.get('mobilePhone').invalid) {
           console.log('mobiel no', this.mobileNumber);
           if (value !== this.mobileNumber) {
             this.isMobileChanged = true;
             this.isEnableDedupe = true;
+            this.dedupeMobile= true;
           } else {
             this.isEnableDedupe = false;
             this.isMobileChanged = false;
@@ -1847,6 +1910,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           if (value !== this.contactNumber) {
             this.isContactNumberChanged = true;
             this.isEnableDedupe = true;
+            this.dedupeMobile = true;
           } else {
             this.isEnableDedupe = false;
             this.isContactNumberChanged = false;

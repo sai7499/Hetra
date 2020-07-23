@@ -415,8 +415,9 @@
                     />
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
-                    [format]="'dd/MM/yyyy'" [max]="drivingLicenseExpiryDate || toDayDate" [activeView]="'decade'"
+                    [format]="'dd/MM/yyyy'" [max]=" toDayDate" [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseIssueDate" (ngModelChange)="dateSelected()"
+                    (valueChange)="clearDrivingExpiryDate()"
                     placeholder="Driving License Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf=" !drivingLicenseIssueDate && 
@@ -473,12 +474,16 @@
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseExpiryDate').dirty ||
+                          
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseExpiryDate').touched)
                     ">
                     Select date
                   </div>
+                  <!-- <div class="ShowError" *ngIf="coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').invalid" >
+                    Invalid Date
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'">
@@ -497,9 +502,11 @@
                   <app-custom-input formControlName="passportNumber"
                     [patternCheck]="validationData?.passportNumber?.patternCheck"
                     (change)="onPassportNumberChange($event)" [inputClass]="'text-uppercase'"
-                    [maxLength]="validationData?.passportNumber?.maxLength" [isRequired]="
+                    [maxLength]="validationData?.passportNumber?.maxLength"
+                     [isRequired]="
                       isPassportRequired ? 'Passport number is required' : ''
-                    " [isDirty]="isPassportRequired && isDirty" [type]="validationData?.passportNumber?.type">
+                    " [isDirty]="isPassportRequired && isDirty" 
+                    [type]="validationData?.passportNumber?.type">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
@@ -515,8 +522,9 @@
                 <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'" [max]="passportExpiryDate || toDayDate" [activeView]="'decade'"
+                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                     [(ngModel)]="passportIssueDate" (ngModelChange)="passportDateSelected()"
+                    (valueChange)="clearPassportExpiryDate()"
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf=" !passportIssueDate &&
@@ -548,6 +556,7 @@
                     ">
                     Select Date
                   </div>
+                  
                 </div>
               </div>
               <div class="row">
@@ -608,18 +617,18 @@
                       <label for="address1">{{ labels?.addressline1 }}
                         <sub class="star_red_col">*</sub></label>
                       <app-custom-input formControlName="addressLineOne"
-                        [maxLength]="validationData?.fullName?.maxLength" [isRequired]="'Address is required'"
+                        [maxLength]="validationData?.address?.maxLength" [isRequired]="'Address is required'"
                         [isDirty]="isDirty"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address2">{{ labels?.addressline2 }}</label>
                       <app-custom-input formControlName="addressLineTwo"
-                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                        [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="address3">{{ labels?.addressline3 }}</label>
                       <app-custom-input formControlName="addressLineThree"
-                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                        [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                     </div>
                   </div>
                   <div class="row">
@@ -688,18 +697,18 @@
                       <label for="line1">{{ labels?.addressline1
                         }}<sub class="star_red_col">*</sub></label>
                       <app-custom-input formControlName="addressLineOne"
-                        [maxLength]="validationData?.fullName?.maxLength" [isRequired]="'Address is required'"
+                        [maxLength]="validationData?.address?.maxLength" [isRequired]="'Address is required'"
                         [isDirty]="isDirty"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line2">{{ labels?.addressline2 }}</label>
                       <app-custom-input formControlName="addressLineTwo"
-                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                        [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                       <label for="line3">{{ labels?.addressline3 }}</label>
                       <app-custom-input formControlName="addressLineThree"
-                        [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                        [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                     </div>
                   </div>
                   <div class="row">
@@ -760,19 +769,19 @@
                 <div class="row" formGroupName="registeredAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1">{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label>
-                    <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.fullName?.maxLength"
+                    <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
                       [isRequired]="'Address is required'" [isDirty]="isDirty"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line2">{{ labels?.addressline2 }}</label>
 
                     <app-custom-input formControlName="addressLineTwo"
-                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                      [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.addressline3 }}</label>
                     <app-custom-input formControlName="addressLineThree"
-                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                      [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_pincode">{{ labels?.code
@@ -831,19 +840,19 @@
                 <div class="row" formGroupName="communicationAddress">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1">{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label>
-                    <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.fullName?.maxLength"
+                    <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
                       [isRequired]="'Address is required'" [isDirty]="isDirty"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line2">{{ labels?.addressline2 }}</label>
 
                     <app-custom-input formControlName="addressLineTwo"
-                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                      [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line3">{{ labels?.addressline3 }}</label>
                     <app-custom-input formControlName="addressLineThree"
-                      [maxLength]="validationData?.fullName?.maxLength"></app-custom-input>
+                      [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_pincode">{{ labels?.code

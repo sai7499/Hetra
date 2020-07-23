@@ -23,6 +23,7 @@ import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { Constant } from '../../../../assets/constants/constant';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service'
+import { ControlPosition } from '@agm/core';
 
 @Component({
   selector: 'app-identity-details',
@@ -193,9 +194,15 @@ export class IdentityDetailsComponent implements OnInit {
 
   datePassportChange(event){
     this.convertPassportDate = new Date(event)
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+     details.get('passportExpiryDate').setValue(null)
   }
   dateDrivingChange(event){
      this.convertDrivingDate= new Date(event)
+     const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+     details.get('drivingLicenseExpiryDate').setValue(null)
   }
 
   onIndividualChange(event) {

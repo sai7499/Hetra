@@ -1301,6 +1301,11 @@
             },
             "type": "number"
         },
+        "address" : {
+            "maxLength": {
+                "rule": 50
+            }
+        },
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
