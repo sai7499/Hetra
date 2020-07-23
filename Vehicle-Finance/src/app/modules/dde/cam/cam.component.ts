@@ -75,6 +75,7 @@ export class CamComponent implements OnInit {
       this.getCamUsedCvDetails();
     }else if(this.productCategoryName == "Used Car"){
       this.usedCar = true
+      this.getCamUsedCarDetails();
     }
 
     this.camDetailsForm = this.formBuilder.group({
@@ -162,8 +163,8 @@ export class CamComponent implements OnInit {
     const data = {
       leadId: this.leadId,
     };
-    this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
-      console.log(res)
+    this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
+      console.log("used car cam",res)
 
     })
   }
