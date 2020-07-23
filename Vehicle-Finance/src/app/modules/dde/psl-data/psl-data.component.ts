@@ -1247,14 +1247,14 @@ export class PslDataComponent implements OnInit {
           // this.pslId = response.ProcessVariables.pslId;
           console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
           if (response["Error"] == 0) {
-            this.toasterService.showSuccess("PSL DATA Saved Successfully", "");
+            this.toasterService.showSuccess("Record Saved Successfully", "");
           }
         });
       } else {
         this.toasterService.showError("Please fill all mandatory fields.", "");
       }
     }
-    //FOR "Micro Small And Medium Enterprises " FORM
+    //FOR "Micro Small And Medium Enterprises" FORM
     else if (this.activityChange === "2PSLACTVTY") {
       this.isDirty = true;
       this.formValues = this.pslDataForm.get("microSmallAndMediumEnterprises").value;
@@ -1291,7 +1291,7 @@ export class PslDataComponent implements OnInit {
           const response = res;
           console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
           if (response["Error"] == 0) {
-            this.toasterService.showSuccess("PSL DATA Saved Successfully", "");
+            this.toasterService.showSuccess("Record Saved Successfully", "");
           }
         });
       } else {
