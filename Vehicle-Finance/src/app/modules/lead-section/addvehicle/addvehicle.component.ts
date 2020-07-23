@@ -74,14 +74,14 @@ export class AddvehicleComponent implements OnInit {
         const apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.Error === '0') {
-          this.toasterService.showSuccess(apiError, '');
+          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
           this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
         } else {
-          this.toasterService.showError(apiError, '')
+          this.toasterService.showError(apiError, 'Vehicle Details')
         }
       }, error => {
         console.log(error, 'error')
-        this.toasterService.showError(error, '')
+        this.toasterService.showError(error, 'Vehicle Details')
       })
     } else {
       this.isDirty = true;

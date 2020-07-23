@@ -387,7 +387,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onVehicleRegion(value: any) {
+  onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
 
@@ -405,6 +405,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
             "uniqueMFRCode", "mfrCode")
           this.vehicleLov.assetMake = assetMakeArray;
+          obj.patchValue({
+            assetMake: '',
+            vehicleType: '',
+            assetBodyType: '',
+            assetModel: '',
+            assetVariant: ''
+          })
         } else {
           this.vehicleLov.assetMake = []
           this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region')
@@ -441,6 +448,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
               "vehicleTypeUniqueCode", "vehicleTypeCode");
 
             this.vehicleLov.vehicleType = VehicleTypeArray;
+            obj.patchValue({
+              vehicleType: '',
+              assetBodyType: '',
+              assetModel: '',
+              assetVariant: ''
+            })
 
           } else {
             this.vehicleLov.vehicleType = []
@@ -484,6 +497,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
             this.vehicleLov.assetBodyType = assetBodyType;
 
+            obj.patchValue({
+              assetBodyType: '',
+              assetModel: '',
+              assetVariant: ''
+            })
+
           } else {
             this.vehicleLov.assetBodyType = []
             this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type')
@@ -500,13 +519,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
-  onAssetBodyType(value) {
+  onAssetBodyType(value: any, obj) {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
       "vehicleModelCode", "vehicleModel")
+    obj.patchValue({
+      assetModel: '',
+      assetVariant: ''
+    })
   }
 
-  onAssetModel(value) {
+  onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -516,6 +539,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       0, "vehicleVariant")
+
+    obj.patchValue({
+      assetVariant: ''
+    })
 
   }
 
