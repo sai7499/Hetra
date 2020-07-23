@@ -355,7 +355,7 @@ export class ApplicantDetailComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       // console.log(processVariables)
       if (processVariables.error.code === '0') {
-        this.toasterService.showSuccess('Applicant Details saved !', '');
+        this.toasterService.showSuccess('Record Saved Successfully', '');
       } else {
         // console.log('error', processVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
