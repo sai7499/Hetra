@@ -12,10 +12,10 @@ export class CreateLeadDataService {
     proceedWithSelectedLead = {};
     loanAmountAndTenure = {};
 
-    constructor(private sharedService: SharedService,
-        private cds: CommonDataService) {
-
-    }
+    constructor(
+        private sharedService: SharedService,
+        private cds: CommonDataService
+    ) { }
 
     setLeadData(loanLeadDetails, applicantDetails) {
         this.leadData = {
@@ -41,7 +41,10 @@ export class CreateLeadDataService {
     }
 
     setLoanAmountAndTenure(data) {
-        this.loanAmountAndTenure = data;
+        this.loanAmountAndTenure = {
+            loanAmount: data.loanAmount,
+            loanTenure: data.loanTenure
+        };
     }
 
     getLoanAmountAndTenure() {
