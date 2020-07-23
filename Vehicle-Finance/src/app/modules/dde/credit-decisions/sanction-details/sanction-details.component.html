@@ -3,32 +3,36 @@
 
         <h4 id="vf_sheet_tag4" class="text-center" style="font-weight: lighter;">{{labels?.sanctionLetter}}</h4>
         <div id="vf_sheet_tag5">
-            <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :03/07/2018</p>
-            <p id="vf_sheet_tag7" class="text-right"><strong>{{labels?.place}}</strong> :TIRUNELVELI</p>
+            <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
+            <p id="vf_sheet_tag7" class="text-right"><strong>{{labels?.place}}</strong> :------</p>
         </div>
         <p id="vf_sheet_tag8"><strong>{{labels?.toSanction}}</strong>,</p>
         <div class="row">
             <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                <p id="vf_sheet_tag9"><strong>{{labels?.customer}}</strong></p>
-                <p id="vf_sheet_tag10"><strong>ALEXANDER</strong></p>
-                <p id="vf_sheet_tag11">181, SOUTH STREET,</p>
-                <p id="vf_sheet_tag12">VEPPANKULAM MELUR </p>
-                <p id="vf_sheet_tag13">DALAPATHISAMUDRAM</p>
-                <p id="vf_sheet_tag14">TIRUNELVELI </p>
-                <p id="vf_sheet_tag15">INDIA</p>
-                <p id="vf_sheet_tag16">627101 </p>
-                <p id="vf_sheet_tag17">9751519080</p>
+                <div *ngFor="let applicant of applicantList; let i = index">
+                    <p id="vf_sheet_tag9"><strong>{{applicant?.applicantType}} {{i+1}}</strong></p>
+                    <p id="vf_sheet_tag10"><strong>{{applicant?.name}}</strong></p>
+                    <p id="vf_sheet_tag11">{{applicant?.addressLine1}}</p>
+                    <p id="vf_sheet_tag12">{{applicant?.addressLine2}} </p>
+                    <p id="vf_sheet_tag13">{{applicant?.addressLine3}}</p>
+                    <p id="vf_sheet_tag14">{{applicant?.district}} </p>
+                    <p id="vf_sheet_tag15">{{applicant?.country}}</p>
+                    <p id="vf_sheet_tag16">{{applicant?.pincode}} </p>
+                    <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
+                </div>
             </div>
             <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                <p id="vf_sheet_tag18"><strong> {{labels?.coBorrower1}} </strong></p>
-                <p id="vf_sheet_tag19"><strong>VEERASUDALAI</strong></p>
-                <p id="vf_sheet_tag20">192B, NEW NO. 181,SOUTH STREET</p>
-                <p id="vf_sheet_tag21">VEPPANKULAM MELUR</p>
-                <p id="vf_sheet_tag22">DALAPATHISAMUDRAM</p>
-                <p id="vf_sheet_tag23">TIRUNELVELI</p>
-                <p id="vf_sheet_tag24">INDIA</p>
-                <p id="vf_sheet_tag25">627101</p>
-                <p id="vf_sheet_tag26"><strong> {{labels?.coBorrower2}} </strong></p>
+                <div *ngFor="let coApplicant of coApplicantList; let i = index">
+                    <p id="vf_sheet_tag18"><strong> {{coApplicant?.applicantType}} {{i+1}}</strong></p>
+                    <p id="vf_sheet_tag19"><strong>{{coApplicant?.name}}</strong></p>
+                    <p id="vf_sheet_tag20">{{coApplicant?.addressLine1}}</p>
+                    <p id="vf_sheet_tag21">{{coApplicant?.addressLine2}}</p>
+                    <p id="vf_sheet_tag22">{{coApplicant?.addressLine3}}</p>
+                    <p id="vf_sheet_tag23">{{coApplicant?.district}}</p>
+                    <p id="vf_sheet_tag24">{{coApplicant?.country}}</p>
+                    <p id="vf_sheet_tag25">{{coApplicant?.mobileNo}}</p>
+                </div>
+                <!-- <p id="vf_sheet_tag26"><strong> {{coApplicant?.applicantType}} </strong></p> -->
             </div>
             <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
                 <p id="vf_sheet_tag27"><strong>{{labels?.guarantor1}}</strong></p>
@@ -45,21 +49,21 @@
                     <tbody>
                         <tr>
                             <td> {{labels?.vehicleMake}} </td>
-                            <td>MAHINDRA</td>
+                            <td>{{vehicleDetails?.vehicleMake}}</td>
                             <td> {{labels?.vehicleModel}} </td>
-                            <td>MAHI000010</td>
+                            <td>{{vehicleDetails?.vehicleModel}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.yearOfManufacture}} </td>
-                            <td>2012</td>
+                            <td>{{vehicleDetails?.yearOfManufacturer}}</td>
                             <td> {{labels?.vehicleRegistrationNo}} </td>
-                            <td>TN 76 T-0425</td>
+                            <td>{{vehicleDetails?.vehicleRegNo | uppercase}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.engineNo}} </td>
-                            <td>BTC4B16229</td>
+                            <td>{{applicantList?.engineNo | uppercase}}</td>
                             <td> {{labels?.chasisNo}} </td>
-                            <td>MA1GD2BTDC3B11969</td>
+                            <td>{{applicantList?.chasisNo | uppercase}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -70,75 +74,75 @@
                     <tbody>
                         <tr>
                             <td id="table_column_width15"> {{labels?.assetCostRs}} </td>
-                            <td id="table_column_width15">525000.00</td>
+                            <td id="table_column_width15">{{loanApprovedDetails?.assetCost}}</td>
                             <td id="table_column_width25"> {{labels?.loanAmountRs}} </td>
-                            <td>367500.00</td>
+                            <td>{{loanApprovedDetails?.loanAmount}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.loanTenorMonths}} </td>
-                            <td>36</td>
+                            <td>{{loanApprovedDetails?.loanTenor}}</td>
                             <td> {{labels?.repay}} </td>
-                            <td>36</td>
+                            <td>{{loanApprovedDetails?.repay}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.interestRate}} </td>
-                            <td>12.5000 </td>
+                            <td>{{loanApprovedDetails?.interestRate}} </td>
                             <td> {{labels?.allInclusive}} </td>
-                            <td>22.0258</td>
+                            <td>{{loanApprovedDetails?.allInclusiveIRR}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.noOfAdvEmi}} </td>
-                            <td>0</td>
+                            <td>{{loanApprovedDetails?.noOfAdvEmiAmount}}</td>
                             <td> {{labels?.advEmiAmount}} </td>
-                            <td>0.00</td>
+                            <td>{{loanApprovedDetails?.advEmiAmount}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.processingCharge}} </td>
-                            <td>6505.00</td>
+                            <td>{{loanApprovedDetails?.processingCharges}}</td>
                             <td> {{labels?.creditShieldCharge}} </td>
-                            <td>1060.00</td>
+                            <td>{{loanApprovedDetails?.creditShieldCharges}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.npdcCharges}} </td>
-                            <td>0.00</td>
+                            <td>{{loanApprovedDetails?.ndpcCharges}}</td>
                             <td> {{labels?.pdcCharges}} </td>
-                            <td>0.00</td>
+                            <td>{{loanApprovedDetails?.rollOverPdcCharges}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.emiCoverage}} </td>
-                            <td>0.00</td>
+                            <td>{{loanApprovedDetails?.emiCoveragePremiumAmount}}</td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td> {{labels?.personalAccidentCover}} </td>
-                            <td>0.00</td>
+                            <td>{{loanApprovedDetails?.personalAccidentCover}}</td>
                             <td> {{labels?.valueAddedServices}} </td>
-                            <td>0.00</td>
+                            <td>{{loanApprovedDetails?.valueAddedServices}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.insurancePremium}} </td>
-                            <td>22709.00</td>
+                            <td>{{loanApprovedDetails?.insurancePremium}}</td>
                             <td> {{labels?.penalInterest}} </td>
-                            <td>3.00%per month</td>
+                            <td>{{loanApprovedDetails?.rateOfPenaltyInterest}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.emiDueDate}}} </td>
-                            <td>10</td>
+                            <td>{{loanApprovedDetails?.emiDueDate}}</td>
                             <td> {{labels?.emiAmountRs}} </td>
-                            <td>14040.00</td>
+                            <td>{{loanApprovedDetails?.emiAmount}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.emiStartDate}} </td>
-                            <td>15 Jul 2018</td>
+                            <td>{{loanApprovedDetails?.emiStartDate}}</td>
                             <td> {{labels?.emiEndDate}} </td>
-                            <td>15 Jun 2021</td>
+                            <td>{{loanApprovedDetails?.emiEndDate}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.modeOfPayment}} </td>
-                            <td>NACH</td>
+                            <td>{{loanApprovedDetails?.modeOfPayment}}</td>
                             <td> {{labels?.fieldVisitCharges}} </td>
-                            <td>No</td>
+                            <td>{{loanApprovedDetails?.fieldVisitChargesApplicable}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -166,41 +170,8 @@
                 </div>
             </div>
         </div>
-        <p id="vf_sheet_text_tag"> {{labels?.vfSheetTextTag}} </p>
-        <div id="">
-            <ol type="1">
-                <li id="vf_sheet_tag46"> {{labels?.vfSheetTag46}} </li>
-                <li id="vf_sheet_tag47"> {{labels?.vfSheetTag47}} </li>
-                <li id="vf_sheet_tag48"> {{labels?.vfSheetTag48}} </li>
-                <li id="vf_sheet_tag49"> {{labels?.vfSheetTag49}} </li>
-                <li id="vf_sheet_tag50"> {{labels?.vfSheetTag50}} </li>
-                <li id="vf_sheet_tag51"> {{labels?.vfSheetTag51}} </li>
-                <li id="vf_sheet_tag52"> {{labels?.vfSheetTag52}} </li>
-                <li id="vf_sheet_tag53"> {{labels?.vfSheetTag53}} </li>
-                <li id="vf_sheet_tag54"> {{labels?.vfSheetTag54}} </li>
-                <li id="vf_sheet_tag55"> {{labels?.vfSheetTag55}} </li>
-                <li id="vf_sheet_tag56"> {{labels?.vfSheetTag56}} <br /> 
-                                        {{labels?.vfSheetTag56A}} <br />
-                                        {{labels?.vfSheetTag56B}} 
-                </li>
-                <li id="vf_sheet_tag57"> {{labels?.vfSheetTag57}}  <br /> 
-                                         {{labels?.vfSheetTag57A}} <br />
-                                         {{labels?.vfSheetTag57A}} 
-                </li>
-                <li id="vf_sheet_tag58"> {{labels?.vfSheetTag58}} </li>
-                <li id="vf_sheet_tag59"> {{labels?.vfSheetTag59}} </li>
-                <li id="vf_sheet_tag60"> {{labels?.vfSheetTag60}} </li>
-                <li id="vf_sheet_tag61"> {{labels?.vfSheetTag61}} </li>
-                <li id="vf_sheet_tag62"> {{labels?.vfSheetTag62}} </li>
-                <li id="vf_sheet_tag63"> {{labels?.vfSheetTag63}} </li>
-                <li id="vf_sheet_tag64"> {{labels?.vfSheetTag64}} </li>
-                <li id="vf_sheet_tag65"> {{labels?.vfSheetTag65}} </li>
-                <li id="vf_sheet_tag66"> {{labels?.vfSheetTag66}} </li>
-                <li id="vf_sheet_tag67"> {{labels?.vfSheetTag67}} </li>
-                <li id="vf_sheet_tag68"> {{labels?.vfSheetTag68}} </li>
-                <li id="vf_sheet_tag69"> {{labels?.vfSheetTag69}} </li>
-            </ol>
-        </div>
+        <p id="vf_sheet_text_tag"> {{labels?.generalTermsAndConditions}} </p>
+        <div [innerHTML]="generalTermsAndConditions"></div>
         <div id="vf_sheet_row_space">
             <div class="row">
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
@@ -227,16 +198,16 @@
             <p id="vf_sheet_tag79"> {{labels?.vfSheetTag79}} </p>
             <p id="vf_sheet_tag80"> {{labels?.vfSheetTag80}} </p>
             <p id="81"> {{labels?.vfSheetTag81}} </p>
-            <p id="82"> {{labels?.vfSheetTag82}} </p>
+            <p id="82"> {{labels?.vfSheetTag82}} {{sanctionDetailsObject.employeeName}}. ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
                         <td><strong> {{labels?.paymentType}} </strong></td>
-                        <td>Customer</td>
+                        <td>{{sanctionDetailsObject?.paymentType}}</td>
                         <td><strong> {{labels?.payeeName}} </strong></td>
-                        <td>ALEXANDER</td>
+                        <td>{{sanctionDetailsObject?.payeeName}}</td>
                         <td><strong> {{labels?.paymentAmount}} </strong></td>
-                        <td>358435.00</td>
+                        <td>{{sanctionDetailsObject?.paymentAmount}}</td>
                     </tr>
                 </tbody>
             </table>

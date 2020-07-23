@@ -499,6 +499,12 @@ saveCamRemarks:{
   processId: 'b099b6aac71e11ea8c4800505695f93b',
   workflowId: 'b0689796c71e11ea8df900505695f93b',
   projectId: environment.projectIds.salesProjectId
-}
+},
+    getSanctionDetails: {
+      processId: '04bd034ac6c011ea886e00505695f93b',
+      workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    }
+
   };
 }
