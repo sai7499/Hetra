@@ -10,6 +10,8 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 import { SharedService } from '../shared-service/shared-service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantService } from '@services/applicant.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -63,9 +65,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
-    private uiLoader: NgxUiLoaderService) {
+    private uiLoader: NgxUiLoaderService, private applicantService: ApplicantService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
-    // this.customFutureDate = [{ rule: val => val > this.minDate, msg: 'Invalid Date' }];
   }
 
   ngOnInit() {
@@ -544,6 +545,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: ''
     })
 
+  }
+
+  getPincode(pincode) {
+    console.log(pincode, 'picsf')
+    if (pincode.length === 6) {
+      const pincodeNumber = Number(pincode);
+      this.getPincodeResult(pincodeNumber);
+    }
+  }
+
+  getPincodeResult(pincodeNumber: number) {
+    this.applicantService
+      .getGeoMasterValue({
+        pincode: pincodeNumber,
+      })
+      .pipe(
+        map((value: any) => {
+          if (value.ProcessVariables.GeoMasterView && value.ProcessVariables.GeoMasterView.length > 0) {
+            let addressList: any[] = value.ProcessVariables.GeoMasterView;
+          } else {
+            this.toasterService.showError('Invalid pincode', '');
+            return;
+          }
+        })).subscribe((res: any) => {
+          if (!res) {
+            return;
+          }
+        })
   }
 
   addSalesFormControls() {
