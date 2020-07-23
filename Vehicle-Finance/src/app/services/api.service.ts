@@ -494,6 +494,11 @@ export class ApiService {
       processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getSanctionDetails: {
+      processId: '04bd034ac6c011ea886e00505695f93b',
+      workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
     }
 
   };
