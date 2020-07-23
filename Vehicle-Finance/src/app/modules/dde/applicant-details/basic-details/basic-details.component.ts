@@ -674,7 +674,7 @@ export class BasicDetailsComponent implements OnInit {
     if (remainingCount > 0) {
       for (let i = this.directorCount - 1; i >= directorValue; i--) {
         // form.push(this.getDirectorsControls())
-        console.log('value', form.at(i), 'index', i)
+        //console.log('value', form.at(i), 'index', i)
         form.removeAt(i);
 
       }

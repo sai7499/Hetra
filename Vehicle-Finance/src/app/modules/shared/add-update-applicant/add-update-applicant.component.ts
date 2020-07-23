@@ -95,7 +95,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   ownerPropertyRelation: any;
   checkedBoxHouse: boolean;
   savedChecking: boolean;
-  dedupeMobile: boolean;
+  dedupeMobile: boolean = false;
 
   values: any = [];
   labels: any = {};
@@ -1603,7 +1603,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   checkDedupe() {
-
+    console.log('dedupeMobileBoolean', this.dedupeMobile)
     const dedupe = this.coApplicantForm.get('dedupe');
     this.setDedupeValidators();
     console.log('dedupe', dedupe);
@@ -1781,13 +1781,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (this.applicantId) {
         data.applicantId = this.applicantId;
       }
+
+      
       this.onDedupeApiCall(data)
     }
   }
 
   onDedupeApiCall(data) {
+    const datas= {
+      ...data,
+      isMobileNumberChanged: this.dedupeMobile
+    }
+    console.log('datas', datas)
     this.applicantService
-      .checkSalesApplicantDedupe(data)
+      .checkSalesApplicantDedupe(datas)
       .subscribe((value: any) => {
         if (value.Error === '0' && value.ProcessVariables.error.code == '0') {
           const processVariables = value.ProcessVariables;
@@ -1848,7 +1855,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           } else {
             this.isEnableDedupe = false;
             this.isMobileChanged = false;
-          }
+                      }
         } else {
           this.isEnableDedupe = true;
           // this.isMobileChanged = false;

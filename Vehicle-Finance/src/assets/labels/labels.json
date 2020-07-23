@@ -780,7 +780,7 @@
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
-    "typeOfAccommmodation": "Type of Accommmodation",
+    "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
     "officeAddress": "Office Address",
@@ -1476,6 +1476,7 @@
                 "msg": "Invalid Pincode"
             }
         },
+        
         "numberOfYears": {
             "maxLength": {
                 "rule": 2
