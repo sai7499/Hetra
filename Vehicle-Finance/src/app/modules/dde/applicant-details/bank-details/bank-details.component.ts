@@ -321,7 +321,7 @@ export class BankDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess(
-            'Bank Detail Saved Successfully',
+            'Record Saved Successfully',
             'Bank Detail'
           );
           this.router.navigateByUrl(
