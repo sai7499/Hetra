@@ -663,7 +663,7 @@ export class BasicDetailsComponent implements OnInit {
         //   this.applicantId,
         // ]);
         this.toasterService.showSuccess(
-          'Applicant Basic Details Saved Successfully',
+          'Record Saved Successfully',
           ''
         );
       }

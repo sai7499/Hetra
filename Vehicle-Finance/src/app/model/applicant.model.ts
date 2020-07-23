@@ -54,6 +54,7 @@ export interface ApplicantDetails {
   agriAppRelationship?: string;
   grossReceipt?: number;
 
+
 }
 
 export interface ApplicantList {
@@ -115,6 +116,7 @@ export interface AddressDetails {
   periodOfCurrentStay?: number;
   isCurrAddSameAsPermAdd?: string;
   entityTypeKey?: string;
+  nearestLandmark?: string;
 }
 
 export interface CorporateProspectDetails {
