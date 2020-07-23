@@ -32,6 +32,7 @@ export class FiReportComponent implements OnInit {
   async ngOnInit() {
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
+
     });
   }
 
@@ -45,7 +46,7 @@ export class FiReportComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list'])
+    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
 
   }
 
