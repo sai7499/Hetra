@@ -122,8 +122,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FileTransferObject,
     CanActivateService
   ],
-  
-
   bootstrap: [AppComponent],
 })
 export class AppModule { }

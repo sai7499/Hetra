@@ -137,12 +137,14 @@ export class AddressDetailsComponent implements OnInit {
     const pincode = officeAddress.get('pincode');
     const landlineNumber = officeAddress.get('landlineNumber');
     const mobileNumber = officeAddress.get('mobileNumber');
+    const nearestLandmark = officeAddress.get('nearestLandmark');
     this.addressCommonListener(addressLineOne);
     this.addressCommonListener(addressLineTwo);
     this.addressCommonListener(addressLineThree);
     this.addressCommonListener(pincode);
     this.addressCommonListener(landlineNumber);
     this.addressCommonListener(mobileNumber);
+    this.addressCommonListener(nearestLandmark);
   }
 
   addressCommonListener(control: AbstractControl) {
@@ -387,9 +389,10 @@ export class AddressDetailsComponent implements OnInit {
         state: new FormControl(''),
         country: new FormControl(''),
         landlineNumber: new FormControl(null),
-        periodOfCurrentStay: new FormControl(''),
+        //periodOfCurrentStay: new FormControl(''),
         mobileNumber: new FormControl(''),
-        accommodationType: new FormControl(''),
+        //accommodationType: new FormControl(''),
+        nearestLandmark : new FormControl(null)
       }),
     });
 
@@ -624,6 +627,8 @@ export class AddressDetailsComponent implements OnInit {
         accommodationType: officeAddressObj.accommodationType ||'',
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
+        nearestLandmark : officeAddressObj.nearestLandmark,
+
       });
     }
   }
@@ -942,12 +947,12 @@ export class AddressDetailsComponent implements OnInit {
             //   this.applicantId,
             // ]);
             this.toasterService.showSuccess(
-              'Applicant Address Details Saved Successfully',
+              'Record Saved Successfully',
               ''
             );
           } else {
             this.toasterService.showSuccess(
-              'Applicant Address Details Saved Successfully',
+              'Record Saved Successfully',
               ''
             );
           }
@@ -995,7 +1000,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(permanentAddressObject),
       addressType: Constant.PERMANENT_ADDRESS,
-      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd ?  this.isCurrAddSameAsPermAdd : this.onPerAsCurChecked==true? '1': '0',
+      isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd || this.onPerAsCurChecked==true? '1': '0',
     });
     const officeAddressObject = value.details[0].officeAddress;
     this.addressDetailsDataArray.push({
@@ -1003,7 +1008,8 @@ export class AddressDetailsComponent implements OnInit {
       addressType: Constant.OFFICE_ADDRESS,
       // accommodationType: officeAddressObject.accommodationType,
       // periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
-      mobileNumber: officeAddressObject.mobileNumber? officeAddressObject.mobileNumber : '',
+      mobileNumber: officeAddressObject.mobileNumber || '',
+      nearestLandmark : officeAddressObject.nearestLandmark || ''
       //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
     const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
@@ -1014,19 +1020,20 @@ export class AddressDetailsComponent implements OnInit {
       this.addressDetailsDataArray.push({
         ...this.getAddressFormValues(currentAddressObject),
         addressType: Constant.CURRENT_ADDRESS,
-        accommodationType: currentAddressObject.accommodationType?currentAddressObject.accommodationType : '',
+        accommodationType: currentAddressObject.accommodationType || '',
         
         periodOfCurrentStay: currentAddressObject.periodOfCurrentStay ? Number(currentAddressObject.periodOfCurrentStay) : null,
-        mobileNumber: currentAddressObject.mobileNumber ? currentAddressObject.mobileNumber : '',
+        mobileNumber: currentAddressObject.mobileNumber || '',
       });
       
     }else if(this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '1' : initialCurAsPer == '1'){
       const currentAddressObject = value.details[0].currentAddress;
     this.addressDetailsDataArray.push({
       addressType: Constant.CURRENT_ADDRESS,
-      accommodationType: currentAddressObject.accommodationType?currentAddressObject.accommodationType : '',
-      periodOfCurrentStay: currentAddressObject.periodOfCurrentStay? Number(currentAddressObject.periodOfCurrentStay): null,
-      mobileNumber: currentAddressObject.mobileNumber ? currentAddressObject.mobileNumber : '',
+      accommodationType: currentAddressObject.accommodationType || '',
+      periodOfCurrentStay: Number(currentAddressObject.periodOfCurrentStay) || null,
+      mobileNumber: currentAddressObject.mobileNumber || '',
+      
     });
     }
     

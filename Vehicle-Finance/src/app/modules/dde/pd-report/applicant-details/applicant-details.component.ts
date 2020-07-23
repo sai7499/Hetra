@@ -32,6 +32,7 @@ export class ApplicantDetailComponent implements OnInit {
   applicantData: any;
   applicantFullName: any;
   mobileNo: any;
+  standardOfLiving: any;
 
 
   // namePattern = {
@@ -158,7 +159,8 @@ export class ApplicantDetailComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    // console.log('LOVs', this.LOV);
+    console.log('LOVs', this.LOV);
+    this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
@@ -355,7 +357,7 @@ export class ApplicantDetailComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       // console.log(processVariables)
       if (processVariables.error.code === '0') {
-        this.toasterService.showSuccess('Applicant Details saved !', '');
+        this.toasterService.showSuccess('Record Saved Successfully', '');
       } else {
         // console.log('error', processVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
