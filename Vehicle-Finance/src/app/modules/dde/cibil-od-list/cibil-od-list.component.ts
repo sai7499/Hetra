@@ -370,9 +370,11 @@ export class CibilOdListComponent implements OnInit {
           clearanceProofCollected: this.odDetails.assetAppOdDetails
             .clearanceProofCollected,
         });
+        this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
         this.odDetailsForm.patchValue({
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
         });
+       
         
         this.odDetailsForm.patchValue({
           justification: this.odDetails.assetAppOdDetails.justification,

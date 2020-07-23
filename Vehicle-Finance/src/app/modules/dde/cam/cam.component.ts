@@ -43,6 +43,7 @@ export class CamComponent implements OnInit {
   submitted: boolean;
   userId: string;
   customerSelectionCriteria: any;
+  usedCar: boolean;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -72,6 +73,8 @@ export class CamComponent implements OnInit {
     if (this.productCategoryName == "Used Commercial Vehicle") {
       this.usedCvCam = true;
       this.getCamUsedCvDetails();
+    }else if(this.productCategoryName == "Used Car"){
+      this.usedCar = true
     }
 
     this.camDetailsForm = this.formBuilder.group({
@@ -115,7 +118,6 @@ export class CamComponent implements OnInit {
     })
   }
   getCamUsedCvDetails() {
-    // this.usedCvCam = true
     const data = {
       leadId: this.leadId,
     };
@@ -155,6 +157,17 @@ export class CamComponent implements OnInit {
       })
     })
   }
+
+  getCamUsedCarDetails(){
+    const data = {
+      leadId: this.leadId,
+    };
+    this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
+      console.log(res)
+
+    })
+  }
+
   onSubmit() {
     console.log(this.camDetailsForm);
 
