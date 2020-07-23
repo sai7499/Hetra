@@ -1,5 +1,4 @@
 <form class="multisteps-form__form" [formGroup]="deviationsForm">
-  <!-- (change)="formDataOutputMethod($event)" -->
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
     <div class="text-right" id="get_role_details_btn">
@@ -55,7 +54,7 @@
             <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
               <div class="row m-0 radio-inline"
-                [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value === hierarchy)}">
+                [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                 <label for="approve_action">
                   <input type="radio" id="approve_action" formControlName="statusCode" value="1"
                     (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
@@ -112,11 +111,15 @@
           <div class="form-group col-sm-6 col-md-3 col-lg-2">
 
             <label for="deviation">{{labels?.description}}</label>
-            <textarea class="form-control" formControlName="devDesc" readonly></textarea>
+            <p>
+              {{item.controls['devDesc'].value}}
+            </p>
+            <!-- <textarea class="form-control" formControlName="devDesc" readonly style="resize: none;"></textarea> -->
           </div>
 
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
             <label for="approval_level"> {{labels?.approvalLevel}}</label>
+
             <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
               formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
               (change)="onGetApprovalLevel($event, j)" [isDisabled]="isSubmitToCredit">
@@ -125,7 +128,8 @@
 
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="activity">{{labels?.justification}}</label>
-            <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"></textarea>
+            <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+              style="resize: none;"></textarea>
 
             <div class="invalid-feedback"
               *ngIf="item.controls['justification'].touched && !item.controls['justification'].valid">
@@ -140,7 +144,7 @@
 
             <label for="end" class="action">{{labels?.action}} </label>
             <div class="row m-0 radio-inline"
-              [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value === hierarchy)}">
+              [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
 
               <label for="approve_action">
                 <input type="radio" id="approve_action" formControlName="statusCode" value="1"
@@ -177,6 +181,41 @@
 
     </ng-container>
 
+    <div class="row" *ngIf="recommendationArray.length > 0">
+
+      <h3 class="margin_zero">{{labels?.recommendation}}</h3>
+
+      <div class="table-responsive">
+        <table class="table" id="recommendation_table">
+          <thead>
+            <tr class=" table-head-bg ">
+              <th>Index</th>
+              <th>{{labels.roleName}} </th>
+              <th>{{labels.userName}}</th>
+              <th>{{labels.recommendation}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="add_vhd_tabletr" *ngFor="let data of recommendationArray; let index = index">
+              <td data-title="Index Number">
+                {{index + 1}}
+              </td>
+              <td data-title="Role Name">
+                {{data.roleName}}
+              </td>
+              <td data-title="User Name">
+                {{data.userName}}
+              </td>
+              <td data-title="Recommendation">
+                {{data.recommendation}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
     <div class="row btn-sec clear-both">
       <div class="col-sm-4">
       </div>
@@ -189,7 +228,7 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
-              formControlName="approverRole">
+              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value">
             </app-vf-custom-select>
           </div>
         </div>
@@ -197,14 +236,15 @@
           [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
-      <div class="col-sm-3 row text-right">
+      <div class="col-sm-3 row text-right" *ngIf="isSubmitToCredit">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="result === 1"
+          [disabled]="isSendBacktoCredit !== 1"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="result === 0"
+          [disabled]="isSendBacktoCredit !== 0"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
+
       </div>
     </div>
 

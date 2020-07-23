@@ -1,152 +1,251 @@
-<form class="multisteps-form__form" [formGroup]="customerProfileForm" *ngIf="this.customerProfileForm">
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <h3 class="title">{{labels.customerProfileTitle}}</h3>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="address_record">{{labels.addressRecord}}</label>
-                <!-- <select class="form-control">
+<form
+  class="multisteps-form__form"
+  [formGroup]="customerProfileForm"
+  *ngIf="this.customerProfileForm"
+>
+  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <h3 class="title">{{ labels.customerProfileTitle }}</h3>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="address_record"
+          >{{ labels.addressRecord }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="offAddSameAsRecord" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="no_employees">{{labels.noEmployees}}</label>
-                <!-- <input type="number" class="form-control" id="no_employees" formControlName="noOfEmployeesSeen"> -->
-                <app-custom-input id="no_employees" formControlName="noOfEmployeesSeen" placeholder="no of employees" [type]="labels?.validationData?.noOfEmployeesSeen?.type" [isRequired]="'no of employees is required'" [maxLength]="labels?.validationData?.noOfEmployeesSeen?.maxLength"
-                    [isDirty]="isDirty">
-                </app-custom-input>
-
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="name_board_seen">{{labels.nameBoardSeen}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="customerProfileLov?.commonLov"
+          formControlName="offAddSameAsRecord"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="no_employees"
+          >{{ labels.noEmployees }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <input type="number" class="form-control" id="no_employees" formControlName="noOfEmployeesSeen"> -->
+        <app-custom-input
+          id="no_employees"
+          formControlName="noOfEmployeesSeen"
+          placeholder="no of employees"
+          [type]="labels?.validationData?.noOfEmployeesSeen?.type"
+          [isRequired]="'no of employees is required'"
+          [maxLength]="labels?.validationData?.noOfEmployeesSeen?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="name_board_seen"
+          >{{ labels.nameBoardSeen }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="nameBoardSeen" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="office_premises">{{labels.officePremisesType}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="customerProfileLov?.commonLov"
+          formControlName="nameBoardSeen"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="office_premises"
+          >{{ labels.officePremisesType }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Owned">Owned</option>
                     <option value="Rented">Rented</option>
                     <option value="Resi cum office">Resi cum office</option>
                     <option value="Shared">Shared</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdOfficePremisesType']" formControlName="officePremises" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="size_of_office">{{labels.sizeOfOffice}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="(LOV?.LOVS)['fi/PdOfficePremisesType']"
+          formControlName="officePremises"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="size_of_office"
+          >{{ labels.sizeOfOffice }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Good">Less than 500 Sft</option>
                     <option value="Average">500 to 1000 Sft</option>
                     <option value="Poor">More than 1000 Sft</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdOfficeSize']" formControlName="sizeofOffice" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="selfie_with_house">{{labels.selfieWithHouse}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="(LOV?.LOVS)['fi/PdOfficeSize']"
+          formControlName="sizeofOffice"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="selfie_with_house"
+          >{{ labels.selfieWithHouse }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                             <option>Select</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="customerHouseSelfie" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="ownership_proof">{{labels.ownershipProof}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="customerProfileLov?.commonLov"
+          formControlName="customerHouseSelfie"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="ownership_proof"
+          >{{ labels.ownershipProof }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                             <option>Select</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                      </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="ownershipAvailable" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="met_customer">{{labels.metCustomer}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="customerProfileLov?.commonLov"
+          formControlName="ownershipAvailable"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="met_customer"
+          >{{ labels.metCustomer }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                             <option>Select</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                 </select> -->
-                <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="mandatoryCustMeeting" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="rating_by_so">{{labels.ratingBySo}}</label>
-                <!-- <select class="form-control">
+        <app-vf-custom-select
+          [values]="customerProfileLov?.commonLov"
+          formControlName="mandatoryCustMeeting"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="rating_by_so"
+          >{{ labels.ratingBySo }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <select class="form-control">
                     <option>Select</option>
                     <option value="Poor">Poor</option>
                     <option value="Average">Average</option>
                     <option value="Good">Good</option>
                     <option value="Very Good">Very Good</option>
                 </select> -->
-                <app-vf-custom-select [values]="LOV?.LOVS['fi/PdRating']" formControlName="customerProfileRatingSo" [isRequired]="'Please select one'" [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
+        <app-vf-custom-select
+          [values]="(LOV?.LOVS)['fi/PdRating']"
+          formControlName="customerProfileRatingSo"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="mismatch_address">{{labels.mismatchAddress}}</label>
-                <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
-                <!-- <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" placeholder="mismatch in address" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength"
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="mismatch_address"
+          >{{ labels.mismatchAddress }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
+        <!-- <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" placeholder="mismatch in address" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength"
                     [isDirty]="isDirty"></app-custom-input> -->
-                <textarea class="form-control mandatory" name="mismatchInAddress" id="mismatchInAddress" cols="1" rows="3" placeholder="mismatch in Address" formControlName="mismatchInAddress" maxlength="200" style="resize: none;"></textarea>
+        <textarea
+          class="form-control mandatory"
+          name="mismatchInAddress"
+          id="mismatchInAddress"
+          cols="1"
+          rows="3"
+          placeholder="mismatch in Address"
+          formControlName="mismatchInAddress"
+          maxlength="200"
+          style="resize: none;"
+        ></textarea>
 
-                <div class="invalid-feedback " *ngIf="customerProfileForm.controls['mismatchInAddress'].touched && !customerProfileForm.controls['mismatchInAddress'].vaild">
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            customerProfileForm.controls['mismatchInAddress'].touched &&
+            !customerProfileForm.controls['mismatchInAddress'].vaild
+          "
+        >
+          <div
+            *ngIf="
+              customerProfileForm.controls['mismatchInAddress'].hasError(
+                'required'
+              )
+            "
+          >
+            mismatch in address is Required
+          </div>
 
-                    <div *ngIf="customerProfileForm.controls['mismatchInAddress'].hasError('required')">
-                        mismatch in address is Required
-                    </div>
+          <div
+            *ngIf="
+              customerProfileForm.controls['mismatchInAddress'].hasError(
+                'pattern'
+              )
+            "
+          >
+            special characters are not allowed
+          </div>
+        </div>
+      </div>
 
-
-                    <div *ngIf="customerProfileForm.controls['mismatchInAddress'].hasError('pattern')">
-                        special characters are not allowed
-                    </div>
-                </div>
-
-
-
-            </div>
-
-
-
-            <div class="btn-sec clear-both">
-                <div class="col-sm-5"></div>
-                <div class="col-sm-7 text-right">
-
-                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
+      <div class="btn-sec clear-both">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+          <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
                         {{labels.back}} </button> &nbsp;
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../applicant-detail',applicantId]">
                         {{labels.back}} </button> &nbsp; -->
-                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
-                        {{labels.back}} </button>&nbsp;
-                    <button class="btn btn-primary " (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-                    <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onNavigateBack()"
+          >
+            {{ labels.back }}</button
+          >&nbsp;
+          <button class="btn btn-primary" (click)="onFormSubmit()">
+            {{ labels.save }}
+          </button>
+          &nbsp;
+          <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button> -->
-                    <button class="btn btn-primary" type="button" (click)="onNavigateNext()"> {{labels.next}} </button>
-                </div>
-            </div>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onNavigateNext()"
+          >
+            {{ labels.next }}
+          </button>
         </div>
+      </div>
     </div>
-
-
-
-
+  </div>
 </form>

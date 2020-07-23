@@ -58,5 +58,49 @@ getCamUsedCvDetails(data) {
   return this.httpService.post(url, requestEntity);
 }
 
+saveCamRemarks (data) {
+  const processData = data;
+  const processId = this.apiService.api.saveCamRemarks.processId;
+  const workflowId = this.apiService.api.saveCamRemarks.workflowId;
+  const projectId = this.apiService.api.saveCamRemarks.projectId;
+
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'cam used cv details');
+
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
+getCamUsedCarDetails(data) {
+  const processData = data;
+  const processId = this.apiService.api.getCamUsedCarDetails.processId;
+  const workflowId = this.apiService.api.getCamUsedCarDetails.workflowId;
+  const projectId = this.apiService.api.getCamUsedCarDetails.projectId;
+
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'cam used car details');
+
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
 
 }

@@ -6,12 +6,12 @@ import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(private httpService: HttpService, private router: Router) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
-      (res) => {},
-      (error) => {}
+      (res) => { },
+      (error) => { }
     );
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
@@ -101,7 +101,6 @@ export class UtilityService {
     const arrayUniqueByKey = [
       ...new Map(dataJosn.map((data) => [data[key], data])).values(),
     ];
-    console.log('uqi ', arrayUniqueByKey);
     return arrayUniqueByKey;
   }
 
@@ -110,7 +109,7 @@ export class UtilityService {
     console.log('JsonObj', JsonObj);
     console.log('key1', key1);
     console.log('value1', value1);
-    JsonObj.map((data) => {
+    JsonObj.map((data: any) => {
       if (data) {
         const val = {
           key: data[key1] ? data[key1] : 0,

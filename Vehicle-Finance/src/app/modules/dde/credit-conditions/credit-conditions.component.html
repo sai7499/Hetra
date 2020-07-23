@@ -105,12 +105,12 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-       <button class="btn btn-primary" type="button">Back</button>
-      <button class="btn btn-primary" (click)="saveUpdate()" type="button">Save</button>
+       <button class="btn btn-primary" (click)="saveUpdate('back')" type="button">Back</button>
+      <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="approveRejectDeclineCreditCondition('approved')" type="button">Approve</button>
      <button class="btn btn-primary" *ngIf="userType === 2" (click) ="approveRejectDeclineCreditCondition('rejected')" type="button">Reject</button>
       <button class="btn btn-primary" *ngIf="userType === 2" (click) ="approveRejectDeclineCreditCondition('declined')" type="button">Decline</button>
-      <button class="btn btn-primary"  type="button" [routerLink]="['/pages/credit-decisions',leadId,'term-sheet']">Next</button>
+      <button class="btn btn-primary" (click)="saveUpdate('next')"  type="button">Next</button>
     </div>
   </div>
 </div>
