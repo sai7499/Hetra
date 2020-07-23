@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { FieldInvestigationService } from '@services/Fi/field-investigation.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-fi-report',
@@ -20,6 +21,7 @@ export class FiReportComponent implements OnInit {
   leadId: number;
   userId: any;
   applicantId: number;
+  fieldReportForm: FormGroup;
 
   constructor(
     private labelService: LabelsService,
@@ -73,6 +75,32 @@ export class FiReportComponent implements OnInit {
   initForm() {
 
     // fun that initilalizes the form group
+    this.fieldReportForm = new FormGroup({
+      applicantName: new FormControl({ value: '', disabled: true }),
+      fatherName: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      maritalStatus: new FormControl('', Validators.required),
+      physicallyChallenged: new FormControl('', Validators.required),
+      residancePhoneNumber: new FormControl('', Validators.required),
+      officePhoneNumber: new FormControl('', Validators.required),
+      // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
+      mobile: new FormControl({ value: '', disabled: true }),
+      residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
+      bankName: new FormControl('', Validators.required),
+      accountNumber: new FormControl('', Validators.required),
+      landmark: new FormControl('', Validators.required),
+      addressAccessibility: new FormControl('', Validators.required),
+      residentialLocality: new FormControl('', Validators.required),
+      residentialType: new FormControl('', Validators.required),
+      houseType: new FormControl('', Validators.required),
+      sizeOfHouse: new FormControl('', Validators.required),
+      standardOfLiving: new FormControl('', Validators.required),
+      houseOwnership: new FormControl('', Validators.required),
+      ratingbySO: new FormControl('', Validators.required)
+
+
+
+    });
 
   }
 
