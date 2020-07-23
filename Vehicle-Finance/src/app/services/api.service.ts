@@ -509,7 +509,18 @@ export class ApiService {
       processId: '04bd034ac6c011ea886e00505695f93b',
       workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
+    },
+    getFiReportDetails: {
+      processId: 'f10ff346cbda11ea83b800505695f93b',
+      workflowId: 'ebb849eecb5c11ea91c600505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveOrUpdateFiReportDetails: {
+      processId: 'ebf549c0cb5c11eaa53e00505695f93b',
+      workflowId: 'ebb849eecb5c11ea91c600505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
+
 
   };
 }

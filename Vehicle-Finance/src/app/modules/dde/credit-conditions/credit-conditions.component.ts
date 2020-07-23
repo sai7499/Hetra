@@ -47,7 +47,7 @@ export class CreditConditionsComponent implements OnInit {
         })
       }
       this.formArr.removeAt(index);
-      this.toasterService.showSuccess("Credit condition deleted successfully!", '')
+      this.toasterService.showSuccess("Record deleted successfully!", '')
 
     
 
@@ -185,13 +185,11 @@ export class CreditConditionsComponent implements OnInit {
       this.creditConditionService.saveUpdateCreditConditions(ProcessVariables).subscribe(res=> {
         console.log(res);
         if(res['ProcessVariables'].error['code'] == 0){
+          this.toasterService.showSuccess("Record Saved successfully!", '');
           if(data == 'save' ){
-            this.toasterService.showSuccess("Credit condition Saved successfully!", '');
           }else if(data == 'next'){
-            this.toasterService.showSuccess("Credit condition Saved successfully!", '');
             this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
           }else{
-            this.toasterService.showSuccess("Credit condition Saved successfully!", '');
             if(this.userType == 2){
               this.router.navigateByUrl('/pages/dashboard/credit-decision/decision-with-me')
             }else{
@@ -239,7 +237,7 @@ export class CreditConditionsComponent implements OnInit {
       this.creditConditionService.approveRejectDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Credit condition " + data + " successfully!", '')
+        this.toasterService.showSuccess("Record" + data + " successfully!", '')
       }
     })
   }

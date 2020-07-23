@@ -485,6 +485,7 @@
     "sendBackToCredit": "Send Back To Credit",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
+    "roleName": "Role Name",
     "commend": "Commend",
     "referText4": "Text area to input recommendation (max 2000 characters)",
     "more": "More",
@@ -1281,6 +1282,11 @@
             },
             "type": "number"
         },
+        "address" : {
+            "maxLength": {
+                "rule": 50
+            }
+        },
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
@@ -1443,7 +1449,8 @@
         },
         "pincode": {
             "maxLength": {
-                "rule": 6
+                "rule": 6,
+                "msg": "Pincode Max Length Should be 6"
             },
             "type": "number",
             "patternCheck": {
@@ -1451,6 +1458,7 @@
                 "msg": "Invalid Pincode"
             }
         },
+        
         "numberOfYears": {
             "maxLength": {
                 "rule": 2

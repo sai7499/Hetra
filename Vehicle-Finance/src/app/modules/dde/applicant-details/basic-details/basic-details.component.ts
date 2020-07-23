@@ -296,7 +296,7 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingMinor = this.showAge < 18;
     details.get('isMinor').setValue(this.checkingMinor);
 
-    this.checkingSenior = this.showAge > 70;
+    this.checkingSenior = this.showAge >= 70;
     details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
@@ -305,7 +305,7 @@ export class BasicDetailsComponent implements OnInit {
     this.setGaurdianFieldMandatory();
   }
   checkSenior(event) {
-    if (event.target.checked && (this.showAge < 70 )) {
+    if (event.target.checked && (this.showAge <= 70 )) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -674,7 +674,7 @@ export class BasicDetailsComponent implements OnInit {
     if (remainingCount > 0) {
       for (let i = this.directorCount - 1; i >= directorValue; i--) {
         // form.push(this.getDirectorsControls())
-        console.log('value', form.at(i), 'index', i)
+        //console.log('value', form.at(i), 'index', i)
         form.removeAt(i);
 
       }
@@ -790,7 +790,7 @@ export class BasicDetailsComponent implements OnInit {
       if (response.ProcessVariables.error.code === '0') {
 
         this.toasterService.showSuccess(
-          'Applicant Basic Details Saved Successfully',
+          'Record Saved Successfully',
           ''
         );
       }
