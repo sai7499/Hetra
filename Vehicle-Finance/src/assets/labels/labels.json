@@ -1319,13 +1319,13 @@
         },
         "noOfTrips": {
             "maxLength": {
-                "rule": 3
+                "rule": 5
             },
             "type": "number"
         },
         "noOfEmployeesSeen": {
             "maxLength": {
-                "rule": 3
+                "rule": 5
             },
             "type": "number"
         },
