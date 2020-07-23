@@ -41,6 +41,7 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     const files: File = event.target.files[0];
     const base64: any = await this.toBase64(files);
+    console.log('base64', base64);
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
@@ -51,7 +52,10 @@ export class UploadModalComponent {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
+      reader.onloadend = () =>
+        resolve(
+          reader.result.toString().replace(/^data:image\/[a-z]+;base64,/, '')
+        );
       reader.onerror = (error) => reject(error);
     });
   }

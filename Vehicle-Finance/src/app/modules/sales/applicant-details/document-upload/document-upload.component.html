@@ -1,3 +1,7 @@
+<app-draggable-container
+  [imageUrl]="showDraggableContainer"
+  [setCss]="setCss"
+></app-draggable-container>
 <div class="content" style="overflow: scroll;">
   <form
     class="multisteps-form__form"
@@ -99,7 +103,14 @@
                     name="input"
                     type="text"
                     class="form-control"
-                    disabled
+                    readonly
+                    (click)="
+                      downloadDocs(
+                        FORM_ARRAY_NAME + '_' + subCat.code,
+                        i,
+                        $event
+                      )
+                    "
                   />
                 </div>
                 <div class="form-group col-sm-3 col-md-2">

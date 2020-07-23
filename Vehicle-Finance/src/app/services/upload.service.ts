@@ -103,4 +103,35 @@ export class UploadService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+
+  getDocumentBase64String(documentId: string) {
+    const data = {
+      dwnldDocumentReq: {
+        msgHdr: {
+          cnvId: 'WIZ2020621616194742655',
+          bizObjId: 'WIZ2020621616194742655',
+          appId: 'WIZ',
+          msgId: 'WIZ2020621616194742655',
+          extRefId: 'WIZ2020621616194742655',
+          timestamp: '2020-07-02T10:46:19.934Z',
+          authInfo: {
+            brnchId: '1001',
+            usrId: '474',
+          },
+        },
+        msgBdy: {
+          ssnAuth: {
+            usrTkn: 'newgen',
+            usrNm: '1',
+            usrPwd: '1',
+          },
+          docIndx: documentId,
+        },
+      },
+    };
+    return this.httpService.docUpload(
+      'http://10.101.10.153/downloadDigiDocument/',
+      data
+    );
+  }
 }

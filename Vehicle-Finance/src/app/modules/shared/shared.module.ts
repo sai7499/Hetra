@@ -24,6 +24,7 @@ import { SalesExactMatchComponent } from './sales-exact-match/sales-exact-match.
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
 import { CommonDocsUploadComponent } from './common-docs-upload/common-docs-upload.component';
 import { DocsUploadPipe } from './pipes/docs-upload.pipe';
+import { DraggableComponent } from './draggable-container/draggable-container.component';
 
 import {
   BsDatepickerModule,
@@ -53,6 +54,7 @@ setTheme('bs4');
     UploadModalComponent,
     CommonDocsUploadComponent,
     DocsUploadPipe,
+    DraggableComponent,
   ],
   imports: [
     CommonModule,
@@ -82,6 +84,7 @@ setTheme('bs4');
     UploadModalComponent,
     CommonDocsUploadComponent,
     DocsUploadPipe,
+    DraggableComponent,
   ],
 })
 export class SharedModule {}

@@ -23,6 +23,10 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
+  setCss = {
+    top: '',
+    left: '',
+  };
   toDayDate: Date = new Date();
   leadId: number;
   showModal: boolean;
@@ -43,6 +47,7 @@ export class DocumentUploadComponent implements OnInit {
     docsId?: string;
   };
 
+  showDraggableContainer: string;
   documentArr: DocumentDetails[] = [];
 
   constructor(
@@ -51,9 +56,7 @@ export class DocumentUploadComponent implements OnInit {
     private router: Router,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private http: HttpClient,
     private lovService: CommomLovService,
-    private applicantDataService: ApplicantDataStoreService,
     private uploadService: UploadService,
     private utilityService: UtilityService
   ) {}
@@ -91,7 +94,7 @@ export class DocumentUploadComponent implements OnInit {
         console.log('doc details', value);
         const docDetails: DocumentDetails[] =
           value.ProcessVariables.documentDetails;
-        this.documentArr = docDetails;
+        this.documentArr = docDetails || [];
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
             const formArray = this.uploadForm.get(
@@ -287,6 +290,29 @@ export class DocumentUploadComponent implements OnInit {
         },
       ],
     };
+  }
+
+  downloadDocs(formArrayName: string, index: number, event) {
+    let el = event.srcElement;
+    const formArray = this.uploadForm.get(formArrayName) as FormArray;
+    const documentId = formArray.at(index).get('file').value;
+    this.uploadService
+      .getDocumentBase64String(documentId)
+      .subscribe((value) => {
+        let offsetLeft = 0;
+        let offsetTop = 0;
+        while (el) {
+          offsetLeft += el.offsetLeft;
+          offsetTop += el.offsetTop;
+          el = el.offsetParent;
+        }
+        this.setCss = {
+          top: offsetTop + 'px',
+          left: offsetLeft + 'px',
+        };
+        this.showDraggableContainer = value['dwnldDocumentRep'].msgBdy.bsPyld;
+        console.log('downloadDocs', value);
+      });
   }
 
   onUploadSuccess(event: DocumentDetails) {
