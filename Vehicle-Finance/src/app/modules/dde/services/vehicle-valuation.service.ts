@@ -85,7 +85,7 @@ export class VehicleValuationService {
     const projectId = this.apiService.api.getVehicleValuation.projectId;
 
     // const email = localStorage.getItem('email');
-    const userId = localStorage.getItem('userId')
+    const userId = localStorage.getItem('userId');
 
     const body: RequestEntity = {
         processId: processId,

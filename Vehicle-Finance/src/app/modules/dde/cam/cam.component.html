@@ -1,4 +1,4 @@
-<div class="container overflow-hidden">
+<div class="container overflow-hidden" [formGroup]="camDetailsForm">
     <!--basic table starts here-->
 
     <table class="cam_table">
@@ -8,7 +8,7 @@
       }}
         </caption>
 
-        <tr  *ngIf="!usedCvCam">
+        <tr *ngIf="!usedCvCam">
             <td>{{ labels?.leadCreatedBy }}</td>
             <td>{{ basicDetails?.leadCreatedBy }}</td>
             <td>{{ labels?.leadCreatedDate }}</td>
@@ -55,7 +55,7 @@
             <td>{{ labels?.camDate }}</td>
             <td>{{ sourcingDetails?.camDate }}</td>
             <td>{{ labels?.existingExposure }}</td>
-            <td>{{ sourcingDetails?.existingExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.existingExposure }}</td>
         </tr>
         <tr>
             <td>{{ labels?.areaName }}</td>
@@ -63,7 +63,7 @@
             <td>{{ labels?.branchName }}</td>
             <td>{{ sourcingDetails?.branchName }}</td>
             <td>{{ labels?.proposedExposure }}</td>
-            <td>{{ sourcingDetails?.proposedExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.proposedExposure }}</td>
         </tr>
         <tr>
             <td>{{ labels?.sourcingChennal }}</td>
@@ -71,7 +71,7 @@
             <td>{{ labels?.sourcingSoName }}</td>
             <td>{{ sourcingDetails?.sourcingSoName }}</td>
             <td>{{ labels?.overallExposure }}</td>
-            <td>{{ sourcingDetails?.overallExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.overallExposure }}</td>
         </tr>
 
         <tr>
@@ -80,7 +80,7 @@
             <td>{{ labels?.distancefrombranch }}</td>
             <td>{{ sourcingDetails?.distanceFromBranch }}</td>
             <td>{{ labels?.creditApproval }}</td>
-            <td>{{ sourcingDetails?.creditApproval }}</td>
+            <td colspan="2">{{ sourcingDetails?.creditApproval }}</td>
         </tr>
         <tr>
             <td>{{ labels?.customerCategory }}</td>
@@ -88,28 +88,29 @@
             <td>{{ labels?.loanamount }}</td>
             <td>{{ sourcingDetails?.loanAmount }}</td>
             <td>{{ labels?.rateApproval }}</td>
-            <td>{{ sourcingDetails?.rateApproval }}</td>
+            <td colspan="2">{{ sourcingDetails?.rateApproval }}</td>
         </tr>
         <tr>
             <td>{{ labels?.branchED }}</td>
-            <td>{{ sourcingDetails?.branchED }}</td>
+            <td>{{ sourcingDetails?.branchEd }}</td>
             <td>{{ labels?.soEd}}</td>
             <td>{{sourcingDetails?.soEd}}</td>
             <td>{{ labels?.propertyOwnership }}</td>
             <td>{{ sourcingDetails?.propertyOwnership }}</td>
+            <td>{{ sourcingDetails?.propertyType }}</td>
         </tr>
         <tr>
             <td>{{ labels?.vfScore }}</td>
             <td>{{ sourcingDetails?.VFScore }}</td>
             <td>{{ labels?.fiStatus }}</td>
             <td>{{ sourcingDetails?.FIStatus }}</td>
-
             <td>{{ labels?.proofCollected }}</td>
             <td>{{ sourcingDetails?.proofCollected }}</td>
+            <td>{{ sourcingDetails?.proofType }}</td>
         </tr>
         <tr>
             <td>{{ labels?.pdstatus }}</td>
-            <td colspan="5">{{ sourcingDetails?.PDStatus }}</td>
+            <td colspan="6">{{ sourcingDetails?.PDStatus }}</td>
         </tr>
     </table>
     <!--sourcing table ends here--->
@@ -152,19 +153,34 @@
                 <td colspan="2"></td>
                 <td class="readonly">{{ labels?.total }}</td>
                 <!-- <td *ngFor="let proposedDetails of proposedVehicleDetails" class="readonly">{{proposedDetails?.total}}</td> -->
-                <td class="" colspan="">24</td>
-                <td class="" colspan="">324</td>
-                <td class="" colspan="">234</td>
+                <td class="" colspan="">{{camDetails?.proposedToTotalNetAssetCost}}</td>
+                <td class="" colspan="">{{camDetails?.proposedToTotalLoanAmount}}</td>
+                <td class="" colspan="">{{camDetails?.proposedToTotalLTV}}</td>
 
 
             </tr>
             <tr>
                 <td colspan="2">{{ labels?.sourceOfMarginMoney }}</td>
-                <td colspan="9">{{ camDetails?.sourceOfMarginMoney }}</td>
+                <td colspan="9">{{ camDetails?.proposedToSourceOfMarginMoney }}</td>
             </tr>
             <tr>
                 <td colspan="2">{{ labels?.anyOtherRemarks }}</td>
-                <td colspan="9">{{ proposedToAnyOtherRemarks }}</td>
+                <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="proposedVehicleRemarks"></textarea>
+                    <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
+                            proposedVehicleRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.maxlength">
+                            proposedVehicleRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
+
+                        </div>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -194,10 +210,10 @@
                 <td>{{ partyToAgreement?.age}}</td>
                 <td>{{ partyToAgreement?.relationship }}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>{{ labels?.anyOtherRemarks }}</td>
                 <td colspan="6" class="">{{ partyToAnyOtherRemarks }}</td>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
     <!---party agreement details-->
@@ -235,7 +251,22 @@
 
             <tr>
                 <td colspan="1">{{ labels?.anyOtherRemarks }}</td>
-                <td colspan="7" class="">{{ cibilSynopsysToAnyOtherRemark }}</td>
+                <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="cibilSynopsisRemarks"></textarea>
+                    <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && (camDetailsForm.get('cibilSynopsisRemarks').dirty || camDetailsForm.get('cibilSynopsisRemarks').touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
+                            cibilSynopsisRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.maxlength">
+                            cibilSynopsisRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
+
+                        </div>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -289,6 +320,7 @@
                 <td>{{ bankingSummary?.to }}</td>
                 <td class="bank_name">{{ labels?.noOfMonth }}</td>
                 <td>{{ bankingSummary?.noOfMonth }}</td>
+                <td colspan="2"></td>
                 <!-- <td colspan="1"></td>
                 <td colspan="7"></td> -->
             </tr>
@@ -310,7 +342,7 @@
                 <td class="bank_name">{{ labels?.firstVeh }}</td>
                 <td colspan="2">{{ camDetails?.fleetSummaryTofirstVehicle }}</td>
                 <td class="bank_name">{{ labels?.purchasedOn }}</td>
-                <td>{{ camDetails?.fleetSummaryTopurchaseOn }}</td>
+                <td>{{ camDetails?.fleetSummaryTopurchasedOn }}</td>
             </tr>
             <tr class="bank_name">
                 <td rowspan="2">{{ labels?.entity }}</td>
@@ -318,7 +350,7 @@
                 <td colspan="3">{{ labels?.expansionAndFfr }}</td>
                 <td>{{ labels?.remark }}</td>
             </tr>
-            <tr>
+            <tr class="bank_name">
                 <td>{{ labels?.hcv }}</td>
                 <td>{{ labels?.lcv }}</td>
                 <td>{{ labels?.scv }}</td>
@@ -345,15 +377,24 @@
 
             <tr>
                 <td>{{ labels?.anyOtherRemarks }}</td>
-                <td>{{ camDetails?.fleetSummaryToAnyOtherRemarks }}</td>
+                <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="fleetRemarks"></textarea>
+                    <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && (camDetailsForm.get('fleetRemarks').dirty || camDetailsForm.get('fleetRemarks').touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
+                            fleetRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.maxlength">
+                            fleetRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
 
-                <td colspan="4">
-                    {{ labels?.appIsInTransportFieldFromLastManyYears }}
+                        </div>
+                    </div>
                 </td>
 
-                <td>
-                    {{ camDetails?.fleetSummaryToAppIsInTransportFromManyYears }}
-                </td>
+
             </tr>
         </tbody>
     </table>
@@ -395,9 +436,9 @@
                 <th colspan="2">
                     {{ labels?.lastTwelveMonth }}
                 </th>
-                <th colspan="2">
+                <!-- <th colspan="2">
                     {{ labels?.remark }}
-                </th>
+                </th> -->
             </tr>
             <tr>
                 <td colspan="6"></td>
@@ -419,7 +460,7 @@
                 <td>
                     {{ labels?.pd }}
                 </td>
-                <td colspan="2"></td>
+                <!-- <td colspan="2"></td> -->
             </tr>
         </thead>
         <tbody>
@@ -440,7 +481,7 @@
                 <td>{{trackValidation?.lastSixMonthPD}}</td>
                 <td>{{trackValidation?.lastTwelveMonthAD}}</td>
                 <td>{{trackValidation?.lastTwelveMonthPD}}</td>
-                <td colspan="2">{{trackValidation?.remarks}}</td>
+                <!-- <td colspan="2">{{trackValidation?.remarks}}</td> -->
 
             </tr>
 
@@ -448,15 +489,207 @@
                 <td>
                     {{ labels?.anyOtherRemarks }}
                 </td>
-                <td>{{camDetails?.trackValidationToAnyOtherRemarks}}</td>
-                <td colspan="8">
+                <td colspan="11"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="trackValidationRemarks"></textarea>
+                    <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && (camDetailsForm.get('trackValidationRemarks').dirty || camDetailsForm.get('trackValidationRemarks').touched)"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
+                            trackValidationRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.maxlength">
+                            trackValidationRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
+
+                        </div>
+                    </div>
+                </td>
+                <!--<td colspan="8">
                     {{ labels?.appIsInTransportFieldFromLastManyYears }}
                 </td>
-                <td>{{camDetails?.trackValidationToAppIsInTransportFromManyYears}}</td>
+                <td>{{camDetails?.trackValidationToAppIsInTransportFromManyYears}}</td>-->
             </tr>
         </tbody>
     </table>
     <!--track validation summary-->
+    <!-- customer selection criteria -->
+    <table class="cam_table_proposed mt-3">
+        <caption class="caption">
+            {{
+        labels?.customerSelectionCriteriaTitle
+      }}
+        </caption>
+        <thead>
+            <tr class="">
+                <th>
+                    {{ labels?.category }}
+                </th>
+                <th>
+                    {{labels?.required}}
+                </th>
+                <th>
+                    {{ labels?.actualwithdocumentedproof }}
+                </th>
+                <th>
+                    {{ labels?.deviationLevel }}
+                </th>
+                <th>
+                    {{ labels?.justification }}
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let customerSelectionCriteria of customerSelectionCriteria">
+                <td>
+                    {{ customerSelectionCriteria?.category }}
+                </td>
+                <td>
+                    {{customerSelectionCriteria?.required}}
+                </td>
+                <td>
+                    {{ customerSelectionCriteria?.actualWithDocumentedProof }}
+                </td>
+                <td>
+                    {{ customerSelectionCriteria?.deviationLevel }}
+                </td>
+                <td>
+                    {{ customerSelectionCriteria?.justificationProof }}
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>{{ customerSelectionCriteria?.businessStability }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.residenceStability }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.dlRequirement }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.propertyOwnership }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.fleetStregthOwnership }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.repaymentTrackRecord }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.financialsAndBankStatement }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.tenure }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.ltv }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.coApplicant }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.guarantorForComfortPurpose }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.guarantorForHigherFunding }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{ labels?.modelsInGrid }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> -->
+
+
+        </tbody>
+    </table>
+    <!-- customer selection criteria -->
+
+    <!---other deviation-->
+    <table class="cam_table_proposed mt-3">
+        <caption class="caption">
+            {{
+        labels?.otherDeviationsTitle
+      }}
+        </caption>
+        <thead>
+            <tr class="">
+                <th>
+                    {{ labels?.sNo }}
+                </th>
+                <th>
+                    {{labels?.deviation}}
+                </th>
+                <th>
+                    {{ labels?.authority }}
+                </th>
+                <th>
+                    {{ labels?.justification }}
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let otherDeviation of otherDeviation; let i = index">
+
+                <td>{{i + 1}}</td>
+                <td>{{otherDeviation?.deviation}}</td>
+                <td>{{otherDeviation?.authority}}</td>
+                <td>{{otherDeviation?.justification}}</td>
+
+            </tr>
+        </tbody>
+    </table>
     <!---other deviation-->
 
     <!--key financial-->
@@ -470,9 +703,7 @@
         <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.fy }}</td>
-                <!-- <td>{{ labels?.eighteenToNineteen }}</td>
-                <td>{{ labels?.seventeenToEightteen }}</td>
-                <td>{{ labels?.sixteenToSeventeen }}</td> -->
+
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.fy}}</td>
                 <td>{{ labels?.anyOtherRemarks }}</td>
             </tr>
@@ -480,7 +711,21 @@
                 <td class="bank_name">{{ labels?.turnOver }}</td>
 
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
-                <td rowspan="4"></td>
+                <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
+                    formControlName="keyFinancialRemarks"></textarea>
+                <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && (camDetailsForm.get('keyFinancialRemarks').dirty || camDetailsForm.get('keyFinancialRemarks').touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
+                        keyFinancialRemarks is required.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.maxlength">
+                        keyFinancialRemarks cannot be more than 200 characters long.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.pattern">
+                        Invalid Message / Special Characters not allowed
+
+                    </div>
+                </div></td>
             </tr>
 
             <tr>
@@ -498,7 +743,6 @@
             <tr>
                 <td class="bank_name">{{ labels?.cashGenerationPbtDep }}</td>
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
-                <td>{{camDetails?.keyFinancialObjAnyOtherRemarks}}</td>
             </tr>
             <tr>
 
@@ -600,7 +844,9 @@
         <button class="btn btn-primary dash_href" type="button" routerLink="../score-card">
             {{ labels?.back }}
         </button>
-        <!-- <button class="btn btn-primary" type="button"> Save </button> -->
+        <button class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
+            Save
+        </button>
         <button class="btn btn-primary dash_href" type="button" routerLink="../deviations">
             {{ labels?.next }}
         </button>
