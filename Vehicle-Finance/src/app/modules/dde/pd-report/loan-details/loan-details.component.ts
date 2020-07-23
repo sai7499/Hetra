@@ -624,7 +624,7 @@ export class LoanDetailsComponent implements OnInit {
           const message = processVariables.error.message;
           console.log('PD Status', message);
           console.log('response loan details', value.ProcessVariables);
-          this.toasterService.showSuccess('new cv loan details saved successfully!', '');
+          this.toasterService.showSuccess('Loan details saved successfully!', '');
         }
         else {
           console.log('error', processVariables.error.message);

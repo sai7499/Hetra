@@ -289,7 +289,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('reference check details saved  sucessfully !', '');
+        this.toasterService.showSuccess('Reference Check Details saved  sucessfully !', '');
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
