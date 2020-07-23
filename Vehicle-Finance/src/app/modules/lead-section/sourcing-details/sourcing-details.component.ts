@@ -77,6 +77,8 @@ export class SourcingDetailsComponent implements OnInit {
 
   isSourchingCode: boolean;
   isDirty: boolean;
+  isSaved: boolean;
+  amountTenureData: any;
 
   sourcingCodeObject: {
     key: string;
@@ -196,6 +198,8 @@ export class SourcingDetailsComponent implements OnInit {
 
   async getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
+    // this.amountTenureData = {...amountAndTenureData};
     console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
@@ -491,6 +495,12 @@ export class SourcingDetailsComponent implements OnInit {
           this.toasterService.showSuccess('Lead Updated Successfully !', '');
           this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
+          const data = {
+            loanAmount: Number(saveAndUpdate.requestedAmount),
+            loanTenure: Number(saveAndUpdate.requestedTenor)
+          }
+          this.createLeadDataService.setLoanAmountAndTenure(data);
+          this.isSaved = true;
         }
       });
     } else {
@@ -504,18 +514,25 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
-    const currentUrl = this.location.path();
-    if (currentUrl.includes('sales')) {
-      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-      return;
+    if (this.sourcingDetailsForm.valid === true) {
+      if (!this.isSaved) {
+        this.saveAndUpdate();
+      }
+      const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+        return;
+      }
+      if (currentUrl.includes('dde')) {
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+        return;
+      }
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/applicant-details`
+      );
+    } else {
+      this.toasterService.showError('Please fill all mandatory fields.', 'Lead Details');
     }
-    if (currentUrl.includes('dde')) {
-      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
-      return;
-    }
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/applicant-details`
-    );
   }
 
   getLeadId() {

@@ -37,7 +37,7 @@ export class CreditConditionsComponent implements OnInit {
       // console.log("inside del fun", fleets)
 
       // console.log("vehicleId", fleets[index].id)
-      if (credit.length >= 1 && this.creditConditions && this.creditConditions[index].creditId) {
+      if (credit.length >= 1 && this.creditConditions && credit[index].creditId != '') {
         const data = {
           creditId: this.creditConditions[index].creditId,
           "userId": this.userId
@@ -157,7 +157,7 @@ export class CreditConditionsComponent implements OnInit {
     return formattedDate;
 
   }
-  saveUpdate() {
+  saveUpdate(data) {
     if(this.formArr.length >= 1){
       let creditConditionDetails = this.creditConditionForm.value['Rows'];
       for(let i=0 ; i< creditConditionDetails.length ; i++){
@@ -177,15 +177,27 @@ export class CreditConditionsComponent implements OnInit {
         creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
         
       }
-      let data = {
+      let ProcessVariables = {
         "userId":this.userId,
         "leadId":this.leadId,
         "creditConditionDetails": creditConditionDetails
       }
-      this.creditConditionService.saveUpdateCreditConditions(data).subscribe(res=> {
+      this.creditConditionService.saveUpdateCreditConditions(ProcessVariables).subscribe(res=> {
         console.log(res);
         if(res['ProcessVariables'].error['code'] == 0){
-          this.toasterService.showSuccess("Credit condition Saved successfully!", '')
+          if(data == 'save' ){
+            this.toasterService.showSuccess("Credit condition Saved successfully!", '');
+          }else if(data == 'next'){
+            this.toasterService.showSuccess("Credit condition Saved successfully!", '');
+            this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+          }else{
+            this.toasterService.showSuccess("Credit condition Saved successfully!", '');
+            if(this.userType == 2){
+              this.router.navigateByUrl('/pages/dashboard/credit-decision/decision-with-me')
+            }else{
+              this.router.navigateByUrl('/pages/dashboard/leads-section/sanction-leads')
+            }
+          }
   
         }
   
