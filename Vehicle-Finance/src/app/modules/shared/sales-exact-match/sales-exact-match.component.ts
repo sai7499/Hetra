@@ -104,6 +104,7 @@ export class SalesExactMatchComponent implements OnInit {
       applicantId: this.dedupeParameter.applicantId,
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
+      isMobileNumberChanged : this.dedupeDetails.isMobileNumberChanged
     };
 
     this.applicantService

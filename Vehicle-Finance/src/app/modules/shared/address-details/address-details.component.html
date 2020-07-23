@@ -29,7 +29,7 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                   [isRequired]="'Address is required'"
                   [isDirty]="isDirty"
                 >
@@ -40,7 +40,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -49,7 +49,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -165,7 +165,7 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                   [isRequired]="'Address is required'"
                   [isDirty]="isDirty"
                 >
@@ -176,7 +176,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -185,7 +185,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -335,7 +335,7 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="passport" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                   [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Address is required'
@@ -350,7 +350,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="passport" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -359,7 +359,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="passport" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -497,6 +497,16 @@
                   [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
+
+              <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="alternate_mobile_num">Nearest Landmark</label>
+               
+                <app-custom-input
+                  formControlName="nearestLandmark"
+                  [maxLength]="validationData?.landMark?.maxLength"
+                  
+                ></app-custom-input>
+              </div>
             </div>
           </div>
         </div>
@@ -514,7 +524,7 @@
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                 <app-custom-input
                   formControlName="addressLineOne"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                   [isRequired]="'Address is required'"
                   [isDirty]="isDirty"
                 >
@@ -525,7 +535,7 @@
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                 <app-custom-input
                   formControlName="addressLineTwo"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -534,7 +544,7 @@
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
                   formControlName="addressLineThree"
-                  [maxLength]="validationData?.fullName?.maxLength"
+                  [maxLength]="validationData?.address?.maxLength"
                 >
                 </app-custom-input>
               </div>
@@ -673,7 +683,7 @@
                   <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
                   <app-custom-input
                     formControlName="addressLineOne"
-                    [maxLength]="validationData?.fullName?.maxLength"
+                    [maxLength]="validationData?.address?.maxLength"
                     [isRequired]="'Address is required'"
                     [isDirty]="isDirty"
                   >
@@ -684,7 +694,7 @@
                   <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
                   <app-custom-input
                     formControlName="addressLineTwo"
-                    [maxLength]="validationData?.fullName?.maxLength"
+                    [maxLength]="validationData?.address?.maxLength"
                   >
                   </app-custom-input>
                 </div>
@@ -693,7 +703,7 @@
                   <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
                   <app-custom-input
                     formControlName="addressLineThree"
-                    [maxLength]="validationData?.fullName?.maxLength"
+                    [maxLength]="validationData?.address?.maxLength"
                   >
                   </app-custom-input>
                 </div>

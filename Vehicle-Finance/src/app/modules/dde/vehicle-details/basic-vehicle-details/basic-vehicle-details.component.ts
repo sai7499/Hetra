@@ -60,7 +60,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         const apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess(apiError, 'Vehicle Detail');
+          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
           this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
         } else {
           this.toasterService.showError(apiError, 'Vehicle Detail')

@@ -355,7 +355,7 @@ export class FleetDetailsComponent implements OnInit {
       console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
       this.fleetIDs = res.ProcessVariables.ids
       console.log("saveFleetDetailsResponse", this.fleetIDs)
-      this.toasterService.showSuccess('Fleet saved successfully!', '');
+      this.toasterService.showSuccess('Record saved successfully!', '');
       const fleetList:Array<any> = res.ProcessVariables.fleets;
       this.fleetArrayList.controls = [];
       fleetList.forEach(val =>
@@ -433,10 +433,10 @@ export class FleetDetailsComponent implements OnInit {
       });
 
       fleets.splice(index, 1)
-      this.toasterService.showSuccess("fleet deleted successfully!", '')
+      this.toasterService.showSuccess("Record deleted successfully!", '')
 
     } else {
-      this.toasterService.showError("atleast one row required !", '')
+      this.toasterService.showError("atleast one record required !", '')
 
     }
   }
