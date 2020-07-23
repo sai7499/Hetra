@@ -55,7 +55,7 @@
             <td>{{ labels?.camDate }}</td>
             <td>{{ sourcingDetails?.camDate }}</td>
             <td>{{ labels?.existingExposure }}</td>
-            <td>{{ sourcingDetails?.existingExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.existingExposure }}</td>
         </tr>
         <tr>
             <td>{{ labels?.areaName }}</td>
@@ -63,7 +63,7 @@
             <td>{{ labels?.branchName }}</td>
             <td>{{ sourcingDetails?.branchName }}</td>
             <td>{{ labels?.proposedExposure }}</td>
-            <td>{{ sourcingDetails?.proposedExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.proposedExposure }}</td>
         </tr>
         <tr>
             <td>{{ labels?.sourcingChennal }}</td>
@@ -71,7 +71,7 @@
             <td>{{ labels?.sourcingSoName }}</td>
             <td>{{ sourcingDetails?.sourcingSoName }}</td>
             <td>{{ labels?.overallExposure }}</td>
-            <td>{{ sourcingDetails?.overallExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.overallExposure }}</td>
         </tr>
 
         <tr>
@@ -80,7 +80,7 @@
             <td>{{ labels?.distancefrombranch }}</td>
             <td>{{ sourcingDetails?.distanceFromBranch }}</td>
             <td>{{ labels?.creditApproval }}</td>
-            <td>{{ sourcingDetails?.creditApproval }}</td>
+            <td colspan="2">{{ sourcingDetails?.creditApproval }}</td>
         </tr>
         <tr>
             <td>{{ labels?.customerCategory }}</td>
@@ -88,7 +88,7 @@
             <td>{{ labels?.loanamount }}</td>
             <td>{{ sourcingDetails?.loanAmount }}</td>
             <td>{{ labels?.rateApproval }}</td>
-            <td>{{ sourcingDetails?.rateApproval }}</td>
+            <td colspan="2">{{ sourcingDetails?.rateApproval }}</td>
         </tr>
         <tr>
             <td>{{ labels?.branchED }}</td>
@@ -97,19 +97,20 @@
             <td>{{sourcingDetails?.soEd}}</td>
             <td>{{ labels?.propertyOwnership }}</td>
             <td>{{ sourcingDetails?.propertyOwnership }}</td>
+            <td>{{ sourcingDetails?.propertyType }}</td>
         </tr>
         <tr>
             <td>{{ labels?.vfScore }}</td>
             <td>{{ sourcingDetails?.VFScore }}</td>
             <td>{{ labels?.fiStatus }}</td>
             <td>{{ sourcingDetails?.FIStatus }}</td>
-
             <td>{{ labels?.proofCollected }}</td>
             <td>{{ sourcingDetails?.proofCollected }}</td>
+            <td>{{ sourcingDetails?.proofType }}</td>
         </tr>
         <tr>
             <td>{{ labels?.pdstatus }}</td>
-            <td colspan="5">{{ sourcingDetails?.PDStatus }}</td>
+            <td colspan="6">{{ sourcingDetails?.PDStatus }}</td>
         </tr>
     </table>
     <!--sourcing table ends here--->
@@ -164,22 +165,22 @@
             </tr>
             <tr>
                 <td colspan="2">{{ labels?.anyOtherRemarks }}</td>
-                <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="proposedVehicleRemarks"
-                    ></textarea>
+                <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="proposedVehicleRemarks"></textarea>
                     <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
-                    class="invalid-feedback">
-                    <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
-                       proposedVehicleRemarks is required.
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
+                            proposedVehicleRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.maxlength">
+                            proposedVehicleRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
+
+                        </div>
                     </div>
-                    <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.maxlength">
-                       proposedVehicleRemarks cannot be more than 200 characters long.
-                    </div>
-                    <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.pattern">
-                      Invalid Message / Special Characters not allowed
-  
-                    </div>
-                </div>
-            </td>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -250,21 +251,22 @@
 
             <tr>
                 <td colspan="1">{{ labels?.anyOtherRemarks }}</td>
-                <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="cibilSynopsisRemarks"
-                    ></textarea>
+                <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="cibilSynopsisRemarks"></textarea>
                     <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && (camDetailsForm.get('cibilSynopsisRemarks').dirty || camDetailsForm.get('cibilSynopsisRemarks').touched)"
-                    class="invalid-feedback">
-                    <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
-                       cibilSynopsisRemarks is required.
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
+                            cibilSynopsisRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.maxlength">
+                            cibilSynopsisRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
+
+                        </div>
                     </div>
-                    <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.maxlength">
-                       cibilSynopsisRemarks cannot be more than 200 characters long.
-                    </div>
-                    <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.pattern">
-                      Invalid Message / Special Characters not allowed
-  
-                    </div>
-                </div></td>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -375,29 +377,24 @@
 
             <tr>
                 <td>{{ labels?.anyOtherRemarks }}</td>
-                <td colspan="4"><textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="fleetRemarks"
-                    ></textarea>
+                <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="fleetRemarks"></textarea>
                     <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && (camDetailsForm.get('fleetRemarks').dirty || camDetailsForm.get('fleetRemarks').touched)"
-                    class="invalid-feedback">
-                    <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
-                       fleetRemarks is required.
-                    </div>
-                    <div *ngIf="camDetailsForm.get('fleetRemarks').errors.maxlength">
-                       fleetRemarks cannot be more than 200 characters long.
-                    </div>
-                    <div *ngIf="camDetailsForm.get('fleetRemarks').errors.pattern">
-                      Invalid Message / Special Characters not allowed
-  
-                    </div>
-                </div></td>
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
+                            fleetRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.maxlength">
+                            fleetRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
 
-                <td >
-                    {{ labels?.appIsInTransportFieldFromLastManyYears }}
+                        </div>
+                    </div>
                 </td>
 
-                <td colspan="4">
-                    {{ camDetails?.fleetSummaryToAppIsInTransportFromManyYears }}
-                </td>
+
             </tr>
         </tbody>
     </table>
@@ -492,21 +489,22 @@
                 <td>
                     {{ labels?.anyOtherRemarks }}
                 </td>
-                <td colspan="11"><textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="trackValidationRemarks"
-                    ></textarea>
+                <td colspan="11"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                        formControlName="trackValidationRemarks"></textarea>
                     <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && (camDetailsForm.get('trackValidationRemarks').dirty || camDetailsForm.get('trackValidationRemarks').touched)"
-                    class="invalid-feedback">
-                    <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
-                       trackValidationRemarks is required.
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
+                            trackValidationRemarks is required.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.maxlength">
+                            trackValidationRemarks cannot be more than 200 characters long.
+                        </div>
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.pattern">
+                            Invalid Message / Special Characters not allowed
+
+                        </div>
                     </div>
-                    <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.maxlength">
-                       trackValidationRemarks cannot be more than 200 characters long.
-                    </div>
-                    <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.pattern">
-                      Invalid Message / Special Characters not allowed
-  
-                    </div>
-                </div></td>
+                </td>
                 <!--<td colspan="8">
                     {{ labels?.appIsInTransportFieldFromLastManyYears }}
                 </td>
@@ -534,7 +532,7 @@
                     {{ labels?.actualwithdocumentedproof }}
                 </th>
                 <th>
-                    {{ labels?.deviationlevel }}
+                    {{ labels?.deviationLevel }}
                 </th>
                 <th>
                     {{ labels?.justification }}
@@ -543,8 +541,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>{{ labels?.businessStability }}</td>
+            <tr *ngFor="let customerSelectionCriteria of customerSelectionCriteria">
+                <td>
+                    {{ customerSelectionCriteria?.category }}
+                </td>
+                <td>
+                    {{customerSelectionCriteria?.required}}
+                </td>
+                <td>
+                    {{ customerSelectionCriteria?.actualWithDocumentedProof }}
+                </td>
+                <td>
+                    {{ customerSelectionCriteria?.deviationLevel }}
+                </td>
+                <td>
+                    {{ customerSelectionCriteria?.justificationProof }}
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>{{ customerSelectionCriteria?.businessStability }}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -633,8 +648,8 @@
                 <td></td>
                 <td></td>
                 <td></td>
-            </tr>
-           
+            </tr> -->
+
 
         </tbody>
     </table>
@@ -661,12 +676,12 @@
                 <th>
                     {{ labels?.justification }}
                 </th>
-               
+
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let otherDeviation of otherDeviation; let i = index">
-                
+
                 <td>{{i + 1}}</td>
                 <td>{{otherDeviation?.deviation}}</td>
                 <td>{{otherDeviation?.authority}}</td>
@@ -675,7 +690,7 @@
             </tr>
         </tbody>
     </table>
-     <!---other deviation-->
+    <!---other deviation-->
 
     <!--key financial-->
     <table class="cam_table_proposed mt-3">
@@ -688,9 +703,7 @@
         <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.fy }}</td>
-                <td>{{ labels?.eighteenToNineteen }}</td>
-                <td>{{ labels?.seventeenToEightteen }}</td>
-                <td>{{ labels?.sixteenToSeventeen }}</td>
+
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.fy}}</td>
                 <td>{{ labels?.anyOtherRemarks }}</td>
             </tr>
@@ -698,7 +711,21 @@
                 <td class="bank_name">{{ labels?.turnOver }}</td>
 
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
-                <!-- <td rowspan="4"></td> -->
+                <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
+                    formControlName="keyFinancialRemarks"></textarea>
+                <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && (camDetailsForm.get('keyFinancialRemarks').dirty || camDetailsForm.get('keyFinancialRemarks').touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
+                        keyFinancialRemarks is required.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.maxlength">
+                        keyFinancialRemarks cannot be more than 200 characters long.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.pattern">
+                        Invalid Message / Special Characters not allowed
+
+                    </div>
+                </div></td>
             </tr>
 
             <tr>
@@ -716,7 +743,6 @@
             <tr>
                 <td class="bank_name">{{ labels?.cashGenerationPbtDep }}</td>
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
-                <td>{{camDetails?.keyFinancialObjAnyOtherRemarks}}</td>
             </tr>
             <tr>
 
@@ -820,7 +846,7 @@
         </button>
         <button class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
             Save
-          </button>
+        </button>
         <button class="btn btn-primary dash_href" type="button" routerLink="../deviations">
             {{ labels?.next }}
         </button>

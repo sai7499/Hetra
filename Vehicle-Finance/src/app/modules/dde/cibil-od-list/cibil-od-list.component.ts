@@ -373,8 +373,6 @@ export class CibilOdListComponent implements OnInit {
         this.odDetailsForm.patchValue({
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
         });
-        this.onSelectProof(event);
-        console.log(this.onSelectProof(event));
         
         this.odDetailsForm.patchValue({
           justification: this.odDetails.assetAppOdDetails.justification,

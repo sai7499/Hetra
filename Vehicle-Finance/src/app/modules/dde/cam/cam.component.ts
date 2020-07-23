@@ -42,6 +42,7 @@ export class CamComponent implements OnInit {
   camDetailsForm: any;
   submitted: boolean;
   userId: string;
+  customerSelectionCriteria: any;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -102,6 +103,14 @@ export class CamComponent implements OnInit {
           /^[a-zA-Z0-9 ]*$/
         ),
       ]),
+      keyFinancialRemarks: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+        ),
+      ]),
+      
 
     })
   }
@@ -121,6 +130,7 @@ export class CamComponent implements OnInit {
       this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
       this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
       this.trackValidation = res.ProcessVariables['trackValidationObj']
+      this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteriaObj']
       this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
       this.keyFinancial = res.ProcessVariables['keyFinancialObj']
       this.creditOfficersRemarks = res.ProcessVariables['creditOfficersRemarksObj']
@@ -139,6 +149,9 @@ export class CamComponent implements OnInit {
       })
       this.camDetailsForm.patchValue({
         fleetRemarks:this.camDetails.fleetSummaryToAnyOtherRemarks? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
+      })
+      this.camDetailsForm.patchValue({
+        keyFinancialRemarks:this.camDetails.keyFinancialObjAnyOtherRemarks? this.camDetails.keyFinancialObjAnyOtherRemarks : null,
       })
     })
   }
@@ -165,7 +178,8 @@ export class CamComponent implements OnInit {
           cibilSynopsisRemarks: this.camDetailsForm.controls
             .cibilSynopsisRemarks.value,
           trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
-          fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value
+          fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
+          keyFinancialRemarks:this.camDetailsForm.controls.keyFinancialRemarks.value
         }
       };
 
