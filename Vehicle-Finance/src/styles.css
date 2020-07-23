@@ -653,12 +653,18 @@ h4.table-head-bg.m-0.p-02 {
     cursor: pointer;
 }
 
+.multisteps-form__progress {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    margin: 15px 0;
+  }
 @media print {
     app-root app-lead-section-header { display: none; }
+    .multisteps-form__progress {display: none;}
     app-term-sheet { display: block; }
+    app-sanction-details { display: block; }
   }
   
-
 @media screen and (max-width: 800px) {
     .invalid-feedback {
         font-size: 3vw;
