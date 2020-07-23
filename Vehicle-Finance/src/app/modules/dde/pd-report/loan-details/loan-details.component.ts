@@ -199,7 +199,7 @@ export class LoanDetailsComponent implements OnInit {
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
 
-      // controls for used vehicle 
+      // controls for used vehicle
 
       usedVehicleCost: new FormControl(''),
       usedVehModel: new FormControl(''),
@@ -207,9 +207,11 @@ export class LoanDetailsComponent implements OnInit {
       usedVehicleMarginMoney: new FormControl(''),
       usedVehicleLoanAmountReq: new FormControl(''),
       // sourceOfVehiclePurchase: new FormControl(''),
-      sourceOfVehiclePurchase: new FormControl('', Validators.compose([Validators.maxLength(40), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      sourceOfVehiclePurchase: new FormControl('', Validators.compose([Validators.maxLength(40),
+        Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       // marginMoneySource: new FormControl(''),
-      marginMoneySource: new FormControl('', Validators.compose([Validators.maxLength(40), Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      marginMoneySource: new FormControl('', Validators.compose([Validators.maxLength(40),
+        Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       financierName: new FormControl(''),
       coAapplicantAwareMarginMoney: new FormControl(''),
       channelSourceName: new FormControl(''),
@@ -222,7 +224,8 @@ export class LoanDetailsComponent implements OnInit {
       vehicleCondition: new FormControl(''),
       fundsUsage: new FormControl(''),
       earlierVehicleApplication: new FormControl(''),
-      othersRemarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .-]*$/), Validators.required])),
+      othersRemarks: new FormControl('', Validators.compose([Validators.maxLength(200),
+         Validators.pattern(/^[a-zA-Z .-]*$/), Validators.required])),
       // othersRemarks: new FormControl(''),
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
@@ -250,7 +253,8 @@ export class LoanDetailsComponent implements OnInit {
       amtPerTrip: new FormControl(''),
       selfDrivenOrDriver: new FormControl(''),
       // remarks: new FormControl('')
-      remarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
+      remarks: new FormControl('', Validators.compose([Validators.maxLength(200),
+         Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
     });
   }
 
@@ -370,8 +374,7 @@ export class LoanDetailsComponent implements OnInit {
 
       console.log('in remove controls', controls);
 
-    }
-    else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+    } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       controls.removeControl('newVehicleCost');
       controls.removeControl('newVehModel');
@@ -400,7 +403,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
-        console.log("new cv details", this.newCvDetails)
+        console.log('new cv details', this.newCvDetails);
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         // console.log('used vehicle details', this.usedVehicleDetails);
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
@@ -432,7 +435,7 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   onNavigateBack() {
-    if (this.version != 'undefined') {
+    if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
@@ -452,7 +455,7 @@ export class LoanDetailsComponent implements OnInit {
 
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
-      console.log("in value patching", newCvModel)
+      console.log('in value patching', newCvModel);
 
       this.loanDetailsForm.patchValue({
         // new cv details patching
@@ -603,7 +606,7 @@ export class LoanDetailsComponent implements OnInit {
 
         vehicleCost: loanDetailsModal.newVehicleCost,
         model: loanDetailsModal.newVehModel,
-        // model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there 
+        // model: loanDetailsModal.newVehicleType, // sending the model and type as same becoz there
         // is no lov for model
         type: loanDetailsModal.newVehicleType,
         reqLoanAmount: loanDetailsModal.newVehicleReqLoanAmount,
@@ -624,9 +627,8 @@ export class LoanDetailsComponent implements OnInit {
           const message = processVariables.error.message;
           console.log('PD Status', message);
           console.log('response loan details', value.ProcessVariables);
-          this.toasterService.showSuccess('new cv loan details saved successfully!', '');
-        }
-        else {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+        } else {
           console.log('error', processVariables.error.message);
           this.toasterService.showError('invalid loan details', 'message');
         }
@@ -634,8 +636,7 @@ export class LoanDetailsComponent implements OnInit {
 
 
 
-    }
-    else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+    } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
 
       console.log('in used vehicle submit pd');
 
@@ -645,7 +646,7 @@ export class LoanDetailsComponent implements OnInit {
 
         vehicleCost: loanDetailsModal.usedVehicleCost,
         model: loanDetailsModal.usedVehModel,
-        // model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend 
+        // model: loanDetailsModal.usedVehicleType, // sending model and type as same to backend
         type: loanDetailsModal.usedVehicleType,
         // reqLoanAmount: loanDetailsModal.reqLoanAmount,
         marginMoney: loanDetailsModal.usedVehicleMarginMoney,
@@ -714,9 +715,8 @@ export class LoanDetailsComponent implements OnInit {
           const message = processVariables.error.message;
           console.log('PD Status', message);
           console.log('response loan details', value.ProcessVariables);
-          this.toasterService.showSuccess(' used vehicle loan details saved successfully!', '');
-        }
-        else {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+        } else {
           console.log('error', processVariables.error.message);
           this.toasterService.showError('invalid loan details', 'message');
         }
