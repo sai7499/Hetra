@@ -81,10 +81,6 @@ export class TeleVerificationFormComponent implements OnInit {
 
   ) {
 
-    // this.labelService.getLabelsData().subscribe(res => {
-    //   this.labels = res;
-    //   this.validationData = res.validationData;
-    // });
     this.getLOV();
 
     this.leadId = this.route.snapshot.params.leadId;
@@ -100,6 +96,8 @@ export class TeleVerificationFormComponent implements OnInit {
     this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
   }
 
+
+  // InitForm for TVR 
   initForm() {
     this.referenceData =  this.referenceData || [];
     this.teleVerificationForm = this.fb.group({
@@ -210,6 +208,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.getTvrDetails();
     this.initForm();
+
+    // OTP Reactive form controls
     this.otpForm = this.fb.group({
       otp: [
         '',
@@ -234,7 +234,7 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
 
-
+  // Date function for TVR Form
   dateFunction(newDate) {
     const newDateFormat = newDate.split('/');
     return new Date(newDateFormat[2], newDateFormat[1] - 1, newDateFormat[0]);
@@ -244,6 +244,8 @@ export class TeleVerificationFormComponent implements OnInit {
     return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
   }
 
+
+  // Getting TVR Detaails API method
   getTvrDetails() {
 
     const data = {
@@ -260,7 +262,6 @@ export class TeleVerificationFormComponent implements OnInit {
       const tvr = { ...this.tvrData };
       tvr.dob = this.tvrData && this.tvrData.dob ? this.dateFunction(this.tvrData.dob) : '';
       tvr.tvrDate = this.tvrData && this.tvrData.tvrDate ? this.dateFunction(this.tvrData.tvrDate) : '';
-      // tvr.financeAmt = financeAmt;
       const applicationReferences = {
         reference1: {
           applicantId: this.applicantId,
@@ -282,7 +283,8 @@ export class TeleVerificationFormComponent implements OnInit {
         }
       };
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
-      // console.log(tvr);
+
+      // tslint:disable-next-line: max-line-length
       this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc} ${this.sourcingCode}`);
 
       if (tvr.dob) {
@@ -339,6 +341,7 @@ export class TeleVerificationFormComponent implements OnInit {
     });
   }
 
+  // Save or Updated Api method for TVR
   saveOrUpdateTvrDetails() {
     this.tvrDetails.userId = localStorage.getItem('userId');
     this.tvrDetails.applicantId = this.applicantId;
@@ -349,7 +352,7 @@ export class TeleVerificationFormComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
 
       if (appiyoError === '0' && apiError === '0') {
-        this.toasterService.showSuccess('TVR details saved Successfully !', '');
+        this.toasterService.showSuccess('Record Saved Successfully !', '');
       }
     });
   }
@@ -358,9 +361,8 @@ export class TeleVerificationFormComponent implements OnInit {
     this.location.back();
   }
 
+  // Submitting TVR Form Method
   async onSave() {
-    // console.log('on save', this.teleVerificationForm.value);
-    // this.tvrDetails = this.teleVerificationForm.value;
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
     if (this.teleVerificationForm.valid === true) {
@@ -425,6 +427,7 @@ export class TeleVerificationFormComponent implements OnInit {
     });
   }
 
+  // Submitting method for OTP Form
   onSubmit() {
     this.sendOtp();
     this.isModal = true;
