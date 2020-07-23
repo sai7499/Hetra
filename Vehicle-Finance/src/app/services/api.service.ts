@@ -494,7 +494,33 @@ export class ApiService {
       processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getCamUsedCarDetails: {
+      processId: '5f9adf12c4cc11eab54f00505695f93b',
+      workflowId: '5f726640c4cc11ea958b00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveCamRemarks: {
+      processId: 'b099b6aac71e11ea8c4800505695f93b',
+      workflowId: 'b0689796c71e11ea8df900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getSanctionDetails: {
+      processId: '04bd034ac6c011ea886e00505695f93b',
+      workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getFiReportDetails: {
+      processId: 'f10ff346cbda11ea83b800505695f93b',
+      workflowId: 'ebb849eecb5c11ea91c600505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveOrUpdateFiReportDetails: {
+      processId: 'ebf549c0cb5c11eaa53e00505695f93b',
+      workflowId: 'ebb849eecb5c11ea91c600505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
+
 
   };
 }

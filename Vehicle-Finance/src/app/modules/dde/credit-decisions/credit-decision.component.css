@@ -275,13 +275,6 @@ select#select_main_button_match {
 }
 
 /* progress bar */
-
-.multisteps-form__progress {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    margin: 15px 0;
-  }
-  
   .multisteps-form__progress-btn {
     transition-property: all;
     transition-duration: 0.15s;

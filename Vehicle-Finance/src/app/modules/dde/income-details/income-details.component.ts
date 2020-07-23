@@ -338,7 +338,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getOtherIncomeDetails(data[i]));
-        this.getOtherFactoredIncome(i);
+        this.getTotalOtherIncome(i);
       }
     } else {
       control.push(this.getOtherIncomeDetails());
@@ -353,7 +353,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.getOtherFactoredIncome(i);
+        this.getTotalOtherIncome(i);
       } else {
         const body = {
           userId: this.userId,
@@ -365,7 +365,7 @@ export class IncomeDetailsComponent implements OnInit {
             control.removeAt(i);
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
-        this.getOtherFactoredIncome(i);
+        this.getTotalOtherIncome(i);
 
           });
       }
@@ -663,21 +663,38 @@ export class IncomeDetailsComponent implements OnInit {
         }
       }
     }
-
-    if (incomeArray && incomeArray.length > 0) {
-      this.totalMonthlyOtherIncome = 0;
-      for (let i = 0; i < incomeArray.length; i++) {
-        this.totalMonthlyOtherIncome = Math.round(
-          this.totalMonthlyOtherIncome + incomeArray.value[i].factoredIncome
-        );
-      }
-    }
+this.getTotalOtherIncome(i)
+    // if (incomeArray && incomeArray.length > 0) {
+    //   this.totalMonthlyOtherIncome = 0;
+    //   for (let i = 0; i < incomeArray.length; i++) {
+    //     this.totalMonthlyOtherIncome = Math.round(
+    //       this.totalMonthlyOtherIncome + incomeArray.value[i].factoredIncome
+    //     );
+    //   }
+    // }
     // const factoringPerc = incomeArray.at(i).value.factoring;
     // const grossIncome = incomeArray.at(i).value.grossIncome;
     // const value = Math.round(grossIncome * (factoringPerc / 100));
     // incomeArray.at(i).patchValue({ factoredIncome: value });
   }
+getTotalOtherIncome(i: number){
+  const incomeArray = this.incomeDetailsForm.controls
+  .otherIncomeDetails as FormArray;
 
+  if (incomeArray && incomeArray.length > 0) {
+    this.totalMonthlyOtherIncome = 0;
+    for (let i = 0; i < incomeArray.length; i++) {
+      this.totalMonthlyOtherIncome = Math.round(
+        this.totalMonthlyOtherIncome + incomeArray.value[i].factoredIncome
+      );
+      const factoringPerc = incomeArray.at(i).value.factoring;
+const grossIncome = incomeArray.at(i).value.grossIncome;
+const value = Math.round(grossIncome * (factoringPerc / 100));
+incomeArray.at(i).patchValue({ factoredIncome: value });
+
+    }
+  }
+}
   onTenure(event: any, i: number) {
     let tenure = 0;
     let mob = 0;
