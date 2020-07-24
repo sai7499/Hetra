@@ -798,7 +798,7 @@
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
-    "typeOfAccommmodation": "Type of Accommmodation",
+    "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
     "officeAddress": "Office Address",
@@ -1282,6 +1282,11 @@
             },
             "type": "number"
         },
+        "address" : {
+            "maxLength": {
+                "rule": 50
+            }
+        },
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
@@ -1444,7 +1449,8 @@
         },
         "pincode": {
             "maxLength": {
-                "rule": 6
+                "rule": 6,
+                "msg": "Pincode Max Length Should be 6"
             },
             "type": "number",
             "patternCheck": {
@@ -1452,6 +1458,7 @@
                 "msg": "Invalid Pincode"
             }
         },
+        
         "numberOfYears": {
             "maxLength": {
                 "rule": 2

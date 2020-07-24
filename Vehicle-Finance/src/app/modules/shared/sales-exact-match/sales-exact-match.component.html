@@ -426,8 +426,10 @@
           class="btn btn-success"
           data-dismiss="modal"
           id="ucic_lead"
-          (click)="callApiForSelectedUcic()"
+          (click)="checkNegativeList()"
         >
+          <!-- (click)="callApiForSelectedUcic()" -->
+
           Yes
         </button>
         <button
@@ -470,8 +472,9 @@
           class="btn btn-success"
           data-dismiss="modal"
           id="cnew_lead"
-          (click)="callApiForNewApplicant()"
+          (click)="checkNegativeList()"
         >
+          <!-- (click)="callApiForNewApplicant()" -->
           Yes
         </button>
         <button
@@ -486,3 +489,9 @@
     </div>
   </div>
 </div>
+
+<app-negative-list-modal
+  [showModal]="showNegativeListModal"
+  [modalInput]="negativeModalInput"
+  (onButtonClick)="negativeListModalListener($event)"
+></app-negative-list-modal>

@@ -32,6 +32,7 @@ export class ApplicantDetailComponent implements OnInit {
   applicantData: any;
   applicantFullName: any;
   mobileNo: any;
+  standardOfLiving: any;
 
 
   // namePattern = {
@@ -105,16 +106,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commomLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private personaldiscussion: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commomLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private personaldiscussion: PersonalDiscussionService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService,
+              private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -158,7 +159,8 @@ export class ApplicantDetailComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    // console.log('LOVs', this.LOV);
+    console.log('LOVs', this.LOV);
+    this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
