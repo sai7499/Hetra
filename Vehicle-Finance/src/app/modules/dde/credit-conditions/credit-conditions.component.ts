@@ -247,7 +247,7 @@ export class CreditConditionsComponent implements OnInit {
       this.creditConditionService.approveRejectDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Record" + data + " successfully!", '')
+        this.toasterService.showSuccess("Record " + data + " successfully!", '')
       }
     })
   }
