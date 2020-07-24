@@ -45,11 +45,11 @@ export class CreditConditionService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  approveRejectDeclineCreditConditions(data){
+  submitApproveReferDeclineCreditConditions(data){
     const processData = data;
-    const processId = this.apiService.api.approveRejectDeclineCreditConditions.processId;
-    const workflowId = this.apiService.api.approveRejectDeclineCreditConditions.workflowId;
-    const projectId = this.apiService.api.approveRejectDeclineCreditConditions.projectId;
+    const processId = this.apiService.api.submitApproveReferDeclineCreditConditions.processId;
+    const workflowId = this.apiService.api.submitApproveReferDeclineCreditConditions.workflowId;
+    const projectId = this.apiService.api.submitApproveReferDeclineCreditConditions.projectId;
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: processData,
@@ -101,5 +101,18 @@ export class CreditConditionService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-
+  assignCDTaskFromSales(data){
+    const processData = data;
+    const processId = this.apiService.api.assignCDTaskFromSales.processId;
+    const workflowId = this.apiService.api.assignCDTaskFromSales.workflowId;
+    const projectId = environment.projectIds.submitToCredit;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }

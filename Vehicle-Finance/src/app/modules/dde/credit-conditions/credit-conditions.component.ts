@@ -16,10 +16,12 @@ export class CreditConditionsComponent implements OnInit {
   differDateField: boolean = true;
   creditConditionForm: FormGroup;
   leadId;
+  submitRefer :boolean = false;
   userType: number;
   creditConditions: any;
   roleAndUserDetails: any;
   userId;
+  roleList : any = {};
   formData = {
     'creditId' : '',
     creditCondition: '',
@@ -109,10 +111,15 @@ export class CreditConditionsComponent implements OnInit {
     }
 
   }
+  referForm = new FormGroup({
+    roleId: new FormControl( '' , [Validators.required]),
+  });
   get formArr() {
     return this.creditConditionForm.get('Rows') as
       FormArray;
   }
+  get f() { return this.referForm.controls; }
+
   initRows() {
 
   }
@@ -126,6 +133,7 @@ export class CreditConditionsComponent implements OnInit {
       if (res['ProcessVariables'].error['code'] == "0" && res['ProcessVariables'].creditConditions != null) {
         const creditConditions = res['ProcessVariables'].creditConditions;
         this.creditConditions = res['ProcessVariables'].creditConditions;
+        this.roleList = res['ProcessVariables']['roleList'];
         for (let i = 0; i < creditConditions.length; i++) {
 
       //    this.formArr.push(this.getcreditConditionControls())
@@ -213,38 +221,56 @@ export class CreditConditionsComponent implements OnInit {
     }
    
   }
-  approveRejectDeclineCreditCondition(data){
-    let reject;
-    let approve;
+  assignCDTaskFromSales(){
+    let ProcessVariables = {
+      "userId":this.userId,
+      "leadId":this.leadId
+    }
+    this.creditConditionService.assignCDTaskFromSales(ProcessVariables).subscribe(res=> {
+      console.log(res);
+      if(res['ProcessVariables'].error['code'] == 0){
+        this.toasterService.showSuccess("Record Submitted successfully!", '')
+      }
+    })
+  }
+  creditConditionActions(data){
+    let processData = {};
     switch(data) {
       case 'approved':
         {
-          approve = true;
-          reject= false;
+          processData["isApprove"]= true;
         }
         break;
-      case 'rejected':
+      case 'submited':
         {
-          approve = false;
-          reject= true;
+          processData["onSubmit"]= true;
         }
         break;
       case 'declined':
       {
-        approve = false;
-        reject= false;
+        processData["isDecline"]= true;
       }
       break;
-      default:
+      case 'refered': {
+        console.log(this.referForm);
+        this.submitRefer = true;
+        if(this.referForm.valid){
+          processData["isRefer"]= true;
+          processData["roleId"] =this.referForm.value['roleId'];
+        }else{
+          return
+        }
+      }
+      break;
+      default:{
+        return;
+      }
         // code block
+
     }
-    let processData = {
-      "userId":this.userId,
-      "leadId":this.leadId,
-      "isReject" : reject,
-      "isApprove" : approve
-    }
-      this.creditConditionService.approveRejectDeclineCreditConditions(processData).subscribe(res=> {
+    processData["userId"]= this.userId;
+    processData["leadId"]= this.leadId;
+      this.creditConditionService.submitApproveReferDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record " + data + " successfully!", '')
