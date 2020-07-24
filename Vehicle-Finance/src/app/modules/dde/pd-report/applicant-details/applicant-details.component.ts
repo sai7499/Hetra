@@ -106,16 +106,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService,
-              private createLeadDataService: CreateLeadDataService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -167,6 +167,11 @@ export class ApplicantDetailComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       this.version = String(value.version);
+      // if (this.version === 'undefined') {
+      //   this.version = '0';
+      //   console.log('in undefined condition version', this.version);
+
+      // }
       this.getLeadSectionData(); // calling get lead section data function in line 179
       this.getPdDetails();
       console.log('Applicant Id In applicant Details Component', this.applicantId);
@@ -183,12 +188,12 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    // console.log("in get lead section data", data['applicantDetails']);
+    // console.log('in get lead section data', data['applicantDetails']);
 
     // console.log('current app id', this.applicantId);
 
     for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
-      console.log('in for loop app id', value['applicantId']);
+      // console.log('in for loop app id', value['applicantId']);
 
       if (value['applicantId'] === this.applicantId) {
 
@@ -275,14 +280,20 @@ export class ApplicantDetailComponent implements OnInit {
     }
   }
 
-  getPdDetails() { // function to get the pd details with respect to applicant id 
+  getPdDetails() { // function to get the pd details with respect to applicant id
     console.log('pd version', this.version);
+    console.log('pd applicant id', this.applicantId);
+    // if (this.version === 'undefined') {
+    //   this.version = '0';
+    //   console.log('in undefined condition version', this.version);
+
+    // }
 
     const data = {
-
       applicantId: this.applicantId,
       pdVersion: this.version,
     };
+    console.log('in request data version', this.version);
 
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
@@ -309,15 +320,6 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.applicantForm.invalid) {
       return;
     }
-    //  this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
-    // if (
-    //   this.applicantForm.get('physicallyChallenged').invalid ||
-    //   this.applicantForm.get('maritalStatus').invalid ||
-    //   this.applicantForm.get('gender').invalid
-    // ) {
-    //   this.isDirty = true;
-    //   return;
-    // }
 
     this.applicantDetails = {
       applicantName: this.applicantFullName,
