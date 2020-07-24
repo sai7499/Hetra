@@ -20,6 +20,14 @@ export class CreditConditionsComponent implements OnInit {
   creditConditions: any;
   roleAndUserDetails: any;
   userId;
+  formData = {
+    'creditId' : '',
+    creditCondition: '',
+        salesResponse: '',
+        isDocReq: '',
+        creditAction:'',
+        defferedDate: null
+  }
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -31,7 +39,7 @@ export class CreditConditionsComponent implements OnInit {
   ) { }
 
   addOtherUnit() {
-    this.formArr.push(this.getcreditConditionControls())
+    this.formArr.push(this.getcreditConditionControls(this.formData))
   }
   removeOtherIndex(index, credit) {
       // console.log("inside del fun", fleets)
@@ -79,24 +87,24 @@ export class CreditConditionsComponent implements OnInit {
       this.differDateField = false
     }
   }
-  getcreditConditionControls() {
+  getcreditConditionControls(data?) {
     if (this.userType == 2) {
       return this.formBuilder.group({
-        creditId: new FormControl(''),
-        creditCondition: new FormControl({ value: '', disabled: false }),
-        salesResponse: new FormControl({ value: '', disabled: true }),
-        isDocReq: new FormControl(),
-        creditAction: new FormControl(""),
-        defferedDate: new FormControl()
+        creditId: new FormControl(data.creditId ? data.creditId : ''),
+        creditCondition: new FormControl({ value: data.creditCondition ? data.creditCondition : '', disabled: false }),
+        salesResponse: new FormControl({ value: data.salesResponse ? data.salesResponse : '', disabled: true }),
+        isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
+        creditAction: new FormControl(data.creditAction ? data.creditAction : null),
+        defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
       });
     } else {
       return this.formBuilder.group({
-        creditCondition: new FormControl({ value: "", disabled: true }),
-        salesResponse: new FormControl({ value: "", disabled: false }),
-        creditId: new FormControl(''),
-        isDocReq: new FormControl(),
-        creditAction: new FormControl(""),
-        defferedDate: new FormControl()
+        creditCondition: new FormControl({ value: data.creditCondition ? data.creditCondition : '', disabled: true }),
+        salesResponse: new FormControl({ value:data.salesResponse ? data.salesResponse : '', disabled: false }),
+        creditId: new FormControl(data.creditId ? data.creditId : ''),
+        isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
+        creditAction: new FormControl(data.creditAction ? data.creditAction : null),
+        defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
       });
     }
 
@@ -120,15 +128,17 @@ export class CreditConditionsComponent implements OnInit {
         this.creditConditions = res['ProcessVariables'].creditConditions;
         for (let i = 0; i < creditConditions.length; i++) {
 
-          this.formArr.push(this.getcreditConditionControls())
-          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : "";
+      //    this.formArr.push(this.getcreditConditionControls())
+          creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : null;
+          this.formArr.push(this.getcreditConditionControls(creditConditions[i]))
+
           // if (!creditConditions[i]['salesResponseDoc']) {
           //   creditConditions[i]['salesResponseDoc'] = '';
 
           // }
           // creditConditions[i]['creditAction']  = creditConditions[i]['creditAction'] ? creditConditions[i]['creditAction'] : '2';
         }
-        this.formArr.setValue(creditConditions);
+      //  this.formArr.setValue(creditConditions);
       } else {
       }
     })
@@ -161,7 +171,7 @@ export class CreditConditionsComponent implements OnInit {
     if(this.formArr.length >= 1){
       let creditConditionDetails = this.creditConditionForm.value['Rows'];
       for(let i=0 ; i< creditConditionDetails.length ; i++){
-        if(this.formArr.controls[i]['controls']['defferedDate'].value != ''){
+        if(this.formArr.controls[i]['controls']['defferedDate'].value != '' && this.formArr.controls[i]['controls']['defferedDate'].value != null){
           creditConditionDetails[i].defferedDate = this.sendDate(this.formArr.controls[i]['controls']['defferedDate'].value)
         }
         // if(creditConditionDetails[i]['creditAction'] == '2'){
@@ -174,7 +184,7 @@ export class CreditConditionsComponent implements OnInit {
           creditConditionDetails[i]['creditId'] = null;
         }
         console.log(this.formArr)
-        creditConditionDetails[i].isDocReq = parseInt(creditConditionDetails[i].isDocReq);
+        creditConditionDetails[i].isDocReq = creditConditionDetails[i].isDocReq ? parseInt(creditConditionDetails[i].isDocReq) : null;
         
       }
       let ProcessVariables = {
