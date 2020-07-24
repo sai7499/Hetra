@@ -699,7 +699,7 @@ h4.table-head-bg.m-0.p-02 {
     .search .search-icon-left {
         background: url(./assets/images/search.png) no-repeat center;
         left: 20px;
-        top:-75px;
+        top:-100px;
     }
     
     .search .microphone-icon {
@@ -713,6 +713,6 @@ h4.table-head-bg.m-0.p-02 {
            border-bottom-right-radius: 1.5em;
            background-color: transparent;
            font-weight: bold;
-           top: -80px;
+           top: -105px;
     }
   }
