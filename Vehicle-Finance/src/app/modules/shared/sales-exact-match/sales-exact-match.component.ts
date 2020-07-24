@@ -9,6 +9,12 @@ import { ApplicantService } from '@services/applicant.service';
   styleUrls: ['./sales-exact-match.component.css'],
 })
 export class SalesExactMatchComponent implements OnInit {
+  currentAction: string;
+  showNegativeListModal: boolean;
+  negativeModalInput: {
+    isNLFound?: boolean;
+    isNLTRFound?: boolean;
+  };
   isNewApplicant: boolean;
   isSelectedUcic = true;
   dedupeDetails;
@@ -41,10 +47,12 @@ export class SalesExactMatchComponent implements OnInit {
   rejectLead() {}
 
   continueAsNewApplicant() {
+    this.currentAction = 'new';
     this.modalName = 'newLeadModal';
   }
 
   continueWithSelectedUCIC() {
+    this.currentAction = 'ucic';
     this.modalName = 'ucicModal2';
   }
 
@@ -81,7 +89,6 @@ export class SalesExactMatchComponent implements OnInit {
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
     };
-
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
@@ -97,14 +104,16 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   callApiForSelectedUcic() {
+    this.currentAction = 'ucic';
     const leadId = this.dedupeParameter.leadId;
+
     const data = {
       ucic: Number(this.selectedDetails.ucic),
       leadId,
       applicantId: this.dedupeParameter.applicantId,
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
-      isMobileNumberChanged : this.dedupeDetails.isMobileNumberChanged
+      isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
     };
 
     this.applicantService
@@ -122,5 +131,91 @@ export class SalesExactMatchComponent implements OnInit {
 
   onCancel() {
     this.modalName = '';
+  }
+
+  async negativeListModalListener(event) {
+    if (event.remarks) {
+      const isProceed = event.name === 'proceed';
+      const remarks = event.remarks;
+      await this.storeRemarks(isProceed, remarks);
+      console.log('remarks stored');
+    }
+
+    if (event.name === 'proceed' || event.name === 'next') {
+      if (this.currentAction === 'new') {
+        this.callApiForNewApplicant();
+      } else {
+        this.callApiForSelectedUcic();
+      }
+    } else if (event.name === 'reject') {
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
+      );
+    }
+  }
+
+  storeRemarks(isProceed: boolean, remarks: string) {
+    return new Promise((resolve, reject) => {
+      const data = {
+        applicantId: this.dedupeParameter.applicantId,
+        isProceed,
+        remarks,
+      };
+
+      this.applicantService
+        .applicantNLUpdatingRemarks(data)
+        .subscribe((value) => {
+          this.showNegativeListModal = false;
+          resolve();
+        });
+    });
+  }
+
+  negativeForNewApplicant() {
+    const data = {
+      applicantId: this.dedupeParameter.applicantId,
+      leadId: this.dedupeParameter.leadId,
+    };
+
+    this.applicantService
+      .applicantNegativeListWrapper(data)
+      .subscribe((value) => {
+        console.log('applicantNegativeListWrapper', value);
+      });
+  }
+
+  negativeForUcic() {
+    const data1 = {
+      applicantId: this.dedupeParameter.applicantId,
+      uciciNo: Number(this.selectedDetails.ucic),
+    };
+
+    this.applicantService
+      .applicantNegativeListWrapper(data1)
+      .subscribe((value) => {
+        console.log('applicantNegativeListWrapper', value);
+      });
+  }
+
+  checkNegativeList() {
+    const data = {
+      applicantId: this.dedupeParameter.applicantId,
+    };
+    if (this.currentAction === 'new') {
+      data['leadId'] = this.dedupeParameter.leadId;
+    } else {
+      data['uciciNo'] = Number(this.selectedDetails.ucic);
+    }
+    this.modalName = '';
+    this.applicantService
+      .applicantNegativeListWrapper(data)
+      .subscribe((value: any) => {
+        console.log('checkNegativeList', value);
+        this.showNegativeListModal = true;
+        this.negativeModalInput = {
+          isNLFound: value.isNLFound,
+          isNLTRFound: value.isNLTRFound,
+        };
+      });
   }
 }

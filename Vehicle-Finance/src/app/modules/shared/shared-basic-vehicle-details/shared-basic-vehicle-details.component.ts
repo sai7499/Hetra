@@ -106,10 +106,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onGetDateValue(event) {
-
-    if (event > this.minDate) {
+    this.customFutureDate = false;
+    if (event > this.maxDate) {
       this.customFutureDate = true;
-      // this.customFutureDate = [{ rule: val => val > this.minDate, msg: 'Invalid Date' }];
     } else {
       this.customFutureDate = false;
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
