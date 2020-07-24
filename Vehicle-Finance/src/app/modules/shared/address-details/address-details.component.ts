@@ -144,7 +144,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addressCommonListener(pincode);
     this.addressCommonListener(landlineNumber);
     this.addressCommonListener(mobileNumber);
-    //this.addressCommonListener(nearestLandmark);
+    this.addressCommonListener(nearestLandmark);
   }
 
   addressCommonListener(control: AbstractControl) {
@@ -392,7 +392,7 @@ export class AddressDetailsComponent implements OnInit {
         //periodOfCurrentStay: new FormControl(''),
         mobileNumber: new FormControl(''),
         //accommodationType: new FormControl(''),
-        //nearestLandmark : new FormControl(null)
+        nearestLandmark : new FormControl(null)
       }),
     });
 
@@ -627,7 +627,7 @@ export class AddressDetailsComponent implements OnInit {
         accommodationType: officeAddressObj.accommodationType ||'',
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
-        //nearestLandmark : officeAddressObj.nearestLandmark,
+        nearestLandmark : officeAddressObj.nearestLandmark,
 
       });
     }
@@ -1009,7 +1009,7 @@ export class AddressDetailsComponent implements OnInit {
       // accommodationType: officeAddressObject.accommodationType,
       // periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
       mobileNumber: officeAddressObject.mobileNumber || '',
-      //nearestLandmark : officeAddressObject.nearestLandmark || ''
+      nearestLandmark : officeAddressObject.nearestLandmark || ''
       //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
     const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
