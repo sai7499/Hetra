@@ -59,7 +59,7 @@ export class VehicleValuationComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => (this.labels = data),
-      (error) => console.log("Vehicle Valuation Label Error", error)
+      // (error) => console.log("Vehicle Valuation Label Error", error)
     );
   }
 
@@ -67,14 +67,14 @@ export class VehicleValuationComponent implements OnInit {
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log("LEADID--->", this.leadId);
+    console.log("LEADID::", this.leadId);
   }
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
     });
-    console.log(" LOV::::", this.LOV);
+    console.log(" LOV::", this.LOV);
   }
 
   initForm() {
@@ -91,7 +91,7 @@ export class VehicleValuationComponent implements OnInit {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
         this.colleteralId = this.collateralDetailsData[0].collateralId;
-        console.log("COLLETERALID******", this.colleteralId);
+        console.log("COLLETERALID::", this.colleteralId);
         console.log("COLLATERALDETAILSDATA*****", this.collateralDetailsData);
         this.getModelData();
         this.getValuatorStatus();
@@ -132,7 +132,7 @@ export class VehicleValuationComponent implements OnInit {
       this.collateralDetailsData[0].valuatorStatus === '1') {
       this.valuationReport = 'View';
     }
-    console.log("VALUATIONREPORT****", this.valuationReport);
+    console.log("VALUATIONREPORT::", this.valuationReport);
   }
 
   getModelData() {
@@ -179,26 +179,13 @@ export class VehicleValuationComponent implements OnInit {
       collateralId: this.colleteralId,
       ...formValues
     };
-    // if(this.modelDataForm.valid === true) {
-    //   this.vehicleValuationService.initiateVehicleValuation(data).subscribe( (res) => { 
-    //     const response = res;
-    //     console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
-    //     if (response["Error"] == 0) {
-    //       this.toasterService.showSuccess("Vehicle Valuation Model DATA Saved Successfully", "");
-    //     } 
-    //   });
-    // } else {
-    //   this.toasterService.showError("Please fill all mandatory fields.", "");
-    // }
     if (this.modelDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
-        console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
+        // console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
         if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
-
-          this.toasterService.showSuccess("Vehicle Valuation Model DATA Saved Successfully",
-            "Vehicle Valuation");
-          const getData = response["ProcessVariables"]["collateralDetails"]
+          this.toasterService.showSuccess("Record Saved Successfully", "Vehicle Valuation");
+          const getData = response["ProcessVariables"]["collateralDetails"];
           return this.collateralDetailsData.forEach(element => {
             if (element.collateralId == getData.collateralId) {
               element.valuationStatus = getData.valuationStatus;
