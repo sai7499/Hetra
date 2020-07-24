@@ -179,26 +179,13 @@ export class VehicleValuationComponent implements OnInit {
       collateralId: this.colleteralId,
       ...formValues
     };
-    // if(this.modelDataForm.valid === true) {
-    //   this.vehicleValuationService.initiateVehicleValuation(data).subscribe( (res) => { 
-    //     const response = res;
-    //     console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
-    //     if (response["Error"] == 0) {
-    //       this.toasterService.showSuccess("Vehicle Valuation Model DATA Saved Successfully", "");
-    //     } 
-    //   });
-    // } else {
-    //   this.toasterService.showError("Please fill all mandatory fields.", "");
-    // }
     if (this.modelDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
-        console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
+        // console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
         if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
-
-          this.toasterService.showSuccess("Vehicle Valuation Model DATA Saved Successfully",
-            "Vehicle Valuation");
-          const getData = response["ProcessVariables"]["collateralDetails"]
+          this.toasterService.showSuccess("Record Saved Successfully", "Vehicle Valuation");
+          const getData = response["ProcessVariables"]["collateralDetails"];
           return this.collateralDetailsData.forEach(element => {
             if (element.collateralId == getData.collateralId) {
               element.valuationStatus = getData.valuationStatus;
