@@ -58,7 +58,7 @@ todayDate;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
       const response = res;
       this.sanctionDetailsObject = response.ProcessVariables;
-      //Filter Out Applicant And Co-Applicant List
+      //Filter Out Applicant, Co-Applicant And Guarantor List
       this.sanctionDetailsObject.applicantList.filter( (element) => {
         if(element.applicantType === "Applicant") {
           const data = {

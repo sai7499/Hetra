@@ -229,7 +229,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
     const customerProfileModal = this.custProfDetails || {};
 
-    console.log('in form value', customerProfileModal)
+    console.log('in form value', customerProfileModal);
 
     this.customerProfileForm.patchValue({
       offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
@@ -243,7 +243,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       ownershipAvailable: customerProfileModal.ownershipAvailable || '',
       mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
     });
-    console.log("patched form", this.customerProfileForm);
+    console.log('patched form', this.customerProfileForm);
   }
 
 
@@ -282,7 +282,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('customer Profle Details saved !', '');
+        this.toasterService.showSuccess('Record Saved Successfully', '');
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
