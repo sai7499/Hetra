@@ -19,8 +19,8 @@ export const environment = {
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
     
   },
-  // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+   hostingEnvironment: 'DEV',
+ // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   //host: '/appiyo/',
@@ -32,7 +32,7 @@ export const environment = {
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
-  isMobile: false
+  isMobile: true
 };
 
 /*

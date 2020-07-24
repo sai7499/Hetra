@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment.prod';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -16,6 +17,7 @@ declare var cordova:any;
 export class AppComponent implements OnInit{
 
   title = 'vehicle-finance';
+  isMobile:any;
 
 
   // Equitas
@@ -182,7 +184,11 @@ export class AppComponent implements OnInit{
   ngOnInit() {
 
     let that = this;
-    that.initMaaS360();
+
+    this.isMobile = environment.isMobile;
+    if(this.isMobile) {
+        that.initMaaS360();
+    }
 
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
