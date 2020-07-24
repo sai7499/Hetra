@@ -58,6 +58,6 @@
 	margin-left:0px !important;
 	width: 155px;
 }
-.fa-plus  ,.fa-minus{
+.fa-plus  , .fa-trash{
 	cursor: pointer;
 }
