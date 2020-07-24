@@ -198,8 +198,6 @@ export class SourcingDetailsComponent implements OnInit {
 
   async getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    // const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
-    // this.amountTenureData = {...amountAndTenureData};
     console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
@@ -236,10 +234,16 @@ export class SourcingDetailsComponent implements OnInit {
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
+    const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
+    this.amountTenureData = { ...amountAndTenureData };
+    console.log('this.amountTenureData', amountAndTenureData);
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
-    this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount, });
-    this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
+    const amount = (!this.amountTenureData.loanAmount) ? requiredLoanAmount : this.amountTenureData.loanAmount;
+    const tenure = (!this.amountTenureData.loanTenure) ? requiredLoanTenor : this.amountTenureData.loanTenure;
+    this.sourcingDetailsForm.patchValue({ requestedAmount: amount });
+    this.sourcingDetailsForm.patchValue({ requestedTenor: tenure });
+
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
 
     const leadCreatedby = data.leadDetails.leadCreatedBy;
@@ -431,10 +435,6 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeKey = '';
   }
 
-  setPatchData(data) {
-    this.sourcingDetailsForm.patchValue({ bizDivision: 'EBBIZDIV' });
-  }
-
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
       leadNumber: new FormControl({ value: '', disabled: true }),
@@ -492,13 +492,13 @@ export class SourcingDetailsComponent implements OnInit {
         const apiError = response.ProcessVariables.error.code;
 
         if (appiyoError === '0' && apiError === '0') {
-          this.toasterService.showSuccess('Lead Updated Successfully !', '');
+          this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
           this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
           const data = {
             loanAmount: Number(saveAndUpdate.requestedAmount),
             loanTenure: Number(saveAndUpdate.requestedTenor)
-          }
+          };
           this.createLeadDataService.setLoanAmountAndTenure(data);
           this.isSaved = true;
         }

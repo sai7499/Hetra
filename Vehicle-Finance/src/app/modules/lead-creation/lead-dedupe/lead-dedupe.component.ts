@@ -101,7 +101,7 @@ export class LeadDedupeComponent implements OnInit {
         this.isReason = true;
         this.isSubmit = true;
         this.showModal = 'rejectModal';
-        this.modalMessage = `Are you sure you want to reject lead - ${this.leadId} ?`;
+        this.modalMessage = 'Your lead creation will be aborted !';
       }
     });
   }
@@ -109,7 +109,7 @@ export class LeadDedupeComponent implements OnInit {
   OnCreateNew() {
     this.isWithLead = true;
     this.showModal = 'proceedModal_without';
-    this.modalMessage = 'Are you sure you want to create a new lead?';
+    this.modalMessage = 'Are you sure you want to create a new lead ?';
   }
 
   proceedAsNewLead() {
