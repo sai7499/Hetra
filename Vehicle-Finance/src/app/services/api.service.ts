@@ -445,8 +445,13 @@ export class ApiService {
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    approveRejectDeclineCreditConditions: {
+    submitApproveReferDeclineCreditConditions: {
       processId: '0e709facc67311ea954700505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    assignCDTaskFromSales : {
+      processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit
     },
