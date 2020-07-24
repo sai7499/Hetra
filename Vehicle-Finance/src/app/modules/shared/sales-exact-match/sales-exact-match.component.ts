@@ -136,6 +136,7 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   async negativeListModalListener(event) {
+    this.showNegativeListModal = false;
     if (event.remarks) {
       const isProceed = event.name === 'proceed';
       const remarks = event.remarks;
