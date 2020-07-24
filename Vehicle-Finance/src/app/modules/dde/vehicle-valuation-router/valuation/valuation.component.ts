@@ -107,7 +107,7 @@ export class ValuationComponent implements OnInit {
       const response = res;
       // console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
-      console.log("VEHICLE_VALUATION_DETAILS***", this.vehicleValuationDetails);
+      console.log("VEHICLE_VALUATION_DETAILS::", this.vehicleValuationDetails);
       this.valuatorType = this.vehicleValuationDetails.valuatorType;
       this.valuatorCode = this.vehicleValuationDetails.valuatorCode;
       this.valuatorName = this.vehicleValuationDetails.valuatorName;
@@ -233,7 +233,7 @@ export class ValuationComponent implements OnInit {
 
   saveUpdateVehicleValuation() {
     const formValues = this.vehicleValuationForm.value;
-    console.log("FORMVALUES****", formValues);
+    console.log("FORMVALUES::::", formValues);
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
@@ -251,7 +251,7 @@ export class ValuationComponent implements OnInit {
         const response = res;
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
         if (response["Error"] == 0) {
-          this.toasterService.showSuccess("Vehicle Valuation DATA Saved Successfully", "");
+          this.toasterService.showSuccess("Record Saved Successfully", "");
         }
       });
     } else {

@@ -556,6 +556,7 @@
     "sendBackToCredit": "Send Back To Credit",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
+    "roleName": "Role Name",
     "commend": "Commend",
     "referText4": "Text area to input recommendation (max 2000 characters)",
     "more": "More",
@@ -868,7 +869,7 @@
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
-    "typeOfAccommmodation": "Type of Accommmodation",
+    "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
     "officeAddress": "Office Address",
@@ -1047,13 +1048,8 @@
     "cpvAgencyStatus": "CPV Agency Status",
     "sanctionLetter": "Sanction Letter",
     "toSanction": "To",
-    "customer": "Customer",
-    "coBorrower1": "Co-Borrower 1",
-    "coBorrower2": "Co-Borrower 2",
-    "guarantor1": "Guarantor 1",
-    "guarantor2": "Guarantor 2",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
-    "propasalNumber": "Propasal Number",
+    "proposalNumber": "Proposal Number",
     "vehicleDetails": "VEHICLE DETAILS",
     "yearOfManufacture": "Year of Manufacture",
     "vehicleRegistrationNo": "Vehicle Registration No.",
@@ -1090,11 +1086,6 @@
     "vfSheetTag38": "For Equitas Small Finance Bank Limited",
     "vfSheetTag39": "Authorized Signatory",
     "vfSheetTag40": "Sanction Letter accepted together with the Terms & Conditions",
-    "customerSignature": "Customer Signature",
-    "coBorrower1Signature": "Co-Borrower 1 Signature",
-    "coBorrower2Signature": "Co-Borrower 2 Signature",
-    "guarantor1Signature": "Guarantor 1 Signature",
-    "guarantor2Signature": "Guarantor 2 Signature",
     "generalTermsAndConditions": "General Terms & Conditions",
     "vfSheetTag75": "Acceptance of the Customer",
     "vfSheetTag76": "M/s. Equitas Small Finance Bank Limited",
@@ -1363,6 +1354,11 @@
             },
             "type": "number"
         },
+        "address" : {
+            "maxLength": {
+                "rule": 50
+            }
+        },
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
@@ -1401,13 +1397,13 @@
         },
         "noOfTrips": {
             "maxLength": {
-                "rule": 3
+                "rule": 5
             },
             "type": "number"
         },
         "noOfEmployeesSeen": {
             "maxLength": {
-                "rule": 3
+                "rule": 5
             },
             "type": "number"
         },
@@ -1525,7 +1521,8 @@
         },
         "pincode": {
             "maxLength": {
-                "rule": 6
+                "rule": 6,
+                "msg": "Pincode Max Length Should be 6"
             },
             "type": "number",
             "patternCheck": {
@@ -1533,6 +1530,7 @@
                 "msg": "Invalid Pincode"
             }
         },
+        
         "numberOfYears": {
             "maxLength": {
                 "rule": 2

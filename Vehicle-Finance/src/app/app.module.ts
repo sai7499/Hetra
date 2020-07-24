@@ -89,7 +89,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     DatePickerModule,
     TimePickerModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+    }),
     DateInputsModule,
     AutocompleteLibModule,
     // DateInputsModule,
@@ -122,8 +124,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FileTransferObject,
     CanActivateService
   ],
-  
-
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -110,11 +110,15 @@
           </div>
         </div>
         <div class="row">
-          <div class="table-responsive application" id="applicantTable">
-            <table class="table">
+          <!-- <div class="table-responsive application" id="applicantTable"> -->
+            <div id="wrapper">  
+            <table>
               <thead>
-                <tr class="table-head-bg">
-                  <th>{{ labels.ucicId }} <i class="fa fa-sort"></i></th>
+                <tr>
+            <!-- <table class="table">
+              <thead>
+                <tr class="table-head-bg"> -->
+                  <th >{{ labels.ucicId }} <i class="fa fa-sort"></i></th>
                   <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
                   <th>{{ labels.name }} <i class="fa fa-sort"></i></th>
                   <th>{{ labels.mobileNumber }} <i class="fa fa-sort"></i></th>
@@ -130,24 +134,24 @@
                     let i = index
                   "
                 >
-                  <td>{{ item.ucic ? item.ucic : '-' }}</td>
+                  <td [attr.data-label]="labels?.ucicId" [attr.data-item-value]="labels?.ucicId" >{{ item.ucic ? item.ucic : '-' }}</td>
                   <ng-container></ng-container>
-                  <td>{{ item.entity ? item.entity : '-' }}</td>
-                  <td>{{ item.fullName ? item.fullName : '-' }}</td>
+                  <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
+                  <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
                   <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
-                    <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
-                    <td>{{ item.dob ? item.dob : '-' }}</td>
+                    <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
+                    <td [attr.data-label]="labels?.dob">{{ item.dob ? item.dob : '-' }}</td>
                   </ng-container>
                   <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
-                    <td>
+                    <td [attr.data-label]="labels?.entityTypeKey">
                       {{
                         item.companyPhoneNumber ? item.companyPhoneNumber : '-'
                       }}
                     </td>
-                    <td>{{ item.doi ? item.doi : '-' }}</td>
+                    <td [attr.data-label]="labels?.doi">{{ item.doi ? item.doi : '-' }}</td>
                   </ng-container>
-                  <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
-                  <td>
+                  <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
+                  <td [attr.data-label]="labels?.action">
                     <i title="Edit applicant"
                       (click)="editApplicant(item.applicantId)"
                       class="fa fa-pencil"

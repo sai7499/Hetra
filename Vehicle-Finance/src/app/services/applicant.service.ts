@@ -58,7 +58,7 @@ export class ApplicantService {
     this.geoMasterService = this.apiService.api.geoMasterService;
     this.applicantDedupe = this.apiService.api.salesApplicantDedupe;
     this.applicantUcic = this.apiService.api.salesApplicantUcic;
-    this.countryList = this.apiService.api.getCountryList
+    this.countryList = this.apiService.api.getCountryList;
   }
 
   getApplicantList(data) {
@@ -195,7 +195,7 @@ export class ApplicantService {
     return this.httpService.post(url, body);
   }
 
-  getCountryList(){
+  getCountryList() {
     const projectId = this.countryList.projectId;
     const processId = this.countryList.processId;
     const workflowId = this.countryList.workflowId;
@@ -203,10 +203,43 @@ export class ApplicantService {
       processId,
       workflowId,
       projectId,
-      ProcessVariables :{}
+      ProcessVariables: {},
     };
-    const url =`${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    return this.httpService.post(url,body);
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
   }
-  
+
+  applicantNLUpdatingRemarks(data) {
+    const remarks = this.apiService.api.nlUpdatingRemarks;
+    const projectId = remarks.projectId;
+    const processId = remarks.processId;
+    const workflowId = remarks.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  applicantNegativeListWrapper(data) {
+    const negativeListWrapper = this.apiService.api.negativeListWrapper;
+    const projectId = negativeListWrapper.projectId;
+    const processId = negativeListWrapper.processId;
+    const workflowId = negativeListWrapper.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }

@@ -130,12 +130,9 @@ export class PslDataComponent implements OnInit {
   //Get Dependent API LOV for Activity, Detail Activity & Purpose of Loan
   getDependentDropdownLOV() {
     this.pslDataService.getDependentDropdownLOV().subscribe((res: any) => {
-      console.log(
-        "RESPONSE FROM APPIYO_SERVER_PSLDATA_Dependent_LOVS_API_RESPONSE",
-        res
-      );
+      // console.log("RESPONSE FROM APPIYO_SERVER_PSLDATA_Dependent_LOVS_API_RESPONSE", res);
       const response = res.ProcessVariables.pslDataLovObj;
-      console.log("PSLDATA_Dependent_LOVS_API", response);
+      // console.log("PSLDATA_Dependent_LOVS_API", response);
       this.pslDependentLOVSData = response;
       this.getLeadId();
       this.getActivityLOVS();
@@ -296,7 +293,7 @@ export class PslDataComponent implements OnInit {
   getPslData() {
     const data = this.leadId;
     this.pslDataService.getPslData(data).subscribe((res: any) => {
-      console.log("RESPONSE FROM APPIYO_SERVER_GET_PSL_DATA_API", res);
+      // console.log("RESPONSE FROM APPIYO_SERVER_GET_PSL_DATA_API", res);
       const response = res;
       this.pslData = response.ProcessVariables.pslData;
       // console.log("PSLDATA::::", this.pslData);
@@ -1224,7 +1221,7 @@ export class PslDataComponent implements OnInit {
     if (this.activityChange === "1PSLACTVTY") {
       this.isDirty = true;
       this.formValues = this.pslDataForm.get("agriculture").value;
-      console.log("formValues--------", this.formValues);
+      console.log("FormValues::", this.formValues);
       //IF NOT PSL CERTIFICATE FOUND 
       if (!this.formValues.pslCCertificate) {
         return;
@@ -1245,20 +1242,20 @@ export class PslDataComponent implements OnInit {
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
           // this.pslId = response.ProcessVariables.pslId;
-          console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
+          // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
           if (response["Error"] == 0) {
-            this.toasterService.showSuccess("PSL DATA Saved Successfully", "");
+            this.toasterService.showSuccess("Record Saved Successfully", "");
           }
         });
       } else {
         this.toasterService.showError("Please fill all mandatory fields.", "");
       }
     }
-    //FOR "Micro Small And Medium Enterprises " FORM
+    //FOR "Micro Small And Medium Enterprises" FORM
     else if (this.activityChange === "2PSLACTVTY") {
       this.isDirty = true;
       this.formValues = this.pslDataForm.get("microSmallAndMediumEnterprises").value;
-      console.log("formValues--------", this.formValues);
+      console.log("FormValues::", this.formValues);
       //IF NOT PSL CERTIFICATE FOUND 
       if (!this.formValues.pslCCertificate) {
         return;
@@ -1289,9 +1286,9 @@ export class PslDataComponent implements OnInit {
       if (this.microSmallAndMediumEnterprises.valid === true) {
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
-          console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
+          // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
           if (response["Error"] == 0) {
-            this.toasterService.showSuccess("PSL DATA Saved Successfully", "");
+            this.toasterService.showSuccess("Record Saved Successfully", "");
           }
         });
       } else {

@@ -32,6 +32,7 @@ export class ApplicantDetailComponent implements OnInit {
   applicantData: any;
   applicantFullName: any;
   mobileNo: any;
+  standardOfLiving: any;
 
 
   // namePattern = {
@@ -119,7 +120,7 @@ export class ApplicantDetailComponent implements OnInit {
   async ngOnInit() {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
-                                                                                //  details from loginstore service
+    //  details from loginstore service
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
@@ -158,14 +159,15 @@ export class ApplicantDetailComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    // console.log('LOVs', this.LOV);
+    console.log('LOVs', this.LOV);
+    this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
-      this.getLeadSectionData(); // calling get lead section data function in line 174
       if (!value && !value.applicantId) {
         return;
       }
       this.applicantId = Number(value.applicantId);
       this.version = String(value.version);
+      this.getLeadSectionData(); // calling get lead section data function in line 179
       this.getPdDetails();
       console.log('Applicant Id In applicant Details Component', this.applicantId);
       console.log('Version In applicant Details Component', this.version);
@@ -181,12 +183,20 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    // console.log("in get lead section data", data['applicantDetails'])
+    // console.log("in get lead section data", data['applicantDetails']);
 
-    const applicantDetailsFromLead = data['applicantDetails'][0]
-    this.applicantFullName = applicantDetailsFromLead['fullName']
-    this.mobileNo = applicantDetailsFromLead['mobileNumber']
-    // console.log('in lead section data', this.applicantFullName, this.mobileNo);
+    // console.log('current app id', this.applicantId);
+
+    for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
+      console.log('in for loop app id', value['applicantId']);
+
+      if (value['applicantId'] === this.applicantId) {
+
+        const applicantDetailsFromLead = value;
+        this.applicantFullName = applicantDetailsFromLead['fullName'];
+        this.mobileNo = applicantDetailsFromLead['mobileNumber'];
+      }
+    }
   }
   initForm() { // initialising the form group
     this.applicantForm = new FormGroup({
@@ -347,7 +357,7 @@ export class ApplicantDetailComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       // console.log(processVariables)
       if (processVariables.error.code === '0') {
-        this.toasterService.showSuccess('Applicant Details saved !', '');
+        this.toasterService.showSuccess('Record Saved Successfully', '');
       } else {
         // console.log('error', processVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
