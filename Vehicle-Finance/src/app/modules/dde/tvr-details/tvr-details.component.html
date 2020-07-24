@@ -1,26 +1,41 @@
-<div class="row">
-    <div class="table-responsive application" id="applicantTable">
-        <table class="table">
-            <thead>
-                <tr class="table-head-bg">
-                    <th>{{labels.ucicId}}</th>
-                    <th>{{labels.applicantName}}</th>
-                    <th>{{labels.mobileNumber}} </th>
-                    <th>{{labels.applicantType}}</th>
-                    <th>{{labels.tvrStatus}}</th>
-                    <th>TVR Report </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of tvrList">
-                    <td>{{item.ucic ? item.ucic : '--'}}</td>
-                    <td>{{item.applicantName ? item.applicantName : '--'}}</td>
-                    <td>{{item.mobileNumber ? item.mobileNumber : '--'}}</td>
-                    <td>{{item.applicantType ? item.applicantType : '--'}}</td>
-                    <td>{{item.tvrStatus === '1' ? "Completed" : "Pending"}}</td>
-                    <td class="text-underline" (click)="onViewClick(item.applicantId, item.applicantType)">{{item.tvrStatus === '0' ? "start" : "view" }}</td>
-                </tr>
-            </tbody>
-        </table>
+<form class="multisteps-form__form">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <div class="container">
+            <div class="row">
+                <div class="table-responsive application" id="applicantTable">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <th>{{labels.ucicId}}</th>
+                                <th>{{labels.applicantName}}</th>
+                                <th>{{labels.mobileNumber}} </th>
+                                <th>{{labels.applicantType}}</th>
+                                <th>{{labels.tvrStatus}}</th>
+                                <th>TVR Report </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of tvrList">
+                                <td>{{item.ucic ? item.ucic : '--'}}</td>
+                                <td>{{item.applicantName ? item.applicantName : '--'}}</td>
+                                <td>{{item.mobileNumber ? item.mobileNumber : '--'}}</td>
+                                <td>{{item.applicantType ? item.applicantType : '--'}}</td>
+                                <td>{{item.tvrStatus === '1' ? "Completed" : "Pending"}}</td>
+                                <td class="text-underline" (click)="onViewClick(item.applicantId, item.applicantType)">{{item.tvrStatus === '0' ? "start" : "view" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<div class="btn-sec clear-both">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
+        <button class="btn btn-primary" type="button" (click)=onBack()> {{labels.back}} </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onNext()"> {{labels.next}} </button>
     </div>
 </div>

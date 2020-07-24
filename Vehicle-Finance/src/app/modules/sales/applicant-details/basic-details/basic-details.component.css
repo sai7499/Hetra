@@ -34,10 +34,11 @@
 kendo-datepicker{
     width: 100%!important;
 }
-.cus-mandatory-field{
+
+.ShowError{
     font-size: 1.0vw;
-  font-family: zurich-bold;
-  letter-spacing: 0.5px;
-  color: red;
-  padding-top: 0.5vw;
-}
+    font-family: zurich-bold;
+    letter-spacing: 0.5px;
+    color: red;
+    padding-top: 0.5vw;
+  }

@@ -130,9 +130,9 @@
                 <td>                  
                   <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
                     *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
-                    style="color: red;" (click)="showModel(i)"></i>&nbsp;                   
+                    style="color: red;" (click)="showModel(i)" title="Delete exposure"></i>&nbsp;                   
                     <i type="button" class="fa fa-plus"
-                        *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1"
+                        *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1" title="Add exposure"
                        aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
               </tr>
              

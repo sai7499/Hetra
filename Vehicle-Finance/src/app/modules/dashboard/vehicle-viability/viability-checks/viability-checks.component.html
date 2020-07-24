@@ -20,7 +20,7 @@
                 <td>
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
-                <td>{{item.leadId}}</td>
+                <td class="text-underline" style="cursor: pointer; "><a (click)="routeToViabilityList(item.leadId)">{{item.leadId}}</a></td>
                 <td>{{item.product ? item.product : '--'}}</td>
                 <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
                 <td>{{item.applicants ? item.applicants : '--'}}</td>
@@ -38,7 +38,10 @@
             </tr>
         </tbody>
     </table>
-    <div class="row clearfix marBottom-45">
+    <div class="noDataFound" *ngIf="!isLoadLead">
+        <h3>No data found</h3>
+    </div>
+    <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
         <div class="records col-xs-3 col-sm-4">
 
             <div class="col-lg-3"><label>No. of Rows </label>

@@ -66,7 +66,7 @@
     "vechicalType": "Vehicle Type",
     "vechicalUsage": "Vehicle Usage",
     "vechicalRegion": "Region",
-    "registartionNumber": "Vechical Registration No",
+    "registartionNumber": "Vehicle Registration No",
     "assetMake": "Asset Make",
     "assetModel": "Asset Model",
     "assetBodyType": "Asset Body Type",
@@ -287,8 +287,8 @@
     "tenureInMonths": "TENURE IN MONTHS",
     "sourceOfProposal": "Source of Proposal",
     "assetType": "Asset Type",
-    "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion - (applicable for CV).",
-    "routeOfOperation": "Route of operation - Onward and Return (Applicable for CV).",
+    "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion)",
+    "routeOfOperation": "Route of operation - Onward and Return",
     "contractDetails": "Contract Details",
     "residence": "Residence",
     "otherVehicles": "Other Vehicles Owned",
@@ -325,7 +325,7 @@
     "fundingAmountRequested": "Funding Amount Requested",
     "endUseFunds": "End Use of Funds",
     "tenureRequested": "Tenure Requested",
-    "typeofGoodsCarried": "Type of Goods Carried - Onward and return(Applicable for CV).",
+    "typeofGoodsCarried": "Type of Goods Carried - Onward and return",
     "new": "New",
     "used": "Used",
     "no": "NO",
@@ -426,6 +426,23 @@
     "cmRecommendation": "CM RECOMMENDATION",
     "acmRecommendationApproval": "ACM RECOMMENDATION/APPROVAL",
     "ncmBhApprovalRecommendation": "NCM/BH APPROVAL-RECOMMENDATION",
+    "customerSelectionCriteriaTitle":"Customer Selection Criteria",
+    "category": "CATEGORY",
+    "required": "REQUIRED",
+    "actualwithdocumentedproof": "Actual with documented proof",
+    "deviationlevel": "Deviation level",
+    "dlRequirement": "DL Requirement",
+    "fleetStregthOwnership": "Fleet Strength & Ownership",
+    "repaymentTrackRecord": "Repayment Track record",
+    "financialsAndBankStatement": "Financials and Bank statement",
+    "guarantorForComfortPurpose": "Guarantor for Comfort Purpose",
+    "guarantorForHigherFunding": "Guarantor for higher funding",
+    "modelsInGrid": "Models in Grid",
+    "otherDeviationsTitle": "Other Deviations",
+    "authority": "Authority",
+    "concernsOrRisks": "CONCERNS/RISKS",
+    "strengthsOrMitigates": "STRENGTHS/MITIGATES",
+
     "incomeAndObligationDetailsTitle": "Income and Obligation Details",
     "businessIncomeDetailsTitle": "Business Income Details",
     "otherIncomeDetailsTitle": "Other Income Details",
@@ -445,9 +462,9 @@
     "accepted": "Accepted",
     "notAccepted": "Not Accepted",
     "defferedTillDate": "Deffered till date",
-    "getTriggerPolicy": "Get Trigger Policy",
-    "autoDeviation": "Auto Deviation",
-    "manualDeviation": "Manual Deviation",
+    "getTriggerPolicy": "Trigger Policy Rules",
+    "autoDeviation": "Auto Deviations",
+    "manualDeviation": "Manual Deviations",
     "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
     "description": "Description",
@@ -468,6 +485,7 @@
     "sendBackToCredit": "Send Back To Credit",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
+    "roleName": "Role Name",
     "commend": "Commend",
     "referText4": "Text area to input recommendation (max 2000 characters)",
     "more": "More",
@@ -702,11 +720,12 @@
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
-    "modalBody": "Are you sure you want to send Vehicle Valuation request to Valuator 1?",
+    "modalBody": "Are you sure you want to send Vehicle Valuation request to",
     "modalBody2": "Vehcile Valuation request is sent to Valuator 1",
     "yes": "Yes",
     "close": "Close",
     "fatherName": "Father Name",
+    "fatherNameHusbandName": "Father Name / Husband Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
     "physicallyChallenged": "Physically Challenged",
@@ -728,7 +747,7 @@
     "addressRecord": "Office Address as per our records",
     "noEmployees": "No of Employees Seen",
     "nameBoardSeen": "Name Board Seen",
-    "officePremises": "Office Premises",
+    "officePremisesType": "Office Premises Type",
     "sizeOfOffice": "Size of Office",
     "mismatchAddress": "Mis-Match in Address",
     "selfieWithHouse": "Selfie with Customer House",
@@ -779,7 +798,7 @@
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
-    "typeOfAccommmodation": "Type of Accommmodation",
+    "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
     "officeAddress": "Office Address",
@@ -867,7 +886,7 @@
     "contactPerson": "Contact Person Name",
     "contactPersonDesignation": "Contact Person Designation",
     "contactPersonMobileNumber": "Contact Person mobile number",
-    "countryOfCorporation": "Country Of Corporation",
+    "countryOfCorporation": "Country Of Incorporation",
     "industry": "Industry",
     "ratingIssuerName": "Rating Issuer Name",
     "externalRatingAssigned": "External Rating Assigned",
@@ -885,11 +904,261 @@
     "typeOfloan": "Type of loan",
     "otherTypeOfloan": "Other type of loan",
     "odDpd": "OD DPD",
+    "totalODAmount": "Total OD Amount",
+    "highestDPDInLastSixM": "Highest DPD in last 6M (under individual or joint status)",
+    "highestDPDInLastTwelveM": "Highest DPD in last 12M (under individual or joint status)",
+    "countOfWrittenOffLoans": "Count of  written off loans",
+    "countOfWrittenOffLoansAlongWithSuiteFiled": "Count of  written off loans along with suite filed",
+    "countOfLossloans": "Count of loss loans",
+    "countOfSettledLoans": "Count of settled loans",
+    "clearanceProofCollected": "Clearance Proof Collected",
+    "cibilODDPDJustification": "CIBIL OD DPD JUSTIFICATION",
     "loanEnquiriesInLast30DaysWithTypeOfLoan": "Loan enquiries in last 30 Days with type of loan",
     "member": "Member",
     "enquiryDate": "Enquiry Date",
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
+    "noOfEmi": "No.of Emi",
+    "submitToCredit": "Are You Want To Submit Credit?",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "vehicleContract": "Vehicle Contract",
+    "negativeProfile": "Negative Profile",
+    "distFromBranch": "Distance from branch",
+    "routeMap": "RouteMap",
+    "otherRevenue": "Other Revenue",
+    "otherRevenueRemarks": "Other Revenue Remarks",
+    "onwardRoute": "Onward Route",
+    "returnRoute": "Return Route",
+    "otherExpenses": "Other Expenses",
+    "otherExpesesRemark": "Other Expenses Remarks",
+    "operationExpenses": "Operations Expenses",
+    "nameOfExternalAgency": "Name of the External Agency",
+    "contactPointVerification": "Contact Point Verification",
+    "referenceNo": "Reference No",
+    "cpvIntiatedDate": "CPV Intiated date",
+    "cpvIntiatedTime": "CPV Intiated time",
+    "reportSubmitDate": "Report Submit Date",
+    "reportSubmitTime": "Report Submit Time",
+    "applicantsName": "Applicant's Name",
+    "residenceAddressline1": "Residence Address Line 1",
+    "residenceAddressline2": "Residence Address Line 2",
+    "residenceAddressline3": "Residence Address Line 3",
+    "pincode": "Pincode",
+    "residenceApproach": "Residence Approach",
+    "detailsOfResidence": "Details of residence",
+    "rentAmount": "If Resi is rented , Specify rent Amount",
+    "residenceName": "Residence is in the name",
+    "verifiedFrom": "Verified from",
+    "personMetName": "Person met name",
+    "YearsStayinCity": "Years of Stay in City",
+    "YearsStayinResi": "Years of Stay in Resi",
+    "areainSquarefeet": "Area in Square feet",
+    "fiLocality": "Locality",
+    "assetsVisibleAtHome": "Assets visible at Home",
+    "locatingResidence": "Locating Residence",
+    "propertyOwned": "Any other Assets/Property owned by applicant",
+    "noOffamilyMembers": "No of family members",
+    "noOfEarningMembers": "No of earning members",
+    "vehiclesDetails": "Vehicles details",
+    "commentsAndRecommendations": "Comments & Recommendations (Space to capture corrections, remarks and recommendations of the FI officer",
+    "distanceinKMs": "Distance in KMs",
+    "verifiedBy": "Verified by",
+    "typeofConcern": "Type of Concern",
+    "approachable": "Off / business is easily Approachable from",
+    "premises": "Office /Business premises",
+    "officeLocation": "Location of office",
+    "furnishings": "Furnishings",
+    "observations": "Observations",
+    "noofEmployeesWorking": "No of employees working",
+    "noofEmployeesVisible": "No of employees Visible",
+    "activityLevel": "Activity Level",
+    "cpvAgencyStatus": "CPV Agency Status",
+    "sanctionLetter": "Sanction Letter",
+    "toSanction": "To",
+    "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
+    "proposalNumber": "Proposal Number",
+    "vehicleDetails": "VEHICLE DETAILS",
+    "yearOfManufacture": "Year of Manufacture",
+    "vehicleRegistrationNo": "Vehicle Registration No.",
+    "engineNo": "Engine No.",
+    "chasisNo": "Chassis No.",
+    "assetCostRs": "Asset Cost (Rs.)",
+    "loanApprovedDetails": "LOAN APPROVED DETAILS",
+    "loanAmountRs": "Loan Amount (Rs.)",
+    "loanTenorMonths": "Loan Tenor (Months)",
+    "repay": "Repay (Months)",
+    "interestRate": "Interest Rate (%) ",
+    "allInclusive": "All-inclusive IRR (%)",
+    "noOfAdvEmi": "No of Adv. EMI",
+    "advEmiAmount": "Adv. EMI Amount (Rs.)",
+    "processingCharge": "Processing Charges (Rs.)",
+    "creditShieldCharge": "Credit Shield Charges (Rs.)",
+    "npdcCharges": "NPDC Charges (Rs.)",
+    "pdcCharges": "Roll Over PDC Charges (Rs.)",
+    "emiCoverage": "EMI Coverage Premium Amount(Rs.)",
+    "personalAccidentCover": "Personal Accident cover",
+    "valueAddedServices": "Value Added Services",
+    "insurancePremium": "Insurance Premium (Rs.)",
+    "penalInterest": "Rate of penal interest for delay in repayment (%)",
+    "emiDueDate": "EMI Due Date",
+    "emiAmountRs": "EMI Amount (Rs.)",
+    "emiStartDate": "EMI Start Date",
+    "emiEndDate": "EMI End Date",
+    "modeOfPayment": "Mode of Payment",
+    "fieldVisitCharges": "Field Visit Charges Applicable",
+    "vfSheetTag34": "Please read below the other general terms and conditions of the sanction, which forms an integral part of this letter. This sanction is valid for a period of 15 days from the date of issuance of the same, at the expiry of which the sanction will lapse.",
+    "vfSheetTag35": "In order to avail the loan, kindly give your acceptance to all the terms and conditions of this sanction by acknowledging the duplicate copy of this letter and return the same to the Bank within 15 days",
+    "vfSheetTag36": "Thanking you",
+    "vfSheetTag37": "Yours Faithfully,",
+    "vfSheetTag38": "For Equitas Small Finance Bank Limited",
+    "vfSheetTag39": "Authorized Signatory",
+    "vfSheetTag40": "Sanction Letter accepted together with the Terms & Conditions",
+    "generalTermsAndConditions": "General Terms & Conditions",
+    "vfSheetTag75": "Acceptance of the Customer",
+    "vfSheetTag76": "M/s. Equitas Small Finance Bank Limited",
+    "vfSheetTag77": "No.769, 4th FLOOR, PHASE-2,",
+    "vfSheetTag78": "F39, SPENCER PLAZA, ANNA SALAI,",
+    "vfSheetTag79": "CHENNAI 600002",
+    "vfSheetTag80": "I/We hereby confirm that I/We have read and understood all the terms and conditions of sanction of the loan facility extended to me and give my/our unconditional acceptance for the sanctioned facility as per the said terms and conditions.",
+    "vfSheetTag81": "Further, I/We hereby give my/our consent to deduct a sum of 9065.00 as agreed and opted for payment of by me/us vide the above mentioned application form and I am/we are aware that the same is included in the above EMI. (strike-out if out applicable)",
+    "vfSheetTag82": "All the terms and conditions of sanction of the above loan facility have been explained to me/us Mr / Mrs / Miss",
+    "vfSheetTag82A": "(Employees / DSA Name and employee ID/DSA, code has to be mentioned)and I/we have understood the same",
+    "paymentType": "PAYMENT TYPE:",
+    "payeeName": "PAYEE NAME:",
+    "acNo": "A/c No",
+    "paymentAmount": "PAYMENT AMOUNT:",
+    "monthlyIncomeAmount" : "Monthly Income Amount",
+    "annualIncomeAmount" : "Annual Income Amount",
+    "ownHouseProofAvail" : "Own House Proof Available?",
+    "houseOwnerProperty" : "Owner of the Property",
+    "ownHouseAppRelationship" : "Relationship with the Applicant ",
+    "averageBankBalance" : "Average Bank Balance",
+    "rtrType" : "RTR Type",
+    "prevLoanAmount": "Previous Loan Amount",
+    "loanTenorServiced" : "Loan Tenor Service(in months)",
+    "currentEMILoan" : "EMI of the Current Loan",
+    "agriNoOfAcres": "Agri(No of Acres)",
+    "grossReceipt" : "Gross Receipt",
+
+
+
+    "termSheetTag1" : "Equitas Small Finance Bank Limited",
+    "termSheet": "TERM SHEET",
+    "page" : "Page",
+    "proposalNo": "Proposal No",
+    "applicationNo" : "Application No",
+    "scheme" : "Scheme",
+    "manufacturer": "Manufacturer",
+    "paymentDetails" : "Payment Details",
+    "paymentTo" : "Payment To",
+    "applicationType" : "Application Type",
+    "termSheetTag2": "Manu.Month&Year",
+    "taxArrears": "Tax Arrears",
+    "agreementType": "Agreement Type",
+    "NoofLIVELoans":"No of LIVE loans",
+    "classificationType" :"Classification Type",
+    "schemeDescr": "Scheme Descr.",
+    "permitStatus" : "Permit Status",
+    "fcExpiryGapDays":"FC Expiry Gap Days",
+    "advAdjustmentIMC": "Adv.Adjustment IMC",
+    "collateralApplicable":"Collateral Applicable",
+    "collateralName": "Collateral Name",
+    "spokeLocation" : "Spoke Location",
+    "locationName" : "Location Name",
+    "folioNumber" : "Folio number",
+    "nameOfTheCustomer" : "Name of the customer",
+    "customerDOB" : "Customer DOB",
+    "customerAge" : "Customer Age",
+    "registrationType": "Registration Type",
+    "customerCibilStatus" : "Customer CIBIL Status",
+    "leadReferenceNumber" : "Lead Reference Number",
+    "leadRefDate" : "Lead Ref.Date",
+    "genderOfCustomer" : "Gender Of Customer",
+    "distance": "Distance",
+    "residenceStability2" : "Residence Stability",
+    "coApplicantDetails" : "Co-Applicant Details",
+    "guarantorDetails" : "Guarantor Details",
+    "applicantBankName" : "Applicant Bank Name",
+    "MICRNO" : "MICR NO",
+    "applicantBankBranch" : "Applicant Bank Branch",
+    "accNo" : "Acc.No",
+    "sourcedBy" : "Sourced By",
+    "agentCode" : "Agent Code",
+    "addressCumIdProof" : "AddressCumId Proof",
+    "docRefNo" : "DocRef.No.",
+    "valuationValue" : "Valuation Value",
+    "modelNotInGrid" : "Model not in grid",
+    "gridValueMRP": "Grid Value (MRP)",
+    "idvValue" : "IDV Value",
+    "disbursementType" : "Disbursement Type",
+    "costOfAsset" : "Cost of Asset",
+    "fieldVisitCharges2" : "Field Visit Charges",
+    "insPremium" : "Ins.Premium",
+    "PacTalic" : "PAC / TALIC",
+    "plcyExpiryDt" : "Plcy Expiry Dt",
+    "insurancePattern" : "Insurance Pattern",
+    "plcyLapseDays" : "Plcy Lapse Days",
+    "processingFee%" : "Processing Fee%",
+    "processingFee" : "Processing Fee",
+    "assetAge" : "Asset Age",
+    "vintageDeviation" : "Vintage Deviation",
+    "vintageDeviationClassification" : "Vintage Deviation Classification",
+    "repayableMonths" : "Repayable Months",
+    "grossIrr" : "Gross IRR",
+    "netIrr" : "Net IRR",
+    "irrWithoutProcFee" : "IRR without proc.fee",
+    "repayMode" : "Repay Mode",
+    "instPattern" : "Inst.Pattern",
+    "flatRateofInteres" : "Flat Rate of Interes",
+    "npdcMethod": "NPDC Method",
+    "noOfPdc" : "No. of PDC",
+    "noSecPdc" : "No.Sec.PDC",
+    "no0fAdvEMI" : "No 0f Adv.EMI",
+    "advEmiAmt" : "Adv.EMI Amt",
+    "proposalDt" :"Proposal Dt",
+    "emiStartDt" : "EMI Start Dt.",
+    "vehOwned" : "Veh. Owned",
+    "agriculture" : "Agriculture",
+    "creditShield" : "Credit Shield",
+    "brokerage" : "Brokerage",
+    "efftDisbDt" : "Efft.Disb Dt",
+    "fundingLtv" : "Funding %(LTV)",
+    "npdeOrRpdcAmount" : "NPDC/RPDC Amount",
+    "emiCovPrem" : "EMI Cov. Prem",
+    "schemeIrr" : "Scheme IRR",
+    "ecsMandate" : "ECS Mandate",
+    "ecsBankName" : "ECS Bank Name",
+    "insPremiumAmt" : "Ins.Premium Amt",
+    "amount":"Amount",
+    "termSheetTag3" :"Deduction Charges from Loan Amount",
+    "termSheetTag4" : "Vehicle Registration number, Engine number and Chassis number De-dupe details",
+    "emiCoveragePremium" : "EMI Coverage Premium",
+    "totalDeductionAmount" : "Total Deduction Amount",
+    "bankAc" : "Bank A/c",
+    "executiveName" : "Executive Name",
+    "creditApprovalDeviation" : "Credit Approval Deviation",
+    "approvalDetails" : "Approval Details",
+    "actualValue" : "Actual Value",
+    "factor": "Factor",
+    "deviated" : "Deviated",
+    "minValue" : "Min Value",
+    "approver" : "Approver",
+    "maxValue" : "Max Value",
+    "agreementNumber" : "Agreement Number",
+    "effectiveDisbursementDate" : "Effective Disbursement Date",
+   "customerName" : "Customer Name",
+   "futurePrincipal" : "Future Principal",
+   "loanStatus" : "Loan Status",
+   "riOverdue" :"RI Overdue",
+   "nocBlock" : "NOC Block",
+   "nocBlockDate" :"NOC Block Date",
+   "completedTenure" : "Completed Tenure",
+   "repayInMonths" : "Repay in Months",
+   "recoveryStatus" : "Recovery Status",
+   "closedCancelledDate" : "Closed / Cancelled Date",
+   "dateTime": "Date & Time",
+   "dpd" : "DPD",
     "validationData": {
         "name": {
             "maxLength": {
@@ -972,6 +1241,15 @@
                 "msg": "Invalid Number"
             }
         },
+        "remark": {
+            "maxLength": {
+                "rule": 40
+            },
+            "pattern": {
+                "rule": " ",
+                "msg": "Invalid Number"
+            }
+        },
         "numberOfEmployeeSeen": {
             "maxLength": {
                 "rule": 10
@@ -1003,6 +1281,11 @@
                 "msg": "Invalid Number"
             },
             "type": "number"
+        },
+        "address" : {
+            "maxLength": {
+                "rule": 50
+            }
         },
         "vehicleRegNo": {
             "maxLength": {
@@ -1042,13 +1325,13 @@
         },
         "noOfTrips": {
             "maxLength": {
-                "rule": 3
+                "rule": 5
             },
             "type": "number"
         },
         "noOfEmployeesSeen": {
             "maxLength": {
-                "rule": 3
+                "rule": 5
             },
             "type": "number"
         },
@@ -1080,8 +1363,8 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[0-9]{12}",
-                "msg": "Aadhar Should be 12 Digits"
+                "rule": "^[1-9][0-9]*$",
+                "msg": "Aadhar Number Should be Valid"
             }
         },
         "panNumber": {
@@ -1091,7 +1374,7 @@
             "type": "alpha-numeric",
             "patternCheck": {
                 "rule": "[A-Z]{5}[0-9]{4}[A-Z]{1}",
-                "msg": "Pan is invalid"
+                "msg": "Invalid PAN. Valid format-AAAAA1234A"
             }
         },
         "drivingLicense": {
@@ -1101,7 +1384,7 @@
             "type": "alpha-numeric",
             "patternCheck": {
                 "rule": "[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{11}",
-                "msg": "Driving License Number is invalid"
+                "msg": "Invalid Driving License.Valid format-AA12A12345678901"
             }
         },
         "voterId": {
@@ -1111,7 +1394,7 @@
             "type": "alpha-numeric",
             "patternCheck": {
                 "rule": "[A-Z]{3}[0-9]{7}",
-                "msg": "Voter Number is invalid"
+                "msg": "Invalid Voter Id. Valid format-AAA1234567"
             }
         },
         "passportNumber": {
@@ -1121,15 +1404,61 @@
             "type": "alpha-numeric",
             "patternCheck": {
                 "rule": "[A-Z]{1}[0-9]{7}",
-                "msg": "Passport Number is invalid"
+                "msg": "Invalid Passport Number. Valid format-A1234567"
+            }
+        },
+        "cinRegNumber": {
+            "maxLength": {
+                "rule": 26
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{1}",
+                "msg": "Should be Valid"
+            }
+        },
+        "cstVatNumber": {
+            "maxLength": {
+                "rule": 11
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{1}",
+                "msg": "Should be Valid"
+            }
+        },
+        "gstNumber": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}",
+                "msg": "Invalid GST Number. Valid format-12AAAAA1234A1A1"
+            }
+        },
+        "tanNumber": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{1}",
+                "msg": "Should be Valid"
             }
         },
         "pincode": {
             "maxLength": {
-                "rule": 6
+                "rule": 6,
+                "msg": "Pincode Max Length Should be 6"
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[5-6]{1}[0-9]{5}",
+                "msg": "Invalid Pincode"
+            }
         },
+        
         "numberOfYears": {
             "maxLength": {
                 "rule": 2
@@ -1140,7 +1469,11 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{10}",
+                "msg": "Number Should be valid and atleast 10 Digits"
+            }
         },
         "directorName": {
             "maxLength": {
@@ -1153,6 +1486,24 @@
                 "rule": 25
             },
             "type": "alpha-numeric"
+        },
+        "externalRating": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "alpha-numeric"
+        },
+        "totalExposure": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "creditRiskScore": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
         },
         "businessEntity": {
             "maxLength": {
@@ -1226,19 +1577,19 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 10
+                "rule": 2
             },
             "type": "number"
         },
         "seatingCapacity": {
             "maxLength": {
-                "rule": 3
+                "rule": 2
             },
             "type": "number"
         },
         "cubicCapacity": {
             "maxLength": {
-                "rule": 10
+                "rule": 5
             },
             "type": "alpha-numeric"
         },
@@ -1259,6 +1610,11 @@
                 "rule": 5
             },
             "type": "number"
+        },
+        "endUseOfFunds": {
+            "maxLength": {
+                "rule": 100
+            }
         }
     }
 }

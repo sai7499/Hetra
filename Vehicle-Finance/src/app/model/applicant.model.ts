@@ -8,6 +8,7 @@ export interface Applicant {
   indivProspectProfileDetails?: IndivProspectProfileDetails;
   corporateProspectDetails?: CorporateProspectDetails;
   addressDetails?: AddressDetails[];
+  directorDetails?: DirectorDetails[];
 }
 
 export interface ApplicantList {
@@ -37,6 +38,23 @@ export interface ApplicantDetails {
   custSegment?: string;
   applicantTypeKey?: string;
   entityTypeKey?: string;
+  bussinessEntityType?: string;
+  monthlyIncomeAmount?: string;
+  annualIncomeAmount?: string;
+  ownHouseProofAvail?: string;
+  houseOwnerProperty?: string;
+  ownHouseAppRelationship?: string;
+  averageBankBalance?: string;
+  rtrType?: string;
+  prevLoanAmount?: string;
+  loanTenorServiced?: number;
+  currentEMILoan?: string;
+  agriNoOfAcres?: number;
+  agriOwnerProperty?: string;
+  agriAppRelationship?: string;
+  grossReceipt?: number;
+
+
 }
 
 export interface ApplicantList {
@@ -98,6 +116,7 @@ export interface AddressDetails {
   periodOfCurrentStay?: number;
   isCurrAddSameAsPermAdd?: string;
   entityTypeKey?: string;
+  nearestLandmark?: string;
 }
 
 export interface CorporateProspectDetails {
@@ -189,4 +208,9 @@ export interface ApplicantDedupe {
   prospectVoterID?: string;
   ucic?: string;
   voterID?: string;
+}
+
+export interface DirectorDetails{
+  directorName?: string;
+  din?: string;
 }

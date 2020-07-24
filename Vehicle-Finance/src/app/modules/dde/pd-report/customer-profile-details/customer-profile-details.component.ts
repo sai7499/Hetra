@@ -151,11 +151,13 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
-      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .-]*$/), Validators.required])),
+      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200), 
+                         Validators.required])),
       customerHouseSelfie: new FormControl('', Validators.required),
       ownershipAvailable: new FormControl('', Validators.required),
       mandatoryCustMeeting: new FormControl('', Validators.required)
     });
+    // Validators.pattern(/^[a-zA-Z.-]*$/)
   }
 
   commonService() {
@@ -178,24 +180,15 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   getPdDetails() {
+    console.log("pd version", this.version)
 
-    if (this.roleType == 1) {
-      this.data = {
+    const data = {
 
-        // applicantId: 6,
-        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
-        pdVersion: this.version,
-      };
-    }
-    else if (this.roleType == 2) {
-      this.data = {
-
-        // applicantId: 6,
-        applicantId: this.applicantId,  /* Uncomment this after getting applicant Id from Lead */
-      };
+      applicantId: this.applicantId,
+      pdVersion: this.version,
     }
 
-    this.personalDiscussion.getPdData(this.data).subscribe((value: any) => {
+    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
@@ -236,7 +229,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
     const customerProfileModal = this.custProfDetails || {};
 
-    console.log('in form value', customerProfileModal)
+    console.log('in form value', customerProfileModal);
 
     this.customerProfileForm.patchValue({
       offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
@@ -250,7 +243,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       ownershipAvailable: customerProfileModal.ownershipAvailable || '',
       mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
     });
-    console.log("patched form", this.customerProfileForm);
+    console.log('patched form', this.customerProfileForm);
   }
 
 
@@ -289,7 +282,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('customer Profle Details saved !', '');
+        this.toasterService.showSuccess('Record Saved Successfully', '');
 
       } else {
         console.log('error', res.ProcessVariables.error.message);

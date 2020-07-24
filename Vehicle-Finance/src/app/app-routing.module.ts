@@ -126,6 +126,13 @@ const routes: Routes = [
           ).then((m) => m.TeleVerificarionFormModule),
       },
       {
+        path: 'fi-list',
+        loadChildren: () =>
+        import(
+          './modules/dde/fi-report/fi-report.module'
+          ).then((m) => m.FiReportModule),
+      },
+      {
         path: 'vehicle-valuation',
         loadChildren: () =>
           import(
@@ -143,6 +150,13 @@ const routes: Routes = [
           import(
             './modules/sales/applicant-details/applicant-details.module'
           ).then((m) => m.ApplicantDetailsModule),
+      },
+      {
+        path: 'viability-list',
+        loadChildren: () =>
+          import(
+            './modules/dde/viability-dashboard/viability-dashboard.module'
+          ).then((m) => m.ViabilityDashboardModule),
       },
     ],
   },

@@ -228,9 +228,9 @@
             <app-custom-input
               formControlName="nameOne"
               [className]="'form-control mandatory'"
-              [placeholder]="'First Name'"
+              [placeholder]="firstPlaceholder"
               [maxLength]="nameLength"
-              [isRequired]="nameErrorMessage"
+              [isRequired]= "isFirstNameRequired ? 'First Name is mandatory' : 'Company Name 1 is mandatory' "
               [isDirty]="isDirty"
               [type]="namePattern"
               >
@@ -243,7 +243,7 @@
             <app-custom-input
               formControlName="nameTwo"
               [className]="'form-control mandatory'"
-              [placeholder]="'Middle Name'"
+              [placeholder]="secondPlaceholder"
               [maxLength]="nameLength"
               [isDirty]="isDirty"
               [type]="namePattern"
@@ -252,13 +252,18 @@
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }}</label>
-            <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}</label>
+            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }} 
+              <sub class="star_red_col" *ngIf="applicantType == 'INDIVENTTYP'">*</sub>
+            </label>
             <app-custom-input
               formControlName="nameThree"
               [className]="'form-control mandatory'"
-              [placeholder]="'Last Name'"
+              [placeholder]="thirdPlaceholder"
               [maxLength]="nameLength"
+              [isRequired]="isLastNameRequired ? 'Last Name is mandatory': '' "
               [isDirty]="isDirty"
               [type]="namePattern">
             </app-custom-input>
@@ -292,7 +297,7 @@
               formControlName="dateOfBirth" 
               [format]="'dd/MM/yyyy'"
               [max]="toDayDate" 
-              placeholder="Date of birth"
+              [placeholder]="dobOrDoiPlaceHolder"
               [activeView]="'decade'"></kendo-datepicker>  
           </div>
 

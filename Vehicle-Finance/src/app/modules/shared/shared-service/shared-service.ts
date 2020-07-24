@@ -10,7 +10,6 @@ export class SharedService {
     leadData$: BehaviorSubject<string> = new BehaviorSubject(null);
 
     leadDataToHeader(data) {
-        console.log('prd', data)
         this.leadData$.next(data);
     }
 
@@ -36,7 +35,6 @@ export class SharedService {
 
     taskId$: BehaviorSubject<any> = new BehaviorSubject('');
     getTaskID(data) {
-        console.log("in shared service", data)
         this.taskId$.next(data)
     }
 }

@@ -77,6 +77,8 @@ export class SourcingDetailsComponent implements OnInit {
 
   isSourchingCode: boolean;
   isDirty: boolean;
+  isSaved: boolean;
+  amountTenureData: any;
 
   sourcingCodeObject: {
     key: string;
@@ -232,10 +234,16 @@ export class SourcingDetailsComponent implements OnInit {
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
+    const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
+    this.amountTenureData = { ...amountAndTenureData };
+    console.log('this.amountTenureData', amountAndTenureData);
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
-    this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount, });
-    this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
+    const amount = (!this.amountTenureData.loanAmount) ? requiredLoanAmount : this.amountTenureData.loanAmount;
+    const tenure = (!this.amountTenureData.loanTenure) ? requiredLoanTenor : this.amountTenureData.loanTenure;
+    this.sourcingDetailsForm.patchValue({ requestedAmount: amount });
+    this.sourcingDetailsForm.patchValue({ requestedTenor: tenure });
+
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
 
     const leadCreatedby = data.leadDetails.leadCreatedBy;
@@ -427,24 +435,20 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeKey = '';
   }
 
-  setPatchData(data) {
-    this.sourcingDetailsForm.patchValue({ bizDivision: 'EBBIZDIV' });
-  }
-
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
       leadNumber: new FormControl({ value: '', disabled: true }),
       leadCreatedDate: new FormControl({ value: '', disabled: true }),
       leadCreatedBy: new FormControl({ value: '', disabled: true }),
-      leadHandeledBy: new FormControl(''),
-      productCategory: new FormControl(''),
+      leadHandeledBy: new FormControl('', Validators.required),
+      productCategory: new FormControl('', Validators.required),
       priority: new FormControl(''),
-      product: new FormControl(''),
-      bizDivision: new FormControl(''),
-      sourcingChannel: new FormControl(''),
-      sourcingType: new FormControl(''),
-      sourcingCode: new FormControl(''),
-      dealerCode: new FormControl(''),
+      product: new FormControl('', Validators.required),
+      bizDivision: new FormControl('', Validators.required),
+      sourcingChannel: new FormControl('', Validators.required),
+      sourcingType: new FormControl('', Validators.required),
+      sourcingCode: new FormControl('', Validators.required),
+      dealerCode: new FormControl('', Validators.required),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
       requestedAmount: new FormControl('', Validators.required),
@@ -488,9 +492,15 @@ export class SourcingDetailsComponent implements OnInit {
         const apiError = response.ProcessVariables.error.code;
 
         if (appiyoError === '0' && apiError === '0') {
-          this.toasterService.showSuccess('Lead Updated Successfully !', '');
+          this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
           this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
+          const data = {
+            loanAmount: Number(saveAndUpdate.requestedAmount),
+            loanTenure: Number(saveAndUpdate.requestedTenor)
+          };
+          this.createLeadDataService.setLoanAmountAndTenure(data);
+          this.isSaved = true;
         }
       });
     } else {
@@ -504,18 +514,25 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
-    const currentUrl = this.location.path();
-    if (currentUrl.includes('sales')) {
-      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-      return;
+    if (this.sourcingDetailsForm.valid === true) {
+      if (!this.isSaved) {
+        this.saveAndUpdate();
+      }
+      const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+        return;
+      }
+      if (currentUrl.includes('dde')) {
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+        return;
+      }
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/applicant-details`
+      );
+    } else {
+      this.toasterService.showError('Please fill all mandatory fields.', 'Lead Details');
     }
-    if (currentUrl.includes('dde')) {
-      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
-      return;
-    }
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/applicant-details`
-    );
   }
 
   getLeadId() {

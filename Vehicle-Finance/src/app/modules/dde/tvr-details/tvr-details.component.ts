@@ -32,7 +32,6 @@ export class TvrDetailsComponent implements OnInit {
     this.getLeadId();
     this.leadId = (await this.getLeadId()) as number;
     console.log(this.leadId);
-    // this.getTvrDetails();
     this.getTvrDetailsList();
   }
 
@@ -41,13 +40,13 @@ export class TvrDetailsComponent implements OnInit {
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
-          // console.log(Number(value.leadId));
         }
         resolve(null);
       });
     });
   }
 
+  // getting TVR applicant details method
   getTvrDetailsList() {
     const data = {
       leadId: this.leadId,
@@ -55,19 +54,10 @@ export class TvrDetailsComponent implements OnInit {
     };
     this.tvrService.getTvrDetailsList(data).subscribe((res: any) => {
       this.tvrList = res.ProcessVariables.tvrApplicantsList;
-      // this.applicantId = res.ProcessVariables.tvrApplicantsList[0].applicantId;
       console.log('TVR-Dashboard_list', this.tvrList);
     });
 
   }
-
-  // getTvrDetails() {
-  //   this.tvrService.getTvrDetails().subscribe((res: any) => {
-  //     this.tvrData = res.ProcessVariables.tvr;
-  //     console.log(this.tvrData);
-  //     this.tableData = this.tvrData;
-  //   });
-  // }
 
   async onViewClick(applicantId: string, applicantType: string) {
 
@@ -75,5 +65,12 @@ export class TvrDetailsComponent implements OnInit {
     this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${applicantType}/${applicantId}`);
   }
 
+  onBack() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+  }
+
+  onNext() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+  }
 
 }

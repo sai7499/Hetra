@@ -9,7 +9,6 @@ import { IncomeDetailsComponent } from './income-details/income-details.componen
 import { ExposureDetailsComponent } from './exposure-details/exposure-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
-import { FlReportComponent } from './fl-report/fl-report.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
@@ -19,15 +18,18 @@ import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SourcingDetailsComponent } from '@modules/lead-section/sourcing-details/sourcing-details.component';
 import { ViabilityListComponent } from './viability-list/viability-list.component';
-import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
+// import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { PdListComponent } from './pd-list/pd-list.component';
+import { FiListComponent } from './fi-list/fi-list.component';
+import { CanActivateService } from '@services/can-activate.service';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: DdeComponent,
+    // canActivate: [CanActivateService],
     resolve: { leadData: LeadDataResolverService },
     children: [
       {
@@ -63,10 +65,6 @@ const routes: Routes = [
         component: ExposureDetailsComponent,
       },
       {
-        path: 'fl-report',
-        component: FlReportComponent,
-      },
-      {
         path: 'insurance-details',
         component: InsuranceDetailsComponent,
       },
@@ -91,6 +89,10 @@ const routes: Routes = [
         component: TvrDetailsComponent,
       },
       {
+        path: 'fi-list',
+        component: FiListComponent
+      },
+      {
         path: 'cam',
         component: CamComponent,
       },
@@ -104,23 +106,19 @@ const routes: Routes = [
       // },
 
       {
-        path: 'deviations',
-        component: DeviationsComponent,
-      },
-      {
-        path: 'viability-dashboard',
+        path: 'viability-list',
         component: ViabilityListComponent,
       },
       {
-        path: 'viability-details',
-        component: ViabilityDetailsComponent,
+        path: 'deviations',
+        component: DeviationsComponent,
       },
       {
         path: 'cibil-od',
         component: CibilOdComponent,
       },
       {
-        path: 'cibil-od-list',
+        path: 'cibil-od-list/:applicantId',
         component: CibilOdListComponent,
       },
     ],

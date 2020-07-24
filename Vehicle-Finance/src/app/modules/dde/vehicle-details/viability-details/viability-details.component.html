@@ -3,7 +3,7 @@
     <form [formGroup]="viabilityForm">
 
         <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
-            (change)="vehicle_viability_navigate($event.target.value)">
+            (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
         </select>
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
@@ -11,9 +11,12 @@
         </app-vf-custom-select> -->
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
             <h3 class="title">{{label?.passengerTitle}}</h3>
-
-            <!-- <p id="">Customer Name: Nixon</p>  -->
-            <p id="">{{label?.vehicleModel}}:{{vehicleModel}}</p>
+             
+            
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
+            
+            
             <!-- <form action="" method="POST"> -->
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
@@ -25,12 +28,22 @@
                 </tr>
                 <tbody>
                     <tr>
-                        <td class="text-left">{{label?.route}}</td>
+                        <td class="text-left">{{label?.onwardRoute}}</td>
                         <td>
                             <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
-                            <app-custom-input formControlName="route" [patternCheck]="label?.validationData?.name?.type"
+                            <app-custom-input formControlName="onwardRoute" [patternCheck]="label?.validationData?.name?.type"
                                 [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
-                                [placeholder]="'Enter Route Details'"
+                                [placeholder]="'Enter Onward Route Details'"
+                                [type]="'alpha'"></app-custom-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"> {{label?.returnRoute}}</td>
+                        <td>
+                            <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
+                            <app-custom-input formControlName="returnRoute" [patternCheck]="label?.validationData?.name?.type"
+                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter  Return Route Details'"
                                 [type]="'alpha'"></app-custom-input>
                         </td>
                     </tr>
@@ -124,6 +137,41 @@
                                 [isDirty]="isDirty"
                                 [type]="label?.validationData?.amountValue?.type"
                                 (keyup)="calculatePassenger()"
+                                ></app-custom-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>(f) {{label?.otherRevenue}}</td>
+                        <td>
+                            <!-- <input type="number" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"
+                                formControlName="otherIncome" placeholder="Enter Rate of Tonne" (keyup)="calculatePassenger()" /> -->
+                                <app-custom-input
+                                [id]="rate_tonne_kl"
+                                formControlName="otherIncome"
+                                [patternCheck]="inputValidation"
+                                [maxLength]="label?.validationData?.amountValue?.maxLength"  
+                                [placeholder]="'Enter Other Revenue'"
+                               
+                                [type]="label?.validationData?.amountValue?.type"
+                                (keyup)="calculatePassenger()"
+                                ></app-custom-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> {{label?.otherRevenueRemarks}}</td>
+                        <td>
+                            <!-- <input type="text" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"    
+                                formControlName="otherIncomeRemarks" placeholder="Enter Other Renvenue Remarks" /> -->
+                                <app-custom-input
+                                [id]="rate_tonne_kl"
+                                formControlName="otherIncomeRemarks"
+                                [patternCheck]="label?.validationData?.landMark?.pattern"
+                                [maxLength]="label?.validationData?.landMark?.maxLength"
+                                
+                                [placeholder]="'Enter Other Renvenue Remarks If Any'"
+                               
+                               
+                                
                                 ></app-custom-input>
                         </td>
                     </tr>
@@ -437,6 +485,60 @@
                             </td>
                     </tr>
                     <tr>
+                        <td>{{label?.otherExpenses}}</td>
+                        <td>
+                            <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="busInsurenceExpenses" /> -->
+                                <app-custom-input
+                                [id]="insurance_expenses"
+                                formControlName="otherExpenses"
+                                [patternCheck]="inputValidation"
+                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [isRequired]="'Other Expenses Is Required'"
+                                [isDirty]="isDirty"
+                                [type]="label?.validationData?.amountValue?.type"
+                                [placeholder]="'Enter Other Expenses If Any'"
+                                (keyup)="calculatePassengerC()"
+                                ></app-custom-input>
+                            </td>
+                    </tr>
+                   
+                    <tr>
+                        <td>{{label?.otherExpesesRemark}}</td>
+                        <td>
+                            <!-- <input type="textarea" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="otherExpensesRemarks" /> -->
+                                <app-custom-input
+                                [id]="insurance_expenses"
+                                formControlName="otherExpensesRemarks"
+                                
+                                [maxLength]="label?.validationData?.remark?.maxLength"
+                                
+                                [type]="label?.validationData?.landMark?.type"
+                                [placeholder]="'Enter Other Expenses Remarks If Any'"
+                                
+                                ></app-custom-input>
+                            </td>
+                    </tr> 
+                    <tr>
+                        <td>{{label?.operationExpenses}}</td>
+                        <td>
+                            <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
+                                formControlName="busInsurenceExpenses" /> -->
+                                <app-custom-input
+                                [id]="insurance_expenses"
+                                formControlName="operationsExpenses"
+                                [patternCheck]="inputValidation"
+                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                               
+                                
+                                [type]="label?.validationData?.amountValue?.type"
+                                [placeholder]="'Enter Operational Expenses If  Any'"
+                                (keyup)="calculatePassengerC()"
+                                ></app-custom-input>
+                            </td>
+                    </tr>
+                    <tr>
                         <td>{{label?.totalExpenses}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="total_expenses" id="total_expenses"
@@ -455,6 +557,7 @@
                                 ></app-custom-input>
                             </td>
                     </tr>
+                    
                     <tr>
                         <td >&nbsp;</td>
                         <td></td>
@@ -497,8 +600,8 @@
             *ngIf="vehicle_viability_value === '2VHCLVBTY'">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
-            <!-- <p id="">Customer Name: ANTONY</p>  -->
-            <p id="">{{label?.vehicleModel}}:{{vehicleModel}}</p>
+            <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
             <table
@@ -721,8 +824,8 @@
         <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === '3VHCLVBTY'">
             <h3 class="title">{{label?.passengerTitle}}</h3>
 
-            <!-- <p id="">Customer Name: BALAJI</p>  -->
-            <p id="">{{label?.vehicleModel}}: {{vehicleModel}}</p>
+            <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
             <table
@@ -966,8 +1069,36 @@
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label.back}}</button> &nbsp;
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label.save}} </p>&nbsp;
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onNext()">{{label.next}}</button>&nbsp;
+        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> &nbsp;
+        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>&nbsp;
+        <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
+        <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="hideSubmit">
+            <p type="button" class="btn btn-primary">{{label?.submit}}</p>
+        </a>
+    </div>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <p>{{label?.submitToCredit}}</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
+                    value="Yes" (click)="submitViability()">{{label?.yes}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{label?.cancel}}</button>
+            </div>
+
+        </div>
     </div>
 </div>

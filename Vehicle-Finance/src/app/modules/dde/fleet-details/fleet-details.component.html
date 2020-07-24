@@ -37,7 +37,9 @@
                                 <app-custom-input formControlName="regdNo" 
                                     [className]="'form-control mandatory'" 
                                     [placeholder]="'regdNo'" 
-                                    [maxLength]="validationData?.vehicleRegNo['maxLength']" [isRequired]="'Registration number is mandatory'" [type]="validationData?.vehicleRegNo['type']"
+                                    [maxLength]="validationData?.vehicleRegNo['maxLength']" 
+                                    [isRequired]="'Registration number is mandatory'" 
+                                    [type]="validationData?.vehicleRegNo['type']"
                                     [isDirty]="isDirty"
                                     [inputClass]="'input-upper'">
                                 </app-custom-input>
@@ -209,7 +211,7 @@
                                     </app-custom-input>
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
-                                        Paid not grater Tenure
+                                        Paid not grater than Tenure
                                     </div>
 
                                     <!-- <input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">
@@ -293,7 +295,7 @@
     </div>
 
 </form>
-
+ 
 <!-- 
         <div class="btn-sec clear-both row text-right">
             <div class="col-sm-12">

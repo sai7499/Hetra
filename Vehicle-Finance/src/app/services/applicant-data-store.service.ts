@@ -8,12 +8,14 @@ import {
   AddressDetails,
   IndivIdentityInfoDetails,
   IndivProspectProfileDetails,
+  DirectorDetails
 } from '@model/applicant.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicantDataStoreService {
+  applicantRelation : any;
   applicant: Applicant = {};
   applicantId = '';
   setApplicant(applicant: Applicant) {
@@ -35,6 +37,10 @@ export class ApplicantDataStoreService {
     const indivProspectProfileDetails = applicant.indivProspectProfileDetails
       ? applicant.indivProspectProfileDetails
       : {};
+    const directorDetails = applicant.directorDetails
+      ? applicant.directorDetails
+      : [];
+
     this.applicant = {
       aboutIndivProspectDetails,
       addressDetails,
@@ -42,6 +48,7 @@ export class ApplicantDataStoreService {
       corporateProspectDetails,
       indivIdentityInfoDetails,
       indivProspectProfileDetails,
+      directorDetails,
       otpVerified: applicant.otpVerified,
     };
   }
@@ -94,6 +101,10 @@ export class ApplicantDataStoreService {
     this.applicant.addressDetails = value;
   }
 
+  setDirectorDetails(value : DirectorDetails[]){
+    this.applicant.directorDetails = value;
+  }
+
   setApplicantId(applicantId) {
     this.applicantId = applicantId;
   }
@@ -109,5 +120,12 @@ export class ApplicantDataStoreService {
       ...value,
     };
     this.applicant.indivIdentityInfoDetails = newDetails;
+  }
+
+  setApplicantRelation(value){
+    this.applicantRelation= value;
+  }
+  getApplicantRelation(){
+    return this.applicantRelation;
   }
 }

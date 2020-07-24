@@ -28,6 +28,7 @@ export class MyTasksComponent implements OnInit {
   roles: any;
   roleName: any;
   roleType: any;
+  isLoadLead = true;
 
 
   constructor(
@@ -39,7 +40,7 @@ export class MyTasksComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedService: SharedService,
   ) {
-
+   
   }
 
 
@@ -81,6 +82,11 @@ export class MyTasksComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+      }
     });
   }
 

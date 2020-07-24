@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
@@ -12,16 +12,15 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
   templateUrl: './basic-vehicle-details.component.html',
   styleUrls: ['./basic-vehicle-details.component.css']
 })
-export class BasicVehicleDetailsComponent implements OnInit {
+export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
-  public formDataFromChild: any = {};
-  public vehicleDetails: any = [];
   public leadData: any;
   public leadId: number;
   public routerId: number;
 
   public formValue: any;
   public isDirty: boolean;
+  public subscription: any;
 
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
@@ -32,21 +31,13 @@ export class BasicVehicleDetailsComponent implements OnInit {
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
 
-
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
     })
 
-    this.sharedService.vaildateForm$.subscribe((value) => {
+   this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-  }
-
-
-  FormDataParentMethod(value: any) {
-    this.formDataFromChild = value;
-    this.vehicleDetails = value[0];
-
   }
 
   onSubmit() {
@@ -69,7 +60,7 @@ export class BasicVehicleDetailsComponent implements OnInit {
         const apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess(apiError, 'Vehicle Detail');
+          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
           this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
         } else {
           this.toasterService.showError(apiError, 'Vehicle Detail')
@@ -85,5 +76,10 @@ export class BasicVehicleDetailsComponent implements OnInit {
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
 }
 

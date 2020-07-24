@@ -1,5 +1,73 @@
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm" (change)="formDataOutputMethod($event)"
-    *ngIf="label.validationData">
+<!-- <form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
+    <ng-container formArrayName="vehicleFormArray">
+
+        <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
+            [formGroupName]="i">
+
+            <div id="sales_section_start">
+
+                <h3 class="title" style="margin-top: -10px;" *ngIf="roleType == 1"> {{ label.vehcileDetailsTitle }}
+                </h3>
+
+                <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
+                        <label for="registartion_number"> {{ label.registartionNumber }}
+                            <sub class="star_red_col">*</sub>
+                        </label>
+
+                        <app-custom-input formControlName="vehicleRegNo"
+                            [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
+                            [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
+                            [inputClass]="'input-upper'" [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="vechical_region"> {{ label.vechicalRegion }}
+                            <sub class="star_red_col">*</sub>
+                        </label>
+
+                        <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
+                            formControlName="region" [isRequired]="'Vehicle Region Required'"
+                            (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="asset_make"> {{ label.assetMake }} <sub class="star_red_col">*</sub> </label>
+
+                        <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
+                            formControlName="assetMake" [isRequired]="'Asset Make Required'"
+                            (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="vechical_type"> {{ label.vechicalType }} <sub class="star_red_col">*</sub> </label>
+
+                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                            formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                            (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </ng-container>
+</form> -->
+
+<form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -35,7 +103,7 @@
 
                         <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
                             formControlName="region" [isRequired]="'Vehicle Region Required'"
-                            (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
+                            (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
                     </div>
@@ -45,7 +113,7 @@
 
                         <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
                             formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                            (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                            (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
                     </div>
@@ -55,7 +123,7 @@
 
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                             formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                            (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                            (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
                     </div>
@@ -70,7 +138,7 @@
 
                         <app-vf-custom-select [values]="vehicleLov?.assetBodyType" [id]="'asset_body_type'"
                             formControlName="assetBodyType" [isRequired]="'Asset Body Type Required'"
-                            (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                            (change)="onAssetBodyType($event.target.value, obj)" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
                     </div>
@@ -81,7 +149,7 @@
 
                         <app-vf-custom-select [values]="vehicleLov?.assetModel" [id]="'asset_model'"
                             formControlName="assetModel" [isRequired]="'Asset Model Required'"
-                            (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                            (change)="onAssetModel($event.target.value, obj)" [isDirty]="isDirty">
                         </app-vf-custom-select>
 
                     </div>
@@ -123,6 +191,10 @@
                             <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
                                 Year and Month Manufacturing Required
                             </div>
+                        </div>
+
+                        <div class="invalid-feedback" *ngIf="customFutureDate">
+                            Invalid Date
                         </div>
 
                     </div>
@@ -173,8 +245,8 @@
                         <app-custom-input formControlName="assetCostIBB" [type]="label.validationData?.amountValue.type"
                             [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
-                            (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
-                            (change)="onCompareFinalAssetCode($event.target.value)"
+                            (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
+                            (change)="onCompareFinalAssetCode($event)"
                             [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Indian Bluebook'">
                         </app-custom-input>
@@ -189,8 +261,8 @@
                         <app-custom-input formControlName="assetCostCarTrade"
                             [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                             [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                            (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
-                            (change)="onCompareFinalAssetCode($event.target.value)"
+                            (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
+                            (change)="onCompareFinalAssetCode($event)"
                             [maxLength]="label.validationData?.amountValue.maxLength"
                             [placeholder]="'Asset Cost basis Carwale'">
                         </app-custom-input>
@@ -251,10 +323,10 @@
                                 class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
+                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                             [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                             [placeholder]="'Name of Vehicle Owner/Dealer'"
-                            [maxLength]="label.validationData?.fullName.maxLength"
+                            [maxLength]="label.validationData?.name.maxLength"
                             [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -304,8 +376,9 @@
 
                         <app-custom-input formControlName="pincode" [type]="label.validationData?.pincode.type"
                             [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
-                            [placeholder]="'Vehicle Address PINCODE'"
+                            [placeholder]="'Vehicle Address PINCODE'" [custom]="initalZeroCheck"
                             [maxLength]="label.validationData?.pincode.maxLength"
+                            (keyup)="getPincode(obj.controls['pincode'].value)"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -316,8 +389,9 @@
 
                         <!-- [patternCheck]="label.validationData?.noOfVehicles.pattern" -->
 
-                        <app-custom-input formControlName="noOfVehicles" [type]="label.validationData?.noOfVehicles.type"
-                            [id]="'no_vehicle'" [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
+                        <app-custom-input formControlName="noOfVehicles"
+                            [type]="label.validationData?.noOfVehicles.type" [id]="'no_vehicle'"
+                            [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
                             [maxLength]="label.validationData?.noOfVehicles.maxLength" [custom]="initalZeroCheck"
                             [isRequired]="'No of vehicles Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -339,7 +413,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
                                 formControlName="region" [isRequired]="'Vehicle Region Required'"
-                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -349,7 +423,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
                                 formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -359,7 +433,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -374,7 +448,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
                                 [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
-                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetBodyType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -384,7 +458,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
                                 [id]="'asset_model'" [isRequired]="'Asset Model Required'"
-                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetModel($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -432,6 +506,10 @@
                                 <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
                                     Year and Month Manufacturing Required
                                 </div>
+                            </div>
+
+                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                                Invalid Date
                             </div>
 
                         </div>
@@ -623,9 +701,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
 
-                            <app-custom-input formControlName="insurance" [type]="label.validationData?.amountValue.type"
-                                [id]="'insurance'" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
+                            <app-custom-input formControlName="insurance"
+                                [type]="label.validationData?.amountValue.type" [id]="'insurance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Insurance'">
                             </app-custom-input>
 
                         </div>
@@ -708,7 +787,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
                                 formControlName="region" [isRequired]="'Vehicle Region Required'"
-                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -718,7 +797,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
                                 formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -728,7 +807,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -743,7 +822,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
                                 [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
-                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetBodyType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -753,7 +832,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
                                 [id]="'asset_model'" [isRequired]="'Asset Model Required'"
-                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetModel($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -801,6 +880,10 @@
                                 <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
                                     Year and Month Manufacturing Required
                                 </div>
+                            </div>
+
+                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                                Invalid Date
                             </div>
 
                         </div>
@@ -956,8 +1039,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData?.chasisEngineNo.type" [className]="'form-control mandatory'"
-                                [placeholder]="'Proforma Invoice No'"
+                                [type]="label.validationData?.chasisEngineNo.type"
+                                [className]="'form-control mandatory'" [placeholder]="'Proforma Invoice No'"
                                 [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
                         </div>
@@ -1003,7 +1086,8 @@
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'One Time Tax'">
+                                [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'One Time Tax'">
                             </app-custom-input>
 
                         </div>
@@ -1087,7 +1171,7 @@
                             </label>
                             <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
                                 formControlName="region" [isRequired]="'Vehicle Region Required'"
-                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1097,7 +1181,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
                                 formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1111,7 +1195,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1121,7 +1205,7 @@
                                     class="star_red_col">*</sub></label>
                             <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
                                 [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
-                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetBodyType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
                         </div>
 
@@ -1130,7 +1214,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
                                 [id]="'asset_model'" [isRequired]="'Asset Model Required'"
-                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetModel($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1177,6 +1261,10 @@
                                 </div>
                             </div>
 
+                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                     </div>
@@ -1205,7 +1293,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis">
                             <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
                             </label>
-                            <app-custom-input formControlName="assetCostGrid" [id]="asset_cost_basis"
+                            <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
                                 [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
                                 [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
@@ -1227,10 +1315,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub> </label>
 
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData?.fullName.maxLength"
+                                [maxLength]="label.validationData?.name.maxLength"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1278,7 +1366,8 @@
                             <app-custom-input formControlName="pincode" [type]="label.validationData?.pincode.type"
                                 [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                                 [placeholder]="'Vehicle Address PINCODE'"
-                                [maxLength]="label.validationData?.pincode.maxLength"
+                                (keyup)="getPincode(obj.controls['pincode'].value)"
+                                [maxLength]="label.validationData?.pincode.maxLength" [custom]="initalZeroCheck"
                                 [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1527,7 +1616,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
                                 formControlName="region" [isRequired]="'Vehicle Region Required'"
-                                (change)="onVehicleRegion($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1537,7 +1626,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
                                 formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                                (change)="onAssetMake($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1551,7 +1640,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                                (change)="onVehicleType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1562,7 +1651,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetBodyType" formControlName="assetBodyType"
                                 [isRequired]="'Asset Body Type Required'" [id]="'asset_body_type'"
-                                (change)="onAssetBodyType($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetBodyType($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1572,7 +1661,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetModel" formControlName="assetModel"
                                 [id]="'asset_model'" [isRequired]="'Asset Model Required'"
-                                (change)="onAssetModel($event.target.value)" [isDirty]="isDirty">
+                                (change)="onAssetModel($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1646,6 +1735,10 @@
                                 </div>
                             </div>
 
+                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
@@ -1677,9 +1770,9 @@
                             <app-custom-input formControlName="assetCostIBB"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event.target.value)"
+                                (keyup)="onCompareFinalAssetCode($event)"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
-                                (change)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_indian"
+                                (change)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
                                 [placeholder]="'Asset Cost basis Indian Bluebook'">
                             </app-custom-input>
 
@@ -1692,8 +1785,8 @@
                             <app-custom-input formControlName="assetCostCarTrade"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event.target.value)" [id]="asset_cost_car"
-                                (change)="onCompareFinalAssetCode($event.target.value)"
+                                (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
+                                (change)="onCompareFinalAssetCode($event)"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Asset Cost basis Carwale'">
                             </app-custom-input>
@@ -1761,9 +1854,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}}</label>
                             <app-custom-input formControlName="vehicleOwnerShipNumber"
-                                [type]="label.validationData?.amountValue.numberOfYears.type" [id]="'vehicle_ownership'"
-                                [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.numberOfYears.maxLength"
+                                [type]="label.validationData?.monthOfManuf.type" [id]="'vehicle_ownership'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.monthOfManuf.maxLength"
                                 [placeholder]="'Vehicle Ownership Number'">
                             </app-custom-input>
                         </div>
@@ -1771,10 +1863,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}}</label>
 
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData?.fullName.maxLength"
+                                [maxLength]="label.validationData?.name.maxLength"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 

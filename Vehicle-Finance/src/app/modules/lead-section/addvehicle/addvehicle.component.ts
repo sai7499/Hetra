@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
@@ -16,31 +15,16 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 })
 export class AddvehicleComponent implements OnInit {
 
-  vehicleForm: FormGroup;
-  private vehicleDetails: any = [];
   public label: any = {};
   public errorMsg: string;
-  public getAllFieldLabel;
-  public show: boolean = false;
-  public formVehicle: any;
-  public isAlert: boolean = false;
-  selectedVehicle: number;
   formValue: any;
 
   isDirty: boolean;
-
-  vehicleArray = [];
   routerId = 0;
 
   // process variable for save/update vehicle collaterals
-
   userId: number;
-  vehicleId: number = 101;
   leadId: number;
-
-  LOV: any = [];
-
-  formDataFromChild: any = {};
 
   constructor(
 
@@ -56,28 +40,22 @@ export class AddvehicleComponent implements OnInit {
 
   ngOnInit() {
 
-    // method for getting all vehicle details related to a lead
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
     this.leadId = leadData['leadId']
 
-    // method for getting labels 
-
-    this.getAllFieldLabel = this.labelsData.getLabelsData()
+    this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
       },
-        error => {
+      error => {
           this.errorMsg = error;
-        });
+      });
 
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
-      if (this.routerId !== null && this.routerId !== undefined) {
-        this.selectedVehicle = Number(this.routerId);
-      }
     })
 
     this.sharedService.vaildateForm$.subscribe((value) => {
@@ -86,21 +64,9 @@ export class AddvehicleComponent implements OnInit {
 
   }
 
-  // parent method to call the child method to access form data
-
-  FormDataParentMethod(value: any) {
-    this.formDataFromChild = value;
-    this.vehicleDetails = value;
-  }
-
   onFormSubmit() {
-    this.saveVehicleCollaterals();
-  }
-
-
-  saveVehicleCollaterals() {
     if (this.formValue.valid === true) {
-      const data = this.vehicleDetails[0];
+      let data = this.formValue.value.vehicleFormArray[0];
 
       data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
@@ -108,18 +74,19 @@ export class AddvehicleComponent implements OnInit {
         const apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.Error === '0') {
-          this.toasterService.showSuccess(apiError, '');
+          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
           this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
         } else {
-          this.toasterService.showError(apiError, '')
+          this.toasterService.showError(apiError, 'Vehicle Details')
         }
       }, error => {
         console.log(error, 'error')
-        this.toasterService.showError(error, '')
+        this.toasterService.showError(error, 'Vehicle Details')
       })
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }
+
 }

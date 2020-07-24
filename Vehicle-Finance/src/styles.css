@@ -168,16 +168,17 @@ h3 {
 }
 
 .search .microphone-icon {
-    /* background: url(../images/mic.png) no-repeat center; */
-    cursor: pointer;
-    margin-inline-end: 16px;
-    padding: 4px 28px 0 7px;
-    right: 0;
-    border-top-right-radius: 1.5em;
-    border-bottom-right-radius: 1.5em;
-    background-color: transparent;
-    /* color: #black; */
-    font-weight: bold;
+       /* background: url(../images/mic.png) no-repeat center; */
+       cursor: pointer;
+       -webkit-margin-end: 16px;
+       margin-inline-end: 16px;
+       padding: 4px 28px 0 7px;
+       right: 0;
+       border-top-right-radius: 1.5em;
+       border-bottom-right-radius: 1.5em;
+       background-color: transparent;
+       font-weight: bold;
+    
 }
 
 .search select {
@@ -382,9 +383,9 @@ form .form-control {
 
 /**los style**/
 
-.container.overflow-hidden {
-    /* overflow-y: hidden; */
-}
+/* .container.overflow-hidden {
+   
+} */
 
 .page-select-width {
     padding: 6px !important;
@@ -652,7 +653,68 @@ h4.table-head-bg.m-0.p-02 {
 .mar-top19 {
     margin-top: 16px;
 }
-.cursor-pointer{
+
+.noDataFound {
+    text-align: center;
+    opacity: 0.7;
+}
+
+.cursor-pointer {
     cursor: pointer;
 }
 
+.multisteps-form__progress1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    margin: 15px 0;
+  }
+@media print {
+    app-root app-lead-section-header { display: none; }
+    .multisteps-form__progress1 {display: none;}
+    app-term-sheet { display: block; }
+    app-sanction-details { display: block; }
+  }
+  
+@media screen and (max-width: 800px) {
+    .invalid-feedback {
+        font-size: 3vw;
+        font-family: zurich-bold;
+        letter-spacing: 0.5px;
+        color: red;
+        padding-top: 0.5vw;
+    }
+    td::before {
+        content: attr(data-label);
+        }
+        
+
+}
+
+
+@media (min-width:400px) and (max-width:767px) {
+    .search{    
+      position: relative;
+      display: inline-block;  
+      height: 150px;
+    }
+
+    .search .search-icon-left {
+        background: url(./assets/images/search.png) no-repeat center;
+        left: 20px;
+        top:-75px;
+    }
+    
+    .search .microphone-icon {
+           /* background: url(../images/mic.png) no-repeat center; */
+           cursor: pointer;
+           -webkit-margin-end: 16px;
+           margin-inline-end: 16px;
+           padding: 4px 28px 0 7px;
+           right: 0;
+           border-top-right-radius: 1.5em;
+           border-bottom-right-radius: 1.5em;
+           background-color: transparent;
+           font-weight: bold;
+           top: -80px;
+    }
+  }

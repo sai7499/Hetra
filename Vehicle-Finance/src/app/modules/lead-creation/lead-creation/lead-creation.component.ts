@@ -63,7 +63,15 @@ export class LeadCreationComponent implements OnInit {
   isMobile: any;
   isSourchingCode: boolean;
   isDirty: boolean;
-  nameErrorMessage: string;
+  nameFirstErrorMessage: string;
+  nameLastErrorMessage: string;
+  firstPlaceholder: string;
+  secondPlaceholder: string;
+  thirdPlaceholder: string;
+  dobOrDoiPlaceHolder: string;
+  isFirstNameRequired: boolean;
+  isLastNameRequired: boolean;
+
 
   obj = {};
   test = [];
@@ -162,7 +170,7 @@ export class LeadCreationComponent implements OnInit {
       entity: new FormControl('', Validators.required),
       nameOne: new FormControl('', Validators.required),
       nameTwo: new FormControl(''),
-      nameThree: new FormControl(''),
+      nameThree: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
     });
@@ -394,14 +402,42 @@ export class LeadCreationComponent implements OnInit {
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;
-    console.log(this.applicantType);
-    if (this.applicantType === 'INDIVENTTYP') {
-      this.namePattern = 'alpha';
-      this.nameErrorMessage = 'First Name is mandatory';
-    } else {
-      this.namePattern = 'text';
-      this.nameErrorMessage = 'Company Name is mandatory';
-    }
+    console.log('applicantType', this.applicantType);
+    (this.applicantType === 'INDIVENTTYP') ? this.onIndividual() : this.onNonIndividual();
+    setTimeout(() => {
+      const nameOne = this.createLeadForm.controls['nameOne'].value;
+      this.createLeadForm.controls['nameOne'].setValue(nameOne || null);
+      const nameThree = this.createLeadForm.controls['nameThree'].value;
+      this.createLeadForm.controls['nameThree'].setValue(nameThree || null);
+    });
+  }
+
+  onIndividual() {
+    this.createLeadForm.controls['nameThree'].setValidators(Validators.required);
+    this.createLeadForm.controls['nameThree'].updateValueAndValidity();
+    this.namePattern = 'alpha';
+    this.nameFirstErrorMessage = 'First Name is mandatory';
+    this.nameLastErrorMessage = 'Last Name is mandatory';
+    this.firstPlaceholder = 'First Name';
+    this.secondPlaceholder = 'Middle Name';
+    this.thirdPlaceholder = 'Last Name';
+    this.dobOrDoiPlaceHolder = 'Date of birth';
+    this.isFirstNameRequired = true;
+    this.isLastNameRequired = true;
+  }
+
+  onNonIndividual() {
+    this.createLeadForm.controls['nameThree'].setValidators([]);
+    this.createLeadForm.controls['nameThree'].updateValueAndValidity();
+    this.namePattern = 'text';
+    this.nameFirstErrorMessage = 'Company Name 1 is mandatory';
+    this.nameLastErrorMessage = '';
+    this.firstPlaceholder = 'Company Name 1';
+    this.secondPlaceholder = 'Company Name 2';
+    this.thirdPlaceholder = 'Company Name 3';
+    this.dobOrDoiPlaceHolder = 'Date of Incorporation';
+    this.isFirstNameRequired = false;
+    this.isLastNameRequired = false;
   }
 
   onChangeLanguage(labels: string) {
@@ -451,7 +487,7 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
-        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value:''
+        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : ''
       };
 
       this.applicantDetails = {

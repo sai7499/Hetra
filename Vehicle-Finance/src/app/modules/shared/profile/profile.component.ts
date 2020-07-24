@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginStoreService } from '../../../services/login-store.service';
 import { UtilityService } from '@services/utility.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -14,11 +15,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   firstLetter: string;
   branchName: string;
   roles = [];
+  activityClass = false;
 
 
   constructor(
     private loginStoreService: LoginStoreService,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService,
+    private router : Router) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -34,6 +37,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     document
       .querySelector('body')
       .addEventListener('click', this.bodyClickEvent);
+     
+      console.log(this.router.url);
+      if(this.router.url.includes('/activity-search')) {
+       
+        this.activityClass = true
+        // console.log(this.activityClass);'
+       
+      } else {
+        this.activityClass = false;
+        // console.log(this.activityClass);
+      }
   }
 
   bodyClickEvent = event => {
@@ -43,6 +57,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       return;
     }
     if (event.target.id === 'profileDropDown') {
+      
       this.openProfile = true;
       return;
     }
@@ -51,8 +66,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   logOut() {
     this.utilityService.logOut();
-    localStorage.removeItem('role');
-    localStorage.removeItem('roleType');
   }
 
   ngOnDestroy() {

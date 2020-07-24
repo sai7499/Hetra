@@ -1,7 +1,7 @@
 .search{
     
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 
 }
 
@@ -16,8 +16,8 @@ width: 540px;
 }
 
 .dropdown-content {
-  margin-left: 10px;
-  border-radius: 20px;
+margin-left: 10px;
+border-radius: 20px;
 display: none;
 position: absolute;
 background-color: #f1f1f1;
@@ -36,5 +36,25 @@ border-radius:50px;
 }
 
 .open-profile>.dropdown-menu {
-  display: block;
+display: block;
+}
+
+@media (min-width:400px) and (max-width:767px) {
+.profile-style{
+  width: 50%; 
+  border-radius: 15px;
+  margin: 0px 150px 0px 150px;
+  background: #fff;
+
+}
+
+.profile-header{
+  width: 60%;
+  margin: 0px 20% 0px 20%;
+}
+
+}
+
+.user_name{
+padding:5px;
 }

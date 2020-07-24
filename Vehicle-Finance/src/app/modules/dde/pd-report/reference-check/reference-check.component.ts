@@ -26,11 +26,24 @@ export class ReferenceCheckComponent implements OnInit {
   labels: any = {};
   errorMsg: any;
   applicantId: number;
-  refCheckDetails: any = {}
+  refCheckDetails: any = {};
   isDirty: boolean;
   isSoNameEnable: true;
   userDetails: any;
   leadId: number;
+
+  // <-- route map sample url start
+  // routeMapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false
+  // &size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%
+  // 7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13
+  // &path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK
+  // ?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7
+  // DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%
+  // 5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?s
+  // KDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7
+  // CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSy
+  // DJ9TZyUZNB2uY_267eIUQCV72YiYmArIw"
+  //  route map sample url ends -->
 
   namePattern = {
     rule: '^[A-Za-z ]{0,99}$',
@@ -50,26 +63,27 @@ export class ReferenceCheckComponent implements OnInit {
     msg: 'Invalid Address',
   };
   version: string;
-  show: boolean;
+  show = true;
   taskId: any;
   roleId: any;
   roleType: any;
-
+  showReinitiate: boolean;
+  showSubmit = true;
   constructor(
-    private labelsData: LabelsService,
+    private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sharedSercive: SharedService,
     private pdDataService: PdDataService,
-    private toasterService: ToasterService,
+    private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
       this.taskId = value;
-      console.log("in ref check task id", this.taskId)
-    })
+      console.log('in ref check task id', this.taskId);
+    });
   }
 
   async ngOnInit() {
@@ -77,15 +91,18 @@ export class ReferenceCheckComponent implements OnInit {
 
     if (this.router.url.includes('/pd-dashboard')) {
 
-      console.log(" pd-dashboard ")
-      this.show = true;
+      console.log(' pd-dashboard ');
+      this.show = false;
     }
-    // accessing lead if from route
+
+
+    // accessing lead id from route
 
     this.leadId = (await this.getLeadId()) as number;
     // console.log("leadID =>", this.leadId)
 
-    // calling login store service to retrieve the user data 
+
+    // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -93,9 +110,9 @@ export class ReferenceCheckComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log("user details ==> ", this.userDetails)
-    console.log("user id ==>", this.userId)
-    console.log("user name", this.userName)
+    console.log('user details ==> ', this.userDetails);
+    console.log('user id ==>', this.userId);
+    console.log('user name', this.userName);
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -106,7 +123,11 @@ export class ReferenceCheckComponent implements OnInit {
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          this.getPdDetails();    //for getting the data for pd details on initializing the page
+          if (this.version !== 'undefined') {
+            this.showSubmit = false;
+          }
+
+          this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -119,7 +140,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     this.setFormValue();          // for setting the values what we get when the component gets initialized
   }
-  getLeadId() {
+  getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -132,7 +153,7 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
-  getApplicantId() {
+  getApplicantId() { // function to access respective applicant id from the routing
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -143,7 +164,7 @@ export class ReferenceCheckComponent implements OnInit {
     });
   }
 
-  initForm() {
+  initForm() {  // fun that intializes the form group
     this.referenceCheckForm = new FormGroup({
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
@@ -154,22 +175,30 @@ export class ReferenceCheckComponent implements OnInit {
       // place: new FormControl('', Validators.required),
       // time: new FormControl('', Validators.required),
       // pdRemarks: new FormControl('', Validators.required),
-      pdRemarks: new FormControl('', Validators.compose([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
+      negativeProfile: new FormControl('', Validators.required),
+      latitude: new FormControl({ value: '', disabled: true }),
+      longitude: new FormControl({ value: '', disabled: true }),
+      distanceFromBranch: new FormControl({ value: '', disabled: true }),
+      routeMap: new FormControl(''),
+      pdRemarks: new FormControl('', Validators.compose
+        ([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
       overallFiReport: new FormControl('', Validators.required)
 
-    })
+    });
   }
 
-  getPdDetails() {
+  getPdDetails() { // function calling get pd report api to get respective pd details
 
     const data = {
 
       // applicantId: 6,
       applicantId: this.applicantId,
+      pdVersion: this.version,
+
 
       /* Uncomment this after getting applicant Id from Lead */
-    }
-    console.log("applicant id in get detaisl", this.applicantId)
+    };
+    console.log('applicant id in get detaisl', this.applicantId);
 
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
@@ -177,14 +206,15 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck;
+        this.showReinitiate = value.ProcessVariables.showReinitiate;
+        console.log('in ref check show renitiate', this.showReinitiate);
         console.log('calling get api ', this.refCheckDetails);
         if (this.refCheckDetails) {
-          this.setFormValue()
+          this.setFormValue();
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
-      }
-      else {
-        console.log("error", processVariables.error.message);
+      } else {
+        console.log('error', processVariables.error.message);
 
       }
     });
@@ -195,65 +225,37 @@ export class ReferenceCheckComponent implements OnInit {
     // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
     const refCheckModal = this.refCheckDetails || {};
 
-    console.log('in form value', refCheckModal)
+    console.log('in form value', refCheckModal);
 
     this.referenceCheckForm.patchValue({
       nameOfReference: refCheckModal.nameOfReference || '',
       addressOfReference: refCheckModal.addressOfReference || '',
       referenceMobile: refCheckModal.referenceMobile || '',
       // soName: refCheckModal.soName || '',
-      soName: this.userName,
-      employeeCode: refCheckModal.employeeCode || '',
+      // soName: this.userName,
+      // employeeCode: refCheckModal.employeeCode || '',
       // date: refCheckModal.date || '',
       // place: refCheckModal.place || '',
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
       // time: refCheckModal.time || '',
+      negativeProfile: refCheckModal.negativeProfile || '',
+      latitude: refCheckModal.latitude || '',
+      longitude: refCheckModal.longitude || '',
       pdRemarks: refCheckModal.pdRemarks || '',
+      distanceFromBranch: refCheckModal.distanceFromBranch || '',
       overallFiReport: refCheckModal.overallFiReport || ''
     });
-    console.log("patched form", this.referenceCheckForm);
+    console.log('patched form', this.referenceCheckForm);
   }
-  // getDateFormat(date) {
 
-  //   // console.log("in getDateFormat", date)
 
-  //   var datePart = date.match(/\d+/g);
-  //   var month = datePart[1];
-  //   var day = datePart[0];
-  //   var year = datePart[2];
-  //   const dateFormat: Date = new Date(year + '/' + month + '/' + day);
-
-  //   // year = dateFormat.getFullYear();
-  //   // month = Number(dateFormat.getMonth()) + 1;
-  //   // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-  //   // day = dateFormat.getDate().toString();
-  //   // day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-  //   // const formattedDate = year + '-' + month1 + '-' + day;
-  //   // //   const formattedDate = day + '-' + month1 + '-' + year;
-  //   // console.log("formattedDate", formattedDate)
-  //   return dateFormat;
-  // }
-  // sendDate(date) {
-  //   const dateFormat: Date = new Date(date);
-  //   let year = dateFormat.getFullYear();
-  //   let month = Number(dateFormat.getMonth()) + 1;
-  //   let day = dateFormat.getDate().toString();
-  //   let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-
-  //   day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-
-  //   const formattedDate = day + "/" + month1 + "/" + year;
-  //   return formattedDate;
-
-  // }
-
-  onFormSubmit() {
-    console.log("in save api")
+  onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
+    console.log('in save api');
     const formModal = this.referenceCheckForm.value;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
-      console.log("in invalid ref checkform", this.referenceCheckForm)
-      this.toasterService.showWarning("please enter required details", '')
+      console.log('in invalid ref checkform', this.referenceCheckForm);
+      this.toasterService.showWarning('please enter required details', '');
       return;
     }
     const refCheckModal = { ...formModal };
@@ -262,12 +264,16 @@ export class ReferenceCheckComponent implements OnInit {
       nameOfReference: refCheckModal.nameOfReference || '',
       addressOfReference: refCheckModal.addressOfReference || '',
       referenceMobile: refCheckModal.referenceMobile || '',
-      soName: this.userName || '',
-      employeeCode: refCheckModal.employeeCode || '',
+      // soName: this.userName || '',
+      // employeeCode: refCheckModal.employeeCode || '',
       // date: refCheckModal.date || '',
       // place: refCheckModal.place || '',
       // time: this.sendDate(refCheckModal.time),
       // time: refCheckModal.time || '',
+      negativeProfile: refCheckModal.negativeProfile || '',
+      latitude: refCheckModal.latitude || '',
+      longitude: refCheckModal.longitude || '',
+      distanceFromBranch: refCheckModal.distanceFromBranch || '',
       pdRemarks: refCheckModal.pdRemarks || '',
       overallFiReport: refCheckModal.overallFiReport || '',
     };
@@ -276,7 +282,6 @@ export class ReferenceCheckComponent implements OnInit {
       // applicantId: 6,
       applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
-      pdVersion: this.version,
 
       referenceCheck: this.refCheckDetails
     };
@@ -284,7 +289,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('reference check details saved  sucessfully !', '');
+        this.toasterService.showSuccess('Record Saved Successfully', '');
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
@@ -292,70 +297,66 @@ export class ReferenceCheckComponent implements OnInit {
 
       }
     });
-    // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
-    // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`])
+
 
 
   }
-  // method for approving pd report
 
-  approvePd() {
+  approvePd() { // function that calls approve pd report api for approving pd report
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1,
       userId: this.userId
-    }
+    };
     this.personalDiscussion.approvePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log("response approve pd", processVariables)
-      const message = processVariables.error.message
+      console.log('response approve pd', processVariables);
+      const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report approved successfully", '')
+        this.toasterService.showSuccess('pd report approved successfully', '');
         this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+      } else {
+        this.toasterService.showError('', 'message');
 
       }
-    })
+    });
 
   }
 
   // method for re-initating pd report
 
-  reinitiatePd() {
+  reinitiatePd() {  // fun calling reinitiate pd report  api for reinitiating the respective pd report
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1,
       userId: this.userId
-    }
+    };
     this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log("response reinitiate pd", processVariables)
-      const message = processVariables.error.message
+      console.log('response reinitiate pd', processVariables);
+      const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
-        this.toasterService.showSuccess("pd report reinitiated successfully", '')
+        this.toasterService.showSuccess('pd report reinitiated successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-      }
-      else {
-        this.toasterService.showError("", 'message')
+      } else {
+        this.toasterService.showError('', 'message');
 
       }
-    })
+    });
 
 
 
   }
 
-  submitToCredit() {
+  submitToCredit() { // fun calling submit to credit api for submitting pd report
 
     this.isDirty = true;
-    // if (this.referenceCheckForm.invalid) {
-    //   this.toasterService.showWarning("please enter required details", '')
-    //   return;
-    // }
+    if (this.referenceCheckForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
 
     const data = {
       taskName: Constant.PDTASKNAME,
@@ -367,18 +368,18 @@ export class ReferenceCheckComponent implements OnInit {
 
       applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */
 
-    }
+    };
 
     this.personalDiscussion.submitPdReport(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-        console.log("message", processVariables.error.message);
-        this.toasterService.showSuccess('submitted to credit successfully', '')
+        console.log('message', processVariables.error.message);
+        this.toasterService.showSuccess('submitted to credit successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-      }
-      else {
-        this.toasterService.showError("pd report is not saved", '')
-        console.log("error", processVariables.error.message);
+        this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+      } else {
+        this.toasterService.showError( processVariables.error.message, '');
+        console.log('error', processVariables.error.message);
 
       }
     });
@@ -386,15 +387,23 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
 
-  onNavigateToPdSummary() {
+  onNavigateToPdSummary() { // fun to navigate to pd summary
 
-    // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
+    if (this.version !== 'undefined') {
 
-    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+      // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
+
+    }
   }
-  onNavigateBack() {
-    if (this.version != 'undefined') {
+
+  onNavigateBack() { // fun to navigate to back page
+    if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {

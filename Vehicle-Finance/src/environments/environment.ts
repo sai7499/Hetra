@@ -23,11 +23,11 @@ export const environment = {
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
   },
 
-  // hostingEnvironment: 'DEV',
+  hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
-  hostingEnvironment: 'Production',
-  host: 'http://128.199.164.250/appiyo/',
-  //host: 'http://10.101.10.153/appiyo/',
+  // hostingEnvironment: 'Production',
+  // host: 'http://128.199.164.250/appiyo/',
+  host: 'http://10.101.10.153/appiyo/',
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',

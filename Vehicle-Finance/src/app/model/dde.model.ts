@@ -9,6 +9,7 @@ export interface Dde {
     fleetDetails?: FleetDetails;
     trackVehicle?: TrackVehicle;
     referenceCheck?: ReferenceCheck;
+    fieldInvestigation?: FieldInvestigation;
 }
 
 export interface VehicleValuation {
@@ -153,7 +154,7 @@ export interface LoanDetails {
     // applicable for new vehicle
     vehicleCost?: string;
     newvehicleCost?: string;
-    newVehicleModel?: string;
+    newVehModel?: string;
     newVehicletype?: string;
     newVehiclereqLoanAmount?: string;
     newVehiclemarginMoney?: string;
@@ -183,6 +184,7 @@ export interface LoanDetails {
     drivingVehicleEarlier?: string;
     vehicleAttachedPlying?: string;
     awareDueDateEmiAmount?: string;
+    vehicleContract?: string;
 
     // applicable for assetDetails used Vehicle
 
@@ -258,17 +260,71 @@ export interface TrackVehicle {
 }
 
 export interface ReferenceCheck {
-    addressOfReference?: string,
-    nameOfReference?: string,
-    overallFiReport?: string,
-    pdRemarks?: string,
-    referenceMobile?: string,
+    addressOfReference?: string;
+    nameOfReference?: string;
+    overallFiReport?: string;
+    pdRemarks?: string;
+    referenceMobile?: string;
     soName?: string;
     employeeCode?: string;
     date?: string;
     place?: string;
     time?: string;
+    longitude?: number;
+    latitude?: number;
+    negativeProfile?: string;
+    distanceFromBranch?: number;
+    // routeMap?:i
+
     // referenceType?: string,
     // routeMapId?: string,
     // stage?: string
 }
+export interface FieldInvestigation {
+    externalAgencyName?: string;
+    contactPointVerification?: string;
+    cpvInitiatedDate?: string;
+    cpvInitiatedTime?: string;
+    reportSubmitDate?: string;
+    reportSubmitTime?: string;
+    applicantName?: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    addressLine3?: string;
+    city?: string;
+    state?: string;
+    personMetName?: string;
+    designation?: string;
+    natureOfBusiness?: string;
+    typeOfConcern?: string;
+    residenceApproach?: string;
+    residenceDetails?: string;
+    rentAmt?: string;
+    residenceName?: string;
+    verifiedFrom?: string;
+    yrsOfStayInCity?: string;
+    yrsOfStayInResi?: string;
+    areaInSqFeet?: string;
+    locality?: string;
+    visibleAssets?: string;
+    locatingResidence?: string;
+    otherAssetsOwned?: string;
+    noOfFamilyMembers?: string;
+    noOfEarningMembers?: string;
+    vehicleDetails?: string;
+    officeApproach?: string;
+    officePremises?: string;
+    officeLocation?: string;
+    furnishings?: string;
+    officeSize?: string;
+    observations?: string;
+    noOfWorkingEmployees?: string;
+    noOfVisibleEmployees?: string;
+    activityLevel?: string;
+    fiComments?: string;
+    distanceInKms?: string;
+    fiDate?: string;
+    fiTime?: string;
+
+}
+

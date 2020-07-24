@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ViabilityServiceService } from '@services/viability-service.service';
 import { CommomLovService } from '@services/commom-lov-service';
-import { data } from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
@@ -56,6 +55,11 @@ export class ViabilityDetailsComponent implements OnInit {
   netCashFlowEmiPassenger = 0;
   netFlowCash = 0;
   roleAndUserDetails: any;
+  routerUrl: any;
+  hideSubmit = true;
+  taskId: any;
+  viabilityDataObj = {};
+  viabilityDataObjArray: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -64,12 +68,18 @@ export class ViabilityDetailsComponent implements OnInit {
               private toasterService: ToasterService,
               private router: Router,
               private location: Location,
-              private loginStoreService: LoginStoreService) { }
+              private loginStoreService: LoginStoreService) {
+                this.route.queryParams.subscribe((res: any) => {
+                  this.taskId = res.taskId;
+                });
+               }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     console.log(this.roleAndUserDetails);
+    this.routerUrl = this.router;
+
     this.labelsData.getLabelsData()
       // tslint:disable-next-line: no-shadowed-variable
       .subscribe(data => {
@@ -85,7 +95,9 @@ export class ViabilityDetailsComponent implements OnInit {
     // this.createForm();
     this.viabilityForm = this.fb.group({
       type: ['', Validators.required],
-      passanger: this.fb.group({ route: [],
+      passanger: this.fb.group({
+        onwardRoute : [],
+        returnRoute: [],
         natureOfGoods: [],
         distanceInKm: [],
         tripsPerMonth: [],
@@ -111,7 +123,14 @@ export class ViabilityDetailsComponent implements OnInit {
         busMonthlyIncome: [this.monthlyIncome],
         netCashFlow: [],
         emi: [],
-        totalExpenses: []}),
+        totalExpenses: [],
+        otherIncome: [],
+        otherIncomeRemarks: [],
+        otherExpenses: [],
+        otherExpensesRemarks: [],
+        operationsExpenses: []
+
+      }),
       passangerStandOperator: this.fb.group({
         application: [],
         grossIncomePerDay: [],
@@ -140,33 +159,102 @@ export class ViabilityDetailsComponent implements OnInit {
       }),
     });
     this.leadId = (await this.getLeadId()) as number;
+    this.collataralId = (await this.getCollateralId()) as number;
     console.log(this.collataralId);
+    this.getViability();
     // this.getViabilityList(Number(this.leadId));
     console.log(this.viabilityForm.controls);
+    console.log(this.route.parent.firstChild.params);
+    if (this.router.url.includes('/dde')) {
+      this.hideSubmit = false;
+      console.log('dde url found', this.router);
+    }
+    // this.viabilityForm.controls.passanger.get('otherIncome').valueChanges.subscribe(x => {
+    //   setTimeout( () => {
+    //     if ( x != null || undefined ) {
+    //       // let i = this.label?.validationData?.amountValue;
+    //       // tslint:disable-next-line: max-line-length
+    //       this.viabilityForm.controls.passanger.addControl('otherIncomeRemarks');
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').setValidators([Validators.required, Validators.maxLength(40)]);
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').updateValueAndValidity();
+    //       // alert('control added');
+    //      } else {
+    //       this.viabilityForm.controls.passanger.removeControl('otherIncomeRemarks');
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').clearValidators();
+    //       this.viabilityForm.controls.passanger.get('otherIncomeRemarks').updateValueAndValidity();
+    //       alert('control cleared');
+    //      }
+    //   }, 500);
+    // });
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
-          this.getViabilityList(Number(value.leadId));
         }
         resolve(null);
       });
     });
   }
-  getViabilityList(id) {
-    const body = {
-      leadId : id
-  };
-    this.viabilityService.getViabilityList(body).subscribe((res: any) => {
-    if (res.ProcessVariables.error.code === '0') {
-   this.collataralId = Number(res.ProcessVariables.vehicleViabilityDashboardList[0].collateralId) ;
-   this.getViability(this.collataralId);
-   }
-  });
+  getCollateralId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.firstChild.params.subscribe((value) => {
+        if (value && value.collateralId) {
+          resolve(Number(value.collateralId));
+          this.viabilityDataObj = this.viabilityService.getCollateralId();
+          console.log(this.viabilityDataObj);
+          if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
+             this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+              res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) =>{
+              if ( dataRes.collateralId === value.collateralId) {
+                this.viabilityDataObj = dataRes;
+                console.log(this.viabilityDataObj);
+              }
+            });
+             }
+             );
+
+          }
+        }
+        resolve(null);
+      });
+      console.log(this.viabilityDataObj);
+    });
 
   }
+  submitViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showError('Details Not Saved', 'Please Save');
+      return;
+    }
+    const body = {
+      leadId : this.leadId,
+      collateralId: this.collataralId,
+      taskId: this.taskId
+    };
+    this.viabilityService.submitViabilityTask(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if ( res.ProcessVariables.error.code == '0') {
+       this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+       this.router.navigateByUrl(`pages/dashboard/vehicle-viability/viability-checks`);
+      } else if (res.ProcessVariables.error.code == '1') {
+        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
+      }
+    });
+  }
+  // getViabilityList(id) {
+  //   const body = {
+  //     leadId : id
+  // };
+  //   this.viabilityService.getViabilityList(body).subscribe((res: any) => {
+  //   if (res.ProcessVariables.error.code === '0') {
+  //  this.collataralId = Number(res.ProcessVariables.vehicleViabilityDashboardList[0].collateralId) ;
+  // //  this.getViability(this.collataralId);
+  //  }
+  // });
+
+  // }
 vehicle_viability_navigate(event) {
     console.log(event);
     this.vehicle_viability_value = event ? event : event;
@@ -188,7 +276,8 @@ vehicle_viability_navigate(event) {
   }
   private  passengerViability() {
    const privateViability = this.viabilityForm.controls.passanger as FormGroup;
-   privateViability.get('route').setValidators(Validators.required);
+   privateViability.get('onwardRoute').setValidators(Validators.required);
+   privateViability.get('returnRoute').setValidators(Validators.required);
    privateViability.get('natureOfGoods').setValidators(Validators.required);
   //  privateViability.get('distanceInKm').setValidators(Validators.required);
    privateViability.get('tripsPerMonth').setValidators(Validators.required);
@@ -211,7 +300,7 @@ vehicle_viability_navigate(event) {
    privateViability.get('maintanence').setValidators(Validators.required);
    privateViability.get('busMiscellaneousExpenses').setValidators(Validators.required);
    privateViability.get('busInsurenceExpenses').setValidators(Validators.required);
-  //  privateViability.get('busMonthlyIncome').setValidators(Validators.required);
+  //  privateViability.get('otherIncome').setValidators(null);
   //  privateViability.get('netCashFlow').setValidators(Validators.required);
    privateViability.get('emi').setValidators(Validators.required);
    privateViability.get('totalExpenses').setValidators(Validators.required);
@@ -269,7 +358,7 @@ public removeStandOverValidators() {
       privateViability.get(key).updateValueAndValidity();
     }
   }
-getViability(id: any) {
+getViability() {
     const body = {
       userId: this.userId,
       collateralId: this.collataralId
@@ -337,7 +426,12 @@ onSave() {
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+          this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+          if (this.router.url.includes('/dde')) {
+            this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+          } else {
+            // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
+          }
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
@@ -354,7 +448,7 @@ onSave() {
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+          this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
@@ -371,7 +465,7 @@ onSave() {
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
-           this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
           } else {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
        }
@@ -384,8 +478,10 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ? data.route : null,
-     natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
+    //  route: data.route ? data.route : null,
+        onwardRoute : data.onwardRoute ? data.onwardRoute : null,
+        returnRoute: data.returnRoute ?  data.returnRoute : null,
+        natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
         distanceInKm: data.distanceInKm ? data.distanceInKm : 45,
         tripsPerMonth: data.tripsPerMonth ? data.tripsPerMonth : null,
         monthlyRunningKm: data.monthlyRunningKm ? data.monthlyRunningKm : null,
@@ -410,15 +506,25 @@ patchViability(data: any) {
         busMonthlyIncome: data.busMonthlyIncome ? data.busMonthlyIncome : null,
         netCashFlow: data.netCashFlow ? data.netCashFlow : null,
         emi: data.emi ? data.emi : null,
-        totalExpenses: data.totalExpenses ? data.totalExpenses : null
+        totalExpenses: data.totalExpenses ? data.totalExpenses : null,
+        otherIncome: data.otherIncome ? data.otherIncome : null,
+        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : null,
+        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
+        otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
+        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+
+
     });
  }
  // tslint:disable-next-line: no-shadowed-variable
  convertPassenger(data: any) {
    const body = {
-    route: data.route ? data.route : null,
-    natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
-    distanceInKm: data.distanceInKm ? Number (data.distanceInKm) : null,
+       otherIncome: data.otherIncome ? data.otherIncome : null,
+       otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : '',
+       onwardRoute : data.onwardRoute ? data.onwardRoute : null,
+       returnRoute: data.returnRoute ?  data.returnRoute : null,
+       natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
+       distanceInKm: data.distanceInKm ? Number (data.distanceInKm) : null,
        tripsPerMonth: data.tripsPerMonth ? Number (data.tripsPerMonth) : null,
        monthlyRunningKm: data.monthlyRunningKm ? Number(data.monthlyRunningKm) : null,
        avgLoadPerTon: data.avgLoadPerTon ? Number(data.avgLoadPerTon) : null,
@@ -442,7 +548,10 @@ patchViability(data: any) {
        busMonthlyIncome: data.busMonthlyIncome ? Number(data.busMonthlyIncome) : null,
        netCashFlow: data.netCashFlow ? Number(data.netCashFlow) : null,
        emi: data.emi ? Number(data.emi) : null,
-       totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null
+       totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
+       otherExpenses: data.otherExpenses ? data.otherExpenses : null,
+       otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
+       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
    };
    return body;
  }
@@ -517,7 +626,12 @@ convertCapitve(dataCaptive) {
    this.router.navigateByUrl(`pages/dde/${this.leadId}/score-card`);
  }
  onBack() {
-this.location.back();
+// this.location.back();
+if (this.router.url.includes('/dde')) {
+  this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`);
+} else {
+  this.router.navigateByUrl(`pages/viability-list/${this.leadId}/viability-list`);
+}
  }
  calculatePassenger() {
    this.monthlyRunningKm = 0 ;
@@ -526,12 +640,13 @@ this.location.back();
    console.log(passengerGroup);
    const distanceInKm = passengerGroup.value.distanceInKm ? Number(passengerGroup.value.distanceInKm) : 0;
    const tripsPerMonth = passengerGroup.value.tripsPerMonth ? Number(passengerGroup.value.tripsPerMonth) : 0;
+   const otherIncome = passengerGroup.value.otherIncome ? Number(passengerGroup.value.otherIncome) : 0;
    const monthlyRunningKm = distanceInKm * tripsPerMonth;
    this.monthlyRunningKm = monthlyRunningKm ;
    const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
    const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
    const tonnageCalc =  avgLoadPerTon * rateTonne;
-   this.monthlyIncome = tripsPerMonth * tonnageCalc;
+   this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
    passengerGroup.value.busMonthlyIncome = this.monthlyIncome;
   //  this.viabilityForm.value.passanger.patchValue({
   //   busMonthlyIncome : this.monthlyIncome
@@ -568,12 +683,14 @@ this.location.back();
   const paidTollTax =  passengerGroup.value.paidTollTax ? Number(passengerGroup.value.paidTollTax) : 0;
   const taxes = passengerGroup.value.taxes ? Number(passengerGroup.value.taxes) : 0 ;
   const maintanence =  passengerGroup.value.maintanence ? Number( passengerGroup.value.maintanence ) : 0 ;
+  const otherExpenses =  passengerGroup.value.otherExpenses ? Number( passengerGroup.value.otherExpenses ) : 0 ;
+  const operationsExpenses =  passengerGroup.value.operationsExpenses ? Number( passengerGroup.value.operationsExpenses ) : 0 ;
   // tslint:disable-next-line: max-line-length
   const  busMiscellaneousExpenses =  passengerGroup.value.busMiscellaneousExpenses ? Number( passengerGroup.value.busMiscellaneousExpenses) : 0 ;
   const busInsurenceExpenses = passengerGroup.value.busInsurenceExpenses ? Number(passengerGroup.value.busInsurenceExpenses) : 0;
   // const busMonthlyIncome = passengerGroup.value.busMonthlyIncome ? Number(passengerGroup.value.busMonthlyIncome) : 0;
   // tslint:disable-next-line: max-line-length
-  const expense = tyreCost + fuelCost + driversSalary + cleanersSalary + permitCost + fcCharge + paidTollTax + taxes + maintanence + busInsurenceExpenses;
+  const expense = tyreCost + fuelCost + driversSalary + busMiscellaneousExpenses + cleanersSalary + permitCost + fcCharge + paidTollTax + taxes + maintanence + busInsurenceExpenses + operationsExpenses + otherExpenses;
   passengerGroup.patchValue({
   totalExpenses : expense
   });

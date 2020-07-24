@@ -244,9 +244,19 @@ select#select_main_button_match {
 
 
 .ShowError{
-  font-size: 1.2vw;
+  font-size: 1.0vw;
   font-family: zurich-bold;
   letter-spacing: 0.5px;
   color: red;
   padding-top: 0.5vw;
+}
+#align_this_checkbox{
+  margin-top: 16px;
+  font-weight: 600;
+}
+.senior_minor{
+  margin-top: 15px;
+}
+.is_senior{
+  padding-left: 10px ;
 }

@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ToasterService } from '@services/toaster.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-deviation-with-branch',
@@ -23,6 +24,7 @@ export class DeviationWithBranchComponent implements OnInit {
   pageNumber: any;
   currentPage: any;
   totalItems: any;
+  isLoadLead = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -30,7 +32,8 @@ export class DeviationWithBranchComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private router: Router
   ) {
   }
 
@@ -64,6 +67,11 @@ export class DeviationWithBranchComponent implements OnInit {
     };
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+    }
     });
   }
 
@@ -81,7 +89,7 @@ export class DeviationWithBranchComponent implements OnInit {
     this.getBranchLeads(this.itemsPerPage, event);
   }
 
-  onAssign(id) {
+  onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
       console.log('assignResponse', res);
@@ -89,6 +97,7 @@ export class DeviationWithBranchComponent implements OnInit {
       console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.router.navigate(['/pages/deviation-dashboard/' + leadId + '/dashboard-deviation-details']);
       } else {
         this.toasterService.showError(response.Error, '');
 

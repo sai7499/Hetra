@@ -1,0 +1,58 @@
+<form class="multisteps-form__form">
+
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <div class="container">
+            <div class="row">
+                <div class="table-responsive application" id="applicantTable">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <th>
+                                    {{ labels?.ucicId }}
+                                </th>
+                                <th>
+                                    {{ labels?.applicantName }}
+                                </th>
+                                <th>
+                                    {{ labels?.mobileNumber }}
+                                </th>
+                                <th>
+                                    {{ labels?.applicantType }}
+                                </th>
+                                <th>
+                                    {{ labels?.flStatus }}
+                                </th>
+                                <th>
+                                    {{ labels?.flReport }}
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of fiList">
+                                <td>{{item.applicantId}}</td>
+                                <td>{{item.applicantName}}</td>
+                                <td>{{item.mobileNumber}}</td>
+                                <td>{{item.applicantType}}</td>
+                                <td>{{item.pdStatusValue}}</td>
+                                <td><u><a class="a_tag cursor-pointer" (click)="onClick()" title="View/update">Version -
+                                          1</a></u></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="btn-sec clear-both">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
+        <button class="btn btn-primary" type="button" (click)="onBack()"> {{labels?.back}} </button> &nbsp;
+        <button class="btn btn-primary" type="button" (click)="onNext()"> {{labels?.next}} </button>
+    </div>
+</div>

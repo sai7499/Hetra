@@ -82,7 +82,7 @@ export class FleetDetailsComponent implements OnInit {
   currentYear = new Date().getFullYear();
   yearCheck = [];
   paidTenureCheck = [];
-
+  fleetArrayList: FormArray;
   constructor(
 
     private labelsData: LabelsService,
@@ -98,6 +98,7 @@ export class FleetDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private sharedService: SharedService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    this.fleetArrayList = this.fb.array([]);
   }
 
 
@@ -123,7 +124,7 @@ export class FleetDetailsComponent implements OnInit {
 
     this.fleetForm = this.fb.group(
       {
-        Rows: this.fb.array([])
+        Rows: this.fleetArrayList
       }
     );
 
@@ -354,7 +355,13 @@ export class FleetDetailsComponent implements OnInit {
       console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
       this.fleetIDs = res.ProcessVariables.ids
       console.log("saveFleetDetailsResponse", this.fleetIDs)
-      this.toasterService.showSuccess('Fleet saved successfully!', '');
+      this.toasterService.showSuccess('Record saved successfully!', '');
+      const fleetList:Array<any> = res.ProcessVariables.fleets;
+      this.fleetArrayList.controls = [];
+      fleetList.forEach(val =>
+        this.fleetArrayList.push(this.initRows(val)) );     
+
+      console.log("fletds", this.fleetArrayList);
       if (index != null && index != 'next') {
         console.log(" in rtr function index", index)
         // console.log("fletds", this.fleetIDs)
@@ -426,10 +433,10 @@ export class FleetDetailsComponent implements OnInit {
       });
 
       fleets.splice(index, 1)
-      this.toasterService.showSuccess("fleet deleted successfully!", '')
+      this.toasterService.showSuccess("Record deleted successfully!", '')
 
     } else {
-      this.toasterService.showError("atleast one row required !", '')
+      this.toasterService.showError("atleast one record required !", '')
 
     }
   }
