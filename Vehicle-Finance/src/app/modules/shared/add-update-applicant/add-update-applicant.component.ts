@@ -2103,10 +2103,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log('remarks value', value);
         this.showNegativeListModal = false;
         if (isProceed) {
-          // this.navigateToSamePage();
           this.showDedupeModal = true;
         } else {
-          this.navigateToApplicantList();
+          //
+          const applicantRelation = this.coApplicantForm
+            .get('dedupe')
+            .get('loanApplicationRelation').value;
+          if (applicantRelation === 'APPAPPRELLEAD') {
+            this.router.navigateByUrl('/pages/dashboard/leads-section/leads');
+          } else {
+            this.navigateToApplicantList();
+          }
         }
       });
 
