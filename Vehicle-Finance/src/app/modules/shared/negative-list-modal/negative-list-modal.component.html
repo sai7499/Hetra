@@ -1,0 +1,102 @@
+<div class="modal in" id="newLeadModal" [ngClass]="{ 'dis-block': showModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Negative List Scrub Results</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="exact_macth_title1">Negative List Results</p>
+        <div id="nagative_list_results">
+          <div class="row">
+            <div class="col-md-12">
+              <p id="nagative_list_results_tag">
+                <span>Found in NL?</span>
+                <input
+                  type="text"
+                  [value]="modalInput?.isNLFound || false"
+                  name="found_in_nl"
+                  id="found_in_nl"
+                  disabled="disabled"
+                />
+              </p>
+            </div>
+            <div class="col-md-12">
+              <p id="nagative_list_results_tag1">
+                <span>Found in TR NL?</span
+                ><input
+                  type="text"
+                  [value]="modalInput?.isNLTRFound || false"
+                  name="found_in_trnl"
+                  id="found_in_trnl"
+                  disabled="disabled"
+                />
+              </p>
+            </div>
+            <!-- <div class="col-md-12">
+              <span id="nagative_list_results_tag01">NL Match Criteria? </span
+              >&nbsp;&nbsp;<input
+                type="text"
+                class=""
+                name="nl_match_criteria"
+                id="nl_match_criteria"
+                readonly=""
+                value="PAN matches exactly under YRAYAPUFILE, in negative list VIDE UID #2"
+                style="width: 100%;"
+              />
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="cnew_lead"
+          (click)="showRemarks = 'reject'"
+          [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
+        >
+          Reject
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="showRemarks = 'proceed'"
+          [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
+        >
+          Proceed
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="triggerClick('next')"
+          [disabled]="modalInput?.isNLTRFound && modalInput?.isNLFound"
+        >
+          Next
+        </button>
+        <ng-container *ngIf="showRemarks">
+          <div class="form-group col-md-12" style="margin-top: 10px;">
+            <label for="Vechical Type"
+              >Remarks<sub class="star_red_col">*</sub></label
+            >
+            <textarea [(ngModel)]="remarks"></textarea>
+            <p>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="triggerClick(showRemarks)"
+                [disabled]="!remarks"
+              >
+                Continue
+              </button>
+            </p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
