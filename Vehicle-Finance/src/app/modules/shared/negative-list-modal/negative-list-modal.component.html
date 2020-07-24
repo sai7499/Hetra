@@ -16,7 +16,7 @@
                 <span>Found in NL?</span>
                 <input
                   type="text"
-                  [value]="modalInput?.isNLFound || false"
+                  [value]="modalInput?.isNLFound"
                   name="found_in_nl"
                   id="found_in_nl"
                   disabled="disabled"
@@ -28,25 +28,45 @@
                 <span>Found in TR NL?</span
                 ><input
                   type="text"
-                  [value]="modalInput?.isNLTRFound || false"
+                  [value]="modalInput?.isNLTRFound"
                   name="found_in_trnl"
                   id="found_in_trnl"
                   disabled="disabled"
                 />
               </p>
             </div>
-            <!-- <div class="col-md-12">
+            <!-- <ng-container *ngIf="modalInput"> -->
+            <div class="col-md-12" *ngIf="modalInput?.isNLFound">
               <span id="nagative_list_results_tag01">NL Match Criteria? </span
-              >&nbsp;&nbsp;<input
+              >&nbsp;&nbsp;
+              <!-- <input
                 type="text"
                 class=""
                 name="nl_match_criteria"
                 id="nl_match_criteria"
                 readonly=""
-                value="PAN matches exactly under YRAYAPUFILE, in negative list VIDE UID #2"
+                [value]="modalInput?.nlRemarks"
                 style="width: 100%;"
-              />
-            </div> -->
+              /> -->
+              <p>{{ modalInput?.nlRemarks }}</p>
+            </div>
+            <div class="col-md-12" *ngIf="modalInput?.isNLTRFound">
+              <span id="nagative_list_results_tag01"
+                >TR NL Match Criteria? </span
+              >&nbsp;&nbsp;
+              <!-- <input
+                type="text"
+                class=""
+                name="nl_match_criteria"
+                id="nl_match_criteria"
+                readonly=""
+                [value]="modalInput?.nlTrRemarks"
+                disabled
+                style="width: 100%;"
+              /> -->
+              <p>{{ modalInput?.nlTrRemarks }}</p>
+            </div>
+            <!-- </ng-container> -->
           </div>
         </div>
       </div>
@@ -54,11 +74,11 @@
       <!-- Modal footer -->
       <div class="modal-footer text-center">
         <div class="form-group col-md-12" style="margin-top: 10px;">
-          <p for="Vechical Type" style="text-align: center;">Remarks</p>
+          <p for="Vechical Type" style="text-align: left;">Remarks</p>
           <textarea
             [(ngModel)]="remarks"
-            [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
-            style="width: 60%;"
+            [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+            style="width: 100%;"
           ></textarea>
         </div>
         <button
@@ -66,7 +86,7 @@
           class="btn btn-primary"
           id="cnew_lead"
           (click)="triggerClick('reject')"
-          [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
+          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
         >
           Reject
         </button>
@@ -74,7 +94,7 @@
           type="button"
           class="btn btn-primary"
           (click)="triggerClick('proceed')"
-          [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
+          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
         >
           Proceed
         </button>
@@ -82,7 +102,7 @@
           type="button"
           class="btn btn-primary"
           (click)="triggerClick('next')"
-          [disabled]="modalInput?.isNLTRFound && modalInput?.isNLFound"
+          [disabled]="modalInput?.isNLTRFound || modalInput?.isNLFound"
         >
           Next
         </button>
@@ -90,3 +110,5 @@
     </div>
   </div>
 </div>
+
+{{ modalInput?.isNLTRFound }} || {{ modalInput?.isNLFound }}
