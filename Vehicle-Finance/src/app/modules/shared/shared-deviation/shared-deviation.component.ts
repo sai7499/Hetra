@@ -442,6 +442,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Approve Deviation')
+            this.router.navigateByUrl('/pages/dashboard/deviation/deviation-with-me')
           } else {
             this.toasterService.showError(res.ErrorMessage, 'Approve Deviation Error')
           }

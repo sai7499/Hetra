@@ -39,6 +39,7 @@ export class CreditConditionsComponent implements OnInit {
         creditAction:'',
         defferedDate: null
   }
+  disableControl: boolean;
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -63,12 +64,15 @@ export class CreditConditionsComponent implements OnInit {
         }
         this.creditConditionService.deleteCreditConditions(data).subscribe(res => {
           console.log(res)
-        })
-      }
+          this.formArr.removeAt(index);
+          this.toasterService.showSuccess("Record deleted successfully!", '')
+        })       
+
+        return;
+      } else{
       this.formArr.removeAt(index);
       this.toasterService.showSuccess("Record deleted successfully!", '')
-
-    
+      }   
 
   }
   getLeadId() {
@@ -105,7 +109,8 @@ export class CreditConditionsComponent implements OnInit {
         creditCondition: new FormControl({ value: data.creditCondition ? data.creditCondition : '', disabled: false }),
         salesResponse: new FormControl({ value: data.salesResponse ? data.salesResponse : '', disabled: true }),
         isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
-        creditAction: new FormControl(data.creditAction ? data.creditAction : null),
+        creditAction: new FormControl({value:data.creditAction ? 
+          data.creditAction : null,disabled:!data.is_sales_response_completed}),
         defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
       });
     } else {
@@ -114,7 +119,8 @@ export class CreditConditionsComponent implements OnInit {
         salesResponse: new FormControl({ value:data.salesResponse ? data.salesResponse : '', disabled: false }),
         creditId: new FormControl(data.creditId ? data.creditId : ''),
         isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
-        creditAction: new FormControl(data.creditAction ? data.creditAction : null),
+        creditAction: new FormControl({value:data.creditAction ? 
+          data.creditAction : null,disabled:true}),
         defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
       });
       // return this.formBuilder.group({
@@ -151,6 +157,11 @@ export class CreditConditionsComponent implements OnInit {
         const creditConditions:Array<dataObject> = res['ProcessVariables'].creditConditions;
         this.creditConditions = res['ProcessVariables'].creditConditions;
         this.roleList = res['ProcessVariables']['roleList'];
+       
+          this.disableControl = false;
+        
+        console.log("disable control",this.disableControl)
+
         for (let i = 0; i < creditConditions.length; i++) {
 
       //    this.formArr.push(this.getcreditConditionControls())
@@ -165,6 +176,9 @@ export class CreditConditionsComponent implements OnInit {
         }
       //  this.formArr.setValue(creditConditions);
       } else {
+        
+          this.disableControl = true;
+          
       }
     })
   }
