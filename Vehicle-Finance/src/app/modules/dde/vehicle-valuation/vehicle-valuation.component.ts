@@ -59,7 +59,7 @@ export class VehicleValuationComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => (this.labels = data),
-      (error) => console.log("Vehicle Valuation Label Error", error)
+      // (error) => console.log("Vehicle Valuation Label Error", error)
     );
   }
 
@@ -67,14 +67,14 @@ export class VehicleValuationComponent implements OnInit {
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log("LEADID--->", this.leadId);
+    console.log("LEADID::", this.leadId);
   }
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
     });
-    console.log(" LOV::::", this.LOV);
+    console.log(" LOV::", this.LOV);
   }
 
   initForm() {
@@ -91,7 +91,7 @@ export class VehicleValuationComponent implements OnInit {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
         this.colleteralId = this.collateralDetailsData[0].collateralId;
-        console.log("COLLETERALID******", this.colleteralId);
+        console.log("COLLETERALID::", this.colleteralId);
         console.log("COLLATERALDETAILSDATA*****", this.collateralDetailsData);
         this.getModelData();
         this.getValuatorStatus();
@@ -132,7 +132,7 @@ export class VehicleValuationComponent implements OnInit {
       this.collateralDetailsData[0].valuatorStatus === '1') {
       this.valuationReport = 'View';
     }
-    console.log("VALUATIONREPORT****", this.valuationReport);
+    console.log("VALUATIONREPORT::", this.valuationReport);
   }
 
   getModelData() {
