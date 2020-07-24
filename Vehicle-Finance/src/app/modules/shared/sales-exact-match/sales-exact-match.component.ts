@@ -99,10 +99,27 @@ export class SalesExactMatchComponent implements OnInit {
         const leadId = this.dedupeParameter.leadId;
         if (value.Error === '0') {
           const processVariables = value.ProcessVariables;
-          this.checkNegativeList(processVariables.applicantId);
+          // this.checkNegativeList(processVariables.applicantId);
           // this.router.navigateByUrl(
           //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
           // );
+          this.applicantId = processVariables.applicantId;
+          this.showNegativeListModal = true;
+          let nlRemarks = '';
+          let nlTrRemarks = '';
+          if (processVariables.isNLFound) {
+            nlRemarks = processVariables.dedupeCustomerNL.remarks;
+          }
+          if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
+            nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
+          }
+
+          this.negativeModalInput = {
+            isNLFound: processVariables.isNLFound,
+            isNLTRFound: processVariables.isNLTRFound,
+            nlRemarks,
+            nlTrRemarks,
+          };
         }
       });
   }
