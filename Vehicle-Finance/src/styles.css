@@ -699,7 +699,7 @@ h4.table-head-bg.m-0.p-02 {
     .search .search-icon-left {
         background: url(./assets/images/search.png) no-repeat center;
         left: 20px;
-        top:-100px;
+        top: -100px;
     }
     
     .search .microphone-icon {
