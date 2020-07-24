@@ -1862,7 +1862,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             let nlTrRemarks = '';
             if (processVariables.isNLFound) {
               nlRemarks = processVariables.dedupeCustomerNL.remarks;
-            } else if (processVariables.isNLTRFound) {
+            }
+            if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
               nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
             }
 
