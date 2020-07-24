@@ -298,7 +298,17 @@
               [format]="'dd/MM/yyyy'"
               [max]="toDayDate" 
               [placeholder]="dobOrDoiPlaceHolder"
-              [activeView]="'decade'"></kendo-datepicker>  
+              [activeView]="'decade'">
+            </kendo-datepicker>  
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !createLeadForm.controls.dateOfBirth.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="createLeadForm.controls.dateOfBirth.value && createLeadForm.controls.dateOfBirth.errors">
+                Invalid date
+              </div>
+            </div>
+            
           </div>
 
 

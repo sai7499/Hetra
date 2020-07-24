@@ -10,6 +10,8 @@ export class NegativeListModalComponent {
   @Input() modalInput: {
     isNLFound?: boolean;
     isNLTRFound?: boolean;
+    nlRemarks?: string;
+    nlTrRemarks?: string;
   };
 
   remarks: string;
