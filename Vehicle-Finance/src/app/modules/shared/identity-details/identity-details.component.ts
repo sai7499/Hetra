@@ -356,7 +356,7 @@ export class IdentityDetailsComponent implements OnInit {
         //   this.applicantId,
         // ]);
         this.toasterService.showSuccess(
-          'Applicant Identity Details Saved Successfully',
+          'Record Saved Successfully',
           ''
         );
       } else {
@@ -365,7 +365,7 @@ export class IdentityDetailsComponent implements OnInit {
         //   this.applicantId,
         // ]);
         this.toasterService.showSuccess(
-          'Applicant Identity Details Saved Successfully',
+          'Record Saved Successfully',
           ''
         );
       }

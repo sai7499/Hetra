@@ -790,7 +790,7 @@ export class BasicDetailsComponent implements OnInit {
       if (response.ProcessVariables.error.code === '0') {
 
         this.toasterService.showSuccess(
-          'Applicant Basic Details Saved Successfully',
+          'Record Saved Successfully',
           ''
         );
       }

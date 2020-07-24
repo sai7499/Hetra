@@ -766,7 +766,8 @@
               <div id="non_individual_section_address" class="non_individual_section_leadco"
                 *ngIf="applicantType == 'NONINDIVENTTYP'">
                 <h3 class="title">Registered Address</h3>
-                <div class="row" formGroupName="registeredAddress">
+                <div class="row container" formGroupName="registeredAddress">
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1">{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label>
                     <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
@@ -783,6 +784,8 @@
                     <app-custom-input formControlName="addressLineThree"
                       [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_pincode">{{ labels?.code
                       }}<sub class="star_red_col">*</sub></label>
@@ -805,6 +808,8 @@
                       [isDirty]="isDirty" [isRequired]="'District is required'">
                     </app-vf-custom-select>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state">{{ labels?.state
                       }}<sub class="star_red_col">*</sub></label>
@@ -826,6 +831,7 @@
                       [type]="validationData?.landlineNumber?.type"></app-custom-input>
                   </div>
                 </div>
+                </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
                     <h3 class="title">Communication Address</h3>
@@ -837,7 +843,8 @@
                     </span>
                   </div>
                 </div>
-                <div class="row" formGroupName="communicationAddress">
+                <div class="row container" formGroupName="communicationAddress">
+                  <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_line1">{{ labels?.addressline1 }}<sub class="star_red_col">*</sub></label>
                     <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
@@ -854,6 +861,8 @@
                     <app-custom-input formControlName="addressLineThree"
                       [maxLength]="validationData?.address?.maxLength"></app-custom-input>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="registered_pincode">{{ labels?.code
                       }}<sub class="star_red_col">*</sub></label>
@@ -876,6 +885,8 @@
                       [isDirty]="isDirty" [isRequired]="'District is required'">
                     </app-vf-custom-select>
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="current_address_state">{{ labels?.state
                       }}<sub class="star_red_col">*</sub></label>
@@ -896,6 +907,7 @@
                       [maxLength]="validationData?.landlineNumber?.maxLength"
                       [type]="validationData?.landlineNumber?.type"></app-custom-input>
                   </div>
+                </div>
                 </div>
               </div>
             </div>

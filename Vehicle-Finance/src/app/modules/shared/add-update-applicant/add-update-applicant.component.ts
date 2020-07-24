@@ -96,6 +96,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   checkedBoxHouse: boolean;
   savedChecking: boolean;
   dedupeMobile: boolean = false;
+  dedupeContactNumber : boolean = false;
 
   values: any = [];
   labels: any = {};
@@ -1376,7 +1377,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     console.log('addressDetails', this.addressDetails);
   }
   onFormSubmit() {
-    //console.log('Form', this.coApplicantForm)
+    console.log('Form', this.coApplicantForm)
     const formValue = this.coApplicantForm.getRawValue();
     this.setDedupeValidators();
     const coApplicantModel = {
@@ -1479,7 +1480,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
       const url = this.location.path();
       this.toasterService.showSuccess(
-        'Applicant details saved successfully',
+        'Record Saved Successfully',
         ''
       );
     });
@@ -1604,6 +1605,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   checkDedupe() {
     console.log('dedupeMobileBoolean', this.dedupeMobile)
+    console.log('dedupeContactNumber', this.dedupeContactNumber)
     const dedupe = this.coApplicantForm.get('dedupe');
     this.setDedupeValidators();
     console.log('dedupe', dedupe);
@@ -1641,6 +1643,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         middleName: applicantDetails.name2,
         lastName: applicantDetails.name3,
         companyPhoneNumber,
+        contactPerson : applicantDetails.contactPerson,
         loanApplicationRelation: applicantDetails.loanApplicationRelation,
         aadhar: applicantDetails.aadhar,
         dateOfIncorporation: applicantDetails.dateOfIncorporation,
@@ -1675,7 +1678,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres) : 0,
         agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
         agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt || ''
+        grossReceipt: applicantDetails.grossReceipt || '',
+        isMobileNumberChanged : this.dedupeContactNumber
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
@@ -1776,7 +1780,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         agriNoOfAcres: applicantDetails.agriNoOfAcres ? Number(applicantDetails.agriNoOfAcres) : 0,
         agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
         agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt || ''
+        grossReceipt: applicantDetails.grossReceipt || '',
+        isMobileNumberChanged : this.dedupeMobile
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
@@ -1788,13 +1793,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDedupeApiCall(data) {
-    const datas= {
-      ...data,
-      isMobileNumberChanged: this.dedupeMobile
-    }
-    console.log('datas', datas)
+    
+    console.log('datas', data)
     this.applicantService
-      .checkSalesApplicantDedupe(datas)
+      .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
         if (value.Error === '0' && value.ProcessVariables.error.code == '0') {
           const processVariables = value.ProcessVariables;
@@ -1910,14 +1912,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isEnableDedupe = true;
         }
       });
-    } else if (this.applicantType == 'NONINDIVENTTYP') {
+    } else  {
 
       dedupe.get('companyPhoneNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('companyPhoneNumber').invalid) {
           if (value !== this.contactNumber) {
             this.isContactNumberChanged = true;
             this.isEnableDedupe = true;
-            this.dedupeMobile = true;
+            this.dedupeContactNumber = true;
           } else {
             this.isEnableDedupe = false;
             this.isContactNumberChanged = false;
