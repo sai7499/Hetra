@@ -1605,7 +1605,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   checkDedupe() {
     console.log('dedupeMobileBoolean', this.dedupeMobile)
-    console.log('dedupeContactNumber', this.dedupeContactNumber)
+    //console.log('dedupeContactNumber', this.dedupeContactNumber)
     const dedupe = this.coApplicantForm.get('dedupe');
     this.setDedupeValidators();
     console.log('dedupe', dedupe);
@@ -1679,7 +1679,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
         agriAppRelationship: applicantDetails.agriAppRelationship || '',
         grossReceipt: applicantDetails.grossReceipt || '',
-        isMobileNumberChanged : this.dedupeContactNumber
+        isMobileNumberChanged : this.dedupeMobile
       };
       if (this.applicantId) {
         data.applicantId = this.applicantId;
@@ -1919,7 +1919,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           if (value !== this.contactNumber) {
             this.isContactNumberChanged = true;
             this.isEnableDedupe = true;
-            this.dedupeContactNumber = true;
+            this.dedupeMobile = true;
           } else {
             this.isEnableDedupe = false;
             this.isContactNumberChanged = false;
