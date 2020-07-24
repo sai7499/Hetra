@@ -1449,7 +1449,8 @@
         },
         "pincode": {
             "maxLength": {
-                "rule": 6
+                "rule": 6,
+                "msg": "Pincode Max Length Should be 6"
             },
             "type": "number",
             "patternCheck": {

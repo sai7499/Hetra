@@ -323,10 +323,10 @@
                                 class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
+                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                             [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                             [placeholder]="'Name of Vehicle Owner/Dealer'"
-                            [maxLength]="label.validationData?.fullName.maxLength"
+                            [maxLength]="label.validationData?.name.maxLength"
                             [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -378,6 +378,7 @@
                             [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                             [placeholder]="'Vehicle Address PINCODE'" [custom]="initalZeroCheck"
                             [maxLength]="label.validationData?.pincode.maxLength"
+                            (keyup)="getPincode(obj.controls['pincode'].value)"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -1314,10 +1315,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub> </label>
 
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData?.fullName.maxLength"
+                                [maxLength]="label.validationData?.name.maxLength"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1365,6 +1366,7 @@
                             <app-custom-input formControlName="pincode" [type]="label.validationData?.pincode.type"
                                 [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                                 [placeholder]="'Vehicle Address PINCODE'"
+                                (keyup)="getPincode(obj.controls['pincode'].value)"
                                 [maxLength]="label.validationData?.pincode.maxLength" [custom]="initalZeroCheck"
                                 [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
@@ -1861,10 +1863,10 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}}</label>
 
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.fullName.type"
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
                                 [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData?.fullName.maxLength"
+                                [maxLength]="label.validationData?.name.maxLength"
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
