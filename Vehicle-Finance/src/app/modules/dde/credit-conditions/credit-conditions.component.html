@@ -24,7 +24,7 @@
     }">
       <label class="action"> {{labels.action}} </label>
     </div>
-    <div class="col-xs-6 col-sm-1 " *ngIf="userType === 2">More</div>
+    <div class="col-xs-6 col-sm-1 " *ngIf="userType === 2">Action</div>
   </div>
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
@@ -92,7 +92,7 @@
           <div>
             <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
         (click)="addOtherUnit()"></i>&nbsp; -->
-            <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+            <i type="button" class="fa fa-trash" title="Delete" aria-hidden="true" id="delPOIbutton" value="Delete"
               (click)="removeOtherIndex(i , creditConditionForm.value.Rows )"></i>
           </div>
         </div>
@@ -107,6 +107,7 @@
     <div class="col-sm-7 text-right">
        <button class="btn btn-primary" (click)="saveUpdate('back')" type="button">Back</button>
       <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
+      <button class="btn btn-primary" *ngIf="userType === 2" (click)="approveRejectDeclineCreditCondition('submit')" type="button">Submit</button>
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="approveRejectDeclineCreditCondition('approved')" type="button">Approve</button>
      <button class="btn btn-primary" *ngIf="userType === 2" (click) ="approveRejectDeclineCreditCondition('rejected')" type="button">Reject</button>
       <button class="btn btn-primary" *ngIf="userType === 2" (click) ="approveRejectDeclineCreditCondition('declined')" type="button">Decline</button>
