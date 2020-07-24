@@ -17,6 +17,7 @@ export class FiReportComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
+  state: any = [];
   isDirty: boolean;
   leadId: number;
   userId: any;
