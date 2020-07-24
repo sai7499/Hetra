@@ -47,14 +47,16 @@
                                         {{ i + 1 }}
                                     </td>
                                     <td data-title="Applicant Name">
-                                        <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center" formControlName="applicantId" (change)="
+                                        <select class="form-control mandatory select2" id="" name="applicantId"
+                                            [ngClass]="{ 'is-invalid': submitted || isDirty}" class="form-control text-center"
+                                            formControlName="applicantId" (change)="
                         onBusinessApplicantChange($event.target.value, i)
                       ">
                                             <option *ngFor="let applicants of applicantDetails"
                                                 [value]="applicants.applicantId">
                                                 {{ applicants.fullName }}</option>
                                         </select>
-                                        <div *ngIf="submitted"></div>
+                                        <div *ngIf="submitted || isDirty" class="invalid-feedback">Please select one</div>
                                     </td>
 
                                     <td data-title="Applicant Type">
@@ -68,25 +70,46 @@
                       name="applicant"
                       class="form-control text-center"
                     /> -->
-                                        <app-custom-input formControlName="applicantType" [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="applicantType"
+                                            [type]="labels?.validationData?.fullName?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.fullName?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
 
                                     <td data-title="Business Entity Name">
-                                        <app-custom-input formControlName="businessEnterpriseName" [placeholder]="'Business Entity Name'" [type]="labels?.validationData?.businessEntity?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.businessEntity?.maxLength"
+                                        <app-custom-input formControlName="businessEnterpriseName"
+                                            [placeholder]="'Business Entity Name'"
+                                            [type]="labels?.validationData?.businessEntity?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.businessEntity?.maxLength"
                                             [isRequired]="'Business Entity Name mandatory'" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
                                     <td data-title="Net Profit">
-                                        <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Net Profit mandatory'"
-                                            [isDirty]="isDirty" (keyup)="onIncome($event.target.value, i)"></app-custom-input>
+                                        <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isRequired]="'Net Profit mandatory'" [isDirty]="isDirty"
+                                            (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="Depreciation">
-                                        <app-custom-input formControlName="depreciation" [placeholder]="'Depreciation'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Depreciation mandatory'"
-                                            [isDirty]="isDirty" (keyup)="onIncome($event.target.value, i)"></app-custom-input>
+                                        <app-custom-input formControlName="depreciation" [placeholder]="'Depreciation'"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isRequired]="'Depreciation mandatory'" [isDirty]="isDirty"
+                                            (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="Directors salary/Interest to partners + Interest">
-                                        <app-custom-input formControlName="directorSalary" [placeholder]="'Director Salary'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Director Salary mandatory'"
-                                            [isDirty]="isDirty" (keyup)="onIncome($event.target.value, i)"></app-custom-input>
+                                        <app-custom-input formControlName="directorSalary"
+                                            [placeholder]="'Director Salary'"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isRequired]="'Director Salary mandatory'" [isDirty]="isDirty"
+                                            (keyup)="onIncome($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="Gross derived Income">
                                         <!-- <input
@@ -98,7 +121,11 @@
                       class="form-control text-center"
                       formControlName="grossDerivedIncome"
                     /> -->
-                                        <app-custom-input formControlName="grossDerivedIncome" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="grossDerivedIncome"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Gross monthly income">
                                         <!-- <input
@@ -110,18 +137,27 @@
                       class="form-control text-center"
                       formControlName="grossMonthlyIncome"
                     /> -->
-                                        <app-custom-input formControlName="grossMonthlyIncome" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="grossMonthlyIncome"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Actions">
-                                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
-                                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" title="Delete income" (click)="removeBusinessIncomeIndex(i)"></i>
+                                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
+                                            value="Add" title="Add income"
+                                            (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
+                                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
+                                            value="Delete" title="Delete income"
+                                            (click)="removeBusinessIncomeIndex(i)"></i>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="row bottom_common m-0">
                             <div class="col-md-12 text-right">
-                                {{ labels?.totalMonthlyBusinessIncome }} : {{ totalBusinessIncomeAmount | number: "1.0-0" }}
+                                {{ labels?.totalMonthlyBusinessIncome }} :
+                                {{ totalBusinessIncomeAmount | number: "1.0-0" }}
                             </div>
                         </div>
                     </div>
@@ -159,12 +195,16 @@
                   " [formGroupName]="i">
                                     <td data-title="S.no">{{ i + 1 }}</td>
                                     <td>
-                                        <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center" formControlName="applicantId" (change)="onOtherApplicantChange($event.target.value, i)">
+                                        <select class="form-control mandatory select2" id="" name="applicantId"
+                                            [ngClass]="{ 'is-invalid': submitted || isDirty }" class="form-control text-center"
+                                            formControlName="applicantId"
+                                            (change)="onOtherApplicantChange($event.target.value, i)">
                                             <option *ngFor="let applicants of applicantDetails"
                                                 [value]="applicants.applicantId">
                                                 {{ applicants.fullName }}</option>
                                         </select>
-                                        <div *ngIf="submitted"></div>
+                                        <div *ngIf="submitted || isDirty" class="invalid-feedback">Please select one</div>
+
                                     </td>
                                     <td data-title="Applicant Type">
                                         <!-- <input
@@ -177,15 +217,25 @@
                       name="applicant"
                       class="form-control text-center"
                     /> -->
-                                        <app-custom-input formControlName="applicantType" [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="applicantType"
+                                            [type]="labels?.validationData?.fullName?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.fullName?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Income Type">
-                                        <app-vf-custom-select [values]="incomeLov?.incomeType" formControlName="incomeType" (change)="appendFactoredIncome($event.target.value, i)">
+                                        <app-vf-custom-select [values]="incomeLov?.incomeType"
+                                            formControlName="incomeType" [isRequired]="'Please select one'" [isDirty]="isDirty"
+                                            (change)="appendFactoredIncome($event.target.value, i)">
                                         </app-vf-custom-select>
                                     </td>
                                     <td data-title="Gross Income">
-                                        <app-custom-input formControlName="grossIncome" [placeholder]="'Gross Income'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Gross Income mandatory'"
-                                            [isDirty]="isDirty" (keyup)="getOtherFactoredIncome(i)">
+                                        <app-custom-input formControlName="grossIncome" [placeholder]="'Gross Income'"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isRequired]="'Gross Income mandatory'" [isDirty]="isDirty"
+                                            (keyup)="getOtherFactoredIncome(i)">
                                         </app-custom-input>
 
                                     </td>
@@ -199,7 +249,11 @@
                       readonly="true"
                       formControlName="factoring"
                     /> -->
-                                        <app-custom-input formControlName="factoring" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="factoring"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
 
                                     </td>
                                     <td data-title="Factored Income">
@@ -212,11 +266,18 @@
                       class="form-control text-center"
                       formControlName="factoredIncome"
                     /> -->
-                                        <app-custom-input formControlName="factoredIncome" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="factoredIncome"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Actions">
-                                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp;
-                                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" title="Delete income" (click)="removeOtherIncomeIndex(i)"></i>
+                                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
+                                            value="Add" title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp;
+                                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
+                                            value="Delete" title="Delete income"
+                                            (click)="removeOtherIncomeIndex(i)"></i>
                                     </td>
                                 </tr>
                             </tbody>
@@ -271,14 +332,17 @@
                   " [formGroupName]="i">
                                     <td data-title="S.No">{{ i + 1 }}</td>
                                     <td>
-                                        <select class="form-control mandatory select2" id="" name="applicantId" [ngClass]="{ 'is-invalid': submitted }" class="form-control text-center" formControlName="applicantId" (change)="
+                                        <select class="form-control mandatory select2" id="" name="applicantId"
+                                            [ngClass]="{ 'is-invalid': submitted || isDirty  }" class="form-control text-center"
+                                            formControlName="applicantId" (change)="
                         onObligationApplicantChange($event.target.value, i)
                       ">
                                             <option *ngFor="let applicants of applicantDetails"
                                                 [value]="applicants.applicantId">
                                                 {{ applicants.fullName }}</option>
                                         </select>
-                                        <div *ngIf="submitted"></div>
+                                        <div *ngIf="submitted || isDirty" class="invalid-feedback">Please select one</div>
+
                                     </td>
                                     <td data-title="Applicant Type">
                                         <!-- <input
@@ -291,31 +355,52 @@
                       name="applicant"
                       class="form-control text-center"
                     /> -->
-                                        <app-custom-input formControlName="applicantType" [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="applicantType"
+                                            [type]="labels?.validationData?.fullName?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.fullName?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Type of Loan">
-                                        <app-vf-custom-select [values]="incomeLov?.typeOfLoan" formControlName="loanType" id="latbox">
+                                        <app-vf-custom-select [values]="incomeLov?.typeOfLoan" [isRequired]="'Please select one'" [isDirty]="isDirty"
+                                            formControlName="loanType" id="latbox">
                                         </app-vf-custom-select>
                                     </td>
                                     <td data-title="Financier">
-                                        <app-vf-custom-select [values]="incomeLov?.vehicleFinanciers" formControlName="financier">
+                                        <app-vf-custom-select [values]="incomeLov?.vehicleFinanciers" [isRequired]="'Please select one'" [isDirty]="isDirty"
+                                            formControlName="financier">
                                         </app-vf-custom-select>
                                     </td>
                                     <td data-title="Loan Amount">
-                                        <app-custom-input formControlName="loanAmount" [placeholder]="'Loan Amount'" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isRequired]="'Loan Amount mandatory'"
-                                            [isDirty]="isDirty">
+                                        <app-custom-input formControlName="loanAmount" [placeholder]="'Loan Amount'"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isRequired]="'Loan Amount mandatory'" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </td>
                                     <td data-title="Tenor(In Months)">
-                                        <app-custom-input formControlName="tenure" [placeholder]="'Tenor'" [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isRequired]="'Tenor mandatory'" [isDirty]="isDirty"
+                                        <app-custom-input formControlName="tenure" [placeholder]="'Tenor'"
+                                            [type]="labels?.validationData?.tenurePaid?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.tenurePaid?.maxLength"
+                                            [isRequired]="'Tenor mandatory'" [isDirty]="isDirty"
                                             (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="MOB">
-                                        <app-custom-input formControlName="mob" [placeholder]="'MOB'" [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isRequired]="'MOB mandatory'" [isDirty]="isDirty"
+                                        <app-custom-input formControlName="mob" [placeholder]="'MOB'"
+                                            [type]="labels?.validationData?.tenurePaid?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.tenurePaid?.maxLength"
+                                            [isRequired]="'MOB mandatory'" [isDirty]="isDirty"
                                             (keyup)="onTenure($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="EMI">
-                                        <app-custom-input formControlName="emi" [placeholder]="'EMI'" [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isRequired]="'EMI mandatory'" [isDirty]="isDirty"
+                                        <app-custom-input formControlName="emi" [placeholder]="'EMI'"
+                                            [type]="labels?.validationData?.tenurePaid?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.tenurePaid?.maxLength"
+                                            [isRequired]="'EMI mandatory'" [isDirty]="isDirty"
                                             (keyup)="onEmi($event.target.value, i)"></app-custom-input>
                                     </td>
                                     <td data-title="Balance Tenor">
@@ -328,7 +413,11 @@
                       class="form-control text-center"
                       formControlName="balanceTenure"
                     /> -->
-                                        <app-custom-input formControlName="balanceTenure" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="balanceTenure"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Obligation Amount">
                                         <!-- <input
@@ -340,11 +429,19 @@
                       class="form-control text-center"
                       formControlName="obligationAmount"
                     /> -->
-                                        <app-custom-input formControlName="obligationAmount" [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                        <app-custom-input formControlName="obligationAmount"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </td>
                                     <td data-title="Actions">
-                                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp;
-                                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" title="Delete obligation" (click)="removeObligationIndex(i)"></i>
+                                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton"
+                                            value="Add" title="Add obligation"
+                                            (click)="addObligationUnit(null)"></i>&nbsp;
+                                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
+                                            value="Delete" title="Delete obligation"
+                                            (click)="removeObligationIndex(i)"></i>
                                     </td>
                                 </tr>
                             </tbody>
@@ -378,7 +475,8 @@
                     value="70"
                     formControlName="salariedFOIRasperPolicy"
                   /> -->
-                                    <app-custom-input formControlName="salariedFOIRasperPolicy" [className]="'form-control mandatory'" [isDirty]="isDirty" [isDisabled]="true">
+                                    <app-custom-input formControlName="salariedFOIRasperPolicy"
+                                        [className]="'form-control mandatory'" [isDirty]="isDirty" [isDisabled]="true">
                                     </app-custom-input>
                                 </td>
                             </tr>
@@ -388,8 +486,12 @@
                                     <sub class="star_red_col">*</sub>
                                 </td>
                                 <td>
-                                    <app-custom-input formControlName="salariedFOIRDeviation" [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isRequired]="'salaried FOIR Deviation mandatory'"
-                                        [isDirty]="isDirty" (keyup)="onSalFoirDeviation($event.target.value)"></app-custom-input>
+                                    <app-custom-input formControlName="salariedFOIRDeviation"
+                                        [type]="labels?.validationData?.tenurePaid?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.tenurePaid?.maxLength"
+                                        [isRequired]="'salaried FOIR Deviation mandatory'" [isDirty]="isDirty"
+                                        (keyup)="onSalFoirDeviation($event.target.value)"></app-custom-input>
 
                                 </td>
                             </tr>

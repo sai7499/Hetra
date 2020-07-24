@@ -43,7 +43,19 @@ export class CamComponent implements OnInit {
   submitted: boolean;
   userId: string;
   customerSelectionCriteria: any;
-  usedCar: boolean;
+  usedCarCam: boolean;
+  applicantDetails: any;
+  bankingDetails: any;
+  businessIncomeDetails: any;
+  decisionSheet: any;
+  finalLoanDetails: any;
+  finalLoanEligibility: any;
+  obligationDetails: any;
+  loanEligibilityBasedOnInc: any;
+  otherIncomeDetails: any;
+  vehicleDetails: any;
+  sourcingObj: any;
+ 
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -74,7 +86,7 @@ export class CamComponent implements OnInit {
       this.usedCvCam = true;
       this.getCamUsedCvDetails();
     }else if(this.productCategoryName == "Used Car"){
-      this.usedCar = true
+      this.usedCarCam = true
       this.getCamUsedCarDetails();
     }
 
@@ -165,6 +177,23 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       console.log("used car cam",res)
+      this.camDetails = res.ProcessVariables
+      this.applicantDetails = res.ProcessVariables['applicantDetails'];
+      this.bankingDetails = res.ProcessVariables['bankingDetails'];
+      this.businessIncomeDetails = res.ProcessVariables['businessIncomeDetails'];
+      this.decisionSheet = res.ProcessVariables['decisionSheet'];
+      // this.deviation = res.ProcessVariables['deviation']
+      this.finalLoanDetails = res.ProcessVariables['finalLoanDetails']
+      this.finalLoanEligibility = res.ProcessVariables['finalLoanEligibility']
+      this.loanEligibilityBasedOnInc = res.ProcessVariables['loanEligibilityBasedOnInc']
+      this.obligationDetails = res.ProcessVariables['obligationDetails']
+      this.otherIncomeDetails = res.ProcessVariables['otherIncomeDetails']
+      this.sourcingObj = res.ProcessVariables['sourcingObj']
+
+      this.vehicleDetails = res.ProcessVariables['vehicleDetails']
+   
+
+     
 
     })
   }

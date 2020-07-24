@@ -96,7 +96,9 @@ export class IncomeDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService
-  ) { }
+  ) { 
+    this.isDirty = true;
+  }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
