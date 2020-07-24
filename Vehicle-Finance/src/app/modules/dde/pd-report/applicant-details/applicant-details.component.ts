@@ -259,6 +259,7 @@ export class ApplicantDetailComponent implements OnInit {
   }
   onNavigateNext() {
     if (this.version !== 'undefined') {
+
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
@@ -311,13 +312,14 @@ export class ApplicantDetailComponent implements OnInit {
 
   }
 
-  onFormSubmit() { // fun that submits all the pd data
+  onFormSubmit(action) { // fun that submits all the pd data
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
     // console.log('Form Data', applicantFormModal);
     // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     this.isDirty = true;
     if (this.applicantForm.invalid) {
+      // this.toasterService.showError('', '');
       return;
     }
 
@@ -360,6 +362,22 @@ export class ApplicantDetailComponent implements OnInit {
       // console.log(processVariables)
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        if (action === 'save') {
+
+        } else if (action === 'next') {
+
+          if (this.version !== 'undefined') {
+
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+          } else {
+
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+
+          }
+
+        }
+
       } else {
         // console.log('error', processVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
