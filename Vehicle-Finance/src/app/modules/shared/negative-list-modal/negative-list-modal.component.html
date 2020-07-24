@@ -53,11 +53,19 @@
 
       <!-- Modal footer -->
       <div class="modal-footer text-center">
+        <div class="form-group col-md-12" style="margin-top: 10px;">
+          <p for="Vechical Type" style="text-align: center;">Remarks</p>
+          <textarea
+            [(ngModel)]="remarks"
+            [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
+            style="width: 60%;"
+          ></textarea>
+        </div>
         <button
           type="button"
           class="btn btn-primary"
           id="cnew_lead"
-          (click)="showRemarks = 'reject'"
+          (click)="triggerClick('reject')"
           [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
         >
           Reject
@@ -65,7 +73,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          (click)="showRemarks = 'proceed'"
+          (click)="triggerClick('proceed')"
           [disabled]="!modalInput?.isNLTRFound || !modalInput?.isNLFound"
         >
           Proceed
@@ -78,24 +86,6 @@
         >
           Next
         </button>
-        <ng-container *ngIf="showRemarks">
-          <div class="form-group col-md-12" style="margin-top: 10px;">
-            <label for="Vechical Type"
-              >Remarks<sub class="star_red_col">*</sub></label
-            >
-            <textarea [(ngModel)]="remarks"></textarea>
-            <p>
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="triggerClick(showRemarks)"
-                [disabled]="!remarks"
-              >
-                Continue
-              </button>
-            </p>
-          </div>
-        </ng-container>
       </div>
     </div>
   </div>

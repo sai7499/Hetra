@@ -142,15 +142,15 @@ export class SalesExactMatchComponent implements OnInit {
     }
 
     if (event.name === 'proceed' || event.name === 'next') {
-      console.log('proceed or next');
+      if (this.currentAction === 'new') {
+        this.callApiForNewApplicant();
+      } else {
+        this.callApiForSelectedUcic();
+      }
     } else if (event.name === 'reject') {
-      console.log('reject');
-    }
-
-    if (this.currentAction === 'new') {
-      this.callApiForNewApplicant();
-    } else {
-      this.callApiForSelectedUcic();
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
+      );
     }
   }
 
@@ -209,12 +209,12 @@ export class SalesExactMatchComponent implements OnInit {
     this.modalName = '';
     this.applicantService
       .applicantNegativeListWrapper(data)
-      .subscribe((value) => {
+      .subscribe((value: any) => {
         console.log('checkNegativeList', value);
         this.showNegativeListModal = true;
         this.negativeModalInput = {
-          isNLFound: true,
-          isNLTRFound: false,
+          isNLFound: value.isNLFound,
+          isNLTRFound: value.isNLTRFound,
         };
       });
   }
