@@ -193,7 +193,8 @@
                             </div>
                         </div>
 
-                        <div class="invalid-feedback" *ngIf="customFutureDate">
+                        <div class="invalid-feedback"
+                            *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                             Invalid Date
                         </div>
 
@@ -674,6 +675,11 @@
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
+
+                            <div class="invalid-feedback" *ngIf="obj.controls['invoiceDate'].value > maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1051,6 +1057,10 @@
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
+
+                            <div class="invalid-feedback" *ngIf="obj.controls['invoiceDate'].value > maxDate">
+                                Invalid Date
+                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1381,6 +1391,10 @@
                                 placeholder="Fitness Date">
                             </kendo-datepicker>
 
+                            <div class="invalid-feedback" *ngIf="obj.controls['fitnessDate'].value < maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                     </div>
@@ -1409,8 +1423,14 @@
                             </label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="permitExpiryDate"
-                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="Permit Expire Date">
+                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Permit Expire Date">
                             </kendo-datepicker>
+
+                            <div class="invalid-feedback" *ngIf="obj.controls['permitExpiryDate'].value < maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                     </div>
@@ -1480,6 +1500,10 @@
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
+                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].value > maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1537,8 +1561,14 @@
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="insurance_validity">
+                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="insurance_validity">
                             </kendo-datepicker>
+
+                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].value < maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1753,7 +1783,7 @@
 
                     <div class="row">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        0 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
@@ -1884,6 +1914,10 @@
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
+                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].value > maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
@@ -1949,8 +1983,13 @@
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="insurance_validity">
+                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="insurance_validity">
                             </kendo-datepicker>
+
+                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].value < maxDate">
+                                Invalid Date
+                            </div>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
