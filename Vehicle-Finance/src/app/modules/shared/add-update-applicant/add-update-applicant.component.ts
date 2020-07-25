@@ -39,6 +39,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   negativeModalInput: {
     isNLFound?: boolean;
     isNLTRFound?: boolean;
+    nlRemarks?: string;
+    nlTrRemarks?: string;
   };
   // panPattern = {
 
@@ -1838,9 +1840,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           if (!processVariables.dedupeFound) {
             this.applicantId = processVariables.applicantId;
             this.showNegativeListModal = true;
+            let nlRemarks = '';
+            let nlTrRemarks = '';
+            if (processVariables.isNLFound) {
+              nlRemarks = processVariables.dedupeCustomerNL.remarks;
+            } else if (processVariables.isNLTRFound) {
+              nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
+            }
+
             this.negativeModalInput = {
               isNLFound: processVariables.isNLFound,
               isNLTRFound: processVariables.isNLTRFound,
+              nlRemarks,
+              nlTrRemarks,
             };
             // console.log('dedeupe', this.coApplicantForm.get('dedupe'));
             // this.showDedupeModal = true;
@@ -2056,6 +2068,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   negativeListModalListener(event) {
     if (event.name === 'next') {
       this.showDedupeModal = true;
+      this.showNegativeListModal = false;
       return;
     }
 

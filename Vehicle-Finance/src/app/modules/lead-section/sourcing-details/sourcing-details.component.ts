@@ -79,6 +79,8 @@ export class SourcingDetailsComponent implements OnInit {
   isDirty: boolean;
   isSaved: boolean;
   amountTenureData: any;
+  isLoanAmountTenure: boolean;
+
 
   sourcingCodeObject: {
     key: string;
@@ -234,15 +236,19 @@ export class SourcingDetailsComponent implements OnInit {
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
-    const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
-    this.amountTenureData = { ...amountAndTenureData };
-    console.log('this.amountTenureData', amountAndTenureData);
-    const requiredLoanAmount = data.leadDetails.reqLoanAmt;
-    const requiredLoanTenor = data.leadDetails.reqTenure;
-    const amount = (!this.amountTenureData.loanAmount) ? requiredLoanAmount : this.amountTenureData.loanAmount;
-    const tenure = (!this.amountTenureData.loanTenure) ? requiredLoanTenor : this.amountTenureData.loanTenure;
-    this.sourcingDetailsForm.patchValue({ requestedAmount: amount });
-    this.sourcingDetailsForm.patchValue({ requestedTenor: tenure });
+    if (!this.isLoanAmountTenure) {
+      const requiredLoanAmount = data.leadDetails.reqLoanAmt;
+      const requiredLoanTenor = data.leadDetails.reqTenure;
+      this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount });
+      this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
+      this.isLoanAmountTenure = false;
+    } else {
+      const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
+      this.amountTenureData = { ...amountAndTenureData };
+      console.log('this.amountTenureData', amountAndTenureData);
+      this.sourcingDetailsForm.patchValue({ requestedAmount: this.amountTenureData.loanAmount });
+      this.sourcingDetailsForm.patchValue({ requestedTenor: this.amountTenureData.loanTenure });
+    }
 
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
 

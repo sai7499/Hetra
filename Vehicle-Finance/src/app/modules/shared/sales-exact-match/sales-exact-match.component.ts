@@ -14,6 +14,8 @@ export class SalesExactMatchComponent implements OnInit {
   negativeModalInput: {
     isNLFound?: boolean;
     isNLTRFound?: boolean;
+    nlRemarks?: string;
+    nlTrRemarks?: string;
   };
   isNewApplicant: boolean;
   isSelectedUcic = true;
@@ -134,6 +136,7 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   async negativeListModalListener(event) {
+    this.showNegativeListModal = false;
     if (event.remarks) {
       const isProceed = event.name === 'proceed';
       const remarks = event.remarks;
@@ -211,10 +214,20 @@ export class SalesExactMatchComponent implements OnInit {
       .applicantNegativeListWrapper(data)
       .subscribe((value: any) => {
         console.log('checkNegativeList', value);
+        const processVariables = value.ProcessVariables;
         this.showNegativeListModal = true;
+        let nlRemarks = '';
+        let nlTrRemarks = '';
+        if (processVariables.isNLFound) {
+          nlRemarks = processVariables.dedupeCustomerNL.remarks;
+        } else if (processVariables.isNLTRFound) {
+          nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
+        }
         this.negativeModalInput = {
-          isNLFound: value.isNLFound,
-          isNLTRFound: value.isNLTRFound,
+          isNLFound: processVariables.isNLFound,
+          isNLTRFound: processVariables.isNLTRFound,
+          nlRemarks,
+          nlTrRemarks,
         };
       });
   }
