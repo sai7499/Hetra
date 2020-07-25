@@ -82,7 +82,7 @@ export class IncomeDetailsComponent implements OnInit {
     msg: 'Invalid Name',
   };
   salariedFOIRasperPolicy: number;
-  isDirty: boolean;
+  isDirty = false;
   incomeTypeValue: any;
   SalariedFOIRDeviation: number;
 
@@ -96,7 +96,8 @@ export class IncomeDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -178,7 +179,10 @@ export class IncomeDetailsComponent implements OnInit {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
         applicantType: [''],
-        businessEnterpriseName: [''],
+        businessEnterpriseName: [
+          null,
+          [Validators.required],
+        ],
         depreciation: [
           null,
           [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -227,7 +231,7 @@ export class IncomeDetailsComponent implements OnInit {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
         applicantType: [''],
-        incomeType: [''],
+        incomeType: ['',Validators.required],
         grossIncome: [
           null,
           [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -255,8 +259,8 @@ export class IncomeDetailsComponent implements OnInit {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
         applicantType: [''],
-        loanType: [''],
-        financier: [''],
+        loanType: ['',Validators.required],
+        financier: ['',Validators.required],
         loanAmount: [
           null,
           [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -472,6 +476,8 @@ export class IncomeDetailsComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+console.log(this.incomeDetailsForm);
+
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
