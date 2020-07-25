@@ -92,7 +92,7 @@ export class VehicleValuationComponent implements OnInit {
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
         this.colleteralId = this.collateralDetailsData[0].collateralId;
         console.log("COLLETERALID::", this.colleteralId);
-        console.log("COLLATERALDETAILSDATA*****", this.collateralDetailsData);
+        console.log("COLLATERALDETAILSDATA::", this.collateralDetailsData);
         this.getModelData();
         this.getValuatorStatus();
         this.getValuationReport();
@@ -132,7 +132,7 @@ export class VehicleValuationComponent implements OnInit {
       this.collateralDetailsData[0].valuatorStatus === '1') {
       this.valuationReport = 'View';
     }
-    console.log("VALUATIONREPORT::", this.valuationReport);
+    // console.log("VALUATIONREPORT::", this.valuationReport);
   }
 
   getModelData() {
@@ -234,7 +234,6 @@ export class VehicleValuationComponent implements OnInit {
 
   onBack() {
     this.router.navigate([`/pages/dde/${this.leadId}/psl-data`]);
-
   }
 
 }
