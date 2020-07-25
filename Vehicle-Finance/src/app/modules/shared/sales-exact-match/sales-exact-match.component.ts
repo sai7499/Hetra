@@ -14,6 +14,8 @@ export class SalesExactMatchComponent implements OnInit {
   negativeModalInput: {
     isNLFound?: boolean;
     isNLTRFound?: boolean;
+    nlRemarks?: string;
+    nlTrRemarks?: string;
   };
   isNewApplicant: boolean;
   isSelectedUcic = true;
@@ -24,6 +26,7 @@ export class SalesExactMatchComponent implements OnInit {
   selectedDetails;
   isExactAvailable: boolean;
   isIndividual: boolean;
+  applicantId;
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
@@ -96,9 +99,27 @@ export class SalesExactMatchComponent implements OnInit {
         const leadId = this.dedupeParameter.leadId;
         if (value.Error === '0') {
           const processVariables = value.ProcessVariables;
-          this.router.navigateByUrl(
-            `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
-          );
+          // this.checkNegativeList(processVariables.applicantId);
+          // this.router.navigateByUrl(
+          //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
+          // );
+          this.applicantId = processVariables.applicantId;
+          this.showNegativeListModal = true;
+          let nlRemarks = '';
+          let nlTrRemarks = '';
+          if (processVariables.isNLFound) {
+            nlRemarks = processVariables.dedupeCustomerNL.remarks;
+          }
+          if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
+            nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
+          }
+
+          this.negativeModalInput = {
+            isNLFound: processVariables.isNLFound,
+            isNLTRFound: processVariables.isNLTRFound,
+            nlRemarks,
+            nlTrRemarks,
+          };
         }
       });
   }
@@ -122,9 +143,10 @@ export class SalesExactMatchComponent implements OnInit {
         console.log('ucicservice', data);
         if (data.Error === '0') {
           const processVariables = data.ProcessVariables;
-          this.router.navigateByUrl(
-            `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
-          );
+          this.checkNegativeList(processVariables.applicantId);
+          // this.router.navigateByUrl(
+          //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
+          // );
         }
       });
   }
@@ -134,6 +156,8 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   async negativeListModalListener(event) {
+    const leadId = this.dedupeParameter.leadId;
+    this.showNegativeListModal = false;
     if (event.remarks) {
       const isProceed = event.name === 'proceed';
       const remarks = event.remarks;
@@ -142,12 +166,19 @@ export class SalesExactMatchComponent implements OnInit {
     }
 
     if (event.name === 'proceed' || event.name === 'next') {
-      if (this.currentAction === 'new') {
-        this.callApiForNewApplicant();
-      } else {
-        this.callApiForSelectedUcic();
-      }
+      // if (this.currentAction === 'new') {
+      //   // this.callApiForNewApplicant();
+      // } else {
+      //   this.callApiForSelectedUcic();
+      // }
+      this.router.navigateByUrl(
+        `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+      );
     } else if (event.name === 'reject') {
+      if (this.dedupeParameter.loanApplicationRelation === 'APPAPPRELLEAD') {
+        this.router.navigateByUrl('/pages/dashboard/leads-section/leads');
+        return;
+      }
       this.router.navigateByUrl(
         `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
       );
@@ -197,10 +228,11 @@ export class SalesExactMatchComponent implements OnInit {
       });
   }
 
-  checkNegativeList() {
+  checkNegativeList(applicantId) {
     const data = {
-      applicantId: this.dedupeParameter.applicantId,
+      applicantId: Number(applicantId),
     };
+    this.applicantId = Number(applicantId);
     if (this.currentAction === 'new') {
       data['leadId'] = this.dedupeParameter.leadId;
     } else {
@@ -211,10 +243,21 @@ export class SalesExactMatchComponent implements OnInit {
       .applicantNegativeListWrapper(data)
       .subscribe((value: any) => {
         console.log('checkNegativeList', value);
+        const processVariables = value.ProcessVariables;
         this.showNegativeListModal = true;
+        let nlRemarks = '';
+        let nlTrRemarks = '';
+        if (processVariables.isNLFound) {
+          nlRemarks = processVariables.dedupeCustomerNL.remarks;
+        }
+        if (processVariables.dedupeCustomerNLTR.remarks) {
+          nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
+        }
         this.negativeModalInput = {
-          isNLFound: value.isNLFound,
-          isNLTRFound: value.isNLTRFound,
+          isNLFound: processVariables.isNLFound,
+          isNLTRFound: processVariables.isNLTRFound,
+          nlRemarks,
+          nlTrRemarks,
         };
       });
   }

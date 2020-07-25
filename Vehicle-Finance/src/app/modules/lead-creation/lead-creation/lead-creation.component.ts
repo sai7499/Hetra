@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
@@ -71,6 +71,7 @@ export class LeadCreationComponent implements OnInit {
   dobOrDoiPlaceHolder: string;
   isFirstNameRequired: boolean;
   isLastNameRequired: boolean;
+  dob: any;
 
 
   obj = {};
