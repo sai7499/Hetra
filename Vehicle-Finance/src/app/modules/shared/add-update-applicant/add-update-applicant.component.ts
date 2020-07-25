@@ -521,7 +521,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
           if (!addressList) {
-            this.toasterService.showError('Invalid pincode', '');
+            //this.toasterService.showError('Invalid pincode', '');
             return;
           }
           const first = addressList[0];
@@ -674,12 +674,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isDisabledCheckbox = true;
         this.isRegAddressSame = true;
         
-
+       //if(processVariables.addressDetails){
         this.disablePermanentAddress();
         this.disableCurrentAddress();
 
         this.disableRegisteredAddress();
         this.disableCommunicationAddress();
+       //}
+        
       }
       
 
@@ -904,6 +906,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   setFormValue(applicantValue) {
     if (!applicantValue) {
       return;
+      
     } else {
       const details = this.getDetails();
       this.firstName = applicantValue.applicantDetails.name1 || '';
@@ -1070,9 +1073,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (this.isRegAddressSame) {
           this.communicationPincode = this.registerPincode;
           this.isCommAddSameAsRegAdd = '1';
-          communicationAddress.patchValue(
-            this.createAddressObject(registeredAddressObj)
-          );
+          //if(registeredAddressObj){
+            communicationAddress.patchValue(
+              this.createAddressObject(registeredAddressObj)
+            );
+          //}
+          
           communicationAddress.disable();
         } else {
           this.isCommAddSameAsRegAdd = '0';
@@ -1846,7 +1852,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'INDIVENTTYP') {
       // console.log('dedube Mobile', dedupe.get('mobilePhone').value)
-      // console.log('mobiel no', this.mobileNumber);
+       console.log('mobiel no');
       dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
         if (!dedupe.get('mobilePhone').invalid) {
           console.log('mobiel no', this.mobileNumber);
@@ -1913,13 +1919,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
     } else  {
-
+     console.log('else non')
       dedupe.get('companyPhoneNumber').valueChanges.subscribe((value) => {
+        this.dedupeMobile= true;
         if (!dedupe.get('companyPhoneNumber').invalid) {
           if (value !== this.contactNumber) {
             this.isContactNumberChanged = true;
             this.isEnableDedupe = true;
             this.dedupeMobile = true;
+            console.log('dedupe hiiii')
           } else {
             this.isEnableDedupe = false;
             this.isContactNumberChanged = false;
