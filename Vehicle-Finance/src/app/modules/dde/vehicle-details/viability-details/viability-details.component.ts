@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ViabilityServiceService } from '@services/viability-service.service';
 import { CommomLovService } from '@services/commom-lov-service';
-import { data } from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
@@ -225,6 +224,10 @@ export class ViabilityDetailsComponent implements OnInit {
 
   }
   submitViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showError('Details Not Saved', 'Please Save');
+      return;
+    }
     const body = {
       leadId : this.leadId,
       collateralId: this.collataralId,
@@ -233,10 +236,10 @@ export class ViabilityDetailsComponent implements OnInit {
     this.viabilityService.submitViabilityTask(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if ( res.ProcessVariables.error.code == '0') {
-       this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+       this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
        this.router.navigateByUrl(`pages/dashboard/vehicle-viability/viability-checks`);
       } else if (res.ProcessVariables.error.code == '1') {
-        this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
     });
   }
@@ -423,7 +426,7 @@ onSave() {
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+          this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
           if (this.router.url.includes('/dde')) {
             this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
           } else {
@@ -445,7 +448,7 @@ onSave() {
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+          this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
@@ -462,7 +465,7 @@ onSave() {
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
-           this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Viability');
+           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
           } else {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
        }
