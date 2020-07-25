@@ -24,7 +24,7 @@ export class FiReportComponent implements OnInit {
   applicantId: number;
   fieldReportForm: FormGroup;
   fieldInvestigation: FieldInvestigation;
-  fiDetails: any;
+  fiDetails: any;  
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,

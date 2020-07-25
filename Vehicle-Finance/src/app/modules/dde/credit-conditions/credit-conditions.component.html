@@ -24,7 +24,7 @@
     }">
       <label class="action"> {{labels.action}} </label>
     </div>
-    <div class="col-xs-6 col-sm-1 " *ngIf="userType === 2">More</div>
+    <div class="col-xs-6 col-sm-1 " *ngIf="userType === 2">Action</div>
   </div>
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
@@ -51,7 +51,8 @@
          
           </div>
           <!-- <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a> -->
-          <div *ngIf="item.get('isDocReq').value == '1'" class="btn btn-primary uploadsan">Upload
+          <div *ngIf="item.get('isDocReq').value == '1' && userType == 1" 
+              class="btn btn-primary uploadsan">Upload
             <!-- <input type="file" formControlName="salesResponseDoc"  class="upload_sanction"/> -->
           </div>
         </div>
@@ -107,20 +108,23 @@
     <div class="col-sm-7 text-right">
        <button class="btn btn-primary" (click)="saveUpdate('back')" type="button">Back</button>
       <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="creditConditionActions('approved')" type="button">Approve</button>
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="creditConditionActions('submited')" type="button">Submit</button>
-      <button class="btn btn-primary"
+      <!-- <button class="btn btn-primary"
        *ngIf="userType !== 2" 
        (click)="assignCDTaskFromSales()"
-        type="button">Submit</button>
-
+        type="button">Submit</button> -->
+      <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click)="creditConditionActions('submited')" type="button">Approve</button>
+      <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
        *ngIf="userType === 2"        
          type="button"
          data-toggle="modal"
          data-target="#myModal"
+         [disabled] ="disableControl"
          >Refer</button>
-      <button class="btn btn-primary" *ngIf="userType === 2" (click) ="creditConditionActions('declined')" type="button">Decline</button>
+      <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
       <button class="btn btn-primary" (click)="saveUpdate('next')"  type="button">Next</button>
     </div>
   </div>
@@ -146,7 +150,7 @@
             Please Select Role: 
           </label>
             <app-vf-custom-select
-             [values]="roleList ? roleList : ''"
+              [values]="roleList"
               formControlName="roleId"
                [isRequired]="'Please select alteast one '">
             </app-vf-custom-select>
