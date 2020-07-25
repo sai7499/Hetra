@@ -1084,7 +1084,7 @@
         <td>{{ labels?.totalMontlyObligations }}</td>
         <td>{{ loanEligibilityBasedOnInc?.totalMontlyObligations }}</td>
         <td>{{labels?.ltvDeviaton}}</td>
-        <td>{{ loanEligibilityBasedOnInc?.propertyOwnership }}</td>
+        <td>{{ loanEligibilityBasedOnInc?.loanEligibilityAsPerLTV }}</td>
     </tr>
     </table>
     <!--loan eligibility based on income--->
@@ -1100,7 +1100,7 @@
         <td>{{ labels?.bankName }}</td>
         <td>{{ bankingDetails?.bankName }}</td>
         <td>{{ labels?.accountHolderName }}</td>
-        <td>{{ bankingDetails?.accountHolderName }}</td>
+        <td>{{ bankingDetails?.name }}</td>
     </tr>
     <tr>
         <td>{{ labels?.totalNoOfCredits }}</td>

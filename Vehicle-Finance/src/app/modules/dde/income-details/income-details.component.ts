@@ -231,7 +231,7 @@ export class IncomeDetailsComponent implements OnInit {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
         applicantType: [''],
-        incomeType: [''],
+        incomeType: ['',Validators.required],
         grossIncome: [
           null,
           [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -259,8 +259,8 @@ export class IncomeDetailsComponent implements OnInit {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
         applicantType: [''],
-        loanType: [''],
-        financier: [''],
+        loanType: ['',Validators.required],
+        financier: ['',Validators.required],
         loanAmount: [
           null,
           [Validators.required, Validators.pattern('^[0-9]*$')],
