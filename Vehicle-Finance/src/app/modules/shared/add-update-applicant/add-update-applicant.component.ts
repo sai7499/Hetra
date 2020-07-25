@@ -757,39 +757,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     console.log('event', event);
     this.isChecked = event.target.checked;
     if (this.isChecked === true) {
-      this.coApplicantForm
-        .get('dedupe')
-        .get('houseOwnerProperty')
-        .setValidators([Validators.required]);
-      this.coApplicantForm
-        .get('dedupe')
-        .get('ownHouseAppRelationship')
-        .setValidators([Validators.required]);
-      this.coApplicantForm
-        .get('dedupe')
-        .get('houseOwnerProperty')
-        .updateValueAndValidity();
-      this.coApplicantForm
-        .get('dedupe')
-        .get('ownHouseAppRelationship')
-        .updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').updateValueAndValidity();
     } else {
-      this.coApplicantForm
-        .get('dedupe')
-        .get('houseOwnerProperty')
-        .clearValidators();
-      this.coApplicantForm
-        .get('dedupe')
-        .get('ownHouseAppRelationship')
-        .clearValidators();
-      this.coApplicantForm
-        .get('dedupe')
-        .get('houseOwnerProperty')
-        .updateValueAndValidity();
-      this.coApplicantForm
-        .get('dedupe')
-        .get('ownHouseAppRelationship')
-        .updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').clearValidators();
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').clearValidators();
+      this.coApplicantForm.get('dedupe').get('houseOwnerProperty').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').updateValueAndValidity();
     }
   }
 
@@ -1662,7 +1638,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   checkDedupe() {
     console.log('dedupeMobileBoolean', this.dedupeMobile);
-    //console.log('dedupeContactNumber', this.dedupeContactNumber)
     const dedupe = this.coApplicantForm.get('dedupe');
     this.setDedupeValidators();
     console.log('dedupe', dedupe);
@@ -1978,7 +1953,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       });
     } else {
       dedupe.get('companyPhoneNumber').valueChanges.subscribe((value) => {
-        this.dedupeMobile= true;
+        //this.dedupeMobile= true;
         if (!dedupe.get('companyPhoneNumber').invalid) {
           if (value !== this.contactNumber) {
             this.isContactNumberChanged = true;
