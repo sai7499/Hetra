@@ -53,8 +53,10 @@ export class DdeComponent implements OnInit {
 
     if (this.locationIndex >= 8) {
       this.show = false;
+      // this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
     } else {
       this.show = true;
+      // this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
     }
 
     if (this.router.url.includes('/pd-dashboard')) {

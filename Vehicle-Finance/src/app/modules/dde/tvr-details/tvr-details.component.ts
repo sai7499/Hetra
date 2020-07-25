@@ -66,7 +66,9 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+    // this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
+
   }
 
   onNext() {
