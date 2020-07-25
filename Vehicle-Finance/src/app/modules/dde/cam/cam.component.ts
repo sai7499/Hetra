@@ -55,6 +55,8 @@ export class CamComponent implements OnInit {
   otherIncomeDetails: any;
   vehicleDetails: any;
   sourcingObj: any;
+  manualDeviation: any;
+  autoDeviation: any;
  
 
   constructor(private labelsData: LabelsService,
@@ -189,6 +191,8 @@ export class CamComponent implements OnInit {
       this.obligationDetails = res.ProcessVariables['obligationDetails']
       this.otherIncomeDetails = res.ProcessVariables['otherIncomeDetails']
       this.sourcingObj = res.ProcessVariables['sourcingObj']
+this.autoDeviation =res.ProcessVariables['autoDeviation']
+this.manualDeviation =res.ProcessVariables['manualDeviation']
 
       this.vehicleDetails = res.ProcessVariables['vehicleDetails']
    

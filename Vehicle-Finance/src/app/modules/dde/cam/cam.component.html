@@ -844,13 +844,13 @@
         <td>{{ labels?.vehicleCurrentAge }}</td>
         <td>{{ vehicleDetails?.currentAge }}</td>
         <td>{{ labels?.vehicleAgeAtEndOfTheTenor }}</td>
-        <td>{{ vehicleDetails?.branchName }}</td>
+        <td>{{ vehicleDetails?.ageAtTheEndOfTenor }}</td>
     </tr>
     <tr>
         <td>{{ labels?.vehicleInsuranceValidity }}</td>
         <td>{{ vehicleDetails?.insuranceValidity }}</td>
         <td>{{ labels?.vehicleInsuranceValue }}</td>
-        <td>{{ vehicleDetails?.vehicleInsuranceValue }}</td>
+        <td>{{ vehicleDetails?.idv }}</td>
     </tr>
 
     <tr>
@@ -880,7 +880,7 @@
     </tr>
     <tr>
         <td>{{ labels?.vehicleOwnershipPrevious }}</td>
-        <td>{{ vehicleDetails?.program }}</td>
+        <td>{{ vehicleDetails?.ownership }}</td>
         <td>{{ labels?.insurance }}</td>
         <td>{{ vehicleDetails?.insurance }}</td>
     </tr>
@@ -914,11 +914,11 @@
             </tr>
             <tr>
                 <td>{{ labels?.overAllFiStatus }}</td>
-                <td colspan="6" class="">{{ partyToAnyOtherRemarks }}</td>
+                <td colspan="6" class="">{{ camDetails?.overallFiStatus }}</td>
             </tr>
             <tr>
                 <td>{{ labels?.internalDedupeStatus }}</td>
-                <td colspan="6" class="">{{ partyToAnyOtherRemarks }}</td>
+                <td colspan="6" class="">{{ camDetails?.internalDedupeStatus  }}</td>
             </tr>
         </tbody>
     </table>
@@ -1207,10 +1207,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let autoDeviation of autoDeviation">
-                <td class="bank_name">{{ autoDeviation?.type }}</td>
-                <td>{{ autoDeviation?.comments }}</td>
-                <td>{{ autoDeviation?.age }}</td>
-                <td>{{ autoDeviation?.relationshipToApplicant}}</td>
+                <td class="bank_name">{{ autoDeviation?.deviation }}</td>
+                <td>{{ autoDeviation?.justification }}</td>
+                <td>{{ autoDeviation?.authority }}</td>
+                <td>{{ autoDeviation?.status}}</td>
             </tr>
            
         </tbody>
@@ -1233,10 +1233,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let manualDeviation of manualDeviation">
-                <td class="bank_name">{{ manualDeviation?.type }}</td>
-                <td>{{ manualDeviation?.comments }}</td>
-                <td>{{ manualDeviation?.age }}</td>
-                <td>{{ manualDeviation?.relationshipToApplicant}}</td>
+                <td class="bank_name">{{ manualDeviation?.deviation }}</td>
+                <td>{{ manualDeviation?.justification }}</td>
+                <td>{{ manualDeviation?.authority }}</td>
+                <td>{{ manualDeviation?.status}}</td>
             </tr>
            
         </tbody>

@@ -82,7 +82,7 @@ export class IncomeDetailsComponent implements OnInit {
     msg: 'Invalid Name',
   };
   salariedFOIRasperPolicy: number;
-  isDirty: boolean;
+  isDirty = false;
   incomeTypeValue: any;
   SalariedFOIRDeviation: number;
 
@@ -97,7 +97,6 @@ export class IncomeDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService
   ) { 
-    this.isDirty = true;
   }
 
   ngOnInit() {
@@ -180,7 +179,10 @@ export class IncomeDetailsComponent implements OnInit {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
         applicantType: [''],
-        businessEnterpriseName: [''],
+        businessEnterpriseName: [
+          null,
+          [Validators.required],
+        ],
         depreciation: [
           null,
           [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -474,6 +476,8 @@ export class IncomeDetailsComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+console.log(this.incomeDetailsForm);
+
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
