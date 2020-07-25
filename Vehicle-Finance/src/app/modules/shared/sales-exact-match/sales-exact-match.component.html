@@ -426,9 +426,9 @@
           class="btn btn-success"
           data-dismiss="modal"
           id="ucic_lead"
-          (click)="checkNegativeList()"
+          (click)="callApiForSelectedUcic()"
         >
-          <!-- (click)="callApiForSelectedUcic()" -->
+          <!-- (click)="checkNegativeList()" -->
 
           Yes
         </button>
@@ -472,9 +472,10 @@
           class="btn btn-success"
           data-dismiss="modal"
           id="cnew_lead"
-          (click)="checkNegativeList()"
+          (click)="callApiForNewApplicant()"
         >
-          <!-- (click)="callApiForNewApplicant()" -->
+          <!-- (click)="checkNegativeList()" -->
+
           Yes
         </button>
         <button
