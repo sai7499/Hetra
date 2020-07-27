@@ -13,7 +13,7 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ["./vehicle-valuation.component.css"]
 })
 export class VehicleValuationComponent implements OnInit {
-  modelDataForm: FormGroup;
+  modalDataForm: FormGroup;
 
   leadId;
   colleteralId;
@@ -27,6 +27,8 @@ export class VehicleValuationComponent implements OnInit {
   address: any;
   valuationReport: string;
   valuatorStatus: string;
+  apiValuatorStatus: string;
+  apiValuationStatus: string;
 
   vendorDetails; any = [];
   vendorDetailsData: any = [];
@@ -78,7 +80,7 @@ export class VehicleValuationComponent implements OnInit {
   }
 
   initForm() {
-    this.modelDataForm = this.formBuilder.group({
+    this.modalDataForm = this.formBuilder.group({
       remarks: ["",[Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')]],
       valuatorCode: ["", [Validators.required]]
     });
@@ -90,96 +92,100 @@ export class VehicleValuationComponent implements OnInit {
       subscribe((res: any) => {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
-        this.colleteralId = this.collateralDetailsData[0].collateralId;
+        if(this.collateralDetailsData) {
+          this.collateralDetailsData.filter( (element) => {            
+            this.colleteralId = element.collateralId;
+            this.apiValuatorStatus = element.valuatorStatus;
+            this.apiValuationStatus = element.valuationStatus;
+            this.regNo = element.regNo;
+            this.make = element.make;
+            this.model = element.model;
+            this.address = element.address;
+          });
+        }
         console.log("COLLETERALID::", this.colleteralId);
         console.log("COLLATERALDETAILSDATA::", this.collateralDetailsData);
-        this.getModelData();
+        // this.getModalData();
         this.getValuatorStatus();
         this.getValuationReport();
       });
   }
 
   getValuatorStatus() {
-    if (this.collateralDetailsData[0].valuatorStatus === '1') {
+    if (this.apiValuatorStatus === '1') {
       this.valuatorStatus = 'Online';
-    } else if (this.collateralDetailsData[0].valuatorStatus === '0') {
+    } else if (this.apiValuatorStatus === '0') {
       this.valuatorStatus = 'Offline';
     }
   }
 
   getValuationReport() {
-    if (this.collateralDetailsData[0].valuationStatus === 'NOT INITIATED' &&
-      this.collateralDetailsData[0].valuatorStatus === null) {
+    if (this.apiValuationStatus === 'NOT INITIATED' && this.apiValuatorStatus === null) {
       this.valuationReport = 'Initiate';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'INITIATED' &&
-      this.collateralDetailsData[0].valuatorStatus === '1') {
+    else if (this.apiValuationStatus === 'INITIATED' && this.apiValuatorStatus === '1') {
       this.valuationReport = '------';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'INITIATED' &&
-      this.collateralDetailsData[0].valuatorStatus === '0') {
+    else if (this.apiValuationStatus === 'INITIATED' && this.apiValuatorStatus === '0') {
       this.valuationReport = 'View';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'SUBMITTED' &&
-      this.collateralDetailsData[0].valuatorStatus === '1') {
+    else if (this.apiValuationStatus === 'SUBMITTED' && this.apiValuatorStatus === '1') {
       this.valuationReport = 'View';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'SUBMITTED' &&
-      this.collateralDetailsData[0].valuatorStatus === '0') {
+    else if (this.apiValuationStatus === 'SUBMITTED' && this.apiValuatorStatus === '0') {
       this.valuationReport = 'View';
     }
-    else if (this.collateralDetailsData[0].valuationStatus === 'RECEIVED' &&
-      this.collateralDetailsData[0].valuatorStatus === '1') {
+    else if (this.apiValuationStatus === 'RECEIVED' && this.apiValuatorStatus === '1') {
       this.valuationReport = 'View';
     }
-    // console.log("VALUATIONREPORT::", this.valuationReport);
   }
 
-  getModelData() {
-    if (this.collateralDetailsData) {
-      this.regNo = this.collateralDetailsData[0].regNo;
-      this.make = this.collateralDetailsData[0].make;
-      this.model = this.collateralDetailsData[0].model;
-      this.address = this.collateralDetailsData[0].address;
-      console.log("MODEL-DATA::::", this.regNo, this.make, this.model, this.address);
-    }
-  }
+  // getModalData() {
+  //   if(this.collateralDetailsData) {
+  //     this.collateralDetailsData.filter( (element) => {
+  //       this.regNo = element.regNo;
+  //       this.make = element.make;
+  //       this.model = element.model;
+  //       this.address = element.address;
+  //     });
+  //   }
+  //   console.log("MODEL-DATA::::", this.regNo, this.make, this.model, this.address);
+  // }
 
   getVendorCode() {
-    this.vehicleValuationService.getVendorCode().subscribe((res) => {
-      //   const response = res;
-      this.vendorDetails = res;
-      this.vendorDetails.ProcessVariables.vendorDetails.filter((element) => {
+    this.vehicleValuationService.getVendorCode().subscribe((res: any) => {
+        // const response = res;
+      this.vendorDetails = res.ProcessVariables.vendorDetails;
+      this.vendorDetails.filter((element) => {
         const data = {
           key: element.vendorCode,
           value: element.vendorName
         };
         this.vendorDetailsData.push(data)
       });
-      console.log("VENDOR_DETAIL_LIST::::", this.vendorDetailsData);
+      console.log("VENDOR-LIST::::", this.vendorDetailsData);
     });
   }
 
   onChangeVendorName(event: any) {
     const vendorNameChange = event.target.value;
     this.vendorDetailsData.filter(element => {
-      // console.log("ELEMENT:::", element);
       if (element.key == vendorNameChange) {
         this.vendorName = element.value;
       }
-      console.log("VENDORNAME::::", this.vendorName);
+      console.log("VENDOR-NAME::::", this.vendorName);
     });
   }
   initiateVehicleValuation() {
     this.isDirty = true;
-    const formValues = this.modelDataForm.getRawValue();
+    const formValues = this.modalDataForm.getRawValue();
     console.log("FORMVALUES::", formValues);
     const data = {
       userId: localStorage.getItem('userId'),
       collateralId: this.colleteralId,
       ...formValues
     };
-    if (this.modelDataForm.valid === true) {
+    if (this.modalDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
         // console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
@@ -200,7 +206,7 @@ export class VehicleValuationComponent implements OnInit {
         }
       });
     } else {
-      this.toasterService.showError("Please fill all mandatory fields.", "");
+      this.toasterService.showError("Please fill all mandatory fields.", "Vehicle Valuation");
     }
 
   }
