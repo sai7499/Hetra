@@ -110,7 +110,7 @@ export class FiListComponent implements OnInit {
 
 
   onClick() {
-    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
+    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report`);
   }
 
   onBack() {

@@ -38,31 +38,33 @@ export class FiReportComponent implements OnInit {
   ) {
     this.getLOV();
     this.isDirty = true;
-    this.leadId = this.activatedRoute.snapshot.params.leadId;
+    this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
+    this.applicantId = Number(this.activatedRoute.snapshot.params.applicantId);
     console.log(this.leadId);
+    console.log(this.applicantId);
   }
 
   async ngOnInit() {
+
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     console.log('user id ==>', this.userId);
-
-    this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.initForm();
-      this.activatedRoute.params.subscribe((value) => { // calling get lead section data function in line 174
-        if (!value && !value.applicantId) {
-          return;
-        }
-        this.applicantId = Number(value.applicantId);
-        console.log('Applicant Id In Fi Report Details Component', this.applicantId);
-
-      });
-
-    });
+    // this.leadId = (await this.getLeadId()) as number;
     this.getFiReportDetails();
+  }
+
+  getLeadId() {  // function to get the respective  lead id from the url
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+          console.log('in get lead ', value);
+        }
+        resolve(null);
+      });
+    });
   }
 
 
@@ -221,16 +223,13 @@ export class FiReportComponent implements OnInit {
   }
 
 
-
-
-
-
   getFiReportDetails() {
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1177,  // hardcoded as per backend
       userId: this.userId
     };
+    console.log('in get fi report', this.applicantId);
     this.fieldInvestigationService.getFiReportDetails(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
       console.log('get fi report response', processVariables);
