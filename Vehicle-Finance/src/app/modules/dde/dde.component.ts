@@ -47,7 +47,6 @@ export class DdeComponent implements OnInit {
         if(val === true) {
           this.onNext();
         }
-        // this.sharedService.getVehicleValuationNext(false);
       });
       this.sharedService.tvrDetailsPrevious$.subscribe( (val) => {
         if(val === true) {
