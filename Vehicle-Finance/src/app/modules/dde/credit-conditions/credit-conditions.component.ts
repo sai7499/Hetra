@@ -236,6 +236,11 @@ export class CreditConditionsComponent implements OnInit {
         if(res['ProcessVariables'].error['code'] == 0){
           this.toasterService.showSuccess("Record Saved successfully!", '');
           if(data == 'save' ){
+            this.creditConditions = [];
+            this.creditConditionForm = this.formBuilder.group({
+              Rows: this.formBuilder.array([])
+            });
+            this.getCreditConditions();
           }else if(data == 'next'){
             this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
           }else{
@@ -247,11 +252,7 @@ export class CreditConditionsComponent implements OnInit {
           }
   
         }
-        this.creditConditions = [];
-        this.creditConditionForm = this.formBuilder.group({
-          Rows: this.formBuilder.array([])
-        });
-        this.getCreditConditions();
+      
       })
     }
    
