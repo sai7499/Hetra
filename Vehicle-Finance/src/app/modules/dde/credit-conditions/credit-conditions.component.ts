@@ -247,7 +247,11 @@ export class CreditConditionsComponent implements OnInit {
           }
   
         }
-  
+        this.creditConditions = [];
+        this.creditConditionForm = this.formBuilder.group({
+          Rows: this.formBuilder.array([])
+        });
+        this.getCreditConditions();
       })
     }
    
