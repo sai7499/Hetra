@@ -37,4 +37,14 @@ export class SharedService {
     getTaskID(data) {
         this.taskId$.next(data)
     }
+
+    vehicleValuationNext$: BehaviorSubject<any> = new BehaviorSubject(false);
+    getVehicleValuationNext(data) {
+        this.vehicleValuationNext$.next(data);
+    }
+
+    tvrDetailsPrevious$: BehaviorSubject<any> = new BehaviorSubject(false);
+    getTvrDetailsPrevious(data) {
+        this.tvrDetailsPrevious$.next(data);
+    }
 }

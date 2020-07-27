@@ -3,7 +3,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms"
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from "@services/labels.service";
-import { DdeStoreService } from '@services/dde-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleValuationService } from '@modules/dde/services/vehicle-valuation.service';
@@ -251,11 +250,11 @@ export class ValuationComponent implements OnInit {
         const response = res;
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
         if (response["Error"] == 0) {
-          this.toasterService.showSuccess("Record Saved Successfully", "");
+          this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
         }
       });
     } else {
-      this.toasterService.showError("Please fill all mandatory fields.", "");
+      this.toasterService.showError("Please fill all mandatory fields.", "Valuation");
     }
   }
 
