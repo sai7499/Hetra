@@ -10,10 +10,12 @@ export class CreateLeadDataService {
     leadSectionData = {};
     proceedAsNewLeadData = {};
     proceedWithSelectedLead = {};
-    constructor(private sharedService: SharedService,
-                private cds: CommonDataService){
+    loanAmountAndTenure = {};
 
-    }
+    constructor(
+        private sharedService: SharedService,
+        private cds: CommonDataService
+    ) { }
 
     setLeadData(loanLeadDetails, applicantDetails) {
         this.leadData = {
@@ -21,19 +23,18 @@ export class CreateLeadDataService {
             applicantDetails
         };
     }
-
     getLeadData() {
         return this.leadData;
     }
 
     setLeadSectionData(data) {
         this.leadSectionData = data;
-        const requestAmount = this.leadSectionData['leadDetails']['reqLoanAmt']?
-                                this.leadSectionData['leadDetails']['reqLoanAmt']: 0;
-        this.sharedService.changeLoanAmount(Number( requestAmount));
-        this.cds.changeleadDataStatus(data ? true : false);   
-      }
- 
+        const requestAmount = this.leadSectionData['leadDetails']['reqLoanAmt'] ?
+            this.leadSectionData['leadDetails']['reqLoanAmt'] : 0;
+        this.sharedService.changeLoanAmount(Number(requestAmount));
+        this.cds.changeleadDataStatus(data ? true : false);
+    }
+
     getLeadSectionData() {
         return this.leadSectionData;
     }

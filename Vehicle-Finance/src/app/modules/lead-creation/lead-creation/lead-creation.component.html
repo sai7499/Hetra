@@ -228,9 +228,9 @@
             <app-custom-input
               formControlName="nameOne"
               [className]="'form-control mandatory'"
-              [placeholder]="'First Name'"
+              [placeholder]="firstPlaceholder"
               [maxLength]="nameLength"
-              [isRequired]="nameFirstErrorMessage"
+              [isRequired]= "isFirstNameRequired ? 'First Name is mandatory' : 'Company Name 1 is mandatory' "
               [isDirty]="isDirty"
               [type]="namePattern"
               >
@@ -243,7 +243,7 @@
             <app-custom-input
               formControlName="nameTwo"
               [className]="'form-control mandatory'"
-              [placeholder]="'Middle Name'"
+              [placeholder]="secondPlaceholder"
               [maxLength]="nameLength"
               [isDirty]="isDirty"
               [type]="namePattern"
@@ -256,14 +256,14 @@
               <sub class="star_red_col">*</sub>
             </label>
             <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }} 
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="applicantType == 'INDIVENTTYP'">*</sub>
             </label>
             <app-custom-input
               formControlName="nameThree"
               [className]="'form-control mandatory'"
-              [placeholder]="'Last Name'"
+              [placeholder]="thirdPlaceholder"
               [maxLength]="nameLength"
-              [isRequired]="nameLastErrorMessage"
+              [isRequired]="isLastNameRequired ? 'Last Name is mandatory': '' "
               [isDirty]="isDirty"
               [type]="namePattern">
             </app-custom-input>
@@ -297,8 +297,18 @@
               formControlName="dateOfBirth" 
               [format]="'dd/MM/yyyy'"
               [max]="toDayDate" 
-              placeholder="Date of birth"
-              [activeView]="'decade'"></kendo-datepicker>  
+              [placeholder]="dobOrDoiPlaceHolder"
+              [activeView]="'decade'">
+            </kendo-datepicker>  
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !createLeadForm.controls.dateOfBirth.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="createLeadForm.controls.dateOfBirth.value && createLeadForm.controls.dateOfBirth.errors">
+                Invalid date
+              </div>
+            </div>
+            
           </div>
 
 

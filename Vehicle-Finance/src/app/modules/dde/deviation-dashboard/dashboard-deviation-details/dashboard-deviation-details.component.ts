@@ -63,7 +63,7 @@ export class DashboardDeviationDetailsComponent implements OnInit, OnDestroy {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
           this.sharedService.getUpdatedDeviation(updateDevision)
-          this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Deviation Save/Update')
+          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Deviation Save/Update')
         }
       }, err => {
         console.log('err', err)

@@ -637,7 +637,7 @@ export class TrackVehicleComponent implements OnInit {
           this.fleetRtrDetails.splice(index , 1)
         this.paymentCalc(0 , 0);
         this.delayDaysCalc();
-          this.toasterService.showSuccess('Instalment deleted successfully!', '');
+          this.toasterService.showSuccess('Record deleted successfully!', '');
 
         })
        // this.formArr.removeAt(index);
@@ -649,7 +649,7 @@ export class TrackVehicleComponent implements OnInit {
 
       }
     } else {
-      this.toasterService.showError("At least one row required !", '')
+      this.toasterService.showError("At least one record required !", '')
     }
 
 
@@ -686,7 +686,7 @@ export class TrackVehicleComponent implements OnInit {
         console.log(res);
         if (res['Error'] == "0") {
           // alert("Saved Success");
-          this.toasterService.showSuccess('Repayment Track Record saved successfully!', '');
+          this.toasterService.showSuccess('Record saved successfully!', '');
 
           this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
         }
