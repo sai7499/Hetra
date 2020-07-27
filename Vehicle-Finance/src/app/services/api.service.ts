@@ -504,6 +504,11 @@ export class ApiService {
       workflowId: '5f726640c4cc11ea958b00505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    getCamNewCvDetails: {
+      processId: '95d6f6f8c5ab11eab03700505695f93b',
+      workflowId: '95d6f6f8c5ab11eab03700505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveCamRemarks: {
       processId: 'b099b6aac71e11ea8c4800505695f93b',
       workflowId: 'b0689796c71e11ea8df900505695f93b',
