@@ -43,6 +43,17 @@ export class DdeComponent implements OnInit {
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
       }
+      this.sharedService.vehicleValuationNext$.subscribe( (val) => {
+        if(val === true) {
+          this.onNext();
+        }
+        // this.sharedService.getVehicleValuationNext(false);
+      });
+      this.sharedService.tvrDetailsPrevious$.subscribe( (val) => {
+        if(val === true) {
+          this.onPrevious();
+        }
+      });
     }
 
     const currentUrl = this.location.path();
