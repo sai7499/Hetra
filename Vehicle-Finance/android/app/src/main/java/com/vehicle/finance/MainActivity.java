@@ -40,6 +40,7 @@ public class MainActivity extends BridgeActivity {
 
   private String licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";
 
+  private boolean isMaas360Enable = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -61,28 +62,30 @@ public class MainActivity extends BridgeActivity {
       final boolean shouldAutoEnforceRestrictShare = true;
 //      final String enableAnalytics = true;
 
-      try {
-        MaaS360SDK
-                .initSDK(getApplication(), developerId, licenseKey, mListener,
-                        new com.fiberlink.maas360sdk.cordova.IMaaS360SDKPolicyAutoEnforceInfoFactory(
-                                shouldEnforceCopyPasteRestriction, shouldEnforceSSORestriction,
-                                shouldEnforceScreenshotRestriction, shouldEnforceWipeRestriction,
-                                shouldEnforceGatewayRestriction, shouldAutoEnforceRestrictExport,
-                                shouldAutoEnforceRestrictRootedDevice, shouldAutoEnforceRestrictImport,
-                                shouldAutoEnforceRestrictPrint, shouldAutoEnforceRestrictShare));
-      }
-      catch (MaaS360SDKInitializationException e) {
-        Maas360Logger.e(TAG, e);
-
-      }
-
-      try {
-        if (MaaS360SDKContextWrapper.getSharedInstance(true).getAutoEnforceInfo()
-                .shouldAutoEnforceRestrictScreenshot()) {
-          enforceRestrictScreenshot();
+      if(isMaas360Enable) {
+        try {
+          MaaS360SDK
+                  .initSDK(getApplication(), developerId, licenseKey, mListener,
+                          new com.fiberlink.maas360sdk.cordova.IMaaS360SDKPolicyAutoEnforceInfoFactory(
+                                  shouldEnforceCopyPasteRestriction, shouldEnforceSSORestriction,
+                                  shouldEnforceScreenshotRestriction, shouldEnforceWipeRestriction,
+                                  shouldEnforceGatewayRestriction, shouldAutoEnforceRestrictExport,
+                                  shouldAutoEnforceRestrictRootedDevice, shouldAutoEnforceRestrictImport,
+                                  shouldAutoEnforceRestrictPrint, shouldAutoEnforceRestrictShare));
         }
-      } catch (MaaS360SDKNotActivatedException e) {
-        Maas360Logger.d(loggerName, e);
+        catch (MaaS360SDKInitializationException e) {
+          Maas360Logger.e(TAG, e);
+
+        }
+
+        try {
+          if (MaaS360SDKContextWrapper.getSharedInstance(true).getAutoEnforceInfo()
+                  .shouldAutoEnforceRestrictScreenshot()) {
+            enforceRestrictScreenshot();
+          }
+        } catch (MaaS360SDKNotActivatedException e) {
+          Maas360Logger.d(loggerName, e);
+        }
       }
 
     }});
@@ -97,17 +100,19 @@ public class MainActivity extends BridgeActivity {
   public void onResume() {
     super.onResume();
 
-    try {
-      if (MaaS360SDKContextWrapper.getSharedInstance(false).getAutoEnforceInfo().shouldAutoEnforceSSO()) {
-        MaaS360SDKContextWrapper.getSharedInstance(false).checkForSSO(false, true);
-      }
+    if(isMaas360Enable) {
+      try {
+        if (MaaS360SDKContextWrapper.getSharedInstance(false).getAutoEnforceInfo().shouldAutoEnforceSSO()) {
+          MaaS360SDKContextWrapper.getSharedInstance(false).checkForSSO(false, true);
+        }
 
-      if (MaaS360SDKContextWrapper.getSharedInstance(false).getAutoEnforceInfo()
-              .shouldAutoEnforceRestrictScreenshot()) {
-        enforceRestrictScreenshot();
+        if (MaaS360SDKContextWrapper.getSharedInstance(false).getAutoEnforceInfo()
+                .shouldAutoEnforceRestrictScreenshot()) {
+          enforceRestrictScreenshot();
+        }
+      } catch (MaaS360SDKNotActivatedException e) {
+        Maas360Logger.e(loggerName, "onResume : ", e.getMessage());
       }
-    } catch (MaaS360SDKNotActivatedException e) {
-      Maas360Logger.e(loggerName, "onResume : ", e.getMessage());
     }
   }
 
@@ -115,12 +120,14 @@ public class MainActivity extends BridgeActivity {
   public void onUserInteraction() {
     super.onUserInteraction();
 
-    try {
-      if (MaaS360SDKContextWrapper.getSharedInstance(false).getAutoEnforceInfo().shouldAutoEnforceSSO()) {
-        MaaS360SDKContextWrapper.getSharedInstance(false).checkForSSO(false, true);
+    if(isMaas360Enable) {
+      try {
+        if (MaaS360SDKContextWrapper.getSharedInstance(false).getAutoEnforceInfo().shouldAutoEnforceSSO()) {
+          MaaS360SDKContextWrapper.getSharedInstance(false).checkForSSO(false, true);
+        }
+      } catch (MaaS360SDKNotActivatedException e) {
+        Maas360Logger.e(loggerName, "onUserInteraction : ", e.getMessage());
       }
-    } catch (MaaS360SDKNotActivatedException e) {
-      Maas360Logger.e(loggerName, "onUserInteraction : ", e.getMessage());
     }
   }
 
@@ -151,30 +158,36 @@ public class MainActivity extends BridgeActivity {
 
   @Override
   public Object getSystemService(String name) {
-    Maas360Logger.i(loggerName, "Call to getSystemService() ", name);
+    if(isMaas360Enable) {
 
-    if (!shouldAutoEnforceCopyPasteRestriction()) {
-      Maas360Logger.d(loggerName, "Auto enforce mode disabled. Returning super call");
-      return super.getSystemService(name);
-    }
+      Maas360Logger.i(loggerName, "Call to getSystemService() ", name);
 
-    try {
-      // handle copy paste restriction.
-      Object clipboardoObj = MaaS360SystemServiceUtils.handleCopyPasteRestriction(getApplicationContext(),
-              super.getSystemService(name), CopyPasteRestrictionChecker.getInstance(), name);
-
-      if (null != clipboardoObj) {
-        return clipboardoObj;
-      } else {
-        Object object = super.getSystemService(name);
-        return object;
+      if (!shouldAutoEnforceCopyPasteRestriction()) {
+        Maas360Logger.d(loggerName, "Auto enforce mode disabled. Returning super call");
+        return super.getSystemService(name);
       }
-    } catch (Exception e) {
-      Maas360Logger.e(loggerName, e, "Exception in getSystemService()");
-      return super.getSystemService(name);
-    } catch (Error e) {
-      Maas360Logger.e(loggerName, e, "Error in getSystemService()");
-      return super.getSystemService(name);
+
+      try {
+        // handle copy paste restriction.
+        Object clipboardoObj = MaaS360SystemServiceUtils.handleCopyPasteRestriction(getApplicationContext(),
+                super.getSystemService(name), CopyPasteRestrictionChecker.getInstance(), name);
+
+        if (null != clipboardoObj) {
+          return clipboardoObj;
+        } else {
+          Object object = super.getSystemService(name);
+          return object;
+        }
+      } catch (Exception e) {
+        Maas360Logger.e(loggerName, e, "Exception in getSystemService()");
+        return super.getSystemService(name);
+      } catch (Error e) {
+        Maas360Logger.e(loggerName, e, "Error in getSystemService()");
+        return super.getSystemService(name);
+      }
+    }else{
+      Object object = super.getSystemService(name);
+      return object;
     }
   }
 
@@ -184,29 +197,32 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivities(Intent[] intents) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivities(intents);
-      return;
-    }
+    if(isMaas360Enable) {
 
-    List<Intent> newIntents = new ArrayList<Intent>();
-
-    for (Intent intent : intents) {
-      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-      if (newIntent != null) {
-        newIntents.add(newIntent);
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivities(intents);
+        return;
       }
-    }
 
-    if (newIntents.isEmpty()) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivities(newIntents.toArray(new Intent[]{}));
-      } catch (ActivityNotFoundException e) {
+      List<Intent> newIntents = new ArrayList<Intent>();
+
+      for (Intent intent : intents) {
+        Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+        if (newIntent != null) {
+          newIntents.add(newIntent);
+        }
+      }
+
+      if (newIntents.isEmpty()) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivities(newIntents.toArray(new Intent[]{}));
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -217,30 +233,34 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivities(Intent[] intents, Bundle options) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivities(intents, options);
-      return;
-    }
+    if(isMaas360Enable) {
 
-    List<Intent> newIntents = new ArrayList<Intent>();
-
-    for (Intent intent : intents) {
-      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-      if (newIntent != null) {
-        newIntents.add(newIntent);
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivities(intents, options);
+        return;
       }
-    }
 
-    if (newIntents.isEmpty()) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivities(newIntents.toArray(new Intent[]{}), options);
-      } catch (ActivityNotFoundException e) {
+      List<Intent> newIntents = new ArrayList<Intent>();
+
+      for (Intent intent : intents) {
+        Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+        if (newIntent != null) {
+          newIntents.add(newIntent);
+        }
+      }
+
+      if (newIntents.isEmpty()) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivities(newIntents.toArray(new Intent[]{}), options);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
+
     }
   }
 
@@ -250,22 +270,26 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivity(Intent intent) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivity(intent);
-      return;
-    }
+    if(isMaas360Enable) {
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivity(newIntent);
-      } catch (ActivityNotFoundException e) {
-        MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivity(intent);
+        return;
       }
+
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
+        MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivity(newIntent);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
+      }
+
     }
   }
 
@@ -275,21 +299,23 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivity(Intent intent, Bundle options) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivity(intent, options);
-      return;
-    }
+    if(isMaas360Enable) {
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivity(intent, options);
+        return;
+      }
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivity(newIntent, options);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivity(newIntent, options);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -300,21 +326,24 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivityForResult(Intent intent, int requestCode) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivityForResult(intent, requestCode);
-      return;
-    }
+    if(isMaas360Enable) {
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivityForResult(newIntent, requestCode);
-      } catch (ActivityNotFoundException e) {
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivityForResult(intent, requestCode);
+        return;
+      }
+
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivityForResult(newIntent, requestCode);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -325,21 +354,23 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivityForResult(intent, requestCode, options);
-      return;
-    }
+    if(isMaas360Enable) {
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivityForResult(intent, requestCode, options);
+        return;
+      }
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivityForResult(newIntent, requestCode, options);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivityForResult(newIntent, requestCode, options);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -350,21 +381,23 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivityFromChild(Activity child, Intent intent, int requestCode) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivityFromChild(child, intent, requestCode);
-      return;
-    }
+    if(isMaas360Enable) {
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivityFromChild(child, intent, requestCode);
+        return;
+      }
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivityFromChild(child, newIntent, requestCode);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivityFromChild(child, newIntent, requestCode);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -375,22 +408,26 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivityFromChild(Activity child, Intent intent, int requestCode, Bundle options) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivityFromChild(child, intent, requestCode, options);
-      return;
-    }
+    if(isMaas360Enable) {
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivityFromChild(child, newIntent, requestCode, options);
-      } catch (ActivityNotFoundException e) {
-        MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivityFromChild(child, intent, requestCode, options);
+        return;
       }
+
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
+        MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivityFromChild(child, newIntent, requestCode, options);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
+      }
+
     }
   }
 
@@ -400,21 +437,23 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivityFromFragment(fragment, intent, requestCode);
-      return;
-    }
+    if(isMaas360Enable) {
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivityFromFragment(fragment, intent, requestCode);
+        return;
+      }
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivityFromFragment(fragment, newIntent, requestCode);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivityFromFragment(fragment, newIntent, requestCode);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -424,22 +463,24 @@ public class MainActivity extends BridgeActivity {
    */
   @Override
   public void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode, Bundle options) {
+    if(isMaas360Enable) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      super.startActivityFromFragment(fragment, intent, requestCode, options);
-      return;
-    }
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        super.startActivityFromFragment(fragment, intent, requestCode, options);
+        return;
+      }
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-    } else {
-      try {
-        super.startActivityFromFragment(fragment, newIntent, requestCode, options);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+      } else {
+        try {
+          super.startActivityFromFragment(fragment, newIntent, requestCode, options);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+        }
       }
     }
   }
@@ -449,24 +490,28 @@ public class MainActivity extends BridgeActivity {
    */
   @Override
   public boolean startActivityIfNeeded(Intent intent, int requestCode) {
+    if(isMaas360Enable) {
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      return super.startActivityIfNeeded(intent, requestCode);
-    }
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        return super.startActivityIfNeeded(intent, requestCode);
+      }
 
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-      return false;
-    } else {
-      try {
-        return super.startActivityIfNeeded(newIntent, requestCode);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         return false;
+      } else {
+        try {
+          return super.startActivityIfNeeded(newIntent, requestCode);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+          return false;
+        }
       }
+    }else{
+      return false;
     }
   }
 
@@ -475,24 +520,27 @@ public class MainActivity extends BridgeActivity {
    */
   @Override
   public boolean startActivityIfNeeded(Intent intent, int requestCode, Bundle options) {
+    if(isMaas360Enable) {
+      MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
+      if (application == null) {
+        Maas360Logger.d(TAG, "SecureApplication instance is null");
+        return super.startActivityIfNeeded(intent, requestCode, options);
+      }
 
-    MaaS360SecureApplication application = MaaS360SecureApplication.getApplication();
-    if (application == null) {
-      Maas360Logger.d(TAG, "SecureApplication instance is null");
-      return super.startActivityIfNeeded(intent, requestCode, options);
-    }
-
-    Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
-    if (newIntent == null) {
-      MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
-      return false;
-    } else {
-      try {
-        return super.startActivityIfNeeded(newIntent, requestCode, options);
-      } catch (ActivityNotFoundException e) {
+      Intent newIntent = MaaS360DLPSDKUtils.processIntent(this, intent);
+      if (newIntent == null) {
         MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         return false;
+      } else {
+        try {
+          return super.startActivityIfNeeded(newIntent, requestCode, options);
+        } catch (ActivityNotFoundException e) {
+          MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
+          return false;
+        }
       }
+    }else {
+      return false;
     }
   }
 }

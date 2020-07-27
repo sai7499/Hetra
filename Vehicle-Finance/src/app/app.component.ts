@@ -17,7 +17,7 @@ declare var cordova:any;
 export class AppComponent implements OnInit{
 
   title = 'vehicle-finance';
-  isMobile:any;
+  isMaas360Enabled:any;
 
 
   // Equitas
@@ -185,8 +185,8 @@ export class AppComponent implements OnInit{
 
     let that = this;
 
-    this.isMobile = environment.isMobile;
-    if(this.isMobile) {
+    this.isMaas360Enabled = environment.isMaas360Enabled;
+    if(this.isMaas360Enabled) {
         that.initMaaS360();
     }
 
