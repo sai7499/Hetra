@@ -48,6 +48,7 @@ export class SourcingDetailsComponent implements OnInit {
   leadHandeledBy: any;
 
   productCategoryFromLead: string;
+  fundingProgramFromLead: any;
   sourchingTypeFromLead: any;
   sourchingChannelFromLead: any;
   productFromLead: number;
@@ -104,20 +105,23 @@ export class SourcingDetailsComponent implements OnInit {
 
   saveUpdate: {
     bizDivision: string;
-    productCategory?: string;
-    product: number;
+    productCatCode?: string;
+    productId: any;
     priority: number;
+    fundingProgram: string;
     sourcingChannel: string;
     sourcingType: string;
     sourcingCode: string;
+    sourcingCodeDesc?: string,
     dealorCode: string;
+    dealorCodeDesc?: string,
     spokeCode: number;
     loanBranch: number;
     leadHandeledBy: number;
     leadCreatedBy: number;
     leadCreatedOn: string;
-    requestedLoanAmount: number;
-    requestedLoanTenor: number;
+    reqLoanAmt: number;
+    reqTenure: number;
     userId: number;
     leadId: number;
   };
@@ -209,10 +213,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.leadId = (await this.getLeadId()) as number;
     }
 
-    if (!data.loanLeadDetails) {
-      return;
-    }
-    const businessDivisionFromLead: string = data.loanLeadDetails.bizDivision;
+    const businessDivisionFromLead: string = data.leadDetails.bizDivision;
     this.bizDivId = businessDivisionFromLead;
 
     const productCategory = data.leadDetails.productCatCode;
@@ -221,34 +222,32 @@ export class SourcingDetailsComponent implements OnInit {
     const product = data.leadDetails.productId;
     this.productFromLead = product;
 
+    const fundingProgram = data.leadDetails.fundingProgram;
+    this.fundingProgramFromLead = fundingProgram;
+
     this.dealorCodeKey = data.leadDetails.dealorCode;
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
-    const priorityFromLead = data.loanLeadDetails.priority;
-    this.leadId = data.leadId;
+    const priorityFromLead = data.leadDetails.priority;
+    if (data.leadId) {
+      this.leadId = data.leadId;
+    } else {
+      this.leadId = data.leadDetails.leadId;
+    }
 
-    const sourchingType = this.leadData.loanLeadDetails.sourcingType;
+    const sourchingType = this.leadData.leadDetails.sourcingType;
     this.sourchingTypeFromLead = sourchingType;
 
-    const sourchingChannel = this.leadData.loanLeadDetails.sourcingChannel;
+    const sourchingChannel = this.leadData.leadDetails.sourcingChannel;
     this.sourchingChannelFromLead = sourchingChannel;
-    // const loanBranchFromLead = data.loanLeadDetails.loanBranch;
+
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
 
-    if (!this.isLoanAmountTenure) {
-      const requiredLoanAmount = data.leadDetails.reqLoanAmt;
-      const requiredLoanTenor = data.leadDetails.reqTenure;
-      this.sourcingDetailsForm.patchValue({ requestedAmount: requiredLoanAmount });
-      this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
-      this.isLoanAmountTenure = false;
-    } else {
-      const amountAndTenureData = this.createLeadDataService.getLoanAmountAndTenure();
-      this.amountTenureData = { ...amountAndTenureData };
-      console.log('this.amountTenureData', amountAndTenureData);
-      this.sourcingDetailsForm.patchValue({ requestedAmount: this.amountTenureData.loanAmount });
-      this.sourcingDetailsForm.patchValue({ requestedTenor: this.amountTenureData.loanTenure });
-    }
+    const requiredLoanAmount = data.leadDetails.reqLoanAmt;
+    const requiredLoanTenor = data.leadDetails.reqTenure;
+    this.sourcingDetailsForm.patchValue({ reqLoanAmt: requiredLoanAmount });
+    this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
 
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
 
@@ -261,14 +260,14 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ leadCreatedDate: this.leadCreatedDateFromLead });
   }
 
-  patchSourcingDetails() {
+  patchSourcingDetails(data) {
     this.sourcingDetailsForm.patchValue({ sourcingChannel: this.sourchingChannelFromLead });
 
     this.sourchingTypeChange(this.sourchingTypeFromLead);
     this.sourcingDetailsForm.patchValue({ sourcingType: this.sourchingTypeFromLead });
 
-    this.sourcingCodeKey = this.leadData.leadDetails.sourcingCode;
-    this.sourcingCodeValue = this.leadData.leadDetails.sourcingCodeDesc;
+    this.sourcingCodeKey = data.leadDetails.sourcingCode;
+    this.sourcingCodeValue = data.leadDetails.sourcingCodeDesc;
     this.sourcingDetailsForm.patchValue({ sourcingCode: this.sourcingCodeValue });
   }
 
@@ -327,8 +326,43 @@ export class SourcingDetailsComponent implements OnInit {
           this.productCategoryChanged = data.value;
         }
       });
+      this.productChange(this.productFromLead);
     }
   }
+
+  productChange(event) {
+    this.fundingProgramData = [];
+    const productChange = (event.target) ? event.target.value : event;
+    console.log('productChange', productChange);
+
+    this.createLeadService.fundingPrograming(productChange).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+
+      if (appiyoError === '0' && apiError === '0') {
+        const data = response.ProcessVariables.fpList;
+        this.fundingProgramData = [];
+        if (data) {
+          data.map((ele) => {
+            const datas = {
+              key: ele.fpId,
+              value: ele.fpDescription,
+            };
+            this.fundingProgramData.push(datas);
+          });
+        }
+
+        console.log('dataa', this.fundingProgramData);
+        console.log('dataaa', this.fundingProgramFromLead);
+        if (!event.target) {
+          this.sourcingDetailsForm.patchValue({ fundingProgram: this.fundingProgramFromLead });
+        }
+      }
+    });
+    this.sourcingDetailsForm.patchValue({ fundingProgram: '' });
+  }
+
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
@@ -340,7 +374,7 @@ export class SourcingDetailsComponent implements OnInit {
         'sourcingChannelId',
         'sourcingChannelDesc');
       this.sourcingChannelChange(this.sourchingChannelFromLead, false);
-      this.patchSourcingDetails();
+      this.patchSourcingDetails(this.leadData);
     });
   }
 
@@ -348,8 +382,10 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourchingTypeValues = [];
     this.sourcingChange = fromLead ? event.target.value : event;
     this.sourchingTypeValues = this.utilityService.getValueFromJSON(
-      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange), 'sourcingTypeId', 'sourcingTypeDesc');
-
+      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange),
+      'sourcingTypeId',
+      'sourcingTypeDesc'
+    );
     if (fromLead) {
       this.sourcingDetailsForm.patchValue({ sourcingType: '' });
     }
@@ -450,6 +486,7 @@ export class SourcingDetailsComponent implements OnInit {
       productCategory: new FormControl('', Validators.required),
       priority: new FormControl(''),
       product: new FormControl('', Validators.required),
+      fundingProgram: new FormControl('', Validators.required),
       bizDivision: new FormControl('', Validators.required),
       sourcingChannel: new FormControl('', Validators.required),
       sourcingType: new FormControl('', Validators.required),
@@ -457,7 +494,7 @@ export class SourcingDetailsComponent implements OnInit {
       dealerCode: new FormControl('', Validators.required),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
-      requestedAmount: new FormControl('', Validators.required),
+      reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
     });
   }
@@ -469,13 +506,15 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.sourcingDetailsForm.valid === true) {
       const saveAndUpdate: any = { ...formValue };
 
-      console.log(formValue, 'FormValue')
+      console.log(formValue, 'FormValue');
 
       this.saveUpdate = {
         userId: Number(this.userId),
         leadId: Number(this.leadId),
         bizDivision: saveAndUpdate.bizDivision,
-        product: Number(saveAndUpdate.product),
+        productCatCode: saveAndUpdate.productCategory,
+        productId: Number(saveAndUpdate.product),
+        fundingProgram: saveAndUpdate.fundingProgram,
         priority: Number(saveAndUpdate.priority),
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
@@ -487,8 +526,8 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
-        requestedLoanAmount: Number(saveAndUpdate.requestedAmount),
-        requestedLoanTenor: Number(saveAndUpdate.requestedTenor),
+        reqLoanAmt: Number(saveAndUpdate.reqLoanAmt),
+        reqTenure: Number(saveAndUpdate.requestedTenor),
       };
       console.log('this.saveUpdate', this.saveUpdate);
       this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
@@ -501,11 +540,15 @@ export class SourcingDetailsComponent implements OnInit {
           this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
           this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
+          let dataa = {
+            ...this.saveUpdate,
+            sourcingCodeDesc: this.sourcingCodeValue,
+            dealorCodeDesc: this.dealorCodeValue
+          }
           const data = {
-            loanAmount: Number(saveAndUpdate.requestedAmount),
-            loanTenure: Number(saveAndUpdate.requestedTenor)
+            leadDetails: dataa
           };
-          this.createLeadDataService.setLoanAmountAndTenure(data);
+          this.createLeadDataService.setLeadSectionData(data);
           this.isSaved = true;
         }
       });
@@ -516,7 +559,6 @@ export class SourcingDetailsComponent implements OnInit {
 
   onNext() {
     this.leadSectionService.setCurrentPage(1);
-
   }
 
   nextToApplicant() {
