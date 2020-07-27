@@ -173,7 +173,7 @@ export class VehicleValuationComponent implements OnInit {
       if (element.key == vendorNameChange) {
         this.vendorName = element.value;
       }
-      console.log("VENDOR-NAME::::", this.vendorName);
+      console.log("VENDOR-NAME::", this.vendorName);
     });
   }
   initiateVehicleValuation() {
