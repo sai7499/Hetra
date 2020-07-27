@@ -11,7 +11,7 @@ export class LeadDetails {
   constructor(
     private apiService: ApiService,
     private httpService: HttpService
-  ) {}
+  ) { }
 
   saveAndUpdateLead(leadDetails) {
     const processId = this.apiService.api.saveAndUpdateLead.processId;
@@ -24,9 +24,10 @@ export class LeadDetails {
         leadId: leadDetails.leadId,
         sourcingCode: leadDetails.sourcingCode,
         branchId: leadDetails.loanBranch,
-        productId: leadDetails.product,
+        productId: leadDetails.productId,
+        fundingProgram: leadDetails.fundingProgram,
         reqLoanAmt: leadDetails.requestedLoanAmount,
-        reqTenure: leadDetails.requestedLoanTenor,
+        reqTenure: leadDetails.reqTenure,
         leadHandledBy: leadDetails.leadHandeledBy,
         leadCreatedBy: leadDetails.leadCreatedBy,
         leadCreatedOn: leadDetails.leadCreatedOn,
