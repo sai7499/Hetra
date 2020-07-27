@@ -141,8 +141,8 @@ export class OtpSectionComponent implements OnInit {
 
       }
       else {
-        alert(res.ProcessVariables.error.message);
-
+        // alert(res.ProcessVariables.error.message);
+        this.toasterService.showError(res.ProcessVariables.error.message,'')
       }
     });
   }
