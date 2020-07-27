@@ -97,7 +97,7 @@ export class BranchTasksComponent implements OnInit {
       const response = JSON.parse(res);
       console.log(response);
       if (response.ErrorCode == 0 ) {
-        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         this.router.navigate(['/pages/pd-dashboard/' + leadId + '/pd-list']);
       } else {
         this.toasterService.showError(response.Error, '');

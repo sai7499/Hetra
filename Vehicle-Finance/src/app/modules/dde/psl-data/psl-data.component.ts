@@ -1244,11 +1244,11 @@ export class PslDataComponent implements OnInit {
           // this.pslId = response.ProcessVariables.pslId;
           // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
           if (response["Error"] == 0) {
-            this.toasterService.showSuccess("Record Saved Successfully", "");
+            this.toasterService.showSuccess("Record Saved Successfully", "PSL DATA");
           }
         });
       } else {
-        this.toasterService.showError("Please fill all mandatory fields.", "");
+        this.toasterService.showError("Please fill all mandatory fields.", "PSL DATA");
       }
     }
     //FOR "Micro Small And Medium Enterprises" FORM
@@ -1288,11 +1288,11 @@ export class PslDataComponent implements OnInit {
           const response = res;
           // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
           if (response["Error"] == 0) {
-            this.toasterService.showSuccess("Record Saved Successfully", "");
+            this.toasterService.showSuccess("Record Saved Successfully", "PSL DATA");
           }
         });
       } else {
-        this.toasterService.showError("Please fill all mandatory fields.", "");
+        this.toasterService.showError("Please fill all mandatory fields.", "PSL DATA");
       }
     }
   }

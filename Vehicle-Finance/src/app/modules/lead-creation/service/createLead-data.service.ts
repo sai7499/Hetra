@@ -23,7 +23,6 @@ export class CreateLeadDataService {
             applicantDetails
         };
     }
-
     getLeadData() {
         return this.leadData;
     }
@@ -38,17 +37,6 @@ export class CreateLeadDataService {
 
     getLeadSectionData() {
         return this.leadSectionData;
-    }
-
-    setLoanAmountAndTenure(data) {
-        this.loanAmountAndTenure = {
-            loanAmount: data.loanAmount,
-            loanTenure: data.loanTenure
-        };
-    }
-
-    getLoanAmountAndTenure() {
-        return this.loanAmountAndTenure;
     }
 
     setProceedAsNewLead(data) {

@@ -6,6 +6,15 @@ import { CreditConditionService } from '../services/credit-condition.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 
+interface dataObject{ 
+      creditId: string;
+      creditCondition: string;
+      salesResponse: string;
+      isDocReq:string;
+      creditAction: string;
+      defferedDate:Date;
+    
+}
 @Component({
   selector: 'app-credit-conditions',
   templateUrl: './credit-conditions.component.html',
@@ -21,7 +30,7 @@ export class CreditConditionsComponent implements OnInit {
   creditConditions: any;
   roleAndUserDetails: any;
   userId;
-  roleList : any = {};
+  roleList : any = [];
   formData = {
     'creditId' : '',
     creditCondition: '',
@@ -30,6 +39,7 @@ export class CreditConditionsComponent implements OnInit {
         creditAction:'',
         defferedDate: null
   }
+  disableControl: boolean;
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -54,12 +64,15 @@ export class CreditConditionsComponent implements OnInit {
         }
         this.creditConditionService.deleteCreditConditions(data).subscribe(res => {
           console.log(res)
-        })
-      }
+          this.formArr.removeAt(index);
+          this.toasterService.showSuccess("Record deleted successfully!", '')
+        })       
+
+        return;
+      } else{
       this.formArr.removeAt(index);
       this.toasterService.showSuccess("Record deleted successfully!", '')
-
-    
+      }   
 
   }
   getLeadId() {
@@ -96,7 +109,8 @@ export class CreditConditionsComponent implements OnInit {
         creditCondition: new FormControl({ value: data.creditCondition ? data.creditCondition : '', disabled: false }),
         salesResponse: new FormControl({ value: data.salesResponse ? data.salesResponse : '', disabled: true }),
         isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
-        creditAction: new FormControl(data.creditAction ? data.creditAction : null),
+        creditAction: new FormControl({value:data.creditAction ? 
+          data.creditAction : null,disabled:!data.is_sales_response_completed}),
         defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
       });
     } else {
@@ -105,9 +119,18 @@ export class CreditConditionsComponent implements OnInit {
         salesResponse: new FormControl({ value:data.salesResponse ? data.salesResponse : '', disabled: false }),
         creditId: new FormControl(data.creditId ? data.creditId : ''),
         isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
-        creditAction: new FormControl(data.creditAction ? data.creditAction : null),
+        creditAction: new FormControl({value:data.creditAction ? 
+          data.creditAction : null,disabled:true}),
         defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
       });
+      // return this.formBuilder.group({
+      //   creditCondition: new FormControl({ value: "", disabled: true }),
+      //   salesResponse: new FormControl({ value: "", disabled: false }),
+      //   creditId: new FormControl(''),
+      //   isDocReq: new FormControl(),
+      //   creditAction: new FormControl(""),
+      //   defferedDate: new FormControl()
+      // });
     }
 
   }
@@ -131,9 +154,14 @@ export class CreditConditionsComponent implements OnInit {
     this.creditConditionService.getCreditConditions(data).subscribe(res => {
       console.log(res);
       if (res['ProcessVariables'].error['code'] == "0" && res['ProcessVariables'].creditConditions != null) {
-        const creditConditions = res['ProcessVariables'].creditConditions;
+        const creditConditions:Array<dataObject> = res['ProcessVariables'].creditConditions;
         this.creditConditions = res['ProcessVariables'].creditConditions;
         this.roleList = res['ProcessVariables']['roleList'];
+       
+          this.disableControl = false;
+        
+        console.log("disable control",this.disableControl)
+
         for (let i = 0; i < creditConditions.length; i++) {
 
       //    this.formArr.push(this.getcreditConditionControls())
@@ -148,6 +176,9 @@ export class CreditConditionsComponent implements OnInit {
         }
       //  this.formArr.setValue(creditConditions);
       } else {
+        
+          this.disableControl = true;
+          
       }
     })
   }
@@ -205,6 +236,11 @@ export class CreditConditionsComponent implements OnInit {
         if(res['ProcessVariables'].error['code'] == 0){
           this.toasterService.showSuccess("Record Saved successfully!", '');
           if(data == 'save' ){
+            this.creditConditions = [];
+            this.creditConditionForm = this.formBuilder.group({
+              Rows: this.formBuilder.array([])
+            });
+            this.getCreditConditions();
           }else if(data == 'next'){
             this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
           }else{
@@ -216,7 +252,7 @@ export class CreditConditionsComponent implements OnInit {
           }
   
         }
-  
+      
       })
     }
    
