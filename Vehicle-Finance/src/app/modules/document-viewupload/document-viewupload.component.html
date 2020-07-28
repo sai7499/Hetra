@@ -1,7 +1,7 @@
 <main class="mar-top90">
-    <div class="container-fluid">
-        <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
-        <!-- <div class="row top_bar">
+  <div class="container-fluid">
+    <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
+    <!-- <div class="row top_bar">
             <div class="col-lg-10 col-md-10 col-sm-10">
               <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="form-group mb-0">
@@ -45,22 +45,22 @@
             </div>
             
           </div> -->
-          
-          <app-lead-section-header></app-lead-section-header>
-        <!--progress bar-->
+
+    <app-lead-section-header></app-lead-section-header>
+    <!--progress bar-->
     <div class="multisteps-form">
-        <div class="multisteps-form__progress"  > 
-          <div class="multisteps-form__progress  ">
-            <button
+      <div class="multisteps-form__progress">
+        <div class="multisteps-form__progress">
+          <button
             class="multisteps-form__progress-btn"
             type="button"
-            [routerLink]="['./Applicant-documents']"
+            [routerLink]="['./applicant-documents']"
             [ngClass]="{ 'js-active': currentPage >= 0 }"
             (click)="currentPage = 0"
           >
             Applicant Document
           </button>
-         
+
           <button
             class="multisteps-form__progress-btn"
             type="button"
@@ -79,19 +79,14 @@
           >
             Other Documents
           </button>
-         
+
           <!-- <button class="multisteps-form__progress-btn" type="button">Additional Details</button> -->
         </div>
-          </div>
-        
-          
-       
       </div>
-      
-    
+    </div>
 
-<!-- <div class="content" style="height: 300px;"> -->
-    <router-outlet></router-outlet>   
-<!-- </div> -->
-</div>
+    <!-- <div class="content" style="height: 300px;"> -->
+    <router-outlet></router-outlet>
+    <!-- </div> -->
+  </div>
 </main>

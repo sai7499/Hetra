@@ -530,5 +530,10 @@ export class ApiService {
       workflowId: '051db99495c711eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getDocumentCategory: {
+      processId: 'cf9334f4cfdf11ea8a4900505695f93b',
+      workflowId: 'cf499204cfdf11eaad5000505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
   };
 }
