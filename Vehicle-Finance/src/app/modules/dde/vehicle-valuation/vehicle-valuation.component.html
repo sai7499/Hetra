@@ -2,10 +2,9 @@
 <form class="multisteps-form__form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <div class="container">
-
             <div class="btn-sec clear-both row">
                 <div class="col-sm-5">
-                    <!-- <h4 class="title">PSL Data</h4> -->
+                    <!-- <h4 class="title"> Vehicle Valuation </h4> -->
                 </div>
                 <div class="col-sm-7 text-right">
                     <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
@@ -102,7 +101,7 @@
                         <input type="text" class="form-control" name="registration_cost" id="registration_cost"
                             required="required" [value]="address" disabled>
                     </div>
-                    <form class="multisteps-form__form" [formGroup]="modelDataForm">
+                    <form class="multisteps-form__form" [formGroup]="modalDataForm">
 
                         <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
                             <label for="remarks" >{{labels.referenceRemarks}}
@@ -110,9 +109,9 @@
                             </label>
                             <textarea class="form-control" formControlName="remarks"> 
                             </textarea>     
-                            <div *ngIf="modelDataForm.controls['remarks'].invalid && (modelDataForm.controls['remarks'].dirty || modelDataForm.controls['remarks'].touched)" class="invalid-feedback">
-                                <div  *ngIf="modelDataForm.controls['remarks'].errors.required">Remarks is required</div>
-                                <div  *ngIf="modelDataForm.controls['remarks'].errors.pattern">Invalid Input/ Only Alphabets & Numbers allowed</div>
+                            <div *ngIf="modalDataForm.controls['remarks'].invalid && (modalDataForm.controls['remarks'].dirty || modalDataForm.controls['remarks'].touched)" class="invalid-feedback">
+                                <div  *ngIf="modalDataForm.controls['remarks'].errors.required">Remarks is required</div>
+                                <div  *ngIf="modalDataForm.controls['remarks'].errors.pattern">Invalid Input/ Only Alphabets & Numbers allowed</div>
                             </div>                    
                         </div>
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
