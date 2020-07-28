@@ -1,0 +1,14 @@
+<div
+  id="mydiv"
+  *ngIf="src"
+  class="card"
+  [ngStyle]="{ top: setCss.top, left: '50%' }"
+>
+  <div class="header">
+    Header
+    <button type="button" class="close" (click)="onClose()">×</button>
+  </div>
+  <div class="image-content">
+    <img height="100%" width="100%" [src]="'data:image/jpeg;base64,' + src" />
+  </div>
+</div>

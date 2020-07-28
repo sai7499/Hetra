@@ -38,6 +38,9 @@ export class CustomSelectComponent
   @Input() values: any[];
   @Input() isRequired: string;
 
+  @Input() keyField = 'key';
+  @Input() valueField = 'value';
+
   @Output() valueChange = new EventEmitter();
 
   inputError: boolean;
@@ -65,7 +68,9 @@ export class CustomSelectComponent
 
   getSelectedObject() {
     return this.values && Array.isArray(this.values)
-      ? this.values.find((value) => String(value.key) === this.selectedOption)
+      ? this.values.find(
+          (value) => String(value[this.keyField]) === this.selectedOption
+        )
       : {};
   }
 

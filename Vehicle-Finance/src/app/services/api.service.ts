@@ -444,6 +444,11 @@ export class ApiService {
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    saveOrUpdateDocument: {
+      processId: '5f947022c67611eabcd500505695f93b',
+      workflowId: '5f5f525cc67611eaaf9400505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     approveRejectDeclineCreditConditions: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
