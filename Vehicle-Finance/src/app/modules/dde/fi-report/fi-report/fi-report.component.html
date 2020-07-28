@@ -40,10 +40,10 @@
               <app-custom-input
                 id="referenceNo"
                 [placeholder]="'Enter reference number'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.amountValue?.type"
                 formControlName="referenceNo"
                 [isRequired]="'Reference number is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.amountValue?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -507,7 +507,7 @@
               <label for="officeLocation">{{ labels?.officeLocation }}</label>
               <app-custom-input
                 id="officeLocation"
-                [placeholder]="'Enter office location'"
+                [placeholder]="'enter office location'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="officeLocation"
                 [isRequired]="'Location is required'"
@@ -522,7 +522,7 @@
               <label for="furnishings">{{ labels?.furnishings }}</label>
               <app-custom-input
                 id="furnishings"
-                [placeholder]="'Enter office location'"
+                [placeholder]="'enter furnishings'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="furnishings"
                 [isRequired]="'Furnishings is required'"
@@ -533,7 +533,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="sizeOfOffice">{{ labels?.sizeOfOffice }}</label>
-              <app-custom-input
+              <!-- <app-custom-input
                 id="sizeOfOffice"
                 [placeholder]="'Enter office location'"
                 [type]="labels?.validationData?.name?.type"
@@ -542,13 +542,20 @@
                 [maxLength]="labels?.validationData?.name?.maxLength"
                 [isDirty]="isDirty"
               >
-              </app-custom-input>
+              </app-custom-input> -->
+              <app-vf-custom-select
+          [values]="(LOV?.LOVS)['fi/PdOfficeSize']"
+          formControlName="officeSize"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="observations">{{ labels?.observations }}</label>
               <app-custom-input
                 id="observations"
-                [placeholder]="'Enter office location'"
+                [placeholder]="'enter observations'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="observations"
                 [isRequired]="'Observations is required'"
@@ -565,7 +572,7 @@
               }}</label>
               <app-custom-input
                 id="noofEmployeesWorking"
-                [placeholder]="'Enter office location'"
+                [placeholder]="'enter office location'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="noOfWorkingEmployees"
                 [isRequired]="'Working Employees is required'"
@@ -580,7 +587,7 @@
               }}</label>
               <app-custom-input
                 id="noofEmployeesVisible"
-                [placeholder]="'Enter office location'"
+                [placeholder]="'no of employees visible'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="noOfVisibleEmployees"
                 [isRequired]="'Visible Employees is required'"
@@ -593,7 +600,7 @@
               <label for="activityLevel">{{ labels?.activityLevel }}</label>
               <app-custom-input
                 id="activityLevel"
-                [placeholder]="'Enter office location'"
+                [placeholder]="'activity level'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="activityLevel"
                 [isRequired]="'Activity level is required'"
@@ -615,7 +622,7 @@
               }}</label>
               <app-custom-input
                 id="comments"
-                [placeholder]="'Enter comments'"
+                [placeholder]="'comments'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="fiComments"
                 [isRequired]="'Name is required'"
@@ -628,7 +635,7 @@
               <label for="distance">{{ labels?.distanceinKMs }}</label>
               <app-custom-input
                 id="distance"
-                [placeholder]="'Enter distance in KMs'"
+                [placeholder]="'distance in KMs'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="distanceInKms"
                 [isRequired]="'Name is required'"
@@ -691,15 +698,15 @@
         <div class="mar-bot25">
           <div class="col-sm-5"></div>
           <div class="col-sm-7 text-right">
-            <button class="btn btn-primary" type="button" (click)="onBack()">
+            <button class="btn btn-primary" type="button" (click)="onNavigate('back')">
               {{ labels.back }}
             </button>
             &nbsp;
-            <button class="btn btn-primary" (click)="onSave()">
+            <button class="btn btn-primary" (click)="onFormSubmit()">
               {{ labels.save }}
             </button>
             &nbsp;
-            <button class="btn btn-primary" type="button" (click)="onNext()">
+            <button class="btn btn-primary" type="button" (click)="onNavigate('next')">
               {{ labels.next }}
             </button>
           </div>
