@@ -605,7 +605,7 @@
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
-        labels?.keyFinancialTitle
+        labels?.applicantDetailsTitle
       }}
         </caption>
 
@@ -757,7 +757,7 @@
 
         <tr>
             <td>{{ labels?.leadNo }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.leadId }}</td>
             <td>{{ labels?.camDate }}</td>
             <td>{{ sourcingObj?.camDate }}</td>
         </tr>
@@ -935,7 +935,7 @@
         <thead>
             <tr class="">
                 <th></th>
-                <th *ngFor="let businessIncomeDetails of businessIncomeDetails; let i = index">Business Income-{{i+1}}
+                <th *ngFor="let repaymentTrackRecord of businessIncomeDetails; let i = index">Business Income-{{i+1}}
                 </th>
             </tr>
         </thead>
@@ -1306,212 +1306,207 @@
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
+        <caption class="caption">
+            {{
+    labels?.sourceDetailsTitle
+  }}
+        </caption>
         <tr>
             <td>{{ labels?.customerType }}</td>
-            <td>{{ sourcingObj?.customerType }}</td>
+            <td>{{ sourcingDetails?.customerType }}</td>
             <td>{{ labels?.pslValue }}</td>
             <td>{{ labels?.existing }}</td>
             <td>{{ labels?.proposed }}</td>
             <td>{{ labels?.total }}</td>
             <td>{{ labels?.vfScore }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.VFScore }}</td>
             <td>{{ labels?.viability }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.viability }}</td>
             <td>{{ labels?.applicationNumber }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.appNo }}</td>
         </tr>
         <tr>
             <td>{{ labels?.category }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.customerCategory }}</td>
             <td>{{ labels?.amtInRupees }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
-            <td>{{ sourcingObj?.leadNo }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.existingPslValue }}</td>
+            <td>{{ sourcingDetails?.proposedPslValue }}</td>
+            <td>{{ sourcingDetails?.totalPslValue }}</td>
             <td>{{ labels?.sourcingChannel }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.sourcingChannel }}</td>
             <td>{{ labels?.branchEd }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.branchEd }}</td>
             <td>{{ labels?.proposalDate }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.proposalDate }}</td>
         </tr>
         <tr>
             <td>{{ labels?.branch }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.branchName }}</td>
             <td>{{ labels?.pslCategory }}</td>
-            <td colspan="3">{{ sourcingObj?.camDate }}</td>
+            <td colspan="3">{{ sourcingDetails?.pslCategory }}</td>
             <td>{{ labels?.sourcingName }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.sourcingName }}</td>
             <td>{{ labels?.soed }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.soEd }}</td>
             <td>{{ labels?.propsoedAsset }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
-           
+            <td>{{ sourcingDetails?.proposedAsset }}</td>
+
         </tr>
         <tr>
             <td>{{ labels?.area }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.areaName }}</td>
             <td>{{ labels?.agriClassification }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.agriClassification }}</td>
             <td>{{ labels?.classifiedBasis }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.classifiedBasis }}</td>
             <td>{{ labels?.payout }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.payout }}</td>
             <td>{{ labels?.branchPendingRcGreaterthanSixtyDays }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.branchPendingRc }}</td>
             <td>{{ labels?.totalLoanAmount }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
-        </tr>
-        <tr>
-            <td>{{ labels?.leadNo }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
-            <td>{{ labels?.camDate }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
-            <td>{{ labels?.leadNo }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
-            <td>{{ labels?.camDate }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
-            <td>{{ labels?.leadNo }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
-            <td>{{ labels?.camDate }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.loanAmount }}</td>
         </tr>
         <tr>
             <td>{{ labels?.region }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.region }}</td>
             <td>{{ labels?.weakerSection }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.weakerSection }}</td>
             <td>{{ labels?.weakerSectionCategory }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.weakerSectionCategory }}</td>
             <td>{{ labels?.pf }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.pf }}</td>
             <td>{{ labels?.soRcGreaterthanSixtyDays }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.soRc }}</td>
             <td>{{ labels?.ltv }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.ltv }}</td>
         </tr>
         <tr>
             <td>{{ labels?.zone }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.zone }}</td>
             <td>{{ labels?.religion }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.religion }}</td>
             <td>{{ labels?.caste }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.caste }}</td>
             <td>{{ labels?.irr }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.irr }}</td>
             <td>{{ labels?.scheme }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.scheme }}</td>
             <td>{{ labels?.noOfUnits }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.noOfUnits }}</td>
         </tr>
         <tr>
             <td>{{ labels?.nameOfSoSsoWithECode }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.namOfSoWithCode }}</td>
             <td>{{ labels?.finalApprovingAuthority }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.finalApprovingAuthority }}</td>
             <td>{{ labels?.fundingUnder }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.fundingUnder }}</td>
             <td>{{ labels?.distFromBranch }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.distanceFromBranch }}</td>
             <td>{{ labels?.tenure }}</td>
-            <td>{{ sourcingObj?.leadId }}</td>
+            <td>{{ sourcingDetails?.tenure }}</td>
             <td>{{ labels?.assetType }}</td>
-            <td>{{ sourcingObj?.camDate }}</td>
+            <td>{{ sourcingDetails?.assetType }}</td>
         </tr>
     </table>
     <!--sourcing table ends here--->
 
     <!--key financial-->
     <table class="cam_table_proposed mt-3">
-       
+        <caption class="caption">
+            {{
+    labels?.applicantDetailsTitle
+  }}
+        </caption>
         <thead>
             <tr>
                 <th>{{ labels?.terms }}</th>
                 <th>{{ labels?.borrower }}</th>
-                <th>{{ labels?.coBorrower }}</th>
-                <th>{{ labels?.coBorrower }}</th>
-                <th>{{ labels?.guarantor }}</th>
+                <th *ngFor="let applicantDetails of applicantDetails; let i = index">coBorrower {{i}}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.name }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.fy}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.name}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.dobDoi }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.dobDoi}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.dob}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.age }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.freightPaid}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.age}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.currentAddress }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.depriciation}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.currentAddress}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.nearestLandmark }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.netProfit}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.nearestLandMark}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.pincode }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.pincode}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.ownedRentedWithAreaOfPropertyOwnerName }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.ownedOrRentedWithName}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.permanentAddress }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.fy}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.permanentAddress}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.officeAddress }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.officeAddress}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.residencePhoneNo }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.freightPaid}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.residencePhoneNo}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.mobileNo }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.depriciation}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.mobileNo}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.uidNo }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.netProfit}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.UIDNo}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.vidNo }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.VIDNo}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.dlNO }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.fy}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.dlNo}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.panCardNo }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.panNo}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.existingCustomerOfEquitassince }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.freightPaid}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">
+                    {{applicantDetails?.existingCustomerOfEquitasSince}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.relationshipToApplicant }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.depriciation}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.relationship}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.cibilScore }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.netProfit}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.cibilScore}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.additionalMatchFound }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.additionalMatchFound}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.cibilScoreIfAdditionalMatchFound }}</td>
-                <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.cashGeneration}}</td>
+                <td *ngFor="let applicantDetails of applicantDetails">
+                    {{applicantDetails?.cibilScoreIfAdditionalMatchFound}}</td>
             </tr>
         </tbody>
     </table>
@@ -1546,32 +1541,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of items">
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
+            <tr *ngFor="let proposedVehiclesDetails of proposedVehiclesDetails">
+                <td>{{ proposedVehiclesDetails?.assetDescription }}</td>
+                <td>{{ proposedVehiclesDetails?.exShowroomPrice }}</td>
+                <td>{{ proposedVehiclesDetails?.discount }}</td>
+                <td>{{ proposedVehiclesDetails?.netAssetCostOfVehicle }}</td>
+                <td>{{ proposedVehiclesDetails?.bodyCostIfAny }}</td>
+                <td>{{ proposedVehiclesDetails?.insuranceAmount }}</td>
+                <td>{{ proposedVehiclesDetails?.ott }}</td>
+                <td>{{ proposedVehiclesDetails?.totalAssetCost }}</td>
+                <td>{{ proposedVehiclesDetails?.proposedAmt }}</td>
+                <td>{{ proposedVehiclesDetails?.proposedLtv }}</td>
+                <td>{{ proposedVehiclesDetails?.noOfUnits }}</td>
+                <td>{{ proposedVehiclesDetails?.tenureMonth }}</td>
+                <td>{{ proposedVehiclesDetails?.totalExpo }}</td>
             </tr>
             <tr>
                 <td colspan="10">{{ labels?.totalFunding }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
-                <td>{{ camDetails?.fleetSummaryToexistingFinancers }}</td>
+                <td>{{ camDetails?.totalNoOfUnits }}</td>
+                <td></td>
+                <td>{{ camDetails?.vehicleTotalExpo }}</td>
 
             </tr>
         </tbody>
@@ -1597,43 +1586,43 @@
         <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.loanNo }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">{{businessIncomeDetails?.applicantName}}
+                <td *ngFor="let existingExposure of existingExposure">{{existingExposure?.loanNo}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.asset }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.businessEntName}}</td>
+                <td *ngFor="let existingExposure of existingExposure">
+                    {{existingExposure?.asset}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.mfgYear }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">{{businessIncomeDetails?.netProfit}}
+                <td *ngFor="let existingExposure of existingExposure">{{existingExposure?.manufacYear}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.gridValue }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">{{businessIncomeDetails?.depreciation}}
+                <td *ngFor="let existingExposure of existingExposure">{{existingExposure?.gridValue}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.ltv }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.directorSalary}}</td>
+                <td *ngFor="let existingExposure of existingExposure">
+                    {{existingExposure?.ltv}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.currentPos }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossDerivedIncome}}</td>
+                <td *ngFor="let existingExposure of existingExposure">
+                    {{existingExposure?.currentPos}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.tenure }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}</td>
+                <td *ngFor="let existingExposure of existingExposure">
+                    {{existingExposure?.tenure}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.emiPaid }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}
+                <td *ngFor="let existingExposure of existingExposure">
+                    {{existingExposure?.emiPaid}}
                 </td>
             </tr>
         </tbody>
@@ -1650,59 +1639,60 @@
         <thead>
             <tr class="">
                 <th>{{ labels?.assetDetails }}</th>
-                <th>{{ labels?.icici }}</th>
+                <!-- <th>{{ labels?.icici }}</th>
                 <th>{{ labels?.kotak }}</th>
                 <th>{{ labels?.hdfc }}</th>
                 <th>{{ labels?.equitas }}</th>
-                <th>{{ labels?.axis }}</th>
+                <th>{{ labels?.axis }}</th> -->
+                <th *ngFor="let repaymentTrackRecord of repaymentTrackRecord">{{repaymentTrackRecord?.financier}}</th>
                 <th>{{ labels?.commentsOnRtrIfAny }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.asset }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}</td>
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.asset}}</td>
                 <td rowspan="8" class="bank_name">{{ labels?.grossMonthlyIncome }}</td>
 
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.loanNo }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.loanNo}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.tenure }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}</td>
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.tenure}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.emiPaid }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.emiPaid}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.totalDelay }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}</td>
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.totalDelay}}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.peakDelay }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.peakDelay}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.avgDelay }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}</td>
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.avgDelay }}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.sourceOfValidation }}</td>
-                <td *ngFor="let businessIncomeDetails of businessIncomeDetails">
-                    {{businessIncomeDetails?.grossMonthlyIncome}}
+                <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
+                    {{repaymentTrackRecord?.sourceOfValidation}}
                 </td>
             </tr>
 
@@ -1725,7 +1715,7 @@
                 <th>{{ labels?.relationWithHirer }}</th>
                 <th>{{ labels?.make }}</th>
                 <th>{{ labels?.model }}</th>
-                <th>{{ labels?.owingSince }}</th>
+                <th>{{ labels?.owningSince }}</th>
                 <th>{{ labels?.financeOrFree }}</th>
                 <th>{{ labels?.loanAmt }}</th>
                 <th>{{ labels?.tenure }}</th>
@@ -1736,24 +1726,24 @@
             <tr>
                 <th colspan="11">{{ labels?.IfMoreThanAboveToBeAttachSeparteExcel }}</th>
                 <th>{{ labels?.totalFleetValue }}</th>
-                <th>{{ obligationDetails?.borrowerName }}</th>
+                <th>{{ fleetDetails?.borrowerName }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let obligationDetails of obligationDetails">
-                <td>{{ obligationDetails?.applicantName }}</td>
-                <td>{{ obligationDetails?.loanType }}</td>
-                <td>{{ obligationDetails?.financier}}</td>
-                <td>{{ obligationDetails?.obligationAmount }}</td>
-                <td>{{ obligationDetails?.applicantName }}</td>
-                <td>{{ obligationDetails?.loanType }}</td>
-                <td>{{ obligationDetails?.financier}}</td>
-                <td>{{ obligationDetails?.obligationAmount }}</td>
-                <td>{{ obligationDetails?.applicantName }}</td>
-                <td>{{ obligationDetails?.loanType }}</td>
-                <td>{{ obligationDetails?.financier}}</td>
-                <td>{{ obligationDetails?.obligationAmount }}</td>
-                <td>{{ obligationDetails?.obligationAmount }}</td>
+            <tr *ngFor="let fleetDetails of fleetDetails">
+                <td>{{i+1}}</td>
+                <td>{{ fleetDetails?.regdNo }}</td>
+                <td>{{ fleetDetails?.regdOwner}}</td>
+                <td>{{ fleetDetails?.relationWithHirer }}</td>
+                <td>{{ fleetDetails?.make }}</td>
+                <td>{{ fleetDetails?.model }}</td>
+                <td>{{ fleetDetails?.owningSince}}</td>
+                <td>{{ fleetDetails?.financeFree }}</td>
+                <td>{{ fleetDetails?.loanAmt }}</td>
+                <td>{{ fleetDetails?.tenure }}</td>
+                <td>{{ fleetDetails?.paid}}</td>
+                <td>{{ fleetDetails?.balance }}</td>
+                <td>{{ fleetDetails?.gridValue }}</td>
 
             </tr>
         </tbody>
@@ -1769,22 +1759,22 @@
         </caption>
         <tr>
             <td>{{ labels?.bankName  }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlySalaryIncome }}</td>
+            <td>{{ bankingSummary?.bankName }}</td>
             <td>{{ labels?.noOfInwardBounces }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy }}</td>
+            <td>{{ bankingSummary?.salariedFOIRPercentAsPerPolicy }}</td>
             <td rowspan="2" colspan="4">{{ labels?.commentsOnBankingIfAny }}</td>
 
         </tr>
         <tr>
             <td>{{ labels?.accountHolderName }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent }}</td>
+            <td>{{ bankingSummary?.name }}</td>
             <td>{{ labels?.abb }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalSalariedFOIRPercent }}</td>
+            <td>{{ bankingSummary?.totalSalariedFOIRPercent }}</td>
 
         </tr>
         <tr>
             <td>{{ labels?.acNo }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.consideredSalaryIncome }}</td>
+            <td>{{ bankingSummary?.accountNo }}</td>
             <td>{{ labels?.fromDate }}</td>
             <td>{{ labels?.toDate }}</td>
             <td>{{ labels?.periodInMonths }}</td>
@@ -1792,20 +1782,17 @@
 
         <tr>
             <td>{{ labels?.accountType }}</td>
-            <td colspan="3">{{ loanEligibilityBasedOnInc?.totalMonthlyRentalIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyRentalIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
-          
+            <td colspan="3">{{ bankingSummary?.accountType }}</td>
+            <td>{{ bankingSummary?.from }}</td>
+            <td>{{ bankingSummary?.to }}</td>
+            <td>{{ bankingSummary?.period }}</td>
+
 
         </tr>
         <tr>
             <td>{{ labels?.month }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyRentalIncome }}</td>
             <td>{{ labels?.inflow }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
             <td>{{ labels?.outflow }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyRentalIncome }}</td>
             <td>{{ labels?.noOfInwardBounces }}</td>
             <td>{{ labels?.balanceOn5th }}</td>
             <td>{{ labels?.balanceOn15th }}</td>
@@ -1814,22 +1801,40 @@
 
 
         </tr>
-        <tr *ngFor="let item of items">
-            <td>{{ labels?.totalMonthlyRentalIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyRentalIncome }}</td>
-            <td>{{ labels?.totalMonthlyPensionIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
-            <td>{{ labels?.totalMonthlyRentalIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyRentalIncome }}</td>
-            <td>{{ labels?.totalMonthlyPensionIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalMonthlyPensionIncome }}</td>
+        <tr *ngFor="let bankingTxnDetails of bankingTxnDetails">
+            <td>{{ bankingTxnDetails?.month }}</td>
+            <td>{{ bankingTxnDetails?.inflow }}</td>
+            <td>{{ bankingTxnDetails?.outflow }}</td>
+            <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td>
+            <td>{{ bankingTxnDetails?.balanceAsOn5th }}</td>
+            <td>{{ bankingTxnDetails?.balanceAsOn15th }}</td>
+            <td>{{ bankingTxnDetails?.balanceAsOn20th }}</td>
+          <td>{{labels?.emi}}</td>
+          <td></td>
         </tr>
         <tr>
             <td>{{labels?.total}}</td>
+            <td>{{ camDetails?.totalInflow }}</td>
+            <td>{{ camDetails?.totalOutflow }}</td>
+            <td>{{ camDetails?.totalNoOfInwardbounces }}</td>
+            <td>{{ camDetails?.totalBalanceAsOn5th }}</td>
+            <td>{{ camDetails?.totalBalanceAsOn15th }}</td>
+            <td>{{ camDetails?.totalBalanceAsOn20th }}</td>
+            <td>{{ camDetails?.totalAbb }}</td>
+            <td>{{ labels?.abbEmi }}</td>
+            <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td>
+        </tr>
+<tr>
             <td>{{labels?.average}}</td>
+            <td>{{ camDetails?.avgInflow }}</td>
+            <td>{{ camDetails?.avgOutflow }}</td>
+            <td>{{ camDetails?.avgNoOfInwardbounces }}</td>
+            <td>{{ camDetails?.avgBalanceAsOn5th }}</td>
+            <td>{{ camDetails?.avgBalanceAsOn15th }}</td>
+            <td>{{ camDetails?.avgBalanceAsOn20th }}</td>
+            <td>{{ camDetails?.avgAbb }}</td>
+            <td>{{ labels?.abbEmi }}</td>
+            <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td>
         </tr>
     </table>
     <!--loan eligibility based on income--->
@@ -1921,33 +1926,24 @@
         <thead>
             <tr>
                 <th>{{ labels?.typeOfReference }}</th>
-                <th>{{ decisionSheet?.companyName }}</th>
+                <th>{{ labels?.companyName }}</th>
                 <th>{{ labels?.officerName }}</th>
                 <th>{{ labels?.designation }}</th>
-                <th>{{ decisionSheet?.telNo }}</th>
-                <th>{{ decisionSheet?.comments }}</th>
+                <th>{{ labels?.telNo }}</th>
+                <th>{{ labels?.comments }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of items">
-                <td>{{ labels?.pdDoneBy }}</td>
+            <tr *ngFor="let referenceCheck of referenceCheck">
+                <td>{{ referenceCheck?.typeOfReference }}</td>
+                 <td>{{ referenceCheck?.companyName }}</td>
+                 <td>{{ referenceCheck?.officerName }}</td>
+                 <td>{{ referenceCheck?.designation }}</td>
+                 <td>{{ referenceCheck?.telNo }}</td>
+                 <td>{{ referenceCheck?.comments }}</td>
 
             </tr>
-            <tr *ngFor="let item of items">
-
-                <td>{{ labels?.camPreparedBy }}</td>
-
-            </tr>
-            <tr *ngFor="let item of items">
-
-                <td>{{ labels?.recommendedBy }}</td>
-
-            </tr>
-            <tr *ngFor="let item of items">
-
-                <td>{{ labels?.approvedBy }}</td>
-
-            </tr>
+          
         </tbody>
     </table>
     <!--creditConditions-->
@@ -1975,20 +1971,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="2">{{ labels?.businessStability }}</td>
-                <td>{{ labels?.residenceStability2 }}</td>
-                <td>{{ labels?.fleetStregthOwnership }}</td>
-                <td>{{ labels?.percOrNumberOfVehicleEligible }}</td>
-                <td>{{ labels?.repaymentTrackRecord }}</td>
-                <td>{{ labels?.financials }}</td>
-                <td>{{ labels?.propertyOwnership }}</td>
-                <td>{{ labels?.tenure }}</td>
-                <td>{{ labels?.holidayPeriod }}</td>
-                <td>{{ labels?.bankStatement }}</td>
-                <td>{{ labels?.contracts }}</td>
-                <td>{{ labels?.dlRequirement }}</td>
-                <td>{{ labels?.ltv }}</td>
+            <tr *ngFor="let customerSelectionCriteria of customerSelectionCriteria">
+                <td colspan="2">{{ customerSelectionCriteria?.category }}</td>
+                <td>{{ customerSelectionCriteria?.required }}</td>
+                <td>{{ customerSelectionCriteria?.actualWithDocumentedProof }}</td>
+                <td>{{ customerSelectionCriteria?.deviation }}</td>
+                <td>{{ customerSelectionCriteria?.authority }}</td>
+                <td>{{ customerSelectionCriteria?.justificationProof }}</td>
+               
 
             </tr>
         </tbody>
@@ -2011,11 +2001,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr *ngFor="let otherDeviations of otherDeviations">
 
-                <td>{{ decisionSheet?.pdDoneBy }}</td>
-                <td>{{ decisionSheet?.pdDoneBy }}</td>
-                <td>{{ decisionSheet?.pdDoneBy }}</td>
+                <td>{{ otherDeviations?.deviation }}</td>
+                <td>{{ otherDeviations?.deviation }}</td>
+                <td>{{ otherDeviations?.justification }}</td>
 
             </tr>
         </tbody>
@@ -2063,12 +2053,12 @@
 
             </tr>
             <tr>
-                <  <td>{{ labels?.wizardDedupe }}</td>
-                <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
-                <td>{{ labels?.wizardDedupe }}</td>
-                <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
-                <td>{{ labels?.wizardDedupe }}</td>
-                <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
+                < <td>{{ labels?.wizardDedupe }}</td>
+                    <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
+                    <td>{{ labels?.wizardDedupe }}</td>
+                    <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
+                    <td>{{ labels?.wizardDedupe }}</td>
+                    <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
 
             </tr>
             <tr>
@@ -2090,18 +2080,18 @@
                 <td colspan="4">{{ decisionSheet?.pdDoneBy }}</td>
             </tr>
             <tr>
-                <td >{{ labels?.pdExecutedBy }}</td>
+                <td>{{ labels?.pdExecutedBy }}</td>
                 <td>{{ decisionSheet?.pdDoneBy }}</td>
                 <td>{{ labels?.pdExecutedBy }}</td>
                 <td>{{ decisionSheet?.pdDoneBy }}</td>
-                <td >{{ labels?.pdExecutedBy }}</td>
-                <td >{{ decisionSheet?.pdDoneBy }}</td>
+                <td>{{ labels?.pdExecutedBy }}</td>
+                <td>{{ decisionSheet?.pdDoneBy }}</td>
             </tr>
         </tbody>
     </table>
     <!--creditConditions-->
-     <!--creditConditions-->
-     <table class="cam_table_proposed mt-3">
+    <!--creditConditions-->
+    <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.cibilJustificationIfAny
@@ -2122,8 +2112,8 @@
         </tbody>
     </table>
     <!--creditConditions-->
-     <!--creditConditions-->
-     <table class="cam_table_proposed mt-3">
+    <!--creditConditions-->
+    <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.cibilEnquiries
@@ -2168,8 +2158,8 @@
             </tr>
         </tbody>
     </table>
-     <!--recommondation-->
-     <table class="cam_table_proposed mt-3">
+    <!--recommondation-->
+    <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.cmRecommendation

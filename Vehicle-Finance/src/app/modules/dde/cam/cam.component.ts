@@ -58,6 +58,16 @@ export class CamComponent implements OnInit {
   manualDeviation: any;
   autoDeviation: any;
   newCvCam: boolean;
+  bankingTxnDetails: any;
+  cibilEnquiries: any;
+  cibilJustification: any;
+  detailsOfCibilFiPD: any;
+  existingExposure: any;
+  fleetDetails: any;
+  otherDeviations: any;
+  proposedVehiclesDetails: any;
+  referenceCheck: any;
+  repaymentTrackRecord: any;
 
 
   constructor(private labelsData: LabelsService,
@@ -207,7 +217,22 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
       console.log(res);
-      
+      this.camDetails = res.ProcessVariables
+      this.applicantDetails = res.ProcessVariables['applicantDetails'];
+      this.bankingSummary = res.ProcessVariables['bankingSummary']
+      this.bankingTxnDetails = res.ProcessVariables['bankingTxnDetails']
+      this.cibilEnquiries = res.ProcessVariables['cibilEnquiries']
+      this.cibilJustification = res.ProcessVariables['cibilJustification']
+      this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
+      this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
+      this.existingExposure = res.ProcessVariables['existingExposure']
+      this.fleetDetails = res.ProcessVariables['fleetDetails']
+      this.otherDeviations = res.ProcessVariables['otherDeviations']
+      this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
+      this.referenceCheck = res.ProcessVariables['referenceCheck']
+      this.repaymentTrackRecord = res.ProcessVariables['repaymentTrackRecord']
+      this.sourcingDetails = res.ProcessVariables['sourcingDetails']
+     
     })
   }
   onSubmit() {
