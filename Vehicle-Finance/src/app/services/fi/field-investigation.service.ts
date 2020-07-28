@@ -14,6 +14,24 @@ export class FieldInvestigationService {
     private apiService: ApiService,
   ) { }
 
+
+  getFiList(data) {
+    const processData = data;
+    const processId = this.apiService.api.getFiList.processId;
+    const workflowId = this.apiService.api.getFiList.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
   getFiReportDetails(data) {
 
     const processData = data;

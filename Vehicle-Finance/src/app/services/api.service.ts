@@ -449,7 +449,7 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
-    assignCDTaskFromSales : {
+    assignCDTaskFromSales: {
       processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit
@@ -519,6 +519,13 @@ export class ApiService {
       workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+
+    getFiList: {
+      processId: '4339b99accc611ea881800505695f93b',
+      workflowId: 'ebb849eecb5c11ea91c600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+
     getFiReportDetails: {
       processId: 'f10ff346cbda11ea83b800505695f93b',
       workflowId: 'ebb849eecb5c11ea91c600505695f93b',
